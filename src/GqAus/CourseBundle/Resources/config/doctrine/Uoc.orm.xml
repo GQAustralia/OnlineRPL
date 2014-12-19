@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="GqAus\CourseBundle\Entity\Uoc" table="uoc">
+    <indexes>
+      <index name="course_code" columns="course_code"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="code" type="string" column="unit_code" length="24" nullable="false"/>
+    <field name="name" type="string" column="unit_name" length="255" nullable="false"/>
+    <field name="type" type="string" column="type" nullable="false"/>
+    <many-to-one field="course" target-entity="Course" inversed-by="units">
+      <join-columns>
+        <join-column name="course_code" referenced-column-name="c_code"/>
+      </join-columns>
+    </many-to-one>
+    <one-to-many field="evidences" target-entity="GqAus\UserBundle\Entity\UnitEvidence" mapped-by="unit" />
+  </entity>
+</doctrine-mapping>

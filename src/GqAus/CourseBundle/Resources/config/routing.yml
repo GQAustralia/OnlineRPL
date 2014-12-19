@@ -1,0 +1,3 @@
+course_homepage:
+    path:     /course/{name}
+    defaults: { _controller: GqAusCourseBundle:Default:index }

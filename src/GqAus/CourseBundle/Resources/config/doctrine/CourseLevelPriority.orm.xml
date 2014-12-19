@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="GqAus\CourseBundle\Entity\CourseLevelPriority" table="course_level_priorities">
+    <id name="courseLevel" type="string" column="course_level">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="priority" type="integer" column="priority" nullable="true"/>
+  </entity>
+</doctrine-mapping>

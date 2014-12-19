@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="GqAus\UserBundle\Entity\QualCrmId" table="qual_crm_id">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="qualPlatId" type="string" column="qual_plat_id" length="32" nullable="false"/>
+    <field name="rto" type="string" column="rto" length="32" nullable="false"/>
+    <field name="crmId" type="string" column="crm_id" length="64" nullable="false"/>
+    <field name="upToDate" type="string" column="up_to_date" nullable="false"/>
+    <field name="markDelete" type="string" column="mark_delete" nullable="false"/>
+    <field name="active" type="string" column="active" nullable="false"/>
+  </entity>
+</doctrine-mapping>

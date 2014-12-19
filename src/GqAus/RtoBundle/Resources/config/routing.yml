@@ -1,0 +1,3 @@
+api_homepage:
+    path:     /rto/{name}
+    defaults: { _controller: GqAusRtoBundle:Default:index }

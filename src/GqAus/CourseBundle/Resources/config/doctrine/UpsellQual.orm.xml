@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="GqAus\CourseBundle\Entity\UpsellQual" table="upsell_quals">
+    <indexes>
+      <index name="qual" columns="qual"/>
+      <index name="related" columns="related"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="prio" type="boolean" column="prio" nullable="false"/>
+    <many-to-one field="qual" target-entity="Courses">
+      <join-columns>
+        <join-column name="qual" referenced-column-name="c_code"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="related" target-entity="Course">
+      <join-columns>
+        <join-column name="related" referenced-column-name="c_code"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="GqAus\CourseBundle\Entity\CourseDetail" table="course_details">
+    <unique-constraints>
+      <unique-constraint name="courseCode" columns="course_code"/>
+    </unique-constraints>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="description" type="text" column="c_desc" nullable="false"/>
+    <field name="pathway" type="text" column="pathway" nullable="false"/>
+    <field name="liceincing" type="text" column="liceincing" nullable="false"/>
+    <field name="entry" type="text" column="entry" nullable="false"/>
+    <field name="employability" type="text" column="employability" nullable="false"/>
+    <field name="packaging" type="text" column="packaging" nullable="false"/>
+    <field name="awardedBy" type="string" column="awarded_by" length="24" nullable="false"/>
+    <field name="updated" type="string" column="updated" nullable="false"/>
+    <field name="linked" type="string" column="linked" nullable="false"/>
+    <one-to-one field="course" target-entity="Course" inversed-by="details">
+      <join-columns>
+        <join-column name="course_code" referenced-column-name="c_code"/>
+      </join-columns>
+    </one-to-one>
+  </entity>
+</doctrine-mapping>
