@@ -12,12 +12,7 @@ class User
     /**
      * @var string
      */
-    private $firstName;
-    
-    /**
-     * @var string
-     */
-    private $lastName;
+    private $name;
 
     /**
      * @var string
@@ -30,9 +25,14 @@ class User
     private $phone;
 
     /**
-     * @var integer
+     * @var string
      */
     private $id;
+
+    /**
+     * @var \GqAus\UserBundle\Entity\UserAddress
+     */
+    private $address;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -48,49 +48,16 @@ class User
     }
 
     /**
-     * Set firstName
+     * Set name
      *
-     * @param string $firstName
+     * @param string $name
      * @return User
      */
-    public function setFirstName($firstName)
+    public function setName($name)
     {
-        $this->firstName = $firstName;
-    
-        return $this;
-    }
+        $this->name = $name;
 
-    /**
-     * Get firstName
-     *
-     * @return string 
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-    
-    /**
-     * Set firstName
-     *
-     * @param string $lastName
-     * @return User
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-    
         return $this;
-    }
-
-    /**
-     * Get lastName
-     *
-     * @return string 
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
     }
 
     /**
@@ -100,7 +67,7 @@ class User
      */
     public function getName()
     {
-        return $this->firstName . ' ' . $this->lastName;
+        return $this->name;
     }
 
     /**
@@ -112,7 +79,7 @@ class User
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
@@ -135,7 +102,7 @@ class User
     public function setPhone($phone)
     {
         $this->phone = $phone;
-    
+
         return $this;
     }
 
@@ -152,11 +119,34 @@ class User
     /**
      * Get id
      *
-     * @return integer 
+     * @return string 
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set address
+     *
+     * @param \GqAus\UserBundle\Entity\UserAddress $address
+     * @return User
+     */
+    public function setAddress(\GqAus\UserBundle\Entity\UserAddress $address = null)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return \GqAus\UserBundle\Entity\UserAddress 
+     */
+    public function getAddress()
+    {
+        return $this->address;
     }
 
     /**
@@ -168,7 +158,7 @@ class User
     public function addCourse(\GqAus\CourseBundle\Entity\Course $courses)
     {
         $this->courses[] = $courses;
-    
+
         return $this;
     }
 
@@ -190,5 +180,84 @@ class User
     public function getCourses()
     {
         return $this->courses;
+    }
+    /**
+     * @var string
+     */
+    private $firstName;
+
+    /**
+     * @var string
+     */
+    private $lastName;
+
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     * @return User
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string 
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string 
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Add address
+     *
+     * @param \GqAus\UserBundle\Entity\UserAddress $address
+     * @return User
+     */
+    public function addAddress(\GqAus\UserBundle\Entity\UserAddress $address)
+    {
+        $this->address[] = $address;
+
+        return $this;
+    }
+
+    /**
+     * Remove address
+     *
+     * @param \GqAus\UserBundle\Entity\UserAddress $address
+     */
+    public function removeAddress(\GqAus\UserBundle\Entity\UserAddress $address)
+    {
+        $this->address->removeElement($address);
     }
 }

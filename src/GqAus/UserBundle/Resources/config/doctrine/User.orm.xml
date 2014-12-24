@@ -5,10 +5,11 @@
         <id name="id" type="string" column="id">
             <generator strategy="IDENTITY"/>
         </id>
-        <field name="name" type="string" column="name" nullable="false"/>
+        <field name="firstName" type="string" column="firstname" nullable="false"/>
+        <field name="lastName" type="string" column="lastname" nullable="false"/>
         <field name="email" type="string" column="email" length="128" nullable="false"/>
         <field name="phone" type="string" column="phone" length="128" nullable="false"/>
-        <discriminator-column name="role_type" type="integer" />
+        <discriminator-column name="roletype" type="integer" />
         <discriminator-map>
             <discriminator-mapping value="1" class="GqAus\UserBundle\Entity\Applicant" />
             <discriminator-mapping value="2" class="GqAus\UserBundle\Entity\Facilitator" />
@@ -24,6 +25,6 @@
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
-        <one-to-one field="address" target-entity="UserAddress" mapped-by="user" />        
+        <one-to-many field="address" target-entity="UserAddress" inversed-by="user" />
     </entity>
 </doctrine-mapping>
