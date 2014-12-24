@@ -2,13 +2,13 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <entity name="GqAus\UserBundle\Entity\User" table="user" inheritance-type="SINGLE_TABLE" >
   
-        <id name="code" type="string" column="code">
+        <id name="id" type="string" column="id">
             <generator strategy="IDENTITY"/>
         </id>
         <field name="name" type="string" column="name" nullable="false"/>
         <field name="email" type="string" column="email" length="128" nullable="false"/>
         <field name="phone" type="string" column="phone" length="128" nullable="false"/>
-        <discriminator-column name="role_id" type="integer" />
+        <discriminator-column name="role_type" type="integer" />
         <discriminator-map>
             <discriminator-mapping value="1" class="GqAus\UserBundle\Entity\Applicant" />
             <discriminator-mapping value="2" class="GqAus\UserBundle\Entity\Facilitator" />
@@ -24,5 +24,6 @@
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
+        <one-to-one field="address" target-entity="UserAddress" mapped-by="user" />        
     </entity>
 </doctrine-mapping>

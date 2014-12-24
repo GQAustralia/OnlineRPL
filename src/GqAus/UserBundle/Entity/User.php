@@ -12,7 +12,12 @@ class User
     /**
      * @var string
      */
-    private $name;
+    private $firstName;
+    
+    /**
+     * @var string
+     */
+    private $lastName;
 
     /**
      * @var string
@@ -25,9 +30,9 @@ class User
     private $phone;
 
     /**
-     * @var string
+     * @var integer
      */
-    private $code;
+    private $id;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -43,16 +48,49 @@ class User
     }
 
     /**
-     * Set name
+     * Set firstName
      *
-     * @param string $name
+     * @param string $firstName
      * @return User
      */
-    public function setName($name)
+    public function setFirstName($firstName)
     {
-        $this->name = $name;
+        $this->firstName = $firstName;
     
         return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string 
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+    
+    /**
+     * Set firstName
+     *
+     * @param string $lastName
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string 
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
     }
 
     /**
@@ -62,7 +100,7 @@ class User
      */
     public function getName()
     {
-        return $this->name;
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     /**
@@ -112,13 +150,13 @@ class User
     }
 
     /**
-     * Get code
+     * Get id
      *
-     * @return string 
+     * @return integer 
      */
-    public function getCode()
+    public function getId()
     {
-        return $this->code;
+        return $this->id;
     }
 
     /**
