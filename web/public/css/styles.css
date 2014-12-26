@@ -1,0 +1,171 @@
+/* Global Styles
+---------------------------------------------------------------*/
+body {
+	background: #f2f2f2;
+	color: #5e5e5e;
+	/*font-family:"proximanova-reg";*/
+	font-family: "segoeui";
+	overflow-x:hidden;
+}
+a {
+	text-decoration: none;
+	outline:none;
+}
+a img {
+	border:none;
+	outline:none;
+}
+h1, h2, h3, h4 {
+	font-weight: normal;
+	margin:0px;
+	padding:0px;
+}
+ul, li, p {
+	margin: 0px;
+	padding:0px;
+}
+ul {
+	list-style:none;
+}
+html, body {
+	height: 100%;
+}
+.none {
+	display:none;
+}
+* {
+	margin:0;
+	padding:0;
+}
+img {
+	max-width:100%;
+	height:auto;
+	border:none;
+}
+.none {
+	display:none;
+}
+
+/* CSS 3.0 Custom Fonts
+---------------------------------------------------------------*/
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ## The below styles will apply Custom font "droidserif, droidserif-bolditalic, droidserif-italic, OpenSans-Light-webfont, ProximaNova-Light, ProximaNova-Reg, ProximaNova-Sbold and ProximaNova-Bold" to the text                      ## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* OpenSans */
+
+@font-face {
+font-family: "OpenSans-Light-webfont";
+src: url('../fonts/OpenSans-Light-webfont.eot');
+src: url('../fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Light-webfont.woff') format('woff'), url('../fonts/OpenSans-Light-webfont.ttf') format('truetype');
+}
+
+/* segoe */
+@font-face {
+font-family: "segoeui";
+src: url('../fonts/segoeui.eot');
+src: url('../fonts/segoeui.ttf') format('truetype');
+}
+
+
+/* Layout Styles 
+---------------------------------------------------------------*/
+
+html, body {background-color:#f0f0f0; font-size:12px;}
+.page-wrap {max-width: 1280px;  margin:0 auto;}
+.margin-top15 {margin-top:15px;}
+.margin-top30 {margin-top:30px;}
+
+/* Login page Styles 
+---------------------------------------------------------------*/
+.login-page {max-width:330px;  margin:0 auto; margin-top:145px;}
+.login-page a{color:#5c5c5c; font-size:14px; line-height:46px;}
+.login-page a:hover, .login-page a:active{text-decoration:underline;}
+.login-page .form-group .form-control{height:46px;}
+.login-page .form-control{border-radius:5px; border-color:#e6eded;}
+.login-page .form-group {height:46px; margin-bottom:-1px;}
+.login-page .btn-red, .login-page .btn-white {height:46px; border-radius:3px; font-size:16px;}
+.login-page .email {border-bottom-right-radius:0; border-bottom-left-radius:0;}
+.login-page .password {border-top-right-radius:0; border-top-left-radius:0;}
+.login-page h3 {font-size:15px; font-weight:bold; color:#58666e; margin: 25px 0;}
+
+/* Buttons styling 
+---------------------------------------------------------------*/
+.btn-red {background-color:#f14840; color:#ffffff; width:100%;}
+.btn-white {background-color:#ffffff; color:#324042; width:100%;}
+
+/* Dashboard page Styles
+---------------------------------------------------------------*/
+.gq-menu-icon {width:31px; height:23px; padding:3px; background-image:url(../images/gq-menu-icon.png); background-repeat:no-repeat; background-position: center center; display:block;}
+.gq-down-icon {width:31px; height:23px; padding:3px; background-image:url(../images/downarrow.png); background-repeat:no-repeat; background-position: center center; display:block;}
+.gq-dashboard-header {border-bottom:1px solid #d4d4d4; width:100%; background-color:#ffffff; float:left; padding: 0 10px;}
+.gq-logo-dashboard {float:left; height:66px; padding-top:4px;}
+.gq-dashboard-nav {float:left; padding-top:15px; padding-left:20px;}
+.user-status-msg {margin-right:10px; line-height:38px;}
+.notification-section {float:left; margin-right:10px; border-right:1px solid #d5e6c5; padding-right:10px; background-image:url('../images/notification.png'); background-repeat: no-repeat; background-position: center center; width:43px; height:33px;}
+.notification-section span{ color: #fff; float: right; font-size: 10px; position: relative; right: 2px; top: 4px; font-weight:bold;}
+.user-status {float:left; padding-top:15px;}
+.user-icon, .user-status-msg, .user-status-select{float:left;}
+.dashboard-bg {background-color:#44515d; width:100%; float:left;}
+.dq-dashboard-left {color:#ffffff; padding:0; text-align:center; min-width:104px;}
+.dq-dashboard-right {background-color:#f2f2f2; padding:0; min-height:600px; padding:30px;}
+.dq-dashboard-right .dq-dashboard-title {font-size:35px; color:#2f3941; width:100%; float:left;}
+.dq-dashboard-right .dq-dashboard-title-desc {font-size:14px; color:#5e5e5e; width:100%; float:left;}
+
+/* user status related styling */
+.user-status {}
+.user-status .user-icon{border:2px solid red; border-radius:50%; overflow:hidden; width:33px; margin-right:10px;}
+
+/* Dashboard left navigation styling
+---------------------------------------------------------------*/
+.dq-dashboard-left-nav {margin:0; padding:0;}
+.dq-dashboard-left-nav li {float:left; width:100%; border-bottom:1px solid #57636e;}
+.dq-dashboard-left-nav li a{color:#ffffff; font-size:16px; text-decoration:none; min-height:92px; display:block; padding-top:5px;}
+.dq-dashboard-left-nav li a:hover{background-color:#2f3941;}
+.dq-dashboard-left-nav .dq-dashboard-icon, .dq-dashboard-left-nav .dq-courses-icon, .dq-dashboard-left-nav .dq-messages-icon, .dq-dashboard-left-nav .dq-evidence-icon {width:50px; height:50px; display:block; margin:0 auto;}
+
+ 
+ /* Dashboard box with two sizes 1x and 2x
+ --------------------------------------------------------------*/
+ .dq-dashboard-box-1x, .dq-dashboard-box-2x {width:100%; border:1px solid #dddddd; float:left; position:relative; background-color:#ffffff;}
+ .dq-dashboard-box-1x .flip-icon, .dq-dashboard-box-2x .flip-icon {background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:-1px; right:-1px; display:block; height:23px; width:24px;}
+ .dq-dashboard-box-1x {min-height: 182px; margin-bottom:16px;}
+ .dq-dashboard-box-2x {min-height: 380px;}
+ .dq-dashboard-box-title-wrap {width:100%; border-bottom:1px solid #dddddd; height:48px; display:block;}
+ .dq-dashboard-box-title-wrap .dq-dashboard-box-title {font-size:22px; color:#f14a41; float:left; padding:12px;}
+ .dq-dashboard-box-title-wrap .dq-dashboar-points-icon {width:48px; height:48px; display:block; float:right; border-left:1px solid #dddddd;}
+ 
+ 
+ 
+ 
+ 
+ 
+ @media (min-width: 1280px) {
+	.dq-dashboard-left {width:112px;} 
+	.dq-dashboard-right {width:1168px;}
+ }
+  
+ @media (max-width: 767px) {
+
+.login-page {margin-top:15px; padding:15px;}
+.dq-dashboard-left {min-width:104px;}
+.dq-dashboard-box-2x {margin-left:0;}
+}
+
+
+/*
+.caret {
+    border-bottom: 10px solid;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    display: inline-block;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    width: 0;
+
+
+
+
+ */
