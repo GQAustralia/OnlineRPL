@@ -9,3 +9,7 @@ user:
 rto:
     resource: "@GqAusRtoBundle/Resources/config/routing.yml"
     prefix:   /
+
+dashboard:
+    resource: "@GqAusHomeBundle/Resources/config/routing.yml"
+    prefix:   /

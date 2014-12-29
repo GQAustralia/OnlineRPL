@@ -17,6 +17,11 @@ class Facilitator extends User
     const ROLE = 2;
     
     /**
+     * @var string
+     */
+    const ROLE_NAME = 'ROLE_FACILITATOR';
+    
+    /**
      * Get type
      *
      * @return integer 
@@ -24,6 +29,11 @@ class Facilitator extends User
     public function getRole()
     {
         return self::ROLE;
+    }
+    
+    public function getRoleName()
+    {
+        return self::ROLE_NAME;
     }
 
 }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GQ - RPL Login</title>
+    <link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/css/styles.css') }}" rel="stylesheet">
+    
+  </head>
+  <body>
+    <div class="page-wrap">
+        <div class="container-fluid">
+            <!-- Login page starts here -->
+            <div class="login-page">
+                <div class="row text-center">
+                    <div class="col-xs-12"><img src="{{ asset('public/images/gq-logo-login.png') }}" alt="GQ Australia logo" /></div>
+                </div>
+                <div class="row text-center">
+                    <h3>Sign in to get in touch</h3>
+                </div>
+                <div class="row">
+                    {% if error %}
+                        <div class="errormsg">Invalid credentials</div>
+                    {% endif %}
+                    <form action="{{ path('login_check') }}" name="frmLogin" id="frmLogin" method="post">
+                      <div class="form-group">
+                        <input type="email" name = '_username' class="form-control email" id="InputEmail1" placeholder="Email">
+                      </div>
+                      <div class="form-group">
+                        <input type="password" name='_password' class="form-control password" id="InputPassword1" placeholder="Password">
+                      </div>
+                       <input type="hidden" name="_target_path" value="/dashboard" />
+                      <button type="submit" class="btn btn-red margin-top15">Log in</button>
+                    </form>
+                </div>
+                <div class="row text-center">
+                    <h4><a href="forgotpassword" >Forgot Password?</a></h4>
+                </div>
+            </div>
+            <!-- Login page ends here -->
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+    
+<script src="{{ asset('public/js/jquery.validate.js') }}"></script>
+    <script>
+            // When the document is ready
+            $(document).ready(function () {
+                //validation rules
+                //by default it will append a <label class="error> element to the invalid input
+                //and will add a "error" class to the input
+                $("#frmLogin").validate({
+                    rules: {
+                        "InputEmail1": {
+                            required: true,
+                            email: true
+                        },  
+                        "InputPassword1": {
+                            required: true,
+                            minlength: 5
+                        } 
+                    },
+                    messages:
+                    {
+                        "InputEmail1":{
+                            required:"Please enter Email"
+                        },
+                        "InputPassword1":{
+                            required:"Please enter Password"
+                        },
+                    },
+                    errorElement: "div",
+                    wrapper: "div",  // a wrapper around the error message
+                    errorPlacement: function(error, element) {
+                        offset = element.offset();
+                        error.insertBefore(element)
+                        error.addClass('message');  // add a class to the wrapper
+                        error.css('position', 'absolute');
+                        error.css('left', offset.left + element.outerWidth());
+                        error.css('top', offset.top);
+                    }
+                });
+            });
+        </script>
+  </body>
+</html>

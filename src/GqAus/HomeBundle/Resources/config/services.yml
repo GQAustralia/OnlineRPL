@@ -1,0 +1,4 @@
+services:
+#    gq_aus_home.example:
+#        class: GqAus\HomeBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

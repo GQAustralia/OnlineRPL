@@ -20,3 +20,9 @@ _main:
 # AcmeDemoBundle routes (to be removed)
 _acme_demo:
     resource: "@AcmeDemoBundle/Resources/config/routing.yml"
+
+login:
+    path:     /login
+    defaults:  { _controller: GqAusUserBundle:Login:index }
+login_check:
+    path: /login_check

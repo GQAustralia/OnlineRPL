@@ -26,7 +26,6 @@
         </many-to-one>
         <one-to-many field="providers" target-entity="GqAus\RtoBundle\Entity\Provider" mapped-by="course" />
         <one-to-one field="details" target-entity="GqAus\CourseBundle\Entity\CourseDetail" mapped-by="course" />
-        <one-to-many field="units" target-entity="GqAus\CourseBundle\Entity\Uoc" mapped-by="course" />
        
     </entity>
 </doctrine-mapping>
