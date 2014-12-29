@@ -17,6 +17,11 @@ class Applicant extends User
     const ROLE = 1;
     
     /**
+     * @var string
+     */
+    const ROLE_NAME = 'ROLE_APPLICANT';
+    
+    /**
      * Get type
      *
      * @return integer 
@@ -24,6 +29,11 @@ class Applicant extends User
     public function getRole()
     {
         return self::ROLE;
+    }
+    
+    public function getRoleName()
+    {
+        return self::ROLE_NAME;
     }
     
 }

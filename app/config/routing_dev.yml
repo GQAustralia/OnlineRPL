@@ -17,6 +17,12 @@ _errors:
 _main:
     resource: routing.yml
 
-# AcmeDemoBundle routes (to be removed)
-_acme_demo:
-    resource: "@AcmeDemoBundle/Resources/config/routing.yml"
+# GqAusUserBundle routes (to be removed)
+_default_page:
+    resource: "@GqAusUserBundle/Resources/config/routing.yml"
+
+login:
+    path:     /login
+    defaults:  { _controller: GqAusUserBundle:Login:index }
+login_check:
+    path: /login_check

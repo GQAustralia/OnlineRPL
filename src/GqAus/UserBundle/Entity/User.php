@@ -3,11 +3,12 @@
 namespace GqAus\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var string
@@ -38,12 +39,19 @@ class User
      * @var \Doctrine\Common\Collections\Collection
      */
     private $courses;
+    
+    /**
+     * @var string
+     */
+    private $password;
+    
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        $this->salt = md5(uniqid(null, true));
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -259,5 +267,85 @@ class User
     public function removeAddress(\GqAus\UserBundle\Entity\UserAddress $address)
     {
         $this->address->removeElement($address);
+    }
+    
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+    
+    /**
+     * Get password
+     *
+     * @return string 
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+    
+    /**
+     * @var string
+     */
+    private $salt;
+    
+    /**
+     * @inheritDoc
+     */
+    public function getUsername()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+   
+    /**
+     * @inheritDoc
+     */
+    public function getRoles()
+    {
+       return array($this->getRoleName());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+        ) = unserialize($serialized);
     }
 }

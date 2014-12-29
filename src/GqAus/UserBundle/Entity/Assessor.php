@@ -17,6 +17,11 @@ class Assessor extends User
     const ROLE = 3;
     
     /**
+     * @var string
+     */
+    const ROLE_NAME = 'ROLE_ASSESSOR';
+    
+    /**
      * Get type
      *
      * @return integer 
@@ -24,6 +29,11 @@ class Assessor extends User
     public function getRole()
     {
         return self::ROLE;
+    }
+    
+    public function getRoleName()
+    {
+        return self::ROLE_NAME;
     }
 
 }
