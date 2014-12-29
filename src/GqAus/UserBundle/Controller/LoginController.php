@@ -7,6 +7,10 @@ use Symfony\Component\Security\Core\SecurityContext;
 
 class LoginController extends Controller
 {
+	/**
+     * login function.
+     *  @return string
+     */
     public function indexAction()
     {
         $request = $this->getRequest();

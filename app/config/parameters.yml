@@ -12,4 +12,3 @@ parameters:
     mailer_password: null
     locale: en
     secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
-    wordPressDomain: "127.0.0.1"
