@@ -10,12 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, \Serializable
 {
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
+   /**
      * @var string
      */
     private $email;
@@ -55,29 +50,7 @@ class User implements UserInterface, \Serializable
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return User
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
+    
     /**
      * Set email
      *
@@ -198,6 +171,21 @@ class User implements UserInterface, \Serializable
      * @var string
      */
     private $lastName;
+    
+     /**
+     * @var string
+     */
+    private $passwordToken;
+    
+     /**
+     * @var datetime
+     */
+    private $tokenExpiry;
+    
+     /**
+     * @var string
+     */
+    private $tokenStatus;
 
 
     /**
@@ -244,6 +232,78 @@ class User implements UserInterface, \Serializable
     public function getLastName()
     {
         return $this->lastName;
+    }
+    
+    
+    
+    /**
+     * Set passwordToken
+     *
+     * @param string $passwordToken
+     * @return User
+     */
+    public function setPasswordToken($passwordToken)
+    {
+        $this->passwordToken = $passwordToken;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordToken
+     *
+     * @return string 
+     */
+    public function getPasswordToken()
+    {
+        return $this->passwordToken;
+    }
+    
+    
+    /**
+     * Set tokenExpiry
+     *
+     * @param datetime $tokenExpiry
+     * @return User
+     */
+    public function setTokenExpiry($tokenExpiry)
+    {
+        $this->tokenExpiry = $tokenExpiry;
+
+        return $this;
+    }
+
+    /**
+     * Get tokenExpiry
+     *
+     * @return datetime 
+     */
+    public function getTokenExpiry()
+    {
+        return $this->tokenExpiry;
+    }
+    
+    /**
+     * Set tokenStatus
+     *
+     * @param string $tokenStatus
+     * @return User
+     */
+    public function setTokenStatus($tokenStatus)
+    {
+        $this->tokenStatus = $tokenStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get tokenStatus
+     *
+     * @return string 
+     */
+    public function getTokenStatus()
+    {
+        return $this->tokenStatus;
     }
 
     /**
@@ -302,7 +362,7 @@ class User implements UserInterface, \Serializable
      */
     public function getUsername()
     {
-        return $this->name;
+        return $this->firstName.' '.$this->lastName;
     }
 
     /**
@@ -310,7 +370,8 @@ class User implements UserInterface, \Serializable
      */
     public function getSalt()
     {
-        return $this->salt;
+        //return $this->salt;
+         return null;
     }
 
    

@@ -5,11 +5,11 @@
         <id name="id" type="string" column="id">
             <generator strategy="IDENTITY"/>
         </id>
-        <field name="name" type="string" column="firstname" nullable="false"/>
+        <field name="firstName" type="string" column="firstname" nullable="false"/>
         <field name="lastName" type="string" column="lastname" nullable="false"/>
         <field name="email" type="string" column="email" length="128" nullable="false"/>
         <field name="phone" type="string" column="phone" length="128" nullable="false"/>
-		<field name="password" type="string" column="password" length="128" nullable="false"/>
+        <field name="password" type="string" column="password" length="128" nullable="false"/>
         <discriminator-column name="roletype" type="integer" />
         <discriminator-map>
             <discriminator-mapping value="1" class="GqAus\UserBundle\Entity\Applicant" />
@@ -27,5 +27,9 @@
             </join-table>
         </many-to-many>
         <one-to-many field="address" target-entity="UserAddress" inversed-by="user" />
+        
+        <field name="passwordToken" type="string" column="passwordToken" length="255"/>
+        <field name="tokenExpiry" type="string" column="tokenExpiry" />
+        <field name="tokenStatus" type="integer" column="tokenStatus" length="1"/>
     </entity>
 </doctrine-mapping>
