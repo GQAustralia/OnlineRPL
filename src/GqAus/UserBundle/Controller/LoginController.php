@@ -7,7 +7,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 
 class LoginController extends Controller
 {
-	/**
+    /**
      * login function.
      *  @return string
      */
@@ -33,8 +33,6 @@ class LoginController extends Controller
             return $this->render(
                 'GqAusUserBundle:Login:index.html.twig',
                 array(
-                    // last username entered by the user
-                    'last_username' => $session->get(SecurityContext::LAST_USERNAME),
                     'error'         => $error,
                 )
             );

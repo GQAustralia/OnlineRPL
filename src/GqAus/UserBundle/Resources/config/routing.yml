@@ -4,3 +4,9 @@ user_homepage:
 _page:
     path:     /
     defaults: { _controller: GqAusUserBundle:Login:index }
+forgotpassword:
+    path:     /forgotpassword
+    defaults:  { _controller: GqAusUserBundle:ForgotPassword:index }
+resetPassword:
+    path:     /resetpassword/{token}
+    defaults:  { _controller: GqAusUserBundle:ForgotPassword:resetPassword }

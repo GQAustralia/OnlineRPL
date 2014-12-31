@@ -10,10 +10,12 @@ security:
                target: _demo
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/forgotpassword, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
     providers:
         main:
             entity: {class: GqAusUserBundle:User, property: email}
     encoders:
-        GqAus\UserBundle\Entity\User: plaintext
+        GqAus\UserBundle\Entity\User: 
+            algorithm: bcrypt
 

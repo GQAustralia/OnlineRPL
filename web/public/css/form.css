@@ -1,0 +1,44 @@
+.checkbox, .radio {
+	width: 19px;
+	height: 25px;
+	padding: 0 5px 0 0;
+	background: url(checkbox.png) no-repeat;
+	display: block;
+	clear: left;
+	float: left;
+}
+.radio {
+	background: url(radio.png) no-repeat;
+}
+.select {/*
+	position: absolute;
+	width: 158px;
+	height: 21px;
+	padding: 0 24px 0 8px;
+	color: #fff;
+	background: url(../images/select.png) no-repeat;
+	overflow: hidden; */
+}
+
+.gq-id-files-select .select {
+	position: absolute;
+	width: 100%; /* With the padding included, the width is 190 pixels: the actual width of the image. */
+	height: 36px;
+	padding: 0 40px 0 62px;
+	line-height:36px;
+	color: #999999;
+	background: url(../images/red-select.png);
+	background-repeat: no-repeat;
+	background-position:right center;
+	overflow: hidden;
+	font-size:15px;
+	border-radius:5px;
+	right:18px;
+}
+.gq-id-files-select .select.styled {width:100%;}
+@media (max-width:768px) {
+
+	}
+@media (max-width: 640px) {
+
+	}
