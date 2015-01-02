@@ -29,11 +29,6 @@ class User implements UserInterface, \Serializable
      * @var \GqAus\UserBundle\Entity\UserAddress
      */
     private $address;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $courses;
     
     /**
      * @var string
@@ -47,8 +42,6 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->salt = md5(uniqid(null, true));
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->address[] = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     
@@ -130,39 +123,7 @@ class User implements UserInterface, \Serializable
     {
         return $this->address;
     }
-
-    /**
-     * Add courses
-     *
-     * @param \GqAus\CourseBundle\Entity\Course $courses
-     * @return User
-     */
-    public function addCourse(\GqAus\CourseBundle\Entity\Course $courses)
-    {
-        $this->courses[] = $courses;
-
-        return $this;
-    }
-
-    /**
-     * Remove courses
-     *
-     * @param \GqAus\CourseBundle\Entity\Course $courses
-     */
-    public function removeCourse(\GqAus\CourseBundle\Entity\Course $courses)
-    {
-        $this->courses->removeElement($courses);
-    }
-
-    /**
-     * Get courses
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCourses()
-    {
-        return $this->courses;
-    }
+    
     /**
      * @var string
      */
