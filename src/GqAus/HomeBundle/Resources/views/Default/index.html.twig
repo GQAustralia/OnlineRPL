@@ -20,7 +20,7 @@
                     </div>
                     <div class="gq-dashboard-box-content-wrap">
                         <div class="gq-dashboard-running-txt">Currently you have</div>
-                        <div class="gq-dashboard-points-in-number">100</div>
+                        <div class="gq-dashboard-points-in-number">{{currentIdPoints}}</div>
                     </div>
                     <span class="flip-icon"></span>
                 </div>
@@ -67,24 +67,25 @@
                             <!-- Content for respective tabs above will be in this section -->
                             <div class="tab-content">
                               <div role="tabpanel" class="tab-pane active" id="current">
+                              {% for key, courses in userCourses %}
+                                {% if courses.getCourseStatus() == 1 %}
                                 <div class="gq-dashboard-courses-detail">
                                     <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
-                                    <div class="gq-dashboard-courses-detail-txt">Advanced Diploma of Information Technology</div>
+                                    <div class="gq-dashboard-courses-detail-txt">{{ courses.getCourseName() }}</div>
                                 </div>
-                                <div class="gq-dashboard-courses-detail">
-                                    <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
-                                    <div class="gq-dashboard-courses-detail-txt">Advanced Diploma of Network Security</div>
-                                </div>
+                                {% endif %}
+                                {% endfor %}
                               </div>
                               <div role="tabpanel" class="tab-pane" id="completed">
+                                {% for key, courses in userCourses %}
+                                    {% if courses.getCourseStatus() == 0 %}
                                 <div class="gq-dashboard-courses-detail">
                                     <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
-                                    <div class="gq-dashboard-courses-detail-txt">Diploma of Information Technology</div>
+                                    <div class="gq-dashboard-courses-detail-txt">{{ courses.getCourseName() }}</div>
                                 </div>
-                                <div class="gq-dashboard-courses-detail">
-                                    <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
-                                    <div class="gq-dashboard-courses-detail-txt">Diploma of Network Security</div>
-                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                
                               </div>
                             </div>
                             <!-- script for enabling tabs functionality -->
