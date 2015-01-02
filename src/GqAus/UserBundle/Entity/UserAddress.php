@@ -30,11 +30,6 @@ class UserAddress
     private $state;
 
     /**
-     * @var string
-     */
-    private $country;
-
-    /**
      * @var integer
      */
     private $pincode;
@@ -140,29 +135,6 @@ class UserAddress
     public function getState()
     {
         return $this->state;
-    }
-
-    /**
-     * Set country
-     *
-     * @param string $country
-     * @return UserAddress
-     */
-    public function setCountry($country)
-    {
-        $this->country = $country;
-
-        return $this;
-    }
-
-    /**
-     * Get country
-     *
-     * @return string 
-     */
-    public function getCountry()
-    {
-        return $this->country;
     }
 
     /**
