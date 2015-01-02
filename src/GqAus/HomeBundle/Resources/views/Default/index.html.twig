@@ -1,5 +1,119 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}GQ - RPL Dashboard{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('public/css/pie-chart.css') }}" rel="stylesheet">
+{% endblock %}
 {% block body %}
-    <h1>Welcome to dashboard!</h1>
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="gq-dashboard-title">Dashboard</h1>
+                <h6 class="gq-dashboard-title-desc">Welcome to GQ Australia Online RPL</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 colxs-12">
+                <div class="gq-dashboard-box-1x gq-dashboard-bg-img1"> <!-- class "gq-dashboard-bg-img1" added for background image -->
+                    <div class="gq-dashboard-box-title-wrap">
+                        <h2 class="gq-dashboard-box-title">ID Points</h2>
+                        <span class="gq-dashboard-points-icon"><img src="{{ asset('public/images/upload.png') }}"</span>
+                    </div>
+                    <div class="gq-dashboard-box-content-wrap">
+                        <div class="gq-dashboard-running-txt">Currently you have</div>
+                        <div class="gq-dashboard-points-in-number">100</div>
+                    </div>
+                    <span class="flip-icon"></span>
+                </div>
+                <div class="gq-dashboard-box-1x gq-dashboard-bg-img2"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                    <div class="gq-dashboard-box-title-wrap">
+                        <h2 class="gq-dashboard-box-title">Profile completeness</h2>
+                        <span class="gq-dashboard-points-icon"><img src="{{ asset('public/images/edit.png') }}"</span>
+                    </div>
+                    <div class="gq-dashboard-box-content-wrap">
+                        <!-- <div class="gq-dashboard-running-txt">Currently you have</div> -->
+                        <div class="statChartHolder">                    
+                            <div class="progress-pie-chart gt-50" data-percent="{{profileCompleteness}}"><!--Pie Chart -->
+                                <div class="ppc-progress">
+                                    <div style="transform: rotate(241.2deg);" class="ppc-progress-fill"></div>
+                                </div>
+                                <div class="ppc-percents">
+                                    <div class="pcc-percents-wrapper">
+                                        <img src="{{ asset('public/images/') ~ userImage }}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--End Chart -->
+                            
+                        <div class="gq-dashboard-points-in-percent">{{profileCompleteness}}</div>
+                    </div>
+                    <span class="flip-icon"></span>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 colxs-12">
+                <div class="gq-dashboard-box-2x gq-dashboard-bg-img3"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                    <div class="gq-dashboard-box-title-wrap">
+                        <h2 class="gq-dashboard-box-title">Courses</h2>
+                    </div>
+                    <div class="gq-dashboard-courses-detail-wrap">
+                        <div class="gq-dashboard-tabs">
+                            <!-- Tabs start here -->
+                            <div class="gq-dashboard-tabs-header wid30p">
+                                <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
+                                    <li role="presentation" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab">Current</a></li>
+                                    <li role="presentation"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Completed</a></li>
+                                </ul>
+                            </div>
+                            <!-- Tabs end start here -->
+                            <!-- Content for respective tabs above will be in this section -->
+                            <div class="tab-content">
+                              <div role="tabpanel" class="tab-pane active" id="current">
+                                <div class="gq-dashboard-courses-detail">
+                                    <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
+                                    <div class="gq-dashboard-courses-detail-txt">Advanced Diploma of Information Technology</div>
+                                </div>
+                                <div class="gq-dashboard-courses-detail">
+                                    <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
+                                    <div class="gq-dashboard-courses-detail-txt">Advanced Diploma of Network Security</div>
+                                </div>
+                              </div>
+                              <div role="tabpanel" class="tab-pane" id="completed">
+                                <div class="gq-dashboard-courses-detail">
+                                    <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
+                                    <div class="gq-dashboard-courses-detail-txt">Diploma of Information Technology</div>
+                                </div>
+                                <div class="gq-dashboard-courses-detail">
+                                    <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
+                                    <div class="gq-dashboard-courses-detail-txt">Diploma of Network Security</div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- script for enabling tabs functionality -->
+                            <script>
+                              $(function () {
+                                $('#myTab a:last').tab('show')
+                              })
+                            </script>
+                            <!--End of content for respective tabs above will be in this section -->
+                        </div>
+                    </div>
+                    <span class="flip-icon"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <script src="{{ asset('public/js/jquery-2.js') }}"></script>
+  <script>
+    $(function(){
+      var $ppc = $('.progress-pie-chart'),
+        percent = parseInt($ppc.data('percent')),
+        deg = 360*percent/100;
+      if (percent > 50) {
+        $ppc.addClass('gt-50');
+      }
+      $('.ppc-progress-fill').css('transform','rotate('+ deg +'deg)');
+      $('.ppc-percents span').html(percent+'%');
+    });
+</script>
 {% endblock %}

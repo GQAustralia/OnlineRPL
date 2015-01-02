@@ -35,6 +35,11 @@ class UserAddress
     private $country;
 
     /**
+     * @var integer
+     */
+    private $pincode;
+
+    /**
      * @var string
      */
     private $id;
@@ -158,6 +163,29 @@ class UserAddress
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Set pincode
+     *
+     * @param string $pincode
+     * @return UserAddress
+     */
+    public function setPincode($pincode)
+    {
+        $this->pincode = $pincode;
+
+        return $this;
+    }
+
+    /**
+     * Get pincode
+     *
+     * @return string 
+     */
+    public function getPincode()
+    {
+        return $this->pincode;
     }
 
     /**

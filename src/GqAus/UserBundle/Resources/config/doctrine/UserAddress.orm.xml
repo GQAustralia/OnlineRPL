@@ -10,10 +10,11 @@
         <field name="city" type="string" column="city" nullable="false"/>
         <field name="state" type="string" column="state" nullable="false"/>
         <field name="country" type="string" column="country" nullable="false"/>
-        <many-to-one field="user" target-entity="User" mapped-by="address">
+        <field name="pincode" type="string" column="pincode" nullable="false"/>
+        <one-to-one field="user" target-entity="GqAus\UserBundle\Entity\User" inversed-by="address">
             <join-columns>
                 <join-column name="user_id" referenced-column-name="id"/>
             </join-columns>
-        </many-to-one>        
+        </one-to-one>
     </entity>
 </doctrine-mapping>
