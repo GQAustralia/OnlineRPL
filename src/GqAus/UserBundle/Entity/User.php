@@ -48,6 +48,7 @@ class User implements UserInterface, \Serializable
     {
         $this->salt = md5(uniqid(null, true));
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->address[] = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     
@@ -186,6 +187,11 @@ class User implements UserInterface, \Serializable
      * @var string
      */
     private $tokenStatus;
+    
+    /**
+     * @var string
+     */
+    private $userImage;
 
 
     /**
@@ -235,6 +241,28 @@ class User implements UserInterface, \Serializable
     }
     
     
+    /**
+     * Set userImage
+     *
+     * @param string $userImage
+     * @return User
+     */
+    public function setUserImage($userImage)
+    {
+        $this->userImage = $userImage;
+
+        return $this;
+    }
+
+    /**
+     * Get userImage
+     *
+     * @return string 
+     */
+    public function getUserImage()
+    {
+        return $this->userImage;
+    }
     
     /**
      * Set passwordToken

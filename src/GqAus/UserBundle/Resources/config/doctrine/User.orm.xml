@@ -26,8 +26,8 @@
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
-        <one-to-many field="address" target-entity="UserAddress" inversed-by="user" />
-        
+        <one-to-one field="address" target-entity="GqAus\UserBundle\Entity\UserAddress" mapped-by="user" />
+        <field name="userImage" type="string" column="user_img" length="255"/>
         <field name="passwordToken" type="string" column="passwordToken" length="255"/>
         <field name="tokenExpiry" type="string" column="tokenExpiry" />
         <field name="tokenStatus" type="integer" column="tokenStatus" length="1"/>
