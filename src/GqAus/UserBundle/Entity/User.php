@@ -29,6 +29,11 @@ class User implements UserInterface, \Serializable
      * @var \GqAus\UserBundle\Entity\UserAddress
      */
     private $address;
+
+    /**
+     * @var \GqAus\UserBundle\Entity\UserCourses
+     */
+    private $courses;
     
     /**
      * @var string
@@ -122,6 +127,29 @@ class User implements UserInterface, \Serializable
     public function getAddress()
     {
         return $this->address;
+    }
+
+    /**
+     * Set courses
+     *
+     * @param \GqAus\UserBundle\Entity\UserCourses $courses
+     * @return User
+     */
+    public function setCourses(\GqAus\UserBundle\Entity\UserCourses $courses = null)
+    {
+        $this->courses = $courses;
+
+        return $this;
+    }
+
+    /**
+     * Get courses
+     *
+     * @return \GqAus\UserBundle\Entity\UserAddress 
+     */
+    public function getCourses()
+    {
+        return $this->courses;
     }
     
     /**
