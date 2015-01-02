@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="GqAus\UserBundle\Entity\UserCourses" table="user_courses">
+  
+        <id name="id" type="string" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="courseCode" type="string" column="course_code" nullable="false"/>
+        <field name="courseName" type="string" column="course_name" nullable="false"/>
+        <field name="createdOn" type="string" column="created_on" nullable="false"/>
+        <field name="courseStatus" type="integer" column="course_status" nullable="false"/>
+        <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User" inversed-by="courses">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>        
+    </entity>
+</doctrine-mapping>

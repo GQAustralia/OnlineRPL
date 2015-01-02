@@ -9,6 +9,7 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
+        $currentIdPoints = 100;
         $maximumPoints = 100;
         $profileCompleteness = 0;
         if(is_object($user) && count($user) > 0) {
@@ -20,7 +21,6 @@ class DefaultController extends Controller
            $userImage = $user->getUserImage();
            $address = $user->getAddress();
            $address = count($address);
-           
            if (!empty($firstName)) {
                 $profileCompleteness += 15;
            }
@@ -41,8 +41,11 @@ class DefaultController extends Controller
            }
            $percentage = ($profileCompleteness*$maximumPoints)/100;
            $percentage = $percentage.'%';
+           $userCourses = $user->getCourses();
            return $this->render('GqAusHomeBundle:Default:index.html.twig', array('profileCompleteness' => $percentage, 
-                                                                            'userImage' => $userImage));
+                                                                            'userImage' => $userImage,
+                                                                            'currentIdPoints' => $currentIdPoints,
+                                                                            'userCourses' => $userCourses));
         }
     }
 }

@@ -16,16 +16,8 @@
             <discriminator-mapping value="2" class="GqAus\UserBundle\Entity\Facilitator" />
             <discriminator-mapping value="3" class="GqAus\UserBundle\Entity\Assessor" />
         </discriminator-map>
-        <many-to-many field="courses" target-entity="GqAus\CourseBundle\Entity\Course">
-            <join-table name="user_course">
-                <join-columns>
-                    <join-column name="user_id" referenced-column-name="id" />
-                </join-columns>
-                <inverse-join-columns>
-                    <join-column name="course_code" referenced-column-name="c_code" unique="true" />
-                </inverse-join-columns>
-            </join-table>
-        </many-to-many>
+       
+        <one-to-many field="courses" target-entity="GqAus\UserBundle\Entity\UserCourses" mapped-by="user" />
         <one-to-one field="address" target-entity="GqAus\UserBundle\Entity\UserAddress" mapped-by="user" />
         <field name="userImage" type="string" column="user_img" length="255"/>
         <field name="passwordToken" type="string" column="passwordToken" length="255"/>
