@@ -10,13 +10,7 @@ class PhotoUploader
 {
     private static $allowedMimeTypes = array(
         'image/jpeg',
-        'image/jpg',        
-        'image/JPEG',
-        'image/JPG',
-        'JPEG',
-        'JPG',
-        'image/png',
-        'application/octet-stream',
+        'image/jpg',
         'image/gif'
     );
 
@@ -29,7 +23,6 @@ class PhotoUploader
 
     public function upload(UploadedFile $file)
     {
-        echo "<pre>"; print_r($file); exit;
         // Check if the file's mime type is in the list of allowed mime types.
         if (!in_array($file->getClientMimeType(), self::$allowedMimeTypes)) {
             throw new \InvalidArgumentException(sprintf('Files of type %s are not allowed.', $file->getClientMimeType()));
@@ -40,9 +33,8 @@ class PhotoUploader
 
         $adapter = $this->filesystem->getAdapter();
         $adapter->setMetadata($filename, array('contentType' => $file->getClientMimeType()));
-        echo $filename."//".$file->getPathname(); exit;
         $adapter->write($filename, file_get_contents($file->getPathname()));
-
+        
         return $filename;
     }
 }

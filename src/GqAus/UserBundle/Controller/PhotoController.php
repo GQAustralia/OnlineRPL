@@ -18,8 +18,7 @@ class PhotoController extends Controller
             if ($form->isValid()) {
                 $data = $form->getData();
                 $url = $this->getPhotoUploader()->upload($data['photo']);
-
-                return; // display a response or redirect
+                echo $url; exit;
             }
         }
 
