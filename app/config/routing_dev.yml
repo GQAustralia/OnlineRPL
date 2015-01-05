@@ -26,3 +26,6 @@ login:
     defaults:  { _controller: GqAusUserBundle:Login:index }
 login_check:
     path: /login_check
+logout:
+    path:     /logout
+    defaults:  { _controller: GqAusUserBundle:Login:logout }
