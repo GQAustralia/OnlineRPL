@@ -135,8 +135,8 @@ a.btn-red {color:#ffffff;}
     top: -7px;
 }
 .user-status-select .btn-group {position:relative;}
-.user-status-select .dropdown-menu{ margin: 0; position: absolute; top: 42px; padding:0;}
-.user-status-select .dropdown-menu:before {
+.user-status-select .dropdown-menu{ margin: 0; position: absolute; top: 48px; padding:0;}
+/*.user-status-select .dropdown-menu:before {
     border-bottom: 7px solid rgba(241,74,65, 1);
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
@@ -146,7 +146,8 @@ a.btn-red {color:#ffffff;}
     left: 9px;
     top: -7px;
 }
-
+*/
+.user-status-select .dropdown-menu:before {	background-image:url("../images/peak.png"); background-repeat:no-repeat; background-position:center center; width:12px; height:10px; position:absolute; top:-9px; left: 9px; content:"";}
 
 .user-status-msg {margin-right:10px; line-height:38px;}
 .notification-section {float:left; margin-right:10px; border-right:1px solid #d5e6c5; padding-right:10px; background-image:url('../images/notification.png'); background-repeat: no-repeat; background-position: center center; width:43px; height:33px;}
@@ -154,7 +155,7 @@ a.btn-red {color:#ffffff;}
 .user-status {float:left; padding-top:15px;}
 .user-icon, .user-status-msg, .user-status-select{float:left;}
 .dashboard-bg {background-color:#44515d; width:100%; float:left;}
-.gq-dashboard-left {color:#ffffff; padding:0; text-align:center; min-width:104px;}
+.gq-dashboard-left {color:#ffffff; padding:0; text-align:center; /*min-width:54px;*/}
 .gq-dashboard-right {background-color:#f2f2f2; padding:0; min-height:600px; padding:30px;}
 .gq-dashboard-right .gq-dashboard-title {font-size:35px; color:#2f3941; width:100%; float:left;}
 .gq-dashboard-right .gq-dashboard-title-desc {font-size:14px; color:#5e5e5e; width:100%; float:left;}
@@ -167,7 +168,7 @@ a.btn-red {color:#ffffff;}
 ---------------------------------------------------------------*/
 .gq-dashboard-left-nav {margin:0; padding:0;}
 .gq-dashboard-left-nav li {float:left; width:100%; border-bottom:1px solid #57636e;}
-.gq-dashboard-left-nav li a{color:#ffffff; font-size:16px; text-decoration:none; min-height:92px; display:block; padding-top:5px;}
+.gq-dashboard-left-nav li a{color:#ffffff; font-size:16px; text-decoration:none;/* min-height:92px; */ height:92px; display:block; padding-top:5px;}
 .gq-dashboard-left-nav li a:hover, .gq-dashboard-left-nav li a:focus, .gq-dashboard-left-nav li a.active{background-color:#2f3941;}
 .gq-dashboard-left-nav .gq-dashboard-icon, .gq-dashboard-left-nav .gq-courses-icon, .gq-dashboard-left-nav .gq-messages-icon, .gq-dashboard-left-nav .gq-evidence-icon {width:50px; height:50px; display:block; margin:0 auto;}
 
@@ -202,7 +203,10 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-bg-img2 {background-image:url('../images/percentile.png'); background-repeat:no-repeat; background-position:right bottom;}
 .gq-dashboard-bg-img3 {background-image:url('../images/notepadwatermark.png'); background-repeat:no-repeat; background-position:right bottom;}
 .user-status-select .dropdown-menu:before {right:9px; left:auto;}
-.user-status-select .dropdown-menu {left:-123px;}
+.user-status-select .dropdown-menu {left:-160px;}
+.user-status-select .dropdown-menu .divider {margin:0 auto; width:86%;}
+.user-status-select .dropdown-menu > li > a span{height:30px; display:line-block; padding-right:7px;}
+.user-status-select .dropdown-menu > li > a {padding:3px 10px;}
  
  
 /* Profile page styling
@@ -313,6 +317,8 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-box-2x {margin-left:0;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{width:81%;}
 .gq-dashboard-tabs-header.wid30p, .wid60p {width:inherit; margin:auto;}
+.gq-dashboard-left {display:none;}
+.gq-dashboard-left-nav li a {min-height:58px;}
 
 }
 
@@ -342,4 +348,4 @@ a.btn-red {color:#ffffff;}
 
  */
  
-.errormsg { text-align:center; color: red;}
+ .errormsg { text-align:center; color: red;}
