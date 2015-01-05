@@ -1,6 +1,6 @@
 user_homepage:
-    path:     /user
-    defaults: { _controller: GqAusUserBundle:Default:index }
+    path:     /userprofile
+    defaults: { _controller: GqAusUserBundle:User:profile }
 _page:
     path:     /
     defaults: { _controller: GqAusUserBundle:Login:index }
