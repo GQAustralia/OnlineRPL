@@ -12,3 +12,7 @@ parameters:
     mailer_password: null
     locale: en
     secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
+    amazon_aws_key: 1234
+    amazon_aws_secret_key:  1234
+    amazon_s3_base_url:     12344
+    amazon_s3_bucket_name: rpl-upload

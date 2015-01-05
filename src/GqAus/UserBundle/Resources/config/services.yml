@@ -1,3 +1,8 @@
+
+parameters:
+    gq_aus_user.amazon_s3.class: AmazonS3    
+    gq_aus_user.photo_uploader.class: GqAus\UserBundle\Upload\PhotoUploader
+    
 services:
 #    api.example:
 #        class: UserBundle\Example
@@ -5,3 +10,9 @@ services:
     UserService:
         class: GqAus\UserBundle\Services\UserService
         arguments: [@doctrine.orm.entity_manager]
+    gq_aus_user.amazon_s3:
+        class: %gq_aus_user.amazon_s3.class%
+        arguments: [{ key: '%gq_aus_user.amazon_s3.aws_key%', secret: '%gq_aus_user.amazon_s3.aws_secret_key%' }]
+    gq_aus_user.photo_uploader:
+        class: %gq_aus_user.photo_uploader.class%
+        arguments: ['@photo_storage_filesystem']

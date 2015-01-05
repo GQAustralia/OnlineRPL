@@ -10,3 +10,6 @@ forgotpassword:
 resetPassword:
     path:     /resetpassword/{token}
     defaults:  { _controller: GqAusUserBundle:ForgotPassword:resetPassword }
+file_upload:
+    path:     /fileupload
+    defaults: { _controller: GqAusUserBundle:Photo:add }
