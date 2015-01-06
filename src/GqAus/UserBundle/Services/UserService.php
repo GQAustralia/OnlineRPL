@@ -64,8 +64,10 @@ class UserService
             $to = 'swetha.kolluru@valuelabs.net';
             $subject = 'Request for Password Reset';
             $applicationUrl = $this->container->getParameter('applicationUrl');
-            $body = "Dear ".$userName.",<br><br> Please click on the link to reset your password!
-             <a href='".$applicationUrl."resetpassword/".$token."'>Click Here </a>
+            $body = "Dear ".$userName.",<br><br> We heard that you lost your password. Sorry about that! <br>
+            But don't worry! You can use the following link within the next 4 hours to reset your password
+             <a href='".$applicationUrl."resetpassword/".$token."'>Click Here </a><br>
+             If you don't use this link within 4 hours, it will expire. <br>To get a new password reset link, visit ".$applicationUrl."forgotpassword
              <br><br> Regards,<br>OnlineRPL";
              
             $emailContent = \Swift_Message::newInstance()
