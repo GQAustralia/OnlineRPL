@@ -10,14 +10,25 @@ class UserService
     private $repository;
     private $currentUser;
     /**
+     * @var Object
+     */
+    private $container;
+    /**
+     * @var Object
+     */
+    private $mailer;
+    
+    /**
      * Constructor
      */
-    public function __construct($em)
+    public function __construct($em, $container, $mailer)
     {
         $this->em = $em;
         $this->repository = $em->getRepository('GqAusUserBundle:User');
         $this->userId = 1;
         $this->currentUser = $this->getCurrentUser();
+        $this->container = $container;
+        $this->mailer = $mailer;
     }
 
     public function getCurrentUser()
@@ -30,5 +41,82 @@ class UserService
         $this->em->persist($this->currentUser);
         $this->em->flush();
     }
-
+    
+    /**
+     * function to request for forgot password .
+     *  @return string
+     */
+    public function forgotPasswordRequest($email)
+    {
+        $message = '';
+        $user = $this->repository->findOneBy(array('email' => $email));
+        if (!empty($user)) {
+            $token = uniqid();
+            $nowtime = date('Y-m-d h:i:s');
+            $tokenExpiryDate = date('Y-m-d H:i:s', strtotime($nowtime . ' + 4 hours'));
+            $user->setPasswordToken($token);
+            $user->setTokenStatus('1');
+            $user->setTokenExpiry($tokenExpiryDate);
+            $this->em->persist($user);
+            $this->em->flush();
+            
+            $userName = $user->getUsername();
+            $to = 'swetha.kolluru@valuelabs.net';
+            $subject = 'Request for Password Reset';
+            $applicationUrl = $this->container->getParameter('applicationUrl');
+            $body = "Dear ".$userName.",<br><br> Please click on the link to reset your password!
+             <a href='".$applicationUrl."resetpassword/".$token."'>Click Here </a>
+             <br><br> Regards,<br>OnlineRPL";
+             
+            $emailContent = \Swift_Message::newInstance()
+                ->setSubject($subject)
+                ->setFrom('swetha.kolluru@valuelabs.net')
+                ->setTo($to)
+                ->setBody($body)
+                ->setContentType("text/html");                
+                $status = $this->mailer->send($emailContent);
+                
+            $message = 'A request for password reset is sent to this address.';
+        } else {
+            $message = 'There is no user with this email address. Please try again';
+        }
+        return $message;
+    }
+    
+    /**
+     * function to reset password.
+     *  @return array
+     */
+    public function resetPasswordRequest($token, $method, $password)
+    {
+        $validRequest = 0;
+        $message = '';
+        $user = $this->repository->findOneBy(array('passwordToken' => $token, 'tokenStatus' => 1));
+        if (!empty($user)) {
+            $tokenExpiry = $user->getTokenExpiry();
+            if ($tokenExpiry > date('Y-m-d h:i:s')) {
+                if($method == 'POST') {                    
+                    $password = password_hash($password, PASSWORD_BCRYPT);
+                    $user->setPassword($password);
+                    $user->setTokenStatus('0');
+                    $this->em->persist($user);
+                    $this->em->flush();
+                    $message = 'Password changed successfully , please login';
+                }
+                $validRequest = 1;
+            }
+        }//if
+        return array('message' => $message, 'validRequest' => $validRequest);
+    }
+	
+	/**
+     * function to update course condition status.
+     *  @return array
+     */
+	public function updateCourseConditionStatus($user)
+	{
+		$user->setCourseConditionStatus('1');
+		$this->em->persist($user);
+		$this->em->flush();
+	}
 }
