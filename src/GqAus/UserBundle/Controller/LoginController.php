@@ -42,7 +42,6 @@ class LoginController extends Controller
     
     /**
      * logout function.
-     *  @return -
      */
     public function logoutAction()
     {

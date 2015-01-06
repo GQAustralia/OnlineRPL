@@ -18,10 +18,14 @@
         </discriminator-map>
        
         <one-to-many field="courses" target-entity="GqAus\UserBundle\Entity\UserCourses" mapped-by="user" />
-        <one-to-one field="address" target-entity="GqAus\UserBundle\Entity\UserAddress" mapped-by="user" />
+        <one-to-one field="address" target-entity="GqAus\UserBundle\Entity\UserAddress" mapped-by="user" />		
         <field name="userImage" type="string" column="user_img" length="255"/>
         <field name="passwordToken" type="string" column="passwordToken" length="255"/>
         <field name="tokenExpiry" type="string" column="tokenExpiry" />
         <field name="tokenStatus" type="integer" column="tokenStatus" length="1"/>
+		<field name="courseConditionStatus" type="integer" column="course_condition_status" length="1"/>
+		<field name="dateOfBirth" type="string" column="date_of_birth" length="20"/>
+		<field name="gender" type="string" column="gender" length="1"/>
+		<field name="universalStudentIdentifier" type="string" column="universal_student_identifier" length="100"/>
     </entity>
 </doctrine-mapping>

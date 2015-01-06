@@ -426,4 +426,139 @@ class User implements UserInterface, \Serializable
             $this->id,
         ) = unserialize($serialized);
     }
+
+    /**
+     * Add courses
+     *
+     * @param \GqAus\UserBundle\Entity\UserCourses $courses
+     * @return User
+     */
+    public function addCourse(\GqAus\UserBundle\Entity\UserCourses $courses)
+    {
+        $this->courses[] = $courses;
+
+        return $this;
+    }
+
+    /**
+     * Remove courses
+     *
+     * @param \GqAus\UserBundle\Entity\UserCourses $courses
+     */
+    public function removeCourse(\GqAus\UserBundle\Entity\UserCourses $courses)
+    {
+        $this->courses->removeElement($courses);
+    }
+    /**
+     * @var integer
+     */
+    private $courseConditionStatus;
+
+
+    /**
+     * Set courseConditionStatus
+     *
+     * @param integer $courseConditionStatus
+     * @return User
+     */
+    public function setCourseConditionStatus($courseConditionStatus)
+    {
+        $this->courseConditionStatus = $courseConditionStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get courseConditionStatus
+     *
+     * @return integer 
+     */
+    public function getCourseConditionStatus()
+    {
+        return $this->courseConditionStatus;
+    }
+    /**
+     * @var string
+     */
+    private $dateOfBirth;
+
+    /**
+     * @var string
+     */
+    private $gender;
+
+    /**
+     * @var string
+     */
+    private $universalStudentIdentifier;
+
+
+    /**
+     * Set dateOfBirth
+     *
+     * @param string $dateOfBirth
+     * @return User
+     */
+    public function setDateOfBirth($dateOfBirth)
+    {
+        $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
+    }
+
+    /**
+     * Get dateOfBirth
+     *
+     * @return string 
+     */
+    public function getDateOfBirth()
+    {
+        return $this->dateOfBirth;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     * @return User
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string 
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * Set universalStudentIdentifier
+     *
+     * @param string $universalStudentIdentifier
+     * @return User
+     */
+    public function setUniversalStudentIdentifier($universalStudentIdentifier)
+    {
+        $this->universalStudentIdentifier = $universalStudentIdentifier;
+
+        return $this;
+    }
+
+    /**
+     * Get universalStudentIdentifier
+     *
+     * @return string 
+     */
+    public function getUniversalStudentIdentifier()
+    {
+        return $this->universalStudentIdentifier;
+    }
 }
