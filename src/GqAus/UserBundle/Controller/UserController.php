@@ -35,11 +35,17 @@ class UserController extends Controller
         if (empty($userImage)) {
             $userImage = 'profielicon.png';
         }
+        
+        $userIdFiles = $user->getIdfiles();
+        if (empty($userImage)) {
+            $userIdFiles = '';
+        }
 
         return $this->render('GqAusUserBundle:User:profile.html.twig', array(
                     'form' => $userProfileForm->createView(),
                     'filesForm' => $idFilesForm->createView(),
                     'userImage' => $userImage,
+                    'userIdFiles' => $userIdFiles,
                     'documentTypes' => $documentTypes
         ));
     }    

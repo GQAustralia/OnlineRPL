@@ -34,6 +34,11 @@ class UserIds
      */
     private $type;
 
+    /**
+     * @var datetime
+     */
+    private $created;
+
 
     /**
      * Set name
@@ -135,5 +140,28 @@ class UserIds
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Get date
+     *
+     * @return string
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set created
+     *
+     * @param string $created
+     * @return UserIds
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
     }
 }
