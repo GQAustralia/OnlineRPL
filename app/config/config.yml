@@ -29,6 +29,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:        
+        amazon_link: %amazon_s3_base_url%
 
 # Assetic Configuration
 assetic:
@@ -74,3 +76,23 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+knp_gaufrette:
+    adapters:
+        file_storage:
+            amazon_s3:
+                amazon_s3_id: gq_aus_user.amazon_s3
+                bucket_name:  %amazon_s3_bucket_name%
+                create:       false
+                options:
+                    create: true
+    filesystems:
+        file_storage:
+            adapter:    file_storage
+            alias:      file_storage_filesystem
+        
+gq_aus_user:
+    amazon_s3:
+        aws_key:        %amazon_aws_key%
+        aws_secret_key: %amazon_aws_secret_key%
+        base_url:       %amazon_s3_base_url%

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="GqAus\UserBundle\Entity\UserIds" table="user_ids">
+  
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="name" type="string" column="name" nullable="false"/>
+        <field name="path" type="string" column="path" nullable="false"/>
+        <field name="created" type="string" column="created" nullable="false"/>
+        <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User" inversed-by="idfiles">
+            <join-columns>
+                <join-column name="user_id" referenced-column-name="id"/>
+            </join-columns>
+        </many-to-one>
+        <many-to-one field="type" target-entity="GqAus\UserBundle\Entity\DocumentType">
+            <join-column name="type" referenced-column-name="id" />
+        </many-to-one>
+    </entity>
+</doctrine-mapping>
