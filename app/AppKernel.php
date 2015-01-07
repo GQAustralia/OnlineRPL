@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new GqAus\UserBundle\GqAusUserBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new GqAus\HomeBundle\GqAusHomeBundle(),
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

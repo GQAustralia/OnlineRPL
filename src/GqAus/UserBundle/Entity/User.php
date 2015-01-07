@@ -561,4 +561,55 @@ class User implements UserInterface, \Serializable
     {
         return $this->universalStudentIdentifier;
     }
+    /**
+     * @var \GqAus\UserBundle\Entity\UserIds
+     */
+    private $idfiles;
+
+
+    /**
+     * Set idfiles
+     *
+     * @param \GqAus\UserBundle\Entity\UserIds $idfiles
+     * @return User
+     */
+    public function setIdfiles(\GqAus\UserBundle\Entity\UserIds $idfiles = null)
+    {
+        $this->idfiles = $idfiles;
+
+        return $this;
+    }
+
+    /**
+     * Get idfiles
+     *
+     * @return \GqAus\UserBundle\Entity\UserIds 
+     */
+    public function getIdfiles()
+    {
+        return $this->idfiles;
+    }
+
+    /**
+     * Add idfiles
+     *
+     * @param \GqAus\UserBundle\Entity\UserIds $idfiles
+     * @return User
+     */
+    public function addIdfile(\GqAus\UserBundle\Entity\UserIds $idfiles)
+    {
+        $this->idfiles[] = $idfiles;
+
+        return $this;
+    }
+
+    /**
+     * Remove idfiles
+     *
+     * @param \GqAus\UserBundle\Entity\UserIds $idfiles
+     */
+    public function removeIdfile(\GqAus\UserBundle\Entity\UserIds $idfiles)
+    {
+        $this->idfiles->removeElement($idfiles);
+    }
 }

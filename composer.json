@@ -20,7 +20,10 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
-        "ircmaxell/password-compat": "~1.0.3"
+        "ircmaxell/password-compat": "~1.0.3",
+        "knplabs/gaufrette":                    "dev-master",
+        "knplabs/knp-gaufrette-bundle":         "dev-master",
+        "amazonwebservices/aws-sdk-for-php":    "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

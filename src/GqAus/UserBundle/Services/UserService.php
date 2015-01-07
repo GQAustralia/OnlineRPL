@@ -24,10 +24,10 @@ class UserService
     public function __construct($em, $container, $mailer)
     {
         $this->em = $em;
+        $session = $container->get('session');
+        $this->userId = $session->get('user_id');
         $this->repository = $em->getRepository('GqAusUserBundle:User');
-        $this->userId = 1;
         $this->currentUser = $this->getCurrentUser();
-        $this->container = $container;
         $this->mailer = $mailer;
     }
 
@@ -197,5 +197,15 @@ class UserService
                         'userCourses' => $userCourses,
                         'courseConditionStatus' => $courseConditionStatus);
         }
+    }
+    
+    /**
+     * function to get all document types.
+     *  @return array
+     */
+    public function getDocumentTypes()
+    {
+        $documentType = $this->em->getRepository('GqAusUserBundle:DocumentType');
+        return $documentType->findAll();
     }
 }
