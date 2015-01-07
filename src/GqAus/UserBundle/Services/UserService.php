@@ -64,8 +64,10 @@ class UserService
             $to = 'swetha.kolluru@valuelabs.net';
             $subject = 'Request for Password Reset';
             $applicationUrl = $this->container->getParameter('applicationUrl');
-            $body = "Dear ".$userName.",<br><br> Please click on the link to reset your password!
-             <a href='".$applicationUrl."resetpassword/".$token."'>Click Here </a>
+            $body = "Dear ".$userName.",<br><br> We heard that you lost your password. Sorry about that! <br>
+            But don't worry! You can use the following link within the next 4 hours to reset your password
+             <a href='".$applicationUrl."resetpassword/".$token."'>Click Here </a><br>
+             If you don't use this link within 4 hours, it will expire. <br>To get a new password reset link, visit ".$applicationUrl."forgotpassword
              <br><br> Regards,<br>OnlineRPL";
              
             $emailContent = \Swift_Message::newInstance()
@@ -108,15 +110,92 @@ class UserService
         }//if
         return array('message' => $message, 'validRequest' => $validRequest);
     }
-	
-	/**
+    
+    /**
      * function to update course condition status.
      *  @return array
      */
-	public function updateCourseConditionStatus($user)
-	{
-		$user->setCourseConditionStatus('1');
-		$this->em->persist($user);
-		$this->em->flush();
-	}
+    public function updateCourseConditionStatus($user, $file)
+    {
+        $user->setCourseConditionStatus('1');
+        $this->em->persist($user);
+        $this->em->flush();
+        
+        ignore_user_abort(true);
+        $path = "../template/"; // change the path to fit your websites document structure
+        $dl_file = preg_replace("([^\w\s\d\-_~,;:\[\]\(\].]|[\.]{2,})", '', $file); // simple file name validation
+        $dl_file = filter_var($dl_file, FILTER_SANITIZE_URL); // Remove (more) invalid characters
+        $fullPath = $path.$dl_file;
+
+        if ($fd = fopen ($fullPath, "r")) {
+            $fsize = filesize($fullPath);
+            $path_parts = pathinfo($fullPath);
+            $ext = strtolower($path_parts["extension"]);
+            switch ($ext) {
+                case "pdf":
+                header("Content-type: application/pdf");
+                header("Content-Disposition: attachment; filename=\"".$path_parts["basename"]."\""); // use 'attachment' to force a file download
+                break;
+                // add more headers for other content types here
+                default;
+                header("Content-type: application/octet-stream");
+                header("Content-Disposition: filename=\"".$path_parts["basename"]."\"");
+                break;
+            }
+            header("Content-length: $fsize");
+            header("Cache-control: private"); //use this to open files directly
+            while(!feof($fd)) {
+                $buffer = fread($fd, 2048);
+                echo $buffer;
+            }
+        }
+        fclose ($fd);
+    }
+    
+    /**
+     * function to get dashboard information.
+     *  @return array
+     */
+    public function getDashboardInfo($user)
+    {
+        $currentIdPoints = 100;
+        $maximumPoints = 100;
+        $profileCompleteness = 0;
+        if(is_object($user) && count($user) > 0) {
+           $userId = $user->getId();
+           $firstName = $user->getFirstName();
+           $lastName = $user->getLastName();
+           $email = $user->getEmail();
+           $phone = $user->getPhone();
+           $userImage = $user->getUserImage();
+           $address = $user->getAddress();
+           $address = count($address);
+           if (!empty($firstName)) {
+                $profileCompleteness += 15;
+           }
+           if (!empty($lastName)) {
+                $profileCompleteness += 15;
+           }
+           if (!empty($email)) {
+                $profileCompleteness += 15;
+           }
+           if (!empty($phone)) {
+                $profileCompleteness += 15;
+           }
+           if (!empty($address)) {
+                $profileCompleteness += 40;
+           }
+           if (empty($userImage)) {
+                $userImage = 'profielicon.png';
+           }
+           $percentage = ($profileCompleteness*$maximumPoints)/100;
+           $percentage = $percentage.'%';
+           $userCourses = $user->getCourses();
+           $courseConditionStatus = $user->getCourseConditionStatus();
+           return array('profileCompleteness' => $percentage, 
+                        'userImage' => $userImage,                                                                            'currentIdPoints' => $currentIdPoints,
+                        'userCourses' => $userCourses,
+                        'courseConditionStatus' => $courseConditionStatus);
+        }
+    }
 }
