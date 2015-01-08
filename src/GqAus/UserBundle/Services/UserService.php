@@ -61,7 +61,8 @@ class UserService
             $this->em->flush();
             
             $userName = $user->getUsername();
-            $to = 'swetha.kolluru@valuelabs.net';
+            $to = $user->getEmail();
+            //$to = 'swetha.kolluru@valuelabs.net';
             $subject = 'Request for Password Reset';
             $applicationUrl = $this->container->getParameter('applicationUrl');
             $body = "Dear ".$userName.",<br><br> We heard that you lost your password. Sorry about that! <br>
@@ -112,14 +113,12 @@ class UserService
     }
     
     /**
-     * function to update course condition status.
+     * function to download course conditions and terms.
      *  @return array
      */
-    public function updateCourseConditionStatus($user, $file)
+    public function downloadCourseCondition($user, $file)
     {
-        $user->setCourseConditionStatus('1');
-        $this->em->persist($user);
-        $this->em->flush();
+        $this->updateCourseConditionStatus($user);
         
         ignore_user_abort(true);
         $path = "../template/"; // change the path to fit your websites document structure
@@ -150,6 +149,17 @@ class UserService
             }
         }
         fclose ($fd);
+    }
+    
+    /**
+     * function to update course condition status.
+     *  @return array
+     */
+    public function updateCourseConditionStatus($user)
+    {
+        $user->setCourseConditionStatus('1');
+        $this->em->persist($user);
+        $this->em->flush();
     }
     
     /**

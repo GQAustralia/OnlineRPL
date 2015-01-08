@@ -17,105 +17,105 @@
   </head>
   <body>
     <div class="page-wrap">
-		<div class="container-fluid">
-			<!-- Dashboard page starts here -->
-			<div class="dashboard-page">
-				<div class="row">
-					<div class="gq-dashboard-header">
-						<div class="pull-left">
-							<div class="gq-logo-dashboard"><img src="{{ asset('public/images/gq-logo-dashboard.png') }}" alt="GQ logo" /></div>
-							<div class="gq-dashboard-nav">
-								<button type="button" class="btn btn-default visible-xs" id="gq-menu-icon-mob">
-									<span class="gq-menu-icon"></span>
-								</button>
-								<button type="button" class="btn btn-default visible-sm visible-md visible-lg" id="gq-menu-icon-desk">
-									<span class="gq-menu-icon"></span>
-								</button>
-							</div>
-						</div>
-						<div class="pull-right">
-							<div class="user-status">
-								<div class="notification-section"><span>12</span></div>
-								<div class="user-icon"><img src="{{ asset('public/images/profile-img.png') }}" /></div>
-								<div class="user-status-msg">Williams</div>
-								<div class="user-status-select">
-									<div class="btn-group">
-									  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-										<span class="gq-down-icon"></span>
-									  </button>
-									  <ul class="dropdown-menu" role="menu">
-										<li><a href="userprofile"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Edit Profile</a></li>
-										<li class="divider"></li>
-										<li><a href="logout"><span><img src="{{ asset('public/images/header-logout-icon.png') }}" /></span>Logout</a></li>
-									  </ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						</div>
-				</div>
-				<div class="row">
-					<div class="dashboard-bg">
-						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 gq-dashboard-left" id="gq-dashboard-left">
-							<ul class="gq-dashboard-left-nav">
-								<li><a href="dashboard"><span class="gq-dashboard-icon"><img src="{{ asset('public/images/dashboard.png') }}" /></span><span class="left-nav-txt">Dashboard</span></a></li>
-								<li><a href="#"><span class="gq-courses-icon"><img src="{{ asset('public/images/courses.png') }}" /></span><span class="left-nav-txt">Courses</span></a></li>
-								<li><a href="#"><span class="gq-messages-icon"><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
-								<li><a href="#"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Evidence Files</span></a></li>
-							</ul>
-						</div>
-						{% block body %}
+        <div class="container-fluid">
+            <!-- Dashboard page starts here -->
+            <div class="dashboard-page">
+                <div class="row">
+                    <div class="gq-dashboard-header">
+                        <div class="pull-left">
+                            <div class="gq-logo-dashboard"><img src="{{ asset('public/images/gq-logo-dashboard.png') }}" alt="GQ logo" /></div>
+                            <div class="gq-dashboard-nav">
+                                <button type="button" class="btn btn-default visible-xs" id="gq-menu-icon-mob">
+                                    <span class="gq-menu-icon"></span>
+                                </button>
+                                <button type="button" class="btn btn-default visible-sm visible-md visible-lg" id="gq-menu-icon-desk">
+                                    <span class="gq-menu-icon"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            <div class="user-status">
+                                <div class="notification-section"><span>12</span></div>
+                                <div class="user-icon"><img src="{{ asset('public/images/profile-img.png') }}" /></div>
+                                <div class="user-status-msg">{{ app.security.getToken().getUser().getUsername() | capitalize }}</div>
+                                <div class="user-status-select">
+                                    <div class="btn-group">
+                                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="gq-down-icon"></span>
+                                      </button>
+                                      <ul class="dropdown-menu" role="menu">
+                                        <li><a href="userprofile"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Edit Profile</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="logout"><span><img src="{{ asset('public/images/header-logout-icon.png') }}" /></span>Logout</a></li>
+                                      </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="dashboard-bg">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 gq-dashboard-left" id="gq-dashboard-left">
+                            <ul class="gq-dashboard-left-nav">
+                                <li><a {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/dashboard"><span class="gq-dashboard-icon"><img src="{{ asset('public/images/dashboard.png') }}" /></span><span class="left-nav-txt">Dashboard</span></a></li>
+                                <li><a {% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/qualifications"><span class="gq-courses-icon"><img src="{{ asset('public/images/courses.png') }}" /></span><span class="left-nav-txt">Qualifications</span></a></li>
+                                <li><a href="#"><span class="gq-messages-icon"><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
+                                <li><a href="#"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Evidence Files</span></a></li>
+                            </ul>
+                        </div>
+                        {% block body %}
                          <div class="block">
                             {% block content %}{% endblock %}
                         </div>
                        {% endblock %}
-				</div>
-			</div>
-			<!-- Dashboard page ends here -->
-		</div>
-	</div>
-	
-	{% block javascripts %}
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+                </div>
+            </div>
+            <!-- Dashboard page ends here -->
+        </div>
+    </div>
+    
+    {% block javascripts %}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
-	<script>
-	$(document).ready(function(){
-		var showOrHide = true;
-		$("#gq-menu-icon-desk").click(function(){
-			showOrHide = !showOrHide;
-			if ( showOrHide === true ) {
-				//console.log(showOrHide);
-				$(".left-nav-txt").show();
-				$(".gq-dashboard-left-nav li a").animate({height:'92px'});
-				$(".gq-dashboard-left").animate({width:'8.668%'});
-				$(".gq-dashboard-right").animate({width:'91.3333%'});
-			} else if ( showOrHide === false ) {
-				//console.log(showOrHide);
-				$(".left-nav-txt").hide();
-				$(".gq-dashboard-left-nav li a").animate({height:'54px'});
-				$(".gq-dashboard-left").animate({width:'4.668%'});
-				$(".gq-dashboard-right").animate({width:'95.333%'});
-			}
-		});
-		
-		// function for toggle menu in mobile layout
-		$("#gq-menu-icon-mob").click(function(){
-			$("#gq-dashboard-left").slideToggle("slow");	
-		});
-		
-		$(window).resize(function(){
-			if ($(window).width() < 768) {
-				$("#gq-dashboard-left").css("display", "none");
-			}
-			else {
-				$("#gq-dashboard-left").css("display", "block");
-			}
-		});
-			
-	});
-	</script>
+    <script>
+    $(document).ready(function(){
+        var showOrHide = true;
+        $("#gq-menu-icon-desk").click(function(){
+            showOrHide = !showOrHide;
+            if ( showOrHide === true ) {
+                //console.log(showOrHide);
+                $(".left-nav-txt").show();
+                $(".gq-dashboard-left-nav li a").animate({height:'92px'});
+                $(".gq-dashboard-left").animate({width:'8.668%'});
+                $(".gq-dashboard-right").animate({width:'91.3333%'});
+            } else if ( showOrHide === false ) {
+                //console.log(showOrHide);
+                $(".left-nav-txt").hide();
+                $(".gq-dashboard-left-nav li a").animate({height:'54px'});
+                $(".gq-dashboard-left").animate({width:'4.668%'});
+                $(".gq-dashboard-right").animate({width:'95.333%'});
+            }
+        });
+        
+        // function for toggle menu in mobile layout
+        $("#gq-menu-icon-mob").click(function(){
+            $("#gq-dashboard-left").slideToggle("slow");    
+        });
+        
+        $(window).resize(function(){
+            if ($(window).width() < 768) {
+                $("#gq-dashboard-left").css("display", "none");
+            }
+            else {
+                $("#gq-dashboard-left").css("display", "block");
+            }
+        });
+            
+    });
+    </script>
 {% endblock %}
   </body>
 </html>

@@ -28,7 +28,17 @@ class DefaultController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $userService = $this->get('UserService');
-        $userService->updateCourseConditionStatus($user, $file);
+        $userService->downloadCourseCondition($user, $file);
         exit;
+    }
+    
+    /**
+    * function to update Condition status
+    */
+    public function updateConditionAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userService = $this->get('UserService');
+        $userService->updateCourseConditionStatus($user);
     }
 }

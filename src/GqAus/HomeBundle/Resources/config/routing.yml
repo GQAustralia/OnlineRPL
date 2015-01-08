@@ -1,3 +1,9 @@
 gq_aus_home_homepage:
     path:     /dashboard
     defaults: { _controller: GqAusHomeBundle:Default:index }
+download:
+    path:     /download/{file}
+    defaults:  { _controller: GqAusHomeBundle:Default:download }
+updateCondition:
+    path:     /updateCondition
+    defaults:  { _controller: GqAusHomeBundle:Default:index }
