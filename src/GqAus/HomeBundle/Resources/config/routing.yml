@@ -6,4 +6,4 @@ download:
     defaults:  { _controller: GqAusHomeBundle:Default:download }
 updateCondition:
     path:     /updateCondition
-    defaults:  { _controller: GqAusHomeBundle:Default:index }
+    defaults:  { _controller: GqAusHomeBundle:Default:updateCondition }

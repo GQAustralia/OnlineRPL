@@ -36,7 +36,13 @@
                         <div class="pull-right">
                             <div class="user-status">
                                 <div class="notification-section"><span>12</span></div>
-                                <div class="user-icon"><img src="{{ asset('public/images/profile-img.png') }}" /></div>
+                                <div class="user-icon">
+								{% if app.security.getToken().getUser().getUserImage() %}
+								    <img src="{{ asset('public/images/') }}{{ app.security.getToken().getUser().getUserImage() }}" />
+								{% else %}
+									<img src="{{ asset('public/images/profile-img.png') }}" />
+								 {% endif %}
+								</div>
                                 <div class="user-status-msg">{{ app.security.getToken().getUser().getUsername() | capitalize }}</div>
                                 <div class="user-status-select">
                                     <div class="btn-group">
