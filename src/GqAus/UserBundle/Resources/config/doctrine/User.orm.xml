@@ -2,7 +2,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <entity name="GqAus\UserBundle\Entity\User" table="user" inheritance-type="SINGLE_TABLE" >
   
-        <id name="id" type="string" column="id">
+        <id name="id" type="integer" column="id">
             <generator strategy="IDENTITY"/>
         </id>
         <field name="firstName" type="string" column="firstname" nullable="false"/>
@@ -27,5 +27,6 @@
         <field name="dateOfBirth" type="string" column="date_of_birth" length="20"/>
         <field name="gender" type="string" column="gender" length="1"/>
         <field name="universalStudentIdentifier" type="string" column="universal_student_identifier" length="100"/>
+        <one-to-many field="idfiles" target-entity="GqAus\UserBundle\Entity\UserIds" mapped-by="user" />        
     </entity>
 </doctrine-mapping>

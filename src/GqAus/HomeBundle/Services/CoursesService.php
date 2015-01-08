@@ -62,16 +62,16 @@ class CoursesService
                 $result = $this->accessAPI($postFields);
             }
         }
-        
         $qualificationUnits = $this->xml2array($result);
-        //echo '<pre>'; print_r($qualificationUnits);
-        return $qualificationUnits['qualification'];
+        return (!empty($qualificationUnits)) ? $qualificationUnits['qualification'] : array();
     }
 
     public function accessAPI($fields_string) {
         $apiUrl = $this->container->getParameter('apiUrl');
+        $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
+        $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl."qualificationunits";
-        $request = $this->guzzleService->get($url)->setAuth('stgaccess', 'u9FGDU8K'); 
+        $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword); 
         $request = $this->guzzleService->post($url, null, $fields_string);// Create a request with basic Auth
         $response = $request->send();// Send the request and get the response
         $result = $response->getBody();

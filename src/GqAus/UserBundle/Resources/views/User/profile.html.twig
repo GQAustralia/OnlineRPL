@@ -89,31 +89,29 @@
                         <div class="gq-id-files-upload-text">
                             <h2>Upload ID files</h2>
                         </div>
+                        
                         <div class="gq-id-files">
-                            <div class="gq-id-files-header gq-id-files-header-applicant">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
-                                        <div class="gq-id-files-select">
-                                            <select class="styled">
-                                                <option>Please Select Identification Document Type</option>
-                                                <option>Image Document</option>
-                                                <option>PDF Document</option>
-                                                <option>Document</option>
-                                            </select>
+                            <form name = "Id_files" method = "POST" action="idfileupload" enctype="multipart/form-data">
+                                <div class="gq-id-files-header gq-id-files-header-applicant">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
+                                            <div class="gq-id-files-select">
+                                                {{ form_widget(filesForm.type) }} 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-                                        <div class="gq-id-files-upload-btn">
-                                            <input type="file" value="Browse"><span class="cloud-icon"></span>
+                                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+                                            <div class="gq-id-files-upload-btn">
+                                                {{ form_widget(filesForm.browse) }} <span class="cloud-icon"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg2 col-md-2 col-sm-4 col-xs-12">
-                                        <div class="gq-id-files-submit-btn">
-                                            <button class="btn btn-red">Submit</button>
+                                        <div class="col-lg2 col-md-2 col-sm-4 col-xs-12">
+                                            <div class="gq-id-files-submit-btn">
+                                                {{ form_widget(filesForm.save) }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                             <div class="gq-id-files-content-wrap">
                                 <div class="gq-dashboard-box-1x">
                                     <div class="gq-dashboard-box-title-wrap">
@@ -121,70 +119,28 @@
                                     </div>
                                     <div class="gq-dashboard-courses-detail-wrap">
                                         <div class="row">
+                                            {% for item in userIdFiles %}
                                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                                                 <div class="gq-dashboard-courses-detail">
-                                                    <div class="gq-id-files-content-icon-wrap gq-id-files-content-pdf-icon"></div>
+                                                    {% if item.type.id == 1 %}
+                                                        {% set doc_type = 'gq-id-files-content-pdf-icon' %}
+                                                    {% elseif item.type.id == 2 %}
+                                                        {% set doc_type = 'gq-id-files-content-doc-icon' %}
+                                                    {% else %}
+                                                         {% set doc_type = 'gq-id-files-content-doc-icon' %}
+                                                    {% endif %}
+                                                    <div class="gq-id-files-content-icon-wrap {{doc_type}}"></div>
                                                     <div class="gq-id-files-content-row-wrap">
                                                         <div class="gq-id-files-content-row">
-                                                            <label>Title</label><span>BirthCertificate</span>
+                                                            <a href="{{ amazon_link }}{{  item.path }}" target="_blank"><label>Title</label><span>{{item.type.type}}</span></a>
                                                         </div>
                                                         <div class="gq-id-files-content-row">
-                                                            <label>Size</label><span>918KB</span>
-                                                        </div>
-                                                        <div class="gq-id-files-content-row">
-                                                            <label>Added on</label><span>22/11/2014</span>
+                                                            <label>Added on</label><span>{{item.created|date("F jS") }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-                                                <div class="gq-dashboard-courses-detail">
-                                                    <div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
-                                                    <div class="gq-id-files-content-row-wrap">
-                                                        <div class="gq-id-files-content-row">
-                                                            <label>Title</label><span>BirthCertificate</span>
-                                                        </div>
-                                                        <div class="gq-id-files-content-row">
-                                                            <label>Size</label><span>1.15MB</span>
-                                                        </div>
-                                                        <div class="gq-id-files-content-row">
-                                                            <label>Added on</label><span>14/11/2014</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-                                                <div class="gq-dashboard-courses-detail">
-                                                    <div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
-                                                    <div class="gq-id-files-content-row-wrap">
-                                                        <div class="gq-id-files-content-row">
-                                                            <label>Title</label><span>Birthcard</span>
-                                                        </div>
-                                                        <div class="gq-id-files-content-row">
-                                                            <label>Size</label><span>956KB</span>
-                                                        </div>
-                                                        <div class="gq-id-files-content-row">
-                                                            <label>Added on</label><span>28/10/2014</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-                                                <div class="gq-dashboard-courses-detail">
-                                                    <div class="gq-id-files-content-icon-wrap gq-id-files-content-pdf-icon"></div>
-                                                    <div class="gq-id-files-content-row-wrap">
-                                                        <div class="gq-id-files-content-row">
-                                                            <label>Title</label><span>Identity</span>
-                                                        </div>
-                                                        <div class="gq-id-files-content-row">
-                                                            <label>Size</label><span>985KB</span>
-                                                        </div>
-                                                        <div class="gq-id-files-content-row">
-                                                            <label>Added on</label><span>02/10/2014</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                     <span class="flip-icon"></span>

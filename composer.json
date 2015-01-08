@@ -21,7 +21,10 @@
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "ircmaxell/password-compat": "~1.0.3",
-        "misd/guzzle-bundle": "1.1.*@dev"
+        "misd/guzzle-bundle": "1.1.*@dev",
+        "knplabs/gaufrette":                    "dev-master",
+        "knplabs/knp-gaufrette-bundle":         "dev-master",
+        "amazonwebservices/aws-sdk-for-php":    "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
