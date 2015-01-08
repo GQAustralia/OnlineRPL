@@ -52,7 +52,7 @@
             <div class="col-lg-8 col-md-8 col-sm-12 colxs-12">
                 <div class="gq-dashboard-box-2x gq-dashboard-bg-img3"> <!-- class "gq-dashboard-bg-img3" added for background image -->
                     <div class="gq-dashboard-box-title-wrap">
-                        <h2 class="gq-dashboard-box-title">Courses</h2>
+                        <h2 class="gq-dashboard-box-title">Qualifications</h2>
                     </div>
                     <div class="gq-dashboard-courses-detail-wrap">
                         <div class="gq-dashboard-tabs">
@@ -73,9 +73,9 @@
                                     <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
                                     <div class="gq-dashboard-courses-detail-txt">
                                     {% if courseConditionStatus == 1 %}
-                                        {{ courses.getCourseName() }}
+                                        <a href="qualificationDetails/{{ courses.getCourseCode() }}" >{{ courses.getCourseName() }}</a>
                                     {% else %}
-                                        <a href="#" data-toggle="modal" data-target="#myModal">{{ courses.getCourseName() }}</a>
+                                        <a href="#" id="{{ courses.getCourseCode() }}" class="modalClass" data-toggle="modal" data-target="#myModal">{{ courses.getCourseName() }}</a>
                                     {% endif %}
                                     </div>
                                 </div>
@@ -89,9 +89,9 @@
                                     <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
                                     <div class="gq-dashboard-courses-detail-txt">
                                     {% if courseConditionStatus == 1 %}
-                                        {{ courses.getCourseName() }}
+                                        <a href="qualificationDetails/{{ courses.getCourseCode() }}" >{{ courses.getCourseName() }}</a>
                                     {% else %}
-                                        <a href="#" data-toggle="modal" data-target="#myModal">{{ courses.getCourseName() }}</a>
+                                        <a href="#" id="{{ courses.getCourseCode() }}" class="modalClass" data-toggle="modal" data-target="#myModal">{{ courses.getCourseName() }}</a>
                                     {% endif %}
                                     </div>
                                 </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="modal-footer">
         <a class="btn btn-white" target="blank" href="download/terms-and-conditions.pdf"><span class="pdf-icon"></span>Download</a>
-        <a class="btn btn-white" target="blank" href="../template/terms-and-conditions.pdf"><span class="pdf-icon"></span>View</a>
+        <a class="btn btn-white" target="blank" id="view_terms" href="../template/terms-and-conditions.pdf"><span class="pdf-icon"></span>View</a>
       </div>
     </div>
   </div>

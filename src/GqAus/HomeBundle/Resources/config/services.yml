@@ -5,3 +5,9 @@ services:
     UserService:
         class: GqAus\UserBundle\Services\UserService
         arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer']
+    CoursesService:
+        class: GqAus\HomeBundle\Services\CoursesService
+        arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService']
+    GuzzleService:
+        class: %guzzle.client.class%
+        arguments: []

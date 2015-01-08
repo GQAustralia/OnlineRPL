@@ -74,3 +74,8 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+misd_guzzle:
+    service_builder:
+        class:              "Guzzle\Service\Builder\ServiceBuilder"
+        configuration_file: "%kernel.root_dir%/config/webservices.json"
