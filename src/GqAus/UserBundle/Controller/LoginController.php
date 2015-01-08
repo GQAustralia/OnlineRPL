@@ -18,7 +18,6 @@ class LoginController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         
         if(is_object($user) && count($user) > 0) {
-			$this->get('session')->set('name', 'hiiii');
             return $this->redirect('dashboard');
         } else {
             // get the login error if there is one
