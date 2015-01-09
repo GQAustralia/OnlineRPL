@@ -33,13 +33,20 @@ class CoursesService
         $this->guzzleService = $guzzleService;
     }
 
-  
+    /**
+    * Function to get courses info
+    * return $result array
+    */
     public function getCoursesInfo($id)
     {
         $courseInfo = $this->fetchRequest($id);
         return array('courseInfo' => $courseInfo);
     }
     
+    /**
+    * Function to api request for courses
+    * return $result array
+    */
     public function fetchRequest($id) {
         if (isset($_SESSION['start']) && isset($_SESSION['token'])) {
             if ($_SESSION['start'] + 60 < time()) {
@@ -62,8 +69,11 @@ class CoursesService
                 $result = $this->accessAPI($postFields);
             }
         }
-        $qualificationUnits = $this->xml2array($result);
-        return (!empty($qualificationUnits)) ? $qualificationUnits['qualification'] : array();
+
+        if (!empty($result)) {
+            $qualificationUnits = $this->xml2array($result);
+        }
+        return (!empty($qualificationUnits['qualification'])) ? $qualificationUnits['qualification'] : array();
     }
 
     public function accessAPI($fields_string) {
@@ -71,6 +81,9 @@ class CoursesService
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl."qualificationunits";
+        
+        $authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
+        $this->guzzleService->addSubscriber($authPlugin);
         $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword); 
         $request = $this->guzzleService->post($url, null, $fields_string);// Create a request with basic Auth
         $response = $request->send();// Send the request and get the response
@@ -224,5 +237,54 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
     }
     
         return($xml_array);
-    }  
+    }
+    
+    /**
+    * Function to update unit electives
+    * return $result string
+    */
+    public function updateUnitElective($userId, $unitId, $courseCode)
+    {
+        $status = 1;
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userUnitObj = $reposObj->findOneBy(array('user' => $userId,
+                                            'unitId' => $unitId,
+                                            'courseCode' => $courseCode)); 
+        if (empty($userUnitObj)) {
+            $reposObj = new \GqAus\UserBundle\Entity\UserCourseUnits();
+            $userObj = $this->em->getRepository('GqAusUserBundle:User')
+                ->find($userId);
+            $reposObj->setUnitId($unitId);
+            $reposObj->setCourseCode($courseCode);
+            $reposObj->setStatus(1);
+            $reposObj->setUser($userObj);
+            $this->em->persist($reposObj);
+        } else {
+            $status = $userUnitObj->getStatus(); 
+            $status = ($status == 1) ? '0' : '1'; 
+            $userUnitObj->setStatus($status);
+        }
+        $this->em->flush();
+        $this->em->clear();
+        return $status;
+    }
+    
+    /**
+    * Function to get elective units
+    * return $result array
+    */
+    public function getElectiveUnits($userId, $courseCode)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+                                            'courseCode' => $courseCode,
+                                            'status' => '0'));
+        $courseUnits = array();
+        if (!empty($userCourseUnits)) {
+             foreach ($userCourseUnits as $units) {
+                $courseUnits[] = $units->getUnitId();
+             }
+        }
+        return $courseUnits;
+    }
 }

@@ -25,3 +25,24 @@ $(".modalClass").click(function () {
 $(".close").click(function () {
     $(location).attr('href','qualificationDetails/'+t);
 });
+
+$(".checkmark-icon").click(function () {
+   var c = confirm("Do yo want to change the status of elective unit ?");
+   if (c == true) {
+        var unitId = $(this).attr("unit_id")
+        var courseCode = $(this).attr("course_code");
+        var userId = $(this).attr("user_id");
+        $.ajax({
+            type: "POST",
+            url: "../updateUnitElective",
+            data: { unitId: unitId, courseCode: courseCode, userId: userId },
+            success:function(result){
+                if (result == '0') {
+                    $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
+                } else {
+                    $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
+                }
+            }
+        });
+   }
+});

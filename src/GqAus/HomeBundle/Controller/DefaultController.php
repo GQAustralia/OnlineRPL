@@ -40,5 +40,6 @@ class DefaultController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $userService = $this->get('UserService');
         $userService->updateCourseConditionStatus($user);
+        exit;
     }
 }
