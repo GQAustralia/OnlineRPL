@@ -218,8 +218,8 @@
         
         
         
-        <form method="post" id="frmAddEvidence" action="{{ app.request.baseUrl }}/addEvidence" name="frmAddEvidence" enctype= "multipart/form-data">
-        <input type="hidden" name="hid_unit" id="hid_unit" value="" />
+        <form method="post" id="frmAddEvidence" action="{{ app.request.baseUrl }}/addEvidences" name="frmAddEvidence" enctype= "multipart/form-data">
+        /*<input type="hidden" name="hid_unit" id="hid_unit" value="" />*/
           <div role="tabpanel" class="tab-pane active" id="add-evidence-tab">
             <div class="wid70p">
                 <div class="row">
@@ -227,6 +227,7 @@
                         <div class="gq-course-details-upload-evidence">
                             <div class="gq-course-details-drop-file">Drop files here </br> or</div>
                             {{ form_widget(form.file) }}
+							{{ form_widget(form.hid_unit, {'attr': {'id': 'hid_unit'}}) }}
                         </div>
                     </div>
                     <div class="col-xs-6">
@@ -378,9 +379,4 @@
   <script src="{{ asset('public/js/custom-form-elements.js') }}"></script> -->
 {% endblock %}
   {% block javascripts %}
-  <script>
-    $('#frmAddEvidence').ajaxForm(function() {
-        alert('Evidence upload successfully!');
-    });    
-  </script>
   {% endblock %}

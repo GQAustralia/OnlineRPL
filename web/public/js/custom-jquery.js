@@ -49,5 +49,5 @@ $(".checkmark-icon").click(function () {
 
 $(".fromBottom").click(function () {
     var unit = $(this).attr("unitid");
-    $('#hid_unit').val(unit);
+    $('#file_hid_unit').val(unit);
 });
