@@ -48,10 +48,12 @@ class CoursesService
     * return $result array
     */
     public function fetchRequest($id) {
-        if (isset($_SESSION['start']) && isset($_SESSION['api_token'])) {
+        if (!empty($_SESSION['start']) && !empty($_SESSION['api_token'])) {
             if ($_SESSION['start'] + 60 < time()) {
-                @session_unset($_SESSION['api_token']);
-                @session_unset($_SESSION['start']);
+                //@session_unset($_SESSION['api_token']);
+                //@session_unset($_SESSION['start']);
+                $_SESSION['api_token'] = '';
+                $_SESSION['start'] = '';
             }
         } else {
             $_SESSION['start'] = time();
