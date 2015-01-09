@@ -22,3 +22,6 @@ qualifications:
 addEvidences:
     path:     /addEvidences
     defaults:  { _controller: GqAusUserBundle:Evidence:add }
+evidences:
+    path:     /evidences
+    defaults:  { _controller: GqAusUserBundle:Evidence:view }
