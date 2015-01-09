@@ -48,9 +48,9 @@ class CoursesService
     * return $result array
     */
     public function fetchRequest($id) {
-        if (isset($_SESSION['start']) && isset($_SESSION['token'])) {
+        if (isset($_SESSION['start']) && isset($_SESSION['api_token'])) {
             if ($_SESSION['start'] + 60 < time()) {
-                @session_unset($_SESSION['token']);
+                @session_unset($_SESSION['api_token']);
                 @session_unset($_SESSION['start']);
             }
         } else {
@@ -58,12 +58,12 @@ class CoursesService
         }
          
         $postFields = array('code' => $id);
-        if (!empty($_SESSION['token'])) {
-            $postFields['token'] = $_SESSION['token'];
+        if (!empty($_SESSION['api_token'])) {
+            $postFields['token'] = $_SESSION['api_token'];
             $result = $this->accessAPI($postFields);
-        } else if (empty($_SESSION['token'])) {
+        } else if (empty($_SESSION['api_token'])) {
             $result = $this->accessAPI($postFields);
-            $postFields['token'] = $token = $_SESSION['token'] = $this->getTokenGenerated($result);
+            $postFields['token'] = $token = $_SESSION['api_token'] = $this->getTokenGenerated($result);
             $_SESSION['start'] = time();
             if ($token) {
                 $result = $this->accessAPI($postFields);
