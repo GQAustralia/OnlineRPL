@@ -10,3 +10,12 @@ updateCondition:
 updateUnitElective:
     path:     /updateUnitElective
     defaults:  { _controller: GqAusHomeBundle:Courses:updateUnitElective }
+addEvidence:
+    path:     /addEvidence
+    defaults:  { _controller: GqAusHomeBundle:Courses:addEvidence }
+qualificationDetails:
+    path:     /qualificationDetails/{id}
+    defaults:  { _controller: GqAusHomeBundle:Courses:index }
+qualifications:
+    path:     /qualifications
+    defaults:  { _controller: GqAusHomeBundle:Courses:qualifications }

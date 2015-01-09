@@ -3,6 +3,18 @@
 {% block stylesheets %}
 <link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('public/css/accordion.css') }}" rel="stylesheet">
+<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
+
+
+
+<style>
+    .modal.fade:not(.in).bottom .modal-dialog {
+        -webkit-transform: translate3d(0, 125%, 0);
+        transform: translate3d(0, 125%, 0);
+    }
+    #myModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }    
+    </style>
+    
 {% endblock %}
 {% block body %}
     
@@ -69,13 +81,11 @@
                             <div class="col-xs-4">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                            <div class="col-xs-3">
-                            {% if i == 1 %}
-                                <button class="btn add-btn" data-toggle="modal" data-target="#myModal"><span></span>ADD</button>
-                            {% else %}
-                                <button class="btn add-btn"><span></span>ADD</button>
-                            {% endif %}
+                           
+                            <div class="col-lg3 col-md-3 col-sm-3 col-xs-2">
+                                <button class="btn add-btn fromBottom"  unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
                             </div>
+                                                    
                             <div class="col-xs-1">
                                 <label for="acc-{{i}}" class="col-xs-4"></label>
                             </div>
@@ -134,7 +144,10 @@
                             <div class="col-xs-4">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                            <div class="col-xs-3"><button class="btn add-btn"><span></span>ADD</button></div>
+                            
+                            <div class="col-lg3 col-md-3 col-sm-3 col-xs-2">
+                                <button class="btn add-btn fromBottom" unitid="{{units.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
+                            </div>
                             <div class="col-xs-1">
                                 <label for="acc-acc-{{i}}" class="col-xs-4"></label>
                             </div>
@@ -176,6 +189,196 @@
   </div>
 </div>
 
-  <script src="{{ asset('public/js/jquery-2.js') }}"></script>
-  <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+
+
+
+<!-- Modal -->
+<div class="modal fade bottom" id="edivenceModal" tabindex="-1" role="dialog" aria-labelledby="edivenceModalLabel" aria-hidden="true">
+  <div class="modal-dialog gq-modal-upload">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+<div class="gq-dashboard-courses-detail-wrap">
+    <div class="gq-dashboard-tabs">
+        <!-- Tabs start here -->
+        <div class="gq-dashboard-tabs-header wid60p">
+            <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
+                <li role="presentation" class="active"><a href="#add-evidence-tab" aria-controls="add-evidence-tab" role="tab" data-toggle="tab">Add Evidence</a></li>
+                <li role="presentation"><a href="#select-from-evidence-tab" aria-controls="select-from-evidence-tab" role="tab" data-toggle="tab">Select from Existing Evidence</a></li>
+            </ul>
+        </div>
+        <!-- Tabs end start here -->
+        <!-- Content for respective tabs above will be in this section -->
+        <div class="tab-content">
+        
+        
+        
+        
+        <form method="post" id="frmAddEvidence" action="{{ app.request.baseUrl }}/addEvidence" name="frmAddEvidence" enctype= "multipart/form-data">
+        <input type="hidden" name="hid_unit" id="hid_unit" value="" />
+          <div role="tabpanel" class="tab-pane active" id="add-evidence-tab">
+            <div class="wid70p">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="gq-course-details-upload-evidence">
+                            <div class="gq-course-details-drop-file">Drop files here </br> or</div>
+                            {{ form_widget(form.file) }}
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="gq-course-details-upload-evidence-self">
+                            Self Assessment
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="gq-course-details-upload-button-wrap">
+                            <div class="pull-right">File size should be below 10MB</div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="gq-course-details-upload-button-wrap">
+                            {{ form_widget(form.save, {'attr': {'class': 'btn btn-red pull-right'}}) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          </form>
+          <div role="tabpanel" class="tab-pane" id="select-from-evidence-tab" class="select-from-evidence-tab">
+            <div class="wid90p">
+                <div class="row">
+                    <div class="col-xs-12">
+                    <div class="gq-evidence">
+                                        <!-- Tabs start here -->
+                                            <ul class="nav nav-pills margin-top15 gq-evidence-tabs" role="tablist" id="myTab">
+                                                <li role="presentation"><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a></li>
+                                                <li role="presentation" class="active"><a href="#audios" aria-controls="address" role="tab" data-toggle="tab">Audios</a></li>
+                                                <li role="presentation"><a href="#videos" aria-controls="videos" role="tab" data-toggle="tab">Videos</a></li>
+                                                <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+                                                <li role="presentation"><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Files</a></li>
+                                            </ul>
+                                        <!-- Tabs end start here -->
+                                        
+                                        <!-- Content for respective tabs above will be in this section -->
+                                        <div class="tab-content  margin-top15">
+                    <div aria-labelledby="existing-evidence-tab" id="images" class="tab-pane fade active in" role="tabpanel">
+                        <div class="gq-dashboard-courses-detail-wrap">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                    <div class="gq-dashboard-courses-detail  margin-top15">
+                                        <div class="gq-id-files-content-icon-wrap select-from-evidence-bg-img"></div>
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span>First</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Size</label><span>918KB</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>22/11/2014</span>
+                                            </div>
+                                        </div>
+                                        <span class="select-from-evidence-tab-check">
+                                        <input class="styled" type="checkbox" name="evidence-file" value="First">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                    <div class="gq-dashboard-courses-detail  margin-top15">
+                                        <div class="gq-id-files-content-icon-wrap select-from-evidence-bg-img"></div>
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span>BirthCertificate</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Size</label><span>1.15MB</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>14/11/2014</span>
+                                            </div>
+                                        </div>
+                                        <span class="select-from-evidence-tab-check">
+                                            <input class="styled" type="checkbox" name="evidence-file" value="First">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                    <div class="gq-dashboard-courses-detail  margin-top15">
+                                        <div class="gq-id-files-content-icon-wrap select-from-evidence-bg-img"></div>
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span>Birthcard</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Size</label><span>956KB</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>28/10/2014</span>
+                                            </div>
+                                        </div>
+                                        <span class="select-from-evidence-tab-check">
+                                            <input class="styled" type="checkbox" name="evidence-file" value="First">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                    <div class="gq-dashboard-courses-detail  margin-top15">
+                                        <div class="gq-id-files-content-icon-wrap select-from-evidence-bg-img"></div>
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span>Identity</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Size</label><span>985KB</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>02/10/2014</span>
+                                            </div>
+                                        </div>
+                                        <span class="select-from-evidence-tab-check">
+                                            <input class="styled" type="checkbox" name="evidence-file" value="First">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                          <div role="tabpanel" class="tab-pane" id="audios">Audios</div>
+                                          <div role="tabpanel" class="tab-pane active" id="videos">Videos</div>
+                                          <div role="tabpanel" class="tab-pane" id="notes">Notes</div>
+                                          <div role="tabpanel" class="tab-pane" id="files">Files</div>
+                                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- script for enabling tabs functionality -->
+        <script>
+    //                                                  $(function () {
+    //                                                $('#myTab a:last').tab('show')
+          //})
+        </script>
+        <!--End of content for respective tabs above will be in this section -->
+    </div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>    
+  
+ <!-- <script src="{{ asset('public/js/jquery.min.js') }}"></script>
+  <script src="{{ asset('public/js/custom-form-elements.js') }}"></script> -->
 {% endblock %}
+  {% block javascripts %}
+  <script>
+    $('#frmAddEvidence').ajaxForm(function() {
+        alert('Evidence upload successfully!');
+    });    
+  </script>
+  {% endblock %}

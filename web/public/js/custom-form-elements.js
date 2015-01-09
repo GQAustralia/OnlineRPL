@@ -23,8 +23,8 @@ Visit http://ryanfait.com/ for more information.
 
 */
 
-var checkboxHeight = "25";
-var radioHeight = "25";
+var checkboxHeight = "38";
+var radioHeight = "38";
 var selectWidth = "100";
 
 

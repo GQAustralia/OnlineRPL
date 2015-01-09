@@ -22,14 +22,14 @@ $( "#view_terms" ).click(function() {
 $(".modalClass").click(function () {
     t = this.id;
 });
-$(".close").click(function () {
+$("#qclose").click(function () {
     $(location).attr('href','qualificationDetails/'+t);
 });
 
 $(".checkmark-icon").click(function () {
    var c = confirm("Do yo want to change the status of elective unit ?");
    if (c == true) {
-        var unitId = $(this).attr("unit_id")
+        var unitId = $(this).attr("unit_id");
         var courseCode = $(this).attr("course_code");
         var userId = $(this).attr("user_id");
         $.ajax({
@@ -45,4 +45,9 @@ $(".checkmark-icon").click(function () {
             }
         });
    }
+});
+
+$(".fromBottom").click(function () {
+    var unit = $(this).attr("unitid");
+    $('#hid_unit').val(unit);
 });

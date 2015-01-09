@@ -4,6 +4,7 @@ namespace GqAus\HomeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use GqAus\UserBundle\Form\EvidenceForm;
 
 class CoursesController extends Controller
 {
@@ -18,6 +19,8 @@ class CoursesController extends Controller
         $courseService = $this->get('CoursesService');
         $results = $courseService->getCoursesInfo($id);
         $results['electiveUnits'] = $courseService->getElectiveUnits($user->getId(), $id);
+        $form = $this->createForm(new EvidenceForm(), array());
+        $results['form'] = $form->createView();
         return $this->render('GqAusHomeBundle:Courses:index.html.twig', $results);
     }
     
@@ -47,5 +50,14 @@ class CoursesController extends Controller
         echo $results = $courseService->updateUnitElective($userId, $unitId, $courseCode);
         exit;
         
+    }
+    
+    /**
+    * Function to add Evidence of unit electives
+    * return $result array
+    */
+    public function addEvidenceAction()
+    {
+        echo '<pre>'; print_r($_FILES); print_r($_REQUEST); exit;
     }
 }
