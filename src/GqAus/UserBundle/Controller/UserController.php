@@ -29,6 +29,11 @@ class UserController extends Controller
             if ($userProfileForm->isValid()) {
                 $userService->saveProfile();
             }
+            $request->getSession()->getFlashBag()->add(
+                'notice',
+                'Profile updated successfully!'
+            );
+
         }
 
         $userImage = $user->getUserImage();
@@ -56,7 +61,11 @@ class UserController extends Controller
         if ($request->isMethod('POST')) {
             $form->bind($request);
             $data = $form->getData();
-            $url = $this->get('gq_aus_user.file_uploader')->uploadIdFiles($data);
+            $url = $this->get('gq_aus_user.file_uploader')->uploadIdFiles($data);            
+            $request->getSession()->getFlashBag()->add(
+                'notice',
+                'Files Uploaded Successfully!'
+            );
             return $this->redirect('userprofile');
         }
     }

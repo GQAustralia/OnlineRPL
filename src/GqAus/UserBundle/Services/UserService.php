@@ -168,7 +168,6 @@ class UserService
      */
     public function getDashboardInfo($user)
     {
-        $currentIdPoints = 100;
         $maximumPoints = 100;
         $profileCompleteness = 0;
         if(is_object($user) && count($user) > 0) {
@@ -203,7 +202,8 @@ class UserService
            $userCourses = $user->getCourses();
            $courseConditionStatus = $user->getCourseConditionStatus();
            return array('profileCompleteness' => $percentage, 
-                        'userImage' => $userImage,                                                                            'currentIdPoints' => $currentIdPoints,
+                        'userImage' => $userImage,
+                        'currentIdPoints' => $this->getIdPoints(),
                         'userCourses' => $userCourses,
                         'courseConditionStatus' => $courseConditionStatus);
         }
@@ -217,5 +217,19 @@ class UserService
     {
         $documentType = $this->em->getRepository('GqAusUserBundle:DocumentType');
         return $documentType->findAll();
+    }
+    
+    /**
+     * function to get points for ID files uploaded.
+     *  @return integer
+     */
+    public function getIdPoints()
+    {
+        $idFiles = $this->currentUser->getIdfiles();
+        $points = array();
+        foreach ($idFiles as $file) {
+            $points[] = $file->getType()->getPoints();
+        }
+        return array_sum($points); exit; 
     }
 }

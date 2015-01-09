@@ -12,8 +12,11 @@ class DefaultController extends Controller
     * params -
     * return $result array
     */
-    public function indexAction()
-    {
+    public function indexAction(Request $request)
+    {        
+        $session = $request->getSession();
+        $session_user = $this->get('security.context')->getToken()->getUser();
+        $session->set('user_id', $session_user->getId());
         $user = $this->get('security.context')->getToken()->getUser();
         $userService = $this->get('UserService');
         $results = $userService->getDashboardInfo($user);

@@ -612,4 +612,42 @@ class User implements UserInterface, \Serializable
     {
         $this->idfiles->removeElement($idfiles);
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $evidences;
+
+
+    /**
+     * Add evidences
+     *
+     * @param \GqAus\UserBundle\Entity\Evidence $evidences
+     * @return User
+     */
+    public function addEvidence(\GqAus\UserBundle\Entity\Evidence $evidences)
+    {
+        $this->evidences[] = $evidences;
+
+        return $this;
+    }
+
+    /**
+     * Remove evidences
+     *
+     * @param \GqAus\UserBundle\Entity\Evidence $evidences
+     */
+    public function removeEvidence(\GqAus\UserBundle\Entity\Evidence $evidences)
+    {
+        $this->evidences->removeElement($evidences);
+    }
+
+    /**
+     * Get evidences
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEvidences()
+    {
+        return $this->evidences;
+    }
 }
