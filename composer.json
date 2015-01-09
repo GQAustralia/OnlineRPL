@@ -22,6 +22,7 @@
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "ircmaxell/password-compat": "~1.0.3",
         "misd/guzzle-bundle": "1.1.*@dev",
+        "guzzle/guzzle":"dev-master",
         "knplabs/gaufrette":                    "dev-master",
         "knplabs/knp-gaufrette-bundle":         "dev-master",
         "amazonwebservices/aws-sdk-for-php":    "dev-master"
