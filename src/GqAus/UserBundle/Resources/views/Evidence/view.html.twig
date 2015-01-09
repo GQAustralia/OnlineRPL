@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Dashboard{% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="gq-dashboard-title">Evidence Files</h1>
+            <!-- <h6 class="gq-dashboard-title-desc">Some description can be given here</h6>  -->
+        </div>
+    </div>
+    <div class="row">
+
+
+        <div class="col-xs-12">
+            <div class="gq-evidence">
+                <!-- Tabs start here -->
+                <ul class="nav nav-pills margin-top15 gq-evidence-tabs" role="tablist" id="myTab">
+                   {# <li role="presentation"><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a></li>
+                    <li role="presentation"><a href="#audios" aria-controls="address" role="tab" data-toggle="tab">Audios</a></li>#}
+                    <li role="presentation" class="active"><a href="#videos" aria-controls="videos" role="tab" data-toggle="tab">All files</a></li>
+                   {# <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+                    <li role="presentation"><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Files</a></li>#}
+                </ul>
+                <!-- Tabs end start here -->
+
+                <!-- Content for respective tabs above will be in this section -->
+                <div class="tab-content  margin-top15">
+                    <div role="tabpanel" class="tab-pane" id="images">Images</div>
+                    <div role="tabpanel" class="tab-pane" id="audios">Audios</div>
+                    <div role="tabpanel" class="tab-pane active" id="videos">
+
+                        <div class="">
+                            <div class="row">
+                                {% for evidence in evidences %}
+                                    {% set types = ['jpg', 'jpeg', 'png', 'gif'] %}
+                                    {% set result = evidence.name|split('.') %}
+                                    {% if result.1 in types %}
+                                        {% set image = amazon_link~evidence.path %}
+                                    {% else %}
+                                         {% set image = asset('public/images/file_icon.png') %}
+                                    {% endif %}
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                    <div class="gq-dashboard-courses-detail">
+                                        <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank"><div class="video-thumb-icon"><img class="gq-evidence-image" src="{{ image }}" alt="" /></div></a>
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span>{{evidence.name}}</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                                {% endfor %}
+                            </div>														
+                        </div>										  
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="notes">Notes</div>
+                    <div role="tabpanel" class="tab-pane" id="files">Files</div>
+                </div>
+
+
+                <!--End of content for respective tabs above will be in this section -->
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+</div>
+
+{% endblock %}

@@ -13,3 +13,9 @@ resetPassword:
 id_file_upload:
     path:     /idfileupload
     defaults: { _controller: GqAusUserBundle:User:addIdFile }
+add_evidence:
+    path:     /addEvidences
+    defaults: { _controller: GqAusUserBundle:Evidence:add }
+view_evidences:
+    path:     /evidences
+    defaults: { _controller: GqAusUserBundle:Evidence:view }

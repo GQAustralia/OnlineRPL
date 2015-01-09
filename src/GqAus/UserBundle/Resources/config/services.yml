@@ -16,3 +16,6 @@ services:
     gq_aus_user.file_uploader:
         class: %gq_aus_user.file_uploader.class%
         arguments: ['@file_storage_filesystem', @doctrine.orm.entity_manager, @service_container]
+    EvidenceService:
+        class: GqAus\UserBundle\Services\EvidenceService
+        arguments: [@doctrine.orm.entity_manager, @service_container]
