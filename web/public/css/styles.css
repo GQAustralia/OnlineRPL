@@ -271,12 +271,13 @@ a.btn-red {color:#ffffff;}
 	.gq-dashboard-courses-detail {border:1px solid #d7d7d7; margin-bottom:15px;}
 	.gq-id-files-content-icon-wrap {background-repeat:no-repeat; background-position: center center; padding:50px; display:block; width:100%; background-color:#f6f6f6;}
 	.gq-id-files-content-pdf-icon {background-image:url('../images/acro-icon.png');}
+	.gq-id-files-content-esc-icon {background-image:url('../images/exclation-icon.png');}
 	.gq-id-files-content-img-icon {background-image:url('../images/wallpaper-icon.png');}
 	.gq-id-files-content-doc-icon {background-image:url('../images/page-icon.png');}
 	.gq-id-files-content-row-wrap {padding:10px; width:100%; float:left;}
 	.gq-id-files-content-row {width:100%; float:left; font-size:14px;}
-	.gq-id-files-content-row label{color:#2f3941; width:50%; text-align:right; padding-right:6px;}
-	.gq-id-files-content-row span{color:#f14840; width:50%; text-align:left;}
+	.gq-id-files-content-row label{color:#2f3941; text-align:right; padding-right:6px;}
+	.gq-id-files-content-row span{color:#f14840; text-align:left;}
 	.gq-id-files-content-row label:after{content:" :";}
 	.gq-id-files-button-content-wrap {padding:20px;}
 	.gq-id-files-button-content-wrap button {margin-bottom:8px; margin-right:5px;}
