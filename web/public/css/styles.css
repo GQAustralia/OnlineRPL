@@ -3,8 +3,7 @@
 body {
 	background: #f2f2f2;
 	color: #5e5e5e;
-	/*font-family:"proximanova-reg";*/
-	font-family: "segoeui";
+	font-family: "OpenSans-Regular";
 	overflow-x:hidden;
 }
 a {
@@ -56,9 +55,54 @@ img {
 /* OpenSans */
 
 @font-face {
-font-family: "OpenSans-Light-webfont";
-src: url('../fonts/OpenSans-Light-webfont.eot');
-src: url('../fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Light-webfont.woff') format('woff'), url('../fonts/OpenSans-Light-webfont.ttf') format('truetype');
+	font-family: 'OpenSans-Bold';
+	src: url('../fonts/OpenSans-Bold.eot');
+	src: url('../fonts/OpenSans-Bold.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Bold.woff') format('woff'), url('../fonts/OpenSans-Bold.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-BoldItalic';
+	src: url('../fonts/OpenSans-BoldItalic.eot');
+	src: url('../fonts/OpenSans-BoldItalic.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-BoldItalic.woff') format('woff'), url('../fonts/OpenSans-BoldItalic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-ExtraBold';
+	src: url('../fonts/OpenSans-ExtraBold.eot');
+	src: url('../fonts/OpenSans-ExtraBold.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-ExtraBold.woff') format('woff'), url('../fonts/OpenSans-ExtraBold.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-ExtraBoldItalic';
+	src: url('../fonts/OpenSans-ExtraBoldItalic.eot');
+	src: url('../fonts/OpenSans-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-ExtraBoldItalic.woff') format('woff'), url('../fonts/OpenSans-ExtraBoldItalic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-Italic';
+	src: url('../fonts/OpenSans-Italic.eot');
+	src: url('../fonts/OpenSans-Italic.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Italic.woff') format('woff'), url('../fonts/OpenSans-Italic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-Light';
+	src: url('../fonts/OpenSans-Light.eot');
+	src: url('../fonts/OpenSans-Light.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Light.woff') format('woff'), url('../fonts/OpenSans-Light.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-LightItalic';
+	src: url('../fonts/OpenSans-LightItalic.eot');
+	src: url('../fonts/OpenSans-LightItalic.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-LightItalic.woff') format('woff'), url('../fonts/OpenSans-LightItalic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-Regular';
+	src: url('../fonts/OpenSans-Regular.eot');
+	src: url('../fonts/OpenSans-Regular.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Regular.woff') format('woff'), url('../fonts/OpenSans-Regular.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-Semibold';
+	src: url('../fonts/OpenSans-Semibold.eot');
+	src: url('../fonts/OpenSans-Semibold.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Semibold.woff') format('woff'), url('../fonts/OpenSans-Semibold.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-SemiboldItalic';
+	src: url('../fonts/OpenSans-SemiboldItalic.eot');
+	src: url('../fonts/OpenSans-SemiboldItalic.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-SemiboldItalic.woff') format('woff'), url('../fonts/OpenSans-SemiboldItalic.ttf') format('truetype');
 }
 
 /* segoe */
@@ -164,7 +208,7 @@ a.btn-red {color:#ffffff;}
 .user-status {float:left; padding-top:15px;}
 .user-icon, .user-status-msg, .user-status-select{float:left;}
 .dashboard-bg {background-color:#44515d; width:100%; float:left;}
-.gq-dashboard-left {color:#ffffff; padding:0; text-align:center; /*min-width:54px;*/}
+.gq-dashboard-left {color:#ffffff; padding:0 !important; text-align:center; /*min-width:54px;*/}
 .gq-dashboard-right {background-color:#f2f2f2; padding:0; min-height:600px; padding:30px;}
 .gq-dashboard-right .gq-dashboard-title {font-size:35px; color:#2f3941; width:100%; float:left;}
 .gq-dashboard-right .gq-dashboard-title-desc {font-size:14px; color:#5e5e5e; width:100%; float:left;}
@@ -177,7 +221,7 @@ a.btn-red {color:#ffffff;}
 ---------------------------------------------------------------*/
 .gq-dashboard-left-nav {margin:0; padding:0;}
 .gq-dashboard-left-nav li {float:left; width:100%; border-bottom:1px solid #57636e;}
-.gq-dashboard-left-nav li a{color:#ffffff; font-size:16px; text-decoration:none;/* min-height:92px; */ height:92px; display:block; padding-top:5px;}
+.gq-dashboard-left-nav li a{color:#ffffff; font-size:14px; text-decoration:none;/* min-height:92px; */ height:92px; display:block; padding-top:5px;}
 .gq-dashboard-left-nav li a:hover, .gq-dashboard-left-nav li a:focus, .gq-dashboard-left-nav li a.active{background-color:#2f3941;}
 .gq-dashboard-left-nav .gq-dashboard-icon, .gq-dashboard-left-nav .gq-courses-icon, .gq-dashboard-left-nav .gq-messages-icon, .gq-dashboard-left-nav .gq-evidence-icon {width:50px; height:50px; display:block; margin:0 auto;}
 
@@ -194,7 +238,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-box-title-wrap .gq-dashboard-points-icon {width:48px; height:48px; display:block; float:right; border-left:1px solid #dddddd;}
 .gq-dashboard-running-txt {font-size:14px; color:#5e5e5e; width:100%; float:left; padding-top:20px;}
 .gq-dashboard-points-in-number {font-size:60px; color:#f14840; float:left;}
-.gq-dashboard-points-in-percent {font-size:60px; color:#f14840; float:left; padding:15px;}
+.gq-dashboard-points-in-percent {font-size:60px; color:#f14840; float:left; padding:26px 3px;}
 .gq-dashboard-profile-img {float:left; padding:5px 0;}
 .gq-dashboard-courses-detail-wrap {width:100%; float:left; padding:15px;}
 .gq-dashboard-courses-detail {width:100%; border:1px solid #dddddd; min-height:48px; display:block; float:left; margin-bottom:5px; box-shadow:0px 2px 2px #f3f3f3; background-color:#ffffff;}
