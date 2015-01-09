@@ -81,11 +81,15 @@
         </div>
     </div>
     
-    {% block javascripts %}
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+	<script src="{{ asset('public/js/jquery.min.js') }}"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+	<script src="{{ asset('public/js/jquery.form.js') }}"></script>
+	<script src="{{ asset('public/js/custom-jquery.js') }}"></script>
     <script>
     $(document).ready(function(){
         var showOrHide = true;
@@ -122,6 +126,7 @@
             
     });
     </script>
-{% endblock %}
+
   </body>
+  {% block javascripts %}{% endblock %}
 </html>

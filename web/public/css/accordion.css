@@ -111,3 +111,12 @@
 .gq-acc-wrap .row.no-margin {margin-left:0; margin-right:0;}
 .gq-acc-row-title {font-size:18px; color:#5e5e5e; min-height:48px; line-height:44px;}
 .gq-acc-row-bg {background-color:#ffffff; width:100%; float:left; margin-bottom:3px;}
+
+
+/* Media queries for all devices 
+---------------------------------------------------------*/
+@media (max-width: 767px) {
+	.gq-acc-row-title {font-size:1.2em; color:#5e5e5e; min-height:48px; line-height:inherit;}
+	.add-btn {padding:0 6px;}
+
+}
