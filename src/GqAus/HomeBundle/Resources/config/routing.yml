@@ -19,3 +19,6 @@ qualificationDetails:
 qualifications:
     path:     /qualifications
     defaults:  { _controller: GqAusHomeBundle:Courses:qualifications }
+addEvidences:
+    path:     /addEvidences
+    defaults:  { _controller: GqAusUserBundle:Evidence:add }

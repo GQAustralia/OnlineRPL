@@ -11,27 +11,24 @@ class EvidenceController extends Controller
     
     public function addAction(Request $request)
     {
-        $session = $request->getSession();
-        $session_user = $this->get('security.context')->getToken()->getUser();
-        $session->set('user_id', $session_user->getId());
+        //$session = $request->getSession();
+        //$session_user = $this->get('security.context')->getToken()->getUser();
+        //$session->set('user_id', $session_user->getId());
         
         $form = $this->createForm(new EvidenceForm(), array());
 
         if ($request->isMethod('POST')) {
             $form->bind($request);
-            if ($form->isValid()) {
                 $data = $form->getData();
-                echo "<pre>"; print_r($data); exit;
                 $fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
-                $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data['unit']);
+                $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data['hid_unit']);
                 echo "<pre>"; print_r($fileNames); exit;
-            }
         }
 
-        return $this->render(
+        /*return $this->render(
             'GqAusUserBundle:Evidence:index.html.twig',
             array('form'  => $form->createView())
-        );
+        );*/
     }
     
     

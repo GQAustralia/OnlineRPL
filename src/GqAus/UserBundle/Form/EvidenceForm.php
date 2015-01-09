@@ -11,7 +11,7 @@ class EvidenceForm extends AbstractType
         $builder->add('file', 'file', array(
             'label' => 'Photo', 'multiple' => 'multiple'
         ));
-        $builder->add('unit', 'hidden');
+        $builder->add('hid_unit', 'hidden');
         $builder->add('save', 'submit', array(
             'label' => 'Upload',
         ));
@@ -19,6 +19,6 @@ class EvidenceForm extends AbstractType
 
     public function getName()
     {
-        return 'photo';
+        return 'file';
     }
 }
