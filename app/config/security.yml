@@ -12,7 +12,7 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/forgotpassword, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/qualificationDetails, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/qualificationDetails/.*, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/qualifications, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/userprofile, roles: IS_AUTHENTICATED_FULLY }
     providers:

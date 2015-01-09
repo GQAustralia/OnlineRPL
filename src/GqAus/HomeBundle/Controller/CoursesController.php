@@ -17,6 +17,7 @@ class CoursesController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $courseService = $this->get('CoursesService');
         $results = $courseService->getCoursesInfo($id);
+        $results['electiveUnits'] = $courseService->getElectiveUnits($user->getId(), $id);
         return $this->render('GqAusHomeBundle:Courses:index.html.twig', $results);
     }
     
@@ -31,5 +32,20 @@ class CoursesController extends Controller
         $courseConditionStatus = $user->getCourseConditionStatus();
         return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', array('userCourses' => $userCourses,
                                                                         'courseConditionStatus' => $courseConditionStatus));
-    }    
+    }
+    
+    /**
+    * Function to update status of unit electives
+    * return $result array
+    */
+    public function updateUnitElectiveAction()
+    {
+        $userId = $this->getRequest()->get('userId');
+        $unitId = $this->getRequest()->get('unitId');
+        $courseCode = $this->getRequest()->get('courseCode');
+        $courseService = $this->get('CoursesService');
+        echo $results = $courseService->updateUnitElective($userId, $unitId, $courseCode);
+        exit;
+        
+    }
 }
