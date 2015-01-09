@@ -29,6 +29,7 @@ class UserService
         $this->repository = $em->getRepository('GqAusUserBundle:User');
         $this->currentUser = $this->getCurrentUser();
         $this->mailer = $mailer;
+        $this->container = $container;
     }
 
     public function getCurrentUser()
