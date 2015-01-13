@@ -35,10 +35,10 @@ class EvidenceController extends Controller
 	
 	
 	public function saveExistingEvidenceAction(Request $request)
-    { 
+    {
 		if ($request->isMethod('POST')) {
 			$result = $this->get('EvidenceService')->saveExistingEvidence($request);
+			return $this->redirect('evidences');
         }
-		echo '<pre>'; print_r($_REQUEST); exit;
     }
 }

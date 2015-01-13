@@ -4,15 +4,14 @@
    <div class="row text-center">
         <h3>Sign in to get in touch</h3>
     </div>
-    <div class="row">
-       
+    <div class="row">    
         <div class="gq-well" style="display:none">
             <div class="gq-well well">
                 <span class="login-warning-icon" aria-hidden="true"></span>
                 <div class="login-warning-text"></div>
             </div>
         </div>        
-		
+        
         <form action="{{ path('login_check') }}" name="frmLogin" id="frmLogin" method="post">
           <div class="form-group">
             <input type="email" name = '_username' class="form-control email" id="InputEmail1" placeholder="Email">
@@ -21,7 +20,7 @@
             <input type="password" name='_password' class="form-control password" id="InputPassword1" placeholder="Password">
           </div>
            <input type="hidden" name="_target_path" value="/dashboard" />
-          <button type="submit" class="btn btn-red margin-top15">Log in</button>
+          <button type="submit" class="btn btn-red margin-top15" onclick="return loginValidate();">Log in</button>
         </form>
     </div>
     <div class="row text-center">
@@ -31,12 +30,35 @@
 
 {% block javascripts %}
      <script>
+         function loginValidate() {
+            var useremail = $("#InputEmail1").val();
+            var userpwd = $("#InputPassword1").val();
+            regexp=/^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
+            if(useremail=="") {
+                $('.gq-well').show();
+                $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter Email</div>');
+                return false;
+            }
+            else {
+                if(useremail.search(regexp)==-1) {
+                    $('.gq-well').show();
+                    $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter valid Email</div>');
+                    return false;
+                }
+            }
+            if(userpwd=="") {
+                $('.gq-well').show();
+                $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter Password</div>');
+                return false;
+            }
+         }
+         
         // When the document is ready
         $(document).ready(function () {
             //validation rules
             //by default it will append a <label class="error> element to the invalid input
             //and will add a "error" class to the input
-            $("#frmLogin").validate({
+            $("#frmLoginOld").validate({
                 rules: {
                     "InputEmail1": {
                         required: true,
@@ -59,22 +81,16 @@
                 errorElement: "div",
                 wrapper: "div",  // a wrapper around the error message
                 errorPlacement: function(error, element) {
-					$('.gq-well').show();
-					$('.login-warning-text').html(error);
-                    /*offset = element.offset();
-                    error.insertBefore(element);
-                    error.addClass('message');  // add a class to the wrapper
-                    error.css('position', 'absolute');
-                    error.css('left', offset.left + element.outerWidth());
-                    error.css('top', offset.top);*/
+                    $('.gq-well').show();
+                    $('.login-warning-text').html(error);
                 }
             });
         });
     </script>
-	{% if error %}
-		<script>
-			$('.gq-well').show();
-			$('.login-warning-text').html("Invalid credentials");
-		</script>
-	{% endif %}
+    {% if error %}
+        <script>
+            $('.gq-well').show();
+            $('.login-warning-text').html("Invalid credentials");
+        </script>
+    {% endif %}
 {% endblock %}

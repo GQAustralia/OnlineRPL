@@ -40,6 +40,12 @@ class CoursesService
     public function getCoursesInfo($id)
     {
         $courseInfo = $this->fetchRequest($id);
+		/*if (!empty($courseInfo)) {
+			if(!empty($courseInfo['details']))
+			{
+				echo $courseInfo['details'] = strip_tags($courseInfo['details']);
+			}
+		 }*/
         return array('courseInfo' => $courseInfo);
     }
     
