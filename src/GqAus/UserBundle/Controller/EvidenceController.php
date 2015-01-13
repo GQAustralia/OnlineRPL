@@ -17,7 +17,7 @@ class EvidenceController extends Controller
             $form->bind($request);
                 $data = $form->getData();
                 $fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
-                $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data['hid_unit']);
+                $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data);
                 return $this->redirect('evidences');
         }
     }
@@ -26,11 +26,19 @@ class EvidenceController extends Controller
     public function viewAction(Request $request)
     { 
         $evidenceService = $this->get('EvidenceService');
-        $evidences = $evidenceService->getCurrentUser()->getEvidences();        
+        $evidences = $evidenceService->getCurrentUser()->getEvidences();
          return $this->render(
             'GqAusUserBundle:Evidence:view.html.twig',
             array('evidences'  => $evidences)
         );
-        
+    }
+	
+	
+	public function saveExistingEvidenceAction(Request $request)
+    { 
+		if ($request->isMethod('POST')) {
+			$result = $this->get('EvidenceService')->saveExistingEvidence($request);
+        }
+		echo '<pre>'; print_r($_REQUEST); exit;
     }
 }

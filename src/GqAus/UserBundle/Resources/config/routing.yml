@@ -19,3 +19,6 @@ add_evidence:
 view_evidences:
     path:     /evidences
     defaults: { _controller: GqAusUserBundle:Evidence:view }
+saveExistingEvidence:
+    path:     /saveExistingEvidence
+    defaults: { _controller: GqAusUserBundle:Evidence:saveExistingEvidence }

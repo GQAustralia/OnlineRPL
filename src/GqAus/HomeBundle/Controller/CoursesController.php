@@ -19,8 +19,9 @@ class CoursesController extends Controller
         $courseService = $this->get('CoursesService');
         $results = $courseService->getCoursesInfo($id);
         $results['electiveUnits'] = $courseService->getElectiveUnits($user->getId(), $id);
+		$results['evidences'] = $user->getEvidences();
         $form = $this->createForm(new EvidenceForm(), array());
-		if ($request->isMethod('POST')) {
+		/*if ($request->isMethod('POST')) {
             $form->bind($request);
             if ($form->isValid()) {
                 $data = $form->getData();
@@ -29,7 +30,7 @@ class CoursesController extends Controller
                 $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data['unit']);
                 echo "<pre>"; print_r($fileNames); exit;
             }
-        }
+        }*/
         $results['form'] = $form->createView();
         return $this->render('GqAusHomeBundle:Courses:index.html.twig', $results);
     }

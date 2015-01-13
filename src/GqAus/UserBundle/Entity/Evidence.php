@@ -115,4 +115,29 @@ abstract class Evidence
     {
         return $this->created;
     }
+	
+	private $size;
+	
+	 /**
+     * Set size
+     *
+     * @param string $size
+     * @return Evidence
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get size
+     *
+     * @return string 
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
 }

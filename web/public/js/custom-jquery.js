@@ -36,11 +36,17 @@ $(".checkmark-icon").click(function () {
             type: "POST",
             url: "../updateUnitElective",
             data: { unitId: unitId, courseCode: courseCode, userId: userId },
-            success:function(result){
+            success:function(result) {
+			//alert(unitId);
                 if (result == '0') {
+					$( "#btnadd_"+unitId ).attr("data-model","");
                     $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
+					$( "#span_"+unitId ).removeClass( "radioUnChecked" );
+					
                 } else {
+					$( "#btnadd_"+unitId ).attr("data-model","model");
                     $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
+					$( "#span_"+unitId ).addClass( "radioUnChecked" );
                 }
             }
         });
@@ -48,6 +54,10 @@ $(".checkmark-icon").click(function () {
 });
 
 $(".fromBottom").click(function () {
-    var unit = $(this).attr("unitid");
+    unit = $(this).attr("unitid");
     $('#file_hid_unit').val(unit);
+});
+
+$("#frmSelectEvidence").submit(function () {
+	 $('#select_hid_unit').val(unit);
 });

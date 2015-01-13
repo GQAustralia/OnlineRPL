@@ -289,4 +289,5 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
         }
         return $courseUnits;
     }
+	
 }
