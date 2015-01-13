@@ -4,7 +4,7 @@
 
 {% endblock %}
 {% block body %}
-<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
     <div class="row">
         <div class="col-xs-12">
             <h1 class="gq-dashboard-title">Evidence Files</h1>
@@ -86,6 +86,7 @@
                         <div class="">
                             <div class="row">
                                 {% for evidence in evidences %}
+<<<<<<< HEAD
 									{% if evidence.type == 'image' %}
                                     {% set types = ['jpg', 'jpeg', 'png', 'gif'] %}
                                     {% set result = evidence.name|split('.') %}
@@ -97,9 +98,21 @@
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                                     <div class="gq-dashboard-courses-detail">
                                         <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank"><div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div></a>
+=======
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                    <div class="gq-dashboard-courses-detail">
+                                        {% set types = ['jpg', 'jpeg', 'png', 'gif'] %}
+                                        {% set result = evidence.name|split('.') %}
+                                        {% if result.1 in types %}
+                                            {% set doc_type = 'gq-id-files-content-img-icon' %}
+                                        {% else %}
+                                             {% set doc_type = 'gq-id-files-content-esc-icon' %}
+                                        {% endif %}
+                                        <a href = "{{ amazon_link~evidence.path }}" target="_blank"><div class="gq-id-files-content-icon-wrap {{doc_type}}"></div></a>
+>>>>>>> 1c54417a26f43f7087209ab2e54400fb3c90c14d
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
-                                                <label>Title</label><span>{{evidence.name}}</span>
+                                                <a href="{{ amazon_link~evidence.path }}" target="_blank"><label>Title</label><span>{{evidence.name}}</span></a>
                                             </div>
                                             <div class="gq-id-files-content-row">
                                                 <label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
@@ -107,9 +120,12 @@
                                         </div>
                                     </div>
                                 </div>
+<<<<<<< HEAD
 								{% endif %}
+=======
+>>>>>>> 1c54417a26f43f7087209ab2e54400fb3c90c14d
                                 {% endfor %}
-                            </div>														
+                            </div>
                         </div>										  
 
                     </div>

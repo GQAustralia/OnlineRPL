@@ -5,7 +5,7 @@
 <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
 {% endblock %}
 {% block body %}
-<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
     <div class="row">
         <div class="col-xs-12">
             <h1 class="gq-dashboard-title">Profile</h1>
@@ -19,9 +19,10 @@
                 <div class="gq-profile-page-img"><img src="{{ asset('public/images/') ~ userImage }}" /> </div>
             </div>            
             {% for flashMessage in app.session.flashbag.get('notice') %}
-            <div class="gq-id-files-upload-success-text col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                <h2><span></span>{{ flashMessage }}
-                </h2>
+            <div class="row">
+                <div class="gq-id-files-upload-success-text wid40p">
+                    <h2><span></span>{{ flashMessage }}</h2>
+                </div>
             </div>
             {% endfor %}       
             
@@ -133,15 +134,15 @@
                                                 <div class="gq-dashboard-courses-detail">
                                                     {% if item.type.id == 1 %}
                                                         {% set doc_type = 'gq-id-files-content-img-icon' %}
-                                                    {% elseif item.type.id == 2 %}
-                                                        {% set doc_type = 'gq-id-files-content-pdf-icon' %}
+                                                    {#{% elseif item.type.id == 2 %}
+                                                        {% set doc_type = 'gq-id-files-content-pdf-icon' %}#}
                                                     {% else %}
-                                                         {% set doc_type = 'gq-id-files-content-doc-icon' %}
+                                                         {% set doc_type = 'gq-id-files-content-esc-icon' %}
                                                     {% endif %}
-                                                    <div class="gq-id-files-content-icon-wrap {{doc_type}}"></div>
+                                                    <a href = "{{ amazon_link~item.path }}" target="_blank"><div class="gq-id-files-content-icon-wrap {{doc_type}}"></div></a>
                                                     <div class="gq-id-files-content-row-wrap">
                                                         <div class="gq-id-files-content-row">
-                                                            <a href="{{ amazon_link }}{{  item.path }}" target="_blank"><label>Title</label><span>{{item.type.type}}</span></a>
+                                                            <a href="{{ amazon_link~item.path }}" target="_blank"><label>Title</label><span>{{item.type.type}}</span></a>
                                                         </div>
                                                         <div class="gq-id-files-content-row">
                                                             <label>Added on</label><span>{{item.created|date("F jS") }}</span>

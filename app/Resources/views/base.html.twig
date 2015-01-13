@@ -66,7 +66,7 @@
                 </div>
                 <div class="row">
                     <div class="dashboard-bg">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 gq-dashboard-left" id="gq-dashboard-left">
+                        <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12 gq-dashboard-left" id="gq-dashboard-left">
                             <ul class="gq-dashboard-left-nav">
                                 <li><a {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/dashboard"><span class="gq-dashboard-icon"><img src="{{ asset('public/images/dashboard.png') }}" /></span><span class="left-nav-txt">Dashboard</span></a></li>
                                 <li><a {% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/qualifications"><span class="gq-courses-icon"><img src="{{ asset('public/images/courses.png') }}" /></span><span class="left-nav-txt">Qualifications</span></a></li>
