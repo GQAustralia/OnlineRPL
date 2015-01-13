@@ -3,8 +3,7 @@
 body {
 	background: #f2f2f2;
 	color: #5e5e5e;
-	/*font-family:"proximanova-reg";*/
-	font-family: "segoeui";
+	font-family: "OpenSans-Regular";
 	overflow-x:hidden;
 }
 a {
@@ -56,10 +55,56 @@ img {
 /* OpenSans */
 
 @font-face {
-font-family: "OpenSans-Light-webfont";
-src: url('../fonts/OpenSans-Light-webfont.eot');
-src: url('../fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Light-webfont.woff') format('woff'), url('../fonts/OpenSans-Light-webfont.ttf') format('truetype');
+	font-family: 'OpenSans-Bold';
+	src: url('../fonts/OpenSans-Bold.eot');
+	src: url('../fonts/OpenSans-Bold.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Bold.woff') format('woff'), url('../fonts/OpenSans-Bold.ttf') format('truetype');
 }
+@font-face {
+	font-family: 'OpenSans-BoldItalic';
+	src: url('../fonts/OpenSans-BoldItalic.eot');
+	src: url('../fonts/OpenSans-BoldItalic.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-BoldItalic.woff') format('woff'), url('../fonts/OpenSans-BoldItalic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-ExtraBold';
+	src: url('../fonts/OpenSans-ExtraBold.eot');
+	src: url('../fonts/OpenSans-ExtraBold.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-ExtraBold.woff') format('woff'), url('../fonts/OpenSans-ExtraBold.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-ExtraBoldItalic';
+	src: url('../fonts/OpenSans-ExtraBoldItalic.eot');
+	src: url('../fonts/OpenSans-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-ExtraBoldItalic.woff') format('woff'), url('../fonts/OpenSans-ExtraBoldItalic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-Italic';
+	src: url('../fonts/OpenSans-Italic.eot');
+	src: url('../fonts/OpenSans-Italic.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Italic.woff') format('woff'), url('../fonts/OpenSans-Italic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-Light';
+	src: url('../fonts/OpenSans-Light.eot');
+	src: url('../fonts/OpenSans-Light.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Light.woff') format('woff'), url('../fonts/OpenSans-Light.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-LightItalic';
+	src: url('../fonts/OpenSans-LightItalic.eot');
+	src: url('../fonts/OpenSans-LightItalic.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-LightItalic.woff') format('woff'), url('../fonts/OpenSans-LightItalic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-Regular';
+	src: url('../fonts/OpenSans-Regular.eot');
+	src: url('../fonts/OpenSans-Regular.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Regular.woff') format('woff'), url('../fonts/OpenSans-Regular.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-Semibold';
+	src: url('../fonts/OpenSans-Semibold.eot');
+	src: url('../fonts/OpenSans-Semibold.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-Semibold.woff') format('woff'), url('../fonts/OpenSans-Semibold.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'OpenSans-SemiboldItalic';
+	src: url('../fonts/OpenSans-SemiboldItalic.eot');
+	src: url('../fonts/OpenSans-SemiboldItalic.eot?#iefix') format('embedded-opentype'), url('../fonts/OpenSans-SemiboldItalic.woff') format('woff'), url('../fonts/OpenSans-SemiboldItalic.ttf') format('truetype');
+}
+
 
 /* segoe */
 @font-face {
@@ -164,10 +209,13 @@ a.btn-red {color:#ffffff;}
 .user-status {float:left; padding-top:15px;}
 .user-icon, .user-status-msg, .user-status-select{float:left;}
 .dashboard-bg {background-color:#44515d; width:100%; float:left;}
-.gq-dashboard-left {color:#ffffff; padding:0; text-align:center; /*min-width:54px;*/}
-.gq-dashboard-right {background-color:#f2f2f2; padding:0; min-height:600px; padding:30px;}
+.gq-dashboard-left {color:#ffffff; padding:0 !important; text-align:center; /*min-width:54px;*/ float:left; }
+.gq-dashboard-right {background-color:#f2f2f2; padding:0; min-height:600px; padding:30px; float:left;}
 .gq-dashboard-right .gq-dashboard-title {font-size:35px; color:#2f3941; width:100%; float:left;}
 .gq-dashboard-right .gq-dashboard-title-desc {font-size:14px; color:#5e5e5e; width:100%; float:left;}
+.gq-dashboard-left-width{ width:6%; }
+.gq-dashboard-right-width{ width:94%; }
+
 
 /* user status related styling */
 .user-status {}
@@ -177,7 +225,7 @@ a.btn-red {color:#ffffff;}
 ---------------------------------------------------------------*/
 .gq-dashboard-left-nav {margin:0; padding:0;}
 .gq-dashboard-left-nav li {float:left; width:100%; border-bottom:1px solid #57636e;}
-.gq-dashboard-left-nav li a{color:#ffffff; font-size:16px; text-decoration:none;/* min-height:92px; */ height:92px; display:block; padding-top:5px;}
+.gq-dashboard-left-nav li a{color:#ffffff; font-size:14px; text-decoration:none;/* min-height:92px; */ height:92px; display:block; padding-top:5px;}
 .gq-dashboard-left-nav li a:hover, .gq-dashboard-left-nav li a:focus, .gq-dashboard-left-nav li a.active{background-color:#2f3941;}
 .gq-dashboard-left-nav .gq-dashboard-icon, .gq-dashboard-left-nav .gq-courses-icon, .gq-dashboard-left-nav .gq-messages-icon, .gq-dashboard-left-nav .gq-evidence-icon {width:50px; height:50px; display:block; margin:0 auto;}
 
@@ -194,7 +242,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-box-title-wrap .gq-dashboard-points-icon {width:48px; height:48px; display:block; float:right; border-left:1px solid #dddddd;}
 .gq-dashboard-running-txt {font-size:14px; color:#5e5e5e; width:100%; float:left; padding-top:20px;}
 .gq-dashboard-points-in-number {font-size:60px; color:#f14840; float:left;}
-.gq-dashboard-points-in-percent {font-size:60px; color:#f14840; float:left; padding:15px;}
+.gq-dashboard-points-in-percent {font-size:60px; color:#f14840; float:left; padding:26px 3px;}
 .gq-dashboard-profile-img {float:left; padding:5px 0;}
 .gq-dashboard-courses-detail-wrap {width:100%; float:left; padding:15px;}
 .gq-dashboard-courses-detail {width:100%; border:1px solid #dddddd; min-height:48px; display:block; float:left; margin-bottom:5px; box-shadow:0px 2px 2px #f3f3f3; background-color:#ffffff;}
@@ -220,10 +268,12 @@ a.btn-red {color:#ffffff;}
  
 /* Profile page styling
 --------------------------------------------------------------*/
-.gq-profile-page-img {width:120px; height:120px; margin:0 auto; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:10px auto;}
+.gq-profile-page-img {width:120px; height:120px; margin:0 auto; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:10px auto; overflow:hidden; }
+.gq-profile-page-img img{width:100%; }
 .gq-form-personal {font-size:15px;}
 .gq-form-personal .gq-form-row{width:100%; float:left; margin-bottom:-1px; border:1px solid #e7ecee; border-radius:5px; height:48px; background-color:#ffffff; padding-left:15px; padding-top:7px; position:relative;}
 .gq-form-personal .gq-form-row input{border:0 none; border-left:1px solid #e7ecee; padding-left:15px; line-height:34px;}
+.gq-form-personal .gq-form-row input[type="file"]{ display:inline-block; }
 .gq-form-personal .gq-form-row label{min-width:30%;}
 .gq-form-personal .gq-form-row:last-child{margin-bottom:20px;}
 .gq-form-personal .gq-form-botton{margin-top:20px; width:100%; float:left;}
@@ -271,12 +321,13 @@ a.btn-red {color:#ffffff;}
 	.gq-dashboard-courses-detail {border:1px solid #d7d7d7; margin-bottom:15px;}
 	.gq-id-files-content-icon-wrap {background-repeat:no-repeat; background-position: center center; padding:50px; display:block; width:100%; background-color:#f6f6f6;}
 	.gq-id-files-content-pdf-icon {background-image:url('../images/acro-icon.png');}
+	.gq-id-files-content-esc-icon {background-image:url('../images/exclation-icon.png');}
 	.gq-id-files-content-img-icon {background-image:url('../images/wallpaper-icon.png');}
 	.gq-id-files-content-doc-icon {background-image:url('../images/page-icon.png');}
 	.gq-id-files-content-row-wrap {padding:10px; width:100%; float:left;}
 	.gq-id-files-content-row {width:100%; float:left; font-size:14px;}
-	.gq-id-files-content-row label{color:#2f3941; width:50%; text-align:right; padding-right:6px;}
-	.gq-id-files-content-row span{color:#f14840; width:50%; text-align:left;}
+	.gq-id-files-content-row label{color:#2f3941; text-align:right; padding-right:6px;}
+	.gq-id-files-content-row span{color:#f14840; text-align:left;}
 	.gq-id-files-content-row label:after{content:" :";}
 	.gq-id-files-button-content-wrap {padding:20px;}
 	.gq-id-files-button-content-wrap button {margin-bottom:8px; margin-right:5px;}
@@ -359,6 +410,7 @@ a.btn-red {color:#ffffff;}
 .gq-course-details-upload-evidence {border:2px dotted #a6a6a6; background-color:#ebebeb;}
 .gq-course-details-upload-evidence, .gq-course-details-upload-evidence-self {min-height:198px; padding:15px; border-radius:5px; color:#9f9f9f; font-size:16px;}
 .gq-course-details-upload-evidence-self {border:1px solid #e5e5e5; background-color:#ffffff;}
+.gq-course-details-upload-evidence-self textarea{ width:100%; min-height:160px; background:transparent; border:0px none; resize:none; }
 .gq-course-details-drop-file {background-image:url('../images/upload-icon.png'); background-repeat:no-repeat; background-position:top center; height: 120px; margin: 0 auto; padding-top: 69px; width: 120px; text-align:center;}
 .gq-course-details-upload-button-wrap {margin-top:8px; font-size:14px; color:#aeaeae;}
 
@@ -398,14 +450,14 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-box-2x {margin-left:0;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{width:81%;}
 .gq-dashboard-tabs-header.wid30p, .wid60p {width:inherit; margin:auto;}
-.gq-dashboard-left {display:none;}
+.gq-dashboard-left {display:none; width:100%;}
 .gq-dashboard-left-nav li a {min-height:58px;}
 .wid70p {width:100%; margin:0 auto;}
 .wid80p {width:100%; margin:0 auto;}
 .wid90p{width:100%; margin:0 auto;}
 .gq-id-files-upload-text, .gq-id-files-upload-success-text {padding-bottom:20px;}
 .gq-id-files-upload-btn, .gq-id-files-submit-btn {margin-top:15px;}
-
+.gq-dashboard-right {width:100%;}
 }
 
 @media (max-width:368px) {
@@ -428,8 +480,11 @@ a.btn-red {color:#ffffff;}
     margin-left: 2px;
     vertical-align: middle;
     width: 0;
-
-
-
-
  */
+ 
+  @media (min-width: 1280px) {
+	.wid60p {width:40%; margin:0 30%;}
+	.modal-dialog.gq-modal-upload{width:100%;}
+ }
+/* Hiding the symphony toolbar in server */
+.sf-toolbar { display: none !important; }
