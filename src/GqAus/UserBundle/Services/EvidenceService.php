@@ -110,49 +110,50 @@ class EvidenceService
 		$videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
 		$fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
 		$textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
-		
 		if (!empty($evidences)) {
-			foreach ($evidences as $key => $val) {
-				if (!empty($val)) {
-					switch ($key) {
-						case 'image':
-							$evidenceObj = $imgObj->find($val);
-							$newObj = new Image();
-							break;
-						case 'audio':
-							$evidenceObj = $audioObj->find($val);
-							$newObj = new Audio();
-							break;
-						case 'video':
-							$evidenceObj = $videoObj->find($val);
-							$newObj = new Video();
-							break;
-						case 'file':
-							$evidenceObj = $fileObj->find($val);
-							$newObj = new File();
-							break;
-						case 'text':
-							$evidenceObj = $textObj->find($val);
-							$newObj = new Text();
-							break;
-						default :
-							$evidenceObj = $fileObj->find($val);
-							$newObj = new File();
-							break;
-					}
-					if (!empty($evidenceObj)) {
-						if ($key == 'text') {
-							$textObj->setContent($data['self_assessment']);
-						} else {
-							$newObj->setPath($evidenceObj->getPath());
-							$newObj->setName($evidenceObj->getName());
-							$newObj->setSize($evidenceObj->getSize());
+			foreach ($evidences as $key => $evidence) {
+				if (!empty($evidence)) {
+					foreach ($evidence as $val) {
+						switch ($key) {
+							case 'image':
+								$evidenceObj = $imgObj->find($val);
+								$newObj = new Image();
+								break;
+							case 'audio':
+								$evidenceObj = $audioObj->find($val);
+								$newObj = new Audio();
+								break;
+							case 'video':
+								$evidenceObj = $videoObj->find($val);
+								$newObj = new Video();
+								break;
+							case 'file':
+								$evidenceObj = $fileObj->find($val);
+								$newObj = new File();
+								break;
+							case 'text':
+								$evidenceObj = $textObj->find($val);
+								$newObj = new Text();
+								break;
+							default :
+								$evidenceObj = $fileObj->find($val);
+								$newObj = new File();
+								break;
 						}
-						$newObj->setUser($this->currentUser);					
-						$newObj->setUnit($unitId);
-						$this->em->persist($newObj);
-						$this->em->flush();
-					}
+						if (!empty($evidenceObj)) {
+							if ($key == 'text') {
+								$newObj->setContent($evidenceObj->getContent());
+							} else {
+								$newObj->setPath($evidenceObj->getPath());
+								$newObj->setName($evidenceObj->getName());
+								$newObj->setSize($evidenceObj->getSize());
+							}
+							$newObj->setUser($this->currentUser);					
+							$newObj->setUnit($unitId);
+							$this->em->persist($newObj);
+							$this->em->flush();
+						}
+					}//foreach
 				}//if
 			}//foreach
 		}

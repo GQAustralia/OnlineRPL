@@ -248,6 +248,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-courses-detail {width:100%; border:1px solid #dddddd; min-height:48px; display:block; float:left; margin-bottom:5px; box-shadow:0px 2px 2px #f3f3f3; background-color:#ffffff;}
 .gq-dashboard-courses-detail .gq-dashboard-cap-icon {width:48px; height:48px; display:block; float:left;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {font-size:18px; color:#5e5e5e; float:left; padding-left:22px; padding-top:12px; padding-bottom:12px; border-left:1px solid #dddddd;}
+.gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:hover, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:active {font-size:18px; color:#5e5e5e; text-decoration:none;}
 .gq-dashboard-tabs-header {padding-bottom:15px;}
 .gq-dashboard-tabs .nav {box-shadow:0 0 4px #dedede;}
 .gq-dashboard-tabs .nav li a{border-radius:0px; background-color:#ffffff;}
@@ -379,7 +380,7 @@ a.btn-red {color:#ffffff;}
 		-webkit-transform: translate3d(0, 125%, 0);
 		transform: translate3d(0, 125%, 0);
 		}
-	#edivenceModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }
+	#edivenceModal.modal .modal-dialog{ bottom:0; position:fixed; left:0; right:0; }
 
 /* styling of tabs in select from evidence tab */
 	.select-from-evidence-tab {}
@@ -407,7 +408,7 @@ a.btn-red {color:#ffffff;}
 .gq-acc-row-bg .checkmark-icon {display:block; width:44px; height:44px; float:left; margin-right:6px;}
 /* .gq-acc-row-bg.gq-acc-row-checked .checkmark-icon {background-image:url('../images/checkmark_unchecked.png');} */
 .gq-acc-row-bg.gq-acc-row-checked {opacity:.5;}
-.gq-course-details-upload-evidence {border:2px dotted #a6a6a6; background-color:#ebebeb;}
+.gq-course-details-upload-evidence {border:2px dotted #a6a6a6; background-color:#ebebeb; position:relative;}
 .gq-course-details-upload-evidence, .gq-course-details-upload-evidence-self {min-height:198px; padding:15px; border-radius:5px; color:#9f9f9f; font-size:16px;}
 .gq-course-details-upload-evidence-self {border:1px solid #e5e5e5; background-color:#ffffff;}
 .gq-course-details-upload-evidence-self textarea{ width:100%; min-height:160px; background:transparent; border:0px none; resize:none; }

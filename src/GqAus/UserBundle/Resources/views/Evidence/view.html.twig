@@ -5,7 +5,7 @@
 
 {% endblock %}
 {% block body %}
-<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
     <div class="row">
         <div class="col-xs-12">
             <h1 class="gq-dashboard-title">Evidence Files</h1>
@@ -114,7 +114,22 @@
                         </div>										  
 
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="notes">Notes</div>
+                    <div role="tabpanel" class="tab-pane" id="notes">
+						{% for evidence in evidences %}
+							{% if evidence.type == 'text' %}
+								<p>
+									<div class="gq-id-files-content-row">
+										<label>Title</label><span>{{evidence.content}}</span>
+									</div>
+									<div class="gq-id-files-content-row">
+										<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+									</div>
+								</p>
+							{% endif %}
+						{% endfor %}					
+					</div>
+					
+					
                     <div role="tabpanel" class="tab-pane" id="files">
 					<div class="">
                             <div class="row">

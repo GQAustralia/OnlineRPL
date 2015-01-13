@@ -37,13 +37,15 @@ $(".checkmark-icon").click(function () {
             url: "../updateUnitElective",
             data: { unitId: unitId, courseCode: courseCode, userId: userId },
             success:function(result) {
-			//alert(unitId);
+				var label = $( "#label_"+unitId ).attr("temp");
                 if (result == '0') {
+					$( "#label_"+unitId ).attr("for","");
 					$( "#btnadd_"+unitId ).attr("data-model","");
                     $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
 					$( "#span_"+unitId ).removeClass( "radioUnChecked" );
 					
                 } else {
+					$( "#label_"+unitId ).attr("for",label);
 					$( "#btnadd_"+unitId ).attr("data-model","model");
                     $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
 					$( "#span_"+unitId ).addClass( "radioUnChecked" );
