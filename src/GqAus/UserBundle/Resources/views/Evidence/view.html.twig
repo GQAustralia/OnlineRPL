@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Dashboard{% endblock %}
 {% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
 
 {% endblock %}
 {% block body %}
@@ -30,7 +31,7 @@
 					<div class="">
                             <div class="row">
                                 {% for evidence in evidences %}
-									{% if evidence.type == 'audio' %}
+				{% if evidence.type == 'audio' %}
                                     {% set types = ['mp3', 'wma'] %}
                                     {% set result = evidence.name|split('.') %}
                                     {% if result.1 | lower in types %}
@@ -58,7 +59,7 @@
 					<div class="">
                             <div class="row">
                                 {% for evidence in evidences %}
-									{% if evidence.type == 'video' %}
+				{% if evidence.type == 'video' %}
                                     {% set types = ['mp3', 'wma'] %}
                                     {% set result = evidence.name|split('.') %}
                                     {% if result.1 | lower in types %}
@@ -86,7 +87,7 @@
                         <div class="">
                             <div class="row">
                                 {% for evidence in evidences %}
-									{% if evidence.type == 'image' %}
+				{% if evidence.type == 'image' %}
                                     {% set types = ['jpg', 'jpeg', 'png', 'gif'] %}
                                     {% set result = evidence.name|split('.') %}
                                     {% if result.1 | lower in types %}
@@ -96,7 +97,7 @@
                                     {% endif %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                                     <div class="gq-dashboard-courses-detail">
-                                        <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank"><div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div></a>
+                                        <a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox" target="_blank"><div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div></a>
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
                                                 <label>Title</label><span>{{evidence.name}}</span>
@@ -125,9 +126,8 @@
                                         {% set file = amazon_link~evidence.path %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                                     <div class="gq-dashboard-courses-detail">
-                                        <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
-										
-										<div class="video-thumb-icon">{{file}}</div></a>
+                                        <a href = "{{ amazon_link }}{{  evidence.path }}" class="fancybox fancybox.iframe">										
+					<div class="video-thumb-icon">{{file}}</div></a>
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
                                                 <label>Title</label><span>{{evidence.name}}</span>
@@ -151,4 +151,15 @@
 
 </div>
 
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+            /*
+             *  Simple image gallery. Uses default settings
+             */
+            $('.fancybox').fancybox();
+    });
+</script>
 {% endblock %}
