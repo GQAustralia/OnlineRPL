@@ -69,4 +69,13 @@ class UserController extends Controller
             return $this->redirect('userprofile');
         }
     }
+    
+    public function deleteIdFilesAction()
+    {
+        $IdFileId = $this->getRequest()->get('fid');
+        $IdFileType = $this->getRequest()->get('ftype');
+        $fileName = $this->get('UserService')->deleteIdFiles($IdFileId, $IdFileType);
+        $this->get('gq_aus_user.file_uploader')->delete($fileName);
+        exit;
+    }
 }

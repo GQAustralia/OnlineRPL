@@ -158,4 +158,41 @@ class EvidenceService
             }//foreach
         }
     }
+    
+    public function deleteEvidence($evidenceId, $evidenceType)
+    {
+        $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
+        $audioObj = $this->em->getRepository('GqAusUserBundle:Evidence\Audio');
+        $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
+        $fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
+        $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+        
+        switch ($evidenceType) {
+            case 'image':
+                $evidenceObj = $imgObj->find($evidenceId);
+                break;
+            case 'audio':
+                $evidenceObj = $audioObj->find($evidenceId);
+                break;
+            case 'video':
+                $evidenceObj = $videoObj->find($evidenceId);
+                break;
+            case 'file':
+                $evidenceObj = $fileObj->find($evidenceId);
+                break;
+            case 'text':
+                $evidenceObj = $textObj->find($evidenceId);
+                break;
+            default :
+                $evidenceObj = $fileObj->find($evidenceId);
+                break;
+        }
+        
+        if (!empty($evidenceObj)) {
+            $fileName = $evidenceObj->getPath();
+            $this->em->remove($evidenceObj);
+            $this->em->flush();
+            return $fileName;
+        }
+    }
 }

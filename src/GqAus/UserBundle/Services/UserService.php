@@ -233,4 +233,16 @@ class UserService
         }
         return array_sum($points); exit; 
     }
+    
+    public function deleteIdFiles($IdFileId, $IdFileType)
+    {
+         $userIdObj = $this->em->getRepository('GqAusUserBundle:UserIds');
+         $userIds = $userIdObj->find($IdFileId);
+        if (!empty($userIdObj)) {
+            $fileName = $userIds->getPath();
+            $this->em->remove($userIds);
+            $this->em->flush();
+            return $fileName;
+        }
+    }
 }

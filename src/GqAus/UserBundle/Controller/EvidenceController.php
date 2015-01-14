@@ -15,10 +15,10 @@ class EvidenceController extends Controller
 
         if ($request->isMethod('POST')) {
             $form->bind($request);
-                $data = $form->getData();
-                $fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
-                $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data);
-                return $this->redirect('evidences');
+            $data = $form->getData();
+            $fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
+            $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data);
+            return $this->redirect('evidences');
         }
     }
     
@@ -40,5 +40,16 @@ class EvidenceController extends Controller
             $result = $this->get('EvidenceService')->saveExistingEvidence($request);
             return $this->redirect('evidences');
         }
+    }
+    
+     public function deleteEvidenceFileAction()
+    {
+        $evidenceId = $this->getRequest()->get('fid');
+        $evidenceType = $this->getRequest()->get('ftype');
+        $fileName = $this->get('EvidenceService')->deleteEvidence($evidenceId, $evidenceType);
+		if ($evidenceType != 'text') {
+			$this->get('gq_aus_user.file_uploader')->delete($fileName);
+		}
+		exit;
     }
 }
