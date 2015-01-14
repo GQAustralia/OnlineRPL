@@ -32,13 +32,13 @@ class EvidenceController extends Controller
             array('evidences'  => $evidences)
         );
     }
-	
-	
-	public function saveExistingEvidenceAction(Request $request)
+    
+    
+    public function saveExistingEvidenceAction(Request $request)
     {
-		if ($request->isMethod('POST')) {
-			$result = $this->get('EvidenceService')->saveExistingEvidence($request);
-			return $this->redirect('evidences');
+        if ($request->isMethod('POST')) {
+            $result = $this->get('EvidenceService')->saveExistingEvidence($request);
+            return $this->redirect('evidences');
         }
     }
 }

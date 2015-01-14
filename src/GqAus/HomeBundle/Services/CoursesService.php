@@ -40,12 +40,12 @@ class CoursesService
     public function getCoursesInfo($id)
     {
         $courseInfo = $this->fetchRequest($id);
-		/*if (!empty($courseInfo)) {
-			if(!empty($courseInfo['details']))
-			{
-				echo $courseInfo['details'] = strip_tags($courseInfo['details']);
-			}
-		 }*/
+        if (!empty($courseInfo)) {
+            if(!empty($courseInfo['details']))
+            {
+                $courseInfo['details'] = html_entity_decode($courseInfo['details']);
+            }
+         }
         return array('courseInfo' => $courseInfo);
     }
     
@@ -295,5 +295,5 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
         }
         return $courseUnits;
     }
-	
+    
 }
