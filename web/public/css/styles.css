@@ -246,6 +246,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-profile-img {float:left; padding:5px 0;}
 .gq-dashboard-courses-detail-wrap {width:100%; float:left; padding:15px;}
 .gq-dashboard-courses-detail {width:100%; border:1px solid #dddddd; min-height:48px; display:block; float:left; margin-bottom:5px; box-shadow:0px 2px 2px #f3f3f3; background-color:#ffffff;}
+.gq-dashboard-courses-detail:hover {background-color:#f5f5f5; cursor:pointer;}
 .gq-dashboard-courses-detail .gq-dashboard-cap-icon {width:48px; height:48px; display:block; float:left;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {font-size:18px; color:#5e5e5e; float:left; padding-left:22px; padding-top:12px; padding-bottom:12px; border-left:1px solid #dddddd;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:hover, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:active {font-size:18px; color:#5e5e5e; text-decoration:none;}
@@ -271,6 +272,10 @@ a.btn-red {color:#ffffff;}
 --------------------------------------------------------------*/
 .gq-profile-page-img {width:120px; height:120px; margin:0 auto; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:10px auto; overflow:hidden; }
 .gq-profile-page-img img{width:100%; }
+.gq-edit-photo-btn {width:100px; height:32px; margin:0 auto; position:relative;}
+.gq-edit-photo-btn input[type="file"]{opacity:0; width:100%;}
+.gq-edit-photo-btn .loading-icon {float: left; height: 20px; position: absolute; right: -26px; top: 2px; width: 20px;}
+.gq-edit-photo-btn .btn-red{width:100%; float:left; background-image:url('../images/edit-photo-txt.png'); background-repeat:no-repeat; background-position:center center; border-radius:4px;}
 .gq-form-personal {font-size:15px;}
 .gq-form-personal .gq-form-row{width:100%; float:left; margin-bottom:-1px; border:1px solid #e7ecee; border-radius:5px; height:48px; background-color:#ffffff; padding-left:15px; padding-top:7px; position:relative;}
 .gq-form-personal .gq-form-row input{border:0 none; border-left:1px solid #e7ecee; padding-left:15px; line-height:34px;}
@@ -299,6 +304,7 @@ a.btn-red {color:#ffffff;}
 	.gq-id-files-upload-btn .cloud-icon-browse{border:1px solid #e6e6e6; border-radius:5px; background-image:url('../images/browse-btn-hover.png'); background-repeat:no-repeat; background-position: 0 -3px; width:170px; height:38px; display:block;}
 	.gq-id-files-upload-btn .cloud-icon-browse:hover{background-position:0 -45px;}
 	.gq-id-files-header-applicant{ padding:10px 30px;}
+	.gq-id-files-header-applicant .loading-icon{width:37px; height:37px; float:left;}
 	.gq-id-files-header-facilitator{ padding:15px 30px;}
 	.gq-id-files-header {
 		width:100%;
@@ -370,7 +376,7 @@ a.btn-red {color:#ffffff;}
 		background: linear-gradient(to bottom, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);*/
 	}
 	.modal-dialog.gq-modal-upload .modal-footer { text-align:center; border-top:0 none;}
-	.modal-dialog.gq-modal-upload .modal-content {border-radius:0; background:none; box-shadow:none;}
+	.modal-dialog.gq-modal-upload .modal-content {border-radius:0; background:none; box-shadow:none; border:0 none;}
 	.modal-dialog.gq-modal-upload .modal-body {font-size:16px; color:#5e5e5e; background-color:#ffffff; width:100%; float:left;}
 	.modal-dialog.gq-modal-upload .modal-header button.close {background-image:url('../images/cross-icon-red.png'); background-repeat:no-repeat; background-position: center center; width:42px; height:42px; display:block; opacity:1; background-color:#f04941; margin-top:-7px; margin-right:-7px;}
 	.modal-dialog.gq-modal-upload .modal-header {text-align:center; color:#f14840; font-size:20px; padding-left:42px; height:50px; border-bottom:2px solid #f04941;}
