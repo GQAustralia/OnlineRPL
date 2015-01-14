@@ -63,3 +63,39 @@ $(".fromBottom").click(function () {
 $("#frmSelectEvidence").submit(function () {
 	 $('#select_hid_unit').val(unit);
 });
+
+
+$(".deleteEvidence").click(function () {
+   var c = confirm("Do yo want to delete selected file ?");
+   if (c == true) {
+        var fid = $(this).attr("fileid");
+        var ftype = $(this).attr("filetype");
+        $.ajax({
+            type: "POST",
+            url: "deleteEvidenceFile",
+            data: { fid: fid, ftype: ftype },
+            success:function(result) {
+				$('#evd_'+fid).hide();
+				alert("Selected Evidence File deleted!");
+            }
+        });
+   }
+});
+
+$(".deleteIdFiles").click(function () {
+   var c = confirm("Do yo want to delete selected file ?");
+   if (c == true) {
+        var fid = $(this).attr("fileid");
+        var ftype = $(this).attr("filetype");
+        $.ajax({
+            type: "POST",
+            url: "deleteIdFiles",
+            data: { fid: fid, ftype: ftype },
+            success:function(result) {
+				$('#idfiles_'+fid).hide();
+				alert("Selected ID File deleted!");
+            }
+        });
+   }
+});
+

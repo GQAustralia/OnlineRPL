@@ -22,3 +22,9 @@ view_evidences:
 saveExistingEvidence:
     path:     /saveExistingEvidence
     defaults: { _controller: GqAusUserBundle:Evidence:saveExistingEvidence }
+deleteEvidenceFile:
+    path:     /deleteEvidenceFile
+    defaults:  { _controller: GqAusUserBundle:Evidence:deleteEvidenceFile }
+deleteIdFiles:
+    path:     /deleteIdFiles
+    defaults:  { _controller: GqAusUserBundle:User:deleteIdFiles }

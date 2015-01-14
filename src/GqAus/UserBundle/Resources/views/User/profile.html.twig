@@ -3,6 +3,8 @@
 {% block stylesheets %}
 <link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
 <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+
 {% endblock %}
 {% block body %}
 <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
@@ -130,7 +132,7 @@
                                     <div class="gq-dashboard-courses-detail-wrap">
                                         <div class="row">
                                             {% for item in userIdFiles %}
-                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.type.id}}">
                                                 <div class="gq-dashboard-courses-detail">
                                                     {% if item.type.id == 1 %}
                                                         {% set doc_type = 'gq-id-files-content-img-icon' %}
@@ -139,7 +141,7 @@
                                                     {% else %}
                                                          {% set doc_type = 'gq-id-files-content-esc-icon' %}
                                                     {% endif %}
-                                                    <a href = "{{ amazon_link~item.path }}" target="_blank"><div class="gq-id-files-content-icon-wrap {{doc_type}}"></div></a>
+                                                    <a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap {{doc_type}}"></div></a>
                                                     <div class="gq-id-files-content-row-wrap">
                                                         <div class="gq-id-files-content-row">
                                                             <a href="{{ amazon_link~item.path }}" target="_blank"><label>Title</label><span>{{item.type.type}}</span></a>
@@ -147,6 +149,7 @@
                                                         <div class="gq-id-files-content-row">
                                                             <label>Added on</label><span>{{item.created|date("F jS") }}</span>
                                                         </div>
+														<a class="deleteIdFiles" fileid="{{item.type.id}}" filetype="{{item.type.type}}">Delete File</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,12 +162,12 @@
                         </div>
                     </div>
                 </div>
-                <!-- script for enabling tabs functionality -->
+                <!-- script for enabling tabs functionality 
                 <script>
                     $(function() {
                         $('#myTab a:last').tab('show')
                     })
-                </script>
+                </script>-->
                 <!--End of content for respective tabs above will be in this section -->
             </div>
         </div>
@@ -176,3 +179,11 @@
 {#{{ form_start(form) }}
 {{ form_widget(form) }}
 {{ form_end(form) }}#}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+       $('.fancybox').fancybox();
+    });
+</script>
+{% endblock %}

@@ -76,6 +76,14 @@ class FileUploader
             $this->em->flush();
         } 
         return $fileNames;
-        
+    }
+    
+    /**
+     * function to delete evidence file types in AWS S3.
+     */
+    public function delete($fileName)
+    {
+        $adapter = $this->filesystem->getAdapter();
+        $adapter->delete($fileName);
     }
 }
