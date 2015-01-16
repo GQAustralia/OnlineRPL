@@ -42,6 +42,15 @@ class UserService
         $this->em->persist($this->currentUser);
         $this->em->flush();
     }
+	
+	public function savePersonalProfile($image) 
+    {
+		if (!empty($image)) {
+			$this->currentUser->setUserImage($image);
+		}
+        $this->em->persist($this->currentUser);
+        $this->em->flush();
+    }
     
     /**
      * function to request for forgot password .

@@ -12,15 +12,14 @@ class AddressForm extends AbstractType
         return 'useraddress';
     }
     
-    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('id', 'hidden');
         $builder->add('address', 'text');
-        $builder->add('area', 'text');
-        $builder->add('city', 'text');
-        $builder->add('state', 'text');
-        $builder->add('pincode', 'text');
+        $builder->add('area', 'text', array('required' => false));
+        $builder->add('city', 'text', array('required' => false));
+        $builder->add('state', 'text', array('required' => false));
+        $builder->add('pincode', 'text', array('required' => false));
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -29,5 +28,4 @@ class AddressForm extends AbstractType
             'data_class' => '\GqAus\UserBundle\Entity\UserAddress',
         ));
     }    
-
 }
