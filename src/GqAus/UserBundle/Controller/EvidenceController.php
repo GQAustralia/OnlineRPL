@@ -17,7 +17,7 @@ class EvidenceController extends Controller
             $form->bind($request);
             $data = $form->getData();
             $fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
-            $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data); exit;
+            echo $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data); exit;
             ///$referer = $request->headers->get('referer');
             //return $this->redirect($referer);
         }

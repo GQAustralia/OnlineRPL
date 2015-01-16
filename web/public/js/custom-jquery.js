@@ -40,19 +40,19 @@ $(".checkmark-icon").click(function () {
                 var label = $( "#label_"+unitId ).attr("temp");
                 if (result == '0') {
                     $( "#label_"+unitId ).attr("for","");
-					//$( "#btnadd_"+unitId ).attr("data-model","");
-					//$( "#btnadd_"+unitId ).attr("data-toggle","");
-					$( "#btnadd_"+unitId ).attr('disabled','disabled');
-					$( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
-					$( "#span_"+unitId ).removeClass( "radioUnChecked" );
+                    //$( "#btnadd_"+unitId ).attr("data-model","");
+                    //$( "#btnadd_"+unitId ).attr("data-toggle","");
+                    $( "#btnadd_"+unitId ).attr('disabled','disabled');
+                    $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
+                    $( "#span_"+unitId ).removeClass( "radioUnChecked" );
                     
                 } else {
-					$( "#label_"+unitId ).attr("for",label);
-					//$( "#btnadd_"+unitId ).attr("data-model","model");
-					//$( "#btnadd_"+unitId ).attr("data-toggle","model");
-					$( "#btnadd_"+unitId ).removeAttr('disabled');
-					$( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
-					$( "#span_"+unitId ).addClass( "radioUnChecked" );
+                    $( "#label_"+unitId ).attr("for",label);
+                    //$( "#btnadd_"+unitId ).attr("data-model","model");
+                    //$( "#btnadd_"+unitId ).attr("data-toggle","model");
+                    $( "#btnadd_"+unitId ).removeAttr('disabled');
+                    $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
+                    $( "#span_"+unitId ).addClass( "radioUnChecked" );
                 }
             }
         });
@@ -64,7 +64,9 @@ $(".fromBottom").click(function () {
     $('#file_hid_unit').val(unit);
     $('.gq-dashboard-tabs').show();
     $('#gq-dashboard-tabs-success').hide();
-	$('#file_save').show();
+    $('#file_save').show();
+    $('#frmAddEvidence')[0].reset();
+    $('#frmSelectEvidence')[0].reset();
 });
 
 $("#frmSelectEvidence").submit(function () {
@@ -108,19 +110,23 @@ $(".deleteIdFiles").click(function () {
 
 
 $("#frmAddEvidence").ajaxForm({
-	beforeSubmit: function() {
+    beforeSubmit: function() {
         $('#file_save').hide();
     },
-    success: function() {
+    success: function(responseText, statusText, xhr, $form) {
         $('.gq-dashboard-tabs').hide();
         $('#gq-dashboard-tabs-success').show();
-        $('#gq-dashboard-tabs-success').html('<span><h2>Evidence upload successfully!</h2></span>');
+		if (responseText == '0') {
+			$('#gq-dashboard-tabs-success').html('<span></span><h2>Evidence upload successfully!</h2>');
+		} else {
+			$('#gq-dashboard-tabs-success').html('<span></span><h2>File size below 10MB id upload successfully!</h2>');
+		}
     },
-	resetForm: true
+    resetForm: true
 });
 
 $("#frmSelectEvidence").ajaxForm({
-	beforeSubmit: function() {
+    beforeSubmit: function() {
         $('#file_save').hide();
     },
     success: function() {
@@ -128,23 +134,23 @@ $("#frmSelectEvidence").ajaxForm({
         $('#gq-dashboard-tabs-success').show();
         $('#gq-dashboard-tabs-success').html('<span><h2>Existing Evidence upload successfully!</h2></span>');
     },
-	resetForm: true
+    resetForm: true
 });
 
 
 $("#evd_close").click(function () {
-	//location.reload();
+    //location.reload();
 });
 
 function validatefile()
-{	
+{    
 }
 
 function validateExisting()
 {
-	var efile = $(".check_evidence:checkbox:checked").length;
-	if(efile <= 0 || efile == '' || typeof  efile === 'undefined') {
-		alert('Please select atleast one Existing Evidence!');
-		return false;
-	}
+    var efile = $(".check_evidence:checkbox:checked").length;
+    if(efile <= 0 || efile == '' || typeof  efile === 'undefined') {
+        alert('Please select atleast one Existing Evidence!');
+        return false;
+    }
 }

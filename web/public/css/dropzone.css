@@ -9,8 +9,8 @@
 }
 .dropzone {
   position: relative;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: rgba(0,0,0,0.02);
+  /*border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.02);*/
   padding: 1em;
 }
 .dropzone.dz-clickable {
@@ -173,7 +173,7 @@ top: 49px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background: rgba(0,0,0,0.03);
+  /*background: rgba(0,0,0,0.03);*/
  padding: 23px;
 
 /** START of new added **/ 
