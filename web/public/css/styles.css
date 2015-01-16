@@ -274,7 +274,7 @@ a.btn-red {color:#ffffff;}
  
 /* Profile page styling
 --------------------------------------------------------------*/
-.gq-profile-page-img {width:120px; height:120px; margin:0 auto; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:10px auto; overflow:hidden; }
+.gq-profile-page-img {width:120px; height:120px; margin:0 auto; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:10px auto; overflow:hidden; background-position: center center; background-repeat: no-repeat; background-size: cover;}
 .gq-profile-page-img img{width:100%; }
 .gq-edit-photo-btn {width:100px; height:32px; margin:0 auto; position:relative;}
 .gq-edit-photo-btn input[type="file"]{opacity:0; width:100%;}
@@ -290,6 +290,8 @@ a.btn-red {color:#ffffff;}
 .gq-form-personal .gq-form-botton .btn{width:100%; float:left; font-size:17px; background-color:#f14840; color:#ffffff;}
 .gq-form-personal .gq-form-botton .btn:hover, .gq-form-personal .gq-form-botton .btn:focus{background-color:#ffffff; color:#5e5e5e;}
 .gq-profile-tabs-header {padding-top:26px;}
+#userprofile_gender label {font-weight:normal;}
+#userprofile_gender{ border-left: 1px solid red; float: left; font-weight: normal; height: 34px; margin-left: 4px; padding-left: 11px; padding-top: 5px; width: 66%; }
 
 	/* ID files */
 	.gq-id-files-upload-text {padding-bottom:40px; float:left;}
@@ -335,6 +337,10 @@ a.btn-red {color:#ffffff;}
 	.gq-id-files-content-esc-icon {background-image:url('../images/exclation-icon.png');}
 	.gq-id-files-content-img-icon {background-image:url('../images/wallpaper-icon.png');}
 	.gq-id-files-content-doc-icon {background-image:url('../images/page-icon.png');}
+	.gq-id-files-content-audio-icon {background-image:url('../images/audio-icon.png');}
+	.gq-id-files-content-docx-icon {background-image:url('../images/doc-icon.png');}
+	.gq-id-files-content-video-icon {background-image:url('../images/video-icon.png');}
+	.gq-id-files-content-other-type-icon {background-image:url('../images/other-type-icon.png');}
 	.gq-id-files-content-row-wrap {padding:10px; width:100%; float:left;}
 	.gq-dashboard-courses-detail .gq-del-evidence{position:absolute; top:-20px; right:-20px; background-image:url('../images/delete-evidence-icon.png'); background-repeat:no-repeat; background-position:center center; width:46px; height:46px; display:block;}
 	.gq-id-files-content-row {width:100%; float:left; font-size:14px;}
