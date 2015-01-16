@@ -17,11 +17,11 @@ class EvidenceController extends Controller
             $form->bind($request);
             $data = $form->getData();
             $fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
-            $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data);
-            return $this->redirect('evidences');
+            $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data); exit;
+            ///$referer = $request->headers->get('referer');
+            //return $this->redirect($referer);
         }
     }
-    
     
     public function viewAction(Request $request)
     { 
@@ -37,8 +37,9 @@ class EvidenceController extends Controller
     public function saveExistingEvidenceAction(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $result = $this->get('EvidenceService')->saveExistingEvidence($request);
-            return $this->redirect('evidences');
+            $result = $this->get('EvidenceService')->saveExistingEvidence($request); exit;
+            //$referer = $request->headers->get('referer');
+            //return $this->redirect($referer);
         }
     }
     
@@ -47,9 +48,9 @@ class EvidenceController extends Controller
         $evidenceId = $this->getRequest()->get('fid');
         $evidenceType = $this->getRequest()->get('ftype');
         $fileName = $this->get('EvidenceService')->deleteEvidence($evidenceId, $evidenceType);
-		if ($evidenceType != 'text') {
-			$this->get('gq_aus_user.file_uploader')->delete($fileName);
-		}
-		exit;
+        if ($evidenceType != 'text') {
+            $this->get('gq_aus_user.file_uploader')->delete($fileName);
+        }
+        exit;
     }
 }
