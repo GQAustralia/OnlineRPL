@@ -37,18 +37,22 @@ $(".checkmark-icon").click(function () {
             url: "../updateUnitElective",
             data: { unitId: unitId, courseCode: courseCode, userId: userId },
             success:function(result) {
-				var label = $( "#label_"+unitId ).attr("temp");
+                var label = $( "#label_"+unitId ).attr("temp");
                 if (result == '0') {
-					$( "#label_"+unitId ).attr("for","");
-					$( "#btnadd_"+unitId ).attr("data-model","");
+                    $( "#label_"+unitId ).attr("for","");
+                    //$( "#btnadd_"+unitId ).attr("data-model","");
+                    //$( "#btnadd_"+unitId ).attr("data-toggle","");
+                    $( "#btnadd_"+unitId ).attr('disabled','disabled');
                     $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
-					$( "#span_"+unitId ).removeClass( "radioUnChecked" );
-					
+                    $( "#span_"+unitId ).removeClass( "radioUnChecked" );
+                    
                 } else {
-					$( "#label_"+unitId ).attr("for",label);
-					$( "#btnadd_"+unitId ).attr("data-model","model");
+                    $( "#label_"+unitId ).attr("for",label);
+                    //$( "#btnadd_"+unitId ).attr("data-model","model");
+                    //$( "#btnadd_"+unitId ).attr("data-toggle","model");
+                    $( "#btnadd_"+unitId ).removeAttr('disabled');
                     $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
-					$( "#span_"+unitId ).addClass( "radioUnChecked" );
+                    $( "#span_"+unitId ).addClass( "radioUnChecked" );
                 }
             }
         });
@@ -58,10 +62,15 @@ $(".checkmark-icon").click(function () {
 $(".fromBottom").click(function () {
     unit = $(this).attr("unitid");
     $('#file_hid_unit').val(unit);
+    $('.gq-dashboard-tabs').show();
+    $('#gq-dashboard-tabs-success').hide();
+    $('#file_save').show();
+    $('#frmAddEvidence')[0].reset();
+    $('#frmSelectEvidence')[0].reset();
 });
 
 $("#frmSelectEvidence").submit(function () {
-	 $('#select_hid_unit').val(unit);
+     $('#select_hid_unit').val(unit);
 });
 
 
@@ -75,8 +84,8 @@ $(".deleteEvidence").click(function () {
             url: "deleteEvidenceFile",
             data: { fid: fid, ftype: ftype },
             success:function(result) {
-				$('#evd_'+fid).hide();
-				alert("Selected Evidence File deleted!");
+                $('#evd_'+fid).hide();
+                alert("Selected Evidence File deleted!");
             }
         });
    }
@@ -92,10 +101,56 @@ $(".deleteIdFiles").click(function () {
             url: "deleteIdFiles",
             data: { fid: fid, ftype: ftype },
             success:function(result) {
-				$('#idfiles_'+fid).hide();
-				alert("Selected ID File deleted!");
+                $('#idfiles_'+fid).hide();
+                alert("Selected ID File deleted!");
             }
         });
    }
 });
 
+
+$("#frmAddEvidence").ajaxForm({
+    beforeSubmit: function() {
+        $('#file_save').hide();
+    },
+    success: function(responseText, statusText, xhr, $form) {
+        $('.gq-dashboard-tabs').hide();
+        $('#gq-dashboard-tabs-success').show();
+		if (responseText == '0') {
+			$('#gq-dashboard-tabs-success').html('<span></span><h2>Evidence upload successfully!</h2>');
+		} else {
+			$('#gq-dashboard-tabs-success').html('<span></span><h2>File size below 10MB id upload successfully!</h2>');
+		}
+    },
+    resetForm: true
+});
+
+$("#frmSelectEvidence").ajaxForm({
+    beforeSubmit: function() {
+        $('#file_save').hide();
+    },
+    success: function() {
+        $('.gq-dashboard-tabs').hide();
+        $('#gq-dashboard-tabs-success').show();
+        $('#gq-dashboard-tabs-success').html('<span><h2>Existing Evidence upload successfully!</h2></span>');
+    },
+    resetForm: true
+});
+
+
+$("#evd_close").click(function () {
+    //location.reload();
+});
+
+function validatefile()
+{    
+}
+
+function validateExisting()
+{
+    var efile = $(".check_evidence:checkbox:checked").length;
+    if(efile <= 0 || efile == '' || typeof  efile === 'undefined') {
+        alert('Please select atleast one Existing Evidence!');
+        return false;
+    }
+}

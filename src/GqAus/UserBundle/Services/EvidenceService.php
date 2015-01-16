@@ -40,40 +40,49 @@ class EvidenceService
     public function saveEvidence($evidences, $data)
     {
         $i = 0;
-        foreach ($evidences as $evidence) {
-            $mimeType = $data['file'][$i]->getClientMimeType();
-            $size = $data['file'][$i]-> getClientSize();
-            $size = $this->fileSize($size);
-            $pos = strpos($mimeType, '/');
-            $type = substr($mimeType,0,$pos);
-            switch ($type) {
-                case 'image':
-                    $fileObj = new Image();
-                    break;
-                case 'audio':
-                    $fileObj = new Audio();
-                    break;
-                case 'video':
-                    $fileObj = new Video();
-                    break;
-                case 'text':
-                    $fileObj = new File();
-                    break;
-                case 'application':
-                    $fileObj = new File();
-                    break;
-                default :
-                    $fileObj = new File();
-                    break;
-            }
-            $fileObj->setPath($evidence['aws_file_name']);
-            $fileObj->setName($evidence['orginal_name']);
-            $fileObj->setUser($this->currentUser);
-            $fileObj->setSize($size);
-            $fileObj->setUnit($data['hid_unit']);        
-            $this->em->persist($fileObj);
-            $this->em->flush();
-            $i++;
+        $seterror = 0;
+        $maxFileSize = $this->container->getParameter('maxFileSize');
+        if (!empty($evidences)) {
+            foreach ($evidences as $evidence) {
+                $size =    $data['file'][$i]->getClientSize();
+                if ($size <= $maxFileSize) {
+                    $mimeType = $data['file'][$i]->getClientMimeType();
+                    $size = $data['file'][$i]-> getClientSize();
+                    $size = $this->fileSize($size);
+                    $pos = strpos($mimeType, '/');
+                    $type = substr($mimeType,0,$pos);
+                    switch ($type) {
+                        case 'image':
+                            $fileObj = new Image();
+                            break;
+                        case 'audio':
+                            $fileObj = new Audio();
+                            break;
+                        case 'video':
+                            $fileObj = new Video();
+                            break;
+                        case 'text':
+                            $fileObj = new File();
+                            break;
+                        case 'application':
+                            $fileObj = new File();
+                            break;
+                        default :
+                            $fileObj = new File();
+                            break;
+                    }
+                    $fileObj->setPath($evidence['aws_file_name']);
+                    $fileObj->setName($evidence['orginal_name']);
+                    $fileObj->setUser($this->currentUser);
+                    $fileObj->setSize($size);
+                    $fileObj->setUnit($data['hid_unit']);        
+                    $this->em->persist($fileObj);
+                    $this->em->flush();
+                    $i++;
+                } else {
+                    $seterror = 1;
+                }
+            }//for
         }
         
         if (!empty($data['self_assessment'])) {
@@ -84,6 +93,7 @@ class EvidenceService
             $this->em->persist($textObj);
             $this->em->flush();
         }
+        return $seterror;
     }
     
     public function fileSize($size)

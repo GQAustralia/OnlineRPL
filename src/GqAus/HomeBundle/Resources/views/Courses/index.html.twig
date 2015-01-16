@@ -129,7 +129,7 @@
                 {% for key, units in courseInfo.Units.Unit %}
                     {% if units.type == 'elective' %}
                 <div>
-                    <input id="acc-acc-{{i}}" name="accordion-1" type="checkbox"/>
+                    <input id="acc-{{i}}" name="accordion-1" type="checkbox"/>
                     <div class="row no-margin">
                         <div id="div_{{units.id}}" class="gq-acc-row-bg  {% if units.id  in electiveUnits %} gq-acc-row-checked {% endif %}">
                             <div class="col-xs-4">
@@ -143,10 +143,10 @@
                             </div>
                             
                             <div class="col-lg3 col-md-3 col-sm-3 col-xs-2">
-                                <button id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}" data-toggle="{% if units.id not in electiveUnits %}modal{% endif %}" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
+                                <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
                             </div>
                             <div class="col-xs-1">
-                                <label for="{% if units.id not in electiveUnits %} acc-acc-{{i}} {% endif %}" temp="acc-acc-{{i}}" id="label_{{units.id}}" class="col-xs-4"></label>
+                                <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4"></label>
                             </div>
                         </div>
                     </div>
@@ -192,10 +192,11 @@
   <div class="modal-dialog gq-modal-upload">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="close" data-dismiss="modal" id="evd_close" aria-label="Close"></button>
       </div>
       <div class="modal-body">
 <div class="gq-dashboard-courses-detail-wrap">
+	<div class="qualification-success-msg" id="gq-dashboard-tabs-success"></div>
     <div class="gq-dashboard-tabs">
         <!-- Tabs start here -->
         <div class="gq-dashboard-tabs-header wid60p">
@@ -209,7 +210,7 @@
         <div class="tab-content">
         
         <div role="tabpanel" class="tab-pane active" id="add-evidence-tab">
-		<form method="post" id="frmAddEvidence" action="{{ app.request.baseUrl }}/addEvidences" name="frmAddEvidence" enctype= "multipart/form-data">
+		<form method="post" id="frmAddEvidence" name="frmAddEvidence" action="{{ app.request.baseUrl }}/addEvidences" enctype= "multipart/form-data" onsubmit="return validatefile()">
             <div class="wid70p">
                 <div class="row">
                     <div class="col-xs-6">
@@ -246,7 +247,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 					<div class="gq-evidence">
-						<form method="post" id="frmSelectEvidence" action="{{ app.request.baseUrl }}/saveExistingEvidence" name="frmSelectEvidence" enctype= "multipart/form-data">
+						<form method="post" id="frmSelectEvidence" action="{{ app.request.baseUrl }}/saveExistingEvidence" name="frmSelectEvidence" enctype= "multipart/form-data" onsubmit="return validateExisting()">
 						<input type="hidden" name="select_hid_unit" id="select_hid_unit" value="">
 										<!-- Tabs start here -->
 											<ul class="nav nav-pills margin-top15 gq-evidence-tabs" role="tablist" id="myTab">
@@ -274,8 +275,8 @@
 								{% endif %}
 							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
 								<div class="gq-dashboard-courses-detail  margin-top15" >
-									<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">
-										<img class="gq-evidence-image" src="{{ image }}" alt="" />
+									<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">										
+										<div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
 									</a>
 									<div class="gq-id-files-content-row-wrap">
 										<div class="gq-id-files-content-row">
@@ -289,7 +290,7 @@
 										</div>
 									</div>
 									<span class="select-from-evidence-tab-check">
-										<input class="styled" type="checkbox" value="{{evidence.id}}" name="evidence-file[{{evidence.type}}][]">
+										<input class="check_evidence styled" type="checkbox" value="{{evidence.id}}" name="evidence-file[{{evidence.type}}][]">
 									</span>
 								</div>
 							</div>
@@ -325,7 +326,7 @@
 								</div>
 							</div>
 							<span class="select-from-evidence-tab-check">
-								<input class="styled" type="checkbox" value="{{evidence.id}}" name="evidence-file[{{evidence.type}}][]">
+								<input class="check_evidence styled" type="checkbox" value="{{evidence.id}}" name="evidence-file[{{evidence.type}}][]">
 							</span>
 						</div>
 					</div>
@@ -361,7 +362,7 @@
 								</div>
 							</div>
 							<span class="select-from-evidence-tab-check">
-								<input class="styled" type="checkbox" value="{{evidence.id}}" name="evidence-file[{{evidence.type}}][]">
+								<input class="check_evidence styled" type="checkbox" value="{{evidence.id}}" name="evidence-file[{{evidence.type}}][]">
 							</span>
 						</div>
 					</div>
@@ -387,7 +388,7 @@
 								</div>
 							</div>
 							<span class="select-from-evidence-tab-check">
-								<input class="styled" type="checkbox" value="{{evidence.id}}" name="evidence-file[{{evidence.type}}][]">
+								<input class="check_evidence styled" type="checkbox" value="{{evidence.id}}" name="evidence-file[{{evidence.type}}][]">
 							</span>
 						</div>
 					</div>
@@ -423,7 +424,7 @@
 								</div>
 							</div>
 							<span class="select-from-evidence-tab-check">
-								<input class="styled" type="checkbox" value="{{evidence.id}}" name="evidence-file[{{evidence.type}}][]">
+								<input class="check_evidence styled" type="checkbox" value="{{evidence.id}}" name="evidence-file[{{evidence.type}}][]">
 							</span>
 						</div>
 					</div>

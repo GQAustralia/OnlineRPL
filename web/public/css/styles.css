@@ -236,17 +236,20 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-box-1x .flip-icon, .gq-dashboard-box-2x .flip-icon {background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:-1px; right:-1px; display:block; height:23px; width:24px;}
 .gq-dashboard-box-1x {min-height: 182px; margin-bottom:16px;}
 .gq-dashboard-box-2x {min-height: 380px;}
-.gq-dashboard-box-title-wrap {width:100%; border-bottom:1px solid #dddddd; height:48px; display:block;}
+.gq-dashboard-box-title-wrap {width:100%; border-bottom:1px solid #dddddd; min-height:48px; display:block; position:relative; overflow:hidden;}
 .gq-dashboard-box-content-wrap{padding:0 15px; float:left; width:100%;}
-.gq-dashboard-box-title-wrap .gq-dashboard-box-title {font-size:22px; color:#f14a41; float:left; padding:12px;}
-.gq-dashboard-box-title-wrap .gq-dashboard-points-icon {width:48px; height:48px; display:block; float:right; border-left:1px solid #dddddd;}
+.gq-dashboard-box-title-wrap .gq-dashboard-box-title {font-size:22px; color:#f14a41; float:left; padding:12px 40px 12px 12px;}
+.gq-dashboard-box-title-wrap .gq-dashboard-points-icon {width:48px; height:80px; display:block; float:right; border-left:1px solid #dddddd; position:absolute; top:0; right:0;}
 .gq-dashboard-running-txt {font-size:14px; color:#5e5e5e; width:100%; float:left; padding-top:20px;}
 .gq-dashboard-points-in-number {font-size:60px; color:#f14840; float:left;}
 .gq-dashboard-points-in-percent {font-size:60px; color:#f14840; float:left; padding:26px 3px;}
 .gq-dashboard-profile-img {float:left; padding:5px 0;}
-.gq-dashboard-courses-detail-wrap {width:100%; float:left; padding:15px;}
+.gq-dashboard-courses-detail-wrap {width:100%; float:left; padding:0 15px;}
+.gq-dashboard-qualification-scroll { height:230px; overflow-x: hidden; overflow-y: auto;}
+.qualification-success-msg { color:#85b430; text-align:center; padding: 80px 15px 15px; width:570px; height:200px; margin:0 auto;}
+.qualification-success-msg span { background-image: url("../images/upload-sussess-icon.png"); background-position: center center; background-repeat: no-repeat; content: ""; display: block; float: left; height: 60px; left: 0; margin-right: 30px; position: relative; top: 0; width: 60px;}
+.qualification-success-msg h2 {float:left; font-size:32px; color:#85b430; padding-top:10px;}
 .gq-dashboard-courses-detail {width:100%; border:1px solid #dddddd; min-height:48px; display:block; float:left; margin-bottom:5px; box-shadow:0px 2px 2px #f3f3f3; background-color:#ffffff;}
-.gq-dashboard-courses-detail:hover {background-color:#f5f5f5; cursor:pointer;}
 .gq-dashboard-courses-detail .gq-dashboard-cap-icon {width:48px; height:48px; display:block; float:left;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {font-size:18px; color:#5e5e5e; float:left; padding-left:22px; padding-top:12px; padding-bottom:12px; border-left:1px solid #dddddd;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:hover, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:active {font-size:18px; color:#5e5e5e; text-decoration:none;}
@@ -255,6 +258,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-tabs .nav li a{border-radius:0px; background-color:#ffffff;}
 .gq-dashboard-tabs .nav li:first-child a{ border-bottom-left-radius:5px; border-top-left-radius:5px; border-bottom-right-radius:0; border-top-right-radius:0;}
 .gq-dashboard-tabs .nav li:last-child a{border-bottom-left-radius:0; border-top-left-radius:0; border-bottom-right-radius:5px; border-top-right-radius:5px;}
+.gq-dashboard-tabs .gq-dashboard-courses-detail:hover {/*background-color:#f5f5f5;*/ cursor:pointer;}
 
 .gq-dashboard-tabs .nav-pills > li.active > a, .gq-dashboard-tabs .nav-pills > li.active > a:hover, .gq-dashboard-tabs .nav-pills > li.active > a:focus {background-color:#f14840; color:#ffffff;}
 .gq-dashboard-tabs .nav-pills > li > a {color:#5e5e5e; font-size:15px;}
@@ -332,6 +336,7 @@ a.btn-red {color:#ffffff;}
 	.gq-id-files-content-img-icon {background-image:url('../images/wallpaper-icon.png');}
 	.gq-id-files-content-doc-icon {background-image:url('../images/page-icon.png');}
 	.gq-id-files-content-row-wrap {padding:10px; width:100%; float:left;}
+	.gq-dashboard-courses-detail .gq-del-evidence{position:absolute; top:-20px; right:-20px; background-image:url('../images/delete-evidence-icon.png'); background-repeat:no-repeat; background-position:center center; width:46px; height:46px; display:block;}
 	.gq-id-files-content-row {width:100%; float:left; font-size:14px;}
 	.gq-id-files-content-row label{color:#2f3941; text-align:right; padding-right:6px;}
 	.gq-id-files-content-row span{color:#f14840; text-align:left;}
@@ -407,7 +412,7 @@ a.btn-red {color:#ffffff;}
 
 /* Course Details page
 -------------------------------------------------------------*/
-.gq-course-details-title-wrap {width:100%; border-bottom:1px solid #e0f5cc; height:48px; display:block;}
+.gq-course-details-title-wrap {width:100%; border-bottom:1px solid #e0f5cc; min-height:48px; display:block;}
 .gq-course-details-title-wrap .gq-dashboard-box-title{padding:7px 15px; font-size:22px; color:#5e5e5e;}
 .gq-dashboard-box-content {padding:15px; font-size:16px; color:#5e5e5e;}
 .gq-course-details-header-title {font-size:20px; color:#2f3741; line-height:32px;}
@@ -415,7 +420,7 @@ a.btn-red {color:#ffffff;}
 /* .gq-acc-row-bg.gq-acc-row-checked .checkmark-icon {background-image:url('../images/checkmark_unchecked.png');} */
 .gq-acc-row-bg.gq-acc-row-checked {opacity:.5;}
 .gq-course-details-upload-evidence {border:2px dotted #a6a6a6; background-color:#ebebeb; position:relative;}
-.gq-course-details-upload-evidence, .gq-course-details-upload-evidence-self {min-height:198px; padding:15px; border-radius:5px; color:#9f9f9f; font-size:16px;}
+.gq-course-details-upload-evidence, .gq-course-details-upload-evidence-self {min-height:198px; padding:15px; color:#9f9f9f; font-size:16px;}
 .gq-course-details-upload-evidence-self {border:1px solid #e5e5e5; background-color:#ffffff;}
 .gq-course-details-upload-evidence-self textarea{ width:100%; min-height:160px; background:transparent; border:0px none; resize:none; }
 .gq-course-details-drop-file {background-image:url('../images/upload-icon.png'); background-repeat:no-repeat; background-position:top center; height: 120px; margin: 0 auto; padding-top: 69px; width: 120px; text-align:center;}
@@ -426,9 +431,9 @@ a.btn-red {color:#ffffff;}
 .gq-evidence .gq-evidence-tabs{ font-size:16px; border-bottom:0px solid #e3e3e3; background:url('../images/gray-line-bit.png') repeat-x bottom center; }
 .gq-evidence .nav-pills > li > a{ border-bottom:2px solid transparent; }
 .gq-evidence .nav-pills > li > a,.gq-evidence .nav-pills > li > a:hover, .nav-pills > li > a:focus{ background-color:transparent; color:#5e5e5e; border-radius:0; outline:0px none; }
-.gq-evidence .nav-pills > li.active > a,.gq-evidence .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{ background-color:transparent; color:#f36059; border-bottom:2px solid #f36059; }
+.gq-evidence .nav-pills > li.active > a,.gq-evidence .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{ background-color:transparent; color:#f36059; /*border-bottom:2px solid #f36059;*/ }
 
-.gq-evidence .gq-dashboard-courses-detail{ border-radius:10px; }
+/*.gq-evidence .gq-dashboard-courses-detail{ border-radius:10px; }*/
 .gq-evidence .video-thumb-icon{ position:relative; }		
 .gq-evidence .video-thumb-icon .gq-evidence-image{ width:100%; border-top-left-radius:10px; border-top-right-radius:10px; }
 .gq-evidence .video-thumb-icon .gq-evidence-playicon{ position:absolute; z-index:1; top:30%; left:42%; }
@@ -446,6 +451,7 @@ a.btn-red {color:#ffffff;}
 	/*.gq-dashboard-left {width:8.6680%;} */
 	/*.gq-dashboard-right {width:1168px;}*/
 	/*.gq-dashboard-right {width:91.3333%;}*/
+	.wid30p {width:50%; margin:0 25%;}
 	.wid60p {width:40%; margin:0 30%;}
 	.modal-dialog.gq-modal-upload{width:100%;}
  }
@@ -465,6 +471,7 @@ a.btn-red {color:#ffffff;}
 .gq-id-files-upload-text, .gq-id-files-upload-success-text {padding-bottom:20px;}
 .gq-id-files-upload-btn, .gq-id-files-submit-btn {margin-top:15px;}
 .gq-dashboard-right {width:100%;}
+#edivenceModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }
 }
 
 @media (max-width:368px) {

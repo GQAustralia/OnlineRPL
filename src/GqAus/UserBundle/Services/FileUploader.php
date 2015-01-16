@@ -8,6 +8,10 @@ use Gaufrette\Filesystem;
 
 class FileUploader
 {
+     /**
+     * @var Object
+     */
+    private $container;
 
     private $filesystem;
     
@@ -22,6 +26,7 @@ class FileUploader
         $this->userId = $session->get('user_id');
         $this->repository = $em->getRepository('GqAusUserBundle:User');
         $this->currentUser = $this->getCurrentUser();
+        $this->container = $container;
     }
 
     public function getCurrentUser()
@@ -49,12 +54,16 @@ class FileUploader
      */
     public function uploadToAWS(UploadedFile $file)
     {
-        // Generate a unique filename based on the date and add file extension of the uploaded file
-        $filename = sprintf('%s-%s-%s-%s.%s', date('Y'), date('m'), date('d'), uniqid(), $file->getClientOriginalExtension());
-        $adapter = $this->filesystem->getAdapter();
-        $adapter->setMetadata($filename, array('contentType' => $file->getClientMimeType()));
-        $adapter->write($filename, file_get_contents($file->getPathname()));
-        return array('aws_file_name' => $filename, 'orginal_name' => $file->getClientOriginalName());
+        $size =    $file->getClientSize();
+        $maxFileSize = $this->container->getParameter('maxFileSize');
+        if ($size <= $maxFileSize) {
+            // Generate a unique filename based on the date and add file extension of the uploaded file
+            $filename = sprintf('%s-%s-%s-%s.%s', date('Y'), date('m'), date('d'), uniqid(), $file->getClientOriginalExtension());
+            $adapter = $this->filesystem->getAdapter();
+            $adapter->setMetadata($filename, array('contentType' => $file->getClientMimeType()));
+            $adapter->write($filename, file_get_contents($file->getPathname()));
+            return array('aws_file_name' => $filename, 'orginal_name' => $file->getClientOriginalName());
+        }
     }
     
     /**

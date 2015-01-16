@@ -118,7 +118,7 @@
                                         </div>
                                         <div class="col-lg2 col-md-2 col-sm-4 col-xs-12">
                                             <div class="gq-id-files-submit-btn">
-                                                {{ form_widget(filesForm.save) }}
+                                                {{ form_widget(filesForm.save, { 'label': 'Upload' }) }}
                                             </div>
                                         </div>
                                     </div>
@@ -134,6 +134,7 @@
                                             {% for item in userIdFiles %}
                                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.type.id}}">
                                                 <div class="gq-dashboard-courses-detail">
+												<a class="deleteIdFiles" fileid="{{item.type.id}}" filetype="{{item.type.type}}"><div class="gq-del-evidence"></div></a>
                                                     {% if item.type.id == 1 %}
                                                         {% set doc_type = 'gq-id-files-content-img-icon' %}
                                                     {#{% elseif item.type.id == 2 %}
@@ -149,7 +150,7 @@
                                                         <div class="gq-id-files-content-row">
                                                             <label>Added on</label><span>{{item.created|date("F jS") }}</span>
                                                         </div>
-														<a class="deleteIdFiles" fileid="{{item.type.id}}" filetype="{{item.type.type}}">Delete File</a>
+														
                                                     </div>
                                                 </div>
                                             </div>
