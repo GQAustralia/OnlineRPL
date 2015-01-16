@@ -143,7 +143,7 @@
                             </div>
                             
                             <div class="col-lg3 col-md-3 col-sm-3 col-xs-2">
-                                <button id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}" data-toggle="{% if units.id not in electiveUnits %}modal{% endif %}" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
+                                <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
                             </div>
                             <div class="col-xs-1">
                                 <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4"></label>

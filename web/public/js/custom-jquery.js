@@ -40,15 +40,19 @@ $(".checkmark-icon").click(function () {
                 var label = $( "#label_"+unitId ).attr("temp");
                 if (result == '0') {
                     $( "#label_"+unitId ).attr("for","");
-                    $( "#btnadd_"+unitId ).attr("data-model","");
-                    $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
-                    $( "#span_"+unitId ).removeClass( "radioUnChecked" );
+					//$( "#btnadd_"+unitId ).attr("data-model","");
+					//$( "#btnadd_"+unitId ).attr("data-toggle","");
+					$( "#btnadd_"+unitId ).attr('disabled','disabled');
+					$( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
+					$( "#span_"+unitId ).removeClass( "radioUnChecked" );
                     
                 } else {
-                    $( "#label_"+unitId ).attr("for",label);
-                    $( "#btnadd_"+unitId ).attr("data-model","model");
-                    $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
-                    $( "#span_"+unitId ).addClass( "radioUnChecked" );
+					$( "#label_"+unitId ).attr("for",label);
+					//$( "#btnadd_"+unitId ).attr("data-model","model");
+					//$( "#btnadd_"+unitId ).attr("data-toggle","model");
+					$( "#btnadd_"+unitId ).removeAttr('disabled');
+					$( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
+					$( "#span_"+unitId ).addClass( "radioUnChecked" );
                 }
             }
         });
