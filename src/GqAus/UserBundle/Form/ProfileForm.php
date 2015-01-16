@@ -18,7 +18,12 @@ class ProfileForm extends AbstractType
         $builder->add('firstname', 'text');
         $builder->add('lastname', 'text');
         $builder->add('email', 'text');
-        $builder->add('phone', 'text');
+        $builder->add('gender', 'choice', array('choices' => array('male' => 'Male','female' => 'Female'),'multiple' => false,
+        'expanded' => true, 'required' => true,));
+        $builder->add('phone', 'text', array('required' => false));
+        $builder->add('dateOfBirth', 'text');
+        $builder->add('universalStudentIdentifier', 'text');
+        $builder->add('userImage', 'file', array('required' => false, 'data_class' => null));
         $builder->add('address', new AddressForm(), array( 'label' => false ));
         $builder->add('save', 'submit');
 

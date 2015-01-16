@@ -16,9 +16,10 @@
 
     </div>
     <div class="row">
+        {{ form_start(form) }}
         <div class="col-xs-push-3 col-xs-6">
             <div class="row">
-                <div class="gq-profile-page-img"><img src="{{ asset('public/images/') ~ userImage }}" /> </div>
+                <div class="gq-profile-page-img" id="ajax-gq-profile-page-img" style="background-image: url(&quot;{{ asset('public/uploads/') ~ userImage }}&quot;);"></div>
             </div>            
             {% for flashMessage in app.session.flashbag.get('notice') %}
             <div class="row">
@@ -28,12 +29,21 @@
             </div>
             {% endfor %}       
             
-        </div>	
+        </div>
+        <div class="col-xs-12">
+                <div class="row">
+                        <div class="gq-edit-photo-btn">
+                                <span class="btn-red">{{ form_widget(form.userImage) }}</span>
+                                <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
+                        </div>
+                    <div class="ajax-profile-error" id="ajax-profile-error"></div>
+                </div>
+        </div>
         <div class="col-xs-12">
             <div class="gq-dashboard-tabs">
                 <!-- Tabs start here -->
                 
-                {{ form_start(form) }}
+                
                 <div class="gq-dashboard-tabs-header gq-profile-tabs-header wid60p">
                     <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
                         <li role="presentation" class="active"><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal</a></li>
@@ -60,8 +70,20 @@
                                     {{ form_widget(form.email) }}
                                 </div>
                                 <div class="gq-form-row">
+                                    <label class="pull-left" for="gq-personal-pwd">Gender</label>
+                                    {{ form_widget(form.gender) }}
+                                </div>
+                                <div class="gq-form-row">
                                     <label for="gq-personal-pwd">Phone</label>
                                     {{ form_widget(form.phone) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">Date Of Birth</label>
+                                    {{ form_widget(form.dateOfBirth) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">USI</label>
+                                    {{ form_widget(form.universalStudentIdentifier) }}
                                 </div>
                                 <div class="gq-form-botton">
                                     {{ form_widget(form.save, {'attr': {'class': 'btn btn-default'}}) }}
@@ -185,6 +207,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
        $('.fancybox').fancybox();
+	   $( "#userprofile_dateOfBirth" ).datepicker();
     });
 </script>
 {% endblock %}

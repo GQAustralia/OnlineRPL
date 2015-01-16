@@ -154,3 +154,45 @@ function validateExisting()
         return false;
     }
 }
+
+$("#userprofile_userImage").change(function(){
+    var fileName = $(this).val();
+    var Extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+
+    if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+        $("#ajax-loading-icon").show();
+        var file_data = $('#userprofile_userImage').prop('files')[0];   
+        var form_data = new FormData();                  
+        form_data.append('file', file_data);                     
+        $.ajax({
+                type: "POST",
+                url: "uploadProfilePic",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data, 
+                success:function(result) {
+                    if(result!="error")
+                    {
+                        $("#ajax-profile-error").hide();
+						$(".ajax-profile-pic").attr('src', '../web/public/uploads/'+result);
+                        $("#ajax-gq-profile-page-img").css("background-image", "url('/public/uploads/"+result+")");
+                        $("#ajax-loading-icon").hide();
+                    }
+                    else
+                    {
+                        $("#ajax-profile-error").show();
+                        $("#ajax-profile-error").html("<p>Error in uploading.</p>");
+                    }
+                }
+            });       
+    }
+    else
+    {
+        $("#ajax-profile-error").show();
+        $("#ajax-profile-error").html("<p>Please upload valid image.</p>");
+        //alert("Please upload valid image");
+        return false;
+    }
+    
+  });

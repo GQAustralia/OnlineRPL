@@ -22,12 +22,13 @@ class UserController extends Controller
 
         $documentTypes = $userService->getDocumentTypes();
         $idFilesForm = $this->createForm(new IdFilesForm(), $documentTypes);
-
+		$image = $user->getUserImage();
         if ($request->isMethod('POST')) {
             $userProfileForm->handleRequest($request);
             //$userAddressForm->handleRequest($request);
             if ($userProfileForm->isValid()) {
-                $userService->saveProfile();
+                //$userService->saveProfile();
+				$userService->savePersonalProfile($image);
             }
             $request->getSession()->getFlashBag()->add(
                 'notice',
@@ -78,4 +79,24 @@ class UserController extends Controller
         $this->get('gq_aus_user.file_uploader')->delete($fileName);
         exit;
     }
+	 public function uploadProfilePicAction(Request $request)
+    {
+        $folderPath = $this->get('kernel')->getRootDir().'/../web/public/uploads/';
+        $proImg = $request->files->get('file');
+        $profilePic = $proImg->getClientOriginalName();
+        $profilePic = time()."-".$profilePic;
+        if($proImg->getClientOriginalName()!="")
+        {
+            $proImg->move($folderPath, $profilePic);
+            $userService = $this->get('UserService');
+            $user = $userService->getCurrentUser();
+            $user->setUserImage($profilePic);
+            $userService->saveProfile();
+            echo $profilePic;
+        }
+        else
+            echo "error";
+        exit;
+    }
+	
 }

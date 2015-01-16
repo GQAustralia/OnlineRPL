@@ -28,3 +28,6 @@ deleteEvidenceFile:
 deleteIdFiles:
     path:     /deleteIdFiles
     defaults:  { _controller: GqAusUserBundle:User:deleteIdFiles }
+uploadProfilePic:
+    path:     /uploadProfilePic
+    defaults: { _controller: GqAusUserBundle:User:uploadProfilePic }

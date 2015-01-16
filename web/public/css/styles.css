@@ -508,3 +508,29 @@ a.btn-red {color:#ffffff;}
  }
 /* Hiding the symphony toolbar in server */
 .sf-toolbar { display: none !important; }
+
+#userprofile_gender{
+
+    border-left: 1px solid red;
+    float: left;
+    font-weight: normal;
+    height: 34px;
+    margin-left: 4px;
+    padding-left: 11px;
+    padding-top: 5px;
+    width: 66%;
+}
+
+.gq-profile-page-img {
+    background-color: #ffffff;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 2px solid #e7ecee;
+    border-radius: 50%;
+    height: 120px;
+    margin: 10px auto;
+    overflow: hidden;
+    text-align: center;
+    width: 120px;
+}
