@@ -186,23 +186,36 @@ class UserService
            $lastName = $user->getLastName();
            $email = $user->getEmail();
            $phone = $user->getPhone();
+		   $gender = $user->getGender();
+		   $usi = $user->getUniversalStudentIdentifier();
+		   $dob = $user->getDateOfBirth();
            $userImage = $user->getUserImage();
            $address = $user->getAddress();
            $address = count($address);
            if (!empty($firstName)) {
-                $profileCompleteness += 15;
+                $profileCompleteness += 10;
            }
            if (!empty($lastName)) {
-                $profileCompleteness += 15;
+                $profileCompleteness += 10;
            }
            if (!empty($email)) {
-                $profileCompleteness += 15;
+                $profileCompleteness += 10;
            }
            if (!empty($phone)) {
-                $profileCompleteness += 15;
+                $profileCompleteness += 10;
            }
+		   if (!empty($gender)) {
+                $profileCompleteness += 10;
+           }
+		   if (!empty($usi)) {
+                $profileCompleteness += 10;
+           }
+		   if (!empty($dob)) {
+                $profileCompleteness += 10;
+           }
+		   
            if (!empty($address)) {
-                $profileCompleteness += 40;
+                $profileCompleteness += 30;
            }
            if (empty($userImage)) {
                 $userImage = 'profielicon.png';
