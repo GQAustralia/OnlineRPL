@@ -355,6 +355,7 @@ a.btn-red {color:#ffffff;}
 	.gq-id-files-button-content-wrap button {margin-bottom:8px; margin-right:5px;}
 	.gq-id-files-select {width:100%; background-color:#ffffff; border-radius:5px; border:1px solid #e6e6e6;}
 	.gq-id-files-select option {height:28px; padding-left:6px; padding-top:4px; font-size:14px;}
+    .gq-id-files-upload-txt {font-size:14px; line-height:38px; color:#5e5e5e; width:100%; float:left; overflow:hidden; text-overflow:ellipsis;}
 	.gq-id-files-select select {height:36px; left:0; 	border:1px solid #e6e6e6;}
 	
 
