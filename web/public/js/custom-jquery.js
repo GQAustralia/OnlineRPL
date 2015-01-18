@@ -215,10 +215,11 @@ $("#unit-evidence-id").click(function () {
 	});
 });
 
-$('.launchConfirm').on('click', function (e) {
-	$('#confirm')
-	.modal({ backdrop: 'static', keyboard: false })
-	.one('click', '#delete', function (e) {
-		//delete function
-	});
+$("#userfiles_browse").click(function(){
+  $("#idfiletype_image").html("");
+});
+
+$("#userfiles_browse").change(function(){
+  var fileName = $(this).val();
+  $("#idfiletype_image").html(fileName);
 });
