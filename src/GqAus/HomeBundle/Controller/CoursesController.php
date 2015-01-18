@@ -19,18 +19,8 @@ class CoursesController extends Controller
         $courseService = $this->get('CoursesService');
         $results = $courseService->getCoursesInfo($id);
         $results['electiveUnits'] = $courseService->getElectiveUnits($user->getId(), $id);
-        $results['evidences'] = $user->getEvidences();
+        $results['evidences'] = $user->getEvidences();		
         $form = $this->createForm(new EvidenceForm(), array());
-        /*if ($request->isMethod('POST')) {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $data = $form->getData();
-                echo "<pre>"; print_r($data); exit;
-                $fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
-                $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data['unit']);
-                echo "<pre>"; print_r($fileNames); exit;
-            }
-        }*/
         $results['form'] = $form->createView();
         return $this->render('GqAusHomeBundle:Courses:index.html.twig', $results);
     }
@@ -64,11 +54,15 @@ class CoursesController extends Controller
     }
     
     /**
-    * Function to add Evidence of unit electives
+    * Function to get unit Evidence
     * return $result array
     */
-    public function addEvidenceAction()
+    public function getUnitEvidencesAction()
     {
-        echo '<pre>'; print_r($_FILES); print_r($_REQUEST); exit;
+		$user = $this->get('security.context')->getToken()->getUser();
+		$results['unitevidences'] = $user->getEvidences();
+		$results['unitCode'] = $this->getRequest()->get('unit');
+		echo $template = $this->renderView('GqAusHomeBundle:Courses:unitevidence.html.twig', $results);
+		exit;
     }
 }
