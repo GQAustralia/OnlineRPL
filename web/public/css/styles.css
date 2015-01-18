@@ -203,7 +203,7 @@ a.btn-red {color:#ffffff;}
 */
 .user-status-select .dropdown-menu:before {	background-image:url("../images/peak.png"); background-repeat:no-repeat; background-position:center center; width:12px; height:10px; position:absolute; top:-9px; left: 9px; content:"";}
 
-.user-status-msg {margin-right:10px; line-height:38px;}
+.user-status-msg {margin-right:10px; line-height:32px;}
 .notification-section {float:left; margin-right:10px; border-right:1px solid #d5e6c5; padding-right:10px; background-image:url('../images/notification.png'); background-repeat: no-repeat; background-position: center center; width:43px; height:33px;}
 .notification-section span{ color: #fff; float: right; font-size: 10px; position: relative; right: 2px; top: 4px; font-weight:bold;}
 .user-status {float:left; padding-top:15px;}
@@ -219,8 +219,8 @@ a.btn-red {color:#ffffff;}
 
 /* user status related styling */
 .user-status {}
-.user-status .user-icon{border:2px solid red; border-radius:50%; overflow:hidden; width:33px; margin-right:10px;}
-
+.user-status .user-icon{border:2px solid red; border-radius:50%; overflow:hidden; width:33px; height: 33px; margin-right:10px;}
+.ajax-profile-pic {width:33px; height:33px;}
 /* Dashboard left navigation styling
 ---------------------------------------------------------------*/
 .gq-dashboard-left-nav {margin:0; padding:0;}
@@ -282,7 +282,7 @@ a.btn-red {color:#ffffff;}
 .gq-edit-photo-btn .btn-red{width:100%; float:left; background-image:url('../images/edit-photo-txt.png'); background-repeat:no-repeat; background-position:center center; border-radius:4px;}
 .gq-form-personal {font-size:15px;}
 .gq-form-personal .gq-form-row{width:100%; float:left; margin-bottom:-1px; border:1px solid #e7ecee; border-radius:5px; height:48px; background-color:#ffffff; padding-left:15px; padding-top:7px; position:relative;}
-.gq-form-personal .gq-form-row input{border:0 none; border-left:1px solid #e7ecee; padding-left:15px; line-height:34px;}
+.gq-form-personal .gq-form-row input{border:0 none; border-left:1px solid #e7ecee; padding-left:15px; line-height:34px; width:66%;}
 .gq-form-personal .gq-form-row input[type="file"]{ display:inline-block; }
 .gq-form-personal .gq-form-row label{min-width:30%;}
 .gq-form-personal .gq-form-row:last-child{margin-bottom:20px;}
@@ -291,7 +291,9 @@ a.btn-red {color:#ffffff;}
 .gq-form-personal .gq-form-botton .btn:hover, .gq-form-personal .gq-form-botton .btn:focus{background-color:#ffffff; color:#5e5e5e;}
 .gq-profile-tabs-header {padding-top:26px;}
 #userprofile_gender label {font-weight:normal;}
-#userprofile_gender{ border-left: 1px solid red; float: left; font-weight: normal; height: 34px; margin-left: 4px; padding-left: 11px; padding-top: 5px; width: 66%; }
+#userprofile_gender{ border-left: 1px solid #e7ecee; float: left; font-weight: normal; height: 34px; margin-left: 4px; padding-left: 11px; padding-top: 5px; width:66%;}
+#userprofile_gender input[type="radio"]{width:auto;}
+.ajax-profile-error {color:#f14840; text-align:center; font-size:14px;}
 
 	/* ID files */
 	.gq-id-files-upload-text {padding-bottom:40px; float:left;}
@@ -423,6 +425,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-box-content {padding:15px; font-size:16px; color:#5e5e5e;}
 .gq-course-details-header-title {font-size:20px; color:#2f3741; line-height:32px;}
 .gq-acc-row-bg .checkmark-icon {display:block; width:44px; height:44px; float:left; margin-right:6px;}
+.gq-acc-row-bg .checkmark-icon .radio {margin-top:4px;}
 /* .gq-acc-row-bg.gq-acc-row-checked .checkmark-icon {background-image:url('../images/checkmark_unchecked.png');} */
 .gq-acc-row-bg.gq-acc-row-checked {opacity:.5;}
 .gq-course-details-upload-evidence {border:2px dotted #a6a6a6; background-color:#ebebeb; position:relative;}
@@ -508,29 +511,3 @@ a.btn-red {color:#ffffff;}
  }
 /* Hiding the symphony toolbar in server */
 .sf-toolbar { display: none !important; }
-
-#userprofile_gender{
-
-    border-left: 1px solid red;
-    float: left;
-    font-weight: normal;
-    height: 34px;
-    margin-left: 4px;
-    padding-left: 11px;
-    padding-top: 5px;
-    width: 66%;
-}
-
-.gq-profile-page-img {
-    background-color: #ffffff;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border: 2px solid #e7ecee;
-    border-radius: 50%;
-    height: 120px;
-    margin: 10px auto;
-    overflow: hidden;
-    text-align: center;
-    width: 120px;
-}

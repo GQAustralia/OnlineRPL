@@ -132,7 +132,7 @@ $("#frmSelectEvidence").ajaxForm({
     success: function() {
         $('.gq-dashboard-tabs').hide();
         $('#gq-dashboard-tabs-success').show();
-        $('#gq-dashboard-tabs-success').html('<span></span><h2>Existing Evidence upload successfully!</h2>');
+        $('#gq-dashboard-tabs-success').html('<span><h2>Existing Evidence upload successfully!</h2></span>');
     },
     resetForm: true
 });
