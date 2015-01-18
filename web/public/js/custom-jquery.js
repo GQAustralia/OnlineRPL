@@ -87,7 +87,8 @@ $(".deleteEvidence").click(function () {
             data: { fid: fid, ftype: ftype },
             success:function(result) {
                 $('#evd_'+fid).hide();
-                alert("Selected Evidence File deleted!");
+                //alert("Selected Evidence File deleted!");
+				$("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
             }
         });
    }
@@ -104,7 +105,8 @@ $(".deleteIdFiles").click(function () {
             data: { fid: fid, ftype: ftype },
             success:function(result) {
                 $('#idfiles_'+fid).hide();
-                alert("Selected ID File deleted!");
+                //alert("Selected ID File deleted!");
+				$("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">ID File deleted successfully!</h2></div>'); 
             }
         });
    }
@@ -210,5 +212,13 @@ $("#unit-evidence-id").click(function () {
 		success:function(result) {
 			$('#unit-evidence-tab').html(result);
 		}
+	});
+});
+
+$('.launchConfirm').on('click', function (e) {
+	$('#confirm')
+	.modal({ backdrop: 'static', keyboard: false })
+	.one('click', '#delete', function (e) {
+		//delete function
 	});
 });
