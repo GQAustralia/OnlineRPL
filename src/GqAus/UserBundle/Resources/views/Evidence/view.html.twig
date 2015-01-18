@@ -39,7 +39,7 @@
                                         {% set audio = amazon_link~evidence.path %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"  id="evd_{{evidence.id}}">
                                     <div class="gq-dashboard-courses-detail">
-										<a class="deleteEvidence" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+										<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
                                         <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
 										<div class="gq-id-files-content-icon-wrap gq-id-files-content-audio-icon"></div></a>
                                         <div class="gq-id-files-content-row-wrap">
@@ -72,7 +72,7 @@
                                         {% set videofile = amazon_link~evidence.path %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"  id="evd_{{evidence.id}}">
                                     <div class="gq-dashboard-courses-detail">
-										<a class="deleteEvidence" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+										<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
                                         <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
 										<div class="gq-id-files-content-icon-wrap gq-id-files-content-video-icon"></div></a>
                                         <div class="gq-id-files-content-row-wrap">
@@ -108,7 +108,7 @@
                                     {% endif %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
                                     <div class="gq-dashboard-courses-detail">
-									<a class="deleteEvidence" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+									<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
 									<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">
 										<div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
 									</a>
@@ -138,7 +138,7 @@
 								<div class="row">
 									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-12" id="evd_{{evidence.id}}">
 										<div class="gq-dashboard-courses-detail">
-											<a class="deleteEvidence" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+											<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
 											
 											<div class="gq-id-files-content-row-wrap">
 												<div class="gq-id-files-content-row">
@@ -167,7 +167,7 @@
                                         {% set file = amazon_link~evidence.path %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"  id="evd_{{evidence.id}}">
                                     <div class="gq-dashboard-courses-detail">
-										<a class="deleteEvidence" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+										<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
                                         <a href = "{{ amazon_link }}{{  evidence.path }}" class="fancybox fancybox.iframe">		  <div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
 										</a>
                                         <div class="gq-id-files-content-row-wrap">
@@ -194,6 +194,20 @@
         </div>
     </div>
 
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog gq-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected file ?</h4>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-white deleteEvidence">Ok</a>
+        <a class="btn btn-white" id="qclose-cancel">Cancel</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
