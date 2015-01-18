@@ -246,10 +246,9 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-profile-img {float:left; padding:5px 0;}
 .gq-dashboard-courses-detail-wrap {width:100%; float:left; padding:0 15px;}
 .gq-dashboard-qualification-scroll { height:230px; overflow-x: hidden; overflow-y: auto;}
-.qualification-success-msg { color:#85b430; text-align:center; padding: 80px 15px 15px; height:200px; margin:0 auto;}
-/*.qualification-success-msg span { background-image: url("../images/upload-sussess-icon.png"); background-position: center center; background-repeat: no-repeat; content: ""; display: block; float: left; height: 60px; left: 0; margin-right: 30px; position: relative; top: 0; width: 60px;}*/
-.qualification-success-msg h2 {font-size:13px; color:#85b430; padding-top:10px;}
-.qualification-success-msg h2 img {margin-right:6px; padding-bottom:4px;}
+.qualification-success-msg { color:#85b430; text-align:center; padding: 80px 15px 15px; width:570px; height:200px; margin:0 auto;}
+.qualification-success-msg span { background-image: url("../images/upload-sussess-icon.png"); background-position: center center; background-repeat: no-repeat; content: ""; display: block; float: left; height: 60px; left: 0; margin-right: 30px; position: relative; top: 0; width: 60px;}
+.qualification-success-msg h2 {float:left; font-size:32px; color:#85b430; padding-top:10px;}
 .gq-dashboard-courses-detail {width:100%; border:1px solid #dddddd; min-height:48px; display:block; float:left; margin-bottom:5px; box-shadow:0px 2px 2px #f3f3f3; background-color:#ffffff;}
 .gq-dashboard-courses-detail .gq-dashboard-cap-icon {width:48px; height:48px; display:block; float:left;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {font-size:18px; color:#5e5e5e; float:left; padding-left:22px; padding-top:12px; padding-bottom:12px; border-left:1px solid #dddddd;}
@@ -299,9 +298,8 @@ a.btn-red {color:#ffffff;}
 	/* ID files */
 	.gq-id-files-upload-text {padding-bottom:40px; float:left;}
 	.gq-id-files-upload-text h2{color:#f14840; font-size:22px;}
-	.gq-id-files-upload-success-text {padding-top:12px; text-align:center;}
+	.gq-id-files-upload-success-text {padding-top:12px; float:right;}
 	.gq-id-files-upload-success-text h2{color:#86b332; font-size:13px;}
-        .gq-id-files-upload-success-text img {margin-right:4px; padding-bottom:4px;}
 	.gq-id-files-upload-success-text span{width:19px; height:13px; background-image:url('../images/tick.png'); background-repeat:no-repeat; backgrounc-positoin:center center; float:left; margin-right:12px;}
 	.gq-id-files{position:relative; width:100%; float:left;}
 	.gq-id-files-select, .gq-id-files-upload-btn, .gq-id-files-upload-btn span, .gq-id-files-submit-btn {float:left; display:flex;}

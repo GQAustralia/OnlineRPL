@@ -260,7 +260,7 @@ class UserService
     {
          $userIdObj = $this->em->getRepository('GqAusUserBundle:UserIds');
          $userIds = $userIdObj->find($IdFileId);
-        if (!empty($userIdObj)) {
+        if (!empty($userIds)) {
             $fileName = $userIds->getPath();
             $this->em->remove($userIds);
             $this->em->flush();

@@ -20,30 +20,30 @@
         <div class="col-xs-push-3 col-xs-6">
             <div class="row">
                 <div class="gq-profile-page-img" id="ajax-gq-profile-page-img" style="background-image: url(&quot;{{ asset('public/uploads/') ~ userImage }}&quot;);"></div>
-            </div>            
+            </div>    
+        </div>
+        <div class="col-xs-12">
+			<div class="row">
+					<div class="gq-edit-photo-btn">
+							<span class="btn-red">{{ form_widget(form.userImage) }}</span>
+							<span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
+					</div>
+				<div class="ajax-profile-error" id="ajax-profile-error"></div>
+			</div>
+        </div>
+		<div class="col-xs-12">
             {% for flashMessage in app.session.flashbag.get('notice') %}
-            <div class="row">
-                <div class="gq-id-files-upload-success-text wid40p">
-                    <h2><span></span>{{ flashMessage }}</h2>
+            <div class="row" id="profile_suc_msg">
+                <div class="gq-id-files-upload-success-text">
+                  <h2><img src="{{ asset('public/images/tick.png') }}">
+                    {{ flashMessage }}</h2>
                 </div>
             </div>
             {% endfor %}       
-            
-        </div>
-        <div class="col-xs-12">
-                <div class="row">
-                        <div class="gq-edit-photo-btn">
-                                <span class="btn-red">{{ form_widget(form.userImage) }}</span>
-                                <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
-                        </div>
-                    <div class="ajax-profile-error" id="ajax-profile-error"></div>
-                </div>
         </div>
         <div class="col-xs-12">
             <div class="gq-dashboard-tabs">
                 <!-- Tabs start here -->
-                
-                
                 <div class="gq-dashboard-tabs-header gq-profile-tabs-header wid60p">
                     <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
                         <li role="presentation" class="active"><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal</a></li>
@@ -148,15 +148,19 @@
                             </form>
                             <div class="gq-id-files-content-wrap">
                                 <div class="gq-dashboard-box-1x">
-                                    <div class="gq-dashboard-box-title-wrap">
-                                        <h2 class="gq-dashboard-box-title">Your ID Files</h2>
+								<div class="gq-dashboard-box-title-wrap">
+										<div class="col-xs-3">
+												<h2 class="gq-dashboard-box-title">Your ID Files</h2>
+										</div>
+										<div class="col-xs-6" id="idfiles_msg"></div>
+										<div class="col-xs-3"></div>
                                     </div>
-                                    <div class="gq-dashboard-courses-detail-wrap">
+                                    <div class="gq-dashboard-courses-detail-wrap margin-top15">
                                         <div class="row">
                                             {% for item in userIdFiles %}
-                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.type.id}}">
+                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.id}}">
                                                 <div class="gq-dashboard-courses-detail">
-												<a class="deleteIdFiles" fileid="{{item.type.id}}" filetype="{{item.type.type}}"><div class="gq-del-evidence"></div></a>
+												<a class="deleteIdFiles" fileid="{{item.id}}" filetype="{{item.type.type}}"><div class="gq-del-evidence"></div></a>
                                                     {% if item.type.id == 1 %}
                                                         {% set doc_type = 'gq-id-files-content-img-icon' %}
                                                     {#{% elseif item.type.id == 2 %}

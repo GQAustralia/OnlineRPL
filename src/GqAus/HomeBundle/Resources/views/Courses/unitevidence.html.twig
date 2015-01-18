@@ -1,0 +1,189 @@
+<div class="wid90p">
+	<div class="row">
+		<div class="col-xs-12">
+		<div class="gq-evidence">
+			<!-- Tabs start here -->
+				<ul class="nav nav-pills margin-top15 gq-evidence-tabs" role="tablist" id="myTab">
+					<li role="presentation" class="active" ><a href="#unit-images" aria-controls="unit-images" role="tab" data-toggle="tab">Images</a></li>
+					<li role="presentation" ><a href="#unit-audios" aria-controls="unit-audios" role="tab" data-toggle="tab">Audios</a></li>
+					<li role="presentation"><a href="#unit-videos" aria-controls="unit-videos" role="tab" data-toggle="tab">Videos</a></li>
+					<li role="presentation"><a href="#unit-notes" aria-controls="unit-notes" role="tab" data-toggle="tab">Notes</a></li>
+					<li role="presentation"><a href="#unit-files" aria-controls="unit-files" role="tab" data-toggle="tab">Files</a></li>
+				</ul>
+			<!-- Tabs end start here -->
+			
+			<!-- Content for respective tabs above will be in this section -->
+							<div class="tab-content  margin-top15">
+		<div aria-labelledby="existing-evidence-tab" id="unit-images" class="tab-pane fade active in" role="tabpanel">
+			<div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
+				<div class="row">
+					{% for evidence in unitevidences %}
+					{% if evidence.unit == unitCode %}
+					{% if evidence.type == 'image' %}
+					{% set types = ['jpg', 'jpeg', 'png', 'gif'] %}
+					{% set result = evidence.name|split('.') %}
+					{% if result.1 | lower in types %}
+						{% set image = amazon_link~evidence.path %}
+					{% else %}
+						 {% set image = asset('public/images/file_icon.png') %}
+					{% endif %}
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+					<div class="gq-dashboard-courses-detail  margin-top15" >
+						<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">										
+							<div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
+						</a>
+						<div class="gq-id-files-content-row-wrap">
+							<div class="gq-id-files-content-row">
+								<label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+							</div>
+							<div class="gq-id-files-content-row">
+								<label>Size</label><span>{{evidence.size}}</span>
+							</div>
+							<div class="gq-id-files-content-row">
+								<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				{% endif %}
+			 {% endfor %}
+				</div>
+			</div>
+		</div>
+							  
+<div role="tabpanel" class="tab-pane" id="unit-audios">
+<div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
+	<div class="row">
+	   {% for evidence in unitevidences %}
+			{% if evidence.unit == unitCode %}
+			{% if evidence.type == 'audio' %}
+			{% set types = ['mp3','wma'] %}
+			{% set result = evidence.name|split('.') %}
+			{# % if result.1 | lower in types % #}
+				{% set audio = amazon_link~evidence.path %}
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+			<div class="gq-dashboard-courses-detail  margin-top15">
+				<a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
+					<div class="gq-id-files-content-icon-wrap gq-id-files-content-audio-icon"></div>
+				</a>
+				<div class="gq-id-files-content-row-wrap">
+					<div class="gq-id-files-content-row">
+						<label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+					</div>
+					<div class="gq-id-files-content-row">
+						<label>Size</label><span>{{evidence.size}}</span>
+					</div>
+					<div class="gq-id-files-content-row">
+						<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+			{# % endif % #}
+		{% endif %}
+		{% endif %}
+	 {% endfor %}
+	</div>
+</div>
+</div>
+<div role="tabpanel" class="tab-pane" id="unit-videos">
+<div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
+	<div class="row">
+	   {% for evidence in unitevidences %}
+			{% if evidence.unit == unitCode %}
+			{% if evidence.type == 'video' %}
+			{% set types = ['mp4', 'mov'] %}
+			{% set result = evidence.name|split('.') %}
+			{# % if result.1 | lower in types % #}
+				{% set videofile = amazon_link~evidence.path %}
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+			<div class="gq-dashboard-courses-detail  margin-top15" >
+				<a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
+					<div class="gq-id-files-content-icon-wrap gq-id-files-content-video-icon"></div>
+				</a>
+				<div class="gq-id-files-content-row-wrap">
+					<div class="gq-id-files-content-row">
+						<label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+					</div>
+					<div class="gq-id-files-content-row">
+						<label>Size</label><span>{{evidence.size}}</span>
+					</div>
+					<div class="gq-id-files-content-row">
+						<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		{# % endif % #}
+		{% endif %}
+		{% endif %}
+	 {% endfor %}
+	</div>
+</div>
+</div>
+<div role="tabpanel" class="tab-pane" id="unit-notes">
+<div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
+	<div class="row">
+	   {% for evidence in unitevidences %}
+			{% if evidence.unit == unitCode %}
+			{% if evidence.type == 'text' %}
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+			<div class="gq-dashboard-courses-detail  margin-top15">
+				<div class="gq-id-files-content-row-wrap">
+					<div class="gq-id-files-content-row">
+						<label>Content</label><span title="{{evidence.content}}">{{evidence.content|slice(0, 20)}}</span>
+					</div>
+					<div class="gq-id-files-content-row">
+						<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		{% endif %}
+	 {% endfor %}
+	</div>
+</div>
+</div>
+							  
+  <div role="tabpanel" class="tab-pane" id="unit-files">
+		<div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
+	<div class="row">
+	   {% for evidence in unitevidences %}
+			{% if evidence.unit == unitCode %}
+			{% if evidence.type == 'file' %}
+			{% set types = ['txt', 'doc', 'xls', 'docx'] %}
+			{% set result = evidence.name|split('.') %}
+			{# % if result.1 | lower in types % #}
+				{% set file = amazon_link~evidence.path %}
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+			<div class="gq-dashboard-courses-detail  margin-top15">
+				<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox fancybox.iframe">
+					<div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
+				</a>
+				<div class="gq-id-files-content-row-wrap">
+					<div class="gq-id-files-content-row">
+						<label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+					</div>
+					<div class="gq-id-files-content-row">
+						<label>Size</label><span>{{evidence.size}}</span>
+					</div>
+					<div class="gq-id-files-content-row">
+						<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		{# % endif % #}
+		{% endif %}
+		{% endif %}
+	 {% endfor %}
+	</div>
+</div>
+</div>
+  </div>
+	</div>
+			</div>
+		</div>
+	</div>

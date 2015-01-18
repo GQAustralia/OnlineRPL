@@ -25,3 +25,6 @@ addEvidences:
 evidences:
     path:     /evidences
     defaults:  { _controller: GqAusUserBundle:Evidence:view }
+getUnitEvidences:
+    path:     /getUnitEvidences
+    defaults:  { _controller: GqAusHomeBundle:Courses:getUnitEvidences }	

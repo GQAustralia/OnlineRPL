@@ -23,7 +23,9 @@ $(".modalClass").click(function () {
     t = this.id;
 });
 $("#qclose").click(function () {
-    $(location).attr('href','qualificationDetails/'+t);
+    if (t != '') {
+        $(location).attr('href','qualificationDetails/'+t);
+    }
 });
 
 $(".checkmark-icon").click(function () {
@@ -85,7 +87,8 @@ $(".deleteEvidence").click(function () {
             data: { fid: fid, ftype: ftype },
             success:function(result) {
                 $('#evd_'+fid).hide();
-                alert("Selected Evidence File deleted!");
+                //alert("Selected Evidence File deleted!");
+				$("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
             }
         });
    }
@@ -102,7 +105,8 @@ $(".deleteIdFiles").click(function () {
             data: { fid: fid, ftype: ftype },
             success:function(result) {
                 $('#idfiles_'+fid).hide();
-                alert("Selected ID File deleted!");
+                //alert("Selected ID File deleted!");
+				$("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">ID File deleted successfully!</h2></div>'); 
             }
         });
    }
@@ -116,11 +120,11 @@ $("#frmAddEvidence").ajaxForm({
     success: function(responseText, statusText, xhr, $form) {
         $('.gq-dashboard-tabs').hide();
         $('#gq-dashboard-tabs-success').show();
-		if (responseText == '0') {
-			$('#gq-dashboard-tabs-success').html('<span></span><h2>Evidence upload successfully!</h2>');
-		} else {
-			$('#gq-dashboard-tabs-success').html('<span></span><h2>File size below 10MB id upload successfully!</h2>');
-		}
+        if (responseText == '0') {
+            $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Evidence upload successfully!</h2>');
+        } else {
+            $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">File size below 10MB id upload successfully!</h2>');
+        }
     },
     resetForm: true
 });
@@ -132,14 +136,14 @@ $("#frmSelectEvidence").ajaxForm({
     success: function() {
         $('.gq-dashboard-tabs').hide();
         $('#gq-dashboard-tabs-success').show();
-        $('#gq-dashboard-tabs-success').html('<span></span><h2>Existing Evidence upload successfully!</h2>');
+        $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Existing Evidence upload successfully!</h2>');
     },
     resetForm: true
 });
 
 
 $("#evd_close").click(function () {
-    //location.reload();
+    location.reload();
 });
 
 function validatefile()
@@ -174,8 +178,10 @@ $("#userprofile_userImage").change(function(){
                 success:function(result) {
                     if(result!="error")
                     {
+						$("#profile_suc_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Profile Image updated successfully!</h2></div>');
+						
                         $("#ajax-profile-error").hide();
-						$(".ajax-profile-pic").attr('src', '../web/public/uploads/'+result);
+                        $(".ajax-profile-pic").attr('src', '../web/public/uploads/'+result);
                         $("#ajax-gq-profile-page-img").css("background-image", "url('../web/public/uploads/"+result+"')");
                         $("#ajax-loading-icon").hide();
                     }
@@ -196,3 +202,23 @@ $("#userprofile_userImage").change(function(){
     }
     
   });
+  
+  
+$("#unit-evidence-id").click(function () {
+	$.ajax({
+		type: "POST",
+		url: "../getUnitEvidences",
+		data: { unit: unit },
+		success:function(result) {
+			$('#unit-evidence-tab').html(result);
+		}
+	});
+});
+
+$('.launchConfirm').on('click', function (e) {
+	$('#confirm')
+	.modal({ backdrop: 'static', keyboard: false })
+	.one('click', '#delete', function (e) {
+		//delete function
+	});
+});
