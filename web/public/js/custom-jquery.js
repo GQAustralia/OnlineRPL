@@ -1,4 +1,6 @@
 var t;
+var fileid;
+var filetype;
 $(function(){
   var $ppc = $('.progress-pie-chart'),
     percent = parseInt($ppc.data('percent')),
@@ -77,10 +79,10 @@ $("#frmSelectEvidence").submit(function () {
 
 
 $(".deleteEvidence").click(function () {
-   var c = confirm("Do yo want to delete selected file ?");
-   if (c == true) {
-        var fid = $(this).attr("fileid");
-        var ftype = $(this).attr("filetype");
+   //var c = confirm("Do yo want to delete selected file ?");
+   //if (c == true) {
+		var fid = fileid;
+		var ftype = filetype;
         $.ajax({
             type: "POST",
             url: "deleteEvidenceFile",
@@ -88,17 +90,20 @@ $(".deleteEvidence").click(function () {
             success:function(result) {
                 $('#evd_'+fid).hide();
                 //alert("Selected Evidence File deleted!");
+				$( "#qclose" ).trigger( "click" );
 				$("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
             }
         });
-   }
+   //}
 });
 
 $(".deleteIdFiles").click(function () {
-   var c = confirm("Do yo want to delete selected file ?");
-   if (c == true) {
-        var fid = $(this).attr("fileid");
-        var ftype = $(this).attr("filetype");
+  // var c = confirm("Do yo want to delete selected file ?");
+  // if (c == true) {
+        //var fid = $(this).attr("fileid");
+        //var ftype = $(this).attr("filetype");
+		var fid = fileid;
+		var ftype = filetype;
         $.ajax({
             type: "POST",
             url: "deleteIdFiles",
@@ -106,10 +111,11 @@ $(".deleteIdFiles").click(function () {
             success:function(result) {
                 $('#idfiles_'+fid).hide();
                 //alert("Selected ID File deleted!");
+				$( "#qclose" ).trigger( "click" );
 				$("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">ID File deleted successfully!</h2></div>'); 
             }
         });
-   }
+   //}
 });
 
 
@@ -178,7 +184,7 @@ $("#userprofile_userImage").change(function(){
                 success:function(result) {
                     if(result!="error")
                     {
-						$("#profile_suc_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Profile Image updated successfully!</h2></div>');
+						$("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Profile Image updated successfully!</h2></div>');
 						
                         $("#ajax-profile-error").hide();
                         $(".ajax-profile-pic").attr('src', '../web/public/uploads/'+result);
@@ -221,5 +227,13 @@ $("#userfiles_browse").click(function(){
 
 $("#userfiles_browse").change(function(){
   var fileName = $(this).val();
-  $("#idfiletype_image").html(fileName);
+  $("#idfiletype_image").html('<div class="col-lg2 col-md-2 col-sm-3 col-xs-12"><div class="gq-id-files-upload-txt">'+fileName+'</div></div>');
+});
+
+$("#qclose-cancel").click(function () {
+	$( "#qclose" ).trigger( "click" );
+});
+$(".viewModalClass").click(function () {
+	fileid = $(this).attr('fileid');
+	filetype = $(this).attr('filetype');
 });
