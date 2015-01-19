@@ -16,7 +16,9 @@
 	line-height: 33px;
 	font-size: 19px;
 	/*background: #ffffff;*/
-	background: transparent url(../images/add-icon-close.png) no-repeat center center;	
+	background-image: url(../images/add-icon-close.png);	
+	background-repeat:no-repeat;	
+	background-position:center center;
 	/*background: -moz-linear-gradient(top, #ffffff 1%, #eaeaea 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#ffffff), color-stop(100%,#eaeaea));
 	background: -webkit-linear-gradient(top, #ffffff 1%,#eaeaea 100%);
@@ -54,6 +56,11 @@
 }
 .gq-acc-wrap input:checked + label:hover:after{
 	background-image: url(../images/add-icon-open.png);
+}
+.gq-acc-wrap label.open {
+	background-image: url(../images/add-icon-open.png);	
+	background-repeat:no-repeat;	
+	background-position:center center;
 }
 .gq-acc-wrap input{
 	display: none;
