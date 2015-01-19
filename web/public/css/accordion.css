@@ -29,6 +29,7 @@
 		1px 0px 0px 0px rgba(255,255,255,0.9) inset, 
 		0px 2px 2px rgba(0,0,0,0.1);*/
 }
+.gq-acc-row-bg.gq-acc-row-checked label {cursor:default;}
 .gq-acc-wrap label:hover{
 	/*background: #fff;*/
 }

@@ -8,8 +8,9 @@
         -webkit-transform: translate3d(0, 125%, 0);
         transform: translate3d(0, 125%, 0);
     }
-    #myModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }    
-    </style>
+    #edivenceModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }    
+	#edivenceUnitModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }    
+</style>
 {% endblock %}
 {% block body %}
 <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
@@ -70,15 +71,17 @@
                     <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
                     <div class="row no-margin">
                         <div class="gq-acc-row-bg">
-                            <div class="col-xs-4">
+                            <div class="col-xs-3">
                                 <div class="gq-acc-row-title">{{units.id}}</div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
                            
-                            <div class="col-lg3 col-md-3 col-sm-3 col-xs-2">
+                            <div class="col-lg4 col-md-4 col-sm-4 col-xs-2">
                                 <button class="btn add-btn fromBottom"  unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
+								
+								<button class="btn eye-btn fromBottom unit-evidence-id"  unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>UNIT EVIDENCES</button>
                             </div>
                                                     
                             <div class="col-xs-1">
@@ -132,18 +135,21 @@
                     <input id="acc-{{i}}" name="accordion-1" type="checkbox"/>
                     <div class="row no-margin">
                         <div id="div_{{units.id}}" class="gq-acc-row-bg  {% if units.id  in electiveUnits %} gq-acc-row-checked {% endif %}">
-                            <div class="col-xs-4">
-                                <span unit_id="{{units.id}}" user_id="{{ app.security.getToken().getUser().getId()}}" id="{{units.id}}" course_code="{{courseInfo.id}}" class="checkmark-icon">
-								<span  id="span_{{units.id}}" class="radio {% if units.id  in electiveUnits %} {% else %} radioUnChecked {% endif %}"></span>
-								<!-- <input type="radio" name="radio_{{units.id}}" class="styled" /> --></span>
+                            <div class="col-xs-3">
+								<a class="modalClass checkmark-icon" data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ app.security.getToken().getUser().getId()}}" id="{{units.id}}" course_code="{{courseInfo.id}}">
+									<span id="span_{{units.id}}" class="radio {% if units.id  in electiveUnits %} {% else %} radioUnChecked {% endif %}"></span>
+								</a>
+								
                                 <div class="gq-acc-row-title">{{units.id}}</div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
                             
-                            <div class="col-lg3 col-md-3 col-sm-3 col-xs-2">
+                            <div class="col-lg4 col-md-4 col-sm-4 col-xs-2">
                                 <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
+								
+								<button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>UNIT EVIDENCES</button>
                             </div>
                             <div class="col-xs-1">
                                 <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4"></label>
@@ -168,26 +174,41 @@
 	 {% endif %}
 </div>
 
-<!-- Modal 
+<!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog gq-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-        <h4 class="modal-title" id="myModalLabel">Instructions</h4>
-      </div>
-      <div class="modal-body">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. 
+        <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel">Do yo want to change the status of elective unit ?</h4>
       </div>
       <div class="modal-footer">
-        <a class="btn btn-white" target="blank" href="download/terms-and-conditions.pdf"><span class="pdf-icon"></span>Download</a>
-        <a class="btn btn-white" target="blank" id="view_terms" href="../template/terms-and-conditions.pdf"><span class="pdf-icon"></span>View</a>
+        <a class="btn btn-white changeUnitStatus">Ok</a>
+        <a class="btn btn-white" id="qclose-cancel">Cancel</a>
       </div>
     </div>
   </div>
-</div>-->
+</div>
 
-<!-- Modal -->
+<!----- Unit evidences start --->
+<div class="modal fade bottom" id="edivenceUnitModal" tabindex="-1" role="dialog" aria-labelledby="edivenceModalLabel" aria-hidden="true">
+  <div class="modal-dialog gq-modal-upload">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+		<div class="gq-dashboard-courses-detail-wrap">
+			<div class="gq-dashboard-tabs">
+				<div id="unit-evidence-tab"></div>
+			</div>
+		  </div>
+       </div>
+  </div>
+</div>
+</div>
+<!----- Unit evidences end --->
+
 <div class="modal fade bottom" id="edivenceModal" tabindex="-1" role="dialog" aria-labelledby="edivenceModalLabel" aria-hidden="true">
   <div class="modal-dialog gq-modal-upload">
     <div class="modal-content">
@@ -199,11 +220,11 @@
 	<div class="qualification-success-msg" id="gq-dashboard-tabs-success"></div>
     <div class="gq-dashboard-tabs">
         <!-- Tabs start here -->
-        <div class="gq-dashboard-tabs-header wid70p">
+        <div class="gq-dashboard-tabs-header wid40p">
             <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
                 <li role="presentation" class="active"><a href="#add-evidence-tab" aria-controls="add-evidence-tab" role="tab" data-toggle="tab">Add Evidence</a></li>
                 <li role="presentation"><a href="#select-from-evidence-tab" aria-controls="select-from-evidence-tab" role="tab" data-toggle="tab">Select from Existing Evidence</a></li>
-				<li role="presentation"><a href="#unit-evidence-tab" id="unit-evidence-id" aria-controls="unit-evidence-tab" role="tab" data-toggle="tab">Unit Evidences</a></li>
+				<!--<li role="presentation"><a href="#unit-evidence-tab" id="unit-evidence-id" aria-controls="unit-evidence-tab" role="tab" data-toggle="tab">Unit Evidences</a></li>-->
             </ul>
         </div>
         <!-- Tabs end start here -->
@@ -256,7 +277,7 @@
 												<li role="presentation" ><a href="#audios" aria-controls="address" role="tab" data-toggle="tab">Audios</a></li>
 												<li role="presentation"><a href="#videos" aria-controls="videos" role="tab" data-toggle="tab">Videos</a></li>
 												<li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
-												<li role="presentation"><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Files</a></li>
+												<li role="presentation"><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Documents</a></li>
 											</ul>
 										<!-- Tabs end start here -->
 										
@@ -265,8 +286,11 @@
 					<div aria-labelledby="existing-evidence-tab" id="images" class="tab-pane fade active in" role="tabpanel">
 						<div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
 							<div class="row">
+								{% set flag_image = 0 %}
+								{% if evidences %}
 								{% for evidence in evidences %}
 								{% if evidence.type == 'image' %}
+								{% set flag_image = 1 %}
 								{% set types = ['jpg', 'jpeg', 'png', 'gif'] %}
 								{% set result = evidence.name|split('.') %}
 								{% if result.1 | lower in types %}
@@ -281,13 +305,13 @@
 									</a>
 									<div class="gq-id-files-content-row-wrap">
 										<div class="gq-id-files-content-row">
-											<label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+											<label>Title</label><span title="{{evidence.title}}">{{evidence.title|slice(0, 20)}}</span>
 										</div>
 										<div class="gq-id-files-content-row">
 											<label>Size</label><span>{{evidence.size}}</span>
 										</div>
 										<div class="gq-id-files-content-row">
-											<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+											<label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
 										</div>
 									</div>
 									<span class="select-from-evidence-tab-check">
@@ -297,6 +321,10 @@
 							</div>
 							{% endif %}
 						 {% endfor %}
+						 {% endif %}
+							{% if flag_image == 0 %}
+								<div align="center" >Images not found</div>
+							{% endif %}
 							</div>
 						</div>
 					</div>
@@ -304,8 +332,11 @@
 			<div role="tabpanel" class="tab-pane" id="audios">
 			<div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
 				<div class="row">
+					{% set flag_audio = 0 %}
+					{% if evidences %}
 				   {% for evidence in evidences %}
 						{% if evidence.type == 'audio' %}
+						{% set flag_audio = 1 %}
 						{% set types = ['mp3','wma'] %}
 						{% set result = evidence.name|split('.') %}
 						{# % if result.1 | lower in types % #}
@@ -317,13 +348,13 @@
 							</a>
 							<div class="gq-id-files-content-row-wrap">
 								<div class="gq-id-files-content-row">
-									<label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+									<label>Title</label><span title="{{evidence.title}}">{{evidence.title|slice(0, 20)}}</span>
 								</div>
 								<div class="gq-id-files-content-row">
 									<label>Size</label><span>{{evidence.size}}</span>
 								</div>
 								<div class="gq-id-files-content-row">
-									<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+									<label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
 								</div>
 							</div>
 							<span class="select-from-evidence-tab-check">
@@ -334,14 +365,22 @@
 						{# % endif % #}
 					{% endif %}
 				 {% endfor %}
+				 {% endif %}
+								
+					{% if flag_audio == 0 %}
+						<div align="center" >Audios not found</div>
+					{% endif %}
 				</div>
 			</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="videos">
 			<div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
 				<div class="row">
+					{% set flag_video = 0 %}
+					{% if evidences %}
 				   {% for evidence in evidences %}
 						{% if evidence.type == 'video' %}
+						{% set flag_video = 1 %}
 						{% set types = ['mp4', 'mov'] %}
 						{% set result = evidence.name|split('.') %}
 						{# % if result.1 | lower in types % #}
@@ -353,13 +392,13 @@
 							</a>
 							<div class="gq-id-files-content-row-wrap">
 								<div class="gq-id-files-content-row">
-									<label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+									<label>Title</label><span title="{{evidence.title}}">{{evidence.title|slice(0, 20)}}</span>
 								</div>
 								<div class="gq-id-files-content-row">
 									<label>Size</label><span>{{evidence.size}}</span>
 								</div>
 								<div class="gq-id-files-content-row">
-									<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+									<label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
 								</div>
 							</div>
 							<span class="select-from-evidence-tab-check">
@@ -370,14 +409,22 @@
 					{# % endif % #}
 					{% endif %}
 				 {% endfor %}
+				 {% endif %}
+								
+					{% if flag_video == 0 %}
+						<div align="center" >Videos not found</div>
+					{% endif %}
 				</div>
 			</div>
 			</div>
 		  <div role="tabpanel" class="tab-pane" id="notes">
 		  <div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
 				<div class="row">
+				{% set flag_text = 0 %}
+				{% if evidences %}
 				   {% for evidence in evidences %}
 						{% if evidence.type == 'text' %}
+							{% set flag_text = 1 %}
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
 						<div class="gq-dashboard-courses-detail  margin-top15">
 							<div class="gq-id-files-content-row-wrap">
@@ -385,7 +432,7 @@
 									<label>Content</label><span title="{{evidence.content}}">{{evidence.content|slice(0, 20)}}</span>
 								</div>
 								<div class="gq-id-files-content-row">
-									<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+									<label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
 								</div>
 							</div>
 							<span class="select-from-evidence-tab-check">
@@ -395,6 +442,10 @@
 					</div>
 					{% endif %}
 				 {% endfor %}
+				 {% endif %}
+					{% if flag_text == 0 %}
+						<div align="center" >Text not found</div>
+					{% endif %}
 				</div>
 			</div>
 		  </div>
@@ -402,8 +453,11 @@
 			  <div role="tabpanel" class="tab-pane" id="files">
 					<div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
 				<div class="row">
+					{% set flag_files = 0 %}
+					{% if evidences %}
 				   {% for evidence in evidences %}
 						{% if evidence.type == 'file' %}
+						{% set flag_files = 1 %}
 						{% set types = ['txt', 'doc', 'xls', 'docx'] %}
 						{% set result = evidence.name|split('.') %}
 						{# % if result.1 | lower in types % #}
@@ -415,13 +469,13 @@
 							</a>
 							<div class="gq-id-files-content-row-wrap">
 								<div class="gq-id-files-content-row">
-									<label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+									<label>Title</label><span title="{{evidence.title}}">{{evidence.title|slice(0, 20)}}</span>
 								</div>
 								<div class="gq-id-files-content-row">
 									<label>Size</label><span>{{evidence.size}}</span>
 								</div>
 								<div class="gq-id-files-content-row">
-									<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+									<label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
 								</div>
 							</div>
 							<span class="select-from-evidence-tab-check">
@@ -432,6 +486,10 @@
 					{# % endif % #}
 					{% endif %}
 				 {% endfor %}
+				 {% endif %}
+					{% if flag_files == 0 %}
+						<div align="center" >Documents not found</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -447,11 +505,9 @@
 					</div>
 				</div>
 			</div>
-			
-			<!----- Unit evidences start --->
+			<!----- Unit evidences start 
 			<div role="tabpanel" class="tab-pane" id="unit-evidence-tab" class="unit-evidence-tab">
-			
-			</div>
+			</div>--->
 			<!----- Unit evidences end --->
 		  </div>
 </div>

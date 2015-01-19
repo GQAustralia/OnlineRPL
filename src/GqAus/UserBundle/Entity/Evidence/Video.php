@@ -75,4 +75,15 @@ class Video extends \GqAus\UserBundle\Entity\Evidence
     {
         return $this->name;
     }
+	
+	/**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+       $pos = strpos($this->name, '.');
+       return substr($this->name, 0, $pos);
+    }
 }

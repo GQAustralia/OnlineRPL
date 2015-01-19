@@ -22,7 +22,7 @@
                     <li role="presentation"><a href="#audios" aria-controls="address" role="tab" data-toggle="tab">Audios</a></li>
                     <li role="presentation"><a href="#videos" aria-controls="videos" role="tab" data-toggle="tab">Videos</a></li>
                    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
-                    <li role="presentation"><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Files</a></li>
+                    <li role="presentation"><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Documents</a></li>
                 </ul>
                 <!-- Tabs end start here -->
 
@@ -31,8 +31,11 @@
                     <div role="tabpanel" class="tab-pane" id="audios">
 					<div class="">
                             <div class="row">
+								{% set flag_audio = 0 %}
+								{% if evidences %}
                                 {% for evidence in evidences %}
 									{% if evidence.type == 'audio' %}
+									{% set flag_audio = 1 %}
                                     {% set types = ['mp3', 'wma'] %}
                                     {% set result = evidence.name|split('.') %}
                                     {# % if result.1 | lower in types % #}
@@ -44,13 +47,13 @@
 										<div class="gq-id-files-content-icon-wrap gq-id-files-content-audio-icon"></div></a>
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
-                                                <label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+                                                <label>Title</label><span title="{{evidence.name}}">{{evidence.title|slice(0, 20)}}</span>
                                             </div>
 											<div class="gq-id-files-content-row">
 												<label>Size</label><span>{{evidence.size}}</span>
 											</div>
                                             <div class="gq-id-files-content-row">
-                                                <label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+                                                <label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -58,14 +61,22 @@
 								{# % endif % #}
 								{% endif %}
                                 {% endfor %}
+								{% endif %}
+								
+								{% if flag_audio == 0 %}
+									<div align="center" >Audios not found</div>
+								{% endif %}
                             </div>														
                         </div>	
 					</div>
 					<div role="tabpanel" class="tab-pane" id="videos">
 					<div class="">
                             <div class="row">
+								{% set flag_video = 0 %}
+								{% if evidences %}
                                 {% for evidence in evidences %}
 									{% if evidence.type == 'video' %}
+									{% set flag_video = 1 %}
                                     {% set types = ['mp3', 'wma'] %}
                                     {% set result = evidence.name|split('.') %}
                                     {# % if result.1 | lower in types % #}
@@ -77,13 +88,13 @@
 										<div class="gq-id-files-content-icon-wrap gq-id-files-content-video-icon"></div></a>
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
-                                                <label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+                                                <label>Title</label><span title="{{evidence.name}}">{{evidence.title|slice(0, 20)}}</span>
                                             </div>
 											<div class="gq-id-files-content-row">
 												<label>Size</label><span>{{evidence.size}}</span>
 											</div>
                                             <div class="gq-id-files-content-row">
-                                                <label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+                                                <label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
                                             </div>											
                                         </div>
                                     </div>
@@ -91,14 +102,22 @@
 								{# % endif % #}
 								{% endif %}
                                 {% endfor %}
+								{% endif %}
+								
+								{% if flag_video == 0 %}
+									<div align="center" >Videos not found</div>
+								{% endif %}
                             </div>														
                         </div>	
 					</div>
                     <div role="tabpanel" class="tab-pane active" id="images">
                         <div class="">
                             <div class="row">
+								{% set flag_image = 0 %}
+								{% if evidences %}
                                 {% for evidence in evidences %}
 									{% if evidence.type == 'image' %}
+									{% set flag_image = 1 %}
                                     {% set types = ['jpg', 'jpeg', 'png', 'gif'] %}
                                     {% set result = evidence.name|split('.') %}
                                     {% if result.1 | lower in types %}
@@ -114,13 +133,13 @@
 									</a>
 										<div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
-                                                <label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+                                                <label>Title</label><span title="{{evidence.name}}">{{evidence.title|slice(0, 20)}}</span>
                                             </div>
 											<div class="gq-id-files-content-row">
 												<label>Size</label><span>{{evidence.size}}</span>
 											</div>
                                             <div class="gq-id-files-content-row">
-                                                <label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+                                                <label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
                                             </div>
 											
                                         </div>
@@ -128,13 +147,21 @@
                                 </div>
 								{% endif %}
                                 {% endfor %}
+								{% endif %}
+	
+								{% if flag_image == 0 %}
+									<div align="center" >Images not found</div>
+								{% endif %}
                             </div>														
                         </div>										  
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="notes">
+						{% set flag_text = 0 %}
+						{% if evidences %}
 						{% for evidence in evidences %}
 							{% if evidence.type == 'text' %}
+								{% set flag_text = 1 %}
 								<div class="row">
 									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-12" id="evd_{{evidence.id}}">
 										<div class="gq-dashboard-courses-detail">
@@ -145,22 +172,30 @@
 													<label>Title</label><span>{{evidence.content}}</span>
 												</div>
 												<div class="gq-id-files-content-row">
-													<label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+													<label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							{% endif %}
-						{% endfor %}					
+						{% endfor %}
+						{% endif %}
+							
+						{% if flag_text == 0 %}
+							<div align="center" >Text not found</div>
+						{% endif %}
 					</div>
 					
 					
                     <div role="tabpanel" class="tab-pane" id="files">
 					<div class="">
                             <div class="row">
+								{% set flag_files = 0 %}
+								{% if evidences %}
                                 {% for evidence in evidences %}
 									{% if evidence.type == 'file' %}
+									{% set flag_files = 1 %}
                                     {% set types = ['txt', 'doc', 'xls', 'docx'] %}
                                     {% set result = evidence.name|split('.') %}
                                     {# % if result.1 | lower in types % #}
@@ -172,13 +207,13 @@
 										</a>
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
-                                                <label>Title</label><span title="{{evidence.name}}">{{evidence.name|slice(0, 20)}}</span>
+                                                <label>Title</label><span title="{{evidence.name}}">{{evidence.title|slice(0, 20)}}</span>
                                             </div>
 											<div class="gq-id-files-content-row">
 												<label>Size</label><span>{{evidence.size}}</span>
 											</div>
                                             <div class="gq-id-files-content-row">
-                                                <label>Added on</label><span>{{evidence.created|date("F jS") }}</span>
+                                                <label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
                                             </div>											
                                         </div>
                                     </div>
@@ -186,6 +221,11 @@
 								{# % endif % #}
 								{% endif %}
                                 {% endfor %}
+								{% endif %}
+	
+								{% if flag_files == 0 %}
+									<div align="center" >Documents not found</div>
+								{% endif %}
                             </div>														
                         </div>	
 					</div>

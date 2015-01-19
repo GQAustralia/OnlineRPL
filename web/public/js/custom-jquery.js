@@ -1,6 +1,10 @@
 var t;
 var fileid;
 var filetype;
+var unitId;
+var courseCode;
+var userId;
+
 $(function(){
   var $ppc = $('.progress-pie-chart'),
     percent = parseInt($ppc.data('percent')),
@@ -25,17 +29,20 @@ $(".modalClass").click(function () {
     t = this.id;
 });
 $("#qclose").click(function () {
-    if (t != '') {
-        $(location).attr('href','qualificationDetails/'+t);
+    if (t != '' && typeof  t === 'undefined') {
+       $(location).attr('href','qualificationDetails/'+t);
     }
 });
 
 $(".checkmark-icon").click(function () {
-   var c = confirm("Do yo want to change the status of elective unit ?");
-   if (c == true) {
-        var unitId = $(this).attr("unit_id");
-        var courseCode = $(this).attr("course_code");
-        var userId = $(this).attr("user_id");
+	unitId = $(this).attr("unit_id");
+	courseCode = $(this).attr("course_code");
+	userId = $(this).attr("user_id");
+});
+
+$(".changeUnitStatus").click(function () {
+   //var c = confirm("Do yo want to change the status of elective unit ?");
+   //if (c == true) {
         $.ajax({
             type: "POST",
             url: "../updateUnitElective",
@@ -44,23 +51,22 @@ $(".checkmark-icon").click(function () {
                 var label = $( "#label_"+unitId ).attr("temp");
                 if (result == '0') {
                     $( "#label_"+unitId ).attr("for","");
-                    //$( "#btnadd_"+unitId ).attr("data-model","");
-                    //$( "#btnadd_"+unitId ).attr("data-toggle","");
                     $( "#btnadd_"+unitId ).attr('disabled','disabled');
+					$( "#btneye_"+unitId ).attr('disabled','disabled');
                     $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
                     $( "#span_"+unitId ).removeClass( "radioUnChecked" );
                     
                 } else {
                     $( "#label_"+unitId ).attr("for",label);
-                    //$( "#btnadd_"+unitId ).attr("data-model","model");
-                    //$( "#btnadd_"+unitId ).attr("data-toggle","model");
                     $( "#btnadd_"+unitId ).removeAttr('disabled');
+					 $( "#btneye_"+unitId ).removeAttr('disabled');
                     $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
                     $( "#span_"+unitId ).addClass( "radioUnChecked" );
                 }
             }
         });
-   }
+		$( "#qclose" ).trigger( "click" );
+   //}
 });
 
 $(".fromBottom").click(function () {
@@ -210,7 +216,7 @@ $("#userprofile_userImage").change(function(){
   });
   
   
-$("#unit-evidence-id").click(function () {
+$(".unit-evidence-id").click(function () {
 	$.ajax({
 		type: "POST",
 		url: "../getUnitEvidences",
