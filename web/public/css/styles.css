@@ -162,9 +162,10 @@ a.btn-red {color:#ffffff;}
 .btn-grey:hover, .btn-grey:focus {background-color:#4d4d4d; color:#f6f6f6;}
 .btn-green{background-color:#57ba00; color:#ffffff;}
 .btn-green:hover, .btn-green:focus {background-color:#4aab00; color:#f6f6f6;}
-.add-btn {background-color:#f14840; color:#ffffff; margin-top:7px; height:30px; border-radius:3px; padding:0 12px;}
-.add-btn:hover, .add-btn:focus{background-color:#e03934; color:#f6f6f6;}
+.add-btn, .eye-btn {background-color:#f14840; color:#ffffff; margin-top:7px; height:30px; border-radius:3px; padding:0 12px;}
+.add-btn:hover, .add-btn:focus, .eye-btn:hover, .eye-btn:focus{background-color:#e03934; color:#f6f6f6;}
 .add-btn span {background-image:url('../images/add-btn-bg.png'); background-repeat:no-repeat; background-position: center center; display:block; width:20px; height:20px; float:left; margin-right:5px;}
+.eye-btn span {background-image:url('../images/eye-btn-bg.png'); background-repeat:no-repeat; background-position: center center; display:block; width:20px; height:20px; float:left; margin-right:5px;}
 
 /* Dashboard page Styles
 ---------------------------------------------------------------*/
@@ -428,6 +429,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-box-content {padding:15px; font-size:16px; color:#5e5e5e;}
 .gq-course-details-header-title {font-size:20px; color:#2f3741; line-height:32px;}
 .gq-acc-row-bg .checkmark-icon {display:block; width:44px; height:44px; float:left; margin-right:6px;}
+.gq-acc-row-bg .checkmark-icon:hover {cursor:pointer;}
 .gq-acc-row-bg .checkmark-icon .radio {margin-top:4px;}
 /* .gq-acc-row-bg.gq-acc-row-checked .checkmark-icon {background-image:url('../images/checkmark_unchecked.png');} */
 .gq-acc-row-bg.gq-acc-row-checked {opacity:.5;}
