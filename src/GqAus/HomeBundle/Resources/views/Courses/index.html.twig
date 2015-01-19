@@ -85,7 +85,7 @@
                             </div>
                                                     
                             <div class="col-xs-1">
-                                <label for="acc-{{i}}" class="col-xs-4"></label>
+                                <label for="acc-{{i}}" class="col-xs-4 openIcon"></label>
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
 								<button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>UNIT EVIDENCES</button>
                             </div>
                             <div class="col-xs-1">
-                                <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4"></label>
+                                <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon"></label>
                             </div>
                         </div>
                     </div>
