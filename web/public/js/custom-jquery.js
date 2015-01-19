@@ -243,3 +243,12 @@ $(".viewModalClass").click(function () {
 	fileid = $(this).attr('fileid');
 	filetype = $(this).attr('filetype');
 });
+
+$(".openIcon").click(function () {
+	var c = $(this).hasClass( "open" );
+	if (c == false) {
+		$(this).addClass( "open" );
+	} else {
+		$(this).removeClass( "open" );
+	}
+});
