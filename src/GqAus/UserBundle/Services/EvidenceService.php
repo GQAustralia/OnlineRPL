@@ -44,7 +44,7 @@ class EvidenceService
         $maxFileSize = $this->container->getParameter('maxFileSize');
         if (!empty($evidences)) {
             foreach ($evidences as $evidence) {
-                $size =    $data['file'][$i]->getClientSize();
+                $size = $data['file'][$i]->getClientSize();
                 if ($size <= $maxFileSize) {
                     $mimeType = $data['file'][$i]->getClientMimeType();
                     $size = $data['file'][$i]-> getClientSize();
@@ -203,6 +203,58 @@ class EvidenceService
             $this->em->remove($evidenceObj);
             $this->em->flush();
             return $fileName;
+        }
+    }
+	
+	/**
+    * Function to get elective units
+    * return $result array
+    */
+    public function getUserUnitEvidences($userId, $unitId)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
+        $userUnitEvidences = $reposObj->findBy(array('user' => $userId,
+                                            'unit' => $unitId));
+		return $userUnitEvidences;       
+    }
+	
+	/**
+    * Function to update Evidence
+    */
+	public function updateInactiveEvidence($evidenceId, $evidenceType)
+    {
+        $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
+        $audioObj = $this->em->getRepository('GqAusUserBundle:Evidence\Audio');
+        $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
+        $fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
+        $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+        
+        switch ($evidenceType) {
+            case 'image':
+                $evidenceObj = $imgObj->find($evidenceId);
+                break;
+            case 'audio':
+                $evidenceObj = $audioObj->find($evidenceId);
+                break;
+            case 'video':
+                $evidenceObj = $videoObj->find($evidenceId);
+                break;
+            case 'file':
+                $evidenceObj = $fileObj->find($evidenceId);
+                break;
+            case 'text':
+                $evidenceObj = $textObj->find($evidenceId);
+                break;
+            default :
+                $evidenceObj = $fileObj->find($evidenceId);
+                break;
+        }
+        
+        if (!empty($evidenceObj)) {
+			$evidenceObj->setUnit('');
+            $this->em->persist($evidenceObj);
+            $this->em->flush();
+            return true;
         }
     }
 }

@@ -237,10 +237,10 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-box-1x .flip-icon, .gq-dashboard-box-2x .flip-icon {background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:-1px; right:-1px; display:block; height:23px; width:24px;}
 .gq-dashboard-box-1x {min-height: 182px; margin-bottom:16px;}
 .gq-dashboard-box-2x {min-height: 380px;}
-.gq-dashboard-box-title-wrap {width:100%; border-bottom:1px solid #dddddd; min-height:48px; display:block; position:relative; overflow:hidden;}
+.gq-dashboard-box-title-wrap {width:100%; border-bottom:1px solid #dddddd; min-height:48px; display:block; position:relative; /*overflow:hidden; need to enable in mobile */}
 .gq-dashboard-box-content-wrap{padding:0 15px; float:left; width:100%;}
 .gq-dashboard-box-title-wrap .gq-dashboard-box-title {font-size:22px; color:#f14a41; float:left; padding:12px 40px 12px 12px;}
-.gq-dashboard-box-title-wrap .gq-dashboard-points-icon {width:48px; height:80px; display:block; float:right; border-left:1px solid #dddddd; position:absolute; top:0; right:0;}
+.gq-dashboard-box-title-wrap .gq-dashboard-points-icon {width:48px; height:48px; display:block; float:right; border-left:1px solid #dddddd; position:absolute; top:0; right:0;}
 .gq-dashboard-running-txt {font-size:14px; color:#5e5e5e; width:100%; float:left; padding-top:20px;}
 .gq-dashboard-points-in-number {font-size:60px; color:#f14840; float:left;}
 .gq-dashboard-points-in-percent {font-size:60px; color:#f14840; float:left; padding:26px 3px;}
@@ -260,7 +260,6 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-tabs .nav li a{border-radius:0px; background-color:#ffffff;}
 .gq-dashboard-tabs .nav li:first-child a{ border-bottom-left-radius:5px; border-top-left-radius:5px; border-bottom-right-radius:0; border-top-right-radius:0;}
 .gq-dashboard-tabs .nav li:last-child a{border-bottom-left-radius:0; border-top-left-radius:0; border-bottom-right-radius:5px; border-top-right-radius:5px;}
-.gq-dashboard-tabs .gq-dashboard-courses-detail:hover {/*background-color:#f5f5f5;*/ cursor:pointer;}
 
 .gq-dashboard-tabs .nav-pills > li.active > a, .gq-dashboard-tabs .nav-pills > li.active > a:hover, .gq-dashboard-tabs .nav-pills > li.active > a:focus {background-color:#f14840; color:#ffffff;}
 .gq-dashboard-tabs .nav-pills > li > a {color:#5e5e5e; font-size:15px;}
@@ -452,6 +451,12 @@ a.btn-red {color:#ffffff;}
 .gq-evidence .video-thumb-icon .gq-evidence-image{ width:100%; border-top-left-radius:10px; border-top-right-radius:10px; }
 .gq-evidence .video-thumb-icon .gq-evidence-playicon{ position:absolute; z-index:1; top:30%; left:42%; }
 
+/* tooltip for home page dashboard */
+.gq-dashboard-box-title-wrap {position:relative;}
+.tooltip-home {position:absolute; top:-35px; right:-30px; min-height:30px; background-color:#444d57; width:auto; width:130px; display:none; text-align:center; padding:5px 8px; border-radius: 4px;}
+.tooltip-home span{color:#fff; width:auto; display:inline-block;}
+.gq-dashboard-points-icon:hover .tooltip-home {display:block;}
+
 
 @media(max-width:360px){
 	.gq-evidence .nav-pills > li{ width:100%; }
@@ -497,6 +502,8 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-nav .dropdown-menu:before, .user-status-select .dropdown-menu:before {right:9px; left:auto;}
 .gq-dashboard-nav .dropdown-menu, .user-status-select .dropdown-menu {left:-125px;}
 .gq-dashboard-right {padding:15px;}
+.gq-dashboard-box-title-wrap .gq-dashboard-points-icon {height:80px;}
+.gq-dashboard-box-title-wrap {overflow:hidden;}
 }
 /*
 .caret {

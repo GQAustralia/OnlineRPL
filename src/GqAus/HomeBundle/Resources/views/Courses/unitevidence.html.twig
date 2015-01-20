@@ -1,5 +1,6 @@
 <div class="wid90p">
 	<div class="row">
+		<div id="evidence_msg"></div>
 		<div class="col-xs-12">
 		<div class="gq-evidence">
 			<!-- Tabs start here -->
@@ -30,9 +31,17 @@
 					{% else %}
 						 {% set image = asset('public/images/file_icon.png') %}
 					{% endif %}
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 					<div class="gq-dashboard-courses-detail  margin-top15" >
-						<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">										
+						
+						<span class="gq-dashboard-points-icon">
+							<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+							<div class="tooltip-home">
+								<span class="">Delete Image</span>
+							</div>
+						</span>
+				
+						<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">		
 							<div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
 						</a>
 						<div class="gq-id-files-content-row-wrap">
@@ -71,8 +80,16 @@
 			{% set result = evidence.name|split('.') %}
 			{# % if result.1 | lower in types % #}
 				{% set audio = amazon_link~evidence.path %}
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15">
+			
+				<span class="gq-dashboard-points-icon">
+					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+					<div class="tooltip-home">
+						<span class="">Delete Audio</span>
+					</div>
+				</span>
+				
 				<a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
 					<div class="gq-id-files-content-icon-wrap gq-id-files-content-audio-icon"></div>
 				</a>
@@ -113,8 +130,18 @@
 			{% set result = evidence.name|split('.') %}
 			{# % if result.1 | lower in types % #}
 				{% set videofile = amazon_link~evidence.path %}
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15" >
+				<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+				
+				<span class="gq-dashboard-points-icon">
+					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+					<div class="tooltip-home">
+						<span class="">Delete Video</span>
+					</div>
+			     </span>
+						
+						
 				<a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
 					<div class="gq-id-files-content-icon-wrap gq-id-files-content-video-icon"></div>
 				</a>
@@ -152,8 +179,17 @@
 			{% if evidence.unit == unitCode %}
 			{% if evidence.type == 'text' %}
 			{% set flag_text = 1 %}
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15">
+								
+				<span class="gq-dashboard-points-icon">
+					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+					<div class="tooltip-home">
+						<span class="">Delete Note</span>
+					</div>
+			     </span>
+				 
+				 
 				<div class="gq-id-files-content-row-wrap">
 					<div class="gq-id-files-content-row">
 						<label>Content</label><span title="{{evidence.content}}">{{evidence.content|slice(0, 20)}}</span>
@@ -189,8 +225,15 @@
 			{% set result = evidence.name|split('.') %}
 			{# % if result.1 | lower in types % #}
 				{% set file = amazon_link~evidence.path %}
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15">
+				<span class="gq-dashboard-points-icon">
+					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+					<div class="tooltip-home">
+						<span class="">Delete Document</span>
+					</div>
+			     </span>
+				 
 				<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox fancybox.iframe">
 					<div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
 				</a>
@@ -224,3 +267,51 @@
 			</div>
 		</div>
 	</div>
+	
+	
+<div class="modal fade" id="myModalDel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog gq-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" id="cclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected file ?</h4>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-white deleteEvidence">Ok</a>
+        <a class="btn btn-white" id="cclose-cancel">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/*$(".viewModalClass").click(function () {
+	fileid = $(this).attr('fileid');
+	filetype = $(this).attr('filetype');
+});*/
+
+$("#cclose-cancel").click(function () { 
+	$('#myModalDel').removeClass('fade');
+	//$('#myModalDel').modal('hide');
+	//$( "#cclose" ).trigger( "click" );
+});
+//$(".deleteEvidence").click(function () {
+$(".viewModalClass").click(function () {
+	var c = confirm("Do yo want to delete selected file ?");
+	if (c == true) {
+		fileid = $(this).attr('fileid');
+		filetype = $(this).attr('filetype');
+		var fid = fileid;
+		var ftype = filetype;
+        $.ajax({
+            type: "POST",
+            url: "../deleteEvidenceFile",
+            data: { fid: fid, ftype: ftype },
+            success:function(result) {
+                $('#evd_'+fid).hide();
+				$("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
+            }
+        });
+	}
+});
+</script>

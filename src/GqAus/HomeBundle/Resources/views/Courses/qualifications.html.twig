@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Qualification{% endblock %}
 {% block stylesheets %}
-<link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('public/css/accordion.css') }}" rel="stylesheet">
 {% endblock %}
 {% block body %}
@@ -13,9 +12,14 @@
             <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
         </div>
 		<div class="col-xs-1">
+		<span class="gq-dashboard-points-icon">
 			<a href="#" class="modalClass" data-toggle="modal" data-target="#myModal">
-				<img src="{{ asset('public/images/evidence4.png') }}" title="Instruction Manule" />
+				<img src="{{ asset('public/images/home-instruction-icon.png') }}" title="Instruction Manule" />
 			</a>
+			<div class="tooltip-home">
+				<span class="">Instruction Manual</span>
+			</div>
+		</span>
 		</div>
     </div>
     <div class="row">
