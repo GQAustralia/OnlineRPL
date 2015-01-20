@@ -42,7 +42,14 @@
                                         {% set audio = amazon_link~evidence.path %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"  id="evd_{{evidence.id}}">
                                     <div class="gq-dashboard-courses-detail">
+									
+									<span class="gq-dashboard-points-icon">
 										<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+										<div class="tooltip-home">
+											<span class="">Delete Audio</span>
+										</div>
+									</span>
+										
                                         <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
 										<div class="gq-id-files-content-icon-wrap gq-id-files-content-audio-icon"></div></a>
                                         <div class="gq-id-files-content-row-wrap">
@@ -83,7 +90,14 @@
                                         {% set videofile = amazon_link~evidence.path %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"  id="evd_{{evidence.id}}">
                                     <div class="gq-dashboard-courses-detail">
+																			
+									<span class="gq-dashboard-points-icon">
 										<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+										<div class="tooltip-home">
+											<span class="">Delete Video</span>
+										</div>
+									</span>
+									
                                         <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
 										<div class="gq-id-files-content-icon-wrap gq-id-files-content-video-icon"></div></a>
                                         <div class="gq-id-files-content-row-wrap">
@@ -127,7 +141,14 @@
                                     {% endif %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
                                     <div class="gq-dashboard-courses-detail">
-									<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+									
+									<span class="gq-dashboard-points-icon">
+										<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+										<div class="tooltip-home">
+											<span class="">Delete Image</span>
+										</div>
+									</span>
+									
 									<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">
 										<div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
 									</a>
@@ -165,7 +186,13 @@
 								<div class="row">
 									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-12" id="evd_{{evidence.id}}">
 										<div class="gq-dashboard-courses-detail">
-											<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+										
+											<span class="gq-dashboard-points-icon">
+												<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+												<div class="tooltip-home">
+													<span class="">Delete Note</span>
+												</div>
+											</span>
 											
 											<div class="gq-id-files-content-row-wrap">
 												<div class="gq-id-files-content-row">
@@ -202,7 +229,12 @@
                                         {% set file = amazon_link~evidence.path %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"  id="evd_{{evidence.id}}">
                                     <div class="gq-dashboard-courses-detail">
-										<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+										<span class="gq-dashboard-points-icon">
+												<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+												<div class="tooltip-home">
+													<span class="">Delete Document</span>
+												</div>
+										</span>
                                         <a href = "{{ amazon_link }}{{  evidence.path }}" class="fancybox fancybox.iframe">		  <div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
 										</a>
                                         <div class="gq-id-files-content-row-wrap">
