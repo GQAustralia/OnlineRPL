@@ -55,11 +55,11 @@ $(".changeUnitStatus").click(function () {
 					$( "#btneye_"+unitId ).attr('disabled','disabled');
                     $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
                     $( "#span_"+unitId ).removeClass( "radioUnChecked" );
-                    
+					$( "#sp_"+unitId ).html('');
                 } else {
                     $( "#label_"+unitId ).attr("for",label);
                     $( "#btnadd_"+unitId ).removeAttr('disabled');
-					 $( "#btneye_"+unitId ).removeAttr('disabled');
+					$( "#btneye_"+unitId ).removeAttr('disabled');
                     $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
                     $( "#span_"+unitId ).addClass( "radioUnChecked" );
                 }
@@ -82,7 +82,6 @@ $(".fromBottom").click(function () {
 $("#frmSelectEvidence").submit(function () {
      $('#select_hid_unit').val(unit);
 });
-
 
 $(".deleteEvidence").click(function () {
    //var c = confirm("Do yo want to delete selected file ?");
@@ -135,7 +134,7 @@ $("#frmAddEvidence").ajaxForm({
         if (responseText == '0') {
             $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Evidence upload successfully!</h2>');
         } else {
-            $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">File size below 10MB id upload successfully!</h2>');
+            $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">File size below 10MB are only  upload successfully!</h2>');
         }
     },
     resetForm: true
@@ -239,6 +238,7 @@ $("#userfiles_browse").change(function(){
 $("#qclose-cancel").click(function () {
 	$( "#qclose" ).trigger( "click" );
 });
+
 $(".viewModalClass").click(function () {
 	fileid = $(this).attr('fileid');
 	filetype = $(this).attr('filetype');
