@@ -26,7 +26,7 @@ class EvidenceService
     {
         $this->em = $em;
         $session = $container->get('session');
-        $this->userId = 2;
+        $this->userId = $session->get('user_id');
         $this->repository = $em->getRepository('GqAusUserBundle:User');
         $this->currentUser = $this->getCurrentUser();
         $this->container = $container;
