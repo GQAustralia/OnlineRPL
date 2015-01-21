@@ -650,4 +650,42 @@ class User implements UserInterface, \Serializable
     {
         return $this->evidences;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $reminders;
+
+
+    /**
+     * Add reminders
+     *
+     * @param \GqAus\UserBundle\Entity\Reminder $reminders
+     * @return User
+     */
+    public function addReminder(\GqAus\UserBundle\Entity\Reminder $reminders)
+    {
+        $this->reminders[] = $reminders;
+
+        return $this;
+    }
+
+    /**
+     * Remove reminders
+     *
+     * @param \GqAus\UserBundle\Entity\Reminder $reminders
+     */
+    public function removeReminder(\GqAus\UserBundle\Entity\Reminder $reminders)
+    {
+        $this->reminders->removeElement($reminders);
+    }
+
+    /**
+     * Get reminders
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReminders()
+    {
+        return $this->reminders;
+    }
 }

@@ -16,5 +16,6 @@
         <field name="assessor" type="integer" column="assessor" nullable="false"/>
         <field name="rto" type="integer" column="rto" nullable="false"/>
         <one-to-many field="status" target-entity="GqAus\UserBundle\Entity\CourseStatus" mapped-by="course" />
+        <one-to-many field="reminder" target-entity="GqAus\UserBundle\Entity\Reminder" mapped-by="course" />
     </entity>
 </doctrine-mapping>
