@@ -293,4 +293,42 @@ class UserCourses
     {
         return $this->status;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $reminder;
+
+
+    /**
+     * Add reminder
+     *
+     * @param \GqAus\UserBundle\Entity\Reminder $reminder
+     * @return UserCourses
+     */
+    public function addReminder(\GqAus\UserBundle\Entity\Reminder $reminder)
+    {
+        $this->reminder[] = $reminder;
+
+        return $this;
+    }
+
+    /**
+     * Remove reminder
+     *
+     * @param \GqAus\UserBundle\Entity\Reminder $reminder
+     */
+    public function removeReminder(\GqAus\UserBundle\Entity\Reminder $reminder)
+    {
+        $this->reminder->removeElement($reminder);
+    }
+
+    /**
+     * Get reminder
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReminder()
+    {
+        return $this->reminder;
+    }
 }
