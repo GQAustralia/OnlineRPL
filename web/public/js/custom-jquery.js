@@ -252,3 +252,48 @@ $(".openIcon").click(function () {
 		$(this).removeClass( "open" );
 	}
 });
+
+function checkspace(text)
+{
+	var str=text.value;
+	var first=str.substring(0,1);
+	var second=str.substring(0,1);
+	var val='false';
+	if(first==' ')
+	{
+		val='true';
+		if(val=='true')
+		{
+			if(second==' ')
+			{
+				val='true';
+				text.value = "";
+			}
+		}
+	}
+}
+function checkCurrentPassword(mypassword)
+{
+    $("#hdn_pwd_check").val("0");
+    var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
+    var enddiv = '</div></div>';
+    $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Please wait..'+enddiv);
+    var mypassword = mypassword;
+    $.ajax({
+            type: "POST",
+            url: "checkMyPassword",
+            cache: false,
+            data: { mypassword: mypassword },
+            success:function(result) {
+               if(result=="fail") {
+                  $("#hdn_pwd_check").val("0"); 
+                  $("#change_pwd_error").html(startdiv+'Current Password is not correct'+enddiv); 
+                  $("#password_oldpassword").val('');
+               }
+               else if(result=="success") {
+                  $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Current Password is correct'+enddiv);
+                  $("#hdn_pwd_check").val("1"); 
+               }
+            }
+    });      
+}	

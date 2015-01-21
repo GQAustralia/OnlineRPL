@@ -31,3 +31,6 @@ deleteIdFiles:
 uploadProfilePic:
     path:     /uploadProfilePic
     defaults: { _controller: GqAusUserBundle:User:uploadProfilePic }
+checkMyPassword:
+    path:     /checkMyPassword
+    defaults: { _controller: GqAusUserBundle:User:checkMyPassword }

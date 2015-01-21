@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use GqAus\UserBundle\Form\ProfileForm;
 use GqAus\UserBundle\Form\IdFilesForm;
+use GqAus\UserBundle\Form\ChangePasswordForm;
 
 class UserController extends Controller
 {
@@ -22,18 +23,56 @@ class UserController extends Controller
 
         $documentTypes = $userService->getDocumentTypes();
         $idFilesForm = $this->createForm(new IdFilesForm(), $documentTypes);
-		$image = $user->getUserImage();
+        $resetform = $this->createForm(new ChangePasswordForm(), array());
+        $image = $user->getUserImage();
         if ($request->isMethod('POST')) {
             $userProfileForm->handleRequest($request);
             //$userAddressForm->handleRequest($request);
             if ($userProfileForm->isValid()) {
                 //$userService->saveProfile();
-				$userService->savePersonalProfile($image);
+                $userService->savePersonalProfile($image);
+                
+                $request->getSession()->getFlashBag()->add(
+                    'notice',
+                    'Profile updated successfully!'
+                );
             }
-            $request->getSession()->getFlashBag()->add(
-                'notice',
-                'Profile updated successfully!'
-            );
+            
+            $resetform->handleRequest($request);
+            if ($resetform->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $cur_db_password = $user->getPassword();
+                $pwdarr = $request->get('password');
+                $oldpassword = $pwdarr['oldpassword'];
+                $newpassword = $pwdarr['newpassword'];
+                $confirmnewpassword = $pwdarr['confirmnewpassword'];
+                if($newpassword==$confirmnewpassword) {
+                    if (password_verify($oldpassword, $cur_db_password)) {
+                        $password = password_hash($newpassword, PASSWORD_BCRYPT);
+                        $user->setPassword($password);
+                        $user->setTokenStatus('0');
+                        $em->persist($user);
+                        $em->flush();
+                        $request->getSession()->getFlashBag()->add(
+                            'notice',
+                            'Password updated successfully!'
+                        );
+                    }
+                    else {
+                        $request->getSession()->getFlashBag()->add(
+                            'errornotice',
+                            'Current Password is not correct!'
+                        );
+                    }
+                }
+                else
+                {
+                    $request->getSession()->getFlashBag()->add(
+                        'errornotice',
+                        'New Password and Confirm Password does not match'
+                    );
+                }
+            }
 
         }
 
@@ -52,7 +91,8 @@ class UserController extends Controller
                     'filesForm' => $idFilesForm->createView(),
                     'userImage' => $userImage,
                     'userIdFiles' => $userIdFiles,
-                    'documentTypes' => $documentTypes
+                    'documentTypes' => $documentTypes,            
+                    'changepwdForm' => $resetform->createView()
         ));
     }    
     
@@ -96,6 +136,23 @@ class UserController extends Controller
         }
         else
             echo "error";
+        exit;
+    }
+    
+    public function checkMyPasswordAction(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $mypassword = $request->get("mypassword");
+            $userService = $this->get('UserService');
+            $user = $userService->getCurrentUser();
+            $cur_db_password = $user->getPassword();
+            if (password_verify($mypassword, $cur_db_password)) {
+                echo "success";
+            }
+            else {
+                echo "fail";
+            }
+        }
         exit;
     }
 	

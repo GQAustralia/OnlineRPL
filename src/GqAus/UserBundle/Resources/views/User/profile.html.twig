@@ -40,12 +40,21 @@
                 </div>
             </div>
             {% endfor %}
-			<div class="row" id="profile_suc_msg2"></div>
+                    
+            <div class="col-xs-push-4 col-xs-4" id="change_pwd_error">
+                {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                <div class="gq-well well">
+                    <span class="login-warning-icon" aria-hidden="true"></span>
+                    <div class="login-warning-text">{{ flashMessage }}</div>
+                </div>
+               {% endfor %}
+            </div>        
+            <div class="row" id="profile_suc_msg2"></div>
         </div>
         <div class="col-xs-12">
             <div class="gq-dashboard-tabs">
                 <!-- Tabs start here -->
-                <div class="gq-dashboard-tabs-header gq-profile-tabs-header wid60p">
+                <div class="gq-dashboard-tabs-header gq-profile-tabs-header wid60p" id="gq-profile-tabs-headerid">
                     <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
                         <li role="presentation" class="active"><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal</a></li>
                         <li role="presentation"><a href="#address" aria-controls="address" role="tab" data-toggle="tab">Address</a></li>
@@ -86,6 +95,7 @@
                                     <label for="gq-personal-pwd">USI</label>
                                     {{ form_widget(form.universalStudentIdentifier) }}
                                 </div>
+                                <a href="#change-pwd-form" aria-controls="change-pwd-form" role="tab" data-toggle="tab" id="emptypwdform1">change password</a>
                                 <div class="gq-form-botton">
                                     {{ form_widget(form.save, {'attr': {'class': 'btn btn-default'}}) }}
                                 </div>
@@ -199,6 +209,36 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Change Password --> 
+                    <div role="tabpanel" class="tab-pane" id="change-pwd-form">
+                        
+                        {{ form_start(changepwdForm) }}
+                        <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
+                        <div class="gq-form-personal wid60p">
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">Current Password</label>
+                                    {{ form_widget(changepwdForm.oldpassword) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">New Password</label>
+                                    {{ form_widget(changepwdForm.newpassword) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">Confirm Password</label>
+                                    {{ form_widget(changepwdForm.confirmnewpassword) }}
+                                </div>
+                            
+                                <div class="gq-form-botton">
+                                    {{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'btn btn-default'}}) }}
+                                </div>
+                                <div class="gq-form-botton">
+                                    <a href="#personal" aria-controls="personal" role="tab" data-toggle="tab" id="emptypwdform">Cancel</a>
+                                </div>
+                        </div>
+                        {{ form_end(changepwdForm) }}
+                        
+                    </div>
+                    <!-- Change Password -->
                 </div>
                 <!-- script for enabling tabs functionality 
                 <script>
@@ -236,8 +276,69 @@
 <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-       $('.fancybox').fancybox();
-	   $( "#userprofile_dateOfBirth" ).datepicker();
+        $('.fancybox').fancybox();
+        $( "#userprofile_dateOfBirth" ).datepicker();
+        $("#password_save").click(function () {
+            var curpwd = $("#password_oldpassword").val();
+            var newpwd = $("#password_newpassword").val();
+            var newconfirmpwd = $("#password_confirmnewpassword").val();
+            var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
+            var enddiv = '</div></div>';
+            var hdnpwdchk = $("#hdn_pwd_check").val();
+            if(curpwd!="" && newpwd!="" && newconfirmpwd!="")
+            { 
+                if(newpwd.length<6)
+                {
+                    $("#change_pwd_error").html(startdiv+'New Password must be minimum of 6 characters'+enddiv);
+                    $("#password_newpassword").val('');
+                    return false;
+                }
+                else if(newconfirmpwd.length<6)
+                {
+                    $("#change_pwd_error").html(startdiv+'New Confirm Password must be minimum of 6 characters'+enddiv);
+                    $("#password_confirmnewpassword").val('');
+                    return false;
+                }
+                else if(curpwd==newpwd)
+                {
+                    $("#change_pwd_error").html(startdiv+'Current Password and New Password must be different'+enddiv);
+                    $("#password_newpassword").val('');
+                    $("#password_confirmnewpassword").val('');
+                    return false;
+                }
+                else if(newpwd!=newconfirmpwd)
+                {
+                    $("#change_pwd_error").html(startdiv+'New Password and Confirm Password does not match'+enddiv);
+                    $("#password_confirmnewpassword").val('');
+                    return false;
+                }
+                else if(hdnpwdchk==0)
+                {
+                    checkCurrentPassword($("#password_oldpassword").val());
+                    $("#change_pwd_error").html(startdiv+'Please wait till password gets validated'+enddiv);
+                    return false;
+                }
+                    
+            }
+        });
+        $("#password_oldpassword").blur(function () {
+            checkCurrentPassword($("#password_oldpassword").val());
+        });
+        $("#password_newpassword,#password_confirmnewpassword").keyup(function () {
+            checkspace(this);
+        });
+        $("#emptypwdform").click(function () {
+            $("#gq-profile-tabs-headerid").show();
+            $("#password_oldpassword").val('');
+            $("#password_newpassword").val('');
+            $("#password_confirmnewpassword").val('');
+        });
+        $("#emptypwdform1 ").click(function () {
+            $("#gq-profile-tabs-headerid").hide();
+            $("#password_oldpassword").val('');
+            $("#password_newpassword").val('');
+            $("#password_confirmnewpassword").val('');
+        });
     });
 </script>
 {% endblock %}
