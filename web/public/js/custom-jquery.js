@@ -4,6 +4,8 @@ var filetype;
 var unitId;
 var courseCode;
 var userId;
+var unit;
+var fullPath = '/OnlineRPL/web/';
 
 $(function(){
   var $ppc = $('.progress-pie-chart'),
@@ -216,10 +218,12 @@ $("#userprofile_userImage").change(function(){
   
   
 $(".unit-evidence-id").click(function () {
+	unit = $(this).attr("unitid");
+	userId = $(this).attr("userId");
 	$.ajax({
 		type: "POST",
-		url: "../getUnitEvidences",
-		data: { unit: unit },
+		url: fullPath + "getUnitEvidences",
+		data: { unit: unit, userId: userId },
 		success:function(result) {
 			$('#unit-evidence-tab').html(result);
 		}

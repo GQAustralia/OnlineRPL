@@ -39,7 +39,11 @@
                                 </div>
                                 <div class="ppc-percents">
                                     <div class="pcc-percents-wrapper">
-                                        <img src="{{ asset('public/uploads/') ~ userImage }}" />
+										{% if userImage %}
+											<img src="{{ asset('public/uploads/') ~ userImage }}" />
+										{% else %}
+											<img src="{{ asset('public/images/profielicon.png') }}" />
+										{% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +62,8 @@
 							<a href="#" class="modalClass pull-right" data-toggle="modal" data-target="#myModal">
 								<img src="{{ asset('public/images/home-instruction-icon.png') }}" title="Instruction Manule" />
 							</a>
-							<div class="tooltip-home">
+							<div class="tooltip-home top">
+								<div class="tooltip-arrow"></div>
 								<span class="">Instruction Manual</span>
 							</div>
 						</span>

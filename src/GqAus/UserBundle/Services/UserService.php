@@ -178,9 +178,73 @@ class UserService
      */
     public function getDashboardInfo($user)
     {
-        $maximumPoints = 100;
-        $profileCompleteness = 0;
         if(is_object($user) && count($user) > 0) {
+           $percentage = $this->getUserProfilePercentage($user);
+           $userCourses = $user->getCourses();
+           $courseConditionStatus = $user->getCourseConditionStatus();
+           return array('profileCompleteness' => $percentage, 
+                        'userImage' => $user->getUserImage(),
+                        'currentIdPoints' => $this->getIdPoints($user),
+                        'userCourses' => $userCourses,
+                        'courseConditionStatus' => $courseConditionStatus);
+        }
+    }
+    
+    /**
+     * function to get all document types.
+     *  @return array
+     */
+    public function getDocumentTypes()
+    {
+        $documentType = $this->em->getRepository('GqAusUserBundle:DocumentType');
+        return $documentType->findAll();
+    }
+    
+    /**
+     * function to get points for ID files uploaded.
+     *  @return integer
+     */
+    public function getIdPoints($user)
+    {
+        $idFiles = $user->getIdfiles();
+        $points = array();
+        foreach ($idFiles as $file) {
+            $points[] = $file->getType()->getPoints();
+        }
+        return array_sum($points); exit; 
+    }
+    
+    public function deleteIdFiles($IdFileId, $IdFileType)
+    {
+         $userIdObj = $this->em->getRepository('GqAusUserBundle:UserIds');
+         $userIds = $userIdObj->find($IdFileId);
+        if (!empty($userIds)) {
+            $fileName = $userIds->getPath();
+            $this->em->remove($userIds);
+            $this->em->flush();
+            return $fileName;
+        }
+    }
+	
+	/**
+    * Function to get user details
+    * return $result array
+    */
+	public function getUserInfo($userId)
+    {
+        return $this->repository->findOneById($userId);
+    }
+	
+	/**
+    * Function to get user profile percentage
+    * return $result array
+    */
+	public function getUserProfilePercentage($user)
+    {
+		$maximumPoints = 100;
+        $profileCompleteness = 0;
+		
+		if(is_object($user) && count($user) > 0) {
            $userId = $user->getId();
            $firstName = $user->getFirstName();
            $lastName = $user->getLastName();
@@ -189,7 +253,6 @@ class UserService
 		   $gender = $user->getGender();
 		   $usi = $user->getUniversalStudentIdentifier();
 		   $dob = $user->getDateOfBirth();
-           $userImage = $user->getUserImage();
            $address = $user->getAddress();
            $address = count($address);
            if (!empty($firstName)) {
@@ -217,54 +280,38 @@ class UserService
            if (!empty($address)) {
                 $profileCompleteness += 30;
            }
-           if (empty($userImage)) {
-                $userImage = 'profielicon.png';
-           }
-           $percentage = ($profileCompleteness*$maximumPoints)/100;
-           $percentage = $percentage.'%';
-           $userCourses = $user->getCourses();
-           $courseConditionStatus = $user->getCourseConditionStatus();
-           return array('profileCompleteness' => $percentage, 
-                        'userImage' => $userImage,
-                        'currentIdPoints' => $this->getIdPoints(),
-                        'userCourses' => $userCourses,
-                        'courseConditionStatus' => $courseConditionStatus);
+           
         }
+		$percentage = ($profileCompleteness*$maximumPoints)/100;
+        return $percentage = $percentage.'%';
     }
-    
-    /**
-     * function to get all document types.
-     *  @return array
-     */
-    public function getDocumentTypes()
-    {
-        $documentType = $this->em->getRepository('GqAusUserBundle:DocumentType');
-        return $documentType->findAll();
-    }
-    
-    /**
-     * function to get points for ID files uploaded.
-     *  @return integer
-     */
-    public function getIdPoints()
-    {
-        $idFiles = $this->currentUser->getIdfiles();
-        $points = array();
-        foreach ($idFiles as $file) {
-            $points[] = $file->getType()->getPoints();
-        }
-        return array_sum($points); exit; 
-    }
-    
-    public function deleteIdFiles($IdFileId, $IdFileType)
-    {
-         $userIdObj = $this->em->getRepository('GqAusUserBundle:UserIds');
-         $userIds = $userIdObj->find($IdFileId);
-        if (!empty($userIds)) {
-            $fileName = $userIds->getPath();
-            $this->em->remove($userIds);
-            $this->em->flush();
-            return $fileName;
-        }
-    }
+	
+	/**
+    * Function to get applicant information
+    * return $result array
+    */
+	public function getApplicantInfo($user)
+	{
+		$results = array();
+		$results['profileCompleteness'] = $this->getUserProfilePercentage($user);
+		$results['currentIdPoints'] = $this->getIdPoints($user);
+		$results['userId'] = $user->getId();
+		$results['userImage'] = $user->getUserImage();
+		$results['userName'] = $user->getUsername();
+		return $results;
+	}
+	
+	/**
+    * Function to update applicant evidences information
+    * return $result array
+    */
+	public function updateApplicantEvidences($userId, $unit, $status)
+	{
+		/*$user = $this->em->getRepository('GqAusUserBundle:DocumentType')->findOneBy(array('email' => $email));
+		$user->setCourseConditionStatus($status);
+        $this->em->persist($user);
+        $this->em->flush();  */
+		return $status;
+	}
+	
 }

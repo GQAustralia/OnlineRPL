@@ -33,7 +33,7 @@
          function loginValidate() {
             var useremail = $("#InputEmail1").val();
             var userpwd = $("#InputPassword1").val();
-            regexp=/^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
+            regexp=/^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
             if(useremail=="") {
                 $('.gq-well').show();
                 $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter Email</div>');

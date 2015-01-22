@@ -33,7 +33,8 @@
 					{% endif %}
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 					<div class="gq-dashboard-courses-detail  margin-top15" >
-						
+					
+						{% if userRole == '1' %}
 						<span class="gq-dashboard-points-icon">
 							<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
 							<div class="tooltip-home top">
@@ -41,7 +42,8 @@
 								<span class="">Delete Image</span>
 							</div>
 						</span>
-				
+						{% endif %}
+						
 						<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">		
 							<div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
 						</a>
@@ -84,14 +86,15 @@
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15">
 			
+				{% if userRole == '1' %}
 				<span class="gq-dashboard-points-icon">
 					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
 					<div class="tooltip-home top">
 						<div class="tooltip-arrow"></div>
 						<span class="">Delete Audio</span>
 					</div>
-					
 				</span>
+				{% endif %}
 				
 				<a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
 					<div class="gq-id-files-content-icon-wrap gq-id-files-content-audio-icon"></div>
@@ -135,17 +138,15 @@
 				{% set videofile = amazon_link~evidence.path %}
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15" >
-				<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
-				
+				{% if userRole == '1' %}
 				<span class="gq-dashboard-points-icon">
 					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
-					
 					<div class="tooltip-home top">
 						<div class="tooltip-arrow"></div>
 						<span class="">Delete Video</span>
 					</div>
 			     </span>
-						
+				{% endif %}	
 						
 				<a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
 					<div class="gq-id-files-content-icon-wrap gq-id-files-content-video-icon"></div>
@@ -186,16 +187,16 @@
 			{% set flag_text = 1 %}
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15">
-								
+				
+				{% if userRole == '1' %}
 				<span class="gq-dashboard-points-icon">
 					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
-										
 					<div class="tooltip-home top">
 						<div class="tooltip-arrow"></div>
 						<span class="">Delete Note</span>
 					</div>
 			     </span>
-				 
+				 {% endif %}
 				 
 				<div class="gq-id-files-content-row-wrap">
 					<div class="gq-id-files-content-row">
@@ -211,7 +212,6 @@
 		{% endif %}
 	 {% endfor %}
 	 {% endif %}
-							
 	{% if flag_text == 0 %}
 		<div align="center" >Notes not found</div>
 	{% endif %}
@@ -234,6 +234,7 @@
 				{% set file = amazon_link~evidence.path %}
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15">
+				{% if userRole == '1' %}
 				<span class="gq-dashboard-points-icon">
 					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
 					<div class="tooltip-home top">
@@ -241,7 +242,7 @@
 						<span class="">Delete Document</span>
 					</div>
 			     </span>
-				 
+				 {% endif %}
 				<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox fancybox.iframe">
 					<div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
 				</a>
@@ -276,6 +277,15 @@
 		</div>
 	</div>
 	
+	{% if userRole == '3' %}
+	<div class="text-center gq-id-files-button-content-wrap" id="applicantEStatus">
+		<span id="gq-msg-success">
+			<button type="submit" id="approve" class="btn btn-red">Approve</button>
+			<button type="submit" id="disapprove" class="btn btn-grey">Disapprove</button>
+		</span>
+		<button type="submit" id="send_message" class="btn btn-green">Send a Message</button>
+	</div>
+	{% endif %}
 	
 <div class="modal fade" id="myModalDel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog gq-modal">
@@ -321,5 +331,23 @@ $(".viewModalClass").click(function () {
             }
         });
 	}
+});
+
+$("#approve").click(function () {
+	$.ajax({
+		type: "POST",
+		url: fullPath + "setUserUnitEvidencesStatus",
+		data: { unit: unit, userId: userId, status: 'A' },
+		success:function(result) {
+			if (result == 'A') {
+				$('#gq-msg-success').html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="'+ fullPath +'public/images/tick.png">Evidence Approved successfully!</h2></div>');
+			} else {
+				$('#gq-msg-success').html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="'+ fullPath +'public/images/tick.png">Evidence Disapproved successfully!</h2></div>');
+			}
+		}
+	});
+});
+
+$("#disapprove").click(function () {
 });
 </script>

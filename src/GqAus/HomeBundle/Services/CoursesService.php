@@ -45,7 +45,7 @@ class CoursesService
             {
                 $courseInfo['details'] = html_entity_decode($courseInfo['details']);
             }
-         }
+        }
         return array('courseInfo' => $courseInfo);
     }
     
