@@ -17,12 +17,11 @@ class QualificationController extends Controller
 		if (!empty($userId)) {
 			$userService = $this->get('UserService');
 			$user = $userService->getUserInfo($userId);
-			$results['userRole'] = '3';
 		} else {
 			$user = $this->get('security.context')->getToken()->getUser();
-			$results['userRole'] = '1';
 		}
-
+		$role = $user->getRoles();
+		$results['userRole'] = $role[0];
 		$results['unitevidences'] = $user->getEvidences();
 		$results['unitCode'] = $this->getRequest()->get('unit');
 		echo $template = $this->renderView('GqAusUserBundle:Qualification:unitevidence.html.twig', $results);

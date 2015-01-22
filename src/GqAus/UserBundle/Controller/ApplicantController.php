@@ -16,7 +16,7 @@ class ApplicantController extends Controller
 		$user = $this->get('UserService')->getUserInfo($uid);
 		$results = $this->get('CoursesService')->getCoursesInfo($qcode);
 		if (!empty($user) && isset($results['courseInfo']['id'])) {
-			$applicantInfo = $this->get('UserService')->getApplicantInfo($user);
+			$applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
 			return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
 		} else {
 			return $this->render('GqAusUserBundle:Default:error.html.twig');

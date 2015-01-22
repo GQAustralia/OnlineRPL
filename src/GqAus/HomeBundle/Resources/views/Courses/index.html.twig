@@ -292,13 +292,6 @@
 								{% for evidence in evidences %}
 								{% if evidence.type == 'image' %}
 								{% set flag_image = 1 %}
-								{% set types = ['jpg', 'jpeg', 'png', 'gif'] %}
-								{% set result = evidence.name|split('.') %}
-								{% if result.1 | lower in types %}
-									{% set image = amazon_link~evidence.path %}
-								{% else %}
-									 {% set image = asset('public/images/file_icon.png') %}
-								{% endif %}
 							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
 								<div class="gq-dashboard-courses-detail  margin-top15" >
 									<a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">										

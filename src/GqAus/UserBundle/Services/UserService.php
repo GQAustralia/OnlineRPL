@@ -290,7 +290,7 @@ class UserService
     * Function to get applicant information
     * return $result array
     */
-	public function getApplicantInfo($user)
+	public function getApplicantInfo($user, $qcode)
 	{
 		$results = array();
 		$results['profileCompleteness'] = $this->getUserProfilePercentage($user);
@@ -298,6 +298,14 @@ class UserService
 		$results['userId'] = $user->getId();
 		$results['userImage'] = $user->getUserImage();
 		$results['userName'] = $user->getUsername();
+		$otheruser = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $qcode,
+																						 'user' => $user->getId()));
+		if (!empty($otheruser)) {
+			$assessor = $this->getUserInfo($otheruser->getAssessor());
+			$results['assessorName'] = !empty($assessor) ? $assessor->getUsername() : '';
+			$rto = $this->getUserInfo($otheruser->getRto());
+			$results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
+		}
 		return $results;
 	}
 	

@@ -164,4 +164,171 @@ class UserCourses
     {
         return $this->createdOn;
     }
+    /**
+     * @var integer
+     */
+    private $facilitator;
+
+    /**
+     * @var integer
+     */
+    private $assessor;
+
+    /**
+     * @var integer
+     */
+    private $rto;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $status;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->status = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set facilitator
+     *
+     * @param integer $facilitator
+     * @return UserCourses
+     */
+    public function setFacilitator($facilitator)
+    {
+        $this->facilitator = $facilitator;
+
+        return $this;
+    }
+
+    /**
+     * Get facilitator
+     *
+     * @return integer 
+     */
+    public function getFacilitator()
+    {
+        return $this->facilitator;
+    }
+
+    /**
+     * Set assessor
+     *
+     * @param integer $assessor
+     * @return UserCourses
+     */
+    public function setAssessor($assessor)
+    {
+        $this->assessor = $assessor;
+
+        return $this;
+    }
+
+    /**
+     * Get assessor
+     *
+     * @return integer 
+     */
+    public function getAssessor()
+    {
+        return $this->assessor;
+    }
+
+    /**
+     * Set rto
+     *
+     * @param integer $rto
+     * @return UserCourses
+     */
+    public function setRto($rto)
+    {
+        $this->rto = $rto;
+
+        return $this;
+    }
+
+    /**
+     * Get rto
+     *
+     * @return integer 
+     */
+    public function getRto()
+    {
+        return $this->rto;
+    }
+
+    /**
+     * Add status
+     *
+     * @param \GqAus\UserBundle\Entity\CourseStatus $status
+     * @return UserCourses
+     */
+    public function addStatus(\GqAus\UserBundle\Entity\CourseStatus $status)
+    {
+        $this->status[] = $status;
+
+        return $this;
+    }
+
+    /**
+     * Remove status
+     *
+     * @param \GqAus\UserBundle\Entity\CourseStatus $status
+     */
+    public function removeStatus(\GqAus\UserBundle\Entity\CourseStatus $status)
+    {
+        $this->status->removeElement($status);
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $reminder;
+
+
+    /**
+     * Add reminder
+     *
+     * @param \GqAus\UserBundle\Entity\Reminder $reminder
+     * @return UserCourses
+     */
+    public function addReminder(\GqAus\UserBundle\Entity\Reminder $reminder)
+    {
+        $this->reminder[] = $reminder;
+
+        return $this;
+    }
+
+    /**
+     * Remove reminder
+     *
+     * @param \GqAus\UserBundle\Entity\Reminder $reminder
+     */
+    public function removeReminder(\GqAus\UserBundle\Entity\Reminder $reminder)
+    {
+        $this->reminder->removeElement($reminder);
+    }
+
+    /**
+     * Get reminder
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReminder()
+    {
+        return $this->reminder;
+    }
 }

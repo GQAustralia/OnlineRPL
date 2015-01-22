@@ -12,7 +12,7 @@
 					<li role="presentation"><a href="#unit-files" aria-controls="unit-files" role="tab" data-toggle="tab">Documents</a></li>
 				</ul>
 			<!-- Tabs end start here -->
-			
+			{% set currentUserRole = app.security.getToken().getUser().getRoles() %}
 			<!-- Content for respective tabs above will be in this section -->
 		<div class="tab-content  margin-top15">
 		<div aria-labelledby="existing-evidence-tab" id="unit-images" class="tab-pane fade active in" role="tabpanel">
@@ -24,22 +24,14 @@
 					{% if evidence.unit == unitCode %}
 					{% if evidence.type == 'image' %}
 					{% set flag_image = 1 %}
-					{% set types = ['jpg', 'jpeg', 'png', 'gif'] %}
-					{% set result = evidence.name|split('.') %}
-					{% if result.1 | lower in types %}
-						{% set image = amazon_link~evidence.path %}
-					{% else %}
-						 {% set image = asset('public/images/file_icon.png') %}
-					{% endif %}
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 					<div class="gq-dashboard-courses-detail  margin-top15" >
-					
-						{% if userRole == '1' %}
+						{% if 'ROLE_APPLICANT' in currentUserRole %}
 						<span class="gq-dashboard-points-icon">
 							<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
 							<div class="tooltip-home top">
 								<div class="tooltip-arrow"></div>
-								<span class="">Delete Image</span>
+								<span>Delete Image</span>
 							</div>
 						</span>
 						{% endif %}
@@ -85,8 +77,7 @@
 				{% set audio = amazon_link~evidence.path %}
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15">
-			
-				{% if userRole == '1' %}
+				{% if 'ROLE_APPLICANT' in currentUserRole %}
 				<span class="gq-dashboard-points-icon">
 					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
 					<div class="tooltip-home top">
@@ -138,7 +129,7 @@
 				{% set videofile = amazon_link~evidence.path %}
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15" >
-				{% if userRole == '1' %}
+				{% if 'ROLE_APPLICANT' in currentUserRole %}
 				<span class="gq-dashboard-points-icon">
 					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
 					<div class="tooltip-home top">
@@ -187,8 +178,7 @@
 			{% set flag_text = 1 %}
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15">
-				
-				{% if userRole == '1' %}
+				{% if 'ROLE_APPLICANT' in currentUserRole %}
 				<span class="gq-dashboard-points-icon">
 					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
 					<div class="tooltip-home top">
@@ -234,7 +224,7 @@
 				{% set file = amazon_link~evidence.path %}
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
 			<div class="gq-dashboard-courses-detail  margin-top15">
-				{% if userRole == '1' %}
+				{% if 'ROLE_APPLICANT' in currentUserRole %}
 				<span class="gq-dashboard-points-icon">
 					<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModalDel" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
 					<div class="tooltip-home top">
@@ -277,7 +267,7 @@
 		</div>
 	</div>
 	
-	{% if userRole == '3' %}
+	{% if (userRole == 'ROLE_ASSESSOR') or (userRole == 'ROLE_FACILITATOR') or (userRole == 'ROLE_RTO') %}
 	<div class="text-center gq-id-files-button-content-wrap" id="applicantEStatus">
 		<span id="gq-msg-success">
 			<button type="submit" id="approve" class="btn btn-red">Approve</button>
