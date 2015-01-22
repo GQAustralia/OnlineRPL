@@ -15,6 +15,7 @@
             <discriminator-mapping value="1" class="GqAus\UserBundle\Entity\Applicant" />
             <discriminator-mapping value="2" class="GqAus\UserBundle\Entity\Facilitator" />
             <discriminator-mapping value="3" class="GqAus\UserBundle\Entity\Assessor" />
+            <discriminator-mapping value="3" class="GqAus\UserBundle\Entity\Rto" />
         </discriminator-map>
        
         <one-to-many field="courses" target-entity="GqAus\UserBundle\Entity\UserCourses" mapped-by="user" />

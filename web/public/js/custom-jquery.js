@@ -5,19 +5,52 @@ var unitId;
 var courseCode;
 var userId;
 
-$(function(){
-  var $ppc = $('.progress-pie-chart'),
-    percent = parseInt($ppc.data('percent')),
-    deg = 360*percent/100;
-  if (percent > 50) {
-    $ppc.addClass('gt-50');
-  }
-  $('.ppc-progress-fill').css('transform','rotate('+ deg +'deg)');
-  $('.ppc-percents span').html(percent+'%');
-  if (percent == 100) {
-    $(".progress-pie-chart").css("background-color","#86b332");
-    $(".gq-dashboard-points-in-percent").css("color","#86b332");
-  }
+$(function() {
+    var $ppc = $('.progress-pie-chart'),
+            percent = parseInt($ppc.data('percent')),
+            deg = 360 * percent / 100;
+    if (percent > 50) {
+        $ppc.addClass('gt-50');
+    }
+    $('.ppc-progress-fill').css('transform', 'rotate(' + deg + 'deg)');
+    $('.ppc-percents span').html(percent + '%');
+    if (percent == 100) {
+        $(".progress-pie-chart").css("background-color", "#86b332");
+        $(".gq-dashboard-points-in-percent").css("color", "#86b332");
+    }
+
+    $("#eqclose-cancel").click(function() {
+        $("#eqclose").trigger("click");
+    });
+
+    $(".evTitleData").click(function() {
+        var evtitle = $(this).attr("data-evtitle");
+        var evid = $(this).attr("data-evid");
+        $("#editEvidenceModelinput").val(evtitle);
+        $("#editEvId").val(evid);
+    });
+
+    $(".editEvidenceSave").click(function() {
+        var title = $("#editEvidenceModelinput").val();
+        var id = $("#editEvId").val();
+        $(".edittitle_loader").show();
+        $.ajax({
+            type: "POST",
+            url: "editEvidenceTitle",
+            cache: false,
+            data: {title: title, id: id},
+            success: function(result) {
+                if (result == "success")
+                {
+                    $("#eqclose").trigger("click");
+                    $("#editEvidenceModelinput").val(title);
+                    $("#ev-" + id).attr("data-evtitle", title);
+                    $("#evd-title-" + id).html(title);
+                    $(".edittitle_loader").hide();
+                }
+            }
+        });
+    });
 });
 
 $( "#view_terms" ).click(function() {
@@ -157,10 +190,6 @@ $("#evd_close").click(function () {
     location.reload();
 });
 
-function validatefile()
-{    
-}
-
 function validateExisting()
 {
     var efile = $(".check_evidence:checkbox:checked").length;
@@ -272,6 +301,7 @@ function checkspace(text)
 		}
 	}
 }
+
 function checkCurrentPassword(mypassword)
 {
     $("#hdn_pwd_check").val("0");
@@ -296,4 +326,4 @@ function checkCurrentPassword(mypassword)
                }
             }
     });      
-}	
+}

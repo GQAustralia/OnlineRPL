@@ -206,7 +206,7 @@ class EvidenceService
         }
     }
 	
-	/**
+    /**
     * Function to get elective units
     * return $result array
     */
@@ -218,10 +218,10 @@ class EvidenceService
 		return $userUnitEvidences;       
     }
 	
-	/**
+    /**
     * Function to update Evidence
     */
-	public function updateInactiveEvidence($evidenceId, $evidenceType)
+    public function updateInactiveEvidence($evidenceId, $evidenceType)
     {
         $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
         $audioObj = $this->em->getRepository('GqAusUserBundle:Evidence\Audio');
@@ -256,5 +256,16 @@ class EvidenceService
             $this->em->flush();
             return true;
         }
+    }
+    
+    /**
+    * Function to update Evidence Title
+    */
+    public function updateEvidence($evidenceId,$evidenceTitle)
+    {
+        $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence')->find($evidenceId);
+        $imgObj->setName($evidenceTitle);
+        $this->em->persist($imgObj);
+        $this->em->flush();
     }
 }

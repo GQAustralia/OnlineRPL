@@ -24,7 +24,7 @@ saveExistingEvidence:
     defaults: { _controller: GqAusUserBundle:Evidence:saveExistingEvidence }
 deleteEvidenceFile:
     path:     /deleteEvidenceFile
-    defaults:  { _controller: GqAusUserBundle:Evidence:deleteEvidenceFile }
+    defaults:  { _controller: GqAusUserBundle:Evidence:deleteFile }
 deleteIdFiles:
     path:     /deleteIdFiles
     defaults:  { _controller: GqAusUserBundle:User:deleteIdFiles }
@@ -34,3 +34,6 @@ uploadProfilePic:
 checkMyPassword:
     path:     /checkMyPassword
     defaults: { _controller: GqAusUserBundle:User:checkMyPassword }
+editEvidenceTitle:
+    path:     /editEvidenceTitle
+    defaults:  { _controller: GqAusUserBundle:Evidence:editTitle }
