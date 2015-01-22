@@ -11,10 +11,16 @@
         <field name="courseStatus" type="integer" column="course_status" nullable="false"/>
         <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User" inversed-by="courses">
             <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>       
+        <many-to-one field="facilitator" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="facilitator" referenced-column-name="id" />
+        </many-to-one>       
+        <many-to-one field="assessor" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="assessor" referenced-column-name="id" />
+        </many-to-one>       
+        <many-to-one field="rto" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="rto" referenced-column-name="id" />
         </many-to-one>
-        <field name="facilitator" type="integer" column="facilitator" nullable="false"/>
-        <field name="assessor" type="integer" column="assessor" nullable="false"/>
-        <field name="rto" type="integer" column="rto" nullable="false"/>
         <one-to-many field="status" target-entity="GqAus\UserBundle\Entity\CourseStatus" mapped-by="course" />
         <one-to-many field="reminder" target-entity="GqAus\UserBundle\Entity\Reminder" mapped-by="course" />
     </entity>
