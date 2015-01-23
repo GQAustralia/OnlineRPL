@@ -7,19 +7,52 @@ var userId;
 var unit;
 var fullPath = '/OnlineRPL/web/';
 
-$(function(){
-  var $ppc = $('.progress-pie-chart'),
-    percent = parseInt($ppc.data('percent')),
-    deg = 360*percent/100;
-  if (percent > 50) {
-    $ppc.addClass('gt-50');
-  }
-  $('.ppc-progress-fill').css('transform','rotate('+ deg +'deg)');
-  $('.ppc-percents span').html(percent+'%');
-  if (percent == 100) {
-    $(".progress-pie-chart").css("background-color","#86b332");
-    $(".gq-dashboard-points-in-percent").css("color","#86b332");
-  }
+$(function() {
+    var $ppc = $('.progress-pie-chart'),
+            percent = parseInt($ppc.data('percent')),
+            deg = 360 * percent / 100;
+    if (percent > 50) {
+        $ppc.addClass('gt-50');
+    }
+    $('.ppc-progress-fill').css('transform', 'rotate(' + deg + 'deg)');
+    $('.ppc-percents span').html(percent + '%');
+    if (percent == 100) {
+        $(".progress-pie-chart").css("background-color", "#86b332");
+        $(".gq-dashboard-points-in-percent").css("color", "#86b332");
+    }
+
+    $("#eqclose-cancel").click(function() {
+        $("#eqclose").trigger("click");
+    });
+
+    $(".evTitleData").click(function() {
+        var evtitle = $(this).attr("data-evtitle");
+        var evid = $(this).attr("data-evid");
+        $("#editEvidenceModelinput").val(evtitle);
+        $("#editEvId").val(evid);
+    });
+
+    $(".editEvidenceSave").click(function() {
+        var title = $("#editEvidenceModelinput").val();
+        var id = $("#editEvId").val();
+        $(".edittitle_loader").show();
+        $.ajax({
+            type: "POST",
+            url: "editEvidenceTitle",
+            cache: false,
+            data: {title: title, id: id},
+            success: function(result) {
+                if (result == "success")
+                {
+                    $("#eqclose").trigger("click");
+                    $("#editEvidenceModelinput").val(title);
+                    $("#ev-" + id).attr("data-evtitle", title);
+                    $("#evd-title-" + id).html(title);
+                    $(".edittitle_loader").hide();
+                }
+            }
+        });
+    });
 });
 
 $( "#view_terms" ).click(function() {
@@ -37,9 +70,9 @@ $("#qclose").click(function () {
 });
 
 $(".checkmark-icon").click(function () {
-	unitId = $(this).attr("unit_id");
-	courseCode = $(this).attr("course_code");
-	userId = $(this).attr("user_id");
+    unitId = $(this).attr("unit_id");
+    courseCode = $(this).attr("course_code");
+    userId = $(this).attr("user_id");
 });
 
 $(".changeUnitStatus").click(function () {
@@ -54,20 +87,20 @@ $(".changeUnitStatus").click(function () {
                 if (result == '0') {
                     $( "#label_"+unitId ).attr("for","");
                     $( "#btnadd_"+unitId ).attr('disabled','disabled');
-					$( "#btneye_"+unitId ).attr('disabled','disabled');
+                    $( "#btneye_"+unitId ).attr('disabled','disabled');
                     $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
                     $( "#span_"+unitId ).removeClass( "radioUnChecked" );
-					$( "#sp_"+unitId ).html('');
+                    $( "#sp_"+unitId ).html('');
                 } else {
                     $( "#label_"+unitId ).attr("for",label);
                     $( "#btnadd_"+unitId ).removeAttr('disabled');
-					$( "#btneye_"+unitId ).removeAttr('disabled');
+                    $( "#btneye_"+unitId ).removeAttr('disabled');
                     $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
                     $( "#span_"+unitId ).addClass( "radioUnChecked" );
                 }
             }
         });
-		$( "#qclose" ).trigger( "click" );
+        $( "#qclose" ).trigger( "click" );
    //}
 });
 
@@ -88,8 +121,8 @@ $("#frmSelectEvidence").submit(function () {
 $(".deleteEvidence").click(function () {
    //var c = confirm("Do yo want to delete selected file ?");
    //if (c == true) {
-		var fid = fileid;
-		var ftype = filetype;
+        var fid = fileid;
+        var ftype = filetype;
         $.ajax({
             type: "POST",
             url: "deleteEvidenceFile",
@@ -97,8 +130,8 @@ $(".deleteEvidence").click(function () {
             success:function(result) {
                 $('#evd_'+fid).hide();
                 //alert("Selected Evidence File deleted!");
-				$( "#qclose" ).trigger( "click" );
-				$("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
+                $( "#qclose" ).trigger( "click" );
+                $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
             }
         });
    //}
@@ -109,8 +142,8 @@ $(".deleteIdFiles").click(function () {
   // if (c == true) {
         //var fid = $(this).attr("fileid");
         //var ftype = $(this).attr("filetype");
-		var fid = fileid;
-		var ftype = filetype;
+        var fid = fileid;
+        var ftype = filetype;
         $.ajax({
             type: "POST",
             url: "deleteIdFiles",
@@ -118,8 +151,8 @@ $(".deleteIdFiles").click(function () {
             success:function(result) {
                 $('#idfiles_'+fid).hide();
                 //alert("Selected ID File deleted!");
-				$( "#qclose" ).trigger( "click" );
-				$("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">ID File deleted successfully!</h2></div>'); 
+                $( "#qclose" ).trigger( "click" );
+                $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">ID File deleted successfully!</h2></div>'); 
             }
         });
    //}
@@ -159,10 +192,6 @@ $("#evd_close").click(function () {
     location.reload();
 });
 
-function validatefile()
-{    
-}
-
 function validateExisting()
 {
     var efile = $(".check_evidence:checkbox:checked").length;
@@ -191,8 +220,8 @@ $("#userprofile_userImage").change(function(){
                 success:function(result) {
                     if(result!="error")
                     {
-						$("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Profile Image updated successfully!</h2></div>');
-						
+                        $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Profile Image updated successfully!</h2></div>');
+                        
                         $("#ajax-profile-error").hide();
                         $(".ajax-profile-pic").attr('src', '../web/public/uploads/'+result);
                         $("#ajax-gq-profile-page-img").css("background-image", "url('../web/public/uploads/"+result+"')");
@@ -218,16 +247,16 @@ $("#userprofile_userImage").change(function(){
   
   
 $(".unit-evidence-id").click(function () {
-	unit = $(this).attr("unitid");
-	userId = $(this).attr("userId");
-	$.ajax({
-		type: "POST",
-		url: fullPath + "getUnitEvidences",
-		data: { unit: unit, userId: userId },
-		success:function(result) {
-			$('#unit-evidence-tab').html(result);
-		}
-	});
+    unit = $(this).attr("unitid");
+    userId = $(this).attr("userId");
+    $.ajax({
+        type: "POST",
+        url: fullPath + "getUnitEvidences",
+        data: { unit: unit, userId: userId },
+        success:function(result) {
+            $('#unit-evidence-tab').html(result);
+        }
+    });
 });
 
 $("#userfiles_browse").click(function(){
@@ -240,19 +269,65 @@ $("#userfiles_browse").change(function(){
 });
 
 $("#qclose-cancel").click(function () {
-	$( "#qclose" ).trigger( "click" );
+    $( "#qclose" ).trigger( "click" );
 });
 
 $(".viewModalClass").click(function () {
-	fileid = $(this).attr('fileid');
-	filetype = $(this).attr('filetype');
+    fileid = $(this).attr('fileid');
+    filetype = $(this).attr('filetype');
 });
 
 $(".openIcon").click(function () {
-	var c = $(this).hasClass( "open" );
-	if (c == false) {
-		$(this).addClass( "open" );
-	} else {
-		$(this).removeClass( "open" );
-	}
+    var c = $(this).hasClass( "open" );
+    if (c == false) {
+        $(this).addClass( "open" );
+    } else {
+        $(this).removeClass( "open" );
+    }
 });
+
+function checkspace(text)
+{
+    var str=text.value;
+    var first=str.substring(0,1);
+    var second=str.substring(0,1);
+    var val='false';
+    if(first==' ')
+    {
+        val='true';
+        if(val=='true')
+        {
+            if(second==' ')
+            {
+                val='true';
+                text.value = "";
+            }
+        }
+    }
+}
+
+function checkCurrentPassword(mypassword)
+{
+    $("#hdn_pwd_check").val("0");
+    var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
+    var enddiv = '</div></div>';
+    $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Please wait..'+enddiv);
+    var mypassword = mypassword;
+    $.ajax({
+            type: "POST",
+            url: "checkMyPassword",
+            cache: false,
+            data: { mypassword: mypassword },
+            success:function(result) {
+               if(result=="fail") {
+                  $("#hdn_pwd_check").val("0"); 
+                  $("#change_pwd_error").html(startdiv+'Current Password is not correct'+enddiv); 
+                  $("#password_oldpassword").val('');
+               }
+               else if(result=="success") {
+                  $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Current Password is correct'+enddiv);
+                  $("#hdn_pwd_check").val("1"); 
+               }
+            }
+    });      
+}

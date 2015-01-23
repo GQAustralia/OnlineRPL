@@ -13,18 +13,15 @@ class QualificationController extends Controller
     */
     public function getUnitEvidencesAction()
     {
-		$userId = $this->getRequest()->get('userId');
-		if (!empty($userId)) {
-			$userService = $this->get('UserService');
-			$user = $userService->getUserInfo($userId);
-		} else {
-			$user = $this->get('security.context')->getToken()->getUser();
-		}
-		$role = $user->getRoles();
-		$results['userRole'] = $role[0];
-		$results['unitevidences'] = $user->getEvidences();
-		$results['unitCode'] = $this->getRequest()->get('unit');
-		echo $template = $this->renderView('GqAusUserBundle:Qualification:unitevidence.html.twig', $results);
-		exit;
+        $userId = $this->getRequest()->get('userId');
+        $results['unitCode'] = $this->getRequest()->get('unit');
+        if (!empty($userId)) {
+            $user = $this->get('UserService')->getUserInfo($userId);
+            $results['unitStatus'] = $this->get('CoursesService')->getUnitStatus($userId, $results['unitCode']);
+        } else {
+            $user = $this->get('security.context')->getToken()->getUser();
+        }
+        $results['unitevidences'] = $user->getEvidences();        
+        echo $template = $this->renderView('GqAusUserBundle:Qualification:unitevidence.html.twig', $results); exit;
     }
 }

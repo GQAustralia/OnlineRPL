@@ -18,8 +18,9 @@ class CoursesController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $courseService = $this->get('CoursesService');
         $results = $courseService->getCoursesInfo($id);
+        $courseService->updateQualificationUnits($user->getId(), $id, $results);
         $results['electiveUnits'] = $courseService->getElectiveUnits($user->getId(), $id);
-        $results['evidences'] = $user->getEvidences();		
+        $results['evidences'] = $user->getEvidences();        
         $form = $this->createForm(new EvidenceForm(), array());
         $results['form'] = $form->createView();
         return $this->render('GqAusHomeBundle:Courses:index.html.twig', $results);
@@ -48,18 +49,18 @@ class CoursesController extends Controller
         $unitId = $this->getRequest()->get('unitId');
         $courseCode = $this->getRequest()->get('courseCode');
         $courseService = $this->get('CoursesService');
-		
-		$getEvidences = $this->get('EvidenceService')->getUserUnitEvidences($userId, $unitId);		
-		if (!empty($getEvidences)) {
-			foreach ($getEvidences as $evidences) {
-				$evidenceId = $evidences->getId();
-				$evidenceType = $evidences->getType();
-				$this->get('EvidenceService')->updateInactiveEvidence($evidenceId, $evidenceType);
-				/*if ($evidenceType != 'text') {
-					$this->get('gq_aus_user.file_uploader')->delete($fileName);
-				}*/
-			}
-		}
+        
+        $getEvidences = $this->get('EvidenceService')->getUserUnitEvidences($userId, $unitId);        
+        if (!empty($getEvidences)) {
+            foreach ($getEvidences as $evidences) {
+                $evidenceId = $evidences->getId();
+                $evidenceType = $evidences->getType();
+                $this->get('EvidenceService')->updateInactiveEvidence($evidenceId, $evidenceType);
+                /*if ($evidenceType != 'text') {
+                    $this->get('gq_aus_user.file_uploader')->delete($fileName);
+                }*/
+            }
+        }
         echo $results = $courseService->updateUnitElective($userId, $unitId, $courseCode);
         exit;
     }
@@ -70,10 +71,10 @@ class CoursesController extends Controller
     */
     public function getUnitEvidencesAction()
     {
-		$user = $this->get('security.context')->getToken()->getUser();
-		$results['unitevidences'] = $user->getEvidences();
-		$results['unitCode'] = $this->getRequest()->get('unit');
-		echo $template = $this->renderView('GqAusHomeBundle:Courses:unitevidence.html.twig', $results);
-		exit;
+        $user = $this->get('security.context')->getToken()->getUser();
+        $results['unitevidences'] = $user->getEvidences();
+        $results['unitCode'] = $this->getRequest()->get('unit');
+        echo $template = $this->renderView('GqAusHomeBundle:Courses:unitevidence.html.twig', $results);
+        exit;
     }
 }
