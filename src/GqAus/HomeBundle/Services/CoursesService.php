@@ -45,7 +45,7 @@ class CoursesService
             {
                 $courseInfo['details'] = html_entity_decode($courseInfo['details']);
             }
-         }
+        }
         return array('courseInfo' => $courseInfo);
     }
     
@@ -296,4 +296,49 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
         return $courseUnits;
     }
     
+    /**
+    * Function to get applicant unit status
+    * return $result array
+    */
+    public function getUnitStatus($applicantId, $unitId)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findOneBy(array('user' => $applicantId,
+                                            'unitId' => $unitId)); 
+        return !empty($userCourseUnits) ? $userCourseUnits : '';
+    }
+    
+    /**
+    * Function to update qualification unit table
+    * return $result array
+    */
+    public function updateQualificationUnits($userId, $courseCode, $apiResults)
+    {
+        if (isset($apiResults['courseInfo'])) {
+            if (isset($apiResults['courseInfo']['Units'])) {
+                $userObj = $this->em->getRepository('GqAusUserBundle:User')
+                            ->find($userId);
+                foreach ($apiResults['courseInfo']['Units']['Unit'] as $unit) {
+                    $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+                    $userUnitObj = $reposObj->findOneBy(array('user' => $userId,
+                                                        'unitId' => $unit['id'],
+                                                        'courseCode' => $courseCode));
+                    if (empty($userUnitObj)) {
+                        $reposUnitObj = new \GqAus\UserBundle\Entity\UserCourseUnits();
+                        $reposUnitObj->setUnitId($unit['id']);
+                        $reposUnitObj->setCourseCode($courseCode);
+                        $reposUnitObj->setStatus(1);
+                        $reposUnitObj->setType($unit['type']);
+                        $reposUnitObj->setUser($userObj);
+                        $reposUnitObj->setFacilitatorstatus('0');
+                        $reposUnitObj->setAssessorstatus('0');
+                        $reposUnitObj->setRtostatus('0');
+                        $this->em->persist($reposUnitObj);
+                        $this->em->flush();
+                        $this->em->clear();
+                    }//if
+                }//for
+            }
+        }//if
+    }
 }

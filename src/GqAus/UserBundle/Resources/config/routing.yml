@@ -31,6 +31,18 @@ deleteIdFiles:
 uploadProfilePic:
     path:     /uploadProfilePic
     defaults: { _controller: GqAusUserBundle:User:uploadProfilePic }
+applicant:
+    path:     /applicant
+    defaults: { _controller: GqAusUserBundle:Applicant:list }
+applicantDetails:
+    path:     /applicantDetails/{qcode}/{uid}
+    defaults: { _controller: GqAusUserBundle:Applicant:details }
+getUnitEvidences:
+    path:     /getUnitEvidences
+    defaults:  { _controller: GqAusUserBundle:Qualification:getUnitEvidences }
+setUserUnitEvidencesStatus:
+    path:     /setUserUnitEvidencesStatus
+    defaults:  { _controller: GqAusUserBundle:Applicant:setUserUnitEvidencesStatus }
 checkMyPassword:
     path:     /checkMyPassword
     defaults: { _controller: GqAusUserBundle:User:checkMyPassword }

@@ -7,6 +7,10 @@
         </id>
         <field name="unitId" type="string" column="unit_id" nullable="false"/>
         <field name="courseCode" type="string" column="course_code" nullable="false"/>
+		<field name="type" type="integer" column="type" nullable="false"/>
+		<field name="facilitatorstatus" type="integer" column="facilitatorstatus"/>
+        <field name="assessorstatus" type="integer" column="assessorstatus"/>
+        <field name="rtostatus" type="integer" column="rtostatus"/>  
         <field name="createdOn" type="string" column="created_on" nullable="false"/>
         <field name="status" type="integer" column="status" nullable="false"/>
         <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User">

@@ -164,4 +164,116 @@ class UserCourseUnits
     {
         return $this->user;
     }
+    /**
+     * @var integer
+     */
+    private $type;
+
+    /**
+     * @var integer
+     */
+    private $facilitatorstatus;
+
+    /**
+     * @var integer
+     */
+    private $assessorstatus;
+
+    /**
+     * @var integer
+     */
+    private $rtostatus;
+
+
+    /**
+     * Set type
+     *
+     * @param integer $type
+     * @return UserCourseUnits
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set facilitatorstatus
+     *
+     * @param integer $facilitatorstatus
+     * @return UserCourseUnits
+     */
+    public function setFacilitatorstatus($facilitatorstatus)
+    {
+        $this->facilitatorstatus = $facilitatorstatus;
+
+        return $this;
+    }
+
+    /**
+     * Get facilitatorstatus
+     *
+     * @return integer 
+     */
+    public function getFacilitatorstatus()
+    {
+        return $this->facilitatorstatus;
+    }
+
+    /**
+     * Set assessorstatus
+     *
+     * @param integer $assessorstatus
+     * @return UserCourseUnits
+     */
+    public function setAssessorstatus($assessorstatus)
+    {
+        $this->assessorstatus = $assessorstatus;
+
+        return $this;
+    }
+
+    /**
+     * Get assessorstatus
+     *
+     * @return integer 
+     */
+    public function getAssessorstatus()
+    {
+        return $this->assessorstatus;
+    }
+
+    /**
+     * Set rtostatus
+     *
+     * @param integer $rtostatus
+     * @return UserCourseUnits
+     */
+    public function setRtostatus($rtostatus)
+    {
+        $this->rtostatus = $rtostatus;
+
+        return $this;
+    }
+
+    /**
+     * Get rtostatus
+     *
+     * @return integer 
+     */
+    public function getRtostatus()
+    {
+        return $this->rtostatus;
+    }
 }
