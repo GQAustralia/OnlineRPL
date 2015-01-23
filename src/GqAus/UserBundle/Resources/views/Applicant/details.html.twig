@@ -63,6 +63,7 @@
                         
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 no-padding">
                             <div class="gq-assessor-appl-profile-details-col">
+                                <div class="gq-assessor-appl-profile-details">
                                 {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_RTO' in userRole) %}
                                 <div class="gq-assessor-appl-details-points pull-right">
                                     <div class="gq-assessor-rto-title">
@@ -76,9 +77,9 @@
                                 {% endif %}
                                 
                                 {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                                <div class="gq-assessor-appl-details-points pull-right">
+                                <div class="gq-assessor-appl-details-points pull-right border-top">
                                     <div class="gq-assessor-rto-title">
-                                        <label>RTO Name</label>
+                                        <label>RTO</label>
                                         <span>: {{rtoName}}</span>
                                     </div>
                                     <div class="gq-assessor-rto-edit-icon">
@@ -86,6 +87,7 @@
                                     </div>
                                 </div>
                                 {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>

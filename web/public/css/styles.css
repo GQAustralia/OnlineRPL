@@ -511,16 +511,20 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-title-download .gq-assessor-title-download-icon{color:#000000; padding-left:4px; background-image:url('../images/gq-assessor-title-download-icon.png'); background-repeat: no-repeat; background-position:center center; width:22px; height:22px; display:block; float:right; margin-left:5px;} 
 .gq-assessor-profile-img {width:100px; height:100px; margin:0 auto; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:10px auto; overflow:hidden; background-position: center center; background-repeat: no-repeat; background-size: cover;}
 .gq-assessor-profile-img-txt {color:#f14840; font-size:14px; text-align:center;}
+.gq-assessor-appl-profile-details{border:1px solid #d9d9d9; width: 350px; float:right; }
+.gq-assessor-appl-details  .gq-assessor-appl-profile-details .gq-assessor-appl-details-points {border:none; text-align:center; width: 100%;}
+.gq-assessor-appl-details  .gq-assessor-appl-profile-details  .border-top{border-top:1px solid #d9d9d9;}
 .gq-assessor-appl-details .gq-assessor-appl-details-points {border:1px solid #d9d9d9; text-align:center;}
 .gq-assessor-appl-details .gq-assessor-points-title {padding:15px;}
 .gq-assessor-appl-details .gq-assessor-rto-title {padding:15px; float:left;}
+.gq-assessor-appl-details  .gq-assessor-appl-profile-details .gq-assessor-appl-details-points .gq-assessor-rto-title {width: 83%; text-align: left;}
 .gq-assessor-appl-details .gq-assessor-rto-title label{color:#f14840; margin:0;}
 .gq-assessor-appl-details .gq-assessor-points-points {border-top:2px solid #d9d9d9; padding:15px;}
-.gq-assessor-appl-details .gq-assessor-rto-edit-icon {width:58px; height:58px; float:left; border-left:3px solid #e8e8e8; background-color:#fafafa;}
+.gq-assessor-appl-details .gq-assessor-rto-edit-icon {width:58px; height:58px; float:right; border-left:3px solid #e8e8e8; background-color:#fafafa;}
 .gq-assessor-appl-details .gq-assessor-rto-edit-icon:hover {background-color:#ededed; cursor: pointer;}
 .gq-assessor-appl-details .gq-assessor-rto-edit-icon a{display:block; padding:17px 0;}
-
-
+#gq-msg-success{padding:10px; color: #57ba00;}
+#applicantEStatus button{margin-bottom:0px;}
 @media(max-width:360px){
 	.gq-evidence .nav-pills > li{ width:100%; }
 }
