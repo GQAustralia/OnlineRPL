@@ -49,9 +49,6 @@ checkMyPassword:
 editEvidenceTitle:
     path:     /editEvidenceTitle
     defaults:  { _controller: GqAusUserBundle:Evidence:editTitle }
-<<<<<<< HEAD
 createzip:
     path:     /zip
     defaults:  { _controller: GqAusUserBundle:Evidence:zip }
-=======
->>>>>>> a39fdd9abd4ff2e08fc27648be6535c16c480e80
