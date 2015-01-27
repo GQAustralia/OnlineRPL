@@ -4,6 +4,8 @@ var filetype;
 var unitId;
 var courseCode;
 var userId;
+var unit;
+var fullPath = '/OnlineRPL/web/';
 
 $(function() {
     var $ppc = $('.progress-pie-chart'),
@@ -68,9 +70,9 @@ $("#qclose").click(function () {
 });
 
 $(".checkmark-icon").click(function () {
-	unitId = $(this).attr("unit_id");
-	courseCode = $(this).attr("course_code");
-	userId = $(this).attr("user_id");
+    unitId = $(this).attr("unit_id");
+    courseCode = $(this).attr("course_code");
+    userId = $(this).attr("user_id");
 });
 
 $(".changeUnitStatus").click(function () {
@@ -85,20 +87,20 @@ $(".changeUnitStatus").click(function () {
                 if (result == '0') {
                     $( "#label_"+unitId ).attr("for","");
                     $( "#btnadd_"+unitId ).attr('disabled','disabled');
-					$( "#btneye_"+unitId ).attr('disabled','disabled');
+                    $( "#btneye_"+unitId ).attr('disabled','disabled');
                     $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
                     $( "#span_"+unitId ).removeClass( "radioUnChecked" );
-					$( "#sp_"+unitId ).html('');
+                    $( "#sp_"+unitId ).html('');
                 } else {
                     $( "#label_"+unitId ).attr("for",label);
                     $( "#btnadd_"+unitId ).removeAttr('disabled');
-					$( "#btneye_"+unitId ).removeAttr('disabled');
+                    $( "#btneye_"+unitId ).removeAttr('disabled');
                     $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
                     $( "#span_"+unitId ).addClass( "radioUnChecked" );
                 }
             }
         });
-		$( "#qclose" ).trigger( "click" );
+        $( "#qclose" ).trigger( "click" );
    //}
 });
 
@@ -119,8 +121,8 @@ $("#frmSelectEvidence").submit(function () {
 $(".deleteEvidence").click(function () {
    //var c = confirm("Do yo want to delete selected file ?");
    //if (c == true) {
-		var fid = fileid;
-		var ftype = filetype;
+        var fid = fileid;
+        var ftype = filetype;
         $.ajax({
             type: "POST",
             url: "deleteEvidenceFile",
@@ -128,8 +130,8 @@ $(".deleteEvidence").click(function () {
             success:function(result) {
                 $('#evd_'+fid).hide();
                 //alert("Selected Evidence File deleted!");
-				$( "#qclose" ).trigger( "click" );
-				$("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
+                $( "#qclose" ).trigger( "click" );
+                $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
             }
         });
    //}
@@ -140,8 +142,8 @@ $(".deleteIdFiles").click(function () {
   // if (c == true) {
         //var fid = $(this).attr("fileid");
         //var ftype = $(this).attr("filetype");
-		var fid = fileid;
-		var ftype = filetype;
+        var fid = fileid;
+        var ftype = filetype;
         $.ajax({
             type: "POST",
             url: "deleteIdFiles",
@@ -149,8 +151,8 @@ $(".deleteIdFiles").click(function () {
             success:function(result) {
                 $('#idfiles_'+fid).hide();
                 //alert("Selected ID File deleted!");
-				$( "#qclose" ).trigger( "click" );
-				$("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">ID File deleted successfully!</h2></div>'); 
+                $( "#qclose" ).trigger( "click" );
+                $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">ID File deleted successfully!</h2></div>'); 
             }
         });
    //}
@@ -218,8 +220,8 @@ $("#userprofile_userImage").change(function(){
                 success:function(result) {
                     if(result!="error")
                     {
-						$("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Profile Image updated successfully!</h2></div>');
-						
+                        $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Profile Image updated successfully!</h2></div>');
+                        
                         $("#ajax-profile-error").hide();
                         $(".ajax-profile-pic").attr('src', '../web/public/uploads/'+result);
                         $("#ajax-gq-profile-page-img").css("background-image", "url('../web/public/uploads/"+result+"')");
@@ -245,14 +247,16 @@ $("#userprofile_userImage").change(function(){
   
   
 $(".unit-evidence-id").click(function () {
-	$.ajax({
-		type: "POST",
-		url: "../getUnitEvidences",
-		data: { unit: unit },
-		success:function(result) {
-			$('#unit-evidence-tab').html(result);
-		}
-	});
+    unit = $(this).attr("unitid");
+    userId = $(this).attr("userId");
+    $.ajax({
+        type: "POST",
+        url: fullPath + "getUnitEvidences",
+        data: { unit: unit, userId: userId },
+        success:function(result) {
+            $('#unit-evidence-tab').html(result);
+        }
+    });
 });
 
 $("#userfiles_browse").click(function(){
@@ -265,41 +269,41 @@ $("#userfiles_browse").change(function(){
 });
 
 $("#qclose-cancel").click(function () {
-	$( "#qclose" ).trigger( "click" );
+    $( "#qclose" ).trigger( "click" );
 });
 
 $(".viewModalClass").click(function () {
-	fileid = $(this).attr('fileid');
-	filetype = $(this).attr('filetype');
+    fileid = $(this).attr('fileid');
+    filetype = $(this).attr('filetype');
 });
 
 $(".openIcon").click(function () {
-	var c = $(this).hasClass( "open" );
-	if (c == false) {
-		$(this).addClass( "open" );
-	} else {
-		$(this).removeClass( "open" );
-	}
+    var c = $(this).hasClass( "open" );
+    if (c == false) {
+        $(this).addClass( "open" );
+    } else {
+        $(this).removeClass( "open" );
+    }
 });
 
 function checkspace(text)
 {
-	var str=text.value;
-	var first=str.substring(0,1);
-	var second=str.substring(0,1);
-	var val='false';
-	if(first==' ')
-	{
-		val='true';
-		if(val=='true')
-		{
-			if(second==' ')
-			{
-				val='true';
-				text.value = "";
-			}
-		}
-	}
+    var str=text.value;
+    var first=str.substring(0,1);
+    var second=str.substring(0,1);
+    var val='false';
+    if(first==' ')
+    {
+        val='true';
+        if(val=='true')
+        {
+            if(second==' ')
+            {
+                val='true';
+                text.value = "";
+            }
+        }
+    }
 }
 
 function checkCurrentPassword(mypassword)

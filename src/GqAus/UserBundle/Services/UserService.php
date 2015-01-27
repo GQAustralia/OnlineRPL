@@ -16,19 +16,19 @@ class UserService
     /**
      * @var Object
      */
-    private $mailer;
+    private $messageHelperService;
     
     /**
      * Constructor
      */
-    public function __construct($em, $container, $mailer)
+    public function __construct($em, $container, $messageHelperService)
     {
         $this->em = $em;
         $session = $container->get('session');
         $this->userId = $session->get('user_id');
         $this->repository = $em->getRepository('GqAusUserBundle:User');
         $this->currentUser = $this->getCurrentUser();
-        $this->mailer = $mailer;
+        $this->messageHelperService = $messageHelperService;
         $this->container = $container;
     }
 
@@ -42,12 +42,12 @@ class UserService
         $this->em->persist($this->currentUser);
         $this->em->flush();
     }
-	
-	public function savePersonalProfile($image) 
+    
+    public function savePersonalProfile($image) 
     {
-		if (!empty($image)) {
-			$this->currentUser->setUserImage($image);
-		}
+        if (!empty($image)) {
+            $this->currentUser->setUserImage($image);
+        }
         $this->em->persist($this->currentUser);
         $this->em->flush();
     }
@@ -71,23 +71,16 @@ class UserService
             $this->em->flush();
             
             $userName = $user->getUsername();
-            $to = $user->getEmail();
-            //$to = 'swetha.kolluru@valuelabs.net';
-            $subject = 'Request for Password Reset';
+            $mailerInfo['to'] = $user->getEmail();
+            $mailerInfo['subject'] = 'Request for Password Reset';
             $applicationUrl = $this->container->getParameter('applicationUrl');
-            $body = "Dear ".$userName.",<br><br> We heard that you lost your password. Sorry about that! <br>
+            $mailerInfo['body'] = "Dear ".$userName.",<br><br> We heard that you lost your password. Sorry about that! <br>
             But don't worry! You can use the following link within the next 4 hours to reset your password
              <a href='".$applicationUrl."resetpassword/".$token."'>Click Here </a><br>
              If you don't use this link within 4 hours, it will expire. <br>To get a new password reset link, visit ".$applicationUrl."forgotpassword
              <br><br> Regards,<br>OnlineRPL";
-             
-            $emailContent = \Swift_Message::newInstance()
-                ->setSubject($subject)
-                ->setFrom('swetha.kolluru@valuelabs.net')
-                ->setTo($to)
-                ->setBody($body)
-                ->setContentType("text/html");                
-                $status = $this->mailer->send($emailContent);
+            
+            $this->messageHelperService->sendExternalEmail($mailerInfo);
                 
             $message = 'A request for password reset is sent to this address.';
         } else {
@@ -178,55 +171,13 @@ class UserService
      */
     public function getDashboardInfo($user)
     {
-        $maximumPoints = 100;
-        $profileCompleteness = 0;
         if(is_object($user) && count($user) > 0) {
-           $userId = $user->getId();
-           $firstName = $user->getFirstName();
-           $lastName = $user->getLastName();
-           $email = $user->getEmail();
-           $phone = $user->getPhone();
-		   $gender = $user->getGender();
-		   $usi = $user->getUniversalStudentIdentifier();
-		   $dob = $user->getDateOfBirth();
-           $userImage = $user->getUserImage();
-           $address = $user->getAddress();
-           $address = count($address);
-           if (!empty($firstName)) {
-                $profileCompleteness += 10;
-           }
-           if (!empty($lastName)) {
-                $profileCompleteness += 10;
-           }
-           if (!empty($email)) {
-                $profileCompleteness += 10;
-           }
-           if (!empty($phone)) {
-                $profileCompleteness += 10;
-           }
-		   if (!empty($gender)) {
-                $profileCompleteness += 10;
-           }
-		   if (!empty($usi)) {
-                $profileCompleteness += 10;
-           }
-		   if (!empty($dob)) {
-                $profileCompleteness += 10;
-           }
-		   
-           if (!empty($address)) {
-                $profileCompleteness += 30;
-           }
-           if (empty($userImage)) {
-                $userImage = 'profielicon.png';
-           }
-           $percentage = ($profileCompleteness*$maximumPoints)/100;
-           $percentage = $percentage.'%';
+           $percentage = $this->getUserProfilePercentage($user);
            $userCourses = $user->getCourses();
            $courseConditionStatus = $user->getCourseConditionStatus();
            return array('profileCompleteness' => $percentage, 
-                        'userImage' => $userImage,
-                        'currentIdPoints' => $this->getIdPoints(),
+                        'userImage' => $user->getUserImage(),
+                        'currentIdPoints' => $this->getIdPoints($user),
                         'userCourses' => $userCourses,
                         'courseConditionStatus' => $courseConditionStatus);
         }
@@ -246,9 +197,9 @@ class UserService
      * function to get points for ID files uploaded.
      *  @return integer
      */
-    public function getIdPoints()
+    public function getIdPoints($user)
     {
-        $idFiles = $this->currentUser->getIdfiles();
+        $idFiles = $user->getIdfiles();
         $points = array();
         foreach ($idFiles as $file) {
             $points[] = $file->getType()->getPoints();
@@ -267,4 +218,120 @@ class UserService
             return $fileName;
         }
     }
+    
+    /**
+    * Function to get user details
+    * return $result array
+    */
+    public function getUserInfo($userId)
+    {
+        return $this->repository->findOneById($userId);
+    }
+    
+    /**
+    * Function to get user profile percentage
+    * return $result array
+    */
+    public function getUserProfilePercentage($user)
+    {
+        $maximumPoints = 100;
+        $profileCompleteness = 0;
+        if(is_object($user) && count($user) > 0) {
+           $userId = $user->getId();
+           $firstName = $user->getFirstName();
+           $lastName = $user->getLastName();
+           $email = $user->getEmail();
+           $phone = $user->getPhone();
+           $gender = $user->getGender();
+           $usi = $user->getUniversalStudentIdentifier();
+           $dob = $user->getDateOfBirth();
+           $address = $user->getAddress();
+           $address = count($address);
+           if (!empty($firstName)) {
+                $profileCompleteness += 10;
+           }
+           if (!empty($lastName)) {
+                $profileCompleteness += 10;
+           }
+           if (!empty($email)) {
+                $profileCompleteness += 10;
+           }
+           if (!empty($phone)) {
+                $profileCompleteness += 10;
+           }
+           if (!empty($gender)) {
+                $profileCompleteness += 10;
+           }
+           if (!empty($usi)) {
+                $profileCompleteness += 10;
+           }
+           if (!empty($dob)) {
+                $profileCompleteness += 10;
+           }
+           
+           if (!empty($address)) {
+                $profileCompleteness += 30;
+           }
+        }
+        $percentage = ($profileCompleteness*$maximumPoints)/100;
+        return $percentage = $percentage.'%';
+    }
+    
+    /**
+    * Function to get applicant information
+    * return $result array
+    */
+    public function getApplicantInfo($user, $qcode)
+    {
+        $results = array();
+        $results['profileCompleteness'] = $this->getUserProfilePercentage($user);
+        $results['currentIdPoints'] = $this->getIdPoints($user);
+        $results['userId'] = $user->getId();
+        $results['userImage'] = $user->getUserImage();
+        $results['userName'] = $user->getUsername();
+        $otheruser = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $qcode,
+                                                                                         'user' => $user->getId()));
+        if (!empty($otheruser)) {
+            $assessor = $this->getUserInfo($otheruser->getAssessor());
+            $results['assessorName'] = !empty($assessor) ? $assessor->getUsername() : '';
+            $rto = $this->getUserInfo($otheruser->getRto());
+            $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
+        }
+        return $results;
+    }
+    
+    /**
+    * Function to update applicant evidences information
+    * return $result array
+    */
+    public function updateApplicantEvidences($userId, $unit, $userRole, $status, $currentUserName)
+    {
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $userId,
+                                                                                        'unitId' => $unit));
+        $mailerInfo = array();
+        $userName = $courseUnitObj->getUser()->getUsername();
+        $mailerInfo['to'] = $courseUnitObj->getUser()->getEmail();
+        if ($userRole == 'ROLE_FACILITATOR') {
+            $courseUnitObj->setFacilitatorstatus($status);
+        } elseif ($userRole == 'ROLE_ASSESSOR') {
+            $courseUnitObj->setAssessorstatus($status);
+        } elseif ($userRole == 'ROLE_RTO') {
+            $courseUnitObj->setRtostatus($status);
+        }
+        $this->em->persist($courseUnitObj);
+        $this->em->flush();
+        
+        if ($status == '1') {
+            $evidenceStatus = 'Approved';
+        } else if($status == '0') {
+            $evidenceStatus = 'Disapproved';
+        }
+        $mailerInfo['subject'] = 'User Unit Status';
+        $mailerInfo['body'] = "Dear ".$userName.",<br><br> Unit : ".$unit." evidences is been ".$evidenceStatus." by ".$currentUserName."
+         <br><br> Regards,<br>OnlineRPL";
+         
+        //$this->messageHelperService->sendExternalEmail($mailerInfo);
+        return $status;
+    }
+    
 }
