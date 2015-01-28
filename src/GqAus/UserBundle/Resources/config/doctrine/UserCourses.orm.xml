@@ -8,7 +8,11 @@
         <field name="courseCode" type="string" column="course_code" nullable="false"/>
         <field name="courseName" type="string" column="course_name" nullable="false"/>
         <field name="createdOn" type="string" column="created_on" nullable="false"/>
+        <field name="targetDate" type="string" column="target_date" nullable="false"/>
         <field name="courseStatus" type="integer" column="course_status" nullable="false"/>
+        <field name="facilitatorstatus" type="integer" column="facilitatorstatus"/>
+        <field name="assessorstatus" type="integer" column="assessorstatus"/>
+        <field name="rtostatus" type="integer" column="rtostatus"/>
         <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User" inversed-by="courses">
             <join-column name="user_id" referenced-column-name="id" />
         </many-to-one>       

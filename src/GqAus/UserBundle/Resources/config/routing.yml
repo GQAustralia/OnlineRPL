@@ -31,9 +31,9 @@ deleteIdFiles:
 uploadProfilePic:
     path:     /uploadProfilePic
     defaults: { _controller: GqAusUserBundle:User:uploadProfilePic }
-applicant:
-    path:     /applicant
-    defaults: { _controller: GqAusUserBundle:Applicant:list }
+applicants:
+    path:     /applicants
+    defaults: { _controller: GqAusUserBundle:Applicant:applicantsList }
 applicantDetails:
     path:     /applicantDetails/{qcode}/{uid}
     defaults: { _controller: GqAusUserBundle:Applicant:details }
@@ -49,6 +49,12 @@ checkMyPassword:
 editEvidenceTitle:
     path:     /editEvidenceTitle
     defaults:  { _controller: GqAusUserBundle:Evidence:editTitle }
+addReminder:
+    path:     /addReminder
+    defaults:  { _controller: GqAusUserBundle:Applicant:addReminder }
+searchApplicantsList:
+    path:     /searchApplicantsList
+    defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsList }
 createzip:
     path:     /zipFiles/{qcode}/{uid}
     defaults:  { _controller: GqAusUserBundle:Applicant:zip }
@@ -60,4 +66,4 @@ reminder:
     defaults: { _controller: GqAusUserBundle:Reminder:view }
 updateTodo:
     path:     /updateTodo
-    defaults: { _controller: GqAusUserBundle:Reminder:update } 
+    defaults: { _controller: GqAusUserBundle:Reminder:update }
