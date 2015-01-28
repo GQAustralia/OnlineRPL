@@ -5,7 +5,9 @@ var unitId;
 var courseCode;
 var userId;
 var unit;
-var fullPath = '/OnlineRPL/web/';
+var fullPath = '/';
+var reminderid;
+var reminderflag;
 
 $(function() {
     var $ppc = $('.progress-pie-chart'),
@@ -106,7 +108,9 @@ $(".changeUnitStatus").click(function () {
 
 $(".fromBottom").click(function () {
     unit = $(this).attr("unitid");
+    courseCode = $(this).attr("course_code");
     $('#file_hid_unit').val(unit);
+    $('#file_hid_course').val(courseCode);
     $('.gq-dashboard-tabs').show();
     $('#gq-dashboard-tabs-success').hide();
     $('#file_save').show();
@@ -188,8 +192,73 @@ $("#frmSelectEvidence").ajaxForm({
 });
 
 
-$("#evd_close").click(function () {
-    location.reload();
+$("#download_profile").click(function () {
+    userId = $(this).attr("unitid");
+    courseCode = $(this).attr("course_code");
+    window.open("/downloadFiles/"+courseCode+"/"+userId);
+    window.open("/zipFiles/"+courseCode+"/"+userId);
+});
+
+$(".todomodalClass").click(function () {
+    reminderid = this.id;
+    reminderflag = $(this).attr("data-flag");
+});
+$("#todo-cancel").click(function () {
+    $( "#todoclose" ).trigger( "click" );
+});
+
+$(".updateTodo").click(function() {
+    $(".todo_loader").show();
+    var rmid = reminderid;
+    var flag = reminderflag;
+    if (flag == "0")
+        flag = "1";
+    else
+        flag = "0";
+    $.ajax({
+        type: "POST",
+        url: "updateTodo",
+        data: {rmid: rmid, flag: flag},
+        success: function(result) {
+            if (result == "success") {
+                $("#title_" + rmid).html('<span class="todo_day">Today</span>');
+                $("#"+rmid).remove();
+                $("#completed-tab").append("<div>" + $("#div_" + rmid).parent().parent().html() + "</div>");
+                $("#div_" + rmid).parent().parent().remove();
+                $(".todo_loader").hide();
+                $("#todoclose").trigger("click");
+            }
+        }
+    });
+});
+
+$(".changeUnitStatus").click(function () {
+   //var c = confirm("Do yo want to change the status of elective unit ?");
+   //if (c == true) {
+        $.ajax({
+            type: "POST",
+            url: "../updateUnitElective",
+            data: { unitId: unitId, courseCode: courseCode, userId: userId },
+            success:function(result) {
+                var label = $( "#label_"+unitId ).attr("temp");
+                if (result == '0') {
+                    $( "#label_"+unitId ).attr("for","");
+                    $( "#btnadd_"+unitId ).attr('disabled','disabled');
+                    $( "#btneye_"+unitId ).attr('disabled','disabled');
+                    $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
+                    $( "#span_"+unitId ).removeClass( "radioUnChecked" );
+                    $( "#sp_"+unitId ).html('');
+                } else {
+                    $( "#label_"+unitId ).attr("for",label);
+                    $( "#btnadd_"+unitId ).removeAttr('disabled');
+                    $( "#btneye_"+unitId ).removeAttr('disabled');
+                    $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
+                    $( "#span_"+unitId ).addClass( "radioUnChecked" );
+                }
+            }
+        });
+        $( "#qclose" ).trigger( "click" );
+   //}
 });
 
 function validateExisting()
@@ -330,4 +399,10 @@ function checkCurrentPassword(mypassword)
                }
             }
     });      
+}
+
+function getCompletedtabData()
+{
+    var data = "this is ajax data";
+    $("#completed-tab").html(data);
 }

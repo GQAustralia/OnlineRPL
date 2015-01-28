@@ -8,6 +8,7 @@ use GqAus\UserBundle\Entity\Evidence\Image;
 use GqAus\UserBundle\Entity\Evidence\Audio;
 use GqAus\UserBundle\Entity\Evidence\Video;
 use GqAus\UserBundle\Entity\Evidence\Text;
+use Symfony\Component\HttpFoundation\Response;
 
 class EvidenceService
 {
@@ -75,7 +76,8 @@ class EvidenceService
                     $fileObj->setName($evidence['orginal_name']);
                     $fileObj->setUser($this->currentUser);
                     $fileObj->setSize($size);
-                    $fileObj->setUnit($data['hid_unit']);        
+                    $fileObj->setUnit($data['hid_unit']);
+                    $fileObj->setCourse($data['hid_course']);
                     $this->em->persist($fileObj);
                     $this->em->flush();
                     $i++;
@@ -89,6 +91,7 @@ class EvidenceService
             $textObj = new Text();
             $textObj->setContent($data['self_assessment']);
             $textObj->setUnit($data['hid_unit']);
+            $textObj->setCourse($data['hid_course']);
             $textObj->setUser($this->currentUser);
             $this->em->persist($textObj);
             $this->em->flush();
@@ -214,8 +217,8 @@ class EvidenceService
     {
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
         $userUnitEvidences = $reposObj->findBy(array('user' => $userId,
-                                            'unit' => $unitId));
-		return $userUnitEvidences;       
+            'unit' => $unitId));
+        return $userUnitEvidences;
     }
 	
     /**
@@ -267,5 +270,15 @@ class EvidenceService
         $imgObj->setName($evidenceTitle);
         $this->em->persist($imgObj);
         $this->em->flush();
+    }
+	
+    /**
+    * Function to get all evidences of the user for one course
+    * return $result array
+    */
+    public function getUserCourseEvidences($userId, $courseId)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
+        return $reposObj->findBy(array('user' => $userId, 'course' => $courseId));
     }
 }

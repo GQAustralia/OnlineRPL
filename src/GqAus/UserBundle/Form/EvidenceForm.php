@@ -12,7 +12,8 @@ class EvidenceForm extends AbstractType
             'label' => 'Photo', 'multiple' => 'multiple'
         ));
         $builder->add('hid_unit', 'hidden');
-		$builder->add('self_assessment', 'textarea', array('required' => false));
+        $builder->add('hid_course', 'hidden');
+        $builder->add('self_assessment', 'textarea', array('required' => false));
         $builder->add('save', 'submit', array(
             'label' => 'Upload',
         ));

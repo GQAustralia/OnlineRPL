@@ -100,3 +100,9 @@ gq_aus_user:
         aws_key:        %amazon_aws_key%
         aws_secret_key: %amazon_aws_secret_key%
         base_url:       %amazon_s3_base_url%
+        
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
+        options:    []

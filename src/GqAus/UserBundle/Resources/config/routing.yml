@@ -50,5 +50,14 @@ editEvidenceTitle:
     path:     /editEvidenceTitle
     defaults:  { _controller: GqAusUserBundle:Evidence:editTitle }
 createzip:
-    path:     /zip
-    defaults:  { _controller: GqAusUserBundle:Evidence:zip }
+    path:     /zipFiles/{qcode}/{uid}
+    defaults:  { _controller: GqAusUserBundle:Applicant:zip }
+downloadFiles:
+    path:     /downloadFiles/{qcode}/{uid}
+    defaults: { _controller: GqAusUserBundle:Applicant:download }
+reminder:
+    path:     /reminder
+    defaults: { _controller: GqAusUserBundle:Reminder:view }
+updateTodo:
+    path:     /updateTodo
+    defaults: { _controller: GqAusUserBundle:Reminder:update } 
