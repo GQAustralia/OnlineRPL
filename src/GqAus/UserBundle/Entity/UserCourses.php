@@ -331,4 +331,138 @@ class UserCourses
     {
         return $this->reminder;
     }
+    
+    
+    private $remainingTime;
+    
+    public function getRemainingTime()
+    {
+        $strtDate = $this->createdOn;
+        $endDate = $this->targetDate;
+        /*
+        $startDateWeekCnt = round(floor( date('d',strtotime($strtDate)) / 7)) ;
+        $endDateWeekCnt = round(ceil( date('d',strtotime($endDate)) / 7)) ;
+        $datediff = strtotime(date('Y-m',strtotime($endDate))."-01") - strtotime(date('Y-m',strtotime($strtDate))."-01");
+        $totalnoOfWeek = round(floor($datediff/(60*60*24)) / 7) + $endDateWeekCnt - $startDateWeekCnt ;
+        return $totalnoOfWeek.' week(s)';*/
+        
+        $date1=date_create($strtDate);
+        $date2=date_create($endDate);
+        $diff=date_diff($date1,$date2);
+        $getdiff = $diff->format("%a");
+        return round($getdiff/7)." weeks";
+
+    }
+    /**
+     * @var string
+     */
+    private $targetDate;
+
+
+    /**
+     * Set targetDate
+     *
+     * @param string $targetDate
+     * @return UserCourses
+     */
+    public function setTargetDate($targetDate)
+    {
+        $this->targetDate = $targetDate;
+
+        return $this;
+    }
+
+    /**
+     * Get targetDate
+     *
+     * @return string 
+     */
+    public function getTargetDate()
+    {
+        return $this->targetDate;
+    }
+    /**
+     * @var integer
+     */
+    private $facilitatorstatus;
+
+    /**
+     * @var integer
+     */
+    private $assessorstatus;
+
+    /**
+     * @var integer
+     */
+    private $rtostatus;
+
+
+    /**
+     * Set facilitatorstatus
+     *
+     * @param integer $facilitatorstatus
+     * @return UserCourses
+     */
+    public function setFacilitatorstatus($facilitatorstatus)
+    {
+        $this->facilitatorstatus = $facilitatorstatus;
+
+        return $this;
+    }
+
+    /**
+     * Get facilitatorstatus
+     *
+     * @return integer 
+     */
+    public function getFacilitatorstatus()
+    {
+        return $this->facilitatorstatus;
+    }
+
+    /**
+     * Set assessorstatus
+     *
+     * @param integer $assessorstatus
+     * @return UserCourses
+     */
+    public function setAssessorstatus($assessorstatus)
+    {
+        $this->assessorstatus = $assessorstatus;
+
+        return $this;
+    }
+
+    /**
+     * Get assessorstatus
+     *
+     * @return integer 
+     */
+    public function getAssessorstatus()
+    {
+        return $this->assessorstatus;
+    }
+
+    /**
+     * Set rtostatus
+     *
+     * @param integer $rtostatus
+     * @return UserCourses
+     */
+    public function setRtostatus($rtostatus)
+    {
+        $this->rtostatus = $rtostatus;
+
+        return $this;
+    }
+
+    /**
+     * Get rtostatus
+     *
+     * @return integer 
+     */
+    public function getRtostatus()
+    {
+        return $this->rtostatus;
+    }
 }

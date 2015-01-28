@@ -595,3 +595,16 @@ a.btn-red {color:#ffffff;}
  }
 /* Hiding the symphony toolbar in server */
 .sf-toolbar { display: none !important; }
+
+/* Assessor - list page */
+.add-notes-icon {width:24px; height:26px; padding:3px; background-image:url(../images/applicant-list-add-notes-icon.png); background-repeat:no-repeat; background-position: center center; display:block;}
+.add-notes-grey-calendar-icon {width:23px; height:23px; padding:3px; background-image:url(../images/applicant-lists-grey-date-icon.png); background-repeat:no-repeat; background-position: center center; display:block;}
+.gq-assessor-list-dropdown {display:none;}
+.gq-assessor-list-dropdown {position:absolute; left:-108px; background-color:#ffffff; border: 1px solid #d6d6d6; width: 250px; z-index: 1000; box-shadow:1px 1px 1px #d6d6d6; padding:5px;}
+.gq-assessor-list-dropdown .dropdown-menu{}
+.gq-assessor-list-dropdown .gq-applicant-list-notes-box, .gq-assessor-list-dropdown .gq-applicant-list-due-date{width:100%; padding:0 10px;}
+.gq-assessor-list-dropdown-wrap {position:relative;}
+.gq-assessor-list-dropdown .caret-top{ border-bottom: 10px solid; border-left: 10px solid transparent; border-right: 10px solid transparent; display: inline-block; height: 0; margin-left: 2px; vertical-align: middle; width: 0; position:absolute; top:-10px; left:50%;}
+.gq-assessor-list-dropdown .gq-applicant-list-notes-box textarea{border:0 none;}
+.gq-assessor-list-dropdown-wrap.open .gq-assessor-list-dropdown {display:block;}
+.gq-applicant-list-due-date input[type="text"]{display:block; width:100%; border:0 none;}

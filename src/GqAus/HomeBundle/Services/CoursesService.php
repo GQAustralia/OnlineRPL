@@ -318,26 +318,28 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
             if (isset($apiResults['courseInfo']['Units'])) {
                 $userObj = $this->em->getRepository('GqAusUserBundle:User')
                             ->find($userId);
-                foreach ($apiResults['courseInfo']['Units']['Unit'] as $unit) {
-                    $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
-                    $userUnitObj = $reposObj->findOneBy(array('user' => $userId,
-                                                        'unitId' => $unit['id'],
-                                                        'courseCode' => $courseCode));
-                    if (empty($userUnitObj)) {
-                        $reposUnitObj = new \GqAus\UserBundle\Entity\UserCourseUnits();
-                        $reposUnitObj->setUnitId($unit['id']);
-                        $reposUnitObj->setCourseCode($courseCode);
-                        $reposUnitObj->setStatus(1);
-                        $reposUnitObj->setType($unit['type']);
-                        $reposUnitObj->setUser($userObj);
-                        $reposUnitObj->setFacilitatorstatus('0');
-                        $reposUnitObj->setAssessorstatus('0');
-                        $reposUnitObj->setRtostatus('0');
-                        $this->em->persist($reposUnitObj);
-                        $this->em->flush();
-                        $this->em->clear();
-                    }//if
-                }//for
+                if (isset($apiResults['courseInfo']['Units']['Unit'])) {
+                    foreach ($apiResults['courseInfo']['Units']['Unit'] as $unit) {
+                        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+                        $userUnitObj = $reposObj->findOneBy(array('user' => $userId,
+                                                            'unitId' => $unit['id'],
+                                                            'courseCode' => $courseCode));
+                        if (empty($userUnitObj)) {
+                            $reposUnitObj = new \GqAus\UserBundle\Entity\UserCourseUnits();
+                            $reposUnitObj->setUnitId($unit['id']);
+                            $reposUnitObj->setCourseCode($courseCode);
+                            $reposUnitObj->setStatus(1);
+                            $reposUnitObj->setType($unit['type']);
+                            $reposUnitObj->setUser($userObj);
+                            $reposUnitObj->setFacilitatorstatus('0');
+                            $reposUnitObj->setAssessorstatus('0');
+                            $reposUnitObj->setRtostatus('0');
+                            $this->em->persist($reposUnitObj);
+                            $this->em->flush();
+                            $this->em->clear();
+                        }//if
+                    }//for
+                }
             }
         }//if
     }

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Dashboard{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('public/css/pie-chart.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="gq-dashboard-title">Dashboard</h1>
+                <h6 class="gq-dashboard-title-desc">Welcome to GQ Australia Online RPL</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 colxs-12">
+                <div class="gq-dashboard-box-1x gq-dashboard-bg-img1"> <!-- class "gq-dashboard-bg-img1" added for background image -->
+                    <div class="gq-dashboard-box-title-wrap">
+                        <h2 class="gq-dashboard-box-title">Pending Applicants</h2>
+                    </div>
+                    <div class="gq-dashboard-box-content-wrap">
+                        <div class="gq-dashboard-running-txt">Currently you have</div>
+                        <div class="gq-dashboard-points-in-number">{{pendingApplicantsCount}}</div>
+                    </div>
+                    <span class="flip-icon"></span>
+                </div>
+                <div class="gq-dashboard-box-1x gq-dashboard-bg-img2"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                    <div class="gq-dashboard-box-title-wrap">
+                        <h2 class="gq-dashboard-box-title">Messages</h2>
+                    </div>
+                    <div class="gq-dashboard-box-content-wrap">
+                        <div class="gq-dashboard-running-txt">Unread</div> 
+                        <div class="gq-dashboard-points-in-percent">{{unReadMessages}}</div>
+                    </div>
+                    <span class="flip-icon"></span>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 colxs-12">
+                <div class="gq-dashboard-box-2x gq-dashboard-bg-img3"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                    <div class="gq-dashboard-box-title-wrap">
+                        <h2 class="gq-dashboard-box-title">Today Reminders</h2>
+                    </div>
+                    <div class="gq-dashboard-courses-detail-wrap">
+                        <div class="gq-dashboard-tabs margin-top15">
+                            <!-- Content for respective tabs above will be in this section -->
+                            <div class="tab-content">
+							 {% if todaysReminders %}
+								{% for key, reminders in todaysReminders %}
+									<br>{{reminders.user.userName}} 
+									<br>{{reminders.course.courseName}}
+									<br>{{reminders.message}}
+								{% endfor %}
+							{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <span class="flip-icon"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <script src="{{ asset('public/js/jquery-2.js') }}"></script>
+  <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+{% endblock %}

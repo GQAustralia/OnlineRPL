@@ -43,5 +43,5 @@ class MailService
             $status = $this->mailer->send($emailContent);
         } 
         return $status;
-    }    
+    }
 }

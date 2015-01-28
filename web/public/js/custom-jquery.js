@@ -331,3 +331,63 @@ function checkCurrentPassword(mypassword)
             }
     });      
 }
+
+
+$(".setNotes").click(function () { alert('hi');
+    id = $(this).attr("id");
+    var c = $('#div_'+id).hasClass( "open" );
+    if (c == false) {
+        $('#div_'+id).addClass('open');
+    } else {
+        $('#div_'+id).removeClass('open');
+    }
+});
+
+$(".setData").click(function () {
+    userCourseId = $(this).attr("userCourseId");
+    note = $('#notes_'+userCourseId).val();
+    remindDate = $('#remindDate_'+userCourseId).val();
+    $.ajax({
+        type: "POST",
+        url: "addReminder",
+        cache: false,
+        data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
+        success: function(result) {
+            $('#div_'+userCourseId).removeClass('open');
+            $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Reminder added succesfully!</h2></div>');
+        }
+    });
+});
+var applicantStatus = '0';
+$("#timeRemaining").change(function () {
+    loadApplicantList('currentList');
+});
+
+$("#searchFilter").click(function () {
+    loadApplicantList('currentList');
+});
+
+$("#applicantPending").click(function () {
+    applicantStatus = '0';
+    loadApplicantList('currentList');
+});
+
+$("#applicantCompleted").click(function () {
+    applicantStatus = '1';
+    loadApplicantList('completedList');
+});
+
+function loadApplicantList(divContent)
+{
+    searchName = $('#searchName').val();
+    searchTime = $('#timeRemaining').val();
+    $.ajax({
+        type: "POST",
+        url: "searchApplicantsList",
+        cache: false,
+        data: {searchName: searchName, searchTime: searchTime, status: applicantStatus},
+        success: function(result) {
+            $('#'+divContent).html(result);
+        }
+    });
+}

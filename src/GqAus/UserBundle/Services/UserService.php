@@ -16,19 +16,19 @@ class UserService
     /**
      * @var Object
      */
-    private $messageHelperService;
+    private $mailer;
     
     /**
      * Constructor
      */
-    public function __construct($em, $container, $messageHelperService)
+    public function __construct($em, $container, $mailer)
     {
         $this->em = $em;
         $session = $container->get('session');
         $this->userId = $session->get('user_id');
         $this->repository = $em->getRepository('GqAusUserBundle:User');
         $this->currentUser = $this->getCurrentUser();
-        $this->messageHelperService = $messageHelperService;
+        $this->mailer = $mailer;
         $this->container = $container;
     }
 
@@ -80,7 +80,7 @@ class UserService
              If you don't use this link within 4 hours, it will expire. <br>To get a new password reset link, visit ".$applicationUrl."forgotpassword
              <br><br> Regards,<br>OnlineRPL";
             
-            $this->messageHelperService->sendExternalEmail($mailerInfo);
+            $this->sendExternalEmail($mailerInfo);
                 
             $message = 'A request for password reset is sent to this address.';
         } else {
@@ -204,7 +204,7 @@ class UserService
         foreach ($idFiles as $file) {
             $points[] = $file->getType()->getPoints();
         }
-        return array_sum($points); exit; 
+        return array_sum($points); exit;
     }
     
     public function deleteIdFiles($IdFileId, $IdFileType)
@@ -246,7 +246,7 @@ class UserService
            $usi = $user->getUniversalStudentIdentifier();
            $dob = $user->getDateOfBirth();
            $address = $user->getAddress();
-           $address = count($address);
+           //$address = count($address);
            if (!empty($firstName)) {
                 $profileCompleteness += 10;
            }
@@ -269,7 +269,7 @@ class UserService
                 $profileCompleteness += 10;
            }
            
-           if (!empty($address)) {
+           if (!empty($address) && $address != '0') {
                 $profileCompleteness += 30;
            }
         }
@@ -330,8 +330,183 @@ class UserService
         $mailerInfo['body'] = "Dear ".$userName.",<br><br> Unit : ".$unit." evidences is been ".$evidenceStatus." by ".$currentUserName."
          <br><br> Regards,<br>OnlineRPL";
          
-        //$this->messageHelperService->sendExternalEmail($mailerInfo);
+        $this->sendExternalEmail($mailerInfo);
         return $status;
     }
     
+    /**
+    * Function to get applicants list information
+    * return $result array
+    */
+    public function getUserApplicantsList($userId, $userRole, $status, $searchName = null, $searchTime = null)
+    {
+        if (in_array('ROLE_ASSESSOR',$userRole)) {
+            $userType = 'assessor';
+            $userStatus = 'assessorstatus';
+        } elseif (in_array('ROLE_FACILITATOR',$userRole)) {
+            $userType = 'facilitator';
+            $userStatus = 'facilitatorstatus';
+        } elseif (in_array('ROLE_RTO',$userRole)) {
+            $userType = 'rto';
+            $userStatus = 'rtostatus';
+        }
+        $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                ->createQueryBuilder('c')
+                ->select("c, u")
+                ->join('c.user', 'u')
+                ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
+                ->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
+                
+        if (!empty($searchName)) {
+            $res->andWhere(sprintf('u.%s LIKE :%s OR u.%s LIKE :%s', 'firstName', 'firstName', 'lastName', 'lastName'))
+            ->setParameter('firstName', '%'.$searchName.'%')
+            ->setParameter('lastName', '%'.$searchName.'%');
+        }
+        
+        if (!empty($searchTime)) {
+            $searchTime = $searchTime * 7;
+            $searchTime1 = $searchTime - 7;
+            $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) >= ".$searchTime1);
+            $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) <= ".$searchTime);
+        }
+        //$applicantList = $res->getQuery(); var_dump($applicantList); exit;
+        $applicantList = $res->getQuery()->getResult();
+        //var_dump($applicantList); exit;
+        return array('applicantList' => $applicantList);
+    }
+     
+    /**
+    * Function to add qualification remainder
+    */
+    public function addQualificationReminder($userId, $userCourseId, $notes, $remindDate)
+    {
+        $userObj = $this->em->getRepository('GqAusUserBundle:User')
+                ->find($userId);
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                ->find($userCourseId);
+        if (empty($remindDate)) {
+            $remindDate = date('d/m/Y');
+        }
+        $remindDate = date('Y-m-d',strtotime($remindDate));
+        $reminderObj = new \GqAus\UserBundle\Entity\Reminder();
+        $reminderObj->setCourse($courseObj);
+        $reminderObj->setUser($userObj);
+        $reminderObj->setDate($remindDate);
+        $reminderObj->setMessage($notes);
+        $reminderObj->setCompleted(0);
+        $this->em->persist($reminderObj);
+        $this->em->flush();
+        $this->em->clear();
+    }
+    
+    /**
+    * Function to update applicant qualification list
+    */
+    public function updateUserApplicantsList($userId, $userRole)
+    {
+        if (in_array('ROLE_ASSESSOR',$userRole)) {
+            $userType = 'assessor';
+            $userStatus = 'assessorstatus';
+        } elseif (in_array('ROLE_FACILITATOR',$userRole)) {
+            $userType = 'facilitator';
+            $userStatus = 'facilitatorstatus';
+        } elseif (in_array('ROLE_RTO',$userRole)) {
+            $userType = 'rto';
+            $userStatus = 'rtostatus';
+        }
+        
+        $usercoures = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array($userType => $userId));
+        if (!empty($usercoures)) {
+            foreach ($usercoures as $course) {
+                $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+                                    ->findOneBy(array('user' => $course->getUser()->getId(),
+                                    'courseCode' => $course->getcourseCode()));
+                if (!empty($courseObj)) {
+                    $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+                                        ->findOneBy(array('user' => $course->getUser()->getId(),
+                                        'courseCode' => $course->getcourseCode(),
+                                        $userStatus => '0'));
+                    if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
+                        if ($userType == 'facilitator') {
+                            $course->setFacilitatorstatus('1');
+                        } elseif ($userType == 'assessor') {
+                            $course->setAssessorstatus('1');
+                        } elseif ($userType == 'rto') {
+                            $course->setRtostatus('1');
+                        }
+                         $this->em->persist($course);
+                         $this->em->flush();
+                    }//if
+                }//if
+            }//foreach
+        }//if
+    }
+    
+    /**
+    * Function to get pending applicants count
+    * return $count string
+    */
+    public function getPendingapplicantsCount($userId, $userRole, $applicantStatus)
+    {
+        if (in_array('ROLE_ASSESSOR',$userRole)) {
+            $userType = 'assessor';
+            $userStatus = 'assessorstatus';
+        } elseif (in_array('ROLE_FACILITATOR',$userRole)) {
+            $userType = 'facilitator';
+            $userStatus = 'facilitatorstatus';
+        } elseif (in_array('ROLE_RTO',$userRole)) {
+            $userType = 'rto';
+            $userStatus = 'rtostatus';
+        }
+        $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array($userType => $userId,
+                                                                                        $userStatus => $applicantStatus));
+        return count($getCourseStatus);
+    }
+    
+    /**
+    * Function to get user dashboard info
+    * return $result array
+    */
+    public function getUsersDashboardInfo($user)
+    {
+        if(is_object($user) && count($user) > 0) {
+           $pendingApplicantsCount = $this->getPendingapplicantsCount($user->getId(), $user->getRoles(), '0');
+           $unReadMessages = '0';
+           $todaysReminders = $this->getTodaysReminders($user->getId());
+           return array('todaysReminders' => $todaysReminders, 
+                        'unReadMessages' => $unReadMessages,
+                        'pendingApplicantsCount' => $pendingApplicantsCount);
+        }
+    }
+    
+    /**
+    * Function to get todays reminders
+    * return $result array
+    */
+    public function getTodaysReminders($userId)
+    {
+        $date = date('Y-m-d');
+        $getReminders = $this->em->getRepository('GqAusUserBundle:Reminder')
+                                    ->findBy(array('user' => $userId, 'completed' => '0', 'date' => $date));
+        return $getReminders;
+    }
+    
+    /**
+     * function to send external email .
+     *  @return string
+     */
+    public function sendExternalEmail($mailerInfo)
+    {
+        $from = $this->container->getParameter('fromEmailAddress');
+        if (!empty($mailerInfo)) {
+            $emailContent = \Swift_Message::newInstance()
+                ->setSubject($mailerInfo['subject'])
+                ->setFrom($from)
+                ->setTo($mailerInfo['to'])
+                ->setBody($mailerInfo['body'])
+                ->setContentType("text/html");                
+            $status = $this->mailer->send($emailContent);
+        } 
+        return $status;
+    }
 }
