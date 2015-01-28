@@ -296,6 +296,8 @@ class UserService
             $results['assessorName'] = !empty($assessor) ? $assessor->getUsername() : '';
             $rto = $this->getUserInfo($otheruser->getRto());
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
+            $facilitator = $this->getUserInfo($otheruser->getFacilitator());
+            $results['facilitatorName'] = !empty($rto) ? $facilitator->getUsername() : '';
         }
         return $results;
     }
@@ -332,6 +334,19 @@ class UserService
          
         //$this->messageHelperService->sendExternalEmail($mailerInfo);
         return $status;
+    }
+    
+    /**
+    * Function to update todo status
+    * return void
+    */
+    public function updateReminderStatus($id,$flag)
+    {
+        $remObj = $this->em->getRepository('GqAusUserBundle:Reminder')->find($id);
+        $remObj->setCompleted($flag);
+        $remObj->setCompletedDate(date('Y-m-d'));
+        $this->em->persist($remObj);
+        $this->em->flush();
     }
     
 }

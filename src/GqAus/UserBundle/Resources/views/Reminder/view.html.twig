@@ -1,0 +1,261 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL To Do List{% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('public/css/accordion.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs-11">
+            <h1 class="gq-dashboard-title">To Do List</h1>
+            <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+        </div>
+    </div>
+    <div class="row">
+         <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+            <div class="gq-dashboard-box-2x gq-dashboard-bg-img3 gq-courses-page"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                <div class="gq-dashboard-courses-detail-wrap">
+                    <div class="gq-dashboard-tabs margin-top15">
+                            <!-- Tabs start here -->
+                        <div class="gq-dashboard-tabs-header wid30p">
+                            <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
+                                <li role="presentation" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab">To Do</a></li>
+                                <li role="presentation"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Completed</a></li>								
+                            </ul>
+                        </div>
+                        <!-- Tabs end start here -->
+                        <!-- Content for respective tabs above will be in this section -->
+                        <div class="tab-content">
+                            <!-- To Do Tab -->
+                            <div role="tabpanel" class="tab-pane active" id="current">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="gq-id-files">
+                                            <div class="gq-id-files-header gq-id-files-header-applicant">
+                                                <div class="row">
+                                                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-12">
+                                                        <span class="gq-course-details-header-title">Name</span>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
+                                                        <span class="gq-course-details-header-title">Qualification Name</span>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                                        <span class="gq-course-details-header-title"></span>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+                                        <!-- accordion starts here -->
+                                        <div class="gq-acc-wrap" id="todo-tab">
+                                            {% if reminders %}
+                                                {% for key, reminder in reminders %}
+                                                    {% if reminder.getCompleted() == 0 %}   
+                                                    {% set difference = date(today).diff(date(reminder.date)) %}
+                                                    {% set leftDays = difference.days %}
+                                                    {% if today >= reminder.date %}
+                                                        {% set nleftDays = leftDays %}
+                                                        {% set leftDays = -leftDays %}
+                                                    {% else %}
+                                                        {% set nleftDays = leftDays %}
+                                                        {% set leftDays = leftDays %}
+                                                    {% endif %}
+                                                    <div>
+                                                        <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
+                                                        <div class="row no-margin">
+                                                            <div id="div_{{reminder.id}}" class="gq-acc-row-bg  ">
+                                                                <div class="col-xs-3">
+                                                                    <a class="todomodalClass checkmark-icon" data-toggle="modal" data-target="#myModal" data-flag="{{reminder.completed}}" unit_id="{{reminder.id}}" user_id="1" id="{{reminder.id}}" course_code="BSB10112">
+                                                                            <span id="span_BSBADM101A" class="radio  radioUnChecked "></span>
+                                                                    </a>
+                                                                    <div class="gq-acc-row-title">{{reminder.course.user.firstname}}</div>
+                                                                </div>
+                                                                <div class="col-xs-4">
+                                                                    <div class="gq-acc-row-title">{{reminder.course.coursename}}</div>
+                                                                </div>
+                                                                <div class="col-xs-4">
+                                                                    {% if leftDays == 0 %}
+                                                                        {% set daynote = "Today" %}
+                                                                    {% endif %}
+                                                                    {% if leftDays == -1 %}
+                                                                        {% set daynote = "Yesterday" %}
+                                                                    {% endif %}
+                                                                    {% if leftDays == 1 %}
+                                                                        {% set daynote = "Tomorrow" %}
+                                                                    {% endif %}
+                                                                    {% if leftDays > 1 %}
+                                                                        {% set daynote = "" %}
+                                                                    {% endif %}
+                                                                    <div class="gq-acc-row-title" id="title_{{reminder.id}}">
+                                                                        {% if leftDays < 0 %}
+                                                                        {% set overdue = "Over Due" %}
+                                                                        <span class="todo_daynote">{{ overdue }}</span>
+                                                                        {% endif %}
+                                                                        {% if leftDays > 7 %}
+                                                                            {% if leftDays != 1 and leftDays != -1 and leftDays < 0 %}
+                                                                                <span class="todo_day">{{ nleftDays }} Days Ago</span>
+                                                                            {% else %}
+                                                                                <span class="todo_day">{{ daynote }} </span>
+                                                                            {% endif %}
+                                                                        {% else %}        
+                                                                            <span class="todo_day">{{ reminder.date|date('d/m/Y') }} </span>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-1">
+                                                                    <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4" onclick="changePlusIcon({{reminder.id}});"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <article class="acc-small">
+                                                            <p>{{reminder.message}}</p>
+                                                        </article>
+                                                    </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <!-- accordion ends here -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End To Do Tab -->
+                            <!-- Completed Tab -->
+                            <div role="tabpanel" class="tab-pane" id="completed">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="gq-id-files">
+                                            <div class="gq-id-files-header gq-id-files-header-applicant">
+                                                <div class="row">
+                                                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-12">
+                                                        <span class="gq-course-details-header-title">Name</span>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
+                                                        <span class="gq-course-details-header-title">Qualification Name</span>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                                        <span class="gq-course-details-header-title">Completed On</span>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+                                        <!-- accordion starts here -->
+                                        <div class="gq-acc-wrap" id="completed-tab">
+                                            {% if reminders %}
+                                                {% for key, reminder in reminders %}
+                                                    {% if reminder.getCompleted() == 1 %}
+                                                    {% set difference = date(today).diff(date(reminder.CompletedDate)) %}
+                                                    {% set leftDays = difference.days %}
+                                                    
+                                                    <div>
+                                                        <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
+                                                        <div class="row no-margin">
+                                                            <div id="div_{{reminder.id}}" class="gq-acc-row-bg  ">
+                                                                <div class="col-xs-3">
+                                                                    <div class="gq-acc-row-title">{{reminder.course.user.firstname}}</div>
+                                                                </div>
+                                                                <div class="col-xs-4">
+                                                                    <div class="gq-acc-row-title">{{reminder.course.coursename}}</div>
+                                                                </div>
+                                                                <div class="col-xs-4">
+                                                                    {% if leftDays == 0 %}
+                                                                        {% set daynote = "Today" %}
+                                                                    {% endif %}
+                                                                    {% if leftDays == 1 %}
+                                                                        {% set daynote = "Yesterday" %}
+                                                                    {% endif %}
+                                                                    {% if leftDays > 1 %}
+                                                                        {% set daynote = "" %}
+                                                                    {% endif %}
+                                                                    <div class="gq-acc-row-title" id="title_{{reminder.id}}">
+                                                                       
+                                                                        
+                                                                        {% if leftDays != 1 and leftDays > 0 and leftDays < 0%}
+                                                                            <span class="todo_day">{{ leftDays }} Days Ago</span>
+                                                                        {% else %}
+                                                                            <span class="todo_day">{{ daynote }} </span>
+                                                                        {% endif %}
+                                                                        {% if leftDays > 1 %}
+                                                                            <span class="todo_day">{{ reminder.date|date('d/m/Y') }} </span>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-1">
+                                                                    <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4" onclick="changePlusIcon({{reminder.id}});"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <article class="acc-small">
+                                                            <p>{{reminder.message}}</p>
+                                                        </article>
+                                                    </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <!-- accordion ends here -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Completed Tab -->
+                        </div>
+                    </div>
+                </div>
+                <span class="flip-icon"></span>
+            </div>
+         </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="todoclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Do yo want to change the status of To Do list ?</h4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-white updateTodo">Ok</a>
+                <a class="btn btn-white" id="todo-cancel">Cancel</a>
+                <span class="loading-icon todo_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+function changePlusIcon(plusid)
+{
+    var c = $("#label_"+plusid).hasClass( "open" );
+    if (c == false) {
+            $("#label_"+plusid).parent().parent().parent().next().show();
+            $("#label_"+plusid).addClass( "open" );
+    } else {
+            $("#label_"+plusid).parent().parent().parent().next().hide();
+            $("#label_"+plusid).removeClass( "open" );
+    }
+}
+</script>
+<script type="text/javascript" src="{{ asset('public/js/custom-jquery.js') }}"></script>
+{% endblock %}
