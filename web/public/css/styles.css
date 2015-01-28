@@ -121,6 +121,8 @@ html, body {background-color:#f0f0f0; font-size:12px;}
 /*.page-wrap {max-width: 1280px;  margin:0 auto;}*/
 .margin-top15 {margin-top:15px;}
 .margin-top30 {margin-top:30px;}
+.wid10p {width:10%; margin:0 45%;}
+.wid20p {width:20%; margin:0 40%;}
 .wid30p {width:30%; margin:0 35%;}
 .wid40p {width:40%; margin:0 30%;}
 .wid50p {width:50%; margin:0 25%;}
@@ -525,6 +527,56 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-appl-details .gq-assessor-rto-edit-icon a{display:block; padding:17px 0;}
 #gq-msg-success{padding:10px; color: #57ba00;}
 #applicantEStatus button{margin-bottom:0px;}
+
+/* Assessor - list page */
+.add-notes-icon {width:24px; height:26px; padding:3px; background-image:url(../images/applicant-list-add-notes-icon.png); background-repeat:no-repeat; background-position: center center; display:block;}
+.add-notes-grey-calendar-icon {width:23px; height:23px; padding:3px; background-image:url(../images/applicant-lists-grey-date-icon.png); background-repeat:no-repeat; background-position: center center; display:block;}
+.gq-assessor-list-dropdown {display:none;}
+.gq-assessor-list-dropdown {position:absolute; left:-108px; background-color:#ffffff; border: 1px solid #d6d6d6; width: 250px; z-index: 1000; box-shadow:1px 1px 1px #d6d6d6; padding:5px; border-radius:5px;}
+.gq-assessor-list-dropdown .dropdown-menu{}
+.gq-assessor-list-dropdown .gq-applicant-list-notes-box, .gq-assessor-list-dropdown .gq-applicant-list-due-date{width:100%; padding:0 10px;}
+.gq-assessor-list-dropdown-wrap {position:relative;}
+.gq-assessor-list-dropdown .caret-top{ border-bottom: 10px solid #d6d6d6; border-left: 10px solid transparent; border-right: 10px solid transparent; display: inline-block; height: 0; margin-left: 2px; vertical-align: middle; width: 0; position:absolute; top:-10px; left:50%;}
+.gq-assessor-list-dropdown .gq-applicant-list-notes-box textarea{border:0 none; width:100%;}
+.gq-assessor-list-dropdown-wrap.open .gq-assessor-list-dropdown {display:block;}
+.gq-add-notes-icon-wrap {width:63px; text-align:center;}
+.gq-add-notes-icon-wrap a{padding:8px;}
+.gq-applicant-filter-wrap {height:40px; position:relative;}
+.gq-applicant-filter-wrap label{margin-right:10px; font-size:16px; font-weight:normal;}
+.gq-applicant-filter-wrap input[type="text"] { margin-left:5px; border:1px solid #e8eced; height:40px; padding-left:5px; width:200px; border-radius:5px;}
+.gq-applicant-filter-wrap select { margin-left:5px; border:1px solid #e8eced; height:40px; padding-left:5px; width:200px; border-radius:5px;}
+.gq-applicant-filter-wrap .gq-search-icon {background-image:url('../images/search-icon.png'); background-repeat:no-reepat; background-position:center center; width:40px; height:40px; float:right; position:absolute; right:0;}
+
+/* Assessors - Profile uploads page */
+.gq-id-files-submit-btn .gq-profile-download-icon{color:#000000; padding-left:4px; background-image:url('../images/profile-upload-download-icon.png'); background-repeat: no-repeat; background-position:center center; width:36px; height:22px; display:block; float:right; margin-left:5px; position:relative; top:-22px; left:30px;} 
+.gq-assessor-profile-page-img {width:120px; height:120px; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:22px 0; overflow:hidden; background-position: center center; background-repeat: no-repeat; background-size: cover; float:left;}
+.gq-assessor-profile-page-img img{width:100%; }
+.gq-assessor-profile-page-desc-red{ color: #f14840; font-size: 14px; text-decoration: none; float:left; width:100%; margin-bottom:10px;}
+.gq-assessor-profile-page-desc{ font-size: 14px; text-decoration: none; float:left; width:100%;}
+.gq-assessor-profile-page-desc-wrap {float:left; padding-top:40px;}
+.gq-add-profile-photo-btn {width:120px; height:32px; margin:0 auto; position:relative;}
+.gq-add-profile-photo-btn input[type="file"]{opacity:0; width:100%;}
+.gq-add-profile-photo-btn .loading-icon {float: left; height: 20px; position: absolute; right: -26px; top: 2px; width: 20px;}
+.gq-add-profile-photo-btn .btn-grey{width:100%; float:left; background-image:url('../images/add-profile-photo.png'); background-repeat:no-repeat; background-position:center center; border-radius:4px;}
+
+/* Messages - View messages page */
+.gq-msg-row-bg.gq-msg-visited p { line-height:26px; margin-bottom:15px;}
+.gq-messages-button-wrap {width:100%; /*border-top:1px solid #dddddd;*/ float:left; position:relative; background-color:#ffffff; padding:15px 20px;}
+.gq-messages-button-wrap .flip-icon {background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:-1px; right:-1px; display:block; height:23px; width:24px;}
+.gq-messages-button-wrap .btn-red {padding:10px 44px;}
+.gq-messages-button-wrap .btn-grey {padding:10px 44px;}
+.gq-msg-header .gq-msg-header-title  {color:#f14a41; font-size:22px; width:100%; float:left; line-height:32px;}
+.gq-msg-from-to-input  input[type="text"]{border:0 none;}
+.gq-msg-from textarea{border:0 none; width:100%; min-height:320px; color:#bfbfbf;}
+.gq-msg-from-to-sub {width:76px; text-align:right; padding-right:10px;}
+.gq-msg-wrap.gq-msg-compose .gq-msg-row-bg{margin-bottom:1px;}
+
+/* Facilitator dashboard styling */
+.gq-facilitator-dashboard {}
+.gq-facilitator-dashboard .gq-acc-wrap{width:100%;}
+.gq-facilitator-dashboard .gq-dashboard-facilitator-notes {width:100%; font-size:16px; color:#f14a41;}
+.gq-facilitator-dashboard .well {padding:10px;}
+
 @media(max-width:360px){
 	.gq-evidence .nav-pills > li{ width:100%; }
 }
@@ -563,6 +615,7 @@ a.btn-red {color:#ffffff;}
 .gq-id-files-upload-btn, .gq-id-files-submit-btn {margin-top:15px;}
 .gq-dashboard-right {width:100%;}
 /*#edivenceModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }*/
+.gq-assessor-profile-page-img {margin:10px auto;}
 }
 
 @media (max-width:368px) {
@@ -599,12 +652,7 @@ a.btn-red {color:#ffffff;}
 /* Assessor - list page */
 .add-notes-icon {width:24px; height:26px; padding:3px; background-image:url(../images/applicant-list-add-notes-icon.png); background-repeat:no-repeat; background-position: center center; display:block;}
 .add-notes-grey-calendar-icon {width:23px; height:23px; padding:3px; background-image:url(../images/applicant-lists-grey-date-icon.png); background-repeat:no-repeat; background-position: center center; display:block;}
-.gq-assessor-list-dropdown {display:none;}
-.gq-assessor-list-dropdown {position:absolute; left:-108px; background-color:#ffffff; border: 1px solid #d6d6d6; width: 250px; z-index: 1000; box-shadow:1px 1px 1px #d6d6d6; padding:5px;}
+.gq-assessor-list-dropdown {}
 .gq-assessor-list-dropdown .dropdown-menu{}
-.gq-assessor-list-dropdown .gq-applicant-list-notes-box, .gq-assessor-list-dropdown .gq-applicant-list-due-date{width:100%; padding:0 10px;}
-.gq-assessor-list-dropdown-wrap {position:relative;}
-.gq-assessor-list-dropdown .caret-top{ border-bottom: 10px solid; border-left: 10px solid transparent; border-right: 10px solid transparent; display: inline-block; height: 0; margin-left: 2px; vertical-align: middle; width: 0; position:absolute; top:-10px; left:50%;}
-.gq-assessor-list-dropdown .gq-applicant-list-notes-box textarea{border:0 none;}
-.gq-assessor-list-dropdown-wrap.open .gq-assessor-list-dropdown {display:block;}
+.gq-assessor-list-dropdown .gq-applicant-list-notes-box, .gq-assessor-list-dropdown .gq-applicant-list-due-date{ padding:0 10px;}
 .gq-applicant-list-due-date input[type="text"]{display:block; width:100%; border:0 none;}

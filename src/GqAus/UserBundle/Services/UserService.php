@@ -296,6 +296,8 @@ class UserService
             $results['assessorName'] = !empty($assessor) ? $assessor->getUsername() : '';
             $rto = $this->getUserInfo($otheruser->getRto());
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
+            $facilitator = $this->getUserInfo($otheruser->getFacilitator());
+            $results['facilitatorName'] = !empty($rto) ? $facilitator->getUsername() : '';
         }
         return $results;
     }
@@ -508,5 +510,40 @@ class UserService
             $status = $this->mailer->send($emailContent);
         } 
         return $status;
+    }
+	/**
+    * Function to update todo status
+    * return void
+    */
+    public function updateReminderStatus($id,$flag)
+    {
+        $remObj = $this->em->getRepository('GqAusUserBundle:Reminder')->find($id);
+        $remObj->setCompleted($flag);
+        $remObj->setCompletedDate(date('Y-m-d'));
+        $this->em->persist($remObj);
+        $this->em->flush();
+    }
+    
+	/**
+    * Function to get Evidence Completeness
+    * return void
+    */
+    public function getEvidenceCompleteness($userId, $courseCode = null)
+    {
+		//$courseCode = 'BSB10112';
+		//$userId = '1';
+		
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId,
+                                                                                        'courseCode' => $courseCode,
+																						'status' => '1'));
+		$totalNoCourses = count($courseUnitObj);
+		$res = $this->em->getRepository('GqAusUserBundle:Evidence')
+                ->createQueryBuilder('e')
+                ->select("DISTINCT e.unit")
+                ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId);
+		$applicantList = $res->getQuery()->getResult();
+		$evidenceCount = count($applicantList);
+		$completeness = ($evidenceCount/$totalNoCourses) * 100;
+		return round($completeness).'%';
     }
 }

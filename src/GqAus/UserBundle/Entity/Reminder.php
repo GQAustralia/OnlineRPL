@@ -192,4 +192,32 @@ class Reminder
     {
         return $this->course;
     }
+    /**
+     * @var string
+     */
+    private $completedDate;
+
+
+    /**
+     * Set completedDate
+     *
+     * @param string $completedDate
+     * @return Reminder
+     */
+    public function setCompletedDate($completedDate)
+    {
+        $this->completedDate = $completedDate;
+
+        return $this;
+    }
+
+    /**
+     * Get completedDate
+     *
+     * @return string 
+     */
+    public function getCompletedDate()
+    {
+        return $this->completedDate;
+    }
 }

@@ -21,7 +21,7 @@
         </div>
         {% if ('ROLE_RTO' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            <h6 class="gq-assessor-title-download text-right"><a href="#"> Download Portfolio<span class="gq-assessor-title-download-icon"></span></a></h6>
+            <h6 class="gq-assessor-title-download text-right"><a href ="javascript:void(0)" id="download_profile" userId="{{userId}}" course_code="{{courseInfo.id}}"> Download Portfolio<span class="gq-assessor-title-download-icon"></span></a></h6>
         </div>
         {% endif %}
     </div>

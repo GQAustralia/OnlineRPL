@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Dashboard{% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="gq-dashboard-title">Profile</h1>
+            <!-- <h6 class="gq-dashboard-title-desc">Some description can be given here</h6>  -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-push-3 col-xs-6">
+            <div class="row">
+                <div class="gq-profile-page-img"><img src="{{ asset('public/images/') ~ userImage }}" /> </div>
+            </div>
+        </div>	
+        <div class="col-xs-12">
+            <div class="gq-dashboard-tabs">
+                <!-- Tabs start here -->
+                
+                {{ form_start(form) }}
+                <div class="gq-dashboard-tabs-header gq-profile-tabs-header wid60p">
+                    <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
+                        <li role="presentation" class="active"><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal</a></li>
+                        <li role="presentation"><a href="#address" aria-controls="address" role="tab" data-toggle="tab">Address</a></li>
+                        <li role="presentation"><a href="#id-fields" aria-controls="id-fields" role="tab" data-toggle="tab">ID files</a></li>
+                    </ul>
+                </div>
+                <!-- Tabs end start here -->
+                <!-- Content for respective tabs above will be in this section -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="personal">
+                        <div class="gq-form-personal wid60p">
+                            {{ form_start(form) }}
+                                <div class="gq-form-row">
+                                    <label for="gq-first-name">First Name</label>
+                                    {{ form_widget(form.firstname) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">Last Name</label>
+                                    {{ form_widget(form.lastname) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-email-name">Email</label>
+                                    {{ form_widget(form.email) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">Phone</label>
+                                    {{ form_widget(form.phone) }}
+                                </div>
+                                <div class="gq-form-botton">
+                                    {{ form_widget(form.save, {'attr': {'class': 'btn btn-default'}}) }}
+                                </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="address">
+                        <div class="gq-form-personal wid60p">
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">Address</label>
+                                    {{ form_widget(form.address.address) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">Area</label>
+                                    {{ form_widget(form.address.area) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">City</label>
+                                    {{ form_widget(form.address.city) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-email-name">State</label>
+                                    {{ form_widget(form.address.state) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">Pincode</label>
+                                    {{ form_widget(form.address.pincode) }}
+                                </div>
+                                <div class="gq-form-botton">
+                                    <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default">Save</button>
+                                </div>
+                       
+                        </div>
+                    </div>
+                     {{ form_end(form) }}
+                    <div role="tabpanel" class="tab-pane" id="id-fields">
+                        <div class="gq-id-files-upload-text">
+                            <h2>Upload ID files</h2>
+                        </div>
+                        
+                        <div class="gq-id-files">
+                            <form name = "Id_files" method = "POST" action="idfileupload" enctype="multipart/form-data">
+                                <div class="gq-id-files-header gq-id-files-header-applicant">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
+                                            <div class="gq-id-files-select">
+                                                {{ form_widget(filesForm.type) }} 
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+                                            <div class="gq-id-files-upload-btn">
+                                                {{ form_widget(filesForm.browse) }} <span class="cloud-icon"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg2 col-md-2 col-sm-4 col-xs-12">
+                                            <div class="gq-id-files-submit-btn">
+                                                {{ form_widget(filesForm.save) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="gq-id-files-content-wrap">
+                                <div class="gq-dashboard-box-1x">
+                                    <div class="gq-dashboard-box-title-wrap">
+                                        <h2 class="gq-dashboard-box-title">Your ID Files</h2>
+                                    </div>
+                                    <div class="gq-dashboard-courses-detail-wrap">
+                                        <div class="row">
+                                            {% for item in userIdFiles %}
+                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                                <div class="gq-dashboard-courses-detail">
+                                                    {% if item.type.id == 1 %}
+                                                        {% set doc_type = 'gq-id-files-content-pdf-icon' %}
+                                                    {% elseif item.type.id == 2 %}
+                                                        {% set doc_type = 'gq-id-files-content-doc-icon' %}
+                                                    {% else %}
+                                                         {% set doc_type = 'gq-id-files-content-doc-icon' %}
+                                                    {% endif %}
+                                                    <div class="gq-id-files-content-icon-wrap {{doc_type}}"></div>
+                                                    <div class="gq-id-files-content-row-wrap">
+                                                        <div class="gq-id-files-content-row">
+                                                            <a href="{{ amazon_link }}{{  item.path }}" target="_blank"><label>Title</label><span>{{item.type.type}}</span></a>
+                                                        </div>
+                                                        <div class="gq-id-files-content-row">
+                                                            <label>Added on</label><span>{{item.created|date("F jS") }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <span class="flip-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- script for enabling tabs functionality -->
+                <script>
+                    $(function() {
+                        $('#myTab a:last').tab('show')
+                    })
+                </script>
+                <!--End of content for respective tabs above will be in this section -->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
+{#{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}#}

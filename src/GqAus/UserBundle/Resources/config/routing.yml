@@ -55,3 +55,15 @@ addReminder:
 searchApplicantsList:
     path:     /searchApplicantsList
     defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsList }
+createzip:
+    path:     /zipFiles/{qcode}/{uid}
+    defaults:  { _controller: GqAusUserBundle:Applicant:zip }
+downloadFiles:
+    path:     /downloadFiles/{qcode}/{uid}
+    defaults: { _controller: GqAusUserBundle:Applicant:download }
+reminder:
+    path:     /reminder
+    defaults: { _controller: GqAusUserBundle:Reminder:view }
+updateTodo:
+    path:     /updateTodo
+    defaults: { _controller: GqAusUserBundle:Reminder:update }

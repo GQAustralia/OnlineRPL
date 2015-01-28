@@ -54,18 +54,18 @@
         <!-- accordion ends here -->
     </div>
 {% if pageRequest == 'ajax' %}
-	{% block javascripts %}
-	<script type="text/javascript">
-		$( ".datepic" ).datepicker();
-		$(".setNotes").click(function () {
-			id = $(this).attr("id");
-			var c = $('#div_'+id).hasClass( "open" );
-			if (c == false) {
-				$('#div_'+id).addClass('open');
-			} else {
-				$('#div_'+id).removeClass('open');
-			}
-		});
-	</script>
-	{% endblock %}
+    {% block javascripts %}
+    <script type="text/javascript">
+        $( ".datepic" ).datepicker();
+        $(".setNotes").click(function () {
+            id = $(this).attr("id");
+            var c = $('#div_'+id).hasClass( "open" );
+            if (c == false) {
+                $('#div_'+id).addClass('open');
+            } else {
+                $('#div_'+id).removeClass('open');
+            }
+        });
+    </script>
+    {% endblock %}
 {% endif %}

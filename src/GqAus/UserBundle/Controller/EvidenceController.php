@@ -26,19 +26,19 @@ class EvidenceController extends Controller
         }
     }
     
-    /**
+     /**
     * Function to display all the Evidences
     */
     public function viewAction(Request $request)
-    { 
+    {
         $evidenceService = $this->get('EvidenceService');
-        $evidences = $evidenceService->getCurrentUser()->getEvidences();
-         return $this->render(
-            'GqAusUserBundle:Evidence:view.html.twig',
-            array('evidences'  => $evidences)
+        $evidences = $evidenceService->getCurrentUser()->getEvidences();         
+	
+        return $this->render(
+                        'GqAusUserBundle:Evidence:view.html.twig', array('evidences' => $evidences)
         );
     }
-    
+
     /**
     * Function to save the existing Evidence
     */
@@ -78,5 +78,29 @@ class EvidenceController extends Controller
             echo "success";
         }
         exit;
+    }
+    
+    /**
+    * Function to display all the Evidences
+    */
+    public function zipAction(Request $request)
+    {
+        $files = array();
+        $evidenceService = $this->get('EvidenceService');
+        $evidences = $evidenceService->getCurrentUser()->getEvidences();
+        foreach ($evidences as $evidence) {
+            array_push($files, $this->container->getParameter('amazon_s3_base_url').$evidence->getPath());
+        }
+        $zip = new \ZipArchive();
+        $zipName = 'Documents-'.time().".zip";
+        $zip->open($zipName,  \ZipArchive::CREATE);
+        foreach ($files as $f) {
+            $zip->addFromString(basename($f),  file_get_contents($f)); 
+        }
+        $zip->close();
+        header('Content-Type', 'application/zip');
+        header('Content-disposition: attachment; filename="' . $zipName . '"');
+        header('Content-Length: ' . filesize($zipName));
+        readfile($zipName);
     }
 }

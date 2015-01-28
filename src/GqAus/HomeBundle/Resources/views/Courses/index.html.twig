@@ -79,7 +79,7 @@
                             </div>
                            
                             <div class="col-lg4 col-md-4 col-sm-4 col-xs-2">
-                                <button class="btn add-btn fromBottom"  unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
+                                <button class="btn add-btn fromBottom"  unitid="{{units.id}}" course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
                                 
                                 <span><button class="btn eye-btn fromBottom unit-evidence-id" userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW EVIDENCES</button></span>
                             </div>
@@ -238,6 +238,7 @@
                             <div class="gq-course-details-drop-file">Drop files here </br> or</div>
                             {{ form_widget(form.file, {'attr': {'id': 'my-awesome-dropzone', 'class': 'dropzone'}}) }}
                             {{ form_widget(form.hid_unit, {'attr': {'id': 'hid_unit'}}) }}
+                            {{ form_widget(form.hid_course, {'attr': {'id': 'hid_course'}}) }}
                         </div>
                     </div>
                     <div class="col-xs-6">

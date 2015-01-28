@@ -19,7 +19,7 @@
         </discriminator-map>
        
         <one-to-many field="courses" target-entity="GqAus\UserBundle\Entity\UserCourses" mapped-by="user" />
-        <one-to-one field="address" target-entity="GqAus\UserBundle\Entity\UserAddress" mapped-by="user" />        
+        <one-to-one field="address" target-entity="GqAus\UserBundle\Entity\UserAddress" mapped-by="user" />
         <field name="userImage" type="string" column="user_img" length="255"/>
         <field name="passwordToken" type="string" column="passwordToken" length="255"/>
         <field name="tokenExpiry" type="string" column="tokenExpiry" />

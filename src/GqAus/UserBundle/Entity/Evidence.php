@@ -140,4 +140,32 @@ abstract class Evidence
     {
         return $this->size;
     }
+    /**
+     * @var string
+     */
+    private $course;
+
+
+    /**
+     * Set course
+     *
+     * @param string $course
+     * @return Evidence
+     */
+    public function setCourse($course)
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * Get course
+     *
+     * @return string 
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
 }
