@@ -195,6 +195,10 @@ $("#download_profile").click(function () {
     window.open("/zipFiles/"+courseCode+"/"+userId);
 });
 
+$("#download_matrix").click(function () {
+    window.open("/downloadMatrix");
+});
+
 $(".todomodalClass").click(function () {
     reminderid = this.id;
     reminderflag = $(this).attr("data-flag");
@@ -328,17 +332,14 @@ $(".openIcon").click(function () {
     }
 });
 
-$(".filesUpload").ajaxForm({
+$("#resumeUpload").ajaxForm({
     beforeSubmit: function() {
-        var type = $(this).attr('id');
-        alert($( "form" ).closest( "div" ).attr('id'));
-        return false;
-        alert(type);
-        $('#'+type+'_load').show();
+        $('#resume_load').show();
     },
     success: function(responseText, statusText, xhr, $form) {
-        $('#'+type+'_load').show();
+        $('#resume_load').hide();
         if (responseText) {
+            $('.resume_files').html('');
             var result = jQuery.parseJSON(responseText);
             var name = result.name.split('.');
             var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
@@ -351,7 +352,83 @@ $(".filesUpload").ajaxForm({
                         </span>\n\
                         <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
             $('.resume_files').append(html);
-            $('#'+type+'_msg').css("display", "block").delay(5000).fadeOut(100);
+            $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
+        }
+    },
+    resetForm: true
+});
+
+$("#qualificationUpload").ajaxForm({
+    beforeSubmit: function() {
+        $('#qualification_load').show();
+    },
+    success: function(responseText, statusText, xhr, $form) {
+        $('#qualification_load').hide();
+        if (responseText) {
+            $('.qualification_files').html('');
+            var result = jQuery.parseJSON(responseText);
+            var name = result.name.split('.');
+            var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
+                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
+                                <div class="gq-del-evidence"></div></a>\n\
+                            <div class="tooltip-home top">\n\
+                                <div class="tooltip-arrow"></div>\n\
+                                <span class="">Delete ID File</span>\n\
+                            </div>\n\
+                        </span>\n\
+                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+            $('.qualification_files').append(html);
+            $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
+        }
+    },
+    resetForm: true
+});
+
+$("#referenceUpload").ajaxForm({
+    beforeSubmit: function() {
+        $('#reference_load').show();
+    },
+    success: function(responseText, statusText, xhr, $form) {
+        $('#reference_load').hide();
+        if (responseText) {
+            var result = jQuery.parseJSON(responseText);
+            var name = result.name.split('.');
+            var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
+                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
+                                <div class="gq-del-evidence"></div></a>\n\
+                            <div class="tooltip-home top">\n\
+                                <div class="tooltip-arrow"></div>\n\
+                                <span class="">Delete ID File</span>\n\
+                            </div>\n\
+                        </span>\n\
+                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+            $('.reference_files').append(html);
+            $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
+        }
+    },
+    resetForm: true
+});
+
+$("#matrixUpload").ajaxForm({
+    beforeSubmit: function() {
+        $('#matrix_load').show();
+    },
+    success: function(responseText, statusText, xhr, $form) {
+        $('#matrix_load').hide();
+        if (responseText) {
+            var result = jQuery.parseJSON(responseText);
+            var name = result.name.split('.');
+            var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
+                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
+                                <div class="gq-del-evidence"></div></a>\n\
+                            <div class="tooltip-home top">\n\
+                                <div class="tooltip-arrow"></div>\n\
+                                <span class="">Delete ID File</span>\n\
+                            </div>\n\
+                        </span>\n\
+                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+            $('.matrix_files').append(html);
+            $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
         }
     },
     resetForm: true

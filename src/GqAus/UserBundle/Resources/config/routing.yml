@@ -73,6 +73,15 @@ resume_upload:
 qualification_upload:
     path:     /qualificationupload
     defaults: { _controller: GqAusUserBundle:User:qualification }
+reference_upload:
+    path:     /referenceupload
+    defaults: { _controller: GqAusUserBundle:User:reference }
+matrix_upload:
+    path:     /matrixupload
+    defaults: { _controller: GqAusUserBundle:User:matrix }
 deleteOtherFiles:
     path:     /deleteOtherFiles
     defaults:  { _controller: GqAusUserBundle:User:deleteOtherFiles }
+download_matrix:
+    path:     /downloadMatrix
+    defaults:  { _controller: GqAusUserBundle:User:downloadMatrix }
