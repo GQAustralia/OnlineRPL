@@ -15,7 +15,8 @@ class AppExtension extends \Twig_Extension {
      */
     public function getFunctions() {
         return array(
-            'completeness' => new \Twig_Function_Method($this, 'evidenceCompleteness')
+            'completeness' => new \Twig_Function_Method($this, 'evidenceCompleteness'),
+            'timeRemaining' => new \Twig_Function_Method($this, 'getTimeRemaining')
         );
     }
 
@@ -27,6 +28,16 @@ class AppExtension extends \Twig_Extension {
     public function evidenceCompleteness($userId, $courseCode)
     {
         $result = $this->userService->getEvidenceCompleteness($userId, $courseCode);
+        return $result;
+    }
+    
+    /**
+     * @param id $string
+     * @return string
+     */
+    public function getTimeRemaining($id)
+    {
+        $result = $this->userService->getTimeRemaining($id);
         return $result;
     }
 

@@ -29,37 +29,24 @@
                             </ul>
                         </div>
                          <!-- Filter start here -->
-						 <div class="row">
-							<div class="col-lg-7 col-md-8 col-sm-8 col-xs-12">
-								<div class="gq-applicant-filter-wrap text-right"><label>Filter by:</label>Name<input name="searchName" id="searchName" type="text"/><span id="searchFilter" class="gq-search-icon"></span> </div>
-							</div>
-							<div class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
-								<div class="gq-applicant-filter-wrap-select-remaining text-right">Remaining Time</div>
-							</div>
-<div class="col-lg-3 col-md-4 col-sm-4 col-xs-11">
-											<div class="gq-applicant-filter-wrap-select">
-														<select name="timeRemaining" id="timeRemaining" class="styled">
-															<option value="">Week</option>
-															<option value="1">1 Week</option>
-															<option value="2">2 Week</option>
-															<option value="3">3 Week</option>
-															<option value="4">4 Week</option>
-														</select>
-												</div>
-</div>
-							<!-- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-11">
-							   <div class="gq-applicant-filter-wrap-select">
-									<select name="timeRemaining" id="timeRemaining" class="styled">
-										<option value=""></option>
-										<option value="1">1 Week</option>
-										<option value="2">2 Week</option>
-										<option value="4">4 Week</option>
-										<option value="5">5 Week</option>
-										<option value="11">11 Week</option>
-									</select>
-								</div>
-							</div> -->
-						</div>
+                         <div class="row">
+                            <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12">
+                                <div class="gq-applicant-filter-wrap text-right"><label>Filter by:</label>Name<input name="searchName" id="searchName" type="text"/><span id="searchFilter" class="gq-search-icon"></span> </div>
+                            </div>
+                            <div class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
+                                <div class="gq-applicant-filter-wrap-select-remaining text-right">Remaining Time</div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-11">
+                                <div class="gq-applicant-filter-wrap-select">
+                                    <select name="timeRemaining" id="timeRemaining" class="styled">
+                                        <option value="">Weeks</option>
+                                        {% for w in 1..11 %}
+                                        <option value="{{w}}">{{w}} Week</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Filter end here -->
                         
                         <!-- Tabs end start here -->
