@@ -14,9 +14,10 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
                             <div class="gq-acc-row-title">
+                                {% set userId = list.user.id %}
                                 {% set id = list.id %}
                                 {% set courseCode = list.courseCode %}
-                                {{ completeness(id,courseCode) }}
+                                {{ completeness(userId,courseCode) }}
                             </div>
                         </div>
                          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-4">
@@ -42,7 +43,7 @@
                         </div>
                                                     
                         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-2">
-                            <div class="gq-acc-row-title">{{list.remainingTime}}</div>
+                            <div class="gq-acc-row-title">{{ timeRemaining(id) }}</div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-1 col-xs-2">
                             <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}">
