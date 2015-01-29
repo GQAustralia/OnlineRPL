@@ -367,7 +367,7 @@ class UserService
         
         if (!empty($searchTime)) {
             $searchTime = $searchTime * 7;
-            $searchTime1 = $searchTime - 7;
+            $searchTime1 = $searchTime - 6;
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) >= ".$searchTime1);
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) <= ".$searchTime);
         }
@@ -556,5 +556,23 @@ class UserService
         $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
                                                                                         'read' => '0'));
         return count($getMessages);
+    }
+    
+    /**
+    * Function to get unread messages count
+    * return void
+    */
+    public function getTimeRemaining($id)
+    {
+         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                ->createQueryBuilder('c')
+                ->select("DATE_DIFF(c.targetDate, c.createdOn) as diff")
+                ->where(sprintf('c.%s = :%s', 'id', 'id'))->setParameter('id', $id);
+        $applicantList = $res->getQuery()->getResult();
+        $diff = (($applicantList[0]['diff'])/7);
+        if (is_float($diff)) {
+            $diff = $diff + 1;
+        }
+        return floor($diff).' week(s)';
     }
 }

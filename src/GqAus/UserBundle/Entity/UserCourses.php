@@ -349,7 +349,7 @@ class UserCourses
         $date1=date_create($strtDate);
         $date2=date_create($endDate);
         $diff=date_diff($date1,$date2);
-        $getdiff = $diff->format("%a");
+        echo $getdiff = $diff->format("%a");
         return round($getdiff/7)." weeks";
 
     }
