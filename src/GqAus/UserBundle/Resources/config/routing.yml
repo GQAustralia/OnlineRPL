@@ -67,3 +67,12 @@ reminder:
 updateTodo:
     path:     /updateTodo
     defaults: { _controller: GqAusUserBundle:Reminder:update }
+resume_upload:
+    path:     /resumeupload
+    defaults: { _controller: GqAusUserBundle:User:resume }
+qualification_upload:
+    path:     /qualificationupload
+    defaults: { _controller: GqAusUserBundle:User:qualification }
+deleteOtherFiles:
+    path:     /deleteOtherFiles
+    defaults:  { _controller: GqAusUserBundle:User:deleteOtherFiles }

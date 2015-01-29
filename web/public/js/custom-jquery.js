@@ -1,4 +1,4 @@
-var t;
+var qual_id;
 var fileid;
 var filetype;
 var unitId;
@@ -8,6 +8,7 @@ var unit;
 var fullPath = '/';
 var reminderid;
 var reminderflag;
+var otherfiles;
 
 $(function() {
     var $ppc = $('.progress-pie-chart'),
@@ -63,11 +64,11 @@ $( "#view_terms" ).click(function() {
 });
 
 $(".modalClass").click(function () {
-    t = this.id;
+    qual_id = this.id;
 });
 $("#qclose").click(function () {
-    if (t != '' && typeof  t === 'undefined') {
-       $(location).attr('href','qualificationDetails/'+t);
+    if (qual_id != '' && typeof  qual_id === 'undefined') {
+       $(location).attr('href','qualificationDetails/'+qual_id);
     }
 });
 
@@ -142,24 +143,19 @@ $(".deleteEvidence").click(function () {
 });
 
 $(".deleteIdFiles").click(function () {
-  // var c = confirm("Do yo want to delete selected file ?");
-  // if (c == true) {
-        //var fid = $(this).attr("fileid");
-        //var ftype = $(this).attr("filetype");
-        var fid = fileid;
-        var ftype = filetype;
-        $.ajax({
-            type: "POST",
-            url: "deleteIdFiles",
-            data: { fid: fid, ftype: ftype },
-            success:function(result) {
-                $('#idfiles_'+fid).hide();
-                //alert("Selected ID File deleted!");
-                $( "#qclose" ).trigger( "click" );
-                $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">ID File deleted successfully!</h2></div>'); 
-            }
-        });
-   //}
+    var fid = fileid;
+    var ftype = filetype;
+    var url = (otherfiles)?"deleteOtherFiles":"deleteIdFiles";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: { fid: fid, ftype: ftype },
+        success:function(result) {
+            $('#idfiles_'+fid).hide();
+            $( "#fclose" ).trigger( "click" );
+            $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">File deleted successfully!</h2></div>').delay(5000).fadeOut(100); 
+        }
+    });
 });
 
 
@@ -230,35 +226,6 @@ $(".updateTodo").click(function() {
             }
         }
     });
-});
-
-$(".changeUnitStatus").click(function () {
-   //var c = confirm("Do yo want to change the status of elective unit ?");
-   //if (c == true) {
-        $.ajax({
-            type: "POST",
-            url: "../updateUnitElective",
-            data: { unitId: unitId, courseCode: courseCode, userId: userId },
-            success:function(result) {
-                var label = $( "#label_"+unitId ).attr("temp");
-                if (result == '0') {
-                    $( "#label_"+unitId ).attr("for","");
-                    $( "#btnadd_"+unitId ).attr('disabled','disabled');
-                    $( "#btneye_"+unitId ).attr('disabled','disabled');
-                    $( "#div_"+unitId ).addClass( "gq-acc-row-checked" );
-                    $( "#span_"+unitId ).removeClass( "radioUnChecked" );
-                    $( "#sp_"+unitId ).html('');
-                } else {
-                    $( "#label_"+unitId ).attr("for",label);
-                    $( "#btnadd_"+unitId ).removeAttr('disabled');
-                    $( "#btneye_"+unitId ).removeAttr('disabled');
-                    $( "#div_"+unitId ).removeClass( "gq-acc-row-checked" );
-                    $( "#span_"+unitId ).addClass( "radioUnChecked" );
-                }
-            }
-        });
-        $( "#qclose" ).trigger( "click" );
-   //}
 });
 
 function validateExisting()
@@ -341,9 +308,15 @@ $("#qclose-cancel").click(function () {
     $( "#qclose" ).trigger( "click" );
 });
 
-$(".viewModalClass").click(function () {
+$("#fclose-cancel").click(function () {
+    $( "#fclose" ).trigger( "click" );
+});
+
+
+$(".viewModalClass").live("click", function () {
     fileid = $(this).attr('fileid');
     filetype = $(this).attr('filetype');
+    otherfiles = $(this).attr('otherfiles');
 });
 
 $(".openIcon").click(function () {
@@ -353,6 +326,35 @@ $(".openIcon").click(function () {
     } else {
         $(this).removeClass( "open" );
     }
+});
+
+$(".filesUpload").ajaxForm({
+    beforeSubmit: function() {
+        var type = $(this).attr('id');
+        alert($( "form" ).closest( "div" ).attr('id'));
+        return false;
+        alert(type);
+        $('#'+type+'_load').show();
+    },
+    success: function(responseText, statusText, xhr, $form) {
+        $('#'+type+'_load').show();
+        if (responseText) {
+            var result = jQuery.parseJSON(responseText);
+            var name = result.name.split('.');
+            var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
+                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
+                                <div class="gq-del-evidence"></div></a>\n\
+                            <div class="tooltip-home top">\n\
+                                <div class="tooltip-arrow"></div>\n\
+                                <span class="">Delete ID File</span>\n\
+                            </div>\n\
+                        </span>\n\
+                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+            $('.resume_files').append(html);
+            $('#'+type+'_msg').css("display", "block").delay(5000).fadeOut(100);
+        }
+    },
+    resetForm: true
 });
 
 function checkspace(text)

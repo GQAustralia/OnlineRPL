@@ -524,7 +524,7 @@ class UserService
         $this->em->flush();
     }
     
-	/**
+    /**
     * Function to get Evidence Completeness
     * return void
     */
@@ -545,5 +545,32 @@ class UserService
 		$evidenceCount = count($applicantList);
 		$completeness = ($evidenceCount/$totalNoCourses) * 100;
 		return round($completeness).'%';
+    }   
+    
+    /**
+    * Function to fetch assessor other files
+    * return array
+    */
+    public function fetchOtherFiles($user_id, $type)
+    {
+        $Otherfiles = $this->em->getRepository('GqAusUserBundle:OtherFiles');
+        $files = $Otherfiles->findBy(array('assessor' => $user_id, 'type' => $type));
+        return $files;
+    }   
+    
+    /**
+    * Function to delete assessor other files
+    * return string
+    */
+    public function deleteOtherFiles($FileId)
+    {
+        $Otherfiles = $this->em->getRepository('GqAusUserBundle:OtherFiles');
+        $fileId = $Otherfiles->find($FileId);
+        if (!empty($fileId)) {
+            $fileName = $fileId->getPath();
+            $this->em->remove($fileId);
+            $this->em->flush();
+            return $fileName;
+        }
     }
 }

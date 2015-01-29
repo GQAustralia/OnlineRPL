@@ -4,6 +4,7 @@ namespace GqAus\UserBundle\Services;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use GqAus\UserBundle\Entity\UserIds;
+use GqAus\UserBundle\Entity\OtherFiles;
 use Gaufrette\Filesystem;
 
 class FileUploader
@@ -94,5 +95,33 @@ class FileUploader
     {
         $adapter = $this->filesystem->getAdapter();
         $adapter->delete($fileName);
+    }
+    
+    /**
+     * function to upload resume for assessor.
+     *  @return array
+     */
+    public function resume($data)
+    {
+        try {
+            $fileNames = $this->uploadToAWS($data['browse']);
+            $otherFiles = new OtherFiles();
+            $otherFiles->setAssessor($this->currentUser);
+            $otherFiles->setType($data['type']);
+            $otherFiles->setName($fileNames['orginal_name']);
+            $otherFiles->setPath($fileNames['aws_file_name']);
+            $this->em->persist($otherFiles);
+            $this->em->flush();
+            $result = array(
+                'id' => $otherFiles->getId(),
+                'name' => $fileNames['orginal_name'],
+                'path' => $fileNames['aws_file_name'],
+                'type' => $otherFiles->getType(),
+                'date' => date('d/m/Y', $otherFiles->getCreated())
+            );
+            return json_encode($result);
+        } catch (Exception $e) {
+            return null;
+        }
     }
 }

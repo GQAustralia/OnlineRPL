@@ -688,4 +688,118 @@ class User implements UserInterface, \Serializable
     {
         return $this->reminders;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $otherfiles;
+
+
+    /**
+     * Add otherfiles
+     *
+     * @param \GqAus\UserBundle\Entity\OtherFiles $otherfiles
+     * @return User
+     */
+    public function addOtherfile(\GqAus\UserBundle\Entity\OtherFiles $otherfiles)
+    {
+        $this->otherfiles[] = $otherfiles;
+
+        return $this;
+    }
+
+    /**
+     * Remove otherfiles
+     *
+     * @param \GqAus\UserBundle\Entity\OtherFiles $otherfiles
+     */
+    public function removeOtherfile(\GqAus\UserBundle\Entity\OtherFiles $otherfiles)
+    {
+        $this->otherfiles->removeElement($otherfiles);
+    }
+
+    /**
+     * Get otherfiles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOtherfiles()
+    {
+        return $this->otherfiles;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $inboxMessages;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $sentMessages;
+
+
+    /**
+     * Add inboxMessages
+     *
+     * @param \GqAus\UserBundle\Entity\Message $inboxMessages
+     * @return User
+     */
+    public function addInboxMessage(\GqAus\UserBundle\Entity\Message $inboxMessages)
+    {
+        $this->inboxMessages[] = $inboxMessages;
+
+        return $this;
+    }
+
+    /**
+     * Remove inboxMessages
+     *
+     * @param \GqAus\UserBundle\Entity\Message $inboxMessages
+     */
+    public function removeInboxMessage(\GqAus\UserBundle\Entity\Message $inboxMessages)
+    {
+        $this->inboxMessages->removeElement($inboxMessages);
+    }
+
+    /**
+     * Get inboxMessages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInboxMessages()
+    {
+        return $this->inboxMessages;
+    }
+
+    /**
+     * Add sentMessages
+     *
+     * @param \GqAus\UserBundle\Entity\Message $sentMessages
+     * @return User
+     */
+    public function addSentMessage(\GqAus\UserBundle\Entity\Message $sentMessages)
+    {
+        $this->sentMessages[] = $sentMessages;
+
+        return $this;
+    }
+
+    /**
+     * Remove sentMessages
+     *
+     * @param \GqAus\UserBundle\Entity\Message $sentMessages
+     */
+    public function removeSentMessage(\GqAus\UserBundle\Entity\Message $sentMessages)
+    {
+        $this->sentMessages->removeElement($sentMessages);
+    }
+
+    /**
+     * Get sentMessages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSentMessages()
+    {
+        return $this->sentMessages;
+    }
 }
