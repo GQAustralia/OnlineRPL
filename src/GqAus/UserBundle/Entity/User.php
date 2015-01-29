@@ -726,6 +726,7 @@ class User implements UserInterface, \Serializable
     {
         return $this->otherfiles;
     }
+    
     /**
      * @var \Doctrine\Common\Collections\Collection
      */

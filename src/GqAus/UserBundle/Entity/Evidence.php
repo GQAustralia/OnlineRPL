@@ -115,10 +115,10 @@ abstract class Evidence
     {
         return $this->created;
     }
-	
-	private $size;
-	
-	 /**
+    
+    private $size;
+    
+     /**
      * Set size
      *
      * @param string $size

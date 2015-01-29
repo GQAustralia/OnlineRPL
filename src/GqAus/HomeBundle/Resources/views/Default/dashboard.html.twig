@@ -13,7 +13,7 @@
         </div>
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12 colxs-12">
-                <div class="gq-dashboard-box-1x gq-dashboard-bg-img1"> <!-- class "gq-dashboard-bg-img1" added for background image -->
+                <div class="gq-dashboard-box-1x gq-dashboard-bg-img4"> <!-- class "gq-dashboard-bg-img1" added for background image -->
                     <div class="gq-dashboard-box-title-wrap">
                         <h2 class="gq-dashboard-box-title">Pending Applicants</h2>
                     </div>
@@ -23,22 +23,20 @@
                     </div>
                     <span class="flip-icon"></span>
                 </div>
-                <div class="gq-dashboard-box-1x gq-dashboard-bg-img2"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                <div class="gq-dashboard-box-1x gq-dashboard-bg-img5"> <!-- class "gq-dashboard-bg-img3" added for background image -->
                     <div class="gq-dashboard-box-title-wrap">
                         <h2 class="gq-dashboard-box-title">Messages</h2>
                     </div>
                     <div class="gq-dashboard-box-content-wrap">
-                        <div class="gq-dashboard-running-txt">Unread</div> 
-                        <div class="gq-dashboard-points-in-percent">{{unReadMessages}}</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 hidden-xs"></div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="gq-dashboard-running-txt text-center">Unread</div> 
+                        <div class="gq-dashboard-points-in-percent wid100p text-center">{{unReadMessages}}</div>
                     </div>
+					</div>
                     <span class="flip-icon"></span>
                 </div>
             </div>
-            
-            
-            
-            
-            
             <div class="col-lg-8 col-md-8 col-sm-12 colxs-12">
                 <div class="gq-dashboard-box-2x gq-dashboard-bg-img3 gq-facilitator-dashboard"> <!-- class "gq-dashboard-bg-img3" added for background image -->
                     <div class="gq-dashboard-box-title-wrap">
@@ -55,10 +53,12 @@
                             <div>
                                 <input id="acc-{{reminders.id}}" name="accordion-1" type="checkbox"/>
                                 <div class="row no-margin">
-                                    <div class="gq-acc-row-bg">
+                                    <div id="div_{{reminders.id}}" class="gq-acc-row-bg">
                                         <div class="col-xs-3">
                                             <span class="msg-checkmark-icon">
-                                                <input type="radio" name="radio" class="styled" />
+                                                 <a class="todomodalClass checkmark-icon" data-toggle="modal" data-target="#myModal" data-flag="{{reminders.completed}}" id="{{reminders.id}}">
+                                                        <span id="span_BSBADM101A" class="radio  radioUnChecked "></span>
+                                                </a>
                                             </span>
                                             <div class="gq-acc-row-title">{{reminders.user.userName}}</div>
                                         </div>
@@ -94,6 +94,26 @@
         </div>
     </div>
   </div>
+  
+  
+  <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="todoclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Do yo want to change the status of Today Reminder ?</h4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-white updateTodo">Ok</a>
+                <a class="btn btn-white" id="todo-cancel">Cancel</a>
+                <span class="loading-icon todo_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
   <script src="{{ asset('public/js/jquery-2.js') }}"></script>
   <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
 {% endblock %}
