@@ -130,6 +130,7 @@ html, body {background-color:#f0f0f0; font-size:12px;}
 .wid70p {width:70%; margin:0 15%;}
 .wid80p {width:80%; margin:0 10%;}
 .wid90p {width:90%; margin:0 5%;}
+.wid100p{width:100%; float:left;}
 .no-padding{padding:0;}
 
 /* Login page Styles and forgot password styling included
