@@ -1,27 +1,40 @@
-<?php namespace GqAus\UserBundle\Twig;
+<?php 
+namespace GqAus\UserBundle\Twig;
 
-class AppExtension extends \Twig_Extension
-{
-	private $userService;
-	public function __construct($userService)
+use Symfony\Component\HttpKernel\KernelInterface;
+
+class AppExtension extends \Twig_Extension {
+    
+    private $userService;
+    public function __construct($userService)
     {
         $this->userService = $userService;
     }
-    public function getFilters()
-    {
+    /**
+     * {@inheritdoc}
+     */
+    public function getFunctions() {
         return array(
-            new \Twig_SimpleFilter('price', array($this, 'priceFilter')),
+            'completeness' => new \Twig_Function_Method($this, 'evidenceCompleteness')
         );
     }
 
-    public function priceFilter($userId, $courseCode)
+    /**
+     * @param userId $string
+     * @param courseCode $string
+     * @return int
+     */
+    public function evidenceCompleteness($userId, $courseCode)
     {
-		$result = $this->userService->getEvidenceCompleteness($userId, $courseCode);
+        $result = $this->userService->getEvidenceCompleteness($userId, $courseCode);
         return $result;
     }
 
-    public function getName()
-    {
-        return 'app_extension';
+    /**
+     * {@inheritdoc}
+     */
+    public function getName() {
+        return 'my_bundle';
     }
-} ?>
+}
+ ?>

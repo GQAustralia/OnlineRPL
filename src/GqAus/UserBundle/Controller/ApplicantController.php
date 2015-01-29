@@ -64,8 +64,8 @@ class ApplicantController extends Controller
         $this->get('UserService')->updateUserApplicantsList($userId, $userRole);
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0');
         $results['pageRequest'] = 'submit'; 
-		
-		//$this->get('UserService')->getEvidenceCompleteness($userId);
+        
+        //$this->get('UserService')->getEvidenceCompleteness($userId);
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
     
@@ -83,8 +83,8 @@ class ApplicantController extends Controller
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $searchName, $searchTime);
         $results['pageRequest'] = 'ajax'; 
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results); exit;
-	}
-	/**
+    }
+    /**
     * Function to get applicant details page
     * return $result array
     */

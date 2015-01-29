@@ -473,7 +473,7 @@ class UserService
     {
         if(is_object($user) && count($user) > 0) {
            $pendingApplicantsCount = $this->getPendingapplicantsCount($user->getId(), $user->getRoles(), '0');
-           $unReadMessages = '0';
+           $unReadMessages = $this->getUnreadMessagesCount($user->getId());
            $todaysReminders = $this->getTodaysReminders($user->getId());
            return array('todaysReminders' => $todaysReminders, 
                         'unReadMessages' => $unReadMessages,
@@ -511,7 +511,7 @@ class UserService
         } 
         return $status;
     }
-	/**
+    /**
     * Function to update todo status
     * return void
     */
@@ -524,26 +524,37 @@ class UserService
         $this->em->flush();
     }
     
-	/**
+    /**
     * Function to get Evidence Completeness
     * return void
     */
     public function getEvidenceCompleteness($userId, $courseCode = null)
     {
-		//$courseCode = 'BSB10112';
-		//$userId = '1';
-		
+        $completeness = 0;
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId,
                                                                                         'courseCode' => $courseCode,
-																						'status' => '1'));
-		$totalNoCourses = count($courseUnitObj);
-		$res = $this->em->getRepository('GqAusUserBundle:Evidence')
-                ->createQueryBuilder('e')
-                ->select("DISTINCT e.unit")
-                ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId);
-		$applicantList = $res->getQuery()->getResult();
-		$evidenceCount = count($applicantList);
-		$completeness = ($evidenceCount/$totalNoCourses) * 100;
-		return round($completeness).'%';
+                                                                                        'status' => '1'));
+        $totalNoCourses = count($courseUnitObj);
+        if ($totalNoCourses > 0) {
+            $res = $this->em->getRepository('GqAusUserBundle:Evidence')
+                    ->createQueryBuilder('e')
+                    ->select("DISTINCT e.unit")
+                    ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId);
+            $applicantList = $res->getQuery()->getResult();
+            $evidenceCount = count($applicantList);
+            $completeness = ($evidenceCount/$totalNoCourses) * 100;
+        }
+        return round($completeness).'%';
+    }
+
+    /**
+    * Function to get unread messages count
+    * return void
+    */
+    public function getUnreadMessagesCount($userId)
+    {
+        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
+                                                                                        'read' => '0'));
+        return count($getMessages);
     }
 }
