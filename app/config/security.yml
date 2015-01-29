@@ -15,10 +15,12 @@ security:
         - { path: ^/qualificationDetails/.*, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/qualifications, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/userprofile, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/applicantDetails/.*, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/applicants, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/reminder, roles: IS_AUTHENTICATED_FULLY }
     providers:
         main:
             entity: {class: GqAusUserBundle:User, property: email}
     encoders:
         GqAus\UserBundle\Entity\User: 
             algorithm: bcrypt
-

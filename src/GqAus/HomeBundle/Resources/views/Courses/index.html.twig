@@ -144,7 +144,7 @@
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
                             <div class="col-lg4 col-md-4 col-sm-4 col-xs-2">
-                                <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
+                                <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}"  course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
                                 {% if units.id in electiveUnits %} {% else %}
                                 <span id="sp_{{units.id}}"><button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW EVIDENCES</button></span>
                                 {% endif %}
@@ -230,7 +230,7 @@
         <div class="tab-content">
         
         <div role="tabpanel" class="tab-pane active" id="add-evidence-tab">
-        <form method="post" id="frmAddEvidence" name="frmAddEvidence" action="{{ app.request.baseUrl }}/addEvidences" enctype= "multipart/form-data" onsubmit="return validatefile()">
+        <form method="post" id="frmAddEvidence" name="frmAddEvidence" action="{{ app.request.baseUrl }}/addEvidences" enctype= "multipart/form-data">
             <div class="wid70p">
                 <div class="row">
                     <div class="col-xs-6">

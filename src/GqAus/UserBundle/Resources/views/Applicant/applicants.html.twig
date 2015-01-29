@@ -13,12 +13,15 @@
                             <div class="gq-acc-row-title">{{list.courseName}}</div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                            <div class="gq-acc-row-title">50%</div>
+                            <div class="gq-acc-row-title">
+                                {% set id = list.id %}
+                                {% set courseCode = list.courseCode %}
+                                {{ completeness(id,courseCode) }}
+                            </div>
                         </div>
-                        
                          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-4">
                             <div class="gq-acc-row-title gq-assessor-list-dropdown-wrap" id="div_{{list.id}}">
-                                <div class="text-center setNotes" id="{{list.id}}">
+                                <div class="gq-add-notes-icon-wrap setNotes" id="{{list.id}}">
                                     <img src = "{{asset('public/images/applicant-list-add-notes-icon.png') }}" />
                                 </div>
                                 <div class="gq-assessor-list-dropdown">

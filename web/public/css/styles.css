@@ -269,6 +269,8 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-bg-img1 {background-image:url('../images/idwatermark.png'); background-repeat:no-repeat; background-position:right bottom;}
 .gq-dashboard-bg-img2 {background-image:url('../images/percentile.png'); background-repeat:no-repeat; background-position:right bottom;}
 .gq-dashboard-bg-img3 {background-image:url('../images/notepadwatermark.png'); background-repeat:no-repeat; background-position:right bottom;}
+.gq-dashboard-bg-img4 {background-image:url('../images/applicant-bg.png'); background-repeat:no-repeat; background-position:right bottom;}
+.gq-dashboard-bg-img5 {background-image:url('../images/messages-bg.png'); background-repeat:no-repeat; background-position:left bottom;}
 .user-status-select .dropdown-menu:before {right:9px; left:auto;}
 .user-status-select .dropdown-menu {left:-160px;}
 .user-status-select .dropdown-menu .divider {margin:0 auto; width:86%;}
@@ -576,6 +578,11 @@ a.btn-red {color:#ffffff;}
 .gq-facilitator-dashboard .gq-acc-wrap{width:100%;}
 .gq-facilitator-dashboard .gq-dashboard-facilitator-notes {width:100%; font-size:16px; color:#f14a41;}
 .gq-facilitator-dashboard .well {padding:10px;}
+.gq-facilitator-dashboard .gq-acc-row-bg {border-bottom:1px solid #dddddd;}
+.gq-facilitator-dashboard .gq-acc-wrap article {border-bottom:1px solid #dddddd;}
+.gq-applicant-filter-wrap-select {background-color:#ffffff; border:1px solid #e8eced; border-radius:5px; height:40px;}
+.gq-applicant-filter-wrap-select select {height:40px;}
+.gq-applicant-filter-wrap-select-remaining {font-size:16px; padding-top:8px;}
 
 @media(max-width:360px){
 	.gq-evidence .nav-pills > li{ width:100%; }
