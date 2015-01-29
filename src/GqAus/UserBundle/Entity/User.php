@@ -691,6 +691,45 @@ class User implements UserInterface, \Serializable
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
+    private $otherfiles;
+
+
+    /**
+     * Add otherfiles
+     *
+     * @param \GqAus\UserBundle\Entity\OtherFiles $otherfiles
+     * @return User
+     */
+    public function addOtherfile(\GqAus\UserBundle\Entity\OtherFiles $otherfiles)
+    {
+        $this->otherfiles[] = $otherfiles;
+
+        return $this;
+    }
+
+    /**
+     * Remove otherfiles
+     *
+     * @param \GqAus\UserBundle\Entity\OtherFiles $otherfiles
+     */
+    public function removeOtherfile(\GqAus\UserBundle\Entity\OtherFiles $otherfiles)
+    {
+        $this->otherfiles->removeElement($otherfiles);
+    }
+
+    /**
+     * Get otherfiles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOtherfiles()
+    {
+        return $this->otherfiles;
+    }
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
     private $inboxMessages;
 
     /**

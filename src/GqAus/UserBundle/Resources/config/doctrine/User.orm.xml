@@ -31,7 +31,8 @@
         <one-to-many field="idfiles" target-entity="GqAus\UserBundle\Entity\UserIds" mapped-by="user" />        
         <one-to-many field="evidences" target-entity="GqAus\UserBundle\Entity\Evidence" mapped-by="user" />
         <one-to-many field="reminders" target-entity="GqAus\UserBundle\Entity\Reminder" mapped-by="user" />
+        <one-to-many field="otherfiles" target-entity="GqAus\UserBundle\Entity\OtherFiles" mapped-by="assessor" />
         <one-to-many field="inboxMessages" target-entity="GqAus\UserBundle\Entity\Message" mapped-by="inbox" />        
-        <one-to-many field="sentMessages" target-entity="GqAus\UserBundle\Entity\Message" mapped-by="sent" /> 
+        <one-to-many field="sentMessages" target-entity="GqAus\UserBundle\Entity\Message" mapped-by="sent" />
     </entity>
 </doctrine-mapping>
