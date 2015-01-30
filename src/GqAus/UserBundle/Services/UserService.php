@@ -121,7 +121,9 @@ class UserService
      */
     public function downloadCourseCondition($user, $file)
     {
-        $this->updateCourseConditionStatus($user);
+        if($user){
+            $this->updateCourseConditionStatus($user);
+        }
         
         ignore_user_abort(true);
         $path = "../template/"; // change the path to fit your websites document structure
@@ -297,7 +299,11 @@ class UserService
             $rto = $this->getUserInfo($otheruser->getRto());
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
             $facilitator = $this->getUserInfo($otheruser->getFacilitator());
-            $results['facilitatorName'] = !empty($rto) ? $facilitator->getUsername() : '';
+            $results['facilitatorName'] = !empty($facilitator) ? $facilitator->getUsername() : '';
+            
+            $results['facilitatorId'] = !empty($facilitator) ? $facilitator->getId() : '';
+            $results['assessorId'] = !empty($assessor) ? $assessor->getId() : '';
+            $results['rtoId'] = !empty($rto) ? $rto->getId() : '';
         }
         return $results;
     }
@@ -563,10 +569,14 @@ class UserService
     * Function to fetch assessor other files
     * return array
     */
-    public function fetchOtherFiles($user_id, $type)
+    public function fetchOtherFiles($user_id, $type = null)
     {
         $Otherfiles = $this->em->getRepository('GqAusUserBundle:OtherFiles');
-        $files = $Otherfiles->findBy(array('assessor' => $user_id, 'type' => $type));
+        $params['assessor'] = $user_id;
+        if ($type) {
+            $params['type'] = $type;
+        }
+        $files = $Otherfiles->findBy($params);
         return $files;
     }   
     
