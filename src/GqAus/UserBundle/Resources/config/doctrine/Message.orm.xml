@@ -11,10 +11,10 @@
         <field name="toStatus" type="string" column="tostatus" length="1" nullable="false"/>
         <field name="fromStatus" type="string" column="fromstatus" length="1" nullable="false"/>
         <field name="reply" type="string" column="reply" length="1" nullable="false"/>
-        <many-to-one field="inbox" target-entity="GqAus\UserBundle\Entity\User" inversed-by="inbox">
+        <many-to-one field="inbox" target-entity="GqAus\UserBundle\Entity\User" inversed-by="inboxMessages">
             <join-column name="to" referenced-column-name="id" />
         </many-to-one>       
-        <many-to-one field="sent" target-entity="GqAus\UserBundle\Entity\User" inversed-by="sent">
+        <many-to-one field="sent" target-entity="GqAus\UserBundle\Entity\User" inversed-by="sentMessages">
             <join-column name="from" referenced-column-name="id" />
         </many-to-one>
     </entity>

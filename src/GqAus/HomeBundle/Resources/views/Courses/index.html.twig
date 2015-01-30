@@ -79,9 +79,10 @@
                             </div>
                            
                             <div class="col-lg4 col-md-4 col-sm-4 col-xs-2">
+                                {% if units.id in electiveApprovedUnits %} {% else %}
                                 <button class="btn add-btn fromBottom"  unitid="{{units.id}}" course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
-                                
-                                <span><button class="btn eye-btn fromBottom unit-evidence-id" userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW EVIDENCES</button></span>
+                                {% endif %}
+                                <span><button class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW EVIDENCES</button></span>
                             </div>
                             <div class="col-xs-1">
                                 <label for="acc-{{i}}" class="col-xs-4 openIcon"></label>
@@ -144,9 +145,12 @@
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
                             <div class="col-lg4 col-md-4 col-sm-4 col-xs-2">
+                                {% if units.id in electiveApprovedUnits %} {% else %}
                                 <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}"  course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
+                                {% endif %}
+                                
                                 {% if units.id in electiveUnits %} {% else %}
-                                <span id="sp_{{units.id}}"><button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW EVIDENCES</button></span>
+                                <span id="sp_{{units.id}}"><button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW EVIDENCES</button></span>
                                 {% endif %}
                             </div>
                             <div class="col-xs-1">
@@ -256,6 +260,7 @@
                     <div class="col-xs-6">
                         <div class="gq-course-details-upload-button-wrap">
                             {{ form_widget(form.save, {'attr': {'class': 'btn btn-red pull-right'}}) }}
+							<span class="loading-icon pull-right uploadevidence_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
                         </div>
                     </div>
                 </div>
@@ -270,6 +275,7 @@
                     <div class="gq-evidence">
                         <form method="post" id="frmSelectEvidence" action="{{ app.request.baseUrl }}/saveExistingEvidence" name="frmSelectEvidence" enctype= "multipart/form-data" onsubmit="return validateExisting()">
                         <input type="hidden" name="select_hid_unit" id="select_hid_unit" value="">
+						<input type="hidden" name="select_hid_course" id="select_hid_course" value="">
                                         <!-- Tabs start here -->
                                             <ul class="nav nav-pills margin-top15 gq-evidence-tabs" role="tablist" id="myTab">
                                                 <li role="presentation" class="active" ><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a></li>
@@ -315,7 +321,7 @@
                          {% endfor %}
                          {% endif %}
                             {% if flag_image == 0 %}
-                                <div align="center" >Images not found</div>
+                                <div class="gq-tabs-no-content-text">Images not found</div>
                             {% endif %}
                             </div>
                         </div>
@@ -360,7 +366,7 @@
                  {% endif %}
                                 
                     {% if flag_audio == 0 %}
-                        <div align="center" >Audios not found</div>
+                        <div class="gq-tabs-no-content-text">Audios not found</div>
                     {% endif %}
                 </div>
             </div>
@@ -404,7 +410,7 @@
                  {% endif %}
                                 
                     {% if flag_video == 0 %}
-                        <div align="center" >Videos not found</div>
+                        <div class="gq-tabs-no-content-text" >Videos not found</div>
                     {% endif %}
                 </div>
             </div>
@@ -436,7 +442,7 @@
                  {% endfor %}
                  {% endif %}
                     {% if flag_text == 0 %}
-                        <div align="center" >Text not found</div>
+                        <div class="gq-tabs-no-content-text" >Text not found</div>
                     {% endif %}
                 </div>
             </div>
@@ -480,7 +486,7 @@
                  {% endfor %}
                  {% endif %}
                     {% if flag_files == 0 %}
-                        <div align="center" >Documents not found</div>
+                        <div class="gq-tabs-no-content-text">Documents not found</div>
                     {% endif %}
                 </div>
             </div>
@@ -488,6 +494,7 @@
                 <div class="col-xs-12">
                     <div class="gq-course-details-upload-button-wrap">
                         <input type="submit" class="btn btn-red pull-right" value="save">
+						<span class="loading-icon pull-right uploadevidence_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
                     </div>
                 </div>
               </div>

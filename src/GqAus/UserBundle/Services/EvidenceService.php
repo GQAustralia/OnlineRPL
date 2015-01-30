@@ -117,6 +117,7 @@ class EvidenceService
     {
         $evidences = $request->get('evidence-file');
         $unitId = $request->get('select_hid_unit');
+        $courseCode = $request->get('select_hid_course');
             
         $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
         $audioObj = $this->em->getRepository('GqAusUserBundle:Evidence\Audio');
@@ -163,6 +164,7 @@ class EvidenceService
                             }
                             $newObj->setUser($this->currentUser);                    
                             $newObj->setUnit($unitId);
+                            $newObj->setCourse($courseCode);
                             $this->em->persist($newObj);
                             $this->em->flush();
                         }
@@ -208,7 +210,7 @@ class EvidenceService
             return $fileName;
         }
     }
-	
+    
     /**
     * Function to get elective units
     * return $result array
@@ -220,7 +222,7 @@ class EvidenceService
             'unit' => $unitId));
         return $userUnitEvidences;
     }
-	
+    
     /**
     * Function to update Evidence
     */
@@ -254,7 +256,7 @@ class EvidenceService
         }
         
         if (!empty($evidenceObj)) {
-			$evidenceObj->setUnit('');
+            $evidenceObj->setUnit('');
             $this->em->persist($evidenceObj);
             $this->em->flush();
             return true;
@@ -271,7 +273,7 @@ class EvidenceService
         $this->em->persist($imgObj);
         $this->em->flush();
     }
-	
+    
     /**
     * Function to get all evidences of the user for one course
     * return $result array
