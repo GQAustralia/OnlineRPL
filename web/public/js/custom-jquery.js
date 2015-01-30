@@ -189,7 +189,7 @@ $("#frmSelectEvidence").ajaxForm({
 
 
 $("#download_profile").click(function () {
-    userId = $(this).attr("userId");
+    userId = $(this).attr("userid");
     courseCode = $(this).attr("course_code");
     window.open("/downloadFiles/"+courseCode+"/"+userId);
     window.open("/zipFiles/"+courseCode+"/"+userId);
@@ -200,7 +200,7 @@ $("#download_matrix").click(function () {
 });
 
 $("#download_assessor_profile").click(function () {
-    userId = $(this).attr("userId");
+    userId = $(this).attr("userid");
     window.open("/downloadAssessorProfile/"+userId);
 });
 
@@ -293,7 +293,7 @@ $("#userprofile_userImage").change(function(){
   
 $(".unit-evidence-id").click(function () {
     unit = $(this).attr("unitid");
-    userId = $(this).attr("userId");
+    userId = $(this).attr("userid");
     $.ajax({
         type: "POST",
         url: fullPath + "getUnitEvidences",
