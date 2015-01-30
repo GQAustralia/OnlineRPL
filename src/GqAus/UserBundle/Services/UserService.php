@@ -364,7 +364,11 @@ class UserService
                 ->join('c.user', 'u')
                 ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
                 ->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
-                
+        
+        if ($userType == 'rto') {
+            $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
+        }
+
         if (!empty($searchName)) {
             $res->andWhere(sprintf('u.%s LIKE :%s OR u.%s LIKE :%s', 'firstName', 'firstName', 'lastName', 'lastName'))
             ->setParameter('firstName', '%'.$searchName.'%')
