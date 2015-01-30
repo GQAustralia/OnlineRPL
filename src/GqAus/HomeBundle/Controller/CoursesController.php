@@ -19,7 +19,9 @@ class CoursesController extends Controller
         $courseService = $this->get('CoursesService');
         $results = $courseService->getCoursesInfo($id);
         $courseService->updateQualificationUnits($user->getId(), $id, $results);
-        $results['electiveUnits'] = $courseService->getElectiveUnits($user->getId(), $id);
+        $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
+        $results['electiveUnits'] = $getUnits['courseUnits'];
+        $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
         $results['evidences'] = $user->getEvidences();        
         $form = $this->createForm(new EvidenceForm(), array());
         $results['form'] = $form->createView();
@@ -74,6 +76,7 @@ class CoursesController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $results['unitevidences'] = $user->getEvidences();
         $results['unitCode'] = $this->getRequest()->get('unit');
+        $results['delStatus'] = $this->getRequest()->get('delStatus');
         echo $template = $this->renderView('GqAusHomeBundle:Courses:unitevidence.html.twig', $results);
         exit;
     }

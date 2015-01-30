@@ -33,7 +33,7 @@ class EvidenceController extends Controller
     {
         $evidenceService = $this->get('EvidenceService');
         $evidences = $evidenceService->getCurrentUser()->getEvidences();         
-	
+    
         return $this->render(
                         'GqAusUserBundle:Evidence:view.html.twig', array('evidences' => $evidences)
         );

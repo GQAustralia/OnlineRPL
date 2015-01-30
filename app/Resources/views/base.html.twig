@@ -38,7 +38,7 @@
                         </div>
                         <div class="pull-right">
                             <div class="user-status">
-                                <div class="notification-section"><span>12</span></div>
+                                <!--<div class="notification-section"><span>12</span></div>-->
                                 <div class="user-icon">
                                 {% if app.security.getToken().getUser().getUserImage() %}
                                     <img class="ajax-profile-pic" src="{{ asset('public/uploads/') }}{{ app.security.getToken().getUser().getUserImage() }}" />

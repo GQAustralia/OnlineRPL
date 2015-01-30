@@ -441,6 +441,7 @@ class UserService
                             $course->setAssessorstatus('1');
                         } elseif ($userType == 'rto') {
                             $course->setRtostatus('1');
+                            $course->setCourseStatus('1');
                         }
                          $this->em->persist($course);
                          $this->em->flush();

@@ -121,11 +121,14 @@ $(".fromBottom").click(function () {
 
 $("#frmSelectEvidence").submit(function () {
      $('#select_hid_unit').val(unit);
+     $('#select_hid_course').val(courseCode);
 });
 
 $(".deleteEvidence").click(function () {
    //var c = confirm("Do yo want to delete selected file ?");
    //if (c == true) {
+        
+        $('.deleteevidence_loader').show();
         var fid = fileid;
         var ftype = filetype;
         $.ajax({
@@ -137,6 +140,7 @@ $(".deleteEvidence").click(function () {
                 //alert("Selected Evidence File deleted!");
                 $( "#qclose" ).trigger( "click" );
                 $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
+                $('.deleteevidence_loader').hide();
             }
         });
    //}
@@ -162,10 +166,12 @@ $(".deleteIdFiles").click(function () {
 $("#frmAddEvidence").ajaxForm({
     beforeSubmit: function() {
         $('#file_save').hide();
+        $('.uploadevidence_loader').show();
     },
     success: function(responseText, statusText, xhr, $form) {
         $('.gq-dashboard-tabs').hide();
         $('#gq-dashboard-tabs-success').show();
+        $('.uploadevidence_loader').hide();
         if (responseText == '0') {
             $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Evidence upload successfully!</h2>');
         } else {
@@ -178,9 +184,11 @@ $("#frmAddEvidence").ajaxForm({
 $("#frmSelectEvidence").ajaxForm({
     beforeSubmit: function() {
         $('#file_save').hide();
+        $('.uploadevidence_loader').show();
     },
     success: function() {
         $('.gq-dashboard-tabs').hide();
+        $('.uploadevidence_loader').hide();
         $('#gq-dashboard-tabs-success').show();
         $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Existing Evidence upload successfully!</h2>');
     },
@@ -294,10 +302,11 @@ $("#userprofile_userImage").change(function(){
 $(".unit-evidence-id").click(function () {
     unit = $(this).attr("unitid");
     userId = $(this).attr("userId");
+	delStatus = $(this).attr("del-status");
     $.ajax({
         type: "POST",
         url: fullPath + "getUnitEvidences",
-        data: { unit: unit, userId: userId },
+        data: { unit: unit, userId: userId, delStatus: delStatus },
         success:function(result) {
             $('#unit-evidence-tab').html(result);
         }
@@ -499,16 +508,18 @@ $(".setData").click(function () {
     userCourseId = $(this).attr("userCourseId");
     note = $('#notes_'+userCourseId).val();
     remindDate = $('#remindDate_'+userCourseId).val();
-    $.ajax({
-        type: "POST",
-        url: "addReminder",
-        cache: false,
-        data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
-        success: function(result) {
-            $('#div_'+userCourseId).removeClass('open');
-            $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Reminder added succesfully!</h2></div>');
-        }
-    });
+    if (remindDate != '') {
+        $.ajax({
+            type: "POST",
+            url: "addReminder",
+            cache: false,
+            data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
+            success: function(result) {
+                $('#div_'+userCourseId).removeClass('open');
+                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Reminder added succesfully!</h2></div>');
+            }
+        });
+    }
 });
 var applicantStatus = '0';
 $("#timeRemaining").change(function () {
