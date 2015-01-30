@@ -7,15 +7,15 @@
         <field name="subject" type="string" column="subject" nullable="false"/>
         <field name="message" type="string" column="message" nullable="false"/>
         <field name="created" type="string" column="created" nullable="false"/>
-        <field name="read" type="string" column="read" length="1" nullable="false"/>
+        <field name="read" type="string" column="readstatus" length="1" nullable="false"/>
         <field name="toStatus" type="string" column="tostatus" length="1" nullable="false"/>
         <field name="fromStatus" type="string" column="fromstatus" length="1" nullable="false"/>
         <field name="reply" type="string" column="reply" length="1" nullable="false"/>
         <many-to-one field="inbox" target-entity="GqAus\UserBundle\Entity\User" inversed-by="inboxMessages">
-            <join-column name="to" referenced-column-name="id" />
+            <join-column name="touser" referenced-column-name="id" />
         </many-to-one>       
         <many-to-one field="sent" target-entity="GqAus\UserBundle\Entity\User" inversed-by="sentMessages">
-            <join-column name="from" referenced-column-name="id" />
+            <join-column name="fromuser" referenced-column-name="id" />
         </many-to-one>
     </entity>
 </doctrine-mapping>
