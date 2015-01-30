@@ -189,7 +189,7 @@ $("#frmSelectEvidence").ajaxForm({
 
 
 $("#download_profile").click(function () {
-    userId = $(this).attr("unitid");
+    userId = $(this).attr("userId");
     courseCode = $(this).attr("course_code");
     window.open("/downloadFiles/"+courseCode+"/"+userId);
     window.open("/zipFiles/"+courseCode+"/"+userId);
@@ -197,6 +197,11 @@ $("#download_profile").click(function () {
 
 $("#download_matrix").click(function () {
     window.open("/downloadMatrix");
+});
+
+$("#download_assessor_profile").click(function () {
+    userId = $(this).attr("userId");
+    window.open("/downloadAssessorProfile/"+userId);
 });
 
 $(".todomodalClass").click(function () {
