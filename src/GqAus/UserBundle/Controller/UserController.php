@@ -261,26 +261,75 @@ class UserController extends Controller
     
     public function downloadMatrixAction()
     {   
-        $fullPath = $this->container->getParameter('amazon_s3_base_url').'2015-01-29-54c8f5e30df9c.jpg';
-        if ($fd = fopen ($fullPath, "r")) {
-            $fsize = filesize($fullPath);
-            $path_parts = pathinfo($fullPath);
-            header("Content-type: application/pdf");
-            header("Content-Disposition: attachment; filename=\"".$path_parts["basename"]."\""); // use 'attachment' to force a file download
-                
-            header("Content-length: $fsize");
-            header("Cache-control: private"); //use this to open files directly
-            while(!feof($fd)) {
-                $buffer = fread($fd, 2048);
-                echo $buffer;
-            }
-        }
-        fclose ($fd);
-//        header("Content-type: application/pdf");
-//        header("Content-Disposition: attachment; filename=\"".$path_parts["basename"]."\""); // use 'attachment' to force a file download       
-//        header("Content-length: $fsize");
-//        header("Cache-control: private");
-//        readfile($zipName);
+        $file = "template.xls";
+        return $this->get('UserService')->downloadCourseCondition(nulll, $file);
     }
+    
+    public function assessorProfileAction($uid)
+    {
+        $userService = $this->get('UserService');
+        $user = $userService->getUserInfo($uid);
+        
+        $resumeFiles = $userService->fetchOtherfiles($uid, 'resume');
+        if (empty($resumeFiles)) {
+            $resumeFiles = '';
+        }
+
+        $qualificationFiles = $userService->fetchOtherfiles($uid, 'qualification');
+        if (empty($qualificationFiles)) {
+            $qualificationFiles = '';
+        }
+
+        $referenceFiles = $userService->fetchOtherfiles($uid, 'reference');
+        if (empty($referenceFiles)) {
+            $referenceFiles = '';
+        }
+
+        $matrixFiles = $userService->fetchOtherfiles($uid, 'matrix');
+        if (empty($matrixFiles)) {
+            $matrixFiles = '';
+        }
+        
+        $userImage = $user->getUserImage();
+        if (empty($userImage)) {
+            $userImage = 'profielicon.png';
+        }
+        
+        return $this->render('GqAusUserBundle:User:assessorProfile.html.twig', array(
+                    'userImage' => $userImage,
+                    'user' => $user,
+                    'resumeFiles' => $resumeFiles,
+                    'qualFiles' => $qualificationFiles,
+                    'referenceFiles' => $referenceFiles,
+                    'matrixFiles' => $matrixFiles)
+        );
+    }
+    
+    /**
+    * Function to Zip all the assessor profile files
+    */
+    public function downloadAssessorProfileAction($uid)
+    {
+        $files = array();
+        $userService = $this->get('UserService');
+        $assessorFiles = $userService->fetchOtherfiles($uid);
+        foreach ($assessorFiles as $assessorFile) {
+            array_push($files, $this->container->getParameter('amazon_s3_base_url').$assessorFile->getPath());
+        }
+        $zip = new \ZipArchive();
+        $zipName = 'AssessorFiles-'.time().".zip";
+        $zip->open($zipName,  \ZipArchive::CREATE);
+        foreach ($files as $f) {
+            $zip->addFromString(basename($f),  file_get_contents($f)); 
+        }
+        $zip->close();
+        //session_write_close();
+        header('Content-Type', 'application/zip');
+        header('Content-disposition: attachment; filename="' . $zipName . '"');
+        header('Content-Length: ' . filesize($zipName));
+        readfile($zipName);
+    }
+    
+    
 	
 }

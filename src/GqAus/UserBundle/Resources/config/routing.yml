@@ -85,3 +85,9 @@ deleteOtherFiles:
 download_matrix:
     path:     /downloadMatrix
     defaults:  { _controller: GqAusUserBundle:User:downloadMatrix }
+assessor_profile:
+    path:     /assessorProfile/{uid}
+    defaults:  { _controller: GqAusUserBundle:User:assessorProfile }
+download_assessor_profile:
+    path:     /downloadAssessorProfile/{uid}
+    defaults:  { _controller: GqAusUserBundle:User:downloadAssessorProfile }
