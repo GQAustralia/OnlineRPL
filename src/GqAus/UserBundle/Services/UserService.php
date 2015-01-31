@@ -437,7 +437,7 @@ class UserService
                                         ->findOneBy(array('user' => $course->getUser()->getId(),
                                         'courseCode' => $course->getcourseCode(),
                                         $userStatus => '0',
-										'status' => '1'));
+                                        'status' => '1'));
                     if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
                         if ($userType == 'facilitator') {
                             $course->setFacilitatorstatus('1');
@@ -566,7 +566,7 @@ class UserService
     {
         $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
                                                                                         'read' => '0',
-																						'toStatus' => '0'));
+                                                                                        'toStatus' => '0'));
         return count($getMessages);
     }
                 
