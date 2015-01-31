@@ -336,11 +336,39 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
                             $reposUnitObj->setRtostatus('0');
                             $this->em->persist($reposUnitObj);
                             $this->em->flush();
-                            $this->em->clear();
+                           // $this->em->clear();
                         }//if
                     }//for
                 }
             }
         }//if
+    }
+    
+    /**
+    * Function to get qualification elective units
+    * return $result array
+    */
+    public function getQualificationElectiveUnits($userId, $courseCode)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+                                            'courseCode' => $courseCode));
+        $courseUnits = array();
+        $courseApprovedUnits = array();
+        if (!empty($userCourseUnits)) {
+             foreach ($userCourseUnits as $units) {
+                $status = $units->getStatus();
+                $facilitatorstatus = $units->getFacilitatorstatus();
+                $assessorstatus = $units->getAssessorstatus();
+                $rtostatus = $units->getRtostatus();
+                if ($status == '0') {
+                    $courseUnits[] = $units->getUnitId();
+                }
+                if ($facilitatorstatus == '1' || $assessorstatus == '1' || $rtostatus == '1') {
+                    $courseApprovedUnits[] = $units->getUnitId();
+                }
+             }
+        }
+        return compact('courseUnits','courseApprovedUnits');
     }
 }

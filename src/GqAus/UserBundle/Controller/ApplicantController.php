@@ -64,8 +64,6 @@ class ApplicantController extends Controller
         $this->get('UserService')->updateUserApplicantsList($userId, $userRole);
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0');
         $results['pageRequest'] = 'submit'; 
-        
-        //$this->get('UserService')->getEvidenceCompleteness($userId);
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
     

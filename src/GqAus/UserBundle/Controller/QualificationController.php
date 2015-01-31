@@ -21,6 +21,7 @@ class QualificationController extends Controller
         } else {
             $user = $this->get('security.context')->getToken()->getUser();
         }
+		$results['delStatus'] = $this->getRequest()->get('delStatus');
         $results['unitevidences'] = $user->getEvidences();        
         echo $template = $this->renderView('GqAusUserBundle:Qualification:unitevidence.html.twig', $results); exit;
     }
