@@ -197,19 +197,19 @@ $("#frmSelectEvidence").ajaxForm({
 
 
 $("#download_profile").click(function () {
-    userId = $(this).attr("userId");
+    userId = $(this).attr("userid");
     courseCode = $(this).attr("course_code");
-    window.open("/downloadFiles/"+courseCode+"/"+userId);
-    window.open("/zipFiles/"+courseCode+"/"+userId);
+    window.open(fullPath+"downloadFiles/"+courseCode+"/"+userId);
+    window.open(fullPath+"zipFiles/"+courseCode+"/"+userId);
 });
 
 $("#download_matrix").click(function () {
-    window.open("/downloadMatrix");
+    window.open(fullPath+"downloadMatrix");
 });
 
 $("#download_assessor_profile").click(function () {
-    userId = $(this).attr("userId");
-    window.open("/downloadAssessorProfile/"+userId);
+    userId = $(this).attr("userid");
+    window.open(fullPath+"downloadAssessorProfile/"+userId);
 });
 
 $(".todomodalClass").click(function () {
@@ -301,8 +301,8 @@ $("#userprofile_userImage").change(function(){
   
 $(".unit-evidence-id").click(function () {
     unit = $(this).attr("unitid");
-    userId = $(this).attr("userId");
-	delStatus = $(this).attr("del-status");
+    userId = $(this).attr("userid");
+    delStatus = $(this).attr("del-status");
     $.ajax({
         type: "POST",
         url: fullPath + "getUnitEvidences",
