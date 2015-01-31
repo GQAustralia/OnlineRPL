@@ -5,7 +5,7 @@ var unitId;
 var courseCode;
 var userId;
 var unit;
-var fullPath = '/web/';
+var fullPath = '/';
 var reminderid;
 var reminderflag;
 var otherfiles;

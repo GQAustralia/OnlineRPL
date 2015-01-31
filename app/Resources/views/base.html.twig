@@ -74,7 +74,7 @@
                                 {% if 'ROLE_APPLICANT' in roles %}
                                 <li><a {% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/qualifications"><span class="gq-courses-icon"><img src="{{ asset('public/images/courses.png') }}" /></span><span class="left-nav-txt">Qualifications</span></a></li>
                                 {% else %}
-                                <li><a {% if app.request.attributes.get('_route') == 'applicants' or app.request.attributes.get('_route') == 'applicantDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicants"><span class="gq-courses-icon"><img src="{{ asset('public/images/applicantlist.png') }}" /></span><span class="left-nav-txt">Applicant Lists</span></a></li>
+                                <li><a {% if app.request.attributes.get('_route') == 'applicants' or app.request.attributes.get('_route') == 'applicantDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicants"><span class="gq-courses-icon"><img src="{{ asset('public/images/applicantlist.png') }}" /></span><span class="left-nav-txt">Applicants List</span></a></li>
                                 
                                 <li><a {% if app.request.attributes.get('_route') == 'reminder' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reminder"><span class="gq-courses-icon"><img src="{{ asset('public/images/todolist.png') }}" /></span><span class="left-nav-txt">To Do List</span></a></li>
                                 {% endif %}

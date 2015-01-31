@@ -71,6 +71,7 @@
        {% for evidence in unitevidences %}
             {% if evidence.unit == unitCode %}
             {% if evidence.type == 'audio' %}
+            {% set flag_audio = 1 %}
             {% set types = ['mp3','wma'] %}
             {% set result = evidence.name|split('.') %}
             {# % if result.1 | lower in types % #}
