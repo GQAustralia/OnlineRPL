@@ -383,7 +383,6 @@ class UserService
         }
         //$applicantList = $res->getQuery(); var_dump($applicantList); exit;
         $applicantList = $res->getQuery()->getResult();
-        //var_dump($applicantList); exit;
         return array('applicantList' => $applicantList);
     }
      
@@ -437,7 +436,8 @@ class UserService
                     $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
                                         ->findOneBy(array('user' => $course->getUser()->getId(),
                                         'courseCode' => $course->getcourseCode(),
-                                        $userStatus => '0'));
+                                        $userStatus => '0',
+										'status' => '1'));
                     if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
                         if ($userType == 'facilitator') {
                             $course->setFacilitatorstatus('1');
@@ -565,7 +565,8 @@ class UserService
     public function getUnreadMessagesCount($userId)
     {
         $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
-                                                                                        'read' => '0'));
+                                                                                        'read' => '0',
+																						'toStatus' => '0'));
         return count($getMessages);
     }
                 
