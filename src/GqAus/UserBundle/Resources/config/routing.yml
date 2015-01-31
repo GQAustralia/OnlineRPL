@@ -102,4 +102,16 @@ sent:
     defaults: { _controller: GqAusUserBundle:Message:sent }
 trash:
     path:     /trash
-    defaults: { _controller: GqAusUserBundle:Message:trash }     
+    defaults: { _controller: GqAusUserBundle:Message:trash }
+draft:
+    path:     /draft
+    defaults: { _controller: GqAusUserBundle:Message:trash }
+markasread:
+    path:     /markasread
+    defaults: { _controller: GqAusUserBundle:Message:markAsRead }    
+deleteFromUser:
+    path:     /deleteFromUser
+    defaults: { _controller: GqAusUserBundle:Message:deleteFromUser }
+deleteFromUserSent:
+    path:     /deleteFromUserSent
+    defaults: { _controller: GqAusUserBundle:Message:deleteFromUserSent } 

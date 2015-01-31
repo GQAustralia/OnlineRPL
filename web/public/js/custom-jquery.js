@@ -521,6 +521,116 @@ $(".setData").click(function () {
         });
     }
 });
+
+$(".markasread").click(function () {
+    var checkedids = getCheckedBoxes();
+    if(checkedids.length>0)
+    {
+        $(".msg-ajax-loader").show(); 
+        var checkedMessages = JSON.stringify(getCheckedBoxes());
+        var checkedids = getCheckedBoxes(); 
+        $.ajax({
+            type: "POST",
+            url: "markasread",
+            data: { checkedMessages:checkedMessages, readStatus: 1},
+            success:function(result) {
+                var rec = result.split("&&");
+                if(rec[1]=="success") {
+                    $(".msg-ajax-loader").hide();
+                    for (var i=0; i<checkedids.length; i++) {
+						//$("#msg-"+checkedids[i]).value.checked = false;
+						$("#msg-"+checkedids[i]).attr('checked', false);
+                        $("#msg-"+checkedids[i]).addClass("gq-msg-visited");
+                    }
+                    if(parseInt(rec[0])>0)
+                        $(".inbox-cnt").html("("+rec[0]+")");
+                    else
+                        $(".inbox-cnt").html("");
+                }
+                
+            }
+        });
+    }
+});
+
+
+$(".markasunread").click(function () {
+    var checkedids = getCheckedBoxes();
+    if(checkedids.length>0)
+    {
+        $(".msg-ajax-loader").show(); 
+        var checkedMessages = JSON.stringify(getCheckedBoxes());
+        var checkedids = getCheckedBoxes(); 
+        $.ajax({
+            type: "POST",
+            url: "markasread",
+            data: { checkedMessages:checkedMessages, readStatus: 0},
+            success:function(result) {
+                var rec = result.split("&&");
+                if(rec[1]=="success") {
+                    $(".msg-ajax-loader").hide();
+                    for (var i=0; i<checkedids.length; i++) {
+						//$("#msg-"+checkedids[i]).value.checked = false;
+						$("#msg-"+checkedids[i]).attr('checked', false);
+                        $("#msg-"+checkedids[i]).removeClass("gq-msg-visited");
+                    }
+                    if(parseInt(rec[0])>0)
+                        $(".inbox-cnt").html("("+rec[0]+")");
+                    else
+                        $(".inbox-cnt").html("");
+                }
+                
+            }
+        });
+    }
+});
+
+$(".deleteselected").click(function () {
+    var checkedids = getCheckedBoxes();
+    if(checkedids.length>0) {
+        $(".msg-ajax-loader").show(); 
+        var checkedMessages = JSON.stringify(getCheckedBoxes()); 
+        $.ajax({
+            type: "POST",
+            url: "deleteFromUser",
+            data: { checkedMessages:checkedMessages },
+            success:function(result) {
+                $(".msg-ajax-loader").hide();
+                for (var i=0; i<checkedids.length; i++) {
+                    $("#msg-"+checkedids[i]).remove();
+                }
+                if(getAllCheckBoxes() == 0) {
+                    var norecords ='<div class="gq-msg-row-bg"><div class="col-xs-12"><span class="msg-checkmark-icon"><center>No Messages found</center></span></div></div>';
+                    $("#messages-grid").html(norecords);
+                }
+            }
+        });
+    }
+});
+
+$(".deleteselectedsent").click(function () {
+    var checkedids = getCheckedBoxes();
+    if(checkedids.length>0) {
+        $(".msg-ajax-loader").show(); 
+        var checkedMessages = JSON.stringify(getCheckedBoxes()); 
+        $.ajax({
+            type: "POST",
+            url: "deleteFromUserSent",
+            data: { checkedMessages:checkedMessages },
+            success:function(result) {
+                $(".msg-ajax-loader").hide();
+                for (var i=0; i<checkedids.length; i++) {
+                    $("#msg-"+checkedids[i]).remove();
+                }
+                if(getAllCheckBoxes() == 0) {
+                    var norecords ='<div class="gq-msg-row-bg"><div class="col-xs-12"><span class="msg-checkmark-icon"><center>No Messages found</center></span></div></div>';
+                    $("#messages-grid").html(norecords);
+                }
+            }
+        });
+    }
+});
+
 var applicantStatus = '0';
 $("#timeRemaining").change(function () {
     loadApplicantList('currentList');
@@ -559,3 +669,41 @@ function getCompletedtabData()
     var data = "this is ajax data";
     $("#completed-tab").html(data);
 }
+/*Messages*/
+function inboxcheckall() {
+    if(document.getElementById("chk-main-all").checked == true)
+    {
+        checkboxes = document.getElementsByName('chk_inbox');
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+            checkboxes[i].checked = true;
+        }
+    }
+    else
+    {
+        checkboxes = document.getElementsByName('chk_inbox');
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+            checkboxes[i].checked = false;
+        }
+    }
+}
+
+function getCheckedBoxes() {
+  var checkboxes = document.getElementsByName('chk_inbox');
+  var checkboxesChecked = [];
+  for (var i=0; i<checkboxes.length; i++) {
+     if (checkboxes[i].checked) {
+        checkboxesChecked.push(checkboxes[i].value);
+     }
+  }
+  return checkboxesChecked.length > 0 ? checkboxesChecked : null;
+}
+function getAllCheckBoxes() {
+  var checkboxes = document.getElementsByName('chk_inbox');
+  var checkboxesChecked = [];
+  for (var i=0; i<checkboxes.length; i++) {
+        checkboxesChecked.push(checkboxes[i].value);
+  }
+  return checkboxesChecked.length > 0 ? checkboxesChecked : 0;
+}
+
+/*End Messages*/

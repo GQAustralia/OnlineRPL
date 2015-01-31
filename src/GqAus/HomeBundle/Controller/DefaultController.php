@@ -20,7 +20,6 @@ class DefaultController extends Controller
         $session->set('user_id', $session_user->getId());
         $user = $this->get('security.context')->getToken()->getUser();
         $userService = $this->get('UserService');
-        
         if (in_array('ROLE_APPLICANT',$userRole)) {
             $results = $userService->getDashboardInfo($user);
             return $this->render('GqAusHomeBundle:Default:index.html.twig', $results);
