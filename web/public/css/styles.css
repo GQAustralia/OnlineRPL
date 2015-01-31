@@ -578,7 +578,7 @@ a.btn-red {color:#ffffff;}
 .gq-msg-wrap.gq-msg-compose .gq-msg-row-bg{margin-bottom:1px;}
 
 /* Facilitator dashboard styling */
-.gq-facilitator-dashboard {}
+.gq-facilitator-dashboard {min-height:426px;}
 .gq-facilitator-dashboard .gq-acc-wrap{width:100%;}
 .gq-facilitator-dashboard .gq-dashboard-facilitator-notes {width:100%; font-size:16px; color:#f14a41;}
 .gq-facilitator-dashboard .well {padding:10px;}
@@ -597,6 +597,7 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-list-dropdown-wrap .gq-applicant-list-notes-box .btn {width:100%; margin-top:5px;}
 .gq-dashboard-points-in-number a, .gq-dashboard-points-in-percent a {color:#f14a41; text-decoration:none;}
 .gq-assessor-appl-details .gq-assessor-appl-details-points label{width:76px;}
+.gq-facilitator-wrap {width:97%; margin:0 auto;}
 
 @media(max-width:360px){
 	.gq-evidence .nav-pills > li{ width:100%; }

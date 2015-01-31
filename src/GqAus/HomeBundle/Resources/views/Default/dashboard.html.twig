@@ -18,8 +18,13 @@
                         <h2 class="gq-dashboard-box-title">Pending Applicants</h2>
                     </div>
                     <div class="gq-dashboard-box-content-wrap">
-                        <div class="gq-dashboard-running-txt">Currently you have</div>
-                        <div class="gq-dashboard-points-in-number"><a href="{{ app.request.baseUrl }}/applicants">{{pendingApplicantsCount}}</a></div>
+                        <div class="col-xs-6 no-padding text-center">
+						<div class="gq-dashboard-running-txt">Currently you have</div>
+                        <div class="gq-dashboard-points-in-number wid100p">
+							<a href="{{ app.request.baseUrl }}/applicants">{{pendingApplicantsCount}}</a>
+						</div>
+						</div>
+						<div class="col-xs-6 hidden-xs"></div>
                     </div>
                     <span class="flip-icon"></span>
                 </div>

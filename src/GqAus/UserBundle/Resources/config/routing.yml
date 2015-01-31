@@ -115,3 +115,6 @@ deleteFromUser:
 deleteFromUserSent:
     path:     /deleteFromUserSent
     defaults: { _controller: GqAusUserBundle:Message:deleteFromUserSent } 
+viewMessage:
+    path:     /view/{mid}
+    defaults: { _controller: GqAusUserBundle:Message:viewMessage } 

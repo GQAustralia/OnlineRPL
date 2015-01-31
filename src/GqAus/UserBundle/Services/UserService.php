@@ -712,4 +712,13 @@ class UserService
         $this->em->persist($msgObj);
         $this->em->flush();
     }
+    
+    /**
+    * Function to get unread messages count
+    * return void
+    */
+    public function getMessage($mid)
+    {
+       return $this->em->getRepository('GqAusUserBundle:Message')->find($mid);
+    }
 }
