@@ -191,17 +191,17 @@ $("#frmSelectEvidence").ajaxForm({
 $("#download_profile").click(function () {
     userId = $(this).attr("userid");
     courseCode = $(this).attr("course_code");
-    window.open("/downloadFiles/"+courseCode+"/"+userId);
-    window.open("/zipFiles/"+courseCode+"/"+userId);
+    window.open(fullPath+"downloadFiles/"+courseCode+"/"+userId);
+    window.open(fullPath+"zipFiles/"+courseCode+"/"+userId);
 });
 
 $("#download_matrix").click(function () {
-    window.open("/downloadMatrix");
+    window.open(fullPath+"downloadMatrix");
 });
 
 $("#download_assessor_profile").click(function () {
     userId = $(this).attr("userid");
-    window.open("/downloadAssessorProfile/"+userId);
+    window.open(fullPath+"downloadAssessorProfile/"+userId);
 });
 
 $(".todomodalClass").click(function () {
