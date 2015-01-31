@@ -538,8 +538,7 @@ $(".markasread").click(function () {
                 if(rec[1]=="success") {
                     $(".msg-ajax-loader").hide();
                     for (var i=0; i<checkedids.length; i++) {
-						//$("#msg-"+checkedids[i]).value.checked = false;
-						$("#msg-"+checkedids[i]).attr('checked', false);
+                        $("#msg-"+checkedids[i]).prop('checked', false);
                         $("#msg-"+checkedids[i]).addClass("gq-msg-visited");
                     }
                     if(parseInt(rec[0])>0)
@@ -570,8 +569,7 @@ $(".markasunread").click(function () {
                 if(rec[1]=="success") {
                     $(".msg-ajax-loader").hide();
                     for (var i=0; i<checkedids.length; i++) {
-						//$("#msg-"+checkedids[i]).value.checked = false;
-						$("#msg-"+checkedids[i]).attr('checked', false);
+                        $("#msg-"+checkedids[i]).prop('checked', false);
                         $("#msg-"+checkedids[i]).removeClass("gq-msg-visited");
                     }
                     if(parseInt(rec[0])>0)
@@ -585,50 +583,54 @@ $(".markasunread").click(function () {
     }
 });
 
+$(".deleteMessages").click(function () {
+    var checkedMessages = JSON.stringify(getCheckedBoxes()); 
+    $(".msg-loader").show(); 
+    $.ajax({
+        type: "POST",
+        url: fullPath+"deleteFromUser",
+        data: { checkedMessages:checkedMessages },
+        async: false,
+        success:function(result) {
+        }
+    });
+    location.reload();
+});
+
 $(".deleteselected").click(function () {
     var checkedids = getCheckedBoxes();
     if(checkedids.length>0) {
-        $(".msg-ajax-loader").show(); 
-        var checkedMessages = JSON.stringify(getCheckedBoxes()); 
-        $.ajax({
-            type: "POST",
-            url: "deleteFromUser",
-            data: { checkedMessages:checkedMessages },
-            success:function(result) {
-                $(".msg-ajax-loader").hide();
-                for (var i=0; i<checkedids.length; i++) {
-                    $("#msg-"+checkedids[i]).remove();
-                }
-                if(getAllCheckBoxes() == 0) {
-                    var norecords ='<div class="gq-msg-row-bg"><div class="col-xs-12"><span class="msg-checkmark-icon"><center>No Messages found</center></span></div></div>';
-                    $("#messages-grid").html(norecords);
-                }
-            }
-        });
+        $(".deleteselected").attr('data-target','#myModal');
     }
 });
 
 $(".deleteselectedsent").click(function () {
-    var checkedids = getCheckedBoxes();
-    if(checkedids.length>0) {
-        $(".msg-ajax-loader").show(); 
-        var checkedMessages = JSON.stringify(getCheckedBoxes()); 
-        $.ajax({
-            type: "POST",
-            url: "deleteFromUserSent",
-            data: { checkedMessages:checkedMessages },
-            success:function(result) {
-                $(".msg-ajax-loader").hide();
-                for (var i=0; i<checkedids.length; i++) {
-                    $("#msg-"+checkedids[i]).remove();
-                }
-                if(getAllCheckBoxes() == 0) {
-                    var norecords ='<div class="gq-msg-row-bg"><div class="col-xs-12"><span class="msg-checkmark-icon"><center>No Messages found</center></span></div></div>';
-                    $("#messages-grid").html(norecords);
-                }
-            }
-        });
-    }
+    $(".msg-loader").show(); 
+    var checkedMessages = JSON.stringify(getCheckedBoxes()); 
+    $.ajax({
+        type: "POST",
+        url: "deleteFromUserSent",
+        async: false,
+        data: { checkedMessages:checkedMessages },
+        success:function(result) {
+        }
+    });
+    location.reload();
+});
+
+
+$(".deleteTrash").click(function () {
+    $(".msg-loader").show(); 
+    var checkedMessages = JSON.stringify(getCheckedBoxes()); 
+    $.ajax({
+        type: "POST",
+        url: "deleteFromTrash",
+        async: false,
+        data: { checkedMessages:checkedMessages },
+        success:function(result) {
+        }
+    });
+    location.reload();
 });
 
 var applicantStatus = '0';
