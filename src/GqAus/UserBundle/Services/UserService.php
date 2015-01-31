@@ -557,18 +557,6 @@ class UserService
         }
         return round($completeness).'%';
     }
-
-    /**
-    * Function to get unread messages count
-    * return void
-    */
-    public function getUnreadMessagesCount($userId)
-    {
-        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
-                                                                                        'read' => '0',
-                                                                                        'toStatus' => '0'));
-        return count($getMessages);
-    }
                 
     /**
     * Function to fetch assessor other files
@@ -602,7 +590,7 @@ class UserService
     }
     
     /**
-    * Function to get unread messages count
+    * Function to get remaining weeks for the applicant status
     * return void
     */
     public function getTimeRemaining($id)
@@ -617,5 +605,69 @@ class UserService
             $diff = $diff + 1;
         }
         return floor($diff).' week(s)';
+    }
+    
+    /**
+    * Function to get unread messages count
+    * return void
+    */
+    public function getUnreadMessagesCount($userId)
+    {
+        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
+                               'read' => '0','toStatus' => '0'));
+        return count($getMessages);
+    }
+    
+    /**
+    * Function to get inbox messages
+    * return array
+    */
+    public function getmyinboxMessages($userId)
+    {
+        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
+                                                                                        'toStatus' => '0'));
+        return $getMessages;
+    }
+    
+    /**
+    * Function to save the message
+    * return void
+    */
+    public function saveMessageData($sentuser,$curuser,$msgdata)
+    {
+        $msgObj = new \GqAus\UserBundle\Entity\Message();
+        $msgObj->setInbox($sentuser);
+        $msgObj->setSent($curuser);
+        $msgObj->setSubject($msgdata["subject"]);
+        $msgObj->setMessage($msgdata["message"]);
+        $msgObj->setRead(0);
+        $msgObj->setFromStatus(0);
+        $msgObj->setToStatus(0);
+        $msgObj->setReply(0);
+        $this->em->persist($msgObj);
+        $this->em->flush();
+        $this->em->clear();
+    }
+    
+    /**
+    * Function to get sent messages
+    * return array
+    */
+    public function getmySentMessages($userId)
+    {
+        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('sent' => $userId,
+                                                                                        'fromStatus' => '0'));
+        return $getMessages;
+    }
+    
+    /**
+    * Function to get trashed messages
+    * return array
+    */
+    public function getmyTrashMessages($userId)
+    {
+        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
+                                                                                        'toStatus' => '1'));
+        return $getMessages;
     }
 }

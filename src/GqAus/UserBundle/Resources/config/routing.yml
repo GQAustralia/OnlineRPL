@@ -91,3 +91,15 @@ assessor_profile:
 download_assessor_profile:
     path:     /downloadAssessorProfile/{uid}
     defaults:  { _controller: GqAusUserBundle:User:downloadAssessorProfile }
+messages:
+    path:     /messages
+    defaults: { _controller: GqAusUserBundle:Message:view } 
+compose:
+    path:     /compose
+    defaults: { _controller: GqAusUserBundle:Message:compose } 
+sent:
+    path:     /sent
+    defaults: { _controller: GqAusUserBundle:Message:sent }
+trash:
+    path:     /trash
+    defaults: { _controller: GqAusUserBundle:Message:trash }     

@@ -1,9 +1,5 @@
 {% extends 'base.html.twig' %}
 {% block title %}GQ - RPL To Do List{% endblock %}
-{% block stylesheets %}
-<link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
-<link href="{{ asset('public/css/accordion.css') }}" rel="stylesheet">
-{% endblock %}
 {% block body %}
     
 <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
@@ -19,7 +15,7 @@
                 <div class="gq-dashboard-courses-detail-wrap">
                     <div class="gq-dashboard-tabs margin-top15">
                             <!-- Tabs start here -->
-                        <div class="gq-dashboard-tabs-header wid30p">
+                        <div class="gq-dashboard-tabs-header wid20p">
                             <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
                                 <li role="presentation" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab">To Do</a></li>
                                 <li role="presentation"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Completed</a></li>								
