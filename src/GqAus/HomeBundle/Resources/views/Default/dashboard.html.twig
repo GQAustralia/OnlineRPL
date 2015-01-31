@@ -31,7 +31,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 hidden-xs"></div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="gq-dashboard-running-txt text-center">Unread</div> 
-                        <div class="gq-dashboard-points-in-percent wid100p text-center">{{unReadMessages}}</div>
+                        <div class="gq-dashboard-points-in-percent wid100p text-center"><a href="{{ app.request.baseUrl }}/messages">{{unReadMessages}}</a></div>
                     </div>
                     </div>
                     <span class="flip-icon"></span>
@@ -81,7 +81,7 @@
                             </div>
                                 {% endfor %}
                             {% else %}
-                                <div class="gq-tabs-no-content-text">No Reminders found</div>
+                                <div class="gq-tabs-no-content-text margin-top15">No Reminders found</div>
                             {% endif %}
                         </div>
                         <!-- accordion ends here -->

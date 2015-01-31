@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}GQ - RPL To Do List{% endblock %}
+{% block title %}GQ - RPL Messages Inbox{% endblock %}
 {% block body %}    
 <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
     <div class="row">
@@ -47,10 +47,16 @@
                                 <div class="col-lg-5 col-md-5 col-sm-3 col-xs-3">
                                     <div class="gq-msg-trash-icon"><a data-toggle="tooltip" data-placement="right" title="Delete selected" class="deleteselected"><img src="{{ asset('public/images/trash.png') }}" /></a></div>
                                     <div class="gq-msg-mark-icon"><a data-toggle="tooltip" data-placement="right" title="Mark as Read" class="markasread"><img src="{{ asset('public/images/pencil.png') }}" /></a></div>
+									
+									<div class="gq-msg-mark-icon"><a data-toggle="tooltip" data-placement="right" title="Mark as Read" class="markasunread"><img src="{{ asset('public/images/pencil.png') }}" /></a></div>
+									
                                     <div class="gq-msg-mark-icon msg-ajax-loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8">
-                                    <div class="gq-msg-top-pagination pull-right"><div class="gq-msg-pagination-txt">1-11 of 50</div><div class="gq-pagination-prev-icon"></div><div class="gq-pagination-next-icon"></div></div>
+                                    {# display navigation for pages - paginator_navigator #}
+                                    {% if messages|length > 0 and paginator.getTotalPages() > 1 %}
+                                        {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

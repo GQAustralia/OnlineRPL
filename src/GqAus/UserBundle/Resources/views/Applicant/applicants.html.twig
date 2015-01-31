@@ -1,5 +1,6 @@
     <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
     <!-- accordion starts here -->
+            {% if applicantList %}
              {% for key, list in applicantList %}
             <div class="gq-acc-wrap">
             <div>
@@ -55,6 +56,9 @@
             </div>
             </div>
             {% endfor %}
+            {% else %}
+                 <div class="gq-tabs-no-content-text margin-top15">No Applicants Found</div>
+            {% endif %}
         <!-- accordion ends here -->
     </div>
 {% if pageRequest == 'ajax' %}
