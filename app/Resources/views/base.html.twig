@@ -79,7 +79,7 @@
                                 <li><a {% if app.request.attributes.get('_route') == 'reminder' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reminder"><span class="gq-courses-icon"><img src="{{ asset('public/images/todolist.png') }}" /></span><span class="left-nav-txt">To Do List</span></a></li>
                                 {% endif %}
                                 
-                                <li><a href="#"><span class="gq-messages-icon"><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
+                                <li><a {% if app.request.attributes.get('_route') == 'messages' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/messages"><span class="gq-messages-icon"><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
                                 
                                 {% if 'ROLE_APPLICANT' in roles %}
                                 <li><a {% if app.request.attributes.get('_route') == 'evidences' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/evidences"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Evidence Files</span></a></li>
