@@ -63,7 +63,7 @@ class ApplicantController extends Controller
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $this->get('UserService')->updateUserApplicantsList($userId, $userRole);
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0');
-        $results['pageRequest'] = 'submit'; 
+        $results['pageRequest'] = 'submit';
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
     

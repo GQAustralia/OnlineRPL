@@ -19,7 +19,7 @@
                     </div>
                     <div class="gq-dashboard-box-content-wrap">
                         <div class="gq-dashboard-running-txt">Currently you have</div>
-                        <div class="gq-dashboard-points-in-number">{{pendingApplicantsCount}}</div>
+                        <div class="gq-dashboard-points-in-number"><a href="{{ app.request.baseUrl }}/applicants">{{pendingApplicantsCount}}</a></div>
                     </div>
                     <span class="flip-icon"></span>
                 </div>
@@ -28,12 +28,12 @@
                         <h2 class="gq-dashboard-box-title">Messages</h2>
                     </div>
                     <div class="gq-dashboard-box-content-wrap">
-					<div class="col-lg-6 col-md-6 col-sm-6 hidden-xs"></div>
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-6 col-md-6 col-sm-6 hidden-xs"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="gq-dashboard-running-txt text-center">Unread</div> 
                         <div class="gq-dashboard-points-in-percent wid100p text-center">{{unReadMessages}}</div>
                     </div>
-					</div>
+                    </div>
                     <span class="flip-icon"></span>
                 </div>
             </div>
@@ -80,6 +80,8 @@
                                 </article>
                             </div>
                                 {% endfor %}
+                            {% else %}
+                                <div class="gq-tabs-no-content-text">No Reminders found</div>
                             {% endif %}
                         </div>
                         <!-- accordion ends here -->
