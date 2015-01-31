@@ -622,11 +622,16 @@ class UserService
     * Function to get inbox messages
     * return array
     */
-    public function getmyinboxMessages($userId)
+    public function getmyinboxMessages($userId, $page)
     {
-        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
-                                                                                        'toStatus' => '0'));
-        return $getMessages;
+        $query = $this->em->getRepository('GqAusUserBundle:Message')
+                ->createQueryBuilder('m')
+                ->select("m")
+                ->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $userId)
+                ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0');
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($query, $page,  $this->container->getParameter('pagination_limit_page'));
+        return array('messages' => $pagination, 'paginator' => $paginator);
     }
     
     /**
@@ -653,21 +658,58 @@ class UserService
     * Function to get sent messages
     * return array
     */
-    public function getmySentMessages($userId)
+    public function getmySentMessages($userId, $page)
     {
-        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('sent' => $userId,
-                                                                                        'fromStatus' => '0'));
-        return $getMessages;
+        $query = $this->em->getRepository('GqAusUserBundle:Message')
+                ->createQueryBuilder('m')
+                ->select("m")
+                ->where(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId)
+                ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0');
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($query, $page,  $this->container->getParameter('pagination_limit_page'));
+        return array('messages' => $pagination, 'paginator' => $paginator);
     }
     
     /**
     * Function to get trashed messages
     * return array
     */
-    public function getmyTrashMessages($userId)
+    public function getmyTrashMessages($userId, $page)
     {
-        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
-                                                                                        'toStatus' => '1'));
-        return $getMessages;
+		$query = $this->em->getRepository('GqAusUserBundle:Message')
+                ->createQueryBuilder('m')
+                ->select("m");
+		$query->andWhere(sprintf('m.%s = :%s AND m.%s = :%s', 'inbox', 'inbox', 'toStatus', 'toStatus'))
+            ->setParameter('inbox', $userId)
+            ->setParameter('toStatus', '1');
+		$query->orWhere(sprintf('m.%s = :%s AND m.%s = :%s', 'sent', 'sent', 'fromStatus', 'fromStatus'))
+            ->setParameter('sent', $userId)
+            ->setParameter('fromStatus', '1');
+		//$query->orderBy('');
+		$paginator = new \GqAus\UserBundle\Lib\Paginator();
+		$pagination = $paginator->paginate($query, $page,  $this->container->getParameter('pagination_limit_page'));
+		return array('messages' => $pagination, 'paginator' => $paginator);
+    }
+    
+    public function markAsReadStatus($id,$flag)
+    {
+        $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
+        $msgObj->setRead($flag);
+        $this->em->persist($msgObj);
+        $this->em->flush();
+    }
+    public function setToUserDeleteStatus($id,$flag)
+    {
+        $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
+        $msgObj->setToStatus($flag);
+        $this->em->persist($msgObj);
+        $this->em->flush();
+    }
+    public function setToUserDeleteSentStatus($id,$flag)
+    {
+        $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
+        $msgObj->setFromStatus($flag);
+        $this->em->persist($msgObj);
+        $this->em->flush();
     }
 }

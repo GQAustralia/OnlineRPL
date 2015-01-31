@@ -18,11 +18,11 @@ class MessageController extends Controller
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
-        $messages = $messageService->getmyinboxMessages($userid);
+        $page = $this->get('request')->query->get('page', 1);
+        $result = $messageService->getmyinboxMessages($userid, $page);
+		$result['unreadcount'] = $unreadcount;
         return $this->render(
-                'GqAusUserBundle:Message:view.html.twig',
-                array('messages'  => $messages,'unreadcount' => $unreadcount)
-        );
+                'GqAusUserBundle:Message:view.html.twig',$result);
     }
     
     /**
@@ -82,12 +82,12 @@ class MessageController extends Controller
     public function sentAction(Request $request)
     {
         $messageService = $this->get('UserService');
-        
         $userid = $messageService->getCurrentUser()->getId();
-        $messages = $messageService->getmySentMessages($userid);
+		$page = $this->get('request')->query->get('page', 1);
+        $result = $messageService->getmySentMessages($userid, $page);
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
-        return $this->render(
-            'GqAusUserBundle:Message:sent.html.twig',array('messages'  => $messages,'unreadcount' => $unreadcount));
+		$result['unreadcount'] = $unreadcount;
+        return $this->render('GqAusUserBundle:Message:sent.html.twig', $result);
     }
     
     /**
@@ -99,10 +99,53 @@ class MessageController extends Controller
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
-        $messages = $messageService->getmyTrashMessages($userid);
+		$page = $this->get('request')->query->get('page', 1);
+        $result = $messageService->getmyTrashMessages($userid, $page);
+		$result['unreadcount'] = $unreadcount;
+        return $this->render('GqAusUserBundle:Message:trash.html.twig', $result);
+    }
+	
+    public function draftAction(Request $request)
+    {
+        $messageService = $this->get('UserService');
+        $messages = $messageService->getCurrentUser()->getInboxMessages();
+        $userid = $messageService->getCurrentUser()->getId();
+        $unreadcount = $messageService->getUnreadMessagesCount($userid);
         return $this->render(
-            'GqAusUserBundle:Message:trash.html.twig', array('messages'  => $messages,'unreadcount' => $unreadcount)
-        );
+            'GqAusUserBundle:Message:draft.html.twig',array('unreadcount' => $unreadcount));
+    }
+    public function markAsReadAction(Request $request)
+    {
+		$readStatus = $request->get("readStatus");
+        $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
+        $messageService = $this->get('UserService');
+        $userid = $messageService->getCurrentUser()->getId();
+        foreach($checkedMessages as $cm){
+            $messageService->markAsReadStatus($cm, $readStatus);
+        }
+        echo $messageService->getUnreadMessagesCount($userid)."&&success";
+        exit;
+    }
+    public function deleteFromUserAction(Request $request)
+    {
+        $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
+        $messageService = $this->get('UserService');
+        foreach($checkedMessages as $cm){
+            $messageService->setToUserDeleteStatus($cm,1);
+        }
+        echo "success";
+        exit;
+    }
+    
+    public function deleteFromUserSentAction(Request $request)
+    {
+        $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
+        $messageService = $this->get('UserService');
+        foreach($checkedMessages as $cm){
+            $messageService->setToUserDeleteSentStatus($cm,1);
+        }
+        echo "success";
+        exit;
     }
     
 }

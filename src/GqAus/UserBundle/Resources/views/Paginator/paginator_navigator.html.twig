@@ -3,38 +3,21 @@
 {% set currentPath = path(app.request.get('_route'), app.request.get('_route_params')) %}
 {% set currentPage = paginator.getCurrentPage() %}
 {% set totalPages = paginator.getTotalPages() %}
-
-<div class="pagination pagination-centered">
-<ul>
-{% if currentPage > 1 %}
-    <li><a href="{{ currentPath }}?page=1">&laquo;</a></li>
-    <li><a href="{{ currentPath }}?page={{ currentPage > 1 ? currentPage - 1 : 1 }}"><</a></li>
-{% endif %}
-
-{% if (currentPage - 3) > 0 %}
-    <li><a href="#">...</a></li>
-{% endif %}
-{% if (currentPage - 2) > 0 %}
-    <li><a href="{{ currentPath }}?page={{ currentPage - 2 }}">{{ currentPage - 2 }}</a></li>
-{% endif %}
-{% if (currentPage - 1) > 0 %}
-    <li><a href="{{ currentPath }}?page={{ currentPage - 1 }}">{{ currentPage - 1 }}</a></li>
-{% endif %}
-<li class="active"><a href="#">{{ currentPage }}</a></li>
-{% if (currentPage + 1) <= totalPages %}
-    <li><a href="{{ currentPath }}?page={{ currentPage + 1 }}">{{ currentPage + 1 }}</a></li>
-{% endif %}
-{% if (currentPage + 2) <= totalPages %}
-    <li><a href="{{ currentPath }}?page={{ currentPage + 2 }}">{{ currentPage + 2 }}</a></li>
-{% endif %}
-{% if (currentPage + 2) < totalPages %}
-    <li><a href="#">...</a></li>
-{% endif %}
-
-{% if currentPage < totalPages %}
-    <li><a href="{{ currentPath }}?page={{ currentPage < totalPages ? currentPage + 1 : currentPage }}">></a></li>
-    <li><a href="{{ currentPath }}?page={{ totalPages }}">&raquo;</a></li>
-{% endif %}
-
-</ul>
+{% set count = paginator.getCount() %}
+<div class="gq-msg-top-pagination pull-right">
+    <div class="gq-msg-pagination-txt">
+    {% if currentPage == totalPages %}
+        {{(currentPage * 10) - 9}}-{{count}} of {{count}}
+    {% else %}
+        {{(currentPage * 10) - 9}}-{{currentPage * 10}} of {{count}}
+    {% endif %}
+    </div>
+    {% if currentPage == 1 %}
+    {% else %}
+        <a href="{{ currentPath }}?page={{ currentPage - 1 }}"><div class="gq-pagination-prev-icon"></div></a>
+    {% endif %}
+    {% if currentPage == totalPages %}
+    {% else %}
+        <a href="{{ currentPath }}?page={{ currentPage + 1 }}"><div class="gq-pagination-next-icon"></div></a>
+    {% endif %}
 </div>
