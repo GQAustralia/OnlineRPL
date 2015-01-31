@@ -676,19 +676,19 @@ class UserService
     */
     public function getmyTrashMessages($userId, $page)
     {
-		$query = $this->em->getRepository('GqAusUserBundle:Message')
+        $query = $this->em->getRepository('GqAusUserBundle:Message')
                 ->createQueryBuilder('m')
                 ->select("m");
-		$query->andWhere(sprintf('m.%s = :%s AND m.%s = :%s', 'inbox', 'inbox', 'toStatus', 'toStatus'))
+        $query->andWhere(sprintf('m.%s = :%s AND m.%s = :%s', 'inbox', 'inbox', 'toStatus', 'toStatus'))
             ->setParameter('inbox', $userId)
             ->setParameter('toStatus', '1');
-		$query->orWhere(sprintf('m.%s = :%s AND m.%s = :%s', 'sent', 'sent', 'fromStatus', 'fromStatus'))
+        $query->orWhere(sprintf('m.%s = :%s AND m.%s = :%s', 'sent', 'sent', 'fromStatus', 'fromStatus'))
             ->setParameter('sent', $userId)
             ->setParameter('fromStatus', '1');
-		//$query->orderBy('');
-		$paginator = new \GqAus\UserBundle\Lib\Paginator();
-		$pagination = $paginator->paginate($query, $page,  $this->container->getParameter('pagination_limit_page'));
-		return array('messages' => $pagination, 'paginator' => $paginator);
+        //$query->orderBy('');
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($query, $page,  $this->container->getParameter('pagination_limit_page'));
+        return array('messages' => $pagination, 'paginator' => $paginator);
     }
     
     public function markAsReadStatus($id,$flag)
@@ -711,5 +711,14 @@ class UserService
         $msgObj->setFromStatus($flag);
         $this->em->persist($msgObj);
         $this->em->flush();
+    }
+    
+    public function setToUserDeleteFromTrash($id,$flag)
+    {
+        /*$msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
+        $msgObj->setDeleteTo($flag);
+        $msgObj->setDeleteFrom($flag);
+        $this->em->persist($msgObj);
+        $this->em->flush();*/
     }
 }

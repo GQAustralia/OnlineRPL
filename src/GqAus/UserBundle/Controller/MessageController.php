@@ -20,7 +20,7 @@ class MessageController extends Controller
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
         $page = $this->get('request')->query->get('page', 1);
         $result = $messageService->getmyinboxMessages($userid, $page);
-		$result['unreadcount'] = $unreadcount;
+        $result['unreadcount'] = $unreadcount;
         return $this->render(
                 'GqAusUserBundle:Message:view.html.twig',$result);
     }
@@ -83,10 +83,10 @@ class MessageController extends Controller
     {
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
-		$page = $this->get('request')->query->get('page', 1);
+        $page = $this->get('request')->query->get('page', 1);
         $result = $messageService->getmySentMessages($userid, $page);
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
-		$result['unreadcount'] = $unreadcount;
+        $result['unreadcount'] = $unreadcount;
         return $this->render('GqAusUserBundle:Message:sent.html.twig', $result);
     }
     
@@ -99,12 +99,12 @@ class MessageController extends Controller
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
-		$page = $this->get('request')->query->get('page', 1);
+        $page = $this->get('request')->query->get('page', 1);
         $result = $messageService->getmyTrashMessages($userid, $page);
-		$result['unreadcount'] = $unreadcount;
+        $result['unreadcount'] = $unreadcount;
         return $this->render('GqAusUserBundle:Message:trash.html.twig', $result);
     }
-	
+    
     public function draftAction(Request $request)
     {
         $messageService = $this->get('UserService');
@@ -116,7 +116,7 @@ class MessageController extends Controller
     }
     public function markAsReadAction(Request $request)
     {
-		$readStatus = $request->get("readStatus");
+        $readStatus = $request->get("readStatus");
         $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
@@ -148,4 +148,13 @@ class MessageController extends Controller
         exit;
     }
     
+    public function deleteFromTrashAction(Request $request)
+    {
+        $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
+        $messageService = $this->get('UserService');
+        foreach($checkedMessages as $cm){
+            $messageService->setToUserDeleteFromTrash($cm,1);
+        }
+        echo "success"; exit;
+    }
 }
