@@ -746,4 +746,16 @@ class UserService
     {
        return $this->em->getRepository('GqAusUserBundle:Message')->find($mid);
     }
+    
+    /**
+    * Function to set the read messages status
+    * return void
+    */
+    public function setReadViewStatus($mid)
+    {
+        $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($mid);
+        $msgObj->setRead("1");
+        $this->em->persist($msgObj);
+        $this->em->flush();
+    }  
 }

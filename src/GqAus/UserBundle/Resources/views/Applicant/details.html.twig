@@ -6,7 +6,6 @@
         -webkit-transform: translate3d(0, 125%, 0);
         transform: translate3d(0, 125%, 0);
     }
-    #edivenceUnitModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }    
 </style>
 <link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
 {% endblock %}
@@ -149,7 +148,7 @@
                         <div class="col-lg-3 col-md-6 col-sm-4 col-xs-12">
                         <span class="gq-course-details-header-title">Unit Code</span>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
+                        <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
                         <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
@@ -171,14 +170,14 @@
                     <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
                     <div class="row no-margin">
                         <div class="gq-acc-row-bg">
-                            <div class="col-xs-3">
+                            <div class="col-lg-3 col-md-6 col-sm-4 col-xs-12">
                                 <div class="gq-acc-row-title">{{units.id}}</div>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-lg-5 col-md-4 col-sm-4 col-xs-12">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                            <div class="col-lg4 col-md-4 col-sm-4 col-xs-2">
-                                <span class="pull-right"><button class="btn eye-btn unit-evidence-id" userid="{{userId}}" del-status="1"  unitid="{{units.id}}"  course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW EVIDENCES</button></span>
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-2">
+                                <span class="pull-left"><button class="btn eye-btn unit-evidence-id" userid="{{userId}}" del-status="1"  unitid="{{units.id}}"  course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW EVIDENCES</button></span>
                             </div>
                             <div class="col-xs-1">
                                 <label for="acc-{{i}}" class="col-xs-4 openIcon"></label>
@@ -208,7 +207,7 @@
                         <div class="col-lg-3 col-md-6 col-sm-4 col-xs-12">
                         <span class="gq-course-details-header-title">Unit Code</span>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
+                        <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
                         <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
@@ -232,14 +231,14 @@
                             <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
                             <div class="row no-margin">
                                 <div id="div_{{units.id}}" class="gq-acc-row-bg">
-                                    <div class="col-xs-3">
+                                    <div class="col-lg-3 col-md-6 col-sm-4 col-xs-12">
                                         <div class="gq-acc-row-title">{{units.id}}</div>
                                     </div>
-                                    <div class="col-xs-4">
+                                    <div class="col-lg-5 col-md-4 col-sm-4 col-xs-12">
                                         <div class="gq-acc-row-title">{{units.name}}</div>
                                     </div>
-                                    <div class="col-lg4 col-md-4 col-sm-4 col-xs-2">
-                                        <span class="pull-right" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id" unitid="{{units.id}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW EVIDENCES</button></span>
+                                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-2">
+                                        <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id" unitid="{{units.id}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW EVIDENCES</button></span>
                                     </div>
                                     <div class="col-xs-1">
                                         <label for="acc-{{i}}" class="col-xs-4 openIcon"></label>

@@ -84,7 +84,13 @@
                                             </div>
                                         </div>
                                         <div class="col-xs-3">
-                                            <div class="gq-msg-time-stamp pull-right">{{message.created}}</div>
+                                            <div class="gq-msg-time-stamp pull-right">
+                                                {% if today == message.created|date('Y-m-d') %}
+                                                {{ message.created|date('h:i a') }}
+                                                {% else %}
+                                                {{ message.created|date('m/d/Y h:i a') }}
+                                                {% endif%}
+                                            </div>
                                         </div>
                                     </div>
                                 {% endfor %}

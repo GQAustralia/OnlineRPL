@@ -111,6 +111,8 @@
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script>
     $(document).ready(function(){
+        setInterval(function(){SetHeight()}, 100);
+        
         /*var showOrHide = true;
         $("#gq-menu-icon-desk").click(function(){
             showOrHide = !showOrHide;
@@ -151,14 +153,18 @@
         $(window).resize(function(){
             if ($(window).width() < 768) {
                 $("#gq-dashboard-left").css("display", "none");
-            }
-            else {
+            } else {
                 $("#gq-dashboard-left").css("display", "block");
             }
         });
         $(".gq-id-files-upload-success-text").delay(5000).fadeOut(100);
             
     });
+    
+    function SetHeight() {
+        var RightHeight = $('html').height();
+        $('.gq-dashboard-right').height(RightHeight - 66);                
+    }
     var amazon_link = "{{ amazon_link }}";
     </script>
 

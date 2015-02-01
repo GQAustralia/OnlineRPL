@@ -454,7 +454,7 @@ a.btn-red {color:#ffffff;}
 .gq-evidence .gq-evidence-tabs{ font-size:16px; border-bottom:0px solid #e3e3e3; background:url('../images/gray-line-bit.png') repeat-x bottom center; }
 .gq-evidence .nav-pills > li > a{ border-bottom:2px solid transparent; font-weight:normal;}
 .gq-evidence .nav-pills > li > a,.gq-evidence .nav-pills > li > a:hover, .nav-pills > li > a:focus{/* background-color:transparent;*/ color:#5e5e5e; border-radius:0; outline:0px none; }
-.gq-evidence .nav-pills > li.active > a,.gq-evidence .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{/* background-color:transparent;*/ color:#f36059; /*border-bottom:2px solid #f36059;*/ }
+.gq-evidence .nav-pills > li.active > a,.gq-evidence .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{/* background-color:transparent; color:#f36059;*/ /*border-bottom:2px solid #f36059;*/ }
 
 /*.gq-evidence .gq-dashboard-courses-detail{ border-radius:10px; }*/
 .gq-evidence .video-thumb-icon{ position:relative; }		
@@ -598,6 +598,9 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-points-in-number a, .gq-dashboard-points-in-percent a {color:#f14a41; text-decoration:none;}
 .gq-assessor-appl-details .gq-assessor-appl-details-points label{width:76px;}
 .gq-facilitator-wrap {width:97%; margin:0 auto;}
+.gq-filter-clear {}
+.gq-dashboard-tabs-header .gq-tabs-width-50 {width:50%;}
+#edivenceUnitModal.modal .modal-dialog{ bottom:0; position:fixed; left:0; right:0; }
 
 @media(max-width:360px){
 	.gq-evidence .nav-pills > li{ width:100%; }
@@ -614,6 +617,9 @@ a.btn-red {color:#ffffff;}
 	.wid30p {width:50%; margin:0 25%;}
 	.wid60p {width:40%; margin:0 30%;}
 	.modal-dialog.gq-modal-upload{width:100%;}
+ }
+ @media (min-width: 768px) {
+ .gq-assessor-appl-details .gq-assessor-appl-profile-details-col {padding-top:33px;}
  }
  
  @media (max-width: 1100px){
@@ -633,11 +639,18 @@ a.btn-red {color:#ffffff;}
 .wid70p {width:100%; margin:0 auto;}
 .wid80p {width:100%; margin:0 auto;}
 .wid90p{width:100%; margin:0 auto;}
+.wid20p{width:100%; margin:0 auto;}
 .gq-id-files-upload-text, .gq-id-files-upload-success-text {padding-bottom:20px;}
 .gq-id-files-upload-btn, .gq-id-files-submit-btn {margin-top:15px;}
 .gq-dashboard-right {width:100%;}
 /*#edivenceModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }*/
 .gq-assessor-profile-page-img {margin:10px auto;}
+.gq-applicant-filter-wrap {margin-bottom:5px; text-align:left;}
+.gq-applicant-filter-wrap label{width:100%;}
+.gq-applicant-filter-wrap input[type="text"]{width:100%; margin-left:0;}
+.gq-applicant-filter-wrap-select-remaining {text-align:left;}
+#edivenceUnitModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }
+
 }
 
 @media (max-width:368px) {
