@@ -285,7 +285,7 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findBy(array('user' => $userId,
                                             'courseCode' => $courseCode,
-                                            'status' => '0'));
+                                            'status' => '1'));
         $courseUnits = array();
         if (!empty($userCourseUnits)) {
              foreach ($userCourseUnits as $units) {
