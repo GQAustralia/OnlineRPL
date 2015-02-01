@@ -201,4 +201,17 @@ class MessageController extends Controller
         }
         echo "success"; exit;
     }
+    
+     /**
+    * Function to unread count
+    * return response
+    */
+    public function unreadAction(Request $request)
+    {
+        $messageService = $this->get('UserService');
+        $userid = $messageService->getCurrentUser()->getId();
+        $unreadcount = $messageService->getUnreadMessagesCount($userid);
+        echo $unreadcount;
+        exit;
+    }
 }

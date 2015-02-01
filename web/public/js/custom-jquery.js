@@ -525,6 +525,20 @@ $(".setData").click(function () {
     }
 });
 
+function onloadCount()
+{
+$.ajax({
+    url: fullPath+"unread",
+    success: function(result) {
+       // alert(result);
+        if (result > 0) {
+            $("#unread-count").html('<span class="gq-ms-counter">' + result + '<span>');
+        } else {
+            $("#unread-count").html("");
+        }
+    }
+});
+}
 $(".markasread").click(function () {
     var checkedids = getCheckedBoxes();
     if(checkedids.length>0)
