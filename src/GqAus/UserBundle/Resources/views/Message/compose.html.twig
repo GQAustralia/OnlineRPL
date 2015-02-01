@@ -54,7 +54,7 @@
                                 <div class="gq-msg-from-to-sub">To :</div>
                             </div>
                             <div class="col-xs-11 gq-msg-from-to-input">
-                                {{ form_widget(composemsgForm.to, {'attr': {'placeholder': 'To..'} }) }}
+                                {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': 'To..'} }) }}
                             </div>
                         </div>
                         <div class="gq-msg-row-bg gq-msg-visited">
@@ -62,12 +62,12 @@
                                 <div class="gq-msg-from-to-sub">Subject :</div>
                             </div>
                             <div class="col-xs-11 gq-msg-from-to-input">
-                                {{ form_widget(composemsgForm.subject, {'attr': {'placeholder': 'Subject..'} }) }}
+                                {{ form_widget(composemsgForm.subject, {value  : sub}, {'attr': {'placeholder': 'Subject..'} }) }}
                             </div>
                         </div>
                         <div class="gq-msg-row-bg gq-msg-visited">
                             <div class="col-xs-12">
-                                <div class="gq-msg-from">{{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message'} }) }}</div>
+                                <div class="gq-msg-from">{{ form_widget(composemsgForm.message, {value  : repMessage}, {'attr': {'placeholder': 'Enter Message'} }) }}</div>
                             </div>
                         </div>
                         <div class="gq-msg-row-bg gq-msg-visited">
