@@ -724,13 +724,13 @@ class UserService
     {
         $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
         if (!empty($msgObj)) {
-            $toUser = $msgObj->getToUser();
-            $fromUser = $msgObj->getFromUser();
+            $inbox = $msgObj->getInbox()->getId();
+            $sent = $msgObj->getSent()->getId();
             $toStatus = $msgObj->getToStatus();
             $fromStatus = $msgObj->getFromStatus();
-            if (($userId == $toUser) && ($toStatus == '1')) {
+            if (($userId == $inbox) && ($toStatus == '1')) {
                 $msgObj->setToStatus($flag);
-            } elseif(($userId == $fromUser) && ($fromStatus == '1')) {
+            } elseif(($userId == $sent) && ($fromStatus == '1')) {
                 $msgObj->setFromStatus($flag);
             }
         }
