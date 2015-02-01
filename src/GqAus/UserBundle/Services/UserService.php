@@ -434,23 +434,31 @@ class UserService
                 $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
                                     ->findOneBy(array('user' => $course->getUser()->getId(),
                                     'courseCode' => $course->getcourseCode()));
+                
                 if (!empty($courseObj)) {
-                    $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+                    $courseUnitExistObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
                                         ->findOneBy(array('user' => $course->getUser()->getId(),
                                         'courseCode' => $course->getcourseCode(),
-                                        $userStatus => '0',
                                         'status' => '1'));
-                    if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
-                        if ($userType == 'facilitator') {
-                            $course->setFacilitatorstatus('1');
-                        } elseif ($userType == 'assessor') {
-                            $course->setAssessorstatus('1');
-                        } elseif ($userType == 'rto') {
-                            $course->setRtostatus('1');
-                            $course->setCourseStatus('1');
-                        }
-                         $this->em->persist($course);
-                         $this->em->flush();
+                    if (!empty($courseUnitExistObj)) {
+                        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+                                            ->findOneBy(array('user' => $course->getUser()->getId(),
+                                            'courseCode' => $course->getcourseCode(),
+                                            $userStatus => '0',
+                                            'status' => '1'));
+                        if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
+                            if ($userType == 'facilitator') {
+                                $course->setFacilitatorstatus('1');
+                            } elseif ($userType == 'assessor') {
+                                $course->setAssessorstatus('1');
+                            } elseif ($userType == 'rto') {
+                                $course->setRtostatus('1');
+                                $course->setCourseStatus('1');
+                            }
+                             $this->em->persist($course);
+                             $this->em->flush();
+                        }//if
+                        
                     }//if
                 }//if
             }//foreach
@@ -552,7 +560,8 @@ class UserService
             $res = $this->em->getRepository('GqAusUserBundle:Evidence')
                     ->createQueryBuilder('e')
                     ->select("DISTINCT e.unit")
-                    ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId);
+                    ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId)
+                    ->andWhere(sprintf('e.%s = :%s', 'course', 'course'))->setParameter('course', $courseCode);
             $applicantList = $res->getQuery()->getResult();
             $evidenceCount = count($applicantList);
             $completeness = ($evidenceCount/$totalNoCourses) * 100;
