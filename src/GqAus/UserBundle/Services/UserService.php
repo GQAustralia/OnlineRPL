@@ -691,34 +691,50 @@ class UserService
         return array('messages' => $pagination, 'paginator' => $paginator);
     }
     
-    public function markAsReadStatus($id,$flag)
+    /**
+    * Function to mark as read / unread
+    */
+    public function markReadStatus($id,$flag)
     {
         $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
         $msgObj->setRead($flag);
         $this->em->persist($msgObj);
         $this->em->flush();
     }
-    public function setToUserDeleteStatus($id,$flag)
+    
+    /**
+    * Function to trash messages form inbox/sent items
+    */
+    public function setUserDeleteStatus($id, $flag, $type)
     {
         $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
-        $msgObj->setToStatus($flag);
-        $this->em->persist($msgObj);
-        $this->em->flush();
-    }
-    public function setToUserDeleteSentStatus($id,$flag)
-    {
-        $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
-        $msgObj->setFromStatus($flag);
+        if ($type == 'to') {
+            $msgObj->setToStatus($flag);
+        } elseif($type == 'from') {
+            $msgObj->setFromStatus($flag);
+        }
         $this->em->persist($msgObj);
         $this->em->flush();
     }
     
-    public function setToUserDeleteFromTrash($id,$flag)
+    /**
+    * Function to delete messages from tash
+    */
+    public function setToUserDeleteFromTrash($userId, $id, $flag)
     {
-        /*$msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
-        $msgObj->setDeleteTo($flag);
-        $msgObj->setDeleteFrom($flag);
+        $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
+        if (!empty($msgObj)) {
+            $toUser = $msgObj->getToUser();
+            $fromUser = $msgObj->getFromUser();
+            $toStatus = $msgObj->getToStatus();
+            $fromStatus = $msgObj->getFromStatus();
+            if (($userId == $toUser) && ($toStatus == '1')) {
+                $msgObj->setToStatus($flag);
+            } elseif(($userId == $fromUser) && ($fromStatus == '1')) {
+                $msgObj->setFromStatus($flag);
+            }
+        }
         $this->em->persist($msgObj);
-        $this->em->flush();*/
+        $this->em->flush();
     }
 }

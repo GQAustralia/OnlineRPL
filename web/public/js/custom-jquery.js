@@ -589,7 +589,7 @@ $(".deleteMessages").click(function () {
     $.ajax({
         type: "POST",
         url: fullPath+"deleteFromUser",
-        data: { checkedMessages:checkedMessages },
+        data: { checkedMessages:checkedMessages, type: 'to'},
         async: false,
         success:function(result) {
         }
@@ -609,9 +609,9 @@ $(".deleteselectedsent").click(function () {
     var checkedMessages = JSON.stringify(getCheckedBoxes()); 
     $.ajax({
         type: "POST",
-        url: "deleteFromUserSent",
+        url: "deleteFromUser",
         async: false,
-        data: { checkedMessages:checkedMessages },
+        data: { checkedMessages:checkedMessages, type: 'from' },
         success:function(result) {
         }
     });
