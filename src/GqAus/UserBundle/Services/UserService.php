@@ -691,24 +691,49 @@ class UserService
         return array('messages' => $pagination, 'paginator' => $paginator);
     }
     
-    public function markAsReadStatus($id,$flag)
+    /**
+    * Function to mark as read / unread
+    */
+    public function markReadStatus($id,$flag)
     {
         $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
         $msgObj->setRead($flag);
         $this->em->persist($msgObj);
         $this->em->flush();
     }
-    public function setToUserDeleteStatus($id,$flag)
+    
+    /**
+    * Function to trash messages form inbox/sent items
+    */
+    public function setUserDeleteStatus($id, $flag, $type)
     {
         $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
-        $msgObj->setToStatus($flag);
+        if ($type == 'to') {
+            $msgObj->setToStatus($flag);
+        } elseif($type == 'from') {
+            $msgObj->setFromStatus($flag);
+        }
         $this->em->persist($msgObj);
         $this->em->flush();
     }
-    public function setToUserDeleteSentStatus($id,$flag)
+    
+    /**
+    * Function to delete messages from tash
+    */
+    public function setToUserDeleteFromTrash($userId, $id, $flag)
     {
         $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
-        $msgObj->setFromStatus($flag);
+        if (!empty($msgObj)) {
+            $inbox = $msgObj->getInbox()->getId();
+            $sent = $msgObj->getSent()->getId();
+            $toStatus = $msgObj->getToStatus();
+            $fromStatus = $msgObj->getFromStatus();
+            if (($userId == $inbox) && ($toStatus == '1')) {
+                $msgObj->setToStatus($flag);
+            } elseif(($userId == $sent) && ($fromStatus == '1')) {
+                $msgObj->setFromStatus($flag);
+            }
+        }
         $this->em->persist($msgObj);
         $this->em->flush();
     }
@@ -720,15 +745,5 @@ class UserService
     public function getMessage($mid)
     {
        return $this->em->getRepository('GqAusUserBundle:Message')->find($mid);
-       
-    }
-    
-    public function setToUserDeleteFromTrash($id,$flag)
-    {
-        /*$msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
-        $msgObj->setDeleteTo($flag);
-        $msgObj->setDeleteFrom($flag);
-        $this->em->persist($msgObj);
-        $this->em->flush();*/
     }
 }
