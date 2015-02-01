@@ -303,10 +303,13 @@ $(".unit-evidence-id").click(function () {
     unit = $(this).attr("unitid");
     userId = $(this).attr("userid");
     delStatus = $(this).attr("del-status");
+    course_code = $(this).attr("course_code");
+    course_name = $(this).attr("course_name");
+    unittitle = $(this).attr("unittitle");
     $.ajax({
         type: "POST",
         url: fullPath + "getUnitEvidences",
-        data: { unit: unit, userId: userId, delStatus: delStatus },
+        data: { unit: unit, userId: userId, delStatus: delStatus, unittitle:unittitle, course_code:course_code, course_name:course_name },
         success:function(result) {
             $('#unit-evidence-tab').html(result);
         }
