@@ -306,7 +306,7 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
                                             'unitId' => $unitId)); 
         return !empty($userCourseUnits) ? $userCourseUnits : '';
     }
-    
+
     /**
     * Function to update qualification unit table
     * return $result array
@@ -322,12 +322,16 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
                         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
                         $userUnitObj = $reposObj->findOneBy(array('user' => $userId,
                                                             'unitId' => $unit['id'],
-                                                            'courseCode' => $courseCode));
+                                                            'courseCode' => trim($courseCode)));
                         if (empty($userUnitObj)) {
                             $reposUnitObj = new \GqAus\UserBundle\Entity\UserCourseUnits();
                             $reposUnitObj->setUnitId($unit['id']);
                             $reposUnitObj->setCourseCode($courseCode);
-                            $reposUnitObj->setStatus(1);
+                            if (trim($unit['type']) == 'core') {
+                                $reposUnitObj->setStatus('1');//by default setting as inactive
+                            } else {
+                                $reposUnitObj->setStatus('0');//by default setting as inactive
+                            }
                             $reposUnitObj->setType($unit['type']);
                             $reposUnitObj->setUser($userObj);
                             $reposUnitObj->setFacilitatorstatus('0');

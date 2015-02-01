@@ -5,7 +5,7 @@ var unitId;
 var courseCode;
 var userId;
 var unit;
-var fullPath = '/web/';
+var fullPath = '/OnlineRPL/web/';
 var reminderid;
 var reminderflag;
 var otherfiles;
@@ -714,3 +714,7 @@ function getAllCheckBoxes() {
 }
 
 /*End Messages*/
+
+$(".date-icon").click(function () {
+    //$(".datepic").datepicker("show");
+});
