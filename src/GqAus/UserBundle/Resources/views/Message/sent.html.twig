@@ -75,14 +75,13 @@
                                         </div>
                                         <div class="col-xs-5">
                                             <div class="gq-msg-title">
-                                                <a href="/view/{{message.id}}">
+                                                <a href="{{ base_url }}view/{{message.id}}">
                                                 {% if message.subject|length > 30 %}
                                                     {{ message.subject[:30] ~ '...' }}
                                                 {% else %}
                                                      {{ message.subject }}   
                                                 {% endif %}
-                                                </a>
-                                                
+                                                 </a>
                                             </div>
                                         </div>
                                         <div class="col-xs-3">

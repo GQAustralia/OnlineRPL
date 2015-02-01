@@ -21,8 +21,13 @@ class QualificationController extends Controller
         } else {
             $user = $this->get('security.context')->getToken()->getUser();
         }
-		$results['delStatus'] = $this->getRequest()->get('delStatus');
-        $results['unitevidences'] = $user->getEvidences();        
-        echo $template = $this->renderView('GqAusUserBundle:Qualification:unitevidence.html.twig', $results); exit;
+        $results['delStatus'] = $this->getRequest()->get('delStatus');
+        $results['unittitle'] = $this->getRequest()->get('unittitle');
+        $results['course_code'] = $this->getRequest()->get('course_code');
+        $results['course_name'] = $this->getRequest()->get('course_name');
+        $results['userId'] = $userId;
+        $results['unitevidences'] = $user->getEvidences();
+        echo $template = $this->renderView('GqAusUserBundle:Qualification:unitevidence.html.twig', $results);
+        exit;
     }
 }
