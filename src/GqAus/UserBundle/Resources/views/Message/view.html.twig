@@ -43,13 +43,12 @@
                                         <input type="checkbox" name="msgs_inbox[]" id="chk-main-all" class="styled">
                                     </span>
                                 </div>
-
                                 <div class="col-lg-5 col-md-5 col-sm-3 col-xs-3">
-                                    <div class="gq-msg-trash-icon"><a data-toggle="tooltip" data-placement="right" title="Delete selected" class="deleteselected"><img src="{{ asset('public/images/trash.png') }}" /></a></div>
+                                    <div class="gq-msg-trash-icon"><a /*data-toggle="tooltip"*/ data-toggle="modal" data-target="" data-placement="right" title="Delete selected" class="modalClass deleteselected"><img src="{{ asset('public/images/trash.png') }}" /></a></div>
                                     <div class="gq-msg-mark-icon"><a data-toggle="tooltip" data-placement="right" title="Mark as Read" class="markasread"><img src="{{ asset('public/images/pencil.png') }}" /></a></div>
-									
-									<div class="gq-msg-mark-icon"><a data-toggle="tooltip" data-placement="right" title="Mark as Read" class="markasunread"><img src="{{ asset('public/images/pencil.png') }}" /></a></div>
-									
+                                    
+                                    <div class="gq-msg-mark-icon"><a data-toggle="tooltip" data-placement="right" title="Mark as UnRead" class="markasunread"><img src="{{ asset('public/images/pencil.png') }}" /></a></div>
+                                    
                                     <div class="gq-msg-mark-icon msg-ajax-loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8">
@@ -116,7 +115,21 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected message ?</h4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-white deleteMessages">Ok</a>
+                <a class="btn btn-white" id="qclose-cancel">Cancel</a>
+                <span class="loading-icon msg-loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
