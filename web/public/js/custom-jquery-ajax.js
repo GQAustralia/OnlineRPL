@@ -30,32 +30,38 @@ $(".viewModalClass").click(function () {
 });
 
 $("#approve").click(function () {
-	var userRole = $('#applicantEStatus').attr('userRole');
+    var userRole = $('#applicantEStatus').attr('userRole');
     $.ajax({
         type: "POST",
         url: fullPath + "setUserUnitEvidencesStatus",
         data: { unit: unit, userId: userId, userRole: userRole, status: '1' },
         success:function(result) {
             if (result == '1') {
-                $('#gq-msg-success').html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="'+ fullPath +'public/images/tick.png">Evidence Approved successfully!</h2></div>');
+                $('#gq-msg-success').hide();
+                $('.gq-id-files-upload-success-text').show();
+                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ fullPath +'public/images/tick.png">Evidence Approved successfully!</h2>');
             } else {
-                $('#gq-msg-success').append('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="'+ fullPath +'public/images/tick.png">Evidence Disapproved successfully!</h2></div>');
+                $('.gq-id-files-upload-success-text').show();
+                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ fullPath +'public/images/tick.png">Evidence Disapproved successfully!</h2>');
             }
         }
     });
 });
 
 $("#disapprove").click(function () {
-	var userRole = $('#applicantEStatus').attr('userRole');
+    var userRole = $('#applicantEStatus').attr('userRole');
     $.ajax({
         type: "POST",
         url: fullPath + "setUserUnitEvidencesStatus",
         data: { unit: unit, userId: userId, userRole: userRole, status: '0' },
         success:function(result) {
             if (result == '1') {
-                $('#gq-msg-success').html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="'+ fullPath +'public/images/tick.png">Evidence Approved successfully!</h2></div>');
+                $('#gq-msg-success').hide();
+                $('.gq-id-files-upload-success-text').show();
+                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ fullPath +'public/images/tick.png">Evidence Approved successfully!</h2>');
             } else {
-                $('#gq-msg-success').append('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="'+ fullPath +'public/images/tick.png">Evidence Disapproved successfully!</h2></div>');
+                $('.gq-id-files-upload-success-text').show();
+                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ fullPath +'public/images/tick.png">Evidence Disapproved successfully!</h2>');
             }
         }
     });

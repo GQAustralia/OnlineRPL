@@ -75,11 +75,10 @@
                                 <li><a {% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/qualifications"><span class="gq-courses-icon"><img src="{{ asset('public/images/courses.png') }}" /></span><span class="left-nav-txt">Qualifications</span></a></li>
                                 {% else %}
                                 <li><a {% if app.request.attributes.get('_route') == 'applicants' or app.request.attributes.get('_route') == 'applicantDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicants"><span class="gq-courses-icon"><img src="{{ asset('public/images/applicantlist.png') }}" /></span><span class="left-nav-txt">Applicants List</span></a></li>
-                                
                                 <li><a {% if app.request.attributes.get('_route') == 'reminder' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reminder"><span class="gq-courses-icon"><img src="{{ asset('public/images/todolist.png') }}" /></span><span class="left-nav-txt">To Do List</span></a></li>
                                 {% endif %}
                                 
-                                <li><a {% if app.request.attributes.get('_route') == 'messages' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/messages"><span class="gq-messages-icon"><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
+                                <li><a {% if app.request.attributes.get('_route') == 'messages' or app.request.attributes.get('_route') == 'compose' or app.request.attributes.get('_route') == 'sent' or app.request.attributes.get('_route') == 'trash' or app.request.attributes.get('_route') == 'view' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/messages"><span class="gq-messages-icon"><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
                                 
                                 {% if 'ROLE_APPLICANT' in roles %}
                                 <li><a {% if app.request.attributes.get('_route') == 'evidences' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/evidences"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Evidence Files</span></a></li>
