@@ -745,6 +745,5 @@ class UserService
     public function getMessage($mid)
     {
        return $this->em->getRepository('GqAusUserBundle:Message')->find($mid);
-       
     }
 }
