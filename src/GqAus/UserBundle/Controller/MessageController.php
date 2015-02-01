@@ -114,39 +114,39 @@ class MessageController extends Controller
         return $this->render(
             'GqAusUserBundle:Message:draft.html.twig',array('unreadcount' => $unreadcount));
     }
+    
+    /**
+    * Function to mark as read / unread
+    */
     public function markAsReadAction(Request $request)
     {
         $readStatus = $request->get("readStatus");
         $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
-        foreach($checkedMessages as $cm){
-            $messageService->markAsReadStatus($cm, $readStatus);
+        foreach($checkedMessages as $cm) {
+            $messageService->markReadStatus($cm, $readStatus);
         }
-        echo $messageService->getUnreadMessagesCount($userid)."&&success";
-        exit;
-    }
-    public function deleteFromUserAction(Request $request)
-    {
-        $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
-        $messageService = $this->get('UserService');
-        foreach($checkedMessages as $cm){
-            $messageService->setToUserDeleteStatus($cm,1);
-        }
-        echo "success";
-        exit;
+        echo $messageService->getUnreadMessagesCount($userid)."&&success"; exit;
     }
     
-    public function deleteFromUserSentAction(Request $request)
+    /**
+    * Function to trash messages.
+    */
+    public function deleteFromUserAction(Request $request)
     {
+        $type = $request->get("type");
         $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
         $messageService = $this->get('UserService');
-        foreach($checkedMessages as $cm){
-            $messageService->setToUserDeleteSentStatus($cm,1);
+        foreach($checkedMessages as $cm) {
+            $messageService->setUserDeleteStatus($cm, 1, $type);
         }
-        echo "success";
-        exit;
+        echo "success"; exit;
     }
+  
+    /**
+    * Function to delete messages from tash
+    */
     public function viewMessageAction($mid, Request $request)
     {
         $messageService = $this->get('UserService');
@@ -157,13 +157,13 @@ class MessageController extends Controller
         return $this->render('GqAusUserBundle:Message:message.html.twig', array('unreadcount' => $unreadcount,"message" => $message));
     }
     
-    
     public function deleteFromTrashAction(Request $request)
     {
         $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
         $messageService = $this->get('UserService');
-        foreach($checkedMessages as $cm){
-            $messageService->setToUserDeleteFromTrash($cm,1);
+        $userid = $messageService->getCurrentUser()->getId();
+        foreach($checkedMessages as $cm) {
+            $messageService->setToUserDeleteFromTrash($userid, $cm, 2);
         }
         echo "success"; exit;
     }
