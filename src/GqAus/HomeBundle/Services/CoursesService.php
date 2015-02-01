@@ -41,8 +41,7 @@ class CoursesService
     {
         $courseInfo = $this->fetchRequest($id);
         if (!empty($courseInfo)) {
-            if(!empty($courseInfo['details']))
-            {
+            if(!empty($courseInfo['details'])) {
                 $courseInfo['details'] = html_entity_decode($courseInfo['details']);
             }
         }
