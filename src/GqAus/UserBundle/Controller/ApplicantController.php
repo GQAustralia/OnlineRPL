@@ -36,7 +36,8 @@ class ApplicantController extends Controller
         $status = $this->getRequest()->get('status');
         $userRole = $this->getRequest()->get('userRole');
         $currentUserName = $this->get('security.context')->getToken()->getUser()->getUserName();
-        echo $this->get('UserService')->updateApplicantEvidences($userId, $unit, $userRole, $status, $currentUserName);
+		$currentUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        echo $this->get('UserService')->updateApplicantEvidences($userId, $unit, $userRole, $status, $currentUserName, $currentUserId);
         exit;
     }
     
@@ -52,7 +53,7 @@ class ApplicantController extends Controller
         echo $status = $this->get('UserService')->addQualificationReminder($userId, $userCourseId, $message, $remindDate);
         exit;
     }
-    
+
     /**
     * Function list applicants list
     * return $result array
@@ -66,7 +67,7 @@ class ApplicantController extends Controller
         $results['pageRequest'] = 'submit';
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
-    
+
     /**
     * Function search applicants list
     * return $result array

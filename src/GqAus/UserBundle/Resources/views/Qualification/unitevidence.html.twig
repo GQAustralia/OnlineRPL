@@ -282,6 +282,7 @@
             {% if (('ROLE_RTO' in currentUserRole) and (unitStatus.facilitatorstatus == '1') and (unitStatus.assessorstatus == '1')) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_ASSESSOR' in currentUserRole) %}
                 <button type="submit" id="approve" class="btn btn-green">Approve</button>
                 <button type="submit" id="disapprove" class="btn btn-red">Disapprove</button>
+                <div class="gq-id-files-upload-success-text" style="display: none;"></div>
             {% endif %}
         {% endif %}
         </span>
