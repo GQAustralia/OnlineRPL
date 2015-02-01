@@ -544,10 +544,13 @@ $(".markasread").click(function () {
                         $("#msg-"+checkedids[i]).prop('checked', false);
                         $("#msg-"+checkedids[i]).addClass("gq-msg-visited");
                     }
-                    if(parseInt(rec[0])>0)
+                    if(parseInt(rec[0])>0) {
                         $(".inbox-cnt").html("("+rec[0]+")");
-                    else
+                        $("#unread-count").html('<span class="gq-ms-counter">'+rec[0]+'<span>');
+                    } else {
                         $(".inbox-cnt").html("");
+                        $("#unread-count").html("");
+                    }
                 }
                 
             }
@@ -575,10 +578,13 @@ $(".markasunread").click(function () {
                         $("#msg-"+checkedids[i]).prop('checked', false);
                         $("#msg-"+checkedids[i]).removeClass("gq-msg-visited");
                     }
-                    if(parseInt(rec[0])>0)
+                    if(parseInt(rec[0])>0) {
                         $(".inbox-cnt").html("("+rec[0]+")");
-                    else
+                        $("#unread-count").html('<span class="gq-ms-counter">'+rec[0]+'<span>');
+                    } else {
                         $(".inbox-cnt").html("");
+                        $("#unread-count").html("");
+                    }
                 }
                 
             }

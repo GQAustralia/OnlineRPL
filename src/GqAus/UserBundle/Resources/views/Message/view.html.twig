@@ -38,18 +38,26 @@
                     <div class="gq-id-files">
                         <div class="gq-msg-header">
                             <div class="row">
+                                <div class="gq-mail-title-text"><h2>Inbox</h2></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    
+                    <div class="gq-msg-wrap" id="messages-grid">
+                        
+                        <div class="gq-msg-row-bg gq-messages-icons-border ">
                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                                     <span class="msg-checkmark-icon" onClick="inboxcheckall();">
                                         <input type="checkbox" name="msgs_inbox[]" id="chk-main-all" class="styled">
                                     </span>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-3 col-xs-3">
-                                    <div class="gq-msg-trash-icon"><a /*data-toggle="tooltip"*/ data-toggle="modal" data-target="" data-placement="right" title="Delete selected" class="modalClass deleteselected"><img src="{{ asset('public/images/trash.png') }}" /></a></div>
+                                    <div class="gq-msg-trash-icon"><a data-toggle="modal" data-target="" data-placement="right" title="Delete selected" class="modalClass deleteselected"><img src="{{ asset('public/images/trash.png') }}" /></a></div>
                                     <div class="gq-msg-mark-icon"><a data-toggle="tooltip" data-placement="right" title="Mark as Read" class="markasread"><img src="{{ asset('public/images/pencil.png') }}" /></a></div>
                                     
-                                    <div class="gq-msg-mark-icon"><a data-toggle="tooltip" data-placement="right" title="Mark as UnRead" class="markasunread"><img src="{{ asset('public/images/pencil.png') }}" /></a></div>
-                                    
-                                    <div class="gq-msg-mark-icon msg-ajax-loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></div>
+                                    <div class="gq-msg-mark-icon"><a data-toggle="tooltip" data-placement="right" title="Mark as UnRead" class="markasunread"><img src="{{ asset('public/images/pencil-unread.png') }}" /></a></div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8">
                                     {# display navigation for pages - paginator_navigator #}
@@ -57,12 +65,9 @@
                                         {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
                                     {% endif %}
                                 </div>
-                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="gq-msg-wrap" id="messages-grid">
+                        
+                        
                         {% if messages %}
                             {% if messages|length > 0 %}
                                 {% for key, message in messages %}

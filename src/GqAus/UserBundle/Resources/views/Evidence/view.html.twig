@@ -15,9 +15,9 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div class="gq-evidence">
+            <div class="gq-evidence gq-dashboard-tabs">
                 <!-- Tabs start here -->
-                <ul class="nav nav-pills margin-top15 gq-evidence-tabs" role="tablist" id="myTab">
+                <ul class="nav nav-pills margin-top15 wid50p gq-evidence-tabs nav-justified" role="tablist" id="myTab">
                     <li role="presentation" class="active" ><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a></li>
                     <li role="presentation"><a href="#audios" aria-controls="address" role="tab" data-toggle="tab">Audios</a></li>
                     <li role="presentation"><a href="#videos" aria-controls="videos" role="tab" data-toggle="tab">Videos</a></li>
@@ -52,7 +52,7 @@
                                             <div class="gq-id-files-content-row">
                                                 <label>Title</label>
                                                 <span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{{evidence.title|slice(0, 20)}}</span>
-                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel">Edit</a>    
+                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('/public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>    
                                             </div>
                                             <div class="gq-id-files-content-row">
                                                 <label>Size</label><span>{{evidence.size}}</span>
@@ -99,7 +99,7 @@
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
                                                 <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{{evidence.name|slice(0, 20)}}</span>
-                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel">Edit</a>
+                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('/public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>    
                                             </div>
                                             <div class="gq-id-files-content-row">
                                                 <label>Size</label><span>{{evidence.size}}</span>
@@ -145,7 +145,7 @@
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
                                                 <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{{evidence.name|slice(0, 20)}}</span>
-                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel">Edit</a>
+                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('/public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>    
                                             </div>
                                             <div class="gq-id-files-content-row">
                                                 <label>Size</label><span>{{evidence.size}}</span>
@@ -230,7 +230,7 @@
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
                                                 <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{{evidence.name|slice(0, 20)}}</span>
-                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel">Edit</a>
+                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('/public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>
                                             </div>
                                             <div class="gq-id-files-content-row">
                                                 <label>Size</label><span>{{evidence.size}}</span>
