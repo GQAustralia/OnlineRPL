@@ -666,11 +666,13 @@ function loadApplicantList(divContent)
         }
     });
 }
+
 function getCompletedtabData()
 {
     var data = "this is ajax data";
     $("#completed-tab").html(data);
 }
+
 /*Messages*/
 function inboxcheckall() {
     if(document.getElementById("chk-main-all").checked == true)

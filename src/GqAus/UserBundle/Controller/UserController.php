@@ -83,9 +83,9 @@ class UserController extends Controller
 
         }
 
-        $userImage = $user->getUserImage();
+        $userImage = 'public/uploads/'.$user->getUserImage();
         if (empty($userImage)) {
-            $userImage = 'profielicon.png';
+            $userImage = 'public/images/profielicon.png';
         }
         
         $userIdFiles = $user->getIdfiles();
@@ -290,9 +290,9 @@ class UserController extends Controller
             $matrixFiles = '';
         }
         
-        $userImage = $user->getUserImage();
+        $userImage = 'public/uploads/'.$user->getUserImage();
         if (empty($userImage)) {
-            $userImage = 'profielicon.png';
+            $userImage = 'public/images/profielicon.png';
         }
         
         return $this->render('GqAusUserBundle:User:assessorProfile.html.twig', array(
