@@ -16,7 +16,7 @@
     {% endblock %}
     {% block stylesheets %}{% endblock %}
 
-   
+    
   </head>
   <body>
     <div class="page-wrap">
@@ -78,7 +78,7 @@
                                 <li><a {% if app.request.attributes.get('_route') == 'reminder' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reminder"><span class="gq-courses-icon"><img src="{{ asset('public/images/todolist.png') }}" /></span><span class="left-nav-txt">To Do List</span></a></li>
                                 {% endif %}
                                 
-                                <li><a {% if app.request.attributes.get('_route') == 'messages' or app.request.attributes.get('_route') == 'compose' or app.request.attributes.get('_route') == 'sent' or app.request.attributes.get('_route') == 'trash' or app.request.attributes.get('_route') == 'view' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/messages"><span class="gq-messages-icon"><span  id="unread-count"><span class="gq-ms-counter">{% if unreadcount > 0 %} {{ unreadcount }} {% endif %}</span></span><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
+                                <li><a {% if app.request.attributes.get('_route') == 'messages' or app.request.attributes.get('_route') == 'compose' or app.request.attributes.get('_route') == 'sent' or app.request.attributes.get('_route') == 'trash' or app.request.attributes.get('_route') == 'view' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/messages"><span class="gq-messages-icon"><span id="unread-count"></span><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
                                 
                                 {% if 'ROLE_APPLICANT' in roles %}
                                 <li><a {% if app.request.attributes.get('_route') == 'evidences' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/evidences"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Evidence Files</span></a></li>
@@ -109,6 +109,7 @@
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script>
+        onloadCount();
     $(document).ready(function(){
         setInterval(function(){SetHeight()}, 100);
         

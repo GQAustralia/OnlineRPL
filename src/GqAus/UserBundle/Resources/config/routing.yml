@@ -121,3 +121,6 @@ viewMessage:
 deleteFromTrash:
     path:     /deleteFromTrash
     defaults: { _controller: GqAusUserBundle:Message:deleteFromTrash }
+unread:
+    path:     /unread
+    defaults: { _controller: GqAusUserBundle:Message:unread }
