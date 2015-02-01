@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Messages Sent{% endblock %}
+{% block body %}    
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="gq-dashboard-title">Messages</h1>
+                    <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            {% for flashMessage in app.session.flashbag.get('msgnotice') %}
+            <div class="row" id="profile_suc_msg">
+                <div class="gq-id-files-upload-success-text">
+                  <h2><img src="{{ asset('public/images/tick.png') }}">
+                    {{ flashMessage }}</h2>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="col-xs-push-4 col-xs-4" id="change_pwd_error">
+                {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                <div class="gq-well well">
+                    <span class="login-warning-icon" aria-hidden="true"></span>
+                    <div class="login-warning-text">{{ flashMessage }}</div>
+                </div>
+               {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% include 'GqAusUserBundle:Message:leftmenu.html.twig' %}
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="row">
+        <div class="col-xs-12">
+                <div class="gq-id-files">
+                        <div class="gq-msg-header">
+                                <div class="row">
+                                <div class="col-xs-12">
+                                        <h2 class="gq-msg-header-title">View Messages</h2>
+                                </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="gq-msg-wrap">
+                        <div class="gq-msg-row-bg gq-msg-visited">
+                                <div class="col-xs-12">
+                                    <div class="gq-msg-from"><strong>{{message.inbox.userName}} </strong></div>
+                                </div>
+                        </div>
+                        <div class="gq-msg-row-bg gq-msg-visited">
+                                <div class="col-xs-12">
+                                        <div class="gq-msg-from">{{message.subject}}</div>
+                                </div>
+                        </div>
+                        <div class="gq-msg-row-bg gq-msg-visited">
+                                <div class="col-xs-12">
+                                        {{message.message}}
+                                </div>
+                                <div class="gq-messages-button-wrap">
+                                        <button class="btn btn-red">Reply</button>
+                                                <span class="flip-icon"></span>
+                                </div>
+                        </div>
+                </div>
+        </div>
+        </div>
+</div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+<script type="text/javascript" src="{{ asset('public/js/custom-jquery.js') }}"></script>
+{% endblock %}

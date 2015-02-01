@@ -1,9 +1,9 @@
-    <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+<div class="gq-acc-wrap">
+	<div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
     <!-- accordion starts here -->
             {% if applicantList %}
              {% for key, list in applicantList %}
-            <div class="gq-acc-wrap">
-            <div>
+            <div class="gq-acc-row-bg">
                 <input id="acc-1" name="accordion-1" type="checkbox" checked/>
                 <div class="row no-margin">
                     <div class="gq-acc-row-bg">
@@ -54,13 +54,14 @@
                     </div>
                 </div>
             </div>
-            </div>
             {% endfor %}
             {% else %}
                  <div class="gq-tabs-no-content-text margin-top15">No Applicants Found</div>
             {% endif %}
         <!-- accordion ends here -->
     </div>
+</div>
+	
 {% if pageRequest == 'ajax' %}
     {% block javascripts %}
     <script type="text/javascript">

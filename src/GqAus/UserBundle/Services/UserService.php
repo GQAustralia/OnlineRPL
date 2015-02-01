@@ -713,6 +713,16 @@ class UserService
         $this->em->flush();
     }
     
+    /**
+    * Function to get messages to view
+    * return void
+    */
+    public function getMessage($mid)
+    {
+       return $this->em->getRepository('GqAusUserBundle:Message')->find($mid);
+       
+    }
+    
     public function setToUserDeleteFromTrash($id,$flag)
     {
         /*$msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);

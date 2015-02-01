@@ -147,6 +147,16 @@ class MessageController extends Controller
         echo "success";
         exit;
     }
+    public function viewMessageAction($mid, Request $request)
+    {
+        $messageService = $this->get('UserService');
+        $userid = $messageService->getCurrentUser()->getId();
+        $unreadcount = $messageService->getUnreadMessagesCount($userid);
+        
+        $message = $messageService->getMessage($mid);
+        return $this->render('GqAusUserBundle:Message:message.html.twig', array('unreadcount' => $unreadcount,"message" => $message));
+    }
+    
     
     public function deleteFromTrashAction(Request $request)
     {
