@@ -129,6 +129,7 @@ class MessageController extends Controller
         $page = $this->get('request')->query->get('page', 1);
         $result = $messageService->getmyTrashMessages($userid, $page);
         $result['unreadcount'] = $unreadcount;
+        $result['userid'] = $userid;
         $now = new DateTime('now');
         $result['today'] = $now->format('Y-m-d');
         return $this->render('GqAusUserBundle:Message:trash.html.twig', $result);
@@ -183,7 +184,8 @@ class MessageController extends Controller
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
         $messageService->setReadViewStatus($mid);
         $message = $messageService->getMessage($mid);
-        return $this->render('GqAusUserBundle:Message:message.html.twig', array('unreadcount' => $unreadcount, "message" => $message));
+        $content = html_entity_decode($message->getMessage());
+        return $this->render('GqAusUserBundle:Message:message.html.twig', array('unreadcount' => $unreadcount, "message" => $message, 'content' => $content));
     }
     
     /**

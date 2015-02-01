@@ -714,3 +714,7 @@ function getAllCheckBoxes() {
 }
 
 /*End Messages*/
+
+$(".date-icon").click(function () {
+    //$(".datepic").datepicker("show");
+});

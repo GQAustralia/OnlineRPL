@@ -70,6 +70,11 @@
                                             </span>
                                         </div>
                                         <div class="col-xs-3">
+                                             {% if message.inbox.id ==  userid %}
+                                                {% set name = message.inbox.firstname %}
+                                            {% else %}
+                                                {% set name = message.sent.firstname %}
+                                            {% endif %}
                                             <div class="gq-msg-from">{{message.inbox.firstname}}</div>
                                         </div>
                                         <div class="col-xs-5">

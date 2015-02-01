@@ -1,5 +1,5 @@
 <div class="gq-acc-wrap">
-	<div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
     <!-- accordion starts here -->
             {% if applicantList %}
              {% for key, list in applicantList %}
@@ -34,7 +34,7 @@
                                     <div class="gq-applicant-list-due-date">
                                         <div class="col-xs-7 no-padding">
                                         <input type="text" class="datepic" id="remindDate_{{list.id}}" placeholder="Due Date" /></div>
-                                        <div class="col-xs-5 no-padding"><a class="pull-right"><img src="{{ asset('public/images/applicant-lists-grey-date-icon.png') }}" /></a></div>
+                                        <div class="col-xs-5 no-padding"><a class="pull-right"><img src="{{ asset('public/images/applicant-lists-grey-date-icon.png') }}" class="date-icon" /></a></div>
                                     </div>
                                     <div class="gq-applicant-list-notes-box">
                                         <button class="btn btn-red setData" userCourseId="{{list.id}}">SET</button>
@@ -61,11 +61,11 @@
         <!-- accordion ends here -->
     </div>
 </div>
-	
+    
 {% if pageRequest == 'ajax' %}
     {% block javascripts %}
     <script type="text/javascript">
-        $( ".datepic" ).datepicker();
+        $(".datepic").datepicker();
         $(".setNotes").click(function () {
             id = $(this).attr("id");
             var c = $('#div_'+id).hasClass( "open" );

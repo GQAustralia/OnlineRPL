@@ -79,7 +79,7 @@ class UserService
              <a href='".$applicationUrl."resetpassword/".$token."'>Click Here </a><br>
              If you don't use this link within 4 hours, it will expire. <br>To get a new password reset link, visit ".$applicationUrl."forgotpassword
              <br><br> Regards,<br>OnlineRPL";
-            
+
             $this->sendExternalEmail($mailerInfo);
                 
             $message = 'A request for password reset is sent to this address.';
@@ -312,13 +312,15 @@ class UserService
     * Function to update applicant evidences information
     * return $result array
     */
-    public function updateApplicantEvidences($userId, $unit, $userRole, $status, $currentUserName)
+    public function updateApplicantEvidences($userId, $unit, $userRole, $status, $currentUserName, $currentUserId)
     {
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $userId,
                                                                                         'unitId' => $unit));
         $mailerInfo = array();
         $userName = $courseUnitObj->getUser()->getUsername();
         $mailerInfo['to'] = $courseUnitObj->getUser()->getEmail();
+        $mailerInfo['inbox'] = $courseUnitObj->getUser()->getId();
+        $mailerInfo['sent'] = $currentUserId;
         if ($userRole == 'ROLE_FACILITATOR') {
             $courseUnitObj->setFacilitatorstatus($status);
         } elseif ($userRole == 'ROLE_ASSESSOR') {
@@ -335,10 +337,11 @@ class UserService
             $evidenceStatus = 'Disapproved';
         }
         $mailerInfo['subject'] = 'User Unit Status';
-        $mailerInfo['body'] = "Dear ".$userName.",<br><br> Unit : ".$unit." evidences is been ".$evidenceStatus." by ".$currentUserName."
+        $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.",<br><br> Unit : ".$unit." evidences is been ".$evidenceStatus." by ".$currentUserName."
          <br><br> Regards,<br>OnlineRPL";
          
         $this->sendExternalEmail($mailerInfo);
+        $this->sendMessagesInbox($mailerInfo);
         return $status;
     }
     
@@ -425,30 +428,37 @@ class UserService
             $userType = 'rto';
             $userStatus = 'rtostatus';
         }
-        
         $usercoures = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array($userType => $userId));
         if (!empty($usercoures)) {
             foreach ($usercoures as $course) {
                 $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
                                     ->findOneBy(array('user' => $course->getUser()->getId(),
                                     'courseCode' => $course->getcourseCode()));
+                
                 if (!empty($courseObj)) {
-                    $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+                    $courseUnitExistObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
                                         ->findOneBy(array('user' => $course->getUser()->getId(),
                                         'courseCode' => $course->getcourseCode(),
-                                        $userStatus => '0',
                                         'status' => '1'));
-                    if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
-                        if ($userType == 'facilitator') {
-                            $course->setFacilitatorstatus('1');
-                        } elseif ($userType == 'assessor') {
-                            $course->setAssessorstatus('1');
-                        } elseif ($userType == 'rto') {
-                            $course->setRtostatus('1');
-                            $course->setCourseStatus('1');
-                        }
-                         $this->em->persist($course);
-                         $this->em->flush();
+                    if (!empty($courseUnitExistObj)) {
+                        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+                                            ->findOneBy(array('user' => $course->getUser()->getId(),
+                                            'courseCode' => $course->getcourseCode(),
+                                            $userStatus => '0',
+                                            'status' => '1'));
+                        if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
+                            if ($userType == 'facilitator') {
+                                $course->setFacilitatorstatus('1');
+                            } elseif ($userType == 'assessor') {
+                                $course->setAssessorstatus('1');
+                            } elseif ($userType == 'rto') {
+                                $course->setRtostatus('1');
+                                $course->setCourseStatus('1');
+                            }
+                             $this->em->persist($course);
+                             $this->em->flush();
+                        }//if
+                        
                     }//if
                 }//if
             }//foreach
@@ -550,7 +560,8 @@ class UserService
             $res = $this->em->getRepository('GqAusUserBundle:Evidence')
                     ->createQueryBuilder('e')
                     ->select("DISTINCT e.unit")
-                    ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId);
+                    ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId)
+                    ->andWhere(sprintf('e.%s = :%s', 'course', 'course'))->setParameter('course', $courseCode);
             $applicantList = $res->getQuery()->getResult();
             $evidenceCount = count($applicantList);
             $completeness = ($evidenceCount/$totalNoCourses) * 100;
@@ -638,7 +649,7 @@ class UserService
     * Function to save the message
     * return void
     */
-    public function saveMessageData($sentuser,$curuser,$msgdata)
+    public function saveMessageData($sentuser, $curuser, $msgdata)
     {
         $msgObj = new \GqAus\UserBundle\Entity\Message();
         $msgObj->setInbox($sentuser);
@@ -757,5 +768,15 @@ class UserService
         $msgObj->setRead("1");
         $this->em->persist($msgObj);
         $this->em->flush();
-    }  
+    }
+    
+    /**
+    * Function to send message to inbox
+    */
+    public function sendMessagesInbox($mailInfo)
+    {
+        $inbox = $this->getUserInfo($mailInfo['inbox']);
+        $sent = $this->getUserInfo($mailInfo['sent']);
+        $this->saveMessageData($inbox, $sent, $mailInfo);
+    }
 }
