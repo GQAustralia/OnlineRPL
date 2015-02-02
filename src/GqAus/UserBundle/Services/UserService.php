@@ -480,8 +480,11 @@ class UserService
             $userType = 'rto';
             $userStatus = 'rtostatus';
         }
-        $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array($userType => $userId,
-                                                                                        $userStatus => $applicantStatus));
+        $result = array($userType => $userId, $userStatus => $applicantStatus);
+        if ($userType == 'rto') {
+            $result['assessorstatus'] = '1';
+        }
+        $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy($result);
         return count($getCourseStatus);
     }
     
