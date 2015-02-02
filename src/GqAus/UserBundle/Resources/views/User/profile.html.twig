@@ -23,24 +23,24 @@
             </div>    
         </div>
         <div class="col-xs-12">
-			<div class="row">
-					<div class="gq-edit-photo-btn">
-							<span class="btn-grey">{{ form_widget(form.userImage) }}</span>
-							<span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
-					</div>
-				<div class="ajax-profile-error" id="ajax-profile-error"></div>
-			</div>
+            <div class="row">
+                <div class="gq-edit-photo-btn">
+                    <span class="btn-grey">{{ form_widget(form.userImage) }}</span>
+                    <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
+                </div>
+                <div class="ajax-profile-error" id="ajax-profile-error"></div>
+            </div>
         </div>
-		<div class="col-xs-12">
+        <div class="col-xs-12">
             {% for flashMessage in app.session.flashbag.get('notice') %}
             <div class="row" id="profile_suc_msg">
                 <div class="gq-id-files-upload-success-text">
-                  <h2><img src="{{ asset('public/images/tick.png') }}">
+                    <h2><img src="{{ asset('public/images/tick.png') }}">
                     {{ flashMessage }}</h2>
                 </div>
             </div>
             {% endfor %}
-                    
+
             <div class="col-xs-push-4 col-xs-4" id="change_pwd_error">
                 {% for flashMessage in app.session.flashbag.get('errornotice') %}
                 <div class="gq-well well">
@@ -73,68 +73,68 @@
                     <div role="tabpanel" class="tab-pane active" id="personal">
                         <div class="gq-form-personal wid60p">
                             {{ form_start(form) }}
-                                <div class="gq-form-row">
-                                    <label for="gq-first-name">First Name</label>
+                            <div class="gq-form-row">
+                                <label for="gq-first-name">First Name</label>
                                     {{ form_widget(form.firstname) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-last-name">Last Name</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-last-name">Last Name</label>
                                     {{ form_widget(form.lastname) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-email-name">Email</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-email-name">Email</label>
                                     {{ form_widget(form.email) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label class="pull-left" for="gq-personal-pwd">Gender</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label class="pull-left" for="gq-personal-pwd">Gender</label>
                                     {{ form_widget(form.gender) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-personal-pwd">Phone</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-personal-pwd">Phone</label>
                                     {{ form_widget(form.phone) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-personal-pwd">Date Of Birth</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-personal-pwd">Date Of Birth</label>
                                     {{ form_widget(form.dateOfBirth) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-personal-pwd">USI</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-personal-pwd">USI</label>
                                     {{ form_widget(form.universalStudentIdentifier) }}
-                                </div>
-								<div class="wid100p text-center margin-top15">
-									<a href="#change-pwd-form" aria-controls="change-pwd-form" role="tab" data-toggle="tab" id="emptypwdform1">change password</a>
-								</div>
-                                <div class="gq-form-botton">
+                            </div>
+                            <div class="wid100p text-center margin-top15">
+                                <a href="#change-pwd-form" aria-controls="change-pwd-form" role="tab" data-toggle="tab" id="emptypwdform1">change password</a>
+                            </div>
+                            <div class="gq-form-botton">
                                     {{ form_widget(form.save, {'attr': {'class': 'btn btn-default'}}) }}
-                                </div>
+                            </div>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="address">
                         <div class="gq-form-personal wid60p">
-                                <div class="gq-form-row">
-                                    <label for="gq-last-name">Address</label>
+                            <div class="gq-form-row">
+                                <label for="gq-last-name">Address</label>
                                     {{ form_widget(form.address.address) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-last-name">Area</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-last-name">Area</label>
                                     {{ form_widget(form.address.area) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-last-name">City</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-last-name">City</label>
                                     {{ form_widget(form.address.city) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-email-name">State</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-email-name">State</label>
                                     {{ form_widget(form.address.state) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-personal-pwd">Pincode</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-personal-pwd">Pincode</label>
                                     {{ form_widget(form.address.pincode) }}
-                                </div>
-                                <div class="gq-form-botton">
-                                    <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default">Save</button>
-                                </div>
-                       
+                            </div>
+                            <div class="gq-form-botton">
+                                <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default">Save</button>
+                            </div>
+
                         </div>
                     </div>
                      {{ form_end(form) }}
@@ -143,9 +143,9 @@
                         <div class="gq-id-files-upload-text">
                             <h2>Upload ID Files</h2>
                         </div>
-                        
+
                         <div class="gq-id-files">
-                            <form name = "Id_files" method = "POST" action="idfileupload" enctype="multipart/form-data">
+                            <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data">
                                 <div class="gq-id-files-header gq-id-files-header-applicant">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
@@ -158,7 +158,8 @@
                                                 <span class="cloud-icon-browse">{{ form_widget(filesForm.browse) }} </span>
                                             </div>
                                         </div>
-										<div id="idfiletype_image"></div>
+                                        <div class="loading-icon" style="display: none;" id="ID_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
+                                        <div id="idfiletype_image"></div>
                                         <div class="col-lg2 col-md-2 col-sm-4 col-xs-12">
                                             <div class="gq-id-files-submit-btn">
                                                 {{ form_widget(filesForm.save, { 'label': 'Upload' }) }}
@@ -169,27 +170,26 @@
                             </form>
                             <div class="gq-id-files-content-wrap">
                                 <div class="gq-dashboard-box-1x">
-								<div class="gq-dashboard-box-title-wrap">
-										<div class="col-lg-6 col-sm-6 col-md-6 col-xs-10">
-												<h2 class="gq-dashboard-box-title">Your ID Files</h2>
-										</div>
-										<div class="col-xs-6" id="idfiles_msg"></div>
-										<div class="col-xs-3"></div>
+                                    <div class="gq-dashboard-box-title-wrap">
+                                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-10">
+                                            <h2 class="gq-dashboard-box-title">Your ID Files</h2>
+                                        </div>
+                                        <div class="col-xs-6" id="idfiles_msg"></div>
+                                        <div class="col-xs-3"></div>
                                     </div>
                                     <div class="gq-dashboard-courses-detail-wrap margin-top15">
-                                        <div class="row">
+                                        <div class="row Id_files">
                                             {% for item in userIdFiles %}
                                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.id}}">
-                                                <div class="gq-dashboard-courses-detail">
-												
-												<span class="gq-dashboard-points-icon">
-													<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
-													<div class="gq-del-evidence"></div></a>
-													<div class="tooltip-home top">
-														<div class="tooltip-arrow"></div>
-														<span class="">Delete ID File</span>
-													</div>
-												</span>
+                                                <div class="gq-dashboard-courses-detail">												
+                                                    <span class="gq-dashboard-points-icon">
+                                                        <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
+                                                            <div class="gq-del-evidence"></div></a>
+                                                        <div class="tooltip-home top">
+                                                            <div class="tooltip-arrow"></div>
+                                                            <span class="">Delete ID File</span>
+                                                        </div>
+                                                    </span>
                                                     {% if item.type.id == 1 %}
                                                         {% set doc_type = 'gq-id-files-content-img-icon' %}
                                                     {#{% elseif item.type.id == 2 %}
@@ -205,7 +205,7 @@
                                                         <div class="gq-id-files-content-row">
                                                             <label>Added on</label><span>{{item.created|date("d/m/Y") }}</span>
                                                         </div>
-														
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -216,7 +216,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     {% endif %}
                     {% if ('ROLE_ASSESSOR' in userRole) %}
@@ -282,7 +282,7 @@
                                             </div>                                            
                                             {% endfor %}
                                             {% else %}
-                                                No resumes found
+                                            No resumes found
                                             {% endif %}
                                         </div>
                                     </div>
@@ -290,7 +290,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="gq-id-files">
                             <div class="gq-id-files-header gq-id-files-header-applicant">
                                 <div class="row">
@@ -345,16 +345,16 @@
                                             </div>                                            
                                             {% endfor %}
                                             {% else %}
-                                                No qualifications found
+                                            No qualifications found
                                             {% endif %}
-                                            
+
                                         </div>
                                     </div>
                                     <span class="flip-icon"></span>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="gq-id-files">
                             <div class="gq-id-files-header gq-id-files-header-applicant">
                                 <div class="row">
@@ -409,16 +409,16 @@
                                             </div>                                            
                                             {% endfor %}
                                             {% else %}
-                                                No reference letters found
+                                            No reference letters found
                                             {% endif %}
-                                            
+
                                         </div>
                                     </div>
                                     <span class="flip-icon"></span>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="gq-id-files">
                             <div class="gq-id-files-header gq-id-files-header-applicant">
                                 <div class="row">
@@ -438,9 +438,9 @@
                                                 {{ form_widget(matrixForm.save, { 'label': 'Upload' }) }}
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                    <div class="gq-id-files-submit-btn pull-right">
-                                                            <button class="btn btn-grey" id="download_matrix">Download<span class="gq-profile-download-icon"></span></button>
-                                                    </div>
+                                                <div class="gq-id-files-submit-btn pull-right">
+                                                    <button class="btn btn-grey" id="download_matrix">Download<span class="gq-profile-download-icon"></span></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
@@ -478,46 +478,46 @@
                                             </div>                                            
                                             {% endfor %}
                                             {% else %}
-                                                No trainer matrix found
+                                            No trainer matrix found
                                             {% endif %}
-                                            
+
                                         </div>
                                     </div>
                                     <span class="flip-icon"></span>
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     {% endif %}
                     <!-- Change Password --> 
                     <div role="tabpanel" class="tab-pane" id="change-pwd-form">
-                        
+
                         {{ form_start(changepwdForm) }}
                         <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
                         <div class="gq-form-personal wid60p">
-                                <div class="gq-form-row">
-                                    <label for="gq-last-name">Current Password</label>
+                            <div class="gq-form-row">
+                                <label for="gq-last-name">Current Password</label>
                                     {{ form_widget(changepwdForm.oldpassword) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-last-name">New Password</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-last-name">New Password</label>
                                     {{ form_widget(changepwdForm.newpassword) }}
-                                </div>
-                                <div class="gq-form-row">
-                                    <label for="gq-last-name">Confirm Password</label>
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-last-name">Confirm Password</label>
                                     {{ form_widget(changepwdForm.confirmnewpassword) }}
-                                </div>
-                            
-                                <div class="gq-form-botton">
+                            </div>
+
+                            <div class="gq-form-botton">
                                     {{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'btn btn-default'}}) }}
-                                </div>
-                                <div class="gq-form-botton">
-                                    <a href="#personal" aria-controls="personal" role="tab" data-toggle="tab" id="emptypwdform">Cancel</a>
-                                </div>
+                            </div>
+                            <div class="gq-form-botton">
+                                <a href="#personal" aria-controls="personal" role="tab" data-toggle="tab" id="emptypwdform">Cancel</a>
+                            </div>
                         </div>
                         {{ form_end(changepwdForm) }}
-                        
+
                     </div>
                     <!-- Change Password -->
                 </div>
@@ -535,18 +535,18 @@
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog gq-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" id="fclose" class="close" data-dismiss="modal" aria-label="Close"></button>
-        <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected file ?</h4>
-      </div>
-      <div class="modal-footer">
-        <a class="btn btn-white deleteIdFiles">Ok</a>
-        <a class="btn btn-white" id="fclose-cancel">Cancel</a>
-      </div>
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="fclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected file ?</h4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-white deleteIdFiles">Ok</a>
+                <a class="btn btn-white" id="fclose-cancel">Cancel</a>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 {% endblock %}
@@ -558,63 +558,63 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('.fancybox').fancybox();
-        $( "#userprofile_dateOfBirth" ).datepicker();
-        $("#password_save").click(function () {
+        $("#userprofile_dateOfBirth").datepicker();
+        $("#password_save").click(function() {
             var curpwd = $("#password_oldpassword").val();
             var newpwd = $("#password_newpassword").val();
             var newconfirmpwd = $("#password_confirmnewpassword").val();
             var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
             var enddiv = '</div></div>';
             var hdnpwdchk = $("#hdn_pwd_check").val();
-            if(curpwd!="" && newpwd!="" && newconfirmpwd!="")
-            { 
-                if(newpwd.length<6)
+            if (curpwd != "" && newpwd != "" && newconfirmpwd != "")
+            {
+                if (newpwd.length < 6)
                 {
-                    $("#change_pwd_error").html(startdiv+'New Password must be minimum of 6 characters'+enddiv);
+                    $("#change_pwd_error").html(startdiv + 'New Password must be minimum of 6 characters' + enddiv);
                     $("#password_newpassword").val('');
                     return false;
                 }
-                else if(newconfirmpwd.length<6)
+                else if (newconfirmpwd.length < 6)
                 {
-                    $("#change_pwd_error").html(startdiv+'New Confirm Password must be minimum of 6 characters'+enddiv);
+                    $("#change_pwd_error").html(startdiv + 'New Confirm Password must be minimum of 6 characters' + enddiv);
                     $("#password_confirmnewpassword").val('');
                     return false;
                 }
-                else if(curpwd==newpwd)
+                else if (curpwd == newpwd)
                 {
-                    $("#change_pwd_error").html(startdiv+'Current Password and New Password must be different'+enddiv);
+                    $("#change_pwd_error").html(startdiv + 'Current Password and New Password must be different' + enddiv);
                     $("#password_newpassword").val('');
                     $("#password_confirmnewpassword").val('');
                     return false;
                 }
-                else if(newpwd!=newconfirmpwd)
+                else if (newpwd != newconfirmpwd)
                 {
-                    $("#change_pwd_error").html(startdiv+'New Password and Confirm Password does not match'+enddiv);
+                    $("#change_pwd_error").html(startdiv + 'New Password and Confirm Password does not match' + enddiv);
                     $("#password_confirmnewpassword").val('');
                     return false;
                 }
-                else if(hdnpwdchk==0)
+                else if (hdnpwdchk == 0)
                 {
                     checkCurrentPassword($("#password_oldpassword").val());
-                    $("#change_pwd_error").html(startdiv+'Please wait till password gets validated'+enddiv);
+                    $("#change_pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
                     return false;
                 }
-                    
+
             }
         });
-        $("#password_oldpassword").blur(function () {
+        $("#password_oldpassword").blur(function() {
             checkCurrentPassword($("#password_oldpassword").val());
         });
-        $("#password_newpassword,#password_confirmnewpassword").keyup(function () {
+        $("#password_newpassword,#password_confirmnewpassword").keyup(function() {
             checkspace(this);
         });
-        $("#emptypwdform").click(function () {
+        $("#emptypwdform").click(function() {
             $("#gq-profile-tabs-headerid").show();
             $("#password_oldpassword").val('');
             $("#password_newpassword").val('');
             $("#password_confirmnewpassword").val('');
         });
-        $("#emptypwdform1 ").click(function () {
+        $("#emptypwdform1 ").click(function() {
             $("#gq-profile-tabs-headerid").hide();
             $("#password_oldpassword").val('');
             $("#password_newpassword").val('');
