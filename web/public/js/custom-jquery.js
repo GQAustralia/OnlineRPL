@@ -320,10 +320,10 @@ $("#userfiles_browse").click(function(){
   $("#idfiletype_image").html("");
 });
 
-$("#userfiles_browse").change(function(){
-  var fileName = $(this).val();
-  $("#idfiletype_image").html('<div class="col-lg2 col-md-2 col-sm-3 col-xs-12"><div class="gq-id-files-upload-txt">'+fileName+'</div></div>');
-});
+//$("#userfiles_browse").change(function(){
+//  var fileName = $(this).val();
+//  $("#idfiletype_image").html('<div class="col-lg2 col-md-2 col-sm-3 col-xs-12"><div class="gq-id-files-upload-txt">'+fileName+'</div></div>');
+//});
 
 $("#qclose-cancel").click(function () {
     $( "#qclose" ).trigger( "click" );
@@ -349,6 +349,31 @@ $(".openIcon").click(function () {
     }
 });
 
+$("#Id_files").ajaxForm({
+    beforeSubmit: function() {
+        $('#ID_load').show();
+    },
+    success: function(responseText, statusText, xhr, $form) {
+        $('#ID_load').hide();
+        if (responseText) {
+            var result = jQuery.parseJSON(responseText);
+            var name = result.name.split('.');
+            var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
+                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
+                                <div class="gq-del-evidence"></div></a>\n\
+                            <div class="tooltip-home top">\n\
+                                <div class="tooltip-arrow"></div>\n\
+                                <span class="">Delete ID File</span>\n\
+                            </div>\n\
+                        </span>\n\
+                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+            $('.Id_files').append(html);
+            $('#profile_suc_msg').css("display", "block").html('<h2><span></span>Files uploaded successfully</h2>').delay(5000).fadeOut(100);
+        }
+    },
+    resetForm: true
+});
+
 $("#resumeUpload").ajaxForm({
     beforeSubmit: function() {
         $('#resume_load').show();
@@ -356,7 +381,6 @@ $("#resumeUpload").ajaxForm({
     success: function(responseText, statusText, xhr, $form) {
         $('#resume_load').hide();
         if (responseText) {
-            $('.resume_files').html('');
             var result = jQuery.parseJSON(responseText);
             var name = result.name.split('.');
             var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
@@ -382,7 +406,6 @@ $("#qualificationUpload").ajaxForm({
     success: function(responseText, statusText, xhr, $form) {
         $('#qualification_load').hide();
         if (responseText) {
-            $('.qualification_files').html('');
             var result = jQuery.parseJSON(responseText);
             var name = result.name.split('.');
             var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\

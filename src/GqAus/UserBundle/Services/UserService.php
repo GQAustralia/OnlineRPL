@@ -790,9 +790,10 @@ class UserService
     */
     public function userImage($image)
     {
-        $userImage = '/public/uploads/'.$image;
-        if (empty($userImage)) {
-            $userImage = '/public/images/profielicon.png';
+        $path = $this->container->getParameter('applicationUrl');
+        $userImage = $path.'public/uploads/'.$image;
+        if (empty($image)) {
+            $userImage = $path.'public/images/profielicon.png';
         }
         return $userImage;
     }

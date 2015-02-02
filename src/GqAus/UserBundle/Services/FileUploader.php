@@ -84,7 +84,15 @@ class FileUploader
             $userIdFiles->setPath($fileNames['aws_file_name']);
             $this->em->persist($userIdFiles);
             $this->em->flush();
-        } 
+            $result = array(
+                'id' => $userIdFiles->getId(),
+                'name' => $fileNames['orginal_name'],
+                'path' => $fileNames['aws_file_name'],
+                'type' => $userIdFiles->getType()->getType(),
+                'date' => date('d/m/Y', $userIdFiles->getCreated())
+            );
+            return json_encode($result);
+        }
         return $fileNames;
     }
     
