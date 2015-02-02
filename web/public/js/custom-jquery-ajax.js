@@ -31,8 +31,9 @@ $(".viewModalClass").click(function () {
 
 $("#approve").click(function () {
     var userRole = $('#applicantEStatus').attr('userRole');
-	var courseName = $('#hid-course-name').val();
-	var unitName = $('#hid-unit-name').val();
+    var courseName = $('#hid-course-name').val();
+    var unitName = $('#hid-unit-name').val();
+    $('.loading-icon').show();
     $.ajax({
         type: "POST",
         url: fullPath + "setUserUnitEvidencesStatus",
@@ -48,12 +49,14 @@ $("#approve").click(function () {
             }
         }
     });
+    $('.loading-icon').hide();
 });
 
 $("#disapprove").click(function () {
     var userRole = $('#applicantEStatus').attr('userRole');
-	var courseName = $('#hid-course-name').val();
-	var unitName = $('#hid-unit-name').val();
+    var courseName = $('#hid-course-name').val();
+    var unitName = $('#hid-unit-name').val();
+    $('.loading-icon').show();
     $.ajax({
         type: "POST",
         url: fullPath + "setUserUnitEvidencesStatus",
@@ -69,4 +72,5 @@ $("#disapprove").click(function () {
             }
         }
     });
+    $('.loading-icon').hide();
 });
