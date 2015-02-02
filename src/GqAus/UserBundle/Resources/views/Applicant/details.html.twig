@@ -34,13 +34,7 @@
                     <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                             <div class="gq-assessor-appl-profile-pic">
-                                <div class="gq-assessor-profile-img" style="background-image:url('public/images/profielicon.png');">
-                                {% if userImage %}
-                                    <img src="{{ asset('public/uploads/') }}{{ userImage }}" />
-                                {% else %}
-                                    <img src="{{ asset('public/images/profielicon.png') }}" />
-                                {% endif %}
-                                </div>
+                                <div class="gq-assessor-profile-img" style="background-image: url(&quot;{{ userImage }}&quot;);"></div>
                                 <div class="gq-assessor-profile-img-txt">{{userName}}</div>
                             </div>
                         </div>

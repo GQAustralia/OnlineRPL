@@ -289,7 +289,7 @@ class UserService
         $results['profileCompleteness'] = $this->getUserProfilePercentage($user);
         $results['currentIdPoints'] = $this->getIdPoints($user);
         $results['userId'] = $user->getId();
-        $results['userImage'] = $user->getUserImage();
+        $results['userImage'] = $this->userImage($user->getUserImage());
         $results['userName'] = $user->getUsername();
         $otheruser = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $qcode,
                                                                                          'user' => $user->getId()));
@@ -638,7 +638,8 @@ class UserService
                 ->createQueryBuilder('m')
                 ->select("m")
                 ->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $userId)
-                ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0');
+                ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0')
+                ->addOrderBy('m.created', 'DESC');
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page,  $this->container->getParameter('pagination_limit_page'));
         return array('messages' => $pagination, 'paginator' => $paginator);
@@ -674,7 +675,8 @@ class UserService
                 ->createQueryBuilder('m')
                 ->select("m")
                 ->where(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId)
-                ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0');
+                ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0')
+                ->addOrderBy('m.created', 'DESC');
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page,  $this->container->getParameter('pagination_limit_page'));
         return array('messages' => $pagination, 'paginator' => $paginator);
@@ -694,7 +696,8 @@ class UserService
             ->setParameter('toStatus', '1');
         $query->orWhere(sprintf('m.%s = :%s AND m.%s = :%s', 'sent', 'sent', 'fromStatus', 'fromStatus'))
             ->setParameter('sent', $userId)
-            ->setParameter('fromStatus', '1');
+            ->setParameter('fromStatus', '1')
+            ->addOrderBy('m.created', 'DESC');
         //$query->orderBy('');
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page,  $this->container->getParameter('pagination_limit_page'));
@@ -777,5 +780,17 @@ class UserService
         $inbox = $this->getUserInfo($mailInfo['inbox']);
         $sent = $this->getUserInfo($mailInfo['sent']);
         $this->saveMessageData($inbox, $sent, $mailInfo);
+    }
+    
+    /**
+    * Function to send message to inbox
+    */
+    public function userImage($image)
+    {
+        $userImage = '/public/uploads/'.$image;
+        if (empty($userImage)) {
+            $userImage = '/public/images/profielicon.png';
+        }
+        return $userImage;
     }
 }
