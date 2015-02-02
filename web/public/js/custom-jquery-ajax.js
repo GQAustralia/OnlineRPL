@@ -31,10 +31,12 @@ $(".viewModalClass").click(function () {
 
 $("#approve").click(function () {
     var userRole = $('#applicantEStatus').attr('userRole');
+	var courseName = $('#hid-course-name').val();
+	var unitName = $('#hid-unit-name').val();
     $.ajax({
         type: "POST",
         url: fullPath + "setUserUnitEvidencesStatus",
-        data: { unit: unit, userId: userId, userRole: userRole, status: '1' },
+        data: { unit: unit, userId: userId, userRole: userRole, status: '1', courseName: courseName, unitName: unitName },
         success:function(result) {
             if (result == '1') {
                 $('#gq-msg-success').hide();
@@ -50,10 +52,12 @@ $("#approve").click(function () {
 
 $("#disapprove").click(function () {
     var userRole = $('#applicantEStatus').attr('userRole');
+	var courseName = $('#hid-course-name').val();
+	var unitName = $('#hid-unit-name').val();
     $.ajax({
         type: "POST",
         url: fullPath + "setUserUnitEvidencesStatus",
-        data: { unit: unit, userId: userId, userRole: userRole, status: '0' },
+        data: { unit: unit, userId: userId, userRole: userRole, status: '0', courseName: courseName, unitName: unitName },
         success:function(result) {
             if (result == '1') {
                 $('#gq-msg-success').hide();
