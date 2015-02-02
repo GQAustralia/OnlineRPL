@@ -572,7 +572,7 @@ a.btn-red {color:#ffffff;}
 .gq-messages-button-wrap .btn-red {padding:10px 44px;}
 .gq-messages-button-wrap .btn-grey {padding:10px 44px;}
 .gq-msg-header .gq-msg-header-title  {color:#f14a41; font-size:22px; width:100%; float:left; line-height:32px;}
-.gq-msg-from-to-input  input[type="text"]{border:0 none;}
+.gq-msg-from-to-input  input[type="text"], .gq-msg-from-to-input  input[type="email"]{border:0 none; width:100%; height:28px; padding-left:4px;}
 .gq-msg-from textarea{border:0 none; width:100%; min-height:320px; color:#bfbfbf;}
 .gq-msg-from-to-sub {width:76px; text-align:right; padding-right:10px;}
 .gq-msg-wrap.gq-msg-compose .gq-msg-row-bg{margin-bottom:1px;}
@@ -607,6 +607,8 @@ a.btn-red {color:#ffffff;}
 .gq-messages-icons-border .gq-msg-trash-icon a img, .gq-messages-icons-border .gq-msg-mark-icon a img{float:left;}
 .msg-checkmark-icon .checkbox {margin-left:-10px;}
 .gq-ms-counter {position:absolute; right:0; top:0; font-size:11px; background-color:#f14840; border:2px solid #000000; color:#ffffff; border-radius:50%; padding:3px;}
+.btn-wrap100p {width:50%; float:left; margin: auto 25%;}
+
 
 @media(max-width:360px){
 	.gq-evidence .nav-pills > li{ width:100%; }
@@ -646,6 +648,7 @@ a.btn-red {color:#ffffff;}
 .wid80p {width:100%; margin:0 auto;}
 .wid90p{width:100%; margin:0 auto;}
 .wid20p{width:100%; margin:0 auto;}
+.btn-wrap100p {width:100%; float:left; margin: auto 0;}
 .gq-id-files-upload-text, .gq-id-files-upload-success-text {padding-bottom:20px;}
 .gq-id-files-upload-btn, .gq-id-files-submit-btn {margin-top:15px;}
 .gq-dashboard-right {width:100%;}
