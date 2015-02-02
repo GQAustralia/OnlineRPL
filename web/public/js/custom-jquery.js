@@ -739,3 +739,24 @@ $(".date-icon").click(function () {
     remId = $(this).attr("id");
     $("#remindDate_" + remId).datepicker("show");
 });
+
+
+
+
+$("#disclose-cancel").click(function () {
+$( "#disclose" ).trigger( "click" );
+});
+
+$("form :input").change(function() {
+  $(this).closest('form').data('changed', true);
+});
+$('.checkform-changed').click(function() {
+  if($(this).closest('form').data('changed')) {
+      $(this).attr("data-target","#myModal");
+      return true;
+  }
+  else
+  {
+      location.href = fullPath+"messages";
+  }
+});
