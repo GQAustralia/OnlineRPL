@@ -18,6 +18,11 @@ security:
         - { path: ^/applicantDetails/.*, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/applicants, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/reminder, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/messages, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/compose, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/sent, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/trash, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/view, roles: IS_AUTHENTICATED_FULLY }
     providers:
         main:
             entity: {class: GqAusUserBundle:User, property: email}

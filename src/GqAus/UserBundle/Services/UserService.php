@@ -337,8 +337,8 @@ class UserService
             $evidenceStatus = 'Disapproved';
         }
         $mailerInfo['subject'] = 'Unit :'.$result['unitName'].' Status';
-        $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.",<br><br> Qualification : ".$result['courseName']." <br> Unit : ".$result['unitName']." <br> evidences is been ".$evidenceStatus." by ".$result['currentUserName']."
-         <br><br> Regards,<br>OnlineRPL";
+        $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.",<br>Qualification : ".$result['courseName']." <br> Unit : ".$result['unitName']." <br> evidences is been ".$evidenceStatus." by ".$result['currentUserName']."
+         <br>Regards,<br>OnlineRPL";
         $this->sendExternalEmail($mailerInfo);
         $this->sendMessagesInbox($mailerInfo);
         return $result['status'];
@@ -637,6 +637,9 @@ class UserService
     */
     public function getmyinboxMessages($userId, $page)
     {
+        if ($page < 0) {
+            $page = 1;
+        }
         $query = $this->em->getRepository('GqAusUserBundle:Message')
                 ->createQueryBuilder('m')
                 ->select("m")
@@ -674,6 +677,9 @@ class UserService
     */
     public function getmySentMessages($userId, $page)
     {
+        if ($page < 0) {
+            $page = 1;
+        }
         $query = $this->em->getRepository('GqAusUserBundle:Message')
                 ->createQueryBuilder('m')
                 ->select("m")
@@ -691,6 +697,9 @@ class UserService
     */
     public function getmyTrashMessages($userId, $page)
     {
+        if ($page < 0) {
+            $page = 1;
+        }
         $query = $this->em->getRepository('GqAusUserBundle:Message')
                 ->createQueryBuilder('m')
                 ->select("m");
