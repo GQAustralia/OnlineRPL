@@ -271,14 +271,13 @@
     <div class="text-center gq-id-files-button-content-wrap" id="applicantEStatus" userRole="{{currentUserRole.0}}">
         {% if ('ROLE_ASSESSOR' in currentUserRole) %}
             {% if unitStatus.facilitatorstatus == '1' %}
-                <div>Evidence Approved by facilitator</div>
-            {% endif %}                
+                <div>Evidence Approved by facilitator!</div>
+            {% endif %}
         {% endif %}
-    
 		<div class="gq-id-files-upload-success-text" style="display: none;"></div>
         <span id="gq-msg-success">
         {% if ((unitStatus.facilitatorstatus == '1') and ('ROLE_FACILITATOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and ('ROLE_ASSESSOR' in currentUserRole)) or ((unitStatus.facilitatorstatus == '1') and (unitStatus.assessorstatus == '1') and (unitStatus.rtostatus == '1') and ('ROLE_RTO' in currentUserRole)) %}
-            Approved
+			<div>You have Approved this Evidence!</div>
         {% else %}
             {% if (('ROLE_RTO' in currentUserRole) and (unitStatus.facilitatorstatus == '1') and (unitStatus.assessorstatus == '1')) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_ASSESSOR' in currentUserRole) %}
                 <button type="submit" id="approve" class="btn btn-green">Approve</button>
