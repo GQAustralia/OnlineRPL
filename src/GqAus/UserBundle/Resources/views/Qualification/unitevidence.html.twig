@@ -275,6 +275,7 @@
             {% endif %}                
         {% endif %}
     
+		<div class="gq-id-files-upload-success-text" style="display: none;"></div>
         <span id="gq-msg-success">
         {% if ((unitStatus.facilitatorstatus == '1') and ('ROLE_FACILITATOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and ('ROLE_ASSESSOR' in currentUserRole)) or ((unitStatus.facilitatorstatus == '1') and (unitStatus.assessorstatus == '1') and (unitStatus.rtostatus == '1') and ('ROLE_RTO' in currentUserRole)) %}
             Approved
@@ -282,13 +283,11 @@
             {% if (('ROLE_RTO' in currentUserRole) and (unitStatus.facilitatorstatus == '1') and (unitStatus.assessorstatus == '1')) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_ASSESSOR' in currentUserRole) %}
                 <button type="submit" id="approve" class="btn btn-green">Approve</button>
                 <button type="submit" id="disapprove" class="btn btn-red">Disapprove</button>
-                <div class="gq-id-files-upload-success-text" style="display: none;"></div>
                 <input type="hidden" name="hid-course-name" id="hid-course-name" value="{{course_name}}">
                 <input type="hidden" name="hid-unit-name" id="hid-unit-name" value="{{unittitle}}">
             {% endif %}
         {% endif %}
-        </span>
-        {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) %}
+		{% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) %}
             <form action="{{ base_url }}compose" method="post" name="composeevform">
                 <input type="hidden" name="course-name" value="{{course_name}}">
                 <input type="hidden" name="course-code" value="{{course_code}}">
@@ -301,6 +300,9 @@
         {% if 'ROLE_ASSESSOR' in currentUserRole %}
             <button type="submit" id="start_conversation" class="btn btn-grey">Start Conversation</button>
         {% endif %}
+        </span>
+		<span class="loading-icon" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+        
     </div>
     {% endif %}
     

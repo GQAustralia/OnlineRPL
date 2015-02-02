@@ -289,7 +289,7 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
         $courseUnits = array();
         if (!empty($userCourseUnits)) {
              foreach ($userCourseUnits as $units) {
-                $courseUnits[] = $units->getUnitId();
+                $courseUnits[trim($units->getUnitId())] = trim($units->getUnitId());
              }
         }
         return $courseUnits;
