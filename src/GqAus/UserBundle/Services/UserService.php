@@ -312,37 +312,36 @@ class UserService
     * Function to update applicant evidences information
     * return $result array
     */
-    public function updateApplicantEvidences($userId, $unit, $userRole, $status, $currentUserName, $currentUserId)
+    public function updateApplicantEvidences($result)
     {
-        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $userId,
-                                                                                        'unitId' => $unit));
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $result['userId'],
+                                                                                        'unitId' => $result['unit']));
         $mailerInfo = array();
         $userName = $courseUnitObj->getUser()->getUsername();
         $mailerInfo['to'] = $courseUnitObj->getUser()->getEmail();
         $mailerInfo['inbox'] = $courseUnitObj->getUser()->getId();
-        $mailerInfo['sent'] = $currentUserId;
-        if ($userRole == 'ROLE_FACILITATOR') {
-            $courseUnitObj->setFacilitatorstatus($status);
-        } elseif ($userRole == 'ROLE_ASSESSOR') {
-            $courseUnitObj->setAssessorstatus($status);
-        } elseif ($userRole == 'ROLE_RTO') {
-            $courseUnitObj->setRtostatus($status);
+        $mailerInfo['sent'] = $result['currentUserId'];
+        if ($result['userRole'] == 'ROLE_FACILITATOR') {
+            $courseUnitObj->setFacilitatorstatus($result['status']);
+        } elseif ($result['userRole'] == 'ROLE_ASSESSOR') {
+            $courseUnitObj->setAssessorstatus($result['status']);
+        } elseif ($result['userRole'] == 'ROLE_RTO') {
+            $courseUnitObj->setRtostatus($result['status']);
         }
         $this->em->persist($courseUnitObj);
         $this->em->flush();
         
-        if ($status == '1') {
+        if ($result['status'] == '1') {
             $evidenceStatus = 'Approved';
-        } else if($status == '0') {
+        } else if($result['status'] == '0') {
             $evidenceStatus = 'Disapproved';
         }
-        $mailerInfo['subject'] = 'User Unit Status';
-        $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.",<br><br> Unit : ".$unit." evidences is been ".$evidenceStatus." by ".$currentUserName."
+        $mailerInfo['subject'] = 'Unit :'.$result['unitName'].' Status';
+        $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.",<br><br> Qualification : ".$result['courseName']." <br> Unit : ".$result['unitName']." <br> evidences is been ".$evidenceStatus." by ".$result['currentUserName']."
          <br><br> Regards,<br>OnlineRPL";
-         
         $this->sendExternalEmail($mailerInfo);
         $this->sendMessagesInbox($mailerInfo);
-        return $status;
+        return $result['status'];
     }
     
     /**

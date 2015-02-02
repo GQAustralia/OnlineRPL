@@ -31,13 +31,17 @@ class ApplicantController extends Controller
     */
     public function setUserUnitEvidencesStatusAction()
     {
-        $userId = $this->getRequest()->get('userId');
-        $unit = $this->getRequest()->get('unit');
-        $status = $this->getRequest()->get('status');
-        $userRole = $this->getRequest()->get('userRole');
-        $currentUserName = $this->get('security.context')->getToken()->getUser()->getUserName();
-        $currentUserId = $this->get('security.context')->getToken()->getUser()->getId();
-        echo $this->get('UserService')->updateApplicantEvidences($userId, $unit, $userRole, $status, $currentUserName, $currentUserId);
+        $result = array();
+        $result['userId'] = $this->getRequest()->get('userId');
+        $result['unit'] = $this->getRequest()->get('unit');
+        $result['status'] = $this->getRequest()->get('status');
+        $result['userRole'] = $this->getRequest()->get('userRole');
+        $result['currentUserName'] = $this->get('security.context')->getToken()->getUser()->getUserName();
+        $result['currentUserId'] = $this->get('security.context')->getToken()->getUser()->getId();
+        $result['courseName'] = $this->getRequest()->get('courseName');
+        $result['unitName'] = $this->getRequest()->get('unitName');
+        
+        echo $this->get('UserService')->updateApplicantEvidences($result);
         exit;
     }
     
