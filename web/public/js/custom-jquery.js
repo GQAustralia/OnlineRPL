@@ -736,5 +736,6 @@ function getAllCheckBoxes() {
 /*End Messages*/
 
 $(".date-icon").click(function () {
-    //$(".datepic").datepicker("show");
+    remId = $(this).attr("id");
+    $("#remindDate_" + remId).datepicker("show");
 });
