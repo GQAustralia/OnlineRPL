@@ -108,3 +108,7 @@ knp_snappy:
         enabled:    true
         binary:     /usr/local/bin/wkhtmltopdf
         options:    []
+        
+framework:
+    profiler:
+        collect: false

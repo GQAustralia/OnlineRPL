@@ -18,7 +18,7 @@
                         <div class="gq-dashboard-tabs-header wid20p">
                             <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
                                 <li role="presentation" class="active gq-tabs-width-50"><a href="#current" aria-controls="current" role="tab" data-toggle="tab">To Do</a></li>
-                                <li role="presentation" class="gq-tabs-width-50"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Completed</a></li>								
+                                <li role="presentation" class="gq-tabs-width-50"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Completed</a></li>                                
                             </ul>
                         </div>
                         <!-- Tabs end start here -->
@@ -54,6 +54,7 @@
                                         <!-- accordion starts here -->
                                         <div class="gq-acc-wrap" id="todo-tab">
                                             {% if reminders %}
+                                                {% set flagTodo = '0' %}
                                                 {% for key, reminder in reminders %}
                                                     {% if reminder.getCompleted() == 0 %}   
                                                     {% set difference = date(today).diff(date(reminder.date)) %}
@@ -65,6 +66,7 @@
                                                         {% set nleftDays = leftDays %}
                                                         {% set leftDays = leftDays %}
                                                     {% endif %}
+                                                    {% set flagTodo = '1' %}
                                                     <div class="gq-to-do-list-row">
                                                         <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
                                                         <div class="row no-margin">
@@ -118,6 +120,10 @@
                                                     </div>
                                                     {% endif %}
                                                 {% endfor %}
+                                                {% if flagTodo == '0' %}
+                                                    <div class="gq-tabs-no-content-text margin-top15">
+                                                        Records not found in To Do List</div>
+                                                {% endif %}
                                             {% endif %}
                                         </div>
                                         <!-- accordion ends here -->
@@ -154,11 +160,12 @@
                                         <!-- accordion starts here -->
                                         <div class="gq-acc-wrap" id="completed-tab">
                                             {% if reminders %}
+                                                {% set flagCompleted = '0' %}
                                                 {% for key, reminder in reminders %}
                                                     {% if reminder.getCompleted() == 1 %}
                                                     {% set difference = date(today).diff(date(reminder.CompletedDate)) %}
                                                     {% set leftDays = difference.days %}
-                                                    
+                                                    {% set flagCompleted = '1' %}
                                                     <div class="gq-to-do-list-row">
                                                         <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
                                                         <div class="row no-margin">
@@ -203,6 +210,9 @@
                                                     </div>
                                                     {% endif %}
                                                 {% endfor %}
+                                                {% if flagCompleted == '0' %}
+                                                    <div class="gq-tabs-no-content-text margin-top15">Records not found in Completed List</div>
+                                                {% endif %}
                                             {% endif %}
                                         </div>
                                         <!-- accordion ends here -->

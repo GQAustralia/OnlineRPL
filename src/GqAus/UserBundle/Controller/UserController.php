@@ -19,10 +19,8 @@ class UserController extends Controller
         $session = $request->getSession();
         $session_user = $this->get('security.context')->getToken()->getUser();
         $session->set('user_id', $session_user->getId());
-
         $userService = $this->get('UserService');
         $user = $userService->getCurrentUser();
-
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
 
         $documentTypes = $userService->getDocumentTypes();
@@ -109,7 +107,12 @@ class UserController extends Controller
         if (empty($matrixFiles)) {
             $matrixFiles = '';
         }
-
+        $tab = '';
+        $httpRef = $this->get('request')->server->get('HTTP_REFERER');
+        if (!empty($httpRef)) {
+            $httpRef = basename($httpRef);
+            $tab = $this->getRequest()->get('tab');
+        }
         return $this->render('GqAusUserBundle:User:profile.html.twig', array(
                     'form' => $userProfileForm->createView(),
                     'filesForm' => $idFilesForm->createView(),
@@ -124,7 +127,8 @@ class UserController extends Controller
                     'resumeFiles' => $resumeFiles,
                     'qualFiles' => $qualificationFiles,
                     'referenceFiles' => $referenceFiles,
-                    'matrixFiles' => $matrixFiles
+                    'matrixFiles' => $matrixFiles,
+                    'tab' => $tab
         ));
     }    
     
@@ -324,5 +328,5 @@ class UserController extends Controller
     }
     
     
-	
+    
 }

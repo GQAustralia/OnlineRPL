@@ -74,11 +74,11 @@ class UserService
             $mailerInfo['to'] = $user->getEmail();
             $mailerInfo['subject'] = 'Request for Password Reset';
             $applicationUrl = $this->container->getParameter('applicationUrl');
-            $mailerInfo['body'] = "Dear ".$userName.",<br><br> We heard that you lost your password. Sorry about that! <br>
+            $mailerInfo['body'] = "Dear ".$userName.",\n We heard that you lost your password. Sorry about that! \n
             But don't worry! You can use the following link within the next 4 hours to reset your password
-             <a href='".$applicationUrl."resetpassword/".$token."'>Click Here </a><br>
+             <a href='".$applicationUrl."resetpassword/".$token."'>Click Here </a> \n
              If you don't use this link within 4 hours, it will expire. <br>To get a new password reset link, visit ".$applicationUrl."forgotpassword
-             <br><br> Regards,<br>OnlineRPL";
+             \n Regards, \n OnlineRPL";
 
             $this->sendExternalEmail($mailerInfo);
                 
@@ -337,8 +337,8 @@ class UserService
             $evidenceStatus = 'Disapproved';
         }
         $mailerInfo['subject'] = 'Unit :'.$result['unitName'].' Status';
-        $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.",<br>Qualification : ".$result['courseName']." <br> Unit : ".$result['unitName']." <br> evidences is been ".$evidenceStatus." by ".$result['currentUserName']."
-         <br>Regards,<br>OnlineRPL";
+        $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Qualification : ".$result['courseName']." \n Unit : ".$result['unitName']." \n evidences is been ".$evidenceStatus." by ".$result['currentUserName']."
+         \n Regards, \n OnlineRPL";
         $this->sendExternalEmail($mailerInfo);
         $this->sendMessagesInbox($mailerInfo);
         return $result['status'];

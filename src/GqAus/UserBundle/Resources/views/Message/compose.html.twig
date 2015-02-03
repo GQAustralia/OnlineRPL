@@ -25,7 +25,7 @@
                 {% for flashMessage in app.session.flashbag.get('errornotice') %}
                 <div class="gq-well well">
                     <span class="login-warning-icon" aria-hidden="true"></span>
-                    <div class="login-warning-text">{{ flashMessage }}</div>
+                    <div class="login-warning-text" id="flash-msg">{{ flashMessage }}</div>
                 </div>
                {% endfor %}
             </div>
@@ -124,6 +124,12 @@ $(function () {
     var newMsg = {{ newMsg }};
     if (newMsg !== true) {
         $("#compose_to").prop("readonly",true);
+    }
+    if(document.getElementById("flash-msg"))
+    {
+        document.getElementById("compose_to").value="";
+        document.getElementById("compose_subject").value="";
+        document.getElementById("compose_message").value="";
     }
 })
 
