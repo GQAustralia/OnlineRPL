@@ -96,11 +96,7 @@
                                         </div>
                                         <div class="col-xs-3">
                                             <div class="gq-msg-time-stamp pull-right">
-                                                {% if today == message.created|date('Y-m-d') %}
-                                                {{ message.created|date('h:i a') }}
-                                                {% else %}
-                                                {{ message.created|date('m/d/Y h:i a') }}
-                                                {% endif%}
+                                                {{ user_service.dateToWords(message.created) }}
                                             </div>
                                         </div>
                                     </div>

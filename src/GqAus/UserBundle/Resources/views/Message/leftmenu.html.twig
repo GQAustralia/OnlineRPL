@@ -8,7 +8,7 @@
     <div class="gq-msg-row-bg">
         <div class="gq-msg-folders col-xs-12">
             <a href="{{ app.request.baseUrl }}/messages">Inbox <span class="inbox-cnt">{% if unreadcount > 0 %} ({{ unreadcount }}) {% endif %}</span></a>
-            {% if app.request.attributes.get('_route') == 'messages' %}
+            {% if app.request.attributes.get('_route') == 'messages' or app.request.attributes.get('_route') == 'viewMessage' %}
                 <span class="gq-msg-active-folder"></span>
             {% endif %}
         </div>
