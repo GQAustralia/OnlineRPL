@@ -579,7 +579,7 @@ $(".markasread").click(function () {
 					if(rec[1]=="success") {
 						$(".msg-ajax-loader").hide();
 						for (var i=0; i<checkedids.length; i++) {
-							$("#msg-"+checkedids[i]).prop('checked', false);
+							$("#chk-"+checkedids[i]).prop('checked', false);
 							$("#msg-"+checkedids[i]).addClass("gq-msg-visited");
 						}
 						if(parseInt(rec[0])>0) {
@@ -617,7 +617,7 @@ $(".markasunread").click(function () {
 					if(rec[1]=="success") {
 						$(".msg-ajax-loader").hide();
 						for (var i=0; i<checkedids.length; i++) {
-							$("#msg-"+checkedids[i]).prop('checked', false);
+							$("#chk-"+checkedids[i]).prop('checked', false);
 							$("#msg-"+checkedids[i]).removeClass("gq-msg-visited");
 						}
 						if(parseInt(rec[0])>0) {
@@ -648,6 +648,10 @@ $(".deleteMessages").click(function () {
         success:function(result) {
         }
     });
+	checkboxes = document.getElementsByName('chk_inbox');
+	for(var i=0, n=checkboxes.length;i<n;i++) {
+		checkboxes[i].checked = false;
+	}
     location.reload();
 });
 
@@ -673,6 +677,10 @@ $(".deleteselectedsent").click(function () {
         success:function(result) {
         }
     });
+	checkboxes = document.getElementsByName('chk_inbox');
+	for(var i=0, n=checkboxes.length;i<n;i++) {
+		checkboxes[i].checked = false;
+	}
     location.reload();
 });
 
