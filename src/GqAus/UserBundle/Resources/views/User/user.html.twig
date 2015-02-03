@@ -1,5 +1,5 @@
 {{ form_start(form) }}
-<div role="tabpanel" class="tab-pane active" id="personal">
+<div role="tabpanel" class="tab-pane {% if tab == 'id-fields' %} {% else %} active {% endif %}" id="personal">
     <div class="gq-form-personal wid60p">
         <div class="gq-form-row">
             <label for="gq-first-name">First Name</label>

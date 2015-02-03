@@ -1,5 +1,5 @@
 {% if ('ROLE_APPLICANT' in userRole) %}
-<div role="tabpanel" class="tab-pane" id="id-fields">
+<div role="tabpanel" class="tab-pane {% if tab == 'id-fields' %} active {% else %} {% endif %}" id="id-fields">
     <div class="gq-id-files-upload-text">
         <h2>Upload ID Files</h2>
     </div>
