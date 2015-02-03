@@ -560,6 +560,10 @@
         $('.fancybox').fancybox();
         $("#userprofile_dateOfBirth").datepicker();
         $("#password_save").click(function() {
+            $("#password_oldpassword").attr('required', 'required');
+            $("#password_newpassword").attr('required', 'required');
+            $("#password_confirmnewpassword").attr('required', 'required');
+            
             var curpwd = $("#password_oldpassword").val();
             var newpwd = $("#password_newpassword").val();
             var newconfirmpwd = $("#password_confirmnewpassword").val();

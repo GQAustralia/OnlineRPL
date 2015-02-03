@@ -13,9 +13,9 @@ class ChangePasswordForm extends AbstractType
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('oldpassword', 'password');
-        $builder->add('newpassword', 'password');
-        $builder->add('confirmnewpassword', 'password');
+        $builder->add('oldpassword', 'password', array('required' => false));
+        $builder->add('newpassword', 'password', array('required' => false));
+        $builder->add('confirmnewpassword', 'password', array('required' => false));
         $builder->add('save', 'submit');
     }
 }
