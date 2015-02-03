@@ -184,7 +184,7 @@ class MessageController extends Controller
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
         $messageService->setReadViewStatus($mid);
         $message = $messageService->getMessage($mid);
-		$content = nl2br($message->getMessage());
+        $content = nl2br($message->getMessage());
         return $this->render('GqAusUserBundle:Message:message.html.twig', array('unreadcount' => $unreadcount, "message" => $message, 'content' => $content));
     }
     
