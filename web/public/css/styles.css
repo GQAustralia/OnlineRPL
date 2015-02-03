@@ -606,7 +606,7 @@ a.btn-red {color:#ffffff;}
 .gq-messages-icons-border .gq-msg-trash-icon, .gq-messages-icons-border .gq-msg-mark-icon{margin-top:5px;}
 .gq-messages-icons-border .gq-msg-trash-icon a img, .gq-messages-icons-border .gq-msg-mark-icon a img{float:left;}
 .msg-checkmark-icon .checkbox {margin-left:-10px;}
-.gq-ms-counter {position:absolute; right:0; top:0; font-size:11px; background-color:#f14840; border:2px solid #000000; color:#ffffff; border-radius:50%; padding:3px;}
+.gq-ms-counter {background-color: #f14840; border: 1px solid #000000; border-radius: 50%; color: #ffffff; font-size: 10px; padding: 3px; position: absolute; right: 0; top: 0; min-height: 22px; min-width: 22px;}
 .btn-wrap100p {width:50%; float:left; margin: auto 25%;}
 
 
