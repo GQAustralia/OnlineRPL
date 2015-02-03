@@ -637,7 +637,7 @@ class UserService
     */
     public function getmyinboxMessages($userId, $page)
     {
-        if ($page < 0) {
+        if ($page <= 0) {
             $page = 1;
         }
         $query = $this->em->getRepository('GqAusUserBundle:Message')
@@ -677,7 +677,7 @@ class UserService
     */
     public function getmySentMessages($userId, $page)
     {
-        if ($page < 0) {
+        if ($page <= 0) {
             $page = 1;
         }
         $query = $this->em->getRepository('GqAusUserBundle:Message')
@@ -697,7 +697,7 @@ class UserService
     */
     public function getmyTrashMessages($userId, $page)
     {
-        if ($page < 0) {
+        if ($page <= 0) {
             $page = 1;
         }
         $query = $this->em->getRepository('GqAusUserBundle:Message')

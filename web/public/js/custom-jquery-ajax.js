@@ -55,7 +55,7 @@ $("#approve").click(function () {
 $("#disapprove").click(function () {
     var userRole = $('#applicantEStatus').attr('userRole');
     var courseName = $('#hid-course-name').val();
-    var unitName = $('#hid-unit-name').val();
+    var unitName = $('#hid-unit-name').val(); 
     $('.loading-icon').show();
     $.ajax({
         type: "POST",
