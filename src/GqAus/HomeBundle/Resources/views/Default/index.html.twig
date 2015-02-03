@@ -41,13 +41,7 @@
                                     <div style="transform: rotate(241.2deg);" class="ppc-progress-fill"></div>
                                 </div>
                                 <div class="ppc-percents">
-                                    <div class="pcc-percents-wrapper">
-										{% if userImage %}
-											<img src="{{ asset('public/uploads/') ~ userImage }}" />
-										{% else %}
-											<img src="{{ asset('public/images/profielicon.png') }}" />
-										{% endif %}
-                                    </div>
+                                    <div class="pcc-percents-wrapper" style="background-image: url(&quot;{{ userImage }}&quot;); background-size:cover;"></div>
                                 </div>
                             </div>
                         </div><!--End Chart -->
