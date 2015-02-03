@@ -15,7 +15,7 @@ class AddressForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('id', 'hidden');
-        $builder->add('address', 'text', array('required' => false));
+        $builder->add('address', 'text');
         $builder->add('area', 'text', array('required' => false));
         $builder->add('city', 'text', array('required' => false));
         $builder->add('state', 'text', array('required' => false));
