@@ -564,69 +564,77 @@ $.ajax({
 }
 $(".markasread").click(function () {
     var checkedids = getCheckedBoxes();
-    if(checkedids.length>0)
-    {
-        $(".msg-ajax-loader").show(); 
-        var checkedMessages = JSON.stringify(getCheckedBoxes());
-        var checkedids = getCheckedBoxes(); 
-        $.ajax({
-            type: "POST",
-            url: "markasread",
-            data: { checkedMessages:checkedMessages, readStatus: 1},
-            success:function(result) {
-                var rec = result.split("&&");
-                if(rec[1]=="success") {
-                    $(".msg-ajax-loader").hide();
-                    for (var i=0; i<checkedids.length; i++) {
-                        $("#msg-"+checkedids[i]).prop('checked', false);
-                        $("#msg-"+checkedids[i]).addClass("gq-msg-visited");
-                    }
-                    if(parseInt(rec[0])>0) {
-                        $(".inbox-cnt").html("("+rec[0]+")");
-                        $("#unread-count").html('<span class="gq-ms-counter">'+rec[0]+'<span>');
-                    } else {
-                        $(".inbox-cnt").html("");
-                        $("#unread-count").html("");
-                    }
-                }
-                
-            }
-        });
-    }
+	if (checkedids) {
+		if(checkedids.length>0) {
+			$(".markasread").attr('data-target','');
+			$(".msg-ajax-loader").show(); 
+			var checkedMessages = JSON.stringify(getCheckedBoxes());
+			var checkedids = getCheckedBoxes(); 
+			$.ajax({
+				type: "POST",
+				url: "markasread",
+				data: { checkedMessages:checkedMessages, readStatus: 1},
+				success:function(result) {
+					var rec = result.split("&&");
+					if(rec[1]=="success") {
+						$(".msg-ajax-loader").hide();
+						for (var i=0; i<checkedids.length; i++) {
+							$("#msg-"+checkedids[i]).prop('checked', false);
+							$("#msg-"+checkedids[i]).addClass("gq-msg-visited");
+						}
+						if(parseInt(rec[0])>0) {
+							$(".inbox-cnt").html("("+rec[0]+")");
+							$("#unread-count").html('<span class="gq-ms-counter">'+rec[0]+'<span>');
+						} else {
+							$(".inbox-cnt").html("");
+							$("#unread-count").html("");
+						}
+					}
+					
+				}
+			});
+		}
+	} else {
+		$(".markasread").attr('data-target','#mySelectModal');
+	}
 });
 
 
 $(".markasunread").click(function () {
     var checkedids = getCheckedBoxes();
-    if(checkedids.length>0)
-    {
-        $(".msg-ajax-loader").show(); 
-        var checkedMessages = JSON.stringify(getCheckedBoxes());
-        var checkedids = getCheckedBoxes(); 
-        $.ajax({
-            type: "POST",
-            url: "markasread",
-            data: { checkedMessages:checkedMessages, readStatus: 0},
-            success:function(result) {
-                var rec = result.split("&&");
-                if(rec[1]=="success") {
-                    $(".msg-ajax-loader").hide();
-                    for (var i=0; i<checkedids.length; i++) {
-                        $("#msg-"+checkedids[i]).prop('checked', false);
-                        $("#msg-"+checkedids[i]).removeClass("gq-msg-visited");
-                    }
-                    if(parseInt(rec[0])>0) {
-                        $(".inbox-cnt").html("("+rec[0]+")");
-                        $("#unread-count").html('<span class="gq-ms-counter">'+rec[0]+'<span>');
-                    } else {
-                        $(".inbox-cnt").html("");
-                        $("#unread-count").html("");
-                    }
-                }
-                
-            }
-        });
-    }
+	if (checkedids) {
+		if(checkedids.length>0) {
+			$(".markasunread").attr('data-target','');
+			$(".msg-ajax-loader").show(); 
+			var checkedMessages = JSON.stringify(getCheckedBoxes());
+			var checkedids = getCheckedBoxes(); 
+			$.ajax({
+				type: "POST",
+				url: "markasread",
+				data: { checkedMessages:checkedMessages, readStatus: 0},
+				success:function(result) {
+					var rec = result.split("&&");
+					if(rec[1]=="success") {
+						$(".msg-ajax-loader").hide();
+						for (var i=0; i<checkedids.length; i++) {
+							$("#msg-"+checkedids[i]).prop('checked', false);
+							$("#msg-"+checkedids[i]).removeClass("gq-msg-visited");
+						}
+						if(parseInt(rec[0])>0) {
+							$(".inbox-cnt").html("("+rec[0]+")");
+							$("#unread-count").html('<span class="gq-ms-counter">'+rec[0]+'<span>');
+						} else {
+							$(".inbox-cnt").html("");
+							$("#unread-count").html("");
+						}
+					}
+					
+				}
+			});
+		}
+	} else {
+		$(".markasunread").attr('data-target','#mySelectModal');
+	}
 });
 
 $(".deleteMessages").click(function () {
@@ -645,9 +653,13 @@ $(".deleteMessages").click(function () {
 
 $(".deleteselected").click(function () {
     var checkedids = getCheckedBoxes();
-    if(checkedids.length>0) {
-        $(".deleteselected").attr('data-target','#myModal');
-    }
+	if (checkedids) {
+		if(checkedids.length>0) {
+			$(".deleteselected").attr('data-target','#myModal');
+		}
+	} else {
+		$(".deleteselected").attr('data-target','#mySelectModal');
+	}
 });
 
 $(".deleteselectedsent").click(function () {
