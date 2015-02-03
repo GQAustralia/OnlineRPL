@@ -178,7 +178,7 @@ class UserService
            $userCourses = $user->getCourses();
            $courseConditionStatus = $user->getCourseConditionStatus();
            return array('profileCompleteness' => $percentage, 
-                        'userImage' => $user->getUserImage(),
+                        'userImage' => $this->userImage($user->getUserImage()),
                         'currentIdPoints' => $this->getIdPoints($user),
                         'userCourses' => $userCourses,
                         'courseConditionStatus' => $courseConditionStatus);

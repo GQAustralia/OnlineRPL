@@ -368,7 +368,7 @@ $("#Id_files").ajaxForm({
                         </span>\n\
                         <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
             $('.Id_files').append(html);
-            $('#profile_suc_msg').css("display", "block").html('<h2><span></span>Files uploaded successfully</h2>').delay(5000).fadeOut(100);
+            $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">File added successfully!</h2></div>').delay(5000).fadeOut(100); 
         }
     },
     resetForm: true
