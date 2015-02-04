@@ -111,10 +111,9 @@
     <script>
         onloadCount();
     $(document).ready(function(){
-       if( $(window).width() < 768 ) {
+	if( $(window).width() > 768 ) {
            setInterval(function(){SetHeight()}, 100);
        }
-        
         /*var showOrHide = true;
         $("#gq-menu-icon-desk").click(function(){
             showOrHide = !showOrHide;

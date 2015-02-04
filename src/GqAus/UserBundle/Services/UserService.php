@@ -805,5 +805,48 @@ class UserService
             $userImage = $path.'public/images/profielicon.png';
         }
         return $userImage;
+    }    
+    
+    /**
+    * Function to convert date to words
+    */
+    public function dateToWords($date)
+    {
+        //$date1 = '2015-02-01 20:12:10';
+        ///$date2 = '2015-01-24 12:12:10';
+
+        $ts1 = strtotime($date);
+        $ts2 = time();
+
+        $seconds_diff = $ts2 - $ts1;
+        
+        /* Get the difference between the current time 
+          and the time given in days */
+        $days = floor($seconds_diff / 3600 / 24);
+
+        /* If some forward time is given return error */
+        if ($days < 0) {
+            return -1;
+        }
+
+        switch ($days) {
+            case 0: $_word = "Today";
+                break;
+            case 1: $_word = "Yesterday";
+                break;
+            case ($days >= 2 && $days <= 6):
+                $_word = sprintf("%d days ago", $days);
+                break;
+            case ($days >= 7 && $days < 14):
+                $_word = "1 week ago";
+                break;
+            case ($days >= 14 && $days <= 365):
+                $_word = sprintf("%d weeks ago", intval($days / 7));
+                break;
+            default : return date('d/m/Y', $ts1);
+        }
+
+        return $_word;
     }
+
 }
