@@ -45,13 +45,13 @@
             <div class="gq-id-files">
                 <div class="gq-id-files-header gq-id-files-header-applicant">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-12">
+                        <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
                         <span class="gq-course-details-header-title">Unit Code</span>
                         </div>
-                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
+                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4">
                         <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
                         <span class="gq-course-details-header-title">Evidence</span>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
                            
-                            <div class="col-lg4 col-md-4 col-sm-4 col-xs-2">
+                            <div class="col-lg4 col-md-4 col-sm-4 col-xs-4">
                                 {% if units.id in electiveApprovedUnits %} {% else %}
                                 <button class="btn add-btn fromBottom"  unitid="{{units.id}}" course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
                                 {% endif %}
@@ -109,13 +109,13 @@
             <div class="gq-id-files">
                 <div class="gq-id-files-header gq-id-files-header-applicant">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-12">
+                        <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
                         <span class="gq-course-details-header-title">Unit Code</span>
                         </div>
-                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
+                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4">
                         <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
                         <span class="gq-course-details-header-title">Evidence</span>
                         </div>
                     </div>
@@ -135,16 +135,16 @@
                     <input id="acc-{{i}}" name="accordion-1" type="checkbox"/>
                     <div class="row no-margin">
                         <div id="div_{{units.id}}" class="gq-acc-row-bg  {% if units.id  in electiveUnits %} gq-acc-row-checked {% endif %}">
-                            <div class="col-xs-3">
+                            <div class="col-lg-3 col-lg-4 col-sm-4 col-xs-3">
                                 <a class="modalClass checkmark-icon" data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ app.security.getToken().getUser().getId()}}" id="{{units.id}}" course_code="{{courseInfo.id}}">
                                     <span id="span_{{units.id}}" class="radio {% if units.id  in electiveUnits %} {% else %} radioUnChecked {% endif %}"></span>
                                 </a>
                                 <div class="gq-acc-row-title">{{units.id}}</div>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-lg-4 col-lg-4 col-sm-4 col-xs-4">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                            <div class="col-lg4 col-md-4 col-sm-4 col-xs-2">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 {% if units.id in electiveApprovedUnits %} {% else %}
                                 <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}"  course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
                                 {% endif %}

@@ -17,14 +17,11 @@
                     <div class="gq-dashboard-box-title-wrap">
                         <h2 class="gq-dashboard-box-title">ID Points</h2>
                         <span class="gq-dashboard-points-icon">
-                        <a href = "userprofile?tab=id-fields"><img src="{{ asset('public/images/upload.png') }}"></a></span>
+						<a href = "userprofile#id-fields"><img src="{{ asset('public/images/upload.png') }}"></a></span>
                     </div>
                     <div class="gq-dashboard-box-content-wrap">
-                    <div class="col-xs-6 text-center">
                         <div class="gq-dashboard-running-txt">Currently you have</div>
-                        <div class="gq-dashboard-points-in-number wid100p">{{currentIdPoints}}</div>
-                    </div>
-                    <div class="col-xs-6 hidden-xs"></div>
+                        <div class="gq-dashboard-points-in-number">{{currentIdPoints}}</div>
                     </div>
                     <span class="flip-icon"></span>
                 </div>
@@ -41,7 +38,9 @@
                                     <div style="transform: rotate(241.2deg);" class="ppc-progress-fill"></div>
                                 </div>
                                 <div class="ppc-percents">
-                                    <div class="pcc-percents-wrapper" style="background-image: url(&quot;{{ userImage }}&quot;); background-size:cover;"></div>
+                                    <div class="pcc-percents-wrapper">
+                                        <img src="{{ asset('public/uploads/') ~ userImage }}" />
+                                    </div>
                                 </div>
                             </div>
                         </div><!--End Chart -->
@@ -55,18 +54,9 @@
                 <div class="gq-dashboard-box-2x gq-dashboard-bg-img3"> <!-- class "gq-dashboard-bg-img3" added for background image -->
                     <div class="gq-dashboard-box-title-wrap">
                         <h2 class="gq-dashboard-box-title">Qualifications</h2>
-                        <span class="gq-dashboard-points-icon">
-                            <a href="#" class="modalClass pull-right" data-toggle="modal" data-target="#myModal">
-                                <img src="{{ asset('public/images/home-instruction-icon.png') }}" alt="Instruction Manule" />
-                            </a>
-                            <div class="tooltip-home top">
-                                <div class="tooltip-arrow"></div>
-                                <span class="">Instruction Manual</span>
-                            </div>
-                        </span>
                     </div>
                     <div class="gq-dashboard-courses-detail-wrap">
-                        <div class="gq-dashboard-tabs margin-top15">
+                        <div class="gq-dashboard-tabs margin-top15>
                             <!-- Tabs start here -->
                             <div class="gq-dashboard-tabs-header wid30p">
                                 <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
@@ -134,7 +124,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
-        <h4 class="modal-title" id="myModalLabel">Instructions</h4>
+        <h4 class="modal-title" id="myModalLabel">Terms and Conditions</h4>
       </div>
       <div class="modal-body">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. 

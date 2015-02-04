@@ -34,13 +34,13 @@
                                         <div class="gq-id-files">
                                             <div class="gq-id-files-header gq-id-files-header-applicant">
                                                 <div class="row">
-                                                        <div class="col-lg-3 col-md-6 col-sm-4 col-xs-12">
+                                                        <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
                                                         <span class="gq-course-details-header-title">Name</span>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
+                                                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-5">
                                                         <span class="gq-course-details-header-title">Qualification Name</span>
                                                         </div>
-                                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
                                                         <span class="gq-course-details-header-title"></span>
                                                         </div>
                                                 </div>
@@ -70,17 +70,17 @@
                                                     <div class="gq-to-do-list-row">
                                                         <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
                                                         <div class="row no-margin">
-                                                            <div id="div_{{reminder.id}}" class="gq-acc-row-bg  ">
-                                                                <div class="col-lg-4 col-md-6 col-sm-4 col-xs-12">
+                                                            <div id="div_{{reminder.id}}" class="gq-acc-row-bg">
+                                                                <div class="col-lg-4 col-md-6 col-sm-4 col-xs-3">
                                                                     <a class="todomodalClass checkmark-icon" data-toggle="modal" data-target="#myModal" data-flag="{{reminder.completed}}" unit_id="{{reminder.id}}" user_id="1" id="{{reminder.id}}" course_code="BSB10112">
                                                                             <span id="span_BSBADM101A" class="radio  radioUnChecked "></span>
                                                                     </a>
                                                                     <div class="gq-acc-row-title">{{reminder.course.user.firstname}}</div>
                                                                 </div>
-                                                                <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
+                                                                <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4">
                                                                     <div class="gq-acc-row-title">{{reminder.course.coursename}}</div>
                                                                 </div>
-                                                                <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
+                                                                <div class="col-lg-3 col-md-2 col-sm-4 col-xs-5">
                                                                     {% if leftDays == 0 %}
                                                                         {% set daynote = "Today" %}
                                                                     {% endif %}
@@ -141,13 +141,13 @@
                                         <div class="gq-id-files">
                                             <div class="gq-id-files-header gq-id-files-header-applicant">
                                                 <div class="row">
-                                                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-12">
+                                                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-3">
                                                         <span class="gq-course-details-header-title">Name</span>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
+                                                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-5">
                                                         <span class="gq-course-details-header-title">Qualification Name</span>
                                                         </div>
-                                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
                                                         <span class="gq-course-details-header-title">Completed On</span>
                                                         </div>
                                                 </div>
@@ -170,13 +170,13 @@
                                                         <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
                                                         <div class="row no-margin">
                                                             <div id="div_{{reminder.id}}" class="gq-acc-row-bg  ">
-                                                                <div class="col-lg-4 col-md-6 col-sm-4 col-xs-12">
+                                                                <div class="col-lg-4 col-md-6 col-sm-4 col-xs-3">
                                                                     <div class="gq-acc-row-title">{{reminder.course.user.firstname}}</div>
                                                                 </div>
-                                                                <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
+                                                                <div class="col-lg-4 col-md-3 col-sm-4 col-xs-5">
                                                                     <div class="gq-acc-row-title">{{reminder.course.coursename}}</div>
                                                                 </div>
-                                                                <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
+                                                                <div class="col-lg-3 col-md-2 col-sm-4 col-xs-4">
                                                                     {% if leftDays == 0 %}
                                                                         {% set daynote = "Today" %}
                                                                     {% endif %}
