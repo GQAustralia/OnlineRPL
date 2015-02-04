@@ -114,7 +114,7 @@ class UserService
         }//if
         return array('message' => $message, 'validRequest' => $validRequest);
     }
-    
+
     /**
      * function to download course conditions and terms.
      *  @return array
