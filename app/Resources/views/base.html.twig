@@ -114,8 +114,6 @@
 	if( $(window).width() > 768 ) {
            setInterval(function(){SetHeight()}, 100);
        }
-        
-        
         /*var showOrHide = true;
         $("#gq-menu-icon-desk").click(function(){
             showOrHide = !showOrHide;
@@ -167,7 +165,7 @@
     function SetHeight() {
         var RightHeight = $('html').height();
         //$('.gq-dashboard-right').height(RightHeight - 66);                
-		$('.gq-dashboard-right').css("min-height",RightHeight);
+        $('.gq-dashboard-right').css("min-height",RightHeight);
     }
     var amazon_link = "{{ amazon_link }}";
     </script>
