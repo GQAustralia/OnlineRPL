@@ -32,7 +32,7 @@
     </div>
     <div class="row">
         {% include 'GqAusUserBundle:Message:leftmenu.html.twig' %}
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="gq-id-files">
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 msg-folder-wrap">
                     <div class="gq-msg-wrap" id="messages-grid"> 
                             {% if messages %}
                                 {% if messages|length > 0 %}
@@ -94,11 +94,7 @@
                                         </div>
                                         <div class="col-xs-3">
                                             <div class="gq-msg-time-stamp pull-right">
-                                                {% if today == message.created|date('Y-m-d') %}
-                                                {{ message.created|date('h:i a') }}
-                                                {% else %}
-                                                {{ message.created|date('m/d/Y h:i a') }}
-                                                {% endif%}
+                                                {{ user_service.dateToWords(message.created) }}
                                             </div>
                                         </div>
                                     </div>
@@ -122,6 +118,7 @@
                         </div>
                         {% endif %}
                     </div>
+					<span class="flip-icon"></span>	
                 </div>
             </div>
         </div>

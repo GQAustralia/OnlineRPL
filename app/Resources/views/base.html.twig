@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>{% block title %}{% endblock %}</title>
 
     <!-- Bootstrap -->
@@ -111,7 +111,9 @@
     <script>
         onloadCount();
     $(document).ready(function(){
-        setInterval(function(){SetHeight()}, 100);
+       if( $(window).width() < 768 ) {
+           setInterval(function(){SetHeight()}, 100);
+       }
         
         /*var showOrHide = true;
         $("#gq-menu-icon-desk").click(function(){
@@ -163,7 +165,8 @@
     
     function SetHeight() {
         var RightHeight = $('html').height();
-        $('.gq-dashboard-right').height(RightHeight - 66);                
+        //$('.gq-dashboard-right').height(RightHeight - 66);                
+        $('.gq-dashboard-right').css("min-height",RightHeight);
     }
     var amazon_link = "{{ amazon_link }}";
     </script>

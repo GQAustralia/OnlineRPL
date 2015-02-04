@@ -33,7 +33,7 @@
     </div>
     <div class="row">
         {% include 'GqAusUserBundle:Message:leftmenu.html.twig' %}
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="gq-id-files">
@@ -55,9 +55,9 @@
                             </div>
                             <div class="col-xs-11 gq-msg-from-to-input">
                                 {% if user is defined and user != '' %}
-                                {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': 'To..'} }) }}
+                                {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': ''} }) }}
                                 {% else %}
-                                {{ form_widget(composemsgForm.to, {'attr': {'placeholder': 'To..'} }) }}
+                                {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
                                 {% endif %}
                             </div>
                         </div>
@@ -67,9 +67,9 @@
                             </div>
                             <div class="col-xs-11 gq-msg-from-to-input">
                                 {% if user is defined and user != '' %}
-                                {{ form_widget(composemsgForm.subject, {value  : sub}, {'attr': {'placeholder': 'Subject..'} }) }}
+                                {{ form_widget(composemsgForm.subject, {value  : sub}, {'attr': {'placeholder': ''} }) }}
                                 {% else %}
-                                {{ form_widget(composemsgForm.subject, {'attr': {'placeholder': 'Subject..'} }) }}
+                                {{ form_widget(composemsgForm.subject, {'attr': {'placeholder': ''} }) }}
                                 {% endif %}
                                 
                             </div>
@@ -120,13 +120,17 @@
 {% block javascripts %}
 <script type="text/javascript">
 $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    var newMsg = {{ newMsg }};
+    if (newMsg !== true) {
+        $("#compose_to").prop("readonly",true);
+    }
     if(document.getElementById("flash-msg"))
     {
         document.getElementById("compose_to").value="";
         document.getElementById("compose_subject").value="";
         document.getElementById("compose_message").value="";
     }
-  $('[data-toggle="tooltip"]').tooltip()
 })
 
 </script>

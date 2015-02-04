@@ -6,6 +6,7 @@ body {
 	font-family: "OpenSans-Regular";
 	overflow-x:hidden;
 }
+html, body {-webkit-text-size-adjust:none; -webkit-overflow-scrolling: touch;}
 a {
 	text-decoration: none;
 	outline:none;
@@ -122,7 +123,7 @@ html, body {background-color:#f0f0f0; font-size:12px;}
 .margin-top15 {margin-top:15px;}
 .margin-top30 {margin-top:30px;}
 .wid10p {width:10%; margin:0 45%;}
-.wid20p {width:20%; margin:0 40%;}
+.wid20p {width:13%; margin:0 43.5%;}
 .wid30p {width:30%; margin:0 35%;}
 .wid40p {width:40%; margin:0 30%;}
 .wid50p {width:50%; margin:0 25%;}
@@ -132,6 +133,7 @@ html, body {background-color:#f0f0f0; font-size:12px;}
 .wid90p {width:90%; margin:0 5%;}
 .wid100p{width:100%; float:left;}
 .no-padding{padding:0;}
+textarea {resize:none;}
 
 /* Login page Styles and forgot password styling included
 ---------------------------------------------------------------*/
@@ -148,7 +150,7 @@ html, body {background-color:#f0f0f0; font-size:12px;}
 .login-page h3 {font-size:15px; font-weight:bold; color:#58666e; margin: 25px 0;}
 .gq-well .well{font-size:14px; padding:15px; background-color:#e6e6e6; position:relative;}
 .gq-well .login-warning-icon {background-image:url('../images/login-warning-icon.png'); background-repeat: no-repeat; background-position: center center; position:absolute; left:0; top:0; padding:0; width:50px; height:50px;}
-.gq-well .login-warning-text {text-align:center;}
+.gq-well .login-warning-text {text-align:center; padding-left: 20px;}
 .login-error-icon { background-image:url('../images/login-error-icon.png'); background-repeat: no-repeat; background-position: center center; position:absolute; right:0; top:0; padding:0; width:50px; height:50px;}
 	/* Forgot password page styling included */
 	.login-page p {padding:15px;}
@@ -470,8 +472,18 @@ a.btn-red {color:#ffffff;}
 .gq-msg-compose-wrap {background-color:#f14840; color:#ffffff; margin-bottom:6px;}
 .msg-checkmark-icon .checkbox {margin:0; padding:0;}
 .gq-msg-compose-wrap a{color:#ffffff; text-decoration:none;}
-.gq-msg-row-bg {min-height:42px; background-color:#ffffff; font-size:16px; line-height:40px; font-weight:bold; margin-bottom:2px; width:100%; float:left;}
+.gq-msg-row-bg {min-height:42px; background-color:#ffffff; font-size:16px; line-height:40px; font-weight:bold; border-right: 1px solid #e9e9e9; border-left: 1px solid #e9e9e9; border-bottom: 1px solid #e9e9e9; width:100%; float:left;}
+.gq-msg-row-bg.gq-messages-icons-border {
+    background: rgba(250,250,250,1);
+    background: -moz-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(250,250,250,1)), color-stop(47%, rgba(244,244,244,1)), color-stop(100%, rgba(243,242,241,1)));
+    background: -webkit-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);
+    background: -o-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);
+    background: -ms-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);
+    background: linear-gradient(to bottom, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);    
+}
 .gq-msg-visited{ font-size:16px; font-weight:normal;}
+.gq-msg-row-bg .gq-msg-title a{color:#000000;}
 .gq-msg-mark-icon {border:1px solid #e9e9e9; width:30px; height:30px; background-color:#ffffff;}
 .gq-msg-mark-icon:hover, .gq-msg-mark-icon:focus, .gq-msg-trash-icon:hover, .gq-msg-mark-icon:focus {background-color:#fefefe; cursor:pointer;}
 .gq-msg-trash-icon, .gq-msg-mark-icon{margin-right:7px; float:left;border:1px solid #e9e9e9; width:32px; height:32px; background-color:#ffffff;}
@@ -542,7 +554,7 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-list-dropdown .gq-applicant-list-notes-box, .gq-assessor-list-dropdown .gq-applicant-list-due-date{width:100%; padding:0 10px;}
 .gq-assessor-list-dropdown-wrap {position:relative;}
 .gq-assessor-list-dropdown .caret-top{ border-bottom: 10px solid #d6d6d6; border-left: 10px solid transparent; border-right: 10px solid transparent; display: inline-block; height: 0; margin-left: 2px; vertical-align: middle; width: 0; position:absolute; top:-10px; left:50%;}
-.gq-assessor-list-dropdown .gq-applicant-list-notes-box textarea{border:0 none; width:100%;}
+.gq-assessor-list-dropdown .gq-applicant-list-notes-box textarea{border:0 none; width:100%; resize:none;}
 .gq-assessor-list-dropdown-wrap.open .gq-assessor-list-dropdown {display:block;}
 .gq-add-notes-icon-wrap {width:63px; text-align:center;}
 .gq-add-notes-icon-wrap:hover {cursor:pointer;}
@@ -573,7 +585,7 @@ a.btn-red {color:#ffffff;}
 .gq-messages-button-wrap .btn-grey {padding:10px 44px;}
 .gq-msg-header .gq-msg-header-title  {color:#f14a41; font-size:22px; width:100%; float:left; line-height:32px;}
 .gq-msg-from-to-input  input[type="text"], .gq-msg-from-to-input  input[type="email"]{border:0 none; width:100%; height:28px; padding-left:4px;}
-.gq-msg-from textarea{border:0 none; width:100%; min-height:320px; color:#bfbfbf;}
+.gq-msg-from textarea{border:0 none; width:100%; min-height:320px; color:#bfbfbf; resize: none;}
 .gq-msg-from-to-sub {width:76px; text-align:right; padding-right:10px;}
 .gq-msg-wrap.gq-msg-compose .gq-msg-row-bg{margin-bottom:1px;}
 
@@ -600,18 +612,29 @@ a.btn-red {color:#ffffff;}
 .gq-facilitator-wrap {width:97%; margin:0 auto;}
 .gq-filter-clear {}
 .gq-dashboard-tabs-header .gq-tabs-width-50 {width:50%;}
-#edivenceUnitModal.modal .modal-dialog{ bottom:0; position:fixed; left:0; right:0; }
+#edivenceUnitModal.modal .modal-dialog{ bottom:0; position:fixed !important; left:0; right:0; top:auto; }
 .gq-id-files-content-row a img {margin-left:7px; width:12px; margin-bottom:4px;}
 .gq-mail-title-text h2 {color:#f14a41; font-size:22px; line-height:30px; padding-left:15px;}
 .gq-messages-icons-border .gq-msg-trash-icon, .gq-messages-icons-border .gq-msg-mark-icon{margin-top:5px;}
 .gq-messages-icons-border .gq-msg-trash-icon a img, .gq-messages-icons-border .gq-msg-mark-icon a img{float:left;}
-.msg-checkmark-icon .checkbox {margin-left:-10px;}
+.msg-checkmark-icon .checkbox {margin-left:-10px; margin-top:5px;}
 .gq-ms-counter {background-color: #f14840; border: 1px solid #000000; border-radius: 50%; color: #ffffff; font-size: 10px; padding: 3px; position: absolute; right: 0; top: 0; min-height: 22px; min-width: 22px;}
 .btn-wrap100p {width:50%; float:left; margin: auto 25%;}
+.msg-folder-wrap .flip-icon{background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:1px; right:28px; display:block; height:23px; width:24px;} 
+.msg-menu-wrap .flip-icon{background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:1px; right:15px; display:block; height:23px; width:24px;} 
+.msg-folder-wrap .gq-msg-row-bg:last-child{padding-bottom:12px;}
+#emptypwdform1, #emptypwdform {color:#f14840;}
+.overflow-hidden {overflow:hidden;}
+.gq-msg-wrap .gq-messages-button-wrap {padding:15px;}
+.gq-msg-wrap .gq-messages-button-wrap form .btn{border-radius:0;}
+.gq-grey-bg-border {background-color:#f5f5f5; border-left:1px solid #e8e8e8; border-right:1px solid #e8e8e8;}
+.gq-form-personal .btn-grey {float: left; font-size: 17px; width: 100%; padding: 6px 12px; border-radius: 3px; color: #ffffff !important; text-align: center; text-decoration:none;}
 
 
 @media(max-width:360px){
 	.gq-evidence .nav-pills > li{ width:100%; }
+	.gq-course-details-drop-file {width:auto;}
+	.gq-course-details-drop-file .dropzone{padding:0;}
 }
 
 /* Media queries for all devices
@@ -624,15 +647,23 @@ a.btn-red {color:#ffffff;}
 	/*.gq-dashboard-right {width:91.3333%;}*/
 	.wid30p {width:50%; margin:0 25%;}
 	.wid60p {width:40%; margin:0 30%;}
+	.wid20p {width:15%; margin:0 45%;}
 	.modal-dialog.gq-modal-upload{width:100%;}
  }
  @media (min-width: 768px) {
  .gq-assessor-appl-details .gq-assessor-appl-profile-details-col {padding-top:33px;}
- }
+ .gq-dashboard-courses-detail-wrap .wid30p {width:50%; margin:0 25%;}
+ .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {padding-left:5px; float:none;}
+ .gq-dashboard-box-title-wrap .gq-dashboard-box-title {float:none;}
+/* .gq-dashboard-box-title-wrap .gq-dashboard-points-icon {height:72px;}*/
+  }
  
  @media (max-width: 1100px){
 	.wid40p {width:70%; margin:0 15%;}
+	.wid20p {width:40%; margin:0 30%;}
 	.wid70p {width:90%; margin:0 5%;}
+	.gq-form-personal .gq-form-row input {width:50%;float:right; margin-right:5px;}
+	
  }
  
  @media (max-width: 767px) {
@@ -647,7 +678,7 @@ a.btn-red {color:#ffffff;}
 .wid70p {width:100%; margin:0 auto;}
 .wid80p {width:100%; margin:0 auto;}
 .wid90p{width:100%; margin:0 auto;}
-.wid20p{width:100%; margin:0 auto;}
+.wid20p{width:40%; margin:auto 30%;}
 .btn-wrap100p {width:100%; float:left; margin: auto 0;}
 .gq-id-files-upload-text, .gq-id-files-upload-success-text {padding-bottom:20px;}
 .gq-id-files-upload-btn, .gq-id-files-submit-btn {margin-top:15px;}
@@ -658,8 +689,15 @@ a.btn-red {color:#ffffff;}
 .gq-applicant-filter-wrap label{width:100%;}
 .gq-applicant-filter-wrap input[type="text"]{width:100%; margin-left:0;}
 .gq-applicant-filter-wrap-select-remaining {text-align:left;}
-#edivenceUnitModal.modal .modal-dialog{ bottom:0; position:absolute; left:0; right:0; }
+#edivenceUnitModal.modal .modal-dialog{ bottom:auto; position:absolute !important; left:0; right:0; top:10%; }
+.gq-form-personal .gq-form-row input {width:50%;float:right; margin-right:5px;}
 
+.gq-mobile-scroll {width:1024px;}
+.gq-mobile-scroll-wrap {width:1000px; overflow:scroll;overflow-y:hidden;overflow-x:scroll;}
+.gq-course-details-header-title {line-height:inherit;}
+.gq-assessor-appl-profile-details {width:100%;}
+.gq-assessor-appl-details .gq-assessor-appl-profile-details .gq-assessor-appl-details-points .gq-assessor-rto-title {width:75%;}
+.gq-dashboard-tabs-header .gq-tabs-width-50 {width:100%;}
 }
 
 @media (max-width:368px) {
@@ -673,6 +711,10 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-right {padding:15px;}
 .gq-dashboard-box-title-wrap .gq-dashboard-points-icon {height:80px;}
 .gq-dashboard-box-title-wrap {overflow:hidden;}
+.gq-form-personal .gq-form-row input {width:45%;}
+.gq-acc-row-title {word-wrap:break-word;}
+.gq-acc-wrap .btn {width:86px; white-space:pre-line; height:auto;}
+.gq-dashboard-tabs-header.wid20p {width:100%; margin:0 auto;}
 }
 /*
 .caret {
@@ -683,7 +725,7 @@ a.btn-red {color:#ffffff;}
     height: 0;
     margin-left: 2px;
     vertical-align: middle;
-    width: 0;
+    width: 0;}
  */
  
   @media (min-width: 1280px) {
@@ -705,4 +747,8 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-list-dropdown {}
 .gq-assessor-list-dropdown .dropdown-menu{}
 .gq-assessor-list-dropdown .gq-applicant-list-notes-box, .gq-assessor-list-dropdown .gq-applicant-list-due-date{ padding:0 10px;}
-.gq-applicant-list-due-date input[type="text"]{display:block; width:100%; border:0 none;}
+.gq-applicant-list-due-date input[type="text"]{display:block; width:100%; border:0 none;}.gq-msg-top-pagination{padding-top:5px;}
+.gq-msg-top-pagination{padding-top:5px;}
+.gq-msg-from textarea:focus, .gq-msg-compose .gq-msg-row-bg input:focus{
+    outline: 0;
+}
