@@ -173,7 +173,7 @@ $("#frmAddEvidence").ajaxForm({
         $('#gq-dashboard-tabs-success').show();
         $('.uploadevidence_loader').hide();
         if (responseText == '0') {
-            $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Evidence upload successfully!</h2>');
+            $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Evidence uploaded successfully!</h2>');
         } else {
             $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">File size below 10MB are only  upload successfully!</h2>');
         }
@@ -190,7 +190,7 @@ $("#frmSelectEvidence").ajaxForm({
         $('.gq-dashboard-tabs').hide();
         $('.uploadevidence_loader').hide();
         $('#gq-dashboard-tabs-success').show();
-        $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Existing Evidence upload successfully!</h2>');
+        $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Existing Evidence uploaded successfully!</h2>');
     },
     resetForm: true
 });
@@ -334,7 +334,7 @@ $("#fclose-cancel").click(function () {
 });
 
 
-$(".viewModalClass").live("click", function () {
+$(".viewModalClass").on("click", function () {
     fileid = $(this).attr('fileid');
     filetype = $(this).attr('filetype');
     otherfiles = $(this).attr('otherfiles');
@@ -564,77 +564,77 @@ $.ajax({
 }
 $(".markasread").click(function () {
     var checkedids = getCheckedBoxes();
-	if (checkedids) {
-		if(checkedids.length>0) {
-			$(".markasread").attr('data-target','');
-			$(".msg-ajax-loader").show(); 
-			var checkedMessages = JSON.stringify(getCheckedBoxes());
-			var checkedids = getCheckedBoxes(); 
-			$.ajax({
-				type: "POST",
-				url: "markasread",
-				data: { checkedMessages:checkedMessages, readStatus: 1},
-				success:function(result) {
-					var rec = result.split("&&");
-					if(rec[1]=="success") {
-						$(".msg-ajax-loader").hide();
-						for (var i=0; i<checkedids.length; i++) {
-							$("#chk-"+checkedids[i]).prop('checked', false);
-							$("#msg-"+checkedids[i]).addClass("gq-msg-visited");
-						}
-						if(parseInt(rec[0])>0) {
-							$(".inbox-cnt").html("("+rec[0]+")");
-							$("#unread-count").html('<span class="gq-ms-counter">'+rec[0]+'<span>');
-						} else {
-							$(".inbox-cnt").html("");
-							$("#unread-count").html("");
-						}
-					}
-					
-				}
-			});
-		}
-	} else {
-		$(".markasread").attr('data-target','#mySelectModal');
-	}
+    if (checkedids) {
+        if(checkedids.length>0) {
+            $(".markasread").attr('data-target','');
+            $(".msg-ajax-loader").show(); 
+            var checkedMessages = JSON.stringify(getCheckedBoxes());
+            var checkedids = getCheckedBoxes(); 
+            $.ajax({
+                type: "POST",
+                url: "markasread",
+                data: { checkedMessages:checkedMessages, readStatus: 1},
+                success:function(result) {
+                    var rec = result.split("&&");
+                    if(rec[1]=="success") {
+                        $(".msg-ajax-loader").hide();
+                        for (var i=0; i<checkedids.length; i++) {
+                            $("#chk-"+checkedids[i]).prop('checked', false);
+                            $("#msg-"+checkedids[i]).addClass("gq-msg-visited");
+                        }
+                        if(parseInt(rec[0])>0) {
+                            $(".inbox-cnt").html("("+rec[0]+")");
+                            $("#unread-count").html('<span class="gq-ms-counter">'+rec[0]+'<span>');
+                        } else {
+                            $(".inbox-cnt").html("");
+                            $("#unread-count").html("");
+                        }
+                    }
+                    
+                }
+            });
+        }
+    } else {
+        $(".markasread").attr('data-target','#mySelectModal');
+    }
 });
 
 
 $(".markasunread").click(function () {
     var checkedids = getCheckedBoxes();
-	if (checkedids) {
-		if(checkedids.length>0) {
-			$(".markasunread").attr('data-target','');
-			$(".msg-ajax-loader").show(); 
-			var checkedMessages = JSON.stringify(getCheckedBoxes());
-			var checkedids = getCheckedBoxes(); 
-			$.ajax({
-				type: "POST",
-				url: "markasread",
-				data: { checkedMessages:checkedMessages, readStatus: 0},
-				success:function(result) {
-					var rec = result.split("&&");
-					if(rec[1]=="success") {
-						$(".msg-ajax-loader").hide();
-						for (var i=0; i<checkedids.length; i++) {
-							$("#chk-"+checkedids[i]).prop('checked', false);
-							$("#msg-"+checkedids[i]).removeClass("gq-msg-visited");
-						}
-						if(parseInt(rec[0])>0) {
-							$(".inbox-cnt").html("("+rec[0]+")");
-							$("#unread-count").html('<span class="gq-ms-counter">'+rec[0]+'<span>');
-						} else {
-							$(".inbox-cnt").html("");
-							$("#unread-count").html("");
-						}
-					}
-					
-				}
-			});
-		}
-	} else {
-		$(".markasunread").attr('data-target','#mySelectModal');
-	}
+    if (checkedids) {
+        if(checkedids.length>0) {
+            $(".markasunread").attr('data-target','');
+            $(".msg-ajax-loader").show(); 
+            var checkedMessages = JSON.stringify(getCheckedBoxes());
+            var checkedids = getCheckedBoxes(); 
+            $.ajax({
+                type: "POST",
+                url: "markasread",
+                data: { checkedMessages:checkedMessages, readStatus: 0},
+                success:function(result) {
+                    var rec = result.split("&&");
+                    if(rec[1]=="success") {
+                        $(".msg-ajax-loader").hide();
+                        for (var i=0; i<checkedids.length; i++) {
+                            $("#chk-"+checkedids[i]).prop('checked', false);
+                            $("#msg-"+checkedids[i]).removeClass("gq-msg-visited");
+                        }
+                        if(parseInt(rec[0])>0) {
+                            $(".inbox-cnt").html("("+rec[0]+")");
+                            $("#unread-count").html('<span class="gq-ms-counter">'+rec[0]+'<span>');
+                        } else {
+                            $(".inbox-cnt").html("");
+                            $("#unread-count").html("");
+                        }
+                    }
+                    
+                }
+            });
+        }
+    } else {
+        $(".markasunread").attr('data-target','#mySelectModal');
+    }
 });
 
 $(".deleteMessages").click(function () {
@@ -648,22 +648,22 @@ $(".deleteMessages").click(function () {
         success:function(result) {
         }
     });
-	checkboxes = document.getElementsByName('chk_inbox');
-	for(var i=0, n=checkboxes.length;i<n;i++) {
-		checkboxes[i].checked = false;
-	}
+    checkboxes = document.getElementsByName('chk_inbox');
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = false;
+    }
     location.reload();
 });
 
 $(".deleteselected").click(function () {
     var checkedids = getCheckedBoxes();
-	if (checkedids) {
-		if(checkedids.length>0) {
-			$(".deleteselected").attr('data-target','#myModal');
-		}
-	} else {
-		$(".deleteselected").attr('data-target','#mySelectModal');
-	}
+    if (checkedids) {
+        if(checkedids.length>0) {
+            $(".deleteselected").attr('data-target','#myModal');
+        }
+    } else {
+        $(".deleteselected").attr('data-target','#mySelectModal');
+    }
 });
 
 $(".deleteselectedsent").click(function () {
@@ -677,10 +677,10 @@ $(".deleteselectedsent").click(function () {
         success:function(result) {
         }
     });
-	checkboxes = document.getElementsByName('chk_inbox');
-	for(var i=0, n=checkboxes.length;i<n;i++) {
-		checkboxes[i].checked = false;
-	}
+    checkboxes = document.getElementsByName('chk_inbox');
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = false;
+    }
     location.reload();
 });
 
