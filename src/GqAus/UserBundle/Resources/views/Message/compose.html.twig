@@ -128,22 +128,22 @@
 
 {% block javascripts %}
 <script type="text/javascript">
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-    var newMsg = {{ newMsg }};
-    if (newMsg !== true) {
-        $("#compose_to").prop("readonly",true);
-    }
-    if(document.getElementById("flash-msg"))
-    {
-        document.getElementById("compose_to").value="";
-        document.getElementById("compose_subject").value="";
-        document.getElementById("compose_message").value="";
-    }
-})
 	(function($){
 		$(window).load(function(){
+		
+			$('[data-toggle="tooltip"]').tooltip();
+			var newMsg = {{ newMsg }};
+			if (newMsg !== true) {
+				$("#compose_to").prop("readonly",true);
+			}
+			if(document.getElementById("flash-msg"))
+			{
+				document.getElementById("compose_to").value="";
+				document.getElementById("compose_subject").value="";
+				document.getElementById("compose_message").value="";
+			}
 			
+			/**************/
 			var textareaLineHeight=parseInt($(".textarea-wrapper textarea").css("line-height"));
 			
 			$(".textarea-wrapper").mCustomScrollbar({
