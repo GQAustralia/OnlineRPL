@@ -11,7 +11,7 @@
         </div>
         <div class="gq-form-row">
             <label for="gq-email-name">Email</label>
-                {{ form_widget(form.email) }}
+                {{ form_widget(form.email, { 'attr':{'readonly':'readonly'} }) }}
         </div>
         <div class="gq-form-row">
             <label class="pull-left" for="gq-personal-pwd">Gender</label>
@@ -60,7 +60,7 @@
                 {{ form_widget(form.address.pincode) }}
         </div>
         <div class="gq-form-botton">
-            <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default">Save</button>
+            <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default" onclick="return validateAddress();">Save</button>
         </div>
 
     </div>
