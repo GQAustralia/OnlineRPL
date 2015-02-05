@@ -8,8 +8,8 @@ var unit;
 var fullPath = '/web/';
 var reminderid;
 var reminderflag;
-var otherfiles;
-
+var otherfiles;    
+    
 $(function() {
     var $ppc = $('.progress-pie-chart'),
             percent = parseInt($ppc.data('percent')),
@@ -117,6 +117,15 @@ $(".fromBottom").click(function () {
     $('#file_save').show();
     $('#frmAddEvidence')[0].reset();
     $('#frmSelectEvidence')[0].reset();
+    
+    var c = $('#select-from-evidence-tab').hasClass( "active" );
+    if (c == true) {
+        $('#add-evidence-tab').addClass('active');
+        $('#div_add_evidence').addClass('active');
+        
+        $('#select-from-evidence-tab').removeClass('active');
+        $('#div_existing_evidence').removeClass('active');
+    } 
 });
 
 $("#frmSelectEvidence").submit(function () {
