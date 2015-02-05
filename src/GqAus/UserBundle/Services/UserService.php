@@ -337,7 +337,7 @@ class UserService
             $evidenceStatus = 'Disapproved';
         }
         $mailerInfo['subject'] = 'Unit :'.$result['unitName'].' Status';
-        $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Qualification : ".$result['courseName']." \n Unit : ".$result['unitName']." \n evidences is been ".$evidenceStatus." by ".$result['currentUserName']."
+        $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Qualification : ".$result['courseName']." \n Unit : ".$result['unitName']." \n Evidences have been ".$evidenceStatus." by ".$result['currentUserName']."
          \n Regards, \n OnlineRPL";
         $this->sendExternalEmail($mailerInfo);
         $this->sendMessagesInbox($mailerInfo);
