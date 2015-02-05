@@ -106,8 +106,13 @@ class ApplicantController extends Controller
             if(in_array($unit['id'], $unitsIds)) {               
                 $evidences = $evidenceObj->getUserUnitEvidences($uid, $unit['id']);
                 foreach ($evidences as $evidence) {
-                    $results['courseInfo']['Units']['Unit'][$i]['path'] = $evidence->getPath();                
-                    $results['courseInfo']['Units']['Unit'][$i]['pathName']= $evidence->getName();
+                    if ($evidence->getType() !== 'text') {
+                        $results['courseInfo']['Units']['Unit'][$i]['path'] = $evidence->getPath();
+                        $results['courseInfo']['Units']['Unit'][$i]['pathName'] = $evidence->getName();
+                    } else {
+                        $results['courseInfo']['Units']['Unit'][$i]['path'] = '';
+                        $results['courseInfo']['Units']['Unit'][$i]['pathName'] = '';
+                    }
                 }
             } else {
                 $results['courseInfo']['Units']['Unit'][$i]['path'] = '';
@@ -138,22 +143,31 @@ class ApplicantController extends Controller
     public function zipAction($qcode, $uid)
     {
         $files = array();
+        $user = $this->get('UserService')->getUserInfo($uid);
         $evidenceObj = $this->get('EvidenceService');
         $evidences = $evidenceObj->getUserCourseEvidences($uid, $qcode);
-        foreach ($evidences as $evidence) {
-            array_push($files, $this->container->getParameter('amazon_s3_base_url').$evidence->getPath());
+        if (count($evidences) > 0) {
+            foreach ($evidences as $evidence) {
+                if ($evidence->getType() !== 'text')
+                    array_push($files, $this->container->getParameter('amazon_s3_base_url') . $evidence->getPath());
+            }
+            if (count($files) === 0) {
+                echo "<script>alert('No files to download');window.close();</script>"; exit;
+            }
+            $zip = new \ZipArchive();
+            $zipName = 'downloads/' . $user->getUserName() . '-' . time() . ".zip";
+            $zip->open($zipName, \ZipArchive::CREATE);
+            foreach ($files as $f) {
+                $zip->addFromString(basename($f), file_get_contents($f));
+            }
+            $zip->close();
+            //session_write_close();
+            header('Content-Type', 'application/zip');
+            header('Content-disposition: attachment; filename="' . $zipName . '"');
+            header('Content-Length: ' . filesize($zipName));
+            readfile($zipName);
+        } else {            
+            echo "<script>alert('No files to download');window.close();</script>"; exit;
         }
-        $zip = new \ZipArchive();
-        $zipName = 'Documents-'.time().".zip";
-        $zip->open($zipName,  \ZipArchive::CREATE);
-        foreach ($files as $f) {
-            $zip->addFromString(basename($f),  file_get_contents($f)); 
-        }
-        $zip->close();
-        //session_write_close();
-        header('Content-Type', 'application/zip');
-        header('Content-disposition: attachment; filename="' . $zipName . '"');
-        header('Content-Length: ' . filesize($zipName));
-        readfile($zipName);
     }
 }
