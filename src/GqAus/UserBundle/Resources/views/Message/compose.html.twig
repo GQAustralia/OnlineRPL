@@ -74,17 +74,25 @@
                                 
                             </div>
                         </div>
-                        <div class="gq-msg-row-bg gq-msg-visited">
+						<div class="gq-msg-row-bg gq-msg-visited">
                             <div class="col-xs-12">
-                                <div class="gq-msg-from">
-                                {% if user is defined and user != '' %}
-                                {{ form_widget(composemsgForm.message, {value  : repMessage}, {'attr': {'placeholder': 'Enter Message'} }) }}
-                                {% else %}
-                                {{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message'} }) }}
-                                {% endif %}
-                                </div>
+                            </div>
+                            <div class="gq-msg-from">
+								<section class="textarea-example">
+									<div class="content">
+										<div class="textarea-wrapper">
+											{% if user is defined and user != '' %}
+											{{ form_widget(composemsgForm.message, {value  : repMessage}, {'attr': {'placeholder': 'Enter Message'} }) }}
+											{% else %}
+											{{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message'} }) }}
+											{% endif %}
+											<div class="textarea-clone"></div>
+										</div>
+									</div>
+								</section>
                             </div>
                         </div>
+						
                         <div class="gq-msg-row-bg gq-msg-visited">
                             <div class="col-xs-12">
                             </div>
@@ -101,6 +109,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog gq-modal">
         <div class="modal-content">
@@ -120,7 +129,7 @@
 {% block javascripts %}
 <script type="text/javascript">
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
     var newMsg = {{ newMsg }};
     if (newMsg !== true) {
         $("#compose_to").prop("readonly",true);
@@ -132,7 +141,54 @@ $(function () {
         document.getElementById("compose_message").value="";
     }
 })
-
+	(function($){
+		$(window).load(function(){
+			
+			var textareaLineHeight=parseInt($(".textarea-wrapper textarea").css("line-height"));
+			
+			$(".textarea-wrapper").mCustomScrollbar({
+				scrollInertia:0,
+				theme:"dark-3",
+				advanced:{autoScrollOnFocus:false},
+				keyboard:{enable:false},
+				snapAmount:textareaLineHeight
+			});
+			
+			var textarea=$(".textarea-wrapper textarea"),textareaWrapper=$(".textarea-wrapper"),textareaClone=$(".textarea-wrapper .textarea-clone");
+			
+			textarea.bind("keyup keydown",function(e){
+				var $this=$(this),textareaContent=$this.val(),clength=textareaContent.length,cursorPosition=textarea.getCursorPosition();
+				textareaContent="<span>"+textareaContent.substr(0,cursorPosition)+"</span>"+textareaContent.substr(cursorPosition,textareaContent.length);
+				textareaContent=textareaContent.replace(/\n/g,"<br />");
+				textareaClone.html(textareaContent+"<br />");
+				$this.css("height",textareaClone.height());
+				var textareaCloneSpan=textareaClone.children("span"),textareaCloneSpanOffset=0,
+					viewLimitBottom=(parseInt(textareaClone.css("min-height")))-textareaCloneSpanOffset,viewLimitTop=textareaCloneSpanOffset,
+					viewRatio=Math.round(textareaCloneSpan.height()+textareaWrapper.find(".mCSB_container").position().top);
+				if(viewRatio>viewLimitBottom || viewRatio<viewLimitTop){
+					if((textareaCloneSpan.height()-textareaCloneSpanOffset)>0){
+						textareaWrapper.mCustomScrollbar("scrollTo",textareaCloneSpan.height()-textareaCloneSpanOffset-textareaLineHeight);
+					}else{
+						textareaWrapper.mCustomScrollbar("scrollTo","top");
+					}
+				}
+			});
+			
+			$.fn.getCursorPosition=function(){
+				var el=$(this).get(0),pos=0;
+				if("selectionStart" in el){
+					pos=el.selectionStart;
+				}else if("selection" in document){
+					el.focus();
+					var sel=document.selection.createRange(),selLength=document.selection.createRange().text.length;
+					sel.moveStart("character",-el.value.length);
+					pos=sel.text.length-selLength;
+				}
+				return pos;
+			}
+			
+		});
+	})(jQuery);
 </script>
-<script type="text/javascript" src="{{ asset('public/js/custom-jquery.js') }}"></script>
+<!-- <script type="text/javascript" src="{{ asset('public/js/custom-jquery.js') }}"></script> -->
 {% endblock %}
