@@ -803,3 +803,15 @@ $('.checkform-changed').click(function() {
       location.href = fullPath+"messages";
   }
 });
+
+function validateAddress()
+{
+    var startMsg = '<div class="gq-well well"><span aria-hidden="true" class="login-warning-icon"></span><div class="login-warning-text">';
+    var endMsg = '</div></div>';
+    if($("#userprofile_address_address").val()=="")
+    {
+        $("#change_pwd_error").html(startMsg+"Please enter Address"+endMsg);
+        $("#userprofile_address_address").focus();
+        return false;
+    }
+}
