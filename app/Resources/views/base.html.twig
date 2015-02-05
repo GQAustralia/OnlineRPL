@@ -77,7 +77,7 @@
                                 <li><a {% if app.request.attributes.get('_route') == 'applicants' or app.request.attributes.get('_route') == 'applicantDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicants"><span class="gq-courses-icon"><img src="{{ asset('public/images/applicantlist.png') }}" /></span><span class="left-nav-txt">Applicants List</span></a></li>
                                 {% endif %}
                                 
-                                {% if 'ROLE_ASSESSOR' and 'ROLE_FACILITATOR' in roles %}
+                                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
                                 <li><a {% if app.request.attributes.get('_route') == 'reminder' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reminder"><span class="gq-courses-icon"><img src="{{ asset('public/images/todolist.png') }}" /></span><span class="left-nav-txt">To Do List</span></a></li>
                                 {% endif %}
                                 
