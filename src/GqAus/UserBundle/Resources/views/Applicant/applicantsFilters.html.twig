@@ -9,6 +9,7 @@
 					<div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
 					<span class="gq-course-details-header-title">Qualification Name</span>
 					</div>
+                                        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
 					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-1">
 					<span class="gq-course-details-header-title gq-course-details-two-lines">Evidence Completeness (%)</span>
 					</div>
@@ -18,6 +19,7 @@
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-1">
 					<span class="gq-course-details-header-title">Remaining Time</span>
 					</div>
+                                        {% endif %}
 				</div>
 			</div>
 		</div>
