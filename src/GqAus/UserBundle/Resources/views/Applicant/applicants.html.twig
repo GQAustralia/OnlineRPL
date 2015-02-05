@@ -13,6 +13,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
                             <div class="gq-acc-row-title">{{list.courseName}}</div>
                         </div>
+                        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
                             <div class="gq-acc-row-title">
                                 {% set userId = list.user.id %}
@@ -42,7 +43,7 @@
                                 </div>
                             </div>
                         </div>
-                                                    
+                        {% endif %}                        
                         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-2">
                             <div class="gq-acc-row-title">{{ timeRemaining(id) }}</div>
                         </div>

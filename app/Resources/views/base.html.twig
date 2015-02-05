@@ -8,12 +8,15 @@
 
     <!-- Bootstrap -->
     {% block head %}
-        <link href="{{ asset('public/css/accordion.css') }}" rel="stylesheet">
-        <link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('public/css/styles.css') }}" />
-        <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}" />        
-    {% endblock %}
+	
+	<link rel="stylesheet" href="{{ asset('public/css/scroll-style.css') }}" />	
+	 <link rel="stylesheet" href="{{ asset('public/css/jquery.mCustomScrollbar.css') }}" />   
+	<link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}" />
+	<link href="{{ asset('public/css/accordion.css') }}" rel="stylesheet">
+	<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="{{ asset('public/css/styles.css') }}" />
+	<link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}" />
+ 	{% endblock %}
     {% block stylesheets %}{% endblock %}
 
     
@@ -75,6 +78,9 @@
                                 <li><a {% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/qualifications"><span class="gq-courses-icon"><img src="{{ asset('public/images/courses.png') }}" /></span><span class="left-nav-txt">Qualifications</span></a></li>
                                 {% else %}
                                 <li><a {% if app.request.attributes.get('_route') == 'applicants' or app.request.attributes.get('_route') == 'applicantDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicants"><span class="gq-courses-icon"><img src="{{ asset('public/images/applicantlist.png') }}" /></span><span class="left-nav-txt">Applicants List</span></a></li>
+                                {% endif %}
+                                
+                                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
                                 <li><a {% if app.request.attributes.get('_route') == 'reminder' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reminder"><span class="gq-courses-icon"><img src="{{ asset('public/images/todolist.png') }}" /></span><span class="left-nav-txt">To Do List</span></a></li>
                                 {% endif %}
                                 
@@ -99,14 +105,15 @@
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="{{ asset('public/js/jquery.min.js') }}"></script>
+	<script src="{{ asset('public/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
     <script src="{{ asset('public/js/jquery.form.js') }}"></script>
     <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
     <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script>
         onloadCount();
