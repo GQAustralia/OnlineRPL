@@ -195,6 +195,9 @@ class MessageController extends Controller
         if ($userid == $msgUser) {
             $userName= $message->getInbox()->getUserName(); 
             $from = " from me";
+            if ($userid == $message->getInbox()->getId()) {
+               $from = " to me"; 
+            }
         } else {
             $userName = $message->getSent()->getUserName(); 
             $from = " to me";
