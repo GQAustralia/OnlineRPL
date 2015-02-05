@@ -56,8 +56,8 @@
                 <!-- Tabs start here -->
                 <div class="gq-dashboard-tabs-header gq-profile-tabs-header wid60p" id="gq-profile-tabs-headerid">
                     <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
-                        <li role="presentation" {% if tab == 'id-fields' %} {% else %} class="active" {% endif %} ><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal</a></li>
-                        <li role="presentation"><a href="#address" aria-controls="address" role="tab" data-toggle="tab">Address</a></li>
+                        <li id="personel-gq-tab" role="presentation" {% if tab == 'id-fields' %} {% else %} class="active" {% endif %} ><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal</a></li>
+                        <li id="address-gq-tab" role="presentation"><a href="#address" aria-controls="address" role="tab" data-toggle="tab">Address</a></li>
                         {% if ('ROLE_APPLICANT' in userRole) %}
                         <li role="presentation" {% if tab == 'id-fields' %} class="active" {% else %} {% endif %} ><a href="#id-fields" aria-controls="id-fields" role="tab" data-toggle="tab">ID Files</a></li>                        
                         {% endif %}

@@ -1,3 +1,4 @@
+{% set userRole = app.security.getToken().getUser().getRoles() %}
 <div class="gq-acc-wrap">
     <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
     <!-- accordion starts here -->
@@ -42,11 +43,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {% endif %}                        
+                        </div>                   
                         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-2">
                             <div class="gq-acc-row-title">{{ timeRemaining(id) }}</div>
                         </div>
+                        {% endif %}     
                         <div class="col-lg-2 col-md-2 col-sm-1 col-xs-2">
                             <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}">
                             <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>View</button>

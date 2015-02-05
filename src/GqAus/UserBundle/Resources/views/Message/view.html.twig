@@ -55,11 +55,43 @@
                                         </span>
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-3">
-                                        <div class="gq-msg-trash-icon"><a data-toggle="modal" data-target="" data-placement="right" title="Delete selected" class="modalClass deleteselected"><img src="{{ asset('public/images/trash.png') }}" /></a></div>
+                                        <span class="gq-msg-trash-icon">
+                                                <a title="Delete selected" class="modalClass deleteselected">
+                                                    <img src="{{ asset('public/images/trash.png') }}" />
+                                                </a>
+                                        </span>
+                                        <div class="gq-inbox-icons">
+                                            <div class="tooltip-home top">
+                                                    <div class="tooltip-arrow"></div>
+                                                    <span class="">Delete selected</span>
+                                            </div>
+                                        </div>
                                         
-                                        <div class="gq-msg-mark-icon"><a data-toggle="modal" data-target="" data-placement="right" title="Mark as Read" class="modalClass markasread"><img src="{{ asset('public/images/read.png') }}" /></a></div>
+                                        <div class="gq-msg-mark-icon">
+                                            <span class="gq-dashboard-points-icon">
+                                                <a data-toggle="modal" data-target="" data-placement="right" title="Mark as Read" class="modalClass markasread">
+                                                    <img src="{{ asset('public/images/read.png') }}" />
+                                                </a>
+                                                <div class="tooltip-home top">
+                                                    <div class="tooltip-arrow"></div>
+                                                    <span class="">Mark as Read</span>
+                                                </div>
+                                            </span>
+                                            
+                                        </div>
 
-                                        <div class="gq-msg-mark-icon"><a data-toggle="modal" data-placement="right" title="Mark as UnRead" class="markasunread"><img src="{{ asset('public/images/unread.png') }}" /></a></div>
+                                        <div class="gq-msg-mark-icon">
+                                            <span class="gq-dashboard-points-icon">
+                                                <a data-toggle="modal" data-placement="right" title="Mark as UnRead" class="markasunread">
+                                                    <img src="{{ asset('public/images/unread.png') }}" />
+                                                </a>
+                                                <div class="tooltip-home top">
+                                                    <div class="tooltip-arrow"></div>
+                                                    <span class="">Mark as UnRead</span>
+                                                </div>
+                                            </span>
+                                            
+                                        </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-5 col-xs-8">
                                         {# display navigation for pages - paginator_navigator #}
