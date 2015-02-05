@@ -22,14 +22,12 @@
                 <div class="gq-dashboard-courses-detail-wrap">
                     <div class="gq-dashboard-tabs margin-top15">
                         <!-- Tabs start here -->
-                        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                         <div class="gq-dashboard-tabs-header wid20p">
                             <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
                                 <li role="presentation" id="applicantPending" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab">Pending</a></li>
                                 <li role="presentation" id="applicantCompleted"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Approved</a></li>                                
                             </ul>
                         </div>
-                        {% endif %}
                         <!-- Filter start here -->
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
