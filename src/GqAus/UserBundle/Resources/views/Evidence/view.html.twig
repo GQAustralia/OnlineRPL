@@ -225,7 +225,7 @@
                                                     <span class="">Delete Document</span>
                                                 </div>
                                         </span>
-                                        <a href = "{{ amazon_link }}{{  evidence.path }}" class="fancybox fancybox.iframe">          <div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
+                                        <a href = "{{ amazon_link }}{{  evidence.path }}" {% if (result.1 == 'xls') or (result.1 == 'docx') or (result.1 == 'doc') %} {% else %} class="fancybox fancybox.iframe" {% endif %} ><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
                                         </a>
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
