@@ -70,12 +70,15 @@
                     <table cellpadding="4" cellspacing="0" border="0" width="100%">	
                      {% for key, units in courseInfo.Units.Unit %}
                     {% if units.type == 'elective' %}
+                        {% set unitId = units.id %}
+                        {% if unitId|trim in electiveUnits|keys %} 
                         <tr><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.id}}</td><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.name}}</td></tr>
                         {% if units.path != '' %} 
                         <tr><td colspan="2" style="padding-left:20px;"><a href="{{ amazon_link~units.path}}" style="color:#464646;">{{ amazon_link~units.path}}</a></td></tr>
                         {% else %}
                         <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
                         {% endif %}
+                    {% endif %}
                     {% endif %}
                 {% endfor %}
                         <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
