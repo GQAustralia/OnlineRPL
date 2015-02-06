@@ -223,8 +223,8 @@
                 {% if courseInfo.Units.Unit %}
                 {% for key, units in courseInfo.Units.Unit %}
                     {% if units.type == 'elective' %}
-						{% set unitId = units.id %}
-						{% if unitId|trim in electiveUnits|keys %} 
+                        {% set unitId = units.id %}
+                        {% if unitId|trim in electiveUnits|keys %} 
                         <div>
                             <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
                             <div class="row no-margin">
@@ -247,9 +247,9 @@
                                 <p>{{units.name}}</p>
                             </article>
                         </div>
-						{% set i = i+1 %}
-						{% else %}
-					   {% endif %}
+                        {% set i = i+1 %}
+                        {% else %}
+                       {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% endif %}
@@ -261,6 +261,16 @@
     {% endif %}
         {% endif %}
      {% endif %}
+
+     {% if ('ROLE_RTO' in userRole) and (rtostatus == '1') %}
+        <div id="approve_section" class="col-xs-12 text-center">
+        {% if (courseStatus == '1') %}
+            <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
+        {% else %}
+            Approved and Completed!
+        {% endif %}
+        </div>
+    {% endif %}
 </div>
 
 <!----- Unit evidences start --->

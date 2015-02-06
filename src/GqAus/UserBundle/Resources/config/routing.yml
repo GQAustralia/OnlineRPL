@@ -124,3 +124,6 @@ deleteFromTrash:
 unread:
     path:     /unread
     defaults: { _controller: GqAusUserBundle:Message:unread }
+approveCertification:
+    path:     /approveCertification
+    defaults: { _controller: GqAusUserBundle:Applicant:approveCertification }

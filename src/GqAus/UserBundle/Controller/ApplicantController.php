@@ -38,10 +38,11 @@ class ApplicantController extends Controller
         $result['userRole'] = $this->getRequest()->get('userRole');
         $result['currentUserName'] = $this->get('security.context')->getToken()->getUser()->getUserName();
         $result['currentUserId'] = $this->get('security.context')->getToken()->getUser()->getId();
+        $result['currentuserRole'] = $this->get('security.context')->getToken()->getUser()->getRoles();
         $result['courseName'] = $this->getRequest()->get('courseName');
         $result['unitName'] = $this->getRequest()->get('unitName');
-        
         echo $this->get('UserService')->updateApplicantEvidences($result);
+        $this->get('UserService')->updateUserApplicantsList($result['currentUserId'], $result['currentuserRole']);
         exit;
     }
     
@@ -66,7 +67,7 @@ class ApplicantController extends Controller
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $this->get('UserService')->updateUserApplicantsList($userId, $userRole);
+        /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0');
         $results['pageRequest'] = 'submit';
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
@@ -170,5 +171,15 @@ class ApplicantController extends Controller
         } else {            
             echo "<script>alert('No files to download');window.close();</script>"; exit;
         }
+    }
+    
+    /**
+    * Function to approve certification by rto user
+    */
+    public function approveCertificationAction()
+    {
+        $courseCode = $this->getRequest()->get('courseCode');
+        $applicantId = $this->getRequest()->get('applicantId');
+        $results = $this->get('UserService')->rtoApproveCertification($courseCode, $applicantId); exit;
     }
 }

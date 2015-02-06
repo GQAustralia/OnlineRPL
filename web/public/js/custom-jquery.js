@@ -891,3 +891,17 @@ function validateAddress()
         return false;
     }
 }
+
+$("#approve-for-certification").click(function () {
+    var courseCode = $(this).attr("courseCode");
+    var applicantId = $(this).attr("applicantId");
+    $.ajax({
+        type: "POST",
+        url: fullPath + "approveCertification",
+        async: false,
+        data: { courseCode:courseCode, applicantId: applicantId },
+        success:function(result) {
+            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../web/public/images/tick.png">This Qualification is Approved successfully!</h2></div>');
+        }
+    });
+});

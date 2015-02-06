@@ -35,7 +35,6 @@
                             </div>
                         </span>
                         {% endif %}
-                        
                         <a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">        
                             <div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
                         </a>
@@ -234,7 +233,7 @@
                     </div>
                  </span>
                  {% endif %}
-                <a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox fancybox.iframe">
+                <a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  {% if (result.1 == 'xls') or (result.1 == 'docx') or (result.1 == 'doc') %} {% else %} class="fancybox fancybox.iframe" {% endif %} >
                     <div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
                 </a>
                 <div class="gq-id-files-content-row-wrap">
@@ -266,7 +265,6 @@
             </div>
         </div>
     </div>
-            
     {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_RTO' in currentUserRole) %}
     <div class="text-center gq-id-files-button-content-wrap" id="applicantEStatus" userRole="{{currentUserRole.0}}">
         {% if ('ROLE_ASSESSOR' in currentUserRole) %}
@@ -274,7 +272,7 @@
                 <div>Evidence Approved by facilitator!</div>
             {% endif %}
         {% endif %}
-		{% if ('ROLE_FACILITATOR' in currentUserRole) %}
+        {% if ('ROLE_FACILITATOR' in currentUserRole) %}
             {% if unitStatus.assessorstatus == '1' %}
                 <div>Evidence Approved by assessor!</div>
             {% endif %}
@@ -282,19 +280,21 @@
 
         <div class="gq-id-files-upload-success-text" style="display: none;"></div>
         <span id="gq-msg-success" class="btn-wrap100p">
-        {% if ((unitStatus.facilitatorstatus == '1') and ('ROLE_FACILITATOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and ('ROLE_ASSESSOR' in currentUserRole)) or ((unitStatus.facilitatorstatus == '1') and (unitStatus.assessorstatus == '1') and (unitStatus.rtostatus == '1') and ('ROLE_RTO' in currentUserRole)) %}
+        {% if ((unitStatus.facilitatorstatus == '1') and ('ROLE_FACILITATOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and ('ROLE_ASSESSOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and (unitStatus.rtostatus == '1') and ('ROLE_RTO' in currentUserRole)) %}
             <div>You have Approved this Evidence!</div>
         {% else %}
-            {% if (('ROLE_RTO' in currentUserRole) and (unitStatus.assessorstatus == '1')) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_ASSESSOR' in currentUserRole) %}
-                {% if flag_image == 1 or flag_audio == 1 or flag_video == 1 or flag_text == 1 or flag_files == 1 %}
-                    <button type="submit" id="approve" class="btn btn-green pull-left">Approve</button>
-                    <button type="submit" id="disapprove" class="btn btn-red pull-left">Disapprove</button>
-				{% else %}
-					<button type="submit" id="approve" disabled class="btn btn-green pull-left">Approve</button>
-                    <button type="submit" id="disapprove" disabled class="btn btn-red pull-left">Disapprove</button>
+            {% if unitStatus.rtostatus == '0' %}
+                {% if (('ROLE_RTO' in currentUserRole) and (unitStatus.assessorstatus == '1')) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_ASSESSOR' in currentUserRole) %}
+                    {% if flag_image == 1 or flag_audio == 1 or flag_video == 1 or flag_text == 1 or flag_files == 1 %}
+                        <button type="submit" id="approve" class="btn btn-green pull-left">Approve</button>
+                        <button type="submit" id="disapprove" class="btn btn-red pull-left">Disapprove</button>
+                    {% else %}
+                        <button type="submit" id="approve" disabled class="btn btn-green pull-left">Approve</button>
+                        <button type="submit" id="disapprove" disabled class="btn btn-red pull-left">Disapprove</button>
+                    {% endif %}
+                     <input type="hidden" name="hid-course-name" id="hid-course-name" value="{{course_name}}">
+                     <input type="hidden" name="hid-unit-name" id="hid-unit-name" value="{{unittitle}}">
                 {% endif %}
-				 <input type="hidden" name="hid-course-name" id="hid-course-name" value="{{course_name}}">
-                 <input type="hidden" name="hid-unit-name" id="hid-unit-name" value="{{unittitle}}">
             {% endif %}
         {% endif %}
         {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) %}
@@ -312,7 +312,6 @@
         {% endif %}
         </span>
         <span class="loading-icon" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
-        
     </div>
     {% endif %}
     
