@@ -599,6 +599,7 @@ $(".markasread").click(function () {
                             $(".inbox-cnt").html("");
                             $("#unread-count").html("");
                         }
+                        $("#chk-main-all").prop('checked', false);
                         $("#chk-main-all").prev().removeClass("checked");
                     }
                     
@@ -639,6 +640,7 @@ $(".markasunread").click(function () {
                             $(".inbox-cnt").html("");
                             $("#unread-count").html("");
                         }
+                        $("#chk-main-all").prop('checked', false);
                         $("#chk-main-all").prev().removeClass("checked");
                     }
                 }
