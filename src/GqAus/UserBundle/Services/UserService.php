@@ -304,6 +304,9 @@ class UserService
             $results['facilitatorId'] = !empty($facilitator) ? $facilitator->getId() : '';
             $results['assessorId'] = !empty($assessor) ? $assessor->getId() : '';
             $results['rtoId'] = !empty($rto) ? $rto->getId() : '';
+            
+            $results['courseStatus'] = $otheruser->getCourseStatus();
+            $results['rtostatus'] = $otheruser->getRtostatus();
         }
         return $results;
     }
@@ -452,7 +455,7 @@ class UserService
                                 $course->setAssessorstatus('1');
                             } elseif ($userType == 'rto') {
                                 $course->setRtostatus('1');
-                                $course->setCourseStatus('1');
+                                //$course->setCourseStatus('1');
                             }
                              $this->em->persist($course);
                              $this->em->flush();
@@ -847,6 +850,20 @@ class UserService
         }
 
         return $_word;
+    }
+    
+    /**
+    * Function to approve certification by rto
+    */
+    public function rtoApproveCertification($courseCode, $applicantId)
+    {
+        $applicantCoures = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
+                                                                                         'user' => $applicantId));
+        if (!empty($applicantCoures)) {
+            $applicantCoures->setCourseStatus('0');
+            $this->em->persist($applicantCoures);
+            $this->em->flush();
+        }
     }
 
 }
