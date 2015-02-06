@@ -590,6 +590,7 @@ $(".markasread").click(function () {
                         for (var i=0; i<checkedids.length; i++) {
                             $("#chk-"+checkedids[i]).prop('checked', false);
                             $("#msg-"+checkedids[i]).addClass("gq-msg-visited");
+                            $("#chk-"+checkedids[i]).prev().removeClass("checked");
                         }
                         if(parseInt(rec[0])>0) {
                             $(".inbox-cnt").html("("+rec[0]+")");
@@ -598,6 +599,7 @@ $(".markasread").click(function () {
                             $(".inbox-cnt").html("");
                             $("#unread-count").html("");
                         }
+                        $("#chk-main-all").prev().removeClass("checked");
                     }
                     
                 }
@@ -628,6 +630,7 @@ $(".markasunread").click(function () {
                         for (var i=0; i<checkedids.length; i++) {
                             $("#chk-"+checkedids[i]).prop('checked', false);
                             $("#msg-"+checkedids[i]).removeClass("gq-msg-visited");
+                            $("#chk-"+checkedids[i]).prev().removeClass("checked");                         
                         }
                         if(parseInt(rec[0])>0) {
                             $(".inbox-cnt").html("("+rec[0]+")");
@@ -636,8 +639,8 @@ $(".markasunread").click(function () {
                             $(".inbox-cnt").html("");
                             $("#unread-count").html("");
                         }
+                        $("#chk-main-all").prev().removeClass("checked");
                     }
-                    
                 }
             });
         }
@@ -753,9 +756,12 @@ function inboxcheckall() {
     if(document.getElementById("chk-main-all").checked == true)
     {
         checkboxes = document.getElementsByName('chk_inbox');
+        //checkboxesSpans = document.getElementsByName('custom-chk-name');
+        
         for(var i=0, n=checkboxes.length;i<n;i++) {
             checkboxes[i].checked = true;
         }
+        $(".custom-checkbox").addClass("checked");        
     }
     else
     {
@@ -763,6 +769,7 @@ function inboxcheckall() {
         for(var i=0, n=checkboxes.length;i<n;i++) {
             checkboxes[i].checked = false;
         }
+        $(".custom-checkbox").removeClass("checked");
     }
 }
 
@@ -793,6 +800,15 @@ $(".date-icon").click(function () {
 });
 
 
+function uncheckSpecificCB(chkid)
+{
+    $("#main-chk-id").removeClass("checked");
+    document.getElementById("chk-main-all").checked = false;
+    if($("#chk-"+chkid).prev().hasClass("checked"))
+        $("#chk-"+chkid).prev().removeClass("checked");
+    else
+        $("#chk-"+chkid).prev().addClass("checked");
+}
 
 
 $("#disclose-cancel").click(function () {

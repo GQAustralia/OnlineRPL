@@ -51,25 +51,29 @@
                                 <div class="gq-msg-row-bg gq-messages-icons-border gq-grey-bg-border">
                                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                                         <span class="msg-checkmark-icon" onClick="inboxcheckall();">
-                                            <input type="checkbox" name="msgs_inbox[]" id="chk-main-all" class="styled">
+                                            <span class="custom-checkbox" name="main-chk-name" id="main-chk-id"></span>
+                                            <input type="checkbox" name="msgs_inbox[]" id="chk-main-all">
                                         </span>
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-3">
-                                        <span class="gq-msg-trash-icon">
-                                                <a title="Delete selected" class="modalClass deleteselected">
+                                        
+                                       
+                                        <div class="gq-msg-mark-icon">
+                                            <span class="gq-dashboard-points-icon">
+                                                <a class="modalClass deleteselected">
                                                     <img src="{{ asset('public/images/trash.png') }}" />
                                                 </a>
-                                        </span>
-                                        <div class="gq-inbox-icons">
-                                            <div class="tooltip-home top">
+                                                <div class="tooltip-home top">
                                                     <div class="tooltip-arrow"></div>
                                                     <span class="">Delete selected</span>
-                                            </div>
+                                                </div>
+                                            </span>
+                                            
                                         </div>
                                         
                                         <div class="gq-msg-mark-icon">
                                             <span class="gq-dashboard-points-icon">
-                                                <a data-toggle="modal" data-target="" data-placement="right" title="Mark as Read" class="modalClass markasread">
+                                                <a data-toggle="modal" data-target="" data-placement="right" class="modalClass markasread">
                                                     <img src="{{ asset('public/images/read.png') }}" />
                                                 </a>
                                                 <div class="tooltip-home top">
@@ -82,7 +86,7 @@
 
                                         <div class="gq-msg-mark-icon">
                                             <span class="gq-dashboard-points-icon">
-                                                <a data-toggle="modal" data-placement="right" title="Mark as UnRead" class="markasunread">
+                                                <a data-toggle="modal" data-placement="right" class="markasunread">
                                                     <img src="{{ asset('public/images/unread.png') }}" />
                                                 </a>
                                                 <div class="tooltip-home top">
@@ -109,7 +113,8 @@
                                     <div class="gq-msg-row-bg {% if message.read == 1 %} gq-msg-visited {% endif %}" id="msg-{{message.id}}">
                                         <div class="col-xs-1">
                                             <span class="msg-checkmark-icon">
-                                                <input type="checkbox" id="chk-{{ message.id }}" name="chk_inbox" value="{{ message.id }}">
+                                                <span class="custom-checkbox" name="custom-chk-name" id="custom-chk-id-{{ message.id }}"></span>
+                                                <input class="gq-msg-custom-chk" type="checkbox" id="chk-{{ message.id }}" name="chk_inbox" value="{{ message.id }}" onclick="uncheckSpecificCB('{{ message.id }}');">
                                             </span>
                                         </div>
                                         <div class="col-xs-3">
