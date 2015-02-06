@@ -96,8 +96,9 @@ class ApplicantController extends Controller
         $user = $this->get('UserService')->getUserInfo($uid);
         $evidenceObj = $this->get('EvidenceService');
         $results = $this->get('CoursesService')->getCoursesInfo($qcode);
-        $courseEvidences = $evidenceObj->getUserCourseEvidences($uid, $qcode);        
-        
+        $courseEvidences = $evidenceObj->getUserCourseEvidences($uid, $qcode);
+        $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
+        $unitsIds = array();
         foreach ($courseEvidences as $value) {
             $unitsIds[] = $value->getUnit(); 
         }
