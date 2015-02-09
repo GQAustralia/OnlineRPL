@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="GqAus\UserBundle\Entity\UserAddress" table="user_address">
+  
+        <id name="id" type="string" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="address" type="string" column="address" nullable="false"/>
+        <field name="area" type="string" column="area" nullable="true"/>
+        <field name="city" type="string" column="city" nullable="true"/>
+        <field name="state" type="string" column="state" nullable="true"/>
+        <field name="pincode" type="string" column="pincode" nullable="true"/>
+        <one-to-one field="user" target-entity="GqAus\UserBundle\Entity\User" inversed-by="address">
+            <join-columns>
+                <join-column name="user_id" referenced-column-name="id"/>
+            </join-columns>
+        </one-to-one>
+    </entity>
+</doctrine-mapping>

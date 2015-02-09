@@ -16,13 +16,42 @@ class GqAusUserExtension extends Extension
 {
     /**
      * {@inheritdoc}
-     */
+     */    
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        if (!isset($config['amazon_s3']['aws_key'])) {
+            throw new \InvalidArgumentException(
+            'The option "gq_aus_user.amazon_s3.aws_key" must be set.'
+            );
+        }
+        $container->setParameter(
+                'gq_aus_user.amazon_s3.aws_key', $config['amazon_s3']['aws_key']
+        );
+
+        if (!isset($config['amazon_s3']['aws_secret_key'])) {
+            throw new \InvalidArgumentException(
+            'The option "gq_aus_user.amazon_s3.aws_secret_key" must be set.'
+            );
+        }
+        $container->setParameter(
+                'gq_aus_user.amazon_s3.aws_secret_key', $config['amazon_s3']['aws_secret_key']
+        );
+
+        if (!isset($config['amazon_s3']['base_url'])) {
+            throw new \InvalidArgumentException(
+            'The option "gq_aus_user.amazon_s3.base_url" must be set.'
+            );
+        }
+        $container->setParameter(
+                'gq_aus_user.amazon_s3.base_url', $config['amazon_s3']['base_url']
+        );
+        
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
+
+        
     }
 }

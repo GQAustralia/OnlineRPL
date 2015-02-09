@@ -45,4 +45,43 @@ class Image extends \GqAus\UserBundle\Entity\Evidence
     {
         return $this->path;
     }
+    /**
+     * @var string
+     */
+    private $name;
+
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Image
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+	
+	/**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+		$pos = strpos($this->name, '.');
+        return substr($this->name, 0, $pos);
+    }
 }

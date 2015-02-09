@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Messages Sent{% endblock %}
+{% block body %}    
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="gq-dashboard-title">Messages</h1>
+                    <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            {% for flashMessage in app.session.flashbag.get('msgnotice') %}
+            <div class="row" id="profile_suc_msg">
+                <div class="gq-id-files-upload-success-text">
+                  <h2><img src="{{ asset('public/images/tick.png') }}">
+                    {{ flashMessage }}</h2>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="col-xs-push-4 col-xs-4" id="change_pwd_error">
+                {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                <div class="gq-well well">
+                    <span class="login-warning-icon" aria-hidden="true"></span>
+                    <div class="login-warning-text">{{ flashMessage }}</div>
+                </div>
+               {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% include 'GqAusUserBundle:Message:leftmenu.html.twig' %}
+        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="gq-id-files">
+                        <div class="gq-msg-header">
+                            <div class="row">
+                                <div class="gq-mail-title-text"><h2>Sent</h2></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 msg-folder-wrap">
+                    <div class="gq-msg-wrap" id="messages-grid"> 
+                            {% if messages %}
+                                {% if messages|length > 0 %}
+                                    <div class="gq-msg-row-bg gq-messages-icons-border ">
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                            <span class="msg-checkmark-icon" onClick="inboxcheckall();">
+                                                <input type="checkbox" name="msgs_inbox[]" id="chk-main-all" class="styled">
+                                            </span>
+                                        </div>
+
+                                        <div class="col-lg-5 col-md-5 col-sm-3 col-xs-3">
+                                            <div class="gq-msg-trash-icon"><a data-toggle="modal" data-target="" data-placement="right" title="Delete selected" class="modalClass deleteselected"><img src="{{ asset('public/images/trash.png') }}" /></a></div>
+
+                                            <div class="gq-msg-mark-icon msg-ajax-loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8">
+                                            {# display navigation for pages - paginator_navigator #}
+                                            {% if messages|length > 0 and paginator.getTotalPages() > 1 %}
+                                                {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        
+                        {% if messages %}
+                            {% if messages|length > 0 %}
+                                {% for key, message in messages %}
+                                    <div class="gq-msg-row-bg gq-msg-visited" id="msg-{{message.id}}">
+                                        <div class="col-xs-1">
+                                            <span class="msg-checkmark-icon">
+                                                <input type="checkbox" id="chk-{{ message.id }}" name="chk_inbox" value="{{ message.id }}">
+                                            </span>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="gq-msg-from">{{message.inbox.firstname}}</div>
+                                        </div>
+                                        <div class="col-xs-5">
+                                            <div class="gq-msg-title">
+                                                <a href="{{ base_url }}view/{{message.id}}">
+                                                {% if message.subject|length > 30 %}
+                                                    {{ message.subject[:30] ~ '...' }}
+                                                {% else %}
+                                                     {{ message.subject }}   
+                                                {% endif %}
+                                                 </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="gq-msg-time-stamp pull-right">
+                                                {{ user_service.dateToWords(message.created) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="gq-msg-row-bg">
+                                    <div class="col-xs-12">
+                                        <span class="msg-checkmark-icon">
+                                            <center>No Messages found</center>
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                        <div class="gq-msg-row-bg">
+                            <div class="col-xs-12">
+                                <span class="msg-checkmark-icon">
+                                    <center>No Messages found</center>
+                                </span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+					<span class="flip-icon"></span>	
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected message ?</h4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-white deleteselectedsent">Ok</a>
+                <a class="btn btn-white" id="qclose-cancel">Cancel</a>
+                <span class="loading-icon msg-loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mySelectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Please select atleast one record!</h4>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+<script type="text/javascript" src="{{ asset('public/js/custom-jquery.js') }}"></script>
+{% endblock %}

@@ -1,3 +1,129 @@
 user_homepage:
-    path:     /user
-    defaults: { _controller: GqAusUserBundle:Default:index }
+    path:     /userprofile
+    defaults: { _controller: GqAusUserBundle:User:profile }
+_page:
+    path:     /
+    defaults: { _controller: GqAusUserBundle:Login:index }
+forgotpassword:
+    path:     /forgotpassword
+    defaults:  { _controller: GqAusUserBundle:ForgotPassword:index }
+resetPassword:
+    path:     /resetpassword/{token}
+    defaults:  { _controller: GqAusUserBundle:ForgotPassword:resetPassword }
+id_file_upload:
+    path:     /idfileupload
+    defaults: { _controller: GqAusUserBundle:User:addIdFile }
+add_evidence:
+    path:     /addEvidences
+    defaults: { _controller: GqAusUserBundle:Evidence:add }
+view_evidences:
+    path:     /evidences
+    defaults: { _controller: GqAusUserBundle:Evidence:view }
+saveExistingEvidence:
+    path:     /saveExistingEvidence
+    defaults: { _controller: GqAusUserBundle:Evidence:saveExistingEvidence }
+deleteEvidenceFile:
+    path:     /deleteEvidenceFile
+    defaults:  { _controller: GqAusUserBundle:Evidence:deleteFile }
+deleteIdFiles:
+    path:     /deleteIdFiles
+    defaults:  { _controller: GqAusUserBundle:User:deleteIdFiles }
+uploadProfilePic:
+    path:     /uploadProfilePic
+    defaults: { _controller: GqAusUserBundle:User:uploadProfilePic }
+applicants:
+    path:     /applicants
+    defaults: { _controller: GqAusUserBundle:Applicant:applicantsList }
+applicantDetails:
+    path:     /applicantDetails/{qcode}/{uid}
+    defaults: { _controller: GqAusUserBundle:Applicant:details }
+getUnitEvidences:
+    path:     /getUnitEvidences
+    defaults:  { _controller: GqAusUserBundle:Qualification:getUnitEvidences }
+setUserUnitEvidencesStatus:
+    path:     /setUserUnitEvidencesStatus
+    defaults:  { _controller: GqAusUserBundle:Applicant:setUserUnitEvidencesStatus }
+checkMyPassword:
+    path:     /checkMyPassword
+    defaults: { _controller: GqAusUserBundle:User:checkMyPassword }
+editEvidenceTitle:
+    path:     /editEvidenceTitle
+    defaults:  { _controller: GqAusUserBundle:Evidence:editTitle }
+addReminder:
+    path:     /addReminder
+    defaults:  { _controller: GqAusUserBundle:Applicant:addReminder }
+searchApplicantsList:
+    path:     /searchApplicantsList
+    defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsList }
+createzip:
+    path:     /zipFiles/{qcode}/{uid}
+    defaults:  { _controller: GqAusUserBundle:Applicant:zip }
+downloadFiles:
+    path:     /downloadFiles/{qcode}/{uid}
+    defaults: { _controller: GqAusUserBundle:Applicant:download }
+reminder:
+    path:     /reminder
+    defaults: { _controller: GqAusUserBundle:Reminder:view }
+updateTodo:
+    path:     /updateTodo
+    defaults: { _controller: GqAusUserBundle:Reminder:update }
+resume_upload:
+    path:     /resumeupload
+    defaults: { _controller: GqAusUserBundle:User:resume }
+qualification_upload:
+    path:     /qualificationupload
+    defaults: { _controller: GqAusUserBundle:User:qualification }
+reference_upload:
+    path:     /referenceupload
+    defaults: { _controller: GqAusUserBundle:User:reference }
+matrix_upload:
+    path:     /matrixupload
+    defaults: { _controller: GqAusUserBundle:User:matrix }
+deleteOtherFiles:
+    path:     /deleteOtherFiles
+    defaults:  { _controller: GqAusUserBundle:User:deleteOtherFiles }
+download_matrix:
+    path:     /downloadMatrix
+    defaults:  { _controller: GqAusUserBundle:User:downloadMatrix }
+assessor_profile:
+    path:     /assessorProfile/{uid}
+    defaults:  { _controller: GqAusUserBundle:User:assessorProfile }
+download_assessor_profile:
+    path:     /downloadAssessorProfile/{uid}
+    defaults:  { _controller: GqAusUserBundle:User:downloadAssessorProfile }
+messages:
+    path:     /messages
+    defaults: { _controller: GqAusUserBundle:Message:view } 
+compose:
+    path:     /compose
+    defaults: { _controller: GqAusUserBundle:Message:compose } 
+sent:
+    path:     /sent
+    defaults: { _controller: GqAusUserBundle:Message:sent }
+trash:
+    path:     /trash
+    defaults: { _controller: GqAusUserBundle:Message:trash }
+draft:
+    path:     /draft
+    defaults: { _controller: GqAusUserBundle:Message:trash }
+markasread:
+    path:     /markasread
+    defaults: { _controller: GqAusUserBundle:Message:markAsRead }    
+deleteFromUser:
+    path:     /deleteFromUser
+    defaults: { _controller: GqAusUserBundle:Message:deleteFromUser }
+deleteFromUserSent:
+    path:     /deleteFromUserSent
+    defaults: { _controller: GqAusUserBundle:Message:deleteFromUserSent } 
+viewMessage:
+    path:     /view/{mid}
+    defaults: { _controller: GqAusUserBundle:Message:viewMessage }
+deleteFromTrash:
+    path:     /deleteFromTrash
+    defaults: { _controller: GqAusUserBundle:Message:deleteFromTrash }
+unread:
+    path:     /unread
+    defaults: { _controller: GqAusUserBundle:Message:unread }
+approveCertification:
+    path:     /approveCertification
+    defaults: { _controller: GqAusUserBundle:Applicant:approveCertification }

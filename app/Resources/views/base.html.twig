@@ -1,13 +1,182 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    {% block head %}
+	
+	<link rel="stylesheet" href="{{ asset('public/css/scroll-style.css') }}" />	
+	 <link rel="stylesheet" href="{{ asset('public/css/jquery.mCustomScrollbar.css') }}" />   
+	<link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}" />
+	<link href="{{ asset('public/css/accordion.css') }}" rel="stylesheet">
+	<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="{{ asset('public/css/styles.css') }}" />
+	<link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}" />
+ 	{% endblock %}
+    {% block stylesheets %}{% endblock %}
+
+    
+  </head>
+  <body>
+    <div class="page-wrap">
+        <div class="container-fluid">
+            <!-- Dashboard page starts here -->
+            <div class="dashboard-page">
+                <div class="row">
+                    <div class="gq-dashboard-header">
+                        <div class="pull-left">
+                            <div class="gq-logo-dashboard"><img src="{{ asset('public/images/gq-logo-dashboard.png') }}" alt="GQ logo" /></div>
+                            <div class="gq-dashboard-nav">
+                                <button type="button" class="btn btn-default visible-xs" id="gq-menu-icon-mob">
+                                    <span class="gq-menu-icon"></span>
+                                </button>
+                                <button type="button" class="btn btn-default visible-sm visible-md visible-lg" id="gq-menu-icon-desk">
+                                    <span class="gq-menu-icon"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            <div class="user-status">
+                                <!--<div class="notification-section"><span>12</span></div>-->
+                                <div class="user-icon">
+                                {% if app.security.getToken().getUser().getUserImage() %}
+                                    <img class="ajax-profile-pic" src="{{ asset('public/uploads/') }}{{ app.security.getToken().getUser().getUserImage() }}" />
+                                {% else %}
+                                    <img class="ajax-profile-pic" src="{{ asset('public/images/profile-img.png') }}" />
+                                 {% endif %}
+                                </div>
+                                
+                                <div class="user-status-msg">{{ app.security.getToken().getUser().getUsername() | capitalize }}</div>
+                                <div class="user-status-select">
+                                    <div class="btn-group">
+                                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="gq-down-icon"></span>
+                                      </button>
+                                      <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{{ app.request.baseUrl }}/userprofile"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Edit Profile</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="{{ app.request.baseUrl }}/logout"><span><img src="{{ asset('public/images/header-logout-icon.png') }}" /></span>Logout</a></li>
+                                      </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+                {% set roles = app.security.getToken().getUser().getRoles() %}
+                <div class="row">
+                    <div class="dashboard-bg">
+                        <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12 gq-dashboard-left" id="gq-dashboard-left">
+                            <ul class="gq-dashboard-left-nav">
+                                <li><a {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/dashboard"><span class="gq-dashboard-icon"><img src="{{ asset('public/images/dashboard.png') }}" /></span><span class="left-nav-txt">Dashboard</span></a></li>
+                                
+                                {% if 'ROLE_APPLICANT' in roles %}
+                                <li><a {% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/qualifications"><span class="gq-courses-icon"><img src="{{ asset('public/images/courses.png') }}" /></span><span class="left-nav-txt">Qualifications</span></a></li>
+                                {% else %}
+                                <li><a {% if app.request.attributes.get('_route') == 'applicants' or app.request.attributes.get('_route') == 'applicantDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicants"><span class="gq-courses-icon"><img src="{{ asset('public/images/applicantlist.png') }}" /></span><span class="left-nav-txt">Applicants List</span></a></li>
+                                {% endif %}
+                                
+                                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
+                                <li><a {% if app.request.attributes.get('_route') == 'reminder' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reminder"><span class="gq-courses-icon"><img src="{{ asset('public/images/todolist.png') }}" /></span><span class="left-nav-txt">To Do List</span></a></li>
+                                {% endif %}
+                                
+                                <li><a {% if app.request.attributes.get('_route') == 'messages' or app.request.attributes.get('_route') == 'compose' or app.request.attributes.get('_route') == 'sent' or app.request.attributes.get('_route') == 'trash' or app.request.attributes.get('_route') == 'view' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/messages"><span class="gq-messages-icon"><span id="unread-count"></span><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
+                                
+                                {% if 'ROLE_APPLICANT' in roles %}
+                                <li><a {% if app.request.attributes.get('_route') == 'evidences' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/evidences"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Evidence Files</span></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        {% block body %}
+                         <div class="block">
+                            {% block content %}{% endblock %}
+                        </div>
+                       {% endblock %}
+                </div>
+            </div>
+            <!-- Dashboard page ends here -->
+        </div>
+    </div>
+    
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="{{ asset('public/js/jquery.min.js') }}"></script>
+	<script src="{{ asset('public/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/jquery.form.js') }}"></script>
+    <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
+    <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script>
+        onloadCount();
+    $(document).ready(function(){
+	if( $(window).width() > 768 ) {
+           setInterval(function(){SetHeight()}, 100);
+       }
+        /*var showOrHide = true;
+        $("#gq-menu-icon-desk").click(function(){
+            showOrHide = !showOrHide;
+            if ( showOrHide === true ) {
+                //console.log(showOrHide);
+                $(".left-nav-txt").show();
+                $(".gq-dashboard-left-nav li a").animate({height:'92px'});
+                $(".gq-dashboard-left").animate({width:'8.668%'});
+                $(".gq-dashboard-right").animate({width:'91.3333%'});
+            } else if ( showOrHide === false ) {
+                //console.log(showOrHide);
+                $(".left-nav-txt").hide();
+                $(".gq-dashboard-left-nav li a").animate({height:'54px'});
+                $(".gq-dashboard-left").animate({width:'4.668%'});
+                $(".gq-dashboard-right").animate({width:'95.333%'});
+            }
+        });*/
+        
+        var showOrHide = true; 
+        $("#gq-menu-icon-desk").click(function() {
+              showOrHide = !showOrHide;
+              if ( showOrHide === true ) {
+               $(".left-nav-txt").show();
+               $(".gq-dashboard-left-nav li a").animate({height:'92px'});
+              } else if ( showOrHide === false ) {
+               $(".left-nav-txt").hide();
+               $(".gq-dashboard-left-nav li a").animate({height:'54px'});
+              }
+              $('.gq-dashboard-left').toggleClass('gq-dashboard-left-width');
+              $('.gq-dashboard-right').toggleClass('gq-dashboard-right-width');
+         });
+        
+        // function for toggle menu in mobile layout
+        $("#gq-menu-icon-mob").click(function(){
+            $("#gq-dashboard-left").slideToggle("slow");    
+        });
+        
+        $(window).resize(function(){
+            if ($(window).width() < 768) {
+                $("#gq-dashboard-left").css("display", "none");
+            } else {
+                $("#gq-dashboard-left").css("display", "block");
+            }
+        });
+        $(".gq-id-files-upload-success-text").delay(5000).fadeOut(100);
+            
+    });
+    
+    function SetHeight() {
+        var RightHeight = $('html').height();
+        //$('.gq-dashboard-right').height(RightHeight - 66);                
+        $('.gq-dashboard-right').css("min-height",RightHeight);
+    }
+    var amazon_link = "{{ amazon_link }}";
+    </script>
+
+  </body>
+  {% block javascripts %}{% endblock %}
 </html>

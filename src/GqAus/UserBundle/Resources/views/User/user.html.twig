@@ -1,0 +1,68 @@
+{{ form_start(form) }}
+<div role="tabpanel" class="tab-pane {% if tab == 'id-fields' %} {% else %} active {% endif %}" id="personal">
+    <div class="gq-form-personal wid60p">
+        <div class="gq-form-row">
+            <label for="gq-first-name">First Name</label>
+                {{ form_widget(form.firstname) }}
+        </div>
+        <div class="gq-form-row">
+            <label for="gq-last-name">Last Name</label>
+                {{ form_widget(form.lastname) }}
+        </div>
+        <div class="gq-form-row">
+            <label for="gq-email-name">Email</label>
+                {{ form_widget(form.email, { 'attr':{'readonly':'readonly'} }) }}
+        </div>
+        <div class="gq-form-row">
+            <label class="pull-left" for="gq-personal-pwd">Gender</label>
+                {{ form_widget(form.gender) }}
+        </div>
+        <div class="gq-form-row">
+            <label for="gq-personal-pwd">Phone</label>
+                {{ form_widget(form.phone) }}
+        </div>
+        <div class="gq-form-row">
+            <label for="gq-personal-pwd">Date Of Birth</label>
+                {{ form_widget(form.dateOfBirth) }}
+        </div>
+        <div class="gq-form-row">
+            <label for="gq-personal-pwd">USI</label>
+                {{ form_widget(form.universalStudentIdentifier) }}
+        </div>
+        <div class="wid100p text-center margin-top15">
+            <a href="#change-pwd-form" aria-controls="change-pwd-form" role="tab" data-toggle="tab" id="emptypwdform1">Change Password</a>
+        </div>
+        <div class="gq-form-botton">
+                {{ form_widget(form.save, {'attr': {'class': 'btn btn-default'}}) }}
+        </div>
+    </div>
+</div>
+<div role="tabpanel" class="tab-pane" id="address">
+    <div class="gq-form-personal wid60p">
+        <div class="gq-form-row">
+            <label for="gq-last-name">Address</label>
+                {{ form_widget(form.address.address) }}
+        </div>
+        <div class="gq-form-row">
+            <label for="gq-last-name">Area</label>
+                {{ form_widget(form.address.area) }}
+        </div>
+        <div class="gq-form-row">
+            <label for="gq-last-name">City</label>
+                {{ form_widget(form.address.city) }}
+        </div>
+        <div class="gq-form-row">
+            <label for="gq-email-name">State</label>
+                {{ form_widget(form.address.state) }}
+        </div>
+        <div class="gq-form-row">
+            <label for="gq-personal-pwd">Pincode</label>
+                {{ form_widget(form.address.pincode) }}
+        </div>
+        <div class="gq-form-botton">
+            <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default" onclick="return validateAddress();">Save</button>
+        </div>
+
+    </div>
+</div>
+ {{ form_end(form) }}

@@ -1,0 +1,33 @@
+<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 msg-menu-wrap">
+    <div class="gq-msg-row-bg">
+        <div class="gq-msg-folders gq-msg-compose-wrap col-xs-12">
+            <a href="{{ app.request.baseUrl }}/compose"><span class="compose-icon"></span>Compose</a>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="gq-msg-row-bg">
+        <div class="gq-msg-folders col-xs-12">
+            <a href="{{ app.request.baseUrl }}/messages">Inbox <span class="inbox-cnt">{% if unreadcount > 0 %} ({{ unreadcount }}) {% endif %}</span></a>
+            {% if app.request.attributes.get('_route') == 'messages' or app.request.attributes.get('_route') == 'viewMessage' %}
+                <span class="gq-msg-active-folder"></span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="gq-msg-row-bg">								
+        <div class="gq-msg-folders col-xs-12">
+            <a href="{{ app.request.baseUrl }}/sent">Sent</a>
+            {% if app.request.attributes.get('_route') == 'sent' %}
+                <span class="gq-msg-active-folder"></span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="gq-msg-row-bg">
+        <div class="gq-msg-folders col-xs-12">
+            <a href="{{ app.request.baseUrl }}/trash">Trash</a>
+            {% if app.request.attributes.get('_route') == 'trash' %}
+                <span class="gq-msg-active-folder"></span>
+            {% endif %}
+        </div>
+    </div>
+<span class="flip-icon"></span>					
+</div>

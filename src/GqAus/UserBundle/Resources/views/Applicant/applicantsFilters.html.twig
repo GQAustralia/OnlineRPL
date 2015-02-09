@@ -1,0 +1,27 @@
+<div class="row margin-top15">
+	<div class="col-xs-12">
+		<div class="gq-id-files">
+			<div class="gq-id-files-header gq-id-files-header-applicant">
+				<div class="row">
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<span class="gq-course-details-header-title">Name</span>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+					<span class="gq-course-details-header-title">Qualification Name</span>
+					</div>
+                                        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-1">
+					<span class="gq-course-details-header-title gq-course-details-two-lines">Evidence Completeness (%)</span>
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+					<span class="gq-course-details-header-title gq-course-details-two-lines">Notes &#47; Reminders</span>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-1">
+					<span class="gq-course-details-header-title">Remaining Time</span>
+					</div>
+                                        {% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

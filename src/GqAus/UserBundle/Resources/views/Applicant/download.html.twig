@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>03-applicant-details PDF</title>
+    </head>
+    <body style="padding:0; margin:0;">
+
+
+        <table cellpadding="4" cellspacing="0" border="0" width="96%" align="center" style="color:#464646; font-family:arial; font-size:14px;">
+            <tr><td style="font-size:30px;">Applicant Details</td></tr>
+            <tr><td height="20"></td></tr>
+
+            <tr><td style="font-size:22px; background:#f0f0f0;">{{courseInfo.name}}</td></tr>	
+            <tr><td>
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                        <tr>
+                            <td>
+                                <table cellpadding="4" cellspacing="0" border="0">
+                                    <tr><td><img src="" alt="" ></td><td style="color:#000000; font-size:22px;">{{userName}}</td></tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table cellpadding="4" cellspacing="0" border="0">
+                                    <tr><td>ID Points:</td><td style="color:#000000; font-size:22px;">{{currentIdPoints}}</td></tr>
+                                    <tr><td>Profile:</td><td style="color:#000000; font-size:22px;">{{profileCompleteness}}</td></tr>
+                                </table>
+                            </td>
+                            <td>
+                                    {% set userRole = app.security.getToken().getUser().getRoles() %}
+                                <table cellpadding="4" cellspacing="0" border="0">
+                                                {% if ('ROLE_ASSESSOR' in userRole) %}
+                                    <tr><td>Rto:</td><td style="color:#000000; font-size:22px;">{{rtoName}}</td></tr>
+                                                {% endif %}
+                                                {% if ('ROLE_RTO' in userRole) %}
+                                    <tr><td>Assessor:</td><td style="color:#000000; font-size:22px;">{{assessorName}}</td></tr>
+                                                {% endif %}
+                                    <tr><td>Facilitator:</td><td style="color:#000000; font-size:22px;">{{facilitatorName}}</td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td></tr>
+            <tr><td height="20"></td></tr>
+
+    {% if courseInfo %}
+    {% if courseInfo.Units %}
+        {% if courseInfo.Units.Unit %}
+
+            <tr><td style="font-size:22px; background:#f0f0f0;">Core Units</td></tr>	
+            <tr><td>
+                    <table cellpadding="4" cellspacing="0" border="0" width="100%">	
+                     {% for key, units in courseInfo.Units.Unit %}
+                    {% if units.type == 'core' %}
+                        <tr><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.id}}</td><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.name}}</td></tr> 
+                        {% if units.path != '' %} 
+                        <tr><td colspan="2" style="padding-left:20px;"><a href="{{ amazon_link~units.path}}" style="color:#464646;">{{ amazon_link~units.path}}</a></td></tr>
+                        {% else %}
+                        <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                        <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
+
+                    </table>
+
+                </td></tr>
+
+            <tr><td style="font-size:22px; background:#f0f0f0;">Elected Units</td></tr>	
+            <tr><td>
+                    <table cellpadding="4" cellspacing="0" border="0" width="100%">	
+                     {% for key, units in courseInfo.Units.Unit %}
+                    {% if units.type == 'elective' %}
+                        {% set unitId = units.id %}
+                        {% if unitId|trim in electiveUnits|keys %} 
+                        <tr><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.id}}</td><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.name}}</td></tr>
+                        {% if units.path != '' %} 
+                        <tr><td colspan="2" style="padding-left:20px;"><a href="{{ amazon_link~units.path}}" style="color:#464646;">{{ amazon_link~units.path}}</a></td></tr>
+                        {% else %}
+                        <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
+                        {% endif %}
+                    {% endif %}
+                    {% endif %}
+                {% endfor %}
+                        <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
+
+                    </table>
+
+                </td></tr>
+
+    {% endif %}
+        {% endif %}
+     {% endif %}
+        </table>
+
+    </body>
+</html>
+

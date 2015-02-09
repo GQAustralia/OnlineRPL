@@ -1,0 +1,27 @@
+gq_aus_home_homepage:
+    path:     /dashboard
+    defaults: { _controller: GqAusHomeBundle:Default:index }
+download:
+    path:     /download/{file}
+    defaults:  { _controller: GqAusHomeBundle:Default:download }
+updateCondition:
+    path:     /updateCondition
+    defaults:  { _controller: GqAusHomeBundle:Default:updateCondition }
+updateUnitElective:
+    path:     /updateUnitElective
+    defaults:  { _controller: GqAusHomeBundle:Courses:updateUnitElective }
+addEvidence:
+    path:     /addEvidence
+    defaults:  { _controller: GqAusHomeBundle:Courses:addEvidence }
+qualificationDetails:
+    path:     /qualificationDetails/{id}
+    defaults:  { _controller: GqAusHomeBundle:Courses:index }
+qualifications:
+    path:     /qualifications
+    defaults:  { _controller: GqAusHomeBundle:Courses:qualifications }
+addEvidences:
+    path:     /addEvidences
+    defaults:  { _controller: GqAusUserBundle:Evidence:add }
+evidences:
+    path:     /evidences
+    defaults:  { _controller: GqAusUserBundle:Evidence:view }

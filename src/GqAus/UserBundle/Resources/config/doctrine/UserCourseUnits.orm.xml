@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="GqAus\UserBundle\Entity\UserCourseUnits" table="user_course_units">
+  
+        <id name="id" type="string" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="unitId" type="string" column="unit_id" nullable="false"/>
+        <field name="courseCode" type="string" column="course_code" nullable="false"/>
+		<field name="type" type="integer" column="type" nullable="false"/>
+		<field name="facilitatorstatus" type="integer" column="facilitatorstatus"/>
+        <field name="assessorstatus" type="integer" column="assessorstatus"/>
+        <field name="rtostatus" type="integer" column="rtostatus"/>  
+        <field name="createdOn" type="string" column="created_on" nullable="false"/>
+        <field name="status" type="integer" column="status" nullable="false"/>
+        <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

@@ -2,7 +2,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <entity name="GqAus\UserBundle\Entity\Evidence\Text" table="evidencetext"> 
          
-       <field name="path" type="string" column="path"/>
+       <field name="content" type="string" column="content"/>
    
     </entity>
 </doctrine-mapping>

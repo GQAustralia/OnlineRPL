@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="GqAus\UserBundle\Entity\UserCourses" table="user_courses">
+  
+        <id name="id" type="string" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="courseCode" type="string" column="course_code" nullable="false"/>
+        <field name="courseName" type="string" column="course_name" nullable="false"/>
+        <field name="createdOn" type="string" column="created_on" nullable="false"/>
+        <field name="targetDate" type="string" column="target_date" nullable="false"/>
+        <field name="courseStatus" type="integer" column="course_status" nullable="false"/>
+        <field name="facilitatorstatus" type="integer" column="facilitatorstatus"/>
+        <field name="assessorstatus" type="integer" column="assessorstatus"/>
+        <field name="rtostatus" type="integer" column="rtostatus"/>
+        <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User" inversed-by="courses">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>       
+        <many-to-one field="facilitator" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="facilitator" referenced-column-name="id" />
+        </many-to-one>       
+        <many-to-one field="assessor" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="assessor" referenced-column-name="id" />
+        </many-to-one>       
+        <many-to-one field="rto" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="rto" referenced-column-name="id" />
+        </many-to-one>
+        <one-to-many field="status" target-entity="GqAus\UserBundle\Entity\CourseStatus" mapped-by="course" />
+        <one-to-many field="reminder" target-entity="GqAus\UserBundle\Entity\Reminder" mapped-by="course" />
+    </entity>
+</doctrine-mapping>
