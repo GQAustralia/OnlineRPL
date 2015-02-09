@@ -923,3 +923,6 @@ $("#approve-for-certification").click(function () {
         }
     });
 });
+$(".gq-msg-title").children("a").click(function () {
+    $(this).parent().parent().parent().addClass('gq-msg-visited');    
+});
