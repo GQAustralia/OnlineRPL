@@ -48,7 +48,7 @@
                                     <select name="timeRemaining" id="timeRemaining" class="styled">
                                         <option value="">Weeks</option>
                                         {% for w in 1..11 %}
-                                        <option value="{{w}}">{{w}} Week</option>
+                                        <option value="{{w}}">{{w}} {% if w==1 %} Week {% else %} Weeks {% endif %}</option>
                                         {% endfor %}
                                     </select>
                                 </div>

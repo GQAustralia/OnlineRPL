@@ -39,8 +39,10 @@
                         <!-- Content for respective tabs above will be in this section -->
                         <div class="tab-content">
                           <div role="tabpanel" class="tab-pane active" id="current">
+                          {% set flagCurrent = '0' %}
                           {% for key, courses in userCourses %}
                                 {% if courses.getCourseStatus() == 1 %}
+                                {% set flagCurrent = '1' %}
                             <div class="gq-dashboard-courses-detail">
                                 <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
                                 <div class="gq-dashboard-courses-detail-txt">
@@ -53,10 +55,20 @@
                             </div>
                              {% endif %}
                            {% endfor %}
+                              
+                           {% if flagCurrent == '0' %}
+                           <div class="gq-dashboard-courses-detail">
+                                <div class="gq-tabs-no-content-text margin-top15">
+                                    Records not found in current Qualifications list
+                                </div>
+                           </div>
+                           {% endif %}
                           </div>
                           <div role="tabpanel" class="tab-pane" id="completed">
+                            {% set flagCompleted = '0' %}
                             {% for key, courses in userCourses %}
                                 {% if courses.getCourseStatus() == 0 %}
+                                {% set flagCompleted = '1' %}
                             <div class="gq-dashboard-courses-detail">
                                 <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
                                 <div class="gq-dashboard-courses-detail-txt">
@@ -69,6 +81,14 @@
                             </div>
                                 {% endif %}
                            {% endfor %}
+                           
+                           {% if flagCompleted == '0' %}
+                           <div class="gq-dashboard-courses-detail">
+                                <div class="gq-tabs-no-content-text margin-top15">
+                                    Records not found in completed Qualifications list
+                                </div>
+                           </div>
+                           {% endif %}
                           </div>
                         </div>
                     </div>
