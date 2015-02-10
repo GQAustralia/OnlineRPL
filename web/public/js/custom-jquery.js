@@ -380,7 +380,11 @@ $("#Id_files").ajaxForm({
                             </div>\n\
                         </span>\n\
                         <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-            $('.Id_files').append(html);
+            if ($('#idfiles_no_files').html() === 'No Id files found') {
+                $('.Id_files').html(html);
+            } else {
+                $('.Id_files').append(html);
+            }
             $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File added successfully!</h2></div>').delay(5000).fadeOut(100);
         }
     },
@@ -406,7 +410,11 @@ $("#resumeUpload").ajaxForm({
                             </div>\n\
                         </span>\n\
                         <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-            $('.resume_files').append(html);
+            if ($('#resume_no_files').html() === 'No resumes found') {
+                $('.resume_files').html(html);
+            } else {
+                $('.resume_files').append(html);
+            }
             $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
         }
     },
@@ -432,7 +440,11 @@ $("#qualificationUpload").ajaxForm({
                             </div>\n\
                         </span>\n\
                         <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-            $('.qualification_files').append(html);
+            if ($('#qualification_no_files').html() === 'No qualifications found') {
+                $('.qualification_files').html(html);
+            } else {
+                $('.qualification_files').append(html);
+            }
             $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
         }
     },
@@ -458,7 +470,11 @@ $("#referenceUpload").ajaxForm({
                             </div>\n\
                         </span>\n\
                         <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-            $('.reference_files').append(html);
+            if ($('#reference_no_files').html() === 'No reference letters found') {
+                $('.reference_files').html(html);
+            } else {
+                $('.reference_files').append(html);
+            }
             $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
         }
     },
@@ -484,7 +500,11 @@ $("#matrixUpload").ajaxForm({
                             </div>\n\
                         </span>\n\
                         <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-            $('.matrix_files').append(html);
+            if ($('#matrix_no_files').html() === 'No trainer matrix found') {
+                $('.matrix_files').html(html);
+            } else {
+                $('.matrix_files').append(html);
+            }
             $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
         }
     },
