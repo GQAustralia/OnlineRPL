@@ -148,7 +148,7 @@ $(".deleteEvidence").click(function () {
                 $('#evd_'+fid).hide();
                 //alert("Selected Evidence File deleted!");
                 $( "#qclose" ).trigger( "click" );
-                $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
+                $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>').delay(3000).fadeOut(100);
                 $('.deleteevidence_loader').hide();
             }
         });
@@ -182,9 +182,9 @@ $("#frmAddEvidence").ajaxForm({
         $('#gq-dashboard-tabs-success').show();
         $('.uploadevidence_loader').hide();
         if (responseText == '0') {
-            $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Evidence uploaded successfully!</h2>');
+            $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
         } else {
-            $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">File size below 10MB are only  upload successfully!</h2>');
+            $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">File size below 10MB are only  upload successfully!</h2>').delay(3000).fadeOut(100);
         }
     },
     resetForm: true
@@ -199,7 +199,7 @@ $("#frmSelectEvidence").ajaxForm({
         $('.gq-dashboard-tabs').hide();
         $('.uploadevidence_loader').hide();
         $('#gq-dashboard-tabs-success').show();
-        $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Existing Evidence uploaded successfully!</h2>');
+        $('#gq-dashboard-tabs-success').html('<h2><img src="../../web/public/images/tick.png">Existing Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
     },
     resetForm: true
 });
@@ -282,7 +282,7 @@ $("#userprofile_userImage").change(function(){
                 success:function(result) {
                     if(result!="error")
                     {
-                        $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Profile Image updated successfully!</h2></div>');
+                        $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
                         
                         $("#ajax-profile-error").hide();
                         $(".ajax-profile-pic").attr('src', '../web/public/uploads/'+result);
@@ -292,7 +292,7 @@ $("#userprofile_userImage").change(function(){
                     else
                     {
                         $("#ajax-profile-error").show();
-                        $("#ajax-profile-error").html("<p>Error in uploading.</p>");
+                        $("#ajax-profile-error").html("<p>Error in uploading.</p>").delay(3000).fadeOut(100);
                     }
                 }
             });       
@@ -300,7 +300,7 @@ $("#userprofile_userImage").change(function(){
     else
     {
         $("#ajax-profile-error").show();
-        $("#ajax-profile-error").html("<p>Please upload valid image.</p>");
+        $("#ajax-profile-error").html("<p>Please upload valid image.</p>").delay(3000).fadeOut(100);
         //alert("Please upload valid image");
         return false;
     }
@@ -518,11 +518,11 @@ function checkCurrentPassword(mypassword)
             success:function(result) {
                if(result=="fail") {
                   $("#hdn_pwd_check").val("0"); 
-                  $("#change_pwd_error").html(startdiv+'Current Password is not correct'+enddiv); 
+                  $("#change_pwd_error").html(startdiv+'Current Password is not correct'+enddiv).delay(3000).fadeOut(100); 
                   $("#password_oldpassword").val('');
                }
                else if(result=="success") {
-                  $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Current Password is correct'+enddiv);
+                  $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Current Password is correct'+enddiv).delay(3000).fadeOut(100);
                   $("#hdn_pwd_check").val("1"); 
                }
             }
@@ -551,7 +551,7 @@ $(".setData").click(function () {
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
             success: function(result) {
                 $('#div_'+userCourseId).removeClass('open');
-                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Reminder added succesfully!</h2></div>');
+                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../web/public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
             }
         });
     }
@@ -919,7 +919,7 @@ $("#approve-for-certification").click(function () {
         async: false,
         data: { courseCode:courseCode, applicantId: applicantId },
         success:function(result) {
-            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../web/public/images/tick.png">This Qualification is Approved successfully!</h2></div>');
+            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../web/public/images/tick.png">This Qualification is Approved successfully!</h2></div>').delay(3000).fadeOut(100);
         }
     });
 });

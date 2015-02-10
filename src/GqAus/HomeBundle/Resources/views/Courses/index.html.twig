@@ -41,10 +41,13 @@
                         <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
                         <span class="gq-course-details-header-title">Unit Code</span>
                         </div>
-                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
                         <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
+                        <span class="gq-course-details-header-title">Elements & Performance Criteria</span>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
                         <span class="gq-course-details-header-title">Evidence</span>
                         </div>
                     </div>
@@ -67,19 +70,19 @@
                             <div class="col-xs-3">
                                 <div class="gq-acc-row-title">{{units.id}}</div>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-xs-3">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                           
-                            <div class="col-lg4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
+                                <label for="acc-{{i}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow">View</label>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
                                 {% if units.id in electiveApprovedUnits %} {% else %}
                                 <button class="btn add-btn fromBottom"  unitid="{{units.id}}" course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
                                 {% endif %}
-                                <span><button class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW EVIDENCES</button></span>
+                                <span><button class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button></span>
                             </div>
-                            <div class="col-xs-1">
-                                <label for="acc-{{i}}" class="col-xs-4 openIcon"></label>
-                            </div>
+                            
                         </div>
                     </div>
                     <article class="acc-small">
@@ -105,10 +108,13 @@
                         <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
                         <span class="gq-course-details-header-title">Unit Code</span>
                         </div>
-                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
                         <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
+                        <span class="gq-course-details-header-title">Elements & Performance Criteria</span>
+                        </div>
+                        <div class="col-lg-3 col-md-2 col-sm-4 col-xs-3">
                         <span class="gq-course-details-header-title">Evidence</span>
                         </div>
                     </div>
@@ -134,21 +140,22 @@
                                 </a>
                                 <div class="gq-acc-row-title">{{units.id}}</div>
                             </div>
-                            <div class="col-lg-4 col-lg-4 col-sm-4 col-xs-4">
+                            <div class="col-lg-3 col-lg-4 col-sm-4 col-xs-3">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
+                                <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow">View</label>
+                            </div>
+                            <div class="col-lg-3 col-md-2 col-sm-4 col-xs-3">
                                 {% if units.id in electiveApprovedUnits %} {% else %}
                                 <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}"  course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
                                 {% endif %}
                                 
                                 {% if units.id in electiveUnits %} {% else %}
-                                <span id="sp_{{units.id}}"><button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW EVIDENCES</button></span>
+                                <span id="sp_{{units.id}}"><button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button></span>
                                 {% endif %}
                             </div>
-                            <div class="col-xs-1">
-                                <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon"></label>
-                            </div>
+                            
                         </div>
                     </div>
                     <article class="acc-small">
