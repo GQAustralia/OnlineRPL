@@ -45,7 +45,7 @@
                                 <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
                                 <div class="gq-dashboard-courses-detail-txt">
                                  {% if courseConditionStatus == 1 %}
-                                        <a href="qualificationDetails/{{ courses.getCourseCode() }}" >{{ courses.getCourseName() }}</a>
+                                        <a href="qualificationDetails/{{ courses.getCourseCode() }}" >{{ courses.getCourseCode() }} {{ courses.getCourseName() }}</a>
                                   {% else %}
                                         <a href="#" id="{{ courses.getCourseCode() }}" class="modalClass" data-toggle="modal" data-target="#myModal">{{ courses.getCourseName() }}</a>
                                   {% endif %}
@@ -61,7 +61,7 @@
                                 <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
                                 <div class="gq-dashboard-courses-detail-txt">
                                  {% if courseConditionStatus == 1 %}
-                                    <a href="qualificationDetails/{{ courses.getCourseCode() }}" >{{ courses.getCourseName() }}</a>
+                                    <a href="qualificationDetails/{{ courses.getCourseCode() }}" >{{ courses.getCourseCode() }} {{ courses.getCourseName() }}</a>
                                 {% else %}
                                     <a href="#" id="{{ courses.getCourseCode() }}" class="modalClass" data-toggle="modal" data-target="#myModal">{{ courses.getCourseName() }}</a>
                                 {% endif %}
