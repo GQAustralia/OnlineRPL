@@ -7,8 +7,10 @@
         </id>
         <field name="address" type="string" column="address" nullable="false"/>
         <field name="area" type="string" column="area" nullable="true"/>
+        <field name="suburb" type="string" column="suburb" nullable="true"/>
         <field name="city" type="string" column="city" nullable="true"/>
         <field name="state" type="string" column="state" nullable="true"/>
+        <field name="country" type="string" column="country" nullable="true"/>
         <field name="pincode" type="string" column="pincode" nullable="true"/>
         <one-to-one field="user" target-entity="GqAus\UserBundle\Entity\User" inversed-by="address">
             <join-columns>

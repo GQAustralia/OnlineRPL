@@ -22,6 +22,17 @@ class UserController extends Controller
         $userService = $this->get('UserService');
         $user = $userService->getCurrentUser();
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
+        $user_role = $this->get('security.context')->getToken()->getUser()->getRoleName();
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_RTO') {
+            $userProfileForm->remove('dateOfBirth');
+            $userProfileForm->remove('universalStudentIdentifier');
+            $userProfileForm->remove('gender');
+        }
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_APPLICANT') {
+            $userProfileForm->remove('contactname');
+            $userProfileForm->remove('contactemail');
+            $userProfileForm->remove('contactphone');
+        }
 
         $documentTypes = $userService->getDocumentTypes();
         $idFilesForm = $this->createForm(new IdFilesForm(), $documentTypes);
@@ -36,13 +47,12 @@ class UserController extends Controller
             if ($userProfileForm->isValid()) {
                 //$userService->saveProfile();
                 $userService->savePersonalProfile($image);
-                
+
                 $request->getSession()->getFlashBag()->add(
-                    'notice',
-                    'Profile updated successfully!'
+                        'notice', 'Profile updated successfully!'
                 );
             }
-            
+
             $resetForm->handleRequest($request);
             if ($resetForm->isValid()) {
                 $em = $this->getDoctrine()->getManager();
@@ -51,7 +61,7 @@ class UserController extends Controller
                 $oldpassword = $pwdarr['oldpassword'];
                 $newpassword = $pwdarr['newpassword'];
                 $confirmnewpassword = $pwdarr['confirmnewpassword'];
-                if($newpassword==$confirmnewpassword) {
+                if ($newpassword == $confirmnewpassword) {
                     if (password_verify($oldpassword, $cur_db_password)) {
                         $password = password_hash($newpassword, PASSWORD_BCRYPT);
                         $user->setPassword($password);
@@ -59,60 +69,55 @@ class UserController extends Controller
                         $em->persist($user);
                         $em->flush();
                         $request->getSession()->getFlashBag()->add(
-                            'notice',
-                            'Password updated successfully!'
+                                'notice', 'Password updated successfully!'
                         );
-                    }
-                    else {
+                    } else {
                         $request->getSession()->getFlashBag()->add(
-                            'errornotice',
-                            'Current Password is not correct!'
+                                'errornotice', 'Current Password is not correct!'
                         );
                     }
-                }
-                else
-                {
+                } else {
                     $request->getSession()->getFlashBag()->add(
-                        'errornotice',
-                        'New Password and Confirm Password does not match'
+                            'errornotice', 'New Password and Confirm Password does not match'
                     );
                 }
             }
-
         }
 
         $userImage = $userService->userImage($user->getUserImage());
-        
+
         $userIdFiles = $user->getIdfiles();
         if (empty($userIdFiles)) {
             $userIdFiles = '';
         }
-        
+
         $resumeFiles = $userService->fetchOtherfiles($user->getId(), 'resume');
         if (empty($resumeFiles)) {
             $resumeFiles = '';
         }
-        
+
         $qualificationFiles = $userService->fetchOtherfiles($user->getId(), 'qualification');
         if (empty($qualificationFiles)) {
             $qualificationFiles = '';
         }
-        
+
         $referenceFiles = $userService->fetchOtherfiles($user->getId(), 'reference');
         if (empty($referenceFiles)) {
             $referenceFiles = '';
         }
-        
+
         $matrixFiles = $userService->fetchOtherfiles($user->getId(), 'matrix');
         if (empty($matrixFiles)) {
             $matrixFiles = '';
         }
+        
         $tab = '';
         $httpRef = $this->get('request')->server->get('HTTP_REFERER');
         if (!empty($httpRef)) {
             $httpRef = basename($httpRef);
             $tab = $this->getRequest()->get('tab');
         }
+        
         return $this->render('GqAusUserBundle:User:profile.html.twig', array(
                     'form' => $userProfileForm->createView(),
                     'filesForm' => $idFilesForm->createView(),
@@ -130,7 +135,7 @@ class UserController extends Controller
                     'matrixFiles' => $matrixFiles,
                     'tab' => $tab
         ));
-    }    
+    }
     
     public function addIdFileAction(Request $request)
     {
@@ -157,20 +162,18 @@ class UserController extends Controller
     
     public function uploadProfilePicAction(Request $request)
     {
-        $folderPath = $this->get('kernel')->getRootDir().'/../web/public/uploads/';
+        $folderPath = $this->container->getParameter('base_url') . 'public/uploads/';
         $proImg = $request->files->get('file');
         $profilePic = $proImg->getClientOriginalName();
-        $profilePic = time()."-".$profilePic;
-        if($proImg->getClientOriginalName()!="")
-        {
+        $profilePic = time() . "-" . $profilePic;
+        if ($proImg->getClientOriginalName() != "") {
             $proImg->move($folderPath, $profilePic);
             $userService = $this->get('UserService');
             $user = $userService->getCurrentUser();
             $user->setUserImage($profilePic);
             $userService->saveProfile();
             echo $profilePic;
-        }
-        else
+        } else
             echo "error";
         exit;
     }
@@ -262,7 +265,7 @@ class UserController extends Controller
     public function downloadMatrixAction()
     {   
         $file = "template.xls";
-        return $this->get('UserService')->downloadCourseCondition(nulll, $file);
+        return $this->get('UserService')->downloadCourseCondition(null, $file);
     }
     
     public function assessorProfileAction($uid)

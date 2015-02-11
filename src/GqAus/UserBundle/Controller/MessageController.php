@@ -77,16 +77,16 @@ class MessageController extends Controller
             $unitcode = $request->get("unit-code");
             $evidenceUser = $userService->getUserInfo($userid);
             $repuser = $evidenceUser->getEmail();
-            $repSub = $coursename . $unitname;
-            $repMessage = "Course details : " . $coursecode . " : " . $coursename . "\n";
-            $repMessage .= "Unit details : " . $unitcode . " : " . $unitname;
+            $repSub =  $coursecode . " ". $coursename . " - " . $unitcode . " " . $unitname;
+            $repMessage = "Course details : " . $coursecode . " ". $coursename . "\n";
+            $repMessage .= "Unit details : " . $unitcode . " " . $unitname;
             $newMsg = "false";
         }
         $replyId = $this->getRequest()->get('reply_id');
         if ($replyId) {
             $message = $userService->getMessage($replyId);
             $repMessage = "\n\n\n\n";
-            $repMessage .= "Received on :" . $message->getCreated() . ", sent from : " . $message->getSent()->getUserName() . "\n";
+            $repMessage .= "Received on :" . $message->getCreated() . ", sent from :" . $message->getSent()->getUserName() . "\n";
             $repMessage .= "Subject :" . $message->getSubject() . "\n";
             $repMessage .= "Message :\n" . $message->getmessage();
             $repSub = "Re: " . $message->getSubject();
