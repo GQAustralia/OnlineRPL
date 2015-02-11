@@ -153,9 +153,9 @@ class ApplicantController extends Controller
             foreach ($evidences as $evidence) {
                 $fileName = $evidence->getPath();
                 if ($fileName) {
-                    if ($fileUploderService->fileExists($fileName)) {
+                    //if ($fileUploderService->fileExists($fileName)) {
                         array_push($files, $this->container->getParameter('amazon_s3_base_url') . $fileName);
-                    }
+                    //}
                 }
             }
             if (count($files) === 0) {

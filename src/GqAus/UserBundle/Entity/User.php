@@ -803,4 +803,88 @@ class User implements UserInterface, \Serializable
     {
         return $this->sentMessages;
     }
+    /**
+     * @var string
+     */
+    private $contactName;
+
+    /**
+     * @var string
+     */
+    private $contactEmail;
+
+    /**
+     * @var string
+     */
+    private $contactPhone;
+
+
+    /**
+     * Set contactName
+     *
+     * @param string $contactName
+     * @return User
+     */
+    public function setContactName($contactName)
+    {
+        $this->contactName = $contactName;
+
+        return $this;
+    }
+
+    /**
+     * Get contactName
+     *
+     * @return string 
+     */
+    public function getContactName()
+    {
+        return $this->contactName;
+    }
+
+    /**
+     * Set contactEmail
+     *
+     * @param string $contactEmail
+     * @return User
+     */
+    public function setContactEmail($contactEmail)
+    {
+        $this->contactEmail = $contactEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get contactEmail
+     *
+     * @return string 
+     */
+    public function getContactEmail()
+    {
+        return $this->contactEmail;
+    }
+
+    /**
+     * Set contactPhone
+     *
+     * @param string $contactPhone
+     * @return User
+     */
+    public function setContactPhone($contactPhone)
+    {
+        $this->contactPhone = $contactPhone;
+
+        return $this;
+    }
+
+    /**
+     * Get contactPhone
+     *
+     * @return string 
+     */
+    public function getContactPhone()
+    {
+        return $this->contactPhone;
+    }
 }

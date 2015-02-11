@@ -119,7 +119,7 @@ class UserService
      * function to download course conditions and terms.
      *  @return array
      */
-    public function downloadCourseCondition($user, $file)
+    public function downloadCourseCondition($user = null, $file)
     {
         if($user){
             $this->updateCourseConditionStatus($user);

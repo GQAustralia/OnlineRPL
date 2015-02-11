@@ -192,4 +192,60 @@ class UserAddress
     {
         return $this->user;
     }
+    /**
+     * @var string
+     */
+    private $suburb;
+
+
+    /**
+     * Set suburb
+     *
+     * @param string $suburb
+     * @return UserAddress
+     */
+    public function setSuburb($suburb)
+    {
+        $this->suburb = $suburb;
+
+        return $this;
+    }
+
+    /**
+     * Get suburb
+     *
+     * @return string 
+     */
+    public function getSuburb()
+    {
+        return $this->suburb;
+    }
+    /**
+     * @var string
+     */
+    private $country;
+
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return UserAddress
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string 
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
 }

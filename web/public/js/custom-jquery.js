@@ -563,8 +563,8 @@ $(".setNotes").click(function() {
     if (c == false) {
         $('#div_' + id).addClass('open');
     } else {
-//        $('#notes_' + id).val('').attr("placeholder", "Notes");
-//        $('#remindDate_' + id).val('').attr("placeholder", "Due Date");
+        $('#notes_' + id).val('').attr("placeholder", "Notes");
+        $('#remindDate_' + id).val('').attr("placeholder", "Due Date");
         $('#div_' + id).removeClass('open');
     }
 });
