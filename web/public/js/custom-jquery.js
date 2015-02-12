@@ -560,11 +560,15 @@ $(".setNotes").click(function() {
     id = $(this).attr("id");
     var c = $('#div_' + id).hasClass("open");
     if (c == false) {
-        $('#div_' + id).addClass('open');
+        if($(".gq-assessor-list-dropdown-wrap").hasClass("open"))
+            $(".gq-assessor-list-dropdown-wrap").removeClass('open');
+        $(this).parent().addClass('open');
+        //$('#div_' + id).addClass('open');
     } else {
         $('#notes_' + id).val('').attr("placeholder", "Notes");
         $('#remindDate_' + id).val('').attr("placeholder", "Due Date");
-        $('#div_' + id).removeClass('open');
+        $(this).parent().removeClass('open');
+        //$('#div_' + id).removeClass('open');
     }
 });
 
