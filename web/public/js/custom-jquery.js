@@ -132,10 +132,8 @@ $("#frmSelectEvidence").submit(function() {
 });
 
 $(".deleteEvidence").click(function() {
-    //var c = confirm("Do yo want to delete selected file ?");
-    //if (c == true) {
-
-    $('.deleteevidence_loader').show();
+   $('.deleteevidence_loader').show();
+   $("#evidence_msg").show();
     var fid = fileid;
     var ftype = filetype;
     $.ajax({
@@ -144,7 +142,6 @@ $(".deleteEvidence").click(function() {
         data: {fid: fid, ftype: ftype},
         success: function(result) {
             $('#evd_' + fid).hide();
-            //alert("Selected Evidence File deleted!");
             $("#qclose").trigger("click");
             $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + '/public/images/tick.png">Evidence File deleted successfully!</h2></div>').delay(3000).fadeOut(100);
             $('.deleteevidence_loader').hide();
@@ -153,7 +150,6 @@ $(".deleteEvidence").click(function() {
 });
 
 $(".deleteIdFiles").click(function() {
-
     var fid = fileid;
     var ftype = filetype;
     var url = (otherfiles) ? "deleteOtherFiles" : "deleteIdFiles";
@@ -162,6 +158,7 @@ $(".deleteIdFiles").click(function() {
         url: base_url + url,
         data: {fid: fid, ftype: ftype},
         success: function(result) {
+            $("#idfiles_msg").show();
             $('#idfiles_' + fid).hide();
             $("#fclose").trigger("click");
             $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File deleted successfully!</h2></div>').delay(5000).fadeOut(100);
@@ -176,6 +173,7 @@ $("#frmAddEvidence").ajaxForm({
         $('.uploadevidence_loader').show();
     },
     success: function(responseText, statusText, xhr, $form) {
+        $("#gq-dashboard-tabs-success").show();
         $('.gq-dashboard-tabs').hide();
         $('#gq-dashboard-tabs-success').show();
         $('.uploadevidence_loader').hide();
@@ -280,6 +278,7 @@ $("#userprofile_userImage").change(function() {
             success: function(result) {
                 if (result != "error")
                 {
+                    $("#profile_suc_msg2").show();
                     $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src=' + base_url + 'public/images/tick.png">Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
 
                     $("#ajax-profile-error").hide();
@@ -368,6 +367,7 @@ $("#Id_files").ajaxForm({
         $('#ID_load').prev().html('');
         $('#ID_load').hide();
         if (responseText) {
+            $("#idfiles_msg").show();
             var result = jQuery.parseJSON(responseText);
             var name = result.name.split('.');
             var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
@@ -398,6 +398,7 @@ $("#resumeUpload").ajaxForm({
         $('#resume_load').prev().html('');
         $('#resume_load').hide();
         if (responseText) {
+            $('#resume_msg').css("display", "block");
             var result = jQuery.parseJSON(responseText);
             var name = result.name.split('.');
             var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
@@ -425,6 +426,7 @@ $("#qualificationUpload").ajaxForm({
         $('#qualification_load').show();
     },
     success: function(responseText, statusText, xhr, $form) {
+        $('#resume_msg').css("display", "block");
         $('#qualification_load').prev().html('');
         $('#qualification_load').hide();
         if (responseText) {
@@ -455,6 +457,7 @@ $("#referenceUpload").ajaxForm({
         $('#reference_load').show();
     },
     success: function(responseText, statusText, xhr, $form) {
+        $('#resume_msg').css("display", "block");
         $('#reference_load').prev().html('');
         $('#reference_load').hide();
         if (responseText) {
@@ -485,6 +488,7 @@ $("#matrixUpload").ajaxForm({
         $('#matrix_load').show();
     },
     success: function(responseText, statusText, xhr, $form) {
+        $('#resume_msg').css("display", "block");
         $('#matrix_load').prev().html('');
         $('#matrix_load').hide();
         if (responseText) {
@@ -532,6 +536,7 @@ function checkspace(text)
 
 function checkCurrentPassword(mypassword)
 {
+    $("#change_pwd_error").show();
     $("#hdn_pwd_check").val("0");
     var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
     var enddiv = '</div></div>';
@@ -543,6 +548,7 @@ function checkCurrentPassword(mypassword)
         cache: false,
         data: {mypassword: mypassword},
         success: function(result) {
+            $('#change_pwd_error').show();
             if (result == "fail") {
                 $("#hdn_pwd_check").val("0");
                 $("#change_pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);;
@@ -583,6 +589,7 @@ $(".setData").click(function() {
             cache: false,
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
             success: function(result) {
+                $('#err_msg').show();
                 $('#notes_' + userCourseId).val('').attr("placeholder", "Notes");
                 $('#remindDate_' + userCourseId).val('').attr("placeholder", "Due Date");
                 $('#div_' + userCourseId).removeClass('open');
@@ -954,6 +961,7 @@ $("#approve-for-certification").click(function() {
         async: false,
         data: {courseCode: courseCode, applicantId: applicantId},
         success: function(result) {
+            $('#approve_section').show();
             $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../web/public/images/tick.png">This Qualification is Approved successfully!</h2></div>').delay(3000).fadeOut(100);
         }
     });
