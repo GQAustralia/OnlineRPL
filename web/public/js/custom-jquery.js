@@ -78,8 +78,6 @@ $(".checkmark-icon").click(function() {
 });
 
 $(".changeUnitStatus").click(function() {
-    //var c = confirm("Do yo want to change the status of elective unit ?");
-    //if (c == true) {
     $.ajax({
         type: "POST",
         url: base_url + "updateUnitElective",
@@ -88,6 +86,7 @@ $(".changeUnitStatus").click(function() {
             var label = $("#label_" + unitId).attr("temp");
             if (result == '0') {
                 $("#label_" + unitId).attr("for", "");
+                $( "#label_"+unitId ).attr('disabled','disabled');
                 $("#btnadd_" + unitId).attr('disabled', 'disabled');
                 $("#btneye_" + unitId).attr('disabled', 'disabled');
                 $("#div_" + unitId).addClass("gq-acc-row-checked");
@@ -95,6 +94,7 @@ $(".changeUnitStatus").click(function() {
                 $("#sp_" + unitId).html('');
             } else {
                 $("#label_" + unitId).attr("for", label);
+                $( "#label_"+unitId ).removeAttr('disabled','disabled');
                 $("#btnadd_" + unitId).removeAttr('disabled');
                 $("#btneye_" + unitId).removeAttr('disabled');
                 $("#div_" + unitId).removeClass("gq-acc-row-checked");
@@ -103,7 +103,6 @@ $(".changeUnitStatus").click(function() {
         }
     });
     $("#qclose").trigger("click");
-    //}
 });
 
 $(".fromBottom").click(function() {

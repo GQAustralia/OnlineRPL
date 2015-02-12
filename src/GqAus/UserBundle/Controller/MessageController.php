@@ -77,9 +77,12 @@ class MessageController extends Controller
             $unitcode = $request->get("unit-code");
             $evidenceUser = $userService->getUserInfo($userid);
             $repuser = $evidenceUser->getEmail();
-            $repSub =  $coursecode . " ". $coursename . " - " . $unitcode . " " . $unitname;
+            $repSub =  $coursecode . " ". $coursename;
             $repMessage = "Course details : " . $coursecode . " ". $coursename . "\n";
-            $repMessage .= "Unit details : " . $unitcode . " " . $unitname;
+            if ($unitname != "" && $unitcode != "") {
+                $repMessage .= "Unit details : " . $unitcode . " " . $unitname;
+                $repSub .=  " - " . $unitcode . " " . $unitname;
+            }
             $newMsg = "false";
         }
         $replyId = $this->getRequest()->get('reply_id');

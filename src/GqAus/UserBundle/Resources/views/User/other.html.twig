@@ -1,5 +1,5 @@
 {% if ('ROLE_ASSESSOR' in userRole) %}
-<div role="tabpanel" class="tab-pane" id="others">
+<div role="tabpanel" class="tab-pane gq-others-assessor" id="others">
     <div class="gq-id-files-upload-text">
         <h2></h2>
     </div>
@@ -215,7 +215,7 @@
                     </div>
                     <div id="idfiletype_image"></div>
                     <div class="loading-icon" style="display: none;" id="matrix_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
-                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12">
                         <div class="gq-id-files-submit-btn">
                             {{ form_widget(matrixForm.type) }}
                             {{ form_widget(matrixForm.save, { 'label': 'Upload' }) }}

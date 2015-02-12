@@ -1,82 +1,71 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
-<div class="gq-acc-wrap">
-    <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
-    <!-- accordion starts here -->
-            {% if applicantList %}
-             {% for key, list in applicantList %}
-            <div class="gq-acc-row-bg">
-                <input id="acc-1" name="accordion-1" type="checkbox" checked/>
-                <div class="row no-margin">
-                    <div class="gq-acc-row-bg">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                            <div class="gq-acc-row-title">{{list.user.userName}}</div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
-                            <div class="gq-acc-row-title">{{list.courseCode}} {{list.courseName}}</div>
-                        </div>
-                        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                            <div class="gq-acc-row-title">
-                                {% set userId = list.user.id %}
-                                {% set id = list.id %}
-                                {% set courseCode = list.courseCode %}
-                                {{ completeness(userId,courseCode) }}
-                            </div>
-                        </div>
-                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-4">
-                            <div class="gq-acc-row-title gq-assessor-list-dropdown-wrap" id="div_{{list.id}}">
-                                <div class="gq-add-notes-icon-wrap setNotes" id="{{list.id}}">
-                                    <img src = "{{asset('public/images/applicant-list-add-notes-icon.png') }}" />
-                                </div>
-                                <div class="gq-assessor-list-dropdown">
-                                    <div class="caret-top"></div>
-                                    <div class="gq-applicant-list-notes-box">
-                                        <textarea placeholder="Notes" id="notes_{{list.id}}"></textarea>
-                                    </div>
-                                    <div class="gq-applicant-list-due-date">
-                                        <div class="col-xs-7 no-padding">
-                                        <input type="text" class="datepic" id="remindDate_{{list.id}}" placeholder="Due Date" /></div>
-                                        <div class="col-xs-5 no-padding"><a class="pull-right"><img src="{{ asset('public/images/applicant-lists-grey-date-icon.png') }}" id="{{list.id}}" class="date-icon" /></a></div>
-                                    </div>
-                                    <div class="gq-applicant-list-notes-box">
-                                        <button class="btn btn-red setData" userCourseId="{{list.id}}">SET</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                   
-                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-2">
-                            <div class="gq-acc-row-title">{{ timeRemaining(id) }}</div>
-                        </div>
-                        {% endif %}     
-                        <div class="col-lg-2 col-md-2 col-sm-1 col-xs-2">
-                            <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}">
-                            <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>View</button>
-                            </a>
-                        </div>
+<!-- accordion starts here -->
+{% if applicantList %}
+{% for key, list in applicantList %}
+    <tr>
+        <td>{{list.user.userName}}</td>
+        <td>{{list.courseCode}} {{list.courseName}}</td>
+    {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+        <td>                         
+        {% set userId = list.user.id %}
+        {% set id = list.id %}
+        {% set courseCode = list.courseCode %}
+        {{ completeness(userId,courseCode) }}
+        </td>
+        <td>
+            <div class="gq-acc-row-title gq-assessor-list-dropdown-wrap" id="div_{{list.id}}">
+                <div class="gq-add-notes-icon-wrap setNotes" id="{{list.id}}">
+                    <img src = "{{asset('public/images/applicant-list-add-notes-icon.png') }}" />
+                </div>
+                <div class="gq-assessor-list-dropdown">
+                    <div class="caret-top"></div>
+                    <div class="gq-applicant-list-notes-box">
+                        <textarea placeholder="Notes" id="notes_{{list.id}}"></textarea>
+                    </div>
+                    <div class="gq-applicant-list-due-date">
+                        <div class="col-xs-7 no-padding">
+                            <input type="text" class="datepic" id="remindDate_{{list.id}}" placeholder="Due Date" /></div>
+                        <div class="col-xs-5 no-padding"><a class="pull-right"><img src="{{ asset('public/images/applicant-lists-grey-date-icon.png') }}" id="{{list.id}}" class="date-icon" /></a></div>
+                    </div>
+                    <div class="gq-applicant-list-notes-box">
+                        <button class="btn btn-red setData" userCourseId="{{list.id}}">SET</button>
                     </div>
                 </div>
             </div>
+        </td>
+        <td>{{ timeRemaining(id) }}</td>
+    {% endif %}
+        <td>
+            <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
+                <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>View</button>
+            </a>
+        </td>
+    </tr>
             {% endfor %}
             {% else %}
-                 <div class="gq-tabs-no-content-text margin-top15">No Applicants Found</div>
-            {% endif %}
-        <!-- accordion ends here -->
-    </div>
-</div>
-    
+    <tr>
+        <td colspan="6" class="gq-tabs-no-content-text margin-top15">
+            No Applicants Found</td>
+    </tr>
+        {% endif %}
+<!-- accordion ends here -->
+
+
+
+
 {% if pageRequest == 'ajax' %}
     {% block javascripts %}
-    <script type="text/javascript">
-        $(".datepic").datepicker();
-        $(".setNotes").click(function () {
-            id = $(this).attr("id");
-            var c = $('#div_'+id).hasClass( "open" );
-            if (c == false) {
-                $('#div_'+id).addClass('open');
-            } else {
-                $('#div_'+id).removeClass('open');
-            }
-        });
-    </script>
+<script type="text/javascript">
+    //$(".datepic").datepicker();
+    $(".setNotes").click(function() {
+        id = $(this).attr("id");
+        var c = $('#div_' + id).hasClass("open");
+        if (c == false) {
+            $('#div_' + id).addClass('open');
+        } else {
+            $('#div_' + id).removeClass('open');
+        }
+    });
+</script>
     {% endblock %}
 {% endif %}
