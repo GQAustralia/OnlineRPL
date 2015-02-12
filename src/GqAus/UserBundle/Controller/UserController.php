@@ -162,7 +162,7 @@ class UserController extends Controller
     
     public function uploadProfilePicAction(Request $request)
     {
-        $folderPath = $this->container->getParameter('base_url') . 'public/uploads/';
+        $folderPath = $this->get('kernel')->getRootDir().'/../web/public/uploads/';
         $proImg = $request->files->get('file');
         $profilePic = $proImg->getClientOriginalName();
         $profilePic = time() . "-" . $profilePic;
