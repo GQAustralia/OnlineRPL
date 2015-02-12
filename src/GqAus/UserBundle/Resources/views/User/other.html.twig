@@ -14,12 +14,13 @@
                     <div class="gq-course-details-header-title">Resume</div>
                 </div>
                 <form name="resume" id="resumeUpload" method="post" action="resumeupload" enctype="multipart/form-data">
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         <div class="gq-id-files-upload-btn">
-                            <span class="cloud-icon-browse">{{ form_widget(resumeForm.browse) }}</span>
+                            <span class="cloud-icon-browse">{{ form_widget(resumeForm.browse, {'attr': {'class': 'show_path'}}) }}</span>
                         </div>
-                        <div class="loading-icon" style="display: none;" id="resume_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                     </div>
+                    <div id="idfiletype_image"></div>
+                    <div class="loading-icon" style="display: none;" id="resume_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         <div class="gq-id-files-submit-btn">
                             {{ form_widget(resumeForm.type) }}
@@ -61,7 +62,7 @@
                         </div>                                            
                         {% endfor %}
                         {% else %}
-                        No resumes found
+                        <center id="resume_no_files">No resumes found</center>
                         {% endif %}
                     </div>
                 </div>
@@ -77,12 +78,13 @@
                     <div class="gq-course-details-header-title">Qualifications</div>
                 </div>
                 <form name="qualification" id="qualificationUpload" method="post" action="qualificationupload" enctype="multipart/form-data">
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         <div class="gq-id-files-upload-btn">
-                            <span class="cloud-icon-browse">{{ form_widget(qualificationForm.browse) }}</span>
+                            <span class="cloud-icon-browse">{{ form_widget(qualificationForm.browse, {'attr': {'class': 'show_path'}}) }}</span>
                         </div>
-                        <div class="loading-icon" style="display: none;" id="qualification_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                     </div>
+                    <div id="idfiletype_image"></div>
+                    <div class="loading-icon" style="display: none;" id="qualification_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         <div class="gq-id-files-submit-btn">
                             {{ form_widget(qualificationForm.type) }}
@@ -124,7 +126,7 @@
                         </div>                                            
                         {% endfor %}
                         {% else %}
-                        No qualifications found
+                        <center id="qualification_no_files">No qualifications found</center>                        
                         {% endif %}
 
                     </div>
@@ -141,12 +143,13 @@
                     <div class="gq-course-details-header-title">Reference Letters</div>
                 </div>
                 <form name="reference" id="referenceUpload" method="post" action="referenceupload" enctype="multipart/form-data">
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         <div class="gq-id-files-upload-btn">
-                            <span class="cloud-icon-browse">{{ form_widget(referenceForm.browse) }}</span>
+                            <span class="cloud-icon-browse">{{ form_widget(referenceForm.browse, {'attr': {'class': 'show_path'}}) }}</span>
                         </div>
-                        <div class="loading-icon" style="display: none;" id="reference_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                     </div>
+                    <div id="idfiletype_image"></div>
+                    <div class="loading-icon" style="display: none;" id="reference_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         <div class="gq-id-files-submit-btn">
                             {{ form_widget(referenceForm.type) }}
@@ -188,7 +191,7 @@
                         </div>                                            
                         {% endfor %}
                         {% else %}
-                        No reference letters found
+                        <center id="reference_no_files">No reference letters found</center>                        
                         {% endif %}
 
                     </div>
@@ -205,19 +208,20 @@
                     <div class="gq-course-details-header-title">Trainer Matrix</div>
                 </div>
                 <form name="matrix" id="matrixUpload" method="post" action="matrixupload" enctype="multipart/form-data">
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         <div class="gq-id-files-upload-btn">
-                            <span class="cloud-icon-browse">{{ form_widget(matrixForm.browse) }}</span>
+                            <span class="cloud-icon-browse">{{ form_widget(matrixForm.browse, {'attr': {'class': 'show_path'}}) }} </span>
                         </div>
-                        <div class="loading-icon" style="display: none;" id="matrix_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                     </div>
+                    <div id="idfiletype_image"></div>
+                    <div class="loading-icon" style="display: none;" id="matrix_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         <div class="gq-id-files-submit-btn">
                             {{ form_widget(matrixForm.type) }}
                             {{ form_widget(matrixForm.save, { 'label': 'Upload' }) }}
                         </div>
                     </div>                    
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="gq-id-files-submit-btn pull-right">
                             <button class="btn btn-grey" id="download_matrix">Download<span class="gq-profile-download-icon"></span></button>
                         </div>
@@ -257,7 +261,7 @@
                         </div>                                            
                         {% endfor %}
                         {% else %}
-                        No trainer matrix found
+                        <center id="matrix_no_files">No trainer matrix found</center>                        
                         {% endif %}
 
                     </div>

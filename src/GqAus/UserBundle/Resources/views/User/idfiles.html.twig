@@ -8,19 +8,19 @@
         <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data">
             <div class="gq-id-files-header gq-id-files-header-applicant">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
+                    <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
                         <div class="gq-id-files-select">
                              {{ form_widget(filesForm.type, {'attr': {'class': 'styled'}}) }}
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
                         <div class="gq-id-files-upload-btn">
-                            <span class="cloud-icon-browse">{{ form_widget(filesForm.browse) }} </span>
+                            <span class="cloud-icon-browse">{{ form_widget(filesForm.browse, {'attr': {'class': 'show_path'}}) }} </span>
                         </div>
                     </div>
-                    <div class="loading-icon" style="display: none;" id="ID_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                     <div id="idfiletype_image"></div>
-                    <div class="col-lg2 col-md-2 col-sm-4 col-xs-12">
+                    <div class="loading-icon" style="display: none;" id="ID_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>                    
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         <div class="gq-id-files-submit-btn">
                             {{ form_widget(filesForm.save, { 'label': 'Upload' }) }}
                         </div>
@@ -39,6 +39,7 @@
                 </div>
                 <div class="gq-dashboard-courses-detail-wrap margin-top15">
                     <div class="row Id_files">
+                        {% if userIdFiles %}
                         {% for item in userIdFiles %}
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.id}}">
                             <div class="gq-dashboard-courses-detail">												
@@ -70,6 +71,9 @@
                             </div>
                         </div>
                         {% endfor %}
+                        {% else %}
+                        <center id="idfiles_no_files">No Id files found</center>                        
+                        {% endif %}
                     </div>
                 </div>
                 <span class="flip-icon"></span>

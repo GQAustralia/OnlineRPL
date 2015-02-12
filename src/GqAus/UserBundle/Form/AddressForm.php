@@ -17,8 +17,10 @@ class AddressForm extends AbstractType
         $builder->add('id', 'hidden');
         $builder->add('address', 'text', array('required' => false));
         $builder->add('area', 'text', array('required' => false));
+        $builder->add('suburb', 'text', array('required' => false));
         $builder->add('city', 'text', array('required' => false));
         $builder->add('state', 'text', array('required' => false));
+        $builder->add('country', 'text', array('required' => false));
         $builder->add('pincode', 'text', array('required' => false));
     }
     

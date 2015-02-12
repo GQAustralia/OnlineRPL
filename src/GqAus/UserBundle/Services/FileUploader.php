@@ -132,4 +132,13 @@ class FileUploader
             return null;
         }
     }
+    
+    /**
+     * function to find whether file exists or not in AWS S3.
+     */
+    public function fileExists($fileName)
+    {
+        $adapter = $this->filesystem->getAdapter();
+        return $adapter->exists($fileName);
+    }
 }

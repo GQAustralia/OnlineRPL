@@ -10,7 +10,7 @@
             <tr><td style="font-size:30px;">Applicant Details</td></tr>
             <tr><td height="20"></td></tr>
 
-            <tr><td style="font-size:22px; background:#f0f0f0;">{{courseInfo.name}}</td></tr>	
+            <tr><td style="font-size:22px; background:#f0f0f0;">{{courseInfo.id}} {{courseInfo.name}}</td></tr>	
             <tr><td>
                     <table cellpadding="0" cellspacing="0" border="0" width="100%">
                         <tr>
@@ -51,9 +51,12 @@
                     <table cellpadding="4" cellspacing="0" border="0" width="100%">	
                      {% for key, units in courseInfo.Units.Unit %}
                     {% if units.type == 'core' %}
-                        <tr><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.id}}</td><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.name}}</td></tr> 
-                        {% if units.path != '' %} 
-                        <tr><td colspan="2" style="padding-left:20px;"><a href="{{ amazon_link~units.path}}" style="color:#464646;">{{ amazon_link~units.path}}</a></td></tr>
+                        <tr><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.id}}</td><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{% spaceless %}{{units.name|trim}}{% endspaceless %}</td></tr> 
+                        {% if units.unitEvidences %} 
+                        {% for unitEvidence in units.unitEvidences%}                        
+                        <tr><td colspan="2" style="padding-left:20px;"><a href="{{ amazon_link~unitEvidence.path}}" style="color:#464646;">{{ amazon_link~unitEvidence.path}}</a></td></tr>
+                        
+                        {% endfor %}
                         {% else %}
                         <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
                         {% endif %}
@@ -68,17 +71,20 @@
             <tr><td style="font-size:22px; background:#f0f0f0;">Elected Units</td></tr>	
             <tr><td>
                     <table cellpadding="4" cellspacing="0" border="0" width="100%">	
-                     {% for key, units in courseInfo.Units.Unit %}
-                    {% if units.type == 'elective' %}
-                        {% set unitId = units.id %}
-                        {% if unitId|trim in electiveUnits|keys %} 
-                        <tr><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.id}}</td><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{units.name}}</td></tr>
-                        {% if units.path != '' %} 
-                        <tr><td colspan="2" style="padding-left:20px;"><a href="{{ amazon_link~units.path}}" style="color:#464646;">{{ amazon_link~units.path}}</a></td></tr>
-                        {% else %}
-                        <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
+                     {% for key, eUnits in courseInfo.Units.Unit %}
+                        {% if eUnits.type == 'elective' %}
+                            {% set unitId = eUnits.id %}
+                            {% if unitId|trim in electiveUnits|keys %} 
+                            <tr><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{eUnits.id}}</td><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{% spaceless %}{{eUnits.name|trim}}{% endspaceless %}</td></tr> 
+                            {% if eUnits.unitEvidences %} 
+                            {% for unitEvidence in eUnits.unitEvidences%}                        
+                            <tr><td colspan="2" style="padding-left:20px;"><a href="{{ amazon_link~unitEvidence.path}}" style="color:#464646;">{{ amazon_link~unitEvidence.path}}</a></td></tr>
+
+                            {% endfor %}
+                            {% else %}
+                            <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
                     {% endif %}
                 {% endfor %}
                         <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>

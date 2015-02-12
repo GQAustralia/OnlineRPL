@@ -102,42 +102,42 @@ class ApplicantController extends Controller
         $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
         $unitsIds = array();
         foreach ($courseEvidences as $value) {
-            $unitsIds[] = $value->getUnit(); 
+            $unitsIds[] = $value->getUnit();
         }
         $i = 0;
-        foreach ($results['courseInfo']['Units']['Unit'] as $unit){
-            if(in_array($unit['id'], $unitsIds)) {               
+        foreach ($results['courseInfo']['Units']['Unit'] as $unit) {
+            $results['courseInfo']['Units']['Unit'][$i]['name'] = preg_replace('/[^A-Za-z0-9\-]/', ' ', $results['courseInfo']['Units']['Unit'][$i]['name']);
+            if (in_array($unit['id'], $unitsIds)) {
                 $evidences = $evidenceObj->getUserUnitEvidences($uid, $unit['id']);
+                $j = 0;
+                $unitEvidencs = array();
                 foreach ($evidences as $evidence) {
                     if ($evidence->getType() !== 'text') {
-                        $results['courseInfo']['Units']['Unit'][$i]['path'] = $evidence->getPath();
-                        $results['courseInfo']['Units']['Unit'][$i]['pathName'] = $evidence->getName();
-                    } else {
-                        $results['courseInfo']['Units']['Unit'][$i]['path'] = '';
-                        $results['courseInfo']['Units']['Unit'][$i]['pathName'] = '';
+                        $unitEvidencs[$j]['path'] = $evidence->getPath();
+                        $unitEvidencs[$j]['pathName'] = $evidence->getPath();
                     }
+                    $j++;
                 }
-            } else {
-                $results['courseInfo']['Units']['Unit'][$i]['path'] = '';
-                $results['courseInfo']['Units']['Unit'][$i]['pathName'] = '';
-            }
+                $results['courseInfo']['Units']['Unit'][$i]['unitEvidences'] = $unitEvidencs;
+            } else
+                $results['courseInfo']['Units']['Unit'][$i]['unitEvidences'] = '';
             $i++;
         }
-        if (!empty($user) && isset($results['courseInfo']['id'])) {            
+        if (!empty($user) && isset($results['courseInfo']['id'])) {
             $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
             $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
             $html = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
-            
-            $fileName = $user->getUserName().'_'.$results['courseInfo']['name'];
+
+            $fileName = $user->getUserName() . '_' . $results['courseInfo']['name'];
             return new Response(
-                $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
+                    $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="'.$fileName.'.pdf"'
+                'Content-Disposition' => 'attachment; filename="' . $fileName . '.pdf"'
                     )
             );
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
-        }   
+        }
     }
     
     /**
@@ -147,16 +147,21 @@ class ApplicantController extends Controller
     {
         $files = array();
         $user = $this->get('UserService')->getUserInfo($uid);
+        $fileUploderService = $this->get('gq_aus_user.file_uploader');
         $evidenceObj = $this->get('EvidenceService');
         $evidences = $evidenceObj->getUserCourseEvidences($uid, $qcode);
         if (count($evidences) > 0) {
             foreach ($evidences as $evidence) {
-                if ($evidence->getType() !== 'text') {
-                    array_push($files, $this->container->getParameter('amazon_s3_base_url') . $evidence->getPath());
+                $fileName = $evidence->getPath();
+                if ($fileName) {
+                    //if ($fileUploderService->fileExists($fileName)) {
+                        array_push($files, $this->container->getParameter('amazon_s3_base_url') . $fileName);
+                    //}
                 }
             }
             if (count($files) === 0) {
-                echo "<script>alert('No files to download');window.close();</script>"; exit;
+                echo "<script>alert('No files to download');window.close();</script>";
+                exit;
             }
             $zip = new \ZipArchive();
             $zipName = $user->getUserName() . '-' . time() . ".zip";
@@ -170,8 +175,9 @@ class ApplicantController extends Controller
             header('Content-disposition: attachment; filename="' . $zipName . '"');
             header('Content-Length: ' . filesize($zipName));
             readfile($zipName);
-        } else {            
-            echo "<script>alert('No files to download');window.close();</script>"; exit;
+        } else {
+            echo "<script>alert('No files to download');window.close();</script>";
+            exit;
         }
     }
     
