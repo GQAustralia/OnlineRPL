@@ -61,15 +61,23 @@
                         <!-- Content for respective tabs above will be in this section -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="current">
-                            {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
-                                <div class="row" id="currentList">
-                                {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                <div class="table-responsive gq-applicant-list-table margin-top15">
+                                    <table class="table">
+                                        {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                                        <tbody class="row" id="currentList">
+                                        {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="completed">
-                            {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
-                                <div class="row" id="completedList">
-                                {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                <div class="table-responsive gq-applicant-list-table margin-top15">
+                                    <table class="table">
+                                        {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                                        <tbody class="row" id="completedList">
+                                        {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +93,9 @@
 {% block javascripts %}
 <script type="text/javascript">
     $(document).ready(function() {
-        $(".datepic").datepicker();
+        $(".datepic").datepicker({
+        dateFormat: 'dd/mm/yy'
+        });
     });
 </script>
 {% endblock %}
