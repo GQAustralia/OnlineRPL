@@ -30,7 +30,11 @@
                         </div>
                         <!-- Filter start here -->
                         <div class="row">
+                             {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                {% else %}
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {% endif %}
                                 <div class="gq-applicant-filter-wrap text-right">
                                     <label>Filter by: Name</label>
                                     <input name="searchName" id="searchName" type="text"/>
