@@ -171,11 +171,22 @@ class ApplicantController extends Controller
             }
             $zip->close();
             //session_write_close();
-            header('Content-Type', 'application/zip');
-            header('Content-disposition: attachment; filename="' . $zipName . '"');
-            header('Content-Length: ' . filesize($zipName));
-            readfile($zipName);
-        } else {
+//            header('Content-Type', 'application/zip');
+//            header('Content-disposition: attachment; filename="' . $zipName . '"');
+//            header('Content-Length: ' . filesize($zipName));
+//            readfile($zipName);
+            $response = new Response( );
+
+            $response->headers->set( "Content-type", 'application/zip' );
+            $response->headers->set( "Content-Disposition", "attachment; filename=$zipName" );
+            $response->headers->set( "Content-length", filesize( "$zipName" ) );
+            $response->headers->set( "Pragma", "no-cache" );
+            $response->headers->set( "Expires", "0" );
+            $response->send( );
+
+            $response->setContent( readfile( "$zipName" ) );
+
+            return $response;        } else {
             echo "<script>alert('No files to download');window.close();</script>";
             exit;
         }
