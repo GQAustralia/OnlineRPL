@@ -279,7 +279,7 @@ $("#userprofile_userImage").change(function() {
                 if (result != "error")
                 {
                     $("#profile_suc_msg2").show();
-                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src=' + base_url + 'public/images/tick.png">Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
+                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
 
                     $("#ajax-profile-error").hide();
                     $(".ajax-profile-pic").attr('src', base_url + 'public/uploads/' + result);
@@ -593,7 +593,7 @@ $(".setData").click(function() {
                 $('#notes_' + userCourseId).val('').attr("placeholder", "Notes");
                 $('#remindDate_' + userCourseId).val('').attr("placeholder", "Due Date");
                 $('#div_' + userCourseId).removeClass('open');
-                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src=' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
+                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
             }
         });
     }

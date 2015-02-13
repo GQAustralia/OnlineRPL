@@ -36,16 +36,16 @@ $("#approve").click(function () {
     $('.loading-icon').show();
     $.ajax({
         type: "POST",
-        url: fullPath + "setUserUnitEvidencesStatus",
+        url: base_url + "setUserUnitEvidencesStatus",
         data: { unit: unit, userId: userId, userRole: userRole, status: '1', courseName: courseName, unitName: unitName },
         success:function(result) {
             if (result == '1') {
                 $('#gq-msg-success').hide();
                 $('.gq-id-files-upload-success-text').show();
-                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ fullPath +'public/images/tick.png">Evidence Approved successfully!</h2>');
+                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence Approved successfully!</h2>');
             } else {
                 $('.gq-id-files-upload-success-text').show();
-                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ fullPath +'public/images/tick.png">Evidence Disapproved successfully!</h2>');
+                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence Disapproved successfully!</h2>');
             }
         }
     });
@@ -59,16 +59,16 @@ $("#disapprove").click(function () {
     $('.loading-icon').show();
     $.ajax({
         type: "POST",
-        url: fullPath + "setUserUnitEvidencesStatus",
+        url: base_url + "setUserUnitEvidencesStatus",
         data: { unit: unit, userId: userId, userRole: userRole, status: '0', courseName: courseName, unitName: unitName },
         success:function(result) {
             if (result == '1') {
                 $('#gq-msg-success').hide();
                 $('.gq-id-files-upload-success-text').show();
-                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ fullPath +'public/images/tick.png">Evidence Approved successfully!</h2>');
+                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence Approved successfully!</h2>');
             } else {
                 $('.gq-id-files-upload-success-text').show();
-                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ fullPath +'public/images/tick.png">Evidence Disapproved successfully!</h2>');
+                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence Disapproved successfully!</h2>');
             }
         }
     });
