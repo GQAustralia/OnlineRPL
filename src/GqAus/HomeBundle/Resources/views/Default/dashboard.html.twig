@@ -43,7 +43,31 @@
                 </div>
             </div>
             
-            {% set roles = app.security.getToken().getUser().getRoles() %}
+            {% set roles = app.security.getToken().getUser().getRoles() %}            
+            {% if ('ROLE_RTO' in roles) or ('ROLE_RTO' in roles) %}
+            <div class="col-lg-8 col-md-8 col-sm-12 colxs-12">
+                <div class="tab-content">
+                    <div id="current" class="tab-pane active" role="tabpanel">
+                        <div class="table-responsive gq-applicant-list-table margin-top15">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th><span class="">Name</span></th>
+                                        <th colspan="2"><span class="">Qualification Name</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="currentList" class="row">
+                                    {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            {% endif %}
+            
+            
             {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
             <div class="col-lg-8 col-md-8 col-sm-12 colxs-12">
                 <div class="gq-dashboard-box-2x gq-dashboard-bg-img3 gq-facilitator-dashboard"> <!-- class "gq-dashboard-bg-img3" added for background image -->

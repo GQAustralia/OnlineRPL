@@ -13,18 +13,24 @@ class DefaultController extends Controller
     * return $result array
     */
     public function indexAction(Request $request)
-    {        
+    {    
         $session = $request->getSession();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $session_user = $this->get('security.context')->getToken()->getUser();
         $session->set('user_id', $session_user->getId());
         $user = $this->get('security.context')->getToken()->getUser();
         $userService = $this->get('UserService');
+        
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
         if (in_array('ROLE_APPLICANT',$userRole)) {
             $results = $userService->getDashboardInfo($user);
             return $this->render('GqAusHomeBundle:Default:index.html.twig', $results);
         } else {
+            $appResults = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0');    
             $results = $userService->getUsersDashboardInfo($user);
+            $results['applicantList'] = $appResults['applicantList'];
+            $results['pageRequest'] = "";            
             return $this->render('GqAusHomeBundle:Default:dashboard.html.twig', $results);
         }
     }
