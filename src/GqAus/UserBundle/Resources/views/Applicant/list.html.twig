@@ -23,11 +23,13 @@
                     <div class="gq-dashboard-tabs margin-top15">
                         <!-- Tabs start here -->
                         <div class="gq-dashboard-tabs-header wid20p">
-                            <ul class="nav nav-pills nav-justified" role="tablist" id="myTab" style="display:none;">
+                            <ul class="nav nav-pills nav-justified" role="tablist" id="myTab" {% if ('ROLE_RTO' in userRole) %} style="display:none;" {% endif %}>
                                 <li role="presentation" id="applicantPending" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab">Pending</a></li>
                                 <li role="presentation" id="applicantCompleted"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Approved</a></li>                                
                             </ul>
+                            <div class="loading-icon" style="display: none;" id="app-pending-approve"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                         </div>
+                        
                         <!-- Filter start here -->
                         <div class="row">
                              {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
@@ -36,10 +38,11 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 {% endif %}
                                 <div class="gq-applicant-filter-wrap text-right">
-                                    <label>Filter by: Name</label>
+                                    <label>Filter by: Applicant Name</label>
                                     <input name="searchName" id="searchName" type="text"/>
                                     <span id="searchFilter" class="gq-search-icon"></span>
                                     <div class="gq-filter-clear wid100p visible-xs"></div>
+                                    <div class="setdata-loading-icon" style="display: none;" id="filter-by-name"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                                 </div>
 
                             </div>
@@ -56,6 +59,7 @@
                                         {% endfor %}
                                     </select>
                                 </div>
+                                <div class="setdata-loading-icon" style="display: none;" id="filter-by-week"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                             </div>
                         {% endif %}
                         </div>

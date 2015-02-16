@@ -78,6 +78,7 @@ $(".checkmark-icon").click(function() {
 });
 
 $(".changeUnitStatus").click(function() {
+    $(".qual_status_loader").show();
     $.ajax({
         type: "POST",
         url: base_url + "updateUnitElective",
@@ -100,9 +101,10 @@ $(".changeUnitStatus").click(function() {
                 $("#div_" + unitId).removeClass("gq-acc-row-checked");
                 $("#span_" + unitId).addClass("radioUnChecked");
             }
+            $(".qual_status_loader").hide();
+            $("#qclose").trigger("click");
         }
     });
-    $("#qclose").trigger("click");
 });
 
 $(".fromBottom").click(function() {
@@ -239,10 +241,13 @@ $(".updateTodo").click(function() {
         data: {rmid: rmid, flag: flag},
         success: function(result) {
             if (result == "success") {
+                $("#records-not-found").hide();
                 $("#title_" + rmid).html('<span class="todo_day">Today</span>');
                 $("#" + rmid).remove();
                 $("#completed-tab").append("<div>" + $("#div_" + rmid).parent().parent().html() + "</div>");
                 $("#div_" + rmid).parent().parent().remove();
+                if(parseInt($(".gq-to-do-list-row-completed").length)==0)
+                    $(".no-todo").show();
                 $(".todo_loader").hide();
                 $("#todoclose").trigger("click");
             }
@@ -536,30 +541,33 @@ function checkspace(text)
 
 function checkCurrentPassword(mypassword)
 {
-    $("#change_pwd_error").show();
     $("#hdn_pwd_check").val("0");
     var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
     var enddiv = '</div></div>';
-    $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Please wait..' + enddiv);
     var mypassword = mypassword;
-    $.ajax({
-        type: "POST",
-        url: "checkMyPassword",
-        cache: false,
-        data: {mypassword: mypassword},
-        success: function(result) {
-            $('#change_pwd_error').show();
-            if (result == "fail") {
-                $("#hdn_pwd_check").val("0");
-                $("#change_pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);;
-                $("#password_oldpassword").val('');
+    if(mypassword!="") {
+        $("#change_pwd_error").show();
+        $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Please wait..' + enddiv);
+        $.ajax({
+            type: "POST",
+            url: "checkMyPassword",
+            cache: false,
+            data: {mypassword: mypassword},
+            success: function(result) {
+                $('#change_pwd_error').show();
+                if (result == "fail") {
+                    $("#hdn_pwd_check").val("0");
+                    $("#change_pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);;
+                    $("#password_oldpassword").val('');
+                    $("#password_oldpassword").focus();
+                }
+                else if (result == "success") {
+                    $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Current Password is correct' + enddiv).delay(3000).fadeOut(100);;
+                    $("#hdn_pwd_check").val("1");
+                }
             }
-            else if (result == "success") {
-                $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Current Password is correct' + enddiv).delay(3000).fadeOut(100);;
-                $("#hdn_pwd_check").val("1");
-            }
-        }
-    });
+        });
+    }
 }
 
 $(".setNotes").click(function() {
@@ -582,6 +590,7 @@ $(".setData").click(function() {
     userCourseId = $(this).attr("userCourseId");
     note = $('#notes_' + userCourseId).val();
     remindDate = $('#remindDate_' + userCourseId).val();
+    $("#setdata_load_"+userCourseId).show();
     if (remindDate != '') {
         $.ajax({
             type: "POST",
@@ -589,6 +598,7 @@ $(".setData").click(function() {
             cache: false,
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
             success: function(result) {
+                $("#setdata_load_"+userCourseId).hide();
                 $('#err_msg').show();
                 $('#notes_' + userCourseId).val('').attr("placeholder", "Notes");
                 $('#remindDate_' + userCourseId).val('').attr("placeholder", "Due Date");
@@ -757,19 +767,23 @@ $(".deleteTrash").click(function() {
 
 var applicantStatus = '0';
 $("#timeRemaining").change(function() {
+    $("#filter-by-week").show();
     loadApplicantList('currentList');
 });
 
 $("#searchFilter").click(function() {
+    $("#filter-by-name").show();
     loadApplicantList('currentList');
 });
 
 $("#applicantPending").click(function() {
+    $("#app-pending-approve").show();
     applicantStatus = '0';
     loadApplicantList('currentList');
 });
 
 $("#applicantCompleted").click(function() {
+    $("#app-pending-approve").show();
     applicantStatus = '1';
     loadApplicantList('completedList');
 });
@@ -783,7 +797,10 @@ function loadApplicantList(divContent)
         url: base_url + "searchApplicantsList",
         cache: false,
         data: {searchName: searchName, searchTime: searchTime, status: applicantStatus},
-        success: function(result) {
+        success: function(result) {          
+            $("#filter-by-name").hide();
+            $("#filter-by-week").hide();
+            $("#app-pending-approve").hide();
             $('#' + divContent).html(result);
         }
     });

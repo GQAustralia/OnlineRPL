@@ -74,7 +74,7 @@
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
-                                <label for="acc-{{i}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow">View</label>
+                                <label for="acc-{{i}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow" {% if units.id  in electiveUnits %} disabled="disabled" {% endif %}>View</label>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
                                 {% if units.id in electiveApprovedUnits %} {% else %}
@@ -144,7 +144,7 @@
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
-                                <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow">View</label>
+                                <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow" {% if units.id  in electiveUnits %} disabled="disabled" {% endif %}>View</label>
                             </div>
                             <div class="col-lg-3 col-md-2 col-sm-4 col-xs-3">
                                 {% if units.id in electiveApprovedUnits %} {% else %}
@@ -187,6 +187,7 @@
       <div class="modal-footer">
         <a class="btn btn-white changeUnitStatus">Ok</a>
         <a class="btn btn-white" id="qclose-cancel">Cancel</a>
+        <span class="loading-icon qual_status_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
       </div>
     </div>
   </div>
