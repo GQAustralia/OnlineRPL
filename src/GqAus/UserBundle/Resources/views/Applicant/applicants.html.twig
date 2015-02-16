@@ -29,6 +29,7 @@
                     </div>
                     <div class="gq-applicant-list-notes-box">
                         <button class="btn btn-red setData" userCourseId="{{list.id}}">SET</button>
+                        <div class="setdata-loading-icon" style="display: none;" id="setdata_load_{{list.id}}"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                     </div>
                 </div>
             </div>
@@ -44,7 +45,7 @@
             {% endfor %}
             {% else %}
     <tr>
-        <td {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_RTO' in userRole) %} colspan="3" {% else %} colspan="6" {% endif %} class="gq-tabs-no-content-text margin-top15">
+        <td {% if ('ROLE_RTO' in userRole) %} colspan="3" {% else %} colspan="6" {% endif %} class="gq-tabs-no-content-text margin-top15">
             No Applicants Found</td>
     </tr>
         {% endif %}

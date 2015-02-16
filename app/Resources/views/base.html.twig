@@ -42,13 +42,12 @@
                         <div class="pull-right">
                             <div class="user-status">
                                 <!--<div class="notification-section"><span>12</span></div>-->
-                                <div class="user-icon">
                                 {% if app.security.getToken().getUser().getUserImage() %}
-                                    <img class="ajax-profile-pic" src="{{ asset('public/uploads/') }}{{ app.security.getToken().getUser().getUserImage() }}" />
+                                    <div class="user-icon" id="ajax-gq-profile-small-page-img" style="background-image: url(&quot;{{ asset('public/uploads/') }}{{ app.security.getToken().getUser().getUserImage() }}&quot;);"></div>
                                 {% else %}
-                                    <img class="ajax-profile-pic" src="{{ asset('public/images/profile-img.png') }}" />
+                                    <div class="user-icon" id="ajax-gq-profile-small-page-img" style="background-image: url(&quot;{{ asset('public/images/profile-img.png') }}&quot;);"></div>
                                  {% endif %}
-                                </div>
+								 
                                 
                                 <div class="user-status-msg">{{ app.security.getToken().getUser().getUsername() | capitalize }}</div>
                                 <div class="user-status-select">

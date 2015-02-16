@@ -55,6 +55,8 @@ class ApplicantController extends Controller
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userCourseId = $this->getRequest()->get('userCourseId');
         $remindDate = $this->getRequest()->get('remindDate');
+        $remDate = explode("/",$remindDate);
+        $remindDate = $remDate[2]."-".$remDate[1]."-".$remDate[0];
         $message = $this->getRequest()->get('message');
         echo $status = $this->get('UserService')->addQualificationReminder($userId, $userCourseId, $message, $remindDate);
         exit;

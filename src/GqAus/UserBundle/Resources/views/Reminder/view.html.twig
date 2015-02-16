@@ -67,7 +67,7 @@
                                                         {% set leftDays = leftDays %}
                                                     {% endif %}
                                                     {% set flagTodo = '1' %}
-                                                    <div class="gq-to-do-list-row">
+                                                    <div class="gq-to-do-list-row gq-to-do-list-row-completed">
                                                         <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
                                                         <div class="row no-margin">
                                                             <div id="div_{{reminder.id}}" class="gq-acc-row-bg">
@@ -110,7 +110,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xs-1">
-                                                                    <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4" onclick="changePlusIcon({{reminder.id}});"></label>
+                                                                   <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4" onclick="changePlusIcon({{reminder.id}});"></label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -125,6 +125,8 @@
                                                         Records not found in To Do List</div>
                                                 {% endif %}
                                             {% endif %}
+                                            <div class="gq-tabs-no-content-text margin-top15 no-todo" style="display:none;">
+                                                        Records not found in To Do List</div>
                                         </div>
                                         <!-- accordion ends here -->
                                     </div>
@@ -211,7 +213,7 @@
                                                     {% endif %}
                                                 {% endfor %}
                                                 {% if flagCompleted == '0' %}
-                                                    <div class="gq-tabs-no-content-text margin-top15">Records not found in Completed List</div>
+                                                    <div class="gq-tabs-no-content-text margin-top15" id="records-not-found">Records not found in Completed List</div>
                                                 {% endif %}
                                             {% endif %}
                                         </div>
