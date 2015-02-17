@@ -16,6 +16,7 @@
 	<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('public/css/styles.css') }}" />
 	<link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}" />
+        <link rel="stylesheet" href="{{ asset('public/css/daterangepicker-bs3.css') }}" />
  	{% endblock %}
     {% block stylesheets %}{% endblock %}
 
@@ -88,6 +89,7 @@
                                 {% if 'ROLE_APPLICANT' in roles %}
                                 <li><a {% if app.request.attributes.get('_route') == 'evidences' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/evidences"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Evidence Files</span></a></li>
                                 {% endif %}
+                                <li><a {% if app.request.attributes.get('_route') == 'reports' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reports"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Reports</span></a></li>
                             </ul>
                         </div>
                         {% block body %}
@@ -115,6 +117,10 @@
     <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
     <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    
+    <script src="{{ asset('public/js/moment.js') }}"></script>
+    <script src="{{ asset('public/js/daterangepicker.js') }}"></script>
+      
     <script>
         onloadCount();
     $(document).ready(function(){

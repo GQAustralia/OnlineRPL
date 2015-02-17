@@ -358,8 +358,10 @@ $("body").on("click", ".viewModalClass", function() {
 $(".openIcon").click(function() {
     var c = $(this).hasClass("open");
     if (c == false) {
+        $(this).parent().parent().addClass("active");
         $(this).addClass("open");
     } else {
+        $(this).parent().parent().removeClass("active");
         $(this).removeClass("open");
     }
 });
@@ -772,7 +774,7 @@ $("#timeRemaining").change(function() {
     loadApplicantList('currentList');
 });
 
-$("#searchFilter").click(function() {
+$("#searchFilter").click(function() {    
     $("#filter-by-name").show();
     loadApplicantList('currentList');
 });
@@ -789,6 +791,30 @@ $("#applicantCompleted").click(function() {
     loadApplicantList('completedList');
 });
 
+
+$("#timeRemainingReports").change(function() {
+    applicantStatus = '2';
+    $("#filter-by-week").show();
+    loadApplicantListReports('currentList');
+});
+$("#searchFilterReports").click(function() { 
+    applicantStatus = '2';
+    $("#filter-by-name").show();
+    loadApplicantListReports('currentList');
+});
+$("#searchFilterQualReports").click(function() { 
+    applicantStatus = '2';
+    $("#filter-by-qual").show();
+    loadApplicantListReports('currentList');
+});
+
+$("#searchFilterByRange").click(function() { 
+    applicantStatus = '2';
+    $("#filter-by-date").show();
+    loadApplicantListReports('currentList');
+});
+
+
 function loadApplicantList(divContent)
 {
     searchName = $('#searchName').val();
@@ -798,9 +824,33 @@ function loadApplicantList(divContent)
         url: base_url + "searchApplicantsList",
         cache: false,
         data: {searchName: searchName, searchTime: searchTime, status: applicantStatus},
-        success: function(result) {          
+        success: function(result) { 
             $("#filter-by-name").hide();
             $("#filter-by-week").hide();
+            $("#app-pending-approve").hide();
+            $('#' + divContent).html(result);
+        }
+    });
+}
+
+function loadApplicantListReports(divContent)
+{
+    searchName = $('#searchName').val();
+    searchTime = $('#timeRemainingReports').val();
+    searchQualification = $('#searchQualification').val();
+    searchDateRange = $('#reportsDate').html();
+    alert(searchDateRange);
+    $.ajax({
+        type: "POST",
+        url: base_url + "searchApplicantsListReports",
+        cache: false,
+        data: {searchName: searchName, searchTime: searchTime, searchQualification: searchQualification, searchDateRange: searchDateRange, status: applicantStatus},
+        success: function(result) { 
+            alert(result);
+            $("#filter-by-name").hide();
+            $("#filter-by-week").hide();
+            $("#filter-by-qual").hide();
+            $("#filter-by-date").hide();
             $("#app-pending-approve").hide();
             $('#' + divContent).html(result);
         }

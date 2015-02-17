@@ -1,0 +1,46 @@
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+<!-- accordion starts here -->
+{% if applicantList %}
+{% for key, list in applicantList %}
+    <tr>
+        <td>{{list.user.userName}}</td>
+        <td>{{list.courseCode}} {{list.courseName}}</td>
+        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}             
+        {% set userId = list.user.id %}
+        {% set id = list.id %}
+        {% set courseCode = list.courseCode %}
+    {% endif %}
+        <td>
+            <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
+                <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>View</button>
+            </a>
+        </td>
+    </tr>
+            {% endfor %}
+            {% else %}
+    <tr>
+        <td {% if ('ROLE_RTO' in userRole) %} colspan="3" {% else %} colspan="6" {% endif %} class="gq-tabs-no-content-text margin-top15">
+            No Applicants Found</td>
+    </tr>
+        {% endif %}
+<!-- accordion ends here -->
+
+
+
+
+{% if pageRequest == 'ajax' %}
+    {% block javascripts %}
+<script type="text/javascript">
+    //$(".datepic").datepicker();
+    $(".setNotes").click(function() {
+        id = $(this).attr("id");
+        var c = $('#div_' + id).hasClass("open");
+        if (c == false) {
+            $('#div_' + id).addClass('open');
+        } else {
+            $('#div_' + id).removeClass('open');
+        }
+    });
+</script>
+    {% endblock %}
+{% endif %}

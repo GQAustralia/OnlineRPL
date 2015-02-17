@@ -363,12 +363,23 @@ class UserService
             $userType = 'rto';
             $userStatus = 'rtostatus';
         }
-        $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                ->createQueryBuilder('c')
-                ->select("c, u")
-                ->join('c.user', 'u')
-                ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
-                ->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
+        if($status == 2)
+        {
+            $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->createQueryBuilder('c')
+                    ->select("c, u")
+                    ->join('c.user', 'u')
+                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
+        }
+        else
+        {
+            $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->createQueryBuilder('c')
+                    ->select("c, u")
+                    ->join('c.user', 'u')
+                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
+                    ->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
+        }
         
         if ($userType == 'rto') {
             $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
@@ -391,6 +402,71 @@ class UserService
         return array('applicantList' => $applicantList);
     }
      
+    /**
+    * Function to get applicants list information
+    * return $result array
+    */
+    public function getUserApplicantsListReports($userId, $userRole, $status, $searchName = null, $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null)
+    {
+        if (in_array('ROLE_ASSESSOR',$userRole)) {
+            $userType = 'assessor';
+            $userStatus = 'assessorstatus';
+        } elseif (in_array('ROLE_FACILITATOR',$userRole)) {
+            $userType = 'facilitator';
+            $userStatus = 'facilitatorstatus';
+        } elseif (in_array('ROLE_RTO',$userRole)) {
+            $userType = 'rto';
+            $userStatus = 'rtostatus';
+        }
+        if($status == 2)
+        {
+            $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->createQueryBuilder('c')
+                    ->select("c, u")
+                    ->join('c.user', 'u')
+                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
+        }
+        else
+        {
+            $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->createQueryBuilder('c')
+                    ->select("c, u")
+                    ->join('c.user', 'u')
+                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
+                    ->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
+        }
+        
+        if ($userType == 'rto') {
+            $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
+        }
+
+        if (!empty($searchName)) {
+            $res->andWhere(sprintf('u.%s LIKE :%s OR u.%s LIKE :%s', 'firstName', 'firstName', 'lastName', 'lastName'))
+            ->setParameter('firstName', '%'.$searchName.'%')
+            ->setParameter('lastName', '%'.$searchName.'%');
+        }
+        
+        if (!empty($searchTime)) {
+            $searchTime = $searchTime * 7;
+            $searchTime1 = $searchTime - 6;
+            $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) >= ".$searchTime1);
+            $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) <= ".$searchTime);
+        }
+        
+        if (!empty($searchQualification)) {
+            $res->andWhere(sprintf('c.%s LIKE :%s OR c.%s LIKE :%s', 'courseCode', 'courseCode', 'courseName', 'courseName'))
+            ->setParameter('courseCode', '%'.$searchQualification.'%')
+            ->setParameter('courseName', '%'.$searchQualification.'%');
+        }
+        if (!empty($startDate)) {
+            $res->andWhere("c.createdOn between '$startDate' and '$endDate'");
+        }
+        //$applicantList = $res->getQuery(); var_dump($applicantList); exit;
+        $applicantList = $res->getQuery()->getResult();
+        return array('applicantList' => $applicantList);
+    }
+    
+    
     /**
     * Function to add qualification remainder
     */
