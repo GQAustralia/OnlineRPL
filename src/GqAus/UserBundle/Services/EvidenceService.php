@@ -218,9 +218,7 @@ class EvidenceService
     public function getUserUnitEvidences($userId, $unitId)
     {
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
-        $userUnitEvidences = $reposObj->findBy(array('user' => $userId,
-            'unit' => $unitId));
-        return $userUnitEvidences;
+        return $reposObj->findBy(array('user' => $userId, 'unit' => $unitId));
     }
     
     /**
