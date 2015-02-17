@@ -358,8 +358,10 @@ $("body").on("click", ".viewModalClass", function() {
 $(".openIcon").click(function() {
     var c = $(this).hasClass("open");
     if (c == false) {
+        $(this).parent().parent().addClass("active");
         $(this).addClass("open");
     } else {
+        $(this).parent().parent().removeClass("active");
         $(this).removeClass("open");
     }
 });
