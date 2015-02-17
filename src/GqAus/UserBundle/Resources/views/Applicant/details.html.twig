@@ -284,10 +284,11 @@
     </div>
    
     {% else %}
-     <button type="submit" disabled="disabled" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
+     <button type="submit" disabled="disabled" onclick="checkApproveButton();" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
      {% endif %}
      
       {% endif %}
+     <span class="gq-approve-error" id="gq-approve-error" style="display:none;">Please approve all the units.</span>
 </div>
 
 <!----- Unit evidences start --->
