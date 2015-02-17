@@ -804,19 +804,25 @@ $("#timeRemainingReports").change(function() {
     loadApplicantListReports('currentList');
 });
 $("#searchFilterReports").click(function() { 
+    $("#current").hide();
     applicantStatus = '2';
-    $("#filter-by-name").show();
     loadApplicantListReports('currentList');
 });
 $("#searchFilterQualReports").click(function() { 
+    $("#current").hide();
     applicantStatus = '2';
-    $("#filter-by-qual").show();
     loadApplicantListReports('currentList');
 });
 
 $("#searchFilterByRange").click(function() { 
+    $("#current").hide();
     applicantStatus = '2';
-    $("#filter-by-date").show();
+    loadApplicantListReports('currentList');
+});
+
+$("#searchFilterByStatus").click(function() {
+    $("#current").hide();
+    applicantStatus = '2';
     loadApplicantListReports('currentList');
 });
 
@@ -841,23 +847,36 @@ function loadApplicantList(divContent)
 
 function loadApplicantListReports(divContent)
 {
+    $("#filter-by-all").show();
     searchName = $('#searchName').val();
     searchTime = $('#timeRemainingReports').val();
     searchQualification = $('#searchQualification').val();
     searchDateRange = $('#reportsDate').html();
-    alert(searchDateRange);
+    statusChecked = [];
+    $('input:checkbox[name=reportStatus]').each(function() {    
+        if($(this).is(':checked'))
+            statusChecked.push($(this).val());
+    });
+    if(statusChecked.length > 0)
+    {
+        if(statusChecked.length==2) {
+            statusReport = "2";
+        }
+        else {
+            statusReport = statusChecked[0];
+        }
+    }
+    else {
+        statusReport = "";
+    }    
     $.ajax({
         type: "POST",
         url: base_url + "searchApplicantsListReports",
         cache: false,
-        data: {searchName: searchName, searchTime: searchTime, searchQualification: searchQualification, searchDateRange: searchDateRange, status: applicantStatus},
+        data: {searchName: searchName, searchTime: searchTime, searchQualification: searchQualification, searchDateRange: searchDateRange, statusReport: statusReport, status: applicantStatus},
         success: function(result) { 
-            alert(result);
-            $("#filter-by-name").hide();
-            $("#filter-by-week").hide();
-            $("#filter-by-qual").hide();
-            $("#filter-by-date").hide();
-            $("#app-pending-approve").hide();
+            $("#current").show();
+            $("#filter-by-all").hide();
             $('#' + divContent).html(result);
         }
     });

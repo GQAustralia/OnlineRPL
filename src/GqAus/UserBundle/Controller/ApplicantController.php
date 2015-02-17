@@ -108,13 +108,14 @@ class ApplicantController extends Controller
         $startDate = $searchDates[0];
         $endDate = $searchDates[1];
         $startDatearr = explode("/",$startDate);
-        echo $startDate = trim($startDatearr[2]," ")."-".$startDatearr[1]."-".$startDatearr[0]; 
+        $startDate = trim($startDatearr[2]," ")."-".$startDatearr[1]."-".$startDatearr[0]; 
         
         $endDatearr = explode("/",$endDate);
-        echo $endDate = $endDatearr[2]."-".$endDatearr[1]."-".trim($startDatearr[0]," ");
+        $endDate = $endDatearr[2]."-".$endDatearr[1]."-".trim($startDatearr[0]," ");
         
+        echo $statusReport = $this->getRequest()->get('statusReport'); 
         $status = $this->getRequest()->get('status');
-        $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, $status, $searchName, $searchQualification, $startDate, $endDate, $searchTime);
+        $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, $status, $searchName, $searchQualification, $startDate, $endDate, $statusReport, $searchTime);
         $results['pageRequest'] = 'ajax'; 
         echo $this->renderView('GqAusUserBundle:Reports:applicants.html.twig', $results); exit;
     }
