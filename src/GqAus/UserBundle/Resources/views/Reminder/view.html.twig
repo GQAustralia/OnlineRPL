@@ -80,7 +80,7 @@
                                                                 <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4">
                                                                     <div class="gq-acc-row-title">{{reminder.course.coursename}}</div>
                                                                 </div>
-                                                                <div class="col-lg-3 col-md-2 col-sm-4 col-xs-5">
+                                                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5">
                                                                     {% if leftDays == 0 %}
                                                                         {% set daynote = "Today" %}
                                                                     {% endif %}
@@ -109,8 +109,9 @@
                                                                         {% endif %}
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-xs-1">
-                                                                   <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4" onclick="changePlusIcon({{reminder.id}});"></label>
+                                                                <div class="col-xs-2">
+                                                                    <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4 btn add-btn upDownArrow" onclick="changePlusIcon({{reminder.id}});">View</label>
+{#                                                                   <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4" onclick="changePlusIcon({{reminder.id}});"></label>#}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -121,11 +122,11 @@
                                                     {% endif %}
                                                 {% endfor %}
                                                 {% if flagTodo == '0' %}
-                                                    <div class="gq-tabs-no-content-text margin-top15">
+                                                    <div class="gq-tabs-no-content-text">
                                                         Records not found in To Do List</div>
                                                 {% endif %}
                                             {% endif %}
-                                            <div class="gq-tabs-no-content-text margin-top15 no-todo" style="display:none;">
+                                            <div class="gq-tabs-no-content-text no-todo" style="display:none;">
                                                         Records not found in To Do List</div>
                                         </div>
                                         <!-- accordion ends here -->
@@ -178,7 +179,7 @@
                                                                 <div class="col-lg-4 col-md-3 col-sm-4 col-xs-5">
                                                                     <div class="gq-acc-row-title">{{reminder.course.coursename}}</div>
                                                                 </div>
-                                                                <div class="col-lg-3 col-md-2 col-sm-4 col-xs-4">
+                                                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
                                                                     {% if leftDays == 0 %}
                                                                         {% set daynote = "Today" %}
                                                                     {% endif %}
@@ -201,8 +202,9 @@
                                                                         {% endif %}
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-xs-1">
-                                                                    <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4" onclick="changePlusIcon({{reminder.id}});"></label>
+                                                                <div class="col-xs-2">
+{#                                                                    <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4" onclick="changePlusIcon({{reminder.id}});"></label>#}
+                                                                    <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4 btn add-btn upDownArrow" onclick="changePlusIcon({{reminder.id}});">View</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -213,7 +215,7 @@
                                                     {% endif %}
                                                 {% endfor %}
                                                 {% if flagCompleted == '0' %}
-                                                    <div class="gq-tabs-no-content-text margin-top15" id="records-not-found">Records not found in Completed List</div>
+                                                    <div class="gq-tabs-no-content-text" id="records-not-found">Records not found in Completed List</div>
                                                 {% endif %}
                                             {% endif %}
                                         </div>
@@ -257,11 +259,13 @@ function changePlusIcon(plusid)
 {
     var c = $("#label_"+plusid).hasClass( "open" );
     if (c == false) {
-            $("#label_"+plusid).parent().parent().parent().next().show();
-            $("#label_"+plusid).addClass( "open" );
+        $("#label_"+plusid).parent().parent().addClass("active");
+        $("#label_"+plusid).parent().parent().parent().next().show();
+        $("#label_"+plusid).addClass("open");
     } else {
-            $("#label_"+plusid).parent().parent().parent().next().hide();
-            $("#label_"+plusid).removeClass( "open" );
+        $("#label_"+plusid).parent().parent().removeClass("active");
+        $("#label_"+plusid).parent().parent().parent().next().hide();
+        $("#label_"+plusid).removeClass("open");
     }
 }
 </script>
