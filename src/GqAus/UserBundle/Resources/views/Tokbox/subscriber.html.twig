@@ -1,0 +1,30 @@
+{% block title %}GQ - RPL Subscriber{% endblock %}
+{% block javascripts %}
+{#<script src="//static.opentok.com/webrtc/v2.2/js/TB.min.js"></script>#}
+<script src="//static.opentok.com/v2/js/opentok.min.js" ></script>
+<script type="text/javascript">
+        var apiKey = '{{ apiKey }}';
+        var sessionId = '{{ sessionId }}';
+        var token = '{{ token }}';
+        // Initialize an OpenTok Session object
+var session = OT.initSession(apiKey, sessionId);
+ 
+  session.on("streamCreated", function(event) {
+    session.subscribe(event.stream);
+  });
+ 
+  session.connect(token, function(error) {
+    var publisher = OT.initPublisher();
+    session.publish(publisher);
+  });
+</script>
+{% endblock %}
+{% block body %}
+    
+<div id="publisher"></div>
+
+<div id="subscribers"></div>
+
+{% endblock %}
+
+
