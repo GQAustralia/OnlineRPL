@@ -226,7 +226,7 @@ a.btn-red {color:#ffffff;}
 
 /* user status related styling */
 .user-status {}
-.user-status .user-icon{border:2px solid red; border-radius:50%; overflow:hidden; width:33px; height: 33px; margin-right:10px;}
+.user-status .user-icon{border:2px solid red; border-radius:50%; overflow:hidden; width:33px; height: 33px; margin-right:10px; background-size:cover; background-position:center center;}
 .ajax-profile-pic {width:33px; height:33px;}
 /* Dashboard left navigation styling
 ---------------------------------------------------------------*/
@@ -241,6 +241,7 @@ a.btn-red {color:#ffffff;}
  --------------------------------------------------------------*/
 .gq-dashboard-box-1x, .gq-dashboard-box-2x {width:100%; border:1px solid #dddddd; float:left; position:relative; background-color:#ffffff;}
 .gq-dashboard-box-1x .flip-icon, .gq-dashboard-box-2x .flip-icon {background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:-1px; right:-1px; display:block; height:23px; width:24px;}
+.gq-dashboard-box-download-tool-kit {margin-bottom:16px; width:100%; float:left; position:relative; background-color:#ffffff;}
 .gq-dashboard-box-1x {min-height: 182px; margin-bottom:16px;}
 .gq-dashboard-box-2x {min-height: 380px;}
 .gq-dashboard-box-title-wrap {width:100%; border-bottom:1px solid #dddddd; min-height:48px; display:block; position:relative; /*overflow:hidden; need to enable in mobile */}
@@ -252,8 +253,8 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-points-in-percent {font-size:60px; color:#f14840; float:left; padding:26px 3px;}
 .gq-dashboard-profile-img {float:left; padding:5px 0;}
 .gq-dashboard-courses-detail-wrap {width:100%; float:left; padding:0 15px;}
-.gq-dashboard-qualification-scroll { height:230px; overflow-x: hidden; overflow-y: auto;}
-.qualification-success-msg { color:#85b430; text-align:center; padding: 80px 15px 15px; height:200px; margin:0 auto;}
+.gq-dashboard-qualification-scroll { height:260px; overflow-x: hidden; overflow-y: auto; padding-top:30px;}
+.qualification-success-msg { color:#85b430; text-align:center; padding: 80px 15px 15px; height:265px; margin:0 auto;}
 /*.qualification-success-msg span { background-image: url("../images/upload-sussess-icon.png"); background-position: center center; background-repeat: no-repeat; content: ""; display: block; float: left; height: 60px; left: 0; margin-right: 30px; position: relative; top: 0; width: 60px;}*/
 .qualification-success-msg h2 {font-size:13px; color:#85b430; padding-top:10px;}
 .qualification-success-msg h2 img {margin-right:6px; padding-bottom:4px;}
@@ -285,11 +286,11 @@ a.btn-red {color:#ffffff;}
 --------------------------------------------------------------*/
 .gq-profile-page-img {width:120px; height:120px; margin:0 auto; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:10px auto; overflow:hidden; background-position: center center; background-repeat: no-repeat; background-size: cover;}
 .gq-profile-page-img img{width:100%; }
-.gq-edit-photo-btn {width:100px; height:32px; margin:0 auto; position:relative;}
+.gq-edit-photo-btn {width:130px; height:32px; margin:0 auto; position:relative;}
 .gq-edit-photo-btn input[type="file"]{opacity:0; width:100%;}
 .gq-edit-photo-btn .loading-icon {float: left; height: 20px; position: absolute; right: -26px; top: 2px; width: 20px;}
-.gq-edit-photo-btn .btn-red{width:100%; float:left; background-image:url('../images/edit-photo-txt.png'); background-repeat:no-repeat; background-position:center center; border-radius:4px;}
-.gq-edit-photo-btn .btn-grey{width:100%; float:left; background-image:url('../images/edit-photo-txt.png'); background-repeat:no-repeat; background-position:center center; border-radius:4px;}
+.gq-edit-photo-btn .btn-red{width:100%; float:left; background-image:url('../images/edit-photo-txt.png'); background-repeat:no-repeat; background-position:center center; border-radius:2px;}
+.gq-edit-photo-btn .btn-grey{width:100%; float:left; background-image:url('../images/edit-photo-txt.png'); background-repeat:no-repeat; background-position:center center; border-radius:2px;}
 .gq-form-personal {font-size:15px;}
 .gq-form-personal .gq-form-row{width:100%; float:left; margin-bottom:-1px; border:1px solid #e7ecee; border-radius:5px; height:48px; background-color:#ffffff; padding-left:15px; padding-top:7px; position:relative;}
 .gq-form-personal .gq-form-row input{border:0 none; border-left:1px solid #e7ecee; padding-left:15px; line-height:34px; width:66%;}
@@ -314,7 +315,7 @@ a.btn-red {color:#ffffff;}
 	.gq-id-files-upload-success-text span{width:19px; height:13px; background-image:url('../images/tick.png'); background-repeat:no-repeat; backgrounc-positoin:center center; float:left; margin-right:12px;}
 	.gq-id-files{position:relative; width:100%; float:left;}
 	.gq-id-files-select, .gq-id-files-upload-btn, .gq-id-files-upload-btn span, .gq-id-files-submit-btn {float:left; display:flex;}
-	.gq-id-files-submit-btn button{height:36px; font-size:16px; padding:5px 42px;}
+	.gq-id-files-submit-btn button{height:36px; font-size:16px; padding:5px 42px; border-radius:2px;}
 	.gq-id-files-upload-btn {margin-right:10px; position:relative;}
 	/*.gq-id-files-upload-btn input[type="file"]{ width:112px; text-indent:112px; background-image:url('../images/browse-btn.png'); background-repeat:no-repeat; background-position:25px 13px;}*/
 	.gq-id-files-upload-btn input[type="file"]{opacity:0; width:100%; height:38px; text-indent:-170px;}
@@ -366,7 +367,7 @@ a.btn-red {color:#ffffff;}
 	.gq-id-files-select {width:100%; background-color:#ffffff; border-radius:5px; border:1px solid #e6e6e6;}
 	.gq-id-files-select option {height:28px; padding-left:6px; padding-top:4px; font-size:14px;}
     .gq-id-files-upload-txt {font-size:14px; line-height:38px; color:#5e5e5e; width:100%; float:left; overflow:hidden; text-overflow:ellipsis;}
-	.gq-id-files-select select {height:36px; left:0; 	border:1px solid #e6e6e6;}
+	.gq-id-files-select select {height:36px; left:0; 	border:1px solid #e6e6e6; line-height:30px;}
 	
 
 /* Terms and conditions page  /  Modal pop-up styling
@@ -423,7 +424,17 @@ a.btn-red {color:#ffffff;}
 	.gq-dashboard-courses-detail {position:relative;}
 	.select-from-evidence-tab-check{position:absolute; top:-18px; right:-18px;}
 	.select-from-evidence-bg-img {background-image:url('../images/evidence-files-bg.png'); background-size:cover; }
-	.gq-tabs-no-content-text {font-size:16px; text-align:center;}
+	.gq-tabs-no-content-text {font-size:16px; text-align:center; background-color:#ffffff; padding-top:15px; min-height:57px;}
+
+
+/* Evidence files new tabs */
+.gq-evidence-new .gq-evidence-new-tabs{ font-size:16px; border-bottom:0px solid #e3e3e3; background:url('../images/gray-line-bit.png') repeat-x bottom center; }
+.gq-evidence-new .nav-pills > li > a{ border-bottom:2px solid transparent; }
+.gq-evidence-new .nav-pills > li > a, .gq-evidence-new .nav-pills > li > a:hover, .nav-pills > li > a:focus{ background-color:transparent; color:#5e5e5e; border-radius:0; outline:0px none; }
+.gq-evidence-new .nav-pills > li.active > a, .gq-evidence-new .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{ background-color:transparent; color:#f36059; border-bottom:2px solid #f36059; }
+.gq-evidence-new ul li {width:90px;}
+.gq-dashboard-tabs .gq-evidence-new .nav {box-shadow:none;}
+.gq-dashboard-tabs .gq-evidence-new .nav-pills > li.active > a, .gq-dashboard-tabs .gq-evidence-new .nav-pills > li.active > a:hover, .gq-dashboard-tabs .gq-evidence-new .nav-pills > li.active > a:focus {color:#f14840; background-color:#ffffff;}
 
 	
  /* Courses page styling
@@ -438,7 +449,7 @@ a.btn-red {color:#ffffff;}
 .gq-course-details-title-wrap {width:100%; border-bottom:1px solid #e0f5cc; min-height:48px; display:block;}
 .gq-course-details-title-wrap .gq-dashboard-box-title{padding:7px 15px; font-size:22px; color:#5e5e5e;}
 .gq-dashboard-box-content {padding:15px; font-size:16px; color:#5e5e5e;}
-.gq-course-details-header-title {font-size:20px; color:#2f3741; line-height:32px;}
+.gq-course-details-header-title {font-size:18px;/* color:#2f3741;*/ color:#f14840; line-height:32px;}
 .gq-acc-row-bg .checkmark-icon {display:block; width:44px; height:44px; float:left; margin-right:6px;}
 .gq-acc-row-bg .checkmark-icon:hover {cursor:pointer;}
 .gq-acc-row-bg .checkmark-icon .radio {margin-top:4px;}
@@ -530,7 +541,7 @@ a.btn-red {color:#ffffff;}
 /* Assessor - applicant details page */
 .gq-dashboard-box-content.gq-assessor-appl-details { background-color:#f5f5f5; min-height:180px; padding:0 15px;}
 .gq-assessor-appl-details .gq-assessor-appl-profile-pic{background-color:transparent; padding:15px;}
-.gq-assessor-appl-details .gq-assessor-appl-profile-details-col {min-height:180px; background-color:#ffffff; padding:15px;}
+.gq-assessor-appl-details .gq-assessor-appl-profile-details-col {min-height:214px; background-color:#ffffff; padding:15px;}
 .gq-assessor-title-download {width:100%; line-height:20px; padding-top:18px; float:right;}
 .gq-assessor-title-download a{color:#f14840; font-size:14px; text-decoration:none;}
 .gq-assessor-title-download .gq-assessor-title-download-icon{color:#000000; padding-left:4px; background-image:url('../images/gq-assessor-title-download-icon.png'); background-repeat: no-repeat; background-position:center center; width:22px; height:22px; display:block; float:right; margin-left:5px;} 
@@ -550,6 +561,10 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-appl-details .gq-assessor-rto-edit-icon a{display:block; padding:17px 0;}
 #gq-msg-success{padding:10px; color: #57ba00;}
 #applicantEStatus button{margin-bottom:0px;}
+.gq-assessor-profile-send-msg {color:#000000; font-size:14px; text-align:center;}
+.gq-assessor-profile-send-msg .btn {border-radius:2px; margin-top:5px;}
+.gq-assessor-profile-send-msg .gq-assessor-profile-send-msg-icon  {background-image:url('../images/send-message-icon.png'); background-repeat:no-repeat; background-position:center center; width:23px; height:17px; display:block; float:left; margin-top:4px; margin-right:5px;}
+
 
 /* Assessor - list page */
 .add-notes-icon {width:24px; height:26px; padding:3px; background-image:url(../images/applicant-list-add-notes-icon.png); background-repeat:no-repeat; background-position: center center; display:block;}
@@ -566,13 +581,14 @@ a.btn-red {color:#ffffff;}
 .gq-add-notes-icon-wrap:hover {cursor:pointer;}
 .gq-add-notes-icon-wrap a{padding:8px;}
 .gq-applicant-filter-wrap {height:40px; position:relative; font-size:16px;}
-.gq-applicant-filter-wrap label{margin-right:10px; font-weight:normal;}
+.gq-applicant-filter-wrap label{margin-right:10px; font-weight:normal; color:#2f3941;}
+.gq-applicant-filter-wrap label span{color:#808080;}
 .gq-applicant-filter-wrap input[type="text"] { margin-left:5px; border:1px solid #e8eced; height:40px; padding-left:5px; width:200px; border-radius:5px;}
 .gq-applicant-filter-wrap select { margin-left:5px; border:1px solid #e8eced; height:40px; padding-left:5px; width:200px; border-radius:5px;}
 .gq-applicant-filter-wrap .gq-search-icon {background-image:url('../images/search-icon.png'); background-repeat:no-reepat; background-position:center center; width:40px; height:40px; float:right; position:absolute; right:0; cursor:pointer;}
 
 /* Assessors - Profile uploads page */
-.gq-id-files-submit-btn .gq-profile-download-icon{color:#000000; padding-left:4px; background-image:url('../images/profile-upload-download-icon.png'); background-repeat: no-repeat; background-position:center center; width:36px; height:22px; display:block; float:right; margin-left:5px; position:relative; top:-22px; left:30px;} 
+.gq-id-files-submit-btn .gq-profile-download-icon{color:#000000; padding-left:4px; background-image:url('../images/profile-upload-download-icon.png'); background-repeat: no-repeat; background-position:center center; width:36px; height:22px; display:inline-block; margin-left:5px;} 
 .gq-assessor-profile-page-img {width:120px; height:120px; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:22px 0; overflow:hidden; background-position: center center; background-repeat: no-repeat; background-size: cover; float:left;}
 .gq-assessor-profile-page-img img{width:100%; }
 .gq-assessor-profile-page-desc-red{ color: #f14840; font-size: 14px; text-decoration: none; float:left; width:100%; margin-bottom:10px;}
@@ -605,19 +621,19 @@ a.btn-red {color:#ffffff;}
 .gq-applicant-filter-wrap-select {background-color:#ffffff; border:1px solid #e8eced; border-radius:5px; height:40px;}
 .gq-applicant-filter-wrap-select select {height:40px; cursor:pointer;}
 .gq-applicant-filter-wrap-select select option{height:30px; padding-left:15px; padding-top:7px;}
-.gq-applicant-filter-wrap-select-remaining {font-size:16px; padding-top:8px;}
+.gq-applicant-filter-wrap-select-remaining {font-size:16px; padding-top:8px; color:#2f3941;}
 
 
 /* bugs for all pages */
 .gq-course-details-two-lines {line-height:15px;}
 .gq-acc-details-two-lines {line-height:16px; padding-top:4px;}
 .gq-appl-details-two-lines {line-height:normal; padding-top:4px; padding-bottom:4px;}
-.gq-assessor-list-dropdown-wrap .gq-applicant-list-notes-box .btn {width:100%; margin-top:5px;}
+.gq-assessor-list-dropdown-wrap .gq-applicant-list-notes-box .btn {width:100%; margin-top:5px; float:left;}
 .gq-dashboard-points-in-number a, .gq-dashboard-points-in-percent a {color:#f14a41; text-decoration:none;}
 .gq-assessor-appl-details .gq-assessor-appl-details-points label{width:76px;}
 .gq-facilitator-wrap {width:97%; margin:0 auto;}
 .gq-filter-clear {}
-.gq-dashboard-tabs-header .gq-tabs-width-50 {width:50%;}
+.gq-dashboard-tabs-header .gq-tabs-width-50 {width:115px;}
 #edivenceUnitModal.modal .modal-dialog{ bottom:0; position:fixed !important; left:0; right:0; top:auto; }
 .gq-id-files-content-row a img {margin-left:7px; width:12px; margin-bottom:4px;}
 .gq-mail-title-text h2 {color:#f14a41; font-size:22px; line-height:30px; padding-left:15px;}
@@ -638,12 +654,68 @@ a.btn-red {color:#ffffff;}
 
 .login-page img {width:120px;} /* adding width to images so that the images look crisp in mobile as well. */
 .gq-dashboard-header .gq-logo-dashboard img {width:120px;}
+.todo_daynote {color:#f14840;}
+/*.gq-acc-row-bg .checkmark-icon .radio{background-image:url("../images/qualifications-checkbox.png");}
+.gq-acc-row-bg .checkmark-icon .radioUnChecked{background-image:url("../images/qualifications-checkbox.png");}*/
+.gq-others-assessor .gq-course-details-header-title {color:#f14840;}
+#editEvidenceModelinput {width:100%; padding:5px;}
+.gq-ev-view-icon .eye-btn {width:84px;}
+#download_matrix {padding:5px 15px 5px 15px;}
+#download_matrix span{float:left;}
+.gq-qual-view-pop-up {padding-top:30px;}
+.gq-todo-list-width {width:230px; margin:0 auto;}
+.gq-dashboard-box-content h4 {margin-top:14px; margin-bottom:6px;}
+.gq-change-profile-warning {width:60%; margin:0 auto; position:relative;}
+
+.gq-loading-div { background-color: #f0f0f0; height: 100%; opacity: 0.80; position: fixed; top: 0; width: 100%;}
+.gq-loading-div img{ left: 50%; position: relative; top: 50%; width: 38px;}
+
+
+/* check box for mail */ /*
+input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:-9px; opacity:0; position:relative;float:left;}
+.custom-checkbox {background-image:url('../images/qualifications-checkbox.png'); background-position: -8px -9px; display:block; height:18px; width:18px; position:relative; left:-2px; top:10px; float:left;}
+.custom-checkbox.checked { background-position: -8px -85px;}*/
+
+.msg-checkmark-icon{position:relative; float:left;}
+input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9px; opacity:0; position:absolute;float:left; cursor:pointer;}
+.custom-checkbox {background-image:url('../images/qualifications-checkbox.png'); background-position: -8px -9px; display:block; height:18px; width:18px; position:absolute; left:-2px; top:10px; float:left;}
+.custom-checkbox.checked { background-position: -8px -85px;}
+
+/* Applicant list table custom styling */
+.gq-applicant-list-table {min-height:330px;}
+.gq-applicant-list-table .table thead tr th:first-child{border-left:8px solid #f14840; border-bottom:0;}
+.gq-applicant-list-table .table thead tr th:last-child{border-right:8px solid #f14840; border-bottom:0;}
+.gq-applicant-list-table .table thead tr .gq-course-details-header-title{font-weight:normal;}
+.gq-applicant-list-table .table thead tr th {vertical-align:middle; font-size:18px; font-weight:normal; color:#f14840;}
+.gq-applicant-list-table .table thead {
+/*		width:100%;
+		float:left;*/
+		border-bottom:1px solid #ababab;
+		box-shadow:1px 1px 3px #ababab;
+		height:55px;
+
+		background: rgba(250,250,250,1);
+		background: -moz-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);
+		background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(250,250,250,1)), color-stop(47%, rgba(244,244,244,1)), color-stop(100%, rgba(243,242,241,1)));
+		background: -webkit-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);
+		background: -o-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);
+		background: -ms-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);
+		background: linear-gradient(to bottom, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);
+}
+.gq-applicant-list-table .table tbody tr {background-color:#ffffff;}
+.gq-applicant-list-table tbody tr td {vertical-align:middle; font-size:16px; font-weight:normal;}
+
 
 
 @media(max-width:360px){
 	.gq-evidence .nav-pills > li{ width:100%; }
 	.gq-course-details-drop-file {width:auto;}
 	.gq-course-details-drop-file .dropzone{padding:0;}
+	#userprofile_gender input[type="radio"] {float:left;}
+	#userprofile_gender label {float:left; width:30%;}
+	#userprofile_gender {width:50%;}
+	.gq-form-personal .gq-form-row label {width:47%;}
+	.gq-change-profile-warning {width:100%;}
 }
 
 /* Media queries for all devices
@@ -665,8 +737,15 @@ a.btn-red {color:#ffffff;}
  .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {padding-left:5px; float:none;}
  .gq-dashboard-box-title-wrap .gq-dashboard-box-title {float:none;}
 /* .gq-dashboard-box-title-wrap .gq-dashboard-points-icon {height:72px;}*/
-  }
- 
+ #userprofile_gender input[type="radio"] {float:left;}
+ #userprofile_gender label {float:left; width:30%;}
+ #userprofile_gender {width:50%;}
+ }
+/*
+ @media (min-width: 768px) and (max-width:1279px){
+
+}
+*/
  @media (max-width: 1100px){
 	.wid40p {width:70%; margin:0 15%;}
 	.wid20p {width:40%; margin:0 30%;}
@@ -707,6 +786,14 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-appl-profile-details {width:100%;}
 .gq-assessor-appl-details .gq-assessor-appl-profile-details .gq-assessor-appl-details-points .gq-assessor-rto-title {width:75%;}
 .gq-dashboard-tabs-header .gq-tabs-width-50 {width:100%;}
+.gq-evidence-new ul li {width:auto;}
+.gq-applicant-filter-wrap .gq-search-icon {top:28px;}
+.gq-applicant-filter-wrap-select-remaining {padding-top:0; margin-bottom:5px;}
+.gq-dashboard-tabs .nav li:last-child a, .gq-dashboard-tabs .nav li:first-child a {border-radius:0;}
+.gq-change-profile-warning {width:100%;}
+#userprofile_gender input[type="radio"] {float:left;}
+#userprofile_gender label {float:left; width:31%;}
+#userprofile_gender {width:50%;}
 }
 
 @media (max-width:368px) {
@@ -740,13 +827,21 @@ a.btn-red {color:#ffffff;}
   @media (min-width: 1280px) {
 	.wid60p {width:40%; margin:0 30%;}
 	.modal-dialog.gq-modal-upload{width:100%;}
+	.gq-change-profile-warning{width:40%;}
  }
    @media (max-width: 1280px) {
    	.gq-course-details-two-lines {font-size:14px;}
-	.gq-course-details-header-title {font-size:14px;}
-	.gq-acc-row-title {font-size:14px; line-height:normal; margin-top:5px; margin-bottom:5px;}
-   
+	.gq-course-details-header-title {/*font-size:14px;*/}
+	.gq-acc-row-title {/*font-size:14px;*/ line-height:normal; margin-top:5px; margin-bottom:5px;}
+	.gq-form-personal .gq-form-row label {width:40%;}
+	.gq-form-personal .gq-form-row input{width:50%;}
+	   
    }
+   
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+.gq-dashboard-right {min-height:960px;}
+}
+   
 /* Hiding the symphony toolbar in server */
 .sf-toolbar { display: none !important; }
 

@@ -33,6 +33,7 @@ twig:
         amazon_link: %amazon_s3_base_url%       
         base_url: %applicationUrl%
         user_service: "@UserService"
+        evidence_service: "@EvidenceService"
 
 # Assetic Configuration
 assetic:

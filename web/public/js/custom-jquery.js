@@ -592,8 +592,15 @@ $(".setNotes").click(function() {
 $(".setData").click(function() {
     userCourseId = $(this).attr("userCourseId");
     note = $('#notes_' + userCourseId).val();
+    if (note === '') {
+        $('#notes_' + userCourseId).focus();
+        return false;
+    }
     remindDate = $('#remindDate_' + userCourseId).val();
-    $("#setdata_load_"+userCourseId).show();
+    if (remindDate === '') {
+        $('#remindDate_' + userCourseId).focus();
+        return false;
+    }
     if (remindDate != '') {
         $.ajax({
             type: "POST",
@@ -601,7 +608,6 @@ $(".setData").click(function() {
             cache: false,
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
             success: function(result) {
-                $("#setdata_load_"+userCourseId).hide();
                 $('#err_msg').show();
                 $('#notes_' + userCourseId).val('').attr("placeholder", "Notes");
                 $('#remindDate_' + userCourseId).val('').attr("placeholder", "Due Date");
