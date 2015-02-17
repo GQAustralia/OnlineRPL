@@ -375,7 +375,7 @@ $("#Id_files").ajaxForm({
             $("#idfiles_msg").show();
             var result = jQuery.parseJSON(responseText);
             var name = result.name.split('.');
-            var ftype = result.type.split('.');
+			var ftype = result.type.split('.');
             var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
                             <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="' + result.id + '" filetype="' + result.type + '">\n\
                                 <div class="gq-del-evidence"></div></a>\n\
@@ -987,3 +987,8 @@ $("#approve-for-certification").click(function() {
 $(".gq-msg-title").children("a").click(function() {
     $(this).parent().parent().parent().addClass('gq-msg-visited');
 });
+
+function checkApproveButton()
+{
+    $(".gq-approve-error").show().delay(3000).fadeOut(100);
+}

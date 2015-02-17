@@ -272,8 +272,9 @@
     {% endif %}
         {% endif %}
      {% endif %}
-
-     {% if ('ROLE_RTO' in userRole) and (rtostatus == '1') %}
+    
+ {% if ('ROLE_RTO' in userRole) %}
+     {% if (rtostatus == '1') %}
     <div id="approve_section" class="col-xs-12 text-center">
         {% if (courseStatus == '1') %}
         <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
@@ -281,7 +282,13 @@
         Approved and Completed!
         {% endif %}
     </div>
-    {% endif %}
+   
+    {% else %}
+     <button type="submit" disabled="disabled" onclick="checkApproveButton();" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
+     {% endif %}
+     
+      {% endif %}
+     <span class="gq-approve-error" id="gq-approve-error" style="display:none;">Please approve all the units.</span>
 </div>
 
 <!----- Unit evidences start --->
