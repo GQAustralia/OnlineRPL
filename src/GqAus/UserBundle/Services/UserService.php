@@ -406,7 +406,7 @@ class UserService
     * Function to get applicants list information
     * return $result array
     */
-    public function getUserApplicantsListReports($userId, $userRole, $status, $searchName = null, $searchQualification = null, $startDate = null, $endDate = null, $statusReport = null, $searchTime = null)
+    public function getUserApplicantsListReports($userId, $userRole, $status, $searchName = null, $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null)
     {
         if (in_array('ROLE_ASSESSOR',$userRole)) {
             $userType = 'assessor';
@@ -461,11 +461,7 @@ class UserService
         if (!empty($startDate)) {
             $res->andWhere("c.createdOn between '$startDate' and '$endDate'");
         }
-        
-        if (!empty($statusReport) and $statusReport != 2) {
-            $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', $statusReport);
-        }
-        
+       
         //$applicantList = $res->getQuery(); var_dump($applicantList); exit;
         $applicantList = $res->getQuery()->getResult();
         return array('applicantList' => $applicantList);
