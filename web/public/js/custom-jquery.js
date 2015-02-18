@@ -285,10 +285,9 @@ $("#userprofile_userImage").change(function() {
                 {
                     $("#profile_suc_msg2").show();
                     $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
-
                     $("#ajax-profile-error").hide();
-                    $(".ajax-profile-pic").attr('src', base_url + 'public/uploads/' + result);
                     $("#ajax-gq-profile-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
+                    $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
                     $("#ajax-loading-icon").hide();
                 }
                 else
@@ -806,28 +805,8 @@ $("#applicantCompleted").click(function() {
 
 $("#searchFilterReports").click(function() { 
     loadDataIcon('currentList');
-    applicantStatus = '2';
     loadApplicantListReports('currentList');
 });
-
-/*$("#searchFilterQualReports").click(function() { 
-    $("#current").hide();
-    applicantStatus = '2';
-    loadApplicantListReports('currentList');
-});
-
-$("#searchFilterByRange").click(function() { 
-    $("#current").hide();
-    applicantStatus = '2';
-    loadApplicantListReports('currentList');
-});
-
-$("#searchFilterByStatus").click(function() {
-    $("#current").hide();
-    applicantStatus = '2';
-    loadApplicantListReports('currentList');
-});
-*/
 
 function loadApplicantList(divContent)
 {
@@ -854,28 +833,12 @@ function loadApplicantListReports(divContent)
     searchTime = $('#timeRemainingReports').val();
     searchQualification = $('#searchQualification').val();
     searchDateRange = $('#reportsDate').html();
-    statusChecked = [];
-    $('input:checkbox[name=reportStatus]').each(function() {    
-        if($(this).is(':checked'))
-            statusChecked.push($(this).val());
-    });
-    if(statusChecked.length > 0)
-    {
-        if(statusChecked.length==2) {
-            statusReport = "2";
-        }
-        else {
-            statusReport = statusChecked[0];
-        }
-    }
-    else {
-        statusReport = "";
-    }    
+    statusReport = $("#statusReport").val();
     $.ajax({
         type: "POST",
         url: base_url + "searchApplicantsListReports",
         cache: false,
-        data: {searchName: searchName, searchTime: searchTime, searchQualification: searchQualification, searchDateRange: searchDateRange, statusReport: statusReport, status: applicantStatus},
+        data: {searchName: searchName, searchTime: searchTime, searchQualification: searchQualification, searchDateRange: searchDateRange, status: statusReport},
         success: function(result) { 
             $("#current").show();
             $("#filter-by-all").hide();
