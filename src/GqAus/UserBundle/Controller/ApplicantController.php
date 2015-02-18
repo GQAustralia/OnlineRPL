@@ -198,13 +198,8 @@ class ApplicantController extends Controller
                 $zip->addFromString(basename($f), file_get_contents($f));
             }
             $zip->close();
-            //session_write_close();
-//            header('Content-Type', 'application/zip');
-//            header('Content-disposition: attachment; filename="' . $zipName . '"');
-//            header('Content-Length: ' . filesize($zipName));
-//            readfile($zipName);
+            
             $response = new Response( );
-
             $response->headers->set( "Content-type", 'application/zip' );
             $response->headers->set( "Content-Disposition", "attachment; filename=$zipName" );
             $response->headers->set( "Content-length", filesize( "$zipName" ) );
