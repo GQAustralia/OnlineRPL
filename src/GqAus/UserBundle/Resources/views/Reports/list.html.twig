@@ -23,52 +23,45 @@
                     <div class="gq-dashboard-tabs margin-top15">                     
                         <!-- Filter start here -->
                         <div class="row">                            
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">                                
-                                <div class="gq-applicant-filter-wrap text-right">
-                                    <label>Filter by: Applicant Name</label>
-                                    <input name="searchName" id="searchName" type="text"/>
-                                    <span id="searchFilterReports" class="gq-search-icon"></span>
-                                    <div class="gq-filter-clear wid100p visible-xs"></div>
-                                    <div class="setdata-loading-icon" style="display: none;" id="filter-by-name"><img src="{{ asset('public/images')}}/loading.gif" /></div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">                                
+                                <div class="gq-applicant-filter-wrap text-left gq-reports-filter">
+                                    <label>Filter by:</label>
+                                    <input name="searchName" id="searchName" type="text" placeholder="Applicant Name"/>
+                                    <input name="searchQualification" id="searchQualification" type="text" placeholder="Qualification Name"/>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">                                
-                                <div class="gq-applicant-filter-wrap text-right">
-                                    <label>Qualification Name</label>
-                                    <input name="searchQualification" id="searchQualification" type="text"/>
-                                    <span id="searchFilterQualReports" class="gq-search-icon"></span>
-                                    <div class="gq-filter-clear wid100p visible-xs"></div>
-                                    <div class="loading-icon" style="display: none;" id="filter-by-qual"><img src="{{ asset('public/images')}}/loading.gif" /></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row margin-top15"> 
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">                                
-                                <div class="gq-applicant-filter-wrap text-right">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">                                
+                                <div class="gq-applicant-filter-wrap text-left gq-reports-date-picker">
                                     <label>Date Range</label>
                                     <div id="reportrange" class="btn" style="display: inline-block; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                                         <span class="reportsDate" id="reportsDate"></span> <b class="caret"></b>
                                     </div>
-                                    <span class="gq-search-icon" id="searchFilterByRange" style="margin:0 -40px 0 0"></span>
-                                    <div class="loading-icon" style="display: none;" id="filter-by-date"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">                                
-                                <div class="gq-applicant-filter-wrap text-right">
-                                    <label>Status</label>
-                                    <input type="checkbox" name="reportStatus" id="pending" value="1"> Pending
-                                    <input type="checkbox" name="reportStatus" id="approved" value="0"> Approved
-                                    <span class="gq-search-icon" id="searchFilterByStatus" style="margin:0 -40px 0 0"></span>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                                <div class="gq-applicant-filter-wrap-select-remaining gq-reports-status">Status</div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-8">
+                                <div class="gq-applicant-filter-wrap-select">
+                                    <select name="" id="" class="styled">
+                                        <option value="">Pending</option>
+                                        <option value="">Approved</option>
+                                        <option value="">All</option>
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-4">
+                                <button class="btn eye-btn gq-reports-filter-btn" id="searchFilterReports">Filter</button>
                             </div>
                         </div>
-                        <div class="loading-icon" style="display: none;text-align:center" id="filter-by-all"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                         <!-- Filter end here -->
-
                         <!-- Tabs end start here -->
                         <!-- Content for respective tabs above will be in this section -->
                         <div class="tab-content">
+                            <div id="ajaxHtml" style="display:none" tdcolspan="3">
+                                <img src="{{ asset('public/images')}}/loading.gif" />
+                            </div>
                             <div role="tabpanel" class="tab-pane active" id="current">
                                 <div class="table-responsive gq-applicant-list-table margin-top15">
                                     <table class="table">

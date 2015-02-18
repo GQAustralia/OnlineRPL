@@ -783,7 +783,6 @@ function loadDataIcon(listdiv)
     $("#"+listdiv).html(ajaxLoadHTML);
 }
 $("#timeRemaining").change(function() {
-    //$("#filter-by-week").show();
     loadDataIcon('currentList');
     loadApplicantList('currentList');
 });
@@ -794,25 +793,24 @@ $("#searchFilter").click(function() {
 });
 
 $("#applicantPending").click(function() {
-    //$("#app-pending-approve").show();
     loadDataIcon('currentList');
     applicantStatus = '0';
     loadApplicantList('currentList');
 });
 
 $("#applicantCompleted").click(function() {
-    //$("#app-pending-approve").show();
     loadDataIcon('completedList');
     applicantStatus = '1';
     loadApplicantList('completedList');
 });
 
 $("#searchFilterReports").click(function() { 
-    $("#current").hide();
+    loadDataIcon('currentList');
     applicantStatus = '2';
     loadApplicantListReports('currentList');
 });
-$("#searchFilterQualReports").click(function() { 
+
+/*$("#searchFilterQualReports").click(function() { 
     $("#current").hide();
     applicantStatus = '2';
     loadApplicantListReports('currentList');
@@ -829,7 +827,7 @@ $("#searchFilterByStatus").click(function() {
     applicantStatus = '2';
     loadApplicantListReports('currentList');
 });
-
+*/
 
 function loadApplicantList(divContent)
 {
