@@ -526,12 +526,16 @@ class UserService
                                             $userStatus => '0',
                                             'status' => '1'));
                         if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
+                            $date = date('Y-m-d H:i:s');
                             if ($userType == 'facilitator') {
                                 $course->setFacilitatorstatus('1');
+                                $course->setFacilitatorDate($date);
                             } elseif ($userType == 'assessor') {
                                 $course->setAssessorstatus('1');
+                                $course->setAssessorDate($date);
                             } elseif ($userType == 'rto') {
                                 $course->setRtostatus('1');
+                                $course->setRtoDate($date);
                                 //$course->setCourseStatus('1');
                             }
                              $this->em->persist($course);
@@ -938,6 +942,7 @@ class UserService
                                                                                          'user' => $applicantId));
         if (!empty($applicantCoures)) {
             $applicantCoures->setCourseStatus('0');
+            $applicantCoures->setRtoDate(date('Y-m-d H:i:s'));
             $this->em->persist($applicantCoures);
             $this->em->flush();
         }

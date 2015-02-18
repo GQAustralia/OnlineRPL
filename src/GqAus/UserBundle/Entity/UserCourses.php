@@ -465,4 +465,88 @@ class UserCourses
     {
         return $this->rtostatus;
     }
+    /**
+     * @var \DateTime
+     */
+    private $facilitatorDate;
+
+    /**
+     * @var \DateTime
+     */
+    private $assessorDate;
+
+    /**
+     * @var \DateTime
+     */
+    private $rtoDate;
+
+
+    /**
+     * Set facilitatorDate
+     *
+     * @param \DateTime $facilitatorDate
+     * @return UserCourses
+     */
+    public function setFacilitatorDate($facilitatorDate)
+    {
+        $this->facilitatorDate = $facilitatorDate;
+
+        return $this;
+    }
+
+    /**
+     * Get facilitatorDate
+     *
+     * @return \DateTime 
+     */
+    public function getFacilitatorDate()
+    {
+        return $this->facilitatorDate;
+    }
+
+    /**
+     * Set assessorDate
+     *
+     * @param \DateTime $assessorDate
+     * @return UserCourses
+     */
+    public function setAssessorDate($assessorDate)
+    {
+        $this->assessorDate = $assessorDate;
+
+        return $this;
+    }
+
+    /**
+     * Get assessorDate
+     *
+     * @return \DateTime 
+     */
+    public function getAssessorDate()
+    {
+        return $this->assessorDate;
+    }
+
+    /**
+     * Set rtoDate
+     *
+     * @param \DateTime $rtoDate
+     * @return UserCourses
+     */
+    public function setRtoDate($rtoDate)
+    {
+        $this->rtoDate = $rtoDate;
+
+        return $this;
+    }
+
+    /**
+     * Get rtoDate
+     *
+     * @return \DateTime 
+     */
+    public function getRtoDate()
+    {
+        return $this->rtoDate;
+    }
 }
