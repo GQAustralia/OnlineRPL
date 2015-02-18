@@ -775,34 +775,38 @@ $(".deleteTrash").click(function() {
 });
 
 var applicantStatus = '0';
+function loadDataIcon(listdiv)
+{
+    var ajaxLoadImg = $("#ajaxHtml").html();
+    var tdcolspan = $("#ajaxHtml").attr("tdcolspan");
+    var ajaxLoadHTML = '<tr class="load-icon-tr"><td colspan="'+tdcolspan+'">'+ajaxLoadImg+'</td></tr>'; 
+    $("#"+listdiv).html(ajaxLoadHTML);
+}
 $("#timeRemaining").change(function() {
-    $("#filter-by-week").show();
+    //$("#filter-by-week").show();
+    loadDataIcon('currentList');
     loadApplicantList('currentList');
 });
 
-$("#searchFilter").click(function() {    
-    $("#filter-by-name").show();
+$("#searchFilter").click(function() {   
+    loadDataIcon('currentList');
     loadApplicantList('currentList');
 });
 
 $("#applicantPending").click(function() {
-    $("#app-pending-approve").show();
+    //$("#app-pending-approve").show();
+    loadDataIcon('currentList');
     applicantStatus = '0';
     loadApplicantList('currentList');
 });
 
 $("#applicantCompleted").click(function() {
-    $("#app-pending-approve").show();
+    //$("#app-pending-approve").show();
+    loadDataIcon('completedList');
     applicantStatus = '1';
     loadApplicantList('completedList');
 });
 
-
-$("#timeRemainingReports").change(function() {
-    applicantStatus = '2';
-    $("#filter-by-week").show();
-    loadApplicantListReports('currentList');
-});
 $("#searchFilterReports").click(function() { 
     $("#current").hide();
     applicantStatus = '2';

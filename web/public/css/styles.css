@@ -274,7 +274,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-bg-img2 {background-image:url('../images/percentile.png'); background-repeat:no-repeat; background-position:right bottom;}
 .gq-dashboard-bg-img3 {background-image:url('../images/notepadwatermark.png'); background-repeat:no-repeat; background-position:right bottom;}
 .gq-dashboard-bg-img4 {background-image:url('../images/applicant-bg.png'); background-repeat:no-repeat; background-position:right bottom;}
-.gq-dashboard-bg-img5 {background-image:url('../images/messages-bg.png'); background-repeat:no-repeat; background-position:left bottom;}
+.gq-dashboard-bg-img5 {background-image:url('../images/messages-bg.png'); background-repeat:no-repeat; background-position:right bottom;}
 .user-status-select .dropdown-menu:before {right:9px; left:auto;}
 .user-status-select .dropdown-menu {left:-160px;}
 .user-status-select .dropdown-menu .divider {margin:0 auto; width:86%;}
@@ -682,6 +682,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .custom-checkbox.checked { background-position: -8px -85px;}
 
 /* Applicant list table custom styling */
+.load-icon-tr {text-align:center;}
 .gq-applicant-list-table {min-height:330px;}
 .gq-applicant-list-table .table thead tr th:first-child{border-left:8px solid #f14840; border-bottom:0;}
 .gq-applicant-list-table .table thead tr th:last-child{border-right:8px solid #f14840; border-bottom:0;}
@@ -831,8 +832,8 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  }
    @media (max-width: 1280px) {
    	.gq-course-details-two-lines {font-size:14px;}
-	.gq-course-details-header-title {/*font-size:14px;*/}
-	.gq-acc-row-title {/*font-size:14px;*/ line-height:normal; margin-top:5px; margin-bottom:5px;}
+	.gq-course-details-header-title {font-size:14px;}
+	.gq-acc-row-title {font-size:14px; line-height:normal; margin-top:5px; margin-bottom:5px;}
 	.gq-form-personal .gq-form-row label {width:40%;}
 	.gq-form-personal .gq-form-row input{width:50%;}
 	   

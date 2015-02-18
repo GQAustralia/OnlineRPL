@@ -90,7 +90,7 @@
                                 <li><a {% if app.request.attributes.get('_route') == 'evidences' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/evidences"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Evidence Files</span></a></li>
                                 {% endif %}
                                 {% if 'ROLE_APPLICANT' not in roles %}
-                                <li><a {% if app.request.attributes.get('_route') == 'reports' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reports"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Reports</span></a></li>
+                                <li><a {% if app.request.attributes.get('_route') == 'reports' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reports"><span class="gq-evidence-icon"><img src="{{ asset('public/images/reports-icon.png') }}" /></span><span class="left-nav-txt">Reports</span></a></li>
                                 {% endif %}
                             </ul>
                         </div>
