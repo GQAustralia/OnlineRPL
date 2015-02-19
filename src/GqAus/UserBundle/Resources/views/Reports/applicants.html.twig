@@ -1,28 +1,52 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
 <!-- accordion starts here -->
 {% if applicantList %}
-{% for key, list in applicantList %}
+    {% for key, list in applicantList %}
+        <tr>
+            <td>{{list.user.userName}}</td>
+            <td>{{list.courseCode}} {{list.courseName}}</td>
+            {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}             
+            {% set userId = list.user.id %}
+            {% set id = list.id %}
+            {% set courseCode = list.courseCode %}
+            {% endif %}
+            
+            {% if ('ROLE_ASSESSOR' in userRole) %}
+                <td>{% if (list.facilitatorstatus == 1) %} {{list.facilitatorDate|date("d/m/Y")}} {% else %} Pending {% endif %}</td>
+            {% endif%}
+            
+            {% if ('ROLE_RTO' in userRole) %}
+                <td>{% if (list.assessorstatus == 1) %} {{list.assessorDate|date("d/m/Y")}} {% else %} Pending {% endif %}</td>
+            {% endif%}
+        
+            {% if ('ROLE_FACILITATOR' in userRole) %}
+                <td>{% if (list.facilitatorstatus == 1) %} {{list.facilitatorDate|date("d/m/Y")}} {% endif %}</td>
+                <td>{% if (list.facilitatorstatus == 1) %} Approved {% else %} Pending {% endif %}</td>
+            {% endif %}
+                
+            {% if ('ROLE_ASSESSOR' in userRole) %}
+            <td>{% if (list.assessorstatus == 1) %} {{list.assessorDate|date("d/m/Y")}} {% endif %}</td>
+            <td>{% if (list.assessorstatus == 1) %} Approved {% else %} Pending {% endif %}</td>
+            {% endif %}
+            
+            {% if ('ROLE_RTO' in userRole) %}
+                <td>{% if (list.rtostatus == 1) %} {{list.rtoDate|date("d/m/Y")}} {% endif %}</td>
+                <td>{% if (list.rtostatus == 1) %} Approved {% if (list.courseStatus == 0) %} &amp; Certified {% endif %} {% else %} Pending {% endif %}</td>
+            {% endif %}
+                
+            <td>
+                <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
+                    <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>View</button>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
     <tr>
-        <td>{{list.user.userName}}</td>
-        <td>{{list.courseCode}} {{list.courseName}}</td>
-        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}             
-        {% set userId = list.user.id %}
-        {% set id = list.id %}
-        {% set courseCode = list.courseCode %}
-    {% endif %}
-        <td>
-            <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
-                <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>View</button>
-            </a>
-        </td>
-    </tr>
-            {% endfor %}
-            {% else %}
-    <tr>
-        <td colspan="3" class="gq-tabs-no-content-text margin-top15">
+        <td {% if ('ROLE_FACILITATOR' in userRole) %} colspan="4" {% else %} colspan="5" {% endif %} class="gq-tabs-no-content-text margin-top15">
             No Applicants Found</td>
     </tr>
-        {% endif %}
+{% endif %}
 <!-- accordion ends here -->
 
 

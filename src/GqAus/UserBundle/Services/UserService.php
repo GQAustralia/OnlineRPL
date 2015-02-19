@@ -353,6 +353,7 @@ class UserService
     */
     public function getUserApplicantsList($userId, $userRole, $status, $searchName = null, $searchTime = null)
     {
+        $nameCondition = null;
         if (in_array('ROLE_ASSESSOR',$userRole)) {
             $userType = 'assessor';
             $userStatus = 'assessorstatus';
@@ -385,10 +386,21 @@ class UserService
             $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
         }
 
-        if (!empty($searchName)) {
+        /*if (!empty($searchName)) {
             $res->andWhere(sprintf('u.%s LIKE :%s OR u.%s LIKE :%s', 'firstName', 'firstName', 'lastName', 'lastName'))
             ->setParameter('firstName', '%'.$searchName.'%')
             ->setParameter('lastName', '%'.$searchName.'%');
+        }*/
+        
+        if (!empty($searchName)) {
+            $searchNamearr = explode(" ",$searchName);
+            for($i=0;$i<count($searchNamearr);$i++) {
+                if($i==0)
+                    $nameCondition .= "u.firstName LIKE '%".$searchNamearr[$i]."%' OR u.lastName LIKE '%".$searchNamearr[$i]."%'";
+                else
+                    $nameCondition .= " OR u.firstName LIKE '%".$searchNamearr[$i]."%' OR u.lastName LIKE '%".$searchNamearr[$i]."%'";
+            }
+            $res->andWhere($nameCondition);
         }
         
         if (!empty($searchTime)) {
@@ -408,6 +420,8 @@ class UserService
     */
     public function getUserApplicantsListReports($userId, $userRole, $status, $searchName = null, $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null)
     {
+        $nameCondition = null;
+        $qualCondition = null;
         if (in_array('ROLE_ASSESSOR',$userRole)) {
             $userType = 'assessor';
             $userStatus = 'assessorstatus';
@@ -441,9 +455,14 @@ class UserService
         }
 
         if (!empty($searchName)) {
-            $res->andWhere(sprintf('u.%s LIKE :%s OR u.%s LIKE :%s', 'firstName', 'firstName', 'lastName', 'lastName'))
-            ->setParameter('firstName', '%'.$searchName.'%')
-            ->setParameter('lastName', '%'.$searchName.'%');
+            $searchNamearr = explode(" ",$searchName);
+            for($i=0;$i<count($searchNamearr);$i++) {
+                if($i==0)
+                    $nameCondition .= "u.firstName LIKE '%".$searchNamearr[$i]."%' OR u.lastName LIKE '%".$searchNamearr[$i]."%'";
+                else
+                    $nameCondition .= " OR u.firstName LIKE '%".$searchNamearr[$i]."%' OR u.lastName LIKE '%".$searchNamearr[$i]."%'";
+            }
+            $res->andWhere($nameCondition);
         }
         
         if (!empty($searchTime)) {
@@ -454,9 +473,19 @@ class UserService
         }
         
         if (!empty($searchQualification)) {
-            $res->andWhere(sprintf('c.%s LIKE :%s OR c.%s LIKE :%s', 'courseCode', 'courseCode', 'courseName', 'courseName'))
+            
+            $searchQualificationarr = explode(" ",$searchQualification);
+            for($i=0;$i<count($searchQualificationarr);$i++) {
+                if($i==0)
+                    $qualCondition .= "c.courseCode LIKE '%".$searchQualificationarr[$i]."%' OR c.courseName LIKE '%".$searchQualificationarr[$i]."%'";
+                else
+                    $qualCondition .= " OR c.courseCode LIKE '%".$searchQualificationarr[$i]."%' OR c.courseName LIKE '%".$searchQualificationarr[$i]."%'";
+            }
+            $res->andWhere($qualCondition);
+            
+            /*$res->andWhere(sprintf('c.%s LIKE :%s OR c.%s LIKE :%s', 'courseCode', 'courseCode', 'courseName', 'courseName'))
             ->setParameter('courseCode', '%'.$searchQualification.'%')
-            ->setParameter('courseName', '%'.$searchQualification.'%');
+            ->setParameter('courseName', '%'.$searchQualification.'%');*/
         }
         if (!empty($startDate)) {
             $res->andWhere("c.createdOn between '$startDate' and '$endDate'");
