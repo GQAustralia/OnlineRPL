@@ -285,10 +285,9 @@ $("#userprofile_userImage").change(function() {
                 {
                     $("#profile_suc_msg2").show();
                     $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
-
                     $("#ajax-profile-error").hide();
-                    $(".ajax-profile-pic").attr('src', base_url + 'public/uploads/' + result);
                     $("#ajax-gq-profile-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
+                    $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
                     $("#ajax-loading-icon").hide();
                 }
                 else
@@ -358,8 +357,10 @@ $("body").on("click", ".viewModalClass", function() {
 $(".openIcon").click(function() {
     var c = $(this).hasClass("open");
     if (c == false) {
+        $(this).parent().parent().addClass("active");
         $(this).addClass("open");
     } else {
+        $(this).parent().parent().removeClass("active");
         $(this).removeClass("open");
     }
 });
@@ -375,6 +376,7 @@ $("#Id_files").ajaxForm({
             $("#idfiles_msg").show();
             var result = jQuery.parseJSON(responseText);
             var name = result.name.split('.');
+			var ftype = result.type.split('.');
             var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
                             <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="' + result.id + '" filetype="' + result.type + '">\n\
                                 <div class="gq-del-evidence"></div></a>\n\
@@ -383,7 +385,7 @@ $("#Id_files").ajaxForm({
                                 <span class="">Delete ID File</span>\n\
                             </div>\n\
                         </span>\n\
-                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + ftype + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
             if ($('#idfiles_no_files').html() === 'No Id files found') {
                 $('.Id_files').html(html);
             } else {
@@ -589,8 +591,15 @@ $(".setNotes").click(function() {
 $(".setData").click(function() {
     userCourseId = $(this).attr("userCourseId");
     note = $('#notes_' + userCourseId).val();
+    if (note === '') {
+        $('#notes_' + userCourseId).focus();
+        return false;
+    }
     remindDate = $('#remindDate_' + userCourseId).val();
-    $("#setdata_load_"+userCourseId).show();
+    if (remindDate === '') {
+        $('#remindDate_' + userCourseId).focus();
+        return false;
+    }
     if (remindDate != '') {
         $.ajax({
             type: "POST",
@@ -598,7 +607,6 @@ $(".setData").click(function() {
             cache: false,
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
             success: function(result) {
-                $("#setdata_load_"+userCourseId).hide();
                 $('#err_msg').show();
                 $('#notes_' + userCourseId).val('').attr("placeholder", "Notes");
                 $('#remindDate_' + userCourseId).val('').attr("placeholder", "Due Date");
@@ -766,26 +774,38 @@ $(".deleteTrash").click(function() {
 });
 
 var applicantStatus = '0';
+function loadDataIcon(listdiv)
+{
+    var ajaxLoadImg = $("#ajaxHtml").html();
+    var tdcolspan = $("#ajaxHtml").attr("tdcolspan");
+    var ajaxLoadHTML = '<tr class="load-icon-tr"><td colspan="'+tdcolspan+'">'+ajaxLoadImg+'</td></tr>'; 
+    $("#"+listdiv).html(ajaxLoadHTML);
+}
 $("#timeRemaining").change(function() {
-    $("#filter-by-week").show();
+    loadDataIcon('currentList');
     loadApplicantList('currentList');
 });
 
-$("#searchFilter").click(function() {
-    $("#filter-by-name").show();
+$("#searchFilter").click(function() {   
+    loadDataIcon('currentList');
     loadApplicantList('currentList');
 });
 
 $("#applicantPending").click(function() {
-    $("#app-pending-approve").show();
+    loadDataIcon('currentList');
     applicantStatus = '0';
     loadApplicantList('currentList');
 });
 
 $("#applicantCompleted").click(function() {
-    $("#app-pending-approve").show();
+    loadDataIcon('completedList');
     applicantStatus = '1';
     loadApplicantList('completedList');
+});
+
+$("#searchFilterReports").click(function() { 
+    loadDataIcon('currentList');
+    loadApplicantListReports('currentList');
 });
 
 function loadApplicantList(divContent)
@@ -797,10 +817,31 @@ function loadApplicantList(divContent)
         url: base_url + "searchApplicantsList",
         cache: false,
         data: {searchName: searchName, searchTime: searchTime, status: applicantStatus},
-        success: function(result) {          
+        success: function(result) { 
             $("#filter-by-name").hide();
             $("#filter-by-week").hide();
             $("#app-pending-approve").hide();
+            $('#' + divContent).html(result);
+        }
+    });
+}
+
+function loadApplicantListReports(divContent)
+{
+    $("#filter-by-all").show();
+    searchName = $('#searchName').val();
+    searchTime = $('#timeRemainingReports').val();
+    searchQualification = $('#searchQualification').val();
+    searchDateRange = $('#reportsDate').html();
+    statusReport = $("#statusReport").val();
+    $.ajax({
+        type: "POST",
+        url: base_url + "searchApplicantsListReports",
+        cache: false,
+        data: {searchName: searchName, searchTime: searchTime, searchQualification: searchQualification, searchDateRange: searchDateRange, status: statusReport},
+        success: function(result) { 
+            $("#current").show();
+            $("#filter-by-all").hide();
             $('#' + divContent).html(result);
         }
     });
@@ -986,3 +1027,8 @@ $("#approve-for-certification").click(function() {
 $(".gq-msg-title").children("a").click(function() {
     $(this).parent().parent().parent().addClass('gq-msg-visited');
 });
+
+function checkApproveButton()
+{
+    $(".gq-approve-error").show().delay(3000).fadeOut(100);
+}

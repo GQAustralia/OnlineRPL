@@ -27,7 +27,6 @@
                                 <li role="presentation" id="applicantPending" class="active"><a href="#current" aria-controls="current" role="tab" data-toggle="tab">Pending</a></li>
                                 <li role="presentation" id="applicantCompleted"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Approved</a></li>                                
                             </ul>
-                            <div class="loading-icon" style="display: none;" id="app-pending-approve"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                         </div>
                         
                         <!-- Filter start here -->
@@ -38,11 +37,10 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 {% endif %}
                                 <div class="gq-applicant-filter-wrap text-right">
-                                    <label>Filter by: Applicant Name</label>
+                                    <label>Filter by: <span>Applicant Name</span></label>
                                     <input name="searchName" id="searchName" type="text"/>
                                     <span id="searchFilter" class="gq-search-icon"></span>
                                     <div class="gq-filter-clear wid100p visible-xs"></div>
-                                    <div class="setdata-loading-icon" style="display: none;" id="filter-by-name"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                                 </div>
 
                             </div>
@@ -59,7 +57,6 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <div class="setdata-loading-icon" style="display: none;" id="filter-by-week"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                             </div>
                         {% endif %}
                         </div>
@@ -68,6 +65,9 @@
                         <!-- Tabs end start here -->
                         <!-- Content for respective tabs above will be in this section -->
                         <div class="tab-content">
+                            <div id="ajaxHtml" style="display:none" {% if ('ROLE_RTO' in userRole) %} tdcolspan="3" {% else %} tdcolspan="6" {% endif %}>
+                                <img src="{{ asset('public/images')}}/loading.gif" />
+                            </div>
                             <div role="tabpanel" class="tab-pane active" id="current">
                                 <div class="table-responsive gq-applicant-list-table margin-top15">
                                     <table class="table">

@@ -93,18 +93,18 @@
                                             <label>Assessor</label>
                                             <span>: {{assessorName}}</span>
                                         </div>
-                                        <div class="gq-assessor-rto-edit-icon">
+                                        {#<div class="gq-assessor-rto-edit-icon">
                                             <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" /></a>
-                                        </div>
+                                        </div>#}
                                     </div>
                                     <div class="gq-assessor-appl-details-points pull-right border-top">
                                         <div class="gq-assessor-rto-title">
                                             <label>RTO</label>
                                             <span>: {{rtoName}}</span>
                                         </div>
-                                        <div class="gq-assessor-rto-edit-icon">
+                                        {#<div class="gq-assessor-rto-edit-icon">
                                             <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" /></a>
-                                        </div>
+                                        </div>#}
                                     </div>
                                 {% endif %}
 
@@ -114,18 +114,18 @@
                                             <label>Facilitator</label>
                                             <span>: {{facilitatorName}}</span>
                                         </div>
-                                        <div class="gq-assessor-rto-edit-icon">
+                                        {#<div class="gq-assessor-rto-edit-icon">
                                             <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" /></a>
-                                        </div>
+                                        </div>#}
                                     </div>
                                     <div class="gq-assessor-appl-details-points pull-right border-top">
                                         <div class="gq-assessor-rto-title">
                                             <label>RTO</label>
                                             <span>: {{rtoName}}</span>
                                         </div>
-                                        <div class="gq-assessor-rto-edit-icon">
+                                        {#<div class="gq-assessor-rto-edit-icon">
                                             <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" /></a>
-                                        </div>
+                                        </div>#}
                                     </div>
                                 {% endif %}
                                 </div>
@@ -153,10 +153,13 @@
                         <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
                             <span class="gq-course-details-header-title">Unit Code</span>
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-5 col-sm-4 col-xs-3">
                             <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5">
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
+                            <span class="gq-course-details-header-title gq-appl-details-two-lines">Elements &<br>Performance Criteria</span>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
                             <span class="gq-course-details-header-title">Evidence</span>
                         </div>
                     </div>
@@ -175,17 +178,22 @@
                     <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
                     <div class="row no-margin">
                         <div class="gq-acc-row-bg">
-                            <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                 <div class="gq-acc-row-title">{{units.id}}</div>
                             </div>
-                            <div class="col-lg-5 col-md-4 col-sm-4 col-xs-4">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-5">
-                                <span class="pull-left"><button class="btn eye-btn unit-evidence-id" userid="{{userId}}" del-status="1"  unitid="{{units.id}}"  course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label for="acc-{{i}}" class="col-xs-4 openIcon btn add-btn upDownArrow">View</label>
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-4">
-                                <label for="acc-{{i}}" class="col-xs-4 openIcon"></label>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
+                                {% if evidence %}
+                                <span class="pull-left"><button class="btn eye-btn unit-evidence-id" userid="{{userId}}" del-status="1"  unitid="{{units.id}}"  course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                                {% else %}
+                                    <div class="gq-acc-row-title">No Evidences found</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -212,10 +220,13 @@
                         <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
                             <span class="gq-course-details-header-title">Unit Code</span>
                         </div>
-                        <div class="col-lg-5 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-5 col-sm-4 col-xs-3">
                             <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-5">
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
+                            <span class="gq-course-details-header-title gq-appl-details-two-lines">Elements &<br>Performance Criteria</span>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
                             <span class="gq-course-details-header-title">Evidence</span>
                         </div>
                     </div>
@@ -240,17 +251,22 @@
                     <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
                     <div class="row no-margin">
                         <div id="div_{{units.id}}" class="gq-acc-row-bg">
-                            <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                 <div class="gq-acc-row-title">{{units.id}}</div>
                             </div>
-                            <div class="col-lg-5 col-md-4 col-sm-4 col-xs-4">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-2">
-                                <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id" unitid="{{units.id}}" course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <label for="acc-{{i}}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn upDownArrow" >View</label>
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-4">
-                                <label for="acc-{{i}}" class="col-xs-4 openIcon"></label>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
+                                {% if evidence %}
+                                <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id" unitid="{{units.id}}" course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                                {% else %}
+                                    <div class="gq-acc-row-title">No Evidences found</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -272,8 +288,9 @@
     {% endif %}
         {% endif %}
      {% endif %}
-
-     {% if ('ROLE_RTO' in userRole) and (rtostatus == '1') %}
+    
+ {% if ('ROLE_RTO' in userRole) %}
+     {% if (rtostatus == '1') %}
     <div id="approve_section" class="col-xs-12 text-center">
         {% if (courseStatus == '1') %}
         <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
@@ -281,7 +298,13 @@
         Approved and Completed!
         {% endif %}
     </div>
-    {% endif %}
+   
+    {% else %}
+     <button type="submit" disabled="disabled" onclick="checkApproveButton();" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
+     {% endif %}
+     
+      {% endif %}
+     <span class="gq-approve-error" id="gq-approve-error" style="display:none;">Please approve all the units.</span>
 </div>
 
 <!----- Unit evidences start --->

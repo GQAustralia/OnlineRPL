@@ -55,6 +55,9 @@ addReminder:
 searchApplicantsList:
     path:     /searchApplicantsList
     defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsList }
+searchApplicantsListReports:
+    path:     /searchApplicantsListReports
+    defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsListReports }    
 createzip:
     path:     /zipFiles/{qcode}/{uid}
     defaults:  { _controller: GqAusUserBundle:Applicant:zip }
@@ -133,3 +136,6 @@ tokbox:
 subscriber:
     path:     /subscriber
     defaults: { _controller: GqAusUserBundle:Tokbox:subscriber }
+reports:
+    path:     /reports
+    defaults: { _controller: GqAusUserBundle:Applicant:reports }

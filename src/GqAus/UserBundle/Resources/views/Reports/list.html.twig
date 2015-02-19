@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Applicant Lists{% endblock %}
+{% block stylesheets %}
+
+{% endblock %}
+{% block body %}
+
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <h1 class="gq-dashboard-title">Reports</h1>
+            <h6 class="gq-dashboard-title-desc"></h6>
+        </div>
+    </div>
+
+    <div id="err_msg"></div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+            <div class="col-xs-12"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                <div class="gq-dashboard-courses-detail-wrap">
+                    <div class="gq-dashboard-tabs margin-top15">                     
+                        <!-- Filter start here -->
+                        <div class="row">                            
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">                                
+                                <div class="gq-applicant-filter-wrap text-left gq-reports-filter">
+                                    <label>Filter by:</label>
+                                    <input name="searchName" id="searchName" type="text" placeholder="Applicant Name"/>
+                                    <input name="searchQualification" id="searchQualification" type="text" placeholder="Qualification Name"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">                                
+                                <div class="gq-applicant-filter-wrap text-left gq-reports-date-picker">
+                                    <label>Date Range</label>
+                                    <div id="reportrange" class="btn" style="display: inline-block; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                        <span class="reportsDate" id="reportsDate"></span> <b class="caret"></b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                                <div class="gq-applicant-filter-wrap-select-remaining gq-reports-status">Status</div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-8">
+                                <div class="gq-applicant-filter-wrap-select">
+                                    <select name="statusReport" id="statusReport" class="styled">
+                                        <option value="0">Pending</option>
+                                        <option value="1">Approved</option>
+                                        <option value="2" selected="selected">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-4">
+                                <button class="btn eye-btn gq-reports-filter-btn" id="searchFilterReports">Filter</button>
+                            </div>
+                        </div>
+                        <!-- Filter end here -->
+                        <!-- Tabs end start here -->
+                        <!-- Content for respective tabs above will be in this section -->
+                        <div class="tab-content">
+                            <div id="ajaxHtml" style="display:none" tdcolspan="3">
+                                <img src="{{ asset('public/images')}}/loading.gif" />
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" id="current">
+                                <div class="table-responsive gq-applicant-list-table margin-top15">
+                                    <table class="table">
+                                        {% include 'GqAusUserBundle:Reports:applicantsFilters.html.twig' %}
+                                        <tbody class="row" id="currentList">
+                                        {% include 'GqAusUserBundle:Reports:applicants.html.twig' %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="flip-icon"></span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        /* Date range Picker*/
+        var cb = function(start, end, label) {
+                    console.log(start.toISOString(), end.toISOString(), label);
+                    $('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+                    //alert("Callback has fired: [" + start.format('DD/MM/YYYY') + " to " + end.format('DD/MM/YYYY') + ", label = " + label + "]");
+                  }
+
+                  var optionSet1 = {
+                    startDate: moment().subtract(365, 'days'),
+                    endDate: moment().add(365, 'days'),
+                    showDropdowns: true,
+                    showWeekNumbers: true,
+                    opens: 'center',
+                    buttonClasses: ['btn btn-default'],
+                    applyClass: 'btn-small btn-primary',
+                    cancelClass: 'btn-small',
+                    separator: ' to ',
+                    locale: {
+                        applyLabel: 'Submit',
+                        cancelLabel: 'Clear',
+                        fromLabel: 'From',
+                        toLabel: 'To',
+                        customRangeLabel: 'Custom',
+                        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+                        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                        firstDay: 1
+                    }
+                  };
+
+                  
+                  $('#reportrange span').html(moment().subtract(365, 'days').format('DD/MM/YYYY') + ' - ' + moment().add(365, 'days').format('DD/MM/YYYY'));
+                  $('#reportrange').daterangepicker(optionSet1, cb);
+
+                  $('#reportrange').on('show.daterangepicker', function() { console.log("show event fired"); });
+                  $('#reportrange').on('hide.daterangepicker', function() { console.log("hide event fired"); });
+                  $('#reportrange').on('apply.daterangepicker', function(ev, picker) { 
+                    console.log("apply event fired, start/end dates are " 
+                      + picker.startDate.format('DD/MM/YYYY') 
+                      + " to " 
+                      + picker.endDate.format('DD/MM/YYYY')
+                    ); 
+                  });
+                  $('#reportrange').on('cancel.daterangepicker', function(ev, picker) { console.log("cancel event fired"); });
+
+                  $('#options1').click(function() {
+                    $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
+                  });
+
+                  
+
+                  $('#destroy').click(function() {
+                    $('#reportrange').data('daterangepicker').remove();
+                  });
+        /* End Date Range Picker*/
+        $(".datepic").datepicker({
+        dateFormat: 'dd/mm/yy'
+        });
+    });
+</script>
+{% endblock %}

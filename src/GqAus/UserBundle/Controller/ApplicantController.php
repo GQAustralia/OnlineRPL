@@ -91,6 +91,32 @@ class ApplicantController extends Controller
         $results['pageRequest'] = 'ajax'; 
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results); exit;
     }
+    
+    /**
+    * Function search complete applicants list
+    * return $result array
+    */
+    public function searchApplicantsListReportsAction()
+    {
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $searchName = $this->getRequest()->get('searchName');
+        $searchTime = $this->getRequest()->get('searchTime');
+        $searchQualification = $this->getRequest()->get('searchQualification');
+        $searchDateRange = $this->getRequest()->get('searchDateRange');
+        $searchDates = explode("-",$searchDateRange);
+        $startDate = $searchDates[0];
+        $endDate = $searchDates[1];
+        $startDatearr = explode("/",$startDate);
+        $startDate = trim($startDatearr[2]," ")."-".$startDatearr[1]."-".$startDatearr[0]; 
+        $endDatearr = explode("/",$endDate);
+        $endDate = $endDatearr[2]."-".$endDatearr[1]."-".trim($startDatearr[0]," ");
+        $status = $this->getRequest()->get('status');
+        $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, $status, $searchName, $searchQualification, $startDate, $endDate, $searchTime);
+        $results['pageRequest'] = 'ajax'; 
+        echo $this->renderView('GqAusUserBundle:Reports:applicants.html.twig', $results); exit;
+    }
+    
     /**
     * Function to get applicant details page
     * return $result array
@@ -172,13 +198,8 @@ class ApplicantController extends Controller
                 $zip->addFromString(basename($f), file_get_contents($f));
             }
             $zip->close();
-            //session_write_close();
-//            header('Content-Type', 'application/zip');
-//            header('Content-disposition: attachment; filename="' . $zipName . '"');
-//            header('Content-Length: ' . filesize($zipName));
-//            readfile($zipName);
+            
             $response = new Response( );
-
             $response->headers->set( "Content-type", 'application/zip' );
             $response->headers->set( "Content-Disposition", "attachment; filename=$zipName" );
             $response->headers->set( "Content-length", filesize( "$zipName" ) );
@@ -202,5 +223,18 @@ class ApplicantController extends Controller
         $courseCode = $this->getRequest()->get('courseCode');
         $applicantId = $this->getRequest()->get('applicantId');
         $results = $this->get('UserService')->rtoApproveCertification($courseCode, $applicantId); exit;
+    }
+    
+    /**
+    * Function to view reports
+    */
+    public function reportsAction()
+    {
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '2');
+        $results['pageRequest'] = 'submit';
+        return $this->render('GqAusUserBundle:Reports:list.html.twig', $results);
     }
 }
