@@ -23,14 +23,14 @@
                     <div class="gq-dashboard-tabs margin-top15">                     
                         <!-- Filter start here -->
                         <div class="row">                            
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">                                
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">                                
                                 <div class="gq-applicant-filter-wrap text-left gq-reports-filter">
                                     <label>Filter by:</label>
                                     <input name="searchName" id="searchName" type="text" placeholder="Applicant Name"/>
                                     <input name="searchQualification" id="searchQualification" type="text" placeholder="Qualification Name"/>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">                                
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">                                
                                 <div class="gq-applicant-filter-wrap text-left gq-reports-date-picker">
                                     <label>Date Range</label>
                                     <div id="reportrange" class="btn" style="display: inline-block; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
@@ -39,10 +39,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12">
                                 <div class="gq-applicant-filter-wrap-select-remaining gq-reports-status">Status</div>
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-8">
+                            <div class="col-lg-2 col-md-2 col-sm-5 col-xs-8">
                                 <div class="gq-applicant-filter-wrap-select">
                                     <select name="statusReport" id="statusReport" class="styled">
                                         <option value="0">Pending</option>
@@ -59,7 +59,7 @@
                         <!-- Tabs end start here -->
                         <!-- Content for respective tabs above will be in this section -->
                         <div class="tab-content">
-                            <div id="ajaxHtml" style="display:none" tdcolspan="3">
+                            <div id="ajaxHtml" style="display:none" {% if ('ROLE_FACILITATOR' in userRole) %} tdcolspan="4" {% else %} tdcolspan="5" {% endif %} >
                                 <img src="{{ asset('public/images')}}/loading.gif" />
                             </div>
                             <div role="tabpanel" class="tab-pane active" id="current">
@@ -103,8 +103,8 @@
                     cancelClass: 'btn-small',
                     separator: ' to ',
                     locale: {
-                        applyLabel: 'Submit',
-                        cancelLabel: 'Clear',
+                        applyLabel: 'Select',
+                        cancelLabel: 'Cancel',
                         fromLabel: 'From',
                         toLabel: 'To',
                         customRangeLabel: 'Custom',

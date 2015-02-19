@@ -100,9 +100,9 @@ class ApplicantController extends Controller
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $searchName = $this->getRequest()->get('searchName');
+        $searchName = trim($this->getRequest()->get('searchName')," ");
         $searchTime = $this->getRequest()->get('searchTime');
-        $searchQualification = $this->getRequest()->get('searchQualification');
+        $searchQualification = trim($this->getRequest()->get('searchQualification')," ");
         $searchDateRange = $this->getRequest()->get('searchDateRange');
         $searchDates = explode("-",$searchDateRange);
         $startDate = $searchDates[0];
