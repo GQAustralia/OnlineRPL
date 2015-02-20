@@ -61,7 +61,16 @@
                                 <a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap {{doc_type}}"></div></a>
                                 <div class="gq-id-files-content-row-wrap">
                                     <div class="gq-id-files-content-row">
-                                        <a href="{{ amazon_link~item.path }}" target="_blank"><label>Title</label><span>{{item.type.type}}</span></a>
+                                        <label>Title</label>
+                                        <a href="{{ amazon_link~item.path }}" target="_blank">
+                                            <span>
+                                            {% if item.type.type|length > 17 %}
+                                                {{ item.type.type[:17] ~ '...' }}
+                                            {% else %}
+                                                 {{ item.type.type }}   
+                                            {% endif %}
+                                            </span>
+                                        </a>
                                     </div>
                                     <div class="gq-id-files-content-row">
                                         <label>Added on</label><span>{{item.created|date("d/m/Y") }}</span>
