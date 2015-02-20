@@ -261,7 +261,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-courses-detail {width:100%; border:1px solid #dddddd; min-height:48px; display:block; float:left; margin-bottom:5px; box-shadow:0px 2px 2px #f3f3f3; background-color:#ffffff;}
 .gq-dashboard-courses-detail .gq-dashboard-cap-icon {width:48px; height:48px; display:block; float:left;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {font-size:18px; color:#5e5e5e; float:left; padding-left:22px; padding-top:12px; padding-bottom:12px; border-left:1px solid #dddddd;}
-.gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:hover, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:active {font-size:18px; color:#5e5e5e; text-decoration:none;}
+.gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:hover, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:active {color:#5e5e5e; text-decoration:none;}
 .gq-dashboard-tabs-header {padding-bottom:15px;}
 .gq-dashboard-tabs .nav {box-shadow:0 0 4px #dedede;}
 .gq-dashboard-tabs .nav li a{border-radius:0px; background-color:#ffffff;}
@@ -628,12 +628,13 @@ a.btn-red {color:#ffffff;}
 .gq-reports-filter.gq-applicant-filter-wrap label {margin-right:0; color:#303b41;}
 .gq-reports-date-picker.gq-applicant-filter-wrap label, .gq-applicant-filter-wrap-select-remaining.gq-reports-status {color:#999999; text-align:right;}
 .gq-reports-date-picker.gq-applicant-filter-wrap .reportsDate {color:#c6c6c6;}
-.gq-reports-date-picker.gq-applicant-filter-wrap #reportrange{height:40px; border-color:#e7ecef; padding-top:9px !important;}
+.gq-reports-date-picker.gq-applicant-filter-wrap #reportrange{height:40px; border-color:#e7ecef !important; padding-top:9px !important;}
 .gq-reports-filter-btn { margin-top: 6px; padding: 0 20px; }
 .daterangepicker td.active, .daterangepicker td.active:hover, .daterangepicker .applyBtn {background-color:#f14841 !important; border-color:#f14841 !important;}
 .daterangepicker td.in-range {background: none repeat scroll 0 0 #f0f0f0 !important; border-radius: 0;}
 .daterangepicker .ranges {float:right !important;}
-
+.gq-reports-date-picker.gq-applicant-filter-wrap{width:272px;}
+.gq-reports-date-picker .caret{border-top:9px solid; border-top-color:#cccccc; border-left:6px solid transparent; border-right:6px solid transparent;}
 
 /* bugs for all pages */
 .gq-course-details-two-lines {line-height:15px;}
@@ -771,7 +772,8 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .login-page {margin-top:15px; padding:15px;}
 .gq-dashboard-left {min-width:104px;}
 .gq-dashboard-box-2x {margin-left:0;}
-.gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{width:81%;}
+.gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{width:81%; font-size:16px;}
+.gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a{font-size:16px;}
 .gq-dashboard-tabs-header.wid30p, .wid60p {width:inherit; margin:auto;}
 .gq-dashboard-left {display:none; width:100%;}
 .gq-dashboard-left-nav li a {min-height:58px;}
@@ -806,10 +808,18 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 #userprofile_gender input[type="radio"] {float:left;}
 #userprofile_gender label {float:left; width:31%;}
 #userprofile_gender {width:50%;}
+
+.gq-reports-date-picker.gq-applicant-filter-wrap{height:auto; width:100%;}
+.gq-reports-filter.gq-applicant-filter-wrap{height:auto;}
+.gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:100%; margin-bottom:4px;}
+.gq-reports-date-picker.gq-applicant-filter-wrap label, .gq-applicant-filter-wrap-select-remaining.gq-reports-status {text-align:left;}
+.gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
+
 }
 
 @media (max-width:368px) {
-.gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{width:77%; padding-left:10px;}
+.gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{width:77%; padding-left:10px; font-size:14px;}
+.gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a{font-size:14px;}
 /*.gq-dashboard-nav {padding-left:7px;}*/
 .gq-dashboard-header .pull-left {width:100%;}
 .gq-dashboard-header .pull-left .gq-dashboard-nav{float:right;}
