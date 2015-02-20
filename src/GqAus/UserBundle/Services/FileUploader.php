@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use GqAus\UserBundle\Entity\UserIds;
 use GqAus\UserBundle\Entity\OtherFiles;
 use Gaufrette\Filesystem;
+use \DateTime;
 
 class FileUploader
 {
@@ -84,12 +85,13 @@ class FileUploader
             $userIdFiles->setPath($fileNames['aws_file_name']);
             $this->em->persist($userIdFiles);
             $this->em->flush();
+            $now = new DateTime('now');
             $result = array(
                 'id' => $userIdFiles->getId(),
                 'name' => $fileNames['orginal_name'],
                 'path' => $fileNames['aws_file_name'],
                 'type' => $userIdFiles->getType()->getType(),
-                'date' => date('d/m/Y', $userIdFiles->getCreated())
+                'date' => $now->format('d/m/Y')
             );
             return json_encode($result);
         }
