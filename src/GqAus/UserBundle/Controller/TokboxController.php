@@ -11,28 +11,25 @@ use Symfony\Component\HttpFoundation\Request;
 class TokboxController extends Controller
 {
    /**
-    * Function to connect tokbox
+    * Function to create a video conversation
     * return $result array
     */
     public function indexAction(Request $request)
     {
         $openTok = new OpenTok(45145502, '5aaa4525592d0b4ed9685f67f6d8ed438a8a5812');
-        $session = $openTok->createSession(array( 'mediaMode' => MediaMode::ROUTED ));
+        $session = $openTok->createSession(array('mediaMode' => MediaMode::ROUTED));
         $sessionId = $session->getSessionId();
-        $token = $session->generateToken(array(
-            'role'       => Role::PUBLISHER,
-            'expireTime' => time()+(7 * 24 * 60 * 60), // in one week
-            'data'       => 'name=Prashu'
+        $token = $openTok->generateToken($sessionId, array(
+            'data' => 'User1'
         ));
-        
-        $sessionPHP = $request->getSession();
-        $sessionPHP->set('tok_session_id', $sessionId);
-        $sessionPHP->set('tok_token_id', $sessionId);
-        
+        $tokBox = $this->get('TokBox');
+        $roomId = $tokBox->createRoom($sessionId, 3);
+
         return $this->render('GqAusUserBundle:Tokbox:index.html.twig', array(
                     'apiKey' => 45145502,
                     'sessionId' => $sessionId,
-                    'token' => $token
+                    'token' => $token,
+                    'roomId' => base64_encode(base64_encode(base64_encode($roomId)))
         ));
     }
     
@@ -41,11 +38,15 @@ class TokboxController extends Controller
     * Function to connect tokbox
     * return $result array
     */
-    public function subscriberAction(Request $request)
+    public function subscriberAction($rid)
     {
-        $sessionPHP = $request->getSession();
-        $sessionId = $sessionPHP->get('tok_session_id');
-        $token = $sessionPHP->get('tok_token_id');
+        $roomId = base64_decode(base64_decode(base64_decode($rid)));
+        $openTok = new OpenTok(45145502, '5aaa4525592d0b4ed9685f67f6d8ed438a8a5812');        
+        $tokBox = $this->get('TokBox');
+        $sessionId = $tokBox->updateRoom($roomId, 1);
+        $token = $openTok->generateToken($sessionId, array(
+            'data' => 'User2'
+        ));
         return $this->render('GqAusUserBundle:Tokbox:subscriber.html.twig', array(
                     'apiKey' => 45145502,
                     'sessionId' => $sessionId,

@@ -1,50 +1,68 @@
 {% block title %}GQ - RPL Publisher{% endblock %}
+{% block body %}
+  <div id="subscriberContainer"></div>
+  <div id="publisherContainer"></div>
+  <div id="informationContainer">
+    <div class="userValue">
+      <span class="header">ShareLink: </span>
+      <span id="customerName">
+          {{ base_url }}applicant/{{ roomId}}
+      </span>
+    </div>
+  </div>
 {% block javascripts %}
-<script src="//static.opentok.com/webrtc/v2.2/js/TB.min.js"></script>
+<script src="http://static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
 <script type="text/javascript">
-        var apiKey = '{{ apiKey }}';
-        var sessionId = '{{ sessionId }}';
-        var token = '{{ token }}';
-        // Initialize an OpenTok Session object
-var session = TB.initSession(sessionId);
+    var apiKey = '{{ apiKey }}';
+    var sessionId = '{{ sessionId }}';
+    var token = '{{ token }}';
+    property = { width: "100%", height: "100%", insertMode: "append" },
+    publisher = OT.initPublisher("publisherContainer", property),
+    session = OT.initSession(apiKey, sessionId);
 
-// Initialize a Publisher, and place it into the element with id="publisher"
-var publisher = TB.initPublisher(apiKey, 'publisher');
 
-// Attach event handlers
-session.on({
-
-  // This function runs when session.connect() asynchronously completes
-  sessionConnected: function(event) {
-    // Publish the publisher we initialzed earlier (this will trigger 'streamCreated' on other
-    // clients)
-    session.publish(publisher);
-  },
-
-  // This function runs when another client publishes a stream (eg. session.publish())
-  streamCreated: function(event) {
-    // Create a container for a new Subscriber, assign it an id using the streamId, put it inside
-    // the element with id="subscribers"
-    var subContainer = document.createElement('div');
-    subContainer.id = 'stream-' + event.stream.streamId;
-    document.getElementById('subscribers').appendChild(subContainer);
-
-    // Subscribe to the stream that caused this event, put it inside the container we just made
-    session.subscribe(event.stream, subContainer);
-  }
-
-});
-
-// Connect to the Session using the 'apiKey' of the application and a 'token' for permission
-session.connect(apiKey, token);
+    session.on("streamCreated", function(event) {
+      session.subscribe(event.stream, 'subscriberContainer',  property);
+    });
+    session.connect(token, function(err) {
+      if(!err){ session.publish(publisher); }
+    });
 </script>
 {% endblock %}
-{% block body %}
-    
-<div id="publisher"></div>
-
-<div id="subscribers"></div>
-
+{% block stylesheets %}
+<style>
+#informationContainer{
+  color: #fff;
+  background-color: rgba(0,0,0,0.6);
+  position: fixed;
+  left:20px;
+  bottom:20px;
+  width: 280px;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;  
+  padding: 20px;
+  z-index: 4;
+}
+#publisherContainer{
+  position: fixed;
+  right:20px;
+  bottom:20px;
+  width: 320px;
+  height: 240px;
+  z-index: 3;
+}
+#subscriberContainer{
+  position: fixed;
+  top:0px;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  z-index: 2;
+  background-color: #223;
+}
+</style>
+{% endblock %}
 {% endblock %}
 
 

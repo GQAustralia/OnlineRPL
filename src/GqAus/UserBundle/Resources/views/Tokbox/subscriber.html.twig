@@ -1,30 +1,45 @@
 {% block title %}GQ - RPL Subscriber{% endblock %}
-{% block javascripts %}
-{#<script src="//static.opentok.com/webrtc/v2.2/js/TB.min.js"></script>#}
-<script src="//static.opentok.com/v2/js/opentok.min.js" ></script>
+{% block body %}
+  <div id="subscriberContainer"></div>
+  <div id="publisherContainer"></div>
+  {% block javascripts %}
+<script src="http://static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
 <script type="text/javascript">
-        var apiKey = '{{ apiKey }}';
-        var sessionId = '{{ sessionId }}';
-        var token = '{{ token }}';
-        // Initialize an OpenTok Session object
-var session = OT.initSession(apiKey, sessionId);
- 
-  session.on("streamCreated", function(event) {
-    session.subscribe(event.stream);
-  });
- 
-  session.connect(token, function(error) {
-    var publisher = OT.initPublisher();
-    session.publish(publisher);
-  });
+    var apiKey = '{{ apiKey }}';
+    var sessionId = '{{ sessionId }}';
+    var token = '{{ token }}';
+    property = { width: "100%", height: "100%", insertMode: "append" },
+    publisher = OT.initPublisher("publisherContainer", property),
+    session = OT.initSession(apiKey, sessionId);
+
+
+    session.on("streamCreated", function(event) {
+      session.subscribe(event.stream, 'subscriberContainer',  property);
+    });
+    session.connect(token, function(err) {
+      if(!err){ session.publish(publisher); }
+    });
 </script>
 {% endblock %}
-{% block body %}
-    
-<div id="publisher"></div>
-
-<div id="subscribers"></div>
-
+{% block stylesheets %}
+<style>
+#publisherContainer{
+  position: fixed;
+  right:20px;
+  bottom:20px;
+  width: 320px;
+  height: 240px;
+  z-index: 3;
+}
+#subscriberContainer{
+  position: fixed;
+  top:0px;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  z-index: 2;
+  background-color: #223;
+}
+</style>
 {% endblock %}
-
-
+{% endblock %}

@@ -134,7 +134,7 @@ tokbox:
     path:     /startConversation
     defaults: { _controller: GqAusUserBundle:Tokbox:index }
 subscriber:
-    path:     /subscriber
+    path:     /applicant/{rid}
     defaults: { _controller: GqAusUserBundle:Tokbox:subscriber }
 reports:
     path:     /reports
