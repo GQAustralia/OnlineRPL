@@ -1,6 +1,14 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
 <!-- accordion starts here -->
 {% if applicantList %}
+    {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+    <tr>
+        <td {% if ('ROLE_RTO' in userRole) %} colspan="4" {% else %} colspan="7" {% endif %}>
+            {# display navigation for pages - paginator_navigator #}        
+            {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
+        </td>
+    </tr>
+    {% endif %}
 {% for key, list in applicantList %}
     <tr>
         <td>{{list.user.userName}}</td>
