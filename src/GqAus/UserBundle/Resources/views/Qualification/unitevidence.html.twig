@@ -308,7 +308,7 @@
                 <button type="submit" id="send_message" class="btn btn-grey">Send a Message</button>
         {% endif %}
         {% if 'ROLE_ASSESSOR' in currentUserRole %}
-            <button type="button" id="start_conversation" class="btn btn-grey">Start Conversation</button>
+            <button formtarget="_blank" onclick="window.location.href='{{ base_url }}startConversation'" type="button" id="start_conversation" class="btn btn-grey">Start Conversation</button>
         {% endif %}
         </span>
         <span class="loading-icon" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>

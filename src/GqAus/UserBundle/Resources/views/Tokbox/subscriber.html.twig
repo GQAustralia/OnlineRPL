@@ -8,7 +8,7 @@
     var apiKey = '{{ apiKey }}';
     var sessionId = '{{ sessionId }}';
     var token = '{{ token }}';
-    property = { width: "100%", height: "100%", insertMode: "append" },
+   {# property = { width: "100%", height: "100%", insertMode: "append" },
     publisher = OT.initPublisher("publisherContainer", property),
     session = OT.initSession(apiKey, sessionId);
 
@@ -18,7 +18,21 @@
     });
     session.connect(token, function(err) {
       if(!err){ session.publish(publisher); }
-    });
+    });#}
+        
+        var session = OT.initSession(sessionId),
+    publisher = OT.initPublisher("publisherContainer");
+
+session.connect(apiKey, token, function(err, info) {
+  if(err) {
+    alert(err.message || err);
+  }
+  session.publish(publisher);
+});
+
+session.on('streamCreated', function(event) {
+  session.subscribe(event.stream, "subscriberContainer", { insertMode : "append" });
+});
 </script>
 {% endblock %}
 {% block stylesheets %}
