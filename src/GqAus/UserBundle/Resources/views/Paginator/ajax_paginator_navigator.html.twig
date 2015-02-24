@@ -1,0 +1,31 @@
+{# GqAus/UserBundle/Resources/views/Paginator/paginator_navigator.html.twig #}
+
+{% set currentPath = path(app.request.get('_route'), app.request.get('_route_params')) %}
+{% set currentPage = paginator.getCurrentPage() %}
+{% set totalPages = paginator.getTotalPages() %}
+{% set count = paginator.getCount() %}
+{% set pagename = app.request.get('_route') %}
+{% if(pagename == 'searchApplicantsListReports') %}
+    {% set classname = "gq-ajax-pagination" %}
+{% else %}
+    {% set classname = "gq-ajax-app-pagination" %}
+{% endif%}
+
+<div class="gq-msg-top-pagination pull-right">
+    <div class="gq-msg-pagination-txt">
+    {% if currentPage == totalPages %}
+        {{(currentPage * 10) - 9}}-{{count}} of {{count}}
+    {% else %}
+        {{(currentPage * 10) - 9}}-{{currentPage * 10}} of {{count}}
+    {% endif %}
+    </div>
+    {% if currentPage == 1 %}
+    {% else %}
+        <a href="javascript:void(0)" class="{{ classname }}" page="gq-ajax-app-pagination"><div class="gq-pagination-prev-icon"></div></a>
+    {% endif %}
+    {% if currentPage == totalPages %}
+    {% else %}
+        <a href="javascript:void(0)" page="{{ currentPage + 1 }}" class="gq-ajax-app-pagination"><div class="gq-pagination-next-icon"></div></a>
+        
+    {% endif %}
+</div>

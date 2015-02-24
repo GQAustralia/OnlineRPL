@@ -351,8 +351,11 @@ class UserService
     * Function to get applicants list information
     * return $result array
     */
-    public function getUserApplicantsList($userId, $userRole, $status, $searchName = null, $searchTime = null)
+    public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, $searchTime = null)
     {
+        if ($page <= 0) {
+            $page = 1;
+        }
         $nameCondition = null;
         if (in_array('ROLE_ASSESSOR',$userRole)) {
             $userType = 'assessor';
@@ -409,16 +412,20 @@ class UserService
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) >= ".$searchTime1);
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) <= ".$searchTime);
         }
+        /*Pagination*/
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($res, $page,  $this->container->getParameter('pagination_limit_page'));
+        /*Pagination*/
         //$applicantList = $res->getQuery(); var_dump($applicantList); exit;
         $applicantList = $res->getQuery()->getResult();
-        return array('applicantList' => $applicantList);
+        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page );
     }
      
     /**
     * Function to get applicants list information
     * return $result array
     */
-    public function getUserApplicantsListReports($userId, $userRole, $status, $searchName = null, $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null)
+    public function getUserApplicantsListReports($userId, $userRole, $status, $page, $searchName = null, $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null)
     {
         $nameCondition = null;
         $qualCondition = null;
@@ -490,10 +497,14 @@ class UserService
         if (!empty($startDate)) {
             $res->andWhere("c.createdOn between '$startDate' and '$endDate'");
         }
-       
+       /*Pagination*/
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($res, $page,  $this->container->getParameter('pagination_limit_page'));
+        /*Pagination*/
+        
         //$applicantList = $res->getQuery(); var_dump($applicantList); exit;
         $applicantList = $res->getQuery()->getResult();
-        return array('applicantList' => $applicantList);
+        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
     }
     
     

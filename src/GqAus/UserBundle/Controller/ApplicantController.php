@@ -71,7 +71,8 @@ class ApplicantController extends Controller
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0');
+        $page = $this->get('request')->query->get('page', 1);
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
         $results['pageRequest'] = 'submit';
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
@@ -87,7 +88,10 @@ class ApplicantController extends Controller
         $searchName = $this->getRequest()->get('searchName');
         $searchTime = $this->getRequest()->get('searchTime');
         $status = $this->getRequest()->get('status');
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $searchName, $searchTime);
+        $page = $this->getRequest()->get('pagenum');
+        if($page == "")
+            $page=1;
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, $searchName, $searchTime);
         $results['pageRequest'] = 'ajax'; 
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results); exit;
     }
@@ -112,9 +116,13 @@ class ApplicantController extends Controller
         $endDatearr = explode("/",$endDate);
         $endDate = $endDatearr[2]."-".$endDatearr[1]."-".trim($startDatearr[0]," ");
         $status = $this->getRequest()->get('status');
-        $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, $status, $searchName, $searchQualification, $startDate, $endDate, $searchTime);
+        $page = $this->getRequest()->get('pagenum');
+        if($page == "")
+            $page=1;
+        //$page = $this->get('request')->query->get('page', 1);
+        $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, $status, $page, $searchName, $searchQualification, $startDate, $endDate, $searchTime);
         $results['pageRequest'] = 'ajax'; 
-        echo $this->renderView('GqAusUserBundle:Reports:applicants.html.twig', $results); exit;
+        echo $this->renderView('GqAusUserBundle:Reports:ajax-applicants.html.twig', $results); exit;
     }
     
     /**
@@ -233,7 +241,8 @@ class ApplicantController extends Controller
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '2');
+        $page = $this->get('request')->query->get('page', 1);
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '2', $page);
         $results['pageRequest'] = 'submit';
         return $this->render('GqAusUserBundle:Reports:list.html.twig', $results);
     }
