@@ -852,8 +852,6 @@ function loadApplicantList(divContent)
 {
     searchName = $('#searchName').val();
     searchTime = $('#timeRemaining').val();
-    alert(searchName);
-    alert(searchTime);
     $.ajax({
         type: "POST",
         url: base_url + "searchApplicantsList",
