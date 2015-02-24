@@ -4,8 +4,8 @@
     {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
     <tr>
         <td {% if ('ROLE_FACILITATOR' in userRole) %} colspan="5" {% else %} colspan="6" {% endif %}>
-            {# display navigation for pages - paginator_navigator #}
-            {{ include('GqAusUserBundle:Paginator:ajax_rep_paginator_navigator.html.twig', {'paginator' : paginator}) }}
+            {# display navigation for pages - paginator_navigator #}        
+            {{ include('GqAusUserBundle:Paginator:ajax_rep_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
         </td>
     </tr>
     {% endif %}
