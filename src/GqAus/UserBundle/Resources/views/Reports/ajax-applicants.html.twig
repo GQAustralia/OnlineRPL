@@ -3,7 +3,7 @@
 {% if applicantList %}
     {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
     <tr>
-        <td {% if ('ROLE_FACILITATOR' in userRole) %} colspan="5" {% else %} colspan="6" {% endif %}>
+        <td class="gq-pagination-area" {% if ('ROLE_FACILITATOR' in userRole) %} colspan="5" {% else %} colspan="6" {% endif %}>
             {# display navigation for pages - paginator_navigator #}        
             {{ include('GqAusUserBundle:Paginator:ajax_rep_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
         </td>
@@ -28,17 +28,17 @@
             {% endif%}
         
             {% if ('ROLE_FACILITATOR' in userRole) %}
-                <td>{% if (list.facilitatorstatus == 1) %} {{list.facilitatorDate|date("d/m/Y")}} {% endif %}</td>
+                <td>{% if (list.facilitatorstatus == 1) %} {{list.facilitatorDate|date("d/m/Y")}} {% else %} - {% endif %}</td>
                 <td>{% if (list.facilitatorstatus == 1) %} Approved {% else %} Pending {% endif %}</td>
             {% endif %}
                 
             {% if ('ROLE_ASSESSOR' in userRole) %}
-            <td>{% if (list.assessorstatus == 1) %} {{list.assessorDate|date("d/m/Y")}} {% endif %}</td>
+            <td>{% if (list.assessorstatus == 1) %} {{list.assessorDate|date("d/m/Y")}} {% else %} - {% endif %}</td>
             <td>{% if (list.assessorstatus == 1) %} Approved {% else %} Pending {% endif %}</td>
             {% endif %}
             
             {% if ('ROLE_RTO' in userRole) %}
-                <td>{% if (list.rtostatus == 1) %} {{list.rtoDate|date("d/m/Y")}} {% endif %}</td>
+                <td>{% if (list.rtostatus == 1) %} {{list.rtoDate|date("d/m/Y")}} {% else %} - {% endif %}</td>
                 <td>{% if (list.rtostatus == 1) %} Approved {% if (list.courseStatus == 0) %} &amp; Certified {% endif %} {% else %} Pending {% endif %}</td>
             {% endif %}
                 

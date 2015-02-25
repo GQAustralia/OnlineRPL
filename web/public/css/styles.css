@@ -636,6 +636,7 @@ a.btn-red {color:#ffffff;}
 .gq-reports-date-picker.gq-applicant-filter-wrap{width:272px;}
 .gq-reports-date-picker .caret{border-top:9px solid; border-top-color:#cccccc; border-left:6px solid transparent; border-right:6px solid transparent;}
 
+
 /* bugs for all pages */
 .gq-course-details-two-lines {line-height:15px;}
 .gq-acc-details-two-lines {line-height:16px; padding-top:4px;}
@@ -744,6 +745,19 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 	.wid20p {width:15%; margin:0 45%;}
 	.modal-dialog.gq-modal-upload{width:100%;}
  }
+ @media (min-width:992px) and (max-width:1199px){
+ .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:156px;}
+ /*.gq-reports-date-picker.gq-applicant-filter-wrap {width:100%;}
+ .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
+ .gq-reports-status {text-align:left;}*/
+ }
+ @media (min-width: 768px) and (max-width:991px){
+ .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:100%; height:auto; float:left; margin-bottom:6px;}
+ .gq-reports-date-picker.gq-applicant-filter-wrap {width:100%; height:auto; margin-bottom:6px;}
+ .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
+ .gq-reports-status {text-align:left;}
+ }
+ 
  @media (min-width: 768px) {
  .gq-assessor-appl-details .gq-assessor-appl-profile-details-col {padding-top:33px;}
  .gq-dashboard-courses-detail-wrap .wid30p {width:50%; margin:0 25%;}

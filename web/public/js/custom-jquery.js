@@ -1064,6 +1064,22 @@ $("#approve-for-certification").click(function() {
         }
     });
 });
+
+$("#approve-for-rto").click(function() {
+    var courseCode = $(this).attr("courseCode");
+    var applicantId = $(this).attr("applicantId");
+    $.ajax({
+        type: "POST",
+        url: base_url + "approveForRTO",
+        async: false,
+        data: {courseCode: courseCode, applicantId: applicantId},
+        success: function(result) {
+            $('#approve_section').show();
+            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../web/public/images/tick.png">This Qualification is Approved for RTO successfully!</h2></div>').delay(3000).fadeOut(100);
+        }
+    });
+});
+
 $(".gq-msg-title").children("a").click(function() {
     $(this).parent().parent().parent().addClass('gq-msg-visited');
 });
