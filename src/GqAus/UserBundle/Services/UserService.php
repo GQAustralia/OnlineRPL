@@ -626,13 +626,11 @@ class UserService
     {
         if(is_object($user) && count($user) > 0) {
            $pendingApplicantsCount = $this->getPendingapplicantsCount($user->getId(), $user->getRoles(), '0');
-           $pendingRTOApplicantsCount = $this->getPendingapplicantsCount($user->getId(), $user->getRoles(), '2');
            $unReadMessages = $this->getUnreadMessagesCount($user->getId());
            $todaysReminders = $this->getTodaysReminders($user->getId());
            return array('todaysReminders' => $todaysReminders, 
                         'unReadMessages' => $unReadMessages,
-                        'pendingApplicantsCount' => $pendingApplicantsCount,
-                        'pendingRTOApplicantsCount' => $pendingRTOApplicantsCount );
+                        'pendingApplicantsCount' => $pendingApplicantsCount );
         }
     }
     
