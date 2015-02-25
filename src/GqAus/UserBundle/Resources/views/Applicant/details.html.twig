@@ -300,7 +300,7 @@
        </div>
     {% else %}
     <center>
-        <button type="submit" onclick="checkApproveButton();" class="btn btn-green" disabled="disabled">Approved for the Certification</button>
+        <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Approved for the Certification</button></a>
     </center>
     {% endif %}
 {% endif %}
@@ -318,11 +318,17 @@
        </div>
     {% else %}
     <center>
-        <button type="submit" onclick="checkApproveButton();" class="btn btn-green" disabled="disabled">Approve for RTO</button>
+        <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Approve for RTO</button></a>
     </center>
     {% endif %}
 {% endif %}
+    <div class="col-xs-12 text-center">
+        <span class="gq-approved-status" id="status_ar" style="display:none;">Approved for RTO!</span>
+        <span class="gq-approved-status" id="status_arc" style="display:none;">Approved By RTO and Certified!</span>
+        <span class="gq-approved-status" id="status_ac" style="display:none;">Approved and Completed!</span>
+    </div>
      <span class="gq-approve-error" id="gq-approve-error" style="display:none;">Please approve all the units.</span>
+     <center id="approve_loader" style="display:none"><span><img src="{{ asset('public/images')}}/loading.gif" /></span></center>
 </div>
 
 <!----- Unit evidences start --->
@@ -342,6 +348,18 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="disclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Please approve all the Units</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!----- Unit evidences end --->
 {% endblock %}
   {% block javascripts %}

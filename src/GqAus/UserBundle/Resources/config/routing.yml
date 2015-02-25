@@ -130,6 +130,9 @@ unread:
 approveCertification:
     path:     /approveCertification
     defaults: { _controller: GqAusUserBundle:Applicant:approveCertification }
+approveForRTO:    
+    path:     /approveForRTO
+    defaults: { _controller: GqAusUserBundle:Applicant:approveForRTO }
 reports:
     path:     /reports
     defaults: { _controller: GqAusUserBundle:Applicant:reports }

@@ -30,6 +30,8 @@ class DefaultController extends Controller
             $appResults = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0');    
             $results = $userService->getUsersDashboardInfo($user);
             $results['applicantList'] = $appResults['applicantList'];
+            $results['paginator'] = $appResults['paginator'];
+            $results['page'] = $appResults['page'];
             $results['pageRequest'] = "";            
             return $this->render('GqAusHomeBundle:Default:dashboard.html.twig', $results);
         }

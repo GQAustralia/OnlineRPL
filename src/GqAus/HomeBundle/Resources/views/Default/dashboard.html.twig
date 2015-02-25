@@ -19,12 +19,12 @@
                     </div>
                     <div class="gq-dashboard-box-content-wrap">
                         <div class="col-xs-6 no-padding text-center">
-						<div class="gq-dashboard-running-txt">Currently you have</div>
-                        <div class="gq-dashboard-points-in-number wid100p">
-							<a href="{{ app.request.baseUrl }}/applicants">{{pendingApplicantsCount}}</a>
-						</div>
-						</div>
-						<div class="col-xs-6 hidden-xs"></div>
+                            <div class="gq-dashboard-running-txt">Currently you have</div>
+                            <div class="gq-dashboard-points-in-number wid100p">
+                                    <a href="{{ app.request.baseUrl }}/applicants">{{pendingApplicantsCount}}</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 hidden-xs"></div>
                     </div>
                     <span class="flip-icon"></span>
                 </div>
@@ -44,7 +44,7 @@
             </div>
             
             {% set roles = app.security.getToken().getUser().getRoles() %}            
-            {% if ('ROLE_RTO' in roles) or ('ROLE_RTO' in roles) %}
+            {% if ('ROLE_RTO' in roles) %}
             <div class="col-lg-8 col-md-8 col-sm-12 colxs-12">
                 <div class="tab-content">
                     <div id="current" class="tab-pane active" role="tabpanel">
