@@ -462,6 +462,7 @@ class UserService
         }
         
         if ($userType == 'rto') {
+            //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
             $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
         }
 
@@ -610,6 +611,7 @@ class UserService
         }
         $result = array($userType => $userId, $userStatus => $applicantStatus);
         if ($userType == 'rto') {
+            $result['courseStatus'] = '2';
             $result['assessorstatus'] = '1';
         }
         $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy($result);
@@ -624,11 +626,13 @@ class UserService
     {
         if(is_object($user) && count($user) > 0) {
            $pendingApplicantsCount = $this->getPendingapplicantsCount($user->getId(), $user->getRoles(), '0');
+           $pendingRTOApplicantsCount = $this->getPendingapplicantsCount($user->getId(), $user->getRoles(), '2');
            $unReadMessages = $this->getUnreadMessagesCount($user->getId());
            $todaysReminders = $this->getTodaysReminders($user->getId());
            return array('todaysReminders' => $todaysReminders, 
                         'unReadMessages' => $unReadMessages,
-                        'pendingApplicantsCount' => $pendingApplicantsCount);
+                        'pendingApplicantsCount' => $pendingApplicantsCount,
+                        'pendingRTOApplicantsCount' => $pendingRTOApplicantsCount );
         }
     }
     
@@ -1001,6 +1005,7 @@ class UserService
                                                                                          'user' => $applicantId));
         if (!empty($applicantCoures)) {
             $applicantCoures->setCourseStatus('2');
+            $applicantCoures->setFacilitatorstatus('1');
             $applicantCoures->setRtoDate(date('Y-m-d H:i:s'));
             $this->em->persist($applicantCoures);
             $this->em->flush();
