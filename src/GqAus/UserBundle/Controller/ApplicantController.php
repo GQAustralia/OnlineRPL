@@ -226,11 +226,19 @@ class ApplicantController extends Controller
     /**
     * Function to approve certification by rto user
     */
-    public function approveCertificationAction()
-    {
+    public function approveCertificationAction() {
         $courseCode = $this->getRequest()->get('courseCode');
         $applicantId = $this->getRequest()->get('applicantId');
         $results = $this->get('UserService')->rtoApproveCertification($courseCode, $applicantId); exit;
+    }
+    
+    /**
+    * Function to approve for rto user
+    */
+    public function approveForRTOAction() {
+        $courseCode = $this->getRequest()->get('courseCode');
+        $applicantId = $this->getRequest()->get('applicantId');
+        $results = $this->get('UserService')->approveForRTOCertification($courseCode, $applicantId); exit;
     }
     
     /**
@@ -240,10 +248,15 @@ class ApplicantController extends Controller
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
-        $page = $this->get('request')->query->get('page', 1);
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '2', $page);
-        $results['pageRequest'] = 'submit';
-        return $this->render('GqAusUserBundle:Reports:list.html.twig', $results);
+        if($userRole[0]!="ROLE_ASSESSOR") {
+            /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
+            $page = $this->get('request')->query->get('page', 1);
+            $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '2', $page);
+            $results['pageRequest'] = 'submit';
+            return $this->render('GqAusUserBundle:Reports:list.html.twig', $results);
+        }
+        else {
+            return $this->redirect('dashboard');
+        }
     }
 }
