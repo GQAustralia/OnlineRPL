@@ -307,6 +307,9 @@ class UserService
             
             $results['courseStatus'] = $otheruser->getCourseStatus();
             $results['rtostatus'] = $otheruser->getRtostatus();
+            $results['assessorstatus'] = $otheruser->getAssessorstatus();
+            $results['facilitatorstatus'] = $otheruser->getFacilitatorstatus();
+            
         }
         return $results;
     }
@@ -386,6 +389,7 @@ class UserService
         }
         
         if ($userType == 'rto') {
+            $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
             $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
         }
 
@@ -982,6 +986,21 @@ class UserService
                                                                                          'user' => $applicantId));
         if (!empty($applicantCoures)) {
             $applicantCoures->setCourseStatus('0');
+            $applicantCoures->setRtoDate(date('Y-m-d H:i:s'));
+            $this->em->persist($applicantCoures);
+            $this->em->flush();
+        }
+    }
+    
+    /**
+    * Function to approve certification to rto
+    */
+    public function approveForRTOCertification($courseCode, $applicantId)
+    {
+        $applicantCoures = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
+                                                                                         'user' => $applicantId));
+        if (!empty($applicantCoures)) {
+            $applicantCoures->setCourseStatus('2');
             $applicantCoures->setRtoDate(date('Y-m-d H:i:s'));
             $this->em->persist($applicantCoures);
             $this->em->flush();

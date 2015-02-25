@@ -289,21 +289,39 @@
         {% endif %}
      {% endif %}
     
- {% if ('ROLE_RTO' in userRole) %}
-     {% if (rtostatus == '1') %}
-    <div id="approve_section" class="col-xs-12 text-center">
-        {% if (courseStatus == '1') %}
-        <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
-        {% else %}
-        Approved and Completed!
-        {% endif %}
-    </div>
-   
+{% if ('ROLE_RTO' in userRole) %}
+    {% if (rtostatus == '1') %}
+       <div id="approve_section" class="col-xs-12 text-center">
+           {% if (courseStatus == '2') %}
+                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
+           {% elseif (courseStatus == '0') %}
+                <span class="gq-approved-status">Approved and Completed!</span>
+           {% endif %}
+       </div>
     {% else %}
-     <button type="submit" disabled="disabled" onclick="checkApproveButton();" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
-     {% endif %}
-     
-      {% endif %}
+    <center>
+        <button type="submit" onclick="checkApproveButton();" class="btn btn-green" disabled="disabled">Approved for the Certification</button>
+    </center>
+    {% endif %}
+{% endif %}
+        
+{% if ('ROLE_FACILITATOR' in userRole) %}
+    {% if (assessorstatus == '1') %}
+       <div id="approve_section" class="col-xs-12 text-center">
+           {% if (courseStatus == '1') %}
+                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-rto" class="btn btn-green">Approve for RTO</button>
+           {% elseif (courseStatus == '2') %}
+                <span class="gq-approved-status">Approved for RTO!</span>
+           {% elseif (courseStatus == '0') %}
+                <span class="gq-approved-status">Approved By RTO and Certified!</span>
+           {% endif %}
+       </div>
+    {% else %}
+    <center>
+        <button type="submit" onclick="checkApproveButton();" class="btn btn-green" disabled="disabled">Approve for RTO</button>
+    </center>
+    {% endif %}
+{% endif %}
      <span class="gq-approve-error" id="gq-approve-error" style="display:none;">Please approve all the units.</span>
 </div>
 
