@@ -32,6 +32,16 @@ class CoursesService
         $this->mailer = $mailer;
         $this->guzzleService = $guzzleService;
     }
+    
+    /**
+    * Function to get courses details
+    * return array
+    */
+    public function getCourseDetails($qcode, $uid)
+    {
+        return $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->findOneBy(array('courseCode' => $qcode, 'user' => $uid));
+    }
 
     /**
     * Function to get courses info

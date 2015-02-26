@@ -179,10 +179,11 @@ $("#frmAddEvidence").ajaxForm({
         $('.gq-dashboard-tabs').hide();
         $('#gq-dashboard-tabs-success').show();
         $('.uploadevidence_loader').hide();
-        if (responseText == '0') {
-            $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
-        } else {
+        if (responseText == 'yes') {
             $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">File size below 10MB are only  upload successfully!</h2>').delay(3000).fadeOut(100);
+        } else {
+            $('#sp_'+responseText).show();
+            $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
         }
     },
     resetForm: true
@@ -193,11 +194,14 @@ $("#frmSelectEvidence").ajaxForm({
         $('#file_save').hide();
         $('.uploadevidence_loader').show();
     },
-    success: function() {
+    success: function(responseText) {
         $('.gq-dashboard-tabs').hide();
         $('.uploadevidence_loader').hide();
         $('#gq-dashboard-tabs-success').show();
-        $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
+        if (responseText){            
+            $('#sp_'+responseText).show();
+            $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
+        }
     },
     resetForm: true
 });
