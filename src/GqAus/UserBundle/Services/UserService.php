@@ -1004,6 +1004,7 @@ class UserService
         if (!empty($applicantCoures)) {
             $applicantCoures->setCourseStatus('2');
             $applicantCoures->setFacilitatorstatus('1');
+            $applicantCoures->setFacilitatorDate(date('Y-m-d H:i:s'));
             $applicantCoures->setRtoDate(date('Y-m-d H:i:s'));
             $this->em->persist($applicantCoures);
             $this->em->flush();
