@@ -463,6 +463,7 @@ class UserService
         
         if ($userType == 'rto') {
             //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
+            $res->andWhere("c.courseStatus = '0' OR c.courseStatus = '2'");
             $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
         }
 

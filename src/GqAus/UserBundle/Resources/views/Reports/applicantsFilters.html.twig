@@ -5,10 +5,12 @@
         {% if ('ROLE_ASSESSOR' in userRole) %}
             <th><span class="">Facilitator Approved On</span></th>
         {% endif%}
-        {% if ('ROLE_RTO' in userRole) %}
-        <th><span class="">Assessor Approved On</span></th>
+        {% if ('ROLE_RTO' in userRole or 'ROLE_FACILITATOR' in userRole) %}
+            <th><span class="">Assessor Status</span></th>
         {% endif%}
-        <th><span class="">Approved On</span></th>
+        {% if ('ROLE_RTO' in userRole) %}
+        <th><span class="">Facilitator Status</span></th>
+        {% endif%}
         <th colspan="2"><span class="">Status</span></th>
     </tr>
 </thead>
