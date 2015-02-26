@@ -23,6 +23,7 @@ class CoursesController extends Controller
         $results['electiveUnits'] = $getUnits['courseUnits'];
         $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
         $results['evidences'] = $user->getEvidences();        
+        $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
         $form = $this->createForm(new EvidenceForm(), array());
         $results['form'] = $form->createView();
         return $this->render('GqAusHomeBundle:Courses:index.html.twig', $results);
