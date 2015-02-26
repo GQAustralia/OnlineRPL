@@ -41,7 +41,7 @@ class EvidenceService
     public function saveEvidence($evidences, $data)
     {
         $i = 0;
-        $seterror = 0;
+        $seterror = 'no';
         $maxFileSize = $this->container->getParameter('maxFileSize');
         if (!empty($evidences)) {
             foreach ($evidences as $evidence) {
@@ -82,7 +82,7 @@ class EvidenceService
                     $this->em->flush();
                     $i++;
                 } else {
-                    $seterror = 1;
+                    $seterror = 'yes';
                 }
             }//for
         }
@@ -96,7 +96,7 @@ class EvidenceService
             $this->em->persist($textObj);
             $this->em->flush();
         }
-        return $seterror;
+        return ($seterror == 'no')?$data['hid_unit']:$seterror;
     }
     
     public function fileSize($size)
@@ -172,6 +172,7 @@ class EvidenceService
                 }//if
             }//foreach
         }
+        return $unitId;
     }
     
     public function deleteEvidence($evidenceId, $evidenceType)
