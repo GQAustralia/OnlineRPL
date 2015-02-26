@@ -21,7 +21,7 @@ class TokboxController extends Controller
         $session = $openTok->createSession(array('mediaMode' => MediaMode::ROUTED));
         $sessionId = $session->getSessionId();
         $token = $openTok->generateToken($sessionId, array(
-            'role' => Role::PUBLISHER
+            'role' => Role::MODERATOR
         ));
         $tokBox = $this->get('TokBox');
         $roomId = $tokBox->createRoom($sessionId, 3);

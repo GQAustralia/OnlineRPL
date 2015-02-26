@@ -136,6 +136,9 @@ tokbox:
 subscriber:
     path:     /applicant/{rid}
     defaults: { _controller: GqAusUserBundle:Tokbox:subscriber }
+approveForRTO:    
+    path:     /approveForRTO
+    defaults: { _controller: GqAusUserBundle:Applicant:approveForRTO }
 reports:
     path:     /reports
     defaults: { _controller: GqAusUserBundle:Applicant:reports }
