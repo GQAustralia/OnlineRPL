@@ -33,7 +33,7 @@
                           <div role="tabpanel" class="tab-pane active" id="current">
                           {% set flagCurrent = '0' %}
                           {% for key, courses in userCourses %}
-                                {% if courses.getCourseStatus() == 1 %}
+                                {% if courses.getCourseStatus() != 0 %}
                                 {% set flagCurrent = '1' %}
                             <div class="gq-dashboard-courses-detail">
                                 <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
