@@ -19,15 +19,11 @@
             {% set courseCode = list.courseCode %}
             {% endif %}
             {% if ('ROLE_RTO' in userRole or 'ROLE_FACILITATOR' in userRole) %}
-                <td>{% if (list.assessorstatus == 1) %} Approved on {{list.assessorDate|date("d/m/Y")}} {% else %} Pending {% endif %}</td>
+                <td>{% if (list.assessorstatus == 1) %} Approved on {{list.assessorDate|date("d/m/Y")}} {% endif %}</td>
             {% endif%}    
             {% if ('ROLE_RTO' in userRole) %}
                 <td>
-                    {% if list.courseStatus == 2 %} Moved to RTO on {{list.facilitatorDate|date("d/m/Y")}} 
-                    {% else %}
-                        {% if (list.assessorstatus == 1) %} Approved On {{list.assessorstatus|date("d/m/Y")}}
-                        {% elseif (list.assessorstatus == 0) %} %} Pending 
-                        {% endif %}
+                    {% if list.courseStatus == 2 or list.courseStatus == 0 %} Moved to RTO on {{list.facilitatorDate|date("d/m/Y")}} 
                     {% endif %}  
                 </td>
             {% endif%}
@@ -50,8 +46,9 @@
                 
             {% if ('ROLE_RTO' in userRole) %}
                 <td>
-                    {% if (list.rtostatus == 1) %} Approved on {{list.rtoDate|date("d/m/Y")}}
+                    {% if (list.rtostatus == 1) %} Approved
                         {% if (list.courseStatus == 0) %} &amp; Certified {% endif %}
+                        on {{list.rtoDate|date("d/m/Y")}}
                     {% else %} Pending {% endif %}
                 </td>
             {% endif %}
