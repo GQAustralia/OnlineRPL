@@ -948,6 +948,10 @@ $(".date-icon").click(function() {
 
 function uncheckSpecificCB(chkid)
 {
+    if($("#chk-" + chkid).parent().parent().parent().hasClass("gq-msg-selected"))
+        $("#chk-" + chkid).parent().parent().parent().removeClass("gq-msg-selected");
+    else
+        $("#chk-" + chkid).parent().parent().parent().addClass("gq-msg-selected");
     $("#main-chk-id").removeClass("checked");
     document.getElementById("chk-main-all").checked = false;
     if ($("#chk-" + chkid).prev().hasClass("checked"))
