@@ -35,7 +35,7 @@
                             </div>
                         </span>
                         {% endif %}
-                        <a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  class="fancybox">        
+                        <a href = "{{ amazon_link }}{{  evidence.path }}" class="fancybox">        
                             <div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
                         </a>
                         <div class="gq-id-files-content-row-wrap">
@@ -233,7 +233,7 @@
                     </div>
                  </span>
                  {% endif %}
-                <a href = "{{ amazon_link }}{{  evidence.path }}" data-fancybox-group="gallery"  {% if (result.1 == 'xls') or (result.1 == 'docx') or (result.1 == 'doc') %} {% else %} class="fancybox fancybox.iframe" {% endif %} >
+                <a href = "{{ amazon_link }}{{  evidence.path }}" {% if (result.1 == 'xls') or (result.1 == 'docx') or (result.1 == 'doc') %} {% else %} class="fancybox fancybox.iframe" {% endif %} >
                     <div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
                 </a>
                 <div class="gq-id-files-content-row-wrap">

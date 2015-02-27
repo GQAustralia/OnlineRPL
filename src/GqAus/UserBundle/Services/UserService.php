@@ -463,6 +463,7 @@ class UserService
         
         if ($userType == 'rto') {
             //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
+            $res->andWhere("c.courseStatus = '0' OR c.courseStatus = '2'");
             $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
         }
 
@@ -1004,6 +1005,7 @@ class UserService
         if (!empty($applicantCoures)) {
             $applicantCoures->setCourseStatus('2');
             $applicantCoures->setFacilitatorstatus('1');
+            $applicantCoures->setFacilitatorDate(date('Y-m-d H:i:s'));
             $applicantCoures->setRtoDate(date('Y-m-d H:i:s'));
             $this->em->persist($applicantCoures);
             $this->em->flush();

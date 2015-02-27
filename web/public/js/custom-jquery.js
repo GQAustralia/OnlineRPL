@@ -179,10 +179,11 @@ $("#frmAddEvidence").ajaxForm({
         $('.gq-dashboard-tabs').hide();
         $('#gq-dashboard-tabs-success').show();
         $('.uploadevidence_loader').hide();
-        if (responseText == '0') {
-            $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
-        } else {
+        if (responseText == 'yes') {
             $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">File size below 10MB are only  upload successfully!</h2>').delay(3000).fadeOut(100);
+        } else {
+            $('#sp_'+responseText).show();
+            $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
         }
     },
     resetForm: true
@@ -193,11 +194,14 @@ $("#frmSelectEvidence").ajaxForm({
         $('#file_save').hide();
         $('.uploadevidence_loader').show();
     },
-    success: function() {
+    success: function(responseText) {
         $('.gq-dashboard-tabs').hide();
         $('.uploadevidence_loader').hide();
         $('#gq-dashboard-tabs-success').show();
-        $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
+        if (responseText){            
+            $('#sp_'+responseText).show();
+            $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
+        }
     },
     resetForm: true
 });
@@ -898,12 +902,11 @@ function inboxcheckall() {
     if (document.getElementById("chk-main-all").checked == true)
     {
         checkboxes = document.getElementsByName('chk_inbox');
-        //checkboxesSpans = document.getElementsByName('custom-chk-name');
-
         for (var i = 0, n = checkboxes.length; i < n; i++) {
             checkboxes[i].checked = true;
         }
         $(".custom-checkbox").addClass("checked");
+        $(".custom-checkbox").parent().parent().parent().addClass("gq-msg-selected");
     }
     else
     {
@@ -912,6 +915,7 @@ function inboxcheckall() {
             checkboxes[i].checked = false;
         }
         $(".custom-checkbox").removeClass("checked");
+        $(".custom-checkbox").parent().parent().parent().removeClass("gq-msg-selected");
     }
 }
 
@@ -944,6 +948,10 @@ $(".date-icon").click(function() {
 
 function uncheckSpecificCB(chkid)
 {
+    if($("#chk-" + chkid).parent().parent().parent().hasClass("gq-msg-selected"))
+        $("#chk-" + chkid).parent().parent().parent().removeClass("gq-msg-selected");
+    else
+        $("#chk-" + chkid).parent().parent().parent().addClass("gq-msg-selected");
     $("#main-chk-id").removeClass("checked");
     document.getElementById("chk-main-all").checked = false;
     if ($("#chk-" + chkid).prev().hasClass("checked"))
