@@ -749,8 +749,9 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:156px;}
  }
  @media (min-width: 768px) and (max-width:991px){
- .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:158px;}
- .gq-reports-date-picker, .gq-applicant-filter-wrap {margin-bottom:10px;}
+ .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:100%; height:auto; float:left; margin-bottom:6px;}
+ .gq-reports-date-picker.gq-applicant-filter-wrap {width:100%; height:auto; margin-bottom:6px;}
+ .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
  .gq-reports-status {text-align:left;}
  }
  

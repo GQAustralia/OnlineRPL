@@ -31,21 +31,21 @@
                         
                         <!-- Filter start here -->
                         <div class="row">
-                             {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 {% else %}
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-lg-11 col-md-12 col-sm-12 col-xs-12">
                                 {% endif %}
                                 <div class="gq-applicant-filter-wrap text-right">
                                     <label>Filter by: <span>Applicant Name</span></label>
                                     <input name="searchName" id="searchName" type="text"/>
-                                    <span id="searchFilter" class="gq-search-icon"></span>
+                                    <!--<span id="searchFilter" class="gq-search-icon"></span>-->
                                     <div class="gq-filter-clear wid100p visible-xs"></div>
                                 </div>
 
                             </div>
-                             {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
                                 <div class="gq-applicant-filter-wrap-select-remaining text-right">Remaining Time</div>
                             </div>
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
@@ -58,7 +58,10 @@
                                     </select>
                                 </div>
                             </div>
-                        {% endif %}
+                            {% endif %}
+                            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12">
+                                <button id="searchFilter" class="btn eye-btn gq-reports-filter-btn">Filter</button>
+                            </div>
                         </div>
                         <!-- Filter end here -->
 

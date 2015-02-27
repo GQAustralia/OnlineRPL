@@ -289,22 +289,46 @@
         {% endif %}
      {% endif %}
     
- {% if ('ROLE_RTO' in userRole) %}
-     {% if (rtostatus == '1') %}
-    <div id="approve_section" class="col-xs-12 text-center">
-        {% if (courseStatus == '1') %}
-        <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
-        {% else %}
-        Approved and Completed!
-        {% endif %}
-    </div>
-   
+{% if ('ROLE_RTO' in userRole) %}
+    {% if (rtostatus == '1') %}
+       <div id="approve_section" class="col-xs-12 text-center">
+           {% if (courseStatus == '2') %}
+                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
+           {% elseif (courseStatus == '0') %}
+                <span class="gq-approved-status">Approved and Completed!</span>
+           {% endif %}
+       </div>
     {% else %}
-     <button type="submit" disabled="disabled" onclick="checkApproveButton();" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
-     {% endif %}
-     
-      {% endif %}
+    <center>
+        <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Approved for the Certification</button></a>
+    </center>
+    {% endif %}
+{% endif %}
+        
+{% if ('ROLE_FACILITATOR' in userRole) %}
+    {% if (assessorstatus == '1') %}
+       <div id="approve_section" class="col-xs-12 text-center">
+           {% if (courseStatus == '1') %}
+                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-rto" class="btn btn-green">Approve for RTO</button>
+           {% elseif (courseStatus == '2') %}
+                <span class="gq-approved-status">Approved for RTO!</span>
+           {% elseif (courseStatus == '0') %}
+                <span class="gq-approved-status">Approved By RTO and Certified!</span>
+           {% endif %}
+       </div>
+    {% else %}
+    <center>
+        <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Approve for RTO</button></a>
+    </center>
+    {% endif %}
+{% endif %}
+    <div class="col-xs-12 text-center">
+        <span class="gq-approved-status" id="status_ar" style="display:none;">Approved for RTO!</span>
+        <span class="gq-approved-status" id="status_arc" style="display:none;">Approved By RTO and Certified!</span>
+        <span class="gq-approved-status" id="status_ac" style="display:none;">Approved and Completed!</span>
+    </div>
      <span class="gq-approve-error" id="gq-approve-error" style="display:none;">Please approve all the units.</span>
+     <center id="approve_loader" style="display:none"><span><img src="{{ asset('public/images')}}/loading.gif" /></span></center>
 </div>
 
 <!----- Unit evidences start --->
@@ -324,6 +348,18 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="disclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Assessor not yet approved all the Units</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!----- Unit evidences end --->
 {% endblock %}
   {% block javascripts %}

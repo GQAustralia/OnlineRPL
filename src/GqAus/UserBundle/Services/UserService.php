@@ -307,6 +307,9 @@ class UserService
             
             $results['courseStatus'] = $otheruser->getCourseStatus();
             $results['rtostatus'] = $otheruser->getRtostatus();
+            $results['assessorstatus'] = $otheruser->getAssessorstatus();
+            $results['facilitatorstatus'] = $otheruser->getFacilitatorstatus();
+            
         }
         return $results;
     }
@@ -351,8 +354,11 @@ class UserService
     * Function to get applicants list information
     * return $result array
     */
-    public function getUserApplicantsList($userId, $userRole, $status, $searchName = null, $searchTime = null)
+    public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, $searchTime = null)
     {
+        if ($page <= 0) {
+            $page = 1;
+        }
         $nameCondition = null;
         if (in_array('ROLE_ASSESSOR',$userRole)) {
             $userType = 'assessor';
@@ -383,6 +389,7 @@ class UserService
         }
         
         if ($userType == 'rto') {
+            $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
             $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
         }
 
@@ -409,16 +416,20 @@ class UserService
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) >= ".$searchTime1);
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) <= ".$searchTime);
         }
+        /*Pagination*/
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($res, $page,  $this->container->getParameter('pagination_limit_page'));
+        /*Pagination*/
         //$applicantList = $res->getQuery(); var_dump($applicantList); exit;
         $applicantList = $res->getQuery()->getResult();
-        return array('applicantList' => $applicantList);
+        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page );
     }
      
     /**
     * Function to get applicants list information
     * return $result array
     */
-    public function getUserApplicantsListReports($userId, $userRole, $status, $searchName = null, $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null)
+    public function getUserApplicantsListReports($userId, $userRole, $status, $page, $searchName = null, $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null)
     {
         $nameCondition = null;
         $qualCondition = null;
@@ -451,6 +462,8 @@ class UserService
         }
         
         if ($userType == 'rto') {
+            //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
+            $res->andWhere("c.courseStatus = '0' OR c.courseStatus = '2'");
             $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
         }
 
@@ -490,10 +503,14 @@ class UserService
         if (!empty($startDate)) {
             $res->andWhere("c.createdOn between '$startDate' and '$endDate'");
         }
-       
+       /*Pagination*/
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($res, $page,  $this->container->getParameter('pagination_limit_page'));
+        /*Pagination*/
+        
         //$applicantList = $res->getQuery(); var_dump($applicantList); exit;
         $applicantList = $res->getQuery()->getResult();
-        return array('applicantList' => $applicantList);
+        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
     }
     
     
@@ -595,6 +612,7 @@ class UserService
         }
         $result = array($userType => $userId, $userStatus => $applicantStatus);
         if ($userType == 'rto') {
+            $result['courseStatus'] = '2';
             $result['assessorstatus'] = '1';
         }
         $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy($result);
@@ -613,7 +631,7 @@ class UserService
            $todaysReminders = $this->getTodaysReminders($user->getId());
            return array('todaysReminders' => $todaysReminders, 
                         'unReadMessages' => $unReadMessages,
-                        'pendingApplicantsCount' => $pendingApplicantsCount);
+                        'pendingApplicantsCount' => $pendingApplicantsCount );
         }
     }
     
@@ -971,6 +989,23 @@ class UserService
                                                                                          'user' => $applicantId));
         if (!empty($applicantCoures)) {
             $applicantCoures->setCourseStatus('0');
+            $applicantCoures->setRtoDate(date('Y-m-d H:i:s'));
+            $this->em->persist($applicantCoures);
+            $this->em->flush();
+        }
+    }
+    
+    /**
+    * Function to approve certification to rto
+    */
+    public function approveForRTOCertification($courseCode, $applicantId)
+    {
+        $applicantCoures = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
+                                                                                         'user' => $applicantId));
+        if (!empty($applicantCoures)) {
+            $applicantCoures->setCourseStatus('2');
+            $applicantCoures->setFacilitatorstatus('1');
+            $applicantCoures->setFacilitatorDate(date('Y-m-d H:i:s'));
             $applicantCoures->setRtoDate(date('Y-m-d H:i:s'));
             $this->em->persist($applicantCoures);
             $this->em->flush();
