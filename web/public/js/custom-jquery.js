@@ -902,12 +902,11 @@ function inboxcheckall() {
     if (document.getElementById("chk-main-all").checked == true)
     {
         checkboxes = document.getElementsByName('chk_inbox');
-        //checkboxesSpans = document.getElementsByName('custom-chk-name');
-
         for (var i = 0, n = checkboxes.length; i < n; i++) {
             checkboxes[i].checked = true;
         }
         $(".custom-checkbox").addClass("checked");
+        $(".custom-checkbox").parent().parent().parent().addClass("gq-msg-selected");
     }
     else
     {
@@ -916,6 +915,7 @@ function inboxcheckall() {
             checkboxes[i].checked = false;
         }
         $(".custom-checkbox").removeClass("checked");
+        $(".custom-checkbox").parent().parent().parent().removeClass("gq-msg-selected");
     }
 }
 
