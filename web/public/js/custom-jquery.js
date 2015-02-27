@@ -185,6 +185,9 @@ $("#frmAddEvidence").ajaxForm({
             $('#sp_'+responseText).show();
             $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
         }
+        $('#evd_close').delay(3000).queue(function() {
+            $("#evd_close").trigger('click');
+        });
     },
     resetForm: true
 });
@@ -202,6 +205,9 @@ $("#frmSelectEvidence").ajaxForm({
             $('#sp_'+responseText).show();
             $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
         }
+        $('#evd_close').delay(3000).queue(function() {
+            $("#evd_close").trigger('click');
+        });
     },
     resetForm: true
 });
