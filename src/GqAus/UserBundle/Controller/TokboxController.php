@@ -57,5 +57,82 @@ class TokboxController extends Controller
                     'sessionId' => $sessionId,
                     'token' => $token
         ));
-    }
+    }    
+    
+   /**
+    * Function to start archive the conversation
+    * return string
+    */
+    public function startAction($rid)
+    { 
+        $openTok = new OpenTok(45145502, '5aaa4525592d0b4ed9685f67f6d8ed438a8a5812');
+        $roomId = base64_decode(base64_decode(base64_decode($rid)));$tokBox = $this->get('TokBox');
+        $sessionId = $tokBox->updateRoom($roomId, 1);
+        $archive = $openTok->startArchive($sessionId, "PHP Archiving Sample App");
+        $response = new Response( );
+        $response->headers->set('Content-Type', 'application/json');
+        echo $archive->toJson(); exit;
+    }  
+    
+   /**
+    * Function to stop the archiving conversation
+    * return string
+    */
+    public function stopAction($aid)
+    {
+        $openTok = new OpenTok(45145502, '5aaa4525592d0b4ed9685f67f6d8ed438a8a5812');
+        $archive = $openTok->stopArchive($aid);
+        $response = new Response( );
+        $response->headers->set('Content-Type', 'application/json');
+        echo $archive->toJson(); exit;
+    }  
+    
+   /**
+    * Function to list all the archived conversations
+    * return string
+    */
+    public function historyAction()
+    {
+        $openTok = new OpenTok(45145502, '5aaa4525592d0b4ed9685f67f6d8ed438a8a5812');
+//        $archive = $openTok->stopArchive($aid);
+//        $response = new Response( );
+//        $response->headers->set('Content-Type', 'application/json');
+//        echo $archive->toJson(); exit;
+        
+        $page = intval($this->getRequest()->get('page'));
+        if (empty($page)) {
+            $page = 1;
+        }
+
+        $offset = ($page - 1) * 5;
+
+        $archives = $openTok->listArchives($offset, 5);
+        
+        $toArray = function($archive) {
+          return $archive->toArray();
+        };
+        return $this->render('GqAusUserBundle:Tokbox:history.html.twig', array(
+            'archives' => array_map($toArray, $archives->getItems()),
+            'showPrevious' => $page > 1 ? '/history?page='.($page-1) : null,
+            'showNext' => $archives->totalCount() > $offset + 5 ? '/history?page='.($page+1) : null
+        ));
+    } 
+    
+   /**
+    * Function to download the archived conversation
+    * return string
+    */
+    public function downloadAction($aid)
+    {
+        $openTok = new OpenTok(45145502, '5aaa4525592d0b4ed9685f67f6d8ed438a8a5812');
+        $archive = $openTok->getArchive($aid);
+//        $filename = $archive->url;
+//        $response = new Response();
+//        $response->headers->set('Content-type', 'application/octect-stream');
+//        $response->headers->set('Content-Length', filesize($filename));
+//        $response->headers->set('Content-Transfer-Encoding', 'binary');
+//        $response->setContent(readfile($filename));
+//        return $response;
+        return $this->redirect($archive->url);
+    }  
 }

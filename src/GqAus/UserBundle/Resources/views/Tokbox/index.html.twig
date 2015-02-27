@@ -9,28 +9,23 @@
           {{ base_url }}applicant/{{ roomId}}
       </span>
     </div>
+    <div class="panel-footer">
+        <button class="btn btn-danger start">Start archiving</button>
+        <button class="btn btn-success stop">Stop archiving</button>
+        <br>
+        <a href="{{ base_url }}history" target="_blank">Previous conversations</a>
+    </div>
   </div>
 {% block javascripts %}
-<script src="//static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
+<script src="{{ asset('public/js/jquery.min.js') }}"></script>
+<script src="http://static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
 <script type="text/javascript">
     var apiKey = '{{ apiKey }}';
     var sessionId = '{{ sessionId }}';
-    var token = '{{ token }}';
-    {#property = { width: "100%", height: "100%", insertMode: "append" },
-    publisher = OT.initPublisher("publisherContainer", property),
-    session = OT.initSession(apiKey, sessionId);
-
-
-    session.on("streamCreated", function(event) {
-      session.subscribe(event.stream, 'subscriberContainer',  property);
-    });
-    session.connect(token, function(err) {
-      if(!err){ session.publish(publisher); }
-    });#}
-    
-    
+    var token = '{{ token }}';   
     var session = OT.initSession(sessionId),
-    publisher = OT.initPublisher("publisherContainer"),
+    property = { width: "100%", height: "100%", insertMode: "append" },
+    publisher = OT.initPublisher("publisherContainer", property),
     archiveID = null;
 
 session.connect(apiKey, token, function(err, info) {
@@ -41,7 +36,31 @@ session.connect(apiKey, token, function(err, info) {
 });
 
 session.on('streamCreated', function(event) {
-  session.subscribe(event.stream, "subscriberContainer", { insertMode: "append" });
+  session.subscribe(event.stream, "subscriberContainer", property);
+});
+
+session.on('archiveStarted', function(event) {
+  archiveID = event.id;
+  console.log("ARCHIVE STARTED");
+  $(".start").hide();
+  $(".stop").show();
+});
+
+session.on('archiveStopped', function(event) {
+  archiveID = null;
+  console.log("ARCHIVE STOPPED");
+  $(".start").show();
+  $(".stop").hide();
+});
+
+$(document).ready(function(){
+    var rid = "{{ roomId}}";
+  $(".start").click(function(event){
+    $.get("startArchive/" + rid);
+  }).show();
+  $(".stop").click(function(event){
+    $.get("stopArchive/" + archiveID);
+  }).hide();
 });
 
 
