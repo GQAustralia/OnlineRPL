@@ -34,10 +34,10 @@
                                         <div class="gq-id-files">
                                             <div class="gq-id-files-header gq-id-files-header-applicant">
                                                 <div class="row">
-                                                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-3">
+                                                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
                                                         <span class="gq-course-details-header-title">Name</span>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-5">
+                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
                                                         <span class="gq-course-details-header-title">Qualification Name</span>
                                                         </div>
                                                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
@@ -71,16 +71,16 @@
                                                         <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
                                                         <div class="row no-margin">
                                                             <div id="div_{{reminder.id}}" class="gq-acc-row-bg">
-                                                                <div class="col-lg-4 col-md-6 col-sm-4 col-xs-3">
+                                                                <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
                                                                     <a class="todomodalClass checkmark-icon" data-toggle="modal" data-target="#myModal" data-flag="{{reminder.completed}}" unit_id="{{reminder.id}}" user_id="1" id="{{reminder.id}}" course_code="BSB10112">
                                                                             <span id="span_BSBADM101A" class="radio  radioUnChecked "></span>
                                                                     </a>
                                                                     <div class="gq-acc-row-title">{{reminder.course.user.firstname}}</div>
                                                                 </div>
-                                                                <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4">
+                                                                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
                                                                     <div class="gq-acc-row-title">{{reminder.course.coursename}}</div>
                                                                 </div>
-                                                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
                                                                     {% if leftDays == 0 %}
                                                                         {% set daynote = "Today" %}
                                                                     {% endif %}
@@ -93,7 +93,7 @@
                                                                     {% if leftDays > 1 %}
                                                                         {% set daynote = "" %}
                                                                     {% endif %}
-                                                                    <div class="gq-acc-row-title" id="title_{{reminder.id}}">
+                                                                    <div class="gq-acc-row-title gq-to-do-date" id="title_{{reminder.id}}">
                                                                         {% if leftDays < 0 %}
                                                                         {% set overdue = "Over Due" %}
                                                                         <span class="todo_daynote">{{ overdue }}</span>
@@ -109,7 +109,7 @@
                                                                         {% endif %}
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-xs-2">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                                                     <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4 btn add-btn upDownArrow" onclick="changePlusIcon({{reminder.id}});">View</label>
 {#                                                                   <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4" onclick="changePlusIcon({{reminder.id}});"></label>#}
                                                                 </div>
@@ -144,13 +144,13 @@
                                         <div class="gq-id-files">
                                             <div class="gq-id-files-header gq-id-files-header-applicant">
                                                 <div class="row">
-                                                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-3">
+                                                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
                                                         <span class="gq-course-details-header-title">Name</span>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-5">
+                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
                                                         <span class="gq-course-details-header-title">Qualification Name</span>
                                                         </div>
-                                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                                                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
                                                         <span class="gq-course-details-header-title">Completed On</span>
                                                         </div>
                                                 </div>
@@ -173,10 +173,10 @@
                                                         <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
                                                         <div class="row no-margin">
                                                             <div id="div_{{reminder.id}}" class="gq-acc-row-bg  ">
-                                                                <div class="col-lg-4 col-md-6 col-sm-4 col-xs-3">
+                                                                <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
                                                                     <div class="gq-acc-row-title">{{reminder.course.user.firstname}}</div>
                                                                 </div>
-                                                                <div class="col-lg-4 col-md-3 col-sm-4 col-xs-5">
+                                                                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
                                                                     <div class="gq-acc-row-title">{{reminder.course.coursename}}</div>
                                                                 </div>
                                                                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
@@ -189,7 +189,7 @@
                                                                     {% if leftDays > 1 %}
                                                                         {% set daynote = "" %}
                                                                     {% endif %}
-                                                                    <div class="gq-acc-row-title" id="title_{{reminder.id}}">
+                                                                    <div class="gq-acc-row-title gq-to-do-date" id="title_{{reminder.id}}">
                                                                        
                                                                         
                                                                         {% if leftDays != 1 and leftDays > 0 and leftDays < 0%}
@@ -202,7 +202,7 @@
                                                                         {% endif %}
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-xs-2">
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 {#                                                                    <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4" onclick="changePlusIcon({{reminder.id}});"></label>#}
                                                                     <label for="acc-{{reminder.id}}" temp="acc-{{reminder.id}}" id="label_{{reminder.id}}" class="col-xs-4 btn add-btn upDownArrow" onclick="changePlusIcon({{reminder.id}});">View</label>
                                                                 </div>

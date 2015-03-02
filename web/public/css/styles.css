@@ -524,6 +524,9 @@ a.btn-red {color:#ffffff;}
 .gq-msg-header:before, .gq-msg-header:after{height:56px; width:8px; background-color:#f14840; display:block; float:left; content:""; position:absolute; top:-4px; }
 .gq-msg-header:before{left:0;}
 .gq-msg-header:after{right:0;}
+.gq-msg-row-bg .gq-msg-time-stamp {text-align:right;}
+.gq-msg-row-bg.gq-messages-icons-border .msg-checkmark-icon-wrap { float: left; height: 40px; overflow: hidden; padding-left: 15px; padding-right: 15px; width: 34px;}
+.gq-msg-row-bg.gq-messages-icons-border .gq-msg-mark-icon-wrap {padding-left:15px; padding-right:15px; float:left;}
 
 /* tooltip for home page dashboard */
 .gq-dashboard-box-title-wrap {position:relative;}
@@ -658,10 +661,11 @@ a.btn-red {color:#ffffff;}
 .msg-folder-wrap .flip-icon{background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:1px; right:28px; display:block; height:23px; width:24px;} 
 .msg-menu-wrap .flip-icon{background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:1px; right:15px; display:block; height:23px; width:24px;} 
 .msg-folder-wrap .gq-msg-row-bg:last-child{padding-bottom:12px;}
+.gq-msg-row-bg.gq-msg-selected {background-color:#f7f7f7;}
 #emptypwdform1, #emptypwdform {color:#f14840;}
 .overflow-hidden {overflow:hidden;}
 .gq-msg-wrap .gq-messages-button-wrap {padding:15px;}
-.gq-msg-wrap .gq-messages-button-wrap form .btn{border-radius:0;}
+.gq-msg-wrap .gq-messages-button-wrap form .btn, .gq-msg-wrap .gq-messages-button-wrap .btn{border-radius:0;}
 .gq-grey-bg-border {background-color:#f5f5f5; border-left:1px solid #e8e8e8; border-right:1px solid #e8e8e8;}
 .gq-form-personal .btn-grey {float: left; font-size: 17px; width: 100%; padding: 6px 12px; border-radius: 3px; color: #ffffff !important; text-align: center; text-decoration:none;}
 
@@ -747,13 +751,17 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  }
  @media (min-width:992px) and (max-width:1199px){
  .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:156px;}
+ /*.gq-reports-date-picker.gq-applicant-filter-wrap {width:100%;}
+ .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
+ .gq-reports-status {text-align:left;}*/
  }
  @media (min-width: 768px) and (max-width:991px){
- .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:100%; height:auto; float:left; margin-bottom:6px;}
+ .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:100%; float:left; margin-bottom:6px;}
  .gq-reports-date-picker.gq-applicant-filter-wrap {width:100%; height:auto; margin-bottom:6px;}
  .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
- .gq-reports-status {text-align:left;}
- }
+ .gq-reports-status.gq-applicant-filter-wrap {text-align:left;}
+ .gq-acc-row-title{min-height:auto;}
+  }
  
  @media (min-width: 768px) {
  .gq-assessor-appl-details .gq-assessor-appl-profile-details-col {padding-top:33px;}
@@ -825,7 +833,12 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:100%; margin-bottom:4px;}
 .gq-reports-date-picker.gq-applicant-filter-wrap label, .gq-applicant-filter-wrap-select-remaining.gq-reports-status {text-align:left;}
 .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
-
+.gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {font-size:15px;}
+.gq-to-do-date {text-align:right;}
+.gq-acc-wrap label.upDownArrow{width:100%; text-align:center; margin:7px auto; float:right;}
+.gq-msg-wrap {width:96%;}
+.msg-menu-wrap {margin-bottom:10px;}
+.gq-msg-row-bg .gq-msg-time-stamp {text-align:left; font-size:12px;}
 }
 
 @media (max-width:368px) {
@@ -844,6 +857,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-acc-row-title {word-wrap:break-word;}
 .gq-acc-wrap .btn {width:86px; white-space:pre-line; height:auto;}
 .gq-dashboard-tabs-header.wid20p {width:100%; margin:0 auto;}
+.gq-msg-wrap {width:94%;}
 }
 /*
 .caret {
