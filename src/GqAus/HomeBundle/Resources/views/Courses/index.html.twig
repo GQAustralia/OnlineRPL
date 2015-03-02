@@ -240,7 +240,33 @@
       <div class="modal-body">
         <div class="gq-dashboard-courses-detail-wrap">
             <div class="gq-dashboard-tabs">
-                <div id="unit-evidence-tab"></div>
+                <div id="unit-evidence-tab">
+                    <div class="wid90p">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="gq-evidence-new">
+                                    <ul id="myTab" role="tablist" class="nav nav-pills margin-top15 gq-evidence-new-tabs">
+                                        <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="unit-images" href="#unit-images" aria-expanded="true">Images</a></li>
+                                        <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-audios" href="#unit-audios" aria-expanded="false">Audios</a></li>
+                                        <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-videos" href="#unit-videos" aria-expanded="false">Videos</a></li>
+                                        <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-notes" href="#unit-notes" aria-expanded="false">Notes</a></li>
+                                        <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-files" href="#unit-files" aria-expanded="false">Documents</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div aria-labelledby="existing-evidence-tab" id="unit-images" class="tab-pane fade active in" role="tabpanel">
+                                            <div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
+                                                <div class="row">
+                                                    <div id="ajaxEvidences" style="display: block;" class="load-icon-tr">
+                                                        <img src="{{ asset('public/images')}}/loading.gif">
+                                                    </div>                                                                                                                                                                                                                                                                                           </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
           </div>
        </div>

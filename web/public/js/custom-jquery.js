@@ -185,6 +185,7 @@ $("#frmAddEvidence").ajaxForm({
             $('#sp_'+responseText).show();
             $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
         }
+        setTimeout(function(){jQuery("#evd_close").trigger('click');},3000);
     },
     resetForm: true
 });
@@ -202,6 +203,7 @@ $("#frmSelectEvidence").ajaxForm({
             $('#sp_'+responseText).show();
             $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
         }
+        setTimeout(function(){jQuery("#evd_close").trigger('click');},3000);
     },
     resetForm: true
 });
