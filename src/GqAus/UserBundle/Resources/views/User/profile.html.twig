@@ -70,7 +70,7 @@
                 <!-- Content for respective tabs above will be in this section -->
                 <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data" />
                 <div class="tab-content">                    
-                    
+                    <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% else %}other{% endif %}">
                     {% include 'GqAusUserBundle:User:user.html.twig' %}
                     
                     {% include 'GqAusUserBundle:User:idfiles.html.twig' %}

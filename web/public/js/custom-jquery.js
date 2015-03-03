@@ -985,73 +985,96 @@ $('.checkform-changed').click(function() {
 $("#userprofile_save").click(function() {
     return validateAddress();
 });
-function showMyTabs()
+function showMyTabs(msg)
 {
+    var startMsg = '<div class="gq-well well"><span aria-hidden="true" class="login-warning-icon"></span><div class="login-warning-text">';
+    var endMsg = '</div></div>';
+    $("#change_pwd_error").show();
+    $("#change_pwd_error").html(startMsg + msg + endMsg).delay(3000).fadeOut(100);
     $('#personel-gq-tab').tab('show');
     $('#personal').addClass('active');
     $('#address').removeClass('active');
 }
+function checkPhonenumber(inputtxt)
+{
+    var phoneno = /^[0-9+-]*$/;;
+    if(inputtxt.match(phoneno)) {
+        return "1";
+    }
+    else {
+        return "0";
+    }
+}  
 function validateAddress()
 {
+    var userrole = $("#hdn-userrole").val();
     var useremail = $("#userprofile_email").val();
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
-
-    var startMsg = '<div class="gq-well well"><span aria-hidden="true" class="login-warning-icon"></span><div class="login-warning-text">';
-    var endMsg = '</div></div>';
     if ($("#userprofile_firstname").val() == "")
     {
-        $("#change_pwd_error").html(startMsg + "Please enter First Name" + endMsg);
-        showMyTabs();
+        
+        if(userrole=='rtouser')
+            showMyTabs("Please enter College Name");
+        else
+            showMyTabs("Please enter First Name");
         $("#userprofile_firstname").focus();
         return false;
     }
     if ($("#userprofile_lastname").val() == "")
     {
-        $("#change_pwd_error").html(startMsg + "Please enter Last Name" + endMsg);
-        showMyTabs();
+        if(userrole=='rtouser')
+            showMyTabs("Please enter Provider Code");
+        else
+            showMyTabs("Please enter Last Name");
         $("#userprofile_lastname").focus();
         return false;
     }
     if ($("#userprofile_email").val() == "")
     {
-        $("#change_pwd_error").html(startMsg + "Please enter Email" + endMsg);
-        showMyTabs();
+        showMyTabs("Please enter Email");
         $("#userprofile_email").focus();
         return false;
     }
     if ($("#userprofile_email").val() != "")
     {
         if (useremail.search(regexp) == -1) {
-            $("#change_pwd_error").html(startMsg + "Please enter valid Email" + endMsg);
-            showMyTabs();
+            showMyTabs("Please enter valid Email");
             $("#userprofile_email").focus();
             return false;
         }
     }
     if ($("#userprofile_phone").val() == "")
     {
-        $("#change_pwd_error").html(startMsg + "Please enter Phone Number" + endMsg);
-        showMyTabs();
+        showMyTabs("Please enter Phone Number");
         $("#userprofile_phone").focus();
         return false;
     }
+    if ($("#userprofile_phone").val() != "")
+    {
+        if(checkPhonenumber($("#userprofile_phone").val()) == 0)
+        {
+            showMyTabs("Please enter valid Phone Number");
+            $("#userprofile_phone").val("");
+            $("#userprofile_phone").focus();
+            return false;
+        }
+    }
     if ($("#userprofile_dateOfBirth").val() == "")
     {
-        $("#change_pwd_error").html(startMsg + "Please enter Date Of Birth" + endMsg);
-        showMyTabs();
+        showMyTabs("Please enter Date Of Birth");
         $("#userprofile_dateOfBirth").focus();
         return false;
     }
     if ($("#userprofile_universalStudentIdentifier").val() == "")
     {
-        $("#change_pwd_error").html(startMsg + "Please enter USI" + endMsg);
-        showMyTabs();
+        showMyTabs("Please enter USI");
         $("#userprofile_universalStudentIdentifier").focus();
         return false;
     }
     if ($("#userprofile_address_address").val() == "")
     {
-        $("#change_pwd_error").html(startMsg + "Please enter Address" + endMsg);
+        $("#change_pwd_error").show();
+        $("#change_pwd_error").html(startMsg + "Please enter Address" + endMsg).delay(3000).fadeOut(100);
         $('#address-gq-tab').tab('show');
         $('#personal').removeClass('active');
         $('#address').addClass('active');
