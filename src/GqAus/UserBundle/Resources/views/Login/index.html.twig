@@ -30,62 +30,41 @@
 
 {% block javascripts %}
      <script>
-         function loginValidate() {
+        $(document).ready(function() {
+            $(".gq-id-files-upload-success-text").delay(3000).fadeOut(100);
+        });
+        
+        /*Login Validation*/
+        function loginValidate()
+        {
             var useremail = $("#InputEmail1").val();
             var userpwd = $("#InputPassword1").val();
             regexp=/^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
             if(useremail=="") {
                 $('.gq-well').show();
-                $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter Email</div>');
+                $(".login-warning-text").show();
+                $('.gq-well').show().delay(3000).fadeOut(100);
+                $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter Email</div>').delay(3000).fadeOut(100);
                 return false;
             }
             else {
                 if(useremail.search(regexp)==-1) {
                     $('.gq-well').show();
-                    $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter valid Email</div>');
+                    $(".login-warning-text").show();
+                    $('.gq-well').show().delay(3000).fadeOut(100);
+                    $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter valid Email</div>').delay(3000).fadeOut(100);
                     return false;
                 }
             }
             if(userpwd=="") {
                 $('.gq-well').show();
-                $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter Password</div>');
+                $(".login-warning-text").show();
+                $('.gq-well').show().delay(3000).fadeOut(100);
+                $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter Password</div>').delay(3000).fadeOut(100);
                 return false;
             }
          }
-         
-        // When the document is ready
-        $(document).ready(function () {
-            //validation rules
-            //by default it will append a <label class="error> element to the invalid input
-            //and will add a "error" class to the input
-            $("#frmLoginOld").validate({
-                rules: {
-                    "InputEmail1": {
-                        required: true,
-                        email: true
-                    },  
-                    "InputPassword1": {
-                        required: true,
-                        minlength: 5
-                    } 
-                },
-                messages:
-                {
-                    "InputEmail1":{
-                        required:"Please enter Email"
-                    },
-                    "InputPassword1":{
-                        required:"Please enter Password"
-                    },
-                },
-                errorElement: "div",
-                wrapper: "div",  // a wrapper around the error message
-                errorPlacement: function(error, element) {
-                    $('.gq-well').show();
-                    $('.login-warning-text').html(error);
-                }
-            });
-        });
+        /*End Login Validation*/
     </script>
     {% if error %}
         <script>
