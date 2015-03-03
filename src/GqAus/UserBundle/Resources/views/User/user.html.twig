@@ -3,11 +3,11 @@
     <div class="gq-form-personal wid60p">
         <div class="gq-form-row">
             <label for="gq-first-name">{% if ('ROLE_RTO' in userRole) %} College Name {% else %} First Name {% endif %}</label>
-                {{ form_widget(form.firstname) }}
+                {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-last-name">{% if ('ROLE_RTO' in userRole) %} Provider Code {% else %} Last Name {% endif %}</label>
-                {{ form_widget(form.lastname) }}
+                {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-email-name">Email</label>
@@ -21,7 +21,7 @@
         {% endif %}
         <div class="gq-form-row">
             <label for="gq-personal-pwd">Phone</label>
-                {{ form_widget(form.phone) }}
+                {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
         </div>
        {% if ('ROLE_APPLICANT' in userRole) %}
         <div class="gq-form-row">
@@ -30,21 +30,21 @@
         </div>
         <div class="gq-form-row">
             <label for="gq-personal-pwd">USI</label>
-                {{ form_widget(form.universalStudentIdentifier) }}
+                {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         {% endif %}        
        {% if ('ROLE_RTO' in userRole) %}
         <div class="gq-form-row">
             <label for="gq-personal-pwd">Contact Person Name</label>
-                {{ form_widget(form.contactname) }}
+                {{ form_widget(form.contactname,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-personal-pwd">Contact Person Phone</label>
-                {{ form_widget(form.contactphone) }}
+                {{ form_widget(form.contactphone,{ 'attr': {'maxlength': '20'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-personal-pwd">Contact Person Email</label>
-                {{ form_widget(form.contactemail) }}
+                {{ form_widget(form.contactemail,{ 'attr': {'maxlength': '50'} }) }}
         </div>
         {% endif %}
         <div class="wid100p text-center margin-top15">
@@ -59,31 +59,31 @@
     <div class="gq-form-personal wid60p">
         <div class="gq-form-row">
             <label for="gq-last-name">Street Number</label>
-                {{ form_widget(form.address.address) }}
+                {{ form_widget(form.address.address,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-last-name">Street Name</label>
-                {{ form_widget(form.address.area) }}
+                {{ form_widget(form.address.area,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-last-name">Suburb</label>
-                {{ form_widget(form.address.suburb) }}
+                {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-last-name">City</label>
-                {{ form_widget(form.address.city) }}
+                {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-email-name">State</label>
-                {{ form_widget(form.address.state) }}
+                {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-email-name">Country</label>
-                {{ form_widget(form.address.country) }}
+                {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-personal-pwd">Postcode</label>
-                {{ form_widget(form.address.pincode) }}
+                {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-botton">
             <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default" onclick="return validateAddress();">Save</button>

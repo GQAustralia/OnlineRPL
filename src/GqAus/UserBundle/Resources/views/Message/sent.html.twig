@@ -50,13 +50,22 @@
                                     <div class="gq-msg-row-bg gq-messages-icons-border ">
                                         <div class="msg-checkmark-icon-wrap">
                                             <span class="msg-checkmark-icon" onClick="inboxcheckall();">
-                                                <input type="checkbox" name="msgs_inbox[]" id="chk-main-all" class="styled">
+                                                <span class="custom-checkbox" name="main-chk-name" id="main-chk-id"></span>
+                                                <input type="checkbox" name="msgs_inbox[]" id="chk-main-all">
                                             </span>
                                         </div>
-
                                         <div class="gq-msg-mark-icon-wrap">
-                                            <div class="gq-msg-trash-icon"><a data-toggle="modal" data-target="" data-placement="right" title="Delete selected" class="modalClass deleteselected"><img src="{{ asset('public/images/trash.png') }}" /></a></div>
-
+                                            <div class="gq-msg-trash-icon gq-msg-mark-icon">
+                                                <span class="gq-dashboard-points-icon">
+                                                    <a data-toggle="modal" data-target="" data-placement="right" title="Delete selected" class="modalClass deleteselected">
+                                                        <img src="{{ asset('public/images/trash.png') }}" />
+                                                    </a>
+                                                    <div class="tooltip-home top">
+                                                        <div class="tooltip-arrow"></div>
+                                                        <span class="">Delete selected</span>
+                                                    </div>
+                                                </span>
+                                            </div>
                                             <div class="gq-msg-mark-icon msg-ajax-loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></div>
                                         </div>
                                         <div class="">
@@ -75,7 +84,9 @@
                                     <div class="gq-msg-row-bg gq-msg-visited" id="msg-{{message.id}}">
                                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                                             <span class="msg-checkmark-icon">
-                                                <input type="checkbox" id="chk-{{ message.id }}" name="chk_inbox" value="{{ message.id }}">
+                                                <span class="custom-checkbox" name="custom-chk-name" id="custom-chk-id-{{ message.id }}"></span>
+                                                <input class="gq-msg-custom-chk" type="checkbox" id="chk-{{ message.id }}" name="chk_inbox" value="{{ message.id }}" onclick="uncheckSpecificCB('{{ message.id }}');">
+                                                <!--<input type="checkbox" id="chk-{{ message.id }}" name="chk_inbox" value="{{ message.id }}">-->
                                             </span>
                                         </div>
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-10">
