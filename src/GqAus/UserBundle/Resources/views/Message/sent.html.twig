@@ -48,18 +48,18 @@
                             {% if messages %}
                                 {% if messages|length > 0 %}
                                     <div class="gq-msg-row-bg gq-messages-icons-border ">
-                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                        <div class="msg-checkmark-icon-wrap">
                                             <span class="msg-checkmark-icon" onClick="inboxcheckall();">
                                                 <input type="checkbox" name="msgs_inbox[]" id="chk-main-all" class="styled">
                                             </span>
                                         </div>
 
-                                        <div class="col-lg-5 col-md-5 col-sm-3 col-xs-3">
+                                        <div class="gq-msg-mark-icon-wrap">
                                             <div class="gq-msg-trash-icon"><a data-toggle="modal" data-target="" data-placement="right" title="Delete selected" class="modalClass deleteselected"><img src="{{ asset('public/images/trash.png') }}" /></a></div>
 
                                             <div class="gq-msg-mark-icon msg-ajax-loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8">
+                                        <div class="">
                                             {# display navigation for pages - paginator_navigator #}
                                             {% if messages|length > 0 and paginator.getTotalPages() > 1 %}
                                                 {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
@@ -73,15 +73,15 @@
                             {% if messages|length > 0 %}
                                 {% for key, message in messages %}
                                     <div class="gq-msg-row-bg gq-msg-visited" id="msg-{{message.id}}">
-                                        <div class="col-xs-1">
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                                             <span class="msg-checkmark-icon">
                                                 <input type="checkbox" id="chk-{{ message.id }}" name="chk_inbox" value="{{ message.id }}">
                                             </span>
                                         </div>
-                                        <div class="col-xs-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-10">
                                             <div class="gq-msg-from">{{message.inbox.firstname}}</div>
                                         </div>
-                                        <div class="col-xs-5">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
                                             <div class="gq-msg-title">
                                                 <a href="{{ base_url }}view/{{message.id}}">
                                                 {% if message.subject|length > 30 %}
@@ -92,8 +92,8 @@
                                                  </a>
                                             </div>
                                         </div>
-                                        <div class="col-xs-3">
-                                            <div class="gq-msg-time-stamp pull-right">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <div class="gq-msg-time-stamp">
                                                 {{ user_service.dateToWords(message.created) }}
                                             </div>
                                         </div>

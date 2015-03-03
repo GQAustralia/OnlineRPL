@@ -49,15 +49,13 @@
                         {% if messages %}
                             {% if messages|length > 0 %}
                                 <div class="gq-msg-row-bg gq-messages-icons-border gq-grey-bg-border">
-                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                    <div class="msg-checkmark-icon-wrap">
                                         <span class="msg-checkmark-icon" onClick="inboxcheckall();">
                                             <span class="custom-checkbox" name="main-chk-name" id="main-chk-id"></span>
                                             <input type="checkbox" name="msgs_inbox[]" id="chk-main-all">
                                         </span>
                                     </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-3">
-                                        
-                                       
+                                    <div class="gq-msg-mark-icon-wrap">
                                         <div class="gq-msg-mark-icon">
                                             <span class="gq-dashboard-points-icon">
 												<a data-toggle="modal" data-target="" data-placement="right" class="modalClass deleteselected">
@@ -68,9 +66,7 @@
                                                     <span class="">Delete selected</span>
                                                 </div>
                                             </span>
-                                            
                                         </div>
-                                        
                                         <div class="gq-msg-mark-icon">
                                             <span class="gq-dashboard-points-icon">
                                                 <a data-toggle="modal" data-target="" data-placement="right" class="modalClass markasread">
@@ -106,7 +102,7 @@
                                         </div>
                                         
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-5 col-xs-8">
+                                    <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5">
                                         {# display navigation for pages - paginator_navigator #}
                                         {% if messages|length > 0 and paginator.getTotalPages() > 1 %}
                                             {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
@@ -119,16 +115,16 @@
                             {% if messages|length > 0 %}
                                 {% for key, message in messages %}
                                     <div class="gq-msg-row-bg {% if message.read == 1 %} gq-msg-visited {% endif %}" id="msg-{{message.id}}">
-                                        <div class="col-xs-1">
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                                             <span class="msg-checkmark-icon">
                                                 <span class="custom-checkbox" name="custom-chk-name" id="custom-chk-id-{{ message.id }}"></span>
                                                 <input class="gq-msg-custom-chk" type="checkbox" id="chk-{{ message.id }}" name="chk_inbox" value="{{ message.id }}" onclick="uncheckSpecificCB('{{ message.id }}');">
                                             </span>
                                         </div>
-                                        <div class="col-xs-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-10">
                                             <div class="gq-msg-from">{{message.sent.firstname}}</div>
                                         </div>
-                                        <div class="col-xs-5">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
                                             <div class="gq-msg-title">
                                                 <a href="{{ base_url }}view/{{message.id}}">
                                                 {% if message.subject|length > 30 %}
@@ -139,8 +135,8 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="col-xs-3">
-                                            <div class="gq-msg-time-stamp pull-right">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <div class="gq-msg-time-stamp">
                                                 {{ user_service.dateToWords(message.created) }}
                                             </div>
                                         </div>
