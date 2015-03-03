@@ -553,6 +553,7 @@ function checkCurrentPassword(mypassword)
     var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
     var enddiv = '</div></div>';
     var mypassword = mypassword;
+    $("#change_pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
     if(mypassword!="") {
         $("#change_pwd_error").show();
         $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Please wait..' + enddiv);
@@ -568,10 +569,11 @@ function checkCurrentPassword(mypassword)
                     $("#change_pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);;
                     $("#password_oldpassword").val('');
                     $("#password_oldpassword").focus();
+                    return false;
                 }
                 else if (result == "success") {
-                    $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Current Password is correct' + enddiv).delay(3000).fadeOut(100);;
                     $("#hdn_pwd_check").val("1");
+                    $("#change-pwd-form").children("form").submit();
                 }
             }
         });
@@ -1082,6 +1084,84 @@ function validateAddress()
         return false;
     }
 }
+/* Change Password Validations */
+function passwordShowMsg(errorMsg,msgId)
+{
+    var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
+    var enddiv = '</div></div>';
+    $("#change_pwd_error").show();
+    $("#change_pwd_error").html(startdiv + errorMsg + enddiv).delay(3000).fadeOut(100);
+    if($("#"+msgId).val() != "")
+        $("#"+msgId).val('');
+    $("#"+msgId).focus();
+}
+$("#password_save").click(function()
+{
+    var curpwd = $("#password_oldpassword").val();
+    var newpwd = $("#password_newpassword").val();
+    var newconfirmpwd = $("#password_confirmnewpassword").val();
+    var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
+    var enddiv = '</div></div>';
+    var hdnpwdchk = $("#hdn_pwd_check").val();
+    if (curpwd == "") {
+        passwordShowMsg("Please enter Current Password", "password_oldpassword");
+        return false;
+    }
+    if (newpwd == "") {
+        passwordShowMsg("Please enter New Password", "password_newpassword");
+        return false;
+    }
+    if (newpwd != "") {
+        if (newpwd.length < 6) {
+            passwordShowMsg("New Password must be minimum of 6 characters", "password_newpassword");
+            return false;
+        }
+    }
+    if (newconfirmpwd == "") {
+        passwordShowMsg("Please confirm New Password", "password_confirmnewpassword");
+        return false;
+    }
+    if (newconfirmpwd != "") {
+        if (newconfirmpwd.length < 6) {
+            passwordShowMsg("New Confirm Password must be minimum of 6 characters", "password_confirmnewpassword");
+            return false;
+        }
+    }
+    if (newpwd != "" && newconfirmpwd != "") {
+        if (curpwd == newpwd) {
+            passwordShowMsg("Current Password and New Password must be different", "password_newpassword");
+            $("#password_confirmnewpassword").val('');
+            return false;
+        }
+        if (newpwd != newconfirmpwd)
+        {
+            passwordShowMsg("New Password and Confirm Password does not match", "password_confirmnewpassword");
+            return false;
+        }
+    }
+    if (curpwd != "" && newpwd != "" && newconfirmpwd != "") {
+        if (hdnpwdchk == 0) {
+            checkCurrentPassword($("#password_oldpassword").val());
+            return false;
+        }
+    }
+});
+$("#password_newpassword,#password_confirmnewpassword").keyup(function() {
+    checkspace(this);
+});
+$("#emptypwdform").click(function() {
+    $("#gq-profile-tabs-headerid").show();
+    $("#password_oldpassword").val('');
+    $("#password_newpassword").val('');
+    $("#password_confirmnewpassword").val('');
+});
+$("#emptypwdform1 ").click(function() {
+    $("#gq-profile-tabs-headerid").hide();
+    $("#password_oldpassword").val('');
+    $("#password_newpassword").val('');
+    $("#password_confirmnewpassword").val('');
+});
+/*End Change Password validations*/
 
 $("#approve-for-certification").click(function() {
     var courseCode = $(this).attr("courseCode");

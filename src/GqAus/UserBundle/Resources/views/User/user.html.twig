@@ -26,7 +26,7 @@
        {% if ('ROLE_APPLICANT' in userRole) %}
         <div class="gq-form-row">
             <label for="gq-personal-pwd">Date Of Birth</label>
-                {{ form_widget(form.dateOfBirth) }}
+                {{ form_widget(form.dateOfBirth, { 'attr':{'readonly':'readonly'} }) }}
         </div>
         <div class="gq-form-row">
             <label for="gq-personal-pwd">USI</label>
