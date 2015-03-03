@@ -20,8 +20,8 @@
 	}
 	.progress-pie-chart.gt-50 {
 	background-color: #f14840;
-	margin-left:10px;
-	margin-top:10px;
+	margin-left:9px;
+	margin-top:9px;
 	}
 
 	.ppc-progress {
@@ -57,12 +57,14 @@
 	.ppc-percents {
 	content: "";
 	position: absolute;
-	border-radius: 50%;
+	/*border-radius: 50%;
 	left: calc(50% - 90px/2);
-	top: calc(50% - 90px/2);
+	top: calc(50% - 90px/2);*/
+	left:5px;
+	top:5px;
 	width: 90px;
 	height: 90px;
-	background: #fff;
+	/*background: #fff;*/
 	text-align: center;
 	display: table;
 	}
@@ -80,6 +82,8 @@
 	.pcc-percents-wrapper {
 	display: table-cell;
 	vertical-align: middle;
+	border-radius:50%;
+	width:100%;
 	}
 
 	.progress-pie-chart {
