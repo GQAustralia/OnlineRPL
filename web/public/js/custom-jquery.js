@@ -630,11 +630,12 @@ function onloadCount()
     $.ajax({
         url: base_url + "unread",
         success: function(result) {
-            // alert(result);
             if (result > 0) {
                 $("#unread-count").html('<span class="gq-ms-counter">' + result + '<span>');
+                $(".inbox-cnt").html("(" + result + ")");
             } else {
                 $("#unread-count").html("");
+                $(".inbox-cnt").html("");
             }
         }
     });
@@ -669,6 +670,7 @@ $(".markasread").click(function() {
                         }
                         $("#chk-main-all").prop('checked', false);
                         $("#chk-main-all").prev().removeClass("checked");
+                        $("#messages-grid").children(".gq-msg-row-bg").removeClass("gq-msg-selected");
                     }
 
                 }
@@ -710,6 +712,7 @@ $(".markasunread").click(function() {
                         }
                         $("#chk-main-all").prop('checked', false);
                         $("#chk-main-all").prev().removeClass("checked");
+                        $("#messages-grid").children(".gq-msg-row-bg").removeClass("gq-msg-selected");
                     }
                 }
             });
