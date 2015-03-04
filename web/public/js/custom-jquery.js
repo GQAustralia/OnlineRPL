@@ -669,6 +669,7 @@ $(".markasread").click(function() {
                         }
                         $("#chk-main-all").prop('checked', false);
                         $("#chk-main-all").prev().removeClass("checked");
+                        $("#messages-grid").children(".gq-msg-row-bg").removeClass("gq-msg-selected");
                     }
 
                 }
@@ -710,6 +711,7 @@ $(".markasunread").click(function() {
                         }
                         $("#chk-main-all").prop('checked', false);
                         $("#chk-main-all").prev().removeClass("checked");
+                        $("#messages-grid").children(".gq-msg-row-bg").removeClass("gq-msg-selected");
                     }
                 }
             });
