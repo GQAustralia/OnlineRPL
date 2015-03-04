@@ -58,7 +58,7 @@
                                     <div class="gq-msg-mark-icon-wrap">
                                         <div class="gq-msg-mark-icon">
                                             <span class="gq-dashboard-points-icon">
-												<a data-toggle="modal" data-target="" data-placement="right" class="modalClass deleteselected">
+                                                <a data-toggle="modal" data-target="" data-placement="right" class="modalClass deleteselected">
                                                     <img src="{{ asset('public/images/trash.png') }}" />
                                                 </a>
                                                 <div class="tooltip-home top">
@@ -102,7 +102,7 @@
                                         </div>
                                         
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5">
+                                    <div>
                                         {# display navigation for pages - paginator_navigator #}
                                         {% if messages|length > 0 and paginator.getTotalPages() > 1 %}
                                             {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
