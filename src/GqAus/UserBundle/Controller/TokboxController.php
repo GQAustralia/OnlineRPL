@@ -94,10 +94,6 @@ class TokboxController extends Controller
     public function historyAction()
     {
         $openTok = new OpenTok(45145502, '5aaa4525592d0b4ed9685f67f6d8ed438a8a5812');
-//        $archive = $openTok->stopArchive($aid);
-//        $response = new Response( );
-//        $response->headers->set('Content-Type', 'application/json');
-//        echo $archive->toJson(); exit;
         
         $page = intval($this->getRequest()->get('page'));
         if (empty($page)) {
@@ -126,13 +122,9 @@ class TokboxController extends Controller
     {
         $openTok = new OpenTok(45145502, '5aaa4525592d0b4ed9685f67f6d8ed438a8a5812');
         $archive = $openTok->getArchive($aid);
-//        $filename = $archive->url;
-//        $response = new Response();
-//        $response->headers->set('Content-type', 'application/octect-stream');
-//        $response->headers->set('Content-Length', filesize($filename));
-//        $response->headers->set('Content-Transfer-Encoding', 'binary');
-//        $response->setContent(readfile($filename));
-//        return $response;
-        return $this->redirect($archive->url);
+        if($archive->url)
+            return $this->redirect($archive->url);
+        else 
+            return $this->redirect('https://s3.amazonaws.com/rpl-upload.com/45145502/'.$aid);
     }  
 }

@@ -23,13 +23,13 @@
 
               <tr data-item-id="{{ item.id }}">
                 <td>
-                  {% if item.status == "available" and item.url is defined and item.url|length > 0 %}
+{#                  {% if item.status == "available" and item.url is defined and item.url|length > 0 %}#}
                   <a href="/downloadArchive/{{ item.id }}">
-                  {% endif %}
+{#                  {% endif %}#}
                   {{ item.name|default("Untitled") }}
-                  {% if item.status == "available" and item.url is defined and item.url|length > 0 %}
+{#                  {% if item.status == "available" and item.url is defined and item.url|length > 0 %}#}
                   </a>
-                  {% endif %}
+{#                  {% endif %}#}
                 </td>
 {#                <td>{{ (item.createdAt//1000)|date }}</td>#}
                 <td>{{ item.duration }} seconds</td>
