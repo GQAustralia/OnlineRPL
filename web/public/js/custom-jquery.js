@@ -778,6 +778,10 @@ $(".deleteTrash").click(function() {
         success: function(result) {
         }
     });
+    checkboxes = document.getElementsByName('chk_inbox');
+    for (var i = 0, n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = false;
+    }
     location.reload();
 });
 
@@ -921,6 +925,15 @@ function inboxcheckall() {
         $(".custom-checkbox").removeClass("checked");
         $(".custom-checkbox").parent().parent().parent().removeClass("gq-msg-selected");
     }
+}
+
+function uncheckall() {
+    checkboxes = document.getElementsByName('chk_inbox');
+    for (var i = 0, n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = false;
+    }
+    $(".custom-checkbox").removeClass("checked");
+    $(".custom-checkbox").parent().parent().parent().removeClass("gq-msg-selected");
 }
 
 function getCheckedBoxes() {

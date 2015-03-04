@@ -89,7 +89,8 @@ class MessageController extends Controller
         if ($replyId) {
             $message = $userService->getMessage($replyId);
             $repMessage = "\n\n\n\n";
-            $repMessage .= "Received on :" . $message->getCreated() . ", sent from :" . $message->getSent()->getUserName() . "\n";
+            $newDateCreated = date("d/m/Y", strtotime($message->getCreated()));
+            $repMessage .= "Received on :" . $newDateCreated . ", sent from :" . $message->getSent()->getUserName() . "\n";
             $repMessage .= "Subject :" . $message->getSubject() . "\n";
             $repMessage .= "Message :\n" . $message->getmessage();
             $repSub = "Re: " . $message->getSubject();
