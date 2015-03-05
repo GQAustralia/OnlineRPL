@@ -501,7 +501,7 @@ class UserService
             ->setParameter('courseName', '%'.$searchQualification.'%');*/
         }
         if (!empty($startDate)) {
-            $res->andWhere("c.createdOn between '$startDate' and '$endDate'");
+            $res->andWhere("c.createdOn between '".$startDate."' and '".$endDate."'");
         }
        /*Pagination*/
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
