@@ -1,60 +1,33 @@
-{% block title %}GQ - RPL Subscriber{% endblock %}
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Applicant conversation{% endblock %}
 {% block body %}
-  <div id="subscriberContainer"></div>
-  <div id="publisherContainer"></div>
-  {% block javascripts %}
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="gq-video-section-wrap">
+            <div class="gq-video-others" id="subscriberContainer"></div>
+            <div class="gq-video-ours" id="publisherContainer"></div>
+        </div>
+    </div>
+</div>
 <script src="http://static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
 <script type="text/javascript">
     var apiKey = '{{ apiKey }}';
     var sessionId = '{{ sessionId }}';
     var token = '{{ token }}';
-    property = { width: "100%", height: "100%", insertMode: "append" },
+    property = {width: "100%", height: "100%", insertMode: "append"},
     publisher = OT.initPublisher("publisherContainer", property),
-    session = OT.initSession(apiKey, sessionId);
+            session = OT.initSession(apiKey, sessionId);
 
 
     session.on("streamCreated", function(event) {
-      session.subscribe(event.stream, 'subscriberContainer',  property);
+        session.subscribe(event.stream, 'subscriberContainer', property);
     });
     session.connect(token, function(err) {
-      if(!err){ session.publish(publisher); }
+        if (!err) {
+            session.publish(publisher);
+        }
     });
-        
-{#        var session = OT.initSession(sessionId),
-    publisher = OT.initPublisher("publisherContainer", property);
 
-session.connect(apiKey, token, function(err, info) {
-  if(err) {
-    alert(err.message || err);
-  }
-  session.publish(publisher);
-});
 
-session.on('streamCreated', function(event) {
-  session.subscribe(event.stream, "subscriberContainer", property);
-});#}
 </script>
-{% endblock %}
-{% block stylesheets %}
-<style>
-#publisherContainer{
-  position: fixed;
-  right:20px;
-  bottom:20px;
-  width: 320px;
-  height: 240px;
-  z-index: 3;
-}
-#subscriberContainer{
-  position: fixed;
-  top:0px;
-  bottom:0px;
-  left:0px;
-  right:0px;
-  z-index: 2;
-  background-color: #223;
-}
-
-</style>
-{% endblock %}
 {% endblock %}

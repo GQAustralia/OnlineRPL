@@ -772,6 +772,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  #userprofile_gender input[type="radio"] {float:left;}
  #userprofile_gender label {float:left; width:30%;}
  #userprofile_gender {width:50%;}
+ .gq-video-section-wrap .gq-video-others { height:700px;}
  }
 /*
  @media (min-width: 768px) and (max-width:1279px){
@@ -903,3 +904,15 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-msg-from textarea:focus, .gq-msg-compose .gq-msg-row-bg input:focus{
     outline: 0;
 }
+
+/* video conversation page */
+.gq-video-section-wrap {position:relative; width:100%;}
+.gq-video-section-wrap .gq-video-others { width:100%;}
+.gq-video-section-wrap .gq-video-ours {position:absolute; width:320px; height:240px; right:0; bottom:0; border:1px solid red; margin-bottom:70px;}
+.gq-video-section-wrap .gq-video-controls {position:absolute; height:70px; bottom:0; background-color:#fcfcfc; width:100%; float: left; opacity:.9;}
+.gq-video-section-wrap .gq-video-copy-url, .gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {float:left; border-right:1px solid #c9c9c9; padding:25px 15px 15px; font-size:14px; height:70px;}
+.gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {color:#f14840;}
+.gq-video-section-wrap .gq-video-start-recording .gq-video-recording-icon {background-image:url(../images/start-rec.png); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
+.gq-video-section-wrap .gq-video-stop-recording .gq-video-recording-icon {background-image:url(../images/stop-rec.png); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
+.gq-video-section-wrap .gq-video-back-btn {float:right; padding:18px;}
+.gq-video-section-wrap .gq-video-back-btn .btn-red{width:130px;}

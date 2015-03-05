@@ -134,7 +134,7 @@ tokbox:
     path:     /startConversation
     defaults: { _controller: GqAusUserBundle:Tokbox:index }
 subscriber:
-    path:     /applicant/{rid}
+    path:     /applicant/{roomId}
     defaults: { _controller: GqAusUserBundle:Tokbox:subscriber }
 approveForRTO:    
     path:     /approveForRTO
@@ -143,10 +143,10 @@ reports:
     path:     /reports
     defaults: { _controller: GqAusUserBundle:Applicant:reports }
 startArchive:
-    path:     /startArchive/{rid}
+    path:     /startArchive/{roomId}
     defaults: { _controller: GqAusUserBundle:Tokbox:start }
 stopArchive:
-    path:     /stopArchive/{aid}
+    path:     /stopArchive/{archiveId}/{applicantId}/{unitCode}/{courseCode}
     defaults: { _controller: GqAusUserBundle:Tokbox:stop }
 historyArchive:
     path:     /history

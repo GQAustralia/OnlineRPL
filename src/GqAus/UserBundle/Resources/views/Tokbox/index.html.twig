@@ -1,105 +1,70 @@
-{% block title %}GQ - RPL Publisher{% endblock %}
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Assessor conversation{% endblock %}
 {% block body %}
-  <div id="subscriberContainer"></div>
-  <div id="publisherContainer"></div>
-  <div id="informationContainer">
-    <div class="userValue">
-      <span class="header">ShareLink: </span>
-      <span id="customerName">
-          {{ base_url }}applicant/{{ roomId}}
-      </span>
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="gq-video-section-wrap">
+            <div class="gq-video-others" id="subscriberContainer"></div>
+            <div class="gq-video-ours" id="publisherContainer"></div>
+            <div class="gq-video-controls">
+                <div class="gq-video-copy-url">{{ base_url }}applicant/{{ roomId}}</div>
+                <div class="gq-video-start-recording start">Start recording <span class="gq-video-recording-icon"></span></div>
+                <div class="gq-video-stop-recording stop">Stop recording <span class="gq-video-recording-icon"></span></div>
+                <div class="gq-video-back-btn"><a href="{{ base_url }}applicantDetails/{{ courseCode}}/{{ applicantId}}" class="btn btn-red">Back</a></div>
+            </div>
+        </div>
     </div>
-    <div class="panel-footer">
-        <button class="btn btn-danger start">Start archiving</button>
-        <button class="btn btn-success stop">Stop archiving</button>
-        <br>
-        <a href="{{ base_url }}history" target="_blank">Previous conversations</a>
-    </div>
-  </div>
-{% block javascripts %}
-<script src="{{ asset('public/js/jquery.min.js') }}"></script>
+</div>
 <script src="http://static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
 <script type="text/javascript">
     var apiKey = '{{ apiKey }}';
     var sessionId = '{{ sessionId }}';
-    var token = '{{ token }}';   
+    var token = '{{ token }}';
     var session = OT.initSession(sessionId),
-    property = { width: "100%", height: "100%", insertMode: "append" },
+    property = {width: "100%", height: "100%", insertMode: "append"},
     publisher = OT.initPublisher("publisherContainer", property),
     archiveID = null;
 
-session.connect(apiKey, token, function(err, info) {
-  if(err) {
-    alert(err.message || err);
-  }
-  session.publish(publisher);
-});
+    session.connect(apiKey, token, function(err, info) {
+        if (err) {
+            alert(err.message || err);
+        }
+        session.publish(publisher);
+    });
 
-session.on('streamCreated', function(event) {
-  session.subscribe(event.stream, "subscriberContainer", property);
-});
+    session.on('streamCreated', function(event) {
+        session.subscribe(event.stream, "subscriberContainer", property);
+    });
 
-session.on('archiveStarted', function(event) {
-  archiveID = event.id;
-  console.log("ARCHIVE STARTED");
-  $(".start").hide();
-  $(".stop").show();
-});
+    session.on('archiveStarted', function(event) {
+        archiveID = event.id;
+        console.log("ARCHIVE STARTED");
+        $(".start").hide();
+        $(".stop").show();
+    });
 
-session.on('archiveStopped', function(event) {
-  archiveID = null;
-  console.log("ARCHIVE STOPPED");
-  $(".start").show();
-  $(".stop").hide();
-});
+    session.on('archiveStopped', function(event) {
+        archiveID = null;
+        console.log("ARCHIVE STOPPED");
+        $(".start").show();
+        $(".stop").hide();
+    });
 
-$(document).ready(function(){
-    var rid = "{{ roomId}}";
-  $(".start").click(function(event){
-    $.get("startArchive/" + rid);
-  }).show();
-  $(".stop").click(function(event){
-    $.get("stopArchive/" + archiveID);
-  }).hide();
-});
+    $(document).ready(function() {
+        var rid = "{{ roomId}}";
+        var aid = "{{ applicantId}}";
+        var uid = "{{ unitCode}}";
+        var cid = "{{ courseCode}}";
+        $(".start").click(function(event) {
+            $.get("startArchive/" + rid);
+        }).show();
+        $(".stop").click(function(event) {
+            $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);
+        }).hide();
+    });
 
 
 </script>
-{% endblock %}
-{% block stylesheets %}
-<style>
-#informationContainer{
-  color: #fff;
-  background-color: rgba(0,0,0,0.6);
-  position: fixed;
-  left:20px;
-  bottom:20px;
-  width: 280px;
-  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-  box-sizing: border-box;  
-  padding: 20px;
-  z-index: 4;
-}
-#publisherContainer{
-  position: fixed;
-  right:20px;
-  bottom:20px;
-  width: 320px;
-  height: 240px;
-  z-index: 3;
-}
-#subscriberContainer{
-  position: fixed;
-  top:0px;
-  bottom:0px;
-  left:0px;
-  right:0px;
-  z-index: 2;
-  background-color: #223;
-}
-</style>
-{% endblock %}
 {% endblock %}
 
 
