@@ -12,6 +12,7 @@
             <discriminator-mapping value="audio" class="GqAus\UserBundle\Entity\Evidence\Audio"/>
             <discriminator-mapping value="text" class="GqAus\UserBundle\Entity\Evidence\Text"/>
             <discriminator-mapping value="file" class="GqAus\UserBundle\Entity\Evidence\File"/>
+            <discriminator-mapping value="recording" class="GqAus\UserBundle\Entity\Evidence\Recording"/>
         </discriminator-map>
         <field name="unit" type="string" column="unit_code" null="true"/>
         <field name="course" type="string" column="course_code" null="true"/>

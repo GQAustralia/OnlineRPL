@@ -130,9 +130,27 @@ unread:
 approveCertification:
     path:     /approveCertification
     defaults: { _controller: GqAusUserBundle:Applicant:approveCertification }
+tokbox:
+    path:     /startConversation
+    defaults: { _controller: GqAusUserBundle:Tokbox:index }
+subscriber:
+    path:     /applicant/{roomId}
+    defaults: { _controller: GqAusUserBundle:Tokbox:subscriber }
 approveForRTO:    
     path:     /approveForRTO
     defaults: { _controller: GqAusUserBundle:Applicant:approveForRTO }
 reports:
     path:     /reports
     defaults: { _controller: GqAusUserBundle:Applicant:reports }
+startArchive:
+    path:     /startArchive/{roomId}
+    defaults: { _controller: GqAusUserBundle:Tokbox:start }
+stopArchive:
+    path:     /stopArchive/{archiveId}/{applicantId}/{unitCode}/{courseCode}
+    defaults: { _controller: GqAusUserBundle:Tokbox:stop }
+historyArchive:
+    path:     /history
+    defaults: { _controller: GqAusUserBundle:Tokbox:history }
+downloadArchive:
+    path:     /downloadArchive/{aid}
+    defaults: { _controller: GqAusUserBundle:Tokbox:download }
