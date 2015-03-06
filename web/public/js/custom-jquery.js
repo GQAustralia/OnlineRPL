@@ -581,10 +581,18 @@ function checkCurrentPassword(mypassword)
         });
     }
 }
+$(".notes-area").keypress(function() {
+    $(this).css("border","none");
+});
+$(".date-area").change(function() {
+    $(this).css("border","none");
+});
+
 
 $(".setNotes").click(function() {
     id = $(this).attr("id");
     var c = $('#div_' + id).hasClass("open");
+    $(".notes-area, .date-area").css("border","none");
     if (c == false) {
         if($(".gq-assessor-list-dropdown-wrap").hasClass("open"))
             $(".gq-assessor-list-dropdown-wrap").removeClass('open');
@@ -603,11 +611,13 @@ $(".setData").click(function() {
     note = $('#notes_' + userCourseId).val();
     if (note === '') {
         $('#notes_' + userCourseId).focus();
+        $('#notes_' + userCourseId).css("border","1px solid red");
         return false;
     }
     remindDate = $('#remindDate_' + userCourseId).val();
     if (remindDate === '') {
         $('#remindDate_' + userCourseId).focus();
+        $('#remindDate_' + userCourseId).css("border","1px solid red");
         return false;
     }
     if (remindDate != '') {
