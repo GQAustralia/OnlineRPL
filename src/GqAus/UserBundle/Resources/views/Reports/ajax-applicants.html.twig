@@ -38,7 +38,7 @@
                             {% else %}
                                 Approved On {{list.facilitatorDate|date("d/m/Y")}}
                             {% endif %}
-                        {% elseif (list.facilitatorstatus == 0) %} %} Pending 
+                        {% elseif (list.facilitatorstatus == 0) %} Pending 
                         {% endif %}
                     {% endif %}  
                 </td>
@@ -55,7 +55,7 @@
                 
             <td>
                 <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
-                    <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>View</button>
+                    <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button>
                 </a>
             </td>
         </tr>

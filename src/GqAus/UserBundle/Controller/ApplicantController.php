@@ -114,7 +114,7 @@ class ApplicantController extends Controller
         $startDatearr = explode("/",$startDate);
         $startDate = trim($startDatearr[2]," ")."-".$startDatearr[1]."-".$startDatearr[0]; 
         $endDatearr = explode("/",$endDate);
-        $endDate = $endDatearr[2]."-".$endDatearr[1]."-".trim($startDatearr[0]," ");
+        $endDate = $endDatearr[2]."-".$endDatearr[1]."-".trim($endDatearr[0]," ");
         $status = $this->getRequest()->get('status');
         $page = $this->getRequest()->get('pagenum');
         if($page == "")
