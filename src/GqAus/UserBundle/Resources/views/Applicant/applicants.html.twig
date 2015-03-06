@@ -13,6 +13,7 @@
     <tr>
         <td>{{list.user.userName}}</td>
         <td>{{list.courseCode}} {{list.courseName}}</td>
+        {% if (status == 0) %}
     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
         <td>                         
         {% set userId = list.user.id %}
@@ -43,6 +44,7 @@
         </td>
         <td>{{ timeRemaining(id) }}</td>
     {% endif %}
+        {% endif %}
         <td>
             <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
                 <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button>
