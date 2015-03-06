@@ -45,6 +45,7 @@
 
                             </div>
                             {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+                                        <div id="remainingweekDiv">
                             <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
                                 <div class="gq-applicant-filter-wrap-select-remaining text-right">Remaining Time</div>
                             </div>
@@ -58,6 +59,7 @@
                                     </select>
                                 </div>
                             </div>
+                                    </div>
                             {% endif %}
                             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12">
                                 <button id="searchFilter" class="btn eye-btn gq-reports-filter-btn">Filter</button>
@@ -84,7 +86,12 @@
                             <div role="tabpanel" class="tab-pane" id="completed">
                                 <div class="table-responsive gq-applicant-list-table margin-top15">
                                     <table class="table">
-                                        {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                                        <thead>
+                                            <tr>        
+                                                <th width="20%"><span class="">Name</span></th>
+                                                <th width="80%" colspan="2"><span class="">Qualification Name</span></th>                                                
+                                            </tr>
+                                        </thead>
                                         <tbody class="row" id="completedList">
                                         {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
                                         </tbody>
