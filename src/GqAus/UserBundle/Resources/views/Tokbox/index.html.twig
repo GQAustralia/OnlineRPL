@@ -10,7 +10,7 @@
                 <div class="gq-video-copy-url">{{ base_url }}applicant/{{ roomId}}</div>
                 <div class="gq-video-start-recording start">Start recording <span class="gq-video-recording-icon"></span></div>
                 <div class="gq-video-stop-recording stop">Stop recording <span class="gq-video-recording-icon"></span></div>
-                <div class="gq-video-back-btn"><a href="{{ base_url }}applicantDetails/{{ courseCode}}/{{ applicantId}}" class="btn btn-red">Back</a></div>
+                <div class="gq-video-back-btn"><a href="javascript:void(0)" class="btn btn-red" id="close_btn_uni">close</a></div>
             </div>
         </div>
     </div>
@@ -39,6 +39,7 @@
     session.on('archiveStarted', function(event) {
         archiveID = event.id;
         console.log("ARCHIVE STARTED");
+        window.onbeforeunload = closeIt;
         $(".start").hide();
         $(".stop").show();
     });
@@ -49,7 +50,7 @@
         $(".start").show();
         $(".stop").hide();
     });
-
+    
     $(document).ready(function() {
         var rid = "{{ roomId}}";
         var aid = "{{ applicantId}}";
@@ -61,7 +62,22 @@
         $(".stop").click(function(event) {
             $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);
         }).hide();
+        
+        $("#close_btn_uni").click(function(event) {
+            var r = confirm("Are you sure want to close the conversation?");
+            if(r === true) {
+                if (archiveID !== null) {
+                    $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);   
+                }
+                window.location.href = "{{ base_url }}applicantDetails/{{ courseCode}}/{{ applicantId}}";
+            }
+        })
     });
+    
+    function closeIt()
+    {
+      return "Are you sure to close the window";
+    }
 
 
 </script>
