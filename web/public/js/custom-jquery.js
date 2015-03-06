@@ -182,7 +182,7 @@ $("#frmAddEvidence").ajaxForm({
         $('#gq-dashboard-tabs-success').show();
         $('.uploadevidence_loader').hide();
         if (responseText == 'yes') {
-            $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">File size below 10MB are only  upload successfully!</h2>').delay(3000).fadeOut(100);
+            $('#gq-dashboard-tabs-error').html('<h2>File size more than 10MB connot be uploaded!</h2>').delay(3000).fadeOut(100);
         } else {
             $('#sp_'+responseText).show();
             $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
@@ -810,6 +810,7 @@ $("#applicantPending").click(function() {
     pagenum = 1;
     loadDataIcon('currentList');
     applicantStatus = '0';
+    $("#remainingweekDiv").show();
     loadApplicantList('currentList',pagenum);
 });
 
@@ -817,6 +818,7 @@ $("#applicantCompleted").click(function() {
     pagenum = 1;
     loadDataIcon('completedList');
     applicantStatus = '1';
+    $("#remainingweekDiv").hide();
     loadApplicantList('completedList',pagenum);
 });
 
