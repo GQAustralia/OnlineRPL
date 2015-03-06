@@ -27,3 +27,6 @@ services:
         arguments: [@UserService]
         tags:
             - { name: twig.extension }
+    TokBox:
+        class: GqAus\UserBundle\Services\TokBox
+        arguments: [@doctrine.orm.entity_manager]

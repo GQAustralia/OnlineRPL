@@ -8,6 +8,7 @@ use GqAus\UserBundle\Entity\Evidence\Image;
 use GqAus\UserBundle\Entity\Evidence\Audio;
 use GqAus\UserBundle\Entity\Evidence\Video;
 use GqAus\UserBundle\Entity\Evidence\Text;
+use GqAus\UserBundle\Entity\Evidence\Recording;
 use Symfony\Component\HttpFoundation\Response;
 
 class EvidenceService
@@ -281,5 +282,19 @@ class EvidenceService
     {
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
         return $reposObj->findBy(array('user' => $userId, 'course' => $courseId));
+    }
+    
+    public function saveRecord($evidence, $applicantID, $unitCode, $courseCode)
+    {        
+        $user = $this->repository->findOneById($applicantID);
+        $recordingObj = new Recording();        
+        $recordingObj->setPath($evidence);
+        $recordingObj->setName('');
+        $recordingObj->setSize('');
+        $recordingObj->setUnit($unitCode);
+        $recordingObj->setCourse($courseCode);
+        $recordingObj->setUser($user);
+        $this->em->persist($recordingObj);
+        $this->em->flush();
     }
 }
