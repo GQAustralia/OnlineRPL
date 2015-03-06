@@ -14,11 +14,13 @@ class ApplicantController extends Controller
     */
     public function detailsAction($qcode, $uid, Request $request)
     {
-        $user = $this->get('UserService')->getUserInfo($uid);
-        $results = $this->get('CoursesService')->getCoursesInfo($qcode);
+        $userService = $this->get('UserService');
+        $coursesService = $this->get('CoursesService');
+        $user = $userService->getUserInfo($uid);
+        $results = $coursesService->getCoursesInfo($qcode);
         if (!empty($user) && isset($results['courseInfo']['id'])) {
-            $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
-            $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
+            $applicantInfo = $userService->getApplicantInfo($user, $qcode);
+            $results['electiveUnits'] = $coursesService->getElectiveUnits($uid, $qcode);
             $results['courseCode'] = $qcode;
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
         } else {
@@ -68,12 +70,14 @@ class ApplicantController extends Controller
     */
     public function applicantsListAction()
     {
+        $userService = $this->get('UserService');
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
         $page = $this->get('request')->query->get('page', 1);
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
+        $results = $userService->getUserApplicantsList($userId, $userRole, '0', $page);
         $results['pageRequest'] = 'submit';
+        $results['status'] = 0;
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
 
@@ -92,7 +96,8 @@ class ApplicantController extends Controller
         if($page == "")
             $page=1;
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, $searchName, $searchTime);
-        $results['pageRequest'] = 'ajax'; 
+        $results['pageRequest'] = 'ajax';
+        $results['status'] = $status; 
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results); exit;
     }
     
