@@ -88,9 +88,9 @@
                                   
                                   <div class="gq-dashboard-courses-detail">
                                         {% if courseConditionStatus == 1 %}
-                                            <a href="qualificationDetails/{{ courses.getCourseCode() }}" >
+                                            <a href="qualificationDetails/{{ courses.getCourseCode() }}" class="gq-dashboard-courses-detail-a">
                                         {% else %}
-                                            <a href="#" id="{{ courses.getCourseCode() }}" class="modalClass" data-toggle="modal" data-target="#myModal">
+                                            <a href="#" id="{{ courses.getCourseCode() }}" class="modalClass gq-dashboard-courses-detail-a" data-toggle="modal" data-target="#myModal">
                                         {% endif %}
                                             <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
                                             <div class="gq-dashboard-courses-detail-txt">
@@ -116,9 +116,9 @@
                                     {% set flagCompleted = '1' %}
                                   <div class="gq-dashboard-courses-detail">
                                         {% if courseConditionStatus == 1 %}
-                                            <a href="qualificationDetails/{{ courses.getCourseCode() }}" >
+                                            <a href="qualificationDetails/{{ courses.getCourseCode() }}" class="gq-dashboard-courses-detail-a">
                                         {% else %}
-                                            <a href="#" id="{{ courses.getCourseCode() }}" class="modalClass" data-toggle="modal" data-target="#myModal">
+                                            <a href="#" id="{{ courses.getCourseCode() }}" class="modalClass gq-dashboard-courses-detail-a" data-toggle="modal" data-target="#myModal">
                                         {% endif %}
                                             <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
                                             <div class="gq-dashboard-courses-detail-txt">

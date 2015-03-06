@@ -195,7 +195,17 @@ class MessageController extends Controller
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
         $messageService->setReadViewStatus($mid);
         $message = $messageService->getMessage($mid);
-        $msgUser = $message->getSent()->getId();
+        $msgUser = $message->getSent()->getId(); // from user
+        $touser = $message->getInbox()->getId(); // to user
+        $toStatus = $message->getToStatus();
+        $fromStatus = $message->getFromStatus();
+        $msgDetails = array(
+                        'fromUser'  => $msgUser,
+                        'toUser'    => $touser,
+                        'toStatus'  => $toStatus,
+                        'fromStatus'=> $fromStatus,
+                        'curUser'   => $userid
+                        );
         if ($userid == $msgUser) {
             $userName= $message->getInbox()->getUserName(); 
             $from = " from me";
@@ -215,7 +225,8 @@ class MessageController extends Controller
                     "message" => $message,
                     'content' => $content,
                     'userName' => $userName,
-                    'from' => $from
+                    'from' => $from,
+                    'msgDetails' => $msgDetails 
                 )
         );
     }
