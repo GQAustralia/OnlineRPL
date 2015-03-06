@@ -246,7 +246,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-box-2x {min-height: 380px;}
 .gq-dashboard-box-title-wrap {width:100%; border-bottom:1px solid #dddddd; min-height:48px; display:block; position:relative; /*overflow:hidden; need to enable in mobile */}
 .gq-dashboard-box-content-wrap{padding:0 15px; float:left; width:100%;}
-.gq-dashboard-box-title-wrap .gq-dashboard-box-title {font-size:22px; color:#f14a41; float:left; padding:12px 40px 12px 12px;}
+.gq-dashboard-box-title-wrap .gq-dashboard-box-title {font-size:22px; color:#f14a41; float:left; padding:12px 40px 12px 15px;}
 .gq-dashboard-box-title-wrap .gq-dashboard-points-icon {width:48px; height:48px; display:block; float:right; border-left:1px solid #dddddd; position:absolute; top:0; right:0;}
 .gq-dashboard-running-txt {font-size:14px; color:#5e5e5e; width:100%; float:left; padding-top:20px;}
 .gq-dashboard-points-in-number {font-size:60px; color:#f14840; float:left;}
@@ -259,6 +259,7 @@ a.btn-red {color:#ffffff;}
 .qualification-success-msg h2 {font-size:13px; color:#85b430; padding-top:10px;}
 .qualification-success-msg h2 img {margin-right:6px; padding-bottom:4px;}
 .gq-dashboard-courses-detail {width:100%; border:1px solid #dddddd; min-height:48px; display:block; float:left; margin-bottom:5px; box-shadow:0px 2px 2px #f3f3f3; background-color:#ffffff;}
+.gq-dashboard-courses-detail-a {width:100%; float:left;}
 .gq-dashboard-courses-detail .gq-dashboard-cap-icon {width:48px; height:48px; display:block; float:left;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {font-size:18px; color:#5e5e5e; float:left; padding-left:22px; padding-top:12px; padding-bottom:12px; border-left:1px solid #dddddd;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:hover, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:active {color:#5e5e5e; text-decoration:none;}
@@ -431,8 +432,8 @@ a.btn-red {color:#ffffff;}
 .gq-evidence-new .gq-evidence-new-tabs{ font-size:16px; border-bottom:0px solid #e3e3e3; background:url('../images/gray-line-bit.png') repeat-x bottom center; }
 .gq-evidence-new .nav-pills > li > a{ border-bottom:2px solid transparent; }
 .gq-evidence-new .nav-pills > li > a, .gq-evidence-new .nav-pills > li > a:hover, .nav-pills > li > a:focus{ background-color:transparent; color:#5e5e5e; border-radius:0; outline:0px none; }
-.gq-evidence-new .nav-pills > li.active > a, .gq-evidence-new .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{ background-color:transparent; color:#f36059; border-bottom:2px solid #f36059; }
-.gq-evidence-new ul li {width:90px;}
+.gq-evidence-new .nav-pills > li.active > a, .gq-evidence-new .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{ background-color:transparent; color:#f36059; border-bottom:2px solid #f36059; border-radius:0; }
+.gq-evidence-new ul li {width:auto;/*90px;*/}
 .gq-dashboard-tabs .gq-evidence-new .nav {box-shadow:none;}
 .gq-dashboard-tabs .gq-evidence-new .nav-pills > li.active > a, .gq-dashboard-tabs .gq-evidence-new .nav-pills > li.active > a:hover, .gq-dashboard-tabs .gq-evidence-new .nav-pills > li.active > a:focus {color:#f14840; background-color:#ffffff;}
 
@@ -494,7 +495,7 @@ a.btn-red {color:#ffffff;}
     background: linear-gradient(to bottom, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);    
 }
 .gq-msg-visited{ font-size:16px; font-weight:normal;}
-.gq-msg-row-bg .gq-msg-title a{color:#000000;}
+.gq-msg-row-bg .gq-msg-title a{color:#000000; text-decoration:none;}
 .gq-msg-mark-icon {border:1px solid #e9e9e9; width:30px; height:30px; background-color:#ffffff;}
 .gq-msg-mark-icon:hover, .gq-msg-mark-icon:focus, .gq-msg-trash-icon:hover, .gq-msg-mark-icon:focus {background-color:#fefefe; cursor:pointer;}
 .gq-msg-trash-icon, .gq-msg-mark-icon{margin-right:7px; float:left;border:1px solid #e9e9e9; width:32px; height:32px; background-color:#ffffff;}
@@ -563,6 +564,7 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-appl-details .gq-assessor-rto-edit-icon:hover {background-color:#ededed; cursor: pointer;}
 .gq-assessor-appl-details .gq-assessor-rto-edit-icon a{display:block; padding:17px 0;}
 #gq-msg-success{padding:10px; color: #57ba00;}
+#gq-msg-success button, #start_conversation button {width:150px;}
 #applicantEStatus button{margin-bottom:0px;}
 .gq-assessor-profile-send-msg {color:#000000; font-size:14px; text-align:center;}
 .gq-assessor-profile-send-msg .btn {border-radius:2px; margin-top:5px;}
@@ -639,6 +641,30 @@ a.btn-red {color:#ffffff;}
 .gq-reports-date-picker.gq-applicant-filter-wrap{width:272px;}
 .gq-reports-date-picker .caret{border-top:9px solid; border-top-color:#cccccc; border-left:6px solid transparent; border-right:6px solid transparent;}
 
+/* Video section styling here */
+
+.gq-video-section-wrap {position:relative; width:100%;}
+.gq-video-section-wrap .gq-video-others { width:100%;}
+.gq-video-section-wrap .gq-video-ours {position:absolute; width:320px; height:240px; right:0; bottom:0; border:1px solid red; margin-bottom:70px;}
+.gq-video-section-wrap .gq-video-controls {position:absolute; height:70px; bottom:0; background-color:#fcfcfc; width:100%; float: left; opacity:.9;}
+.gq-video-section-wrap .gq-video-copy-url, .gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {float:left; border-right:1px solid #c9c9c9; padding:25px 15px 15px; font-size:14px; height:70px;}
+.gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {color:#f14840;}
+.gq-video-section-wrap .gq-video-start-recording .gq-video-recording-icon {background-image:url(../images/start-rec.png); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
+.gq-video-section-wrap .gq-video-stop-recording .gq-video-recording-icon {background-image:url(../images/stop-rec.png); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
+.gq-video-section-wrap .gq-video-back-btn {float:right; padding:18px;}
+.gq-video-section-wrap .gq-video-back-btn .btn-red{width:130px;}
+
+/*
+.gq-video-section-wrap {position:relative; width:100%; height:700px;}
+.gq-video-section-wrap .gq-video-others { width:100%; height:700px;}
+.gq-video-section-wrap .gq-video-ours {position:absolute; width:320px; height:240px; right:0; bottom:0; border:1px solid red; margin-bottom:70px;}
+.gq-video-section-wrap .gq-video-controls {position:absolute; height:70px; bottom:0; background-color:#fcfcfc; width:100%; float: left;}
+.gq-video-section-wrap .gq-video-copy-url, .gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {float:left; border-right:1px solid #c9c9c9; padding:25px 15px 15px; font-size:14px; height:70px;}
+.gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {color:#f14840;}
+.gq-video-section-wrap .gq-video-start-recording .gq-video-recording-icon {background-image:url('images/start-rec.png'); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
+.gq-video-section-wrap .gq-video-stop-recording .gq-video-recording-icon {background-image:url('images/stop-rec.png'); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
+.gq-video-section-wrap .gq-video-back-btn {float:right; padding:18px;}
+.gq-video-section-wrap .gq-video-back-btn .btn-red{width:130px;}*/
 
 /* bugs for all pages */
 .gq-course-details-two-lines {line-height:15px;}
@@ -672,8 +698,6 @@ a.btn-red {color:#ffffff;}
 .login-page img {width:120px;} /* adding width to images so that the images look crisp in mobile as well. */
 .gq-dashboard-header .gq-logo-dashboard img {width:120px;}
 .todo_daynote {color:#f14840;}
-/*.gq-acc-row-bg .checkmark-icon .radio{background-image:url("../images/qualifications-checkbox.png");}
-.gq-acc-row-bg .checkmark-icon .radioUnChecked{background-image:url("../images/qualifications-checkbox.png");}*/
 .gq-others-assessor .gq-course-details-header-title {color:#f14840;}
 #editEvidenceModelinput {width:100%; padding:5px;}
 .gq-ev-view-icon .eye-btn {width:84px;}
@@ -686,8 +710,13 @@ a.btn-red {color:#ffffff;}
 
 .gq-loading-div { background-color: #f0f0f0; height: 100%; opacity: 0.80; position: fixed; top: 0; width: 100%;}
 .gq-loading-div img{ left: 50%; position: relative; top: 50%; width: 38px;}
-
-
+#ui-datepicker-div .ui-datepicker-header .ui-state-hover {color:#5c5e5d; cursor:pointer;}
+#ui-datepicker-div .ui-datepicker-title select{color:#5c5e5d;}
+#ui-datepicker-div .ui-state-highlight, #ui-datepicker-div .ui-widget-content .ui-state-highlight, #ui-datepicker-div .ui-widget-header .ui-state-highlight {background-color:#f04941; color:#ffffff;}
+#ui-datepicker-div .ui-state-active, #ui-datepicker-div .ui-widget-content .ui-state-active, #ui-datepicker-div .ui-widget-header .ui-state-active {background-color:#f04941; color:#ffffff;}
+#ui-datepicker-div .ui-state-default, #ui-datepicker-div  .ui-widget-content .ui-state-default, #ui-datepicker-div  .ui-widget-header .ui-state-default {text-align:center;}
+#ui-datepicker-div.ui-widget-content {background-color:#ffffff;}
+#ui-datepicker-div .ui-widget-header {background-color:#ebebeb;}
 /* check box for mail */ /*
 input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:-9px; opacity:0; position:relative;float:left;}
 .custom-checkbox {background-image:url('../images/qualifications-checkbox.png'); background-position: -8px -9px; display:block; height:18px; width:18px; position:relative; left:-2px; top:10px; float:left;}
@@ -761,17 +790,19 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
  .gq-reports-status.gq-applicant-filter-wrap {text-align:left;}
  .gq-acc-row-title{min-height:auto;}
-  }
+ .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{font-size:15px;}
+ .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {padding-left:5px; float:none;}
+   }
  
  @media (min-width: 768px) {
  .gq-assessor-appl-details .gq-assessor-appl-profile-details-col {padding-top:33px;}
  .gq-dashboard-courses-detail-wrap .wid30p {width:50%; margin:0 25%;}
- .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {padding-left:5px; float:none;}
  .gq-dashboard-box-title-wrap .gq-dashboard-box-title {float:none;}
 /* .gq-dashboard-box-title-wrap .gq-dashboard-points-icon {height:72px;}*/
  #userprofile_gender input[type="radio"] {float:left;}
  #userprofile_gender label {float:left; width:30%;}
  #userprofile_gender {width:50%;}
+ .gq-dashboard-points-wrap {text-align:left;}
  .gq-video-section-wrap .gq-video-others { height:700px;}
  }
 /*
@@ -840,6 +871,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-msg-wrap {width:96%;}
 .msg-menu-wrap {margin-bottom:10px;}
 .gq-msg-row-bg .gq-msg-time-stamp {text-align:left; font-size:12px;}
+.gq-dashboard-points-wrap {text-align:center; padding:0;}
 }
 
 @media (max-width:368px) {
@@ -885,7 +917,14 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 	.gq-form-personal .gq-form-row input{width:50%;}
 	   
    }
-   
+ @media (min-width:1281px) and (max-width:1380px) {
+    .gq-course-details-two-lines {font-size:14px;}
+	.gq-course-details-header-title {font-size:14px;}
+	.gq-acc-row-title {font-size:14px; line-height:normal; margin-top:5px; margin-bottom:5px;}
+ }
+@media (min-width:1380px) {
+.gq-course-details-header-title.gq-appl-details-two-lines{width:280px; display:block;}
+}
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
 .gq-dashboard-right {min-height:960px;}
 }
@@ -904,15 +943,3 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-msg-from textarea:focus, .gq-msg-compose .gq-msg-row-bg input:focus{
     outline: 0;
 }
-
-/* video conversation page */
-.gq-video-section-wrap {position:relative; width:100%;}
-.gq-video-section-wrap .gq-video-others { width:100%;}
-.gq-video-section-wrap .gq-video-ours {position:absolute; width:320px; height:240px; right:0; bottom:0; border:1px solid red; margin-bottom:70px;}
-.gq-video-section-wrap .gq-video-controls {position:absolute; height:70px; bottom:0; background-color:#fcfcfc; width:100%; float: left; opacity:.9;}
-.gq-video-section-wrap .gq-video-copy-url, .gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {float:left; border-right:1px solid #c9c9c9; padding:25px 15px 15px; font-size:14px; height:70px;}
-.gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {color:#f14840;}
-.gq-video-section-wrap .gq-video-start-recording .gq-video-recording-icon {background-image:url(../images/start-rec.png); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
-.gq-video-section-wrap .gq-video-stop-recording .gq-video-recording-icon {background-image:url(../images/stop-rec.png); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
-.gq-video-section-wrap .gq-video-back-btn {float:right; padding:18px;}
-.gq-video-section-wrap .gq-video-back-btn .btn-red{width:130px;}
