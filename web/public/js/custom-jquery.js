@@ -155,11 +155,13 @@ $(".deleteIdFiles").click(function() {
     var fid = fileid;
     var ftype = filetype;
     var url = (otherfiles) ? "deleteOtherFiles" : "deleteIdFiles";
+    $("#ajax-loading-delete-assessor-file").show();
     $.ajax({
         type: "POST",
         url: base_url + url,
         data: {fid: fid, ftype: ftype},
         success: function(result) {
+            $("#ajax-loading-delete-assessor-file").hide();
             $("#idfiles_msg").show();
             $('#idfiles_' + fid).hide();
             $("#fclose").trigger("click");
@@ -1134,7 +1136,7 @@ $("#password_save").click(function()
         }
     }
     if (newconfirmpwd == "") {
-        passwordShowMsg("Please confirm New Password", "password_confirmnewpassword");
+        passwordShowMsg("Please enter Confirm Password", "password_confirmnewpassword");
         return false;
     }
     if (newconfirmpwd != "") {

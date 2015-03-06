@@ -122,12 +122,13 @@ class FileUploader
             $otherFiles->setPath($fileNames['aws_file_name']);
             $this->em->persist($otherFiles);
             $this->em->flush();
+            $now = new DateTime('now');
             $result = array(
                 'id' => $otherFiles->getId(),
                 'name' => $fileNames['orginal_name'],
                 'path' => $fileNames['aws_file_name'],
                 'type' => $otherFiles->getType(),
-                'date' => date('d/m/Y', $otherFiles->getCreated())
+                'date' => $now->format('d/m/Y')
             );
             return json_encode($result);
         } catch (Exception $e) {
