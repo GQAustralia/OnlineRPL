@@ -259,6 +259,7 @@ a.btn-red {color:#ffffff;}
 .qualification-success-msg h2 {font-size:13px; color:#85b430; padding-top:10px;}
 .qualification-success-msg h2 img {margin-right:6px; padding-bottom:4px;}
 .gq-dashboard-courses-detail {width:100%; border:1px solid #dddddd; min-height:48px; display:block; float:left; margin-bottom:5px; box-shadow:0px 2px 2px #f3f3f3; background-color:#ffffff;}
+.gq-dashboard-courses-detail-a {width:100%; float:left;}
 .gq-dashboard-courses-detail .gq-dashboard-cap-icon {width:48px; height:48px; display:block; float:left;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {font-size:18px; color:#5e5e5e; float:left; padding-left:22px; padding-top:12px; padding-bottom:12px; border-left:1px solid #dddddd;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:hover, .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a:active {color:#5e5e5e; text-decoration:none;}
@@ -563,6 +564,7 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-appl-details .gq-assessor-rto-edit-icon:hover {background-color:#ededed; cursor: pointer;}
 .gq-assessor-appl-details .gq-assessor-rto-edit-icon a{display:block; padding:17px 0;}
 #gq-msg-success{padding:10px; color: #57ba00;}
+#gq-msg-success button, #start_conversation button {width:150px;}
 #applicantEStatus button{margin-bottom:0px;}
 .gq-assessor-profile-send-msg {color:#000000; font-size:14px; text-align:center;}
 .gq-assessor-profile-send-msg .btn {border-radius:2px; margin-top:5px;}
@@ -639,6 +641,30 @@ a.btn-red {color:#ffffff;}
 .gq-reports-date-picker.gq-applicant-filter-wrap{width:272px;}
 .gq-reports-date-picker .caret{border-top:9px solid; border-top-color:#cccccc; border-left:6px solid transparent; border-right:6px solid transparent;}
 
+/* Video section styling here */
+
+.gq-video-section-wrap {position:relative; width:100%;}
+.gq-video-section-wrap .gq-video-others { width:100%;}
+.gq-video-section-wrap .gq-video-ours {position:absolute; width:320px; height:240px; right:0; bottom:0; border:1px solid red; margin-bottom:70px;}
+.gq-video-section-wrap .gq-video-controls {position:absolute; height:70px; bottom:0; background-color:#fcfcfc; width:100%; float: left; opacity:.9;}
+.gq-video-section-wrap .gq-video-copy-url, .gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {float:left; border-right:1px solid #c9c9c9; padding:25px 15px 15px; font-size:14px; height:70px;}
+.gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {color:#f14840;}
+.gq-video-section-wrap .gq-video-start-recording .gq-video-recording-icon {background-image:url(../images/start-rec.png); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
+.gq-video-section-wrap .gq-video-stop-recording .gq-video-recording-icon {background-image:url(../images/stop-rec.png); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
+.gq-video-section-wrap .gq-video-back-btn {float:right; padding:18px;}
+.gq-video-section-wrap .gq-video-back-btn .btn-red{width:130px;}
+
+/*
+.gq-video-section-wrap {position:relative; width:100%; height:700px;}
+.gq-video-section-wrap .gq-video-others { width:100%; height:700px;}
+.gq-video-section-wrap .gq-video-ours {position:absolute; width:320px; height:240px; right:0; bottom:0; border:1px solid red; margin-bottom:70px;}
+.gq-video-section-wrap .gq-video-controls {position:absolute; height:70px; bottom:0; background-color:#fcfcfc; width:100%; float: left;}
+.gq-video-section-wrap .gq-video-copy-url, .gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {float:left; border-right:1px solid #c9c9c9; padding:25px 15px 15px; font-size:14px; height:70px;}
+.gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {color:#f14840;}
+.gq-video-section-wrap .gq-video-start-recording .gq-video-recording-icon {background-image:url('images/start-rec.png'); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
+.gq-video-section-wrap .gq-video-stop-recording .gq-video-recording-icon {background-image:url('images/stop-rec.png'); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
+.gq-video-section-wrap .gq-video-back-btn {float:right; padding:18px;}
+.gq-video-section-wrap .gq-video-back-btn .btn-red{width:130px;}*/
 
 /* bugs for all pages */
 .gq-course-details-two-lines {line-height:15px;}
@@ -777,6 +803,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  #userprofile_gender label {float:left; width:30%;}
  #userprofile_gender {width:50%;}
  .gq-dashboard-points-wrap {text-align:left;}
+ .gq-video-section-wrap .gq-video-others { height:700px;}
  }
 /*
  @media (min-width: 768px) and (max-width:1279px){
@@ -890,7 +917,14 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 	.gq-form-personal .gq-form-row input{width:50%;}
 	   
    }
-   
+ @media (min-width:1281px) and (max-width:1380px) {
+    .gq-course-details-two-lines {font-size:14px;}
+	.gq-course-details-header-title {font-size:14px;}
+	.gq-acc-row-title {font-size:14px; line-height:normal; margin-top:5px; margin-bottom:5px;}
+ }
+@media (min-width:1380px) {
+.gq-course-details-header-title.gq-appl-details-two-lines{width:280px; display:block;}
+}
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
 .gq-dashboard-right {min-height:960px;}
 }
