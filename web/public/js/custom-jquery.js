@@ -804,7 +804,10 @@ var applicantStatus = '0';
 function loadDataIcon(listdiv)
 {
     var ajaxLoadImg = $("#ajaxHtml").html();
-    var tdcolspan = $("#ajaxHtml").attr("tdcolspan");
+    if(listdiv == "currentList")
+        var tdcolspan = $("#ajaxHtml").attr("tdcolspan");
+    else
+        var tdcolspan = $("#ajaxHtml").attr("tdrtocolspan");
     var ajaxLoadHTML = '<tr class="load-icon-tr"><td colspan="'+tdcolspan+'">'+ajaxLoadImg+'</td></tr>'; 
     $("#"+listdiv).html(ajaxLoadHTML);
 }
@@ -820,6 +823,7 @@ $("#applicantPending").click(function() {
     pagenum = 1;
     loadDataIcon('currentList');
     applicantStatus = '0';
+    $(".gq-app-aearch-grid").removeClass("col-lg-11 col-md-12 col-sm-12 col-xs-12").addClass("col-lg-6 col-md-6 col-sm-6 col-xs-12");
     $("#remainingweekDiv").show();
     loadApplicantList('currentList',pagenum);
 });
@@ -828,6 +832,7 @@ $("#applicantCompleted").click(function() {
     pagenum = 1;
     loadDataIcon('completedList');
     applicantStatus = '1';
+    $(".gq-app-aearch-grid").removeClass("col-lg-6 col-md-6 col-sm-6 col-xs-12").addClass("col-lg-11 col-md-12 col-sm-12 col-xs-12");
     $("#remainingweekDiv").hide();
     loadApplicantList('completedList',pagenum);
 });
