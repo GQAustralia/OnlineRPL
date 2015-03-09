@@ -4,16 +4,18 @@
         <div class="col-xs-12">
             <div class="gq-evidence-new">
                 <!-- Tabs start here -->
+            {% set currentUserRole = app.security.getToken().getUser().getRoles() %}
                 <ul class="nav nav-pills margin-top15 gq-evidence-new-tabs" role="tablist" id="myTab">
                     <li role="presentation" class="active" ><a href="#unit-images" aria-controls="unit-images" role="tab" data-toggle="tab">Images</a></li>
                     <li role="presentation" ><a href="#unit-audios" aria-controls="unit-audios" role="tab" data-toggle="tab">Audios</a></li>
                     <li role="presentation"><a href="#unit-videos" aria-controls="unit-videos" role="tab" data-toggle="tab">Videos</a></li>
                     <li role="presentation"><a href="#unit-notes" aria-controls="unit-notes" role="tab" data-toggle="tab">Notes</a></li>
                     <li role="presentation"><a href="#unit-files" aria-controls="unit-files" role="tab" data-toggle="tab">Documents</a></li>
+                     {% if ('ROLE_APPLICANT' not in currentUserRole) %}
                     <li role="presentation"><a href="#unit-recording" aria-controls="unit-recording" role="tab" data-toggle="tab">Competency Recordings</a></li>
+                    {% endif %}
                 </ul>
                 <!-- Tabs end start here -->
-            {% set currentUserRole = app.security.getToken().getUser().getRoles() %}
                 <!-- Content for respective tabs above will be in this section -->
                 <div class="tab-content">
                     <div aria-labelledby="existing-evidence-tab" id="unit-images" class="tab-pane fade active in" role="tabpanel">
@@ -270,12 +272,9 @@
             {% if evidence.unit == unitCode %}
             {% if evidence.type == 'recording' %}
             {% set flag_video = 1 %}
-            {% set types = ['mp4', 'mov'] %}
-                {% set videofile = amazon_link~evidence.path %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
                                     <div class="gq-dashboard-courses-detail  margin-top15" >
-
-                                        <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
+                                        <a href = "{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4" class="fancybox">
                                             <div class="gq-id-files-content-icon-wrap gq-id-files-content-video-icon"></div>
                                         </a>
                                         <div class="gq-id-files-content-row-wrap">

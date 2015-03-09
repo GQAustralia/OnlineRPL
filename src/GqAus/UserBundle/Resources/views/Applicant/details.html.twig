@@ -356,6 +356,9 @@
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-videos" href="#unit-videos" aria-expanded="false">Videos</a></li>
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-notes" href="#unit-notes" aria-expanded="false">Notes</a></li>
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-files" href="#unit-files" aria-expanded="false">Documents</a></li>
+                                                {% if ('ROLE_APPLICANT' not in userRole) %}
+                                                <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-recordings" href="#unit-recordings" aria-expanded="false">Competency Recordings</a></li>
+                                                {% endif %}
                                             </ul>
                                             <div class="tab-content">
                                                 <div aria-labelledby="existing-evidence-tab" id="unit-images" class="tab-pane fade active in" role="tabpanel">
