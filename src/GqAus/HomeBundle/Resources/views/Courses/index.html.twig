@@ -83,7 +83,7 @@
                                     {% endif %}
                                 {% endif %}
                                 {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
-                                {% set style = evidence ? 'style="display:none"' : '' %}                            
+                                {% set style = evidence ? '' : 'style=display:none' %}                           
                                 <span id="sp_{{units.id}}" {{ style }}><button class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} user_id="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button></span>
                                 
                             </div>
@@ -160,7 +160,7 @@
                                 {% if units.id in electiveUnits %} {% else %}                                
                                 
                                 {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
-                                {% set style = evidence ? 'style="display:none"' : '' %}
+                                {% set style = evidence ? '' : 'style=display:none' %}
                                 <span id="sp_{{units.id}}" {{ style }}><button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button></span>
                                 {% endif %}
                             </div>
