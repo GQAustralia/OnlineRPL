@@ -300,7 +300,7 @@
        </div>
     {% else %}
     <center>
-        <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Approved for the Certification</button></a>
+        <a href="javascript:void(0)" data-target="#myModalrto" data-toggle="modal"><button class="btn btn-green">Approved for the Certification</button></a>
     </center>
     {% endif %}
 {% endif %}
@@ -376,7 +376,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog gq-modal">
         <div class="modal-content">
@@ -387,7 +386,16 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="myModalrto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="disclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Please approve all the Units</h4>
+            </div>
+        </div>
+    </div>
+</div>
 <!----- Unit evidences end --->
 {% endblock %}
   {% block javascripts %}
