@@ -32,7 +32,8 @@ class DefaultController extends Controller
             $results['applicantList'] = $appResults['applicantList'];
             $results['paginator'] = $appResults['paginator'];
             $results['page'] = $appResults['page'];
-            $results['pageRequest'] = "";            
+            $results['pageRequest'] = "";    
+            $results['status'] = 0;
             return $this->render('GqAusHomeBundle:Default:dashboard.html.twig', $results);
         }
     }
