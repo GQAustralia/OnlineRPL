@@ -235,50 +235,53 @@
         </div>
     </div>
 
-
-
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
             <!-- accordion starts here -->
             <div class="gq-acc-wrap">
                 {% if courseInfo.Units %}
                 {% if courseInfo.Units.Unit %}
-                {% for key, units in courseInfo.Units.Unit %}
-                    {% if units.type == 'elective' %}
-                        {% set unitId = units.id %}
-                        {% if unitId|trim in electiveUnits|keys %} 
-                <div>
-                    <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
-                    <div class="row no-margin">
-                        <div id="div_{{units.id}}" class="gq-acc-row-bg">
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <div class="gq-acc-row-title">{{units.id}}</div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <div class="gq-acc-row-title">{{units.name}}</div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <label for="acc-{{i}}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn upDownArrow" >VIEW</label>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
-                                {% if evidence %}
-                                <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id" unitid="{{units.id}}" course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                    {% set flagElective = '0' %}
+                    {% for key, units in courseInfo.Units.Unit %}
+                        {% if units.type == 'elective' %}
+                                {% set unitId = units.id %}
+                                {% if unitId|trim in electiveUnits|keys %} 
+                                {% set flagElective = '1' %}
+                                <div>
+                                    <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
+                                    <div class="row no-margin">
+                                        <div id="div_{{units.id}}" class="gq-acc-row-bg">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="gq-acc-row-title">{{units.id}}</div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="gq-acc-row-title">{{units.name}}</div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <label for="acc-{{i}}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn upDownArrow" >VIEW</label>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                            {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
+                                                                                            {% if evidence %}
+                                                <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id" unitid="{{units.id}}" course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                                                                                            {% else %}
+                                                <div class="gq-acc-row-title">No Evidences found</div>
+                                                                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <article class="acc-small">
+                                        <p>{{units.name}}</p>
+                                    </article>
+                                </div>
+                                {% set i = i+1 %}
                                 {% else %}
-                                    <div class="gq-acc-row-title">No Evidences found</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <article class="acc-small">
-                        <p>{{units.name}}</p>
-                    </article>
-                </div>
-                        {% set i = i+1 %}
-                        {% else %}
-                       {% endif %}
+                           {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if flagElective == '0' %}
+                            <div class="gq-acc-row-title load-icon-tr">No Elected Units found</div>
                     {% endif %}
-                {% endfor %}
                 {% endif %}
                 {% endif %}
             </div>
@@ -300,7 +303,7 @@
        </div>
     {% else %}
     <center>
-        <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Approved for the Certification</button></a>
+        <a href="javascript:void(0)" data-target="#myModalrto" data-toggle="modal"><button class="btn btn-green">Approved for the Certification</button></a>
     </center>
     {% endif %}
 {% endif %}
@@ -376,7 +379,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog gq-modal">
         <div class="modal-content">
@@ -387,7 +389,16 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="myModalrto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="disclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Please approve all the Units</h4>
+            </div>
+        </div>
+    </div>
+</div>
 <!----- Unit evidences end --->
 {% endblock %}
   {% block javascripts %}

@@ -804,7 +804,10 @@ var applicantStatus = '0';
 function loadDataIcon(listdiv)
 {
     var ajaxLoadImg = $("#ajaxHtml").html();
-    var tdcolspan = $("#ajaxHtml").attr("tdcolspan");
+    if(listdiv == "currentList")
+        var tdcolspan = $("#ajaxHtml").attr("tdcolspan");
+    else
+        var tdcolspan = $("#ajaxHtml").attr("tdrtocolspan");
     var ajaxLoadHTML = '<tr class="load-icon-tr"><td colspan="'+tdcolspan+'">'+ajaxLoadImg+'</td></tr>'; 
     $("#"+listdiv).html(ajaxLoadHTML);
 }
@@ -820,6 +823,7 @@ $("#applicantPending").click(function() {
     pagenum = 1;
     loadDataIcon('currentList');
     applicantStatus = '0';
+    $(".gq-app-aearch-grid").removeClass("col-lg-11 col-md-12 col-sm-12 col-xs-12").addClass("col-lg-6 col-md-6 col-sm-6 col-xs-12");
     $("#remainingweekDiv").show();
     loadApplicantList('currentList',pagenum);
 });
@@ -828,6 +832,7 @@ $("#applicantCompleted").click(function() {
     pagenum = 1;
     loadDataIcon('completedList');
     applicantStatus = '1';
+    $(".gq-app-aearch-grid").removeClass("col-lg-6 col-md-6 col-sm-6 col-xs-12").addClass("col-lg-11 col-md-12 col-sm-12 col-xs-12");
     $("#remainingweekDiv").hide();
     loadApplicantList('completedList',pagenum);
 });
@@ -1203,7 +1208,7 @@ $("#approve-for-certification").click(function() {
         data: {courseCode: courseCode, applicantId: applicantId},
         success: function(result) {
             $('#approve_section').show();
-            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../web/public/images/tick.png">This Qualification is Approved successfully!</h2></div>').delay(3000).fadeOut(100);
+            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">This Qualification is Approved successfully!</h2></div>').delay(3000).fadeOut(100);
             $("#status_arc").show();
         }
     });
@@ -1221,7 +1226,7 @@ $("#approve-for-rto").click(function() {
         success: function(result) {
             $("#approve_loader").hide();
             $('#approve_section').show();
-            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../../web/public/images/tick.png">This Qualification is Approved for RTO successfully!</h2></div>').delay(3000).fadeOut(100);
+            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">This Qualification is Approved for RTO successfully!</h2></div>').delay(3000).fadeOut(100);
             $("#status_ar").show();
         }
     });
