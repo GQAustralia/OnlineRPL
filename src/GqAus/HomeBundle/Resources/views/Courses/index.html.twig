@@ -284,7 +284,7 @@
     <div class="qualification-er-msg" id="gq-dashboard-tabs-error"></div>
     <div class="gq-dashboard-tabs">
         <!-- Tabs start here -->
-        <div class="gq-dashboard-tabs-header wid40p">
+        <div class="gq-dashboard-tabs-header wid40p-evidence-tab">
             <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
                 <li role="presentation" id="div_add_evidence" class="active"><a href="#add-evidence-tab" aria-controls="add-evidence-tab" role="tab" data-toggle="tab">Add Evidence</a></li>
                 <li role="presentation" id="div_existing_evidence" ><a href="#select-from-evidence-tab" aria-controls="select-from-evidence-tab" role="tab" data-toggle="tab">Select from Existing Evidence</a></li>
@@ -334,12 +334,12 @@
             <div class="wid90p">
                 <div class="row">
                     <div class="col-xs-12">
-                    <div class="gq-evidence">
+                    <div class="gq-evidence-new">
                         <form method="post" id="frmSelectEvidence" action="{{ app.request.baseUrl }}/saveExistingEvidence" name="frmSelectEvidence" enctype= "multipart/form-data" onsubmit="return validateExisting()">
                         <input type="hidden" name="select_hid_unit" id="select_hid_unit" value="">
                         <input type="hidden" name="select_hid_course" id="select_hid_course" value="">
                                         <!-- Tabs start here -->
-                                            <ul class="nav nav-pills margin-top15 gq-evidence-tabs" role="tablist" id="myTab">
+                                            <ul class="nav nav-pills margin-top15 gq-evidence-tabs-new" role="tablist" id="myTab">
                                                 <li role="presentation" class="active" ><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a></li>
                                                 <li role="presentation" ><a href="#audios" aria-controls="address" role="tab" data-toggle="tab">Audios</a></li>
                                                 <li role="presentation"><a href="#videos" aria-controls="videos" role="tab" data-toggle="tab">Videos</a></li>
