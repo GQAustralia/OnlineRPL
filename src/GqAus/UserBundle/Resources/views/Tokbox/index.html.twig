@@ -38,8 +38,11 @@
 
     session.on('archiveStarted', function(event) {
         archiveID = event.id;
-        console.log("ARCHIVE STARTED");
-        window.onbeforeunload = closeIt;
+        console.log("ARCHIVE STARTED");   
+        $(window).bind('beforeunload', function() {
+            return "Are you Sure do you want to leave? Recording is in progress"; 
+        });
+        //window.onbeforeunload = closeIt;
         $(".start").hide();
         $(".stop").show();
     });
@@ -47,10 +50,11 @@
     session.on('archiveStopped', function(event) {
         archiveID = null;
         console.log("ARCHIVE STOPPED");
+        //window.onbeforeunload = null;
+        $(window).unbind('beforeunload');
         $(".start").show();
         $(".stop").hide();
     });
-    
     $(document).ready(function() {
         var rid = "{{ roomId}}";
         var aid = "{{ applicantId}}";
@@ -64,8 +68,7 @@
         }).hide();
         
         $("#close_btn_uni").click(function(event) {
-            var r = confirm("Are you sure want to close the conversation?");
-            if(r === true) {
+            if(confirm("Are you sure want to close the conversation?")) {
                 if (archiveID !== null) {
                     $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);   
                 }
@@ -73,11 +76,6 @@
             }
         })
     });
-    
-    function closeIt()
-    {
-      return "Are you sure to close the window";
-    }
 
 
 </script>
