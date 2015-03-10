@@ -150,10 +150,10 @@
             <div class="gq-id-files">
                 <div class="gq-id-files-header gq-id-files-header-applicant">
                     <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
                             <span class="gq-course-details-header-title">Unit Code</span>
                         </div>
-                        <div class="col-lg-3 col-md-5 col-sm-4 col-xs-3">
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
                             <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
@@ -296,14 +296,14 @@
     {% if (rtostatus == '1') %}
        <div id="approve_section" class="col-xs-12 text-center">
            {% if (courseStatus == '2') %}
-                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
+                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approve for the Certification</button>
            {% elseif (courseStatus == '0') %}
                 <span class="gq-approved-status">Approved and Completed!</span>
            {% endif %}
        </div>
     {% else %}
     <center>
-        <a href="javascript:void(0)" data-target="#myModalrto" data-toggle="modal"><button class="btn btn-green">Approved for the Certification</button></a>
+        <a href="javascript:void(0)" data-target="#myModalrto" data-toggle="modal"><button class="btn btn-green">Approve for the Certification</button></a>
     </center>
     {% endif %}
 {% endif %}
@@ -356,6 +356,9 @@
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-videos" href="#unit-videos" aria-expanded="false">Videos</a></li>
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-notes" href="#unit-notes" aria-expanded="false">Notes</a></li>
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-files" href="#unit-files" aria-expanded="false">Documents</a></li>
+                                                {% if ('ROLE_APPLICANT' not in userRole) %}
+                                                <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-recordings" href="#unit-recordings" aria-expanded="false">Competency Recordings</a></li>
+                                                {% endif %}
                                             </ul>
                                             <div class="tab-content">
                                                 <div aria-labelledby="existing-evidence-tab" id="unit-images" class="tab-pane fade active in" role="tabpanel">
