@@ -255,7 +255,7 @@ class ApplicantController extends Controller
         if($userRole[0]!="ROLE_ASSESSOR") {
             /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
             $page = $this->get('request')->query->get('page', 1);
-            $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, '2', $page);
+            $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, '3', $page);
             $results['pageRequest'] = 'submit';
             return $this->render('GqAusUserBundle:Reports:list.html.twig', $results);
         }
