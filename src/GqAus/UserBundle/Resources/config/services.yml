@@ -18,7 +18,7 @@ services:
         arguments: ['@file_storage_filesystem', @doctrine.orm.entity_manager, @service_container]
     EvidenceService:
         class: GqAus\UserBundle\Services\EvidenceService
-        arguments: [@doctrine.orm.entity_manager, @service_container]
+        arguments: [@doctrine.orm.entity_manager, @service_container, @UserService]
     messageHelperService:
         class: GqAus\UserBundle\Services\MailService
         arguments: [@doctrine.orm.entity_manager, @service_container]

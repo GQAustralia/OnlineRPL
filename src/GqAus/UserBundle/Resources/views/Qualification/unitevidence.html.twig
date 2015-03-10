@@ -303,62 +303,70 @@
         </div>
     </div>
 </div>
+
+
+    <div class="gq-id-files-upload-success-text" style="display: none;"></div>
     {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_RTO' in currentUserRole) %}
 <div class="text-center gq-id-files-button-content-wrap" id="applicantEStatus" userRole="{{currentUserRole.0}}">
-
+{% if unitStatus.rtostatus == '0' %}
     <form action="{{ base_url }}compose" method="post" name="composeevform">
-        {% if ('ROLE_ASSESSOR' in currentUserRole) %}
-            {% if unitStatus.facilitatorstatus == '1' %}
-        <div>Evidence Approved by facilitator!</div>
-            {% endif %}
-        {% endif %}
         {% if ('ROLE_FACILITATOR' in currentUserRole) %}
-            {% if unitStatus.assessorstatus == '1' %}
-        <div>Evidence Approved by assessor!</div>
-            {% endif %}
+            {% set app_btn_name = 'Satisfactory' %}
+            {% set disapp_btn_name = 'Not Yet Satisfactory' %}            
         {% endif %}
-
-        <div class="gq-id-files-upload-success-text" style="display: none;"></div>
+        {% if ('ROLE_ASSESSOR' in currentUserRole) %}
+            {% set app_btn_name = 'Competent' %}
+            {% set disapp_btn_name = 'Not Yet Competent' %}
+        {% endif %}
+        {% if ('ROLE_RTO' in currentUserRole) %}
+            {% set app_btn_name = 'Approve' %}
+            {% set disapp_btn_name = 'Disapprove' %}
+        {% endif %}
+        {% if unitStatus.facilitatorstatus == '2' %}
+            <div>Facilitator marked it as unacceptable!</div>
+        {% endif %}            
+        {% if unitStatus.assessorstatus == '2' %}
+            <div>Assessor marked it as unacceptable!</div>
+        {% endif %}
+        
         <span id="gq-msg-success" class="btn-wrap100p">
         {% if ((unitStatus.facilitatorstatus == '1') and ('ROLE_FACILITATOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and ('ROLE_ASSESSOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and (unitStatus.rtostatus == '1') and ('ROLE_RTO' in currentUserRole)) %}
-            <div>You have Approved this Evidence!</div>
+{#            <div>You have Approved this Evidence!</div>#}
         {% else %}
-            {% if unitStatus.rtostatus == '0' %}
-                {% if (('ROLE_RTO' in currentUserRole) and (unitStatus.assessorstatus == '1')) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_ASSESSOR' in currentUserRole) %}
-                    {% if flag_image == 1 or flag_audio == 1 or flag_video == 1 or flag_text == 1 or flag_files == 1 %}
-            <button type="button" id="approve" class="btn btn-green">Approve</button>
-            <button type="button" id="disapprove" class="btn btn-red">Disapprove</button>
-                    {% else %}
-            <button type="button" id="approve" disabled class="btn btn-green">Approve</button>
-            <button type="button" id="disapprove" disabled class="btn btn-red">Disapprove</button>
-                    {% endif %}
-            <input type="hidden" name="hid-course-name" id="hid-course-name" value="{{course_name}}">
-            <input type="hidden" name="hid-unit-name" id="hid-unit-name" value="{{unittitle}}">
+            {% if (('ROLE_RTO' in currentUserRole) and (unitStatus.assessorstatus == '1'))  or ('ROLE_FACILITATOR' in currentUserRole and (unitStatus.facilitatorstatus != '2')) or ('ROLE_ASSESSOR' in currentUserRole) %}
+                {% if flag_image == 1 or flag_audio == 1 or flag_video == 1 or flag_text == 1 or flag_files == 1 %}
+                    <button type="button" id="approve" class="btn btn-green">{{ app_btn_name }}</button>
+                    <button type="button" id="disapprove" class="btn btn-red">{{ disapp_btn_name }}</button>
+                {% else %}
+                    <button type="button" id="approve" disabled class="btn btn-green">{{ app_btn_name }}</button>
+                    <button type="button" id="disapprove" disabled class="btn btn-red">{{ disapp_btn_name }}</button>
                 {% endif %}
+                <input type="hidden" name="hid-course-name" id="hid-course-name" value="{{course_name}}">
+                <input type="hidden" name="hid-unit-name" id="hid-unit-name" value="{{unittitle}}">
             {% endif %}
-        {% endif %}
-        {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) %}
-            <input type="hidden" name="course-name" value="{{course_name}}">
-            <input type="hidden" name="course-code" value="{{course_code}}">
-            <input type="hidden" name="userid" value="{{userId}}">
-            <input type="hidden" name="unit-name" value="{{unittitle}}">
-            <input type="hidden" name="unit-code" value="{{unitCode}}">
-            <button type="submit" id="send_message" class="btn btn-grey">Send a Message</button>
+            {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) %}
+                <input type="hidden" name="course-name" value="{{course_name}}">
+                <input type="hidden" name="course-code" value="{{course_code}}">
+                <input type="hidden" name="userid" value="{{userId}}">
+                <input type="hidden" name="unit-name" value="{{unittitle}}">
+                <input type="hidden" name="unit-code" value="{{unitCode}}">
+                <button type="submit" id="send_message" class="btn btn-grey">Send a Message</button>
+            {% endif %}
         {% endif %}
         </span>
         <span class="loading-icon" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
-    </form>        
-        {% if 'ROLE_ASSESSOR' in currentUserRole %}
+    </form>
+    {% if ('ROLE_ASSESSOR' in currentUserRole) %}
     <form action="{{ base_url }}startConversation" method="post" name="startConversation">    
         <input type="hidden" name="courseCode" value="{{course_code}}">
         <input type="hidden" name="applicantId" value="{{userId}}">
         <input type="hidden" name="unitCode" value="{{unitCode}}">
         <button type="submit" id="start_conversation" class="btn btn-grey">Start Conversation</button>
     </form>
-        {% endif %}
+    {% endif %}
 </div>
     {% endif %}
-
+{% endif %}
 <!--<div class="modal fade" id="myModalDel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog gq-modal">
     <div class="modal-content">

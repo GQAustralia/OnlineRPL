@@ -21,10 +21,12 @@ class EvidenceService
      */
     private $container;
     
+    private $userService;
+    
     /**
      * Constructor
      */
-    public function __construct($em, $container)
+    public function __construct($em, $container, $userService)
     {
         $this->em = $em;
         $session = $container->get('session');
@@ -32,6 +34,7 @@ class EvidenceService
         $this->repository = $em->getRepository('GqAusUserBundle:User');
         $this->currentUser = $this->getCurrentUser();
         $this->container = $container;
+        $this->userService = $userService;
     }
 
     public function getCurrentUser()
@@ -80,7 +83,10 @@ class EvidenceService
                     $fileObj->setUnit($data['hid_unit']);
                     $fileObj->setCourse($data['hid_course']);
                     $this->em->persist($fileObj);
-                    $this->em->flush();
+                    $this->em->flush();                    
+                    $this->em->clear();
+                    
+                    $this->updateCourseUnits($this->userId, $data['hid_unit']);
                     $i++;
                 } else {
                     $seterror = 'yes';
@@ -96,6 +102,8 @@ class EvidenceService
             $textObj->setUser($this->currentUser);
             $this->em->persist($textObj);
             $this->em->flush();
+            $this->em->clear();
+            $this->updateCourseUnits($this->userId, $data['hid_unit']);
         }
         return ($seterror == 'no')?$data['hid_unit']:$seterror;
     }
@@ -168,6 +176,8 @@ class EvidenceService
                             $newObj->setCourse($courseCode);
                             $this->em->persist($newObj);
                             $this->em->flush();
+                            $this->em->clear();
+                            $this->updateCourseUnits($this->userId, $unitId);
                         }
                     }//foreach
                 }//if
@@ -296,5 +306,30 @@ class EvidenceService
         $recordingObj->setUser($user);
         $this->em->persist($recordingObj);
         $this->em->flush();
+    }
+    
+    public function updateCourseUnits($userId, $unitId)
+    {
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $userId,
+                                                                                        'unitId' => $unitId));
+        if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
+//            $mailerInfo = array();
+//            $this->userService->getUserInfo();
+//            $userName = $courseUnitObj->getUser()->getUsername();
+//            $mailerInfo['to'] = $courseUnitObj->getUser()->getEmail();
+//            $mailerInfo['inbox'] = $courseUnitObj->getUser()->getId();
+//            $mailerInfo['sent'] = $userId;
+            $courseUnitObj->setFacilitatorstatus(0);
+            $courseUnitObj->setAssessorstatus(0);
+            $this->em->persist($courseUnitObj);
+            $this->em->flush();
+            $this->em->clear();
+
+//            $mailerInfo['subject'] = 'Unit :'.$result['unitName'].' Status';
+//            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Qualification : ".$result['courseName']." \n Unit : ".$result['unitName']." \n Evidences have been ".$evidenceStatus." by ".$result['currentUserName']."
+//             \n Regards, \n OnlineRPL";
+//            $this->userService->sendExternalEmail($mailerInfo);
+//            $this->userService->sendMessagesInbox($mailerInfo);
+        }
     }
 }
