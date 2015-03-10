@@ -1208,7 +1208,7 @@ $("#approve-for-certification").click(function() {
         data: {courseCode: courseCode, applicantId: applicantId},
         success: function(result) {
             $('#approve_section').show();
-            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">This Qualification is Approved successfully!</h2></div>').delay(3000).fadeOut(100);
+            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Certificate issued successfully!</h2></div>').delay(3000).fadeOut(100);
             $("#status_arc").show();
         }
     });
@@ -1226,7 +1226,7 @@ $("#approve-for-rto").click(function() {
         success: function(result) {
             $("#approve_loader").hide();
             $('#approve_section').show();
-            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">This Qualification is Approved for RTO successfully!</h2></div>').delay(3000).fadeOut(100);
+            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Portfolio submited to RTO!</h2></div>').delay(3000).fadeOut(100);
             $("#status_ar").show();
         }
     });

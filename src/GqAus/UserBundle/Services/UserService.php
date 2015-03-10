@@ -339,14 +339,14 @@ class UserService
         
         if ($result['status'] == '1') {
             $evidenceStatus = 'Approved';
-        } else if($result['status'] == '0') {
+        } else if($result['status'] == '2') {
             $evidenceStatus = 'Disapproved';
+            $mailerInfo['subject'] = 'Unit :'.$result['unitName'].' Status';
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Qualification : ".$result['courseName']." \n Unit : ".$result['unitName']." \n Evidences have been ".$evidenceStatus." by ".$result['currentUserName']."
+             \n Regards, \n OnlineRPL";
+            $this->sendExternalEmail($mailerInfo);
+            $this->sendMessagesInbox($mailerInfo);
         }
-        $mailerInfo['subject'] = 'Unit :'.$result['unitName'].' Status';
-        $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Qualification : ".$result['courseName']." \n Unit : ".$result['unitName']." \n Evidences have been ".$evidenceStatus." by ".$result['currentUserName']."
-         \n Regards, \n OnlineRPL";
-        $this->sendExternalEmail($mailerInfo);
-        $this->sendMessagesInbox($mailerInfo);
         return $result['status'];
     }
     

@@ -40,12 +40,8 @@ $("#approve").click(function () {
         data: { unit: unit, userId: userId, userRole: userRole, status: '1', courseName: courseName, unitName: unitName },
         success:function(result) {
             if (result == '1') {
-                $('#gq-msg-success').hide();
-                $('.gq-id-files-upload-success-text').show();
-                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence Approved successfully!</h2>');
-            } else {
-                $('.gq-id-files-upload-success-text').show();
-                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence Disapproved successfully!</h2>');
+                $('#applicantEStatus').hide();
+                $('.gq-id-files-upload-success-text').show().html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence provided is acceptable!</h2>').delay(3000).fadeOut(100);
             }
         }
     });
@@ -60,15 +56,11 @@ $("#disapprove").click(function () {
     $.ajax({
         type: "POST",
         url: base_url + "setUserUnitEvidencesStatus",
-        data: { unit: unit, userId: userId, userRole: userRole, status: '0', courseName: courseName, unitName: unitName },
+        data: { unit: unit, userId: userId, userRole: userRole, status: '2', courseName: courseName, unitName: unitName },
         success:function(result) {
-            if (result == '1') {
-                $('#gq-msg-success').hide();
-                $('.gq-id-files-upload-success-text').show();
-                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence Approved successfully!</h2>');
-            } else {
-                $('.gq-id-files-upload-success-text').show();
-                $('.gq-id-files-upload-success-text').html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence Disapproved successfully!</h2>');
+            if (result == '2') {
+                $('#applicantEStatus').hide();
+                $('.gq-id-files-upload-success-text').show().html('<h2><img src="'+ base_url +'public/images/tick.png">Marked as unacceptable!</h2>').delay(3000).fadeOut(100);
             }
         }
     });

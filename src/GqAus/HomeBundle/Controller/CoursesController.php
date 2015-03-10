@@ -51,7 +51,6 @@ class CoursesController extends Controller
         $userId = $this->getRequest()->get('userId');
         $unitId = $this->getRequest()->get('unitId');
         $courseCode = $this->getRequest()->get('courseCode');
-        $courseService = $this->get('CoursesService');
         
         $getEvidences = $this->get('EvidenceService')->getUserUnitEvidences($userId, $unitId);        
         if (!empty($getEvidences)) {
@@ -59,12 +58,9 @@ class CoursesController extends Controller
                 $evidenceId = $evidences->getId();
                 $evidenceType = $evidences->getType();
                 $this->get('EvidenceService')->updateInactiveEvidence($evidenceId, $evidenceType);
-                /*if ($evidenceType != 'text') {
-                    $this->get('gq_aus_user.file_uploader')->delete($fileName);
-                }*/
             }
         }
-        echo $results = $courseService->updateUnitElective($userId, $unitId, $courseCode);
+        echo $this->get('CoursesService')->updateUnitElective($userId, $unitId, $courseCode);
         exit;
     }
     
