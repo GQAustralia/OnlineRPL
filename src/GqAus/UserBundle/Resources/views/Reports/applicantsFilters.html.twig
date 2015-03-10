@@ -2,16 +2,16 @@
     <tr>
         <th><span class="">Name</span></th>
         <th><span class="">Qualification Name</span></th>
-        {% if ('ROLE_ASSESSOR' in userRole) %}
-            <th><span class="">Facilitator Approved On</span></th>
-        {% endif%}
-        {% if ('ROLE_RTO' in userRole or 'ROLE_FACILITATOR' in userRole) %}
-            <th><span class="">Assessor Status</span></th>
+        {% if ('ROLE_FACILITATOR' in userRole) %}
+        <th><span class="">Assessor Status</span></th>
         {% endif%}
         {% if ('ROLE_RTO' in userRole) %}
-        <th><span class="">Facilitator Status</span></th>
+        <th><span class="">Portfolio Received On</span></th>
         {% endif%}
-        <th colspan="2"><span class="">Status</span></th>
+        <th {% if ('ROLE_RTO' in userRole) %} colspan="2" {% endif%}><span class="">Status</span></th>
+        {% if ('ROLE_FACILITATOR' in userRole) %}
+        <th {% if ('ROLE_FACILITATOR' in userRole) %} colspan="2" {% endif%}><span class="">RTO Status</span></th>
+        {% endif%}
     </tr>
 </thead>
 			
