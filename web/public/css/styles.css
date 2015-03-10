@@ -655,7 +655,8 @@ a.btn-red {color:#ffffff;}
 .daterangepicker .ranges {float:right !important;}
 .gq-reports-date-picker.gq-applicant-filter-wrap{width:272px;}
 .gq-reports-date-picker .caret{border-top:9px solid; border-top-color:#cccccc; border-left:6px solid transparent; border-right:6px solid transparent;}
-
+.gq-sub-title { color: #999999; font-size: 12px; display: inline-block;}
+ 
 /* Video section styling here */
 
 .gq-video-section-wrap {position:relative; width:100%;}
@@ -698,7 +699,7 @@ a.btn-red {color:#ffffff;}
 .gq-messages-icons-border .gq-msg-trash-icon a img, .gq-messages-icons-border .gq-msg-mark-icon a img{float:left;}
 .msg-checkmark-icon .checkbox {margin-left:-10px; margin-top:5px;}
 .gq-ms-counter {background-color: #f14840; border: 1px solid #000000; border-radius: 50%; color: #ffffff; font-size: 10px; padding: 3px; position: absolute; right: 0; top: 0; min-height: 22px; min-width: 22px;}
-.btn-wrap100p {width:50%; float:left; margin: auto 25%;}
+.btn-wrap100p {display:inline-block; margin-top:10px;}
 .msg-folder-wrap .flip-icon{background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:1px; right:28px; display:block; height:23px; width:24px;} 
 .msg-menu-wrap .flip-icon{background-image:url('../images/flippageicon.png'); background-repeat:no-repeat; background-position: center center; position:absolute; bottom:1px; right:15px; display:block; height:23px; width:24px;} 
 .msg-folder-wrap .gq-msg-row-bg:last-child{padding-bottom:12px;}
@@ -737,6 +738,8 @@ a.btn-red {color:#ffffff;}
 /* styling only for IE10 and IE11 */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
 .gq-form-personal .gq-form-row input{height:34px;}
+.gq-logo-dashboard > a { background-image: url("../images/logo-ie.png"); background-position: center center; background-size: cover; display: block; width:120px;}
+.gq-logo-dashboard > a img{opacity:0;}
 }
 
 /* check box for mail */ /*
@@ -803,13 +806,16 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  }
  @media (min-width:992px) and (max-width:1199px){
  .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:156px;}
- /*.gq-reports-date-picker.gq-applicant-filter-wrap {width:100%;}
+ .gq-applicant-list-table .table thead tr th, .gq-applicant-list-table tbody tr td {font-size:14px;}
+ .gq-applicant-filter-wrap-select-remaining{padding-top:0; padding-bottom:5px;}
+  /*.gq-reports-date-picker.gq-applicant-filter-wrap {width:100%;}
  .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
  .gq-reports-status {text-align:left;}*/
  }
 @media (min-width: 768px) and (max-width:880px){
 .daterangepicker.dropdown-menu{left:0 !important;}
 .gq-form-personal.wid60p {width:100%; margin:0 auto;}
+.gq-course-details-header-title.gq-appl-details-two-lines{width:150px; display:block;}
 }
  @media (min-width: 768px) and (max-width:991px){
  .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:100%; float:left; margin-bottom:6px;}
@@ -820,6 +826,10 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{font-size:15px;}
  .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {padding-left:5px; float:none;}
  .gq-acc-wrap label.upDownArrow{font-size:11px; padding:0 12px 0 23px; background-size:13px auto; line-height: 29px;}
+ .gq-applicant-list-table .table thead tr th, .gq-applicant-list-table tbody tr td {font-size:14px;}
+ .gq-applicant-filter-wrap-select-remaining{padding-top:0; padding-bottom:5px;}
+ .gq-app-aearch-grid .gq-applicant-filter-wrap.text-right {text-align:left;}
+ .gq-app-aearch-grid .gq-applicant-filter-wrap input[type="text"]{margin-left:0; width:100%;}
    }
  
  @media (min-width: 768px) {
@@ -861,7 +871,6 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .wid80p {width:100%; margin:0 auto;}
 .wid90p{width:100%; margin:0 auto;}
 .wid20p{width:40%; margin:auto 30%;}
-.btn-wrap100p {width:100%; float:left; margin: auto 0;}
 .gq-id-files-upload-text, .gq-id-files-upload-success-text {padding-bottom:20px;}
 .gq-id-files-upload-btn, .gq-id-files-submit-btn {margin-top:15px;}
 .gq-dashboard-right {width:100%;}
@@ -882,7 +891,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-dashboard-tabs-header .gq-tabs-width-50 {width:100%;}
 .gq-evidence-new ul li {width:auto;}
 .gq-applicant-filter-wrap .gq-search-icon {top:28px;}
-.gq-applicant-filter-wrap-select-remaining {padding-top:0; margin-bottom:5px;}
+.gq-applicant-filter-wrap-select-remaining {padding-top:5px; margin-bottom:5px;}
 .gq-dashboard-tabs .nav li:last-child a, .gq-dashboard-tabs .nav li:first-child a {border-radius:0;}
 .gq-change-profile-warning {width:100%;}
 #userprofile_gender input[type="radio"] {float:left;}
@@ -901,6 +910,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .msg-menu-wrap {margin-bottom:10px;}
 .gq-msg-row-bg .gq-msg-time-stamp {text-align:left; font-size:12px;}
 .gq-dashboard-points-wrap {text-align:center; padding:0;}
+#completed-tab .gq-to-do-date, #todo-tab .gq-to-do-date {text-align:left;}
 }
 
 @media (max-width:368px) {
