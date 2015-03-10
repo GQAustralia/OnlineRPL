@@ -44,7 +44,35 @@
                                         <input type="hidden" name="userid" value="{{userId}}">
                                         <button type="submit" class="btn btn-red"><span class="gq-assessor-profile-send-msg-icon"></span>Send Message</button>
                                     </form>
+									{% if ('ROLE_RTO' in userRole) %}
+                                        {% if (rtostatus == '1') %}
+                                            <div id="approve_section">
+                                                {% if (courseStatus == '2') %}
+                                                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Issue Certificate</button>
+                                                {% elseif (courseStatus == '0') %}
+                                                <span>Issued and Certified!</span>
+                                                {% endif %}
+                                            </div>
+                                        {% else %}
+                                            <a href="javascript:void(0)" data-target="#myModalrto" data-toggle="modal"><button class="btn btn-green">Issue Certificate</button></a>
+                                        {% endif %}
+                                    {% endif %}
 
+                                    {% if ('ROLE_FACILITATOR' in userRole) %}
+                                        {% if (assessorstatus == '1') %}
+                                            <div id="approve_section">
+                                                {% if (courseStatus == '1') %}
+                                                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-rto" class="btn btn-green">Submit Portfolio</button>
+                                                {% elseif (courseStatus == '2') %}
+                                                <span>Submitted Portfolio!</span>
+                                                {% elseif (courseStatus == '0') %}
+                                                <span>Approved By RTO and Certified!</span>
+                                                {% endif %}
+                                            </div>
+                                        {% else %}
+                                            <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Submit Portfolio</button></a>
+                                        {% endif %}
+                                    {% endif %}
                                     
                                 </div>
                             </div>
@@ -292,39 +320,6 @@
         {% endif %}
      {% endif %}
     
-{% if ('ROLE_RTO' in userRole) %}
-    {% if (rtostatus == '1') %}
-       <div id="approve_section" class="col-xs-12 text-center">
-           {% if (courseStatus == '2') %}
-                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approve for the Certification</button>
-           {% elseif (courseStatus == '0') %}
-                <span class="gq-approved-status">Approved and Completed!</span>
-           {% endif %}
-       </div>
-    {% else %}
-    <center>
-        <a href="javascript:void(0)" data-target="#myModalrto" data-toggle="modal"><button class="btn btn-green">Approve for the Certification</button></a>
-    </center>
-    {% endif %}
-{% endif %}
-        
-{% if ('ROLE_FACILITATOR' in userRole) %}
-    {% if (assessorstatus == '1') %}
-       <div id="approve_section" class="col-xs-12 text-center">
-           {% if (courseStatus == '1') %}
-                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-rto" class="btn btn-green">Approve for RTO</button>
-           {% elseif (courseStatus == '2') %}
-                <span class="gq-approved-status">Approved for RTO!</span>
-           {% elseif (courseStatus == '0') %}
-                <span class="gq-approved-status">Approved By RTO and Certified!</span>
-           {% endif %}
-       </div>
-    {% else %}
-    <center>
-        <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Approve for RTO</button></a>
-    </center>
-    {% endif %}
-{% endif %}
     <div class="col-xs-12 text-center">
         <span class="gq-approved-status" id="status_ar" style="display:none;">Approved for RTO!</span>
         <span class="gq-approved-status" id="status_arc" style="display:none;">Approved By RTO and Certified!</span>
