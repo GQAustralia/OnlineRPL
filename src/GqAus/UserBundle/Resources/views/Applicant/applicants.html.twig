@@ -15,7 +15,7 @@
         <td>{{list.courseCode}} {{list.courseName}}</td>
         {% if (status == 0) %}
     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-        <td>                         
+        <td style="text-align:center;">                         
         {% set userId = list.user.id %}
         {% set id = list.id %}
         {% set courseCode = list.courseCode %}
