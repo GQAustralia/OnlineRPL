@@ -746,6 +746,7 @@ a.btn-red {color:#ffffff;}
 #change-pwd-form, #frmLogin {padding-top:10px;}
 .gq-id-files-upload-wait-text {padding-top:12px; text-align:center;}
 .gq-id-files-upload-wait-text h2{font-size:13px;}
+ #change-pwd-form, #frmLogin, #frmPassword {padding-top:10px;}
 
 /* styling only for IE10 and IE11 */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
