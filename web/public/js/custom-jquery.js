@@ -275,7 +275,6 @@ function validateExisting()
 $("#userprofile_userImage").change(function() {
     var fileName = $(this).val();
     var Extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
-
     if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
         $("#ajax-loading-icon").show();
         var file_data = $('#userprofile_userImage').prop('files')[0];
@@ -301,7 +300,7 @@ $("#userprofile_userImage").change(function() {
                 else
                 {
                     $("#ajax-profile-error").show();
-                    $("#ajax-profile-error").html("<p>Error in uploading.</p>").delay(3000).fadeOut(100);
+                    $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error in uploading</h2></div>').delay(3000).fadeOut(100);
                 }
             }
         });
@@ -309,7 +308,7 @@ $("#userprofile_userImage").change(function() {
     else
     {
         $("#ajax-profile-error").show();
-        $("#ajax-profile-error").html("<p>Please upload valid image.</p>").delay(3000).fadeOut(100);
+        $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please upload valid image</h2></div>').delay(3000).fadeOut(100);
         //alert("Please upload valid image");
         return false;
     }
@@ -552,13 +551,13 @@ function checkspace(text)
 function checkCurrentPassword(mypassword)
 {
     $("#hdn_pwd_check").val("0");
-    var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
-    var enddiv = '</div></div>';
+    var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var enddiv = '</h2></div>';
     var mypassword = mypassword;
     $("#change_pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
     if(mypassword!="") {
         $("#change_pwd_error").show();
-        $("#change_pwd_error").html('<div class="gq-well well"><div class="login-warning-text">Please wait..' + enddiv);
+        $("#change_pwd_error").html('<div class="gq-id-files-upload-wait-text"><h2>Please wait..' + enddiv);
         $.ajax({
             type: "POST",
             url: "checkMyPassword",
@@ -1024,8 +1023,8 @@ $("#userprofile_save").click(function() {
 });
 function showMyTabs(msg)
 {
-    var startMsg = '<div class="gq-well well"><span aria-hidden="true" class="login-warning-icon"></span><div class="login-warning-text">';
-    var endMsg = '</div></div>';
+    var startMsg = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var endMsg = '</h2></div>';
     $("#change_pwd_error").show();
     $("#change_pwd_error").html(startMsg + msg + endMsg).delay(3000).fadeOut(100);
     $('#personel-gq-tab').tab('show');
@@ -1049,7 +1048,6 @@ function validateAddress()
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
     if ($("#userprofile_firstname").val() == "")
     {
-        
         if(userrole=='rtouser')
             showMyTabs("Please enter College Name");
         else
@@ -1122,8 +1120,8 @@ function validateAddress()
 /* Change Password Validations */
 function passwordShowMsg(errorMsg,msgId)
 {
-    var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
-    var enddiv = '</div></div>';
+    var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var enddiv = '</h2></div>';
     $("#change_pwd_error").show();
     $("#change_pwd_error").html(startdiv + errorMsg + enddiv).delay(3000).fadeOut(100);
     if($("#"+msgId).val() != "")
@@ -1135,8 +1133,8 @@ $("#password_save").click(function()
     var curpwd = $("#password_oldpassword").val();
     var newpwd = $("#password_newpassword").val();
     var newconfirmpwd = $("#password_confirmnewpassword").val();
-    var startdiv = '<div class="gq-well well"><span class="login-warning-icon" aria-hidden="true"></span><div class="login-warning-text">';
-    var enddiv = '</div></div>';
+    var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var enddiv = '</h2></div>';
     var hdnpwdchk = $("#hdn_pwd_check").val();
     if (curpwd == "") {
         passwordShowMsg("Please enter Current Password", "password_oldpassword");
