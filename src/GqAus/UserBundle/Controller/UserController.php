@@ -330,6 +330,14 @@ class UserController extends Controller
         readfile($zipName);
     }
     
+     /**
+    * Function to add new applicant
+    */
+    public function addApplicantAction(Request $request){
+    	$userService = $this->get('UserService');
+    	$userService->saveApplicantData($request);
+    }
+    
     
     
 }

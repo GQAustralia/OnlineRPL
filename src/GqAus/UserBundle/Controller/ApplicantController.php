@@ -153,8 +153,9 @@ class ApplicantController extends Controller
                 $unitEvidencs = array();
                 foreach ($evidences as $evidence) {
                     if ($evidence->getType() !== 'text') {
+                        $unitEvidencs[$j]['id'] = $evidence->getId();
                         $unitEvidencs[$j]['path'] = $evidence->getPath();
-                        $unitEvidencs[$j]['pathName'] = $evidence->getPath();
+                        $unitEvidencs[$j]['pathName'] = $evidence->getName();
                     }
                     $j++;
                 }
@@ -167,7 +168,7 @@ class ApplicantController extends Controller
             $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
             $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
             $html = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
-
+            //return $this->render('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
             $fileName = $user->getUserName() . '_' . $results['courseInfo']['name'];
             return new Response(
                     $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
@@ -224,6 +225,32 @@ class ApplicantController extends Controller
             return $response;        } else {
             echo "<script>alert('No files to download');window.close();</script>";
             exit;
+        }
+    }
+    
+   /**
+    * Function to view evidence
+    * return $result array
+    */
+    public function viewEvidenceAction($evidenceId)
+    {        
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if ( $evidenceId > 0 ) {
+                $evidenceObj = $this->get('EvidenceService');
+                $evidences = $evidenceObj->getEvidenceById($evidenceId);
+                if ( count($evidences) > 0 ) { 
+                    $results = array();
+                    if ($evidences->getType() !== 'text') {                        
+                        $results['userId'] = $evidences->getUser();
+                        $results['id'] = $evidences->getId();
+                        $results['path'] = $evidences->getPath();
+                        $results['pathName'] = $evidences->getName();
+                    }
+                    return $this->render('GqAusUserBundle:Evidence:view-evidence.html.twig', $results); 
+                }
+            }
+        } else {
+            throw $this->createAccessDeniedException();    
         }
     }
     
