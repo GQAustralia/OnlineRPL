@@ -569,6 +569,7 @@ class UserService
             $userType = 'rto';
             $userStatus = 'rtostatus';
         }
+        $rtoEnable = 0;
         $usercoures = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array($userType => $userId));
         if (!empty($usercoures)) {
             foreach ($usercoures as $course) {
@@ -598,6 +599,7 @@ class UserService
                             } elseif ($userType == 'rto') {
                                 $course->setRtostatus('1');
                                 $course->setRtoDate($date);
+                                $rtoEnable = 1;
                                 //$course->setCourseStatus('1');
                             }
                              $this->em->persist($course);
@@ -608,6 +610,7 @@ class UserService
                 }//if
             }//foreach
         }//if
+        return $rtoEnable;
     }
     
     /**

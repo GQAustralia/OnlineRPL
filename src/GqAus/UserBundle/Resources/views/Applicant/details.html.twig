@@ -44,17 +44,23 @@
                                         <input type="hidden" name="userid" value="{{userId}}">
                                         <button type="submit" class="btn btn-red"><span class="gq-assessor-profile-send-msg-icon"></span>Send Message</button>
                                     </form>
-									{% if ('ROLE_RTO' in userRole) %}
+                                    <div id="approve_sectionajax">
+                                            <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification-ajax" class="btn btn-green approve-for-certification-btnajax" style="display:none;">Issue Certificate</button>
+                                    </div>
+                                    <div id="approve_section-status" style="display:none;">
+                                            <span>Issued and Certified!</span>
+                                    </div>
+                                    {% if ('ROLE_RTO' in userRole) %}
                                         {% if (rtostatus == '1') %}
                                             <div id="approve_section">
                                                 {% if (courseStatus == '2') %}
-                                                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Issue Certificate</button>
+                                                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green approve-for-certification-btn">Issue Certificate</button>
                                                 {% elseif (courseStatus == '0') %}
                                                 <span>Issued and Certified!</span>
                                                 {% endif %}
                                             </div>
                                         {% else %}
-                                            <a href="javascript:void(0)" data-target="#myModalrto" data-toggle="modal"><button class="btn btn-green">Issue Certificate</button></a>
+                                            <a href="javascript:void(0)" data-target="#myModalrto" data-toggle="modal" class="approve-for-certification-btn"><button class="btn btn-green">Issue Certificate</button></a>
                                         {% endif %}
                                     {% endif %}
 
@@ -64,9 +70,9 @@
                                                 {% if (courseStatus == '1') %}
                                                 <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-rto" class="btn btn-green">Submit Portfolio</button>
                                                 {% elseif (courseStatus == '2') %}
-                                                <span>Submitted Portfolio!</span>
+                                                <span>Portfolio Submitted!</span>
                                                 {% elseif (courseStatus == '0') %}
-                                                <span>Approved By RTO and Certified!</span>
+                                                <span>Issued and Certified!</span>
                                                 {% endif %}
                                             </div>
                                         {% else %}
@@ -321,9 +327,9 @@
      {% endif %}
     
     <div class="col-xs-12 text-center">
-        <span class="gq-approved-status" id="status_ar" style="display:none;">Approved for RTO!</span>
-        <span class="gq-approved-status" id="status_arc" style="display:none;">Approved By RTO and Certified!</span>
-        <span class="gq-approved-status" id="status_ac" style="display:none;">Approved and Completed!</span>
+        <span class="gq-approved-status" id="status_ar" style="display:none;">Portfolio Submitted!</span>
+        <span class="gq-approved-status" id="status_arc" style="display:none;">Issued and Certified!</span>
+        <span class="gq-approved-status" id="status_ac" style="display:none;">Certificate Issued!</span>
     </div>
      <span class="gq-approve-error" id="gq-approve-error" style="display:none;">Please approve all the units.</span>
      <center id="approve_loader" style="display:none"><span><img src="{{ asset('public/images')}}/loading.gif" /></span></center>

@@ -33,15 +33,24 @@ $("#approve").click(function () {
     var userRole = $('#applicantEStatus').attr('userRole');
     var courseName = $('#hid-course-name').val();
     var unitName = $('#hid-unit-name').val();
-    $('.loading-icon').show();
+    $(this).parent().next('.loading-icon').show();
     $.ajax({
         type: "POST",
         url: base_url + "setUserUnitEvidencesStatus",
         data: { unit: unit, userId: userId, userRole: userRole, status: '1', courseName: courseName, unitName: unitName },
         success:function(result) {
-            if (result == '1') {
+            var newresult = result.split("&&");
+            if (newresult[0] == '1') {
                 $('#applicantEStatus').hide();
                 $('.gq-id-files-upload-success-text').show().html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence provided is acceptable!</h2>').delay(3000).fadeOut(100);
+            }
+            if (newresult[1] == '1') {
+                $(".approve-for-certification-btn").hide();
+                $(".approve-for-certification-btnajax").show();
+            }
+            else {
+                $(".approve-for-certification-btn").show();
+                $(".approve-for-certification-btnajax").hide();
             }
         }
     });
