@@ -154,3 +154,9 @@ historyArchive:
 downloadArchive:
     path:     /downloadArchive/{aid}
     defaults: { _controller: GqAusUserBundle:Tokbox:download }
+addApplicant:
+    path:     /addApplicant/
+    defaults: { _controller: GqAusUserBundle:User:addApplicant }
+viewEvidenceApplicant:
+    path:     /viewEvidence/{evidenceId}
+    defaults: { _controller: GqAusUserBundle:Applicant:viewEvidence }    

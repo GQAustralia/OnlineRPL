@@ -297,4 +297,14 @@ class EvidenceService
         $this->em->persist($recordingObj);
         $this->em->flush();
     }
+    
+    /**
+    * Function to get evidence
+    * return $result array
+    */
+    public function getEvidenceById($evidenceId)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
+        return $reposObj->find($evidenceId);
+    }
 }
