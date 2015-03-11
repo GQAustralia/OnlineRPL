@@ -290,4 +290,15 @@ class ApplicantController extends Controller
             return $this->redirect('dashboard');
         }
     }
+    /**
+     * Function to set assessor and rto by facilitator for applicant profile
+     */
+    public function setRoleUsersAction()
+    {
+        $courseId = $this->getRequest()->get('courseId');
+        $userId = $this->getRequest()->get('roleuserId');
+        $roleid = $this->getRequest()->get('roleid');
+        echo $this->get('UserService')->setRoleUsersForCourse($courseId, $roleid, $userId);
+        exit;
+    }
 }

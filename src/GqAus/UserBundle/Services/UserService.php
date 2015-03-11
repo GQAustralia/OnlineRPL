@@ -309,7 +309,7 @@ class UserService
             $results['rtostatus'] = $otheruser->getRtostatus();
             $results['assessorstatus'] = $otheruser->getAssessorstatus();
             $results['facilitatorstatus'] = $otheruser->getFacilitatorstatus();
-            
+            $results['coursePrimaryId'] = $otheruser->getId();
         }
         return $results;
     }
@@ -1030,7 +1030,23 @@ class UserService
             $this->em->flush();
         }
     }
-    
+    /*
+     * Function to set the assessor and rto to applicant profile
+     * return int
+     */
+    public function setRoleUsersForCourse($courseId, $role, $userId)
+    {
+        $course = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($courseId);
+        if ($role == \GqAus\UserBundle\Entity\Rto::ROLE) {
+            $course->setRto($userId);
+        } else if ($role == \GqAus\UserBundle\Entity\Assessor::ROLE) {
+            $course->setAssessor($userId);
+        }
+		$this->em->persist($course);
+        $this->em->flush();
+        $this->em->clear();
+        return "success";
+    }
     public function saveApplicantData($request) {
 		$user =  new User();
 		$firstName = $request->get('firstname');
