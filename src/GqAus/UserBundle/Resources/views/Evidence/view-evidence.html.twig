@@ -1,0 +1,31 @@
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+{% endblock %}
+{% block body %}
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="gq-evidence-new">                
+                 <a href = "{{ amazon_link }}{{  path }}" class="fancybox">
+                    <div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
+                </a>                
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block javascripts %}
+ <script src="{{ asset('public/js/jquery.min.js') }}"></script>       
+ <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+ <script type="text/javascript">
+    var amazon_link = "{{ amazon_link }}";
+    $(document).ready(function() {
+        $('.fancybox').fancybox({
+            afterClose : function () {
+               window.close();
+            }    
+        }).trigger("click");
+    });
+</script>
+{% endblock %}

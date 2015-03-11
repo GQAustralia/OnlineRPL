@@ -1086,5 +1086,83 @@ class UserService
             $this->sendMessagesInbox($mailerInfo);
         }
     }
+    
+    public function saveApplicantData($request) {
+		$user =  new User();
+		$firstName = $request->get('firstname');
+		$lastName = $request->get('lastname');
+		$email = $request->get('email');
+		$password = $request->get('password');
+		$phone = $request->get('phone');
+		$dateofbirth = $request->get('dateofbirth');
+		$gender = $request->get('gender');
+		$studentId = $request->get('studentId');
+		$address = $request->get('address');
+		$userImage = $request->get('userimage');
+		$pwdToken = $request->get('pwdtoken');
+		$tokenExpiry = $request->get('tokenexpiry');
+		$tokenStatus = $request->get('tokenstatus');
+		$courseConditionStatus = $request->get('courseconditionstatus');
+		
+		
+		$user->setFirstName(isset($firstName)? $firstName : '');
+		$user->setLastName(isset($lastName)? $lastName : '');
+		$user->setEmail(isset($email)? $email : '');
+		$user->setPassword(isset($password)? $password : '$2y
+$10$u9fhYXfZ/CHlGKrudvi3LO0Ap4yx6hIJjQZZ32DAK8C06iaLzu2Ue');
+		$user->setPhone(isset($phone)? $phone : '');
+		$user->setDateOfBirth(isset($dateofbirth)? $dateofbirth : '');
+		$user->setGender(isset($gender)?$gender: '');
+		$user->setUniversalStudentIdentifier(isset($studentId)?$studentId : '');
+		//$user->setAddress(isset($address)? $address : 0);
+		$user->setUserImage(isset($userImage)? $userImage : '');
+		$user->setPasswordToken(isset($pwdToken)? $pwdToken : '');
+		$user->setTokenExpiry(isset($tokenExpiry)? $tokenExpiry : '');
+		$user->setTokenStatus(isset($tokenStatus)? $tokenStatus: 1);
+		$user->setCourseConditionStatus(isset($courseConditionStatus)? $courseConditionStatus: 0);
+		$this->em->persist($user);
+		$this->em->flush();
+		
+		//$userId = $user->getId();
+		$address = $request->get('address');
+		$pincode = $request->get('pincode');
+		$addressObj = new UserAddress();
+		$addressObj->setUser($user);
+		$addressObj->setAddress(isset($address)? $address: '');
+		$addressObj->setPincode(isset($pincode)? $pincode: '');
+		$this->em->persist($addressObj);
+		$this->em->flush();
+		
+		$userObj = $this->repository->find($user->getId());
+		$userObj->setAddress($addressObj);
+		$this->em->flush();
+		
+		$courseCode = $request->get('coursecode');
+		$courseName = $request->get('coursename');
+		$courseStatus = $request->get('coursestatus');
+		$targetDate = $request->get('targetdate');
+		$userCoursesObj = new UserCourses();
+		$userCoursesObj->setUser($user);
+		$userCoursesObj->setCourseCode(isset($courseCode) ? $courseCode: '');
+		$userCoursesObj->setCourseName(isset($courseName) ? $courseName: '');
+		$userCoursesObj->setCourseStatus(isset($courseStatus)? $courseStatus: '');
+		$userCoursesObj->setCreatedOn(time());
+		$userCoursesObj->setFacilitator($user);
+		$userCoursesObj->setAssessor($user);
+		$userCoursesObj->setRto($user);
+		$userCoursesObj->setFacilitatorstatus(0);
+		$userCoursesObj->setAssessorstatus(0);
+		$userCoursesObj->setRtostatus(0);
+		$userCoursesObj->setTargetDate(isset($setTargetDate)? $setTargetDate: '');
+		
+		$this->em->persist($userCoursesObj);
+		$this->em->flush();
+		
+		
+		echo $user->getId().'<br/>'.$addressObj->getId().'<br/>'.$userCoursesObj->getId();
+		exit;
+			
+			
+	}
 
 }
