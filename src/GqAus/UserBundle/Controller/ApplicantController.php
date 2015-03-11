@@ -20,6 +20,11 @@ class ApplicantController extends Controller
         $results = $coursesService->getCoursesInfo($qcode);
         if (!empty($user) && isset($results['courseInfo']['id'])) {
             $applicantInfo = $userService->getApplicantInfo($user, $qcode);
+            $role = $this->get('security.context')->getToken()->getUser()->getRoles();
+            if($role[0] == \GqAus\UserBundle\Entity\Facilitator::ROLE_NAME) {
+                $results['rtos'] = $userService->getUsers(\GqAus\UserBundle\Entity\Rto::ROLE);
+                $results['assessors'] = $userService->getUsers(\GqAus\UserBundle\Entity\Assessor::ROLE);               
+            }
             $results['electiveUnits'] = $coursesService->getElectiveUnits($uid, $qcode);
             $results['courseCode'] = $qcode;
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
