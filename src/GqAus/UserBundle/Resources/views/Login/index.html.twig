@@ -4,14 +4,8 @@
    <div class="row text-center">
         <h3>Sign in to get in touch</h3>
     </div>
-    <div class="row">    
-        <div class="gq-well gq-id-files-upload-success-text" style="display:none">
-            <div class="gq-well well">
-                <span class="login-warning-icon" aria-hidden="true"></span>
-                <div class="login-warning-text"></div>
-            </div>
-        </div>        
-        
+    <div class="row">            
+        <div class="gq-change-profile-warning" id="change_pwd_error"></div>
         <form action="{{ path('login_check') }}" name="frmLogin" id="frmLogin" method="post">
           <div class="form-group">
             <input type="email" name = '_username' class="form-control email" id="InputEmail1" placeholder="Email">
@@ -33,34 +27,34 @@
         $(document).ready(function() {
             $(".gq-id-files-upload-success-text").delay(3000).fadeOut(100);
         });
-        
+        var base_url = "{{ base_url }}";
         /*Login Validation*/
         function loginValidate()
         {
             var useremail = $("#InputEmail1").val();
             var userpwd = $("#InputPassword1").val();
+            var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+            var enddiv = '</h2></div>';
             regexp=/^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
             if(useremail=="") {
-                $('.gq-well').show();
-                $(".login-warning-text").show();
-                $('.gq-well').show().delay(3000).fadeOut(100);
-                $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter Email</div>').delay(3000).fadeOut(100);
+                $("#change_pwd_error").show();
+                $("#change_pwd_error").html(startdiv + "Please enter Email" + enddiv).delay(3000).fadeOut(100);
+                $("#InputEmail1").focus();    
                 return false;
             }
             else {
                 if(useremail.search(regexp)==-1) {
-                    $('.gq-well').show();
-                    $(".login-warning-text").show();
-                    $('.gq-well').show().delay(3000).fadeOut(100);
-                    $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter valid Email</div>').delay(3000).fadeOut(100);
+                    $("#change_pwd_error").show();
+                    $("#change_pwd_error").html(startdiv + "Please enter valid Email" + enddiv).delay(3000).fadeOut(100);
+                    $("#InputEmail1").val('');
+                    $("#InputEmail1").focus();
                     return false;
                 }
             }
             if(userpwd=="") {
-                $('.gq-well').show();
-                $(".login-warning-text").show();
-                $('.gq-well').show().delay(3000).fadeOut(100);
-                $(".login-warning-text").html('<div for="InputEmail1" generated="true" class="error">Please enter Password</div>').delay(3000).fadeOut(100);
+                $("#change_pwd_error").show();
+                $("#change_pwd_error").html(startdiv + "Please enter Password" + enddiv).delay(3000).fadeOut(100);
+                $("#InputEmail1").focus();
                 return false;
             }
          }
@@ -68,8 +62,8 @@
     </script>
     {% if error %}
         <script>
-            $('.gq-well').show();
-            $('.login-warning-text').html("Invalid credentials");
+            $("#change_pwd_error").show();
+            $("#change_pwd_error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid credentials</h2></div>').delay(3000).fadeOut(100);
         </script>
     {% endif %}
 {% endblock %}
