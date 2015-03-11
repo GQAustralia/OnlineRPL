@@ -67,7 +67,8 @@ $("#disapprove").click(function () {
         url: base_url + "setUserUnitEvidencesStatus",
         data: { unit: unit, userId: userId, userRole: userRole, status: '2', courseName: courseName, unitName: unitName },
         success:function(result) {
-            if (result == '2') {
+            var newresult = result.split("&&");
+            if (newresult[0] == '2') {
                 $('#applicantEStatus').hide();
                 $('.gq-id-files-upload-success-text').show().html('<h2><img src="'+ base_url +'public/images/tick.png">Marked as unacceptable!</h2>').delay(3000).fadeOut(100);
             }

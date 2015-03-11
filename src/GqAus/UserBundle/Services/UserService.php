@@ -596,6 +596,25 @@ class UserService
                             } elseif ($userType == 'assessor') {
                                 $course->setAssessorstatus('1');
                                 $course->setAssessorDate($date);
+                                $mailerInfo = array();
+                                $mailerInfo['sent'] = $course->getAssessor()->getId();
+                                $mailerInfo['subject'] = "All evidences are enough competent in " . $course->getCourseCode() . " : " . $course->getCourseName();            
+                                $userName = $course->getFacilitator()->getUsername();
+                                $mailerInfo['to'] = $course->getFacilitator()->getEmail();
+                                $mailerInfo['inbox'] = $course->getFacilitator()->getId();
+                                $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() ." are enough competent. \n Validated all the eviedences in the qualification.
+                                 \n\n Regards, \n ". $course->getAssessor()->getUsername();
+                                $this->sendExternalEmail($mailerInfo);
+                                $this->sendMessagesInbox($mailerInfo);
+                                
+                                $userName = $course->getUser()->getUsername();
+                                $mailerInfo['to'] = $course->getUser()->getEmail();
+                                $mailerInfo['inbox'] = $course->getUser()->getId();
+                                $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() ." are enough competent. \n Validated all the eviedences in the qualification.
+                                 \n\n Regards, \n ". $course->getAssessor()->getUsername();                                
+                                $this->sendExternalEmail($mailerInfo);
+                                $this->sendMessagesInbox($mailerInfo);
+                                
                             } elseif ($userType == 'rto') {
                                 $course->setRtostatus('1');
                                 $course->setRtoDate($date);
@@ -1004,13 +1023,32 @@ class UserService
     */
     public function rtoApproveCertification($courseCode, $applicantId)
     {
-        $applicantCoures = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
                                                                                          'user' => $applicantId));
-        if (!empty($applicantCoures)) {
-            $applicantCoures->setCourseStatus('0');
-            $applicantCoures->setRtoDate(date('Y-m-d H:i:s'));
-            $this->em->persist($applicantCoures);
+        if (!empty($courseObj)) {
+            $courseObj->setCourseStatus('0');
+            $courseObj->setRtoDate(date('Y-m-d H:i:s'));
+            $this->em->persist($courseObj);
             $this->em->flush();
+            
+            $mailerInfo = array();
+            $mailerInfo['sent'] = $courseObj->getRto()->getId();
+            $mailerInfo['subject'] = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();            
+            $facilitatorName = $courseObj->getFacilitator()->getUsername();
+            $mailerInfo['to'] = $courseObj->getFacilitator()->getEmail();
+            $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$facilitatorName.", \n All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() ." are enough competent. \n Validated all the eviedences in the qualification and issued the certificate.
+             \n\n Regards, \n ". $courseObj->getRto()->getUsername();
+            $this->sendExternalEmail($mailerInfo);
+            $this->sendMessagesInbox($mailerInfo);
+
+            $applicantName = $courseObj->getUser()->getUsername();
+            $mailerInfo['to'] = $courseObj->getUser()->getEmail();
+            $mailerInfo['inbox'] = $courseObj->getUser()->getId();
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$applicantName.", \n All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() ." are enough competent. \n Validated all the eviedences in the qualification and issued the certificate..
+             \n\n Regards, \n ". $courseObj->getRto()->getUsername();                                
+            $this->sendExternalEmail($mailerInfo);
+            $this->sendMessagesInbox($mailerInfo);
         }
     }
     
@@ -1019,15 +1057,33 @@ class UserService
     */
     public function approveForRTOCertification($courseCode, $applicantId)
     {
-        $applicantCoures = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
                                                                                          'user' => $applicantId));
-        if (!empty($applicantCoures)) {
-            $applicantCoures->setCourseStatus('2');
-            $applicantCoures->setFacilitatorstatus('1');
-            $applicantCoures->setFacilitatorDate(date('Y-m-d H:i:s'));
-            $applicantCoures->setRtoDate(date('Y-m-d H:i:s'));
-            $this->em->persist($applicantCoures);
+        if (!empty($courseObj)) {
+            $courseObj->setCourseStatus('2');
+            $courseObj->setFacilitatorstatus('1');
+            $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
+            $this->em->persist($courseObj);
             $this->em->flush();
+            
+            $mailerInfo = array();
+            $mailerInfo['sent'] = $courseObj->getFacilitator()->getId();
+            $mailerInfo['subject'] = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();            
+            $rtoName = $courseObj->getRto()->getUsername();
+            $mailerInfo['to'] = $courseObj->getRto()->getEmail();
+            $mailerInfo['inbox'] = $courseObj->getRto()->getId();
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$rtoName.", \n All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() ." are enough competent. \n Validated all the eviedences and moved portfolio to you.
+             \n\n Regards, \n ". $courseObj->getFacilitator()->getUsername();
+            $this->sendExternalEmail($mailerInfo);
+            $this->sendMessagesInbox($mailerInfo);
+
+            $applicantName = $courseObj->getUser()->getUsername();
+            $mailerInfo['to'] = $courseObj->getUser()->getEmail();
+            $mailerInfo['inbox'] = $courseObj->getUser()->getId();
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$applicantName.", \n All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() ." are enough competent. \n. Your portfolio has been submitted to RTO.
+             \n\n Regards, \n ". $courseObj->getFacilitator()->getUsername();                                
+            $this->sendExternalEmail($mailerInfo);
+            $this->sendMessagesInbox($mailerInfo);
         }
     }
 

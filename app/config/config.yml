@@ -34,6 +34,7 @@ twig:
         base_url: %applicationUrl%
         user_service: "@UserService"
         evidence_service: "@EvidenceService"
+        tokbox_key: "%tokbox_key%"
 
 # Assetic Configuration
 assetic:
