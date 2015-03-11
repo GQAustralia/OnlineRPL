@@ -14,11 +14,13 @@ class ApplicantController extends Controller
     */
     public function detailsAction($qcode, $uid, Request $request)
     {
-        $user = $this->get('UserService')->getUserInfo($uid);
-        $results = $this->get('CoursesService')->getCoursesInfo($qcode);
+        $userService = $this->get('UserService');
+        $coursesService = $this->get('CoursesService');
+        $user = $userService->getUserInfo($uid);
+        $results = $coursesService->getCoursesInfo($qcode);
         if (!empty($user) && isset($results['courseInfo']['id'])) {
-            $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
-            $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
+            $applicantInfo = $userService->getApplicantInfo($user, $qcode);
+            $results['electiveUnits'] = $coursesService->getElectiveUnits($uid, $qcode);
             $results['courseCode'] = $qcode;
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
         } else {
@@ -42,8 +44,8 @@ class ApplicantController extends Controller
         $result['currentuserRole'] = $this->get('security.context')->getToken()->getUser()->getRoles();
         $result['courseName'] = $this->getRequest()->get('courseName');
         $result['unitName'] = $this->getRequest()->get('unitName');
-        echo $this->get('UserService')->updateApplicantEvidences($result);
-        $this->get('UserService')->updateUserApplicantsList($result['currentUserId'], $result['currentuserRole']);
+        $userUnitEvStatus.= $this->get('UserService')->updateApplicantEvidences($result);
+        echo $userUnitEvStatus.= "&&".$this->get('UserService')->updateUserApplicantsList($result['currentUserId'], $result['currentuserRole']);
         exit;
     }
     
@@ -74,6 +76,7 @@ class ApplicantController extends Controller
         $page = $this->get('request')->query->get('page', 1);
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
         $results['pageRequest'] = 'submit';
+        $results['status'] = 0;
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
 
@@ -92,7 +95,8 @@ class ApplicantController extends Controller
         if($page == "")
             $page=1;
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, $searchName, $searchTime);
-        $results['pageRequest'] = 'ajax'; 
+        $results['pageRequest'] = 'ajax';
+        $results['status'] = $status; 
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results); exit;
     }
     
@@ -278,7 +282,7 @@ class ApplicantController extends Controller
         if($userRole[0]!="ROLE_ASSESSOR") {
             /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
             $page = $this->get('request')->query->get('page', 1);
-            $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, '2', $page);
+            $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, '3', $page);
             $results['pageRequest'] = 'submit';
             return $this->render('GqAusUserBundle:Reports:list.html.twig', $results);
         }

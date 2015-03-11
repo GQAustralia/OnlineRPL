@@ -44,7 +44,41 @@
                                         <input type="hidden" name="userid" value="{{userId}}">
                                         <button type="submit" class="btn btn-red"><span class="gq-assessor-profile-send-msg-icon"></span>Send Message</button>
                                     </form>
+                                    <div id="approve_sectionajax">
+                                            <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification-ajax" class="btn btn-green approve-for-certification-btnajax" style="display:none;">Issue Certificate</button>
+                                    </div>
+                                    <div id="approve_section-status" style="display:none;">
+                                            <span>Issued and Certified!</span>
+                                    </div>
+                                    {% if ('ROLE_RTO' in userRole) %}
+                                        {% if (rtostatus == '1') %}
+                                            <div id="approve_section">
+                                                {% if (courseStatus == '2') %}
+                                                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green approve-for-certification-btn">Issue Certificate</button>
+                                                {% elseif (courseStatus == '0') %}
+                                                <span>Issued and Certified!</span>
+                                                {% endif %}
+                                            </div>
+                                        {% else %}
+                                            <a href="javascript:void(0)" data-target="#myModalrto" data-toggle="modal" class="approve-for-certification-btn"><button class="btn btn-green">Issue Certificate</button></a>
+                                        {% endif %}
+                                    {% endif %}
 
+                                    {% if ('ROLE_FACILITATOR' in userRole) %}
+                                        {% if (assessorstatus == '1') %}
+                                            <div id="approve_section">
+                                                {% if (courseStatus == '1') %}
+                                                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-rto" class="btn btn-green">Submit Portfolio</button>
+                                                {% elseif (courseStatus == '2') %}
+                                                <span>Portfolio Submitted!</span>
+                                                {% elseif (courseStatus == '0') %}
+                                                <span>Issued and Certified!</span>
+                                                {% endif %}
+                                            </div>
+                                        {% else %}
+                                            <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Submit Portfolio</button></a>
+                                        {% endif %}
+                                    {% endif %}
                                     
                                 </div>
                             </div>
@@ -150,10 +184,10 @@
             <div class="gq-id-files">
                 <div class="gq-id-files-header gq-id-files-header-applicant">
                     <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-4 col-xs-3">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <span class="gq-course-details-header-title">Unit Code</span>
                         </div>
-                        <div class="col-lg-3 col-md-5 col-sm-4 col-xs-3">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
@@ -192,7 +226,7 @@
                                 {% if evidence %}
                                 <span class="pull-left"><button class="btn eye-btn unit-evidence-id" userid="{{userId}}" del-status="1"  unitid="{{units.id}}"  course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
                                 {% else %}
-                                    <div class="gq-acc-row-title">No Evidences found</div>
+                                    <div class="gq-acc-row-title gq-core-units-evidence-text">No Evidences found</div>
                                 {% endif %}
                             </div>
                         </div>
@@ -235,50 +269,53 @@
         </div>
     </div>
 
-
-
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
             <!-- accordion starts here -->
             <div class="gq-acc-wrap">
                 {% if courseInfo.Units %}
                 {% if courseInfo.Units.Unit %}
-                {% for key, units in courseInfo.Units.Unit %}
-                    {% if units.type == 'elective' %}
-                        {% set unitId = units.id %}
-                        {% if unitId|trim in electiveUnits|keys %} 
-                <div>
-                    <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
-                    <div class="row no-margin">
-                        <div id="div_{{units.id}}" class="gq-acc-row-bg">
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <div class="gq-acc-row-title">{{units.id}}</div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <div class="gq-acc-row-title">{{units.name}}</div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <label for="acc-{{i}}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn upDownArrow" >VIEW</label>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
-                                {% if evidence %}
-                                <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id" unitid="{{units.id}}" course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                    {% set flagElective = '0' %}
+                    {% for key, units in courseInfo.Units.Unit %}
+                        {% if units.type == 'elective' %}
+                                {% set unitId = units.id %}
+                                {% if unitId|trim in electiveUnits|keys %} 
+                                {% set flagElective = '1' %}
+                                <div>
+                                    <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
+                                    <div class="row no-margin">
+                                        <div id="div_{{units.id}}" class="gq-acc-row-bg">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="gq-acc-row-title">{{units.id}}</div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="gq-acc-row-title">{{units.name}}</div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <label for="acc-{{i}}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn upDownArrow" >VIEW</label>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                            {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
+                                                                                            {% if evidence %}
+                                                <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id" unitid="{{units.id}}" course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                                                                                            {% else %}
+                                                <div class="gq-acc-row-title">No Evidences found</div>
+                                                                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <article class="acc-small">
+                                        <p>{{units.name}}</p>
+                                    </article>
+                                </div>
+                                {% set i = i+1 %}
                                 {% else %}
-                                    <div class="gq-acc-row-title">No Evidences found</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <article class="acc-small">
-                        <p>{{units.name}}</p>
-                    </article>
-                </div>
-                        {% set i = i+1 %}
-                        {% else %}
-                       {% endif %}
+                           {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if flagElective == '0' %}
+                            <div class="gq-acc-row-title load-icon-tr">No Elected Units found</div>
                     {% endif %}
-                {% endfor %}
                 {% endif %}
                 {% endif %}
             </div>
@@ -289,43 +326,10 @@
         {% endif %}
      {% endif %}
     
-{% if ('ROLE_RTO' in userRole) %}
-    {% if (rtostatus == '1') %}
-       <div id="approve_section" class="col-xs-12 text-center">
-           {% if (courseStatus == '2') %}
-                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green">Approved for the Certification</button>
-           {% elseif (courseStatus == '0') %}
-                <span class="gq-approved-status">Approved and Completed!</span>
-           {% endif %}
-       </div>
-    {% else %}
-    <center>
-        <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Approved for the Certification</button></a>
-    </center>
-    {% endif %}
-{% endif %}
-        
-{% if ('ROLE_FACILITATOR' in userRole) %}
-    {% if (assessorstatus == '1') %}
-       <div id="approve_section" class="col-xs-12 text-center">
-           {% if (courseStatus == '1') %}
-                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-rto" class="btn btn-green">Approve for RTO</button>
-           {% elseif (courseStatus == '2') %}
-                <span class="gq-approved-status">Approved for RTO!</span>
-           {% elseif (courseStatus == '0') %}
-                <span class="gq-approved-status">Approved By RTO and Certified!</span>
-           {% endif %}
-       </div>
-    {% else %}
-    <center>
-        <a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Approve for RTO</button></a>
-    </center>
-    {% endif %}
-{% endif %}
     <div class="col-xs-12 text-center">
-        <span class="gq-approved-status" id="status_ar" style="display:none;">Approved for RTO!</span>
-        <span class="gq-approved-status" id="status_arc" style="display:none;">Approved By RTO and Certified!</span>
-        <span class="gq-approved-status" id="status_ac" style="display:none;">Approved and Completed!</span>
+        <span class="gq-approved-status" id="status_ar" style="display:none;">Portfolio Submitted!</span>
+        <span class="gq-approved-status" id="status_arc" style="display:none;">Issued and Certified!</span>
+        <span class="gq-approved-status" id="status_ac" style="display:none;">Certificate Issued!</span>
     </div>
      <span class="gq-approve-error" id="gq-approve-error" style="display:none;">Please approve all the units.</span>
      <center id="approve_loader" style="display:none"><span><img src="{{ asset('public/images')}}/loading.gif" /></span></center>
@@ -353,6 +357,9 @@
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-videos" href="#unit-videos" aria-expanded="false">Videos</a></li>
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-notes" href="#unit-notes" aria-expanded="false">Notes</a></li>
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-files" href="#unit-files" aria-expanded="false">Documents</a></li>
+                                                {% if ('ROLE_APPLICANT' not in userRole) %}
+                                                <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-recordings" href="#unit-recordings" aria-expanded="false">Competency Recordings</a></li>
+                                                {% endif %}
                                             </ul>
                                             <div class="tab-content">
                                                 <div aria-labelledby="existing-evidence-tab" id="unit-images" class="tab-pane fade active in" role="tabpanel">
@@ -376,7 +383,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog gq-modal">
         <div class="modal-content">
@@ -387,7 +393,16 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="myModalrto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="disclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Please approve all the Units</h4>
+            </div>
+        </div>
+    </div>
+</div>
 <!----- Unit evidences end --->
 {% endblock %}
   {% block javascripts %}

@@ -70,23 +70,27 @@
 
             <tr><td style="font-size:22px; background:#f0f0f0;">Elected Units</td></tr>	
             <tr><td>
-                    <table cellpadding="4" cellspacing="0" border="0" width="100%">	
-                     {% for key, eUnits in courseInfo.Units.Unit %}
-                        {% if eUnits.type == 'elective' %}
-                            {% set unitId = eUnits.id %}
-                            {% if unitId|trim in electiveUnits|keys %} 
-                            <tr><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{eUnits.id}}</td><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{% spaceless %}{{eUnits.name|trim}}{% endspaceless %}</td></tr> 
-                            {% if eUnits.unitEvidences %} 
-                            {% for unitEvidence in eUnits.unitEvidences%}                        
-                            <tr><td colspan="2" style="padding-left:20px;"><a href="{{ amazon_link~unitEvidence.path}}" style="color:#464646;">{{ amazon_link~unitEvidence.path }}</a></td></tr>
-
-                            {% endfor %}
-                            {% else %}
-                            <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
-                            {% endif %}
+                    <table cellpadding="4" cellspacing="0" border="0" width="100%">
+                        {% set flagElective = '0' %}
+                        {% for key, eUnits in courseInfo.Units.Unit %}
+                           {% if eUnits.type == 'elective' %}
+                               {% set unitId = eUnits.id %}
+                               {% if unitId|trim in electiveUnits|keys %} 
+                               {% set flagElective = '1' %}
+                               <tr><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{eUnits.id}}</td><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{% spaceless %}{{eUnits.name|trim}}{% endspaceless %}</td></tr> 
+                               {% if eUnits.unitEvidences %} 
+                               {% for unitEvidence in eUnits.unitEvidences%}                        
+                               <tr><td colspan="2" style="padding-left:20px;"><a href="{{ path('viewEvidenceApplicant', {'evidenceId': unitEvidence.id} ) }}" style="color:#464646;" target="_blank">{{ unitEvidence.pathName }}</a></td></tr>
+                               {% endfor %}
+                               {% else %}
+                               <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
+                               {% endif %}
+                           {% endif %}
                         {% endif %}
-                    {% endif %}
-                {% endfor %}
+                        {% endfor %}
+                        {% if flagElective == '0' %}
+                                <tr><td colspan="2" height="20" style="padding-left:20px;">No Elected Units found</td></tr>
+                        {% endif %}       
                         <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>
 
                     </table>

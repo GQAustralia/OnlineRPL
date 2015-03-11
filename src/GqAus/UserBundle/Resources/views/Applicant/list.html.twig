@@ -32,19 +32,20 @@
                         <!-- Filter start here -->
                         <div class="row">
                                 {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 gq-app-aearch-grid">
                                 {% else %}
                                     <div class="col-lg-11 col-md-12 col-sm-12 col-xs-12">
                                 {% endif %}
                                 <div class="gq-applicant-filter-wrap text-right">
-                                    <label>Filter by: <span>Applicant Name</span></label>
-                                    <input name="searchName" id="searchName" type="text"/>
+                                    <label>Filter by: </label>
+                                    <input name="searchName" id="searchName" type="text" placeholder="Applicant Name"/>
                                     <!--<span id="searchFilter" class="gq-search-icon"></span>-->
                                     <div class="gq-filter-clear wid100p visible-xs"></div>
                                 </div>
 
                             </div>
                             {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+                                        <div id="remainingweekDiv">
                             <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
                                 <div class="gq-applicant-filter-wrap-select-remaining text-right">Remaining Time</div>
                             </div>
@@ -58,6 +59,7 @@
                                     </select>
                                 </div>
                             </div>
+                                    </div>
                             {% endif %}
                             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12">
                                 <button id="searchFilter" class="btn eye-btn gq-reports-filter-btn">Filter</button>
@@ -68,7 +70,7 @@
                         <!-- Tabs end start here -->
                         <!-- Content for respective tabs above will be in this section -->
                         <div class="tab-content">
-                            <div id="ajaxHtml" style="display:none" {% if ('ROLE_RTO' in userRole) %} tdcolspan="3" {% else %} tdcolspan="6" {% endif %}>
+                            <div id="ajaxHtml" style="display:none" {% if ('ROLE_RTO' in userRole) %} tdcolspan="3" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
                                 <img src="{{ asset('public/images')}}/loading.gif" />
                             </div>
                             <div role="tabpanel" class="tab-pane active" id="current">
@@ -84,7 +86,12 @@
                             <div role="tabpanel" class="tab-pane" id="completed">
                                 <div class="table-responsive gq-applicant-list-table margin-top15">
                                     <table class="table">
-                                        {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                                        <thead>
+                                            <tr>        
+                                                <th width="20%"><span class="">Name</span></th>
+                                                <th width="80%" colspan="5"><span class="">Qualification Name</span></th>                                                
+                                            </tr>
+                                        </thead>
                                         <tbody class="row" id="completedList">
                                         {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
                                         </tbody>

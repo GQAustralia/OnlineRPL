@@ -23,7 +23,7 @@
                     <li role="presentation"><a href="#videos" aria-controls="videos" role="tab" data-toggle="tab">Videos</a></li>
                     <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
                     <li role="presentation"><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Documents</a></li>
-                    <li role="presentation"><a href="#recordings" aria-controls="recordings" role="tab" data-toggle="tab">Competency Recordings</a></li>
+{#                    <li role="presentation"><a href="#recordings" aria-controls="recordings" role="tab" data-toggle="tab">Competency Recordings</a></li>#}
                 </ul>
                 <!-- Tabs end start here -->
 
@@ -201,7 +201,7 @@
                         {% endfor %}
                         {% endif %}
                         {% if flag_text == 0 %}
-                        <div class="gq-tabs-no-content-text">Text not found</div>
+                        <div class="gq-tabs-no-content-text">Notes not found</div>
                         {% endif %}
                     </div>
 
@@ -254,7 +254,7 @@
                         </div>    
                     </div>
 
-                    <div role="tabpanel" class="tab-pane" id="recordings">
+                    {#<div role="tabpanel" class="tab-pane" id="recordings">
                         <div class="">
                             <div class="row">
                                 {% set flag_video = 0 %}
@@ -286,7 +286,7 @@
                                 {% endif %}
                             </div>                                                        
                         </div>    
-                    </div>
+                    </div>#}
                 </div>
             </div>
         </div>
@@ -313,7 +313,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" id="eqclose" class="close" data-dismiss="modal" aria-label="Close"></button>
-                <h4 class="modal-title" id="myModalLabel">Edit Evidence</h4>
+                <h4 class="modal-title" id="myModalLabel">Edit Title</h4>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="editEvId" value="">

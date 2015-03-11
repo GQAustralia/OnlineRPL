@@ -182,7 +182,7 @@ $("#frmAddEvidence").ajaxForm({
         $('#gq-dashboard-tabs-success').show();
         $('.uploadevidence_loader').hide();
         if (responseText == 'yes') {
-            $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">File size below 10MB are only  upload successfully!</h2>').delay(3000).fadeOut(100);
+            $('#gq-dashboard-tabs-error').html('<h2>File size more than 10MB connot be uploaded!</h2>').delay(3000).fadeOut(100);
         } else {
             $('#sp_'+responseText).show();
             $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
@@ -384,7 +384,7 @@ $("#Id_files").ajaxForm({
             $("#idfiles_msg").show();
             var result = jQuery.parseJSON(responseText);
             var name = result.name.split('.');
-			var ftype = result.type.split('.');
+            var ftype = result.type.split('.');
             var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
                             <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="' + result.id + '" filetype="' + result.type + '">\n\
                                 <div class="gq-del-evidence"></div></a>\n\
@@ -581,10 +581,18 @@ function checkCurrentPassword(mypassword)
         });
     }
 }
+$(".notes-area").keypress(function() {
+    $(this).css("border","none");
+});
+$(".date-area").change(function() {
+    $(this).css("border","none");
+});
+
 
 $(".setNotes").click(function() {
     id = $(this).attr("id");
     var c = $('#div_' + id).hasClass("open");
+    $(".notes-area, .date-area").css("border","none");
     if (c == false) {
         if($(".gq-assessor-list-dropdown-wrap").hasClass("open"))
             $(".gq-assessor-list-dropdown-wrap").removeClass('open');
@@ -603,11 +611,13 @@ $(".setData").click(function() {
     note = $('#notes_' + userCourseId).val();
     if (note === '') {
         $('#notes_' + userCourseId).focus();
+        $('#notes_' + userCourseId).css("border","1px solid red");
         return false;
     }
     remindDate = $('#remindDate_' + userCourseId).val();
     if (remindDate === '') {
         $('#remindDate_' + userCourseId).focus();
+        $('#remindDate_' + userCourseId).css("border","1px solid red");
         return false;
     }
     if (remindDate != '') {
@@ -794,7 +804,10 @@ var applicantStatus = '0';
 function loadDataIcon(listdiv)
 {
     var ajaxLoadImg = $("#ajaxHtml").html();
-    var tdcolspan = $("#ajaxHtml").attr("tdcolspan");
+    if(listdiv == "currentList")
+        var tdcolspan = $("#ajaxHtml").attr("tdcolspan");
+    else
+        var tdcolspan = $("#ajaxHtml").attr("tdrtocolspan");
     var ajaxLoadHTML = '<tr class="load-icon-tr"><td colspan="'+tdcolspan+'">'+ajaxLoadImg+'</td></tr>'; 
     $("#"+listdiv).html(ajaxLoadHTML);
 }
@@ -810,6 +823,8 @@ $("#applicantPending").click(function() {
     pagenum = 1;
     loadDataIcon('currentList');
     applicantStatus = '0';
+    $(".gq-app-aearch-grid").removeClass("col-lg-11 col-md-12 col-sm-12 col-xs-12").addClass("col-lg-6 col-md-6 col-sm-6 col-xs-12");
+    $("#remainingweekDiv").show();
     loadApplicantList('currentList',pagenum);
 });
 
@@ -817,6 +832,8 @@ $("#applicantCompleted").click(function() {
     pagenum = 1;
     loadDataIcon('completedList');
     applicantStatus = '1';
+    $(".gq-app-aearch-grid").removeClass("col-lg-6 col-md-6 col-sm-6 col-xs-12").addClass("col-lg-11 col-md-12 col-sm-12 col-xs-12");
+    $("#remainingweekDiv").hide();
     loadApplicantList('completedList',pagenum);
 });
 
@@ -1181,7 +1198,7 @@ $("#emptypwdform1 ").click(function() {
 });
 /*End Change Password validations*/
 
-$("#approve-for-certification").click(function() {
+$("#approve-for-certification, #approve-for-certification-ajax").click(function() {
     var courseCode = $(this).attr("courseCode");
     var applicantId = $(this).attr("applicantId");
     $.ajax({
@@ -1190,8 +1207,9 @@ $("#approve-for-certification").click(function() {
         async: false,
         data: {courseCode: courseCode, applicantId: applicantId},
         success: function(result) {
-            $('#approve_section').show();
-            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../web/public/images/tick.png">This Qualification is Approved successfully!</h2></div>').delay(3000).fadeOut(100);
+            $('#approve_sectionajax').show();
+            $("#approve_sectionajax").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Certificate issued successfully!</h2></div>').delay(3000).fadeOut(100);
+            $("#approve_section-status").show();
             $("#status_arc").show();
         }
     });
@@ -1209,7 +1227,7 @@ $("#approve-for-rto").click(function() {
         success: function(result) {
             $("#approve_loader").hide();
             $('#approve_section').show();
-            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../../web/public/images/tick.png">This Qualification is Approved for RTO successfully!</h2></div>').delay(3000).fadeOut(100);
+            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Portfolio submited to RTO!</h2></div>').delay(3000).fadeOut(100);
             $("#status_ar").show();
         }
     });

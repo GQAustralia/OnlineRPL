@@ -44,11 +44,21 @@
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-7 col-xs-8">
                                 <div class="gq-applicant-filter-wrap-select">
-                                    <select name="statusReport" id="statusReport" class="styled">
-                                        <option value="0">Pending</option>
-                                        <option value="1">Approved</option>
-                                        <option value="2" selected="selected">All</option>
-                                    </select>
+                                    {% if ('ROLE_FACILITATOR' in userRole) %}
+                                        <select name="statusReport" id="statusReport" class="styled">
+                                            <option value="1">Pending</option>
+                                            <option value="2">Submitted Portfolio</option>
+                                            <option value="0">Completed</option>
+                                            <option value="3" selected="selected">All</option>
+                                        </select>
+                                    {% endif%}
+                                    {% if ('ROLE_RTO' in userRole) %}
+                                        <select name="statusReport" id="statusReport" class="styled">
+                                            <option value="2">Pending</option>
+                                            <option value="0">Issued</option>
+                                            <option value="3" selected="selected">All</option>
+                                        </select>
+                                    {% endif%}
                                 </div>
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-4">
@@ -59,7 +69,7 @@
                         <!-- Tabs end start here -->
                         <!-- Content for respective tabs above will be in this section -->
                         <div class="tab-content">
-                            <div id="ajaxHtml" style="display:none" {% if ('ROLE_FACILITATOR' in userRole) %} tdcolspan="4" {% else %} tdcolspan="5" {% endif %} >
+                            <div id="ajaxHtml" style="display:none" {% if ('ROLE_FACILITATOR' in userRole) %} tdcolspan="6" {% else %} tdcolspan="5" {% endif %} >
                                 <img src="{{ asset('public/images')}}/loading.gif" />
                             </div>
                             <div role="tabpanel" class="tab-pane active" id="current">

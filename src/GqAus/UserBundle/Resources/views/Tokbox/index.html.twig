@@ -10,7 +10,7 @@
                 <div class="gq-video-copy-url">{{ base_url }}applicant/{{ roomId}}</div>
                 <div class="gq-video-start-recording start">Start recording <span class="gq-video-recording-icon"></span></div>
                 <div class="gq-video-stop-recording stop">Stop recording <span class="gq-video-recording-icon"></span></div>
-                <div class="gq-video-back-btn"><a href="{{ base_url }}applicantDetails/{{ courseCode}}/{{ applicantId}}" class="btn btn-red">Back</a></div>
+                <div class="gq-video-back-btn"><a href="javascript:void(0)" class="btn btn-red" id="close_btn_uni">close</a></div>
             </div>
         </div>
     </div>
@@ -38,7 +38,11 @@
 
     session.on('archiveStarted', function(event) {
         archiveID = event.id;
-        console.log("ARCHIVE STARTED");
+        console.log("ARCHIVE STARTED");   
+        $(window).bind('beforeunload', function() {
+            return "Are you Sure do you want to leave? Recording is in progress"; 
+        });
+        //window.onbeforeunload = closeIt;
         $(".start").hide();
         $(".stop").show();
     });
@@ -46,10 +50,12 @@
     session.on('archiveStopped', function(event) {
         archiveID = null;
         console.log("ARCHIVE STOPPED");
+        //window.onbeforeunload = null;
+        $(window).unbind('beforeunload');
         $(".start").show();
         $(".stop").hide();
     });
-
+    
     $(document).ready(function() {
         var rid = "{{ roomId}}";
         var aid = "{{ applicantId}}";
@@ -61,6 +67,15 @@
         $(".stop").click(function(event) {
             $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);
         }).hide();
+        
+        $("#close_btn_uni").click(function(event) {
+            if(confirm("Are you sure want to close the conversation?")) {
+                if (archiveID !== null) {
+                    $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);   
+                }
+                window.location.href = "{{ base_url }}applicantDetails/{{ courseCode}}/{{ applicantId}}";
+            }
+        })
     });
 
 
