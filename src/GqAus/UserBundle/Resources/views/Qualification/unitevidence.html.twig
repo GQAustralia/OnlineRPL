@@ -333,7 +333,7 @@
         {% if ((unitStatus.facilitatorstatus == '1') and ('ROLE_FACILITATOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and ('ROLE_ASSESSOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and (unitStatus.rtostatus == '1') and ('ROLE_RTO' in currentUserRole)) %}
 {#            <div>You have Approved this Evidence!</div>#}
         {% else %}
-            {% if (('ROLE_RTO' in currentUserRole) and (unitStatus.assessorstatus == '1'))  or ('ROLE_FACILITATOR' in currentUserRole and (unitStatus.facilitatorstatus != '2')) or ('ROLE_ASSESSOR' in currentUserRole) %}
+            {% if ('ROLE_RTO' in currentUserRole and unitStatus.assessorstatus == '1')  or ('ROLE_FACILITATOR' in currentUserRole and unitStatus.facilitatorstatus == '0' and unitStatus.assessorstatus == '0') or ('ROLE_ASSESSOR' in currentUserRole  and unitStatus.assessorstatus == '0') %}
                 {% if flag_image == 1 or flag_audio == 1 or flag_video == 1 or flag_text == 1 or flag_files == 1 %}
                     <button type="button" id="approve" class="btn btn-green">{{ app_btn_name }}</button>
                     <button type="button" id="disapprove" class="btn btn-red">{{ disapp_btn_name }}</button>
@@ -344,7 +344,7 @@
                 <input type="hidden" name="hid-course-name" id="hid-course-name" value="{{course_name}}">
                 <input type="hidden" name="hid-unit-name" id="hid-unit-name" value="{{unittitle}}">
             {% endif %}
-            {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) %}
+            {% if ('ROLE_ASSESSOR' in currentUserRole and unitStatus.assessorstatus == '0') or ('ROLE_FACILITATOR' in currentUserRole and unitStatus.facilitatorstatus == '0' and unitStatus.assessorstatus == '0') %}
                 <input type="hidden" name="course-name" value="{{course_name}}">
                 <input type="hidden" name="course-code" value="{{course_code}}">
                 <input type="hidden" name="userid" value="{{userId}}">
@@ -356,7 +356,7 @@
         </span>
         <span class="loading-icon" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
     </form>
-    {% if ('ROLE_ASSESSOR' in currentUserRole) %}
+    {% if (('ROLE_ASSESSOR' in currentUserRole) and (unitStatus.assessorstatus == '0')) %}
     <form action="{{ base_url }}startConversation" method="post" name="startConversation">    
         <input type="hidden" name="courseCode" value="{{course_code}}">
         <input type="hidden" name="applicantId" value="{{userId}}">

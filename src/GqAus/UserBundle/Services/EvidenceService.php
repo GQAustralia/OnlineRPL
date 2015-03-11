@@ -313,23 +313,40 @@ class EvidenceService
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $userId,
                                                                                         'unitId' => $unitId));
         if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
-//            $mailerInfo = array();
-//            $this->userService->getUserInfo();
-//            $userName = $courseUnitObj->getUser()->getUsername();
-//            $mailerInfo['to'] = $courseUnitObj->getUser()->getEmail();
-//            $mailerInfo['inbox'] = $courseUnitObj->getUser()->getId();
-//            $mailerInfo['sent'] = $userId;
+            
+            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
+            $mailerInfo = array();
+            $mailerInfo['sent'] = $userId;
             $courseUnitObj->setFacilitatorstatus(0);
             $courseUnitObj->setAssessorstatus(0);
+            $courseUnitObj->setRtostatus(0);
             $this->em->persist($courseUnitObj);
             $this->em->flush();
             $this->em->clear();
-
-//            $mailerInfo['subject'] = 'Unit :'.$result['unitName'].' Status';
-//            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Qualification : ".$result['courseName']." \n Unit : ".$result['unitName']." \n Evidences have been ".$evidenceStatus." by ".$result['currentUserName']."
-//             \n Regards, \n OnlineRPL";
-//            $this->userService->sendExternalEmail($mailerInfo);
-//            $this->userService->sendMessagesInbox($mailerInfo);
+            $courseObj->setFacilitatorstatus(0);
+            $courseObj->setAssessorstatus(0);
+            $this->em->persist($courseObj);
+            $this->em->flush();
+            $this->em->clear();
+            $userInfo = $this->userService->getUserInfo($userId);
+            
+            $mailerInfo['subject'] = "Evidence added to " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();            
+            $userName = $courseObj->getFacilitator()->getUsername();
+            $mailerInfo['to'] = $courseObj->getFacilitator()->getEmail();
+            $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() ." for unit  Unit : ".$unitId.". \n Please check and review the evidence.
+             \n\n Regards, \n ". $userInfo->getUsername();
+            $this->userService->sendExternalEmail($mailerInfo);
+            $this->userService->sendMessagesInbox($mailerInfo);
+            
+            $userName = $courseObj->getAssessor()->getUsername();
+            $mailerInfo['to'] = $courseObj->getAssessor()->getEmail();
+            $mailerInfo['inbox'] = $courseObj->getAssessor()->getId();
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() ." for unit  Unit : ".$unitId.". \n Please check and review the evidence.
+             \n\n Regards, \n ". $userInfo->getUsername();
+            $this->userService->sendExternalEmail($mailerInfo);
+            $this->userService->sendMessagesInbox($mailerInfo);
         }
     }
     
