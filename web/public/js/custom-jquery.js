@@ -1243,23 +1243,40 @@ $("#evd_close").click(function() {
     $(".uploadevidence_loader").hide();
 });
 $(".changeUsers").click(function() {
-	var roletype = $(this).attr("roletype");
-	var roleid = $(this).attr("roleid");
-	var roleuserId = $(".gq-facilitator-select-box").val();
-	var courseId = $("#hdn-coursePrimaryId").val();
-	alert(roleid+"$$"+roleuserId+"$$"+courseId);
-	if(roletype=="assessor") {
-		$.ajax({
+
+    var roleid = $(this).attr("roleid");
+    if(roleid == 3) {
+        var newroleuserId = $(".gq-facilitator-select-box").val();
+        var roleuserIdarr = newroleuserId.split('&&');
+        var roleuserId = roleuserIdarr[0];
+    }
+    if(roleid == 4) {
+        var newroleuserId = $(".gq-rto-select-box").val();
+        var roleuserIdarr = newroleuserId.split('&&');
+        var roleuserId = roleuserIdarr[0];
+    }
+    var courseId = $("#hdn-coursePrimaryId").val();
+    $.ajax({
         type: "POST",
         url: base_url + "setRoleUsers",
         async: false,
-        data: {courseId:courseId, roleid:roleid, roleuserId:roleuserId},
+        data: {courseId: courseId, roleid: roleid, roleuserId: roleuserId},
         success: function(result) {
-           alert(result);
+            if(roleid == 3) {
+                $(".gq-facilitator-select-name").html(roleuserIdarr[1]);
+                $(".gq-fac-edit-anchor2").hide();
+                $(".gq-fac-edit-anchor1").show();
+                $(".gq-facilitator-select-name").show();
+                $(".gq-facilitator-select-area").hide();
+            }
+            if(roleid == 4) {
+                $(".gq-rto-select-name").html(roleuserIdarr[1]);
+                $(".gq-rto-edit-anchor1").show();
+                $(".gq-rto-edit-anchor2").hide();
+                $(".gq-rto-select-name").show();
+                $(".gq-rto-select-area").hide();
+            }
         }
     });
-	}
-	if(roletype=="rto") {
-		
-	}
+
 });

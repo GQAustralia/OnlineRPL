@@ -1161,22 +1161,36 @@ $10$u9fhYXfZ/CHlGKrudvi3LO0Ap4yx6hIJjQZZ32DAK8C06iaLzu2Ue');
         echo $user->getId() . '<br/>' . $addressObj->getId() . '<br/>' . $userCoursesObj->getId();
         exit;
     }
+    
     /*
      * Function to set the assessor and rto to applicant profile
      * return int
      */
     public function setRoleUsersForCourse($courseId, $role, $userId)
     {
-        $course = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($courseId);
+        $course = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($courseId);        
+        $user = $this->getUserInfo($userId);
         if ($role == \GqAus\UserBundle\Entity\Rto::ROLE) {
-            $course->setRto($userId);
+            $course->setRto($user);
         } else if ($role == \GqAus\UserBundle\Entity\Assessor::ROLE) {
-            $course->setAssessor($userId);
+            $course->setAssessor($user);
         }
-		$this->em->persist($course);
+        $this->em->persist($course);
         $this->em->flush();
         $this->em->clear();
         return "success";
+    }
+    
+    /*
+     * Get List Users of specific role
+     */
+    public function getUsers($role)
+    {
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("SELECT id, firstname, lastname FROM user WHERE roletype = :role");
+        $statement->bindValue('role', $role);
+        $statement->execute();
+        return $statement->fetchAll();
     }
 
 }
