@@ -384,7 +384,7 @@ $("#Id_files").ajaxForm({
             $("#idfiles_msg").show();
             var result = jQuery.parseJSON(responseText);
             var name = result.name.split('.');
-			var ftype = result.type.split('.');
+            var ftype = result.type.split('.');
             var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
                             <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="' + result.id + '" filetype="' + result.type + '">\n\
                                 <div class="gq-del-evidence"></div></a>\n\
@@ -1198,7 +1198,7 @@ $("#emptypwdform1 ").click(function() {
 });
 /*End Change Password validations*/
 
-$("#approve-for-certification").click(function() {
+$("#approve-for-certification, #approve-for-certification-ajax").click(function() {
     var courseCode = $(this).attr("courseCode");
     var applicantId = $(this).attr("applicantId");
     $.ajax({
@@ -1207,8 +1207,9 @@ $("#approve-for-certification").click(function() {
         async: false,
         data: {courseCode: courseCode, applicantId: applicantId},
         success: function(result) {
-            $('#approve_section').show();
-            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Certificate issued successfully!</h2></div>').delay(3000).fadeOut(100);
+            $('#approve_sectionajax').show();
+            $("#approve_sectionajax").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Certificate issued successfully!</h2></div>').delay(3000).fadeOut(100);
+            $("#approve_section-status").show();
             $("#status_arc").show();
         }
     });
