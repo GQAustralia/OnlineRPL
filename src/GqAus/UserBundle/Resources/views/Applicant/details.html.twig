@@ -37,7 +37,7 @@
                                 <div class="gq-assessor-profile-img" style="background-image: url(&quot;{{ userImage }}&quot;);"></div>
                                 <div class="gq-assessor-profile-img-txt">{{userName}}</div>
                                 <div class="gq-assessor-profile-send-msg">
-                                    
+                                    <input type="hidden" name="hdn-coursePrimaryId" id="hdn-coursePrimaryId" value="{{coursePrimaryId}}">
                                     <form action="{{ base_url }}compose" method="post" name="composeevform">
                                         <input type="hidden" name="course-name" value="{{ courseInfo.name }}">
                                         <input type="hidden" name="course-code" value="{{ courseCode }}">
@@ -125,7 +125,21 @@
                                     <div class="gq-assessor-appl-details-points pull-right">
                                         <div class="gq-assessor-rto-title">
                                             <label>Assessor</label>
-                                            <span>: {{assessorName}}</span>
+                                            <span class="gq-facilitator-select-name">: {{assessorName}}</span>
+											<span class="gq-facilitator-select-area" style="display:none">
+												<select class="gq-facilitator-select-box">
+													{% if assessors %}
+														{% if assessors|length > 0 %}
+															{% for key, assessor in assessors %}
+																<option value="{{assessor.id}}">{{assessor.firstname}} {{assessor.lastname}}</option>
+															{% endfor %}
+														{% endif %}
+													{% endif %}
+												</select>
+												<button class="changeUsers" roletype="assessor" roleid="3">SAVE</button>
+											</span>
+											<a href="javascript:void(0);" class="gq-fac-edit-anchor1"><img class="gq-fac-edit-icon" alt="Edit" src="{{ asset('public/images/assessor-edit-icon.png') }}"></a>
+											<a href="javascript:void(0);" class="gq-fac-edit-anchor2" style="display:none;"><img class="gq-fac-edit-icon" alt="Edit" src="{{ asset('public/images/assessor-edit-icon.png') }}"></a>
                                         </div>
                                         {#<div class="gq-assessor-rto-edit-icon">
                                             <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" /></a>
@@ -134,7 +148,21 @@
                                     <div class="gq-assessor-appl-details-points pull-right border-top">
                                         <div class="gq-assessor-rto-title">
                                             <label>RTO</label>
-                                            <span>: {{rtoName}}</span>
+											<span class="gq-rto-select-name">: {{rtoName}}</span>
+											<span class="gq-rto-select-area" style="display:none">
+												<select class="gq-rto-select-box">
+													{% if rtos %}
+														{% if rtos|length > 0 %}
+															{% for key, rto in rtos %}
+																<option value="{{rto.id}}">{{rto.firstname}} {{rto.lastname}}</option>
+															{% endfor %}
+														{% endif %}
+													{% endif %}
+												</select>
+												<button class="changeUsers" roletype="rto" roleid="4">SAVE</button>
+											</span>
+											<a href="javascript:void(0);" class="gq-rto-edit-anchor1"><img class="gq-fac-edit-icon" alt="Edit" src="{{ asset('public/images/assessor-edit-icon.png') }}"></a>
+											<a href="javascript:void(0);" class="gq-rto-edit-anchor2" style="display:none;"><img class="gq-fac-edit-icon" alt="Edit" src="{{ asset('public/images/assessor-edit-icon.png') }}"></a>
                                         </div>
                                         {#<div class="gq-assessor-rto-edit-icon">
                                             <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" /></a>
@@ -407,9 +435,34 @@
 {% endblock %}
   {% block javascripts %}
 <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('.fancybox').fancybox();
+        $(".gq-fac-edit-anchor1").click(function() {
+                $(".gq-facilitator-select-name").hide();
+                $(".gq-facilitator-select-area").show();
+                $(".gq-fac-edit-anchor1").hide();
+                $(".gq-fac-edit-anchor2").show();
+        });
+        $(".gq-fac-edit-anchor2").click(function() {
+                $(".gq-facilitator-select-name").show();
+                $(".gq-facilitator-select-area").hide();
+                $(".gq-fac-edit-anchor2").hide();
+                $(".gq-fac-edit-anchor1").show();
+        });
+        $(".gq-rto-edit-anchor1").click(function() {
+                $(".gq-rto-select-name").hide();
+                $(".gq-rto-select-area").show();
+                $(".gq-rto-edit-anchor1").hide();
+                $(".gq-rto-edit-anchor2").show();
+        });
+        $(".gq-rto-edit-anchor2").click(function() {
+                $(".gq-rto-select-name").show();
+                $(".gq-rto-select-area").hide();
+                $(".gq-rto-edit-anchor2").hide();
+                $(".gq-rto-edit-anchor1").show();
+        });
     });
 </script>
   {% endblock %}

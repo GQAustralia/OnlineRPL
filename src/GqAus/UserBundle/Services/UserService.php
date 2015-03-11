@@ -313,6 +313,7 @@ class UserService
             $results['rtostatus'] = $otheruser->getRtostatus();
             $results['assessorstatus'] = $otheruser->getAssessorstatus();
             $results['facilitatorstatus'] = $otheruser->getFacilitatorstatus();
+            $results['coursePrimaryId'] = $otheruser->getId();
         }
         return $results;
     }
@@ -1159,6 +1160,23 @@ $10$u9fhYXfZ/CHlGKrudvi3LO0Ap4yx6hIJjQZZ32DAK8C06iaLzu2Ue');
 
         echo $user->getId() . '<br/>' . $addressObj->getId() . '<br/>' . $userCoursesObj->getId();
         exit;
+    }
+    /*
+     * Function to set the assessor and rto to applicant profile
+     * return int
+     */
+    public function setRoleUsersForCourse($courseId, $role, $userId)
+    {
+        $course = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($courseId);
+        if ($role == \GqAus\UserBundle\Entity\Rto::ROLE) {
+            $course->setRto($userId);
+        } else if ($role == \GqAus\UserBundle\Entity\Assessor::ROLE) {
+            $course->setAssessor($userId);
+        }
+		$this->em->persist($course);
+        $this->em->flush();
+        $this->em->clear();
+        return "success";
     }
 
 }
