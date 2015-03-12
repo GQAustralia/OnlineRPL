@@ -46,6 +46,10 @@ $(function() {
             success: function(result) {
                 if (result == "success")
                 {
+                    if (title.length > 20) {
+                       title = title.substring(0, 20)+'...';
+                    }
+                    alert(title);
                     $("#eqclose").trigger("click");
                     $("#editEvidenceModelinput").val(title);
                     $("#ev-" + id).attr("data-evtitle", title);
