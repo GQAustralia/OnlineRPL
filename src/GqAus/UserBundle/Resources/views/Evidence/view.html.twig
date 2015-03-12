@@ -52,7 +52,7 @@
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
                                                 <label>Title</label>
-                                                <span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{{evidence.title|slice(0, 20)}}</span>
+                                                <span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{% if evidence.name|length > 20 %}{{evidence.name|slice(0, 20)}}...{% else %}{{evidence.name}}{% endif %}</span>
                                                 <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>    
                                             </div>
                                             <div class="gq-id-files-content-row">
@@ -99,7 +99,7 @@
                                             <div class="gq-id-files-content-icon-wrap gq-id-files-content-video-icon"></div></a>
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
-                                                <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{{evidence.name|slice(0, 20)}}</span>
+                                                <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{% if evidence.name|length > 20 %}{{evidence.name|slice(0, 20)}}...{% else %}{{evidence.name}}{% endif %}</span>
                                                 <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>    
                                             </div>
                                             <div class="gq-id-files-content-row">
@@ -145,7 +145,7 @@
                                         </a>
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
-                                                <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{{evidence.name|slice(0, 20)}}</span>
+                                                <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{% if evidence.name|length > 20 %}{{evidence.name|slice(0, 20)}}...{% else %}{{evidence.name}}{% endif %}</span>
                                                 <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>    
                                             </div>
                                             <div class="gq-id-files-content-row">
@@ -226,11 +226,11 @@
                                                 <span class="">Delete Document</span>
                                             </div>
                                         </span>
-                                        <a href = "{{ amazon_link }}{{  evidence.path }}" {% if (result.1 == 'xls') or (result.1 == 'docx') or (result.1 == 'doc') %} {% else %} class="fancybox fancybox.iframe" {% endif %} ><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
+                                        <a href = "{{ amazon_link }}{{  evidence.path }}" {% if result.1 is defined %} {% if (result.1 == 'xls') or (result.1 == 'docx') or (result.1 == 'doc') %} {% else %} class="fancybox fancybox.iframe" {% endif %}{% else %} class="fancybox fancybox.iframe"{% endif %} ><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
                                         </a>
                                         <div class="gq-id-files-content-row-wrap">
                                             <div class="gq-id-files-content-row">
-                                                <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{{evidence.name|slice(0, 20)}}</span>
+                                                <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{% if evidence.name|length > 20 %}{{evidence.name|slice(0, 20)}}...{% else %}{{evidence.name}}{% endif %}</span>
                                                 <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>
                                             </div>
                                             <div class="gq-id-files-content-row">
@@ -317,7 +317,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="editEvId" value="">
-                <input type="text" id="editEvidenceModelinput" value="">
+                <input type="text" id="editEvidenceModelinput" value="" maxlength="60">
             </div>
             <div class="modal-footer">
                 <a class="btn btn-white editEvidenceSave">Ok</a>
