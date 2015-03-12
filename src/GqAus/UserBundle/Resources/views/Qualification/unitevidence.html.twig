@@ -308,6 +308,16 @@
     <div class="gq-id-files-upload-success-text" style="display: none;"></div>
     {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_RTO' in currentUserRole) %}
 <div class="text-center gq-id-files-button-content-wrap" id="applicantEStatus" userRole="{{currentUserRole.0}}">
+    
+    {% if unitStatus.facilitatorstatus == '2' %}
+        <div>Facilitator marked it as unacceptable!</div>
+    {% endif %}            
+    {% if unitStatus.assessorstatus == '2' %}
+        <div>Assessor marked it as unacceptable!</div>
+    {% endif %}         
+    {% if unitStatus.rtostatus == '2' %}
+        <div>RTO marked it as unacceptable!</div>
+    {% endif %}
 {% if unitStatus.rtostatus == '0' %}
     <form action="{{ base_url }}compose" method="post" name="composeevform">
         {% if ('ROLE_FACILITATOR' in currentUserRole) %}
@@ -322,13 +332,6 @@
             {% set app_btn_name = 'Approve' %}
             {% set disapp_btn_name = 'Disapprove' %}
         {% endif %}
-        {% if unitStatus.facilitatorstatus == '2' %}
-            <div>Facilitator marked it as unacceptable!</div>
-        {% endif %}            
-        {% if unitStatus.assessorstatus == '2' %}
-            <div>Assessor marked it as unacceptable!</div>
-        {% endif %}
-        
         <span id="gq-msg-success" class="btn-wrap100p">
         {% if ((unitStatus.facilitatorstatus == '1') and ('ROLE_FACILITATOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and ('ROLE_ASSESSOR' in currentUserRole)) or ((unitStatus.assessorstatus == '1') and (unitStatus.rtostatus == '1') and ('ROLE_RTO' in currentUserRole)) %}
 {#            <div>You have Approved this Evidence!</div>#}

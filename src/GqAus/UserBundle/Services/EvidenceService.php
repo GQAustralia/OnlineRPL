@@ -100,7 +100,7 @@ class EvidenceService
             $textObj->setUnit($data['hid_unit']);
             $textObj->setCourse($data['hid_course']);
             $textObj->setUser($this->currentUser);
-            $this->em->persist($textObj);
+            $this->em->merge($textObj);
             $this->em->flush();
             $this->em->clear();
             $this->updateCourseUnits($this->userId, $data['hid_unit']);
@@ -326,9 +326,7 @@ class EvidenceService
             $this->em->clear();
             $courseObj->setFacilitatorstatus(0);
             $courseObj->setAssessorstatus(0);
-            $this->em->persist($courseObj);
-            $this->em->flush();
-            $this->em->clear();
+            
             $userInfo = $this->userService->getUserInfo($userId);
             
             $mailerInfo['subject'] = "Evidence added to " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();            
@@ -347,6 +345,11 @@ class EvidenceService
              \n\n Regards, \n ". $userInfo->getUsername();
             $this->userService->sendExternalEmail($mailerInfo);
             $this->userService->sendMessagesInbox($mailerInfo);
+            
+            
+            $this->em->merge($courseObj);
+            $this->em->flush();
+            $this->em->clear();
         }
     }
     

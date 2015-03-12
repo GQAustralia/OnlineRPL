@@ -372,12 +372,12 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
              foreach ($userCourseUnits as $units) {
                 $status = $units->getStatus();
                 $facilitatorstatus = $units->getFacilitatorstatus();
-                $assessorstatus = $units->getAssessorstatus();
-                $rtostatus = $units->getRtostatus();
+                $aStatus = $units->getAssessorstatus();
+                $rStatus = $units->getRtostatus();
                 if ($status == '0') {
                     $courseUnits[] = $units->getUnitId();
                 }
-                if ($facilitatorstatus == '1' || $assessorstatus == '1' || $rtostatus == '1') {
+                if (($aStatus == 1 && $rStatus == 2) || ($aStatus == 2 && $rStatus == 0) || ($aStatus == 0 && $rStatus == 0) ) {
                     $courseApprovedUnits[] = $units->getUnitId();
                 }
              }
