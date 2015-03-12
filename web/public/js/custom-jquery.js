@@ -8,7 +8,7 @@ var unit;
 var reminderid;
 var reminderflag;
 var otherfiles;
-
+var setnotesid;
 $(function() {
     var $ppc = $('.progress-pie-chart'),
             percent = parseInt($ppc.data('percent')),
@@ -603,6 +603,7 @@ $(".setNotes").click(function() {
         $(this).parent().removeClass('open');
         //$('#div_' + id).removeClass('open');
     }
+    setnotesid = false;
 });
 
 $(".setData").click(function() {
@@ -1279,4 +1280,11 @@ $(".changeUsers").click(function() {
         }
     });
 
+});
+$('html').click(function() {
+    if(setnotesid || setnotesid==="undefined") {
+        if($(".gq-assessor-list-dropdown-wrap").hasClass("open"))
+            $(".gq-assessor-list-dropdown-wrap").removeClass('open');
+    }
+    setnotesid = true;
 });
