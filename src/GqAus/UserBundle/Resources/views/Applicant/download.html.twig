@@ -79,8 +79,8 @@
                                {% set flagElective = '1' %}
                                <tr><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{{eUnits.id}}</td><td style="font-size:16px; font-weight:bold; background:#f0f0f0;">{% spaceless %}{{eUnits.name|trim}}{% endspaceless %}</td></tr> 
                                {% if eUnits.unitEvidences %} 
-                               {% for unitEvidence in eUnits.unitEvidences%}                        
-                               <tr><td colspan="2" style="padding-left:20px;"><a href="{{ path('viewEvidenceApplicant', {'evidenceId': unitEvidence.id} ) }}" style="color:#464646;" target="_blank">{{ unitEvidence.pathName }}</a></td></tr>
+                               {% for unitEvidence in eUnits.unitEvidences%}
+                               <tr><td colspan="2" style="padding-left:20px;"><a href="{{ base_url }}viewEvidence/{{ unitEvidence.id }}"  style="color:#464646;" target="_blank">{{ unitEvidence.pathName }}</a></td></tr>
                                {% endfor %}
                                {% else %}
                                <tr><td colspan="2" height="20" style="padding-left:20px;"></td></tr>

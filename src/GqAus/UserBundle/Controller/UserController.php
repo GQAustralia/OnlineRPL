@@ -333,7 +333,8 @@ class UserController extends Controller
      /**
     * Function to add new applicant
     */
-    public function addApplicantAction(Request $request){
+    public function addApplicantAction(Request $request)
+    {        
     	$userService = $this->get('UserService');
     	$userService->saveApplicantData($request);
     }

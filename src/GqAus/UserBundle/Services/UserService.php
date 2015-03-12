@@ -3,6 +3,10 @@
 namespace GqAus\UserBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use GqAus\UserBundle\Entity\User;
+use GqAus\UserBundle\Entity\Applicant;
+use GqAus\UserBundle\Entity\UserAddress;
+use GqAus\UserBundle\Entity\UserCourses;
 
 class UserService
 {
@@ -417,6 +421,7 @@ class UserService
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) >= " . $searchTime1);
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) <= " . $searchTime);
         }
+        $res->orderBy('c.id', 'DESC');
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
@@ -517,6 +522,7 @@ class UserService
         if (!empty($startDate)) {
             $res->andWhere("c.createdOn between '" . $startDate . "' and '" . $endDate . "'");
         }
+        $res->orderBy('c.id', 'DESC');
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
@@ -1087,7 +1093,7 @@ class UserService
 
     public function saveApplicantData($request)
     {
-        $user = new User();
+        $user = new Applicant();
         $firstName = $request->get('firstname');
         $lastName = $request->get('lastname');
         $email = $request->get('email');
@@ -1096,7 +1102,6 @@ class UserService
         $dateofbirth = $request->get('dateofbirth');
         $gender = $request->get('gender');
         $studentId = $request->get('studentId');
-        $address = $request->get('address');
         $userImage = $request->get('userimage');
         $pwdToken = $request->get('pwdtoken');
         $tokenExpiry = $request->get('tokenexpiry');
@@ -1107,13 +1112,11 @@ class UserService
         $user->setFirstName(isset($firstName) ? $firstName : '');
         $user->setLastName(isset($lastName) ? $lastName : '');
         $user->setEmail(isset($email) ? $email : '');
-        $user->setPassword(isset($password) ? $password : '$2y
-$10$u9fhYXfZ/CHlGKrudvi3LO0Ap4yx6hIJjQZZ32DAK8C06iaLzu2Ue');
+        $user->setPassword(isset($password) ? $password : '$2y$10$u9fhYXfZ/CHlGKrudvi3LO0Ap4yx6hIJjQZZ32DAK8C06iaLzu2Ue');
         $user->setPhone(isset($phone) ? $phone : '');
         $user->setDateOfBirth(isset($dateofbirth) ? $dateofbirth : '');
         $user->setGender(isset($gender) ? $gender : '');
         $user->setUniversalStudentIdentifier(isset($studentId) ? $studentId : '');
-        //$user->setAddress(isset($address)? $address : 0);
         $user->setUserImage(isset($userImage) ? $userImage : '');
         $user->setPasswordToken(isset($pwdToken) ? $pwdToken : '');
         $user->setTokenExpiry(isset($tokenExpiry) ? $tokenExpiry : '');
@@ -1122,7 +1125,7 @@ $10$u9fhYXfZ/CHlGKrudvi3LO0Ap4yx6hIJjQZZ32DAK8C06iaLzu2Ue');
         $this->em->persist($user);
         $this->em->flush();
 
-        //$userId = $user->getId();
+        
         $address = $request->get('address');
         $pincode = $request->get('pincode');
         $addressObj = new UserAddress();
