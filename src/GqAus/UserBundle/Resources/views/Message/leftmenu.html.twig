@@ -1,11 +1,5 @@
 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 msg-menu-wrap">
     <div class="gq-msg-row-bg">
-        <div class="gq-msg-folders gq-msg-compose-wrap col-xs-12">
-            <!--<a href="{{ app.request.baseUrl }}/compose"><span class="compose-icon"></span>Compose</a>-->
-        </div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="gq-msg-row-bg">
         <div class="gq-msg-folders col-xs-12">
             <a href="{{ app.request.baseUrl }}/messages">Inbox <span class="inbox-cnt">{% if unreadcount > 0 %} ({{ unreadcount }}) {% endif %}</span></a>
             {% if msgDetails is defined %}
