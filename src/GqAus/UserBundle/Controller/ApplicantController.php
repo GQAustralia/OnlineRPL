@@ -255,7 +255,8 @@ class ApplicantController extends Controller
                 }
             }
         } else {
-            throw $this->createAccessDeniedException();    
+            return $this->redirect('dashboard');
+            //throw $this->createAccessDeniedException();    
         }
     }
     
