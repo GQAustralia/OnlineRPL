@@ -33,11 +33,12 @@ $("#approve").click(function () {
     var userRole = $('#applicantEStatus').attr('userRole');
     var courseName = $('#hid-course-name').val();
     var unitName = $('#hid-unit-name').val();
+    var courseCode = $('#hid-course-code').val();
     $(this).parent().next('.loading-icon').show();
     $.ajax({
         type: "POST",
         url: base_url + "setUserUnitEvidencesStatus",
-        data: { unit: unit, userId: userId, userRole: userRole, status: '1', courseName: courseName, unitName: unitName },
+        data: { unit: unit, userId: userId, userRole: userRole, status: '1', courseName: courseName, unitName: unitName, courseCode: courseCode },
         success:function(result) {
             var newresult = result.split("&&");
             if (newresult[0] == '1') {
@@ -62,12 +63,13 @@ $("#approve").click(function () {
 $("#disapprove").click(function () {
     var userRole = $('#applicantEStatus').attr('userRole');
     var courseName = $('#hid-course-name').val();
-    var unitName = $('#hid-unit-name').val(); 
+    var unitName = $('#hid-unit-name').val();
+    var courseCode = $('#hid-course-code').val();
     $('.loading-icon').show();
     $.ajax({
         type: "POST",
         url: base_url + "setUserUnitEvidencesStatus",
-        data: { unit: unit, userId: userId, userRole: userRole, status: '2', courseName: courseName, unitName: unitName },
+        data: { unit: unit, userId: userId, userRole: userRole, status: '2', courseName: courseName, unitName: unitName, courseCode: courseCode },
         success:function(result) {
             var newresult = result.split("&&");
             if (newresult[0] == '2') {
