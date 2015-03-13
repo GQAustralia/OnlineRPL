@@ -560,7 +560,7 @@ class UserService
     /**
      * Function to update applicant qualification list
      */
-    public function updateUserApplicantsList($userId, $userRole)
+    public function updateUserApplicantsList($userId, $userRole, $courseCode)
     {
         if (in_array('ROLE_ASSESSOR', $userRole)) {
             $userType = 'assessor';
@@ -573,9 +573,12 @@ class UserService
             $userStatus = 'rtostatus';
         }
         $rtoEnable = 0;
-        $usercoures = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array($userType => $userId));
-        if (!empty($usercoures)) {
-            foreach ($usercoures as $course) {
+        $course = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array($userType => $userId, 'courseCode' => $courseCode));
+//        $course = $this->em->getRepository('GqAusUserBundle:UserCourses')
+//                    ->findOneBy(array('courseCode' => $courseCode, 'user' => $userId));
+        //echo $course->getId(); exit;
+        if (!empty($course)) {
+            //foreach ($usercoures as $course) {
                 $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
                         ->findOneBy(array('user' => $course->getUser()->getId(),
                     'courseCode' => $course->getcourseCode()));
@@ -629,7 +632,7 @@ class UserService
                         }//if
                     }//if
                 }//if
-            }//foreach
+            //}//foreach
         }//if
         return $rtoEnable;
     }
