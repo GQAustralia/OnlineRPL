@@ -49,7 +49,6 @@ $(function() {
                     if (title.length > 20) {
                        title = title.substring(0, 20)+'...';
                     }
-                    alert(title);
                     $("#eqclose").trigger("click");
                     $("#editEvidenceModelinput").val(title);
                     $("#ev-" + id).attr("data-evtitle", title);
@@ -608,6 +607,18 @@ $(".setNotes").click(function() {
         //$('#div_' + id).removeClass('open');
     }
     setnotesid = false;
+	$( ".gq-name-list" ).each(function() {
+		if($(this).hasClass("selectednew"))
+			$(this).addClass('selected');
+		else
+			$(this).removeClass('selected');
+	});
+	$( ".gq-rto-list" ).each(function() {
+		if($(this).hasClass("selectedRtonew"))
+			$(this).addClass('selectedrto');
+		else
+			$(this).removeClass('selectedrto');
+	});	
 });
 
 $(".setData").click(function() {
@@ -1248,19 +1259,18 @@ $("#evd_close").click(function() {
     $(".uploadevidence_loader").hide();
 });
 $(".changeUsers").click(function() {
-
     var roleid = $(this).attr("roleid");
     if(roleid == 3) {
-        var newroleuserId = $(".gq-facilitator-select-box").val();
+        var newroleuserId = $(".selected").attr("data-value");
         var roleuserIdarr = newroleuserId.split('&&');
         var roleuserId = roleuserIdarr[0];
     }
     if(roleid == 4) {
-        var newroleuserId = $(".gq-rto-select-box").val();
-        var roleuserIdarr = newroleuserId.split('&&');
-        var roleuserId = roleuserIdarr[0];
+		var newroleuserId = $(".selectedrto").attr("data-value");
+		var roleuserIdarr = newroleuserId.split('&&');
+		var roleuserId = roleuserIdarr[0];
     }
-    var courseId = $("#hdn-coursePrimaryId").val();
+	var courseId = $("#hdn-coursePrimaryId").val();
     $.ajax({
         type: "POST",
         url: base_url + "setRoleUsers",
@@ -1269,21 +1279,18 @@ $(".changeUsers").click(function() {
         success: function(result) {
             if(roleid == 3) {
                 $(".gq-facilitator-select-name").html(roleuserIdarr[1]);
-                $(".gq-fac-edit-anchor2").hide();
-                $(".gq-fac-edit-anchor1").show();
-                $(".gq-facilitator-select-name").show();
-                $(".gq-facilitator-select-area").hide();
+				$(".assessor-change").children(".setNotes").trigger("click");
             }
             if(roleid == 4) {
                 $(".gq-rto-select-name").html(roleuserIdarr[1]);
-                $(".gq-rto-edit-anchor1").show();
-                $(".gq-rto-edit-anchor2").hide();
-                $(".gq-rto-select-name").show();
-                $(".gq-rto-select-area").hide();
+				$(".rto-change").children(".setNotes").trigger("click");
             }
         }
     });
 
+});
+/*$(".gq-assessor-list-dropdown, .ui-datepicker").click(function() {
+    setnotesid = false;
 });
 $('html').click(function() {
     if(setnotesid || setnotesid==="undefined") {
@@ -1291,4 +1298,19 @@ $('html').click(function() {
             $(".gq-assessor-list-dropdown-wrap").removeClass('open');
     }
     setnotesid = true;
+});*/
+$(".gq-name-list").click(function() {
+    $(".gq-name-list").removeClass('selected');
+	$(".gq-name-list").removeClass('selectednew');
+	$(this).addClass("selected");
+	$(this).addClass("selectednew");
+});
+$(".gq-rto-list").click(function() {
+    $(".gq-rto-list").removeClass('selectedrto');
+	$(".gq-rto-list").removeClass('selectedRtonew');
+	$(this).addClass("selectedrto");
+	$(this).addClass("selectedRtonew");
+});
+$("#gq-name-cancel, #gq-rtoname-cancel").click(function() {
+    $(this).parent().parent().prev(".setNotes").trigger("click");
 });
