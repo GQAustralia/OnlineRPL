@@ -163,3 +163,6 @@ viewEvidenceApplicant:
 setRoleUsers:
     path:     /setRoleUsers
     defaults: { _controller: GqAusUserBundle:Applicant:setRoleUsers }
+getUserEvidences:
+    path:     /getUserEvidences
+    defaults:  { _controller: GqAusUserBundle:User:getUserEvidences }    
