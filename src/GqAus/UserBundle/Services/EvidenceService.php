@@ -83,8 +83,7 @@ class EvidenceService
                     $fileObj->setUnit($data['hid_unit']);
                     $fileObj->setCourse($data['hid_course']);
                     $this->em->persist($fileObj);
-                    $this->em->flush();                    
-                    $this->em->clear();
+                    $this->em->flush();
                     
                     $this->updateCourseUnits($this->userId, $data['hid_unit']);
                     $i++;
@@ -100,9 +99,8 @@ class EvidenceService
             $textObj->setUnit($data['hid_unit']);
             $textObj->setCourse($data['hid_course']);
             $textObj->setUser($this->currentUser);
-            $this->em->merge($textObj);
+            $this->em->persist($textObj);
             $this->em->flush();
-            $this->em->clear();
             $this->updateCourseUnits($this->userId, $data['hid_unit']);
         }
         return ($seterror == 'no')?$data['hid_unit']:$seterror;
@@ -176,7 +174,6 @@ class EvidenceService
                             $newObj->setCourse($courseCode);
                             $this->em->persist($newObj);
                             $this->em->flush();
-                            $this->em->clear();
                             $this->updateCourseUnits($this->userId, $unitId);
                         }
                     }//foreach
@@ -314,8 +311,7 @@ class EvidenceService
                                                                                         'unitId' => $unitId));
         if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
             
-            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                    ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
+            
             $mailerInfo = array();
             $mailerInfo['sent'] = $userId;
             $courseUnitObj->setFacilitatorstatus(0);
@@ -323,9 +319,13 @@ class EvidenceService
             $courseUnitObj->setRtostatus(0);
             $this->em->persist($courseUnitObj);
             $this->em->flush();
-            $this->em->clear();
+            
+            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
             $courseObj->setFacilitatorstatus(0);
-            $courseObj->setAssessorstatus(0);
+            $courseObj->setAssessorstatus(0);   
+            $this->em->persist($courseObj);
+            $this->em->flush();
             
             $userInfo = $this->userService->getUserInfo($userId);
             
@@ -346,10 +346,6 @@ class EvidenceService
             $this->userService->sendExternalEmail($mailerInfo);
             $this->userService->sendMessagesInbox($mailerInfo);
             
-            
-            $this->em->merge($courseObj);
-            $this->em->flush();
-            $this->em->clear();
         }
     }
     

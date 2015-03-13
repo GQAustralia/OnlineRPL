@@ -599,7 +599,6 @@ class UserService
                             } elseif ($userType == 'assessor') {
                                 $course->setAssessorstatus('1');
                                 $course->setAssessorDate($date);
-                                
                                 $mailerInfo = array();
                                 $mailerInfo['sent'] = $course->getAssessor()->getId();
                                 $mailerInfo['subject'] = "All evidences are enough competent in " . $course->getCourseCode() . " : " . $course->getCourseName();
@@ -841,7 +840,6 @@ class UserService
         $msgObj->setReply(0);
         $this->em->persist($msgObj);
         $this->em->flush();
-        $this->em->clear();
     }
 
     /**
