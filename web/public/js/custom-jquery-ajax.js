@@ -48,10 +48,12 @@ $("#approve").click(function () {
             if (newresult[1] == '1') {
                 $(".approve-for-certification-btn").hide();
                 $(".approve-for-certification-btnajax").show();
+                $("#disabled-btn").hide();
             }
             else {
                 $(".approve-for-certification-btn").show();
                 $(".approve-for-certification-btnajax").hide();
+                $("#disabled-btn").show();
             }
         }
     });
