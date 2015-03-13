@@ -35,7 +35,7 @@ document.write('<style type="text/css">input.styled { display: none; } select.st
 
 var Custom = {
 	init: function() {
-		var inputs = document.getElementsByTagName("input"), span = Array(), textnode, option, active;
+                var inputs = document.getElementsByTagName("input"), span = Array(), textnode, option, active;
 		for(a = 0; a < inputs.length; a++) {
 			if((inputs[a].type == "checkbox" || inputs[a].type == "radio") && inputs[a].className.indexOf("styled") > -1) {
 				span[a] = document.createElement("span");

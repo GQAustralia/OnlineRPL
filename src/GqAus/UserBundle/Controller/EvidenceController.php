@@ -43,6 +43,9 @@ class EvidenceController extends Controller
         if ($request->isMethod('POST')) {
             echo $result = $this->get('EvidenceService')->saveExistingEvidence($request); exit;
         }
+        else {
+            echo 'no post';exit;
+        }
     }
     
     /**

@@ -339,6 +339,23 @@ class UserController extends Controller
     	$userService->saveApplicantData($request);
     }
     
+    /**
+    * Function to get user Evidence
+    * return $result array
+    */
+    public function getUserEvidencesAction()
+    {
+        $userId = $this->getRequest()->get('userId');
+        if (!empty($userId)) {
+            $user = $this->get('UserService')->getUserInfo($userId);
+        } else {
+            $user = $this->get('security.context')->getToken()->getUser();
+        }
+        $results['evidences'] = $user->getEvidences();
+        echo $template = $this->renderView('GqAusUserBundle:User:userevidence.html.twig', $results);
+        exit;
+    }
+    
     
     
 }
