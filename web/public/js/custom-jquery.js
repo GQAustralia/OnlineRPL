@@ -318,8 +318,8 @@ $("#userprofile_userImage").change(function() {
 
 });
 
-
 $(".unit-evidence-id").click(function() {
+    $('#unit-evidence-tab').html($('#unit-evidence-tab2').html());
     unit = $(this).attr("unitid");
     userId = $(this).attr("userid");
     delStatus = $(this).attr("del-status");
