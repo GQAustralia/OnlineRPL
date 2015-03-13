@@ -89,9 +89,9 @@ class UserService
 
             $this->sendExternalEmail($mailerInfo);
 
-            $message = 'A request for password reset is sent to this address.';
+            $message = 1;
         } else {
-            $message = 'There is no user with this email address. Please try again';
+            $message = 0;
         }
         return $message;
     }
