@@ -48,9 +48,10 @@ class ApplicantController extends Controller
         $result['currentUserId'] = $this->get('security.context')->getToken()->getUser()->getId();
         $result['currentuserRole'] = $this->get('security.context')->getToken()->getUser()->getRoles();
         $result['courseName'] = $this->getRequest()->get('courseName');
+        $result['courseCode'] = $this->getRequest()->get('courseCode');
         $result['unitName'] = $this->getRequest()->get('unitName');
         $userUnitEvStatus = $this->get('UserService')->updateApplicantEvidences($result);
-        echo $userUnitEvStatus.= "&&".$this->get('UserService')->updateUserApplicantsList($result['currentUserId'], $result['currentuserRole']);
+        echo $userUnitEvStatus.= "&&".$this->get('UserService')->updateUserApplicantsList($result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
         exit;
     }
     
