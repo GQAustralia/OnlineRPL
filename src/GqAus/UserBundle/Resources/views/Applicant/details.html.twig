@@ -118,7 +118,7 @@
                                             <span>: {{assessorName}}</span>
                                         </div>
                                         <div class="gq-assessor-rto-edit-icon">
-                                            <a href="{{ base_url }}assessorProfile/{{assessorId}}"><img src="{{ asset('public/images/eye-icon.png') }}" /></a>
+                                            <a href="{{ base_url }}assessorProfile/{{assessorId}}"><img src="{{ asset('public/images/eye-icon.png') }}" alt="Edit"/></a>
                                         </div>
                                     </div>
                                 {% endif %}
@@ -128,46 +128,63 @@
                                         <div class="gq-assessor-rto-title">
                                             <label>Assessor</label>
                                             <span class="gq-facilitator-select-name">: {{assessorName}}</span>
-                                            <span class="gq-facilitator-select-area" style="display:none">
-                                                <select class="gq-facilitator-select-box">
-                                                    {% if assessors %}
-                                                        {% if assessors|length > 0 %}
-                                                            {% for key, assessor in assessors %}
-                                                                    <option value="{{assessor.id}}&&{{assessor.firstname}} {{assessor.lastname}}">{{assessor.firstname}} {{assessor.lastname}}</option>
-                                                            {% endfor %}
-                                                        {% endif %}
-                                                    {% endif %}
-                                                </select>
-                                                <button class="changeUsers" roletype="assessor" roleid="3">SAVE</button>
-                                            </span>
-                                            <a href="javascript:void(0);" class="gq-fac-edit-anchor1"><img class="gq-fac-edit-icon" alt="Edit" src="{{ asset('public/images/assessor-edit-icon.png') }}"></a>
-                                            <a href="javascript:void(0);" class="gq-fac-edit-anchor2" style="display:none;"><img class="gq-fac-edit-icon" alt="Edit" src="{{ asset('public/images/assessor-edit-icon.png') }}"></a>
                                         </div>
-                                        {#<div class="gq-assessor-rto-edit-icon">
-                                            <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" /></a>
-                                        </div>#}
+										<div id="div_34" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit assessor-change">
+											<div id="34" class="gq-add-notes-icon-wrap setNotes gq-assessor-rto-edit-icon">
+												<a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
+											</div>
+											<div class="gq-assessor-list-dropdown">
+												<div class="caret-top"></div>
+												<div class="gq-applicant-name-list">
+													<ul>
+													{% if assessors %}
+														{% if assessors|length > 0 %}
+															{% for key, assessor in assessors %}
+																{% set completeName = assessor.firstname~" "~assessor.lastname %}
+																<li class="gq-name-list {% if completeName|trim ==  assessorName|trim %}selectednew{% endif %}" data-value="{{assessor.id}}&&{{assessor.firstname}} {{assessor.lastname}}">{{assessor.firstname}} {{assessor.lastname}}</li>
+															{% endfor %}
+														{% endif %}
+													{% endif %}
+													</ul>
+												</div>
+												<div class="gq-applicant-list-notes-box">
+													<button class="btn btn-green changeUsers" roletype="assessor" roleid="3">Ok</button>
+													<button class="btn btn-red" id="gq-name-cancel">Cancel</button>
+												</div>
+											</div>
+										</div>
                                     </div>
                                     <div class="gq-assessor-appl-details-points pull-right border-top">
                                         <div class="gq-assessor-rto-title">
                                             <label>RTO</label>
                                             <span class="gq-rto-select-name">: {{rtoName}}</span>
-                                            <span class="gq-rto-select-area" style="display:none">
-                                                <select class="gq-rto-select-box">
-                                                    {% if rtos %}
+                                        </div>
+										<div id="div_35" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit rto-change">
+											<div id="35" class="gq-add-notes-icon-wrap setNotes gq-assessor-rto-edit-icon">
+												<a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
+											</div>
+											<div class="gq-assessor-list-dropdown">
+												<div class="caret-top"></div>
+												<div class="gq-applicant-name-list">
+													<ul>
+													{% if rtos %}
                                                         {% if rtos|length > 0 %}
                                                             {% for key, rto in rtos %}
-                                                                    <option value="{{rto.id}}&&{{rto.firstname}} {{rto.lastname}}">{{rto.firstname}} {{rto.lastname}}</option>
+																{% set completeRtoName = rto.firstname~" "~rto.lastname %}
+																<li class="gq-rto-list {% if completeRtoName|trim ==  rtoName|trim %}selectedRtonew{% endif %}" data-value="{{rto.id}}&&{{rto.firstname}} {{rto.lastname}}">{{rto.firstname}} {{rto.lastname}}</li>
                                                             {% endfor %}
                                                         {% endif %}
                                                     {% endif %}
-                                                </select>
-                                                <button class="changeUsers" roletype="rto" roleid="4">SAVE</button>
-                                            </span>
-                                            <a href="javascript:void(0);" class="gq-rto-edit-anchor1"><img class="gq-fac-edit-icon" alt="Edit" src="{{ asset('public/images/assessor-edit-icon.png') }}"></a>
-                                            <a href="javascript:void(0);" class="gq-rto-edit-anchor2" style="display:none;"><img class="gq-fac-edit-icon" alt="Edit" src="{{ asset('public/images/assessor-edit-icon.png') }}"></a>
-                                        </div>
+													</ul>
+												</div>
+												<div class="gq-applicant-list-notes-box">
+													<button class="btn btn-green changeUsers" roletype="rto" roleid="4">Ok</button>
+													<button class="btn btn-red" id="gq-rtoname-cancel">Cancel</button>
+												</div>
+											</div>
+										</div>
                                         {#<div class="gq-assessor-rto-edit-icon">
-                                            <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" /></a>
+                                            <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}"/></a>
                                         </div>#}
                                     </div>
                                 {% endif %}
