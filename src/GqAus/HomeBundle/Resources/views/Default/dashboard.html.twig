@@ -94,20 +94,16 @@
                                             </span>
                                             <div class="gq-acc-row-title">{{reminders.user.userName}}</div>
                                         </div>
-                                        <div class="col-xs-8">
+                                        <div class="col-xs-7">
                                             <div class="gq-acc-row-title">{{reminders.course.courseCode}} {{reminders.course.courseName}}</div>
                                         </div>
-                                        <div class="col-xs-1">
-                                            <label for="acc-{{reminders.id}}" class="col-xs-4 openIcon"></label>
+                                        <div class="col-xs-2">
+                                            <label for="acc-{{reminders.id}}" class="col-xs-4 btn add-btn upDownArrow openIcon">VIEW</label>
+                                            {#<label for="acc-{{reminders.id}}" class="col-xs-4 openIcon"></label>#}
                                         </div>
                                     </div>
                                 </div>
                                 <article class="acc-small">
-                                    <div class="col-xs-12">
-                                        <div class="well">
-                                            <div class="gq-dashboard-facilitator-notes">Notes</div>
-                                        </div>
-                                    </div>
                                     <p>{{reminders.message}}</p>
                                 </article>
                             </div>
