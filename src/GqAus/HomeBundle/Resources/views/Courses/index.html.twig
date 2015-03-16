@@ -44,10 +44,10 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                         <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-3">
                         <span class="gq-course-details-header-title gq-appl-details-two-lines">Elements & Performance Criteria</span>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-2 col-xs-3">
+                        <div class="col-lg-4 col-md-3 col-sm-2 col-xs-3">
                         <span class="gq-course-details-header-title">Evidence</span>
                         </div>
                     </div>
@@ -73,18 +73,23 @@
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
                                 <label for="acc-{{i}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow" {% if units.id  in electiveUnits %} disabled="disabled" {% endif %}>VIEW</label>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="col-lg-4 col-md-3 col-sm-3 col-xs-3">
                                 {% if(courseDetails.courseStatus != 0) %}
                                     {% if units.id in electiveApprovedUnits %}
-                                    <button class="btn add-btn fromBottom"  unitid="{{units.id}}" course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
+                                    <button class="btn add-btn fromBottom"  unitid="{{units.id}}" course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>Upload</button>
                                     {% endif %}
                                 {% endif %}
                                 {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
                                 {% set style = evidence ? '' : 'style=display:none' %}                           
                                 <span id="sp_{{units.id}}" {{ style }}><button class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} user_id="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button></span>
+                                {% if(courseDetails.courseStatus != 0) %}
+                                    {% if units.id in electiveApprovedUnits %}
+                                    <button class="btn add-btn fromBottomAssessment"  unitid="{{units.id}}" course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#editAssessmentModal" data-direction="bottom"><span class="hidden-xs"></span>Comment</button>
+                                    {% endif %}
+                                {% endif %}
                                 
                             </div>
                             
@@ -116,10 +121,10 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                         <span class="gq-course-details-header-title">Unit Title</span>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-3">
                         <span class="gq-course-details-header-title gq-appl-details-two-lines">Elements & Performance Criteria</span>
                         </div>
-                        <div class="col-lg-3 col-md-2 col-sm-2 col-xs-3">
+                        <div class="col-lg-4 col-md-2 col-sm-2 col-xs-3">
                         <span class="gq-course-details-header-title">Evidence</span>
                         </div>
                     </div>
@@ -149,17 +154,20 @@
                             <div class="col-lg-3 col-lg-4 col-sm-3 col-xs-3">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-2 col-xs-3">
+                            <div class="col-lg-2 col-md-3 col-sm-2 col-xs-3">
                                 <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow" {% if units.id  in electiveUnits %} disabled="disabled" {% endif %}>VIEW</label>
                             </div>
-                            <div class="col-lg-3 col-md-2 col-sm-3 col-xs-3">
+                            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-3">
                                 {% if units.id in electiveApprovedUnits %}
-                                <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}"  course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>ADD</button>
+                                    <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}"  course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>Upload</button>
                                 {% endif %}
                                 
                                 {% set evidence = evidence_service.getUserUnitEvidences(userId, units.id) %}
                                 {% set style = evidence ? '' : 'style=display:none' %}
                                 <span id="sp_{{units.id}}" {{ style }}><button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button></span>
+                                {% if units.id in electiveApprovedUnits %}
+                                    <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btncomment_{{units.id}}" class="btn add-btn fromBottomAssessment" unitid="{{units.id}}"  course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#editAssessmentModal" data-direction="bottom"><span class="hidden-xs"></span>Comment</button>
+                                {% endif %}
                             </div>
                         </div>
                         {% else %}
@@ -171,10 +179,10 @@
                             <div class="col-lg-3 col-lg-4 col-sm-3 col-xs-3">
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-2 col-xs-3">
+                            <div class="col-lg-2 col-md-3 col-sm-2 col-xs-3">
                                 <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow" {% if units.id  in electiveUnits %} disabled="disabled" {% endif %}>VIEW</label>
                             </div>
-                            <div class="col-lg-3 col-md-2 col-sm-3 col-xs-3">
+                            <div class="col-lg-4 col-md-2 col-sm-3 col-xs-3">
                                 
                                 {% set evidence = evidence_service.getUserUnitEvidences(userId, units.id) %}
                                 {% set style = evidence ? '' : 'style=display:none' %}
@@ -267,6 +275,60 @@
 </div>
 <!----- Unit evidences end --->
 
+<!-- Add Assessment -->
+<div class="modal fade bottom" id="editAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="editAssessmentModal" aria-hidden="true">
+  <div class="modal-dialog gq-modal-upload">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" id="evd_close_assess" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="gq-dashboard-courses-detail-wrap">
+              <div class="qualification-success-msg" id="gq-dashboard-tabs-success-assess"></div>
+              <div class="qualification-er-msg" id="gq-dashboard-tabs-error-assess"></div>
+              <div class="gq-dashboard-tabs">
+                  <!-- Tabs start here -->
+                  <div class="gq-dashboard-tabs-header wid40p-evidence-tab">
+                      <ul class="nav nav-pills nav-justified" role="tablist" id="myTab3">
+                          <li role="presentation" id="div_add_evidence" class="active"><a href="#add-evidence-tab" aria-controls="add-evidence-tab" role="tab" data-toggle="tab">Add Assessment</a></li>
+                      </ul>
+                  </div>
+                  <!-- Tabs end start here -->
+                  <!-- Content for respective tabs above will be in this section -->
+                  <div class="tab-content">
+                      <div role="tabpanel" class="tab-pane active" id="add-evidenceAssesment-tab">
+                          <form method="post" id="frmAddEvidenceAssessment" name="frmAddEvidenceAssessment" action="{{ app.request.baseUrl }}/addEvidenceAssessment" enctype= "multipart/form-data">
+                              <div class="wid70p">
+                                  <div class="row">
+                                      <div class="col-xs-6">
+                                          <div class="gq-course-details-upload-evidence-self">
+                                            {{ form_widget(assessmentForm.hid_unit_assess, {'attr': {'id': 'hid_unit_assess'}}) }}
+                                            {{ form_widget(assessmentForm.hid_course_assess, {'attr': {'id': 'hid_course_assess'}}) }}
+                                            {{ form_widget(assessmentForm.self_assessment, {'attr': {'id': 'self_assessment','placeholder': 'Self Assessment'}}) }}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-xs-6">
+                                          <div class="gq-course-details-upload-button-wrap">
+                                            {{ form_widget(assessmentForm.save, {'attr': {'class': 'btn btn-red pull-right'}}) }}
+                                              <span class="loading-icon pull-right uploadevidence_assess_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </div>
+  </div>
+</div>   
+</div>
+<!-- Add Assessment -->
+
+
 <div class="modal fade bottom" id="edivenceModal" tabindex="-1" role="dialog" aria-labelledby="edivenceModalLabel" aria-hidden="true">
   <div class="modal-dialog gq-modal-upload">
     <div class="modal-content">
@@ -281,7 +343,7 @@
         <!-- Tabs start here -->
         <div class="gq-dashboard-tabs-header wid40p-evidence-tab">
             <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
-                <li role="presentation" id="div_add_evidence" class="active"><a href="#add-evidence-tab" aria-controls="add-evidence-tab" role="tab" data-toggle="tab">Add Evidence</a></li>
+                <li role="presentation" id="div_add_evidence" class="active"><a href="#add-evidence-tab" aria-controls="add-evidence-tab" role="tab" data-toggle="tab">Upload Evidence</a></li>
                 <li role="presentation" id="div_existing_evidence" ><a href="#select-from-evidence-tab" aria-controls="select-from-evidence-tab" role="tab" data-toggle="tab" userid = "{{userId}}">Select from Existing Evidence</a></li>
                 <!--<li role="presentation"><a href="#unit-evidence-tab" id="unit-evidence-id" aria-controls="unit-evidence-tab" role="tab" data-toggle="tab">Unit Evidences</a></li>-->
             </ul>
@@ -300,11 +362,6 @@
                             {{ form_widget(form.file, {'attr': {'id': 'my-awesome-dropzone', 'class': 'dropzone'}}) }}
                             {{ form_widget(form.hid_unit, {'attr': {'id': 'hid_unit'}}) }}
                             {{ form_widget(form.hid_course, {'attr': {'id': 'hid_course'}}) }}
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="gq-course-details-upload-evidence-self">
-                            {{ form_widget(form.self_assessment, {'attr': {'id': 'self_assessment','placeholder': 'Self Assessment'}}) }}
                         </div>
                     </div>
                 </div>
@@ -341,7 +398,8 @@
       </div>
     </div>
   </div>
-</div>    
+</div>   
+</div>
   
  <!-- <script src="{{ asset('public/js/jquery.min.js') }}"></script>
   <script src="{{ asset('public/js/custom-form-elements.js') }}"></script> -->
