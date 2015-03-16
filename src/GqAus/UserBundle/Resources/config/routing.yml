@@ -165,4 +165,8 @@ setRoleUsers:
     defaults: { _controller: GqAusUserBundle:Applicant:setRoleUsers }
 getUserEvidences:
     path:     /getUserEvidences
-    defaults:  { _controller: GqAusUserBundle:User:getUserEvidences }    
+    defaults:  { _controller: GqAusUserBundle:User:getUserEvidences }
+addEvidenceAssessment:
+    path:     /addEvidenceAssessment
+    defaults:  { _controller: GqAusUserBundle:Evidence:addEvidenceAssessment }    
+    

@@ -1334,8 +1334,6 @@ $("#div_existing_evidence a").click(function() {
     });
 });
 
-
-
 function sumitFormEvidence() {
    $('#select_hid_unit').val(unit);
     $('#select_hid_course').val(courseCode);
@@ -1358,3 +1356,33 @@ function sumitFormEvidence() {
         }
     });   
 }
+$(".fromBottomAssessment").click(function() {
+    unit = $(this).attr("unitid");
+    courseCode = $(this).attr("course_code");
+    $('#assessmentfile_hid_unit_assess').val(unit);
+    $('#assessmentfile_hid_course_assess').val(courseCode);
+    $('.gq-dashboard-tabs').show();
+    $('#gq-dashboard-tabs-success-assess').hide();
+    $('#frmAddEvidenceAssessment')[0].reset();
+});
+$("#evd_close_assess").click(function() {
+    $(".uploadevidence_assess_loader").hide();
+});
+$("#frmAddEvidenceAssessment").ajaxForm({
+    beforeSubmit: function() {
+        $('#file_save').hide();
+        $('.uploadevidence_assess_loader').show();
+    },
+    success: function(responseText, statusText, xhr, $form) {
+        $("#gq-dashboard-tabs-success-assess").show();
+        $('.gq-dashboard-tabs').hide();
+        $('.uploadevidence_assess_loader').hide();
+        if (responseText == '0') {
+            $('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not added!</h2>').delay(3000).fadeOut(100);
+        } else if (responseText == '1') {
+            $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Assessment added successfully!</h2>').delay(3000).fadeOut(100);
+        }
+        setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
+    },
+    resetForm: true
+});

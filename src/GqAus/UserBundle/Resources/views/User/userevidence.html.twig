@@ -191,7 +191,7 @@
                             {% set file = amazon_link~evidence.path %}
                                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                                         <div class="gq-dashboard-courses-detail  margin-top15">
-                                            <a href = "{{ amazon_link }}{{  evidence.path }}" {% if (result.1 == 'xls') or (result.1 == 'docx') or (result.1 == 'doc') %} {% else %} class="fancybox fancybox.iframe" {% endif %} >
+                                            <a href = "{{ amazon_link }}{{  evidence.path }}" {% if (result.1 is defined and result.1 == 'xls') or (result.1 is defined and result.1 == 'docx') or (result.1 is defined and result.1 == 'doc') %} {% else %} class="fancybox fancybox.iframe" {% endif %} >
                                                 <div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
                                             </a>
                                             <div class="gq-id-files-content-row-wrap">
@@ -222,7 +222,7 @@
                         </div>
                         <div class="col-xs-12">
                             <div class="gq-course-details-upload-button-wrap">
-                                <input type="submit" class="btn btn-red pull-right" value="save">
+                                <input type="submit" class="btn btn-red pull-right" value="Save">
                                 <span class="loading-icon pull-right uploadevidence_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
                             </div>
                         </div>

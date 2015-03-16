@@ -5,6 +5,7 @@ namespace GqAus\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use GqAus\UserBundle\Form\EvidenceForm;
+use GqAus\UserBundle\Form\AssessmentForm;
 
 class EvidenceController extends Controller
 {
@@ -99,5 +100,18 @@ class EvidenceController extends Controller
         header('Content-disposition: attachment; filename="' . $zipName . '"');
         header('Content-Length: ' . filesize($zipName));
         readfile($zipName);
+    }
+    /**
+    * Function to add the Evidence Self Assessment
+    */
+    public function addEvidenceAssessmentAction(Request $request)
+    {        
+        $form = $this->createForm(new AssessmentForm(), array());
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+            $data = $form->getData();
+            echo $result = $this->get('EvidenceService')->saveEvidenceAssessment($data); exit;
+        }
+        exit;
     }
 }

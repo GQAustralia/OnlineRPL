@@ -105,6 +105,27 @@ class EvidenceService
         }
         return ($seterror == 'no')?$data['hid_unit']:$seterror;
     }
+    /**
+     * Save Evidence Assessment 
+     * Input : data
+     * Output: boolean
+     */
+    public function saveEvidenceAssessment($data)
+    {
+         if (!empty($data['self_assessment'])) {
+            $textObj = new Text();
+            $textObj->setContent($data['self_assessment']);
+            $textObj->setUnit($data['hid_unit_assess']);
+            $textObj->setCourse($data['hid_course_assess']);
+            $textObj->setUser($this->currentUser);
+            $this->em->persist($textObj);
+            $this->em->flush();
+            $this->updateCourseUnits($this->userId, $data['hid_unit_assess']);
+            return "1";
+        }
+        else
+            return "0";
+    }
     
     public function fileSize($size)
     {
