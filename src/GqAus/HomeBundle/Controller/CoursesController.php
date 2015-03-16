@@ -5,6 +5,7 @@ namespace GqAus\HomeBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use GqAus\UserBundle\Form\EvidenceForm;
+use GqAus\UserBundle\Form\AssessmentForm;
 
 class CoursesController extends Controller
 {
@@ -26,6 +27,8 @@ class CoursesController extends Controller
         $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
         $form = $this->createForm(new EvidenceForm(), array());
         $results['form'] = $form->createView();
+        $assessmentForm = $this->createForm(new AssessmentForm(), array());
+        $results['assessmentForm'] = $assessmentForm->createView();
         return $this->render('GqAusHomeBundle:Courses:index.html.twig', $results);
     }
     

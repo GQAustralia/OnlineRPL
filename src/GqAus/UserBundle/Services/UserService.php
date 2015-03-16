@@ -81,17 +81,17 @@ class UserService
             $mailerInfo['to'] = $user->getEmail();
             $mailerInfo['subject'] = 'Request for Password Reset';
             $applicationUrl = $this->container->getParameter('applicationUrl');
-            $mailerInfo['body'] = "Dear " . $userName . ",\n We heard that you lost your password. Sorry about that! \n
+            $mailerInfo['body'] = "Dear " . $userName . ",<br/><br/> We heard that you lost your password. Sorry about that! <br/>
             But don't worry! You can use the following link within the next 4 hours to reset your password
-             <a href='" . $applicationUrl . "resetpassword/" . $token . "'>Click Here </a> \n
-             If you don't use this link within 4 hours, it will expire. <br>To get a new password reset link, visit " . $applicationUrl . "forgotpassword
-             \n Regards, \n OnlineRPL";
+             <a href='" . $applicationUrl . "resetpassword/" . $token . "'>Click Here </a> <br/>
+             If you don't use this link within 4 hours, it will expire. <br/>To get a new password reset link, visit " . $applicationUrl . "forgotpassword
+             <br/><br/> Regards, <br/> OnlineRPL";
 
             $this->sendExternalEmail($mailerInfo);
 
-            $message = 'A request for password reset is sent to this address.';
+            $message = '1';
         } else {
-            $message = 'There is no user with this email address. Please try again';
+            $message = '0';
         }
         return $message;
     }
