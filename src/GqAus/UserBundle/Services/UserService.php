@@ -456,6 +456,23 @@ class UserService
                             ->join('c.user', 'u')
                             ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
         } else {
+            if ($status == 11) {
+                $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->createQueryBuilder('c')
+                    ->select("c, u")
+                    ->join('c.user', 'u')
+                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
+                    ->andWhere("c.courseStatus = '1'")
+                    ->andWhere("c.assessorstatus = '1'");
+            }
+            else {
+                $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->createQueryBuilder('c')
+                    ->select("c, u")
+                    ->join('c.user', 'u')
+                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
+                    ->andWhere("c.courseStatus = '" . $status . "'");
+            }
             /* if($status == 2) {
               $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
               ->createQueryBuilder('c')
@@ -472,12 +489,6 @@ class UserService
               ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
               ->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
               } */
-            $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                    ->createQueryBuilder('c')
-                    ->select("c, u")
-                    ->join('c.user', 'u')
-                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
-                    ->andWhere("c.courseStatus = '" . $status . "'");
         }
 
         if ($userType == 'rto') {
