@@ -258,7 +258,7 @@
                 <div>
                     <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
                     <div class="row no-margin">
-                        <div class="gq-acc-row-bg">
+                        <div id="div_{{units.id}}" class="gq-acc-row-bg">
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                 <div class="gq-acc-row-title">{{units.id}}</div>
                             </div>
@@ -266,7 +266,7 @@
                                 <div class="gq-acc-row-title">{{units.name}}</div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <label for="acc-{{i}}" class="col-xs-4 openIcon btn add-btn upDownArrow">VIEW</label>
+                                <label for="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn upDownArrow">VIEW</label>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                 {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
@@ -378,6 +378,7 @@
         <span class="gq-approved-status" id="status_arc" style="display:none;">Issued and Certified!</span>
         <span class="gq-approved-status" id="status_ac" style="display:none;">Certificate Issued!</span>
     </div>
+    <div class="gq-extra-space" style="display:none;"></div>
      <span class="gq-approve-error" id="gq-approve-error" style="display:none;">Please approve all the units.</span>
      <center id="approve_loader" style="display:none"><span><img src="{{ asset('public/images')}}/loading.gif" /></span></center>
 </div>
@@ -387,7 +388,7 @@
     <div class="modal-dialog gq-modal-upload">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close custom-close" id="" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="gq-dashboard-courses-detail-wrap">

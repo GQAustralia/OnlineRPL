@@ -325,9 +325,16 @@ $("#userprofile_userImage").change(function() {
 });
 
 $(".unit-evidence-id").click(function() {
+    $(".gq-extra-space").show();
     $('#unit-evidence-tab').html('');
     $('#unit-evidence-tab').html($('#unit-evidence-tab2').html());
     unit = $(this).attr("unitid");
+    $(".custom-close").attr('id',unit);
+    var c = $("#label_"+unit).hasClass("open");
+    if (c == false) {
+        $("#label_"+unit).trigger("click");
+    }    
+    $('html,body').animate({scrollTop: $('#div_'+unit).offset().top}, 1000);
     userId = $(this).attr("userid");
     delStatus = $(this).attr("del-status");
     course_code = $(this).attr("course_code");
@@ -1387,4 +1394,12 @@ $("#frmAddEvidenceAssessment").ajaxForm({
         setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
     },
     resetForm: true
+});
+$(".custom-close").click(function() {
+    $(".gq-extra-space").hide();
+    unit = $(this).attr("id");
+    var c = $("#label_"+unit).hasClass("open");
+    if (c == true) {
+        $("#label_"+unit).trigger("click");
+    }  
 });
