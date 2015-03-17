@@ -199,7 +199,8 @@
 {% block javascripts %}
 <script type="text/javascript">
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+    $('#chk-main-all').attr('checked',false);
+    $('[data-toggle="tooltip"]').tooltip();
 })
 </script>
 <script type="text/javascript" src="{{ asset('public/js/custom-jquery.js') }}"></script>
