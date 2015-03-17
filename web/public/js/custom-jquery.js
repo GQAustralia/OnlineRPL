@@ -1076,8 +1076,7 @@ function validateAddress()
     var userrole = $("#hdn-userrole").val();
     var useremail = $("#userprofile_email").val();
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
-    if ($("#userprofile_firstname").val() == "")
-    {
+    if ($("#userprofile_firstname").val() == "") {
         if(userrole=='rtouser')
             showMyTabs("Please enter College Name");
         else
@@ -1085,8 +1084,7 @@ function validateAddress()
         $("#userprofile_firstname").focus();
         return false;
     }
-    if ($("#userprofile_lastname").val() == "")
-    {
+    if ($("#userprofile_lastname").val() == "") {
         if(userrole=='rtouser')
             showMyTabs("Please enter Provider Code");
         else
@@ -1094,50 +1092,42 @@ function validateAddress()
         $("#userprofile_lastname").focus();
         return false;
     }
-    if ($("#userprofile_email").val() == "")
-    {
+    if ($("#userprofile_email").val() == "") {
         showMyTabs("Please enter Email");
         $("#userprofile_email").focus();
         return false;
     }
-    if ($("#userprofile_email").val() != "")
-    {
+    if ($("#userprofile_email").val() != "") {
         if (useremail.search(regexp) == -1) {
             showMyTabs("Please enter valid Email");
             $("#userprofile_email").focus();
             return false;
         }
     }
-    if ($("#userprofile_phone").val() == "")
-    {
+    if ($("#userprofile_phone").val() == "") {
         showMyTabs("Please enter Phone Number");
         $("#userprofile_phone").focus();
         return false;
     }
-    if ($("#userprofile_phone").val() != "")
-    {
-        if(checkPhonenumber($("#userprofile_phone").val()) == 0)
-        {
+    if ($("#userprofile_phone").val() != "") {
+        if(checkPhonenumber($("#userprofile_phone").val()) == 0) {
             showMyTabs("Please enter valid Phone Number");
             $("#userprofile_phone").val("");
             $("#userprofile_phone").focus();
             return false;
         }
     }
-    if ($("#userprofile_dateOfBirth").val() == "")
-    {
+    if ($("#userprofile_dateOfBirth").val() == "") {
         showMyTabs("Please enter Date Of Birth");
         $("#userprofile_dateOfBirth").focus();
         return false;
     }
-    if ($("#userprofile_universalStudentIdentifier").val() == "")
-    {
+    if ($("#userprofile_universalStudentIdentifier").val() == "") {
         showMyTabs("Please enter USI");
         $("#userprofile_universalStudentIdentifier").focus();
         return false;
     }
-    if ($("#userprofile_address_address").val() == "")
-    {
+    if ($("#userprofile_address_address").val() == "") {
         $("#change_pwd_error").show();
         $("#change_pwd_error").html(startMsg + "Please enter Address" + endMsg).delay(3000).fadeOut(100);
         $('#address-gq-tab').tab('show');
@@ -1145,6 +1135,39 @@ function validateAddress()
         $('#address').addClass('active');
         $("#userprofile_address_address").focus();
         return false;
+    }
+    if(userrole=='rtouser') {
+        if ($("#userprofile_contactname").val() == "") {
+            showMyTabs("Please enter Contact Person Name");
+            $("#userprofile_contactname").focus();
+            return false;
+        }
+        if ($("#userprofile_contactphone").val() == "") {
+            showMyTabs("Please enter Contact Person Phone Number");
+            $("#userprofile_contactphone").focus();
+            return false;
+        }
+        if ($("#userprofile_contactphone").val() != "") {
+            if(checkPhonenumber($("#userprofile_contactphone").val()) == 0) {
+                showMyTabs("Please enter valid Contact Person Phone Number");
+                $("#userprofile_contactphone").val("");
+                $("#userprofile_contactphone").focus();
+                return false;
+            }
+        }
+        if ($("#userprofile_contactemail").val() == "") {
+            showMyTabs("Please enter Contact Person Email");
+            $("#userprofile_contactemail").focus();
+            return false;
+        }
+        if ($("#userprofile_contactemail").val() != "") {
+            if ($("#userprofile_contactemail").val().search(regexp) == -1) {
+                showMyTabs("Please enter valid Contact Person Email");
+                $("#userprofile_contactemail").val("");
+                $("#userprofile_contactemail").focus();
+                return false;
+            }
+        }
     }
 }
 /* Change Password Validations */
