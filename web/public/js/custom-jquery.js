@@ -92,6 +92,7 @@ $(".changeUnitStatus").click(function() {
                 $("#label_" + unitId).attr("for", "");
                 $( "#label_"+unitId ).attr('disabled','disabled');
                 $("#btnadd_" + unitId).attr('disabled', 'disabled');
+                $("#btncomment_" + unitId).attr('disabled', 'disabled');
                 $("#btneye_" + unitId).attr('disabled', 'disabled');
                 $("#div_" + unitId).addClass("gq-acc-row-checked");
                 $("#span_" + unitId).removeClass("radioUnChecked");
@@ -100,6 +101,7 @@ $(".changeUnitStatus").click(function() {
                 $("#label_" + unitId).attr("for", label);
                 $( "#label_"+unitId ).removeAttr('disabled','disabled');
                 $("#btnadd_" + unitId).removeAttr('disabled');
+                $("#btncomment_" + unitId).removeAttr('disabled');
                 $("#btneye_" + unitId).removeAttr('disabled');
                 $("#div_" + unitId).removeClass("gq-acc-row-checked");
                 $("#span_" + unitId).addClass("radioUnChecked");
