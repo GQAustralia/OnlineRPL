@@ -181,13 +181,13 @@ $("#frmAddEvidence").ajaxForm({
         $('.uploadevidence_loader').show();
     },
     success: function(responseText, statusText, xhr, $form) {
-        $("#gq-dashboard-tabs-success").show();
         $('.gq-dashboard-tabs').hide();
-        $('#gq-dashboard-tabs-success').show();
         $('.uploadevidence_loader').hide();
         if (responseText == 'yes') {
-            $('#gq-dashboard-tabs-error').html('<h2>File size more than 10MB connot be uploaded!</h2>').delay(3000).fadeOut(100);
+            $('#gq-dashboard-tabs-error').show();
+            $('#gq-dashboard-tabs-error').html('<h2>File size more than 10MB cannot be uploaded!</h2>').delay(3000).fadeOut(100);
         } else {
+            $('#gq-dashboard-tabs-success').show();
             $('#sp_'+responseText).show();
             $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
         }
