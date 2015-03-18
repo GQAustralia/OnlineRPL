@@ -176,45 +176,49 @@ $(".deleteIdFiles").click(function() {
     });
 });
 
-
-$("#frmAddEvidence").ajaxForm({
-    beforeSubmit: function() {
-        $('#file_save').hide();
-        $('.uploadevidence_loader').show();
-    },
-    success: function(responseText, statusText, xhr, $form) {
-        $('.gq-dashboard-tabs').hide();
-        $('.uploadevidence_loader').hide();
-        if (responseText == 'yes') {
-            $('#gq-dashboard-tabs-error').show();
-            $('#gq-dashboard-tabs-error').html('<h2>File size more than 10MB cannot be uploaded!</h2>').delay(3000).fadeOut(100);
-        } else {
+if($('#frmAddEvidence').length) 
+{
+    $("#frmAddEvidence").ajaxForm({
+        beforeSubmit: function() {
+            $('#file_save').hide();
+            $('.uploadevidence_loader').show();
+        },
+        success: function(responseText, statusText, xhr, $form) {
+            $('.gq-dashboard-tabs').hide();
+            $('.uploadevidence_loader').hide();
+            if (responseText == 'yes') {
+                $('#gq-dashboard-tabs-error').show();
+                $('#gq-dashboard-tabs-error').html('<h2>File size more than 10MB cannot be uploaded!</h2>').delay(3000).fadeOut(100);
+            } else {
+                $('#gq-dashboard-tabs-success').show();
+                $('#sp_'+responseText).show();
+                $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
+            }
+            setTimeout(function(){jQuery("#evd_close").trigger('click');},3000);
+        },
+        resetForm: true
+    });
+}
+if($('#frmSelectEvidence').length) 
+{
+    $("#frmSelectEvidence").ajaxForm({
+        beforeSubmit: function() {
+            $('#file_save').hide();
+            $('.uploadevidence_loader').show();
+        },
+        success: function(responseText) {
+            $('.gq-dashboard-tabs').hide();
+            $('.uploadevidence_loader').hide();
             $('#gq-dashboard-tabs-success').show();
-            $('#sp_'+responseText).show();
-            $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
-        }
-        setTimeout(function(){jQuery("#evd_close").trigger('click');},3000);
-    },
-    resetForm: true
-});
-
-$("#frmSelectEvidence").ajaxForm({
-    beforeSubmit: function() {
-        $('#file_save').hide();
-        $('.uploadevidence_loader').show();
-    },
-    success: function(responseText) {
-        $('.gq-dashboard-tabs').hide();
-        $('.uploadevidence_loader').hide();
-        $('#gq-dashboard-tabs-success').show();
-        if (responseText){            
-            $('#sp_'+responseText).show();
-            $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
-        }
-        setTimeout(function(){jQuery("#evd_close").trigger('click');},3000);
-    },
-    resetForm: true
-});
+            if (responseText){            
+                $('#sp_'+responseText).show();
+                $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
+            }
+            setTimeout(function(){jQuery("#evd_close").trigger('click');},3000);
+        },
+        resetForm: true
+    });
+}
 
 
 $("#download_profile").click(function() {
@@ -388,163 +392,172 @@ $(".openIcon").click(function() {
         $(this).removeClass("open");
     }
 });
-
-$("#Id_files").ajaxForm({
-    beforeSubmit: function() {
-        $('#ID_load').show();
-    },
-    success: function(responseText, statusText, xhr, $form) {
-        $('#ID_load').prev().html('');
-        $('#ID_load').hide();
-        if (responseText) {
-            $("#idfiles_msg").show();
-            var result = jQuery.parseJSON(responseText);
-            var name = result.name.split('.');
-            var ftype = result.type.split('.');
-            var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
-                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="' + result.id + '" filetype="' + result.type + '">\n\
-                                <div class="gq-del-evidence"></div></a>\n\
-                            <div class="tooltip-home top">\n\
-                                <div class="tooltip-arrow"></div>\n\
-                                <span class="">Delete ID File</span>\n\
-                            </div>\n\
-                        </span>\n\
-                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + ftype + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-            if ($('#idfiles_no_files').html() === 'No Id files found') {
-                $('.Id_files').html(html);
-            } else {
-                $('.Id_files').append(html);
+if($('#Id_files').length) 
+{
+    $("#Id_files").ajaxForm({
+        beforeSubmit: function() {
+            $('#ID_load').show();
+        },
+        success: function(responseText, statusText, xhr, $form) {
+            $('#ID_load').prev().html('');
+            $('#ID_load').hide();
+            if (responseText) {
+                $("#idfiles_msg").show();
+                var result = jQuery.parseJSON(responseText);
+                var name = result.name.split('.');
+                var ftype = result.type.split('.');
+                var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
+                                <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="' + result.id + '" filetype="' + result.type + '">\n\
+                                    <div class="gq-del-evidence"></div></a>\n\
+                                <div class="tooltip-home top">\n\
+                                    <div class="tooltip-arrow"></div>\n\
+                                    <span class="">Delete ID File</span>\n\
+                                </div>\n\
+                            </span>\n\
+                            <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + ftype + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+                if ($('#idfiles_no_files').html() === 'No Id files found') {
+                    $('.Id_files').html(html);
+                } else {
+                    $('.Id_files').append(html);
+                }
+                $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File added successfully!</h2></div>').delay(5000).fadeOut(100);
             }
-            $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File added successfully!</h2></div>').delay(5000).fadeOut(100);
-        }
-    },
-    resetForm: true
-});
-
-$("#resumeUpload").ajaxForm({
-    beforeSubmit: function() {
-        $('#resume_load').show();
-    },
-    success: function(responseText, statusText, xhr, $form) {
-        $('#resume_load').prev().html('');
-        $('#resume_load').hide();
-        if (responseText) {
+        },
+        resetForm: true
+    });
+}
+if($('#resumeUpload').length) 
+{
+    $("#resumeUpload").ajaxForm({
+        beforeSubmit: function() {
+            $('#resume_load').show();
+        },
+        success: function(responseText, statusText, xhr, $form) {
+            $('#resume_load').prev().html('');
+            $('#resume_load').hide();
+            if (responseText) {
+                $('#resume_msg').css("display", "block");
+                var result = jQuery.parseJSON(responseText);
+                var name = result.name.split('.');
+                var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
+                                <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
+                                    <div class="gq-del-evidence"></div></a>\n\
+                                <div class="tooltip-home top">\n\
+                                    <div class="tooltip-arrow"></div>\n\
+                                    <span class="">Delete ID File</span>\n\
+                                </div>\n\
+                            </span>\n\
+                            <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+                if ($('#resume_no_files').html() === 'No resumes found') {
+                    $('.resume_files').html(html);
+                } else {
+                    $('.resume_files').append(html);
+                }
+                $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
+            }
+        },
+        resetForm: true
+    });
+}
+if($('#qualificationUpload').length) 
+{
+    $("#qualificationUpload").ajaxForm({
+        beforeSubmit: function() {
+            $('#qualification_load').show();
+        },
+        success: function(responseText, statusText, xhr, $form) {
             $('#resume_msg').css("display", "block");
-            var result = jQuery.parseJSON(responseText);
-            var name = result.name.split('.');
-            var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
-                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
-                                <div class="gq-del-evidence"></div></a>\n\
-                            <div class="tooltip-home top">\n\
-                                <div class="tooltip-arrow"></div>\n\
-                                <span class="">Delete ID File</span>\n\
-                            </div>\n\
-                        </span>\n\
-                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-            if ($('#resume_no_files').html() === 'No resumes found') {
-                $('.resume_files').html(html);
-            } else {
-                $('.resume_files').append(html);
+            $('#qualification_load').prev().html('');
+            $('#qualification_load').hide();
+            if (responseText) {
+                var result = jQuery.parseJSON(responseText);
+                var name = result.name.split('.');
+                var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
+                                <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
+                                    <div class="gq-del-evidence"></div></a>\n\
+                                <div class="tooltip-home top">\n\
+                                    <div class="tooltip-arrow"></div>\n\
+                                    <span class="">Delete ID File</span>\n\
+                                </div>\n\
+                            </span>\n\
+                            <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+                if ($('#qualification_no_files').html() === 'No qualifications found') {
+                    $('.qualification_files').html(html);
+                } else {
+                    $('.qualification_files').append(html);
+                }
+                $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
             }
-            $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
-        }
-    },
-    resetForm: true
-});
-
-$("#qualificationUpload").ajaxForm({
-    beforeSubmit: function() {
-        $('#qualification_load').show();
-    },
-    success: function(responseText, statusText, xhr, $form) {
-        $('#resume_msg').css("display", "block");
-        $('#qualification_load').prev().html('');
-        $('#qualification_load').hide();
-        if (responseText) {
-            var result = jQuery.parseJSON(responseText);
-            var name = result.name.split('.');
-            var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
-                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
-                                <div class="gq-del-evidence"></div></a>\n\
-                            <div class="tooltip-home top">\n\
-                                <div class="tooltip-arrow"></div>\n\
-                                <span class="">Delete ID File</span>\n\
-                            </div>\n\
-                        </span>\n\
-                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-            if ($('#qualification_no_files').html() === 'No qualifications found') {
-                $('.qualification_files').html(html);
-            } else {
-                $('.qualification_files').append(html);
+        },
+        resetForm: true
+    });
+}
+if($('#referenceUpload').length) 
+{
+    $("#referenceUpload").ajaxForm({
+        beforeSubmit: function() {
+            $('#reference_load').show();
+        },
+        success: function(responseText, statusText, xhr, $form) {
+            $('#resume_msg').css("display", "block");
+            $('#reference_load').prev().html('');
+            $('#reference_load').hide();
+            if (responseText) {
+                var result = jQuery.parseJSON(responseText);
+                var name = result.name.split('.');
+                var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
+                                <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
+                                    <div class="gq-del-evidence"></div></a>\n\
+                                <div class="tooltip-home top">\n\
+                                    <div class="tooltip-arrow"></div>\n\
+                                    <span class="">Delete ID File</span>\n\
+                                </div>\n\
+                            </span>\n\
+                            <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+                if ($('#reference_no_files').html() === 'No reference letters found') {
+                    $('.reference_files').html(html);
+                } else {
+                    $('.reference_files').append(html);
+                }
+                $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
             }
-            $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
-        }
-    },
-    resetForm: true
-});
-
-$("#referenceUpload").ajaxForm({
-    beforeSubmit: function() {
-        $('#reference_load').show();
-    },
-    success: function(responseText, statusText, xhr, $form) {
-        $('#resume_msg').css("display", "block");
-        $('#reference_load').prev().html('');
-        $('#reference_load').hide();
-        if (responseText) {
-            var result = jQuery.parseJSON(responseText);
-            var name = result.name.split('.');
-            var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
-                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
-                                <div class="gq-del-evidence"></div></a>\n\
-                            <div class="tooltip-home top">\n\
-                                <div class="tooltip-arrow"></div>\n\
-                                <span class="">Delete ID File</span>\n\
-                            </div>\n\
-                        </span>\n\
-                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-            if ($('#reference_no_files').html() === 'No reference letters found') {
-                $('.reference_files').html(html);
-            } else {
-                $('.reference_files').append(html);
+        },
+        resetForm: true
+    });
+}
+if($('#matrixUpload').length) 
+{
+    $("#matrixUpload").ajaxForm({
+        beforeSubmit: function() {
+            $('#matrix_load').show();
+        },
+        success: function(responseText, statusText, xhr, $form) {
+            $('#resume_msg').css("display", "block");
+            $('#matrix_load').prev().html('');
+            $('#matrix_load').hide();
+            if (responseText) {
+                var result = jQuery.parseJSON(responseText);
+                var name = result.name.split('.');
+                var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
+                                <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
+                                    <div class="gq-del-evidence"></div></a>\n\
+                                <div class="tooltip-home top">\n\
+                                    <div class="tooltip-arrow"></div>\n\
+                                    <span class="">Delete ID File</span>\n\
+                                </div>\n\
+                            </span>\n\
+                            <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+                if ($('#matrix_no_files').html() === 'No trainer matrix found') {
+                    $('.matrix_files').html(html);
+                } else {
+                    $('.matrix_files').append(html);
+                }
+                $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
             }
-            $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
-        }
-    },
-    resetForm: true
-});
-
-$("#matrixUpload").ajaxForm({
-    beforeSubmit: function() {
-        $('#matrix_load').show();
-    },
-    success: function(responseText, statusText, xhr, $form) {
-        $('#resume_msg').css("display", "block");
-        $('#matrix_load').prev().html('');
-        $('#matrix_load').hide();
-        if (responseText) {
-            var result = jQuery.parseJSON(responseText);
-            var name = result.name.split('.');
-            var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
-                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
-                                <div class="gq-del-evidence"></div></a>\n\
-                            <div class="tooltip-home top">\n\
-                                <div class="tooltip-arrow"></div>\n\
-                                <span class="">Delete ID File</span>\n\
-                            </div>\n\
-                        </span>\n\
-                        <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-            if ($('#matrix_no_files').html() === 'No trainer matrix found') {
-                $('.matrix_files').html(html);
-            } else {
-                $('.matrix_files').append(html);
-            }
-            $('#resume_msg').css("display", "block").delay(5000).fadeOut(100);
-        }
-    },
-    resetForm: true
-});
-
+        },
+        resetForm: true
+    });
+}
 function checkspace(text)
 {
     var str = text.value;
@@ -1400,24 +1413,27 @@ $(".fromBottomAssessment").click(function() {
 $("#evd_close_assess").click(function() {
     $(".uploadevidence_assess_loader").hide();
 });
-$("#frmAddEvidenceAssessment").ajaxForm({
-    beforeSubmit: function() {
-        $('#file_save').hide();
-        $('.uploadevidence_assess_loader').show();
-    },
-    success: function(responseText, statusText, xhr, $form) {
-        $("#gq-dashboard-tabs-success-assess").show();
-        $('.gq-dashboard-tabs').hide();
-        $('.uploadevidence_assess_loader').hide();
-        if (responseText == '0') {
-            $('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not added!</h2>').delay(3000).fadeOut(100);
-        } else if (responseText == '1') {
-            $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Assessment added successfully!</h2>').delay(3000).fadeOut(100);
-        }
-        setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
-    },
-    resetForm: true
-});
+if($('#frmAddEvidenceAssessment').length) 
+{
+    $("#frmAddEvidenceAssessment").ajaxForm({
+        beforeSubmit: function() {
+            $('#file_save').hide();
+            $('.uploadevidence_assess_loader').show();
+        },
+        success: function(responseText, statusText, xhr, $form) {
+            $("#gq-dashboard-tabs-success-assess").show();
+            $('.gq-dashboard-tabs').hide();
+            $('.uploadevidence_assess_loader').hide();
+            if (responseText == '0') {
+                $('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not added!</h2>').delay(3000).fadeOut(100);
+            } else if (responseText == '1') {
+                $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Assessment added successfully!</h2>').delay(3000).fadeOut(100);
+            }
+            setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
+        },
+        resetForm: true
+    });
+}
 $(".custom-close").click(function() {
     $(".gq-extra-space").hide();
     unit = $(this).attr("id");
