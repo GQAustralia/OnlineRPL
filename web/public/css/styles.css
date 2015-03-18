@@ -664,6 +664,7 @@ a.btn-red {color:#ffffff;}
 .gq-applicant-filter-wrap-select-remaining {font-size:16px; padding-top:8px; color:#2f3941;}
 
 /* Reports page filter section */
+.gq-reports-filter.gq-applicant-filter-wrap {width:416px;}
 .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:160px; color:#c6c6c6;}
 .gq-reports-filter.gq-applicant-filter-wrap label {margin-right:0; color:#303b41;}
 .gq-reports-date-picker.gq-applicant-filter-wrap label, .gq-applicant-filter-wrap-select-remaining.gq-reports-status {color:#999999; text-align:right;}
@@ -704,6 +705,7 @@ a.btn-red {color:#ffffff;}
 .gq-video-section-wrap .gq-video-back-btn .btn-red{width:130px;}*/
 
 /* bugs for all pages */
+.gq-extra-space {height:350px;}
 #change_pwd_error {width: 100%;}
 .gq-course-details-two-lines {line-height:15px;}
 .gq-acc-details-two-lines {line-height:16px; padding-top:4px;}
@@ -839,11 +841,14 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  }
  @media (min-width:992px) and (max-width:1199px){
  .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:156px;}
- .gq-applicant-list-table .table thead tr th, .gq-applicant-list-table tbody tr td {font-size:14px;}
+ .gq-applicant-list-table .table thead tr th, .gq-applicant-list-table tbody tr td {font-size:14px; vertical-align:top;}
+ .gq-applicant-list-table tbody tr td .eye-btn{margin-top:0;}
  .gq-applicant-filter-wrap-select-remaining{padding-top:0; padding-bottom:5px;}
   /*.gq-reports-date-picker.gq-applicant-filter-wrap {width:100%;}
  .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
  .gq-reports-status {text-align:left;}*/
+ .gq-reports-date-picker.gq-applicant-filter-wrap{width:100%; float:left; margin-bottom:6px;}
+ .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:80% !important;}
  }
 @media (min-width: 768px) and (max-width:880px){
 .daterangepicker.dropdown-menu{left:0 !important;}
@@ -859,10 +864,13 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{font-size:15px;}
  .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {padding-left:5px; float:none;}
  .gq-acc-wrap label.upDownArrow{font-size:11px; padding:0 12px 0 23px; background-size:13px auto; line-height: 29px;}
- .gq-applicant-list-table .table thead tr th, .gq-applicant-list-table tbody tr td {font-size:14px;}
+ .gq-applicant-list-table .table thead tr th, .gq-applicant-list-table tbody tr td {font-size:14px; vertical-align:top;}
+ .gq-applicant-list-table tbody tr td .eye-btn{margin-top:0;}
  .gq-applicant-filter-wrap-select-remaining{padding-top:0; padding-bottom:5px;}
  .gq-app-aearch-grid .gq-applicant-filter-wrap.text-right {text-align:left;}
  .gq-app-aearch-grid .gq-applicant-filter-wrap input[type="text"]{margin-left:0; width:100%;}
+ #searchFilter {margin-left:15px;}
+ .gq-app-aearch-grid .gq-applicant-filter-wrap {height:auto;}
    }
  
  @media (min-width: 768px) {
@@ -951,6 +959,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-video-section-wrap {position:inherit;}
 .gq-video-section-wrap .gq-video-controls{height:auto;}
 .gq-video-section-wrap .gq-video-back-btn .btn-red{width:auto;}
+#searchFilter {margin-left:15px;}
 }
 
 @media (max-width:368px) {
@@ -1004,7 +1013,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 	.gq-acc-row-title {font-size:14px; line-height:normal; margin-top:5px; margin-bottom:5px;}
  }
 @media (min-width:1380px) {
-.gq-course-details-header-title.gq-appl-details-two-lines{width:280px; display:block; padding-top:3px;}
+.gq-course-details-header-title.gq-appl-details-two-lines{width:220px; display:block; padding-top:0; font-size:16px; margin-top:-5px;}
 }
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
 .gq-dashboard-right {min-height:960px;}
