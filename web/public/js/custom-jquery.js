@@ -87,6 +87,10 @@ $(".changeUnitStatus").click(function() {
         url: base_url + "updateUnitElective",
         data: {unitId: unitId, courseCode: courseCode, userId: userId},
         success: function(result) {
+            var c = $("#label_"+unitId).hasClass("open");
+            if (c == true) {
+                $("#label_"+unitId).trigger("click");
+            }
             var label = $("#label_" + unitId).attr("temp");
             if (result == '0') {
                 $("#label_" + unitId).attr("for", "");
@@ -105,7 +109,7 @@ $(".changeUnitStatus").click(function() {
                 $("#btneye_" + unitId).removeAttr('disabled');
                 $("#div_" + unitId).removeClass("gq-acc-row-checked");
                 $("#span_" + unitId).addClass("radioUnChecked");
-            }
+            }  
             $(".qual_status_loader").hide();
             $("#qclose").trigger("click");
         }
@@ -332,7 +336,7 @@ $(".unit-evidence-id").click(function() {
     $(".gq-extra-space").show();
     $('#unit-evidence-tab').html('');
     $('#unit-evidence-tab').html($('#unit-evidence-tab2').html());
-    unit = $(this).attr("unitid");
+    var unit = $(this).attr("unitid");
     $(".custom-close").attr('id',unit);
     var c = $("#label_"+unit).hasClass("open");
     if (c == false) {
