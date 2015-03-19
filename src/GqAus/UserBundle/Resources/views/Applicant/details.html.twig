@@ -271,7 +271,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                 {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
                                 {% if evidence %}
-                                <span class="pull-left"><button class="btn eye-btn unit-evidence-id" userid="{{userId}}" del-status="1"  unitid="{{units.id}}"  course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                                <span class="pull-left"><button class="btn eye-btn unit-evidence-id fromnewBottom" userid="{{userId}}" del-status="1"  unitid="{{units.id}}"  course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
                                 {% else %}
                                     <div class="gq-acc-row-title gq-core-units-evidence-text">No Evidences found</div>
                                 {% endif %}
@@ -344,7 +344,7 @@
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                                                             {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
                                                                                             {% if evidence %}
-                                                <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id" unitid="{{units.id}}" course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                                                <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id fromnewBottom" unitid="{{units.id}}" course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
                                                                                             {% else %}
                                                 <div class="gq-acc-row-title">No Evidences found</div>
                                                                                             {% endif %}
