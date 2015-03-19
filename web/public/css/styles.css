@@ -664,6 +664,7 @@ a.btn-red {color:#ffffff;}
 .gq-applicant-filter-wrap-select-remaining {font-size:16px; padding-top:8px; color:#2f3941;}
 
 /* Reports page filter section */
+.gq-reports-filter.gq-applicant-filter-wrap {width:416px;}
 .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:160px; color:#c6c6c6;}
 .gq-reports-filter.gq-applicant-filter-wrap label {margin-right:0; color:#303b41;}
 .gq-reports-date-picker.gq-applicant-filter-wrap label, .gq-applicant-filter-wrap-select-remaining.gq-reports-status {color:#999999; text-align:right;}
@@ -684,6 +685,7 @@ a.btn-red {color:#ffffff;}
 .gq-video-section-wrap .gq-video-ours {position:absolute; width:320px; height:240px; right:0; bottom:0; border:1px solid #ffffff; margin-bottom:70px; box-shadow:0px 0px 6px #999999;}
 .gq-video-section-wrap .gq-video-controls {position:absolute; height:70px; bottom:0; background-color:#fcfcfc; width:100%; float: left; opacity:.9;}
 .gq-video-section-wrap .gq-video-copy-url, .gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {float:left; border-right:1px solid #c9c9c9; padding:25px 15px 15px; font-size:14px; height:70px;}
+.gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording{cursor:pointer;}
 .gq-video-section-wrap .gq-video-start-recording, .gq-video-section-wrap .gq-video-stop-recording {color:#f14840;}
 .gq-video-section-wrap .gq-video-start-recording .gq-video-recording-icon {background-image:url(../images/start-rec.png); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
 .gq-video-section-wrap .gq-video-stop-recording .gq-video-recording-icon {background-image:url(../images/stop-rec.png); background-position:center center; background-size:cover; width: 12px; height:10px; display:block; float:right; margin-top:6px; margin-left:7px;}
@@ -703,6 +705,7 @@ a.btn-red {color:#ffffff;}
 .gq-video-section-wrap .gq-video-back-btn .btn-red{width:130px;}*/
 
 /* bugs for all pages */
+.gq-extra-space {height:350px;}
 #change_pwd_error {width: 100%;}
 .gq-course-details-two-lines {line-height:15px;}
 .gq-acc-details-two-lines {line-height:16px; padding-top:4px;}
@@ -754,6 +757,7 @@ a.btn-red {color:#ffffff;}
 #ui-datepicker-div .ui-state-default, #ui-datepicker-div  .ui-widget-content .ui-state-default, #ui-datepicker-div  .ui-widget-header .ui-state-default {text-align:center;}
 #ui-datepicker-div.ui-widget-content {background-color:#ffffff;}
 #ui-datepicker-div .ui-widget-header {background-color:#ebebeb;}
+#ui-datepicker-div .ui-datepicker-title {color:#5c5c5c;}
 .gq-approved-status {font-size:18px;}
 .gq-id-files-upload-error-text {padding-top:12px; text-align:center;}
 .gq-id-files-upload-error-text h2{color:#f14840; font-size:13px;}
@@ -761,8 +765,20 @@ a.btn-red {color:#ffffff;}
 #change-pwd-form, #frmLogin {padding-top:10px;}
 .gq-id-files-upload-wait-text {padding-top:12px; text-align:center;}
 .gq-id-files-upload-wait-text h2{font-size:13px;}
- #change-pwd-form, #frmLogin, #frmPassword {padding-top:10px;}
- #approve_section-status, #approve_section{ padding: 10px 0; }
+#change-pwd-form, #frmLogin, #frmPassword {padding-top:10px;}
+#approve_section-status, #approve_section{ padding: 10px 0; }
+#messages-grid .gq-msg-row-bg .gq-msg-title, #messages-grid .gq-msg-row-bg .gq-msg-time-stamp {padding-top:10px; line-height:normal; padding-bottom:10px;}
+#editAssessmentModal.modal .modal-dialog{ bottom:0; position:fixed; left:0; right:0; }
+.gq-add-assessment-title {color:#f14a41; font-size:22px; line-height:30px; text-align:center;}
+.gq-todo-list-tooltip:hover .tooltip-home {display:block;}
+.gq-todo-list-tooltip .tooltip-home {right:-45px;}
+
+/*#applicantEStatus {float:left;}
+#applicantEStatus form {min-width:216px; float:left;}
+#applicantEStatus form #gq-msg-success{padding-right:5px;}
+#applicantEStatus form #start_conversation{margin-top:20px;}*/
+
+
 
 /* styling only for IE10 and IE11 */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
@@ -835,11 +851,14 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  }
  @media (min-width:992px) and (max-width:1199px){
  .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:156px;}
- .gq-applicant-list-table .table thead tr th, .gq-applicant-list-table tbody tr td {font-size:14px;}
+ .gq-applicant-list-table .table thead tr th, .gq-applicant-list-table tbody tr td {font-size:14px; vertical-align:top;}
+ .gq-applicant-list-table tbody tr td .eye-btn{margin-top:0;}
  .gq-applicant-filter-wrap-select-remaining{padding-top:0; padding-bottom:5px;}
   /*.gq-reports-date-picker.gq-applicant-filter-wrap {width:100%;}
  .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:100%;}
  .gq-reports-status {text-align:left;}*/
+ .gq-reports-date-picker.gq-applicant-filter-wrap{width:100%; float:left; margin-bottom:6px;}
+ .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange {width:80% !important;}
  }
 @media (min-width: 768px) and (max-width:880px){
 .daterangepicker.dropdown-menu{left:0 !important;}
@@ -855,10 +874,13 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{font-size:15px;}
  .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt {padding-left:5px; float:none;}
  .gq-acc-wrap label.upDownArrow{font-size:11px; padding:0 12px 0 23px; background-size:13px auto; line-height: 29px;}
- .gq-applicant-list-table .table thead tr th, .gq-applicant-list-table tbody tr td {font-size:14px;}
+ .gq-applicant-list-table .table thead tr th, .gq-applicant-list-table tbody tr td {font-size:14px; vertical-align:top;}
+ .gq-applicant-list-table tbody tr td .eye-btn{margin-top:0;}
  .gq-applicant-filter-wrap-select-remaining{padding-top:0; padding-bottom:5px;}
  .gq-app-aearch-grid .gq-applicant-filter-wrap.text-right {text-align:left;}
  .gq-app-aearch-grid .gq-applicant-filter-wrap input[type="text"]{margin-left:0; width:100%;}
+ #searchFilter {margin-left:15px;}
+ .gq-app-aearch-grid .gq-applicant-filter-wrap {height:auto;}
    }
  
  @media (min-width: 768px) {
@@ -947,6 +969,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-video-section-wrap {position:inherit;}
 .gq-video-section-wrap .gq-video-controls{height:auto;}
 .gq-video-section-wrap .gq-video-back-btn .btn-red{width:auto;}
+#searchFilter {margin-left:15px;}
 }
 
 @media (max-width:368px) {
@@ -1000,7 +1023,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 	.gq-acc-row-title {font-size:14px; line-height:normal; margin-top:5px; margin-bottom:5px;}
  }
 @media (min-width:1380px) {
-.gq-course-details-header-title.gq-appl-details-two-lines{width:280px; display:block; padding-top:3px;}
+.gq-course-details-header-title.gq-appl-details-two-lines{width:220px; display:block; padding-top:0; font-size:16px; margin-top:-5px;}
 }
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
 .gq-dashboard-right {min-height:960px;}
