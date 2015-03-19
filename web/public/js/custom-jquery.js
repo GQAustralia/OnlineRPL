@@ -336,13 +336,13 @@ $(".unit-evidence-id").click(function() {
     $(".gq-extra-space").show();
     $('#unit-evidence-tab').html('');
     $('#unit-evidence-tab').html($('#unit-evidence-tab2').html());
-    var unit = $(this).attr("unitid");
-    $(".custom-close").attr('id',unit);
-    var c = $("#label_"+unit).hasClass("open");
+    var newunit = $(this).attr("unitid");
+    $(".custom-close").attr('id',newunit);
+    var c = $("#label_"+newunit).hasClass("open");
     if (c == false) {
-        $("#label_"+unit).trigger("click");
+        $("#label_"+newunit).trigger("click");
     }    
-    $('html,body').animate({scrollTop: $('#div_'+unit).offset().top}, 1000);
+    $('html,body').animate({scrollTop: $('#div_'+newunit).offset().top}, 1000);
     userId = $(this).attr("userid");
     delStatus = $(this).attr("del-status");
     course_code = $(this).attr("course_code");
@@ -351,7 +351,7 @@ $(".unit-evidence-id").click(function() {
     $.ajax({
         type: "POST",
         url: base_url + "getUnitEvidences",
-        data: {unit: unit, userId: userId, delStatus: delStatus, unittitle: unittitle, course_code: course_code, course_name: course_name},
+        data: {unit: newunit, userId: userId, delStatus: delStatus, unittitle: unittitle, course_code: course_code, course_name: course_name},
         success: function(result) {
             $('#unit-evidence-tab').html(result);
         }
