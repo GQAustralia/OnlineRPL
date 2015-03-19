@@ -27,13 +27,14 @@ class TokboxController extends Controller
             $userId = $request->getSession()->get('user_id');
             $applicantId = $this->getRequest()->get('applicantId');
             $room = $this->get('TokBox')->isRoomExists($userId, $applicantId);
-            $roomId = $this->get('TokBox')->createRoom($sessionId, $userId, $this->getRequest()->get('applicantId'));
-
+            $roomId = $this->get('TokBox')->createRoom($sessionId, $userId, $applicantId);
+            $encodedRoomId = base64_encode(base64_encode(base64_encode($roomId)));
+            $this->get('UserService')->sendConversationMessage($this->getRequest()->get('courseCode'), $applicantId, $userId, $encodedRoomId);
             return $this->render('GqAusUserBundle:Tokbox:index.html.twig', array(
                         'apiKey' => $this->container->getParameter('tokbox_key'),
                         'sessionId' => $sessionId,
                         'token' => $token,
-                        'roomId' => base64_encode(base64_encode(base64_encode($roomId))),
+                        'roomId' => $encodedRoomId,
                         'unitCode' => $this->getRequest()->get('unitCode'),
                         'courseCode' => $this->getRequest()->get('courseCode'),
                         'applicantId' => $applicantId,

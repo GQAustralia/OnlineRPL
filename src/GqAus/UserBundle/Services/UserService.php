@@ -456,6 +456,23 @@ class UserService
                             ->join('c.user', 'u')
                             ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
         } else {
+            if ($status == 11) {
+                $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->createQueryBuilder('c')
+                    ->select("c, u")
+                    ->join('c.user', 'u')
+                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
+                    ->andWhere("c.courseStatus = '1'")
+                    ->andWhere("c.assessorstatus = '1'");
+            }
+            else {
+                $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->createQueryBuilder('c')
+                    ->select("c, u")
+                    ->join('c.user', 'u')
+                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
+                    ->andWhere("c.courseStatus = '" . $status . "'");
+            }
             /* if($status == 2) {
               $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
               ->createQueryBuilder('c')
@@ -472,12 +489,6 @@ class UserService
               ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
               ->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
               } */
-            $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                    ->createQueryBuilder('c')
-                    ->select("c, u")
-                    ->join('c.user', 'u')
-                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
-                    ->andWhere("c.courseStatus = '" . $status . "'");
         }
 
         if ($userType == 'rto') {
@@ -1195,6 +1206,28 @@ class UserService
         $statement->bindValue('role', $role);
         $statement->execute();
         return $statement->fetchAll();
+    }
+    
+    /**
+     * Function to send start competency conversation notification to applicant
+     */
+    public function sendConversationMessage($courseCode, $applicantId, $assessorId, $roomId)
+    {
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
+            'user' => $applicantId));
+        
+        $applicant = $this->getUserInfo($applicantId);
+        $assessor = $this->getUserInfo($assessorId);
+        $mailerInfo = array();
+        $mailerInfo['sent'] = $assessor->getId();
+        $mailerInfo['subject'] = "Competency conversation invitation for " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
+        $userName = $applicant->getUsername();
+        $mailerInfo['to'] = $applicant->getEmail();
+        $mailerInfo['inbox'] = $applicant->getId();
+        $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $userName . ", \n Please login to your GQ-RPL account and use this URL: " . $this->container->getParameter('applicationUrl') . "applicant/" . $roomId . " to join the competency conversation\n Awaiting for your response.
+         \n\n Regards, \n " . $assessor->getUsername();
+        $this->sendExternalEmail($mailerInfo);
+        $this->sendMessagesInbox($mailerInfo);
     }
 
 }
