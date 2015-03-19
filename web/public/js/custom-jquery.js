@@ -1446,3 +1446,9 @@ $(".custom-close").click(function() {
         $("#label_"+unit).trigger("click");
     }  
 });
+$(".fromnewBottom").click(function() {
+    unit = $(this).attr("unitid");
+});
+$(".fromBottomAssessment").click(function() {
+    unit = $(this).attr("unitid");
+});
