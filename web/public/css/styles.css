@@ -757,6 +757,7 @@ a.btn-red {color:#ffffff;}
 #ui-datepicker-div .ui-state-default, #ui-datepicker-div  .ui-widget-content .ui-state-default, #ui-datepicker-div  .ui-widget-header .ui-state-default {text-align:center;}
 #ui-datepicker-div.ui-widget-content {background-color:#ffffff;}
 #ui-datepicker-div .ui-widget-header {background-color:#ebebeb;}
+#ui-datepicker-div .ui-datepicker-title {color:#5c5c5c;}
 .gq-approved-status {font-size:18px;}
 .gq-id-files-upload-error-text {padding-top:12px; text-align:center;}
 .gq-id-files-upload-error-text h2{color:#f14840; font-size:13px;}
@@ -768,6 +769,15 @@ a.btn-red {color:#ffffff;}
 #approve_section-status, #approve_section{ padding: 10px 0; }
 #messages-grid .gq-msg-row-bg .gq-msg-title, #messages-grid .gq-msg-row-bg .gq-msg-time-stamp {padding-top:10px; line-height:normal; padding-bottom:10px;}
 #editAssessmentModal.modal .modal-dialog{ bottom:0; position:fixed; left:0; right:0; }
+.gq-add-assessment-title {color:#f14a41; font-size:22px; line-height:30px; text-align:center;}
+.gq-todo-list-tooltip:hover .tooltip-home {display:block;}
+.gq-todo-list-tooltip .tooltip-home {right:-45px;}
+
+/*#applicantEStatus {float:left;}
+#applicantEStatus form {min-width:216px; float:left;}
+#applicantEStatus form #gq-msg-success{padding-right:5px;}
+#applicantEStatus form #start_conversation{margin-top:20px;}*/
+
 
 
 /* styling only for IE10 and IE11 */
