@@ -33,8 +33,7 @@ class MessageController extends Controller
         $response->send();
 
        return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
-        
-        //return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
+       //return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
         
     }
 
