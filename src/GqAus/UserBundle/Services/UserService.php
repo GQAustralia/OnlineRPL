@@ -329,7 +329,7 @@ class UserService
     public function updateApplicantEvidences($result)
     {
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $result['userId'],
-            'unitId' => $result['unit']));
+            'unitId' => $result['unit'], 'courseCode' => $result['courseCode']));
         $mailerInfo = array();
         $userName = $courseUnitObj->getUser()->getUsername();
         $mailerInfo['to'] = $courseUnitObj->getUser()->getEmail();
