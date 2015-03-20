@@ -13,16 +13,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EvidenceService
 {
+
     private $userId;
     private $repository;
     private $currentUser;
+
     /**
      * @var Object
      */
     private $container;
-    
     private $userService;
-    
+
     /**
      * Constructor
      */
@@ -41,7 +42,7 @@ class EvidenceService
     {
         return $this->repository->findOneById($this->userId);
     }
-    
+
     public function saveEvidence($evidences, $data)
     {
         $i = 0;
@@ -52,10 +53,10 @@ class EvidenceService
                 $size = $data['file'][$i]->getClientSize();
                 if ($size <= $maxFileSize) {
                     $mimeType = $data['file'][$i]->getClientMimeType();
-                    $size = $data['file'][$i]-> getClientSize();
+                    $size = $data['file'][$i]->getClientSize();
                     $size = $this->fileSize($size);
                     $pos = strpos($mimeType, '/');
-                    $type = substr($mimeType,0,$pos);
+                    $type = substr($mimeType, 0, $pos);
                     switch ($type) {
                         case 'image':
                             $fileObj = new Image();
@@ -84,15 +85,15 @@ class EvidenceService
                     $fileObj->setCourse($data['hid_course']);
                     $this->em->persist($fileObj);
                     $this->em->flush();
-                    
-                    $this->updateCourseUnits($this->userId, $data['hid_unit']);
+
+                    $this->updateCourseUnits($this->userId, $data['hid_unit'], $data['hid_course']);
                     $i++;
                 } else {
                     $seterror = 'yes';
                 }
             }//for
         }
-        
+
         if (!empty($data['self_assessment'])) {
             $textObj = new Text();
             $textObj->setContent($data['self_assessment']);
@@ -101,10 +102,11 @@ class EvidenceService
             $textObj->setUser($this->currentUser);
             $this->em->persist($textObj);
             $this->em->flush();
-            $this->updateCourseUnits($this->userId, $data['hid_unit']);
+            $this->updateCourseUnits($this->userId, $data['hid_unit'], $data['hid_course']);
         }
-        return ($seterror == 'no')?$data['hid_unit']:$seterror;
+        return ($seterror == 'no') ? $data['hid_unit'] : $seterror;
     }
+
     /**
      * Save Evidence Assessment 
      * Input : data
@@ -112,7 +114,7 @@ class EvidenceService
      */
     public function saveEvidenceAssessment($data)
     {
-         if (!empty($data['self_assessment'])) {
+        if (!empty($data['self_assessment'])) {
             $textObj = new Text();
             $textObj->setContent($data['self_assessment']);
             $textObj->setUnit($data['hid_unit_assess']);
@@ -120,33 +122,32 @@ class EvidenceService
             $textObj->setUser($this->currentUser);
             $this->em->persist($textObj);
             $this->em->flush();
-            $this->updateCourseUnits($this->userId, $data['hid_unit_assess']);
+            $this->updateCourseUnits($this->userId, $data['hid_unit_assess'], $data['hid_course_assess']);
             return "1";
-        }
-        else
+        } else
             return "0";
     }
-    
+
     public function fileSize($size)
     {
         if ($size >= 1073741824) {
-          $fileSize = round($size / 1024 / 1024 / 1024) . 'GB';
+            $fileSize = round($size / 1024 / 1024 / 1024) . 'GB';
         } elseif ($size >= 1048576) {
             $fileSize = round($size / 1024 / 1024) . 'MB';
-        } elseif($size >= 1024) {
+        } elseif ($size >= 1024) {
             $fileSize = round($size / 1024) . 'KB';
         } else {
             $fileSize = $size . ' bytes';
         }
         return $fileSize;
     }
-    
+
     public function saveExistingEvidence($request)
     {
         $evidences = $request->get('evidence-file');
         $unitId = $request->get('select_hid_unit');
         $courseCode = $request->get('select_hid_course');
-            
+
         $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
         $audioObj = $this->em->getRepository('GqAusUserBundle:Evidence\Audio');
         $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
@@ -190,12 +191,12 @@ class EvidenceService
                                 $newObj->setName($evidenceObj->getName());
                                 $newObj->setSize($evidenceObj->getSize());
                             }
-                            $newObj->setUser($this->currentUser);                    
+                            $newObj->setUser($this->currentUser);
                             $newObj->setUnit($unitId);
                             $newObj->setCourse($courseCode);
                             $this->em->persist($newObj);
                             $this->em->flush();
-                            $this->updateCourseUnits($this->userId, $unitId);
+                            $this->updateCourseUnits($this->userId, $unitId, $courseCode);
                         }
                     }//foreach
                 }//if
@@ -203,7 +204,7 @@ class EvidenceService
         }
         return $unitId;
     }
-    
+
     public function deleteEvidence($evidenceId, $evidenceType)
     {
         $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
@@ -211,7 +212,7 @@ class EvidenceService
         $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
         $fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
         $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
-        
+
         switch ($evidenceType) {
             case 'image':
                 $evidenceObj = $imgObj->find($evidenceId);
@@ -232,7 +233,7 @@ class EvidenceService
                 $evidenceObj = $fileObj->find($evidenceId);
                 break;
         }
-        
+
         if (!empty($evidenceObj)) {
             $fileName = $evidenceObj->getPath();
             $this->em->remove($evidenceObj);
@@ -240,20 +241,20 @@ class EvidenceService
             return $fileName;
         }
     }
-    
+
     /**
-    * Function to get elective units
-    * return $result array
-    */
+     * Function to get elective units
+     * return $result array
+     */
     public function getUserUnitEvidences($userId, $unitId)
     {
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
         return $reposObj->findBy(array('user' => $userId, 'unit' => $unitId));
     }
-    
+
     /**
-    * Function to update Evidence
-    */
+     * Function to update Evidence
+     */
     public function updateInactiveEvidence($evidenceId, $evidenceType)
     {
         $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
@@ -261,7 +262,7 @@ class EvidenceService
         $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
         $fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
         $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
-        
+
         switch ($evidenceType) {
             case 'image':
                 $evidenceObj = $imgObj->find($evidenceId);
@@ -282,7 +283,7 @@ class EvidenceService
                 $evidenceObj = $fileObj->find($evidenceId);
                 break;
         }
-        
+
         if (!empty($evidenceObj)) {
             $evidenceObj->setUnit('');
             $this->em->persist($evidenceObj);
@@ -290,32 +291,32 @@ class EvidenceService
             return true;
         }
     }
-    
+
     /**
-    * Function to update Evidence Title
-    */
-    public function updateEvidence($evidenceId,$evidenceTitle)
+     * Function to update Evidence Title
+     */
+    public function updateEvidence($evidenceId, $evidenceTitle)
     {
         $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence')->find($evidenceId);
         $imgObj->setName($evidenceTitle);
         $this->em->persist($imgObj);
         $this->em->flush();
     }
-    
+
     /**
-    * Function to get all evidences of the user for one course
-    * return $result array
-    */
+     * Function to get all evidences of the user for one course
+     * return $result array
+     */
     public function getUserCourseEvidences($userId, $courseId)
     {
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
         return $reposObj->findBy(array('user' => $userId, 'course' => $courseId));
     }
-    
+
     public function saveRecord($evidence, $applicantID, $unitCode, $courseCode)
-    {        
+    {
         $user = $this->repository->findOneById($applicantID);
-        $recordingObj = new Recording();        
+        $recordingObj = new Recording();
         $recordingObj->setPath($evidence);
         $recordingObj->setName('');
         $recordingObj->setSize('');
@@ -325,14 +326,14 @@ class EvidenceService
         $this->em->persist($recordingObj);
         $this->em->flush();
     }
-    
-    public function updateCourseUnits($userId, $unitId)
+
+    public function updateCourseUnits($userId, $unitId, $courseCode)
     {
-        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $userId,
-                                                                                        'unitId' => $unitId));
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+                ->findOneBy(array('user' => $userId, 'unitId' => $unitId, 'courseCode' => $courseCode));
         if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
-            
-            
+
+
             $mailerInfo = array();
             $mailerInfo['sent'] = $userId;
             $courseUnitObj->setFacilitatorstatus(0);
@@ -340,43 +341,43 @@ class EvidenceService
             $courseUnitObj->setRtostatus(0);
             $this->em->persist($courseUnitObj);
             $this->em->flush();
-            
+
             $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
                     ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
             $courseObj->setFacilitatorstatus(0);
-            $courseObj->setAssessorstatus(0);   
+            $courseObj->setAssessorstatus(0);
             $this->em->persist($courseObj);
             $this->em->flush();
-            
+
             $userInfo = $this->userService->getUserInfo($userId);
-            
-            $mailerInfo['subject'] = "Evidence added to " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();            
+
+            $mailerInfo['subject'] = "Evidence added to " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
             $userName = $courseObj->getFacilitator()->getUsername();
             $mailerInfo['to'] = $courseObj->getFacilitator()->getEmail();
             $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
-            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() ." for unit  Unit : ".$unitId.". \n Please check and review the evidence.
-             \n\n Regards, \n ". $userInfo->getUsername();
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $userName . ", \n Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". \n Please check and review the evidence.
+             \n\n Regards, \n " . $userInfo->getUsername();
             $this->userService->sendExternalEmail($mailerInfo);
             $this->userService->sendMessagesInbox($mailerInfo);
-            
+
             $userName = $courseObj->getAssessor()->getUsername();
             $mailerInfo['to'] = $courseObj->getAssessor()->getEmail();
             $mailerInfo['inbox'] = $courseObj->getAssessor()->getId();
-            $mailerInfo['message'] = $mailerInfo['body'] = "Dear ".$userName.", \n Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() ." for unit  Unit : ".$unitId.". \n Please check and review the evidence.
-             \n\n Regards, \n ". $userInfo->getUsername();
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $userName . ", \n Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". \n Please check and review the evidence.
+             \n\n Regards, \n " . $userInfo->getUsername();
             $this->userService->sendExternalEmail($mailerInfo);
             $this->userService->sendMessagesInbox($mailerInfo);
-            
         }
     }
-    
+
     /**
-    * Function to get evidence
-    * return $result array
-    */
+     * Function to get evidence
+     * return $result array
+     */
     public function getEvidenceById($evidenceId)
     {
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
         return $reposObj->find($evidenceId);
     }
+
 }

@@ -1269,12 +1269,15 @@ $("#emptypwdform1 ").click(function() {
 $("#approve-for-certification, #approve-for-certification-ajax").click(function() {
     var courseCode = $(this).attr("courseCode");
     var applicantId = $(this).attr("applicantId");
+    $(this).hide();
+    $("#approve_loader_fac_ajax").show();
     $.ajax({
         type: "POST",
         url: base_url + "approveCertification",
         async: false,
         data: {courseCode: courseCode, applicantId: applicantId},
         success: function(result) {
+            $("#approve_loader_fac_ajax").hide();
             $('#approve_sectionajax').show();
             $("#approve_sectionajax").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Certificate issued successfully!</h2></div>').delay(3000).fadeOut(100);
             $("#approve_section-status").show();
@@ -1286,14 +1289,15 @@ $("#approve-for-certification, #approve-for-certification-ajax").click(function(
 $("#approve-for-rto").click(function() {
     var courseCode = $(this).attr("courseCode");
     var applicantId = $(this).attr("applicantId");
-    $("#approve_loader").show();
+    $("#approve_loader_fac_ajax").show();
     $.ajax({
         type: "POST",
         url: base_url + "approveForRTO",
         async: false,
         data: {courseCode: courseCode, applicantId: applicantId},
         success: function(result) {
-            $("#approve_loader").hide();
+            $("#approve_section_fac_ajax").show();
+            $("#approve_loader_fac_ajax").hide();
             $('#approve_section').show();
             $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Portfolio submited to RTO!</h2></div>').delay(3000).fadeOut(100);
             $("#status_ar").show();
