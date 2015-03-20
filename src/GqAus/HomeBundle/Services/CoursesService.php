@@ -309,11 +309,13 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
     * Function to get applicant unit status
     * return $result array
     */
-    public function getUnitStatus($applicantId, $unitId)
+    public function getUnitStatus($applicantId, $unitId, $courseCode)
     {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
-        $userCourseUnits = $reposObj->findOneBy(array('user' => $applicantId,
-                                            'unitId' => $unitId)); 
+        $userCourseUnits = $reposObj->findOneBy(array(
+            'user' => $applicantId,
+            'unitId' => $unitId,
+            'courseCode' => $courseCode));
         return !empty($userCourseUnits) ? $userCourseUnits : '';
     }
 
