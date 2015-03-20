@@ -94,7 +94,11 @@ class MessageController extends Controller
             $repMessage .= "Subject :" . $message->getSubject() . "\n";
             $repMessage .= "Message :\n" . $message->getmessage();
             $repSub = "Re: " . $message->getSubject();
-            $repuser = $message->getSent()->getEmail();
+            if ( $curuser->getId() != $message->getSent()->getId() ) {
+                $repuser = $message->getSent()->getEmail();
+            } else {
+                $repuser = $message->getInbox()->getEmail();   
+            }
             $newMsg = "false";
         }
         /* Compose Action End */
