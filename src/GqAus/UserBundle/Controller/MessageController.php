@@ -5,6 +5,7 @@ namespace GqAus\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use GqAus\UserBundle\Form\ComposeMessageForm;
+use Symfony\Component\HttpFoundation\Response;
 use \DateTime;
 
 class MessageController extends Controller
@@ -24,8 +25,17 @@ class MessageController extends Controller
         $result['unreadcount'] = $unreadcount;
         $now = new DateTime('now');
         $result['today'] = $now->format('Y-m-d');
-        return $this->render(
-                        'GqAusUserBundle:Message:view.html.twig', $result);
+        // removing caching
+        $response = new Response( );
+        $response->headers->set("Cache-Control", "no-store");
+        $response->headers->set("Pragma", "no-cache");
+        $response->headers->set("Expires", "-1");
+        $response->send();
+
+       return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
+        
+        //return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
+        
     }
 
     /**
