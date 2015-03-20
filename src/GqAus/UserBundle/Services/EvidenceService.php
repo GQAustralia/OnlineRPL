@@ -123,9 +123,9 @@ class EvidenceService
             $this->em->persist($textObj);
             $this->em->flush();
             $this->updateCourseUnits($this->userId, $data['hid_unit_assess'], $data['hid_course_assess']);
-            return "1";
+            return "1&&".$data['hid_unit_assess'];
         } else
-            return "0";
+            return "0&&".$data['hid_unit_assess'];
     }
 
     public function fileSize($size)
