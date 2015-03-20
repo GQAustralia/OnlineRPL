@@ -1458,3 +1458,19 @@ $(".fromnewBottom").click(function() {
 $(".fromBottomAssessment").click(function() {
     unit = $(this).attr("unitid");
 });
+
+// script to close the reminder or notes while clicking outside
+$(document).on('click', function (e) {
+    if (!$('.gq-assessor-list-dropdown').is(e.target) 
+        && $('.gq-assessor-list-dropdown').has(e.target).length === 0 
+        && $('.open').has(e.target).length === 0 
+        && !$('#ui-datepicker-div').is(e.target) 
+        && $('#ui-datepicker-div').has(e.target).length === 0 
+    ) {
+        $('.gq-assessor-list-dropdown-wrap').removeClass('open');
+    }
+ });
+ 
+ $(document).on('click', 'a.ui-datepicker-prev, a.ui-datepicker-next', function (e) {
+    e.stopPropagation();
+});
