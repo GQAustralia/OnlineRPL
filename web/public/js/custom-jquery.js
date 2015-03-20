@@ -1432,10 +1432,12 @@ if($('#frmAddEvidenceAssessment').length)
             $("#gq-dashboard-tabs-success-assess").show();
             $('.gq-dashboard-tabs').hide();
             $('.uploadevidence_assess_loader').hide();
-            if (responseText == '0') {
+            var rec = responseText.split("&&");
+            if (rec[0] == '0') {
                 $('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not added!</h2>').delay(3000).fadeOut(100);
-            } else if (responseText == '1') {
+            } else if (rec[0] == '1') {
                 $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Assessment added successfully!</h2>').delay(3000).fadeOut(100);
+                $('#sp_'+rec[1]).show();
             }
             setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
         },
