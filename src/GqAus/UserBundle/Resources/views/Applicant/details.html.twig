@@ -32,7 +32,7 @@
                 </div>
                 <div class="gq-dashboard-box-content gq-assessor-appl-details">
                     <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 no-padding">
+                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12 no-padding">
                             <div class="gq-assessor-appl-profile-pic">
                                 <div class="gq-assessor-profile-img" style="background-image: url(&quot;{{ userImage }}&quot;);"></div>
                                 <div class="gq-assessor-profile-img-txt">{{userName}}</div>
@@ -86,24 +86,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 no-padding">
+                        <div class="col-lg-5 col-md-4 col-sm-8 col-xs-12 no-padding details">
                             <div class="gq-assessor-appl-profile-details-col wid100p">
-                                <div class="gq-assessor-appl-details-points">
-                                    <h4 class="gq-assessor-points-title">ID Points</h4>
-                                    <h4 class="gq-assessor-points-points">{{currentIdPoints}}</h4>
+                                <div class="gq-assessor-appl-details-points gq-assessor-rto-title label-width no-padding last">
+                                    <label class="gq-assessor-points-title">ID Points</label>
+                                    <span class="">: {{currentIdPoints}}</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 no-padding">
+                        
                             <div class="gq-assessor-appl-profile-details-col wid100p">
-                                <div class="gq-assessor-appl-details-points">
-                                    <h4 class="gq-assessor-points-title">Profile Completeness</h4>
-                                    <h4 class="gq-assessor-points-points">{{profileCompleteness}}</h4>
+                                <div class="gq-assessor-appl-details-points gq-assessor-rto-title label-width no-padding">
+                                    <label class="gq-assessor-points-title">Profile Completeness</label>
+                                    <span class="">: {{profileCompleteness}}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 no-padding">
+                        <div class="col-lg-5 col-md-4 col-sm-12 col-xs-12 no-padding details">
                             <div class="gq-assessor-appl-profile-details-col wid100p">
                                 <div class="gq-assessor-appl-profile-details">                                    
                                 {% if ('ROLE_RTO' in userRole) %}
@@ -404,7 +403,7 @@
                                     <div class="col-xs-12">
                                         <div class="gq-evidence-new">
                                             <ul id="myTab2" role="tablist" class="nav nav-pills margin-top15 gq-evidence-new-tabs">
-                                                <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="unit-images" href="#unit-images" aria-expanded="true">Images</a></li>
+                                                <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="unit-images" href="#unit-images" aria-expanded="true">Images</a></li>
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-audios" href="#unit-audios" aria-expanded="false">Audios</a></li>
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-videos" href="#unit-videos" aria-expanded="false">Videos</a></li>
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-notes" href="#unit-notes" aria-expanded="false">Notes</a></li>

@@ -333,9 +333,10 @@ $("#userprofile_userImage").change(function() {
 });
 
 $(".unit-evidence-id").click(function() {
-    $(".gq-extra-space").show();
+    $(".gq-extra-space").show();    
     $('#unit-evidence-tab').html('');
     $('#unit-evidence-tab').html($('#unit-evidence-tab2').html());
+    $("#myTab2 li").removeClass('active');
     var newunit = $(this).attr("unitid");
     $(".custom-close").attr('id',newunit);
     var c = $("#label_"+newunit).hasClass("open");
