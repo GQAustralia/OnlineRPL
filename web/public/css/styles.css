@@ -715,7 +715,7 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-list-dropdown-wrap .gq-applicant-list-notes-box .btn {width:100%; margin-top:5px; float:left;}
 .gq-dashboard-points-in-number a, .gq-dashboard-points-in-percent a {color:#f14a41; text-decoration:none;}
 .gq-assessor-appl-details .gq-assessor-appl-details-points label{min-width:150px;}
-.gq-assessor-appl-details .label-width label{min-width:188px;}
+.gq-assessor-appl-details .label-width label{min-width:90px;}
 .gq-facilitator-wrap {width:97%; margin:0 auto;}
 .gq-filter-clear {}
 .gq-dashboard-tabs-header .gq-tabs-width-50 {width:115px;}
