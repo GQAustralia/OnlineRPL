@@ -1475,3 +1475,11 @@ $(document).on('click', function (e) {
  $(document).on('click', 'a.ui-datepicker-prev, a.ui-datepicker-next', function (e) {
     e.stopPropagation();
 });
+
+// on show evidence modal close 
+$('#edivenceUnitModal').on('hidden.bs.modal', function () {
+    $(".gq-extra-space").hide();
+    if ( $(".gq-acc-row-bg").hasClass("active") && $(".gq-acc-row-bg.active").find("label.openIcon").hasClass("open") ) {
+        $(".gq-acc-row-bg.active").find("label.openIcon").trigger("click");        
+    }
+});
