@@ -333,16 +333,17 @@ $("#userprofile_userImage").change(function() {
 });
 
 $(".unit-evidence-id").click(function() {
-    $(".gq-extra-space").show();
+    $(".gq-extra-space").show();    
     $('#unit-evidence-tab').html('');
     $('#unit-evidence-tab').html($('#unit-evidence-tab2').html());
-    var unit = $(this).attr("unitid");
-    $(".custom-close").attr('id',unit);
-    var c = $("#label_"+unit).hasClass("open");
+    $("#myTab2 li").removeClass('active');
+    var newunit = $(this).attr("unitid");
+    $(".custom-close").attr('id',newunit);
+    var c = $("#label_"+newunit).hasClass("open");
     if (c == false) {
-        $("#label_"+unit).trigger("click");
+        $("#label_"+newunit).trigger("click");
     }    
-    $('html,body').animate({scrollTop: $('#div_'+unit).offset().top}, 1000);
+    $('html,body').animate({scrollTop: $('#div_'+newunit).offset().top}, 1000);
     userId = $(this).attr("userid");
     delStatus = $(this).attr("del-status");
     course_code = $(this).attr("course_code");
@@ -351,7 +352,7 @@ $(".unit-evidence-id").click(function() {
     $.ajax({
         type: "POST",
         url: base_url + "getUnitEvidences",
-        data: {unit: unit, userId: userId, delStatus: delStatus, unittitle: unittitle, course_code: course_code, course_name: course_name},
+        data: {unit: newunit, userId: userId, delStatus: delStatus, unittitle: unittitle, course_code: course_code, course_name: course_name},
         success: function(result) {
             $('#unit-evidence-tab').html(result);
         }
@@ -1269,12 +1270,15 @@ $("#emptypwdform1 ").click(function() {
 $("#approve-for-certification, #approve-for-certification-ajax").click(function() {
     var courseCode = $(this).attr("courseCode");
     var applicantId = $(this).attr("applicantId");
+    $(this).hide();
+    $("#approve_loader_fac_ajax").show();
     $.ajax({
         type: "POST",
         url: base_url + "approveCertification",
         async: false,
         data: {courseCode: courseCode, applicantId: applicantId},
         success: function(result) {
+            $("#approve_loader_fac_ajax").hide();
             $('#approve_sectionajax').show();
             $("#approve_sectionajax").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Certificate issued successfully!</h2></div>').delay(3000).fadeOut(100);
             $("#approve_section-status").show();
@@ -1286,14 +1290,15 @@ $("#approve-for-certification, #approve-for-certification-ajax").click(function(
 $("#approve-for-rto").click(function() {
     var courseCode = $(this).attr("courseCode");
     var applicantId = $(this).attr("applicantId");
-    $("#approve_loader").show();
+    $("#approve_loader_fac_ajax").show();
     $.ajax({
         type: "POST",
         url: base_url + "approveForRTO",
         async: false,
         data: {courseCode: courseCode, applicantId: applicantId},
         success: function(result) {
-            $("#approve_loader").hide();
+            $("#approve_section_fac_ajax").show();
+            $("#approve_loader_fac_ajax").hide();
             $('#approve_section').show();
             $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Portfolio submited to RTO!</h2></div>').delay(3000).fadeOut(100);
             $("#status_ar").show();
@@ -1428,10 +1433,12 @@ if($('#frmAddEvidenceAssessment').length)
             $("#gq-dashboard-tabs-success-assess").show();
             $('.gq-dashboard-tabs').hide();
             $('.uploadevidence_assess_loader').hide();
-            if (responseText == '0') {
+            var rec = responseText.split("&&");
+            if (rec[0] == '0') {
                 $('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not added!</h2>').delay(3000).fadeOut(100);
-            } else if (responseText == '1') {
+            } else if (rec[0] == '1') {
                 $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Assessment added successfully!</h2>').delay(3000).fadeOut(100);
+                $('#sp_'+rec[1]).show();
             }
             setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
         },
@@ -1445,4 +1452,34 @@ $(".custom-close").click(function() {
     if (c == true) {
         $("#label_"+unit).trigger("click");
     }  
+});
+$(".fromnewBottom").click(function() {
+    unit = $(this).attr("unitid");
+});
+$(".fromBottomAssessment").click(function() {
+    unit = $(this).attr("unitid");
+});
+
+// script to close the reminder or notes while clicking outside
+$(document).on('click', function (e) {
+    if (!$('.gq-assessor-list-dropdown').is(e.target) 
+        && $('.gq-assessor-list-dropdown').has(e.target).length === 0 
+        && $('.open').has(e.target).length === 0 
+        && !$('#ui-datepicker-div').is(e.target) 
+        && $('#ui-datepicker-div').has(e.target).length === 0 
+    ) {
+        $('.gq-assessor-list-dropdown-wrap').removeClass('open');
+    }
+ });
+ 
+ $(document).on('click', 'a.ui-datepicker-prev, a.ui-datepicker-next', function (e) {
+    e.stopPropagation();
+});
+
+// on show evidence modal close 
+$('#edivenceUnitModal').on('hidden.bs.modal', function () {
+    $(".gq-extra-space").hide();
+    if ( $(".gq-acc-row-bg").hasClass("active") && $(".gq-acc-row-bg.active").find("label.openIcon").hasClass("open") ) {
+        $(".gq-acc-row-bg.active").find("label.openIcon").trigger("click");        
+    }
 });

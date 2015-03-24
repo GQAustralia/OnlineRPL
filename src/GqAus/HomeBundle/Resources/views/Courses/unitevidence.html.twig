@@ -5,7 +5,7 @@
 		<div class="gq-evidence">
 			<!-- Tabs start here -->
 				<ul class="nav nav-pills margin-top15 gq-evidence-tabs" role="tablist" id="myTab">
-					<li role="presentation" class="active" ><a href="#unit-images" aria-controls="unit-images" role="tab" data-toggle="tab">Images</a></li>
+					<li role="presentation" ><a href="#unit-images" aria-controls="unit-images" role="tab" data-toggle="tab">Images</a></li>
 					<li role="presentation" ><a href="#unit-audios" aria-controls="unit-audios" role="tab" data-toggle="tab">Audios</a></li>
 					<li role="presentation"><a href="#unit-videos" aria-controls="unit-videos" role="tab" data-toggle="tab">Videos</a></li>
 					<li role="presentation"><a href="#unit-notes" aria-controls="unit-notes" role="tab" data-toggle="tab">Notes</a></li>
@@ -298,6 +298,26 @@
 	fileid = $(this).attr('fileid');
 	filetype = $(this).attr('filetype');
 });*/
+$(document).ready(function() {        
+{% if unitevidences %}
+    var activeTab = '';
+    {% if flag_image == 1 %}
+        activeTab = 'unit-images';
+    {% elseif flag_audio == 1 %}
+        activeTab = 'unit-audios';        
+    {% elseif flag_video == 1 %}
+        activeTab = 'unit-videos';        
+    {% elseif flag_text == 1 %}
+        activeTab = 'unit-notes';
+    {% elseif flag_files == 1 %}
+        activeTab = 'unit-files'; 
+    {% elseif flag_recording == 1 %}
+        activeTab = 'unit-recording';     
+    {% endif %}
+    $("a[aria-controls='"+ activeTab +"']").parent().addClass("active");
+    $("#"+ activeTab).addClass("active");
+{% endif %}        
+});    
 
 $("#cclose-cancel").click(function () { 
 	$('#myModalDel').removeClass('fade');

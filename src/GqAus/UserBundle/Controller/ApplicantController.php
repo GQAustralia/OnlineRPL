@@ -8,10 +8,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApplicantController extends Controller
 {
-   /**
-    * Function to get applicant details page
-    * return $result array
-    */
+
+    /**
+     * Function to get applicant details page
+     * return $result array
+     */
     public function detailsAction($qcode, $uid, Request $request)
     {
         $userService = $this->get('UserService');
@@ -21,9 +22,9 @@ class ApplicantController extends Controller
         if (!empty($user) && isset($results['courseInfo']['id'])) {
             $applicantInfo = $userService->getApplicantInfo($user, $qcode);
             $role = $this->get('security.context')->getToken()->getUser()->getRoles();
-            if($role[0] == \GqAus\UserBundle\Entity\Facilitator::ROLE_NAME) {
+            if ($role[0] == \GqAus\UserBundle\Entity\Facilitator::ROLE_NAME) {
                 $results['rtos'] = $userService->getUsers(\GqAus\UserBundle\Entity\Rto::ROLE);
-                $results['assessors'] = $userService->getUsers(\GqAus\UserBundle\Entity\Assessor::ROLE);               
+                $results['assessors'] = $userService->getUsers(\GqAus\UserBundle\Entity\Assessor::ROLE);
             }
             $results['electiveUnits'] = $coursesService->getElectiveUnits($uid, $qcode);
             $results['courseCode'] = $qcode;
@@ -32,11 +33,11 @@ class ApplicantController extends Controller
             return $this->render('GqAusUserBundle:Default:error.html.twig');
         }
     }
-    
+
     /**
-    * Function to update user unit evidence status
-    * return $result array
-    */
+     * Function to update user unit evidence status
+     * return $result array
+     */
     public function setUserUnitEvidencesStatusAction()
     {
         $result = array();
@@ -51,34 +52,34 @@ class ApplicantController extends Controller
         $result['courseCode'] = $this->getRequest()->get('courseCode');
         $result['unitName'] = $this->getRequest()->get('unitName');
         $userUnitEvStatus = $this->get('UserService')->updateApplicantEvidences($result);
-        echo $userUnitEvStatus.= "&&".$this->get('UserService')->updateUserApplicantsList($result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
+        echo $userUnitEvStatus.= "&&" . $this->get('UserService')->updateUserApplicantsList($result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
         exit;
     }
-    
+
     /**
-    * Function to add reminder/notes
-    */
+     * Function to add reminder/notes
+     */
     public function addReminderAction()
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userCourseId = $this->getRequest()->get('userCourseId');
         $remindDate = $this->getRequest()->get('remindDate');
-        $remDate = explode("/",$remindDate);
-        $remindDate = $remDate[2]."-".$remDate[1]."-".$remDate[0];
+        $remDate = explode("/", $remindDate);
+        $remindDate = $remDate[2] . "-" . $remDate[1] . "-" . $remDate[0];
         $message = $this->getRequest()->get('message');
         echo $status = $this->get('UserService')->addQualificationReminder($userId, $userCourseId, $message, $remindDate);
         exit;
     }
 
     /**
-    * Function list applicants list
-    * return $result array
-    */
+     * Function list applicants list
+     * return $result array
+     */
     public function applicantsListAction()
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
+        /* $this->get('UserService')->updateUserApplicantsList($userId, $userRole); */
         $page = $this->get('request')->query->get('page', 1);
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
         $results['pageRequest'] = 'submit';
@@ -87,9 +88,9 @@ class ApplicantController extends Controller
     }
 
     /**
-    * Function search applicants list
-    * return $result array
-    */
+     * Function search applicants list
+     * return $result array
+     */
     public function searchApplicantsListAction()
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
@@ -98,49 +99,52 @@ class ApplicantController extends Controller
         $searchTime = $this->getRequest()->get('searchTime');
         $status = $this->getRequest()->get('status');
         $page = $this->getRequest()->get('pagenum');
-        if($page == "")
-            $page=1;
+        if ($page == "")
+            $page = 1;
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, $searchName, $searchTime);
         $results['pageRequest'] = 'ajax';
-        $results['status'] = $status; 
-        echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results); exit;
+        $results['status'] = $status;
+        echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results);
+        exit;
     }
-    
+
     /**
-    * Function search complete applicants list
-    * return $result array
-    */
+     * Function search complete applicants list
+     * return $result array
+     */
     public function searchApplicantsListReportsAction()
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $searchName = trim($this->getRequest()->get('searchName')," ");
+        $searchName = trim($this->getRequest()->get('searchName'), " ");
         $searchTime = $this->getRequest()->get('searchTime');
-        $searchQualification = trim($this->getRequest()->get('searchQualification')," ");
+        $searchQualification = trim($this->getRequest()->get('searchQualification'), " ");
         $searchDateRange = $this->getRequest()->get('searchDateRange');
-        $searchDates = explode("-",$searchDateRange);
+        $searchDates = explode("-", $searchDateRange);
         $startDate = $searchDates[0];
         $endDate = $searchDates[1];
-        $startDatearr = explode("/",$startDate);
-        $startDate = trim($startDatearr[2]," ")."-".$startDatearr[1]."-".$startDatearr[0]; 
-        $endDatearr = explode("/",$endDate);
-        $endDate = $endDatearr[2]."-".$endDatearr[1]."-".trim($endDatearr[0]," ");
+        $startDatearr = explode("/", $startDate);
+        $startDate = trim($startDatearr[2], " ") . "-" . $startDatearr[1] . "-" . $startDatearr[0];
+        $endDatearr = explode("/", $endDate);
+        $endDate = $endDatearr[2] . "-" . $endDatearr[1] . "-" . trim($endDatearr[0], " ");
         $status = $this->getRequest()->get('status');
         $page = $this->getRequest()->get('pagenum');
-        if($page == "")
-            $page=1;
+        if ($page == "")
+            $page = 1;
         //$page = $this->get('request')->query->get('page', 1);
         $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, $status, $page, $searchName, $searchQualification, $startDate, $endDate, $searchTime);
-        $results['pageRequest'] = 'ajax'; 
-        echo $this->renderView('GqAusUserBundle:Reports:ajax-applicants.html.twig', $results); exit;
+        $results['pageRequest'] = 'ajax';
+        echo $this->renderView('GqAusUserBundle:Reports:ajax-applicants.html.twig', $results);
+        exit;
     }
-    
+
     /**
-    * Function to get applicant details page
-    * return $result array
-    */
+     * Function to get applicant details page
+     * return $result array
+     */
     public function downloadAction($qcode, $uid)
     {
+        error_reporting(0);
         $user = $this->get('UserService')->getUserInfo($uid);
         $evidenceObj = $this->get('EvidenceService');
         $results = $this->get('CoursesService')->getCoursesInfo($qcode);
@@ -186,12 +190,13 @@ class ApplicantController extends Controller
             return $this->render('GqAusUserBundle:Default:error.html.twig');
         }
     }
-    
+
     /**
-    * Function to Zip all the Evidences files of one course to specific user
-    */
+     * Function to Zip all the Evidences files of one course to specific user
+     */
     public function zipAction($qcode, $uid)
     {
+        error_reporting(0);
         $files = array();
         $user = $this->get('UserService')->getUserInfo($uid);
         $fileUploderService = $this->get('gq_aus_user.file_uploader');
@@ -202,7 +207,7 @@ class ApplicantController extends Controller
                 $fileName = $evidence->getPath();
                 if ($fileName) {
                     //if ($fileUploderService->fileExists($fileName)) {
-                        array_push($files, $this->container->getParameter('amazon_s3_base_url') . $fileName);
+                    array_push($files, $this->container->getParameter('amazon_s3_base_url') . $fileName);
                     //}
                 }
             }
@@ -217,42 +222,43 @@ class ApplicantController extends Controller
                 $zip->addFromString(basename($f), file_get_contents($f));
             }
             $zip->close();
-            
+
             $response = new Response( );
-            $response->headers->set( "Content-type", 'application/zip' );
-            $response->headers->set( "Content-Disposition", "attachment; filename=$zipName" );
-            $response->headers->set( "Content-length", filesize( "$zipName" ) );
-            $response->headers->set( "Pragma", "no-cache" );
-            $response->headers->set( "Expires", "0" );
-            $response->send( );
+            $response->headers->set("Content-type", 'application/zip');
+            $response->headers->set("Content-Disposition", "attachment; filename=$zipName");
+            $response->headers->set("Content-length", filesize("$zipName"));
+            $response->headers->set("Pragma", "no-cache");
+            $response->headers->set("Expires", "0");
+            $response->send();
 
-            $response->setContent( readfile( "$zipName" ) );
+            $response->setContent(readfile("$zipName"));
 
-            return $response;        } else {
+            return $response;
+        } else {
             echo "<script>alert('No files to download');window.close();</script>";
             exit;
         }
     }
-    
-   /**
-    * Function to view evidence
-    * return $result array
-    */
+
+    /**
+     * Function to view evidence
+     * return $result array
+     */
     public function viewEvidenceAction($evidenceId)
-    {        
+    {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            if ( $evidenceId > 0 ) {
+            if ($evidenceId > 0) {
                 $evidenceObj = $this->get('EvidenceService');
                 $evidences = $evidenceObj->getEvidenceById($evidenceId);
-                if ( count($evidences) > 0 ) { 
+                if (count($evidences) > 0) {
                     $results = array();
-                    if ($evidences->getType() !== 'text') {                        
+                    if ($evidences->getType() !== 'text') {
                         $results['userId'] = $evidences->getUser();
                         $results['id'] = $evidences->getId();
                         $results['path'] = $evidences->getPath();
                         $results['pathName'] = $evidences->getName();
                     }
-                    return $this->render('GqAusUserBundle:Evidence:view-evidence.html.twig', $results); 
+                    return $this->render('GqAusUserBundle:Evidence:view-evidence.html.twig', $results);
                 }
             }
         } else {
@@ -260,43 +266,47 @@ class ApplicantController extends Controller
             //throw $this->createAccessDeniedException();    
         }
     }
-    
+
     /**
-    * Function to approve certification by rto user
-    */
-    public function approveCertificationAction() {
+     * Function to approve certification by rto user
+     */
+    public function approveCertificationAction()
+    {
         $courseCode = $this->getRequest()->get('courseCode');
         $applicantId = $this->getRequest()->get('applicantId');
-        $results = $this->get('UserService')->rtoApproveCertification($courseCode, $applicantId); exit;
+        $results = $this->get('UserService')->rtoApproveCertification($courseCode, $applicantId);
+        exit;
     }
-    
+
     /**
-    * Function to approve for rto user
-    */
-    public function approveForRTOAction() {
+     * Function to approve for rto user
+     */
+    public function approveForRTOAction()
+    {
         $courseCode = $this->getRequest()->get('courseCode');
         $applicantId = $this->getRequest()->get('applicantId');
-        $results = $this->get('UserService')->approveForRTOCertification($courseCode, $applicantId); exit;
+        $results = $this->get('UserService')->approveForRTOCertification($courseCode, $applicantId);
+        exit;
     }
-    
+
     /**
-    * Function to view reports
-    */
+     * Function to view reports
+     */
     public function reportsAction()
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        if($userRole[0]!="ROLE_ASSESSOR") {
-            /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
+        if ($userRole[0] != "ROLE_ASSESSOR") {
+            /* $this->get('UserService')->updateUserApplicantsList($userId, $userRole); */
             $page = $this->get('request')->query->get('page', 1);
             $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, '3', $page);
             $results['pageRequest'] = 'submit';
             return $this->render('GqAusUserBundle:Reports:list.html.twig', $results);
-        }
-        else {
+        } else {
             return $this->redirect('dashboard');
         }
     }
+
     /**
      * Function to set assessor and rto by facilitator for applicant profile
      */
@@ -308,4 +318,5 @@ class ApplicantController extends Controller
         echo $this->get('UserService')->setRoleUsersForCourse($courseId, $roleid, $userId);
         exit;
     }
+
 }
