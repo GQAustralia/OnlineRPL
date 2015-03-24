@@ -6,7 +6,7 @@
                 <!-- Tabs start here -->
             {% set currentUserRole = app.security.getToken().getUser().getRoles() %}
                 <ul class="nav nav-pills margin-top15 gq-evidence-new-tabs" role="tablist" id="myTab">
-                    <li role="presentation" class="active" ><a href="#unit-images" aria-controls="unit-images" role="tab" data-toggle="tab">Images</a></li>
+                    <li role="presentation" ><a href="#unit-images" aria-controls="unit-images" role="tab" data-toggle="tab">Images</a></li>
                     <li role="presentation" ><a href="#unit-audios" aria-controls="unit-audios" role="tab" data-toggle="tab">Audios</a></li>
                     <li role="presentation"><a href="#unit-videos" aria-controls="unit-videos" role="tab" data-toggle="tab">Videos</a></li>
                     <li role="presentation"><a href="#unit-notes" aria-controls="unit-notes" role="tab" data-toggle="tab">Notes</a></li>
@@ -18,7 +18,7 @@
                 <!-- Tabs end start here -->
                 <!-- Content for respective tabs above will be in this section -->
                 <div class="tab-content">
-                    <div aria-labelledby="existing-evidence-tab" id="unit-images" class="tab-pane fade active in" role="tabpanel">
+                    <div aria-labelledby="existing-evidence-tab" id="unit-images" class="tab-pane fade in" role="tabpanel">
                         <div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
                             <div class="row">
                     {% set flag_image = 0 %}
@@ -266,12 +266,12 @@
                     <div role="tabpanel" class="tab-pane" id="unit-recording">
                         <div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
                             <div class="row">
-        {% set flag_video = 0 %}
+        {% set flag_recording = 0 %}
         {% if unitevidences %}
        {% for evidence in unitevidences %}
             {% if evidence.unit == unitCode %}
             {% if evidence.type == 'recording' %}
-            {% set flag_video = 1 %}
+            {% set flag_recording = 1 %}
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
                                     <div class="gq-dashboard-courses-detail  margin-top15" >
                                         <a href = "{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4" class="fancybox">
@@ -292,7 +292,7 @@
      {% endfor %}
      {% endif %}
 
-     {% if flag_video == 0 %}
+     {% if flag_recording == 0 %}
                                 <div class="gq-tabs-no-content-text" >Recordings not found</div>
     {% endif %}
                             </div>
@@ -386,3 +386,26 @@
   </div>
 </div>-->
 <script src="{{ asset('public/js/custom-jquery-ajax.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {        
+       {% if unitevidences %}
+           var activeTab = '';
+           {% if flag_image == 1 %}
+               activeTab = 'unit-images';
+           {% elseif flag_audio == 1 %}
+               activeTab = 'unit-audios';        
+           {% elseif flag_video == 1 %}
+               activeTab = 'unit-videos';        
+           {% elseif flag_text == 1 %}
+               activeTab = 'unit-notes';
+           {% elseif flag_files == 1 %}
+               activeTab = 'unit-files'; 
+           {% elseif flag_recording == 1 %}
+               activeTab = 'unit-recording';     
+           {% endif %}
+           $("a[aria-controls='"+ activeTab +"']").parent().addClass("active");
+           $("#"+ activeTab).addClass("active");
+       {% endif %}        
+    });
+    
+</script>
