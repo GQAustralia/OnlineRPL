@@ -775,6 +775,8 @@ a.btn-red {color:#ffffff;}
 .gq-add-assessment-title {color:#f14a41; font-size:22px; line-height:30px; text-align:center;}
 .gq-todo-list-tooltip:hover .tooltip-home {display:block;}
 .gq-todo-list-tooltip .tooltip-home {right:-45px;}
+input:-moz-placeholder {box-shadow:none !important;}
+input:invalid {box-shadow:none !important;}
 
 /*#applicantEStatus {float:left;}
 #applicantEStatus form {min-width:216px; float:left;}
