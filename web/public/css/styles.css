@@ -471,7 +471,7 @@ a.btn-red {color:#ffffff;}
 /* .gq-acc-row-bg.gq-acc-row-checked .checkmark-icon {background-image:url('../images/checkmark_unchecked.png');} */
 .gq-acc-row-bg.gq-acc-row-checked {opacity:.5;}
 .gq-course-details-upload-evidence {border:2px dotted #a6a6a6; background-color:#ebebeb; position:relative;}
-.gq-course-details-upload-evidence, .gq-course-details-upload-evidence-self {min-height:198px; padding:15px; color:#9f9f9f; font-size:16px;}
+.gq-course-details-upload-evidence, .gq-course-details-upload-evidence-self {/*min-height:198px;*/ min-height:292px; padding:15px; color:#9f9f9f; font-size:16px;}
 .gq-course-details-upload-evidence-self {border:1px solid #e5e5e5; background-color:#ffffff;}
 .gq-course-details-upload-evidence-self textarea{ width:100%; min-height:160px; background:transparent; border:0px none; resize:none; }
 .gq-course-details-drop-file {background-image:url('../images/upload-icon.png'); background-repeat:no-repeat; background-position:top center; height: 120px; margin: 0 auto; padding-top: 69px; width: 120px; text-align:center;}
@@ -565,21 +565,24 @@ a.btn-red {color:#ffffff;}
 /* Assessor - applicant details page */
 .gq-dashboard-box-content.gq-assessor-appl-details { background-color:#f5f5f5; min-height:180px; padding:0 15px;}
 .gq-assessor-appl-details .gq-assessor-appl-profile-pic{background-color:transparent; padding:15px;}
-.gq-assessor-appl-details .gq-assessor-appl-profile-details-col {min-height:264px; background-color:#ffffff; padding:15px;}
+.gq-assessor-appl-details .gq-assessor-appl-profile-details-col {/*min-height:264px;*/ background-color:#ffffff; padding:15px;}
 .gq-assessor-appl-profile-details-col .gq-assessor-appl-details-points:last-child{border-top:1px solid #d9d9d9 !important;}
 .gq-assessor-title-download {width:100%; line-height:20px; padding-top:18px; float:right;}
 .gq-assessor-title-download a{color:#f14840; font-size:14px; text-decoration:none;}
 .gq-assessor-title-download .gq-assessor-title-download-icon{color:#000000; padding-left:4px; background-image:url('../images/gq-assessor-title-download-icon.png'); background-repeat: no-repeat; background-position:center center; width:22px; height:22px; display:block; float:right; margin-left:5px;} 
 .gq-assessor-profile-img {width:100px; height:100px; margin:0 auto; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:10px auto; overflow:hidden; background-position: center center; background-repeat: no-repeat; background-size: cover;}
 .gq-assessor-profile-img-txt {color:#f14840; font-size:14px; text-align:center;}
-.gq-assessor-appl-profile-details{border:1px solid #d9d9d9; width: 350px; float:right; }
+.gq-assessor-appl-profile-details{border:1px solid #d9d9d9; /*width: 350px;*/ float:right; }
 .gq-assessor-appl-details  .gq-assessor-appl-profile-details .gq-assessor-appl-details-points {border:none; text-align:center; width: 100%;}
 .gq-assessor-appl-details  .gq-assessor-appl-profile-details  .border-top{border-top:1px solid #d9d9d9;}
 .gq-assessor-appl-details .gq-assessor-appl-details-points {border:1px solid #d9d9d9; text-align:center;}
 .gq-assessor-appl-details .gq-assessor-points-title {padding:15px;}
-.gq-assessor-appl-details .gq-assessor-rto-title {padding:15px; float:left;}
-.gq-assessor-appl-details  .gq-assessor-appl-profile-details .gq-assessor-appl-details-points .gq-assessor-rto-title {width: 83%; text-align: left;}
+.gq-assessor-appl-details .gq-assessor-rto-title {padding:15px; text-align:left;}
+.gq-assessor-appl-details  .gq-assessor-appl-profile-details .gq-assessor-appl-details-points .gq-assessor-rto-title {width: 83%; text-align: left; float:left;}
 .gq-assessor-appl-details .gq-assessor-rto-title label{color:#f14840; margin:0;}
+.gq-dashboard-box-1x .gq-assessor-appl-profile-details-col {padding-top:0 !important;padding-bottom:0;}
+.gq-assessor-appl-details-points.gq-assessor-rto-title.last{border-bottom:0;}
+.details{min-height:310px;background:#fff;padding-top:50px;}
 .gq-assessor-appl-details .gq-assessor-points-points {border-top:2px solid #d9d9d9; padding:15px;}
 .gq-assessor-appl-details .gq-assessor-rto-edit-icon {width:58px; height:58px; float:right; border-left:3px solid #e8e8e8; background-color:#fafafa;}
 .gq-assessor-appl-details .gq-assessor-rto-edit-icon:hover {background-color:#ededed; cursor: pointer;}
@@ -593,7 +596,7 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-profile-send-msg .btn:hover, .gq-assessor-profile-send-msg .btn:focus, .gq-assessor-profile-send-msg .btn.focus {color:#ffffff;}
 .gq-assessor-profile-send-msg .gq-assessor-profile-send-msg-icon  {background-image:url('../images/send-message-icon.png'); background-repeat:no-repeat; background-position:center center; width:23px; height:17px; display:block; float:left; margin-top:4px; margin-right:5px;}
 /* applicant details edit section */
-.gq-assessor-name-edit {width:20px; float:right;}
+.gq-assessor-name-edit {width:90px; float:right;}
 .gq-applicant-name-list .selected {background: #e03934;color: #ffffff;}
 .gq-applicant-name-list .selectedrto{background: #e03934;color: #ffffff;}
 .gq-assessor-list-dropdown-wrap.gq-assessor-name-edit .gq-assessor-list-dropdown {left:-228px; top:58px;}
@@ -712,7 +715,8 @@ a.btn-red {color:#ffffff;}
 .gq-appl-details-two-lines {line-height:normal; padding-top:4px; padding-bottom:4px;}
 .gq-assessor-list-dropdown-wrap .gq-applicant-list-notes-box .btn {width:100%; margin-top:5px; float:left;}
 .gq-dashboard-points-in-number a, .gq-dashboard-points-in-percent a {color:#f14a41; text-decoration:none;}
-.gq-assessor-appl-details .gq-assessor-appl-details-points label{width:76px;}
+.gq-assessor-appl-details .gq-assessor-appl-details-points label{min-width:150px;}
+.gq-assessor-appl-details .label-width label{min-width:188px;}
 .gq-facilitator-wrap {width:97%; margin:0 auto;}
 .gq-filter-clear {}
 .gq-dashboard-tabs-header .gq-tabs-width-50 {width:115px;}
@@ -740,7 +744,7 @@ a.btn-red {color:#ffffff;}
 .todo_daynote {color:#f14840;}
 .gq-others-assessor .gq-course-details-header-title {color:#f14840;}
 #editEvidenceModelinput {width:100%; padding:5px;}
-.gq-ev-view-icon .eye-btn {width:84px;}
+.gq-ev-view-icon .eye-btn {width:84px; margin-top:0;}
 #download_matrix {padding:5px 15px 5px 15px;}
 #download_matrix span{float:left;}
 .gq-qual-view-pop-up {padding-top:30px;}
@@ -769,9 +773,11 @@ a.btn-red {color:#ffffff;}
 #approve_section-status, #approve_section{ padding: 10px 0; }
 #messages-grid .gq-msg-row-bg .gq-msg-title, #messages-grid .gq-msg-row-bg .gq-msg-time-stamp {padding-top:10px; line-height:normal; padding-bottom:10px;}
 #editAssessmentModal.modal .modal-dialog{ bottom:0; position:fixed; left:0; right:0; }
-.gq-add-assessment-title {color:#f14a41; font-size:22px; line-height:30px; text-align:center;}
+.gq-add-assessment-title {color:#f14a41; font-size:22px; line-height:30px; text-align:center; padding-bottom:5px;}
 .gq-todo-list-tooltip:hover .tooltip-home {display:block;}
 .gq-todo-list-tooltip .tooltip-home {right:-45px;}
+input:-moz-placeholder {box-shadow:none !important;}
+input:invalid {box-shadow:none !important;}
 
 /*#applicantEStatus {float:left;}
 #applicantEStatus form {min-width:216px; float:left;}
@@ -820,9 +826,9 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 		background: linear-gradient(to bottom, rgba(250,250,250,1) 0%, rgba(244,244,244,1) 47%, rgba(243,242,241,1) 100%);
 }
 .gq-applicant-list-table .table tbody tr {background-color:#ffffff;}
-.gq-applicant-list-table tbody tr td {vertical-align:middle; font-size:16px; font-weight:normal;}
+.gq-applicant-list-table tbody tr td {vertical-align:top; font-size:16px; font-weight:normal;}
 .gq-applicant-list-table tbody tr td a{text-decoration:none;}
-
+.gq-add-notes-icon-wrap.setNotes{line-height:initial; width:70%;}
 
 
 @media(max-width:360px){
@@ -893,6 +899,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  #userprofile_gender {width:50%;}
  .gq-dashboard-points-wrap {text-align:left;}
  .gq-video-section-wrap .gq-video-others { height:700px;}
+ #frmAddEvidence {min-height:377px;}
  }
 /*
  @media (min-width: 768px) and (max-width:1279px){
@@ -972,6 +979,11 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 #searchFilter {margin-left:15px;}
 }
 
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px){
+    .details{height:auto;padding-top:25px;}
+    .details:last-child{padding-bottom:25px;}
+}
+
 @media (max-width:368px) {
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt{width:77%; padding-left:10px; font-size:14px;}
 .gq-dashboard-courses-detail .gq-dashboard-courses-detail-txt a{font-size:14px;}
@@ -1027,6 +1039,10 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 }
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
 .gq-dashboard-right {min-height:960px;}
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+.details{min-height:250px;}
 }
    
 /* Hiding the symphony toolbar in server */
