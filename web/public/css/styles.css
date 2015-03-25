@@ -756,7 +756,7 @@ a.btn-red {color:#ffffff;}
 .gq-loading-div img{ left: 50%; position: relative; top: 50%; width: 38px;}
 #ui-datepicker-div .ui-datepicker-header .ui-state-hover {color:#5c5e5d; cursor:pointer;}
 #ui-datepicker-div .ui-datepicker-title select{color:#5c5e5d;}
-#ui-datepicker-div .ui-state-highlight, #ui-datepicker-div .ui-widget-content .ui-state-highlight, #ui-datepicker-div .ui-widget-header .ui-state-highlight {background-color:#f04941; color:#ffffff;}
+#ui-datepicker-div .ui-state-highlight, #ui-datepicker-div .ui-widget-content .ui-state-highlight, #ui-datepicker-div .ui-widget-header .ui-state-highlight {background-color:#337ab7; color:#ffffff; border:1px solid #337ab7;}
 #ui-datepicker-div .ui-state-active, #ui-datepicker-div .ui-widget-content .ui-state-active, #ui-datepicker-div .ui-widget-header .ui-state-active {background-color:#f04941; color:#ffffff;}
 #ui-datepicker-div .ui-state-default, #ui-datepicker-div  .ui-widget-content .ui-state-default, #ui-datepicker-div  .ui-widget-header .ui-state-default {text-align:center;}
 #ui-datepicker-div.ui-widget-content {background-color:#ffffff;}
