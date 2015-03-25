@@ -39,7 +39,7 @@
                 </div>
                 <div class="gq-dashboard-courses-detail-wrap margin-top15">
                     <div class="row Id_files">
-                        {% if userIdFiles %}
+                        {% if userIdFiles is not null and userIdFiles is not empty %}
                         {% for item in userIdFiles %}
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.id}}">
                             <div class="gq-dashboard-courses-detail">												
