@@ -778,6 +778,7 @@ a.btn-red {color:#ffffff;}
 .gq-todo-list-tooltip .tooltip-home {right:-45px;}
 input:-moz-placeholder {box-shadow:none !important;}
 input:invalid {box-shadow:none !important;}
+.gq-mobile-warning-msg{display:none; position:absolute; bottom: 0; left: 0; margin: auto; padding-top: 25%; position: absolute; right: 0; text-align: center; top: 0; width: 100%; background-color:#ffffff;}
 
 /*#applicantEStatus {float:left;}
 #applicantEStatus form {min-width:216px; float:left;}
@@ -1044,7 +1045,17 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
 .details{min-height:250px;}
 }
-   
+/*
+@media only screen and (min-device-width:240px) and (max-device-width : 479px) {
+.gq-mobile-warning-msg{display:block; font-size:20px; }
+}*/
+/*
+@media only screen and (max-device-width : 600px) and (orientation : portrait) {
+.gq-mobile-warning-msg{display:block; opacity:0.8;}
+}
+*/
+
+
 /* Hiding the symphony toolbar in server */
 .sf-toolbar { display: none !important; }
 
