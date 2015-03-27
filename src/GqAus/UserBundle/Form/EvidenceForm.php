@@ -8,7 +8,7 @@ class EvidenceForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('file', 'file', array(
-            'label' => 'Photo', 'multiple' => 'multiple'
+            'label' => 'Photo', 'multiple' => 'multiple', 'required' => false
         ));
         $builder->add('hid_unit', 'hidden');
         $builder->add('hid_course', 'hidden');
