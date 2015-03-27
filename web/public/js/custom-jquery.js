@@ -281,7 +281,10 @@ function validateExisting()
 {
     var efile = $(".check_evidence:checkbox:checked").length;
     if (efile <= 0 || efile == '' || typeof efile === 'undefined') {
-        alert('Please select atleast one Existing Evidence!');
+        //alert('Please select atleast one Existing Evidence!');
+        $('#gq-dashboard-tabs-error').show();
+        $('#gq-dashboard-tabs-error').html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Please select atleast one Existing Evidence!</h2>').delay(3000).fadeOut(100);
+
         return false;
     } else {
         sumitFormEvidence();
@@ -1483,3 +1486,48 @@ $('#edivenceUnitModal').on('hidden.bs.modal', function () {
         $(".gq-acc-row-bg.active").find("label.openIcon").trigger("click");        
     }
 });
+
+// for validating the upload evidence form
+$( '#file_save' ).click( function( e ) {
+    if ($("#file_file").val().length > 0) {
+        var extension = $("#file_file").val().substring($("#file_file").val().lastIndexOf('.')+1);
+        var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'mp3', 'mp4', 'flv', 'vob', 'avi', '3gp', 'wmv'];
+        if (allowedExtensions.indexOf(extension) === -1) 
+        {
+          $('#gq-dashboard-tabs-error').show();
+          $('#gq-dashboard-tabs-error').html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2>').delay(3000).fadeOut(100);  
+        } else {
+            $('#frmAddEvidence').submit();
+        }
+    } else {
+        $('#gq-dashboard-tabs-error').show();
+        $('#gq-dashboard-tabs-error').html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2>').delay(3000).fadeOut(100);
+    }
+    e.preventDefault();
+    return false;
+} );
+
+// for validating the upload ID file
+$( '#userfiles_save' ).click( function( e ) {
+    if($("#userfiles_type").val()!="") {
+        if ($("#userfiles_browse").val().length > 0) {
+            var extension = $("#userfiles_browse").val().substring($("#userfiles_browse").val().lastIndexOf('.')+1);
+            var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt'];
+            if (allowedExtensions.indexOf(extension) === -1) 
+            {
+              $('#change_pwd_error').show();
+              $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>').delay(3000).fadeOut(100);  
+            } else {
+                $('#Id_files').submit();
+            }
+        } else {
+            $('#change_pwd_error').show();
+            $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2></div>').delay(3000).fadeOut(100);
+        }
+    } else {
+        $('#change_pwd_error').show();
+        $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select document type!</h2></div>').delay(3000).fadeOut(100);
+    }
+    e.preventDefault();
+    return false;
+} );

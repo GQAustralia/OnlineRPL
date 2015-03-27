@@ -11,9 +11,10 @@ class IdFilesForm extends AbstractType
         $builder->add('type', 'entity', array(
             'class' => 'GqAusUserBundle:DocumentType',
             'property' => 'type',
-            'empty_value' => 'Select Document Type'
+            'empty_value' => 'Select Document Type',
+            'required' => false
         ));
-        $builder->add('browse', 'file');
+        $builder->add('browse', 'file', array('required' => false));
         $builder->add('save', 'submit', array(
     'attr' => array('class' => 'btn btn-red', 'label' => 'Submit'),
 ));
