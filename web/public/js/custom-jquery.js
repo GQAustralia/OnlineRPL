@@ -1491,7 +1491,7 @@ $('#edivenceUnitModal').on('hidden.bs.modal', function () {
 $( '#file_save' ).click( function( e ) {
     if ($("#file_file").val().length > 0) {
         var extension = $("#file_file").val().substring($("#file_file").val().lastIndexOf('.')+1);
-        var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'mp3', 'mp4', 'flv', 'vob', 'avi', '3gp', 'wmv'];
+        var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF', 'mp3', 'mp4', 'flv', 'vob', 'avi', '3gp', 'wmv'];
         if (allowedExtensions.indexOf(extension) === -1) 
         {
           $('#gq-dashboard-tabs-error').show();
@@ -1512,7 +1512,7 @@ $( '#userfiles_save' ).click( function( e ) {
     if($("#userfiles_type").val()!="") {
         if ($("#userfiles_browse").val().length > 0) {
             var extension = $("#userfiles_browse").val().substring($("#userfiles_browse").val().lastIndexOf('.')+1);
-            var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt'];
+            var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF'];
             if (allowedExtensions.indexOf(extension) === -1) 
             {
               $('#change_pwd_error').show();
@@ -1531,3 +1531,54 @@ $( '#userfiles_save' ).click( function( e ) {
     e.preventDefault();
     return false;
 } );
+
+// for validating the upload resume file
+$( '#resume_save' ).click( function( e ) {
+    validateFileUpload($("#resume_browse").val(), 'resumeUpload');
+    e.preventDefault();
+    return false;
+});
+
+// for validating the upload qualification file
+$( '#qualification_save' ).click( function( e ) {
+    validateFileUpload($("#qualification_browse").val(), 'qualificationUpload');
+    e.preventDefault();
+    return false;
+});
+
+// for validating the upload reference file
+$( '#reference_save' ).click( function( e ) {
+    validateFileUpload($("#reference_browse").val(), 'referenceUpload');
+    e.preventDefault();
+    return false;
+});
+
+// for validating the upload matrix file
+$( '#matrix_save' ).click( function( e ) {
+    validateFileUpload($("#matrix_browse").val(), 'matrixUpload');
+    e.preventDefault();
+    return false;
+});
+
+function validateFileUpload(fieldVal, formName) {
+    if (fieldVal.length > 0) {
+        var extension = fieldVal.substring(fieldVal.lastIndexOf('.')+1);
+        var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF'];
+        if (allowedExtensions.indexOf(extension) === -1) 
+        {
+          $('#change_pwd_error').show();
+          $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>').delay(3000).fadeOut(100);
+          $('html, body').animate({
+             scrollTop: $('#change_pwd_error').offset().top
+           }, 500);
+        } else {
+            $('#' + formName).submit();
+        }
+    } else {
+        $('#change_pwd_error').show();
+        $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2></div>').delay(3000).fadeOut(100);
+        $('html, body').animate({
+            scrollTop: $('#change_pwd_error').offset().top
+         }, 500);
+    }
+}
