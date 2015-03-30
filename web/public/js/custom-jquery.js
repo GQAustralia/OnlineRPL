@@ -522,7 +522,7 @@ if($('#referenceUpload').length)
                                 </div>\n\
                             </span>\n\
                             <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-                if ($('#reference_no_files').html() === 'No reference letters found') {
+                if ($('#reference_no_files').html() === 'No Industry and VET Currency found') {
                     $('.reference_files').html(html);
                 } else {
                     $('.reference_files').append(html);

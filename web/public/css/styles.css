@@ -1070,3 +1070,22 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-msg-from textarea:focus, .gq-msg-compose .gq-msg-row-bg input:focus{
     outline: 0;
 }
+
+.gq-form-row.USIrow > input {
+    line-height: 67px;
+    vertical-align: top;
+}
+
+.gq-form-row.USIrow > a {
+    color: #f14840;
+    font-size: 12px;
+    left: 15px;
+    position: absolute;
+    top: 36px;
+    width: 150px;
+}
+
+.gq-form-row.USIrow {
+    height: 81px;
+    position: relative;
+}
