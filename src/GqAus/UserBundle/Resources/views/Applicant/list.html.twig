@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Applicant Lists{% endblock %}
 {% block stylesheets %}
-
+<link rel="stylesheet" href="{{ asset('public/css/timepicker.css') }}" />
 {% endblock %}
 {% block body %}
 
@@ -109,10 +109,17 @@
 {% endblock %}
 
 {% block javascripts %}
+ <script src="{{ asset('public/js/timepicker.js') }}"></script>    
 <script type="text/javascript">
     $(document).ready(function() {
-        $(".datepic").datepicker({
-        dateFormat: 'dd/mm/yy'
+        var dateTime = new Date();
+        var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
+        var timeZoneDT = new Date(utc + (3600000*+11));
+        $(".datepic").datetimepicker({
+         dateFormat: "dd/mm/yy",
+         timeFormat: "hh:mm tt",
+         minDate : timeZoneDT,
+         minDateTime : timeZoneDT
         });
     });
 </script>

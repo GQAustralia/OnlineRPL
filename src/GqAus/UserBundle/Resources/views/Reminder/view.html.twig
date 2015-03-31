@@ -53,19 +53,9 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
                                         <!-- accordion starts here -->
                                         <div class="gq-acc-wrap" id="todo-tab">
-                                            {% if reminders %}
+                                            {% if reminders.todoReminders %}
                                                 {% set flagTodo = '0' %}
-                                                {% for key, reminder in reminders %}
-                                                    {% if reminder.getCompleted() == 0 %}   
-                                                    {% set difference = date(today).diff(date(reminder.date)) %}
-                                                    {% set leftDays = difference.days %}
-                                                    {% if today >= reminder.date %}
-                                                        {% set nleftDays = leftDays %}
-                                                        {% set leftDays = -leftDays %}
-                                                    {% else %}
-                                                        {% set nleftDays = leftDays %}
-                                                        {% set leftDays = leftDays %}
-                                                    {% endif %}
+                                                {% for key, reminder in reminders.todoReminders %}
                                                     {% set flagTodo = '1' %}
                                                     <div class="gq-to-do-list-row gq-to-do-list-row-completed">
                                                         <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
@@ -86,32 +76,9 @@
                                                                     <div class="gq-acc-row-title">{{reminder.course.coursecode}} {{reminder.course.coursename}}</div>
                                                                 </div>
                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                                                                    {% if leftDays == 0 %}
-                                                                        {% set daynote = "Today" %}
-                                                                    {% endif %}
-                                                                    {% if leftDays == -1 %}
-                                                                        {% set daynote = "Yesterday" %}
-                                                                    {% endif %}
-                                                                    {% if leftDays == 1 %}
-                                                                        {% set daynote = "Tomorrow" %}
-                                                                    {% endif %}
-                                                                    {% if leftDays > 1 %}
-                                                                        {% set daynote = "" %}
-                                                                    {% endif %}
+                                                                    
                                                                     <div class="gq-acc-row-title gq-to-do-date" id="title_{{reminder.id}}">
-                                                                        {% if leftDays < 0 %}
-                                                                        {% set overdue = "Over Due" %}
-                                                                        <span class="todo_daynote">{{ overdue }}</span>
-                                                                        {% endif %}
-                                                                        {% if leftDays > 7 %}
-                                                                            {% if leftDays != 1 and leftDays != -1 and leftDays < 0 %}
-                                                                                <span class="todo_day">{{ nleftDays }} Days Ago</span>
-                                                                            {% else %}
-                                                                                <span class="todo_day">{{ daynote }} </span>
-                                                                            {% endif %}
-                                                                        {% else %}        
-                                                                            <span class="todo_day">{{ reminder.date|date('d/m/Y') }} </span>
-                                                                        {% endif %}
+                                                                        {{ user_service.toDoDateToWords(reminder.date, 'todo')| raw }}
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
@@ -123,8 +90,7 @@
                                                         <article class="acc-small">
                                                             <p>{{reminder.message}}</p>
                                                         </article>
-                                                    </div>
-                                                    {% endif %}
+                                                    </div>                                                    
                                                 {% endfor %}
                                                 {% if flagTodo == '0' %}
                                                     <div class="gq-tabs-no-content-text">
@@ -167,12 +133,9 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
                                         <!-- accordion starts here -->
                                         <div class="gq-acc-wrap" id="completed-tab">
-                                            {% if reminders %}
+                                            {% if reminders.completedReminders %}
                                                 {% set flagCompleted = '0' %}
-                                                {% for key, reminder in reminders %}
-                                                    {% if reminder.getCompleted() == 1 %}
-                                                    {% set difference = date(today).diff(date(reminder.CompletedDate)) %}
-                                                    {% set leftDays = difference.days %}
+                                                {% for key, reminder in reminders.completedReminders %}                                                    
                                                     {% set flagCompleted = '1' %}
                                                     <div class="gq-to-do-list-row">
                                                         <input id="acc-{{reminder.id}}" name="accordion-1" type="checkbox">
@@ -185,26 +148,8 @@
                                                                     <div class="gq-acc-row-title">{{reminder.course.coursecode}} {{reminder.course.coursename}}</div>
                                                                 </div>
                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                                                                    {% if leftDays == 0 %}
-                                                                        {% set daynote = "Today" %}
-                                                                    {% endif %}
-                                                                    {% if leftDays == 1 %}
-                                                                        {% set daynote = "Yesterday" %}
-                                                                    {% endif %}
-                                                                    {% if leftDays > 1 %}
-                                                                        {% set daynote = "" %}
-                                                                    {% endif %}
                                                                     <div class="gq-acc-row-title gq-to-do-date" id="title_{{reminder.id}}">
-                                                                       
-                                                                        
-                                                                        {% if leftDays != 1 and leftDays > 0 and leftDays < 0%}
-                                                                            <span class="todo_day">{{ leftDays }} Days Ago</span>
-                                                                        {% else %}
-                                                                            <span class="todo_day">{{ daynote }} </span>
-                                                                        {% endif %}
-                                                                        {% if leftDays > 1 %}
-                                                                            <span class="todo_day">{{ reminder.date|date('d/m/Y') }} </span>
-                                                                        {% endif %}
+                                                                       {{ user_service.toDoDateToWords(reminder.completedDate, 'completed')| raw }}
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
@@ -216,8 +161,7 @@
                                                         <article class="acc-small">
                                                             <p>{{reminder.message}}</p>
                                                         </article>
-                                                    </div>
-                                                    {% endif %}
+                                                    </div>                                                    
                                                 {% endfor %}
                                                 {% if flagCompleted == '0' %}
                                                     <div class="gq-tabs-no-content-text" id="records-not-found">Records not found in Completed List</div>

@@ -554,9 +554,9 @@ class UserService
         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
                 ->find($userCourseId);
         if (empty($remindDate)) {
-            $remindDate = date('d/m/Y');
+            $remindDate = date('d/m/Y H:i:s');
         }
-        $remindDate = date('Y-m-d', strtotime($remindDate));
+        $remindDate = date('Y-m-d H:i:s', strtotime($remindDate));
         $reminderObj = new \GqAus\UserBundle\Entity\Reminder();
         $reminderObj->setCourse($courseObj);
         $reminderObj->setUser($userObj);
@@ -728,7 +728,7 @@ class UserService
     {
         $remObj = $this->em->getRepository('GqAusUserBundle:Reminder')->find($id);
         $remObj->setCompleted($flag);
-        $remObj->setCompletedDate(date('Y-m-d'));
+        $remObj->setCompletedDate(date('Y-m-d H:i:s'));
         $this->em->persist($remObj);
         $this->em->flush();
     }
@@ -1228,6 +1228,82 @@ class UserService
          \n\n Regards, \n " . $assessor->getUsername();
         $this->sendExternalEmail($mailerInfo);
         $this->sendMessagesInbox($mailerInfo);
+    }
+    
+    /**
+     * Function to get todo reminders
+     * return $result array
+     */
+    public function getTodoReminders($userId)
+    {
+        $getReminders = $this->em->getRepository('GqAusUserBundle:Reminder')
+                ->findBy(array('user' => $userId, 'completed' => '0'), array('date' => 'asc'));
+        return $getReminders;
+    }
+    
+    /**
+     * Function to get completed reminders
+     * return $result array
+     */
+    public function getCompletedReminders($userId)
+    {
+        $getReminders = $this->em->getRepository('GqAusUserBundle:Reminder')
+                ->findBy(array('user' => $userId, 'completed' => '1'), array('completedDate' => 'desc'));
+        return $getReminders;
+    }
+    
+    /**
+     * Function to convert date time to words
+     */
+    public function toDoDateToWords($date, $tab)
+    {
+        
+        $ts1 = strtotime(date("Y-m-d",strtotime($date)));
+        $ts2 = strtotime(date("Y-m-d"));
+
+        $seconds_diff = $ts1 - $ts2;
+
+        /* Get the difference between the current time 
+          and the time given in days */
+        $days = floor($seconds_diff / 3600 / 24);
+        $return = '';
+         
+        switch ($days) {
+            case 0: 
+                if ( strtotime($date) - time() < 0  && $tab == 'todo' ) {
+                  $return .= '<span class="todo_daynote">Over Due </span>';  
+                }
+                $_word = date("h:i A", strtotime($date));
+                break;
+            case 1: $_word = "Tomorrow";
+                break;
+            case -1: $_word = "Yesterday";
+                break;
+            case ($days >= 2 && $days <= 6):
+                $_word = sprintf("%d days later", $days);
+                break;
+            case ($days >= -6 && $days <= -2):
+                $_word = substr(sprintf("%d days ago", $days),1);
+                break;
+            case ($days >= 7 && $days < 14):
+                $_word = "1 week later";
+                break;
+            case ($days > -14 && $days <= -7):
+                $_word = "1 week ago";
+                break;
+            case ($days >= 14 && $days <= 365):
+                $_word = sprintf("%d weeks later", intval($days / 7));
+                break;
+            case ($days >= -365 && $days <= -14):
+                $_word = substr(sprintf("%d weeks ago", intval($days / 7)),1);    
+                break;
+            default : $_word = date('d/m/Y h:i A', strtotime($date));
+        }
+        if ($days < 0 && $tab == 'todo') {
+         $return .= '<span class="todo_daynote">Over Due </span>';   
+        }
+        $return .= '<span class="todo_day">'.$_word.'</span>';    
+        return $return;
     }
 
 }

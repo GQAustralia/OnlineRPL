@@ -264,9 +264,21 @@ $(".updateTodo").click(function() {
         success: function(result) {
             if (result == "success") {
                 $("#records-not-found").hide();
-                $("#title_" + rmid).html('<span class="todo_day">Today</span>');
+                var dateTime = new Date();
+                var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
+                var timeZoneDT = new Date(utc + (3600000*+11));
+                var hours = timeZoneDT.getHours();
+                var suffix = "AM";
+                if (hours >= 12) {
+                    suffix = "PM";
+                    hours = hours - 12;
+                }
+                if (hours == 0) {
+                    hours = 12;
+                }
+                $("#title_" + rmid).html('<span class="todo_day">'+ hours +':'+ timeZoneDT.getMinutes() +' '+ suffix +'</span>');
                 $("#" + rmid).remove();
-                $("#completed-tab").append("<div>" + $("#div_" + rmid).parent().parent().html() + "</div>");
+                $("#completed-tab").prepend("<div class='gq-to-do-list-row'>" + $("#div_" + rmid).parent().parent().html() + "</div>");
                 $("#div_" + rmid).parent().parent().remove();
                 if(parseInt($(".gq-to-do-list-row-completed").length)==0)
                     $(".no-todo").show();
@@ -635,9 +647,8 @@ $(".setNotes").click(function() {
             $(".gq-assessor-list-dropdown-wrap").removeClass('open');
         $(this).parent().addClass('open');
         //$('#div_' + id).addClass('open');
-    } else {
-        $('#notes_' + id).val('').attr("placeholder", "Notes");
-        $('#remindDate_' + id).val('').attr("placeholder", "Due Date");
+    } else {        
+        resetDateTimePicker(id);
         $(this).parent().removeClass('open');
         //$('#div_' + id).removeClass('open');
     }
@@ -678,8 +689,7 @@ $(".setData").click(function() {
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
             success: function(result) {
                 $('#err_msg').show();
-                $('#notes_' + userCourseId).val('').attr("placeholder", "Notes");
-                $('#remindDate_' + userCourseId).val('').attr("placeholder", "Due Date");
+                resetDateTimePicker(userCourseId);
                 $('#div_' + userCourseId).removeClass('open');
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
             }
@@ -1471,7 +1481,12 @@ $(document).on('click', function (e) {
         && !$('#ui-datepicker-div').is(e.target) 
         && $('#ui-datepicker-div').has(e.target).length === 0 
     ) {
-        $('.gq-assessor-list-dropdown-wrap').removeClass('open');
+        
+        if ( $('.gq-assessor-list-dropdown-wrap').hasClass('open') ) {
+            var id = $('.gq-assessor-list-dropdown-wrap').children('.setNotes').attr('id');
+            resetDateTimePicker(id);
+            $('.gq-assessor-list-dropdown-wrap').removeClass('open');
+        }        
     }
  });
  
@@ -1581,4 +1596,15 @@ function validateFileUpload(fieldVal, formName) {
             scrollTop: $('#change_pwd_error').offset().top
          }, 500);
     }
+}
+
+function resetDateTimePicker(rmid) {
+    var dateTime = new Date();
+    var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
+    var timeZoneDT = new Date(utc + (3600000*+11));
+    $("#remindDate_"+ rmid).datetimepicker("option", "minDate", timeZoneDT);
+    $("#remindDate_"+ rmid).datetimepicker("option", "minDateTime", timeZoneDT);
+    $('#remindDate_'+ rmid).datetimepicker("setDate", timeZoneDT );
+    $('#notes_' + rmid).val('').attr("placeholder", "Notes");
+    $('#remindDate_' + rmid).val('').attr("placeholder", "Due Date");
 }
