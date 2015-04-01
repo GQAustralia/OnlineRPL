@@ -262,7 +262,7 @@ a.btn-red {color:#ffffff;}
 /*.qualification-success-msg span { background-image: url("../images/upload-sussess-icon.png"); background-position: center center; background-repeat: no-repeat; content: ""; display: block; float: left; height: 60px; left: 0; margin-right: 30px; position: relative; top: 0; width: 60px;}*/
 .qualification-success-msg h2 {font-size:13px; color:#85b430; padding-top:10px;}
 .qualification-success-msg h2 img {margin-right:6px; padding-bottom:4px;}
-.qualification-er-msg { color:#f14840; text-align:center; padding: 15px; height:50px; margin:0 auto;}
+.qualification-er-msg { color:#f14840; text-align:center; /*padding: 15px;*/ height:50px; margin:0 auto;}
 .qualification-er-msg h2 {font-size:13px; color:#f14840; padding-top:10px;}
 .qualification-er-msg h2 img {margin-right:6px; padding-bottom:4px;}
 .gq-dashboard-courses-detail {width:100%; border:1px solid #dddddd; min-height:48px; display:block; float:left; margin-bottom:5px; box-shadow:0px 2px 2px #f3f3f3; background-color:#ffffff;}
@@ -549,7 +549,7 @@ a.btn-red {color:#ffffff;}
 .tooltip-home span{color:#fff; width:auto; display:inline-block; font-size:13px; line-height:24px;}
 .tooltip-home.top .tooltip-arrow { border-top-color: #444d57; border-width: 5px 5px 0; bottom: -5px; left: 50%; margin-left: -5px;}
 .tooltip-home.right .tooltip-arrow { border-right-color: #444d57; border-width: 5px 5px 5px 0; bottom: -5px; left: 0; margin-top: -5px; top:50%;}
-
+.tooltip-home.bottom .tooltip-arrow { border-bottom-color: #444d57; border-width: 0 5px 5px; bottom: -5px; left: 50%; margin-left: -5px; top:-5px;}
 .gq-dashboard-points-icon:hover .tooltip-home {display:block; right:-61px; top:-44px;}
 
 	/* tool tip for messages section here */
@@ -779,6 +779,13 @@ a.btn-red {color:#ffffff;}
 input:-moz-placeholder {box-shadow:none !important;}
 input:invalid {box-shadow:none !important;}
 .gq-mobile-warning-msg{display:none; position:absolute; bottom: 0; left: 0; margin: auto; padding-top: 25%; position: absolute; right: 0; text-align: center; top: 0; width: 100%; background-color:#ffffff;}
+.gq-assessor-appl-details .gq-assessor-rto-title {position:relative;}
+.gq-accessor-points-tooltip {position:absolute; right:0; backgourn-color:#fff; background-color: #fafafa; border-left: 3px solid #e8e8e8; width:58px; height:58px; top:0}
+.gq-accessor-points-tooltip a {display:block; padding:14px 0; text-align:center;}
+.gq-accessor-points-tooltip:hover .tooltip-home {display:block;}
+.gq-accessor-points-tooltip .tooltip-home {top:auto; right:-37px; z-index:1;}
+
+
 
 /*#applicantEStatus {float:left;}
 #applicantEStatus form {min-width:216px; float:left;}
@@ -1069,4 +1076,23 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-msg-top-pagination{padding-top:5px;}
 .gq-msg-from textarea:focus, .gq-msg-compose .gq-msg-row-bg input:focus{
     outline: 0;
+}
+
+.gq-form-row.USIrow > input {
+    line-height: 67px;
+    vertical-align: top;
+}
+
+.gq-form-row.USIrow > a {
+    color: #f14840;
+    font-size: 12px;
+    left: 15px;
+    position: absolute;
+    top: 36px;
+    width: 150px;
+}
+
+.gq-form-row.USIrow {
+    height: 81px;
+    position: relative;
 }
