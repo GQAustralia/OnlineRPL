@@ -264,9 +264,21 @@ $(".updateTodo").click(function() {
         success: function(result) {
             if (result == "success") {
                 $("#records-not-found").hide();
-                $("#title_" + rmid).html('<span class="todo_day">Today</span>');
+                var dateTime = new Date();
+                var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
+                var timeZoneDT = new Date(utc + (3600000*+11));
+                var hours = timeZoneDT.getHours();
+                var suffix = "AM";
+                if (hours >= 12) {
+                    suffix = "PM";
+                    hours = hours - 12;
+                }
+                if (hours == 0) {
+                    hours = 12;
+                }
+                $("#title_" + rmid).html('<span class="todo_day">'+ hours +':'+ timeZoneDT.getMinutes() +' '+ suffix +'</span>');
                 $("#" + rmid).remove();
-                $("#completed-tab").append("<div>" + $("#div_" + rmid).parent().parent().html() + "</div>");
+                $("#completed-tab").prepend("<div class='gq-to-do-list-row'>" + $("#div_" + rmid).parent().parent().html() + "</div>");
                 $("#div_" + rmid).parent().parent().remove();
                 if(parseInt($(".gq-to-do-list-row-completed").length)==0)
                     $(".no-todo").show();
@@ -281,7 +293,10 @@ function validateExisting()
 {
     var efile = $(".check_evidence:checkbox:checked").length;
     if (efile <= 0 || efile == '' || typeof efile === 'undefined') {
-        alert('Please select atleast one Existing Evidence!');
+        //alert('Please select atleast one Existing Evidence!');
+        $('#gq-dashboard-tabs-error').show();
+        $('#gq-dashboard-tabs-error').html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Please select atleast one Existing Evidence!</h2>').delay(3000).fadeOut(100);
+
         return false;
     } else {
         sumitFormEvidence();
@@ -519,7 +534,7 @@ if($('#referenceUpload').length)
                                 </div>\n\
                             </span>\n\
                             <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-                if ($('#reference_no_files').html() === 'No reference letters found') {
+                if ($('#reference_no_files').html() === 'No Industry and VET Currency found') {
                     $('.reference_files').html(html);
                 } else {
                     $('.reference_files').append(html);
@@ -632,9 +647,8 @@ $(".setNotes").click(function() {
             $(".gq-assessor-list-dropdown-wrap").removeClass('open');
         $(this).parent().addClass('open');
         //$('#div_' + id).addClass('open');
-    } else {
-        $('#notes_' + id).val('').attr("placeholder", "Notes");
-        $('#remindDate_' + id).val('').attr("placeholder", "Due Date");
+    } else {        
+        resetDateTimePicker(id);
         $(this).parent().removeClass('open');
         //$('#div_' + id).removeClass('open');
     }
@@ -675,8 +689,7 @@ $(".setData").click(function() {
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
             success: function(result) {
                 $('#err_msg').show();
-                $('#notes_' + userCourseId).val('').attr("placeholder", "Notes");
-                $('#remindDate_' + userCourseId).val('').attr("placeholder", "Due Date");
+                resetDateTimePicker(userCourseId);
                 $('#div_' + userCourseId).removeClass('open');
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
             }
@@ -1468,7 +1481,12 @@ $(document).on('click', function (e) {
         && !$('#ui-datepicker-div').is(e.target) 
         && $('#ui-datepicker-div').has(e.target).length === 0 
     ) {
-        $('.gq-assessor-list-dropdown-wrap').removeClass('open');
+        
+        if ( $('.gq-assessor-list-dropdown-wrap').hasClass('open') ) {
+            var id = $('.gq-assessor-list-dropdown-wrap').children('.setNotes').attr('id');
+            resetDateTimePicker(id);
+            $('.gq-assessor-list-dropdown-wrap').removeClass('open');
+        }        
     }
  });
  
@@ -1483,3 +1501,110 @@ $('#edivenceUnitModal').on('hidden.bs.modal', function () {
         $(".gq-acc-row-bg.active").find("label.openIcon").trigger("click");        
     }
 });
+
+// for validating the upload evidence form
+$( '#file_save' ).click( function( e ) {
+    if ($("#file_file").val().length > 0) {
+        var extension = $("#file_file").val().substring($("#file_file").val().lastIndexOf('.')+1);
+        var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF', 'mp3', 'mp4', 'flv', 'vob', 'avi', '3gp', 'wmv'];
+        if (allowedExtensions.indexOf(extension) === -1) 
+        {
+          $('#gq-dashboard-tabs-error').show();
+          $('#gq-dashboard-tabs-error').html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2>').delay(3000).fadeOut(100);  
+        } else {
+            $('#frmAddEvidence').submit();
+        }
+    } else {
+        $('#gq-dashboard-tabs-error').show();
+        $('#gq-dashboard-tabs-error').html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2>').delay(3000).fadeOut(100);
+    }
+    e.preventDefault();
+    return false;
+} );
+
+// for validating the upload ID file
+$( '#userfiles_save' ).click( function( e ) {
+    if($("#userfiles_type").val()!="") {
+        if ($("#userfiles_browse").val().length > 0) {
+            var extension = $("#userfiles_browse").val().substring($("#userfiles_browse").val().lastIndexOf('.')+1);
+            var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF'];
+            if (allowedExtensions.indexOf(extension) === -1) 
+            {
+              $('#change_pwd_error').show();
+              $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>').delay(3000).fadeOut(100);  
+            } else {
+                $('#Id_files').submit();
+            }
+        } else {
+            $('#change_pwd_error').show();
+            $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2></div>').delay(3000).fadeOut(100);
+        }
+    } else {
+        $('#change_pwd_error').show();
+        $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select document type!</h2></div>').delay(3000).fadeOut(100);
+    }
+    e.preventDefault();
+    return false;
+} );
+
+// for validating the upload resume file
+$( '#resume_save' ).click( function( e ) {
+    validateFileUpload($("#resume_browse").val(), 'resumeUpload');
+    e.preventDefault();
+    return false;
+});
+
+// for validating the upload qualification file
+$( '#qualification_save' ).click( function( e ) {
+    validateFileUpload($("#qualification_browse").val(), 'qualificationUpload');
+    e.preventDefault();
+    return false;
+});
+
+// for validating the upload reference file
+$( '#reference_save' ).click( function( e ) {
+    validateFileUpload($("#reference_browse").val(), 'referenceUpload');
+    e.preventDefault();
+    return false;
+});
+
+// for validating the upload matrix file
+$( '#matrix_save' ).click( function( e ) {
+    validateFileUpload($("#matrix_browse").val(), 'matrixUpload');
+    e.preventDefault();
+    return false;
+});
+
+function validateFileUpload(fieldVal, formName) {
+    if (fieldVal.length > 0) {
+        var extension = fieldVal.substring(fieldVal.lastIndexOf('.')+1);
+        var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF'];
+        if (allowedExtensions.indexOf(extension) === -1) 
+        {
+          $('#change_pwd_error').show();
+          $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>').delay(3000).fadeOut(100);
+          $('html, body').animate({
+             scrollTop: $('#change_pwd_error').offset().top
+           }, 500);
+        } else {
+            $('#' + formName).submit();
+        }
+    } else {
+        $('#change_pwd_error').show();
+        $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2></div>').delay(3000).fadeOut(100);
+        $('html, body').animate({
+            scrollTop: $('#change_pwd_error').offset().top
+         }, 500);
+    }
+}
+
+function resetDateTimePicker(rmid) {
+    var dateTime = new Date();
+    var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
+    var timeZoneDT = new Date(utc + (3600000*+11));
+    $("#remindDate_"+ rmid).datetimepicker("option", "minDate", timeZoneDT);
+    $("#remindDate_"+ rmid).datetimepicker("option", "minDateTime", timeZoneDT);
+    $('#remindDate_'+ rmid).datetimepicker("setDate", timeZoneDT );
+    $('#notes_' + rmid).val('').attr("placeholder", "Notes");
+    $('#remindDate_' + rmid).val('').attr("placeholder", "Due Date");
+}

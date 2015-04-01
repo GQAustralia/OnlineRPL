@@ -11,11 +11,14 @@ class ReminderController extends Controller
     public function viewAction(Request $request)
     {
         $userService = $this->get('UserService');
-        $reminders = $userService->getCurrentUser()->getReminders();
+        //$reminders = $userService->getCurrentUser()->getReminders();
+        $userId = $userService->getCurrentUser()->getId();
+        $reminders['todoReminders'] = $userService->getTodoReminders($userId);
+        $reminders['completedReminders'] = $userService->getCompletedReminders($userId);
         $now = new DateTime('now');
         return $this->render(
             'GqAusUserBundle:Reminder:view.html.twig',
-            array('reminders' => $reminders, 'today' => $now->format('Y-m-d'))
+            array('reminders' => $reminders, 'today' => $now->format('Y-m-d H:i:s'))
         );
     }
     public function updateAction(Request $request)

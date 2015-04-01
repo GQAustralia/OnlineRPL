@@ -8,7 +8,7 @@ class ResumeForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('browse', 'file');
+        $builder->add('browse', 'file', array('required' => false));
         $builder->add('type', 'hidden', array(
             'data' => 'resume'
         ));

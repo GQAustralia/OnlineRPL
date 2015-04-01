@@ -28,8 +28,9 @@
             <label for="gq-personal-pwd">Date Of Birth</label>
                 {{ form_widget(form.dateOfBirth, { 'attr':{'readonly':'readonly'} }) }}
         </div>
-        <div class="gq-form-row">
+        <div class="gq-form-row USIrow">
             <label for="gq-personal-pwd">USI</label>
+            <a href="http://www.usi.gov.au/create-your-USI/Pages/default.aspx" target="_blank">Don’t have one?<br/>Click here to create one</a>
                 {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         {% endif %}        

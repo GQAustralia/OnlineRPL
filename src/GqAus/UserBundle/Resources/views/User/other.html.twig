@@ -3,10 +3,10 @@
     <div class="gq-id-files-upload-text">
         <h2></h2>
     </div>
-    <div class="gq-id-files-upload-success-text col-lg-3 col-md-4 col-sm-6 col-xs-12"  style="display: none;" id="resume_msg">
-        <h2><span></span>Files uploaded successfully</h2>
+    <div class="gq-id-files-upload-success-text col-lg-12 col-md-12 col-sm-12 col-xs-12"  style="display: none;" id="resume_msg">
+        <h2><img src="{{ asset('public/images')}}/tick.png"/> Files uploaded successfully</h2>
     </div>
-    <div class="col-xs-6" id="idfiles_msg"></div>
+    <div class="col-xs-12" id="idfiles_msg"></div>
     <div class="gq-id-files">
         <div class="gq-id-files-header gq-id-files-header-applicant">
             <div class="row">
@@ -62,7 +62,7 @@
                         </div>                                            
                         {% endfor %}
                         {% else %}
-                        <center id="resume_no_files">No resumes found</center>
+                        <center id="resume_no_files">No Resumes found</center>
                         {% endif %}
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                         </div>                                            
                         {% endfor %}
                         {% else %}
-                        <center id="qualification_no_files">No qualifications found</center>                        
+                        <center id="qualification_no_files">No Qualifications found</center>                        
                         {% endif %}
 
                     </div>
@@ -140,7 +140,7 @@
         <div class="gq-id-files-header gq-id-files-header-applicant">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                    <div class="gq-course-details-header-title">Reference Letters</div>
+                    <div class="gq-course-details-header-title">Industry and VET Currency</div>
                 </div>
                 <form name="reference" id="referenceUpload" method="post" action="referenceupload" enctype="multipart/form-data">
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
@@ -191,7 +191,7 @@
                         </div>                                            
                         {% endfor %}
                         {% else %}
-                        <center id="reference_no_files">No reference letters found</center>                        
+                        <center id="reference_no_files">No Industry and VET Currency found</center>                        
                         {% endif %}
 
                     </div>
@@ -261,7 +261,7 @@
                         </div>                                            
                         {% endfor %}
                         {% else %}
-                        <center id="matrix_no_files">No trainer matrix found</center>                        
+                        <center id="matrix_no_files">No Trainer Matrix found</center>                        
                         {% endif %}
 
                     </div>
