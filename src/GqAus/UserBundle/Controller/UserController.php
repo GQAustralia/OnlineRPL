@@ -356,6 +356,25 @@ class UserController extends Controller
         exit;
     }
     
+    /**
+    * Function to view user id files
+    * return $result array
+    */
+    public function viewUserIdFilesAction()
+    {
+        $userId = $this->getRequest()->get('userId');
+        if (!empty($userId)) {
+            $user = $this->get('UserService')->getUserInfo($userId);
+        } else {
+            $user = $this->get('security.context')->getToken()->getUser();
+        }
+        $userImage = $this->get('UserService')->userImage($user->getUserImage());
+        $results['user'] = $user;
+        $results['userImage'] = $userImage;
+        $results['userIdFiles'] = $user->getIdfiles();
+        return $this->render('GqAusUserBundle:User:userIdFiles.html.twig', $results);
+    }
+    
     
     
 }
