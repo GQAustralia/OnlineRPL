@@ -549,7 +549,7 @@ a.btn-red {color:#ffffff;}
 .tooltip-home span{color:#fff; width:auto; display:inline-block; font-size:13px; line-height:24px;}
 .tooltip-home.top .tooltip-arrow { border-top-color: #444d57; border-width: 5px 5px 0; bottom: -5px; left: 50%; margin-left: -5px;}
 .tooltip-home.right .tooltip-arrow { border-right-color: #444d57; border-width: 5px 5px 5px 0; bottom: -5px; left: 0; margin-top: -5px; top:50%;}
-
+.tooltip-home.bottom .tooltip-arrow { border-bottom-color: #444d57; border-width: 0 5px 5px; bottom: -5px; left: 50%; margin-left: -5px; top:-5px;}
 .gq-dashboard-points-icon:hover .tooltip-home {display:block; right:-61px; top:-44px;}
 
 	/* tool tip for messages section here */
@@ -779,6 +779,13 @@ a.btn-red {color:#ffffff;}
 input:-moz-placeholder {box-shadow:none !important;}
 input:invalid {box-shadow:none !important;}
 .gq-mobile-warning-msg{display:none; position:absolute; bottom: 0; left: 0; margin: auto; padding-top: 25%; position: absolute; right: 0; text-align: center; top: 0; width: 100%; background-color:#ffffff;}
+.gq-assessor-appl-details .gq-assessor-rto-title {position:relative;}
+.gq-accessor-points-tooltip {position:absolute; right:0; backgourn-color:#fff; background-color: #fafafa; border-left: 3px solid #e8e8e8; width:58px; height:58px; top:0}
+.gq-accessor-points-tooltip a {display:block; padding:14px 0; text-align:center;}
+.gq-accessor-points-tooltip:hover .tooltip-home {display:block;}
+.gq-accessor-points-tooltip .tooltip-home {top:auto; right:-37px; z-index:1;}
+
+
 
 /*#applicantEStatus {float:left;}
 #applicantEStatus form {min-width:216px; float:left;}
