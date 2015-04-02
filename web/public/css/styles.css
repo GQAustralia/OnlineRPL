@@ -471,9 +471,9 @@ a.btn-red {color:#ffffff;}
 /* .gq-acc-row-bg.gq-acc-row-checked .checkmark-icon {background-image:url('../images/checkmark_unchecked.png');} */
 .gq-acc-row-bg.gq-acc-row-checked {opacity:.5;}
 .gq-course-details-upload-evidence {border:2px dotted #a6a6a6; background-color:#ebebeb; position:relative;}
-.gq-course-details-upload-evidence, .gq-course-details-upload-evidence-self {/*min-height:198px;*/ min-height:292px; padding:15px; color:#9f9f9f; font-size:16px;}
+.gq-course-details-upload-evidence, .gq-course-details-upload-evidence-self {/*min-height:198px;*/ min-height:292px; /*padding:15px;*/ color:#9f9f9f; font-size:16px;}
 .gq-course-details-upload-evidence-self {border:1px solid #e5e5e5; background-color:#ffffff;}
-.gq-course-details-upload-evidence-self textarea{ width:100%; min-height:160px; background:transparent; border:0px none; resize:none; }
+.gq-course-details-upload-evidence-self textarea{ width:100%; min-height:289px; background:transparent; border:0px none; resize:none; padding:15px;}
 .gq-course-details-drop-file {background-image:url('../images/upload-icon.png'); background-repeat:no-repeat; background-position:top center; height: 120px; margin: 0 auto; padding-top: 69px; width: 120px; text-align:center;}
 .gq-course-details-upload-button-wrap {margin-top:8px; font-size:14px; color:#aeaeae;}
 
@@ -570,6 +570,7 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-title-download {width:100%; line-height:20px; padding-top:18px; float:right;}
 .gq-assessor-title-download a{color:#f14840; font-size:14px; text-decoration:none;}
 .gq-assessor-title-download .gq-assessor-title-download-icon{color:#000000; padding-left:4px; background-image:url('../images/gq-assessor-title-download-icon.png'); background-repeat: no-repeat; background-position:center center; width:22px; height:22px; display:block; float:right; margin-left:5px;} 
+.gq-assessor-title-download .gq-assessor-title-back-icon{color:#000000; padding-left:4px; background-image:url('../images/prev.png'); background-repeat: no-repeat; background-position:center center; width:22px; height:22px; display:block; float:right; margin-left:5px;} 
 .gq-assessor-profile-img {width:100px; height:100px; margin:0 auto; text-align:center; border:2px solid #e7ecee; border-radius:50%; background-color:#ffffff; margin:10px auto; overflow:hidden; background-position: center center; background-repeat: no-repeat; background-size: cover;}
 .gq-assessor-profile-img-txt {color:#f14840; font-size:14px; text-align:center;}
 .gq-assessor-appl-profile-details{border:1px solid #d9d9d9; /*width: 350px;*/ float:right; }
@@ -665,6 +666,8 @@ a.btn-red {color:#ffffff;}
 .gq-applicant-filter-wrap-select select {height:40px; cursor:pointer;}
 .gq-applicant-filter-wrap-select select option{height:30px; padding-left:15px; padding-top:7px;}
 .gq-applicant-filter-wrap-select-remaining {font-size:16px; padding-top:8px; color:#2f3941;}
+.gq-acc-wrap .gq-acc-notes-btn {margin-left:5px;}
+.gq-acc-wrap .gq-acc-book-icon {margin-top:7px;}
 
 /* Reports page filter section */
 .gq-reports-filter.gq-applicant-filter-wrap {width:416px;}

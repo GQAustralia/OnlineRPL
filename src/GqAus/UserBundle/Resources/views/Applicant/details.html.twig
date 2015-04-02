@@ -356,6 +356,8 @@
                                                                                             {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
                                                                                             {% if evidence %}
                                                 <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id fromnewBottom" unitid="{{units.id}}" course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                                                <span class="pull-left gq-acc-notes-btn" id=""><button id="" class="btn eye-btn unit-evidence-id fromnewBottom" unitid="" course_code="" data-toggle="modal" data-target="#edivenceUnitModalNote" data-direction="bottom"><span class="hidden-xs"></span>NOTES</button></span>
+												<span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookopen.png"></span>
                                                                                             {% else %}
                                                 <div class="gq-acc-row-title">No Evidences found</div>
                                                                                             {% endif %}
