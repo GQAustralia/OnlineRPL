@@ -45,6 +45,7 @@ $("#approve").click(function () {
             if (newresult[0] == '1') {
                 $('#applicantEStatus').hide();
                 $('.gq-id-files-upload-success-text').show().html('<h2><img src="'+ base_url +'public/images/tick.png">Evidence provided is acceptable!</h2>').delay(3000).fadeOut(100);
+                $('#'+ newunit +'_approveStatus').html('<span class="pull-right gq-acc-book-icon"><img src="'+ base_url +'public/images/bookopen.png"></span>');
             }
             if (newresult[1] == '1') {
                 $(".approve-for-certification-btn").hide();
@@ -77,6 +78,7 @@ $("#disapprove").click(function () {
             if (newresult[0] == '2') {
                 $('#applicantEStatus').hide();
                 $('.gq-id-files-upload-success-text').show().html('<h2><img src="'+ base_url +'public/images/tick.png">Marked as unacceptable!</h2>').delay(3000).fadeOut(100);
+                $('#'+ newunit +'_approveStatus').html('<span class="pull-right gq-acc-book-icon"><img src="'+ base_url +'public/images/bookclosed.png"></span>');
             }
         }
     });
