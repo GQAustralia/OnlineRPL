@@ -362,19 +362,24 @@ class UserController extends Controller
     */
     public function viewUserIdFilesAction()
     {
-        $userId = $this->getRequest()->get('userId');
-        if (!empty($userId)) {
-            $user = $this->get('UserService')->getUserInfo($userId);
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+            if ($userRole[0] == "ROLE_FACILITATOR") {
+                $userId = $this->getRequest()->get('userId');
+                if ( !empty($userId) ) {
+                    $user = $this->get('UserService')->getUserInfo($userId);
+                    $userImage = $this->get('UserService')->userImage($user->getUserImage());
+                    $results['user'] = $user;
+                    $results['userImage'] = $userImage;
+                    $results['userIdFiles'] = $user->getIdfiles();
+                    return $this->render('GqAusUserBundle:User:userIdFiles.html.twig', $results);
+                }
+            } else {
+                return $this->render('GqAusUserBundle:Default:error.html.twig');  
+            }
+        
         } else {
-            $user = $this->get('security.context')->getToken()->getUser();
+            return $this->redirect('dashboard');   
         }
-        $userImage = $this->get('UserService')->userImage($user->getUserImage());
-        $results['user'] = $user;
-        $results['userImage'] = $userImage;
-        $results['userIdFiles'] = $user->getIdfiles();
-        return $this->render('GqAusUserBundle:User:userIdFiles.html.twig', $results);
     }
-    
-    
-    
 }

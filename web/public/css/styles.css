@@ -666,6 +666,8 @@ a.btn-red {color:#ffffff;}
 .gq-applicant-filter-wrap-select select {height:40px; cursor:pointer;}
 .gq-applicant-filter-wrap-select select option{height:30px; padding-left:15px; padding-top:7px;}
 .gq-applicant-filter-wrap-select-remaining {font-size:16px; padding-top:8px; color:#2f3941;}
+.gq-acc-wrap .gq-acc-notes-btn {margin-left:5px;}
+.gq-acc-wrap .gq-acc-book-icon {margin-top:7px;}
 
 /* Reports page filter section */
 .gq-reports-filter.gq-applicant-filter-wrap {width:416px;}
