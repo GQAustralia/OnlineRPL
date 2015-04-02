@@ -458,20 +458,19 @@ class UserService
         } else {
             if ($status == 11) {
                 $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                    ->createQueryBuilder('c')
-                    ->select("c, u")
-                    ->join('c.user', 'u')
-                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
-                    ->andWhere("c.courseStatus = '1'")
-                    ->andWhere("c.assessorstatus = '1'");
-            }
-            else {
+                        ->createQueryBuilder('c')
+                        ->select("c, u")
+                        ->join('c.user', 'u')
+                        ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
+                        ->andWhere("c.courseStatus = '1'")
+                        ->andWhere("c.assessorstatus = '1'");
+            } else {
                 $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                    ->createQueryBuilder('c')
-                    ->select("c, u")
-                    ->join('c.user', 'u')
-                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
-                    ->andWhere("c.courseStatus = '" . $status . "'");
+                        ->createQueryBuilder('c')
+                        ->select("c, u")
+                        ->join('c.user', 'u')
+                        ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
+                        ->andWhere("c.courseStatus = '" . $status . "'");
             }
             /* if($status == 2) {
               $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
@@ -590,59 +589,59 @@ class UserService
         //echo $course->getId(); exit;
         if (!empty($course)) {
             //foreach ($usercoures as $course) {
-                $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
-                        ->findOneBy(array('user' => $course->getUser()->getId(),
-                    'courseCode' => $course->getcourseCode()));
+            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+                    ->findOneBy(array('user' => $course->getUser()->getId(),
+                'courseCode' => $course->getcourseCode()));
 
-                if (!empty($courseObj)) {
-                    $courseUnitExistObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+            if (!empty($courseObj)) {
+                $courseUnitExistObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+                        ->findOneBy(array('user' => $course->getUser()->getId(),
+                    'courseCode' => $course->getcourseCode(),
+                    'status' => '1'));
+                if (!empty($courseUnitExistObj)) {
+                    $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
                             ->findOneBy(array('user' => $course->getUser()->getId(),
                         'courseCode' => $course->getcourseCode(),
+                        $userStatus => '0',
                         'status' => '1'));
-                    if (!empty($courseUnitExistObj)) {
-                        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
-                                ->findOneBy(array('user' => $course->getUser()->getId(),
-                            'courseCode' => $course->getcourseCode(),
-                            $userStatus => '0',
-                            'status' => '1'));
-                        if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
-                            $date = date('Y-m-d H:i:s');
-                            if ($userType == 'facilitator') {
-                                $course->setFacilitatorstatus('1');
-                                $course->setFacilitatorDate($date);
-                            } elseif ($userType == 'assessor') {
-                                $course->setAssessorstatus('1');
-                                $course->setAssessorDate($date);
-                                $mailerInfo = array();
-                                $mailerInfo['sent'] = $course->getAssessor()->getId();
-                                $mailerInfo['subject'] = "All evidences are enough competent in " . $course->getCourseCode() . " : " . $course->getCourseName();
-                                $facilitatorName = $course->getFacilitator()->getUsername();
-                                $mailerInfo['to'] = $course->getFacilitator()->getEmail();
-                                $mailerInfo['inbox'] = $course->getFacilitator()->getId();
-                                $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", \n All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() . " are enough competent. \n Validated all the eviedences in the qualification.
+                    if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
+                        $date = date('Y-m-d H:i:s');
+                        if ($userType == 'facilitator') {
+                            $course->setFacilitatorstatus('1');
+                            $course->setFacilitatorDate($date);
+                        } elseif ($userType == 'assessor') {
+                            $course->setAssessorstatus('1');
+                            $course->setAssessorDate($date);
+                            $mailerInfo = array();
+                            $mailerInfo['sent'] = $course->getAssessor()->getId();
+                            $mailerInfo['subject'] = "All evidences are enough competent in " . $course->getCourseCode() . " : " . $course->getCourseName();
+                            $facilitatorName = $course->getFacilitator()->getUsername();
+                            $mailerInfo['to'] = $course->getFacilitator()->getEmail();
+                            $mailerInfo['inbox'] = $course->getFacilitator()->getId();
+                            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", \n All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() . " are enough competent. \n Validated all the eviedences in the qualification.
                                  \n\n Regards, \n " . $course->getAssessor()->getUsername();
-                                $this->sendExternalEmail($mailerInfo);
-                                $this->sendMessagesInbox($mailerInfo);
+                            $this->sendExternalEmail($mailerInfo);
+                            $this->sendMessagesInbox($mailerInfo);
 
-                                $applicantName = $course->getUser()->getUsername();
-                                $mailerInfo['to'] = $course->getUser()->getEmail();
-                                $mailerInfo['inbox'] = $course->getUser()->getId();
-                                $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $applicantName . ", \n All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() . " are enough competent. \n Validated all the eviedences in the qualification.
+                            $applicantName = $course->getUser()->getUsername();
+                            $mailerInfo['to'] = $course->getUser()->getEmail();
+                            $mailerInfo['inbox'] = $course->getUser()->getId();
+                            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $applicantName . ", \n All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() . " are enough competent. \n Validated all the eviedences in the qualification.
                                  \n\n Regards, \n " . $course->getAssessor()->getUsername();
-                                $this->sendExternalEmail($mailerInfo);
-                                $this->sendMessagesInbox($mailerInfo);
-                            } elseif ($userType == 'rto') {
-                                $course->setRtostatus('1');
-                                $course->setRtoDate($date);
-                                $rtoEnable = 1;
-                                //$course->setCourseStatus('1');
-                            }
-                            $this->em->merge($course);
-                            $this->em->flush();
-                            $this->em->clear();
-                        }//if
+                            $this->sendExternalEmail($mailerInfo);
+                            $this->sendMessagesInbox($mailerInfo);
+                        } elseif ($userType == 'rto') {
+                            $course->setRtostatus('1');
+                            $course->setRtoDate($date);
+                            $rtoEnable = 1;
+                            //$course->setCourseStatus('1');
+                        }
+                        $this->em->merge($course);
+                        $this->em->flush();
+                        $this->em->clear();
                     }//if
                 }//if
+            }//if
             //}//foreach
         }//if
         return $rtoEnable;
@@ -746,10 +745,11 @@ class UserService
         $totalNoCourses = count($courseUnitObj);
         if ($totalNoCourses > 0) {
             $res = $this->em->getRepository('GqAusUserBundle:Evidence')
-                            ->createQueryBuilder('e')
-                            ->select("DISTINCT e.unit")
-                            ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId)
-                            ->andWhere(sprintf('e.%s = :%s', 'course', 'course'))->setParameter('course', $courseCode);
+                    ->createQueryBuilder('e')
+                    ->select("DISTINCT e.unit")
+                    ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId)
+                    ->andWhere(sprintf('e.%s = :%s', 'course', 'course'))->setParameter('course', $courseCode)
+                    ->andWhere('e instance of \GqAus\UserBundle\Entity\Evidence\Text');
             $applicantList = $res->getQuery()->getResult();
             $evidenceCount = count($applicantList);
             $completeness = ($evidenceCount / $totalNoCourses) * 100;
@@ -1137,7 +1137,7 @@ class UserService
         $this->em->persist($user);
         $this->em->flush();
 
-        
+
         $address = $request->get('address');
         $pincode = $request->get('pincode');
         $addressObj = new UserAddress();
@@ -1176,14 +1176,15 @@ class UserService
         echo $user->getId() . '<br/>' . $addressObj->getId() . '<br/>' . $userCoursesObj->getId();
         exit;
     }
-    
+
     /*
      * Function to set the assessor and rto to applicant profile
      * return int
      */
+
     public function setRoleUsersForCourse($courseId, $role, $userId)
     {
-        $course = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($courseId);        
+        $course = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($courseId);
         $user = $this->getUserInfo($userId);
         if ($role == \GqAus\UserBundle\Entity\Rto::ROLE) {
             $course->setRto($user);
@@ -1195,10 +1196,11 @@ class UserService
         $this->em->clear();
         return "success";
     }
-    
+
     /*
      * Get List Users of specific role
      */
+
     public function getUsers($role)
     {
         $connection = $this->em->getConnection();
@@ -1207,7 +1209,7 @@ class UserService
         $statement->execute();
         return $statement->fetchAll();
     }
-    
+
     /**
      * Function to send start competency conversation notification to applicant
      */
@@ -1215,7 +1217,7 @@ class UserService
     {
         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
             'user' => $applicantId));
-        
+
         $applicant = $this->getUserInfo($applicantId);
         $assessor = $this->getUserInfo($assessorId);
         $mailerInfo = array();
@@ -1229,7 +1231,7 @@ class UserService
         $this->sendExternalEmail($mailerInfo);
         $this->sendMessagesInbox($mailerInfo);
     }
-    
+
     /**
      * Function to get todo reminders
      * return $result array
@@ -1240,7 +1242,7 @@ class UserService
                 ->findBy(array('user' => $userId, 'completed' => '0'), array('date' => 'asc'));
         return $getReminders;
     }
-    
+
     /**
      * Function to get completed reminders
      * return $result array
@@ -1251,14 +1253,14 @@ class UserService
                 ->findBy(array('user' => $userId, 'completed' => '1'), array('completedDate' => 'desc'));
         return $getReminders;
     }
-    
+
     /**
      * Function to convert date time to words
      */
     public function toDoDateToWords($date, $tab)
     {
-        
-        $ts1 = strtotime(date("Y-m-d",strtotime($date)));
+
+        $ts1 = strtotime(date("Y-m-d", strtotime($date)));
         $ts2 = strtotime(date("Y-m-d"));
 
         $seconds_diff = $ts1 - $ts2;
@@ -1267,11 +1269,11 @@ class UserService
           and the time given in days */
         $days = floor($seconds_diff / 3600 / 24);
         $return = '';
-         
+
         switch ($days) {
-            case 0: 
-                if ( strtotime($date) - time() < 0  && $tab == 'todo' ) {
-                  $return .= '<span class="todo_daynote">Over Due </span>';  
+            case 0:
+                if (strtotime($date) - time() < 0 && $tab == 'todo') {
+                    $return .= '<span class="todo_daynote">Over Due </span>';
                 }
                 $_word = date("h:i A", strtotime($date));
                 break;
@@ -1283,7 +1285,7 @@ class UserService
                 $_word = sprintf("%d days later", $days);
                 break;
             case ($days >= -6 && $days <= -2):
-                $_word = substr(sprintf("%d days ago", $days),1);
+                $_word = substr(sprintf("%d days ago", $days), 1);
                 break;
             case ($days >= 7 && $days < 14):
                 $_word = "1 week later";
@@ -1295,14 +1297,14 @@ class UserService
                 $_word = sprintf("%d weeks later", intval($days / 7));
                 break;
             case ($days >= -365 && $days <= -14):
-                $_word = substr(sprintf("%d weeks ago", intval($days / 7)),1);    
+                $_word = substr(sprintf("%d weeks ago", intval($days / 7)), 1);
                 break;
             default : $_word = date('d/m/Y h:i A', strtotime($date));
         }
         if ($days < 0 && $tab == 'todo') {
-         $return .= '<span class="todo_daynote">Over Due </span>';   
+            $return .= '<span class="todo_daynote">Over Due </span>';
         }
-        $return .= '<span class="todo_day">'.$_word.'</span>';    
+        $return .= '<span class="todo_day">' . $_word . '</span>';
         return $return;
     }
 
