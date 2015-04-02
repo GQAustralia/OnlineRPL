@@ -168,5 +168,8 @@ getUserEvidences:
     defaults:  { _controller: GqAusUserBundle:User:getUserEvidences }
 addEvidenceAssessment:
     path:     /addEvidenceAssessment
-    defaults:  { _controller: GqAusUserBundle:Evidence:addEvidenceAssessment }    
+    defaults:  { _controller: GqAusUserBundle:Evidence:addEvidenceAssessment }
+viewUserIdFiles:
+    path:     /viewUserIdFiles/{userId}
+    defaults: { _controller: GqAusUserBundle:User:viewUserIdFiles }     
     
