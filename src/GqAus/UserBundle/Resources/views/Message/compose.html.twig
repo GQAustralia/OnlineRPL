@@ -47,7 +47,8 @@
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    {{ form_start(composemsgForm) }}
+{#                    {{ form_start(composemsgForm) }}#}
+                    <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composemsgForm) }}>
                     <div class="gq-msg-wrap gq-msg-compose">
                         <div class="gq-msg-row-bg gq-msg-visited">
                             <div class="col-lg-1 col-md-2 col-sm-2 col-xs-4">

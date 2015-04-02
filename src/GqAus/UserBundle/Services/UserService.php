@@ -330,11 +330,8 @@ class UserService
     {
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $result['userId'],
             'unitId' => $result['unit'], 'courseCode' => $result['courseCode']));
-        $mailerInfo = array();
-        $userName = $courseUnitObj->getUser()->getUsername();
-        $mailerInfo['to'] = $courseUnitObj->getUser()->getEmail();
-        $mailerInfo['inbox'] = $courseUnitObj->getUser()->getId();
-        $mailerInfo['sent'] = $result['currentUserId'];
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->findOneBy(array('courseCode' => $result['courseCode'], 'user' => $result['userId']));
         if ($result['userRole'] == 'ROLE_FACILITATOR') {
             $courseUnitObj->setFacilitatorstatus($result['status']);
         } elseif ($result['userRole'] == 'ROLE_ASSESSOR') {
@@ -348,10 +345,27 @@ class UserService
         if ($result['status'] == '1') {
             $evidenceStatus = 'Approved';
         } else if ($result['status'] == '2') {
-            $evidenceStatus = 'Disapproved';
-            $mailerInfo['subject'] = 'Unit :' . $result['unitName'] . ' Status';
-            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $userName . ", \n Qualification : " . $result['courseName'] . " \n Unit : " . $result['unitName'] . " \n Evidences have been " . $evidenceStatus . " by " . $result['currentUserName'] . "
-             \n Regards, \n OnlineRPL";
+            $mailerInfo = array();
+            $mailerInfo['subject'] = $result['courseCode'] . ' ' . $result['courseName'] . ' : ' . $result['unitName'] . ' Evidences are disapproved';
+            $userName = $courseObj->getUser()->getUsername();
+            $facilitatorName = $courseObj->getFacilitator()->getUsername();
+            if ($result['userRole'] == 'ROLE_ASSESSOR') {                
+                $mailerInfo['to'] = $courseObj->getFacilitator()->getEmail();
+                $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
+                $mailerInfo['sent'] = $result['currentUserId'];
+                $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", \n Qualification : " . $result['courseCode'] . ' ' . $result['courseName'] . " \n Unit : " . $result['unit'] . ' ' . $result['unitName'] . " \n"
+                        . " Evidences had not yet competetent for user ". $userName . "\n"
+                 . " \n Regards, \n " .$result['currentUserName'];
+                $this->sendExternalEmail($mailerInfo);
+                $this->sendMessagesInbox($mailerInfo);
+            }            
+            
+            $mailerInfo['sent'] = $courseObj->getFacilitator()->getId();
+            $mailerInfo['to'] = $courseObj->getUser()->getEmail();
+            $mailerInfo['inbox'] = $courseObj->getUser()->getId();
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $userName . ", \n Qualification : " . $result['courseCode'] . ' ' . $result['courseName'] . " \n Unit : " . $result['unit'] . ' ' . $result['unitName'] . " \n"
+                        . " Provided evidences for above unit are not yet competetent please add more evidences and get back to us \n"
+             . "\n\n Regards, \n " . $facilitatorName;
             $this->sendExternalEmail($mailerInfo);
             $this->sendMessagesInbox($mailerInfo);
         }
