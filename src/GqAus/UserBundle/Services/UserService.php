@@ -1307,5 +1307,36 @@ class UserService
         $return .= '<span class="todo_day">' . $_word . '</span>';
         return $return;
     }
+    
+    /**
+    * Function to get applicant unit status
+    * return $result array
+    */
+    public function getUnitStatusByRoleWise($applicantId, $userRole, $unitId, $courseCode)
+    {
+        $approvalStatus = 0;
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findOneBy(array(
+            'user' => $applicantId,
+            'unitId' => $unitId,
+            'courseCode' => $courseCode));
+        if ( $userCourseUnits ) {
+            $approvalStatus = 0;
+            switch($userRole) {
+                case 'ROLE_FACILITATOR' :
+                    $approvalStatus = $userCourseUnits->getFacilitatorstatus();
+                    break;
+                case 'ROLE_ASSESSOR' :
+                    $approvalStatus = $userCourseUnits->getAssessorstatus();
+                    break;
+                case 'ROLE_RTO' :
+                    $approvalStatus = $userCourseUnits->getRtostatus();
+                    break;
+                default :
+                    $approvalStatus = 0;
+            }            
+        }        
+        return $approvalStatus;
+    }
 
 }
