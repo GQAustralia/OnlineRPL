@@ -172,4 +172,7 @@ addEvidenceAssessment:
 viewUserIdFiles:
     path:     /viewUserIdFiles/{userId}
     defaults: { _controller: GqAusUserBundle:User:viewUserIdFiles }     
+saveMessage:
+    path:     /saveMessage
+    defaults: { _controller: GqAusUserBundle:Message:saveMessage }     
     
