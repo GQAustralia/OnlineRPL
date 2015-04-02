@@ -32,9 +32,8 @@ class MessageController extends Controller
         $response->headers->set("Expires", "-1");
         $response->send();
 
-       return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
-       //return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
-        
+        return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
+        //return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
     }
 
     /**
@@ -48,8 +47,69 @@ class MessageController extends Controller
         $curuser = $userService->getCurrentUser();
         $unreadcount = $userService->getUnreadMessagesCount($curuser->getId());
         $composeform = $this->createForm(new ComposeMessageForm(), array());
-        /* Compose Action Start */
+
+        $newMsg = "true";
+        $repMessage = $repSub = $repuser = '';
+        $coursename = $request->get("course-name");
+        $coursecode = $request->get("course-code");
+        if ($coursename != "" && $coursecode != "") {
+            $userid = $request->get("userid");
+            $unitname = $request->get("unit-name");
+            $unitcode = $request->get("unit-code");
+            $evidenceUser = $userService->getUserInfo($userid);            
+            $repuser = $evidenceUser->getEmail();
+            if ($request->get("message_to_user")) {
+                $courseDetails = $this->get('CoursesService')->getCourseDetails($coursecode, $userid);
+                $toRoleUser = ($courseDetails->getFacilitator()->getID() === $curuser->getId()) ? $courseDetails->getAssessor() : $courseDetails->getFacilitator();
+                $evidenceUser = $userService->getUserInfo($toRoleUser);
+                $repuser = $evidenceUser->getEmail();
+            }
+            $repSub = $coursecode . " " . $coursename;
+            $repMessage = "Course details : " . $coursecode . " " . $coursename . "\n";
+            if ($unitname != "" && $unitcode != "") {
+                $repMessage .= "Unit details : " . $unitcode . " " . $unitname;
+                $repSub .= " - " . $unitcode . " " . $unitname;
+            }
+            $newMsg = "false";
+        }
+        $replyId = $this->getRequest()->get('reply_id');
+        if ($replyId) {
+            $message = $userService->getMessage($replyId);
+            $repMessage = "\n\n\n\n";
+            $newDateCreated = date("d/m/Y", strtotime($message->getCreated()));
+            $repMessage .= "Received on :" . $newDateCreated . ", sent from :" . $message->getSent()->getUserName() . "\n";
+            $repMessage .= "Subject :" . $message->getSubject() . "\n";
+            $repMessage .= "Message :\n" . $message->getmessage();
+            $repSub = "Re: " . $message->getSubject();
+            if ($curuser->getId() != $message->getSent()->getId()) {
+                $repuser = $message->getSent()->getEmail();
+            } else {
+                $repuser = $message->getInbox()->getEmail();
+            }
+            $newMsg = "false";
+        }
+        /* Compose Action End */
+        return $this->render('GqAusUserBundle:Message:compose.html.twig', array(
+                    'composemsgForm' => $composeform->createView(),
+                    'unreadcount' => $unreadcount,
+                    'repMessage' => $repMessage,
+                    'sub' => $repSub,
+                    'user' => $repuser,
+                    'newMsg' => $newMsg
+                        )
+        );
+    }
+
+    /**
+     * Function to save composed message
+     * return response
+     */
+    public function saveMessageAction(Request $request)
+    {        
         if ($request->isMethod('POST')) {
+            $userService = $this->get('UserService');
+            $curuser = $userService->getCurrentUser();
+            $composeform = $this->createForm(new ComposeMessageForm(), array());
             $composeform->handleRequest($request);
             if ($composeform->isValid()) {
                 $composearr = $request->get('compose');
@@ -68,59 +128,14 @@ class MessageController extends Controller
                     $request->getSession()->getFlashBag()->add(
                             'msgnotice', 'Message sent successfully!'
                     );
-                    return $this->redirect('messages');
                 } else {
                     $request->getSession()->getFlashBag()->add(
                             'errornotice', 'User not existed'
                     );
                 }
             }
+            return $this->redirect('messages');
         }
-        $newMsg = "true";
-        $repMessage = $repSub = $repuser = '';
-        $coursename = $request->get("course-name");
-        $coursecode = $request->get("course-code");
-        if ($coursename != "" && $coursecode != "") {
-            $userid = $request->get("userid");
-            $unitname = $request->get("unit-name");
-            $unitcode = $request->get("unit-code");
-            $evidenceUser = $userService->getUserInfo($userid);
-            $repuser = $evidenceUser->getEmail();
-            $repSub =  $coursecode . " ". $coursename;
-            $repMessage = "Course details : " . $coursecode . " ". $coursename . "\n";
-            if ($unitname != "" && $unitcode != "") {
-                $repMessage .= "Unit details : " . $unitcode . " " . $unitname;
-                $repSub .=  " - " . $unitcode . " " . $unitname;
-            }
-            $newMsg = "false";
-        }
-        $replyId = $this->getRequest()->get('reply_id');
-        if ($replyId) {
-            $message = $userService->getMessage($replyId);
-            $repMessage = "\n\n\n\n";
-            $newDateCreated = date("d/m/Y", strtotime($message->getCreated()));
-            $repMessage .= "Received on :" . $newDateCreated . ", sent from :" . $message->getSent()->getUserName() . "\n";
-            $repMessage .= "Subject :" . $message->getSubject() . "\n";
-            $repMessage .= "Message :\n" . $message->getmessage();
-            $repSub = "Re: " . $message->getSubject();
-            if ( $curuser->getId() != $message->getSent()->getId() ) {
-                $repuser = $message->getSent()->getEmail();
-            } else {
-                $repuser = $message->getInbox()->getEmail();   
-            }
-            $newMsg = "false";
-        }
-        /* Compose Action End */
-        return $this->render(
-                        'GqAusUserBundle:Message:compose.html.twig', array(
-                    'composemsgForm' => $composeform->createView(),
-                    'unreadcount' => $unreadcount,
-                    'repMessage' => $repMessage,
-                    'sub' => $repSub,
-                    'user' => $repuser,
-                    'newMsg' => $newMsg
-                        )
-        );
     }
 
     /**
@@ -144,7 +159,8 @@ class MessageController extends Controller
      * Function to view all trashed messages
      * return response
      */
-    public function trashAction(Request $request) {
+    public function trashAction(Request $request)
+    {
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
@@ -213,34 +229,32 @@ class MessageController extends Controller
         $toStatus = $message->getToStatus();
         $fromStatus = $message->getFromStatus();
         $msgDetails = array(
-                        'fromUser'  => $msgUser,
-                        'toUser'    => $touser,
-                        'toStatus'  => $toStatus,
-                        'fromStatus'=> $fromStatus,
-                        'curUser'   => $userid
-                        );
+            'fromUser' => $msgUser,
+            'toUser' => $touser,
+            'toStatus' => $toStatus,
+            'fromStatus' => $fromStatus,
+            'curUser' => $userid
+        );
         if ($userid == $msgUser) {
-            $userName= $message->getInbox()->getUserName(); 
+            $userName = $message->getInbox()->getUserName();
             $from = " from me";
             if ($userid == $message->getInbox()->getId()) {
-               $from = " to me"; 
+                $from = " to me";
             }
         } else {
-            $userName = $message->getSent()->getUserName(); 
+            $userName = $message->getSent()->getUserName();
             $from = " to me";
-            
         }
         $content = nl2br($message->getMessage());
         return $this->render(
-                'GqAusUserBundle:Message:message.html.twig',
-                array(
+                        'GqAusUserBundle:Message:message.html.twig', array(
                     'unreadcount' => $unreadcount,
                     "message" => $message,
                     'content' => $content,
                     'userName' => $userName,
                     'from' => $from,
-                    'msgDetails' => $msgDetails 
-                )
+                    'msgDetails' => $msgDetails
+                        )
         );
     }
 
@@ -270,7 +284,6 @@ class MessageController extends Controller
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
         echo $unreadcount;
         exit;
-    }   
-    
+    }
 
 }
