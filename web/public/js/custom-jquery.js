@@ -60,25 +60,19 @@ $(function() {
     });
     
    $("body").on("click", ".unit-emailcon", function() {
-        var id = $(this).parent().attr('id')
-        $(".edittitle_loader").show();
+        var id = $(this).parent().attr('id');
+        var userId = $(this).attr("userId");
+        var courseCode = $(this).attr("courseCode");
+        $('body #facilitatorApplicantMessages').html('');
+        $('body #facilitatorApplicantMessages').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
+    
         $.ajax({
             type: "POST",
-            url: "editEvidenceTitle",
+            url: base_url + "facilitatorApplicant",
             cache: false,
-            data: {title: title, id: id},
+            data: {unitId: id, userId: userId, courseCode : courseCode},
             success: function(result) {
-                if (result == "success")
-                {
-                    if (title.length > 20) {
-                       title = title.substring(0, 20)+'...';
-                    }
-                    $("#eqclose").trigger("click");
-                    $("#editEvidenceModelinput").val(title);
-                    $("#ev-" + id).attr("data-evtitle", title);
-                    $("#evd-title-" + id).html(title);
-                    $(".edittitle_loader").hide();
-                }
+                $("body #facilitatorApplicantMessages").html(result);
             }
         });
     });
