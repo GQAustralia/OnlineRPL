@@ -1371,4 +1371,20 @@ class UserService
         return $unitPId;
     }
 
+    /**
+     * Function to get inbox messages
+     * return array
+     */
+    public function getFacilitatorApplicantMessages($unitId, $toId, $fromId)
+    {
+        $query = $this->em->getRepository('GqAusUserBundle:Message')
+                ->createQueryBuilder('m')
+                ->select("m")
+                ->where(sprintf('m.%s = :%s', 'unit_id', 'unit_id'))->setParameter('unit_id', $unitId)
+                ->andWhere(sprintf('m.%s = :%s and m.%s = :%s', 'inbox', 'inbox', 'sent', 'sent'))->setParameter('inbox', $toId)->setParameter('sent', $fromId)
+                ->orWhere(sprintf('m.%s = :%s and m.%s = :%s', 'inbox', 'inbox', 'sent', 'sent'))->setParameter('inbox', $fromId)->setParameter('sent', $toId)
+                ->addOrderBy('m.created', 'DESC');
+        return $query;
+    }
+
 }

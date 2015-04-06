@@ -285,5 +285,19 @@ class MessageController extends Controller
         echo $unreadcount;
         exit;
     }
+    
+    
+
+    /**
+     * Function to view applicant and facilitator messages to assessor
+     * return response
+     */
+    public function facilitatorApplicantAction(Request $request)
+    {
+        $userService = $this->get('UserService');
+        $result = $userService->getFacilitatorApplicantMessages($request->get("id"));
+        echo $this->render('GqAusUserBundle:FacilitatorApplicant:view.html.twig', $result);
+        exit;
+    }
 
 }

@@ -14,6 +14,9 @@
                      {% if ('ROLE_APPLICANT' not in currentUserRole) %}
                     <li role="presentation"><a href="#unit-recording" aria-controls="unit-recording" role="tab" data-toggle="tab">Competency Recordings</a></li>
                     {% endif %}
+                    {% if ('ROLE_ASSESSOR' in currentUserRole) %}
+                    <li role="presentation" id="{{ unitStatus.id }}"><a href="#unit-emailcon" class="unit-emailcon" aria-controls="unit-emailcon" role="tab" data-toggle="tab">Email Conversation</a></li>
+                    {% endif %}
                 </ul>
                 <!-- Tabs end start here -->
                 <!-- Content for respective tabs above will be in this section -->
@@ -298,6 +301,47 @@
                             </div>
                         </div>
                     </div>
+                    {% if ('ROLE_ASSESSOR' in currentUserRole) %}
+                    <div role="tabpanel" class="tab-pane" id="unit-emailcon">
+                        <div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+                                        <!-- accordion starts here -->
+                                        <div class="gq-acc-wrap">
+                                            <div class="gq-to-do-list-row">
+                                                <input id="acc-11" name="accordion-1" type="checkbox">
+                                                <div class="row no-margin">
+                                                    <div id="div_1" class="gq-acc-row-bg">
+                                                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
+                                                            <div class="gq-acc-row-title">Test Test</div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
+                                                            <div class="gq-acc-row-title">BSB10112 Graduate Certificate in Business Administration (General)</div>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                                                            <div class="gq-acc-row-title gq-to-do-date" id="title_1">
+                                                                <span class="todo_day">6 weeks ago</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                            <label for="acc-11" temp="acc-11" class="col-xs-4 btn add-btn upDownArrow">VIEW</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <article class="acc-small">
+                                                    <p>Expanded</p>
+                                                </article>
+                                            </div>                                                    
+                                        </div>
+                                        
+                                        <!-- accordion ends here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  {% endif %}  
                 </div>
             </div>
         </div>
@@ -305,18 +349,18 @@
 </div>
 
 
-    <div class="gq-id-files-upload-success-text" style="display: none;"></div>
+<div class="gq-id-files-upload-success-text" style="display: none;"></div>
     {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_RTO' in currentUserRole) %}
 <div class="text-center gq-id-files-button-content-wrap" id="applicantEStatus" userRole="{{currentUserRole.0}}">
-    
+
     {% if unitStatus.facilitatorstatus == '2' %}
-        <div>Facilitator marked it as unacceptable!</div>
+    <div>Facilitator marked it as unacceptable!</div>
     {% endif %}            
     {% if unitStatus.assessorstatus == '2' %}
-        <div>Assessor marked it as unacceptable!</div>
+    <div>Assessor marked it as unacceptable!</div>
     {% endif %}         
     {% if unitStatus.rtostatus == '2' %}
-        <div>RTO marked it as unacceptable!</div>
+    <div>RTO marked it as unacceptable!</div>
     {% endif %}
 {% if unitStatus.rtostatus == '0' %}
     <form action="{{ base_url }}compose" method="post" name="composeevform">
@@ -338,27 +382,28 @@
         {% else %}
             {% if ('ROLE_RTO' in currentUserRole and unitStatus.assessorstatus == '1')  or ('ROLE_FACILITATOR' in currentUserRole and unitStatus.facilitatorstatus == '0' and unitStatus.assessorstatus == '0') or ('ROLE_ASSESSOR' in currentUserRole  and unitStatus.assessorstatus == '0') %}
                 {% if flag_image == 1 or flag_audio == 1 or flag_video == 1 or flag_text == 1 or flag_files == 1 %}
-                    <button type="button" id="approve" class="btn btn-green">{{ app_btn_name }}</button>
-                    <button type="button" id="disapprove" class="btn btn-red">{{ disapp_btn_name }}</button>
+            <button type="button" id="approve" class="btn btn-green">{{ app_btn_name }}</button>
+            <button type="button" id="disapprove" class="btn btn-red">{{ disapp_btn_name }}</button>
                 {% else %}
-                    <button type="button" id="approve" disabled class="btn btn-green">{{ app_btn_name }}</button>
-                    <button type="button" id="disapprove" disabled class="btn btn-red">{{ disapp_btn_name }}</button>
+            <button type="button" id="approve" disabled class="btn btn-green">{{ app_btn_name }}</button>
+            <button type="button" id="disapprove" disabled class="btn btn-red">{{ disapp_btn_name }}</button>
                 {% endif %}
-                <input type="hidden" name="hid-course-name" id="hid-course-name" value="{{course_name}}">
-                <input type="hidden" name="hid-unit-name" id="hid-unit-name" value="{{unittitle}}">
-                <input type="hidden" name="hid-course-code"  id="hid-course-code" value="{{course_code}}">
+            <input type="hidden" name="hid-course-name" id="hid-course-name" value="{{course_name}}">
+            <input type="hidden" name="hid-unit-name" id="hid-unit-name" value="{{unittitle}}">
+            <input type="hidden" name="hid-course-code"  id="hid-course-code" value="{{course_code}}">
             {% endif %}
-                <input type="hidden" name="course-name" value="{{course_name}}">
-                <input type="hidden" name="course-code" value="{{course_code}}">
-                <input type="hidden" name="userid" value="{{userId}}">
-                <input type="hidden" name="unit-name" value="{{unittitle}}">
-                <input type="hidden" name="unit-code" value="{{unitCode}}">                
+            <input type="hidden" name="course-name" value="{{course_name}}">
+            <input type="hidden" name="course-code" value="{{course_code}}">
+            <input type="hidden" name="userid" value="{{userId}}">
+            <input type="hidden" name="unit-name" value="{{unittitle}}">
+            <input type="hidden" name="unit-code" value="{{unitCode}}">
+            <input type="hidden" name="unit-id" value="{{unitStatus.id}}">           
             {% if ('ROLE_FACILITATOR' in currentUserRole and unitStatus.facilitatorstatus == '0' and unitStatus.assessorstatus == '0') %}
-                <button type="submit" id="send_message" class="btn btn-grey">Send a Message</button>               
+            <button type="submit" id="send_message" class="btn btn-grey">Send a Message</button>               
             {% endif %}
             {% if ('ROLE_ASSESSOR' in currentUserRole and unitStatus.assessorstatus == '0') or ('ROLE_FACILITATOR' in currentUserRole and unitStatus.facilitatorstatus == '0' and unitStatus.assessorstatus == '0') %}    
                 {% set role_user = ('ROLE_FACILITATOR' in currentUserRole) ? 'Assessor' : 'Facilitator' %}
-                <button type="submit" id="message_to_user" name="message_to_user" value="1" class="btn btn-grey">Message to {{ role_user }}</button>
+            <button type="submit" id="message_to_user" name="message_to_user" value="1" class="btn btn-grey">Message to {{ role_user }}</button>
             {% endif %}
         {% endif %}
         </span>
@@ -391,25 +436,25 @@
 </div>-->
 <script src="{{ asset('public/js/custom-jquery-ajax.js') }}"></script>
 <script type="text/javascript">
-    $(document).ready(function() {        
+    $(document).ready(function() {
        {% if unitevidences %}
-           var activeTab = '';
+        var activeTab = '';
            {% if flag_image == 1 %}
-               activeTab = 'unit-images';
+        activeTab = 'unit-images';
            {% elseif flag_audio == 1 %}
-               activeTab = 'unit-audios';        
+        activeTab = 'unit-audios';
            {% elseif flag_video == 1 %}
-               activeTab = 'unit-videos';        
+        activeTab = 'unit-videos';
            {% elseif flag_text == 1 %}
-               activeTab = 'unit-notes';
+        activeTab = 'unit-notes';
            {% elseif flag_files == 1 %}
-               activeTab = 'unit-files'; 
+        activeTab = 'unit-files';
            {% elseif flag_recording == 1 %}
-               activeTab = 'unit-recording';     
+        activeTab = 'unit-recording';
            {% endif %}
-           $("a[aria-controls='"+ activeTab +"']").parent().addClass("active");
-           $("#"+ activeTab).addClass("active");
-       {% endif %}        
+        $("a[aria-controls='" + activeTab + "']").parent().addClass("active");
+        $("#" + activeTab).addClass("active");
+       {% endif %}
     });
-    
+
 </script>
