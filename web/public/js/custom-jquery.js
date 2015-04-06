@@ -58,6 +58,30 @@ $(function() {
             }
         });
     });
+    
+   $("body").on("click", ".unit-emailcon", function() {
+        var id = $(this).parent().attr('id')
+        $(".edittitle_loader").show();
+        $.ajax({
+            type: "POST",
+            url: "editEvidenceTitle",
+            cache: false,
+            data: {title: title, id: id},
+            success: function(result) {
+                if (result == "success")
+                {
+                    if (title.length > 20) {
+                       title = title.substring(0, 20)+'...';
+                    }
+                    $("#eqclose").trigger("click");
+                    $("#editEvidenceModelinput").val(title);
+                    $("#ev-" + id).attr("data-evtitle", title);
+                    $("#evd-title-" + id).html(title);
+                    $(".edittitle_loader").hide();
+                }
+            }
+        });
+    });
 });
 
 $("#view_terms").click(function() {
