@@ -1,0 +1,21 @@
+{% set flag_note = 0 %}
+{% if notes %}
+   {% for note in notes %}
+     {% set flag_note = 1 %}
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="gq-dashboard-courses-detail">
+                <div class="gq-id-files-content-row-wrap">
+                    <div class="gq-id-files-content-row">
+                        <label>Content</label><span>{{note.note}}</span>
+                    </div>
+                    <div class="gq-id-files-content-row">
+                        <label>Added on</label><span>{{note.created|date("d/m/Y") }}</span>
+                    </div>
+                </div>                
+            </div>
+        </div>
+   {% endfor %}
+{% endif %}
+{% if flag_note == 0 %}
+     <div class="gq-tabs-no-content-text">Notes not found</div>
+{% endif %}

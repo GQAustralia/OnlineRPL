@@ -30,3 +30,6 @@ services:
     TokBox:
         class: GqAus\UserBundle\Services\TokBox
         arguments: [@doctrine.orm.entity_manager]
+    NotesService:
+        class: GqAus\UserBundle\Services\NotesService
+        arguments: [@doctrine.orm.entity_manager, @service_container]    

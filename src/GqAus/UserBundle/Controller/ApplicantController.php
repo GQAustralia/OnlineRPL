@@ -5,6 +5,7 @@ namespace GqAus\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use GqAus\UserBundle\Form\NotesForm;
 
 class ApplicantController extends Controller
 {
@@ -28,6 +29,10 @@ class ApplicantController extends Controller
             }
             $results['electiveUnits'] = $coursesService->getElectiveUnits($uid, $qcode);
             $results['courseCode'] = $qcode;
+            if ($role[0] == \GqAus\UserBundle\Entity\Facilitator::ROLE_NAME || $role[0] == \GqAus\UserBundle\Entity\Assessor::ROLE_NAME ) {
+                $notesForm = $this->createForm(new NotesForm(), array());
+                $results['notesForm'] = $notesForm->createView();
+            }
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
