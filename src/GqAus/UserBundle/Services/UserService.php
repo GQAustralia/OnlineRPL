@@ -1324,7 +1324,7 @@ class UserService
     
     /**
     * Function to get applicant unit status
-    * return $result array
+    * return $approvalStatus int
     */
     public function getUnitStatusByRoleWise($applicantId, $userRole, $unitId, $courseCode)
     {
@@ -1351,6 +1351,24 @@ class UserService
             }            
         }        
         return $approvalStatus;
+    }
+    
+    /**
+    * Function to get unit primary key
+    * return $unitPId int
+    */
+    public function getUnitPrimaryId($applicantId, $unitId, $courseCode)
+    {
+        $unitPId = 0;
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findOneBy(array(
+            'user' => $applicantId,
+            'unitId' => $unitId,
+            'courseCode' => $courseCode));        
+        if ( $userCourseUnits ) {
+           $unitPId = $userCourseUnits->getId();         
+        }        
+        return $unitPId;
     }
 
     /**

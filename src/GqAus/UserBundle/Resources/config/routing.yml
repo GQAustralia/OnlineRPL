@@ -174,5 +174,11 @@ viewUserIdFiles:
     defaults: { _controller: GqAusUserBundle:User:viewUserIdFiles }     
 saveMessage:
     path:     /saveMessage
-    defaults: { _controller: GqAusUserBundle:Message:saveMessage }     
+    defaults: { _controller: GqAusUserBundle:Message:saveMessage }
+addNotes:
+    path:     /addNotes
+    defaults: { _controller: GqAusUserBundle:Notes:addNotes } 
+getUnitNotes:
+    path:     /getUnitNotes
+    defaults: { _controller: GqAusUserBundle:Notes:getUnitNotes }    
     

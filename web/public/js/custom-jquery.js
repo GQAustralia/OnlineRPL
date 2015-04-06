@@ -1632,3 +1632,79 @@ function resetDateTimePicker(rmid) {
     $('#notes_' + rmid).val('').attr("placeholder", "Notes");
     $('#remindDate_' + rmid).val('').attr("placeholder", "Due Date");
 }
+
+$(".unit-notes").click(function() {
+    $(".gq-extra-space").show();
+    $("#myNotesTab li").removeClass("active");
+    $("#myNotesTabContent div.tab-pane").removeClass("active");
+    $("#myNotesTab li").first().addClass("active");
+    $("#myNotesTabContent div.tab-pane").first().addClass("active");
+    if ( !$("#myNotesTabContent div.tab-pane").first().hasClass("in") ) {
+        $("#myNotesTabContent div.tab-pane").first().addClass("in"); 
+    }
+    $("#frmAddNotes")[0].reset();
+    $('#addnotes_note_unit_id').val($(this).attr("unitid"));
+    $('#addnotes_unit_note_type').val($(this).attr("notestype"));
+    $("#yourNotes").attr("unitid", $(this).attr("unitid"));
+    $("#otherMemberNotes").attr("unitid", $(this).attr("unitid"));    
+ });
+ 
+ // for validating the add notes form
+$( '#addnotes_unit_save' ).click( function( e ) {
+    if ( $("#addnotes_unit_notes").val().length > 0) {
+       $('#frmAddNotes').submit();
+    } else {
+        $('#notes-error-msg').show();
+        $("#notes-error-msg").html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Please add notes!</h2>').delay(5000).fadeOut(100); 
+    }
+    e.preventDefault();
+    return false;
+});
+
+// submitting the add notes form
+if($('#frmAddNotes').length) 
+{
+    $("#frmAddNotes").ajaxForm({
+        beforeSubmit: function() {
+            $('#notes-loading').removeClass('hide');
+        },
+        success: function(responseText, statusText, xhr, $form) {
+            $('#notes-loading').addClass('hide');
+            if (responseText == "success") {
+                $('#notes-success-msg').show();
+                $("#notes-success-msg").html('<h2><img src="' + base_url + 'public/images/tick.png">Notes added successfully!</h2>').delay(5000).fadeOut(100);
+            } else {
+                $('#notes-error-msg').show();
+               $("#notes-error-msg").html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Error saving notes!</h2>').delay(5000).fadeOut(100);  
+            }
+        },
+        resetForm: true
+    });
+}
+
+// fetch the user notes
+$( "#yourNotes" ).click(function(){
+  var unitId = $(this).attr("unitid");
+  var userType = $(this).attr("userType");
+  getUnitNotesByType(unitId, userType, "yourNotesDiv");
+});
+
+// fetch the other memeber notes
+$( "#otherMemberNotes" ).click(function(){
+  var unitId = $(this).attr("unitid");
+  var userType = $(this).attr("userType");
+  getUnitNotesByType(unitId, userType, "otherMemberNotesDiv");
+});
+
+function getUnitNotesByType(unitId, userType, divId) {
+    $('#' + divId).html('');
+    $('#' + divId).html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
+    $.ajax({
+        type: "POST",
+        url: base_url + "getUnitNotes",
+        data: {unitId: unitId, userType: userType},
+        success: function(result) {
+            $('#' + divId).html(result);
+        }
+    });
+}
