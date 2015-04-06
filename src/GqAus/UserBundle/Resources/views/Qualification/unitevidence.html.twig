@@ -15,7 +15,7 @@
                     <li role="presentation"><a href="#unit-recording" aria-controls="unit-recording" role="tab" data-toggle="tab">Competency Recordings</a></li>
                     {% endif %}
                     {% if ('ROLE_ASSESSOR' in currentUserRole) %}
-                    <li role="presentation" id="{{ unitStatus.id }}"><a href="#unit-emailcon" class="unit-emailcon" aria-controls="unit-emailcon" role="tab" data-toggle="tab">Email Conversation</a></li>
+                    <li role="presentation" id="{{ unitStatus.id }}"><a userId="{{ userId }}" courseCode="{{ course_code }}" href="#unit-emailcon" class="unit-emailcon" aria-controls="unit-emailcon" role="tab" data-toggle="tab">Email Conversation</a></li>
                     {% endif %}
                 </ul>
                 <!-- Tabs end start here -->
@@ -306,34 +306,9 @@
                         <div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
                             <div class="row">
                                 <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+                                    <div id="facilitatorApplicantMessages" class="col-lg-12 col-md-12 col-sm-12 colxs-12">
                                         <!-- accordion starts here -->
-                                        <div class="gq-acc-wrap">
-                                            <div class="gq-to-do-list-row">
-                                                <input id="acc-11" name="accordion-1" type="checkbox">
-                                                <div class="row no-margin">
-                                                    <div id="div_1" class="gq-acc-row-bg">
-                                                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
-                                                            <div class="gq-acc-row-title">Test Test</div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
-                                                            <div class="gq-acc-row-title">BSB10112 Graduate Certificate in Business Administration (General)</div>
-                                                        </div>
-                                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                                                            <div class="gq-acc-row-title gq-to-do-date" id="title_1">
-                                                                <span class="todo_day">6 weeks ago</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                            <label for="acc-11" temp="acc-11" class="col-xs-4 btn add-btn upDownArrow">VIEW</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <article class="acc-small">
-                                                    <p>Expanded</p>
-                                                </article>
-                                            </div>                                                    
-                                        </div>
+                                        
                                         
                                         <!-- accordion ends here -->
                                     </div>

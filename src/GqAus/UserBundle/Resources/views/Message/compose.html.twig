@@ -79,18 +79,18 @@
                             <div class="col-xs-12">
                             </div>
                             <div class="gq-msg-from">
-								<section class="textarea-example">
-									<div class="content">
-										<div class="textarea-wrapper">
-											{% if user is defined and user != '' %}
-											{{ form_widget(composemsgForm.message, {value  : repMessage}, {'attr': {'placeholder': 'Enter Message'} }) }}
-											{% else %}
-											{{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message'} }) }}
-											{% endif %}
-											<div class="textarea-clone"></div>
-										</div>
-									</div>
-								</section>
+                                <section class="textarea-example">
+                                        <div class="content">
+                                                <div class="textarea-wrapper">
+                                                        {% if user is defined and user != '' %}
+                                                        {{ form_widget(composemsgForm.message, {value  : repMessage}, {'attr': {'placeholder': 'Enter Message'} }) }}
+                                                        {% else %}
+                                                        {{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message'} }) }}
+                                                        {% endif %}
+                                                        <div class="textarea-clone"></div>
+                                                </div>
+                                        </div>
+                                </section>
                             </div>
                         </div>
 						
@@ -98,6 +98,7 @@
                             <div class="col-xs-12">
                             </div>
                             <div class="gq-messages-button-wrap">
+                                {{ form_widget(composemsgForm.unitId, {value  : unitId}, { 'attr': {'id': 'message-unit-id'}}) }}
                                 {{ form_widget(composemsgForm.save,{ 'label': 'Send' , 'attr': {'class': 'btn btn-red'}}) }}
                                 <a class="checkform-changed" data-toggle="modal" data-target="" ><button class="btn btn-grey" name="compose[discard]" id="compose_discard" type="reset">Discard</button></a>
                                 <span class="flip-icon"></span>

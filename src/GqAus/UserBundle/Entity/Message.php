@@ -58,6 +58,11 @@ class Message
      * @var \GqAus\UserBundle\Entity\User
      */
     private $sent;
+    
+    /**
+     * @var string
+     */
+    private $unitID;
 
 
     /**
@@ -275,5 +280,28 @@ class Message
     public function getSent()
     {
         return $this->sent;
+    }
+    
+    /**
+     * Get unitID
+     *
+     * @return integer 
+     */
+    public function getunitID()
+    {
+        return $this->unitID;
+    }
+    
+     /**
+     * Set unitId
+     *
+     * @param integer $unitID
+     * @return Message
+     */
+    public function setunitID($unitID)
+    {
+        $this->unitID = $unitID;
+        
+        return $this;
     }
 }

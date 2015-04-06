@@ -866,6 +866,7 @@ class UserService
         $msgObj->setFromStatus(0);
         $msgObj->setToStatus(0);
         $msgObj->setReply(0);
+        $msgObj->setunitID($msgdata["unitId"]);
         $this->em->persist($msgObj);
         $this->em->flush();
     }
@@ -1380,11 +1381,12 @@ class UserService
         $query = $this->em->getRepository('GqAusUserBundle:Message')
                 ->createQueryBuilder('m')
                 ->select("m")
-                ->where(sprintf('m.%s = :%s', 'unit_id', 'unit_id'))->setParameter('unit_id', $unitId)
-                ->andWhere(sprintf('m.%s = :%s and m.%s = :%s', 'inbox', 'inbox', 'sent', 'sent'))->setParameter('inbox', $toId)->setParameter('sent', $fromId)
-                ->orWhere(sprintf('m.%s = :%s and m.%s = :%s', 'inbox', 'inbox', 'sent', 'sent'))->setParameter('inbox', $fromId)->setParameter('sent', $toId)
+                ->where("m.unitID = :unitId")->setParameter('unitId', $unitId)
+                ->andWhere("m.inbox = :toId and m.sent = :fromId or m.inbox = :fromId and m.sent = :toId")->setParameter('toId', $toId)->setParameter('fromId', $fromId)
                 ->addOrderBy('m.created', 'DESC');
-        return $query;
+       // $messages = $query->getQuery()->getSQL();exit;
+        $messages = $query->getQuery()->getResult();
+       return $messages;
     }
 
 }

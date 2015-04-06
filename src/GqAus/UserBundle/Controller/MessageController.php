@@ -56,6 +56,7 @@ class MessageController extends Controller
             $userid = $request->get("userid");
             $unitname = $request->get("unit-name");
             $unitcode = $request->get("unit-code");
+            $unitId = $request->get("unit-id");
             $evidenceUser = $userService->getUserInfo($userid);            
             $repuser = $evidenceUser->getEmail();
             if ($request->get("message_to_user")) {
@@ -86,6 +87,10 @@ class MessageController extends Controller
             } else {
                 $repuser = $message->getInbox()->getEmail();
             }
+            $unitId = '';
+            if ($message->getUnitID()!="" || $message->getUnitID() > 0 ) {
+                $unitId = $message->getUnitID();
+            }
             $newMsg = "false";
         }
         /* Compose Action End */
@@ -95,7 +100,8 @@ class MessageController extends Controller
                     'repMessage' => $repMessage,
                     'sub' => $repSub,
                     'user' => $repuser,
-                    'newMsg' => $newMsg
+                    'newMsg' => $newMsg,
+                    'unitId' => $unitId
                         )
         );
     }
@@ -116,6 +122,10 @@ class MessageController extends Controller
                 $to = $composearr['to'];
                 $subject = $composearr['subject'];
                 $message = $composearr['message'];
+                $unitId = '';
+                if (isset($composearr['unitId'])) {
+                    $unitId = $composearr['unitId'];
+                }
                 $user = $this->getDoctrine()
                         ->getRepository('GqAusUserBundle:User')
                         ->findOneBy(array('email' => $to));
@@ -123,7 +133,7 @@ class MessageController extends Controller
                     $touser = $user->getId();
                     $sentuser = $userService->getUserInfo($touser);
                     $msgdata = array("subject" => $subject,
-                        "message" => $message);
+                        "message" => $message, "unitId" => $unitId);
                     $userService->saveMessageData($sentuser, $curuser, $msgdata);
                     $request->getSession()->getFlashBag()->add(
                             'msgnotice', 'Message sent successfully!'
@@ -294,9 +304,19 @@ class MessageController extends Controller
      */
     public function facilitatorApplicantAction(Request $request)
     {
-        $userService = $this->get('UserService');
-        $result = $userService->getFacilitatorApplicantMessages($request->get("id"));
-        echo $this->render('GqAusUserBundle:FacilitatorApplicant:view.html.twig', $result);
+        $unitId = $this->getRequest()->get('unitId');
+        $userId = $this->getRequest()->get('userId');
+        $courseCode = $this->getRequest()->get('courseCode');
+        if (!empty($unitId) && !empty($userId) && !empty($courseCode) ) {
+          $courseData = $this->get('CoursesService')->getCourseDetails($courseCode, $userId);
+          $applicantId = $courseData->getUser()->getId();
+          $facilitatorId = $courseData->getFacilitator()->getId();
+          $results['messages'] = $this->get('UserService')->getFacilitatorApplicantMessages($unitId, $applicantId, $facilitatorId);
+          echo $template = $this->renderView('GqAusUserBundle:Message:facilitatorApplicant.html.twig', $results); 
+          
+        } else {
+          echo "Empty Unit Id";  
+        }
         exit;
     }
 

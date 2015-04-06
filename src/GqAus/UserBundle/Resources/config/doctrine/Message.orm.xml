@@ -17,5 +17,6 @@
         <many-to-one field="sent" target-entity="GqAus\UserBundle\Entity\User" inversed-by="sentMessages">
             <join-column name="fromuser" referenced-column-name="id" />
         </many-to-one>
+        <field name="unitID" type="integer" column="unit_id" nullable="true"/>
     </entity>
 </doctrine-mapping>

@@ -16,6 +16,7 @@ class ComposeMessageForm extends AbstractType
         $builder->add('to', 'email');
         $builder->add('subject', 'text');
         $builder->add('message', 'textarea',  array('required' => false));
+        $builder->add('unitId', 'hidden');
         $builder->add('save', 'submit');
     }
 }

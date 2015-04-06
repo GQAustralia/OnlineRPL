@@ -1,0 +1,42 @@
+{% if messages %}
+{% set i = 1 %}
+{% for key, message in messages %}
+    <div class="gq-acc-wrap gq-acc-msgs-wrap">
+        <div class="gq-to-do-list-row">
+            <input id="acc-mg-{{i}}" name="accordion-{{i}}" type="checkbox">
+            <div class="row no-margin msgs-background">
+                <div id="div_1" class="gq-acc-row-bg gq-acc-msgs-bg">
+                    <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
+                        <div class="gq-acc-msgs-title ">{{message.inbox.firstname}}</div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
+                        <div class="gq-acc-msgs-title">
+                        {% if message.subject|length > 30 %}
+                            {{ message.subject[:30] ~ '...' }}
+                        {% else %}
+                             {{ message.subject }}   
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                        <div class="gq-acc-msgs-title gq-to-do-date" id="title_1">
+                            <span class="todo_day">{{ user_service.dateToWords(message.created) }}</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                        <label for="acc-mg-{{i}}" temp="acc-mg-{{i}}" class="col-xs-4 btn add-btn upDownArrow">VIEW</label>
+                    </div>
+                </div>
+            </div>
+            <article class="acc-small">
+                <p>{{ message.subject }} </p>
+            </article>
+        </div>                                                    
+    </div>
+ {% set i = i+1 %}
+ {% endfor %}
+{% else %}
+    <div>
+        <center>No Messages found</center>
+    </div>
+{% endif %}
