@@ -350,6 +350,7 @@ class EvidenceService
 
             $userInfo = $this->userService->getUserInfo($userId);
             $mailerInfo['sent'] = $userId;
+            $mailerInfo['unitId'] = $courseUnitObj->getId();
             $mailerInfo['subject'] = "Evidence added to " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
             $mailerInfo['to'] = $courseObj->getFacilitator()->getEmail();

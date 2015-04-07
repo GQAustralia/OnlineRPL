@@ -452,6 +452,9 @@
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-files" href="#unit-files" aria-expanded="false">Documents</a></li>
                                                 {% if ('ROLE_APPLICANT' not in userRole) %}
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-recordings" href="#unit-recordings" aria-expanded="false">Competency Recordings</a></li>
+                                                {% endif %}                                                
+                                                {% if ('ROLE_ASSESSOR' in userRole) %}
+                                                <li role="presentation"><a href="#unit-emailcon" class="unit-emailcon" aria-controls="unit-emailcon" role="tab" data-toggle="tab">Email Conversation</a></li>
                                                 {% endif %}
                                             </ul>
                                             <div class="tab-content">
