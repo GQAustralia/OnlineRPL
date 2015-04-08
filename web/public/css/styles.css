@@ -1119,3 +1119,4 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-acc-msgs-title { margin:5px 0px; color: #5e5e5e; font-size: 16px; min-height: 30px;}
 .msgs-background { background-color: #e7e7e7;}
 .gq-acc-msgs-bg { margin-bottom:1px; }
+#message_to_user { width:170px;}
