@@ -140,7 +140,7 @@
                                             <span class="gq-facilitator-select-name">: {{assessorName}}</span>
                                         </div>
 										<div id="div_34" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit assessor-change">
-											<div id="34" class="gq-add-notes-icon-wrap setNotes gq-assessor-rto-edit-icon">
+											<div id="34" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
 												<a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
 											</div>
 											<div class="gq-assessor-list-dropdown">
@@ -170,7 +170,7 @@
                                             <span class="gq-rto-select-name">: {{rtoName}}</span>
                                         </div>
 										<div id="div_35" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit rto-change">
-											<div id="35" class="gq-add-notes-icon-wrap setNotes gq-assessor-rto-edit-icon">
+											<div id="35" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
 												<a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
 											</div>
 											<div class="gq-assessor-list-dropdown">
@@ -452,6 +452,9 @@
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-files" href="#unit-files" aria-expanded="false">Documents</a></li>
                                                 {% if ('ROLE_APPLICANT' not in userRole) %}
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-recordings" href="#unit-recordings" aria-expanded="false">Competency Recordings</a></li>
+                                                {% endif %}                                                
+                                                {% if ('ROLE_ASSESSOR' in userRole) %}
+                                                <li role="presentation"><a href="#unit-emailcon" class="unit-emailcon" aria-controls="unit-emailcon" role="tab" data-toggle="tab">Email Conversation</a></li>
                                                 {% endif %}
                                             </ul>
                                             <div class="tab-content">
@@ -526,7 +529,7 @@
                                                         <div class="col-xs-12">
                                                             <div class="gq-course-details-notes-button-wrap">
                                                               {{ form_widget(notesForm.unit_save, {'attr': {'class': 'btn btn-green notes-button'}}) }}
-                                                              {{ form_widget(notesForm.unit_cancel, {'attr': {'class': 'btn btn-red notes-button notes-cancel-button'}}) }}
+                                                              {{ form_widget(notesForm.unit_cancel, {'attr': {'class': 'btn btn-red notes-button notes-cancel-button', 'id': 'unit_notes_cancel'}}) }}
                                                                 <span id="notes-loading" class="loading-icon pull-right uploadevidence_assess_loader hide"><img src="{{ asset('public/images/loading.gif') }}" /></span>
                                                             </div>
                                                         </div>

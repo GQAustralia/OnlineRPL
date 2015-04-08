@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * User
  */
-class User implements UserInterface, \Serializable
+abstract class User implements UserInterface, \Serializable
 {
    /**
      * @var string

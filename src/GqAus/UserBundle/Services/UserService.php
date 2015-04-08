@@ -346,6 +346,7 @@ class UserService
             $evidenceStatus = 'Approved';
         } else if ($result['status'] == '2') {
             $mailerInfo = array();
+            $mailerInfo['unitId'] = $courseUnitObj->getId();
             $mailerInfo['subject'] = $result['courseCode'] . ' ' . $result['courseName'] . ' : ' . $result['unitName'] . ' Evidences are disapproved';
             $userName = $courseObj->getUser()->getUsername();
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
@@ -627,6 +628,7 @@ class UserService
                             $course->setAssessorstatus('1');
                             $course->setAssessorDate($date);
                             $mailerInfo = array();
+                            $mailerInfo['unitId'] = $courseUnitExistObj->getid();
                             $mailerInfo['sent'] = $course->getAssessor()->getId();
                             $mailerInfo['subject'] = "All evidences are enough competent in " . $course->getCourseCode() . " : " . $course->getCourseName();
                             $facilitatorName = $course->getFacilitator()->getUsername();
@@ -1064,6 +1066,7 @@ class UserService
 
             $mailerInfo = array();
             $mailerInfo['sent'] = $courseObj->getRto()->getId();
+            $mailerInfo['unitId'] = '';
             $mailerInfo['subject'] = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
             $mailerInfo['to'] = $courseObj->getFacilitator()->getEmail();
@@ -1098,6 +1101,7 @@ class UserService
             $this->em->flush();
 
             $mailerInfo = array();
+            $mailerInfo['unitId'] = '';
             $mailerInfo['sent'] = $courseObj->getFacilitator()->getId();
             $mailerInfo['subject'] = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
             $rtoName = $courseObj->getRto()->getUsername();
@@ -1236,6 +1240,7 @@ class UserService
         $applicant = $this->getUserInfo($applicantId);
         $assessor = $this->getUserInfo($assessorId);
         $mailerInfo = array();
+        $mailerInfo['unitId'] = '';
         $mailerInfo['sent'] = $assessor->getId();
         $mailerInfo['subject'] = "Competency conversation invitation for " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
         $userName = $applicant->getUsername();
@@ -1387,6 +1392,13 @@ class UserService
        // $messages = $query->getQuery()->getSQL();exit;
         $messages = $query->getQuery()->getResult();
        return $messages;
+    }
+    
+    public function getIdFileById($IdFileId)
+    {
+        $IdObj = $this->em->getRepository('GqAusUserBundle:UserIds');
+        $idFile = $IdObj->find($IdFileId);
+        return $idFile;
     }
 
 }

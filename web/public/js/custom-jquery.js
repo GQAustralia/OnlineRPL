@@ -665,24 +665,37 @@ $(".setNotes").click(function() {
             $(".gq-assessor-list-dropdown-wrap").removeClass('open');
         $(this).parent().addClass('open');
         //$('#div_' + id).addClass('open');
-    } else {        
+    } else {
+        
         resetDateTimePicker(id);
         $(this).parent().removeClass('open');
         //$('#div_' + id).removeClass('open');
     }
-    setnotesid = false;
-	$( ".gq-name-list" ).each(function() {
-		if($(this).hasClass("selectednew"))
-			$(this).addClass('selected');
-		else
-			$(this).removeClass('selected');
-	});
-	$( ".gq-rto-list" ).each(function() {
-		if($(this).hasClass("selectedRtonew"))
-			$(this).addClass('selectedrto');
-		else
-			$(this).removeClass('selectedrto');
-	});	
+    setnotesid = false;		
+});
+
+$(".setUsers").click(function() {
+    id = $(this).attr("id");
+    var c = $('#div_' + id).hasClass("open");
+    if (c == false) {
+        if($(".gq-assessor-list-dropdown-wrap").hasClass("open"))
+            $(".gq-assessor-list-dropdown-wrap").removeClass('open');
+        $(this).parent().addClass('open');
+    } else {
+        $(this).parent().removeClass('open');
+    }
+    $( ".gq-name-list" ).each(function() {
+       if($(this).hasClass("selectednew"))
+          $(this).addClass('selected');
+       else
+          $(this).removeClass('selected');
+    });
+    $( ".gq-rto-list" ).each(function() {
+       if($(this).hasClass("selectedRtonew"))
+          $(this).addClass('selectedrto');
+       else
+          $(this).removeClass('selectedrto');
+    });	
 });
 
 $(".setData").click(function() {
@@ -1356,9 +1369,9 @@ $(".changeUsers").click(function() {
         var roleuserId = roleuserIdarr[0];
     }
     if(roleid == 4) {
-		var newroleuserId = $(".selectedrto").attr("data-value");
-		var roleuserIdarr = newroleuserId.split('&&');
-		var roleuserId = roleuserIdarr[0];
+        var newroleuserId = $(".selectedrto").attr("data-value");
+        var roleuserIdarr = newroleuserId.split('&&');
+        var roleuserId = roleuserIdarr[0];
     }
 	var courseId = $("#hdn-coursePrimaryId").val();
     $.ajax({
@@ -1369,11 +1382,11 @@ $(".changeUsers").click(function() {
         success: function(result) {
             if(roleid == 3) {
                 $(".gq-facilitator-select-name").html(roleuserIdarr[1]);
-				$(".assessor-change").children(".setNotes").trigger("click");
+		$(".assessor-change").children(".setUsers").trigger("click");
             }
             if(roleid == 4) {
                 $(".gq-rto-select-name").html(roleuserIdarr[1]);
-				$(".rto-change").children(".setNotes").trigger("click");
+		$(".rto-change").children(".setUsers").trigger("click");
             }
         }
     });
@@ -1402,7 +1415,7 @@ $(".gq-rto-list").click(function() {
 	$(this).addClass("selectedRtonew");
 });
 $("#gq-name-cancel, #gq-rtoname-cancel").click(function() {
-    $(this).parent().parent().prev(".setNotes").trigger("click");
+    $(this).parent().parent().prev(".setUsers").trigger("click");
 });
 
 $("#div_existing_evidence a").click(function() {
@@ -1492,6 +1505,7 @@ $(".fromBottomAssessment").click(function() {
 });
 
 // script to close the reminder or notes while clicking outside
+// script to close the reminder or notes while clicking outside
 $(document).on('click', function (e) {
     if (!$('.gq-assessor-list-dropdown').is(e.target) 
         && $('.gq-assessor-list-dropdown').has(e.target).length === 0 
@@ -1501,8 +1515,10 @@ $(document).on('click', function (e) {
     ) {
         
         if ( $('.gq-assessor-list-dropdown-wrap').hasClass('open') ) {
-            var id = $('.gq-assessor-list-dropdown-wrap').children('.setNotes').attr('id');
-            resetDateTimePicker(id);
+            if ( !$('.gq-assessor-list-dropdown-wrap').hasClass('gq-assessor-name-edit') ) {
+                var id = $('.gq-assessor-list-dropdown-wrap').children('.setNotes').attr('id');
+                resetDateTimePicker(id);
+            }
             $('.gq-assessor-list-dropdown-wrap').removeClass('open');
         }        
     }
@@ -1702,3 +1718,8 @@ function getUnitNotesByType(unitId, userType, divId) {
         }
     });
 }
+
+// to close notes dialog
+$("#addnotes_unit_cancel").click(function(){
+  $("#edivenceUnitModalNotes").modal( "toggle" ); 
+});
