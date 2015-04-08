@@ -156,7 +156,7 @@ class ApplicantController extends Controller
         $evidenceObj = $this->get('EvidenceService');
         $results = $this->get('CoursesService')->getCoursesInfo($qcode);
         $courseEvidences = $evidenceObj->getUserCourseEvidences($uid, $qcode);
-        $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
+        //$results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
         $unitsIds = array();
         foreach ($courseEvidences as $value) {
             $unitsIds[] = $value->getUnit();
@@ -173,6 +173,11 @@ class ApplicantController extends Controller
                         $unitEvidencs[$j]['id'] = $evidence->getId();
                         $unitEvidencs[$j]['path'] = $evidence->getPath();
                         $unitEvidencs[$j]['pathName'] = $evidence->getName();
+                        $unitEvidencs[$j]['type'] = $evidence->getType();
+                    } else {
+                        $unitEvidencs[$j]['id'] = $evidence->getId();
+                        $unitEvidencs[$j]['content'] = $evidence->getContent();
+                        $unitEvidencs[$j]['type'] = $evidence->getType();
                     }
                     $j++;
                 }
@@ -182,17 +187,28 @@ class ApplicantController extends Controller
             $i++;
         }
         if (!empty($user) && isset($results['courseInfo']['id'])) {
+            $results["user"] = $user;
+            $results["userIdFiles"] = $user->getIdfiles();
             $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
             $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
-            $html = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
-            //return $this->render('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
-            $fileName = $user->getUserName() . '_' . $results['courseInfo']['name'];
-            return new Response(
-                    $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="' . $fileName . '.pdf"'
-                    )
-            );
+           
+            $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
+            $fileTemp = 'temp_'.time().'.pdf';
+            $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' . str_replace(" ", "-", $results['courseInfo']['name']).'_'.time().'.pdf';
+            
+            $html2pdf = $this->get('html2pdf_factory')->create('P', 'A4', 'en', true, 'UTF-8', array(10, 15, 10, 15));
+            $html2pdf->setDefaultFont('OpenSans');
+            $html2pdf->writeHTML($content, isset($_GET['vuehtml']));
+            $html2pdf->Output($fileTemp,'F');            
+            
+            //return $this->redirectToRoute('mergePDFAction', array('userDataPDF'=> $fileTemp, 'outputFileName' =>$outputFileName ));
+            $response = new Response( );
+            $response->headers->set( "Content-type", 'application/pdf' );
+            $response->headers->set( "Content-Disposition", "attachment; filename=$outputFileName" );
+            $response->send( );
+            $response->setContent( readfile( "$fileTemp" ) );
+            unlink($fileTemp);
+            return $response;
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
         }
@@ -324,6 +340,28 @@ class ApplicantController extends Controller
         $roleid = $this->getRequest()->get('roleid');
         echo $this->get('UserService')->setRoleUsersForCourse($courseId, $roleid, $userId);
         exit;
+    }
+    
+    /**
+    * Function to view Id file
+    * return $result array
+    */
+    public function viewIdFileAction($idFileId)
+    {        
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if ( $idFileId > 0 ) {
+                $userObj = $this->get('UserService');
+                $idFileData = $userObj->getIdFileById($idFileId);
+                if ( count($idFileData) > 0 ) { 
+                    $results = array();                                           
+                    $results['path'] = $idFileData->getPath();
+                    return $this->render('GqAusUserBundle:Evidence:view-evidence.html.twig', $results); 
+                }
+            }
+        } else {
+            return $this->redirect('dashboard');
+            //throw $this->createAccessDeniedException();    
+        }
     }
 
 }

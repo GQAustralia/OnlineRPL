@@ -1393,5 +1393,12 @@ class UserService
         $messages = $query->getQuery()->getResult();
        return $messages;
     }
+    
+    public function getIdFileById($IdFileId)
+    {
+        $IdObj = $this->em->getRepository('GqAusUserBundle:UserIds');
+        $idFile = $IdObj->find($IdFileId);
+        return $idFile;
+    }
 
 }
