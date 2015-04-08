@@ -191,7 +191,7 @@ class ApplicantController extends Controller
             $results["userIdFiles"] = $user->getIdfiles();
             $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
             $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
-           
+            $results['projectPath'] = $this->get('kernel')->getRootDir() . '/../';
             $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
             $fileTemp = 'temp_'.time().'.pdf';
             $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' . str_replace(" ", "-", $results['courseInfo']['name']).'_'.time().'.pdf';
