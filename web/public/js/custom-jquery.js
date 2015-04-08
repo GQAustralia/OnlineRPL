@@ -1718,3 +1718,8 @@ function getUnitNotesByType(unitId, userType, divId) {
         }
     });
 }
+
+// to close notes dialog
+$("#addnotes_unit_cancel").click(function(){
+  $("#edivenceUnitModalNotes").modal( "toggle" ); 
+});
