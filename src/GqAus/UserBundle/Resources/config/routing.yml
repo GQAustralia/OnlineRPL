@@ -183,5 +183,8 @@ getUnitNotes:
     defaults: { _controller: GqAusUserBundle:Notes:getUnitNotes }
 facilitatorApplicant:
     path:     /facilitatorApplicant
-    defaults: { _controller: GqAusUserBundle:Message:facilitatorApplicant }     
+    defaults: { _controller: GqAusUserBundle:Message:facilitatorApplicant }
+viewIdFileApplicant:
+    path:     /viewIdFile/{idFileId}
+    defaults: { _controller: GqAusUserBundle:Applicant:viewIdFile }     
     
