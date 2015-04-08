@@ -26,7 +26,8 @@
         "knplabs/gaufrette":                    "dev-master",
         "knplabs/knp-gaufrette-bundle":         "dev-master",
         "amazonwebservices/aws-sdk-for-php":    "dev-master",
-        "knplabs/knp-snappy-bundle":            "dev-master"
+        "knplabs/knp-snappy-bundle":            "dev-master",
+        "opentok/opentok": "2.2.x"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
