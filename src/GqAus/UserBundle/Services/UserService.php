@@ -711,8 +711,14 @@ class UserService
     public function getTodaysReminders($userId)
     {
         $date = date('Y-m-d');
-        $getReminders = $this->em->getRepository('GqAusUserBundle:Reminder')
-                ->findBy(array('user' => $userId, 'completed' => '0', 'date' => $date));
+        /*$getReminders = $this->em->getRepository('GqAusUserBundle:Reminder')
+                ->findBy(array('user' => $userId, 'completed' => '0', 'date' => $date));*/
+         $query = $this->em->getRepository('GqAusUserBundle:Reminder')
+                ->createQueryBuilder('r')
+                ->select("r")
+                ->where('r.user = :userId and r.completed = 0 and r.date LIKE :date')->setParameter('userId', $userId)->setParameter('date', $date.'%')
+                ->addOrderBy('r.date', 'ASC'); 
+        $getReminders = $query->getQuery()->getResult();
         return $getReminders;
     }
 

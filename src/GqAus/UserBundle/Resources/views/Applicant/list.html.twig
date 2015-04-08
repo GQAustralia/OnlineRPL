@@ -114,7 +114,7 @@
     $(document).ready(function() {
         var dateTime = new Date();
         var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
-        var timeZoneDT = new Date(utc + (3600000*+11));
+        var timeZoneDT = new Date(utc + (3600000*+10));
         $(".datepic").datetimepicker({
          dateFormat: "dd/mm/yy",
          timeFormat: "hh:mm tt",
