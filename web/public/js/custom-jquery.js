@@ -1635,7 +1635,7 @@ function validateFileUpload(fieldVal, formName) {
 function resetDateTimePicker(rmid) {
     var dateTime = new Date();
     var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
-    var timeZoneDT = new Date(utc + (3600000*+11));
+    var timeZoneDT = new Date(utc + (3600000*+10));
     $("#remindDate_"+ rmid).datetimepicker("option", "minDate", timeZoneDT);
     $("#remindDate_"+ rmid).datetimepicker("option", "minDateTime", timeZoneDT);
     $('#remindDate_'+ rmid).datetimepicker("setDate", timeZoneDT );
