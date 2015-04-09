@@ -397,7 +397,7 @@ $("#userfiles_browse").click(function() {
 });
 
 $(".show_path").change(function() {
-    var fileName = $(this).val();
+    var fileName = $(this).val().replace(/C:\\fakepath\\/i, '');
     if (fileName)
         $(this).parent().parent().parent().next().html('<div class="col-lg2 col-md-2 col-sm-3 col-xs-12"><div class="gq-id-files-upload-txt">' + fileName + '</div></div>');
     else
