@@ -1120,3 +1120,8 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .msgs-background { background-color: #e7e7e7;}
 .gq-acc-msgs-bg { margin-bottom:1px; }
 #gq-msg-success #message_to_user { width:170px;}
+
+.deleteMessageModal .modal-dialog { margin:30px 0px 0px 0px; left:25%; right:25%; }
+ @media (max-width: 768px) {
+  .deleteMessageModal .modal-dialog { left:0; right:0%; }   
+ }
