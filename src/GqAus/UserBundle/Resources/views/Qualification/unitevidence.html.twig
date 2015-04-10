@@ -358,10 +358,14 @@
             {% if ('ROLE_RTO' in currentUserRole and unitStatus.assessorstatus == '1')  or ('ROLE_FACILITATOR' in currentUserRole and unitStatus.facilitatorstatus == '0' and unitStatus.assessorstatus == '0') or ('ROLE_ASSESSOR' in currentUserRole  and unitStatus.assessorstatus == '0') %}
                 {% if flag_image == 1 or flag_audio == 1 or flag_video == 1 or flag_text == 1 or flag_files == 1 %}
             <button type="button" id="approve" class="btn btn-green">{{ app_btn_name }}</button>
+            {% if ('ROLE_RTO' not in currentUserRole) %}
             <button type="button" id="disapprove" class="btn btn-red">{{ disapp_btn_name }}</button>
+            {% endif %}
                 {% else %}
             <button type="button" id="approve" disabled class="btn btn-green">{{ app_btn_name }}</button>
+            {% if ('ROLE_RTO' not in currentUserRole) %}
             <button type="button" id="disapprove" disabled class="btn btn-red">{{ disapp_btn_name }}</button>
+             {% endif %}
                 {% endif %}
             <input type="hidden" name="hid-course-name" id="hid-course-name" value="{{course_name}}">
             <input type="hidden" name="hid-unit-name" id="hid-unit-name" value="{{unittitle}}">

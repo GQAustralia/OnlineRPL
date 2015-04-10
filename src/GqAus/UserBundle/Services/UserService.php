@@ -640,10 +640,11 @@ class UserService
                             $this->sendMessagesInbox($mailerInfo);
 
                             $applicantName = $course->getUser()->getUsername();
+                            $mailerInfo['sent'] = $course->getFacilitator()->getId();
                             $mailerInfo['to'] = $course->getUser()->getEmail();
                             $mailerInfo['inbox'] = $course->getUser()->getId();
                             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $applicantName . ", \n All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() . " are enough competent. \n Validated all the eviedences in the qualification.
-                                 \n\n Regards, \n " . $course->getAssessor()->getUsername();
+                                 \n\n Regards, \n " . $course->getFacilitator()->getUsername();
                             $this->sendExternalEmail($mailerInfo);
                             $this->sendMessagesInbox($mailerInfo);
                         } elseif ($userType == 'rto') {
