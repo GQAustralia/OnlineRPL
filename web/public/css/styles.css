@@ -1086,6 +1086,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-form-row.USIrow > input {
     line-height: 67px;
     vertical-align: top;
+    height: 67px;
 }
 
 .gq-form-row.USIrow > a {
