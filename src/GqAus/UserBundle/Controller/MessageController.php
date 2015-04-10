@@ -232,7 +232,20 @@ class MessageController extends Controller
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
-        $messageService->setReadViewStatus($mid);
+        
+        // getting the last route to check whether it is coming from inbox or sent ot tash
+        $request = $this->getRequest();
+        //look for the referer route
+        $referer = $request->headers->get('referer');
+        $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
+        $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
+        if( $lastPath!="" ) {
+            $lastPath = explode("?", $lastPath);        
+            // updating the readstatus if it is from inbox
+            if ( $lastPath[0] == '/messages' ) {
+                $messageService->setReadViewStatus($mid);
+            }
+        }
         $message = $messageService->getMessage($mid);
         $msgUser = $message->getSent()->getId(); // from user
         $touser = $message->getInbox()->getId(); // to user
