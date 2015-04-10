@@ -237,12 +237,12 @@ class MessageController extends Controller
         $request = $this->getRequest();
         //look for the referer route
         $referer = $request->headers->get('referer');
-        $siteUrl = 'http://'.$request->getHttpHost().$request->getBaseUrl();
-        $lastPath = str_replace($siteUrl, '', $referer);
+        $path = $this->container->getParameter('applicationUrl');;
+        $lastPath = str_replace($path, '', $referer);
         if( $lastPath!="" ) {
             $lastPath = explode("?", $lastPath);        
             // updating the readstatus if it is from inbox
-            if ( $lastPath[0] == '/messages' ) {
+            if ( $lastPath[0] == 'messages' ) {
                 $messageService->setReadViewStatus($mid);
             }
         }
