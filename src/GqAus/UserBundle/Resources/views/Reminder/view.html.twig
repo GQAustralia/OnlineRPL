@@ -53,8 +53,8 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
                                         <!-- accordion starts here -->
                                         <div class="gq-acc-wrap" id="todo-tab">
+                                            {% set flagTodo = '0' %}                                                
                                             {% if reminders.todoReminders %}
-                                                {% set flagTodo = '0' %}
                                                 {% for key, reminder in reminders.todoReminders %}
                                                     {% set flagTodo = '1' %}
                                                     <div class="gq-to-do-list-row gq-to-do-list-row-completed">
@@ -91,14 +91,12 @@
                                                             <p>{{reminder.message}}</p>
                                                         </article>
                                                     </div>                                                    
-                                                {% endfor %}
-                                                {% if flagTodo == '0' %}
-                                                    <div class="gq-tabs-no-content-text">
-                                                        Records not found in To Do List</div>
-                                                {% endif %}
+                                                {% endfor %}                                                
                                             {% endif %}
-                                            <div class="gq-tabs-no-content-text no-todo" style="display:none;">
-                                                        Records not found in To Do List</div>
+                                            {% if flagTodo == '0' %}
+                                                <div class="gq-tabs-no-content-text">
+                                                    Records not found in To Do List</div>
+                                            {% endif %}
                                         </div>
                                         <!-- accordion ends here -->
                                     </div>
@@ -133,8 +131,8 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
                                         <!-- accordion starts here -->
                                         <div class="gq-acc-wrap" id="completed-tab">
-                                            {% if reminders.completedReminders %}
-                                                {% set flagCompleted = '0' %}
+                                            {% set flagCompleted = '0' %}
+                                            {% if reminders.completedReminders %}                                                
                                                 {% for key, reminder in reminders.completedReminders %}                                                    
                                                     {% set flagCompleted = '1' %}
                                                     <div class="gq-to-do-list-row">
@@ -162,10 +160,10 @@
                                                             <p>{{reminder.message}}</p>
                                                         </article>
                                                     </div>                                                    
-                                                {% endfor %}
-                                                {% if flagCompleted == '0' %}
-                                                    <div class="gq-tabs-no-content-text" id="records-not-found">Records not found in Completed List</div>
-                                                {% endif %}
+                                                {% endfor %}                                                
+                                            {% endif %}
+                                            {% if flagCompleted == '0' %}
+                                                <div class="gq-tabs-no-content-text" id="records-not-found">Records not found in Completed List</div>
                                             {% endif %}
                                         </div>
                                         <!-- accordion ends here -->
