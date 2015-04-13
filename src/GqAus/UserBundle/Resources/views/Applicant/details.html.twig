@@ -43,7 +43,9 @@
                                         <input type="hidden" name="course-code" value="{{ courseCode }}">
                                         <input type="hidden" name="userid" value="{{userId}}">
                                         <input type="hidden" name="unit-id" value="">
+                                        {% if ('ROLE_FACILITATOR' in userRole) %}
                                         <button type="submit" class="btn btn-red"><span class="gq-assessor-profile-send-msg-icon"></span>Send Message</button>
+                                        {% endif %}
                                     </form>
                                     <div id="approve_sectionajax">
                                             <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification-ajax" class="btn btn-green approve-for-certification-btnajax" style="display:none;">Issue Certificate</button>
