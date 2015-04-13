@@ -1084,10 +1084,11 @@ class UserService
             $this->sendMessagesInbox($mailerInfo);
 
             $applicantName = $courseObj->getUser()->getUsername();
+            $mailerInfo['sent'] = $courseObj->getFacilitator()->getId();
             $mailerInfo['to'] = $courseObj->getUser()->getEmail();
             $mailerInfo['inbox'] = $courseObj->getUser()->getId();
             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $applicantName . ", \n All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent. \n Validated all the eviedences in the qualification and issued the certificate..
-             \n\n Regards, \n " . $courseObj->getRto()->getUsername();
+             \n\n Regards, \n " . $courseObj->getFacilitator()->getUsername();
             $this->sendExternalEmail($mailerInfo);
             $this->sendMessagesInbox($mailerInfo);
         }
@@ -1250,11 +1251,20 @@ class UserService
         $mailerInfo['unitId'] = '';
         $mailerInfo['sent'] = $assessor->getId();
         $mailerInfo['subject'] = "Competency conversation invitation for " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
+        $mailerInfo['to'] = $courseObj->getFacilitator()->getEmail();
+        $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
+        $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $courseObj->getFacilitator()->getUsername() . ", \n Please login to your GQ-RPL account and use this URL: " . $this->container->getParameter('applicationUrl') . "applicant/" . $roomId . " to join the competency conversation\n Awaiting for your response.
+         \n\n Regards, \n " . $assessor->getUsername();
+        $this->sendExternalEmail($mailerInfo);
+        $this->sendMessagesInbox($mailerInfo);
+        
+        $mailerInfo['sent'] = $courseObj->getFacilitator()->getId();
+        $mailerInfo['subject'] = "Competency conversation invitation for " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
         $userName = $applicant->getUsername();
         $mailerInfo['to'] = $applicant->getEmail();
         $mailerInfo['inbox'] = $applicant->getId();
         $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $userName . ", \n Please login to your GQ-RPL account and use this URL: " . $this->container->getParameter('applicationUrl') . "applicant/" . $roomId . " to join the competency conversation\n Awaiting for your response.
-         \n\n Regards, \n " . $assessor->getUsername();
+         \n\n Regards, \n " . $courseObj->getFacilitator()->getUsername();
         $this->sendExternalEmail($mailerInfo);
         $this->sendMessagesInbox($mailerInfo);
     }
