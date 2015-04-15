@@ -114,11 +114,14 @@ class UserService
                     $user->setTokenStatus('0');
                     $this->em->persist($user);
                     $this->em->flush();
-                    $message = 'Password changed successfully , please login';
+                    //$message = 'Password changed successfully , please login';
+                    $message = '1';
                 }
                 $validRequest = 1;
             }
-        }//if
+        } else {
+            $message = '0';
+        }
         return array('message' => $message, 'validRequest' => $validRequest);
     }
 

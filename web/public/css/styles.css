@@ -1126,3 +1126,4 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
  @media (max-width: 768px) {
   .deleteMessageModal .modal-dialog { left:0; right:0%; }   
  }
+ #change_pwd_error { margin-bottom:10px;}
