@@ -650,7 +650,7 @@ a.btn-red {color:#ffffff;}
 .gq-messages-button-wrap .btn-red {padding:10px 44px;}
 .gq-messages-button-wrap .btn-grey {padding:10px 44px;}
 .gq-msg-header .gq-msg-header-title  {color:#f14a41; font-size:22px; width:100%; float:left; line-height:32px;}
-.gq-msg-from-to-input  input[type="text"], .gq-msg-from-to-input  input[type="email"]{border:0 none; width:100%; height:28px; padding-left:4px;}
+.gq-msg-from-to-input  input[type="text"], .gq-msg-from-to-input  input[type="email"]{border:0 none; width:100%; /*height:28px;*/ padding-left:4px;}
 .gq-msg-from textarea{border:0 none; width:100%; min-height:320px; color:#bfbfbf; resize: none;}
 .gq-msg-from-to-sub {width:76px; text-align:right; padding-right:10px;}
 .gq-msg-wrap.gq-msg-compose .gq-msg-row-bg{margin-bottom:1px;}

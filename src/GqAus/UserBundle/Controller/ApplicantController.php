@@ -220,32 +220,35 @@ class ApplicantController extends Controller
     public function zipAction($qcode, $uid)
     {
         error_reporting(0);
-        $files = array();
         $user = $this->get('UserService')->getUserInfo($uid);
         $fileUploderService = $this->get('gq_aus_user.file_uploader');
         $evidenceObj = $this->get('EvidenceService');
         $evidences = $evidenceObj->getUserCourseEvidences($uid, $qcode);
         if (count($evidences) > 0) {
+            $zip = new \ZipArchive();
+            $zipName = str_replace(" ", "-",$user->getUserName()) . '-' . time() . ".zip";
+            $zip->open($zipName, \ZipArchive::CREATE);
+            $fileFlag = 0;
             foreach ($evidences as $evidence) {
-                $fileName = $evidence->getPath();
-                if ($fileName) {
-                    //if ($fileUploderService->fileExists($fileName)) {
-                    array_push($files, $this->container->getParameter('amazon_s3_base_url') . $fileName);
-                    //}
+                if ($evidence->getType() !== 'text') {
+                    $fileFlag = 1;
+                    $unitCode = $evidence->getUnit();
+                   if ( !is_dir($unitCode) )
+                    {
+                      $zip->addEmptyDir($unitCode);  
+                    }
+                    $nfname = $unitCode.'/'.$evidence->getName();
+                    $fname = $this->container->getParameter('amazon_s3_base_url') . $evidence->getPath();
+                    $zip->addFromString($nfname, file_get_contents($fname));
                 }
+                
             }
-            if (count($files) === 0) {
+            $zip->close();
+            
+            if ( $fileFlag == 0 ) {
                 echo "<script>alert('No files to download');window.close();</script>";
                 exit;
             }
-            $zip = new \ZipArchive();
-            $zipName = $user->getUserName() . '-' . time() . ".zip";
-            $zip->open($zipName, \ZipArchive::CREATE);
-            foreach ($files as $f) {
-                $zip->addFromString(basename($f), file_get_contents($f));
-            }
-            $zip->close();
-
             $response = new Response( );
             $response->headers->set("Content-type", 'application/zip');
             $response->headers->set("Content-Disposition", "attachment; filename=$zipName");
