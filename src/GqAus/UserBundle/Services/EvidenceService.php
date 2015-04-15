@@ -357,6 +357,8 @@ class EvidenceService
             $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", \n Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". \n Please check and review the evidence.
              \n\n Regards, \n " . $userInfo->getUsername();
+            $mailerInfo['fromEmail'] = $userInfo->getEmail();
+            $mailerInfo['fromUserName'] = $userInfo->getUsername();
             $this->userService->sendExternalEmail($mailerInfo);
             $this->userService->sendMessagesInbox($mailerInfo);
             
@@ -366,6 +368,8 @@ class EvidenceService
             $mailerInfo['inbox'] = $courseObj->getAssessor()->getId();
             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $assessorName . ", \n Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". \n Please check and review the evidence.
              \n\n Regards, \n " . $facilitatorName;
+            $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
+            $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
             $this->userService->sendExternalEmail($mailerInfo);
             $this->userService->sendMessagesInbox($mailerInfo);
         }
