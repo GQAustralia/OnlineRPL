@@ -134,6 +134,14 @@ class MessageController extends Controller
                     $sentuser = $userService->getUserInfo($touser);
                     $msgdata = array("subject" => $subject,
                         "message" => $message, "unitId" => $unitId);
+                    // for sending external mail
+                    $mailerInfo['subject'] = $subject;
+                    $mailerInfo['to'] = $sentuser->getEmail();
+                    $mailerInfo['body'] = $message;
+                    $mailerInfo['fromEmail'] = $curuser->getEmail();
+                    $mailerInfo['fromUserName'] = $curuser->getUsername();
+                    $userService->sendExternalEmail($mailerInfo);
+                    
                     $userService->saveMessageData($sentuser, $curuser, $msgdata);
                     $request->getSession()->getFlashBag()->add(
                             'msgnotice', 'Message sent successfully!'
