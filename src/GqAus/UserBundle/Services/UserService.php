@@ -66,7 +66,7 @@ class UserService
     public function forgotPasswordRequest($email)
     {
         $message = '';
-        $user = $this->repository->findOneBy(array('email' => $email));
+        $user = $this->repository->findOneBy(array('email'  => $email));
         if (!empty($user)) {
             $token = uniqid();
             $nowtime = date('Y-m-d h:i:s');
@@ -114,11 +114,14 @@ class UserService
                     $user->setTokenStatus('0');
                     $this->em->persist($user);
                     $this->em->flush();
-                    $message = 'Password changed successfully , please login';
+                    //$message = 'Password changed successfully , please login';
+                    $message = '1';
                 }
                 $validRequest = 1;
             }
-        }//if
+        } else {
+            $message = '0';
+        }
         return array('message' => $message, 'validRequest' => $validRequest);
     }
 
@@ -357,6 +360,8 @@ class UserService
                 $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", \n Qualification : " . $result['courseCode'] . ' ' . $result['courseName'] . " \n Unit : " . $result['unit'] . ' ' . $result['unitName'] . " \n"
                         . " Evidences had not yet competetent for user ". $userName . "\n"
                  . " \n Regards, \n " .$result['currentUserName'];
+                $mailerInfo['fromEmail'] = $courseObj->getAssessor()->getEmail();
+                $mailerInfo['fromUserName'] = $courseObj->getAssessor()->getUsername();
                 $this->sendExternalEmail($mailerInfo);
                 $this->sendMessagesInbox($mailerInfo);
             }            
@@ -367,6 +372,8 @@ class UserService
             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $userName . ", \n Qualification : " . $result['courseCode'] . ' ' . $result['courseName'] . " \n Unit : " . $result['unit'] . ' ' . $result['unitName'] . " \n"
                         . " Provided evidences for above unit are not yet competetent please add more evidences and get back to us \n"
              . "\n\n Regards, \n " . $facilitatorName;
+            $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
+            $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
             $this->sendExternalEmail($mailerInfo);
             $this->sendMessagesInbox($mailerInfo);
         }
@@ -636,6 +643,8 @@ class UserService
                             $mailerInfo['inbox'] = $course->getFacilitator()->getId();
                             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", \n All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() . " are enough competent. \n Validated all the eviedences in the qualification.
                                  \n\n Regards, \n " . $course->getAssessor()->getUsername();
+                            $mailerInfo['fromEmail'] = $courseObj->getAssessor()->getEmail();
+                            $mailerInfo['fromUserName'] = $courseObj->getAssessor()->getUsername();
                             $this->sendExternalEmail($mailerInfo);
                             $this->sendMessagesInbox($mailerInfo);
 
@@ -645,6 +654,8 @@ class UserService
                             $mailerInfo['inbox'] = $course->getUser()->getId();
                             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $applicantName . ", \n All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() . " are enough competent. \n Validated all the eviedences in the qualification.
                                  \n\n Regards, \n " . $course->getFacilitator()->getUsername();
+                            $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
+                            $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
                             $this->sendExternalEmail($mailerInfo);
                             $this->sendMessagesInbox($mailerInfo);
                         } elseif ($userType == 'rto') {
@@ -729,11 +740,17 @@ class UserService
      */
     public function sendExternalEmail($mailerInfo)
     {
-        $from = $this->container->getParameter('fromEmailAddress');
         if (!empty($mailerInfo)) {
+            if( isset($mailerInfo['fromEmail']) && $mailerInfo['fromEmail']!="" && isset($mailerInfo['fromUserName']) && $mailerInfo['fromUserName']!="" ) {
+               $fromEmail = $mailerInfo['fromEmail'];
+               $fromUser = $mailerInfo['fromUserName'];
+            } else {
+                $fromEmail = $this->container->getParameter('fromEmailAddress');
+                $fromUser = 'Online RPL';
+            }
             $emailContent = \Swift_Message::newInstance()
                     ->setSubject($mailerInfo['subject'])
-                    ->setFrom($from)
+                    ->setFrom(array($fromEmail => $fromUser ))
                     ->setTo($mailerInfo['to'])
                     ->setBody($mailerInfo['body'])
                     ->setContentType("text/html");
@@ -1093,6 +1110,8 @@ class UserService
             $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", \n All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent. \n Validated all the eviedences in the qualification and issued the certificate.
              \n\n Regards, \n " . $courseObj->getRto()->getUsername();
+            $mailerInfo['fromEmail'] = $courseObj->getRto()->getEmail();
+            $mailerInfo['fromUserName'] = $courseObj->getRto()->getUsername();
             $this->sendExternalEmail($mailerInfo);
             $this->sendMessagesInbox($mailerInfo);
 
@@ -1102,6 +1121,8 @@ class UserService
             $mailerInfo['inbox'] = $courseObj->getUser()->getId();
             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $applicantName . ", \n All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent. \n Validated all the eviedences in the qualification and issued the certificate..
              \n\n Regards, \n " . $courseObj->getFacilitator()->getUsername();
+            $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
+            $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
             $this->sendExternalEmail($mailerInfo);
             $this->sendMessagesInbox($mailerInfo);
         }
@@ -1126,6 +1147,8 @@ class UserService
             $mailerInfo['sent'] = $courseObj->getFacilitator()->getId();
             $mailerInfo['subject'] = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
             $rtoName = $courseObj->getRto()->getUsername();
+            $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
+            $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
             $mailerInfo['to'] = $courseObj->getRto()->getEmail();
             $mailerInfo['inbox'] = $courseObj->getRto()->getId();
             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $rtoName . ", \n All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent. \n Validated all the eviedences and moved portfolio to you.
@@ -1268,6 +1291,8 @@ class UserService
         $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
         $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $courseObj->getFacilitator()->getUsername() . ", \n Please login to your GQ-RPL account and use this URL: " . $this->container->getParameter('applicationUrl') . "applicant/" . $roomId . " to join the competency conversation\n Awaiting for your response.
          \n\n Regards, \n " . $assessor->getUsername();
+        $mailerInfo['fromEmail'] = $assessor->getEmail();
+        $mailerInfo['fromUserName'] = $assessor->getUsername();
         $this->sendExternalEmail($mailerInfo);
         $this->sendMessagesInbox($mailerInfo);
         
@@ -1278,6 +1303,8 @@ class UserService
         $mailerInfo['inbox'] = $applicant->getId();
         $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $userName . ", \n Please login to your GQ-RPL account and use this URL: " . $this->container->getParameter('applicationUrl') . "applicant/" . $roomId . " to join the competency conversation\n Awaiting for your response.
          \n\n Regards, \n " . $courseObj->getFacilitator()->getUsername();
+        $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
+        $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
         $this->sendExternalEmail($mailerInfo);
         $this->sendMessagesInbox($mailerInfo);
     }
