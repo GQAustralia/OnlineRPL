@@ -624,10 +624,10 @@ class UserService
                     $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
                             ->findOneBy(array('user' => $course->getUser()->getId(),
                         'courseCode' => $course->getcourseCode(),
-                        $userStatus => '0',
+                        $userStatus => array('0','2'),
                         'status' => '1'));
                     if (empty($courseUnitObj) && (count($courseUnitObj) == '0')) {
-                        $date = date('Y-m-d H:i:s');
+                         $date = date('Y-m-d H:i:s');
                         if ($userType == 'facilitator') {
                             $course->setFacilitatorstatus('1');
                             $course->setFacilitatorDate($date);
