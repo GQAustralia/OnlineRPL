@@ -60,4 +60,9 @@ class DefaultController extends Controller
         $userService->updateCourseConditionStatus($user);
         exit;
     }
+    
+    public function unauthorizedAction()
+    {
+        return $this->render('GqAusHomeBundle:Default:unauthorized.html.twig');
+    }
 }
