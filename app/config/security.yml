@@ -15,7 +15,6 @@ security:
         - { path: ^/qualificationDetails/.*, roles: ROLE_APPLICANT }
         - { path: ^/qualifications, roles: ROLE_APPLICANT }
         - { path: ^/evidences, roles: ROLE_APPLICANT } 
-        - { path: ^/applicant, roles: ROLE_APPLICANT }
         - { path: ^/userprofile, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/applicantDetails/.*, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO] }
         - { path: ^/applicants, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO] }
