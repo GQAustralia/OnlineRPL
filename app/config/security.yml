@@ -12,20 +12,33 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/forgotpassword, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/qualificationDetails/.*, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/qualifications, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/qualificationDetails/.*, roles: ROLE_APPLICANT }
+        - { path: ^/qualifications, roles: ROLE_APPLICANT }
+        - { path: ^/evidences, roles: ROLE_APPLICANT } 
         - { path: ^/userprofile, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/applicantDetails/.*, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/applicants, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/reminder, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/applicantDetails/.*, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO] }
+        - { path: ^/applicants, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO] }
+        - { path: ^/reminder, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO] }
         - { path: ^/messages, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/compose, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/sent, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/trash, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/view, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/viewUserIdFiles, roles: ROLE_FACILITATOR }
+        - { path: ^/reports, roles: [ROLE_FACILITATOR, ROLE_RTO] }
+        - { path: ^/downloadFiles, roles: [ROLE_ASSESSOR, ROLE_RTO] }
+        - { path: ^/zipFiles, roles: [ROLE_ASSESSOR, ROLE_RTO] }
+        - { path: ^/startConversation, roles: ROLE_ASSESSOR }
+        - { path: ^/startConversation, roles: ROLE_ASSESSOR }
+        - { path: ^/startArchive, roles: ROLE_ASSESSOR }
+        - { path: ^/stopArchive, roles: ROLE_ASSESSOR }
+        - { path: ^/viewEvidence, roles: [ROLE_ASSESSOR, ROLE_RTO] }
+        - { path: ^/viewIdFile, roles: [ROLE_ASSESSOR, ROLE_RTO] }
+    access_denied_url: /unauthorized      
     providers:
         main:
             entity: {class: GqAusUserBundle:User, property: email}
     encoders:
         GqAus\UserBundle\Entity\User: 
             algorithm: bcrypt
+           

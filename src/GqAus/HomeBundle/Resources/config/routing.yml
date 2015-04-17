@@ -25,3 +25,7 @@ addEvidences:
 evidences:
     path:     /evidences
     defaults:  { _controller: GqAusUserBundle:Evidence:view }
+unauthorized:
+    path:     /unauthorized
+    defaults: { _controller: GqAusHomeBundle:Default:unauthorized }      
+    
