@@ -355,8 +355,8 @@ class EvidenceService
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
             $mailerInfo['to'] = $courseObj->getFacilitator()->getEmail();
             $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
-            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", \n Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". \n Please check and review the evidence.
-             \n\n Regards, \n " . $userInfo->getUsername();
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", <br/> Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". <br/> Please check and review the evidence.
+             <br/><br/> Regards, <br/> " . $userInfo->getUsername();
             $mailerInfo['fromEmail'] = $userInfo->getEmail();
             $mailerInfo['fromUserName'] = $userInfo->getUsername();
             $this->userService->sendExternalEmail($mailerInfo);
@@ -366,8 +366,8 @@ class EvidenceService
             $assessorName = $courseObj->getAssessor()->getUsername();
             $mailerInfo['to'] = $courseObj->getAssessor()->getEmail();
             $mailerInfo['inbox'] = $courseObj->getAssessor()->getId();
-            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $assessorName . ", \n Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". \n Please check and review the evidence.
-             \n\n Regards, \n " . $facilitatorName;
+            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $assessorName . ", <br/> Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". <br/> Please check and review the evidence.
+             <br/><br/> Regards, <br/> " . $facilitatorName;
             $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
             $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
             $this->userService->sendExternalEmail($mailerInfo);
