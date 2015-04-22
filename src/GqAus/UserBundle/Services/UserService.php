@@ -643,8 +643,8 @@ class UserService
                             $mailerInfo['inbox'] = $course->getFacilitator()->getId();
                             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", <br/><br/> All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() . " are enough competent <br/> Validated all the eviedences in the qualification.
                                  <br/><br/> Regards, <br/> " . $course->getAssessor()->getUsername();
-                            $mailerInfo['fromEmail'] = $courseObj->getAssessor()->getEmail();
-                            $mailerInfo['fromUserName'] = $courseObj->getAssessor()->getUsername();
+                            $mailerInfo['fromEmail'] = $course->getAssessor()->getEmail();
+                            $mailerInfo['fromUserName'] = $course->getAssessor()->getUsername();
                             $this->sendExternalEmail($mailerInfo);
                             $this->sendMessagesInbox($mailerInfo);
 
@@ -654,8 +654,8 @@ class UserService
                             $mailerInfo['inbox'] = $course->getUser()->getId();
                             $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $applicantName . ", <br/><br/> All the evidences for the Qualification : " . $course->getCourseCode() . " " . $course->getCourseName() . " are enough competent <br/> Validated all the eviedences in the qualification.
                                  <br/><br/> Regards, <br/> " . $course->getFacilitator()->getUsername();
-                            $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
-                            $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
+                            $mailerInfo['fromEmail'] = $course->getFacilitator()->getEmail();
+                            $mailerInfo['fromUserName'] = $course->getFacilitator()->getUsername();
                             $this->sendExternalEmail($mailerInfo);
                             $this->sendMessagesInbox($mailerInfo);
                         } elseif ($userType == 'rto') {
