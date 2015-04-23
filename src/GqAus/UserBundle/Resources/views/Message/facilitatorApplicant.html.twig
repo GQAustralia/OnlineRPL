@@ -24,12 +24,12 @@
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        <label for="acc-mg-{{i}}" temp="acc-mg-{{i}}" class="col-xs-4 btn add-btn upDownArrow">VIEW</label>
+                        <label for="acc-mg-{{i}}" temp="acc-mg-{{i}}" class="col-xs-4 openViewIcon btn add-btn upDownArrow">VIEW</label>
                     </div>
                 </div>
             </div>
             <article class="acc-small">
-                <p>{{ message.message }} </p>
+                <p>{{ message.message|replace({'<br/>' : '\n'}) }} </p>
             </article>
         </div>                                                    
     </div>
