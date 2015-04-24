@@ -1723,3 +1723,13 @@ function getUnitNotesByType(unitId, userType, divId) {
 $("#addnotes_unit_cancel").click(function(){
   $("#edivenceUnitModalNotes").modal( "toggle" ); 
 });
+
+// to change view icon
+$("body").on("click", ".openViewIcon", function(){
+   var c = $(this).hasClass("open");
+    if (c == false) {
+        $(this).addClass("open");
+    } else {
+        $(this).removeClass("open");
+    }
+});
