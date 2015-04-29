@@ -21,7 +21,11 @@
                         <div class="col-xs-6 no-padding text-center">
                             <div class="gq-dashboard-running-txt">Currently you have</div>
                             <div class="gq-dashboard-points-in-number wid100p">
+                                {% if pendingApplicantsCount > 0 %}
                                     <a href="{{ app.request.baseUrl }}/applicants">{{pendingApplicantsCount}}</a>
+                                {% else %}
+                                    <a href="javascript:void(0);">{{pendingApplicantsCount}}</a>
+                                {% endif %}    
                             </div>
                         </div>
                         <div class="col-xs-6 hidden-xs"></div>
