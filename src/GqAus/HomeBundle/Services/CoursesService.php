@@ -330,7 +330,13 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
                 $userObj = $this->em->getRepository('GqAusUserBundle:User')
                             ->find($userId);
                 if (isset($apiResults['courseInfo']['Units']['Unit'])) {
-                    foreach ($apiResults['courseInfo']['Units']['Unit'] as $unit) {
+                    if (array_key_exists('id', $apiResults['courseInfo']['Units']['Unit']))
+                    {
+                       $unitResults[] = $apiResults['courseInfo']['Units']['Unit'];
+                    } else {
+                       $unitResults = $apiResults['courseInfo']['Units']['Unit']; 
+                    }        
+                    foreach ($unitResults as $unit) {
                         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
                         $userUnitObj = $reposObj->findOneBy(array('user' => $userId,
                                                             'unitId' => $unit['id'],
