@@ -399,25 +399,37 @@ class UserService
         } elseif (in_array('ROLE_RTO', $userRole)) {
             $userType = 'rto';
             $userStatus = 'rtostatus';
+            $courseStatus = '2';
+            if ( $status == 1 ) {
+               $courseStatus = '2'; 
+            }
         }
-        if ($status == 2) {
-            $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                            ->createQueryBuilder('c')
-                            ->select("c, u")
-                            ->join('c.user', 'u')
-                            ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
-        } else {
-            $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                            ->createQueryBuilder('c')
-                            ->select("c, u")
-                            ->join('c.user', 'u')
-                            ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
-                            ->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
-        }
+        
+        $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                        ->createQueryBuilder('c')
+                        ->select("c, u")
+                        ->join('c.user', 'u')
+                        ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
+        if ( $status != 2 && $userType == "assessor" ) {
+            $res->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);            
+        } 
 
         if ($userType == 'rto') {
-            $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
-            $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
+            if ( $status == 1 ) {
+                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
+            } else {
+                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
+            }
+           /* $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
+            $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');*/
+        }
+        
+        if ($userType == 'facilitator') {
+            if ( $status == 1 ) {
+                $res->andWhere('c.courseStatus = :courseStatus1 OR c.courseStatus = :courseStatus2')->setParameter('courseStatus1', '0')->setParameter('courseStatus2', '2');
+            } else {
+                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '1');
+            }
         }
 
         /* if (!empty($searchName)) {
@@ -477,6 +489,11 @@ class UserService
                             ->select("c, u")
                             ->join('c.user', 'u')
                             ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
+            if ($userType == 'rto') {
+            //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
+            $res->andWhere("c.courseStatus = '0' OR c.courseStatus = '2'");
+            /*$res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');*/
+           }
         } else {
             if ($status == 11) {
                 $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
@@ -484,7 +501,7 @@ class UserService
                         ->select("c, u")
                         ->join('c.user', 'u')
                         ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
-                        ->andWhere("c.courseStatus = '1'")
+                        /*->andWhere("c.courseStatus = '1'")*/
                         ->andWhere("c.assessorstatus = '1'");
             } else {
                 $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
@@ -512,11 +529,7 @@ class UserService
               } */
         }
 
-        if ($userType == 'rto') {
-            //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
-            $res->andWhere("c.courseStatus = '0' OR c.courseStatus = '2'");
-            $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
-        }
+        
 
         if (!empty($searchName)) {
             $searchNamearr = explode(" ", $searchName);
@@ -684,18 +697,17 @@ class UserService
         if (in_array('ROLE_ASSESSOR', $userRole)) {
             $userType = 'assessor';
             $userStatus = 'assessorstatus';
+            $result = array($userType => $userId, $userStatus => $applicantStatus);
         } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
             $userType = 'facilitator';
             $userStatus = 'facilitatorstatus';
+            $result = array($userType => $userId, 'courseStatus' => '1');
         } elseif (in_array('ROLE_RTO', $userRole)) {
             $userType = 'rto';
             $userStatus = 'rtostatus';
+            $result = array($userType => $userId, 'courseStatus' => '2');
         }
-        $result = array($userType => $userId, $userStatus => $applicantStatus);
-        if ($userType == 'rto') {
-            $result['courseStatus'] = '2';
-            $result['assessorstatus'] = '1';
-        }
+        
         $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy($result);
         return count($getCourseStatus);
     }
