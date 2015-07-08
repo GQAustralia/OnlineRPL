@@ -1188,7 +1188,16 @@ function validateAddress()
         showMyTabs("Please enter USI");
         $("#userprofile_universalStudentIdentifier").focus();
         return false;
-    }
+    } else {
+		var USI = $("#userprofile_universalStudentIdentifier").val();
+		if(USI.length != 10) {
+			showMyTabs("Please enter 10 characters USI");
+		   return false;
+		} else if (USI.match(/[^a-zA-Z0-9 ]/g)) {
+           showMyTabs("Please enter only ALPHA Numeric USI");
+		   return false;
+        }
+	}
     if ($("#userprofile_address_address").val() == "") {
         $("#change_pwd_error").show();
         $("#change_pwd_error").html(startMsg + "Please enter Address" + endMsg).delay(3000).fadeOut(100);
