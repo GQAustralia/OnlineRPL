@@ -18,6 +18,10 @@ class NotesController extends Controller
         if ($request->isMethod('POST')) {
             $form->bind($request);
             $data = $form->getData();
+            $data['session_user_id'] = $this->get('security.context')->getToken()->getUser()->getId();
+            $data['session_user_role'] = $this->get('security.context')->getToken()->getUser()->getRoleName();
+            $data['session_user_email'] = $this->get('security.context')->getToken()->getUser()->getEmail();
+            $data['session_user_name'] = $this->get('security.context')->getToken()->getUser()->getUsername();
             echo $result = $this->get('NotesService')->saveNotes($data);
         }
         exit;
