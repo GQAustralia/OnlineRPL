@@ -36,6 +36,9 @@
         <field name="contactName" type="string" column="contactname" nullable="true"/>
         <field name="contactEmail" type="string" column="contactemail" nullable="true"/>
         <field name="contactPhone" type="string" column="contactphone" nullable="true"/>
+		<field name="ceoname" type="string" column="ceoname" nullable="true"/>
+		<field name="ceoemail" type="string" column="ceoemail" nullable="true"/>
+		<field name="ceophone" type="string" column="ceophone" nullable="true"/>
         <one-to-many field="idfiles" target-entity="GqAus\UserBundle\Entity\UserIds" mapped-by="user" />        
         <one-to-many field="evidences" target-entity="GqAus\UserBundle\Entity\Evidence" mapped-by="user" />
         <one-to-many field="reminders" target-entity="GqAus\UserBundle\Entity\Reminder" mapped-by="user" />

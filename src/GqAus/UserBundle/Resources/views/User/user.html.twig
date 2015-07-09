@@ -23,6 +23,7 @@
             <label for="gq-personal-pwd">Phone</label>
                 {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
         </div>
+		
        {% if ('ROLE_APPLICANT' in userRole) %}
         <div class="gq-form-row">
             <label for="gq-personal-pwd">Date Of Birth</label>
@@ -46,6 +47,19 @@
         <div class="gq-form-row">
             <label for="gq-personal-pwd">Contact Person Email</label>
                 {{ form_widget(form.contactemail,{ 'attr': {'maxlength': '50'} }) }}
+        </div>
+		
+		<div class="gq-form-row">
+            <label for="gq-personal-pwd">CEO Name</label>
+                {{ form_widget(form.ceoname,{ 'attr': {'maxlength': '30'} }) }}
+        </div>
+		<div class="gq-form-row">
+            <label for="gq-personal-pwd">CEO Email</label>
+                {{ form_widget(form.ceoemail) }}
+        </div>
+		<div class="gq-form-row">
+            <label for="gq-personal-pwd">CEO Phone</label>
+                {{ form_widget(form.ceophone,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         {% endif %}
         <div class="wid100p text-center margin-top15">

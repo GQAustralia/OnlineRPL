@@ -32,4 +32,4 @@ services:
         arguments: [@doctrine.orm.entity_manager]
     NotesService:
         class: GqAus\UserBundle\Services\NotesService
-        arguments: [@doctrine.orm.entity_manager, @service_container]    
+        arguments: [@doctrine.orm.entity_manager, @service_container, @UserService]    

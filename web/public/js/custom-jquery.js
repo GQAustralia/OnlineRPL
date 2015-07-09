@@ -671,7 +671,7 @@ $(".setNotes").click(function() {
         $(this).parent().removeClass('open');
         //$('#div_' + id).removeClass('open');
     }
-    setnotesid = false;		
+    setnotesid = false;        
 });
 
 $(".setUsers").click(function() {
@@ -695,7 +695,7 @@ $(".setUsers").click(function() {
           $(this).addClass('selectedrto');
        else
           $(this).removeClass('selectedrto');
-    });	
+    });    
 });
 
 $(".setData").click(function() {
@@ -1189,15 +1189,15 @@ function validateAddress()
         $("#userprofile_universalStudentIdentifier").focus();
         return false;
     } else {
-		var USI = $("#userprofile_universalStudentIdentifier").val();
-		if(USI.length != 10) {
-			showMyTabs("Please enter 10 characters USI");
-		   return false;
-		} else if (USI.match(/[^a-zA-Z0-9 ]/g)) {
+        var USI = $("#userprofile_universalStudentIdentifier").val();
+        if(USI.length != 10) {
+            showMyTabs("Please enter 10 characters USI");
+           return false;
+        } else if (USI.match(/[^a-zA-Z0-9 ]/g)) {
            showMyTabs("Please enter only ALPHA Numeric USI");
-		   return false;
+           return false;
         }
-	}
+    }
     if ($("#userprofile_address_address").val() == "") {
         $("#change_pwd_error").show();
         $("#change_pwd_error").html(startMsg + "Please enter Address" + endMsg).delay(3000).fadeOut(100);
@@ -1236,6 +1236,23 @@ function validateAddress()
                 showMyTabs("Please enter valid Contact Person Email");
                 $("#userprofile_contactemail").val("");
                 $("#userprofile_contactemail").focus();
+                return false;
+            }
+        }
+        
+        if ($("#userprofile_ceoemail").val() != "") {
+            if ($("#userprofile_ceoemail").val().search(regexp) == -1) {
+                showMyTabs("Please enter valid CEO Email");
+                $("#userprofile_ceoemail").focus();
+                return false;
+            }
+        }
+        
+        if ($("#userprofile_ceophone").val() != "") {
+            if(checkPhonenumber($("#userprofile_ceophone").val()) == 0) {
+                showMyTabs("Please enter valid CEO Phone Number");
+                $("#userprofile_ceophone").val("");
+                $("#userprofile_ceophone").focus();
                 return false;
             }
         }
@@ -1382,7 +1399,7 @@ $(".changeUsers").click(function() {
         var roleuserIdarr = newroleuserId.split('&&');
         var roleuserId = roleuserIdarr[0];
     }
-	var courseId = $("#hdn-coursePrimaryId").val();
+    var courseId = $("#hdn-coursePrimaryId").val();
     $.ajax({
         type: "POST",
         url: base_url + "setRoleUsers",
@@ -1391,11 +1408,11 @@ $(".changeUsers").click(function() {
         success: function(result) {
             if(roleid == 3) {
                 $(".gq-facilitator-select-name").html(roleuserIdarr[1]);
-		$(".assessor-change").children(".setUsers").trigger("click");
+        $(".assessor-change").children(".setUsers").trigger("click");
             }
             if(roleid == 4) {
                 $(".gq-rto-select-name").html(roleuserIdarr[1]);
-		$(".rto-change").children(".setUsers").trigger("click");
+        $(".rto-change").children(".setUsers").trigger("click");
             }
         }
     });
@@ -1413,15 +1430,15 @@ $('html').click(function() {
 });*/
 $(".gq-name-list").click(function() {
     $(".gq-name-list").removeClass('selected');
-	$(".gq-name-list").removeClass('selectednew');
-	$(this).addClass("selected");
-	$(this).addClass("selectednew");
+    $(".gq-name-list").removeClass('selectednew');
+    $(this).addClass("selected");
+    $(this).addClass("selectednew");
 });
 $(".gq-rto-list").click(function() {
     $(".gq-rto-list").removeClass('selectedrto');
-	$(".gq-rto-list").removeClass('selectedRtonew');
-	$(this).addClass("selectedrto");
-	$(this).addClass("selectedRtonew");
+    $(".gq-rto-list").removeClass('selectedRtonew');
+    $(this).addClass("selectedrto");
+    $(this).addClass("selectedRtonew");
 });
 $("#gq-name-cancel, #gq-rtoname-cancel").click(function() {
     $(this).parent().parent().prev(".setUsers").trigger("click");

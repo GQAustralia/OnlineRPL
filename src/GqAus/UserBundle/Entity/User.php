@@ -40,6 +40,23 @@ abstract class User implements UserInterface, \Serializable
      */
     private $password;
     
+    /**
+     * @var string
+     */
+    private $ceoname;
+    
+    
+    /**
+     * @var string
+     */
+    private $ceoemail;
+    
+    
+    /**
+     * @var string
+     */
+    private $ceophone;
+    
 
     /**
      * Constructor
@@ -886,5 +903,75 @@ abstract class User implements UserInterface, \Serializable
     public function getContactPhone()
     {
         return $this->contactPhone;
+    }
+    
+    /**
+     * Set ceoname
+     *
+     * @param string $ceoname
+     * @return User
+     */
+    public function setCeoname($ceoname)
+    {
+        $this->ceoname = $ceoname;
+
+        return $this;
+    }
+    
+    /**
+     * Set ceoemail
+     *
+     * @param string $ceoemail
+     * @return User
+     */
+    public function setCeoemail($ceoemail)
+    {
+        $this->ceoemail = $ceoemail;
+
+        return $this;
+    }
+    
+    /**
+     * Set ceophone
+     *
+     * @param string $ceophone
+     * @return User
+     */
+    public function setCeophone($ceophone)
+    {
+        $this->ceophone = $ceophone;
+
+        return $this;
+    }
+
+    /**
+     * Get ceoname
+     *
+     * @return string 
+     */
+    public function getCeoname()
+    {
+        return $this->ceoname;
+    }
+    
+    /**
+     * Get ceoemail
+     *
+     * @return string 
+     */
+    public function getCeoemail()
+    {
+        return $this->ceoemail;
+    }
+    
+    
+    /**
+     * Get ceophone
+     *
+     * @return string 
+     */
+    public function getCeophone()
+    {
+        return $this->ceophone;
     }
 }

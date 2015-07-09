@@ -33,6 +33,12 @@ class UserController extends Controller
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');
         }
+        
+        if ($user_role != 'ROLE_RTO') {
+            $userProfileForm->remove('ceoname');
+            $userProfileForm->remove('ceoemail');
+            $userProfileForm->remove('ceophone');
+        }
 
         $documentTypes = $userService->getDocumentTypes();
         $idFilesForm = $this->createForm(new IdFilesForm(), $documentTypes);
@@ -335,8 +341,8 @@ class UserController extends Controller
     */
     public function addApplicantAction(Request $request)
     {        
-    	$userService = $this->get('UserService');
-    	$userService->saveApplicantData($request);
+        $userService = $this->get('UserService');
+        $userService->saveApplicantData($request);
     }
     
     /**
