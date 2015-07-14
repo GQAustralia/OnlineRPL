@@ -1406,13 +1406,17 @@ $(".changeUsers").click(function() {
         async: false,
         data: {courseId: courseId, roleid: roleid, roleuserId: roleuserId},
         success: function(result) {
+			res = JSON.parse(result);
             if(roleid == 3) {
                 $(".gq-facilitator-select-name").html(roleuserIdarr[1]);
-        $(".assessor-change").children(".setUsers").trigger("click");
+                $(".assessor-change").children(".setUsers").trigger("click");
             }
             if(roleid == 4) {
                 $(".gq-rto-select-name").html(roleuserIdarr[1]);
-        $(".rto-change").children(".setUsers").trigger("click");
+                $(".rto-change").children(".setUsers").trigger("click");
+				$("#ceo_name").html(res['ceoName']);
+				$("#ceo_email").html(res['ceoEmail']);
+				$("#ceo_phone").html(res['ceoPhone']);
             }
         }
     });

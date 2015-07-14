@@ -333,10 +333,10 @@ class MessageController extends Controller
           $applicantId = $courseData->getUser()->getId();
           $facilitatorId = $courseData->getFacilitator()->getId();
           $results['messages'] = $this->get('UserService')->getFacilitatorApplicantMessages($unitId, $applicantId, $facilitatorId);
-          echo $template = $this->renderView('GqAusUserBundle:Message:facilitatorApplicant.html.twig', $results); 
+          echo $template = $this->renderView('GqAusUserBundle:Message:facilitatorApplicant.html.twig', $results);
           
         } else {
-          echo "Empty Unit Id";  
+          echo "Empty Unit Id";
         }
         exit;
     }
