@@ -162,7 +162,7 @@ textarea {resize:none;}
 ---------------------------------------------------------------*/
 .btn-red {background-color:#e01010; color:#ffffff;}
 a.btn-red {color:#ffffff;}
-.btn-red:hover, .btn-red:focus{background-color:#e03934; color:#f6f6f6;}
+.btn-red:hover, .btn-red:focus{background-color:#c20202; color:#f6f6f6;}
 .btn-white {background-color:#ffffff; color:#324042; width:100%;}
 .btn-white:hover, .btn-white:focus{background-color:#e1e1e1;}
 .btn-grey{background-color:#5c5c5c; color:#ffffff;}
@@ -743,7 +743,7 @@ a.btn-red {color:#ffffff;}
 .gq-grey-bg-border {background-color:#f5f5f5; border-left:1px solid #e8e8e8; border-right:1px solid #e8e8e8;}
 .gq-form-personal .btn-grey {float: left; font-size: 17px; width: 100%; padding: 6px 12px; border-radius: 3px; color: #ffffff !important; text-align: center; text-decoration:none;}
 
-.login-page img {width:120px;} /* adding width to images so that the images look crisp in mobile as well. */
+.login-page img {width:170px;} /* adding width to images so that the images look crisp in mobile as well. */
 .gq-dashboard-header .gq-logo-dashboard img {width:120px;}
 .todo_daynote {color:#e01010;}
 .gq-others-assessor .gq-course-details-header-title {color:#e01010;}
