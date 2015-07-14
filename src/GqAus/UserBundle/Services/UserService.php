@@ -309,6 +309,10 @@ class UserService
             $results['assessorName'] = !empty($assessor) ? $assessor->getUsername() : '';
             $rto = $this->getUserInfo($otheruser->getRto());
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
+            $results['rtoCeoName'] = !empty($rto) ? $rto->getCeoname() : '';
+            $results['rtoCeoEmail'] = !empty($rto) ? $rto->getCeoemail() : '';
+            $results['rtoCeoPhone'] = !empty($rto) ? $rto->getCeophone() : '';
+
             $facilitator = $this->getUserInfo($otheruser->getFacilitator());
             $results['facilitatorName'] = !empty($facilitator) ? $facilitator->getUsername() : '';
 
@@ -1269,7 +1273,11 @@ class UserService
         $this->em->persist($course);
         $this->em->flush();
         $this->em->clear();
-        return "success";
+        $userInfo = $this->em->getRepository('GqAusUserBundle:User')->find($userId);
+        return array('message' => 'success',
+		             'ceoName' => $userInfo->getCeoname(),
+					 'ceoEmail' => $userInfo->getCeoemail(),
+					 'ceoPhone' => $userInfo->getCeophone());
     }
 
     /*

@@ -341,7 +341,8 @@ class ApplicantController extends Controller
         $courseId = $this->getRequest()->get('courseId');
         $userId = $this->getRequest()->get('roleuserId');
         $roleid = $this->getRequest()->get('roleid');
-        echo $this->get('UserService')->setRoleUsersForCourse($courseId, $roleid, $userId);
+        $result = $this->get('UserService')->setRoleUsersForCourse($courseId, $roleid, $userId);
+        echo json_encode($result);
         exit;
     }
     
