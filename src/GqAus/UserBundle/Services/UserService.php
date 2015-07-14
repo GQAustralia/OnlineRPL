@@ -1273,8 +1273,8 @@ class UserService
         $this->em->persist($course);
         $this->em->flush();
         $this->em->clear();
-		$userInfo = $this->em->getRepository('GqAusUserBundle:User')->find($userId);
-		return array('message' => 'success',
+        $userInfo = $this->em->getRepository('GqAusUserBundle:User')->find($userId);
+        return array('message' => 'success',
 		             'ceoName' => $userInfo->getCeoname(),
 					 'ceoEmail' => $userInfo->getCeoemail(),
 					 'ceoPhone' => $userInfo->getCeophone());
