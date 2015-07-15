@@ -400,14 +400,7 @@ class UserService
         } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
             $userType = 'facilitator';
             $userStatus = 'facilitatorstatus';
-        } elseif (in_array('ROLE_RTO', $userRole)) {
-            $userType = 'rto';
-            $userStatus = 'rtostatus';
-            $courseStatus = '2';
-            if ( $status == 1 ) {
-               $courseStatus = '2'; 
-            }
-        }
+        } 
         
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                         ->createQueryBuilder('c')
@@ -1275,9 +1268,9 @@ class UserService
         $this->em->clear();
         $userInfo = $this->em->getRepository('GqAusUserBundle:User')->find($userId);
         return array('message' => 'success',
-		             'ceoName' => $userInfo->getCeoname(),
-					 'ceoEmail' => $userInfo->getCeoemail(),
-					 'ceoPhone' => $userInfo->getCeophone());
+                     'ceoName' => $userInfo->getCeoname(),
+                     'ceoEmail' => $userInfo->getCeoemail(),
+                     'ceoPhone' => $userInfo->getCeophone());
     }
 
     /*
@@ -1477,5 +1470,38 @@ class UserService
         $idFile = $IdObj->find($IdFileId);
         return $idFile;
     }
-
+    
+    /**
+     * Function to get managers pending applicants count
+     * return array
+     */
+    public function getManagersApplicantsCount($userId, $userRole)
+    {
+        if(in_array('ROLE_SUPERADMIN',$userRole)) {
+            $userId = '';
+        }
+        $result = array();
+        $result['facilitatorPendingApplicants'] = $this->applicantsCount($userId, 'facilitatorstatus', 0);
+        $result['assessorsPendingApplicants'] = $this->applicantsCount($userId, 'assessorstatus', 0);
+        $result['rtoPendingApplicants'] = $this->applicantsCount($userId, 'rtostatus', 0);
+        return $result;
+    }
+    
+    /**
+     * Function to get pending applicants count
+     * return array
+     */
+    public function applicantsCount($userId, $userTypeStatus, $status)
+    {
+        $query = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                        ->createQueryBuilder('c')
+                        ->select("c, u")
+                        ->join('c.user', 'u')
+                        ->where(sprintf('c.%s = :%s', $userTypeStatus, $userTypeStatus))->setParameter($userTypeStatus, $status);
+        if ( !empty($userId) ) {
+            $query->andWhere(sprintf('u.%s = :%s', 'createdby', 'createdby'))->setParameter('createdby', $userId);
+        }
+        $results = $query->getQuery()->getResult();
+        return count($results);
+    }
 }

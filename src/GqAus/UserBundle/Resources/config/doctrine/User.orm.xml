@@ -16,6 +16,8 @@
             <discriminator-mapping value="2" class="GqAus\UserBundle\Entity\Facilitator" />
             <discriminator-mapping value="3" class="GqAus\UserBundle\Entity\Assessor" />
             <discriminator-mapping value="4" class="GqAus\UserBundle\Entity\Rto" />
+            <discriminator-mapping value="5" class="GqAus\UserBundle\Entity\Manager" />
+            <discriminator-mapping value="6" class="GqAus\UserBundle\Entity\Superadmin" />
         </discriminator-map>
        
         <one-to-many field="courses" target-entity="GqAus\UserBundle\Entity\UserCourses" mapped-by="user" />
@@ -39,6 +41,7 @@
         <field name="ceoname" type="string" column="ceoname" nullable="true"/>
         <field name="ceoemail" type="string" column="ceoemail" nullable="true"/>
         <field name="ceophone" type="string" column="ceophone" nullable="true"/>
+        <field name="createdby" type="integer" column="createdby" length="11" nullable="true"/>
         <one-to-many field="idfiles" target-entity="GqAus\UserBundle\Entity\UserIds" mapped-by="user" />        
         <one-to-many field="evidences" target-entity="GqAus\UserBundle\Entity\Evidence" mapped-by="user" />
         <one-to-many field="reminders" target-entity="GqAus\UserBundle\Entity\Reminder" mapped-by="user" />

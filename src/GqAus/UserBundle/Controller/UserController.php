@@ -23,12 +23,12 @@ class UserController extends Controller
         $user = $userService->getCurrentUser();
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
         $user_role = $this->get('security.context')->getToken()->getUser()->getRoleName();
-        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_RTO') {
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_RTO' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('dateOfBirth');
             $userProfileForm->remove('universalStudentIdentifier');
             $userProfileForm->remove('gender');
         }
-        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_APPLICANT') {
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_APPLICANT' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('contactname');
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');

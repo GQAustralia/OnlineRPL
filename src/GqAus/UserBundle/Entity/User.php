@@ -56,7 +56,11 @@ abstract class User implements UserInterface, \Serializable
      * @var string
      */
     private $ceophone;
-    
+	
+    /**
+     * @var string
+    */
+    private $createdby;
 
     /**
      * Constructor
@@ -973,5 +977,28 @@ abstract class User implements UserInterface, \Serializable
     public function getCeophone()
     {
         return $this->ceophone;
+    }
+	
+	/**
+     * Set createdby
+     *
+     * @param string $createdby
+     * @return User
+     */
+    public function setCreatedby($createdby)
+    {
+        $this->createdby = $createdby;
+
+        return $this;
+    }
+
+    /**
+     * Get createdby
+     *
+     * @return string 
+     */
+    public function getCreatedby()
+    {
+        return $this->createdby;
     }
 }
