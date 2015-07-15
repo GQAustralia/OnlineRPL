@@ -28,7 +28,7 @@ class DefaultController extends Controller
             return $this->render('GqAusHomeBundle:Default:index.html.twig', $results);
         } else if (in_array('ROLE_MANAGER',$userRole) || in_array('ROLE_SUPERADMIN',$userRole)) {
             $results = $this->get('UserService')->getManagersApplicantsCount($userId, $userRole);
-            return $this->render('GqAusHomeBundle:Default:manager-dashboard.html.twig', $results);
+            return $this->render('GqAusHomeBundle:Default:user-dashboard.html.twig', $results);
         } else {
             $appResults = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0');
             $results = $userService->getUsersDashboardInfo($user);
