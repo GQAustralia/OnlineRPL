@@ -1519,7 +1519,7 @@ class UserService
                         ->join('c.user', 'u')
                         ->where(sprintf('c.%s = :%s', $userTypeStatus, $userTypeStatus))->setParameter($userTypeStatus, $status);
         if ( !empty($userId) ) {
-            $query->andWhere(sprintf('u.%s = :%s', 'createdby', 'createdby'))->setParameter('createdby', $userId);
+            //$query->andWhere(sprintf('u.%s = :%s', 'createdby', 'createdby'))->setParameter('createdby', $userId);
         }
         $results = $query->getQuery()->getResult();
         return count($results);
@@ -1584,7 +1584,7 @@ class UserService
         $statement->bindValue('frole', \GqAus\UserBundle\Entity\Facilitator::ROLE);
         $statement->bindValue('arole', \GqAus\UserBundle\Entity\Assessor::ROLE);
         $statement->execute();
-        $users = $statement->fetchAll();        
+        $users = $statement->fetchAll();
         return $users;
     }
     
