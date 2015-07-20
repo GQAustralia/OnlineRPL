@@ -58,10 +58,10 @@
                                     <table class="table">
                                         <thead>
                                             <tr>        
-                                                <th width="20%"><span class="">Name</span></th>
-                                                <th width="20%" colspan="5"><span>Type</span></th>
-                                                <th width="20%" colspan="5"><span>Notes/Reminders</span></th>
-                                                <th width="40%" colspan="5"><span></span></th>
+                                                <th width="25%"><span class="">Name</span></th>
+                                                <th width="25%" colspan="5"><span>Type</span></th>
+                                                <th width="25%" colspan="5"><span>Notes/Reminders</span></th>
+                                                <th width="25%" colspan="5"><span></span></th>
                                             </tr>
                                         </thead>
                                         <tbody class="row">
@@ -91,8 +91,10 @@
                                                     </div>
                                                 </td>
                                                 <td width="40%" colspan="5"><span class="">
-                                                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 no-padding">
-                                                        <button id="{{list.id}}" class="btn eye-btn gq-reports-filter-btn loginUser">-> LOGIN</button>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <div class="gq-add-notes-icon-wrap setNotes icons"><img src = "{{asset('public/images/user-edit.png') }}" /></div>
+                                                        <div class="gq-add-notes-icon-wrap setNotes icons"><img src = "{{asset('public/images/cross.png') }}" /></div>
+                                                        <button id="{{list.id}}" class="btn eye-btn gq-reports-filter-btn loginUser"><img src = "{{asset('public/images/arrow_login.png') }}" /> LOGIN</button>
                                                     </div>
                                                 </span></td>
                                             </tr>
