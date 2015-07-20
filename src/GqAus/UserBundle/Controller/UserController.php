@@ -385,7 +385,20 @@ class UserController extends Controller
             }
         
         } else {
-            return $this->redirect('dashboard');   
+            return $this->redirect('dashboard');
         }
+    }
+    
+    /**
+    * Function to manage users
+    * return $result array
+    */
+    public function manageusersAction()
+    {
+        $session_user = $this->get('security.context')->getToken()->getUser();
+        $users['searchName'] = $searchName = $this->getRequest()->get('searchName');
+        $users['searchType'] = $searchType = $this->getRequest()->get('userType');
+        $users['applicantList'] = $this->get('UserService')->manageUsers($session_user->getId(),$session_user->getRoleName(),$searchName, $searchType);
+        return $this->render('GqAusUserBundle:User:manageusers.html.twig', $users);
     }
 }

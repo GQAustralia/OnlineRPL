@@ -1406,7 +1406,7 @@ $(".changeUsers").click(function() {
         async: false,
         data: {courseId: courseId, roleid: roleid, roleuserId: roleuserId},
         success: function(result) {
-			res = JSON.parse(result);
+            res = JSON.parse(result);
             if(roleid == 3) {
                 $(".gq-facilitator-select-name").html(roleuserIdarr[1]);
                 $(".assessor-change").children(".setUsers").trigger("click");
@@ -1414,9 +1414,9 @@ $(".changeUsers").click(function() {
             if(roleid == 4) {
                 $(".gq-rto-select-name").html(roleuserIdarr[1]);
                 $(".rto-change").children(".setUsers").trigger("click");
-				$("#ceo_name").html(res['ceoName']);
-				$("#ceo_email").html(res['ceoEmail']);
-				$("#ceo_phone").html(res['ceoPhone']);
+                $("#ceo_name").html(res['ceoName']);
+                $("#ceo_email").html(res['ceoEmail']);
+                $("#ceo_phone").html(res['ceoPhone']);
             }
         }
     });
@@ -1715,7 +1715,7 @@ if($('#frmAddNotes').length)
                 $("#notes-success-msg").html('<h2><img src="' + base_url + 'public/images/tick.png">Notes added successfully!</h2>').delay(5000).fadeOut(100);
             } else {
                 $('#notes-error-msg').show();
-               $("#notes-error-msg").html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Error saving notes!</h2>').delay(5000).fadeOut(100);  
+               $("#notes-error-msg").html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Error saving notes!</h2>').delay(5000).fadeOut(100);
             }
         },
         resetForm: true
@@ -1762,4 +1762,8 @@ $("body").on("click", ".openViewIcon", function(){
     } else {
         $(this).removeClass("open");
     }
+});
+
+$(".loginUser").click(function(){
+    $(location).attr('href', 'userLogin/' + this.id);
 });

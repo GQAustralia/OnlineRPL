@@ -186,5 +186,10 @@ facilitatorApplicant:
     defaults: { _controller: GqAusUserBundle:Message:facilitatorApplicant }
 viewIdFileApplicant:
     path:     /viewIdFile/{idFileId}
-    defaults: { _controller: GqAusUserBundle:Applicant:viewIdFile }     
-    
+    defaults: { _controller: GqAusUserBundle:Applicant:viewIdFile }
+manageusers:
+    path:     /manageusers
+    defaults: { _controller: GqAusUserBundle:User:manageusers }
+userLogin:
+    path:     /userLogin/{userId}
+    defaults: { _controller: GqAusUserBundle:Authenticate:userLogin }

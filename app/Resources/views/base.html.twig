@@ -8,16 +8,16 @@
 
     <!-- Bootstrap -->
     {% block head %}
-	
-	<link rel="stylesheet" href="{{ asset('public/css/scroll-style.css') }}" />	
-	 <link rel="stylesheet" href="{{ asset('public/css/jquery.mCustomScrollbar.css') }}" />   
-	<link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}" />
-	<link href="{{ asset('public/css/accordion.css') }}" rel="stylesheet">
-	<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">        
+    
+    <link rel="stylesheet" href="{{ asset('public/css/scroll-style.css') }}" />    
+     <link rel="stylesheet" href="{{ asset('public/css/jquery.mCustomScrollbar.css') }}" />   
+    <link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}" />
+    <link href="{{ asset('public/css/accordion.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/css/form.css') }}" rel="stylesheet">        
         <link rel="stylesheet" href="{{ asset('public/css/daterangepicker-bs3.css') }}" />
-	<link rel="stylesheet" href="{{ asset('public/css/styles.css') }}" />
-	<link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}" />
- 	{% endblock %}
+    <link rel="stylesheet" href="{{ asset('public/css/styles.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}" />
+     {% endblock %}
         {% block stylesheets %}{% endblock %}
         <script src="{{ asset('public/js/jquery.min.js') }}"></script>
         <script type="text/javascript">
@@ -27,6 +27,7 @@
     
   </head>
   <body>
+    {% set roles = app.security.getToken().getUser().getRoles() %}
     <div class="page-wrap">
         <div class="container-fluid">
             <!-- Dashboard page starts here -->
@@ -52,9 +53,9 @@
                                 {% else %}
                                     <div class="user-icon" id="ajax-gq-profile-small-page-img" style="background-image: url(&quot;{{ asset('public/images/profile-img.png') }}&quot;);"></div>
                                  {% endif %}
-								 
-                                
-                                <div class="user-status-msg">{{ app.security.getToken().getUser().getUsername() | capitalize }}</div>
+
+                                 {% set muser = app.session.get('muser') %}
+                                <div class="user-status-msg"> {% if ( muser and ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)) %} <a href="{{ app.request.baseUrl }}/userLogin/{{muser}}"><< Back </a> {% endif %} {{ app.security.getToken().getUser().getUsername() | capitalize }} </div>
                                 <div class="user-status-select">
                                     <div class="btn-group">
                                       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -71,12 +72,16 @@
                         </div>
                         </div>
                 </div>
-                {% set roles = app.security.getToken().getUser().getRoles() %}
+                
                 <div class="row">
                     <div class="dashboard-bg">
                         <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12 gq-dashboard-left" id="gq-dashboard-left">
                             <ul class="gq-dashboard-left-nav">
                                 <li><a {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/dashboard"><span class="gq-dashboard-icon"><img src="{{ asset('public/images/dashboard.png') }}" /></span><span class="left-nav-txt">Dashboard</span></a></li>
+                                
+                                {% if ('ROLE_MANAGER' in roles) or ('ROLE_SUPERADMIN' in roles) %}
+                                 <li><a {% if app.request.attributes.get('_route') == 'manageusers' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/manageusers"><span class="gq-dashboard-icon"><img src="{{ asset('public/images/dashboard.png') }}" /></span><span class="left-nav-txt">Manage Users</span></a></li>
+                                {% endif %}
                                 
                                 {% if 'ROLE_APPLICANT' in roles %}
                                 <li><a {% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/qualifications"><span class="gq-courses-icon"><img src="{{ asset('public/images/courses.png') }}" /></span><span class="left-nav-txt">Qualifications</span></a></li>
@@ -88,12 +93,14 @@
                                 <li><a {% if app.request.attributes.get('_route') == 'reminder' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reminder"><span class="gq-courses-icon"><img src="{{ asset('public/images/todolist.png') }}" /></span><span class="left-nav-txt">To Do List</span></a></li>
                                 {% endif %}
                                 
+								{% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}
                                 <li><a {% if app.request.attributes.get('_route') == 'messages' or app.request.attributes.get('_route') == 'compose' or app.request.attributes.get('_route') == 'sent' or app.request.attributes.get('_route') == 'trash' or app.request.attributes.get('_route') == 'view' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/messages"><span class="gq-messages-icon"><span id="unread-count"></span><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
+                                {% endif %}
                                 
                                 {% if 'ROLE_APPLICANT' in roles %}
                                 <li><a {% if app.request.attributes.get('_route') == 'evidences' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/evidences"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Evidence Files</span></a></li>
                                 {% endif %}
-                                {% if 'ROLE_APPLICANT' not in roles and 'ROLE_ASSESSOR' not in roles%}
+                                {% if 'ROLE_APPLICANT' not in roles and 'ROLE_ASSESSOR' not in roles and 'ROLE_MANAGER' not in roles and 'ROLE_SUPERADMIN' not in roles %}
                                 <li><a {% if app.request.attributes.get('_route') == 'reports' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reports"><span class="gq-evidence-icon"><img src="{{ asset('public/images/reports-icon.png') }}" /></span><span class="left-nav-txt">Reports</span></a></li>
                                 {% endif %}
                             </ul>
@@ -108,9 +115,9 @@
             <!-- Dashboard page ends here -->
         </div>
     </div>
-	<div class="gq-mobile-warning-msg">
-		This content is best viewed in Landscape mode
-	</div>
+    <div class="gq-mobile-warning-msg">
+        This content is best viewed in Landscape mode
+    </div>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
@@ -129,7 +136,7 @@
     <script>
         onloadCount();
     $(document).ready(function(){
-	if( $(window).width() > 768 ) {
+    if( $(window).width() > 768 ) {
            setInterval(function(){SetHeight()}, 100);
        }
         var showOrHide = true; 
