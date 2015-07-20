@@ -28,121 +28,135 @@
                                 <li role="presentation" id="applicantCompleted"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Approved</a></li>                                
                             </ul>
                         </div>
-                        
+
                         <!-- Filter start here -->
                         <div class="row">
                                 {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 gq-app-aearch-grid">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 gq-app-aearch-grid">
                                 {% else %}
-                                    <div class="col-lg-11 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-11 col-md-12 col-sm-12 col-xs-12">
                                 {% endif %}
-								
-								{% if ('ROLE_MANAGER' not in userRole) and ('ROLE_SUPERADMIN' not in userRole) %}
-                                <div class="gq-applicant-filter-wrap text-right">
-                                    <label>Filter by: </label>
-                                    <input name="searchName" id="searchName" type="text" placeholder="Applicant Name"/>
-                                    <!--<span id="searchFilter" class="gq-search-icon"></span>-->
-                                    <div class="gq-filter-clear wid100p visible-xs"></div>
-                                </div>
-								{% endif %}
-								
-								{% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}
-								<div class="gq-applicant-filter-wrap-select">
-                                    <select name="filterByUser" id="filterByUser" class="styled">
-                                        <option value="">Assessor/Facilitator</option>
-                                        {% for key, user in users %}
-                                        <option value="{{user.id}}">{% if user.roletype == 2 %} Facilitator {% else %} Assessor {% endif %} : {{user.username}}</option>
-                                        {% endfor %}
-                                    </select>
-								</div>
-								<div class="gq-applicant-filter-wrap-select">	
-									<select name="filterByStatus" id="filterByStatus" class="styled">
-                                        <option value="">Qualification Status</option>
-										{% for key, status in qualificationStatus %}
-                                        <option value="{{key}}">{{status}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-								{% endif %}
-								
-                            </div>
-                            {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                            <div id="remainingweekDiv">
-                            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
-                                <div class="gq-applicant-filter-wrap-select-remaining text-right">Remaining Time</div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="gq-applicant-filter-wrap-select">
-                                    <select name="timeRemaining" id="timeRemaining" class="styled">
-                                        <option value="">Weeks</option>
-                                        {% for w in 1..11 %}
-                                        <option value="{{w}}">{{w}} {% if w==1 %} Week {% else %} Weeks {% endif %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            </div>
-                            {% endif %}
-                            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 no-padding">
-                                <button id="searchFilter" class="btn eye-btn gq-reports-filter-btn">Filter</button>
-                            </div>
-                        </div>
-                        <!-- Filter end here -->
 
-                        <!-- Tabs end start here -->
-                        <!-- Content for respective tabs above will be in this section -->
-                        <div class="tab-content">
-                            <div id="ajaxHtml" style="display:none" {% if ('ROLE_RTO' in userRole) %} tdcolspan="3" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
-                                <img src="{{ asset('public/images')}}/loading.gif" />
-                            </div>
-                            <div role="tabpanel" class="tab-pane active" id="current">
-                                <div class="table-responsive gq-applicant-list-table margin-top15">
-                                    <table class="table">
-                                        {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
-                                        <tbody class="row" id="currentList">
-                                        {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
-                                        </tbody>
-                                    </table>
+                                {% if ('ROLE_MANAGER' not in userRole) and ('ROLE_SUPERADMIN' not in userRole) %}
+                                    <div class="gq-applicant-filter-wrap text-right">
+                                        <label>Filter by: </label>
+                                        <input name="searchName" id="searchName" type="text" placeholder="Applicant Name"/>
+                                        <!--<span id="searchFilter" class="gq-search-icon"></span>-->
+                                        <div class="gq-filter-clear wid100p visible-xs"></div>
+                                    </div>                                      
+                                {% endif %}
+
+                                {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="gq-applicant-filter-wrap-select-remaining text-right">Filter By</div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="gq-applicant-filter-wrap-select">
+                                            <select name="filterByUser" id="filterByUser" class="styled">
+                                                <option value="">Assessor/Facilitator</option>
+                                            {% for key, user in users %}
+                                                <option value="{{user.id}}">{% if user.roletype == 2 %} Facilitator {% else %} Assessor {% endif %} : {{user.username}}</option>
+                                            {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>                                    
+                                   </div>
+                                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="gq-applicant-filter-wrap-select-remaining text-right">Qualification Status</div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="gq-applicant-filter-wrap-select">
+                                            <select name="filterByStatus" id="filterByStatus" class="styled">
+                                                <option value="">Qualification Status</option>
+                                                {% for key, status in qualificationStatus %}
+                                                    <option value="{{key}}">{{status}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>                                    
+                                   </div>    
+                                {% endif %}
+
+                                </div>
+                            {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+                                <div id="remainingweekDiv">
+                                    <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="gq-applicant-filter-wrap-select-remaining text-right">Remaining Time</div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="gq-applicant-filter-wrap-select">
+                                            <select name="timeRemaining" id="timeRemaining" class="styled">
+                                                <option value="">Weeks</option>
+                                        {% for w in 1..11 %}
+                                                <option value="{{w}}">{{w}} {% if w==1 %} Week {% else %} Weeks {% endif %}</option>
+                                        {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                                <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 no-padding">
+                                    <button id="searchFilter" class="btn eye-btn gq-reports-filter-btn">Filter</button>
                                 </div>
                             </div>
-                            <div role="tabpanel" class="tab-pane" id="completed">
-                                <div class="table-responsive gq-applicant-list-table margin-top15">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>        
-                                                <th width="20%"><span class="">Name</span></th>
-                                                <th width="80%" colspan="5"><span class="">Qualification Name</span></th>                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody class="row" id="completedList">
+                            <!-- Filter end here -->
+
+                            <!-- Tabs end start here -->
+                            <!-- Content for respective tabs above will be in this section -->
+                            <div class="tab-content">
+                                <div id="ajaxHtml" style="display:none" {% if ('ROLE_RTO' in userRole) %} tdcolspan="3" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+                                    <img src="{{ asset('public/images')}}/loading.gif" />
+                                </div>
+                                <div role="tabpanel" class="tab-pane active" id="current">
+                                    <div class="table-responsive gq-applicant-list-table margin-top15">
+                                        <table class="table">
+                                        {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                                            <tbody class="row" id="currentList">
                                         {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="completed">
+                                    <div class="table-responsive gq-applicant-list-table margin-top15">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>        
+                                                    <th width="20%"><span class="">Name</span></th>
+                                                    <th width="80%" colspan="5"><span class="">Qualification Name</span></th>                                                
+                                                </tr>
+                                            </thead>
+                                            <tbody class="row" id="completedList">
+                                        {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <span class="flip-icon"></span>
                 </div>
-                <span class="flip-icon"></span>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block javascripts %}
- <script src="{{ asset('public/js/timepicker.js') }}"></script>    
-<script type="text/javascript">
-    $(document).ready(function() {
-        var dateTime = new Date();
-        var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
-        var timeZoneDT = new Date(utc + (3600000*+10));
-        $(".datepic").datetimepicker({
-         dateFormat: "dd/mm/yy",
-         timeFormat: "hh:mm tt",
-         minDate : timeZoneDT,
-         minDateTime : timeZoneDT
+    <script src="{{ asset('public/js/timepicker.js') }}"></script>    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var dateTime = new Date();
+            var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
+            var timeZoneDT = new Date(utc + (3600000 * +10));
+            $(".datepic").datetimepicker({
+                dateFormat: "dd/mm/yy",
+                timeFormat: "hh:mm tt",
+                minDate: timeZoneDT,
+                minDateTime: timeZoneDT
+            });
         });
-    });
-</script>
+    </script>
 {% endblock %}

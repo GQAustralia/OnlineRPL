@@ -234,7 +234,7 @@ a.btn-red {color:#ffffff;}
 ---------------------------------------------------------------*/
 .gq-dashboard-left-nav {margin:0; padding:0;}
 .gq-dashboard-left-nav li {float:left; width:100%; border-bottom:1px solid #57636e;}
-.gq-dashboard-left-nav li a{color:#ffffff; font-size:14px; text-decoration:none;/* min-height:92px; */ height:92px; display:block; padding-top:5px;}
+.gq-dashboard-left-nav li a{color:#ffffff; font-size:14px; text-decoration:none;/* min-height:92px;  height:92px;*/ display:block; padding-bottom:14px;}
 .gq-dashboard-left-nav li a:hover, .gq-dashboard-left-nav li a:focus, .gq-dashboard-left-nav li a.active{background-color:#333333;}
 .gq-dashboard-left-nav .gq-dashboard-icon, .gq-dashboard-left-nav .gq-courses-icon, .gq-dashboard-left-nav .gq-messages-icon, .gq-dashboard-left-nav .gq-evidence-icon {width:50px; height:50px; display:block; margin:0 auto; position:relative;}
 
@@ -1131,3 +1131,6 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
   .deleteMessageModal .modal-dialog { left:0; right:0%; }   
  }
  #change_pwd_error { margin-bottom:10px;}
+ 
+.user-status-msg a{color:#e01010; font-size:12px; text-decoration:none;}
+.user-status-msg .gq-assessor-title-back-icon{color:#000000; padding-left:4px; background-image:url('../images/prev.png'); background-repeat: no-repeat; background-position:center center; width:22px; height:32px; display:block; float:left; margin-left:5px;} 
