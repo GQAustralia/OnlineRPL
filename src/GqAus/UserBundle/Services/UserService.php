@@ -400,7 +400,10 @@ class UserService
         } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
             $userType = 'facilitator';
             $userStatus = 'facilitatorstatus';
-        } 
+        } elseif (in_array('ROLE_RTO',$userRole)) {
+           $userType = 'rto';
+           $userStatus = 'rtostatus';
+        }
         
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                         ->createQueryBuilder('c')
@@ -408,7 +411,7 @@ class UserService
                         ->join('c.user', 'u')
                         ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
         if ( $status != 2 && $userType == "assessor" ) {
-            $res->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);            
+            $res->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
         } 
 
         if ($userType == 'rto') {
@@ -1440,9 +1443,9 @@ class UserService
         $userCourseUnits = $reposObj->findOneBy(array(
             'user' => $applicantId,
             'unitId' => $unitId,
-            'courseCode' => $courseCode));        
+            'courseCode' => $courseCode));
         if ( $userCourseUnits ) {
-           $unitPId = $userCourseUnits->getId();         
+           $unitPId = $userCourseUnits->getId();
         }        
         return $unitPId;
     }
@@ -1503,5 +1506,49 @@ class UserService
         }
         $results = $query->getQuery()->getResult();
         return count($results);
+    }
+    
+    /**
+     * Function to manage users
+     * return array
+     */
+    public function manageUsers($userId, $userRole, $searchName = '', $searchType = '')
+    {
+        $connection = $this->em->getConnection();
+        $whereCond = "";
+        if ($userRole == 'ROLE_MANAGER') {
+            $whereCond .= " createdby = :userId AND ";
+        }
+        if (!empty($searchName)) {
+            $whereCond .= " (firstname = :searchName OR lastname = :searchName) AND ";
+        }
+        if (!empty($searchType)) {
+            $whereCond .= " roletype = :searchType";
+        } else {
+            $whereCond .= " (roletype = :frole OR roletype = :arole)";
+        }
+        $statement = $connection->prepare("SELECT id, firstname, lastname, roletype FROM user WHERE ".$whereCond);
+        if ($userRole == 'ROLE_MANAGER') {
+            $statement->bindValue('userId', $userId);
+        }
+        if (!empty($searchName)) {
+            $statement->bindValue('searchName', $searchName);
+        }
+        if (!empty($searchType)) {
+            $statement->bindValue('searchType', $searchType);
+        } else {
+            $statement->bindValue('frole', \GqAus\UserBundle\Entity\Facilitator::ROLE);
+            $statement->bindValue('arole', \GqAus\UserBundle\Entity\Assessor::ROLE);
+        }
+        $statement->execute();
+        $users = $statement->fetchAll();
+        return $users;
+    }
+    
+    public function getUser($userId)
+    {
+        $userObj = $this->em->getRepository('GqAusUserBundle:User')
+                ->find($userId);
+        return $userObj;
     }
 }

@@ -47,6 +47,7 @@ class LoginController extends Controller
     public function logoutAction()
     {
         $this->container->get('security.context')->setToken(NULL);
+        $this->get('session')->set('muser', NULL);
         return $this->redirect('login');
     }
 }
