@@ -105,7 +105,7 @@
                                 {% endif %}
                                 
                                 {% if 'ROLE_SUPERADMIN' in roles %}
-                                <li><a {% if app.request.attributes.get('_route') == 'managemanagers' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/managemanagers"><span class="gq-evidence-icon"><img src="{{ asset('public/images/evidence.png') }}" /></span><span class="left-nav-txt">Manage Managers</span></a></li>
+                                <li><a {% if app.request.attributes.get('_route') == 'managemanagers' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/managemanagers"><span class="gq-evidence-icon"><img src="{{ asset('public/images/manageusers.png') }}" /></span><span class="left-nav-txt">Manage Managers</span></a></li>
                                 {% endif %}
                             </ul>
                         </div>
