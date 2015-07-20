@@ -91,6 +91,14 @@ class ApplicantController extends Controller
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
         $results['pageRequest'] = 'submit';
         $results['status'] = 0;
+        $users = array();
+        $qualificationStatus = array();
+        if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
+            $users = $this->get('UserService')->getUserByRole();
+            $qualificationStatus = $this->get('UserService')->getqualificationStatus();
+        }
+        $results['users'] = $users;
+        $results['qualificationStatus'] = $qualificationStatus;
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
 
@@ -104,11 +112,13 @@ class ApplicantController extends Controller
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $searchName = $this->getRequest()->get('searchName');
         $searchTime = $this->getRequest()->get('searchTime');
+        $filterByUser = $this->getRequest()->get('filterByUser');
+        $filterByStatus = $this->getRequest()->get('filterByStatus');
         $status = $this->getRequest()->get('status');
         $page = $this->getRequest()->get('pagenum');
         if ($page == "")
             $page = 1;
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, $searchName, $searchTime);
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, $searchName, $searchTime, $filterByUser, $filterByStatus);
         $results['pageRequest'] = 'ajax';
         $results['status'] = $status;
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results);

@@ -36,16 +36,38 @@
                                 {% else %}
                                     <div class="col-lg-11 col-md-12 col-sm-12 col-xs-12">
                                 {% endif %}
+								
+								{% if ('ROLE_MANAGER' not in userRole) and ('ROLE_SUPERADMIN' not in userRole) %}
                                 <div class="gq-applicant-filter-wrap text-right">
                                     <label>Filter by: </label>
                                     <input name="searchName" id="searchName" type="text" placeholder="Applicant Name"/>
                                     <!--<span id="searchFilter" class="gq-search-icon"></span>-->
                                     <div class="gq-filter-clear wid100p visible-xs"></div>
                                 </div>
-
+								{% endif %}
+								
+								{% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}
+								<div class="gq-applicant-filter-wrap-select">
+                                    <select name="filterByUser" id="filterByUser" class="styled">
+                                        <option value="">Assessor/Facilitator</option>
+                                        {% for key, user in users %}
+                                        <option value="{{user.id}}">{% if user.roletype == 2 %} Facilitator {% else %} Assessor {% endif %} : {{user.username}}</option>
+                                        {% endfor %}
+                                    </select>
+								</div>
+								<div class="gq-applicant-filter-wrap-select">	
+									<select name="filterByStatus" id="filterByStatus" class="styled">
+                                        <option value="">Qualification Status</option>
+										{% for key, status in qualificationStatus %}
+                                        <option value="{{key}}">{{status}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+								{% endif %}
+								
                             </div>
                             {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                                        <div id="remainingweekDiv">
+                            <div id="remainingweekDiv">
                             <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
                                 <div class="gq-applicant-filter-wrap-select-remaining text-right">Remaining Time</div>
                             </div>
@@ -59,7 +81,7 @@
                                     </select>
                                 </div>
                             </div>
-                                    </div>
+                            </div>
                             {% endif %}
                             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 no-padding">
                                 <button id="searchFilter" class="btn eye-btn gq-reports-filter-btn">Filter</button>
