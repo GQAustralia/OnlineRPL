@@ -171,12 +171,19 @@
                                             <label>RTO</label>
                                             <span class="gq-rto-select-name">: {{rtoName}} </span>
 											<span class="gq-assessor-list-dropdown-wrap" >
-												<span class="gq-add-notes-icon-wrap gq-assessor-profile-img-txt setUsers">view more</span>
+												<span class="gq-add-notes-icon-wrap gq-assessor-profile-img-txt setUsers">more..</span>
 												<span class="gq-assessor-list-dropdown">
 													<div class="caret-top"></div>
-													<div><label>CEO Name</label>: <span id="ceo_name">{{rtoCeoName}}</span></div>
+                                                                                                        <div class="gq-ceo-details-list">
+                                                                                                            <ul>
+                                                                                                                <li class=""><label>CEO Name</label>: <span id="ceo_name">{{rtoCeoName}}</span></li>
+                                                                                                                <li class=""><label>CEO Email</label>: <span id="ceo_email">{{rtoCeoEmail}}</span></li>
+                                                                                                                <li class=""><label>CEO Phone </label>: <span id="ceo_phone">{{rtoCeoPhone}}</span></li>
+                                                                                                            </ul>
+                                                                                                        </div>
+													{#<div><label>CEO Name</label>: <span id="ceo_name">{{rtoCeoName}}</span></div>
 													<div><label>CEO Email</label>: <span id="ceo_email">{{rtoCeoEmail}}</span></div>
-													<div><label>CEO Phone </label>: <span id="ceo_phone">{{rtoCeoPhone}}</span></div>
+													<div><label>CEO Phone </label>: <span id="ceo_phone">{{rtoCeoPhone}}</span></div>#}
 												</span>
 											</span>
                                         </div>

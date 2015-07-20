@@ -254,7 +254,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-box-title-wrap a .gq-dashboard-points-icon {border-left:1px solid #dddddd;}
 .gq-dashboard-running-txt {font-size:14px; color:#5e5e5e; width:100%; float:left; padding-top:20px;}
 .gq-dashboard-points-in-number {font-size:60px; color:#e01010; float:left;}
-.gq-dashboard-points-in-percent {font-size:60px; color:#e01010; float:left; padding:26px 3px;}
+.gq-dashboard-points-in-percent {font-size:60px; color:#e01010; float:left;}
 .gq-dashboard-profile-img {float:left; padding:5px 0;}
 .gq-dashboard-courses-detail-wrap {width:100%; float:left; padding:0 15px;}
 .gq-dashboard-qualification-scroll { height:260px; overflow-x: hidden; overflow-y: auto; padding-top:30px;}
@@ -309,7 +309,7 @@ a.btn-red {color:#ffffff;}
 .gq-form-personal .gq-form-row:last-child{margin-bottom:20px;}
 .gq-form-personal .gq-form-botton{margin-top:20px; width:100%; float:left;}
 .gq-form-personal .gq-form-botton .btn{width:100%; float:left; font-size:17px; background-color:#e01010; color:#ffffff;}
-.gq-form-personal .gq-form-botton .btn:hover, .gq-form-personal .gq-form-botton .btn:focus{background-color:#ffffff; color:#5e5e5e;}
+.gq-form-personal .gq-form-botton .btn:hover, .gq-form-personal .gq-form-botton .btn:focus{background-color:#c20202; color:#fff;}
 .gq-profile-tabs-header {padding-top:26px;}
 #userprofile_gender label {font-weight:normal;}
 #userprofile_gender{ border-left: 1px solid #e7ecee; float: left; font-weight: normal; height: 34px; margin-left: 4px; padding-left: 11px; padding-top: 5px; width:66%;}
@@ -614,7 +614,7 @@ a.btn-red {color:#ffffff;}
 .add-notes-icon {width:24px; height:26px; padding:3px; background-image:url(../images/applicant-list-add-notes-icon.png); background-repeat:no-repeat; background-position: center center; display:block;}
 .add-notes-grey-calendar-icon {width:23px; height:23px; padding:3px; background-image:url(../images/applicant-lists-grey-date-icon.png); background-repeat:no-repeat; background-position: center center; display:block;}
 .gq-assessor-list-dropdown {display:none;}
-.gq-assessor-list-dropdown {position:absolute; left:-108px; background-color:#ffffff; border: 1px solid #d6d6d6; width: 250px; z-index: 1000; box-shadow:1px 1px 1px #d6d6d6; padding:5px; border-radius:5px;}
+.gq-assessor-list-dropdown {position:absolute; left:-118px; background-color:#ffffff; border: 1px solid #d6d6d6; width: 250px; z-index: 1000; box-shadow:1px 1px 1px #d6d6d6; padding:5px 5px 5px 12px; top:30px; border-radius:5px;font-size:13px;}
 .gq-assessor-list-dropdown .dropdown-menu{}
 .gq-assessor-list-dropdown .gq-applicant-list-notes-box, .gq-assessor-list-dropdown .gq-applicant-list-due-date{width:100%; padding:0 10px;}
 .gq-assessor-list-dropdown-wrap {position:relative;}
@@ -991,6 +991,10 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-video-section-wrap .gq-video-back-btn .btn-red{width:auto;}
 #searchFilter {margin-left:15px;}
 }
+.gq-add-notes-icon-wrap.icons{display:inline;}
+.gq-ceo-details-list li{border-bottom:1px solid #ccc;}
+.gq-ceo-details-list li:last-child{border-bottom:0;}
+.gq-ceo-details-list li label{font-weight:normal;}
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px){
     .details{height:auto;padding-top:25px;}
