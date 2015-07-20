@@ -388,7 +388,7 @@ class UserService
      * Function to get applicants list information
      * return $result array
      */
-    public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, $searchTime = null)
+    public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, $searchTime = null, $filterByUser = null, $filterByStatus = null)
     {
         if ($page <= 0) {
             $page = 1;
@@ -403,16 +403,25 @@ class UserService
         } elseif (in_array('ROLE_RTO',$userRole)) {
            $userType = 'rto';
            $userStatus = 'rtostatus';
+        } elseif (in_array('ROLE_MANAGER',$userRole)) {
+           $userType = 'manager';
+           $userStatus = '';
+        } elseif (in_array('ROLE_SUPERADMIN',$userRole)) {
+           $userType = 'superadmin';
+           $userStatus = '';
         }
-        
+
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                         ->createQueryBuilder('c')
                         ->select("c, u")
-                        ->join('c.user', 'u')
-                        ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
+                        ->join('c.user', 'u');
+
+        if ($userType != 'superadmin' && $userType != 'manager') {
+            $res->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
+        }
         if ( $status != 2 && $userType == "assessor" ) {
             $res->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
-        } 
+        }
 
         if ($userType == 'rto') {
             if ( $status == 1 ) {
@@ -423,7 +432,7 @@ class UserService
            /* $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '2');
             $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');*/
         }
-        
+
         if ($userType == 'facilitator') {
             if ( $status == 1 ) {
                 $res->andWhere('c.courseStatus = :courseStatus1 OR c.courseStatus = :courseStatus2')->setParameter('courseStatus1', '0')->setParameter('courseStatus2', '2');
@@ -454,6 +463,14 @@ class UserService
             $searchTime1 = $searchTime - 6;
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) >= " . $searchTime1);
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) <= " . $searchTime);
+        }
+        
+        if (!empty($filterByUser)) {
+            $res->andWhere('c.facilitator = :filterByUser OR c.assessor = :filterByUser')->setParameter('filterByUser', $filterByUser);
+        }
+        
+        if (!empty($filterByStatus)) {
+            
         }
         $res->orderBy('c.id', 'DESC');
         /* Pagination */
@@ -1517,7 +1534,7 @@ class UserService
         $connection = $this->em->getConnection();
         $whereCond = "";
         if ($userRole == 'ROLE_MANAGER') {
-            $whereCond .= " createdby = :userId AND ";
+            //$whereCond .= " createdby = :userId AND ";
         }
         if (!empty($searchName)) {
             $whereCond .= " (firstname = :searchName OR lastname = :searchName) AND ";
@@ -1529,7 +1546,7 @@ class UserService
         }
         $statement = $connection->prepare("SELECT id, firstname, lastname, roletype FROM user WHERE ".$whereCond);
         if ($userRole == 'ROLE_MANAGER') {
-            $statement->bindValue('userId', $userId);
+            //$statement->bindValue('userId', $userId);
         }
         if (!empty($searchName)) {
             $statement->bindValue('searchName', $searchName);
@@ -1545,10 +1562,56 @@ class UserService
         return $users;
     }
     
+    /**
+     * Function to get users by id
+     * return array
+     */
     public function getUser($userId)
     {
         $userObj = $this->em->getRepository('GqAusUserBundle:User')
                 ->find($userId);
         return $userObj;
+    }
+    
+    /**
+     * Function to get users by role
+     * return array
+     */
+    public function getUserByRole()
+    {
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("SELECT id, firstname, lastname, roletype, CONCAT(firstname, ' ', lastname) as username FROM user WHERE (roletype = :frole OR roletype = :arole) ORDER BY roletype");
+        $statement->bindValue('frole', \GqAus\UserBundle\Entity\Facilitator::ROLE);
+        $statement->bindValue('arole', \GqAus\UserBundle\Entity\Assessor::ROLE);
+        $statement->execute();
+        $users = $statement->fetchAll();        
+        return $users;
+    }
+    
+    /**
+     * Function to get qualification status
+     * return array
+     */
+    public function getqualificationStatus()
+    {
+        $status = array('Welcome Call Completed Docs Sent',
+                        'Welcome Call VM Docs Sent',
+                        'Partial Evidence Received',
+                        'Evidence Being Reviewed',
+                        'Evidence Feedback Provided',
+                        'Needs Follow Up With Candidate',
+                        'All Evidence Received',
+                        'Portfoilo Sent To Remote Assessor',
+                        'Competency Conversation Needed',
+                        'Competency Conversation Booked',
+                        'Competency Conversation Completed',
+                        'Gap Training Required',
+                        'Assessment Results Recived C',
+                        'Assessment Feedback Required NYC',
+                        'Portfolio Submitted To RTO',
+                        'Certificate Received By GQ',
+                        'RPL Completed',
+                        'On Hold');
+        return $status;
     }
 }

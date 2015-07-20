@@ -977,11 +977,13 @@ function loadApplicantList(divContent)
 {
     searchName = $('#searchName').val();
     searchTime = $('#timeRemaining').val();
+    filterByUser = $('#filterByUser').val();
+    filterByStatus = $('#filterByStatus').val();
     $.ajax({
         type: "POST",
         url: base_url + "searchApplicantsList",
         cache: false,
-        data: {pagenum:pagenum, searchName: searchName, searchTime: searchTime, status: applicantStatus},
+        data: {pagenum:pagenum, searchName: searchName, searchTime: searchTime, status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
         success: function(result) { 
             $("#filter-by-name").hide();
             $("#filter-by-week").hide();

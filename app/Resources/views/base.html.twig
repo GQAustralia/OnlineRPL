@@ -93,7 +93,7 @@
                                 <li><a {% if app.request.attributes.get('_route') == 'reminder' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reminder"><span class="gq-courses-icon"><img src="{{ asset('public/images/todolist.png') }}" /></span><span class="left-nav-txt">To Do List</span></a></li>
                                 {% endif %}
                                 
-								{% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}
+                                {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}
                                 <li><a {% if app.request.attributes.get('_route') == 'messages' or app.request.attributes.get('_route') == 'compose' or app.request.attributes.get('_route') == 'sent' or app.request.attributes.get('_route') == 'trash' or app.request.attributes.get('_route') == 'view' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/messages"><span class="gq-messages-icon"><span id="unread-count"></span><img src="{{ asset('public/images/messages.png') }}" /></span><span class="left-nav-txt">Messages</span></a></li>
                                 {% endif %}
                                 
@@ -102,6 +102,10 @@
                                 {% endif %}
                                 {% if 'ROLE_APPLICANT' not in roles and 'ROLE_ASSESSOR' not in roles and 'ROLE_MANAGER' not in roles and 'ROLE_SUPERADMIN' not in roles %}
                                 <li><a {% if app.request.attributes.get('_route') == 'reports' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/reports"><span class="gq-evidence-icon"><img src="{{ asset('public/images/reports-icon.png') }}" /></span><span class="left-nav-txt">Reports</span></a></li>
+                                {% endif %}
+                                
+                                {% if 'ROLE_SUPERADMIN' in roles %}
+                                <li><a {% if app.request.attributes.get('_route') == 'managemanagers' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/managemanagers"><span class="gq-evidence-icon"><img src="{{ asset('public/images/manageusers.png') }}" /></span><span class="left-nav-txt">Manage Managers</span></a></li>
                                 {% endif %}
                             </ul>
                         </div>
