@@ -38,6 +38,11 @@ class Reminder
      * @var \GqAus\UserBundle\Entity\User
      */
     private $user;
+    
+    /**
+     * @var \GqAus\UserBundle\Entity\User
+     */
+    private $createdby;
 
     /**
      * @var \GqAus\UserBundle\Entity\UserCourses
@@ -219,5 +224,30 @@ class Reminder
     public function getCompletedDate()
     {
         return $this->completedDate;
+    }
+    
+    
+    
+    /**
+     * Set createdby
+     *
+     * @param \GqAus\UserBundle\Entity\User $createdby
+     * @return Reminder
+     */
+    public function setCreatedby(\GqAus\UserBundle\Entity\User $createdby = null)
+    {
+        $this->createdby = $createdby;
+
+        return $this;
+    }
+
+    /**
+     * Get createdby
+     *
+     * @return \GqAus\UserBundle\Entity\User 
+     */
+    public function getCreatedby()
+    {
+        return $this->createdby;
     }
 }

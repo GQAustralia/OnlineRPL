@@ -1,0 +1,23 @@
+{% if managersList %}
+	{% if managersList|length > 0 and paginator.getTotalPages() > 1 %}
+		<tr>
+			<td class="gq-pagination-area" colspan="2">
+				{# display navigation for pages - paginator_navigator #}        
+				{{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
+			</td>
+		</tr>
+	{% endif %}
+
+	{% for key, list in managersList %}
+		<tr>        
+			<td width="30%"><span class="">{{list.firstname}} {{list.lastname}}</span></td>
+			<td width="70%" colspan="5"><span class="">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+					<div class="gq-add-notes-icon-wrap icons"><img src = "{{asset('public/images/user-edit.png') }}" /></div>
+					<div class="gq-add-notes-icon-wrap icons"><img src = "{{asset('public/images/cross.png') }}" /></div>
+					<button id="{{list.id}}" class="btn eye-btn gq-reports-filter-btn loginUser"><img src = "{{asset('public/images/arrow_login.png') }}" /> LOGIN</button>
+				</div>
+			</span></td>
+		</tr>
+	{% endfor %}
+{% endif %}

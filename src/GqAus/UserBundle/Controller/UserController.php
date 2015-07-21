@@ -395,10 +395,56 @@ class UserController extends Controller
     */
     public function manageusersAction()
     {
+        $page = $this->get('request')->query->get('page', 1);
         $session_user = $this->get('security.context')->getToken()->getUser();
-        $users['searchName'] = $searchName = $this->getRequest()->get('searchName');
-        $users['searchType'] = $searchType = $this->getRequest()->get('userType');
-        $users['applicantList'] = $this->get('UserService')->manageUsers($session_user->getId(),$session_user->getRoleName(),$searchName, $searchType);
+        $users = $this->get('UserService')->manageUsers($session_user->getId(),$session_user->getRoleName(), '', '', $page = null);
+        $users['pageRequest'] = 'submit';
         return $this->render('GqAusUserBundle:User:manageusers.html.twig', $users);
+    }
+    
+    /**
+     * Function search users list
+     * return $result array
+     */
+    public function searchUsersListAction()
+    {
+        $session_user = $this->get('security.context')->getToken()->getUser();
+        $searchName = $this->getRequest()->get('searchName');
+        $searchType = $this->getRequest()->get('userType');
+        $page = $this->getRequest()->get('pagenum');
+        if ($page == "") {
+            $page = 1;
+        }
+        $results = $this->get('UserService')->manageUsers($session_user->getId(),$session_user->getRoleName(),$searchName, $searchType, $page);
+        $results['pageRequest'] = 'ajax';
+        echo $this->renderView('GqAusUserBundle:User:usersList.html.twig', $results);
+        exit;
+    }
+    
+    /**
+    * Function to manage managers
+    * return $result array
+    */
+    public function managemanagersAction()
+    {
+        $page = $this->get('request')->query->get('page', 1);
+        $users = $this->get('UserService')->manageManagers('', $page = null);        
+        return $this->render('GqAusUserBundle:User:managemanagers.html.twig', $users);
+    }
+    
+    /**
+     * Function search managers list
+     * return $result array
+     */
+    public function searchManagersListAction()
+    {
+        $searchName = $this->getRequest()->get('searchName');
+        $page = $this->getRequest()->get('pagenum');
+        if ($page == "") {
+            $page = 1;
+        }
+        $results = $this->get('UserService')->manageManagers($searchName, $page);
+        echo $this->renderView('GqAusUserBundle:User:managerList.html.twig', $results);
+        exit;
     }
 }

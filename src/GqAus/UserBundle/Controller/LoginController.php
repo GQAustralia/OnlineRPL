@@ -48,6 +48,7 @@ class LoginController extends Controller
     {
         $this->container->get('security.context')->setToken(NULL);
         $this->get('session')->set('muser', NULL);
+        $this->get('session')->set('suser', NULL);        
         return $this->redirect('login');
     }
 }

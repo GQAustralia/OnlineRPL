@@ -602,8 +602,12 @@ class UserService
     {
         $userObj = $this->em->getRepository('GqAusUserBundle:User')
                 ->find($userId);
-        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+        if (!empty($userCourseId)) {
+            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
                 ->find($userCourseId);
+        } else {
+            $courseObj = null;
+        }
         if (empty($remindDate)) {
             $remindDate = date('d/m/Y H:i:s');
         }
@@ -614,6 +618,7 @@ class UserService
         $reminderObj->setDate($remindDate);
         $reminderObj->setMessage($notes);
         $reminderObj->setCompleted(0);
+        $reminderObj->setCreatedby($this->currentUser);
         $this->em->persist($reminderObj);
         $this->em->flush();
         $this->em->clear();
@@ -756,9 +761,10 @@ class UserService
                 ->findBy(array('user' => $userId, 'completed' => '0', 'date' => $date));*/
          $query = $this->em->getRepository('GqAusUserBundle:Reminder')
                 ->createQueryBuilder('r')
-                ->select("r")
+                ->select("r, u")
+                ->leftJoin('r.createdby', 'u')
                 ->where('r.user = :userId and r.completed = 0 and r.date LIKE :date')->setParameter('userId', $userId)->setParameter('date', $date.'%')
-                ->addOrderBy('r.date', 'ASC'); 
+                ->addOrderBy('r.date', 'ASC');
         $getReminders = $query->getQuery()->getResult();
         return $getReminders;
     }
@@ -1348,8 +1354,15 @@ class UserService
      */
     public function getTodoReminders($userId)
     {
-        $getReminders = $this->em->getRepository('GqAusUserBundle:Reminder')
-                ->findBy(array('user' => $userId, 'completed' => '0'), array('date' => 'asc'));
+        /*$getReminders = $this->em->getRepository('GqAusUserBundle:Reminder')
+                ->findBy(array('user' => $userId, 'completed' => '0', 'course' => 'IS NOT NULL'), array('date' => 'asc'));*/
+        $query = $this->em->getRepository('GqAusUserBundle:Reminder')
+                ->createQueryBuilder('r')
+                ->select("r, u")
+                ->leftJoin('r.createdby', 'u')
+                ->where('r.user = :userId and r.completed = 0')->setParameter('userId', $userId)
+                ->addOrderBy('r.date', 'ASC');
+        $getReminders = $query->getQuery()->getResult();
         return $getReminders;
     }
 
@@ -1359,8 +1372,15 @@ class UserService
      */
     public function getCompletedReminders($userId)
     {
-        $getReminders = $this->em->getRepository('GqAusUserBundle:Reminder')
-                ->findBy(array('user' => $userId, 'completed' => '1'), array('completedDate' => 'desc'));
+        /*$getReminders = $this->em->getRepository('GqAusUserBundle:Reminder')
+                ->findBy(array('user' => $userId, 'completed' => '1', 'course' => 'IS NOT NULL'), array('completedDate' => 'desc'));*/
+        $query = $this->em->getRepository('GqAusUserBundle:Reminder')
+                ->createQueryBuilder('r')
+                ->select("r, u")
+                ->leftJoin('r.createdby', 'u')
+                ->where('r.user = :userId and r.completed = 1')->setParameter('userId', $userId)
+                ->addOrderBy('r.completedDate', 'desc'); 
+        $getReminders = $query->getQuery()->getResult();
         return $getReminders;
     }
 
@@ -1529,37 +1549,51 @@ class UserService
      * Function to manage users
      * return array
      */
-    public function manageUsers($userId, $userRole, $searchName = '', $searchType = '')
+    public function manageUsers($userId, $userRole, $searchName = '', $searchType = '', $page = null)
     {
-        $connection = $this->em->getConnection();
-        $whereCond = "";
-        if ($userRole == 'ROLE_MANAGER') {
-            //$whereCond .= " createdby = :userId AND ";
+        if ($page <= 0) {
+            $page = 1;
         }
-        if (!empty($searchName)) {
-            $whereCond .= " (firstname = :searchName OR lastname = :searchName) AND ";
-        }
+        $nameCondition = null;
+        $res = $this->em->getRepository('GqAusUserBundle:User')
+                        ->createQueryBuilder('u')
+                        ->select("u");
         if (!empty($searchType)) {
-            $whereCond .= " roletype = :searchType";
+            if ($searchType == 2) {
+                $res->where('u instance of \GqAus\UserBundle\Entity\Facilitator');
+            } elseif ($searchType == 3) {
+                $res->where('u instance of \GqAus\UserBundle\Entity\Assessor');
+            } elseif ($searchType == 5) {
+                $res->where('u instance of \GqAus\UserBundle\Entity\Manager');
+            }
         } else {
-            $whereCond .= " (roletype = :frole OR roletype = :arole)";
+            if ($userRole == 'ROLE_SUPERADMIN') {
+                $res->where('(u instance of \GqAus\UserBundle\Entity\Facilitator OR u instance of \GqAus\UserBundle\Entity\Assessor OR u instance of \GqAus\UserBundle\Entity\Manager)');
+            } else {
+                $res->where('(u instance of \GqAus\UserBundle\Entity\Facilitator OR u instance of \GqAus\UserBundle\Entity\Assessor)');
+            }
         }
-        $statement = $connection->prepare("SELECT id, firstname, lastname, roletype FROM user WHERE ".$whereCond);
-        if ($userRole == 'ROLE_MANAGER') {
-            //$statement->bindValue('userId', $userId);
-        }
+                        
         if (!empty($searchName)) {
-            $statement->bindValue('searchName', $searchName);
+            $searchNamearr = explode(" ", $searchName);
+            for ($i = 0; $i < count($searchNamearr); $i++) {
+                if ($i == 0) {
+                    $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                } else {
+                    $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                }
+            }
+            $res->andWhere($nameCondition);
         }
-        if (!empty($searchType)) {
-            $statement->bindValue('searchType', $searchType);
-        } else {
-            $statement->bindValue('frole', \GqAus\UserBundle\Entity\Facilitator::ROLE);
-            $statement->bindValue('arole', \GqAus\UserBundle\Entity\Assessor::ROLE);
-        }
-        $statement->execute();
-        $users = $statement->fetchAll();
-        return $users;
+        
+        $res->orderBy('u.id', 'DESC');
+        /* Pagination */
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
+        /* Pagination */
+        //$applicantList = $res->getQuery(); var_dump($applicantList); exit;
+        $applicantList = $res->getQuery()->getResult(); //echo '<pre>'; print_r($applicantList); exit;
+        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
     }
     
     /**
@@ -1613,5 +1647,40 @@ class UserService
                         'RPL Completed',
                         'On Hold');
         return $status;
+    }
+    
+    /**
+     * Function to get managers
+     * return array
+     */
+    public function manageManagers($searchName = null, $page = null)
+    {
+        if ($page <= 0) {
+            $page = 1;
+        }
+        $nameCondition = null;
+        $res = $this->em->getRepository('GqAusUserBundle:User')
+                        ->createQueryBuilder('u')
+                        ->select("u")
+                        ->where('u instance of \GqAus\UserBundle\Entity\Manager');
+                        
+        if (!empty($searchName)) {
+            $searchNamearr = explode(" ", $searchName);
+            for ($i = 0; $i < count($searchNamearr); $i++) {
+                if ($i == 0)
+                    $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                else
+                    $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+            }
+            $res->andWhere($nameCondition);
+        }
+        $res->orderBy('u.id', 'DESC');
+        /* Pagination */
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
+        /* Pagination */
+        //$managersList = $res->getQuery(); var_dump($managersList); exit;
+        $managersList = $res->getQuery()->getResult();
+        return array('managersList' => $managersList, 'paginator' => $paginator, 'page' => $page);
     }
 }

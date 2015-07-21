@@ -55,7 +55,14 @@
                                  {% endif %}
 
                                  {% set muser = app.session.get('muser') %}
-                                <div class="user-status-msg"> {% if ( muser and (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles))) %} <a href="{{ app.request.baseUrl }}/userLogin/{{muser}}"><span class="gq-assessor-title-back-icon"></span>&nbsp;Back to Manager's Module</a> &nbsp;|&nbsp;  {% endif %} {{ app.security.getToken().getUser().getUsername() | capitalize }} </div>
+                                 {% set suser = app.session.get('suser') %}
+                                <div class="user-status-msg">
+                                {% if ( muser and (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles))) %} 
+                                 <a href="{{ app.request.baseUrl }}/userLogin/{{muser}}"><span class="gq-assessor-title-back-icon"></span>&nbsp;Back to My User</a> &nbsp;|&nbsp; 
+                                {% elseif ( suser and ('ROLE_MANAGER' in roles) ) %} 
+                                  <a href="{{ app.request.baseUrl }}/userLogin/{{suser}}"><span class="gq-assessor-title-back-icon"></span>&nbsp;Back to My User</a> &nbsp;|&nbsp; 
+                                {% endif %} 
+                                {{ app.security.getToken().getUser().getUsername() | capitalize }} </div>
                                 <div class="user-status-select">
                                     <div class="btn-group">
                                       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -105,7 +112,7 @@
                                 {% endif %}
                                 
                                 {% if 'ROLE_SUPERADMIN' in roles %}
-                                <li><a {% if app.request.attributes.get('_route') == 'managemanagers' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/managemanagers"><span class="gq-evidence-icon"><img src="{{ asset('public/images/manageusers.png') }}" /></span><span class="left-nav-txt">Manage Managers</span></a></li>
+                                <!-- <li><a {% if app.request.attributes.get('_route') == 'managemanagers' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/managemanagers"><span class="gq-evidence-icon"><img src="{{ asset('public/images/manageusers.png') }}" /></span><span class="left-nav-txt">Manage Managers</span></a></li> -->
                                 {% endif %}
                             </ul>
                         </div>

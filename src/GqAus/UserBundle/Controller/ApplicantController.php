@@ -69,6 +69,9 @@ class ApplicantController extends Controller
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userCourseId = $this->getRequest()->get('userCourseId');
         $remindDate = $this->getRequest()->get('remindDate');
+        if (empty($userCourseId)) {
+            $userId = $this->getRequest()->get('listId');
+        }
         /*$remDate = explode("/", $remindDate);
         $remindDate = $remDate[2] . "-" . $remDate[1] . "-" . $remDate[0];*/
         $remindDate = str_replace('/', '-', $remindDate);
