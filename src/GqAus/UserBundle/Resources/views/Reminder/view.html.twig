@@ -70,13 +70,22 @@
                                                                         </div>
                                                                         </span>
                                                                     </a>
-                                                                    <div class="gq-acc-row-title">{{reminder.course.user.firstname}} {{reminder.course.user.lastname}}</div>
+                                                                    <div class="gq-acc-row-title">
+                                                                    {% if reminder.course %}
+                                                                        {{reminder.course.user.firstname}} {{reminder.course.user.lastname}}
+                                                                    {% else %}
+                                                                        {{reminder.createdby.firstname}} {{reminder.createdby.lastname}}
+                                                                    {% endif %}</div>
                                                                 </div>
                                                                 <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
-                                                                    <div class="gq-acc-row-title">{{reminder.course.coursecode}} {{reminder.course.coursename}}</div>
+                                                                    <div class="gq-acc-row-title">
+                                                                    {% if reminder.course %}
+                                                                        {{reminder.course.coursecode}} {{reminder.course.coursename}}
+                                                                    {% else %}
+                                                                        Reminder
+                                                                    {% endif %}</div>
                                                                 </div>
                                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                                                                    
                                                                     <div class="gq-acc-row-title gq-to-do-date" id="title_{{reminder.id}}">
                                                                         {{ user_service.toDoDateToWords(reminder.date, 'todo')| raw }}
                                                                     </div>

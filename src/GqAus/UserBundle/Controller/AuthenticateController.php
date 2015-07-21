@@ -19,6 +19,11 @@ class AuthenticateController extends Controller
         $usernamePasswordToken = new UsernamePasswordToken($userObj, null, 'secured_area');
         $this->container->get('security.context')->setToken($usernamePasswordToken);
         $user_role = $this->get('security.context')->getToken()->getUser()->getRoleName();
+        
+        if ($session_user->getRoleName() == 'ROLE_SUPERADMIN' &&  $user_role == 'ROLE_MANAGER') {
+            $this->get('session')->set('suser', $session_user->getId());
+            return $this->redirect('/dashboard');
+        }
         if ($user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
             return $this->redirect('/manageusers');
         } else {

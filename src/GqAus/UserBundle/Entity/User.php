@@ -56,7 +56,7 @@ abstract class User implements UserInterface, \Serializable
      * @var string
      */
     private $ceophone;
-	
+    
     /**
      * @var string
     */
@@ -978,8 +978,8 @@ abstract class User implements UserInterface, \Serializable
     {
         return $this->ceophone;
     }
-	
-	/**
+    
+    /**
      * Set createdby
      *
      * @param string $createdby

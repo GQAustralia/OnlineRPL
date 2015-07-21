@@ -1,0 +1,64 @@
+{% if applicantList %}
+    {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+        <tr>
+            <td class="gq-pagination-area" colspan="2">
+                {# display navigation for pages - paginator_navigator #}        
+                {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
+            </td>
+        </tr>
+    {% endif %}
+
+    {% for key, list in applicantList %}
+        <tr>        
+            <td width="20%"><span class="">{{list.firstname}} {{list.lastname}}</span></td>
+            <td width="20%" colspan="5">{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% else %} Manager {% endif %}</td>
+            <td width="20%" colspan="5">
+                {% if list.getRole() != '5' %}
+                <div class="gq-acc-row-title gq-assessor-list-dropdown-wrap" id="div_{{list.id}}">
+                    <div class="gq-add-notes-icon-wrap setNotes" id="{{list.id}}">
+                        <img src = "{{asset('public/images/applicant-list-add-notes-icon.png') }}" />
+                    </div>
+                    <div class="gq-assessor-list-dropdown">
+                        <div class="caret-top"></div>
+                        <div class="gq-applicant-list-notes-box">
+                            <textarea class="notes-area" placeholder="Notes" id="notes_{{list.id}}"></textarea>
+                        </div>
+                        <div class="gq-applicant-list-due-date">
+                            <div class="col-xs-8 no-padding">
+                                <input type="text" class="datepic date-area" id="remindDate_{{list.id}}" placeholder="Due Date" /></div>
+                            <div class="col-xs-4 no-padding"><a class="pull-right"><img src="{{ asset('public/images/applicant-lists-grey-date-icon.png') }}" id="{{list.id}}" class="date-icon" /></a></div>
+                        </div>
+                        <div class="gq-applicant-list-notes-box">
+                            <button class="btn btn-red setData" userCourseId="" listId="{{list.id}}" >SET</button>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </td>
+            <td width="40%" colspan="5"><span class="">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                    <div class="gq-add-notes-icon-wrap icons"><img src = "{{asset('public/images/user-edit.png') }}" /></div>
+                    <div class="gq-add-notes-icon-wrap icons"><img src = "{{asset('public/images/cross.png') }}" /></div>
+                    <button id="{{list.id}}" class="btn eye-btn gq-reports-filter-btn loginUser"><img src = "{{asset('public/images/arrow_login.png') }}" /> LOGIN</button>
+                </div>
+            </span></td>
+        </tr>
+        {% endfor %}
+{% endif %}
+
+{% if pageRequest == 'ajax' %}
+    {% block javascripts %}
+<script type="text/javascript">
+    //$(".datepic").datepicker();
+    $(".setNotes").click(function() {
+        id = $(this).attr("id");
+        var c = $('#div_' + id).hasClass("open");
+        if (c == false) {
+            $('#div_' + id).addClass('open');
+        } else {
+            $('#div_' + id).removeClass('open');
+        }
+    });
+</script>
+    {% endblock %}
+{% endif %}

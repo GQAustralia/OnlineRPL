@@ -700,16 +700,18 @@ $(".setUsers").click(function() {
 
 $(".setData").click(function() {
     userCourseId = $(this).attr("userCourseId");
-    note = $('#notes_' + userCourseId).val();
+    listId = $(this).attr("listId");
+    
+    note = $('#notes_' + listId).val();
     if (note === '') {
-        $('#notes_' + userCourseId).focus();
-        $('#notes_' + userCourseId).css("border","1px solid red");
+        $('#notes_' + listId).focus();
+        $('#notes_' + listId).css("border","1px solid red");
         return false;
     }
-    remindDate = $('#remindDate_' + userCourseId).val();
+    remindDate = $('#remindDate_' + listId).val();
     if (remindDate === '') {
-        $('#remindDate_' + userCourseId).focus();
-        $('#remindDate_' + userCourseId).css("border","1px solid red");
+        $('#remindDate_' + listId).focus();
+        $('#remindDate_' + listId).css("border","1px solid red");
         return false;
     }
     if (remindDate != '') {
@@ -717,11 +719,11 @@ $(".setData").click(function() {
             type: "POST",
             url: "addReminder",
             cache: false,
-            data: {message: note, userCourseId: userCourseId, remindDate: remindDate},
+            data: {message: note, userCourseId: userCourseId, remindDate: remindDate, listId: listId},
             success: function(result) {
                 $('#err_msg').show();
-                resetDateTimePicker(userCourseId);
-                $('#div_' + userCourseId).removeClass('open');
+                resetDateTimePicker(listId);
+                $('#div_' + listId).removeClass('open');
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
             }
         });
@@ -1769,3 +1771,23 @@ $("body").on("click", ".openViewIcon", function(){
 $(".loginUser").click(function(){
     $(location).attr('href', 'userLogin/' + this.id);
 });
+
+$("#searchUserFilter").click(function() {
+    pagenum = 1;
+    loadDataIcon('currentList');
+    loadUsersList('currentList',pagenum);
+});
+function loadUsersList(divContent)
+{
+    searchName = $('#searchName').val();
+    userType = $('#userType').val();
+    $.ajax({
+        type: "POST",
+        url: base_url + "searchUsersList",
+        cache: false,
+        data: {pagenum:pagenum, searchName: searchName, userType: userType},
+        success: function(result) { 
+            $('#' + divContent).html(result);
+        }
+    });
+}

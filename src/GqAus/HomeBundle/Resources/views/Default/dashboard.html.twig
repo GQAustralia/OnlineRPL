@@ -96,10 +96,14 @@
                                                         <span id="span_BSBADM101A" class="radio"></span>
                                                 </a>
                                             </span>
-                                            <div class="gq-acc-row-title">{{reminders.user.userName}}</div>
+                                            <div class="gq-acc-row-title">{% if reminders.course %}
+                                                                            {{reminders.user.userName}} 
+                                                                        {% else %}
+                                                                            {{reminders.createdby.firstname}} {{reminders.createdby.lastname}} 
+                                                                        {% endif %}</div>
                                         </div>
                                         <div class="col-xs-7">
-                                            <div class="gq-acc-row-title">{{reminders.course.courseCode}} {{reminders.course.courseName}}</div>
+                                            <div class="gq-acc-row-title">{% if reminders.course %} {{reminders.course.courseCode}} {{reminders.course.courseName}} {% else %} Reminder {% endif %}</div>
                                         </div>
                                         <div class="col-xs-2">
                                             <label for="acc-{{reminders.id}}" class="col-xs-4 btn add-btn upDownArrow openIcon">VIEW</label>
