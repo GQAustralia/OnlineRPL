@@ -50,12 +50,12 @@ class UserService
         $this->em->flush();
     }
 
-    public function savePersonalProfile($image)
+    public function savePersonalProfile($user, $image)
     {
         if (!empty($image)) {
-            $this->currentUser->setUserImage($image);
+            $user->setUserImage($image);
         }
-        $this->em->persist($this->currentUser);
+        $this->em->persist($user);
         $this->em->flush();
     }
 
@@ -1585,7 +1585,7 @@ class UserService
             }
             $res->andWhere($nameCondition);
         }
-        
+        $res->andWhere('u.status = 1');
         $res->orderBy('u.id', 'DESC');
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
@@ -1682,5 +1682,119 @@ class UserService
         //$managersList = $res->getQuery(); var_dump($managersList); exit;
         $managersList = $res->getQuery()->getResult();
         return array('managersList' => $managersList, 'paginator' => $paginator, 'page' => $page);
+    }
+    
+    /**
+     * Function to delete users
+     * return $result array
+     */
+    public function deleteUser($deluserId, $delUserRole)
+    {
+        $res = $this->checkToDeleteUser($deluserId, $delUserRole);
+        if ($res <= 0) {
+            $this->updateUserStatus($deluserId);
+            return 1;
+        }
+        return 0;
+    }
+
+    /**
+     * Function to check to delete user
+     */
+    public function checkToDeleteUser($userId, $delUserRole)
+    {
+        if ($delUserRole == '2') {
+            $fieldName = 'facilitator';
+        } else if($delUserRole == '3') {
+            $fieldName = 'assessor';
+        }
+        if ($delUserRole == '2' || $delUserRole == '3') {
+            $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                            ->createQueryBuilder('c')
+                            ->select("c")
+                            ->where(sprintf('c.%s = :%s', $fieldName, $fieldName))->setParameter($fieldName, $userId)
+                            ->andWhere('c.courseStatus != 0');
+            $result = $res->getQuery()->getResult();
+            return count($result);
+        }
+        return 0;
+    }
+    
+    /**
+     * Function to update users status
+     */
+    public function updateUserStatus($userId)
+    {
+        $userObj = $this->em->getRepository('GqAusUserBundle:User')->find($userId);
+        $userObj->setStatus('0');
+        $this->em->persist($userObj);
+        $this->em->flush();
+    }
+    
+    /**
+     * Function to add user profile
+     */
+    public function addPersonalProfile($role, $data, $image)
+    {
+        if ($role == 'ROLE_ASSESSOR') {
+            $userObj = new \GqAus\UserBundle\Entity\Assessor();
+        } elseif ($role == 'ROLE_FACILITATOR') {
+            $userObj = new \GqAus\UserBundle\Entity\Facilitator();
+        } elseif ($role == 'ROLE_MANAGER') {
+            $userObj = new \GqAus\UserBundle\Entity\Manager();
+        }
+        
+        $userObj->setFirstName($data['firstname']);
+        $userObj->setLastName($data['lastname']);
+        $userObj->setEmail($data['email']);
+        $userObj->setPhone($data['phone']);
+        $password = password_hash($data['newpassword'], PASSWORD_BCRYPT);
+        $userObj->setPassword($password);
+        $userObj->setTokenStatus('1');
+        $userObj->setUserImage(isset($image) ? $image : '');
+        $userObj->setPasswordToken(isset($pwdToken) ? $pwdToken : '');
+        $userObj->setTokenExpiry(isset($tokenExpiry) ? $tokenExpiry : '');
+        $userObj->setCourseConditionStatus(isset($courseConditionStatus) ? $courseConditionStatus : 0);
+        $userObj->setDateOfBirth(isset($dateofbirth) ? $dateofbirth : '');
+        $userObj->setGender(isset($data['gender']) ? $data['gender'] : '');
+        $userObj->setUniversalStudentIdentifier('');
+        $userObj->setCeoname('');
+        $userObj->setCeoemail('');
+        $userObj->setCeophone('');
+        $userObj->setCreatedby('');
+        $userObj->setStatus('1');
+        $this->em->persist($userObj);
+        $this->em->flush();
+        $userId = $userObj->getId();
+        if (!empty($userId)) {
+            $this->saveUserAddress($data['address'], $userObj);
+        }
+    }
+    
+    /**
+     * Function to save user address
+     */
+    public function saveUserAddress($data, $userObj)
+    {
+        $userAddressObj = new \GqAus\UserBundle\Entity\UserAddress();
+        $userAddressObj->setUser($userObj);
+        $userAddressObj->setAddress($data['address']);
+        $userAddressObj->setArea($data['area']);
+        $userAddressObj->setSuburb($data['suburb']);
+        $userAddressObj->setCity($data['city']);
+        $userAddressObj->setState($data['state']);
+        $userAddressObj->setCountry($data['country']);
+        $userAddressObj->setPincode($data['pincode']);
+        $this->em->persist($userAddressObj);
+        $this->em->flush();
+    }
+    
+    /**
+     * Function check emailId exist
+     */
+    public function emailExist($emailId)
+    {
+        $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('email' => $emailId));
+        return count($user);
     }
 }

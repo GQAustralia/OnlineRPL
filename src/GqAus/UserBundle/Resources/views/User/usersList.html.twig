@@ -37,8 +37,10 @@
             </td>
             <td width="40%" colspan="5"><span class="">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                    <div class="gq-add-notes-icon-wrap icons"><img src = "{{asset('public/images/user-edit.png') }}" /></div>
-                    <div class="gq-add-notes-icon-wrap icons"><img src = "{{asset('public/images/cross.png') }}" /></div>
+                    <div class="gq-add-notes-icon-wrap icons"><a href="{{ app.request.baseUrl }}/editUser/{{list.id}}"><img src = "{{asset('public/images/user-edit.png') }}" /></a></div>
+                    <div class="gq-add-notes-icon-wrap icons">
+					<a class="modalClass delUser" data-toggle="modal" data-target="#myModal" id="{{list.id}}" userRole = "{{list.getRole()}}">
+					<img src = "{{asset('public/images/cross.png') }}" /></a></div>
                     <button id="{{list.id}}" class="btn eye-btn gq-reports-filter-btn loginUser"><img src = "{{asset('public/images/arrow_login.png') }}" /> LOGIN</button>
                 </div>
             </span></td>

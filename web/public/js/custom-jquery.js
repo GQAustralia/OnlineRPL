@@ -9,6 +9,8 @@ var reminderid;
 var reminderflag;
 var otherfiles;
 var setnotesid;
+var deluserId;
+var delUserRole;
 $(function() {
     var $ppc = $('.progress-pie-chart'),
             percent = parseInt($ppc.data('percent')),
@@ -323,6 +325,8 @@ function validateExisting()
 }
 
 $("#userprofile_userImage").change(function() {
+    var userId = $('#hdn-userId').val();
+    var userType = $('#hdn-type').val();
     var fileName = $(this).val();
     var Extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
     if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
@@ -332,7 +336,7 @@ $("#userprofile_userImage").change(function() {
         form_data.append('file', file_data);
         $.ajax({
             type: "POST",
-            url: base_url + "uploadProfilePic",
+            url: base_url + "uploadProfilePic/"+userId,
             cache: false,
             contentType: false,
             processData: false,
@@ -344,7 +348,12 @@ $("#userprofile_userImage").change(function() {
                     $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
                     $("#ajax-profile-error").hide();
                     $("#ajax-gq-profile-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
-                    $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
+                    if (userType == 0) {
+                        $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
+                    }
+                    if (userType == 2) {
+                        $('#hdn-img').val(result);
+                    }
                     $("#ajax-loading-icon").hide();
                 }
                 else
@@ -362,7 +371,6 @@ $("#userprofile_userImage").change(function() {
         //alert("Please upload valid image");
         return false;
     }
-
 });
 
 $(".unit-evidence-id").click(function() {
@@ -1141,6 +1149,7 @@ function validateAddress()
 {
     var userrole = $("#hdn-userrole").val();
     var useremail = $("#userprofile_email").val();
+    var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
     if ($("#userprofile_firstname").val() == "") {
         if(userrole=='rtouser')
@@ -1170,6 +1179,15 @@ function validateAddress()
             return false;
         }
     }
+    if (userType == 2) {
+        var count = checkEmailExist($("#userprofile_email").val());
+        if (count > 0) {
+            showMyTabs("This Email already exist!");
+            $("#userprofile_email").focus();
+            return false;
+        }
+    }
+    
     if ($("#userprofile_phone").val() == "") {
         showMyTabs("Please enter Phone Number");
         $("#userprofile_phone").focus();
@@ -1183,6 +1201,23 @@ function validateAddress()
             return false;
         }
     }
+    // if add user
+    if (userType == 2) {
+        var newpwd = $("#userprofile_newpassword").val();
+        if (newpwd == "") {
+            showMyTabs("Please enter Password");
+            $("#userprofile_newpassword").focus();
+            return false;
+        }
+        if (newpwd != "") {
+            if (newpwd.length < 6) {
+                showMyTabs("Password must be minimum of 6 characters");
+                $("#userprofile_newpassword").focus();
+                return false;
+            }
+        }
+    }
+    
     if ($("#userprofile_dateOfBirth").val() == "") {
         showMyTabs("Please enter Date Of Birth");
         $("#userprofile_dateOfBirth").focus();
@@ -1202,6 +1237,7 @@ function validateAddress()
            return false;
         }
     }
+    
     if ($("#userprofile_address_address").val() == "") {
         $("#change_pwd_error").show();
         $("#change_pwd_error").html(startMsg + "Please enter Address" + endMsg).delay(3000).fadeOut(100);
@@ -1261,7 +1297,24 @@ function validateAddress()
             }
         }
     }
+
 }
+
+/* function to check email already exist */
+function checkEmailExist(emailId) {
+    var count = '';
+    $.ajax({
+        type: "POST",
+        url: base_url + "checkEmailExist",
+        async: false,
+        data: {emailId: emailId},
+        success: function(result) {
+           count = result;
+        }
+    });
+    return count;
+}
+
 /* Change Password Validations */
 function passwordShowMsg(errorMsg,msgId)
 {
@@ -1275,13 +1328,17 @@ function passwordShowMsg(errorMsg,msgId)
 }
 $("#password_save").click(function()
 {
+    var displayOldPwd = $("#password_oldpassword").parent().css( "display" );
+    var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );
+    
     var curpwd = $("#password_oldpassword").val();
     var newpwd = $("#password_newpassword").val();
     var newconfirmpwd = $("#password_confirmnewpassword").val();
     var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var enddiv = '</h2></div>';
     var hdnpwdchk = $("#hdn_pwd_check").val();
-    if (curpwd == "") {
+    
+    if (curpwd == "" && displayOldPwd != 'none') {
         passwordShowMsg("Please enter Current Password", "password_oldpassword");
         return false;
     }
@@ -1295,17 +1352,17 @@ $("#password_save").click(function()
             return false;
         }
     }
-    if (newconfirmpwd == "") {
+    if (newconfirmpwd == "" && displayConfirmPwd != 'none') {
         passwordShowMsg("Please enter Confirm Password", "password_confirmnewpassword");
         return false;
     }
-    if (newconfirmpwd != "") {
+    if (newconfirmpwd != "" && displayConfirmPwd != 'none') {
         if (newconfirmpwd.length < 6) {
             passwordShowMsg("New Confirm Password must be minimum of 6 characters", "password_confirmnewpassword");
             return false;
         }
     }
-    if (newpwd != "" && newconfirmpwd != "") {
+    if (newpwd != "" && newconfirmpwd != "" && displayOldPwd != 'none') {
         if (curpwd == newpwd) {
             passwordShowMsg("Current Password and New Password must be different", "password_newpassword");
             $("#password_confirmnewpassword").val('');
@@ -1791,3 +1848,28 @@ function loadUsersList(divContent)
         }
     });
 }
+
+$(".delUser").click(function() {
+    deluserId = this.id;
+    delUserRole = $(this).attr("userRole");
+});
+
+$(".deleteUser").click(function() {
+   $('.deleteuser_loader').show();
+   $("#err_msg").show();
+    $.ajax({
+        type: "POST",
+        url: base_url + "deleteUser",
+        data: {deluserId: deluserId, delUserRole: delUserRole},
+        success: function(result) {
+            $("#qclose").trigger("click");
+            if (result == 0) {
+                 $("#err_msg").html('<div class="gq-id-files-upload-error-text" style="display: block;"><h2><img src="' + base_url + '/public/images/login-error-icon.png">This User cannot be deleted!</h2></div>').delay(3000).fadeOut(100);
+            } else {
+                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + '/public/images/tick.png">User deleted successfully!</h2></div>').delay(3000).fadeOut(100);
+                $("#searchUserFilter").trigger("click");
+            }
+            $('.deleteuser_loader').hide();
+        }
+    });
+});

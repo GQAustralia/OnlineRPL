@@ -5,6 +5,7 @@ namespace GqAus\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use GqAus\UserBundle\Form\ProfileForm;
+use GqAus\UserBundle\Form\UserForm;
 use GqAus\UserBundle\Form\IdFilesForm;
 use GqAus\UserBundle\Form\ChangePasswordForm;
 use GqAus\UserBundle\Form\ResumeForm;
@@ -15,7 +16,7 @@ use GqAus\UserBundle\Form\MatrixForm;
 class UserController extends Controller
 {
     public function profileAction(Request $request)
-    {        
+    {
         $session = $request->getSession();
         $session_user = $this->get('security.context')->getToken()->getUser();
         $session->set('user_id', $session_user->getId());
@@ -52,7 +53,7 @@ class UserController extends Controller
             $userProfileForm->handleRequest($request);
             if ($userProfileForm->isValid()) {
                 //$userService->saveProfile();
-                $userService->savePersonalProfile($image);
+                $userService->savePersonalProfile($user, $image);
 
                 $request->getSession()->getFlashBag()->add(
                         'notice', 'Profile updated successfully!'
@@ -168,6 +169,7 @@ class UserController extends Controller
     
     public function uploadProfilePicAction(Request $request)
     {
+        $userId = $this->getRequest()->get('userId');
         $folderPath = $this->get('kernel')->getRootDir().'/../web/public/uploads/';
         $proImg = $request->files->get('file');
         $profilePic = $proImg->getClientOriginalName();
@@ -175,9 +177,11 @@ class UserController extends Controller
         if ($proImg->getClientOriginalName() != "") {
             $proImg->move($folderPath, $profilePic);
             $userService = $this->get('UserService');
-            $user = $userService->getCurrentUser();
-            $user->setUserImage($profilePic);
-            $userService->saveProfile();
+            if ($userId != '0') {
+                $user = $userService->getUser($userId);
+                $user->setUserImage($profilePic);
+                $userService->saveProfile();
+            }
             echo $profilePic;
         } else
             echo "error";
@@ -447,4 +451,165 @@ class UserController extends Controller
         echo $this->renderView('GqAusUserBundle:User:managerList.html.twig', $results);
         exit;
     }
+    
+    /**
+     * Function to delete users
+     * return $result array
+     */
+    public function deleteUserAction()
+    {
+        $deluserId = $this->getRequest()->get('deluserId');
+        $delUserRole = $this->getRequest()->get('delUserRole');
+        echo $result = $this->get('UserService')->deleteUser($deluserId, $delUserRole); exit;
+    }
+    
+    /**
+     * Function to edit user
+     * return $result array
+     */
+    public function editUserAction(Request $request)
+    {
+        $uId = $request->get("uId");
+        //$session = $request->getSession();
+        //$session_user = $this->get('security.context')->getToken()->getUser();
+        //$session->set('user_id', $session_user->getId());
+        $userService = $this->get('UserService');
+        if (!empty($uId)) {
+            $user = $userService->getUser($uId);
+        }
+        $userProfileForm = $this->createForm(new ProfileForm(), $user);
+        $user_role = $user->getRoleName();
+        
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_RTO' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
+            $userProfileForm->remove('dateOfBirth');
+            $userProfileForm->remove('universalStudentIdentifier');
+            $userProfileForm->remove('gender');
+        }
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_APPLICANT' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
+            $userProfileForm->remove('contactname');
+            $userProfileForm->remove('contactemail');
+            $userProfileForm->remove('contactphone');
+        }
+        
+        if ($user_role != 'ROLE_RTO') {
+            $userProfileForm->remove('ceoname');
+            $userProfileForm->remove('ceoemail');
+            $userProfileForm->remove('ceophone');
+        }
+
+        $resetForm = $this->createForm(new ChangePasswordForm(), array());
+        $image = $user->getUserImage();
+        if ($request->isMethod('POST')) {
+            $userProfileForm->handleRequest($request);
+            if ($userProfileForm->isValid()) {
+                $userService->savePersonalProfile($user, $image);
+                $request->getSession()->getFlashBag()->add(
+                        'notice', 'Profile updated successfully!'
+                );
+            }
+
+            $resetForm->handleRequest($request);
+            if ($resetForm->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $cur_db_password = $user->getPassword();
+                $pwdarr = $request->get('password');
+                $newpassword = $pwdarr['newpassword'];
+                $password = password_hash($newpassword, PASSWORD_BCRYPT);
+                $user->setPassword($password);
+                $user->setTokenStatus('0');
+                $em->persist($user);
+                $em->flush();
+                $request->getSession()->getFlashBag()->add(
+                        'notice', 'Password updated successfully!'
+                );
+            }
+        }
+        $userImage = $userService->userImage($user->getUserImage());
+        $tab = '';
+        $httpRef = $this->get('request')->server->get('HTTP_REFERER');
+        if (!empty($httpRef)) {
+            $httpRef = basename($httpRef);
+            $tab = $this->getRequest()->get('tab');
+        }
+        
+        return $this->render('GqAusUserBundle:User:userprofile.html.twig', array(
+                    'form' => $userProfileForm->createView(),
+                    'userImage' => $userImage,
+                    'changepwdForm' => $resetForm->createView(),
+                    'tab' => $tab,
+                    'userId' => $uId,
+                    'userRole' => $user_role
+        ));
+    }
+    
+    /**
+     * Function to add user
+     * return $result array
+     */
+    public function addUserAction(Request $request)
+    {
+        $roleType = $request->get("roleType");
+        $userProfileForm = $this->createForm(new UserForm());
+        $user_role = $this->get('security.context')->getToken()->getUser()->getRoleName();
+        if ($roleType == 2) {
+            $user_role = 'ROLE_FACILITATOR';
+        } elseif ($roleType == 3) {
+            $user_role = 'ROLE_ASSESSOR';
+        } elseif ($roleType == 5) {
+            $user_role = 'ROLE_MANAGER';
+        }
+        
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_RTO' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
+            $userProfileForm->remove('dateOfBirth');
+            $userProfileForm->remove('universalStudentIdentifier');
+            $userProfileForm->remove('gender');
+        }
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_APPLICANT' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
+            $userProfileForm->remove('contactname');
+            $userProfileForm->remove('contactemail');
+            $userProfileForm->remove('contactphone');
+        }
+        
+        if ($user_role != 'ROLE_RTO') {
+            $userProfileForm->remove('ceoname');
+            $userProfileForm->remove('ceoemail');
+            $userProfileForm->remove('ceophone');
+        }
+        if ($request->isMethod('POST')) {
+            $userProfileForm->handleRequest($request);
+            if ($userProfileForm->isValid()) {
+                $image = $request->get('hdn-img');
+                $this->get('UserService')->addPersonalProfile($user_role, $request->get('userprofile'), $image);
+                $request->getSession()->getFlashBag()->add(
+                        'notice', 'Profile added successfully!'
+                );
+                return $this->redirect('/manageusers');
+            }
+        }
+        $tab = '';
+        $httpRef = $this->get('request')->server->get('HTTP_REFERER');
+        if (!empty($httpRef)) {
+            $httpRef = basename($httpRef);
+            $tab = $this->getRequest()->get('tab');
+        }
+        
+        return $this->render('GqAusUserBundle:User:addprofile.html.twig', array(
+                    'form' => $userProfileForm->createView(),
+                    'userImage' => '',
+                    'tab' => $tab,
+                    'userId' => '',
+                    'userRole' => $user_role
+        ));
+    }
+    
+    /**
+     * Function to email exist
+     * return $result array
+     */
+    function checkEmailExistAction()
+    {
+        $emailId = $this->getRequest()->get('emailId');
+        echo $result = $this->get('UserService')->emailExist($emailId); exit;
+    }
+
 }
