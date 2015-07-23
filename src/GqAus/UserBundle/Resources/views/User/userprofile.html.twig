@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}GQ - RPL Edit Profile{% endblock %}
+{% block title %}GQ - RPL Edit User{% endblock %}
 {% block stylesheets %}
 <link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
 <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
@@ -10,8 +10,7 @@
 <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="gq-dashboard-title">Profile</h1>
-            <!-- <h6 class="gq-dashboard-title-desc">Some description can be given here</h6>  -->
+            <h1 class="gq-dashboard-title">Edit User</h1>
         </div>        
 
     </div>
@@ -50,8 +49,7 @@
             
             <div class="row" id="profile_suc_msg2"></div>
         </div>        
-        {% set userRole = app.security.getToken().getUser().getRoles() %}
-		{% set userId = app.security.getToken().getUser().getId() %}
+        
         <div class="col-xs-12">
             <div class="gq-dashboard-tabs">
                 <!-- Tabs start here -->
@@ -59,12 +57,6 @@
                     <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
                         <li id="personel-gq-tab" role="presentation" {% if tab == 'id-fields' %} {% else %} class="active" {% endif %} ><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal</a></li>
                         <li id="address-gq-tab" role="presentation"><a href="#address" aria-controls="address" role="tab" data-toggle="tab">Address</a></li>
-                        {% if ('ROLE_APPLICANT' in userRole) %}
-                        <li role="presentation" {% if tab == 'id-fields' %} class="active" {% else %} {% endif %} ><a href="#id-fields" aria-controls="id-fields" role="tab" data-toggle="tab">ID Files</a></li>                        
-                        {% endif %}
-                        {% if ('ROLE_ASSESSOR' in userRole) %}
-                        <li role="presentation"><a href="#others" aria-controls="others" role="tab" data-toggle="tab">Others</a></li>                        
-                        {% endif %}
                     </ul>
                 </div>
                 <!-- Tabs end start here -->
@@ -73,44 +65,45 @@
                 <div class="tab-content">                    
                     <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% else %}other{% endif %}">
 					<input type='hidden' id='hdn-userId' name='hdn-userId' value="{{userId}}">
-    				<input type='hidden' id='hdn-type' name='hdn-type' value="0">
+					<input type='hidden' id='hdn-type' name='hdn-type' value="1">
                     {% include 'GqAusUserBundle:User:user.html.twig' %}
-                    
-                    {% include 'GqAusUserBundle:User:idfiles.html.twig' %}
-                    
-                    {% include 'GqAusUserBundle:User:other.html.twig' %}
-                    
-                    <!-- Change Password --> 
-                    {% include 'GqAusUserBundle:User:password.html.twig' %}
-                    <!-- Change Password -->
+    				
+                    <!-- Change Password Start --> 
+					
+					<div role="tabpanel" class="tab-pane" id="change-pwd-form">
+						{{ form_start(changepwdForm) }}
+						<input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
+						<div class="gq-form-personal wid60p">
+							<div class="gq-form-row" style="display:none;">
+								<label for="gq-last-name">Current Password</label>
+									{{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30'} }) }}
+							</div>
+							<div class="gq-form-row">
+								<label for="gq-last-name">New Password</label>
+									{{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30'} }) }}
+							</div>
+							<div class="gq-form-row" style="display:none;">
+								<label for="gq-last-name">Confirm Password</label>
+									{{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30'} }) }}
+							</div>
+
+							<div class="gq-form-botton">
+									{{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'btn btn-default'}}) }}
+							</div>
+							<div class="gq-form-botton">
+								<a href="#personal" aria-controls="personal" role="tab" data-toggle="tab" id="emptypwdform" class="btn-grey">Cancel</a>
+							</div>
+						</div>
+						{{ form_end(changepwdForm) }}
+					</div>
+					
+                    <!-- Change Password End -->
                 </div>
-                <!-- script for enabling tabs functionality 
-                <script>
-                    $(function() {
-                        $('#myTab a:last').tab('show')
-                    })
-                </script>-->
                 <!--End of content for respective tabs above will be in this section -->
             </div>
         </div>
     </div>
 </div>
-</div>
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog gq-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" id="fclose" class="close" data-dismiss="modal" aria-label="Close"></button>
-                <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected file ?</h4>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-white deleteIdFiles">Ok</a>
-                <a class="btn btn-white" id="fclose-cancel">Cancel</a>
-                <span class="loading-icon" id="ajax-loading-delete-assessor-file" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
-            </div>
-        </div>
-    </div>
 </div>
 
 {% endblock %}
