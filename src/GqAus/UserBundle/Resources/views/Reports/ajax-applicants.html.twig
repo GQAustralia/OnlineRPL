@@ -28,7 +28,7 @@
             <!-- Portfolio Received Status -->
             {% if ('ROLE_RTO' in userRole) %}
                 <td>
-                    {% if list.courseStatus == 2 or list.courseStatus == 0 %}{{list.facilitatorDate|date("d/m/Y")}}
+                    {% if list.courseStatus == 15 or list.courseStatus == 16 or list.courseStatus == 0 %}{{list.facilitatorDate|date("d/m/Y")}}
                     {% endif %}  
                 </td>
             {% endif%}
@@ -36,7 +36,7 @@
             <!-- FACILITATOR own Status -->
             {% if ('ROLE_FACILITATOR' in userRole) %}
                 <td>
-                    {% if list.courseStatus == 2 or list.courseStatus == 0%} Submitted Portfolio <span class="gq-sub-title">on {{list.facilitatorDate|date("d/m/Y")}}</span> 
+                    {% if list.courseStatus == 15 or list.courseStatus == 0%} Submitted Portfolio <span class="gq-sub-title">on {{list.facilitatorDate|date("d/m/Y")}}</span> 
                     {% else %}Pending 
                     {% endif %}  
                 </td>
@@ -44,7 +44,7 @@
             <!-- FACILITATOR own Status -->    
             {% if ('ROLE_RTO' in userRole) %}
                 <td>
-                    {% if (list.courseStatus == 0) %} Issued <span class="gq-sub-title">on {{list.rtoDate|date("d/m/Y")}}</span>
+                    {% if (list.courseStatus == 16 or list.courseStatus == 0) %} Issued <span class="gq-sub-title">on {{list.rtoDate|date("d/m/Y")}}</span>
                     {% else %} Pending {% endif %}
                 </td>
             {% endif %}

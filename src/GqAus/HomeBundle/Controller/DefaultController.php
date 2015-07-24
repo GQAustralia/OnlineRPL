@@ -25,6 +25,7 @@ class DefaultController extends Controller
         /*$this->get('UserService')->updateUserApplicantsList($userId, $userRole);*/
         if (in_array('ROLE_APPLICANT',$userRole)) {
             $results = $userService->getDashboardInfo($user);
+            $results['statusList'] = $userService->getqualificationStatus();
             return $this->render('GqAusHomeBundle:Default:index.html.twig', $results);
         } else if (in_array('ROLE_MANAGER',$userRole) || in_array('ROLE_SUPERADMIN',$userRole)) {
             $results = $this->get('UserService')->getManagersApplicantsCount($userId, $userRole);
@@ -36,7 +37,7 @@ class DefaultController extends Controller
             $results['paginator'] = $appResults['paginator'];
             $results['page'] = $appResults['page'];
             $results['pageRequest'] = "";    
-            $results['status'] = 0;
+            $results['status'] = 0;           
             return $this->render('GqAusHomeBundle:Default:dashboard.html.twig', $results);
         }
     }

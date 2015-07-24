@@ -20,6 +20,7 @@ class ApplicantController extends Controller
         $coursesService = $this->get('CoursesService');
         $user = $userService->getUserInfo($uid);
         $results = $coursesService->getCoursesInfo($qcode);
+        
         if (!empty($user) && isset($results['courseInfo']['id'])) {
             $applicantInfo = $userService->getApplicantInfo($user, $qcode);
             $role = $this->get('security.context')->getToken()->getUser()->getRoles();
@@ -29,10 +30,15 @@ class ApplicantController extends Controller
             }
             $results['electiveUnits'] = $coursesService->getElectiveUnits($uid, $qcode);
             $results['courseCode'] = $qcode;
+            // for getting the status list dropdown
+            $results['statusList'] = array();
+            $results['statusList'] = $userService->getqualificationStatus();
+            
             if ($role[0] == \GqAus\UserBundle\Entity\Facilitator::ROLE_NAME || $role[0] == \GqAus\UserBundle\Entity\Assessor::ROLE_NAME ) {
                 $notesForm = $this->createForm(new NotesForm(), array());
                 $results['notesForm'] = $notesForm->createView();
             }
+            
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
@@ -57,7 +63,8 @@ class ApplicantController extends Controller
         $result['courseCode'] = $this->getRequest()->get('courseCode');
         $result['unitName'] = $this->getRequest()->get('unitName');
         $userUnitEvStatus = $this->get('UserService')->updateApplicantEvidences($result);
-        echo $userUnitEvStatus.= "&&" . $this->get('UserService')->updateUserApplicantsList($result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
+        echo $userUnitEvStatus.= "&&" . $this->get('UserService')->updateCourseRTOStatus($result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
+        /*echo $userUnitEvStatus.= "&&" . $this->get('UserService')->updateUserApplicantsList($result['currentUserId'], $result['currentuserRole'], $result['courseCode']);*/
         exit;
     }
 
@@ -355,7 +362,7 @@ class ApplicantController extends Controller
         $userId = $this->getRequest()->get('roleuserId');
         $roleid = $this->getRequest()->get('roleid');
         $result = $this->get('UserService')->setRoleUsersForCourse($courseId, $roleid, $userId);
-        echo json_encode($result);
+        $result;
         exit;
     }
     
@@ -379,6 +386,20 @@ class ApplicantController extends Controller
             return $this->redirect('dashboard');
             //throw $this->createAccessDeniedException();    
         }
+    }
+    
+    /**
+     * Function to update course status
+     */
+    public function updateCourseStatusAction()
+    {
+        $courseStatus = $this->getRequest()->get('courseStatus');
+        $courseCode = $this->getRequest()->get('courseCode');        
+        $applicantId = $this->getRequest()->get('userId');
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $result = $this->get('UserService')->updateCourseStatus($courseStatus, $courseCode, $applicantId, $userRole);
+        echo json_encode($result);
+        exit;
     }
 
 }

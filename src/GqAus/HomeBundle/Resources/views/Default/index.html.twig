@@ -96,6 +96,9 @@
                                             <div class="gq-dashboard-courses-detail-txt">
                                                 {{ courses.getCourseCode() }} {{ courses.getCourseName() }}
                                             </div>
+                                            <div class="gq-dashboard-courses-status-txt">
+                                                <img src="{{ asset('public/images/status.png') }}" />&nbsp;{{ statusList[courses.getCourseStatus()]['status'] }} 
+                                            </div>
                                         </a>
                                   </div>
                                 {% endif %}
@@ -121,9 +124,9 @@
                                             <a href="#" id="{{ courses.getCourseCode() }}" class="modalClass gq-dashboard-courses-detail-a" data-toggle="modal" data-target="#myModal">
                                         {% endif %}
                                             <div class="gq-dashboard-cap-icon"><img src="{{ asset('public/images/cap.png') }}" /></div>
-                                            <div class="gq-dashboard-courses-detail-txt">
+                                            <div class="gq-dashboard-courses-detail-txt" style="width:90%;">
                                                 {{ courses.getCourseCode() }} {{ courses.getCourseName() }}
-                                            </div>
+                                            </div>                                            
                                         </a>
                                   </div>
                                 {% endif %}

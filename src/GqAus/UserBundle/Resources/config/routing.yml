@@ -199,3 +199,6 @@ managemanagers:
 searchUsersList:
     path:     /searchUsersList
     defaults: { _controller: GqAusUserBundle:User:searchUsersList }
+updateCourseStatus:
+    path:     /updateCourseStatus
+    defaults: { _controller: GqAusUserBundle:Applicant:updateCourseStatus }
