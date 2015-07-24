@@ -600,6 +600,7 @@ a.btn-red {color:#ffffff;}
 .gq-assessor-name-edit {/*width:90px;*/float:right;}
 .gq-applicant-name-list .selected {background: #e03934;color: #ffffff;}
 .gq-applicant-name-list .selectedrto{background: #e03934;color: #ffffff;}
+.gq-applicant-name-list .selectedfacilitator{background: #e03934;color: #ffffff;}
 .gq-assessor-list-dropdown-wrap.gq-assessor-name-edit .gq-assessor-list-dropdown {left:-228px; top:58px;}
 .gq-assessor-list-dropdown-wrap.gq-assessor-name-edit .gq-assessor-list-dropdown .caret-top{right:20px; left:auto;}
 .gq-assessor-list-dropdown-wrap.gq-assessor-name-edit .gq-applicant-name-list {height:160px; overflow-y:auto; padding:5px;}

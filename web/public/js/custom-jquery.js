@@ -692,6 +692,12 @@ $(".setUsers").click(function() {
     } else {
         $(this).parent().removeClass('open');
     }
+    $( ".gq-name-facilitator-list" ).each(function() {
+       if($(this).hasClass("selectedfacilitatornew"))
+          $(this).addClass('selectedfacilitator');
+       else
+          $(this).removeClass('selectedfacilitator');
+    });
     $( ".gq-name-list" ).each(function() {
        if($(this).hasClass("selectednew"))
           $(this).addClass('selected');
@@ -709,7 +715,10 @@ $(".setUsers").click(function() {
 $(".setData").click(function() {
     userCourseId = $(this).attr("userCourseId");
     listId = $(this).attr("listId");
-    
+    var courseId = $('#course_' + listId).val();
+    if (courseId != '' && typeof courseId !== 'undefined') {
+        userCourseId = courseId;
+    }
     note = $('#notes_' + listId).val();
     if (note === '') {
         $('#notes_' + listId).focus();
@@ -731,6 +740,13 @@ $(".setData").click(function() {
             success: function(result) {
                 $('#err_msg').show();
                 resetDateTimePicker(listId);
+                $('#course_'+listId).change(function(){
+                    $('#course_'+listId).prop('selectedIndex','');
+                    $('#course_'+listId).val('');
+                });
+                $('#course_'+listId+' option').prop('selected', function() {
+                    return this.defaultSelected;
+                });
                 $('#div_' + listId).removeClass('open');
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
             }
@@ -1450,6 +1466,11 @@ $("#evd_close").click(function() {
 });
 $(".changeUsers").click(function() {
     var roleid = $(this).attr("roleid");
+    if(roleid == 2) {
+        var newroleuserId = $(".selectedfacilitator").attr("data-value");
+        var roleuserIdarr = newroleuserId.split('&&');
+        var roleuserId = roleuserIdarr[0];
+    }
     if(roleid == 3) {
         var newroleuserId = $(".selected").attr("data-value");
         var roleuserIdarr = newroleuserId.split('&&');
@@ -1467,9 +1488,13 @@ $(".changeUsers").click(function() {
         async: false,
         data: {courseId: courseId, roleid: roleid, roleuserId: roleuserId},
         success: function(result) {
-            res = JSON.parse(result);
-            if(roleid == 3) {
+            res = JSON.parse(result); alert(roleid);
+            if(roleid == 2) {
                 $(".gq-facilitator-select-name").html(roleuserIdarr[1]);
+                $(".facilitator-change").children(".setUsers").trigger("click");
+            }
+            if(roleid == 3) {
+                $(".gq-assessor-select-name").html(roleuserIdarr[1]);
                 $(".assessor-change").children(".setUsers").trigger("click");
             }
             if(roleid == 4) {
@@ -1493,6 +1518,12 @@ $('html').click(function() {
     }
     setnotesid = true;
 });*/
+$(".gq-name-facilitator-list").click(function() {
+    $(".gq-name-facilitator-list").removeClass('selectedfacilitator');
+    $(".gq-name-facilitator-list").removeClass('selectedfacilitatornew');
+    $(this).addClass("selectedfacilitator");
+    $(this).addClass("selectedfacilitatornew");
+});
 $(".gq-name-list").click(function() {
     $(".gq-name-list").removeClass('selected');
     $(".gq-name-list").removeClass('selectednew');

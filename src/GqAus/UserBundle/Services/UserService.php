@@ -1288,6 +1288,8 @@ class UserService
             $course->setRto($user);
         } else if ($role == \GqAus\UserBundle\Entity\Assessor::ROLE) {
             $course->setAssessor($user);
+        } else if ($role == \GqAus\UserBundle\Entity\Facilitator::ROLE) {
+            $course->setFacilitator($user);
         }
         $this->em->persist($course);
         $this->em->flush();
@@ -1306,7 +1308,7 @@ class UserService
     public function getUsers($role)
     {
         $connection = $this->em->getConnection();
-        $statement = $connection->prepare("SELECT id, firstname, lastname FROM user WHERE roletype = :role");
+        $statement = $connection->prepare("SELECT id, firstname, lastname FROM user WHERE roletype = :role AND status = 1");
         $statement->bindValue('role', $role);
         $statement->execute();
         return $statement->fetchAll();
@@ -1796,5 +1798,27 @@ class UserService
     {
         $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('email' => $emailId));
         return count($user);
+    }
+    
+    public function getUserAssignedQualifications($userId, $userType)
+    {
+        if ($userType == '2') {
+            $fieldName = 'facilitator';
+        } elseif ($userType == '3') {
+            $fieldName = 'assessor';
+        }
+        $userCourses = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array($fieldName => $userId));
+        
+        $field =  '<div class="gq-applicant-list-notes-box">
+                        <select name="course_'.$userId.'" id="course_'.$userId.'" style="width:200px;">
+                            <option value="" selected="selected">Select Qualification</option>';
+                            if (!empty($userCourses)) {
+                                foreach ($userCourses as $courses) {
+         $field .=                    '<option value="'.$courses->getId().'">'.$courses->getCourseCode().' : '.$courses->getCourseName().'</option>';
+                                }
+                            }
+        $field .=          '</select>
+                    </div>';
+        return $field; 
     }
 }

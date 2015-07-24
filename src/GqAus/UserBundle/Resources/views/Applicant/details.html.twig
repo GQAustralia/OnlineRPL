@@ -135,82 +135,117 @@
                                     </div>
                                 {% endif %}
 
-                                {% if ('ROLE_FACILITATOR' in userRole) %}
+                                {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
+                                
+                                    {% if ('ROLE_MANAGER' in userRole) %}
                                     <div class="gq-assessor-appl-details-points pull-right">
                                         <div class="gq-assessor-rto-title">
-                                            <label>Assessor</label>
-                                            <span class="gq-facilitator-select-name">: {{assessorName}}</span>
+                                            <label>Facilitator</label>
+                                            <span class="gq-facilitator-select-name">: {{facilitatorName}}</span>
                                         </div>
-										<div id="div_34" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit assessor-change">
-											<div id="34" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
-												<a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
-											</div>
-											<div class="gq-assessor-list-dropdown">
-												<div class="caret-top"></div>
-												<div class="gq-applicant-name-list">
-													<ul>
-													{% if assessors %}
-														{% if assessors|length > 0 %}
-															{% for key, assessor in assessors %}
-																{% set completeName = assessor.firstname~" "~assessor.lastname %}
-																<li class="gq-name-list {% if completeName|trim ==  assessorName|trim %}selectednew{% endif %}" data-value="{{assessor.id}}&&{{assessor.firstname}} {{assessor.lastname}}">{{assessor.firstname}} {{assessor.lastname}}</li>
-															{% endfor %}
-														{% endif %}
-													{% endif %}
-													</ul>
-												</div>
-												<div class="gq-applicant-list-notes-box">
-													<button class="btn btn-green changeUsers" roletype="assessor" roleid="3">Ok</button>
-													<button class="btn btn-red" id="gq-name-cancel">Cancel</button>
-												</div>
-											</div>
-										</div>
+                                        <div id="div_33" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit facilitator-change">
+                                            <div id="33" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
+                                                <a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
+                                            </div>
+                                            <div class="gq-assessor-list-dropdown">
+                                                <div class="caret-top"></div>
+                                                <div class="gq-applicant-name-list">
+                                                    <ul>
+                                                    {% if facilitators %}
+                                                        {% if facilitators|length > 0 %}
+                                                            {% for key, facilitator in facilitators %}
+                                                                {% set completeName = facilitator.firstname~" "~facilitator.lastname %}
+                                                                <li class="gq-name-facilitator-list {% if completeName|trim ==  facilitatorName|trim %}selectedfacilitatornew {% endif %}" data-value="{{facilitator.id}}&&{{facilitator.firstname}} {{facilitator.lastname}}">{{facilitator.firstname}} {{facilitator.lastname}}</li>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    </ul>
+                                                </div>
+                                                <div class="gq-applicant-list-notes-box">
+                                                    <button class="btn btn-green changeUsers" roletype="facilitator" roleid="2">Ok</button>
+                                                    <button class="btn btn-red" id="gq-name-cancel">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                    {% endif %}
+                                    
+                                    <div class="gq-assessor-appl-details-points pull-right {% if ('ROLE_MANAGER' in userRole) %} border-top {% endif %}">
+                                        <div class="gq-assessor-rto-title">
+                                            <label>Assessor</label>
+                                            <span class="gq-assessor-select-name">: {{assessorName}}</span>
+                                        </div>
+                                        <div id="div_34" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit assessor-change">
+                                            <div id="34" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
+                                                <a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
+                                            </div>
+                                            <div class="gq-assessor-list-dropdown">
+                                                <div class="caret-top"></div>
+                                                <div class="gq-applicant-name-list">
+                                                    <ul>
+                                                    {% if assessors %}
+                                                        {% if assessors|length > 0 %}
+                                                            {% for key, assessor in assessors %}
+                                                                {% set completeName = assessor.firstname~" "~assessor.lastname %}
+                                                                <li class="gq-name-list {% if completeName|trim ==  assessorName|trim %}selectednew{% endif %}" data-value="{{assessor.id}}&&{{assessor.firstname}} {{assessor.lastname}}">{{assessor.firstname}} {{assessor.lastname}}</li>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    </ul>
+                                                </div>
+                                                <div class="gq-applicant-list-notes-box">
+                                                    <button class="btn btn-green changeUsers" roletype="assessor" roleid="3">Ok</button>
+                                                    <button class="btn btn-red" id="gq-name-cancel">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="gq-assessor-appl-details-points pull-right border-top">
                                         <div class="gq-assessor-rto-title">
                                             <label>RTO</label>
                                             <span class="gq-rto-select-name">: {{rtoName}} </span>
-											<span class="gq-assessor-list-dropdown-wrap" >
-												<span class="gq-add-notes-icon-wrap gq-assessor-profile-img-txt setUsers">more..</span>
-												<span class="gq-assessor-list-dropdown">
-													<div class="caret-top"></div>
-                                                                                                        <div class="gq-ceo-details-list">
-                                                                                                            <ul>
-                                                                                                                <li class=""><label>CEO Name</label>: <span id="ceo_name">{{rtoCeoName}}</span></li>
-                                                                                                                <li class=""><label>CEO Email</label>: <span id="ceo_email">{{rtoCeoEmail}}</span></li>
-                                                                                                                <li class=""><label>CEO Phone </label>: <span id="ceo_phone">{{rtoCeoPhone}}</span></li>
-                                                                                                            </ul>
-                                                                                                        </div>
-													{#<div><label>CEO Name</label>: <span id="ceo_name">{{rtoCeoName}}</span></div>
-													<div><label>CEO Email</label>: <span id="ceo_email">{{rtoCeoEmail}}</span></div>
-													<div><label>CEO Phone </label>: <span id="ceo_phone">{{rtoCeoPhone}}</span></div>#}
-												</span>
-											</span>
+                                            <span class="gq-assessor-list-dropdown-wrap" >
+                                                <span class="gq-add-notes-icon-wrap gq-assessor-profile-img-txt setUsers">more..</span>
+                                                <span class="gq-assessor-list-dropdown">
+                                                    <div class="caret-top"></div>
+                                                    <div class="gq-ceo-details-list">
+                                                        <ul>
+                                                            <li class=""><label>CEO Name</label>: <span id="ceo_name">{{rtoCeoName}}</span></li>
+                                                            <li class=""><label>CEO Email</label>: <span id="ceo_email">{{rtoCeoEmail}}</span></li>
+                                                            <li class=""><label>CEO Phone </label>: <span id="ceo_phone">{{rtoCeoPhone}}</span></li>
+                                                        </ul>
+                                                    </div>
+                                                    {#<div><label>CEO Name</label>: <span id="ceo_name">{{rtoCeoName}}</span></div>
+                                                    <div><label>CEO Email</label>: <span id="ceo_email">{{rtoCeoEmail}}</span></div>
+                                                    <div><label>CEO Phone </label>: <span id="ceo_phone">{{rtoCeoPhone}}</span></div>#}
+                                                </span>
+                                            </span>
                                         </div>
-										<div id="div_35" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit rto-change">
-											<div id="35" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
-												<a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
-											</div>
-											<div class="gq-assessor-list-dropdown">
-												<div class="caret-top"></div>
-												<div class="gq-applicant-name-list">
-													<ul>
-													{% if rtos %}
+                                        <div id="div_35" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit rto-change">
+                                            <div id="35" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
+                                                <a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
+                                            </div>
+                                            <div class="gq-assessor-list-dropdown">
+                                                <div class="caret-top"></div>
+                                                <div class="gq-applicant-name-list">
+                                                    <ul>
+                                                    {% if rtos %}
                                                         {% if rtos|length > 0 %}
                                                             {% for key, rto in rtos %}
-																{% set completeRtoName = rto.firstname~" "~rto.lastname %}
-																<li class="gq-rto-list {% if completeRtoName|trim ==  rtoName|trim %}selectedRtonew{% endif %}" data-value="{{rto.id}}&&{{rto.firstname}} {{rto.lastname}}">{{rto.firstname}} {{rto.lastname}}</li>
+                                                                {% set completeRtoName = rto.firstname~" "~rto.lastname %}
+                                                                <li class="gq-rto-list {% if completeRtoName|trim ==  rtoName|trim %}selectedRtonew{% endif %}" data-value="{{rto.id}}&&{{rto.firstname}} {{rto.lastname}}">{{rto.firstname}} {{rto.lastname}}</li>
                                                             {% endfor %}
                                                         {% endif %}
                                                     {% endif %}
-													</ul>
-												</div>
-												<div class="gq-applicant-list-notes-box">
-													<button class="btn btn-green changeUsers" roletype="rto" roleid="4">Ok</button>
-													<button class="btn btn-red" id="gq-rtoname-cancel">Cancel</button>
-												</div>
-											</div>
-										</div>
+                                                    </ul>
+                                                </div>
+                                                <div class="gq-applicant-list-notes-box">
+                                                    <button class="btn btn-green changeUsers" roletype="rto" roleid="4">Ok</button>
+                                                    <button class="btn btn-red" id="gq-rtoname-cancel">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                         {#<div class="gq-assessor-rto-edit-icon">
                                             <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}"/></a>
                                         </div>#}
@@ -471,7 +506,7 @@
                                                 {% if ('ROLE_APPLICANT' not in userRole) %}
                                                 <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-recordings" href="#unit-recordings" aria-expanded="false">Competency Recordings</a></li>
                                                 {% endif %}                                                
-                                                {% if ('ROLE_ASSESSOR' in userRole) or ('ROLE_FACILITATOR' in userRole) %}
+                                                {% if ('ROLE_ASSESSOR' in userRole) or ('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
                                                 <li role="presentation"><a href="#unit-emailcon" class="unit-emailcon" aria-controls="unit-emailcon" role="tab" data-toggle="tab">Email Conversation</a></li>
                                                 {% endif %}
                                             </ul>
@@ -481,7 +516,8 @@
                                                         <div class="row">
                                                             <div id="ajaxEvidences2" style="display: block;" class="load-icon-tr">
                                                                 <img src="{{ asset('public/images')}}/loading.gif">
-                                                            </div>                                                                                                                                                                                                                                                                                           </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -528,7 +564,7 @@
                                             <ul id="myNotesTab" role="tablist" class="nav nav-pills margin-top15 gq-evidence-new-tabs">
                                                 <li role="presentation" class="active"><a data-toggle="tab" role="tab" aria-controls="add-notes" href="#add-notes" aria-expanded="true">Add Notes</a></li>
                                                 <li role="presentation" class=""><a id="yourNotes" userType="{{ utype }}" data-toggle="tab" role="tab" aria-controls="your-notes" href="#your-notes" aria-expanded="false">Your Notes</a></li>
-                                                <li role="presentation" class=""><a id="otherMemberNotes" userType="{{ omtype }}" data-toggle="tab" role="tab" aria-controls="other-memeber-notes" href="#other-memeber-notes" aria-expanded="false">{{ omtext }}</a></li>                                                
+                                                <li role="presentation" class=""><a id="otherMemberNotes" userType="{{ omtype }}" data-toggle="tab" role="tab" aria-controls="other-memeber-notes" href="#other-memeber-notes" aria-expanded="false">{{ omtext }}</a></li>
                                             </ul>
                                             <div id="myNotesTabContent" class="tab-content">
                                                 <div aria-labelledby="add-notes" id="add-notes" class="tab-pane fade active in" role="tabpanel">
