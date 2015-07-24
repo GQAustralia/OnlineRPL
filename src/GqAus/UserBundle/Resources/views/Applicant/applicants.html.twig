@@ -3,7 +3,7 @@
 {% if applicantList %}
     {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
     <tr>
-        <td class="gq-pagination-area" {% if ('ROLE_RTO' in userRole) %} colspan="4" {% else %} colspan="7" {% endif %}>
+        <td class="gq-pagination-area" {% if ('ROLE_RTO' in userRole) %} colspan="4" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="3" {% else %} colspan="7" {% endif %}>
             {# display navigation for pages - paginator_navigator #}        
             {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
         </td>

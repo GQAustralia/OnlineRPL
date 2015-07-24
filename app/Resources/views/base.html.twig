@@ -87,7 +87,7 @@
                                 <li><a {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/dashboard"><span class="gq-dashboard-icon"><img src="{{ asset('public/images/dashboard.png') }}" /></span><span class="left-nav-txt">Dashboard</span></a></li>
                                 
                                 {% if ('ROLE_MANAGER' in roles) or ('ROLE_SUPERADMIN' in roles) %}
-                                 <li><a {% if app.request.attributes.get('_route') == 'manageusers' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/manageusers"><span class="gq-dashboard-icon"><img src="{{ asset('public/images/manageusers.png') }}" /></span><span class="left-nav-txt">Manage Users</span></a></li>
+                                 <li><a {% if app.request.attributes.get('_route') == 'manageusers' or app.request.attributes.get('_route') == 'editUser' or app.request.attributes.get('_route') == 'addUser' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/manageusers"><span class="gq-dashboard-icon"><img src="{{ asset('public/images/manageusers.png') }}" /></span><span class="left-nav-txt">Manage Profiles</span></a></li>
                                 {% endif %}
                                 
                                 {% if 'ROLE_APPLICANT' in roles %}

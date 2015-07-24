@@ -36,6 +36,8 @@ security:
         - { path: ^/viewIdFile, roles: [ROLE_ASSESSOR, ROLE_RTO] }
         - { path: ^/manageusers, roles: [ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/managemanagers, roles: [ROLE_SUPERADMIN] }
+        - { path: ^/addUser/.*, roles: [ROLE_MANAGER, ROLE_SUPERADMIN] }
+        - { path: ^/editUser/.*, roles: [ROLE_MANAGER, ROLE_SUPERADMIN] }
     access_denied_url: /unauthorized
     providers:
         main:

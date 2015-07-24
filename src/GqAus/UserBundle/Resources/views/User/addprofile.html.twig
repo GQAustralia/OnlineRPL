@@ -1,0 +1,209 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Add User{% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
+<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+
+{% endblock %}
+{% block body %}
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="gq-dashboard-title">Add User</h1>
+        </div>        
+
+    </div>
+    <div class="row">
+        <div class="col-xs-push-3 col-xs-6">
+            <div class="row">
+                <div class="gq-profile-page-img" id="ajax-gq-profile-page-img" style="background-image: url(&quot;{{ userImage }}&quot;);"></div>
+            </div>    
+        </div>
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="gq-edit-photo-btn">
+                    <span class="btn-grey">{{ form_widget(form.userImage) }}</span>
+                    <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
+                </div>
+                <div class="ajax-profile-error" id="ajax-profile-error"></div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="row" id="profile_suc_msg">
+                <div class="gq-id-files-upload-success-text">
+                    <h2><img src="{{ asset('public/images/tick.png') }}">
+                    {{ flashMessage }}</h2>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div class="gq-change-profile-warning" id="change_pwd_error">
+                {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                <div class="gq-id-files-upload-error-text">
+                    <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                </div>
+               {% endfor %}
+            </div>
+            <div class="row" id="profile_suc_msg2"></div>
+        </div>        
+        
+        <div class="col-xs-12">
+            <div class="gq-dashboard-tabs">
+                <!-- Tabs start here -->
+                <div class="gq-dashboard-tabs-header gq-profile-tabs-header wid60p" id="gq-profile-tabs-headerid">
+                    <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
+                        <li id="personel-gq-tab" role="presentation" {% if tab == 'id-fields' %} {% else %} class="active" {% endif %} ><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal</a></li>
+                        <li id="address-gq-tab" role="presentation"><a href="#address" aria-controls="address" role="tab" data-toggle="tab">Address</a></li>
+                    </ul>
+                </div>
+                <!-- Tabs end start here -->
+                <!-- Content for respective tabs above will be in this section -->
+                <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data" />
+                <div class="tab-content">                    
+                    <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% else %}other{% endif %}">
+                    <input type='hidden' id='hdn-userId' name='hdn-userId' value="0">
+                    <input type='hidden' id='hdn-type' name='hdn-type' value="2"><!-- 0: edit profile, 1: edit user, 2: add user -->
+                    <input type="hidden" id="hdn-img" name="hdn-img" value="">
+                       
+                       {#{{ form_start(form) }}#}
+                        <div role="tabpanel" class="tab-pane {% if tab == 'id-fields' %} {% else %} active {% endif %}" id="personal">
+                            <div class="gq-form-personal wid60p">
+                                <div class="gq-form-row">
+                                    <label for="gq-first-name">{% if ('ROLE_RTO' in userRole) %} College Name {% else %} First Name {% endif %}</label>
+                                        {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">{% if ('ROLE_RTO' in userRole) %} Provider Code {% else %} Last Name {% endif %}</label>
+                                        {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-email-name">Email</label>
+                                        {{ form_widget(form.email) }}
+                                </div>
+                               {% if ('ROLE_APPLICANT' in userRole) %}
+                                <div class="gq-form-row">
+                                    <label class="pull-left" for="gq-personal-pwd">Gender</label>
+                                        {{ form_widget(form.gender) }}
+                                </div>
+                                {% endif %}
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">Phone</label>
+                                        {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
+                                </div>
+                                
+                               {% if ('ROLE_APPLICANT' in userRole) %}
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">Date Of Birth</label>
+                                        {{ form_widget(form.dateOfBirth, { 'attr':{'readonly':'readonly'} }) }}
+                                </div>
+                                <div class="gq-form-row USIrow">
+                                    <label for="gq-personal-pwd">USI</label>
+                                    <a href="http://www.usi.gov.au/create-your-USI/Pages/default.aspx" target="_blank">Don’t have one?<br/>Click here to create one</a>
+                                        {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                {% endif %}        
+                               {% if ('ROLE_RTO' in userRole) %}
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">Contact Person Name</label>
+                                        {{ form_widget(form.contactname,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">Contact Person Phone</label>
+                                        {{ form_widget(form.contactphone,{ 'attr': {'maxlength': '20'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">Contact Person Email</label>
+                                        {{ form_widget(form.contactemail,{ 'attr': {'maxlength': '50'} }) }}
+                                </div>
+                                
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">CEO Name</label>
+                                        {{ form_widget(form.ceoname,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">CEO Email</label>
+                                        {{ form_widget(form.ceoemail) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">CEO Phone</label>
+                                        {{ form_widget(form.ceophone,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                {% endif %}
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">Password</label>
+                                        {{ form_widget(form.newpassword,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-botton">
+                                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-default'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="address">
+                            <div class="gq-form-personal wid60p">
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">Street Number</label>
+                                        {{ form_widget(form.address.address,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">Street Name</label>
+                                        {{ form_widget(form.address.area,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">Suburb</label>
+                                        {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">City</label>
+                                        {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-email-name">State</label>
+                                        {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-email-name">Country</label>
+                                        {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-row">
+                                    <label for="gq-personal-pwd">Postcode</label>
+                                        {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="gq-form-botton">
+                                    <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default" onclick="return validateAddress();">Save</button>
+                                </div>
+
+                            </div>
+                        </div>
+                         {{ form_end(form) }}
+                    
+                   
+                </div>
+                <!--End of content for respective tabs above will be in this section -->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
+{#{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}#}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+        //$("#userprofile_dateOfBirth").datepicker();
+        $("#userprofile_dateOfBirth").datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: '0',
+        yearRange: '-100:+0',
+        changeMonth: true,
+        changeYear: true
+        });
+    });
+</script>
+{% endblock %}

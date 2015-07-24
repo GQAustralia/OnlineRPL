@@ -29,7 +29,7 @@ deleteIdFiles:
     path:     /deleteIdFiles
     defaults:  { _controller: GqAusUserBundle:User:deleteIdFiles }
 uploadProfilePic:
-    path:     /uploadProfilePic
+    path:     /uploadProfilePic/{userId}
     defaults: { _controller: GqAusUserBundle:User:uploadProfilePic }
 applicants:
     path:     /applicants
@@ -199,6 +199,19 @@ managemanagers:
 searchUsersList:
     path:     /searchUsersList
     defaults: { _controller: GqAusUserBundle:User:searchUsersList }
+deleteUser:
+    path:     /deleteUser
+    defaults: { _controller: GqAusUserBundle:User:deleteUser }
+editUser:
+    path:     /editUser/{uId}
+    defaults: { _controller: GqAusUserBundle:User:editUser }
+addUser:
+    path:     /addUser/{roleType}
+    defaults: { _controller: GqAusUserBundle:User:addUser }
+checkEmailExist:
+    path:     /checkEmailExist
+    defaults: { _controller: GqAusUserBundle:User:checkEmailExist }
 updateCourseStatus:
     path:     /updateCourseStatus
-    defaults: { _controller: GqAusUserBundle:Applicant:updateCourseStatus }
+    defaults: { _controller: GqAusUserBundle:Applicant:updateCourseStatus }  
+

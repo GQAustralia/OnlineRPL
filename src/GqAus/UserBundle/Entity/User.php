@@ -4,11 +4,12 @@ namespace GqAus\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * User
  */
-abstract class User implements UserInterface, \Serializable
+abstract class User implements UserInterface, \Serializable, AdvancedUserInterface
 {
    /**
      * @var string
@@ -61,15 +62,51 @@ abstract class User implements UserInterface, \Serializable
      * @var string
     */
     private $createdby;
+    
+    /**
+     * @var string
+    */
+    private $status;
+    
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        $this->isActive = true;
         $this->salt = md5(uniqid(null, true));
     }
+    
+     // ...
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
 
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        if ($this->status == 1) {
+            $this->isActive = true;
+        } else {
+            $this->isActive = false;
+        }
+        return $this->isActive;
+    }
     
     /**
      * Set email
@@ -1000,5 +1037,28 @@ abstract class User implements UserInterface, \Serializable
     public function getCreatedby()
     {
         return $this->createdby;
+    }
+    
+    /**
+     * Set status
+     *
+     * @param string $status
+     * @return User
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
