@@ -23,9 +23,12 @@ class ApplicantController extends Controller
         if (!empty($user) && isset($results['courseInfo']['id'])) {
             $applicantInfo = $userService->getApplicantInfo($user, $qcode);
             $role = $this->get('security.context')->getToken()->getUser()->getRoles();
-            if ($role[0] == \GqAus\UserBundle\Entity\Facilitator::ROLE_NAME) {
+            if ($role[0] == \GqAus\UserBundle\Entity\Facilitator::ROLE_NAME || $role[0] == \GqAus\UserBundle\Entity\Superadmin::ROLE_NAME || $role[0] == \GqAus\UserBundle\Entity\Manager::ROLE_NAME) {
                 $results['rtos'] = $userService->getUsers(\GqAus\UserBundle\Entity\Rto::ROLE);
                 $results['assessors'] = $userService->getUsers(\GqAus\UserBundle\Entity\Assessor::ROLE);
+                if ($role[0] == \GqAus\UserBundle\Entity\Superadmin::ROLE_NAME || $role[0] == \GqAus\UserBundle\Entity\Manager::ROLE_NAME) {
+                    $results['facilitators'] = $userService->getUsers(\GqAus\UserBundle\Entity\Facilitator::ROLE);
+                }
             }
             $results['electiveUnits'] = $coursesService->getElectiveUnits($uid, $qcode);
             $results['courseCode'] = $qcode;

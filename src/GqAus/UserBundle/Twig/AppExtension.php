@@ -16,10 +16,11 @@ class AppExtension extends \Twig_Extension {
     public function getFunctions() {
         return array(
             'completeness' => new \Twig_Function_Method($this, 'evidenceCompleteness'),
-            'timeRemaining' => new \Twig_Function_Method($this, 'getTimeRemaining')
+            'timeRemaining' => new \Twig_Function_Method($this, 'getTimeRemaining'),
+            'userAssignedQualifications' => new \Twig_Function_Method($this, 'getUserAssignedQualifications')
         );
     }
-
+    
     /**
      * @param userId $string
      * @param courseCode $string
@@ -40,7 +41,17 @@ class AppExtension extends \Twig_Extension {
         $result = $this->userService->getTimeRemaining($id);
         return $result;
     }
-
+    
+    /**
+     * @param userId $string
+     * @param courseCode $string
+     * @return array
+     */
+    public function getUserAssignedQualifications($userId, $userType)
+    {
+        return $this->userService->getUserAssignedQualifications($userId, $userType);
+    }
+    
     /**
      * {@inheritdoc}
      */

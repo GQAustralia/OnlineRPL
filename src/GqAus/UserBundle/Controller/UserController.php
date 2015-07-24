@@ -611,5 +611,5 @@ class UserController extends Controller
         $emailId = $this->getRequest()->get('emailId');
         echo $result = $this->get('UserService')->emailExist($emailId); exit;
     }
-
+    
 }

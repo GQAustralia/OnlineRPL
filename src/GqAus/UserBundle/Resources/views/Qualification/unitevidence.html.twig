@@ -14,7 +14,7 @@
                      {% if ('ROLE_APPLICANT' not in currentUserRole) %}
                     <li role="presentation"><a href="#unit-recording" aria-controls="unit-recording" role="tab" data-toggle="tab">Competency Recordings</a></li>
                     {% endif %}
-                    {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) %}
+                    {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_MANAGER' in currentUserRole) %}
                     <li role="presentation" id="{{ unitStatus.id }}"><a userId="{{ userId }}" courseCode="{{ course_code }}" href="#unit-emailcon" class="unit-emailcon" aria-controls="unit-emailcon" role="tab" data-toggle="tab">Email Conversation</a></li>
                     {% endif %}
                 </ul>
@@ -301,7 +301,7 @@
                             </div>
                         </div>
                     </div>
-                    {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) %}
+                    {% if ('ROLE_ASSESSOR' in currentUserRole) or ('ROLE_FACILITATOR' in currentUserRole) or ('ROLE_MANAGER' in currentUserRole) %}
                     <div role="tabpanel" class="tab-pane" id="unit-emailcon">
                         <div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
                             <div class="row">
