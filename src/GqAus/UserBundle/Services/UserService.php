@@ -529,8 +529,7 @@ class UserService
                         ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
                         /*->andWhere("c.courseStatus = '1'")*/
                         ->andWhere("c.assessorstatus = '1'");
-            }
-            else {
+            } else {
                 $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                         ->createQueryBuilder('c')
                         ->select("c, u")
