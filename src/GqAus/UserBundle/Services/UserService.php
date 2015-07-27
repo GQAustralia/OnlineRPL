@@ -1866,8 +1866,8 @@ class UserService
         }
         $userCourses = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array($fieldName => $userId));
         
-        $field =  '<div class="gq-applicant-list-notes-box">
-                        <select name="course_'.$userId.'" id="course_'.$userId.'" style="width:200px;">
+        $field =  '<div class="gq-applicant-filter-wrap-select">
+                        <select name="course_'.$userId.'" id="course_'.$userId.'" class="styled" style="width:200px;">
                             <option value="" selected="selected">Select Qualification</option>';
                             if (!empty($userCourses)) {
                                 foreach ($userCourses as $courses) {
@@ -1875,7 +1875,7 @@ class UserService
                                 }
                             }
         $field .=          '</select>
-                    </div>';
+                    </div><br/>';
         return $field; 
     }
     

@@ -15,12 +15,14 @@
     </div>
     
     <div class="pull-right">
-        <div class="user-status-msg"><h6 class="gq-assessor-title-download text-right"><a href ="javascript:void(0)"> Add New User </a></h6></div>
+        <!-- <div class="user-status-msg"><h6 class="gq-assessor-title-download text-right">af</h6></div> -->
+        <div class="user-status-msg gq-addnewuser"><a href ="javascript:void(0)"> Add New User </a>
         <div class="user-status-select">
             <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="gq-add-icon"></span></a>
+              <!-- <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <span class="gq-down-icon"></span>
-              </button>
+              </button> -->
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ app.request.baseUrl }}/addUser/2"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Facilitator</a></li>
                 <li class="divider"></li>
@@ -32,6 +34,7 @@
               </ul>
             </div>
         </div>
+        </div>
     </div>
     
     <div id="err_msg"></div>
@@ -41,7 +44,7 @@
                 <div class="gq-dashboard-courses-detail-wrap">
                     <div class="gq-dashboard-tabs margin-top15">
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 gq-app-aearch-grid">
+                                <div class="col-lg-6 col-md-5 col-sm-5 col-xs-12 gq-app-aearch-grid">
                                     <div class="gq-applicant-filter-wrap text-right">
                                         <label>Filter by: </label>
                                         <input name="searchName" id="searchName" type="text" value="" placeholder="Name"/>
@@ -49,10 +52,10 @@
                                         <div class="gq-filter-clear wid100p visible-xs"></div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
+                                <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12">
                                     <div class="gq-applicant-filter-wrap-select-remaining text-right">User Type</div>
                                 </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
                                     <div class="gq-applicant-filter-wrap-select">
                                         <select name="userType" id="userType" class="styled">
                                             <option value="">Both</option>
@@ -64,7 +67,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 no-padding">
+                                <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12 no-padding">
                                     <button id="searchUserFilter" class="btn eye-btn gq-reports-filter-btn">Filter</button>
                                 </div>
                             </div>
@@ -78,9 +81,9 @@
                                         <thead>
                                             <tr>        
                                                 <th width="25%"><span class="">Name</span></th>
-                                                <th width="25%" colspan="5"><span>Type</span></th>
-                                                <th width="25%" colspan="5"><span>Notes/Reminders</span></th>
-                                                <th width="25%" colspan="5"><span></span></th>
+                                                <th width="25%"><span>Type</span></th>
+                                                <th width="10%"><span>Notes/Reminders</span></th>
+                                                <th width="40%"><span></span></th>
                                             </tr>
                                         </thead>
                                         <tbody class="row" id="currentList">

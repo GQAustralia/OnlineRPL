@@ -1,7 +1,7 @@
 {% if applicantList %}
     {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
         <tr>
-            <td class="gq-pagination-area" colspan="2">
+            <td class="gq-pagination-area" colspan="4">
                 {# display navigation for pages - paginator_navigator #}        
                 {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
             </td>
@@ -11,11 +11,11 @@
     {% for key, list in applicantList %}
         <tr>        
             <td width="20%"><span class="">{{list.firstname}} {{list.lastname}}</span></td>
-            <td width="20%" colspan="5">{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% else %} Manager {% endif %}</td>
-            <td width="20%" colspan="5">
+            <td width="20%">{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% else %} Manager {% endif %}</td>
+            <td width="10%">
                 {% if list.getRole() != '5' %}
                 <div class="gq-acc-row-title gq-assessor-list-dropdown-wrap" id="div_{{list.id}}">
-                    <div class="gq-add-notes-icon-wrap setNotes" id="{{list.id}}">
+                    <div class="gq-add-notes-icon-wrap setNotes text-center" id="{{list.id}}">
                         <img src = "{{asset('public/images/applicant-list-add-notes-icon.png') }}" />
                     </div>
                     <div class="gq-assessor-list-dropdown">
@@ -36,8 +36,8 @@
                 </div>
                 {% endif %}
             </td>
-            <td width="40%" colspan="5"><span class="">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+            <td width="40%"><span class="">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding text-center">
                     <div class="gq-add-notes-icon-wrap icons"><a href="{{ app.request.baseUrl }}/editUser/{{list.id}}"><img src = "{{asset('public/images/user-edit.png') }}" /></a></div>
                     <div class="gq-add-notes-icon-wrap icons">
                     <a class="modalClass delUser" data-toggle="modal" data-target="#myModal" id="{{list.id}}" userRole = "{{list.getRole()}}">

@@ -47,21 +47,25 @@
                         </div>
                         <div class="pull-right">
                             <div class="user-status">
+                                {% set muser = app.session.get('muser') %}
+                                {% set suser = app.session.get('suser') %}
+                                {% if ( muser and (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles))) %} 
+                                <div class="pull-left gq-assessor-title-download gq-back-user">
+                                    <a href="{{ app.request.baseUrl }}/userLogin/{{muser}}"><span class="gq-assessor-title-back-icon"></span>&nbsp;Back to My User</a> &nbsp;|&nbsp; 
+                                </div>
+                                {% elseif ( suser and ('ROLE_MANAGER' in roles) ) %}
+                                <div class="pull-left gq-assessor-title-download gq-back-user">
+                                    <a href="{{ app.request.baseUrl }}/userLogin/{{suser}}"><span class="gq-assessor-title-back-icon"></span>&nbsp;Back to My User</a> &nbsp;|&nbsp;
+                                </div>
+                                {% endif %} 
                                 <!--<div class="notification-section"><span>12</span></div>-->
+                                <div class="gq-user">
                                 {% if app.security.getToken().getUser().getUserImage() %}
                                     <div class="user-icon" id="ajax-gq-profile-small-page-img" style="background-image: url(&quot;{{ asset('public/uploads/') }}{{ app.security.getToken().getUser().getUserImage() }}&quot;);"></div>
                                 {% else %}
                                     <div class="user-icon" id="ajax-gq-profile-small-page-img" style="background-image: url(&quot;{{ asset('public/images/profile-img.png') }}&quot;);"></div>
-                                 {% endif %}
-
-                                 {% set muser = app.session.get('muser') %}
-                                 {% set suser = app.session.get('suser') %}
-                                <div class="user-status-msg">
-                                {% if ( muser and (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles))) %} 
-                                 <a href="{{ app.request.baseUrl }}/userLogin/{{muser}}"><span class="gq-assessor-title-back-icon"></span>&nbsp;Back to My User</a> &nbsp;|&nbsp; 
-                                {% elseif ( suser and ('ROLE_MANAGER' in roles) ) %} 
-                                  <a href="{{ app.request.baseUrl }}/userLogin/{{suser}}"><span class="gq-assessor-title-back-icon"></span>&nbsp;Back to My User</a> &nbsp;|&nbsp; 
-                                {% endif %} 
+                                 {% endif %}                                 
+                                <div class="user-status-msg">                                
                                 {{ app.security.getToken().getUser().getUsername() | capitalize }} </div>
                                 <div class="user-status-select">
                                     <div class="btn-group">
@@ -74,6 +78,7 @@
                                         <li><a href="{{ app.request.baseUrl }}/logout"><span><img src="{{ asset('public/images/header-logout-icon.png') }}" /></span>Logout</a></li>
                                       </ul>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
