@@ -7,6 +7,10 @@ services:
 #    api.example:
 #        class: UserBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+    kernel.listener.GqAusCacheListener:
+        class: GqAus\UserBundle\EventListener\GqAusCacheListener
+        tags:
+        - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
     UserService:
         class: GqAus\UserBundle\Services\UserService
         arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer']
@@ -32,4 +36,4 @@ services:
         arguments: [@doctrine.orm.entity_manager]
     NotesService:
         class: GqAus\UserBundle\Services\NotesService
-        arguments: [@doctrine.orm.entity_manager, @service_container, @UserService]    
+        arguments: [@doctrine.orm.entity_manager, @service_container, @UserService]
