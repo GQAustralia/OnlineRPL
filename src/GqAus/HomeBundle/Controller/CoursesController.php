@@ -29,6 +29,7 @@ class CoursesController extends Controller
         $results['form'] = $form->createView();
         $assessmentForm = $this->createForm(new AssessmentForm(), array());
         $results['assessmentForm'] = $assessmentForm->createView();
+        $results['statusList'] = $this->get('UserService')->getqualificationStatus();
         return $this->render('GqAusHomeBundle:Courses:index.html.twig', $results);
     }
     
@@ -41,8 +42,8 @@ class CoursesController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $userCourses = $user->getCourses();
         $courseConditionStatus = $user->getCourseConditionStatus();
-        return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', array('userCourses' => $userCourses,
-                                                                        'courseConditionStatus' => $courseConditionStatus));
+        $statusList = $this->get('UserService')->getqualificationStatus();
+        return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', array('userCourses' => $userCourses, 'courseConditionStatus' => $courseConditionStatus, 'statusList' => $statusList ));
     }
     
     /**

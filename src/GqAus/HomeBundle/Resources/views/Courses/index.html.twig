@@ -20,6 +20,10 @@
             <div class="gq-dashboard-box-1x"> <!-- class "gq-dashboard-bg-img3" added for background image -->
                 <div class="gq-course-details-title-wrap">
                     <div class="gq-dashboard-box-title">{% if courseInfo.name %}{{courseInfo.id}} {{courseInfo.name}} {% endif %}</div>
+                    <div class="gq-dashboard-courses-status-txt">
+                        <img src="{{ asset('public/images/status.png') }}" />&nbsp;{{ statusList[courseDetails.courseStatus()]['status'] }} 
+                    </div>
+                    <div style="clear:both;"></div>
                 </div>
                 <div class="gq-dashboard-box-content">{% if courseInfo.details %} {{ courseInfo.details |raw('html') }} {% endif %}
                 </div>

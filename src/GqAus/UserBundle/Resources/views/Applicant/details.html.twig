@@ -14,6 +14,7 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
 <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
     <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="courseStatusMsg"></div>
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
             <h1 class="gq-dashboard-title">Applicant Details</h1>
             <h6 class="gq-dashboard-title-desc"></h6>
@@ -29,6 +30,34 @@
             <div class="gq-dashboard-box-1x"> <!-- class "gq-dashboard-bg-img3" added for background image -->
                 <div class="gq-course-details-title-wrap">
                     <div class="gq-dashboard-box-title">{% if courseInfo.name %} {{courseInfo.id}} {{courseInfo.name}} {% endif %}</div>
+                    {% if ('ROLE_ASSESSOR' in userRole and assessorstatus != 1) or ('ROLE_FACILITATOR' in userRole and courseStatus != 0) %}
+                     <div class="gq-dashboard-courses-status-txt gq-dashboard-courses-status">
+                         <label>Status &nbsp;</label>
+                            <input type="hidden" name="csCourseCode" id="csCourseCode" readonly="true" value="{{courseInfo.id}}" />
+                            <input type="hidden" name="csUserId" id="csUserId" readonly="true" value="{{userId}}" />
+                            <div class="gq-applicant-filter-wrap-select">
+                                <select name="courseStatus" id="courseStatus" class="styled">
+                                    <option value="">Select Status</option>
+                                     {% if (statusList is defined) %}
+                                     {% set roleAcess = 'Factive' %}
+                                     {% if ('ROLE_ASSESSOR' in userRole) %}
+                                         {% set roleAcess = 'Aactive' %}
+                                     {% endif %}
+                                     {% for statusId, statusData in statusList %}
+                                         <option value="{{statusId}}"
+                                         {% if courseStatus == statusId %} {{ "selected" }} {% else %} {{ "" }} {% endif %}
+                                         {% if statusData[roleAcess] == 0 %} {{ "disabled" }} {% else %} {{ "" }} {% endif %}        
+                                         > {{statusData['status']}}</option>
+                                     {% endfor %}
+                                     {% endif %}    
+                                </select>
+                            </div>
+                     </div>
+                    {% else %}
+                    <div id="courseStatusCodeName" class="gq-dashboard-courses-status-txt">
+                        <img src="{{ asset('public/images/status.png') }}" />&nbsp;{{ statusList[courseStatus]['status'] }}
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="gq-dashboard-box-content gq-assessor-appl-details">
                     <div class="row">
@@ -56,9 +85,9 @@
                                     {% if ('ROLE_RTO' in userRole) %}
                                         {% if (rtostatus == '1') %}
                                             <div id="approve_section">
-                                                {% if (courseStatus == '2') %}
+                                                {% if ( courseStatus == '15') %}
                                                 <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green approve-for-certification-btn">Issue Certificate</button>
-                                                {% elseif (courseStatus == '0') %}
+                                                {% elseif ( courseStatus == '0') %}
                                                 <span>Issued and Certified!</span>
                                                 {% endif %}
                                             </div>
@@ -70,7 +99,7 @@
 
                                     {% if ('ROLE_FACILITATOR' in userRole) %}
                                         {% if (assessorstatus == '1') %}
-                                            <div id="approve_section">
+                                            <!--<div id="approve_section">
                                                 {% if (courseStatus == '1') %}
                                                 <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-rto" class="btn btn-green">Submit Portfolio</button>
                                                 {% elseif (courseStatus == '2') %}
@@ -78,10 +107,10 @@
                                                 {% elseif (courseStatus == '0') %}
                                                 <span>Issued and Certified!</span>
                                                 {% endif %}
-                                            </div>
+                                            </div>-->
                                         {% else %}
                                             <!--<a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Submit Portfolio</button></a>-->
-                                            <button class="btn btn-disabled" id="disabled-btn">Submit Portfolio</button>
+                                            <!--<button class="btn btn-disabled" id="disabled-btn">Submit Portfolio</button>-->
                                         {% endif %}
                                     {% endif %}
                                     <center id="approve_loader_fac_ajax" style="display:none"><span><img src="{{ asset('public/images')}}/loading.gif" /></span></center>

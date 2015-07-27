@@ -78,6 +78,44 @@ $(function() {
             }
         });
     });
+    
+    // to send the notifications and mail when the status is changed
+    $("#courseStatus").change(function(){        
+        var userId = $("#csUserId").val();
+        var courseCode = $("#csCourseCode").val();
+        var courseStatus = $("#courseStatus").val();
+        if (courseStatus !== "") {
+            $.ajax({
+                type: "POST",
+                url: base_url + "updateCourseStatus",
+                data: {courseStatus: courseStatus, courseCode: courseCode, userId: userId},
+                success: function(result) {
+                    $("#courseStatusMsg").show();
+                    switch(result) {
+                        case '1': 
+                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Status updated successfully!</h2></div>').delay(3000).fadeOut(100); 
+                        break;
+                        case '2':
+                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please approve all the units before approving the qualification.</h2></div>').delay(3000).fadeOut(100); 
+                        break;
+                        case '3':
+                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Assessor and Rto has not yet approved the qualification.</h2></div>').delay(3000).fadeOut(100); 
+                        break;
+                        case '4':
+                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Assessor has not yet approved the qualification.</h2></div>').delay(3000).fadeOut(100); 
+                        break;
+                        case '0':
+                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error in updating status</h2></div>').delay(3000).fadeOut(100);
+                        break;
+                    }                    
+                }
+            });
+      } else {
+          $("#courseStatusMsg").show();
+          $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please select status</h2></div>').delay(3000).fadeOut(100);
+
+      }
+    });
 });
 
 $("#view_terms").click(function() {
@@ -144,7 +182,7 @@ $(".fromBottom").click(function() {
     $('.gq-dashboard-tabs').show();
     $('#gq-dashboard-tabs-success').hide();
     $('#file_save').show();
-    $('#frmAddEvidence')[0].reset();
+    //$('#frmAddEvidence')[0].reset();
     //$('#frmSelectEvidence')[0].reset();
 
     var c = $('#select-from-evidence-tab').hasClass("active");
@@ -1430,6 +1468,7 @@ $("#approve-for-certification, #approve-for-certification-ajax").click(function(
             $("#approve_sectionajax").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Certificate issued successfully!</h2></div>').delay(3000).fadeOut(100);
             $("#approve_section-status").show();
             $("#status_arc").show();
+            $("#courseStatusCodeName").html('<img src="' + base_url + 'public/images/status.png">Certificate Received By GQ');
         }
     });
 });
