@@ -36,6 +36,7 @@
                             <input type="hidden" name="csCourseCode" id="csCourseCode" readonly="true" value="{{courseInfo.id}}" />
                             <input type="hidden" name="csUserId" id="csUserId" readonly="true" value="{{userId}}" />
                             <div class="gq-applicant-filter-wrap-select">
+                                <input id="currentCourseStatus" type="hidden" value="{{courseStatus}}" readonly="true" />
                                 <select name="courseStatus" id="courseStatus" class="styled">
                                     <option value="">Select Status</option>
                                      {% if (statusList is defined) %}
