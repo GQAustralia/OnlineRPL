@@ -58,7 +58,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
                                     <div class="gq-applicant-filter-wrap-select">
                                         <select name="userType" id="userType" class="styled">
-                                            <option value="">Both</option>
+                                            <option value="">{% if ('ROLE_SUPERADMIN' in userRole) %} All {% else %} Both {% endif %}</option>
                                             <option value="2">Facilitator</option>
                                             <option value="3">Assessor</option>
                                             {% if ('ROLE_SUPERADMIN' in userRole) %}
