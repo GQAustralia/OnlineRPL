@@ -778,13 +778,12 @@ $(".setData").click(function() {
             success: function(result) {
                 $('#err_msg').show();
                 resetDateTimePicker(listId);
-                $('#course_'+listId).change(function(){
-                    $('#course_'+listId).prop('selectedIndex','');
-                    $('#course_'+listId).val('');
-                });
+               
                 $('#course_'+listId+' option').prop('selected', function() {
                     return this.defaultSelected;
                 });
+				$('#selectcourse_'+ listId).html('Select Qualification');
+				
                 $('#div_' + listId).removeClass('open');
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
             }
@@ -1527,7 +1526,7 @@ $(".changeUsers").click(function() {
         async: false,
         data: {courseId: courseId, roleid: roleid, roleuserId: roleuserId},
         success: function(result) {
-            res = JSON.parse(result); alert(roleid);
+            res = JSON.parse(result);
             if(roleid == 2) {
                 $(".gq-facilitator-select-name").html(roleuserIdarr[1]);
                 $(".facilitator-change").children(".setUsers").trigger("click");
@@ -1802,6 +1801,11 @@ function resetDateTimePicker(rmid) {
     $('#remindDate_'+ rmid).datetimepicker("setDate", timeZoneDT );
     $('#notes_' + rmid).val('').attr("placeholder", "Notes");
     $('#remindDate_' + rmid).val('').attr("placeholder", "Due Date");
+	
+	$('#course_'+rmid+' option').prop('selected', function() {
+		return this.defaultSelected;
+	});
+	$('#selectcourse_'+ rmid).html('Select Qualification');
 }
 
 $(".unit-notes").click(function() {
