@@ -47,6 +47,10 @@
             </span></td>
         </tr>
         {% endfor %}
+{% else %}
+		<tr>
+			<td colspan="12" align="center">No Profiles Found</td>
+		</tr>
 {% endif %}
 
 {% if pageRequest == 'ajax' %}

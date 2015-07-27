@@ -1527,7 +1527,7 @@ $(".changeUsers").click(function() {
         async: false,
         data: {courseId: courseId, roleid: roleid, roleuserId: roleuserId},
         success: function(result) {
-            res = JSON.parse(result); alert(roleid);
+            res = JSON.parse(result);
             if(roleid == 2) {
                 $(".gq-facilitator-select-name").html(roleuserIdarr[1]);
                 $(".facilitator-change").children(".setUsers").trigger("click");
