@@ -479,7 +479,7 @@ class UserService
         }
         
         if (!empty($filterByStatus)) {
-            
+            $res->andWhere('c.courseStatus = :filterByStatus')->setParameter('filterByStatus', $filterByStatus);
         }
         $res->orderBy('c.id', 'DESC');
         /* Pagination */
