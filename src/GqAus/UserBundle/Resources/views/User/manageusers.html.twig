@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}GQ - RPL Manage Users{% endblock %}
+{% block title %}GQ - RPL Manage Profiles{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('public/css/timepicker.css') }}" />
 {% endblock %}
@@ -9,7 +9,7 @@
 <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-            <h1 class="gq-dashboard-title">Manage Users</h1>
+            <h1 class="gq-dashboard-title">Manage Profiles</h1>
             <h6 class="gq-dashboard-title-desc"></h6>
         </div>
     </div>
@@ -58,7 +58,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
                                     <div class="gq-applicant-filter-wrap-select">
                                         <select name="userType" id="userType" class="styled">
-                                            <option value="">Both</option>
+                                            <option value="">{% if ('ROLE_SUPERADMIN' in userRole) %} All {% else %} Both {% endif %}</option>
                                             <option value="2">Facilitator</option>
                                             <option value="3">Assessor</option>
                                             {% if ('ROLE_SUPERADMIN' in userRole) %}
@@ -72,14 +72,14 @@
                                 </div>
                             </div>
                         <div class="tab-content">
-                            <div id="ajaxHtml" style="display:none" tdcolspan="6" tdrtocolspan="3" >
+                            <div id="ajaxHtml" style="display:none" tdcolspan="12" tdrtocolspan="3" >
                                 <img src="{{ asset('public/images')}}/loading.gif" />
                             </div>
                             <div role="tabpanel" >
                                 <div class="table-responsive gq-applicant-list-table margin-top15">
                                     <table class="table">
                                         <thead>
-                                            <tr>        
+                                            <tr>
                                                 <th width="25%"><span class="">Name</span></th>
                                                 <th width="25%"><span>Type</span></th>
                                                 <th width="10%"><span>Notes/Reminders</span></th>
@@ -106,7 +106,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
-                <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected user ?</h4>
+                <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected profile ?</h4>
             </div>
             <div class="modal-footer">
                 <a class="btn btn-white deleteUser">Ok</a>
