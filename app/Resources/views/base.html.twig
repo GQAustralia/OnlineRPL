@@ -150,23 +150,27 @@
     <script src="{{ asset('public/js/daterangepicker.js') }}"></script>
       
     <script>
-        onloadCount();
+    onloadCount();
     $(document).ready(function(){
     if( $(window).width() > 768 ) {
            setInterval(function(){SetHeight()}, 100);
        }
-        var showOrHide = true; 
+        //var showOrHide = true; 
+        var showOrHide = checkCookie(); 
         $("#gq-menu-icon-desk").click(function() {
-              showOrHide = !showOrHide;
-              if ( showOrHide === true ) {
-               $(".left-nav-txt").show();
-               $(".gq-dashboard-left-nav li a").animate({height:'92px'});
-              } else if ( showOrHide === false ) {
-               $(".left-nav-txt").hide();
-               $(".gq-dashboard-left-nav li a").animate({height:'54px'});
+               if ( showOrHide === 'true' || showOrHide === true ) {
+                   $(".left-nav-txt").hide();
+                   $(".gq-dashboard-left-nav li a").animate({height:'54px'});
+                   showOrHide = false;
+              } else if ( showOrHide === 'false' || showOrHide === false ) {
+                   $(".left-nav-txt").show();
+                   $(".gq-dashboard-left-nav li a").animate({height:'92px'});
+                   showOrHide = true;
               }
               $('.gq-dashboard-left').toggleClass('gq-dashboard-left-width');
               $('.gq-dashboard-right').toggleClass('gq-dashboard-right-width');
+              
+              setCookie("menuType", showOrHide);
          });
         
         // function for toggle menu in mobile layout
@@ -189,6 +193,41 @@
         var RightHeight = $('html').height();
         //$('.gq-dashboard-right').height(RightHeight - 66);                
         $('.gq-dashboard-right').css("min-height",RightHeight);
+    }
+    // function to save the menu type in cookie
+    function setCookie(cname, cvalue, exdays) {
+        document.cookie = cname + "=" + cvalue;
+    }
+    // function to get the menu type from cookie
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+        return "";
+    }
+    // function to check whether the cookie is created or not 
+    function checkCookie() {
+        var menuType = getCookie("menuType");
+        if (menuType != "") {                   
+            var menuVal = menuType;
+        } else {
+          var menuVal = true;
+        }        
+        loadMenuType(menuVal);
+        return menuVal;
+    }
+    // function to check and load if collapased menu select on page load
+    function loadMenuType(menuVal){
+        if ( menuVal === 'false' || menuVal === false ) {           
+            $(".left-nav-txt").hide();
+            $(".gq-dashboard-left-nav li a").animate({height:'54px'});
+            $('.gq-dashboard-left').toggleClass('gq-dashboard-left-width');
+            $('.gq-dashboard-right').toggleClass('gq-dashboard-right-width');
+        }        
     }
     </script>
 
