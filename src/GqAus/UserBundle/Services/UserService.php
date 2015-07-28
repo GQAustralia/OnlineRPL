@@ -1983,6 +1983,7 @@ class UserService
                 $mailerInfo['to'] = $toEmail;
                 $mailerInfo['inbox'] = $toId;
                 $mailerInfo['message'] = $mailMessage;
+                $mailerInfo['body'] = $mailMessage;
                 $mailerInfo['fromEmail'] = $sentEmail;
                 $mailerInfo['fromUserName'] = $sentUserName;
                 $this->sendExternalEmail($mailerInfo);
@@ -1993,6 +1994,7 @@ class UserService
             $mailerInfo['to'] = $courseObj->getUser()->getEmail();
             $mailerInfo['inbox'] = $courseObj->getUser()->getId();
             $mailerInfo['message'] = $mailMessageApplicant;
+            $mailerInfo['body'] = $mailMessageApplicant;
             $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
             $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
             $this->sendExternalEmail($mailerInfo);
