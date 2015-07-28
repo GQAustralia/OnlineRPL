@@ -778,12 +778,10 @@ $(".setData").click(function() {
             success: function(result) {
                 $('#err_msg').show();
                 resetDateTimePicker(listId);
-               
                 $('#course_'+listId+' option').prop('selected', function() {
                     return this.defaultSelected;
                 });
-				$('#selectcourse_'+ listId).html('Select Qualification');
-				
+                $('#selectcourse_'+ listId).html('Select Qualification');
                 $('#div_' + listId).removeClass('open');
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
             }
@@ -1143,16 +1141,24 @@ $(".date-icon").click(function() {
 
 function uncheckSpecificCB(chkid)
 {
-    if($("#chk-" + chkid).parent().parent().parent().hasClass("gq-msg-selected"))
+    if($("#chk-" + chkid).parent().parent().parent().hasClass("gq-msg-selected")) {
         $("#chk-" + chkid).parent().parent().parent().removeClass("gq-msg-selected");
-    else
+    } else {
         $("#chk-" + chkid).parent().parent().parent().addClass("gq-msg-selected");
+    }
     $("#main-chk-id").removeClass("checked");
     document.getElementById("chk-main-all").checked = false;
-    if ($("#chk-" + chkid).prev().hasClass("checked"))
+    if ($("#chk-" + chkid).prev().hasClass("checked")) {
         $("#chk-" + chkid).prev().removeClass("checked");
-    else
+    } else {
         $("#chk-" + chkid).prev().addClass("checked");
+    }
+    var allcheckboxids = getAllCheckBoxes();
+    var checkedids = getCheckedBoxes();
+    if (allcheckboxids.length == checkedids.length) {
+        $("#main-chk-id").addClass("checked");
+        document.getElementById("chk-main-all").checked = true;
+    }
 }
 
 
@@ -1801,11 +1807,11 @@ function resetDateTimePicker(rmid) {
     $('#remindDate_'+ rmid).datetimepicker("setDate", timeZoneDT );
     $('#notes_' + rmid).val('').attr("placeholder", "Notes");
     $('#remindDate_' + rmid).val('').attr("placeholder", "Due Date");
-	
-	$('#course_'+rmid+' option').prop('selected', function() {
-		return this.defaultSelected;
-	});
-	$('#selectcourse_'+ rmid).html('Select Qualification');
+    
+    $('#course_'+rmid+' option').prop('selected', function() {
+        return this.defaultSelected;
+    });
+    $('#selectcourse_'+ rmid).html('Select Qualification');
 }
 
 $(".unit-notes").click(function() {
