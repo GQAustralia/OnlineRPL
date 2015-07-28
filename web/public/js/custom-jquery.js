@@ -80,7 +80,7 @@ $(function() {
     });
     
     // to send the notifications and mail when the status is changed
-    $("#courseStatus").change(function(){        
+    $("#courseStatus").change(function(){
         var userId = $("#csUserId").val();
         var courseCode = $("#csCourseCode").val();
         var courseStatus = $("#courseStatus").val();
@@ -107,7 +107,14 @@ $(function() {
                         case '0':
                         $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error in updating status</h2></div>').delay(3000).fadeOut(100);
                         break;
-                    }                    
+                    }
+                    if(result == '1'){
+                      $("#currentCourseStatus").val(courseStatus);  
+                    } else {
+                      $("#courseStatus").val($("#currentCourseStatus").val());
+                      $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
+                      
+                    }
                 }
             });
       } else {
