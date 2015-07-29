@@ -449,6 +449,14 @@ class UserService
                 $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
             }
         }
+        
+        if ($userType == 'manager' || $userType == 'superadmin') {
+            if ( $status == 1 ) {
+                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');//approved
+            } else {
+                $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
+            }
+        }
 
         /* if (!empty($searchName)) {
           $res->andWhere(sprintf('u.%s LIKE :%s OR u.%s LIKE :%s', 'firstName', 'firstName', 'lastName', 'lastName'))
@@ -1559,16 +1567,17 @@ class UserService
      */
     public function applicantsCount($userId, $userTypeStatus, $status)
     {
-        $query = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                        ->createQueryBuilder('c')
-                        ->select("c, u")
-                        ->join('c.user', 'u')
-                        ->where(sprintf('c.%s = :%s', $userTypeStatus, $userTypeStatus))->setParameter($userTypeStatus, $status);
-        if ( !empty($userId) ) {
-            //$query->andWhere(sprintf('u.%s = :%s', 'createdby', 'createdby'))->setParameter('createdby', $userId);
+        $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('c');
+        if ($userTypeStatus == 'facilitatorstatus') {
+            $qb->where(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
+        } elseif ($userTypeStatus == 'assessorstatus') {
+            $avals = array('2', '10', '11', '12', '13', '14');
+            $qb->where('c.courseStatus IN (:ids)')->setParameter('ids', $avals);
+        } elseif ($userTypeStatus == 'rtostatus') {
+            $qb->where(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '15');
         }
-        $results = $query->getQuery()->getResult();
-        return count($results);
+        $getCourseStatus = $qb->getQuery()->getResult();
+        return count($getCourseStatus);
     }
     
     /**
