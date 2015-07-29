@@ -3,7 +3,7 @@
 {% if applicantList %}
     {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
     <tr>
-        <td class="gq-pagination-area" {% if ('ROLE_FACILITATOR' in userRole) %} colspan="5" {% else %} colspan="6" {% endif %}>
+        <td class="gq-pagination-area" {% if ('ROLE_FACILITATOR' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %}>
             {# display navigation for pages - paginator_navigator #}
             {{ include('GqAusUserBundle:Paginator:ajax_rep_paginator_navigator.html.twig', {'paginator' : paginator}) }}
         </td>
