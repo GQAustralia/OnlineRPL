@@ -1249,7 +1249,11 @@ class UserService
         $tokenExpiry = $request->get('tokenexpiry');
         $tokenStatus = $request->get('tokenstatus');
         $courseConditionStatus = $request->get('courseconditionstatus');
-
+        $ceoname = $request->get('ceoname');
+        $ceoemail = $request->get('ceoemail');
+        $ceophone = $request->get('ceophone');
+        $createdby = $request->get('createdby');
+        $status = $request->get('status');
 
         $user->setFirstName(isset($firstName) ? $firstName : '');
         $user->setLastName(isset($lastName) ? $lastName : '');
@@ -1264,6 +1268,11 @@ class UserService
         $user->setTokenExpiry(isset($tokenExpiry) ? $tokenExpiry : '');
         $user->setTokenStatus(isset($tokenStatus) ? $tokenStatus : 1);
         $user->setCourseConditionStatus(isset($courseConditionStatus) ? $courseConditionStatus : 0);
+        $user->setCeoname(isset($ceoname) ? $ceoname : '');
+        $user->setCeoemail(isset($ceoemail) ? $ceoemail : '');
+        $user->setCeophone(isset($ceophone) ? $ceophone : '');
+        $user->setCreatedby(isset($createdby) ? $createdby : '');
+        $user->setStatus(isset($status) ? $status : 1);
         $this->em->persist($user);
         $this->em->flush();
 
