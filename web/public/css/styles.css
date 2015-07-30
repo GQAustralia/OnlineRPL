@@ -463,7 +463,7 @@ a.btn-red {color:#ffffff;}
 /* Course Details page
 -------------------------------------------------------------*/
 .gq-course-details-title-wrap {width:100%; border-bottom:1px solid #e9e9e9; min-height:48px; display:block; overflow: hidden;}
-.gq-course-details-title-wrap .gq-dashboard-box-title{padding:7px 15px; font-size:22px; color:#5e5e5e;float:left;width:74%; border-right: 1px solid #ddd;}
+.gq-course-details-title-wrap .gq-dashboard-box-title{padding:7px 15px; font-size:22px; color:#5e5e5e;float:left;width:74%; border-right: 1px solid #ddd; min-height:48px;}
 .gq-course-details-title-wrap .gq-dashboard-courses-status-txt{float:right;padding:12px 15px; /*border-left:1px solid #dddddd;*/}
 .gq-dashboard-box-content {padding:15px; font-size:16px; color:#5e5e5e;}
 .gq-course-details-header-title {font-size:18px;/* color:#2f3741;*/ color:#e01010; line-height:32px;}
@@ -676,7 +676,7 @@ a.btn-red {color:#ffffff;}
 .gq-reports-filter.gq-applicant-filter-wrap {width:416px;}
 .gq-reports-filter.gq-applicant-filter-wrap input[type="text"]{width:160px; color:#c6c6c6;}
 .gq-reports-filter.gq-applicant-filter-wrap label {margin-right:0; color:#303b41;}
-.gq-reports-date-picker.gq-applicant-filter-wrap label, .gq-applicant-filter-wrap-select-remaining.gq-reports-status {color:#999999; text-align:right;}
+.gq-reports-date-picker.gq-applicant-filter-wrap label, .gq-applicant-filter-wrap-select-remaining.gq-reports-status {color:#303b41; text-align:right;}
 .gq-reports-date-picker.gq-applicant-filter-wrap .reportsDate {color:#c6c6c6;}
 .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange{height:40px; border-color:#e7ecef !important; padding-top:9px !important;}
 .gq-reports-filter-btn { margin-top: 6px; padding: 0 20px; }
@@ -798,8 +798,8 @@ input:invalid {box-shadow:none !important;}
 #applicantEStatus form {min-width:216px; float:left;}
 #applicantEStatus form #gq-msg-success{padding-right:5px;}
 #applicantEStatus form #start_conversation{margin-top:20px;}*/
-.gq-dashboard-courses-status-txt.gq-dashboard-courses-status{padding: 0px 15px;}
-.gq-dashboard-courses-status label{line-height: 40px;}
+.gq-dashboard-courses-status-txt.gq-dashboard-courses-status{padding: 0px 10px;}
+.gq-dashboard-courses-status label{line-height: 40px; font-weight: normal; font-size:16px; margin-top:3px; color:#303b41;}
 .gq-dashboard-courses-status .gq-applicant-filter-wrap-select{ position: relative; width: 200px; float: right; margin: 4px 0px;}
 .gq-dashboard-courses-status .gq-applicant-filter-wrap-select .select{padding: 0px; right: 0px; padding: 0 40px 0 10px;}
 
