@@ -800,6 +800,7 @@ function onloadCount()
 {
     $.ajax({
         url: base_url + "unread",
+        cache: false,
         success: function(result) {
             if (result > 0) {
                 $("#unread-count").html('<span class="gq-ms-counter">' + result + '<span>');
