@@ -84,13 +84,14 @@ $(function() {
         var userId = $("#csUserId").val();
         var courseCode = $("#csCourseCode").val();
         var courseStatus = $("#courseStatus").val();
+        $("#courseStatusMsg").show();
+        $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/loading.gif"></div>');
         if (courseStatus !== "") {
             $.ajax({
                 type: "POST",
                 url: base_url + "updateCourseStatus",
                 data: {courseStatus: courseStatus, courseCode: courseCode, userId: userId},
                 success: function(result) {
-                    $("#courseStatusMsg").show();
                     switch(result) {
                         case '1': 
                         $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Status updated successfully!</h2></div>').delay(3000).fadeOut(100); 
@@ -118,7 +119,6 @@ $(function() {
                 }
             });
       } else {
-          $("#courseStatusMsg").show();
           $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please select status</h2></div>').delay(3000).fadeOut(100);
 
       }
