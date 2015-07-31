@@ -606,7 +606,7 @@ class UserService
               ->setParameter('courseName', '%'.$searchQualification.'%'); */
         }
         if (!empty($startDate)) {
-            $res->andWhere("c.createdOn between '" . $startDate . "' and '" . $endDate . "'");
+            $res->andWhere("c.createdOn BETWEEN '" . $startDate . " 00:00:00' and '" . $endDate . " 00:00:00'");
         }
         $res->orderBy('c.id', 'DESC');
         /* Pagination */
@@ -614,7 +614,7 @@ class UserService
         $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
         /* Pagination */
 
-        //$applicantList = $res->getQuery(); var_dump($applicantList); exit;
+        //$applicantList = $res->getQuery(); var_dump($applicantList); exit; $query->getQuery()->getSQL();exit;
         $applicantList = $res->getQuery()->getResult();
         return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
     }
