@@ -1235,70 +1235,43 @@ class UserService
 
     public function saveApplicantData($request)
     {
-        $user = new Applicant();
-        $firstName = $request->get('firstname');
-        $lastName = $request->get('lastname');
-        $email = $request->get('email');
-        $password = $request->get('password');
-        $phone = $request->get('phone');
-        $dateofbirth = $request->get('dateofbirth');
-        $gender = $request->get('gender');
-        $studentId = $request->get('studentId');
-        $userImage = $request->get('userimage');
-        $pwdToken = $request->get('pwdtoken');
-        $tokenExpiry = $request->get('tokenexpiry');
-        $tokenStatus = $request->get('tokenstatus');
-        $courseConditionStatus = $request->get('courseconditionstatus');
-        $ceoname = $request->get('ceoname');
-        $ceoemail = $request->get('ceoemail');
-        $ceophone = $request->get('ceophone');
-        $createdby = $request->get('createdby');
-        $status = $request->get('status');
+        $data['firstname'] = $request->get('firstname');
+        $data['lastname'] = $request->get('lastname');
+        $data['email'] = $request->get('email');
+        $data['newpassword'] = $request->get('password');
+        $data['phone'] = $request->get('phone');
+        $data['dateofbirth'] = $request->get('dateofbirth');
+        $data['gender'] = $request->get('gender');
+        $data['studentId'] = $request->get('studentId');
+        $data['userImage'] = $request->get('userimage');
+        $data['pwdToken'] = $request->get('pwdtoken');
+        $data['tokenExpiry'] = $request->get('tokenexpiry');
+        $data['tokenStatus'] = $request->get('tokenstatus');
+        $data['courseConditionStatus'] = $request->get('courseconditionstatus');
+        $data['ceoname'] = $request->get('ceoname');
+        $data['ceoemail'] = $request->get('ceoemail');
+        $data['ceophone'] = $request->get('ceophone');
+        $data['createdby'] = $request->get('createdby');
+        $data['status'] = $request->get('status');
+        $data['address']['address'] = $request->get('address');
+        $data['address']['pincode'] = $request->get('pincode');
+        $user = $this->addPersonalProfile('ROLE_APPLICANT', $data);
 
-        $user->setFirstName(isset($firstName) ? $firstName : '');
-        $user->setLastName(isset($lastName) ? $lastName : '');
-        $user->setEmail(isset($email) ? $email : '');
-        $user->setPassword(isset($password) ? $password : '$2y$10$u9fhYXfZ/CHlGKrudvi3LO0Ap4yx6hIJjQZZ32DAK8C06iaLzu2Ue');
-        $user->setPhone(isset($phone) ? $phone : '');
-        $user->setDateOfBirth(isset($dateofbirth) ? $dateofbirth : '');
-        $user->setGender(isset($gender) ? $gender : '');
-        $user->setUniversalStudentIdentifier(isset($studentId) ? $studentId : '');
-        $user->setUserImage(isset($userImage) ? $userImage : '');
-        $user->setPasswordToken(isset($pwdToken) ? $pwdToken : '');
-        $user->setTokenExpiry(isset($tokenExpiry) ? $tokenExpiry : '');
-        $user->setTokenStatus(isset($tokenStatus) ? $tokenStatus : 1);
-        $user->setCourseConditionStatus(isset($courseConditionStatus) ? $courseConditionStatus : 0);
-        $user->setCeoname(isset($ceoname) ? $ceoname : '');
-        $user->setCeoemail(isset($ceoemail) ? $ceoemail : '');
-        $user->setCeophone(isset($ceophone) ? $ceophone : '');
-        $user->setCreatedby(isset($createdby) ? $createdby : '');
-        $user->setStatus(isset($status) ? $status : 1);
-        $this->em->persist($user);
-        $this->em->flush();
-
-
-        $address = $request->get('address');
-        $pincode = $request->get('pincode');
-        $addressObj = new UserAddress();
-        $addressObj->setUser($user);
-        $addressObj->setAddress(isset($address) ? $address : '');
-        $addressObj->setPincode(isset($pincode) ? $pincode : '');
-        $this->em->persist($addressObj);
-        $this->em->flush();
-
-        $userObj = $this->repository->find($user->getId());
-        $userObj->setAddress($addressObj);
-        $this->em->flush();
-
-        $courseCode = $request->get('coursecode');
-        $courseName = $request->get('coursename');
-        $courseStatus = $request->get('coursestatus');
-        $targetDate = $request->get('targetdate');
+        $courseData['courseCode'] = $request->get('coursecode');
+        $courseData['courseName'] = $request->get('coursename');
+        $courseData['courseStatus'] = $request->get('coursestatus');
+        $courseData['targetDate'] = $request->get('targetdate');
+        $this->addUserCourse($courseData, $user);
+        echo 'success'; exit;
+    }
+    
+    public function addUserCourse($courseData, $user)
+    {
         $userCoursesObj = new UserCourses();
         $userCoursesObj->setUser($user);
-        $userCoursesObj->setCourseCode(isset($courseCode) ? $courseCode : '');
-        $userCoursesObj->setCourseName(isset($courseName) ? $courseName : '');
-        $userCoursesObj->setCourseStatus(isset($courseStatus) ? $courseStatus : '');
+        $userCoursesObj->setCourseCode(isset($courseData['courseCode']) ? $courseData['courseCode'] : '');
+        $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
+        $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : '');
         $userCoursesObj->setCreatedOn(time());
         $userCoursesObj->setFacilitator($user);
         $userCoursesObj->setAssessor($user);
@@ -1306,14 +1279,9 @@ class UserService
         $userCoursesObj->setFacilitatorstatus(0);
         $userCoursesObj->setAssessorstatus(0);
         $userCoursesObj->setRtostatus(0);
-        $userCoursesObj->setTargetDate(isset($setTargetDate) ? $setTargetDate : '');
-
+        $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : '');
         $this->em->persist($userCoursesObj);
         $this->em->flush();
-
-
-        echo $user->getId() . '<br/>' . $addressObj->getId() . '<br/>' . $userCoursesObj->getId();
-        exit;
     }
 
     /*
@@ -1811,7 +1779,7 @@ class UserService
     /**
      * Function to add user profile
      */
-    public function addPersonalProfile($role, $data, $image)
+    public function addPersonalProfile($role, $data, $image = null)
     {
         if ($role == 'ROLE_ASSESSOR') {
             $userObj = new \GqAus\UserBundle\Entity\Assessor();
@@ -1819,33 +1787,40 @@ class UserService
             $userObj = new \GqAus\UserBundle\Entity\Facilitator();
         } elseif ($role == 'ROLE_MANAGER') {
             $userObj = new \GqAus\UserBundle\Entity\Manager();
+        } elseif ($role == 'ROLE_APPLICANT') {
+            $userObj = new \GqAus\UserBundle\Entity\Applicant();
+        } else {
+            $userObj = new \GqAus\UserBundle\Entity\Applicant();
         }
-        
-        $userObj->setFirstName($data['firstname']);
-        $userObj->setLastName($data['lastname']);
-        $userObj->setEmail($data['email']);
-        $userObj->setPhone($data['phone']);
+        if (!empty($image)) {
+            $data['userImage'] = $image;
+         }
+        $userObj->setFirstName(isset($data['firstname']) ? $data['firstname'] : '');
+        $userObj->setLastName(isset($data['lastname']) ? $data['lastname'] : '');
+        $userObj->setEmail(isset($data['email']) ? $data['email'] : '');
+        $userObj->setPhone(isset($data['phone']) ? $data['phone'] : '');
         $password = password_hash($data['newpassword'], PASSWORD_BCRYPT);
         $userObj->setPassword($password);
-        $userObj->setTokenStatus('1');
-        $userObj->setUserImage(isset($image) ? $image : '');
-        $userObj->setPasswordToken(isset($pwdToken) ? $pwdToken : '');
-        $userObj->setTokenExpiry(isset($tokenExpiry) ? $tokenExpiry : '');
-        $userObj->setCourseConditionStatus(isset($courseConditionStatus) ? $courseConditionStatus : 0);
-        $userObj->setDateOfBirth(isset($dateofbirth) ? $dateofbirth : '');
+        $userObj->setTokenStatus(isset($data['tokenStatus']) ? $data['tokenStatus'] : 1);
+        $userObj->setUserImage(isset($data['userImage']) ? $data['userImage'] : '');
+        $userObj->setPasswordToken(isset($data['pwdToken']) ? $data['pwdToken'] : '');
+        $userObj->setTokenExpiry(isset($data['tokenExpiry']) ? $data['tokenExpiry'] : '');
+        $userObj->setCourseConditionStatus(isset($data['courseConditionStatus']) ? $data['courseConditionStatus'] : 0);
+        $userObj->setDateOfBirth(isset($data['dateofbirth']) ? $data['dateofbirth'] : '');
         $userObj->setGender(isset($data['gender']) ? $data['gender'] : '');
-        $userObj->setUniversalStudentIdentifier('');
-        $userObj->setCeoname('');
-        $userObj->setCeoemail('');
-        $userObj->setCeophone('');
-        $userObj->setCreatedby('');
-        $userObj->setStatus('1');
+        $userObj->setUniversalStudentIdentifier(isset($data['studentId']) ? $data['studentId'] : '');
+        $userObj->setCeoname(isset($data['ceoname']) ? $data['ceoname'] : '');
+        $userObj->setCeoemail(isset($data['ceoemail']) ? $data['ceoemail'] : '');
+        $userObj->setCeophone(isset($data['ceophone']) ? $data['ceophone'] : '');
+        $userObj->setCreatedby(isset($data['createdby']) ? $data['createdby'] : '');
+        $userObj->setStatus(isset($data['status']) ? $data['status'] : '1');
         $this->em->persist($userObj);
         $this->em->flush();
         $userId = $userObj->getId();
         if (!empty($userId)) {
             $this->saveUserAddress($data['address'], $userObj);
         }
+        return $userObj;
     }
     
     /**
@@ -1855,13 +1830,13 @@ class UserService
     {
         $userAddressObj = new \GqAus\UserBundle\Entity\UserAddress();
         $userAddressObj->setUser($userObj);
-        $userAddressObj->setAddress($data['address']);
-        $userAddressObj->setArea($data['area']);
-        $userAddressObj->setSuburb($data['suburb']);
-        $userAddressObj->setCity($data['city']);
-        $userAddressObj->setState($data['state']);
-        $userAddressObj->setCountry($data['country']);
-        $userAddressObj->setPincode($data['pincode']);
+        $userAddressObj->setAddress(isset($data['address']) ? $data['address'] : '');
+        $userAddressObj->setArea(isset($data['area']) ? $data['area'] : '');
+        $userAddressObj->setSuburb(isset($data['suburb']) ? $data['suburb'] : '');
+        $userAddressObj->setCity(isset($data['city']) ? $data['city'] : '');
+        $userAddressObj->setState(isset($data['state']) ? $data['state'] : '');
+        $userAddressObj->setCountry(isset($data['country']) ? $data['country'] : '');
+        $userAddressObj->setPincode(isset($data['pincode']) ? $data['pincode'] : '');
         $this->em->persist($userAddressObj);
         $this->em->flush();
     }
