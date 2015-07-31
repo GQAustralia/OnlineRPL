@@ -119,11 +119,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-5 col-md-4 col-sm-8 col-xs-12 no-padding details">
+                        <div class="col-lg-10 col-md-8 col-sm-8 col-xs-12 no-padding gq-assessor-appl-profile-details-right">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 no-padding details">
                             <div class="gq-assessor-appl-profile-details-col wid100p">
-                                <div class="gq-assessor-appl-details-points gq-assessor-rto-title label-width no-padding last">
+                                <div class="gq-assessor-appl-details-points label-width no-padding last wid100p pull-left">
+                                    <div class="gq-assessor-rto-title {% if ('ROLE_FACILITATOR' in userRole) %}gq-assessor-rto-title-edit{% endif %}">
                                     <label class="gq-assessor-points-title">ID Points</label>
                                     <span class="">: {{currentIdPoints}}</span>
+                                    </div>
                                     {% if ('ROLE_FACILITATOR' in userRole) %}
                                         <div class="gq-accessor-points-tooltip">
                                            <a href="{{ base_url }}viewUserIdFiles/{{userId}}"><img src="{{ asset('public/images/eye-icon.png') }}" alt="view"/></a>
@@ -144,7 +147,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-5 col-md-4 col-sm-12 col-xs-12 no-padding details">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 no-padding details">
                             <div class="gq-assessor-appl-profile-details-col wid100p">
                                 <div class="gq-assessor-appl-profile-details">                                    
                                 {% if ('ROLE_RTO' in userRole) %}
@@ -155,13 +158,15 @@
                                         </div>
                                     </div>
                                     <div class="gq-assessor-appl-details-points pull-right">
-                                        <div class="gq-assessor-rto-title">
+                                        <div class="gq-assessor-rto-title gq-assessor-rto-title-edit">
                                             <label>Assessor</label>
                                             <span>: {{assessorName}}</span>
                                         </div>
+                                        <div id="div_32" class="gq-assessor-name-edit assessor-change">
                                         <div class="gq-assessor-rto-edit-icon">
                                             <a href="{{ base_url }}assessorProfile/{{assessorId}}"><img src="{{ asset('public/images/eye-icon.png') }}" alt="Edit"/></a>
                                         </div>
+                                        </div>    
                                     </div>
                                 {% endif %}
 
@@ -169,7 +174,7 @@
                                 
                                     {% if ('ROLE_MANAGER' in userRole) %}
                                     <div class="gq-assessor-appl-details-points pull-right">
-                                        <div class="gq-assessor-rto-title">
+                                        <div class="gq-assessor-rto-title gq-assessor-rto-title-edit">
                                             <label>Facilitator</label>
                                             <span class="gq-facilitator-select-name">: {{facilitatorName}}</span>
                                         </div>
@@ -201,7 +206,7 @@
                                     {% endif %}
                                     
                                     <div class="gq-assessor-appl-details-points pull-right {% if ('ROLE_MANAGER' in userRole) %} border-top {% endif %}">
-                                        <div class="gq-assessor-rto-title">
+                                        <div class="gq-assessor-rto-title gq-assessor-rto-title-edit">
                                             <label>Assessor</label>
                                             <span class="gq-assessor-select-name">: {{assessorName}}</span>
                                         </div>
@@ -232,7 +237,7 @@
                                     </div>
                                     
                                     <div class="gq-assessor-appl-details-points pull-right border-top">
-                                        <div class="gq-assessor-rto-title">
+                                        <div class="gq-assessor-rto-title gq-assessor-rto-title-edit">
                                             <label>RTO</label>
                                             <span class="gq-rto-select-name">: {{rtoName}} </span>
                                             <span class="gq-assessor-list-dropdown-wrap" >
@@ -305,6 +310,7 @@
                                 </div>
                             </div>
                         </div>
+                        </div>    
                     </div>
                 </div>
                 <span class="flip-icon"></span>
