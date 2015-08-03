@@ -91,27 +91,17 @@ $(function() {
                 type: "POST",
                 url: base_url + "updateCourseStatus",
                 data: {courseStatus: courseStatus, courseCode: courseCode, userId: userId},
-                success: function(result) {
-                    switch(result) {
-                        case '1': 
-                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Status updated successfully!</h2></div>').delay(3000).fadeOut(100); 
-                        break;
-                        case '2':
-                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please approve all the units before approving the qualification.</h2></div>').delay(3000).fadeOut(100); 
-                        break;
-                        case '3':
-                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Assessor and Rto has not yet approved the qualification.</h2></div>').delay(3000).fadeOut(100); 
-                        break;
-                        case '4':
-                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Assessor has not yet approved the qualification.</h2></div>').delay(3000).fadeOut(100); 
-                        break;
-                        case '0':
-                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error in updating status</h2></div>').delay(3000).fadeOut(100);
-                        break;
-                    }
-                    if(result == '1'){
+                success: function(responseText) {
+                    var result = jQuery.parseJSON(responseText);
+                    if(result.type == 'Error' ) {
+                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100);   
+                    } else if (result.type == 'Success') {
+                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100); 
+                    }   
+                    
+                    if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
-                    } else {
+                    } else if(result.code != '5') {
                       $("#courseStatus").val($("#currentCourseStatus").val());
                       $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
                       

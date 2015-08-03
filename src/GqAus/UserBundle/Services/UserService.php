@@ -24,11 +24,16 @@ class UserService
      * @var Object
      */
     private $mailer;
+    
+    /**
+     * @var Object
+     */
+    private $guzzleService;
 
     /**
      * Constructor
      */
-    public function __construct($em, $container, $mailer)
+    public function __construct($em, $container, $mailer, $guzzleService)
     {
         $this->em = $em;
         $session = $container->get('session');
@@ -37,6 +42,7 @@ class UserService
         $this->currentUser = $this->getCurrentUser();
         $this->mailer = $mailer;
         $this->container = $container;
+        $this->guzzleService = $guzzleService;
     }
 
     public function getCurrentUser()
@@ -1877,7 +1883,7 @@ class UserService
      */
     public function updateCourseStatus($courseStatus, $courseCode, $applicantId, $userRole)
     {
-        $message = '';
+        $response = array();
         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
             'user' => $applicantId));
         if (!empty($courseObj)) {
@@ -1897,7 +1903,11 @@ class UserService
                     // checking whether the all units of this qualification has been approved or not
                     $unitsApproval = $this->checkAssessorAllUnitsApproved($courseObj);
                     if( $unitsApproval == 2 ) { // if any unit pending approvals or any disapproved unit
-                      return $unitsApproval; 
+                      //return $unitsApproval;
+                      $response['type'] = 'Error';
+                      $response['code'] = 2;
+                      $response['msg'] = 'Please approve all the units before approving the qualification.';
+                      return $response;
                     }
                     
                    $courseObj->setAssessorstatus('1');
@@ -1924,7 +1934,11 @@ class UserService
                 else if ($courseStatus == 15) {  // if the facilitator submits the portfolio to rto                
                     // checking whether the assessor and rto approved the qualification or not
                     if($courseObj->getAssessorstatus() != 1) {
-                        return 4;
+                        //return 4;
+                        $response['type'] = 'Error';
+                        $response['code'] = 4;
+                        $response['msg'] = 'Assessor has not yet approved the qualification.';
+                        return $response;
                     }
                     $courseObj->setFacilitatorstatus('1');
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
@@ -1941,7 +1955,11 @@ class UserService
                 else if ($courseStatus == 0) {  // if the facilitator issue the certificate                 
                     // checking whether the assessor and rto approved the qualification or not
                     if($courseObj->getAssessorstatus() != 1 && $courseObj->getRtostatus() != 1) {
-                        return 3;
+                        //return 3;
+                        $response['type'] = 'Error';
+                        $response['code'] = 3;
+                        $response['msg'] = 'Assessor and Rto has not yet approved the qualification.';
+                        return $response;
                     }
                     
                    $mailSubject = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
@@ -1979,8 +1997,8 @@ class UserService
                 $mailerInfo['body'] = $mailMessage;
                 $mailerInfo['fromEmail'] = $sentEmail;
                 $mailerInfo['fromUserName'] = $sentUserName;
-                $this->sendExternalEmail($mailerInfo);
-                $this->sendMessagesInbox($mailerInfo);
+                //$this->sendExternalEmail($mailerInfo);
+                //$this->sendMessagesInbox($mailerInfo);
             }
             
             $mailerInfo['sent'] = $courseObj->getFacilitator()->getId();
@@ -1990,14 +2008,29 @@ class UserService
             $mailerInfo['body'] = $mailMessageApplicant;
             $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
             $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
-            $this->sendExternalEmail($mailerInfo);
-            $this->sendMessagesInbox($mailerInfo);
-            $message = 1;
+            //$this->sendExternalEmail($mailerInfo);
+            //$this->sendMessagesInbox($mailerInfo);
+            
+             // update the zoho api status
+            $zohoId = '696292000010172044';
+            $zohoUpdateResponse = $this->updateZohoAPIStatus($zohoId, $statusList[$courseStatus]["status"]);
+            if($zohoUpdateResponse != "Success"){
+                $response['type'] = 'Error';
+                $response['code'] = 5;
+                $response['msg'] = $zohoUpdateResponse;
+                return $response;
+            }
+            
+            $response['type'] = 'Success';
+            $response['code'] = 1;
+            $response['msg'] = 'Status updated successfully.';
            
         } else {
-            $message = 0;
+            $response['type'] = 'Error';
+            $response['code'] = 0;
+            $response['msg'] = 'Error in updating status.';
         }
-        return $message;
+        return $response;
     }
     
     
@@ -2047,6 +2080,48 @@ class UserService
             $assessorApproval = 1;                    
         }
         return $assessorApproval;        
+    }
+    
+    /**
+     * Function to update qualification status in zoho crom
+     */
+    public function updateZohoAPIStatus($zohoId, $updatedStatus)
+    {
+        $return = '';
+        $fields_string = array('authtoken' => '7e32feeb048bdb5c679968c201833920', 'scope' => 'crmapi', 'id' => $zohoId, 'xmlData' => '<Potentials><row no="1"><FL val="Portfolio Stage">'.$updatedStatus.'</FL></row></Potentials>');
+        $request = $this->guzzleService->post('https://crm.zoho.com/crm/private/xml/Potentials/updateRecords', '', $fields_string);
+        $response = $request->send();
+        $result = $response->xml();   
+        $responseData = json_decode(json_encode((array) $result), 1);
+        if(array_key_exists('error', $responseData)) {
+            $return = $responseData['error']['message'];
+        } else {
+           $return = 'Success'; 
+        }
+        /*
+        $fields_string = array('authtoken' => '7e32feeb048bdb5c679968c201833920', 'scope' => 'crmapi', 'id' => '696292000010172044', 'xmlData' => '<Potentials><row no="1"><FL val="Portfolio Stage">'.$updatedStatus.'</FL></row></Potentials>');
+        $url = "https://crm.zoho.com/crm/private/xml/Potentials/updateRecords";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+        $result = curl_exec($ch);
+        if(curl_exec($ch) === false)
+        {
+            $return = 'Curl error: ' . curl_error($ch);
+        }
+        else
+        {
+            $return = 'Success';
+        }
+        curl_close($ch);*/
+        
+        return $return;        
     }
     
 }

@@ -4,7 +4,7 @@ services:
 #        arguments: [@service_id, "plain_value", %parameter%]
     UserService:
         class: GqAus\UserBundle\Services\UserService
-        arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer']
+        arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService']
     CoursesService:
         class: GqAus\HomeBundle\Services\CoursesService
         arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService']
