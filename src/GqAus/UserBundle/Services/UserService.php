@@ -1239,6 +1239,9 @@ class UserService
         }
     }
 
+    /**
+     * Function to save applicant data
+     */
     public function saveApplicantData($request)
     {
         $data['firstname'] = $request->get('firstname');
@@ -1261,33 +1264,76 @@ class UserService
         $data['status'] = $request->get('status');
         $data['address']['address'] = $request->get('address');
         $data['address']['pincode'] = $request->get('pincode');
-        $user = $this->addPersonalProfile('ROLE_APPLICANT', $data);
-
-        $courseData['courseCode'] = $request->get('coursecode');
-        $courseData['courseName'] = $request->get('coursename');
-        $courseData['courseStatus'] = $request->get('coursestatus');
-        $courseData['targetDate'] = $request->get('targetdate');
-        $this->addUserCourse($courseData, $user);
-        echo 'success'; exit;
+        $message = '';
+        $user = $this->checkEmailExist($data['email']);
+        if (empty($data['firstname']) || empty($data['lastname']) || empty($data['email'])) {
+            if (empty($data['firstname'])) {
+                $message = 'First Name cannot be empty!';
+            } elseif (empty($data['lastname'])) {
+                $message = 'Last Name name cannot be empty!';
+            } elseif (empty($data['email'])) {
+                $message = 'Email cannot be empty!';
+            }
+        } else {
+            if (!empty($data['email']) && count($user) <= 0) {
+                $user = $this->addPersonalProfile('ROLE_APPLICANT', $data);
+                $message = 'User added successfully!';
+            } else {
+                $message = 'This User already exist!';
+            }
+            $courseData['courseCode'] = $request->get('coursecode');
+            $courseData['courseName'] = $request->get('coursename');
+            $courseData['courseStatus'] = $request->get('coursestatus');
+            $courseData['targetDate'] = $request->get('targetdate');
+            if (!empty($courseData['courseCode']) || !empty($courseData['courseName'])) {
+                $message = $this->addUserCourse($courseData, $user);
+            }
+        }
+        echo $message; exit;
     }
     
+    /**
+     * Function to add user course
+     */
     public function addUserCourse($courseData, $user)
     {
-        $userCoursesObj = new UserCourses();
-        $userCoursesObj->setUser($user);
-        $userCoursesObj->setCourseCode(isset($courseData['courseCode']) ? $courseData['courseCode'] : '');
-        $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
-        $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : '');
-        $userCoursesObj->setCreatedOn(time());
-        $userCoursesObj->setFacilitator($user);
-        $userCoursesObj->setAssessor($user);
-        $userCoursesObj->setRto($user);
-        $userCoursesObj->setFacilitatorstatus(0);
-        $userCoursesObj->setAssessorstatus(0);
-        $userCoursesObj->setRtostatus(0);
-        $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : '');
-        $this->em->persist($userCoursesObj);
-        $this->em->flush();
+        if (empty($courseData['courseCode'])) {
+            $message = 'Please enter course code!';
+        } elseif (empty($courseData['courseName'])) {
+            $message = 'Please enter course name!';
+        } else {
+            $courseExist = $this->checkUserCourseExist($courseData['courseCode'], $user->getId());
+            if ($courseExist <= 0) {
+                $userCoursesObj = new UserCourses();
+                $userCoursesObj->setUser($user);
+                $userCoursesObj->setCourseCode(isset($courseData['courseCode']) ? $courseData['courseCode'] : '');
+                $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
+                $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : '');
+                $userCoursesObj->setCreatedOn(time());
+                $userCoursesObj->setFacilitator($user);
+                $userCoursesObj->setAssessor($user);
+                $userCoursesObj->setRto($user);
+                $userCoursesObj->setFacilitatorstatus(0);
+                $userCoursesObj->setAssessorstatus(0);
+                $userCoursesObj->setRtostatus(0);
+                $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : '');
+                $this->em->persist($userCoursesObj);
+                $this->em->flush();
+                $message = 'Qualification: '.$courseData['courseCode'].' for this user added successfully!';
+            } else {
+                $message = 'Qualification: '.$courseData['courseCode'].' for this user already exist!';
+            }
+        }
+        return $message;
+    }
+    
+    /**
+     * Function to check User Course Exist
+     */
+    public function checkUserCourseExist($courseCode, $userId) {
+         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
+            'user' => $userId));
+        return count($courseObj);
     }
 
     /*
@@ -1800,12 +1846,14 @@ class UserService
         }
         if (!empty($image)) {
             $data['userImage'] = $image;
-         }
+        }
+        $uniqid = uniqid();
         $userObj->setFirstName(isset($data['firstname']) ? $data['firstname'] : '');
         $userObj->setLastName(isset($data['lastname']) ? $data['lastname'] : '');
         $userObj->setEmail(isset($data['email']) ? $data['email'] : '');
         $userObj->setPhone(isset($data['phone']) ? $data['phone'] : '');
-        $password = password_hash($data['newpassword'], PASSWORD_BCRYPT);
+        $userPassword = isset($data['newpassword']) ? $data['newpassword'] : $uniqid;
+        $password = password_hash($userPassword, PASSWORD_BCRYPT);
         $userObj->setPassword($password);
         $userObj->setTokenStatus(isset($data['tokenStatus']) ? $data['tokenStatus'] : 1);
         $userObj->setUserImage(isset($data['userImage']) ? $data['userImage'] : '');
@@ -1825,6 +1873,14 @@ class UserService
         $userId = $userObj->getId();
         if (!empty($userId)) {
             $this->saveUserAddress($data['address'], $userObj);
+
+            $mailerInfo = array();
+            $mailerInfo['to'] = $data['email'];
+            $mailerInfo['subject'] = 'Account created for GQ Australia';
+            $applicationUrl = $this->container->getParameter('applicationUrl');
+            $mailerInfo['body'] = "Dear " . $data['firstname'] . " " . $data['lastname'] . ",<br/><br/> Account has been created for GQ Australia! <br/> You can use the following link to login <a href='" . $applicationUrl. "'>Click Here </a> <br/>with Password: ".$userPassword."<br/>
+            <br/><br/> Regards, <br/> OnlineRPL";            
+            $this->sendExternalEmail($mailerInfo);
         }
         return $userObj;
     }
@@ -1848,11 +1904,20 @@ class UserService
     }
     
     /**
+     * Function to check email exist
+     */
+    public function checkEmailExist($emailId)
+    {
+        $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('email' => $emailId, 'status' => 1));
+        return $user;
+    }
+    
+    /**
      * Function check emailId exist
      */
     public function emailExist($emailId)
     {
-        $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('email' => $emailId));
+        $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('email' => $emailId, 'status' => 1));
         return count($user);
     }
     
