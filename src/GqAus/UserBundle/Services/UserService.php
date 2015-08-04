@@ -1244,6 +1244,7 @@ class UserService
      */
     public function saveApplicantData($request)
     {
+        $uniqid = uniqid();
         $data['firstname'] = $request->get('firstname');
         $data['lastname'] = $request->get('lastname');
         $data['email'] = $request->get('email');
@@ -1264,7 +1265,10 @@ class UserService
         $data['status'] = $request->get('status');
         $data['address']['address'] = $request->get('address');
         $data['address']['pincode'] = $request->get('pincode');
+        $data['newpassword'] = isset($data['newpassword']) ? $data['newpassword'] : $uniqid;
+        $mailerInfo = array();
         $message = '';
+        $emailFlag = ''; $emailCourseFlag = '';
         $user = $this->checkEmailExist($data['email']);
         if (empty($data['firstname']) || empty($data['lastname']) || empty($data['email'])) {
             if (empty($data['firstname'])) {
@@ -1278,6 +1282,7 @@ class UserService
             if (!empty($data['email']) && count($user) <= 0) {
                 $user = $this->addPersonalProfile('ROLE_APPLICANT', $data);
                 $message = 'User added successfully!';
+                $emailFlag = 'U';
             } else {
                 $message = 'This User already exist!';
             }
@@ -1286,8 +1291,29 @@ class UserService
             $courseData['courseStatus'] = $request->get('coursestatus');
             $courseData['targetDate'] = $request->get('targetdate');
             if (!empty($courseData['courseCode']) || !empty($courseData['courseName'])) {
-                $message = $this->addUserCourse($courseData, $user);
+                $res = $this->addUserCourse($courseData, $user);
+                $message = $res['message'];
+                $emailCourseFlag = $res['emailFlag'];
             }
+        }
+        if (!empty($emailFlag) || !empty($emailCourseFlag)) {
+            $mailerInfo['to'] = $data['email'];
+            if ($emailFlag == 'U') {
+                $mailerInfo['subject'] = 'Account created for GQ Australia';
+            } elseif ($emailCourseFlag == 'Q') {
+                $mailerInfo['subject'] = 'Qualification: '.$courseData['courseCode']. ' is been Added';
+            } 
+            $applicationUrl = $this->container->getParameter('applicationUrl');
+            $body = "Dear " . $data['firstname'] . " " . $data['lastname'] . ",<br/><br/> ";
+            if ($emailFlag == 'U') {
+                $body .= "Account has been created for GQ Australia! <br/> You can use the following link to login <a href='" . $applicationUrl. "'>Click Here </a> <br/>with Email: ".$data['email']."<br/> Password: ".$data['newpassword']."<br/>";
+            }
+            if ($emailCourseFlag == 'Q') {
+                $body .= "<br> Qualification: ". $courseData['courseCode'] ." is been Added<br/>";
+            }
+            $body .= "<br/><br/> Regards, <br/> OnlineRPL";
+            $mailerInfo['body'] = $body;
+            $this->sendExternalEmail($mailerInfo);
         }
         echo $message; exit;
     }
@@ -1297,6 +1323,7 @@ class UserService
      */
     public function addUserCourse($courseData, $user)
     {
+        $emailFlag = '';
         if (empty($courseData['courseCode'])) {
             $message = 'Please enter course code!';
         } elseif (empty($courseData['courseName'])) {
@@ -1320,11 +1347,12 @@ class UserService
                 $this->em->persist($userCoursesObj);
                 $this->em->flush();
                 $message = 'Qualification: '.$courseData['courseCode'].' for this user added successfully!';
+                $emailFlag = 'Q';
             } else {
                 $message = 'Qualification: '.$courseData['courseCode'].' for this user already exist!';
             }
         }
-        return $message;
+        return compact('message', 'emailFlag');
     }
     
     /**
@@ -1847,13 +1875,11 @@ class UserService
         if (!empty($image)) {
             $data['userImage'] = $image;
         }
-        $uniqid = uniqid();
         $userObj->setFirstName(isset($data['firstname']) ? $data['firstname'] : '');
         $userObj->setLastName(isset($data['lastname']) ? $data['lastname'] : '');
         $userObj->setEmail(isset($data['email']) ? $data['email'] : '');
         $userObj->setPhone(isset($data['phone']) ? $data['phone'] : '');
-        $userPassword = isset($data['newpassword']) ? $data['newpassword'] : $uniqid;
-        $password = password_hash($userPassword, PASSWORD_BCRYPT);
+        $password = password_hash($data['newpassword'], PASSWORD_BCRYPT);
         $userObj->setPassword($password);
         $userObj->setTokenStatus(isset($data['tokenStatus']) ? $data['tokenStatus'] : 1);
         $userObj->setUserImage(isset($data['userImage']) ? $data['userImage'] : '');
@@ -1873,14 +1899,6 @@ class UserService
         $userId = $userObj->getId();
         if (!empty($userId)) {
             $this->saveUserAddress($data['address'], $userObj);
-
-            $mailerInfo = array();
-            $mailerInfo['to'] = $data['email'];
-            $mailerInfo['subject'] = 'Account created for GQ Australia';
-            $applicationUrl = $this->container->getParameter('applicationUrl');
-            $mailerInfo['body'] = "Dear " . $data['firstname'] . " " . $data['lastname'] . ",<br/><br/> Account has been created for GQ Australia! <br/> You can use the following link to login <a href='" . $applicationUrl. "'>Click Here </a> <br/>with Password: ".$userPassword."<br/>
-            <br/><br/> Regards, <br/> OnlineRPL";            
-            $this->sendExternalEmail($mailerInfo);
         }
         return $userObj;
     }
