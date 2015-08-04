@@ -2108,8 +2108,8 @@ class UserService
                 $mailerInfo['body'] = $mailMessage;
                 $mailerInfo['fromEmail'] = $sentEmail;
                 $mailerInfo['fromUserName'] = $sentUserName;
-                //$this->sendExternalEmail($mailerInfo);
-                //$this->sendMessagesInbox($mailerInfo);
+                $this->sendExternalEmail($mailerInfo);
+                $this->sendMessagesInbox($mailerInfo);
             }
             
             $mailerInfo['sent'] = $courseObj->getFacilitator()->getId();
@@ -2119,8 +2119,8 @@ class UserService
             $mailerInfo['body'] = $mailMessageApplicant;
             $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
             $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
-            //$this->sendExternalEmail($mailerInfo);
-            //$this->sendMessagesInbox($mailerInfo);
+            $this->sendExternalEmail($mailerInfo);
+            $this->sendMessagesInbox($mailerInfo);
             
              // update the zoho api status
             $zohoId = '696292000010172044';
