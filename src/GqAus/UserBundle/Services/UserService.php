@@ -1331,6 +1331,9 @@ class UserService
             $message = 'Please enter course name!';
         } else {
             $courseExist = $this->checkUserCourseExist($courseData['courseCode'], $user->getId());
+            $facilitatorRoleUser = $this->getUserIDByRole(2);
+            $assessorRoleUser = $this->getUserIDByRole(3);
+            $rtoRoleUser = $this->getUserIDByRole(4);
             if ($courseExist <= 0) {
                 $userCoursesObj = new UserCourses();
                 $userCoursesObj->setUser($user);
@@ -1339,9 +1342,9 @@ class UserService
                 $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : '');
                 $userCoursesObj->setZohoId(isset($courseData['zohoId']) ? $courseData['zohoId'] : '');
                 $userCoursesObj->setCreatedOn(time());
-                $userCoursesObj->setFacilitator($user);
-                $userCoursesObj->setAssessor($user);
-                $userCoursesObj->setRto($user);
+                $userCoursesObj->setFacilitator(isset($facilitatorRoleUser) ? $facilitatorRoleUser : '');
+                $userCoursesObj->setAssessor(isset($assessorRoleUser) ? $assessorRoleUser : '');
+                $userCoursesObj->setRto(isset($rtoRoleUser) ? $rtoRoleUser : '');
                 $userCoursesObj->setFacilitatorstatus(0);
                 $userCoursesObj->setAssessorstatus(0);
                 $userCoursesObj->setRtostatus(0);
@@ -1929,6 +1932,29 @@ class UserService
     public function checkEmailExist($emailId)
     {
         $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('email' => $emailId, 'status' => 1));
+        return $user;
+    }
+    
+    
+    /**
+     * Function to get User id By Role
+     */
+    public function getUserIDByRole($type)
+    {
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare("SELECT id, firstname, lastname, roletype, CONCAT(firstname, ' ', lastname) as username FROM user WHERE (roletype = :role) AND status = 1");
+        if ($type == 2) {
+            $statement->bindValue('role', \GqAus\UserBundle\Entity\Facilitator::ROLE);
+        } elseif ($type == 3) {
+            $statement->bindValue('role', \GqAus\UserBundle\Entity\Assessor::ROLE);
+        } elseif ($type == 4) {
+            $statement->bindValue('role', \GqAus\UserBundle\Entity\Rto::ROLE);
+        }
+        $statement->execute();
+        $users = $statement->fetch();
+        if (!empty($users)) {
+            $user = $this->em->getRepository('GqAusUserBundle:User')->find($users['id']);
+        }
         return $user;
     }
     
