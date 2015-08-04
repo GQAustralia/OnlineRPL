@@ -1302,7 +1302,7 @@ class UserService
                 $mailerInfo['subject'] = 'Account created for GQ Australia';
             } elseif ($emailCourseFlag == 'Q') {
                 $mailerInfo['subject'] = 'Qualification: '.$courseData['courseCode']. ' is been Added';
-            } 
+            }
             $applicationUrl = $this->container->getParameter('applicationUrl');
             $body = "Dear " . $data['firstname'] . " " . $data['lastname'] . ",<br/><br/> ";
             if ($emailFlag == 'U') {
@@ -1336,6 +1336,7 @@ class UserService
                 $userCoursesObj->setCourseCode(isset($courseData['courseCode']) ? $courseData['courseCode'] : '');
                 $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
                 $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : '');
+                $userCoursesObj->setZohoId(isset($courseData['setZohoId']) ? $courseData['setZohoId'] : '');
                 $userCoursesObj->setCreatedOn(time());
                 $userCoursesObj->setFacilitator($user);
                 $userCoursesObj->setAssessor($user);
