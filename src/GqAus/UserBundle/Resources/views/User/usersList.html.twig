@@ -66,6 +66,10 @@
             $('#div_' + id).removeClass('open');
         }
     });
+    $(".delUser").click(function() {
+        deluserId = this.id;
+        delUserRole = $(this).attr("userRole");
+    });
 </script>
     {% endblock %}
 {% endif %}

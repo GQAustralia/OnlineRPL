@@ -13,6 +13,11 @@ class UserCourses
      * @var string
      */
     private $courseCode;
+    
+    /**
+     * @var string
+     */
+    private $zohoId;
 
     /**
      * @var string
@@ -548,5 +553,28 @@ class UserCourses
     public function getRtoDate()
     {
         return $this->rtoDate;
+    }
+    
+    /**
+     * Set zohoId
+     *
+     * @param string $zohoId
+     * @return UserCourses
+     */
+    public function setZohoId($zohoId)
+    {
+        $this->zohoId = $zohoId;
+
+        return $this;
+    }
+
+    /**
+     * Get zohoId
+     *
+     * @return string 
+     */
+    public function getZohoId()
+    {
+        return $this->zohoId;
     }
 }
