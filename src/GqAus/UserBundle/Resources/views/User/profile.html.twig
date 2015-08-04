@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Edit Profile{% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
+<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+
+{% endblock %}
+{% block body %}
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="gq-dashboard-title">Profile</h1>
+            <!-- <h6 class="gq-dashboard-title-desc">Some description can be given here</h6>  -->
+        </div>        
+
+    </div>
+    <div class="row">
+        <div class="col-xs-push-3 col-xs-6">
+            <div class="row">
+                <div class="gq-profile-page-img" id="ajax-gq-profile-page-img" style="background-image: url(&quot;{{ userImage }}&quot;);"></div>
+            </div>    
+        </div>
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="gq-edit-photo-btn">
+                    <span class="btn-grey">{{ form_widget(form.userImage) }}</span>
+                    <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
+                </div>
+                <div class="ajax-profile-error" id="ajax-profile-error"></div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="row" id="profile_suc_msg">
+                <div class="gq-id-files-upload-success-text">
+                    <h2><img src="{{ asset('public/images/tick.png') }}">
+                    {{ flashMessage }}</h2>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div class="gq-change-profile-warning" id="change_pwd_error">
+                {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                <div class="gq-id-files-upload-error-text">
+                    <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                </div>
+               {% endfor %}
+            </div>
+            
+            <div class="row" id="profile_suc_msg2"></div>
+        </div>        
+        {% set userRole = app.security.getToken().getUser().getRoles() %}
+		{% set userId = app.security.getToken().getUser().getId() %}
+        <div class="col-xs-12">
+            <div class="gq-dashboard-tabs">
+                <!-- Tabs start here -->
+                <div class="gq-dashboard-tabs-header gq-profile-tabs-header wid60p" id="gq-profile-tabs-headerid">
+                    <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
+                        <li id="personel-gq-tab" role="presentation" {% if tab == 'id-fields' %} {% else %} class="active" {% endif %} ><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal</a></li>
+                        <li id="address-gq-tab" role="presentation"><a href="#address" aria-controls="address" role="tab" data-toggle="tab">Address</a></li>
+                        {% if ('ROLE_APPLICANT' in userRole) %}
+                        <li role="presentation" {% if tab == 'id-fields' %} class="active" {% else %} {% endif %} ><a href="#id-fields" aria-controls="id-fields" role="tab" data-toggle="tab">ID Files</a></li>                        
+                        {% endif %}
+                        {% if ('ROLE_ASSESSOR' in userRole) %}
+                        <li role="presentation"><a href="#others" aria-controls="others" role="tab" data-toggle="tab">Others</a></li>                        
+                        {% endif %}
+                    </ul>
+                </div>
+                <!-- Tabs end start here -->
+                <!-- Content for respective tabs above will be in this section -->
+                <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data" />
+                <div class="tab-content">                    
+                    <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% else %}other{% endif %}">
+					<input type='hidden' id='hdn-userId' name='hdn-userId' value="{{userId}}">
+    				<input type='hidden' id='hdn-type' name='hdn-type' value="0">
+                    {% include 'GqAusUserBundle:User:user.html.twig' %}
+                    
+                    {% include 'GqAusUserBundle:User:idfiles.html.twig' %}
+                    
+                    {% include 'GqAusUserBundle:User:other.html.twig' %}
+                    
+                    <!-- Change Password --> 
+                    {% include 'GqAusUserBundle:User:password.html.twig' %}
+                    <!-- Change Password -->
+                </div>
+                <!-- script for enabling tabs functionality 
+                <script>
+                    $(function() {
+                        $('#myTab a:last').tab('show')
+                    })
+                </script>-->
+                <!--End of content for respective tabs above will be in this section -->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="fclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected file ?</h4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-white deleteIdFiles">Ok</a>
+                <a class="btn btn-white" id="fclose-cancel">Cancel</a>
+                <span class="loading-icon" id="ajax-loading-delete-assessor-file" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{#{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}#}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+        //$("#userprofile_dateOfBirth").datepicker();
+        $("#userprofile_dateOfBirth").datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: '0',
+        yearRange: '-100:+0',
+        changeMonth: true,
+        changeYear: true
+        });
+    });
+</script>
+{% endblock %}

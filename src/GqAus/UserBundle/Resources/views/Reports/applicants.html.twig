@@ -1,0 +1,91 @@
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+<!-- accordion starts here -->
+{% if applicantList %}
+    {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+    <tr>
+        <td class="gq-pagination-area" {% if ('ROLE_FACILITATOR' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %}>
+            {# display navigation for pages - paginator_navigator #}
+            {{ include('GqAusUserBundle:Paginator:ajax_rep_paginator_navigator.html.twig', {'paginator' : paginator}) }}
+        </td>
+    </tr>
+    {% endif %}
+    {% for key, list in applicantList %}
+        <tr>
+            <td>{{list.user.userName}}</td>
+            <td>{{list.courseCode}} {{list.courseName}}</td>
+            {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}             
+            {% set userId = list.user.id %}
+            {% set id = list.id %}
+            {% set courseCode = list.courseCode %}
+            {% endif %}
+            {% if ('ROLE_FACILITATOR' in userRole) %}
+                <!-- Assessor Status -->
+                <td>{% if (list.assessorstatus == 1) %} Approved <span class="gq-sub-title">on {{list.assessorDate|date("d/m/Y")}}</span>
+                    {% else %} Pending {% endif %}
+                </td>
+                <!-- Assessor Status -->
+            {% endif%}              
+            <!-- Portfolio Received Status -->
+            {% if ('ROLE_RTO' in userRole) %}
+                <td>
+                    {% if list.courseStatus == 15 or list.courseStatus == 16 or list.courseStatus == 0 %}{{list.facilitatorDate|date("d/m/Y")}}
+                    {% endif %}  
+                </td>
+            {% endif%}
+            <!-- Portfolio Received Status-->
+            <!-- FACILITATOR own Status -->
+            {% if ('ROLE_FACILITATOR' in userRole) %}
+                <td>
+                    {% if list.courseStatus == 15 or list.courseStatus == 0%} Submitted Portfolio <span class="gq-sub-title">on {{list.facilitatorDate|date("d/m/Y")}}</span> 
+                    {% else %}Pending 
+                    {% endif %}  
+                </td>
+            {% endif %}
+            <!-- FACILITATOR own Status -->    
+            {% if ('ROLE_RTO' in userRole) %}
+                <td>
+                    {% if (list.courseStatus == 16 or list.courseStatus == 0) %} Issued <span class="gq-sub-title">on {{list.rtoDate|date("d/m/Y")}}</span>
+                    {% else %} Pending {% endif %}
+                </td>
+            {% endif %}
+            {% if ('ROLE_FACILITATOR' in userRole) %}
+                <!-- RTO Status -->
+                <td>{% if (list.rtostatus == 1) %} Issued <span class="gq-sub-title">on {{list.rtoDate|date("d/m/Y")}}</span>
+                  {% else %} Pending {% endif %}
+                </td>
+                <!-- RTO Status -->   
+            {% endif %}
+            <td>
+                <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
+                    <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td {% if ('ROLE_FACILITATOR' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %} class="gq-tabs-no-content-text margin-top15">
+            No Applicants Found</td>
+    </tr>
+{% endif %}
+<!-- accordion ends here -->
+
+
+
+
+{% if pageRequest == 'ajax' %}
+    {% block javascripts %}
+<script type="text/javascript">
+    //$(".datepic").datepicker();
+    $(".setNotes").click(function() {
+        id = $(this).attr("id");
+        var c = $('#div_' + id).hasClass("open");
+        if (c == false) {
+            $('#div_' + id).addClass('open');
+        } else {
+            $('#div_' + id).removeClass('open');
+        }
+    });
+</script>
+    {% endblock %}
+{% endif %}

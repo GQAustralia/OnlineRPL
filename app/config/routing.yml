@@ -1,11 +1,7 @@
-course:
-    resource: "@GqAusCourseBundle/Resources/config/routing.yml"
-    prefix:   /
-    
 user:
     resource: "@GqAusUserBundle/Resources/config/routing.yml"
     prefix:   /
-    
-rto:
-    resource: "@GqAusRtoBundle/Resources/config/routing.yml"
+
+dashboard:
+    resource: "@GqAusHomeBundle/Resources/config/routing.yml"
     prefix:   /

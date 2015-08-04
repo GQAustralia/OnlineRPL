@@ -45,4 +45,32 @@ class Text extends \GqAus\UserBundle\Entity\Evidence
     {
         return $this->path;
     }
+    /**
+     * @var string
+     */
+    private $content;
+
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     * @return Text
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
 }

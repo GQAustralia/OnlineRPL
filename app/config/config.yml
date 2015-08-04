@@ -29,6 +29,12 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:        
+        amazon_link: %amazon_s3_base_url%       
+        base_url: %applicationUrl%
+        user_service: "@UserService"
+        evidence_service: "@EvidenceService"
+        tokbox_key: "%tokbox_key%"
 
 # Assetic Configuration
 assetic:
@@ -74,3 +80,37 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+misd_guzzle:
+    service_builder:
+        class:              "Guzzle\Service\Builder\ServiceBuilder"
+        configuration_file: "%kernel.root_dir%/config/webservices.json"
+knp_gaufrette:
+    adapters:
+        file_storage:
+            amazon_s3:
+                amazon_s3_id: gq_aus_user.amazon_s3
+                bucket_name:  %amazon_s3_bucket_name%
+                create:       false
+                options:
+                    create: true
+    filesystems:
+        file_storage:
+            adapter:    file_storage
+            alias:      file_storage_filesystem
+        
+gq_aus_user:
+    amazon_s3:
+        aws_key:        %amazon_aws_key%
+        aws_secret_key: %amazon_aws_secret_key%
+        base_url:       %amazon_s3_base_url%
+        
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     /usr/local/bin/wkhtmltopdf
+        options:    []
+        
+framework:
+    profiler:
+        collect: false

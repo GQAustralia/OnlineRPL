@@ -1,0 +1,94 @@
+{% if ('ROLE_APPLICANT' in userRole) %}
+<div role="tabpanel" class="tab-pane {% if tab == 'id-fields' %} active {% else %} {% endif %}" id="id-fields">
+    <div class="gq-id-files-upload-text">
+        <h2>Upload ID Files</h2>
+    </div>
+
+    <div class="gq-id-files">
+        <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data">
+            <div class="gq-id-files-header gq-id-files-header-applicant">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
+                        <div class="gq-id-files-select">
+                             {{ form_widget(filesForm.type, {'attr': {'class': 'styled'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+                        <div class="gq-id-files-upload-btn">
+                            <span class="cloud-icon-browse">{{ form_widget(filesForm.browse, {'attr': {'class': 'show_path'}}) }} </span>
+                        </div>
+                    </div>
+                    <div id="idfiletype_image"></div>
+                    <div class="loading-icon" style="display: none;" id="ID_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>                    
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        <div class="gq-id-files-submit-btn">
+                            {{ form_widget(filesForm.save, { 'label': 'Upload' }) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="gq-id-files-content-wrap">
+            <div class="gq-dashboard-box-1x">
+                <div class="gq-dashboard-box-title-wrap">
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-10">
+                        <h2 class="gq-dashboard-box-title">Your ID Files</h2>
+                    </div>
+                    <div class="col-xs-6" id="idfiles_msg"></div>
+                    <div class="col-xs-3"></div>
+                </div>
+                <div class="gq-dashboard-courses-detail-wrap margin-top15">
+                    <div class="row Id_files">
+                        {% if userIdFiles is not null and userIdFiles is not empty %}
+                        {% for item in userIdFiles %}
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.id}}">
+                            <div class="gq-dashboard-courses-detail">												
+                                <span class="gq-dashboard-points-icon">
+                                    <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
+                                        <div class="gq-del-evidence"></div></a>
+                                    <div class="tooltip-home top">
+                                        <div class="tooltip-arrow"></div>
+                                        <span class="">Delete ID File</span>
+                                    </div>
+                                </span>
+                                {% if item.type.id == 1 %}
+                                    {% set doc_type = 'gq-id-files-content-img-icon' %}
+                                {#{% elseif item.type.id == 2 %}
+                                    {% set doc_type = 'gq-id-files-content-pdf-icon' %}#}
+                                {% else %}
+                                     {% set doc_type = 'gq-id-files-content-esc-icon' %}
+                                {% endif %}
+                                <a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap {{doc_type}}"></div></a>
+                                <div class="gq-id-files-content-row-wrap">
+                                    <div class="gq-id-files-content-row">
+                                        <label>Title</label>
+                                        <a href="{{ amazon_link~item.path }}" target="_blank">
+                                            <span>
+                                            {% if item.type.type|length > 17 %}
+                                                {{ item.type.type[:17] ~ '...' }}
+                                            {% else %}
+                                                 {{ item.type.type }}   
+                                            {% endif %}
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="gq-id-files-content-row">
+                                        <label>Added on</label><span>{{item.created|date("d/m/Y") }}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <center id="idfiles_no_files">No Id files found</center>                        
+                        {% endif %}
+                    </div>
+                </div>
+                <span class="flip-icon"></span>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endif %}

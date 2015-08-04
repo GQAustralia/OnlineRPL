@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Dashboard{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('public/css/pie-chart.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="gq-dashboard-title">Dashboard</h1>
+                <h6 class="gq-dashboard-title-desc">Welcome to GQ Australia Online RPL</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="gq-dashboard-box-1x gq-dashboard-bg-img4"> <!-- class "gq-dashboard-bg-img1" added for background image -->
+                    <div class="gq-dashboard-box-title-wrap">
+                        <h2 class="gq-dashboard-box-title">Facilitator</h2>
+                    </div>
+                    <div class="gq-dashboard-box-content-wrap">
+                        <div class="col-xs-6 no-padding text-center">
+                            <div class="gq-dashboard-running-txt">Currently pending Applicants</div>
+                            <div class="gq-dashboard-points-in-number wid100p">
+                                <a href="javascript:void(0);">{{facilitatorPendingApplicants}}</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 hidden-xs"></div>
+                    </div>
+                    <span class="flip-icon"></span>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="gq-dashboard-box-1x gq-dashboard-bg-img4"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                    <div class="gq-dashboard-box-title-wrap">
+                        <h2 class="gq-dashboard-box-title">Assessor</h2>
+                    </div>
+                    <div class="gq-dashboard-box-content-wrap">
+                        <div class="col-xs-6 no-padding text-center">
+                            <div class="gq-dashboard-running-txt text-center">Currently pending Applicants</div> 
+                            <div class="gq-dashboard-points-in-percent wid100p "><a href="javascript:void(0);">{{assessorsPendingApplicants}}</a></div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 hidden-xs"></div>
+                    </div>
+                    <span class="flip-icon"></span>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="gq-dashboard-box-1x gq-dashboard-bg-img4"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                    <div class="gq-dashboard-box-title-wrap">
+                        <h2 class="gq-dashboard-box-title">RTO</h2>
+                    </div>
+                    <div class="gq-dashboard-box-content-wrap">
+                        <div class="col-xs-6 no-padding text-center">
+                            <div class="gq-dashboard-running-txt text-center">Currently pending Applicants</div> 
+                            <div class="gq-dashboard-points-in-percent wid100p "><a href="javascript:void(0);">{{rtoPendingApplicants}}</a></div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 hidden-xs"></div>
+                    </div>
+                    <span class="flip-icon"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <script src="{{ asset('public/js/jquery-2.js') }}"></script>
+  <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+{% endblock %}

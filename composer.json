@@ -19,7 +19,16 @@
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/migrations": "dev-master",
-        "doctrine/doctrine-migrations-bundle": "dev-master"
+        "doctrine/doctrine-migrations-bundle": "dev-master",
+        "ircmaxell/password-compat": "~1.0.3",
+        "misd/guzzle-bundle": "1.1.*@dev",
+        "guzzle/guzzle":"dev-master",
+        "knplabs/gaufrette":                    "dev-master",
+        "knplabs/knp-gaufrette-bundle":         "dev-master",
+        "amazonwebservices/aws-sdk-for-php":    "dev-master",
+        "knplabs/knp-snappy-bundle":            "dev-master",
+        "opentok/opentok": "2.2.x",
+        "ensepar/html2pdf-bundle" : "~2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

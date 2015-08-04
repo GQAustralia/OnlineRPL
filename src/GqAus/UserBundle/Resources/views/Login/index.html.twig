@@ -1,0 +1,69 @@
+{% extends 'main.html.twig' %}
+{% block title %}GQ - RPL Login {% endblock %}
+{% block content %}
+   <div class="row text-center">
+        <h3>Sign in to get in touch</h3>
+    </div>
+    <div class="row">            
+        <div class="gq-change-profile-warning" id="change_pwd_error"></div>
+        <form action="{{ path('login_check') }}" name="frmLogin" id="frmLogin" method="post">
+          <div class="form-group">
+            <input type="email" name = '_username' class="form-control email" id="InputEmail1" placeholder="Email">
+          </div>
+          <div class="form-group">
+            <input type="password" name='_password' class="form-control password" id="InputPassword1" placeholder="Password">
+          </div>
+           <input type="hidden" name="_target_path" value="/dashboard" />
+          <button type="submit" class="btn btn-red margin-top15" onclick="return loginValidate();">Log in</button>
+        </form>
+    </div>
+    <div class="row text-center">
+        <h4><a href="forgotpassword" >Forgot Password?</a></h4>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+     <script>
+        $(document).ready(function() {
+            $(".gq-id-files-upload-success-text").delay(3000).fadeOut(100);
+        });
+        var base_url = "{{ base_url }}";
+        /*Login Validation*/
+        function loginValidate()
+        {
+            var useremail = $("#InputEmail1").val();
+            var userpwd = $("#InputPassword1").val();
+            var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+            var enddiv = '</h2></div>';
+            regexp=/^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
+            if(useremail=="") {
+                $("#change_pwd_error").show();
+                $("#change_pwd_error").html(startdiv + "Please enter Email" + enddiv).delay(3000).fadeOut(100);
+                $("#InputEmail1").focus();    
+                return false;
+            }
+            else {
+                if(useremail.search(regexp)==-1) {
+                    $("#change_pwd_error").show();
+                    $("#change_pwd_error").html(startdiv + "Please enter valid Email" + enddiv).delay(3000).fadeOut(100);
+                    $("#InputEmail1").val('');
+                    $("#InputEmail1").focus();
+                    return false;
+                }
+            }
+            if(userpwd=="") {
+                $("#change_pwd_error").show();
+                $("#change_pwd_error").html(startdiv + "Please enter Password" + enddiv).delay(3000).fadeOut(100);
+                $("#InputEmail1").focus();
+                return false;
+            }
+         }
+        /*End Login Validation*/
+    </script>
+    {% if error %}
+        <script>
+            $("#change_pwd_error").show();
+            $("#change_pwd_error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid credentials</h2></div>').delay(3000).fadeOut(100);
+        </script>
+    {% endif %}
+{% endblock %}

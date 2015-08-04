@@ -1,0 +1,45 @@
+<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 msg-menu-wrap">
+    <div class="gq-msg-row-bg">
+        <div class="gq-msg-folders col-xs-12">
+            <a href="{{ app.request.baseUrl }}/messages">Inbox <span class="inbox-cnt">{% if unreadcount > 0 %} ({{ unreadcount }}) {% endif %}</span></a>
+            {% if msgDetails is defined %}
+                {% if app.request.attributes.get('_route') == 'messages' or ( msgDetails.toUser == msgDetails.curUser and msgDetails.toStatus==0 ) %}            
+                    <span class="gq-msg-active-folder"></span>
+                {% endif %}
+            {% else %}
+                {% if app.request.attributes.get('_route') == 'messages' %}            
+                    <span class="gq-msg-active-folder"></span>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="gq-msg-row-bg">								
+        <div class="gq-msg-folders col-xs-12">
+            <a href="{{ app.request.baseUrl }}/sent">Sent</a>
+            {% if msgDetails is defined %}
+                {% if app.request.attributes.get('_route') == 'sent' or ( msgDetails.fromUser == msgDetails.curUser and msgDetails.fromStatus==0) %}            
+                    <span class="gq-msg-active-folder"></span>
+                {% endif %}
+            {% else %}
+                {% if app.request.attributes.get('_route') == 'sent' %}            
+                    <span class="gq-msg-active-folder"></span>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="gq-msg-row-bg">
+        <div class="gq-msg-folders col-xs-12">
+            <a href="{{ app.request.baseUrl }}/trash">Trash</a>
+            {% if msgDetails is defined %}
+                {% if app.request.attributes.get('_route') == 'trash' or ( msgDetails.toUser == msgDetails.curUser and msgDetails.toStatus==1 ) or ( msgDetails.fromUser == msgDetails.curUser and msgDetails.fromStatus==1 ) %}            
+                    <span class="gq-msg-active-folder"></span>
+                {% endif %}
+            {% else %}
+                {% if app.request.attributes.get('_route') == 'trash' %}            
+                    <span class="gq-msg-active-folder"></span>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+<span class="flip-icon"></span>					
+</div>

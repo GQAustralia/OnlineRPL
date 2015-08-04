@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="GqAus\UserBundle\Entity\Reminder" table="reminder">
+  
+        <id name="id" type="string" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="date" type="string" column="date" nullable="false"/>
+        <field name="message" type="text" column="message" nullable="false"/>
+        <field name="created" type="datetime" column="created" nullable="false"/>
+        <field name="completed" type="integer" column="completed" nullable="false"/>
+        <field name="completedDate" type="string" column="completeddate" nullable="true"/>
+        <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User" inversed-by="reminders">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="course" target-entity="GqAus\UserBundle\Entity\UserCourses" inversed-by="reminders">
+            <join-column name="user_course_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="createdby" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="createdby" referenced-column-name="id" />
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

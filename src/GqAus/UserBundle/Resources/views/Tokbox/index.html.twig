@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Assessor conversation{% endblock %}
+{% block body %}
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="gq-video-section-wrap">
+            <div class="gq-video-others" id="subscriberContainer"></div>
+            <div class="gq-video-ours" id="publisherContainer"></div>
+            <div class="gq-video-controls">
+                <div class="gq-video-copy-url">{{ base_url }}applicant/{{ roomId}}</div>
+                <div class="gq-video-start-recording start">Start Competency Conversation <span class="gq-video-recording-icon"></span></div>
+                <div class="gq-video-stop-recording stop">Stop Conversation <span class="gq-video-recording-icon"></span></div>
+                <div class="gq-video-back-btn"><a href="javascript:void(0)" class="btn btn-red" id="close_btn_uni">close</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
+<script type="text/javascript">
+    var apiKey = '{{ apiKey }}';
+    var sessionId = '{{ sessionId }}';
+    var token = '{{ token }}';
+    var session = OT.initSession(sessionId),
+    property = {width: "100%", height: "100%", insertMode: "append"},
+    publisher = OT.initPublisher("publisherContainer", property),
+    archiveID = null;
+
+    session.connect(apiKey, token, function(err, info) {
+        if (err) {
+            alert(err.message || err);
+        }
+        session.publish(publisher);
+    });
+
+    session.on('streamCreated', function(event) {
+        session.subscribe(event.stream, "subscriberContainer", property);
+    });
+
+    session.on('archiveStarted', function(event) {
+        archiveID = event.id;
+        console.log("ARCHIVE STARTED");   
+        $(window).bind('beforeunload', function() {
+            return "Are you Sure do you want to leave? Recording is in progress"; 
+        });
+        //window.onbeforeunload = closeIt;
+        $(".start").hide();
+        $(".stop").show();
+    });
+
+    session.on('archiveStopped', function(event) {
+        archiveID = null;
+        console.log("ARCHIVE STOPPED");
+        //window.onbeforeunload = null;
+        $(window).unbind('beforeunload');
+        $(".start").show();
+        $(".stop").hide();
+    });
+    
+    $(document).ready(function() {
+        var rid = "{{ roomId}}";
+        var aid = "{{ applicantId}}";
+        var uid = "{{ unitCode}}";
+        var cid = "{{ courseCode}}";
+        $(".start").click(function(event) {
+            $.get("startArchive/" + rid);
+        }).show();
+        $(".stop").click(function(event) {
+            $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);
+        }).hide();
+        
+        $("#close_btn_uni").click(function(event) {
+            if(confirm("Are you sure want to close the conversation?")) {
+                if (archiveID !== null) {
+                    $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);   
+                }
+                window.location.href = "{{ base_url }}applicantDetails/{{ courseCode}}/{{ applicantId}}";
+            }
+        })
+    });
+
+
+</script>
+{% endblock %}
+
+

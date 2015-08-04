@@ -1,0 +1,469 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Qualification details{% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('public/css/dropzone.css') }}" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+
+{% endblock %}
+{% block body %}
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="gq-dashboard-title">Qualification Details</h1>
+            <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+        </div>
+    </div>
+    {% set userId = app.security.getToken().getUser().getId() %}
+    {% if courseInfo %}
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+            <div class="gq-dashboard-box-1x"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                <div class="gq-course-details-title-wrap">
+                    <div class="gq-dashboard-box-title">{% if courseInfo.name %}{{courseInfo.id}} {{courseInfo.name}} {% endif %}</div>
+                    <div class="gq-dashboard-courses-status-txt">
+                        <img src="{{ asset('public/images/status.png') }}" />&nbsp;{{ statusList[courseDetails.courseStatus()]['status'] }} 
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="gq-dashboard-box-content">{% if courseInfo.details %} {{ courseInfo.details |raw('html') }} {% endif %}
+                </div>
+                <span class="flip-icon"></span>
+            </div>
+        </div>
+    </div>
+    
+    {% if courseInfo.Units %}
+        {% if courseInfo.Units.Unit %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="gq-dashboard-title">Core Units</h1>
+            <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+        </div>
+    </div>
+    <div class="table-units-responsive">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="gq-id-files">
+                    <div class="gq-id-files-header gq-id-files-header-applicant">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-3 col-xs-2">
+                            <span class="gq-course-details-header-title">Unit Code</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <span class="gq-course-details-header-title">Unit Title</span>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-3">
+                            <span class="gq-course-details-header-title gq-appl-details-two-lines">Elements &amp; Performance Criteria</span>
+                            </div>
+                            <div class="col-lg-4 col-md-3 col-sm-2 col-xs-3">
+                            <span class="gq-course-details-header-title">Evidence</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+            <!-- accordion starts here -->
+                <div class="gq-acc-wrap">
+                    {% set i = 1 %}
+                    {% set unitsData = courseInfo.Units.Unit %}
+                    {% if courseInfo.Units.Unit.id is defined %}
+                    {% set unitsData = {0: courseInfo.Units.Unit} %}
+                    {% endif %}
+                    {% for key, units in unitsData %}
+                        {% if units.type == 'core' %}
+                    <div>
+                        <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
+                        <div class="row no-margin">
+                            <div id="div_{{units.id}}" class="gq-acc-row-bg">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-2">
+                                    <div class="gq-acc-row-title gq-acc-course-code">{{units.id}}</div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                    <div class="gq-acc-row-title">{{units.name}}</div>
+                                </div>
+                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
+                                    <label for="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow view-button" {% if units.id  in electiveUnits %} disabled="disabled" {% endif %}>VIEW</label>
+                                </div>
+                                <div class="col-lg-4 col-md-3 col-sm-3 col-xs-3">
+                                    {% if(courseDetails.courseStatus != 0) %}
+                                        {% if units.id in electiveApprovedUnits %}
+                                        <button class="btn add-btn fromBottom"  unitid="{{units.id}}" course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>Upload</button>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
+                                    {% set style = evidence ? '' : 'style=display:none' %}                           
+                                    <span id="sp_{{units.id}}" {{ style }}><button class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} user_id="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button></span>
+                                    {% if(courseDetails.courseStatus != 0) %}
+                                        {% if units.id in electiveApprovedUnits %}
+                                        <button class="btn add-btn fromBottomAssessment"  unitid="{{units.id}}" course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#editAssessmentModal" data-direction="bottom"><span class="hidden-xs"></span>Comment</button>
+                                        {% endif %}
+                                    {% endif %}
+                                    <div id="approveStatus" class="pull-right">
+                                    {% set assessorapprovalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_ASSESSOR', units.id, courseInfo.id ) %}
+                                    {% set facilitatorapprovalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_FACILITATOR', units.id, courseInfo.id ) %}
+                                    {% if assessorapprovalStatus == 1 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookopen.png"></span>
+                                    {% elseif assessorapprovalStatus == 2 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookclosed.png"></span>
+                                    {% elseif facilitatorapprovalStatus == 1 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookopen_facilitator.png"></span>
+                                    {% elseif facilitatorapprovalStatus == 2 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookclosed.png"></span>
+                                    {% endif%}
+                                     </div>    
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <article class="acc-small">
+                            <p>{{units.name}}</p>
+                        </article>
+                    </div>
+                        {% set i = i+1 %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- accordion ends here -->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="gq-dashboard-title">Elective Units</h1>
+            <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+        </div>
+    </div>
+    <div class="table-units-responsive">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="gq-id-files">
+                    <div class="gq-id-files-header gq-id-files-header-applicant">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-3 col-xs-3">
+                            <span class="gq-course-details-header-title">Unit Code</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <span class="gq-course-details-header-title">Unit Title</span>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-3">
+                            <span class="gq-course-details-header-title gq-appl-details-two-lines">Elements &amp; Performance Criteria</span>
+                            </div>
+                            <div class="col-lg-4 col-md-2 col-sm-2 col-xs-3">
+                            <span class="gq-course-details-header-title">Evidence</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+            <!-- accordion starts here -->
+                <div class="gq-acc-wrap">
+                    {% if courseInfo.Units %}
+                    {% if courseInfo.Units.Unit %}
+                    {% set unitsData = courseInfo.Units.Unit %}
+                    {% if courseInfo.Units.Unit.id is defined %}
+                    {% set unitsData = {0: courseInfo.Units.Unit} %}
+                    {% endif %}
+                    {% for key, units in unitsData %}
+                    {% if units.type == 'elective' %}
+                    {% set assessorapprovalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_ASSESSOR', units.id, courseInfo.id ) %}
+                    {% set facilitatorapprovalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_FACILITATOR', units.id, courseInfo.id ) %}
+                                    
+                    <div>
+                        <input id="acc-{{i}}" name="accordion-1" type="checkbox"/>
+                        <div class="row no-margin">
+                            {% if(courseDetails.courseStatus != 0) %}
+                            <div id="div_{{units.id}}" class="gq-acc-row-bg{% if units.id  in electiveUnits %} gq-acc-row-checked {% endif %}">
+                                <div class="col-lg-3 col-lg-4 col-sm-4 col-xs-2">
+                                    <a class="modalClass checkmark-icon" data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.id}}">
+                                        <span id="span_{{units.id}}" class="radio {% if units.id  in electiveUnits %} {% else %} radioUnChecked {% endif %}"></span>
+                                    </a>
+                                    <div class="gq-acc-row-title gq-acc-course-code">{{units.id}}</div>
+                                </div>
+                                <div class="col-lg-3 col-lg-4 col-sm-3 col-xs-4">
+                                    <div class="gq-acc-row-title">{{units.name}}</div>
+                                </div>
+                                <div class="col-lg-2 col-md-3 col-sm-2 col-xs-3">
+                                    <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow view-button" {% if units.id  in electiveUnits %} disabled="disabled" {% endif %}>VIEW</label>
+                                </div>
+                                <div class="col-lg-4 col-md-2 col-sm-3 col-xs-3">
+                                    {% if units.id in electiveApprovedUnits %}
+                                        <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btnadd_{{units.id}}" class="btn add-btn fromBottom" unitid="{{units.id}}"  course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>Upload</button>
+                                    {% endif %}
+
+                                    {% set evidence = evidence_service.getUserUnitEvidences(userId, units.id) %}
+                                    {% set style = evidence ? '' : 'style=display:none' %}
+                                    <span id="sp_{{units.id}}" {{ style }}><button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button></span>
+                                    {% if units.id in electiveApprovedUnits %}
+                                        <button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btncomment_{{units.id}}" class="btn add-btn fromBottomAssessment" unitid="{{units.id}}"  course_code="{{courseInfo.id}}" data-toggle="modal" data-target="#editAssessmentModal" data-direction="bottom"><span class="hidden-xs"></span>Comment</button>
+                                    {% endif %}
+                                    <div id="approveStatus" class="pull-right">
+                                    {% if assessorapprovalStatus == 1 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookopen.png"></span>
+                                    {% elseif assessorapprovalStatus == 2 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookclosed.png"></span>
+                                    {% elseif facilitatorapprovalStatus == 1 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookopen_facilitator.png"></span>
+                                    {% elseif facilitatorapprovalStatus == 2 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookclosed.png"></span>
+                                    {% endif%}
+                                    </div>    
+                                </div>
+                            </div>
+                            {% else %}
+                            {% if units.id not in electiveUnits %}
+                            <div id="div_{{units.id}}" class="gq-acc-row-bg">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <div class="gq-acc-row-title">{{units.id}}</div>
+                                </div>
+                                <div class="col-lg-3 col-lg-4 col-sm-3 col-xs-3">
+                                    <div class="gq-acc-row-title">{{units.name}}</div>
+                                </div>
+                                <div class="col-lg-2 col-md-3 col-sm-2 col-xs-3">
+                                    <label for="{% if units.id not in electiveUnits %}acc-{{i}}{% endif %}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn fromBottom upDownArrow" {% if units.id  in electiveUnits %} disabled="disabled" {% endif %}>VIEW</label>
+                                </div>
+                                <div class="col-lg-4 col-md-2 col-sm-3 col-xs-3">
+                                    {% set evidence = evidence_service.getUserUnitEvidences(userId, units.id) %}
+                                    {% set style = evidence ? '' : 'style=display:none' %}
+                                    <span id="sp_{{units.id}}"  {{ style }}><button {% if units.id in electiveUnits %} disabled="disabled" {% endif %} id="btneye_{{units.id}}" class="btn eye-btn fromBottom unit-evidence-id" {% if units.id in electiveApprovedUnits %} del-status="1" {% else %} del-status="0" {% endif %} userId="" unitid="{{units.id}}"  data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button></span>
+                                    <div id="approveStatus" class="pull-right">
+                                    {% if assessorapprovalStatus == 1 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookopen.png"></span>
+                                    {% elseif assessorapprovalStatus == 2 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookclosed.png"></span>
+                                    {% elseif facilitatorapprovalStatus == 1 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookopen_facilitator.png"></span>
+                                    {% elseif facilitatorapprovalStatus == 2 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookclosed.png"></span>
+                                    {% endif%}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        <article class="acc-small">
+                            <p>{{units.name}}</p>
+                        </article>
+                    </div>
+                        {% set i = i+1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <!-- accordion ends here -->
+            </div>
+        </div>
+    </div>
+    {% endif %}
+        {% endif %}
+     {% endif %}
+    <div class="gq-extra-space" style="display:none;"></div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog gq-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel">Do yo want to change the status of elective unit ?</h4>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-white changeUnitStatus">Ok</a>
+        <a class="btn btn-white" id="qclose-cancel">Cancel</a>
+        <span class="loading-icon qual_status_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!----- Unit evidences start --->
+<div class="modal fade bottom" id="edivenceUnitModal" tabindex="-1" role="dialog" aria-labelledby="edivenceModalLabel" aria-hidden="true">
+  <div class="modal-dialog gq-modal-upload">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close custom-close" data-dismiss="modal" id="" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="gq-dashboard-courses-detail-wrap">
+            <div class="gq-dashboard-tabs">
+                <div id="unit-evidence-tab2" style="display:none;">
+                    <div class="wid90p">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="gq-evidence-new">
+                                    <ul id="myTab2" role="tablist" class="nav nav-pills margin-top15 gq-evidence-new-tabs">
+                                        <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="unit-images" href="#unit-images" aria-expanded="true">Images</a></li>
+                                        <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-audios" href="#unit-audios" aria-expanded="false">Audios</a></li>
+                                        <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-videos" href="#unit-videos" aria-expanded="false">Videos</a></li>
+                                        <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-notes" href="#unit-notes" aria-expanded="false">Notes</a></li>
+                                        <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-files" href="#unit-files" aria-expanded="false">Documents</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div aria-labelledby="existing-evidence-tab" id="unit-images2" class="tab-pane fade active in" role="tabpanel">
+                                            <div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
+                                                <div class="row">
+                                                    <div id="ajaxEvidences2" style="display: block;" class="load-icon-tr">
+                                                        <img src="{{ asset('public/images')}}/loading.gif">
+                                                    </div>                                                                                                                                                                                                                                                                                           </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="unit-evidence-tab"></div>
+            </div>
+          </div>
+       </div>
+  </div>
+</div>
+</div>
+<!----- Unit evidences end --->
+
+<!-- Add Assessment -->
+<div class="modal fade bottom" id="editAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="editAssessmentModal" aria-hidden="true">
+  <div class="modal-dialog gq-modal-upload">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" id="evd_close_assess" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="gq-dashboard-courses-detail-wrap">
+              <div class="qualification-success-msg" id="gq-dashboard-tabs-success-assess"></div>
+              <div class="qualification-er-msg" id="gq-dashboard-tabs-error-assess"></div>
+              <div class="gq-dashboard-tabs">
+                  <!-- Tabs start here -->
+                  <div class="wid40p-evidence-tab">
+                      <h2 class="gq-add-assessment-title">Add Self Assessment</h2>
+                  </div>
+                  <!-- Tabs end start here -->
+                  <!-- Content for respective tabs above will be in this section -->
+                  <div class="tab-content">
+                      <div role="tabpanel" class="tab-pane active" id="add-evidenceAssesment-tab">
+                          <form method="post" id="frmAddEvidenceAssessment" name="frmAddEvidenceAssessment" action="{{ app.request.baseUrl }}/addEvidenceAssessment" enctype= "multipart/form-data">
+                              <div class="wid40p-evidence-tab">
+                                  <div class="row">
+                                      <div class="container-fluid">
+                                          <div class="gq-course-details-upload-evidence-self">
+                                            {{ form_widget(assessmentForm.hid_unit_assess, {'attr': {'id': 'hid_unit_assess'}}) }}
+                                            {{ form_widget(assessmentForm.hid_course_assess, {'attr': {'id': 'hid_course_assess'}}) }}
+                                            {{ form_widget(assessmentForm.self_assessment, {'attr': {'id': 'self_assessment','placeholder': 'Self Assessment'}}) }}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-xs-12">
+                                          <div class="gq-course-details-upload-button-wrap">
+                                            {{ form_widget(assessmentForm.save, {'attr': {'class': 'btn btn-red pull-right'}}) }}
+                                              <span class="loading-icon pull-right uploadevidence_assess_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </div>
+  </div>
+</div>   
+</div>
+<!-- Add Assessment -->
+
+
+<div class="modal fade bottom" id="edivenceModal" tabindex="-1" role="dialog" aria-labelledby="edivenceModalLabel" aria-hidden="true">
+  <div class="modal-dialog gq-modal-upload">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" id="evd_close" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+<div class="gq-dashboard-courses-detail-wrap">
+    <div class="qualification-success-msg" id="gq-dashboard-tabs-success"></div>
+    <div class="qualification-er-msg" id="gq-dashboard-tabs-error"></div>
+    <div class="gq-dashboard-tabs">
+        <!-- Tabs start here -->
+        <div class="gq-dashboard-tabs-header wid40p-evidence-tab">
+            <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
+                <li role="presentation" id="div_add_evidence" class="active"><a href="#add-evidence-tab" aria-controls="add-evidence-tab" role="tab" data-toggle="tab">Upload Evidence</a></li>
+                <li role="presentation" id="div_existing_evidence" ><a href="#select-from-evidence-tab" aria-controls="select-from-evidence-tab" role="tab" data-toggle="tab" userid = "{{userId}}">Select from Existing Evidence</a></li>
+                <!--<li role="presentation"><a href="#unit-evidence-tab" id="unit-evidence-id" aria-controls="unit-evidence-tab" role="tab" data-toggle="tab">Unit Evidences</a></li>-->
+            </ul>
+        </div>
+        <!-- Tabs end start here -->
+        <!-- Content for respective tabs above will be in this section -->
+        <div class="tab-content">
+        
+        <div role="tabpanel" class="tab-pane active" id="add-evidence-tab">
+        <form method="post" id="frmAddEvidence" name="frmAddEvidence" action="{{ app.request.baseUrl }}/addEvidences" enctype= "multipart/form-data">
+            <div class="wid40p-evidence-tab">
+                <div class="row">
+                    <div class="container-fluid">
+                        <div class="gq-course-details-upload-evidence">
+                            <div class="gq-course-details-drop-file">Drop files here </br> or</div>
+                            {{ form_widget(form.file, {'attr': {'id': 'my-awesome-dropzone', 'class': 'dropzone'}}) }}
+                            {{ form_widget(form.hid_unit, {'attr': {'id': 'hid_unit'}}) }}
+                            {{ form_widget(form.hid_course, {'attr': {'id': 'hid_course'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="gq-course-details-upload-button-wrap">
+                            <div class="pull-right">File size should be below 10MB</div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="gq-course-details-upload-button-wrap">
+                            {{ form_widget(form.save, {'attr': {'class': 'btn btn-red pull-right'}}) }}
+                            <span class="loading-icon pull-right uploadevidence_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+          </div>
+         
+          <div role="tabpanel" class="tab-pane" id="select-from-evidence-tab" class="select-from-evidence-tab">
+            <div class="row" style="height:380px;">   
+              <div id="userEvidencesDiv" style="display: block;" class="load-icon-tr">
+                <img src="{{ asset('public/images')}}/loading.gif">
+              </div> 
+            </div>   
+          </div>
+            <!----- Unit evidences start 
+            <div role="tabpanel" class="tab-pane" id="unit-evidence-tab" class="unit-evidence-tab">
+            </div>--->
+            <!----- Unit evidences end --->
+          </div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>   
+</div>
+  
+ <!-- <script src="{{ asset('public/js/jquery.min.js') }}"></script>
+  <script src="{{ asset('public/js/custom-form-elements.js') }}"></script> -->
+{% endblock %}
+  {% block javascripts %}
+    <script>var unit;</script>
+    <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+           $('.fancybox').fancybox();
+        });
+    </script>
+  {% endblock %}

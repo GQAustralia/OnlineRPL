@@ -1,0 +1,724 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Applicant Details{% endblock %}
+{% block stylesheets %}
+<style>
+    .modal.fade:not(.in).bottom .modal-dialog {
+        -webkit-transform: translate3d(0, 125%, 0);
+        transform: translate3d(0, 125%, 0);
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+{% endblock %}
+{% block body %}
+
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="courseStatusMsg"></div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <h1 class="gq-dashboard-title">Applicant Details</h1>
+            <h6 class="gq-dashboard-title-desc"></h6>
+        </div>
+        {% if ('ROLE_RTO' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <h6 class="gq-assessor-title-download text-right"><a href ="javascript:void(0)" id="download_profile" userid="{{userId}}" course_code="{{courseInfo.id}}"> Download Portfolio<span class="gq-assessor-title-download-icon"></span></a></h6>
+        </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+            <div class="gq-dashboard-box-1x"> <!-- class "gq-dashboard-bg-img3" added for background image -->
+                <div class="gq-course-details-title-wrap">
+                    <div class="gq-dashboard-box-title">{% if courseInfo.name %} {{courseInfo.id}} {{courseInfo.name}} {% endif %}</div>
+                    {% if ('ROLE_ASSESSOR' in userRole and assessorstatus != 1) or ('ROLE_FACILITATOR' in userRole and courseStatus != 0) %}
+                     <div class="gq-dashboard-courses-status-txt gq-dashboard-courses-status">
+                         <label>Status &nbsp;</label>
+                            <input type="hidden" name="csCourseCode" id="csCourseCode" readonly="true" value="{{courseInfo.id}}" />
+                            <input type="hidden" name="csUserId" id="csUserId" readonly="true" value="{{userId}}" />
+                            <div class="gq-applicant-filter-wrap-select">
+                                <input id="currentCourseStatus" type="hidden" value="{{courseStatus}}" readonly="true" />
+                                <select name="courseStatus" id="courseStatus" class="styled">
+                                    <option value="">Select Status</option>
+                                     {% if (statusList is defined) %}
+                                     {% set roleAcess = 'Factive' %}
+                                     {% if ('ROLE_ASSESSOR' in userRole) %}
+                                         {% set roleAcess = 'Aactive' %}
+                                     {% endif %}
+                                     {% for statusId, statusData in statusList %}
+                                         <option value="{{statusId}}"
+                                         {% if courseStatus == statusId %} {{ "selected" }} {% else %} {{ "" }} {% endif %}
+                                         {% if statusData[roleAcess] == 0 %} {{ "disabled" }} {% else %} {{ "" }} {% endif %}        
+                                         > {{statusData['status']}}</option>
+                                     {% endfor %}
+                                     {% endif %}    
+                                </select>
+                            </div>
+                     </div>
+                    {% else %}
+                    <div id="courseStatusCodeName" class="gq-dashboard-courses-status-txt">
+                        <img src="{{ asset('public/images/status.png') }}" />&nbsp;{{ statusList[courseStatus]['status'] }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="gq-dashboard-box-content gq-assessor-appl-details">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12 no-padding">
+                            <div class="gq-assessor-appl-profile-pic">
+                                <div class="gq-assessor-profile-img" style="background-image: url(&quot;{{ userImage }}&quot;);"></div>
+                                <div class="gq-assessor-profile-img-txt">{{userName}}</div>
+                                <div class="gq-assessor-profile-send-msg">
+                                    <input type="hidden" name="hdn-coursePrimaryId" id="hdn-coursePrimaryId" value="{{coursePrimaryId}}">
+                                    <form action="{{ base_url }}compose" method="post" name="composeevform">
+                                        <input type="hidden" name="course-name" value="{{ courseInfo.name }}">
+                                        <input type="hidden" name="course-code" value="{{ courseCode }}">
+                                        <input type="hidden" name="userid" value="{{userId}}">
+                                        <input type="hidden" name="unit-id" value="">
+                                        {% if ('ROLE_FACILITATOR' in userRole) %}
+                                        <button type="submit" class="btn btn-red"><span class="gq-assessor-profile-send-msg-icon"></span>Send Message</button>
+                                        {% endif %}
+                                    </form>
+                                    <div id="approve_sectionajax">
+                                            <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification-ajax" class="btn btn-green approve-for-certification-btnajax" style="display:none;">Issue Certificate</button>
+                                    </div>
+                                    <div id="approve_section-status" style="display:none;">
+                                            <span>Issued and Certified!</span>
+                                    </div>
+                                    {% if ('ROLE_RTO' in userRole) %}
+                                        {% if (rtostatus == '1') %}
+                                            <div id="approve_section">
+                                                {% if ( courseStatus == '15') %}
+                                                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green approve-for-certification-btn">Issue Certificate</button>
+                                                {% elseif ( courseStatus == '0') %}
+                                                <span>Issued and Certified!</span>
+                                                {% endif %}
+                                            </div>
+                                        {% else %}
+                                            <!--<a href="javascript:void(0)" data-target="#myModalrto" data-toggle="modal" class="approve-for-certification-btn"><button class="btn btn-green">Issue Certificate</button></a>-->
+                                            <button class="btn btn-disabled" id="disabled-btn">Issue Certificate</button>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if ('ROLE_FACILITATOR' in userRole) %}
+                                        {% if (assessorstatus == '1') %}
+                                            <!--<div id="approve_section">
+                                                {% if (courseStatus == '1') %}
+                                                <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-rto" class="btn btn-green">Submit Portfolio</button>
+                                                {% elseif (courseStatus == '2') %}
+                                                <span>Portfolio Submitted!</span>
+                                                {% elseif (courseStatus == '0') %}
+                                                <span>Issued and Certified!</span>
+                                                {% endif %}
+                                            </div>-->
+                                        {% else %}
+                                            <!--<a href="javascript:void(0)" data-target="#myModal" data-toggle="modal"><button class="btn btn-green">Submit Portfolio</button></a>-->
+                                            <!--<button class="btn btn-disabled" id="disabled-btn">Submit Portfolio</button>-->
+                                        {% endif %}
+                                    {% endif %}
+                                    <center id="approve_loader_fac_ajax" style="display:none"><span><img src="{{ asset('public/images')}}/loading.gif" /></span></center>
+                                    <div id="approve_section_fac_ajax" style="display:none;">Portfolio Submitted!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10 col-md-8 col-sm-8 col-xs-12 no-padding gq-assessor-appl-profile-details-right">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 no-padding details">
+                            <div class="gq-assessor-appl-profile-details-col wid100p">
+                                <div class="gq-assessor-appl-details-points label-width no-padding last wid100p pull-left">
+                                    <div class="gq-assessor-rto-title {% if ('ROLE_FACILITATOR' in userRole) %}gq-assessor-rto-title-edit{% endif %}">
+                                    <label class="gq-assessor-points-title">ID Points</label>
+                                    <span class="">: {{currentIdPoints}}</span>
+                                    </div>
+                                    {% if ('ROLE_FACILITATOR' in userRole) %}
+                                        <div class="gq-accessor-points-tooltip">
+                                           <a href="{{ base_url }}viewUserIdFiles/{{userId}}"><img src="{{ asset('public/images/eye-icon.png') }}" alt="view"/></a>
+                                            <div class="tooltip-home bottom">
+                                                <div class="tooltip-arrow"></div>
+                                                <span class="">View ID files</span>
+                                            </div>                                        
+                                       </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        
+                            <div class="gq-assessor-appl-profile-details-col wid100p">
+                                <div class="gq-assessor-appl-details-points gq-assessor-rto-title label-width no-padding">
+                                    <label class="gq-assessor-points-title">Profile Completeness</label>
+                                    <span class="">: {{profileCompleteness}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 no-padding details">
+                            <div class="gq-assessor-appl-profile-details-col wid100p">
+                                <div class="gq-assessor-appl-profile-details">                                    
+                                {% if ('ROLE_RTO' in userRole) %}
+                                    <div class="gq-assessor-appl-details-points pull-right">
+                                        <div class="gq-assessor-rto-title">
+                                            <label>Facilitator</label>
+                                            <span>: {{facilitatorName}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="gq-assessor-appl-details-points pull-right">
+                                        <div class="gq-assessor-rto-title gq-assessor-rto-title-edit">
+                                            <label>Assessor</label>
+                                            <span>: {{assessorName}}</span>
+                                        </div>
+                                        <div id="div_32" class="gq-assessor-name-edit assessor-change">
+                                        <div class="gq-assessor-rto-edit-icon">
+                                            <a href="{{ base_url }}assessorProfile/{{assessorId}}"><img src="{{ asset('public/images/eye-icon.png') }}" alt="Edit"/></a>
+                                        </div>
+                                        </div>    
+                                    </div>
+                                {% endif %}
+
+                                {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
+                                
+                                    {% if ('ROLE_MANAGER' in userRole) %}
+                                    <div class="gq-assessor-appl-details-points pull-right">
+                                        <div class="gq-assessor-rto-title gq-assessor-rto-title-edit">
+                                            <label>Facilitator</label>
+                                            <span class="gq-facilitator-select-name">: {{facilitatorName}}</span>
+                                        </div>
+                                        <div id="div_33" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit facilitator-change">
+                                            <div id="33" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
+                                                <a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
+                                            </div>
+                                            <div class="gq-assessor-list-dropdown">
+                                                <div class="caret-top"></div>
+                                                <div class="gq-applicant-name-list">
+                                                    <ul>
+                                                    {% if facilitators %}
+                                                        {% if facilitators|length > 0 %}
+                                                            {% for key, facilitator in facilitators %}
+                                                                {% set completeName = facilitator.firstname~" "~facilitator.lastname %}
+                                                                <li class="gq-name-facilitator-list {% if completeName|trim ==  facilitatorName|trim %}selectedfacilitatornew {% endif %}" data-value="{{facilitator.id}}&&{{facilitator.firstname}} {{facilitator.lastname}}">{{facilitator.firstname}} {{facilitator.lastname}}</li>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    </ul>
+                                                </div>
+                                                <div class="gq-applicant-list-notes-box">
+                                                    <button class="btn btn-green changeUsers" roletype="facilitator" roleid="2">Ok</button>
+                                                    <button class="btn btn-red" id="gq-name-cancel">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <div class="gq-assessor-appl-details-points pull-right {% if ('ROLE_MANAGER' in userRole) %} border-top {% endif %}">
+                                        <div class="gq-assessor-rto-title gq-assessor-rto-title-edit">
+                                            <label>Assessor</label>
+                                            <span class="gq-assessor-select-name">: {{assessorName}}</span>
+                                        </div>
+                                        <div id="div_34" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit assessor-change">
+                                            <div id="34" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
+                                                <a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
+                                            </div>
+                                            <div class="gq-assessor-list-dropdown">
+                                                <div class="caret-top"></div>
+                                                <div class="gq-applicant-name-list">
+                                                    <ul>
+                                                    {% if assessors %}
+                                                        {% if assessors|length > 0 %}
+                                                            {% for key, assessor in assessors %}
+                                                                {% set completeName = assessor.firstname~" "~assessor.lastname %}
+                                                                <li class="gq-name-list {% if completeName|trim ==  assessorName|trim %}selectednew{% endif %}" data-value="{{assessor.id}}&&{{assessor.firstname}} {{assessor.lastname}}">{{assessor.firstname}} {{assessor.lastname}}</li>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    </ul>
+                                                </div>
+                                                <div class="gq-applicant-list-notes-box">
+                                                    <button class="btn btn-green changeUsers" roletype="assessor" roleid="3">Ok</button>
+                                                    <button class="btn btn-red" id="gq-name-cancel">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="gq-assessor-appl-details-points pull-right border-top">
+                                        <div class="gq-assessor-rto-title gq-assessor-rto-title-edit">
+                                            <label>RTO</label>
+                                            <span class="gq-rto-select-name">: {{rtoName}} </span>
+                                            <span class="gq-assessor-list-dropdown-wrap" >
+                                                <span class="gq-add-notes-icon-wrap gq-assessor-profile-img-txt setUsers">more..</span>
+                                                <span class="gq-assessor-list-dropdown">
+                                                    <div class="caret-top"></div>
+                                                    <div class="gq-ceo-details-list">
+                                                        <ul>
+                                                            <li class=""><label>CEO Name</label>: <span id="ceo_name">{{rtoCeoName}}</span></li>
+                                                            <li class=""><label>CEO Email</label>: <span id="ceo_email">{{rtoCeoEmail}}</span></li>
+                                                            <li class=""><label>CEO Phone </label>: <span id="ceo_phone">{{rtoCeoPhone}}</span></li>
+                                                        </ul>
+                                                    </div>
+                                                    {#<div><label>CEO Name</label>: <span id="ceo_name">{{rtoCeoName}}</span></div>
+                                                    <div><label>CEO Email</label>: <span id="ceo_email">{{rtoCeoEmail}}</span></div>
+                                                    <div><label>CEO Phone </label>: <span id="ceo_phone">{{rtoCeoPhone}}</span></div>#}
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div id="div_35" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit rto-change">
+                                            <div id="35" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
+                                                <a href="javascript:void(0);"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit"/></a>
+                                            </div>
+                                            <div class="gq-assessor-list-dropdown">
+                                                <div class="caret-top"></div>
+                                                <div class="gq-applicant-name-list">
+                                                    <ul>
+                                                    {% if rtos %}
+                                                        {% if rtos|length > 0 %}
+                                                            {% for key, rto in rtos %}
+                                                                {% set completeRtoName = rto.firstname~" "~rto.lastname %}
+                                                                <li class="gq-rto-list {% if completeRtoName|trim ==  rtoName|trim %}selectedRtonew{% endif %}" data-value="{{rto.id}}&&{{rto.firstname}} {{rto.lastname}}">{{rto.firstname}} {{rto.lastname}}</li>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    </ul>
+                                                </div>
+                                                <div class="gq-applicant-list-notes-box">
+                                                    <button class="btn btn-green changeUsers" roletype="rto" roleid="4">Ok</button>
+                                                    <button class="btn btn-red" id="gq-rtoname-cancel">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {#<div class="gq-assessor-rto-edit-icon">
+                                            <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}"/></a>
+                                        </div>#}
+                                    </div>
+                                {% endif %}
+
+                                {% if ('ROLE_ASSESSOR' in userRole) %}
+                                    <div class="gq-assessor-appl-details-points pull-right">
+                                        <div class="gq-assessor-rto-title">
+                                            <label>Facilitator</label>
+                                            <span>: {{facilitatorName}}</span>
+                                        </div>
+                                        {#<div class="gq-assessor-rto-edit-icon">
+                                            <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" /></a>
+                                        </div>#}
+                                    </div>
+                                    <div class="gq-assessor-appl-details-points pull-right border-top">
+                                        <div class="gq-assessor-rto-title">
+                                            <label>RTO</label>
+                                            <span>: {{rtoName}}</span>
+                                        </div>
+                                        {#<div class="gq-assessor-rto-edit-icon">
+                                            <a href="#"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" /></a>
+                                        </div>#}
+                                    </div>
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+                <span class="flip-icon"></span>
+            </div>
+        </div>
+    </div>
+    {% set i = 1 %}
+    {% if courseInfo %}
+    {% if courseInfo.Units %}
+        {% if courseInfo.Units.Unit %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="gq-dashboard-title">Core Units</h1>
+            <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+        </div>
+    </div>
+    <div class="table-units-responsive">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="gq-id-files core-units-responsive">
+                    <div class="gq-id-files-header gq-id-files-header-applicant">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-2">
+                                <span class="gq-course-details-header-title">Unit Code</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                <span class="gq-course-details-header-title">Unit Title</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <span class="gq-course-details-header-title gq-appl-details-two-lines">Elements &amp; Performance Criteria</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <span class="gq-course-details-header-title">Evidence</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+                <!-- accordion starts here -->
+                <div class="gq-acc-wrap">
+                    {% set flagCore = '0' %}
+                    {% set unitsData = courseInfo.Units.Unit %}
+                    {% if courseInfo.Units.Unit.id is defined %}
+                    {% set unitsData = {0: courseInfo.Units.Unit} %}
+                    {% endif %}
+                    {% for key, units in unitsData %}
+                        {% if units.type == 'core' %}
+                    {% set flagCore = '1' %}
+                    <div>
+                        <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
+                        <div class="row no-margin">
+                            <div id="div_{{units.id}}" class="gq-acc-row-bg">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-2">
+                                    <div class="gq-acc-row-title">{{units.id}}</div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                    <div class="gq-acc-row-title">{{units.name}}</div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <label for="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn upDownArrow view-button">VIEW</label>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
+                                    {% if evidence %}
+                                    <span class="pull-left"><button class="btn eye-btn unit-evidence-id fromnewBottom" userid="{{userId}}" del-status="1"  unitid="{{units.id}}"  course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                                    {% if ('ROLE_ASSESSOR' in userRole) or ('ROLE_FACILITATOR' in userRole)  %}
+                                    {% if 'ROLE_ASSESSOR' in userRole %}
+                                    {% set utype = 'a' %}
+                                    {% elseif 'ROLE_FACILITATOR' in userRole %}
+                                    {% set utype = 'f' %}
+                                    {% endif %}
+                                    <span class="pull-left gq-acc-notes-btn" id=""><button id="notesButton_{{units.id}}" notestype="{{ utype }}" class="btn eye-btn unit-notes fromnewBottom" unitid="{{ user_service.getUnitPrimaryId( userId, units.id, courseInfo.id ) }}" data-toggle="modal" data-target="#edivenceUnitModalNotes" data-direction="bottom"><span class="hidden-xs"></span>NOTES</button></span>
+                                    {% endif%}
+                                    <div id="{{units.id}}_approveStatus">
+                                    {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], units.id, courseInfo.id ) %}
+                                    {% if approvalStatus == 1 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookopen.png"></span>
+                                    {% elseif approvalStatus == 2 %}
+                                        <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookclosed.png"></span>
+                                    {% endif%}
+                                    </div>    
+                                    {% else %}
+                                        <div class="gq-acc-row-title gq-core-units-evidence-text">No Evidences found</div>
+                                    {% endif %}
+                                </div>                           
+                            </div>
+                        </div>
+                        <article class="acc-small">
+                            <p>{{units.name}}</p>
+                        </article>
+                    </div>
+                        {% set i = i+1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if flagCore == '0' %}
+                            <div class="gq-acc-row-title load-icon-tr">No Core Units found</div>
+                    {% endif %}
+                </div>
+                <!-- accordion ends here -->
+            </div>
+        </div>
+    </div>
+    <div class="row">    
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h1 class="gq-dashboard-title">Elective Units</h1>
+            <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+        </div>
+    </div>
+    <div class="table-units-responsive">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="gq-id-files">
+                <div class="gq-id-files-header gq-id-files-header-applicant">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-2">
+                            <span class="gq-course-details-header-title">Unit Code</span>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <span class="gq-course-details-header-title">Unit Title</span>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <span class="gq-course-details-header-title gq-appl-details-two-lines">Elements & Performance Criteria</span>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <span class="gq-course-details-header-title">Evidence</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
+            <!-- accordion starts here -->
+            <div class="gq-acc-wrap">
+                {% if courseInfo.Units %}
+                {% if courseInfo.Units.Unit %}
+                    {% set flagElective = '0' %}
+                    {% set unitsData = courseInfo.Units.Unit %}
+                    {% if courseInfo.Units.Unit.id is defined %}
+                    {% set unitsData = {0: courseInfo.Units.Unit} %}
+                    {% endif %}
+                    {% for key, units in unitsData %}
+                        {% if units.type == 'elective' %}
+                                {% set unitId = units.id %}
+                                {% if unitId|trim in electiveUnits|keys %} 
+                                {% set flagElective = '1' %}
+                                <div>
+                                    <input id="acc-{{i}}" name="accordion-1" type="checkbox" />
+                                    <div class="row no-margin">
+                                        <div id="div_{{units.id}}" class="gq-acc-row-bg">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-2">
+                                                <div class="gq-acc-row-title">{{units.id}}</div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                                <div class="gq-acc-row-title">{{units.name}}</div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <label for="acc-{{i}}" temp="acc-{{i}}" id="label_{{units.id}}" class="col-xs-4 openIcon btn add-btn upDownArrow view-button" >VIEW</label>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            {% set evidence =  evidence_service.getUserUnitEvidences(userId, units.id) %}
+                                            {% if evidence %}
+                                                <span class="pull-left" id="sp_{{units.id}}"><button id="btneye_{{units.id}}" class="btn eye-btn unit-evidence-id fromnewBottom" unitid="{{units.id}}" course_code="{{courseInfo.id}}" course_name="{{courseInfo.name}}" unittitle="{{units.name}}" del-status="0" userid="{{userId}}" data-toggle="modal" data-target="#edivenceUnitModal" data-direction="bottom"><span class="hidden-xs"></span>SHOW</button></span>
+                                                {% if ('ROLE_ASSESSOR' in userRole) or ('ROLE_FACILITATOR' in userRole)  %}
+                                                {% if 'ROLE_ASSESSOR' in userRole %}
+                                                {% set utype = 'a' %}
+                                                {% elseif 'ROLE_FACILITATOR' in userRole %}
+                                                {% set utype = 'f' %}
+                                                {% endif %} 
+                                                <span class="pull-left gq-acc-notes-btn" id=""><button id="notesButton_{{units.id}}" notestype="{{ utype }}" class="btn eye-btn unit-notes fromnewBottom" unitid="{{ user_service.getUnitPrimaryId( userId, units.id, courseInfo.id ) }}" data-toggle="modal" data-target="#edivenceUnitModalNotes" data-direction="bottom"><span class="hidden-xs"></span>NOTES</button></span>
+                                                {% endif%}
+                                                <div id="{{units.id}}_approveStatus">
+                                                {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], units.id, courseInfo.id ) %}
+                                                {% if approvalStatus == 1 %}
+                                                    <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookopen.png"></span>
+                                                {% elseif approvalStatus == 2 %}
+                                                    <span class="pull-right gq-acc-book-icon"><img src="{{ asset('public/images')}}/bookclosed.png"></span>
+                                                {% endif%}
+                                                </div>
+                                            {% else %}
+                                                <div class="gq-acc-row-title">No Evidences found</div>
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <article class="acc-small">
+                                        <p>{{units.name}}</p>
+                                    </article>
+                                </div>
+                                {% set i = i+1 %}
+                                {% else %}
+                           {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if flagElective == '0' %}
+                            <div class="gq-acc-row-title load-icon-tr">No Elective Units found</div>
+                    {% endif %}
+                {% endif %}
+                {% endif %}
+            </div>
+            <!-- accordion ends here -->
+        </div>
+    </div>
+    </div>
+    {% endif %}
+        {% endif %}
+     {% endif %}
+    
+    <div class="col-xs-12 text-center">
+        <span class="gq-approved-status" id="status_ar" style="display:none;">Portfolio Submitted!</span>
+        <span class="gq-approved-status" id="status_arc" style="display:none;">Issued and Certified!</span>
+        <span class="gq-approved-status" id="status_ac" style="display:none;">Certificate Issued!</span>
+    </div>
+    <div class="gq-extra-space" style="display:none;"></div>
+     <span class="gq-approve-error" id="gq-approve-error" style="display:none;">Please approve all the units.</span>
+     <center id="approve_loader" style="display:none"><span><img src="{{ asset('public/images')}}/loading.gif" /></span></center>
+</div>
+
+<!----- Unit evidences start --->
+<div class="modal fade bottom" id="edivenceUnitModal" tabindex="-1" role="dialog" aria-labelledby="edivenceModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal-upload">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close custom-close" id="" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="gq-dashboard-courses-detail-wrap">
+                    <div class="gq-dashboard-tabs">
+                        <div id="unit-evidence-tab2" style="display:none">
+                            <div class="wid90p">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="gq-evidence-new">
+                                            <ul id="myTab2" role="tablist" class="nav nav-pills margin-top15 gq-evidence-new-tabs">
+                                                <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="unit-images" href="#unit-images" aria-expanded="true">Images</a></li>
+                                                <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-audios" href="#unit-audios" aria-expanded="false">Audios</a></li>
+                                                <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-videos" href="#unit-videos" aria-expanded="false">Videos</a></li>
+                                                <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-notes" href="#unit-notes" aria-expanded="false">Notes</a></li>
+                                                <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-files" href="#unit-files" aria-expanded="false">Documents</a></li>
+                                                {% if ('ROLE_APPLICANT' not in userRole) %}
+                                                <li role="presentation" class=""><a data-toggle="tab" role="tab" aria-controls="unit-recordings" href="#unit-recordings" aria-expanded="false">Competency Recordings</a></li>
+                                                {% endif %}                                                
+                                                {% if ('ROLE_ASSESSOR' in userRole) or ('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
+                                                <li role="presentation"><a href="#unit-emailcon" class="unit-emailcon" aria-controls="unit-emailcon" role="tab" data-toggle="tab">Email Conversation</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div aria-labelledby="existing-evidence-tab" id="unit-images2" class="tab-pane fade active in" role="tabpanel">
+                                                    <div class="gq-dashboard-courses-detail-wrap gq-dashboard-qualification-scroll">
+                                                        <div class="row">
+                                                            <div id="ajaxEvidences2" style="display: block;" class="load-icon-tr">
+                                                                <img src="{{ asset('public/images')}}/loading.gif">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="unit-evidence-tab"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if ('ROLE_ASSESSOR' in userRole) or ('ROLE_FACILITATOR' in userRole)  %}
+<!----- Unit Notes start --->
+<div class="modal fade bottom" id="edivenceUnitModalNotes" tabindex="-1" role="dialog" aria-labelledby="edivenceUnitModalNotes" aria-hidden="true">
+    <div class="modal-dialog gq-modal-upload">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close custom-close" id="" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="gq-dashboard-courses-detail-wrap">
+                    <div class="notes-success-msg" id="notes-success-msg"><span></span></div>
+                    <div class="notes-er-msg" id="notes-error-msg"><span></span></div>              
+                    <div class="gq-dashboard-tabs">
+                        <div id="unit-notes-tab">
+                            <div class="wid90p">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                       {% if 'ROLE_ASSESSOR' in userRole %}
+                                       {% set utype = 'a' %}
+                                       {% set omtype = 'f' %}
+                                       {% set omtext = 'Facilitator Notes' %} 
+                                       {% elseif 'ROLE_FACILITATOR' in userRole %}
+                                       {% set utype = 'f' %}
+                                       {% set omtype = 'a' %}
+                                       {% set omtext = 'Assessor Notes' %} 
+                                       {% endif %} 
+                                        <div class="gq-evidence-new">
+                                            <ul id="myNotesTab" role="tablist" class="nav nav-pills margin-top15 gq-evidence-new-tabs">
+                                                <li role="presentation" class="active"><a data-toggle="tab" role="tab" aria-controls="add-notes" href="#add-notes" aria-expanded="true">Add Notes</a></li>
+                                                <li role="presentation" class=""><a id="yourNotes" userType="{{ utype }}" data-toggle="tab" role="tab" aria-controls="your-notes" href="#your-notes" aria-expanded="false">Your Notes</a></li>
+                                                <li role="presentation" class=""><a id="otherMemberNotes" userType="{{ omtype }}" data-toggle="tab" role="tab" aria-controls="other-memeber-notes" href="#other-memeber-notes" aria-expanded="false">{{ omtext }}</a></li>
+                                            </ul>
+                                            <div id="myNotesTabContent" class="tab-content">
+                                                <div aria-labelledby="add-notes" id="add-notes" class="tab-pane fade active in" role="tabpanel">
+                                                  <div class="gq-notes-scroll">    
+                                                  <form method="post" id="frmAddNotes" name="frmAddNotes" action="{{ app.request.baseUrl }}/addNotes" enctype= "multipart/form-data">
+                                                    <div class="row">
+                                                        <div class="container-fluid">
+                                                            <div class="gq-course-details-add-notes">
+                                                              {{ form_widget(notesForm.note_unit_id, {'attr': {'id': 'note_unit_id'}}) }}
+                                                              {{ form_widget(notesForm.unit_note_type, {'attr': {'id': 'unit_note_type'}}) }}
+                                                              {{ form_widget(notesForm.unit_notes, {'attr': {'id': 'unit_notes','placeholder': 'Add Notes here'}}) }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="gq-course-details-notes-button-wrap">
+                                                              {{ form_widget(notesForm.unit_save, {'attr': {'class': 'btn btn-green notes-button'}}) }}
+                                                              {{ form_widget(notesForm.unit_cancel, {'attr': {'class': 'btn btn-red notes-button notes-cancel-button', 'id': 'unit_notes_cancel'}}) }}
+                                                                <span id="notes-loading" class="loading-icon pull-right uploadevidence_assess_loader hide"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                    
+                                                </form>
+                                                  </div>       
+                                                </div>
+                                                <div aria-labelledby="your-notes" id="your-notes" class="tab-pane fade in" role="tabpanel">
+                                                    <div id="yourNotesDiv" class="shownotes gq-notes-scroll"> 
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div aria-labelledby="other-memeber-notes" id="other-memeber-notes" class="tab-pane fade in" role="tabpanel">
+                                                    <div id="otherMemberNotesDiv" class="shownotes gq-notes-scroll"> 
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!----- Unit Notes End --->
+{% endif %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="disclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Assessor not yet approved all the Units</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalrto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="disclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Please approve all the Units</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<!----- Unit evidences end --->
+{% endblock %}
+  {% block javascripts %}
+<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+        $(".gq-fac-edit-anchor1").click(function() {
+                $(".gq-facilitator-select-name").hide();
+                $(".gq-facilitator-select-area").show();
+                $(".gq-fac-edit-anchor1").hide();
+                $(".gq-fac-edit-anchor2").show();
+        });
+        $(".gq-fac-edit-anchor2").click(function() {
+                $(".gq-facilitator-select-name").show();
+                $(".gq-facilitator-select-area").hide();
+                $(".gq-fac-edit-anchor2").hide();
+                $(".gq-fac-edit-anchor1").show();
+        });
+        $(".gq-rto-edit-anchor1").click(function() {
+                $(".gq-rto-select-name").hide();
+                $(".gq-rto-select-area").show();
+                $(".gq-rto-edit-anchor1").hide();
+                $(".gq-rto-edit-anchor2").show();
+        });
+        $(".gq-rto-edit-anchor2").click(function() {
+                $(".gq-rto-select-name").show();
+                $(".gq-rto-select-area").hide();
+                $(".gq-rto-edit-anchor2").hide();
+                $(".gq-rto-edit-anchor1").show();
+        });
+    });
+</script>
+  {% endblock %}

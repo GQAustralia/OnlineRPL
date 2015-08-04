@@ -1,0 +1,339 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - Evidence Files{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+{% endblock %}
+{% block body %}
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs-3">
+            <h1 class="gq-dashboard-title">Evidence Files</h1>
+            <!-- <h6 class="gq-dashboard-title-desc">Some description can be given here</h6>  -->
+        </div>
+        <div class="col-xs-6" id="evidence_msg"></div>
+        <div class="col-xs-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="gq-evidence-new">
+                <!-- Tabs start here -->
+                <ul class="nav nav-pills margin-top15 gq-evidence-new-tabs nav-justified" role="tablist" id="myTab">
+                    <li role="presentation" class="active" ><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a></li>
+                    <li role="presentation"><a href="#audios" aria-controls="address" role="tab" data-toggle="tab">Audios</a></li>
+                    <li role="presentation"><a href="#videos" aria-controls="videos" role="tab" data-toggle="tab">Videos</a></li>
+                    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+                    <li role="presentation"><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Documents</a></li>
+{#                    <li role="presentation"><a href="#recordings" aria-controls="recordings" role="tab" data-toggle="tab">Competency Recordings</a></li>#}
+                </ul>
+                <!-- Tabs end start here -->
+
+                <!-- Content for respective tabs above will be in this section -->
+                <div class="tab-content  margin-top15">
+                    <div role="tabpanel" class="tab-pane" id="audios">
+                        <div class="">
+                            <div class="row">
+                                {% set flag_audio = 0 %}
+                                {% if evidences %}
+                                {% for evidence in evidences %}
+                                    {% if evidence.type == 'audio' %}
+                                    {% set flag_audio = 1 %}
+
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"  id="evd_{{evidence.id}}">
+                                    <div class="gq-dashboard-courses-detail">
+                                        <span class="gq-dashboard-points-icon">
+                                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+                                            <div class="tooltip-home top">
+                                                <div class="tooltip-arrow"></div>
+                                                <span class="">Delete Audio</span>
+                                            </div>
+                                        </span>
+                                        <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
+                                            <div class="gq-id-files-content-icon-wrap gq-id-files-content-audio-icon"></div></a>
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label>
+                                                <span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{% if evidence.name|length > 20 %}{{evidence.name|slice(0, 20)}}...{% else %}{{evidence.name}}{% endif %}</span>
+                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>    
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Size</label><span>{{evidence.size}}</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {# % endif % #}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+
+                                {% if flag_audio == 0 %}
+                                <div class="gq-tabs-no-content-text">Audios not found</div>
+                                {% endif %}
+                            </div>                                                        
+                        </div>    
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="videos">
+                        <div class="">
+                            <div class="row">
+                                {% set flag_video = 0 %}
+                                {% if evidences %}
+                                {% for evidence in evidences %}
+                                    {% if evidence.type == 'video' %}
+                                    {% set flag_video = 1 %}
+
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"  id="evd_{{evidence.id}}">
+                                    <div class="gq-dashboard-courses-detail">
+
+                                        <span class="gq-dashboard-points-icon">
+                                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+                                            <div class="tooltip-home top">
+                                                <div class="tooltip-arrow"></div>
+                                                <span class="">Delete Video</span>
+                                            </div>
+                                        </span>
+
+                                        <a href = "{{ amazon_link }}{{  evidence.path }}" target="_blank">
+                                            <div class="gq-id-files-content-icon-wrap gq-id-files-content-video-icon"></div></a>
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{% if evidence.name|length > 20 %}{{evidence.name|slice(0, 20)}}...{% else %}{{evidence.name}}{% endif %}</span>
+                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>    
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Size</label><span>{{evidence.size}}</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                {# % endif % #}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+
+                                {% if flag_video == 0 %}
+                                <div class="gq-tabs-no-content-text">Videos not found</div>
+                                {% endif %}
+                            </div>                                                        
+                        </div>    
+                    </div>
+                    <div role="tabpanel" class="tab-pane active" id="images">
+                        <div class="">
+                            <div class="row">
+                                {% set flag_image = 0 %}
+                                {% if evidences %}
+                                {% for evidence in evidences %}
+                                    {% if evidence.type == 'image' %}
+                                    {% set flag_image = 1 %}                                   
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="evd_{{evidence.id}}">
+                                    <div class="gq-dashboard-courses-detail">
+
+                                        <span class="gq-dashboard-points-icon">
+                                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+                                            <div class="tooltip-home top">
+                                                <div class="tooltip-arrow"></div>
+                                                <span class="">Delete Image</span>
+                                            </div>
+                                        </span>
+                                        <a href = "{{ amazon_link }}{{  evidence.path }}" class="fancybox">
+                                            <div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
+                                        </a>
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{% if evidence.name|length > 20 %}{{evidence.name|slice(0, 20)}}...{% else %}{{evidence.name}}{% endif %}</span>
+                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>    
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Size</label><span>{{evidence.size}}</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
+                                            </div>
+                                        </div>
+                                    </div>            
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+
+                                {% if flag_image == 0 %}
+                                <div class="gq-tabs-no-content-text">Images not found</div>
+                                {% endif %}
+                            </div>                                                        
+                        </div>                                          
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="notes">
+                        {% set flag_text = 0 %}
+                        {% if evidences %}
+                        {% for evidence in evidences %}
+                            {% if evidence.type == 'text' %}
+                                {% set flag_text = 1 %}
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-12" id="evd_{{evidence.id}}">
+                                <div class="gq-dashboard-courses-detail">
+
+                                    <span class="gq-dashboard-points-icon">
+                                        <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+                                        <div class="tooltip-home top">
+                                            <div class="tooltip-arrow"></div>
+                                            <span class="">Delete Note</span>
+                                        </div>
+                                    </span>
+
+                                    <div class="gq-id-files-content-row-wrap">
+                                        <div class="gq-id-files-content-row">
+                                            <label>Title</label><span>{{evidence.content}}</span>
+                                        </div>
+                                        <div class="gq-id-files-content-row">
+                                            <label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% if flag_text == 0 %}
+                        <div class="gq-tabs-no-content-text">Notes not found</div>
+                        {% endif %}
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="files">
+                        <div class="">
+                            <div class="row">
+                                {% set flag_files = 0 %}
+                                {% if evidences %}
+                                {% for evidence in evidences %}
+                                    {% if evidence.type == 'file' %}
+                                    {% set flag_files = 1 %}
+                                    {% set types = ['txt', 'doc', 'xls', 'docx'] %}
+                                    {% set result = evidence.name|split('.') %}
+                                    {# % if result.1 | lower in types % #}
+                                        {% set file = amazon_link~evidence.path %}
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"  id="evd_{{evidence.id}}">
+                                    <div class="gq-dashboard-courses-detail">
+                                        <span class="gq-dashboard-points-icon">
+                                            <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{evidence.id}}" filetype="{{evidence.type}}"><div class="gq-del-evidence"></div></a>
+                                            <div class="tooltip-home top">
+                                                <div class="tooltip-arrow"></div>
+                                                <span class="">Delete Document</span>
+                                            </div>
+                                        </span>
+                                        <a href = "{{ amazon_link }}{{  evidence.path }}" {% if result.1 is defined %} {% if (result.1 == 'xls') or (result.1 == 'docx') or (result.1 == 'doc') %} {% else %} class="fancybox fancybox.iframe" {% endif %}{% else %} class="fancybox fancybox.iframe"{% endif %} ><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div>
+                                        </a>
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span title="{{evidence.name}}" id="evd-title-{{evidence.id}}">{% if evidence.name|length > 20 %}{{evidence.name|slice(0, 20)}}...{% else %}{{evidence.name}}{% endif %}</span>
+                                                <a href="javascript:void(0);" id="ev-{{evidence.id}}" class="modalClass evTitleData" data-evtitle="{{evidence.name}}" data-evid="{{evidence.id}}" data-toggle="modal" data-target="#editEvidenceModel"><img src="{{ asset('public/images/assessor-edit-icon.png') }}" alt="Edit" /></a>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Size</label><span>{{evidence.size}}</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                {# % endif % #}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+
+                                {% if flag_files == 0 %}
+                                <div class="gq-tabs-no-content-text" >Documents not found</div>
+                                {% endif %}
+                            </div>                                                        
+                        </div>    
+                    </div>
+
+                    {#<div role="tabpanel" class="tab-pane" id="recordings">
+                        <div class="">
+                            <div class="row">
+                                {% set flag_video = 0 %}
+                                {% if evidences %}
+                                {% for evidence in evidences %}
+                                    {% if evidence.type == 'recording' %}
+                                    {% set flag_video = 1 %}
+
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"  id="evd_{{evidence.id}}">
+                                    <div class="gq-dashboard-courses-detail">
+                                        <a href = "{{ amazon_link }}{{ evidence.path }}" target="_blank">
+                                            <div class="gq-id-files-content-icon-wrap gq-id-files-content-video-icon"></div></a>
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span title="{{evidence.path}}" id="evd-title-{{evidence.id}}">{{evidence.path|slice(0, 20)}}</span>
+                                            </div>
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>{{evidence.created|date("d/m/Y") }}</span>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+
+                                {% if flag_video == 0 %}
+                                <div class="gq-tabs-no-content-text">Recordings not found</div>
+                                {% endif %}
+                            </div>                                                        
+                        </div>    
+                    </div>#}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Do yo want to delete selected file ?</h4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-white deleteEvidence">Ok</a>
+                <a class="btn btn-white" id="qclose-cancel">Cancel</a>
+                <span class="loading-icon deleteevidence_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editEvidenceModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog gq-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="eqclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Title</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editEvId" value="">
+                <input type="text" id="editEvidenceModelinput" value="" maxlength="60">
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-white editEvidenceSave">Ok</a>
+                <a class="btn btn-white" id="eqclose-cancel">Cancel</a>
+                <span class="loading-icon edittitle_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+            </div>
+        </div>
+    </div>
+</div>    
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+    });
+</script>
+{% endblock %}

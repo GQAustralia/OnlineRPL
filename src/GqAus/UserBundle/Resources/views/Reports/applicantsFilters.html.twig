@@ -1,0 +1,21 @@
+<thead>
+    <tr>
+        <th><span class="">Name</span></th>
+        <th><span class="">Qualification Name</span></th>
+        {% if ('ROLE_FACILITATOR' in userRole) %}
+        <th><span class="">Assessor Status</span></th>
+        {% endif%}
+        {% if ('ROLE_RTO' in userRole) %}
+        <th><span class="">Portfolio Received On</span></th>
+        {% endif%}
+        <th {% if ('ROLE_RTO' in userRole) %} colspan="2" {% endif%}><span class="">{% if ('ROLE_RTO' in userRole) %}RTO{% elseif ('ROLE_FACILITATOR' in userRole)%}Facilitator{% endif %} Status</span></th>
+        {% if ('ROLE_FACILITATOR' in userRole) %}
+        <th {% if ('ROLE_FACILITATOR' in userRole) %} colspan="2" {% endif%}><span class="">RTO Status</span></th>
+        {% endif%}
+    </tr>
+</thead>
+			
+                        
+                        
+                        
+		

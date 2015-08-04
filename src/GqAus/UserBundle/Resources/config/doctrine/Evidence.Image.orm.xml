@@ -3,6 +3,7 @@
     <entity name="GqAus\UserBundle\Entity\Evidence\Image" table="evidenceimage"> 
          
        <field name="path" type="string" column="path"/>
+       <field name="name" type="string" column="name"/>
    
     </entity>
 </doctrine-mapping>
