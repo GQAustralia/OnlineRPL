@@ -1942,7 +1942,7 @@ class UserService
     public function getUserIDByRole($type)
     {
         $connection = $this->em->getConnection();
-        $statement = $connection->prepare("SELECT id, firstname, lastname, roletype, CONCAT(firstname, ' ', lastname) as username FROM user WHERE (roletype = :role) AND status = 1 LIMIT 1");
+        $statement = $connection->prepare("SELECT id FROM user WHERE (roletype = :role) AND status = 1 LIMIT 1");
         if ($type == 2) {
             $statement->bindValue('role', \GqAus\UserBundle\Entity\Facilitator::ROLE);
         } elseif ($type == 3) {
