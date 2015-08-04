@@ -1290,6 +1290,7 @@ class UserService
             $courseData['courseName'] = $request->get('coursename');
             $courseData['courseStatus'] = $request->get('coursestatus');
             $courseData['targetDate'] = $request->get('targetdate');
+            $courseData['zohoId'] = $request->get('zohoId');
             if (!empty($courseData['courseCode']) || !empty($courseData['courseName'])) {
                 $res = $this->addUserCourse($courseData, $user);
                 $message = $res['message'];
@@ -1336,7 +1337,7 @@ class UserService
                 $userCoursesObj->setCourseCode(isset($courseData['courseCode']) ? $courseData['courseCode'] : '');
                 $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
                 $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : '');
-                $userCoursesObj->setZohoId(isset($courseData['setZohoId']) ? $courseData['setZohoId'] : '');
+                $userCoursesObj->setZohoId(isset($courseData['zohoId']) ? $courseData['zohoId'] : '');
                 $userCoursesObj->setCreatedOn(time());
                 $userCoursesObj->setFacilitator($user);
                 $userCoursesObj->setAssessor($user);
