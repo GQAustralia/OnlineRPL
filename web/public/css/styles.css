@@ -170,7 +170,7 @@ a.btn-red {color:#ffffff;}
 .btn-green{background-color:#57ba00; color:#ffffff;}
 .btn-green:hover, .btn-green:focus {background-color:#4aab00; color:#f6f6f6;}
 .add-btn, .eye-btn {background-color:#e01010; color:#ffffff; margin-top:7px; height:30px; border-radius:3px; padding:0 12px;}
-.add-btn:hover, .add-btn:focus, .eye-btn:hover, .eye-btn:focus{background-color:#e03934; color:#f6f6f6;}
+.add-btn:hover, .add-btn:focus, .eye-btn:hover, .eye-btn:focus{background-color:#c20202; color:#f6f6f6;}
 .add-btn span {background-image:url('../images/add-btn-bg.png'); background-repeat:no-repeat; background-position: center center; display:block; width:20px; height:20px; float:left; margin-right:5px;}
 .eye-btn span {background-image:url('../images/eye-btn-bg.png'); background-repeat:no-repeat; background-position: center center; display:block; width:20px; height:20px; float:left; margin-right:5px;}
 
@@ -422,8 +422,8 @@ a.btn-red {color:#ffffff;}
 	.modal-dialog.gq-modal-upload .modal-footer { text-align:center; border-top:0 none;}
 	.modal-dialog.gq-modal-upload .modal-content {border-radius:0; background:none; box-shadow:none; border:0 none;}
 	.modal-dialog.gq-modal-upload .modal-body {font-size:16px; color:#5e5e5e; background-color:#ffffff; width:100%; float:left;}
-	.modal-dialog.gq-modal-upload .modal-header button.close {background-image:url('../images/cross-icon-red.png'); background-repeat:no-repeat; background-position: center center; width:42px; height:42px; display:block; opacity:1; background-color:#f04941; margin-top:-7px; margin-right:-7px;}
-	.modal-dialog.gq-modal-upload .modal-header {text-align:center; color:#e01010; font-size:20px; padding-left:42px; height:50px; border-bottom:2px solid #f04941;}
+	.modal-dialog.gq-modal-upload .modal-header button.close {background-image:url('../images/cross-icon-red.png'); background-repeat:no-repeat; background-position: center center; width:42px; height:42px; display:block; opacity:1; background-color:#e01010; margin-top:-7px; margin-right:-7px;}
+	.modal-dialog.gq-modal-upload .modal-header {text-align:center; color:#e01010; font-size:20px; padding-left:42px; height:50px; border-bottom:2px solid #e01010;}
 	.modal-dialog.gq-modal-upload .modal-footer .btn-white {width:inherit; border: 2px solid #e01010; color:#e01010; line-height:30px;}
 	.modal-dialog.gq-modal-upload .modal-footer .btn-white:hover, .modal-dialog.gq-modal-upload .modal-footer .btn-white:focus {background-color:#f4f4f4;}
 	.modal.fade:not(.in).bottom .modal-dialog {
@@ -447,7 +447,7 @@ a.btn-red {color:#ffffff;}
 .gq-evidence-new .gq-evidence-new-tabs{ font-size:16px; border-bottom:0px solid #e3e3e3; background:url('../images/gray-line-bit.png') repeat-x bottom center; }
 .gq-evidence-new .nav-pills > li > a{ border-bottom:2px solid transparent; }
 .gq-evidence-new .nav-pills > li > a, .gq-evidence-new .nav-pills > li > a:hover, .nav-pills > li > a:focus{ background-color:transparent; color:#5e5e5e; border-radius:0; outline:0px none; }
-.gq-evidence-new .nav-pills > li.active > a, .gq-evidence-new .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{ background-color:transparent; color:#f36059; border-bottom:2px solid #f36059; border-radius:0; }
+.gq-evidence-new .nav-pills > li.active > a, .gq-evidence-new .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{ background-color:transparent; color:#e01010; border-bottom:2px solid #e01010; border-radius:0; }
 .gq-evidence-new ul li {width:auto;/*90px;*/}
 .gq-dashboard-tabs .gq-evidence-new .nav {box-shadow:none;}
 .gq-dashboard-tabs .gq-evidence-new .nav-pills > li.active > a, .gq-dashboard-tabs .gq-evidence-new .nav-pills > li.active > a:hover, .gq-dashboard-tabs .gq-evidence-new .nav-pills > li.active > a:focus {color:#e01010; background-color:#ffffff;}
@@ -771,7 +771,7 @@ a.btn-red {color:#ffffff;}
 #ui-datepicker-div .ui-datepicker-header .ui-state-hover {color:#5c5e5d; cursor:pointer;}
 #ui-datepicker-div .ui-datepicker-title select{color:#5c5e5d;}
 #ui-datepicker-div .ui-state-highlight, #ui-datepicker-div .ui-widget-content .ui-state-highlight, #ui-datepicker-div .ui-widget-header .ui-state-highlight {background-color:#337ab7; color:#ffffff; border:1px solid #337ab7;}
-#ui-datepicker-div .ui-state-active, #ui-datepicker-div .ui-widget-content .ui-state-active, #ui-datepicker-div .ui-widget-header .ui-state-active {background-color:#f04941; color:#ffffff;}
+#ui-datepicker-div .ui-state-active, #ui-datepicker-div .ui-widget-content .ui-state-active, #ui-datepicker-div .ui-widget-header .ui-state-active {background-color:#e01010; color:#ffffff;}
 #ui-datepicker-div .ui-state-default, #ui-datepicker-div  .ui-widget-content .ui-state-default, #ui-datepicker-div  .ui-widget-header .ui-state-default {text-align:center;}
 #ui-datepicker-div.ui-widget-content {background-color:#ffffff;}
 #ui-datepicker-div .ui-widget-header {background-color:#ebebeb;}
