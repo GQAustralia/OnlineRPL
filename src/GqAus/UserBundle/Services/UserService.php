@@ -2013,7 +2013,7 @@ class UserService
                     
                     // checking whether the all units of this qualification has been approved or not
                     $unitsApproval = $this->checkAssessorAllUnitsApproved($courseObj);
-                    if( $unitsApproval == 2 ) { // if any unit pending approvals or any disapproved unit
+                    if( $unitsApproval == 0 ) { // if any unit pending approvals or any disapproved unit
                       //return $unitsApproval;
                       $response['type'] = 'Error';
                       $response['code'] = 2;
@@ -2086,7 +2086,7 @@ class UserService
             // get status list
             $statusList = $this->getqualificationStatus();
             
-            // checking whether if the subject and message variables are already defined if assigning the default data
+            // checking whether if the subject and message variables are already defined if no assigning the default data
             if (!isset($mailSubject) && !isset($mailMessage) ) {
                 $mailSubject = "Qualification Status Updated of " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
                 $mailMessage = "Dear " . $toUserName . ", <br/><br/> Qualification Status of : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " has been updated to ".$statusList[$courseStatus]["status"].".
@@ -2123,13 +2123,16 @@ class UserService
             $this->sendMessagesInbox($mailerInfo);
             
              // update the zoho api status
-            $zohoId = '696292000010172044';
-            $zohoUpdateResponse = $this->updateZohoAPIStatus($zohoId, $statusList[$courseStatus]["status"]);
-            if($zohoUpdateResponse != "Success"){
-                $response['type'] = 'Error';
-                $response['code'] = 5;
-                $response['msg'] = $zohoUpdateResponse;
-                return $response;
+            //$zohoId = '696292000010172044';
+            if($courseObj->getZohoId()!="") {
+               $zohoId = $courseObj->getZohoId();                         
+               $zohoUpdateResponse = $this->updateZohoAPIStatus($zohoId, $statusList[$courseStatus]["status"]);
+               if($zohoUpdateResponse != "Success"){
+                   $response['type'] = 'Error';
+                   $response['code'] = 5;
+                   $response['msg'] = $zohoUpdateResponse;
+                   return $response;
+               }
             }
             
             $response['type'] = 'Success';
@@ -2181,7 +2184,7 @@ class UserService
      */
     public function checkAssessorAllUnitsApproved($courseObj)
     {
-        $assessorApproval = 2;        
+        $assessorApproval = 0;        
         $courseUnitCheckObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
                               ->findOneBy(array('user' => $courseObj->getUser()->getId(),
                                                 'courseCode' => $courseObj->getcourseCode(),
