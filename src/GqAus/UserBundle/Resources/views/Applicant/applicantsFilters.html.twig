@@ -4,7 +4,7 @@
         <th {% if (('ROLE_RTO' in userRole) or ('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %} colspan="2" {% else %} width="25%" {% endif %}><span class="">Qualification Name</span></th>
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
         <th width="20%"><span class="">Evidence Completeness (%)</span></th>
-        <th width="15%"><span class="">Notes &#47; Reminders</span></th>
+        <th width="10%"><span class="">Notes &#47; Reminders</span></th>
         <th colspan="25%"><span class="">Remaining Time</span></th>
         {% endif %}
     </tr>

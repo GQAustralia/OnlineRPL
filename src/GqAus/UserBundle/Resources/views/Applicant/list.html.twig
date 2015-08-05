@@ -106,7 +106,7 @@
                             <!-- Tabs end start here -->
                             <!-- Content for respective tabs above will be in this section -->
                             <div class="tab-content">
-                                <div id="ajaxHtml" style="display:none" {% if ('ROLE_RTO' in userRole) %} tdcolspan="3" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+                                <div id="ajaxHtml" style="display:none" {% if (('ROLE_RTO' in userRole) or ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="3" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
                                     <img src="{{ asset('public/images')}}/loading.gif" />
                                 </div>
                                 <div role="tabpanel" class="tab-pane active" id="current">
