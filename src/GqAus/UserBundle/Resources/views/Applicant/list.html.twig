@@ -126,10 +126,10 @@
                                                 <tr>        
                                                     <th width="20%"><span class="">Name</span></th>
                                                     <th  {% if (('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %} width="40%" {% else %} width="80%" colspan="5" {% endif %} ><span class="">Qualification Name</span></th>
-													{% if (('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %}
-														<th width="20%"><span class="">Qualification Status </span></th>
-														<th width="20%"><span class=""></span></th>
-													{% endif %}                                                
+                                                    {% if (('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %}
+                                                        <th width="20%"><span class="">Qualification Status </span></th>
+                                                        <th width="20%"><span class=""></span></th>
+                                                    {% endif %}                                                
                                                 </tr>
                                             </thead>
                                             <tbody class="row" id="completedList">
