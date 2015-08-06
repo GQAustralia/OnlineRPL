@@ -21,11 +21,11 @@ _main:
 _default_page:
     resource: "@GqAusUserBundle/Resources/config/routing.yml"
 
-login:
-    path:     /login
-    defaults:  { _controller: GqAusUserBundle:Login:index }
-login_check:
-    path: /login_check
-logout:
-    path:     /logout
-    defaults:  { _controller: GqAusUserBundle:Login:logout }
+
+
+
+
+
+
+
+
