@@ -2065,19 +2065,21 @@ class UserService
                 }
                 else if ($courseStatus == 0) {  // if the facilitator issue the certificate                 
                     // checking whether the assessor and rto approved the qualification or not
-                    if($courseObj->getAssessorstatus() != 1 && $courseObj->getRtostatus() != 1) {
+                    if($courseObj->getAssessorstatus() == 0 && $courseObj->getRtostatus() == 0) {
+                        
+                        $mailSubject = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
+                        $mailMessage = "Dear " . $toUserName . ", <br/><br/> All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent <br/> Validated all the eviedences in the qualification and issued the certificate.
+                                      <br/><br/> Regards, <br/> " . $sentUserName;
+                        $mailMessageApplicant = "Dear " . $courseObj->getUser()->getUsername() . ", <br/><br/> All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent <br/> Validated all the eviedences in the qualification and issued the certificate.
+                                      <br/><br/> Regards, <br/> " . $courseObj->getFacilitator()->getUsername();    
+                        
+                    } else {                        
                         //return 3;
                         $response['type'] = 'Error';
                         $response['code'] = 3;
                         $response['msg'] = 'Assessor and Rto has not yet approved the qualification.';
-                        return $response;
+                        return $response;                        
                     }
-                    
-                   $mailSubject = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
-                   $mailMessage = "Dear " . $toUserName . ", <br/><br/> All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent <br/> Validated all the eviedences in the qualification and issued the certificate.
-                                 <br/><br/> Regards, <br/> " . $sentUserName;
-                   $mailMessageApplicant = "Dear " . $courseObj->getUser()->getUsername() . ", <br/><br/> All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent <br/> Validated all the eviedences in the qualification and issued the certificate.
-                                 <br/><br/> Regards, <br/> " . $courseObj->getFacilitator()->getUsername();
                 }
             }
             $this->em->persist($courseObj);
@@ -2099,7 +2101,7 @@ class UserService
             $mailerInfo['unitId'] = ''; 
             $mailerInfo['subject'] = $mailSubject;
             
-            if ((in_array('ROLE_ASSESSOR', $userRole)) || (in_array('ROLE_FACILITATOR', $userRole) && ($courseStatus == 2 || $courseStatus == 11))) {
+            if ((in_array('ROLE_ASSESSOR', $userRole)) || (in_array('ROLE_FACILITATOR', $userRole) && ($courseStatus == 2 || $courseStatus == 11 || $courseStatus == 15))) {
                 
                 $mailerInfo['sent'] = $sentId;
                 $mailerInfo['to'] = $toEmail;
