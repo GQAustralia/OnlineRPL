@@ -132,6 +132,12 @@ class ApplicantController extends Controller
         if ($page == "")
             $page = 1;
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, $searchName, $searchTime, $filterByUser, $filterByStatus);
+        
+        if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
+            $qualificationStatus = $this->get('UserService')->getqualificationStatus();
+            $results['qualificationStatus'] = $qualificationStatus;
+        }
+        
         $results['pageRequest'] = 'ajax';
         $results['status'] = $status;
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results);
