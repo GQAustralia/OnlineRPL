@@ -1,9 +1,10 @@
 <thead>
     <tr>
         <th {% if ('ROLE_RTO' not in userRole) %} width="20%" {% endif %}><span class="">Name</span></th>
-        <th {% if (('ROLE_RTO' in userRole) or ('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %} colspan="2" {% else %} width="25%" {% endif %}><span class="">Qualification Name</span></th>
+        <th {% if (('ROLE_RTO' in userRole) or ('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %} {% else %} width="25%" {% endif %}><span class="">Qualification Name</span></th>
         {% if (('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %}
         <th width="20%"><span class="">Qualification Status </span></th>
+		<th width="20%"><span class=""></span></th>
         {% endif %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
         <th width="20%"><span class="">Evidence Completeness (%)</span></th>
