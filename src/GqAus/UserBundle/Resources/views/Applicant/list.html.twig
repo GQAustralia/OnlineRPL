@@ -106,7 +106,7 @@
                             <!-- Tabs end start here -->
                             <!-- Content for respective tabs above will be in this section -->
                             <div class="tab-content">
-                                <div id="ajaxHtml" style="display:none" {% if ('ROLE_RTO' in userRole) %} tdcolspan="3" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+                                <div id="ajaxHtml" style="display:none" {% if ('ROLE_RTO' in userRole) %} tdcolspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
                                     <img src="{{ asset('public/images')}}/loading.gif" />
                                 </div>
                                 <div role="tabpanel" class="tab-pane active" id="current">
@@ -125,7 +125,11 @@
                                             <thead>
                                                 <tr>        
                                                     <th width="20%"><span class="">Name</span></th>
-                                                    <th width="80%" colspan="5"><span class="">Qualification Name</span></th>                                                
+                                                    <th  {% if (('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %} width="40%" {% else %} width="80%" colspan="5" {% endif %} ><span class="">Qualification Name</span></th>
+                                                    {% if (('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %}
+                                                        <th width="20%"><span class="">Qualification Status </span></th>
+                                                        <th width="20%"><span class=""></span></th>
+                                                    {% endif %}                                                
                                                 </tr>
                                             </thead>
                                             <tbody class="row" id="completedList">

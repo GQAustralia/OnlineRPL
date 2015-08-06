@@ -687,7 +687,7 @@ a.btn-red {color:#ffffff;}
 .gq-reports-date-picker.gq-applicant-filter-wrap .reportsDate {color:#c6c6c6;}
 .gq-reports-date-picker.gq-applicant-filter-wrap #reportrange{height:40px; border-color:#e7ecef !important; padding-top:9px !important;}
 .gq-reports-filter-btn { margin-top: 6px; padding: 0 20px; }
-.daterangepicker td.active, .daterangepicker td.active:hover, .daterangepicker .applyBtn {background-color:#f14841 !important; border-color:#f14841 !important;}
+.daterangepicker td.active, .daterangepicker td.active:hover, .daterangepicker .applyBtn {background-color:#e01010 !important; border-color:#e01010 !important;}
 .daterangepicker td.in-range {background: none repeat scroll 0 0 #f0f0f0 !important; border-radius: 0;}
 .daterangepicker .ranges {float:right !important;}
 .gq-reports-date-picker.gq-applicant-filter-wrap{width:272px;}
