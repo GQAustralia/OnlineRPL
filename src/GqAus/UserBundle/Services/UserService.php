@@ -2065,7 +2065,7 @@ class UserService
                 }
                 else if ($courseStatus == 0) {  // if the facilitator issue the certificate                 
                     // checking whether the assessor and rto approved the qualification or not
-                    if($courseObj->getAssessorstatus() == 0 && $courseObj->getRtostatus() == 0) {
+                    if($courseObj->getAssessorstatus() == 1 && $courseObj->getRtostatus() == 1) {
                         
                         $mailSubject = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
                         $mailMessage = "Dear " . $toUserName . ", <br/><br/> All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent <br/> Validated all the eviedences in the qualification and issued the certificate.
