@@ -1307,10 +1307,13 @@ class UserService
             $applicationUrl = $this->container->getParameter('applicationUrl');
             $body = "Dear " . $data['firstname'] . " " . $data['lastname'] . ",<br/><br/> ";
             if ($emailFlag == 'U') {
-                $body .= "Account has been created for GQ Australia! <br/> You can use the following link to login <a href='" . $applicationUrl. "'>Click Here </a> <br/>with Email: ".$data['email']."<br/> Password: ".$data['newpassword']."<br/>";
+                $body .= "Account has been created for GQ Australia!";
             }
             if ($emailCourseFlag == 'Q') {
-                $body .= "<br> Qualification: ". $courseData['courseCode'] ." is been Added<br/>";
+                $body .= " Qualification: ". $courseData['courseCode'] ." has been Added.";
+            }
+            if ($emailFlag == 'U') {
+                $body .= " <a href='" . $applicationUrl. "'>Click Here </a> to login, Below are the account details.  <br/><br/> Email: ".$data['email']."<br/> Password: ".$data['newpassword']."<br/>";
             }
             $body .= "<br/><br/> Regards, <br/> OnlineRPL";
             $mailerInfo['body'] = $body;
@@ -1339,7 +1342,7 @@ class UserService
                 $userCoursesObj->setUser($user);
                 $userCoursesObj->setCourseCode(isset($courseData['courseCode']) ? $courseData['courseCode'] : '');
                 $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
-                $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : '');
+                $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : 1);
                 $userCoursesObj->setZohoId(isset($courseData['zohoId']) ? $courseData['zohoId'] : '');
                 $userCoursesObj->setCreatedOn(time());
                 $userCoursesObj->setFacilitator(isset($facilitatorRoleUser) ? $facilitatorRoleUser : '');
