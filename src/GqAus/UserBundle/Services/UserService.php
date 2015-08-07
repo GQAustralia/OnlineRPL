@@ -1262,8 +1262,7 @@ class UserService
         $data['ceoemail'] = $request->get('ceoemail');
         $data['ceophone'] = $request->get('ceophone');
         $data['createdby'] = $request->get('createdby');
-        $data['status'] = $request->get('status');
-        $data['crmId'] = $request->get('facilitatorcrmId');
+        $data['status'] = $request->get('status');        
         $data['address']['address'] = $request->get('address');
         $data['address']['pincode'] = $request->get('pincode');
         $data['newpassword'] = isset($data['newpassword']) ? $data['newpassword'] : $uniqid;
@@ -1291,6 +1290,7 @@ class UserService
             $courseData['courseName'] = $request->get('coursename');
             $courseData['courseStatus'] = $request->get('coursestatus');
             $courseData['targetDate'] = $request->get('targetdate');
+            $courseData['crmId'] = $request->get('facilitatorcrmId');
             $courseData['zohoId'] = $request->get('zohoId');
             if (!empty($courseData['courseCode']) || !empty($courseData['courseName'])) {
                 $res = $this->addUserCourse($courseData, $user);
@@ -1329,7 +1329,7 @@ class UserService
     public function addUserCourse($courseData, $user)
     {
         $emailFlag = '';
-        if (empty($data['crmId'])) {
+        if (empty($courseData['crmId'])) {
             $message = 'Facilitator CRM ID cannot be empty!';
         } elseif (empty($courseData['courseCode'])) {
             $message = 'Please enter course code!';
@@ -1337,7 +1337,7 @@ class UserService
             $message = 'Please enter course name!';
         } else {
             $courseExist = $this->checkUserCourseExist($courseData['courseCode'], $user->getId());
-            $facilitatorRoleUser = $this->getCrmUserId($data['crmId']);
+            $facilitatorRoleUser = $this->getCrmUserId($courseData['crmId']);
             if (!empty($facilitatorRoleUser)) {
                 if ($courseExist <= 0) {
                     $userCoursesObj = new UserCourses();
