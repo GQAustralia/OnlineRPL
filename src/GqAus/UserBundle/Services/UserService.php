@@ -1348,8 +1348,6 @@ class UserService
                     $userCoursesObj->setZohoId(isset($courseData['zohoId']) ? $courseData['zohoId'] : '');
                     $userCoursesObj->setCreatedOn(time());
                     $userCoursesObj->setFacilitator(isset($facilitatorRoleUser) ? $facilitatorRoleUser : '');
-                    $userCoursesObj->setAssessor('');
-                    $userCoursesObj->setRto('');
                     $userCoursesObj->setFacilitatorstatus(0);
                     $userCoursesObj->setAssessorstatus(0);
                     $userCoursesObj->setRtostatus(0);
