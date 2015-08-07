@@ -60,6 +60,11 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     
     /**
      * @var string
+     */
+    private $crmId;
+    
+    /**
+     * @var string
     */
     private $createdby;
     
@@ -1060,5 +1065,28 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     public function getStatus()
     {
         return $this->status;
+    }
+    
+    /**
+     * Get crmId
+     *
+     * @return string 
+     */
+    public function getCrmId()
+    {
+        return $this->crmId;
+    }
+    
+    
+    /**
+     * Get crmId
+     *
+     * @return string 
+     */
+    public function setCrmId($crmId)
+    {
+        $this->crmId = $crmId;
+
+        return $this;
     }
 }
