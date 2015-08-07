@@ -62,7 +62,7 @@
                 <!-- Content for respective tabs above will be in this section -->
                 <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data" />
                 <div class="tab-content">                    
-                    <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% else %}other{% endif %}">
+                    <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser  {% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% else %}other{% endif %}">
                     <input type='hidden' id='hdn-userId' name='hdn-userId' value="0">
                     <input type='hidden' id='hdn-type' name='hdn-type' value="2"><!-- 0: edit profile, 1: edit user, 2: add user -->
                     <input type="hidden" id="hdn-img" name="hdn-img" value="">
@@ -135,8 +135,14 @@
                                     <label for="gq-last-name">Password</label>
                                         {{ form_widget(form.newpassword,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
+                                {% if ('ROLE_FACILITATOR' in userRole) %}
+                                <div class="gq-form-row">
+                                    <label for="gq-last-name">CRM ID</label>
+                                        {{ form_widget(form.crmId,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                {% endif %}
                                 <div class="gq-form-botton">
-                                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-default'}}) }}
+                                    {{ form_widget(form.save, {'attr': {'class': 'btn btn-default'}}) }}
                                 </div>
                             </div>
                         </div>
@@ -177,8 +183,6 @@
                             </div>
                         </div>
                          {{ form_end(form) }}
-                    
-                   
                 </div>
                 <!--End of content for respective tabs above will be in this section -->
             </div>

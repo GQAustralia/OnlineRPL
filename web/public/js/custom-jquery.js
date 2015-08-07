@@ -1273,6 +1273,14 @@ function validateAddress()
                 return false;
             }
         }
+        if (userrole == 'facilitatoruser') {
+            var crmId = $("#userprofile_crmId").val();
+            if (crmId == "") {
+                showMyTabs("Please enter CRM ID");
+                $("#userprofile_crmId").focus();
+                return false;
+            }
+        }
     }
     
     if ($("#userprofile_dateOfBirth").val() == "") {

@@ -1262,7 +1262,7 @@ class UserService
         $data['ceoemail'] = $request->get('ceoemail');
         $data['ceophone'] = $request->get('ceophone');
         $data['createdby'] = $request->get('createdby');
-        $data['status'] = $request->get('status');
+        $data['status'] = $request->get('status');        
         $data['address']['address'] = $request->get('address');
         $data['address']['pincode'] = $request->get('pincode');
         $data['newpassword'] = isset($data['newpassword']) ? $data['newpassword'] : $uniqid;
@@ -1290,6 +1290,7 @@ class UserService
             $courseData['courseName'] = $request->get('coursename');
             $courseData['courseStatus'] = $request->get('coursestatus');
             $courseData['targetDate'] = $request->get('targetdate');
+            $courseData['crmId'] = $request->get('facilitatorcrmId');
             $courseData['zohoId'] = $request->get('zohoId');
             if (!empty($courseData['courseCode']) || !empty($courseData['courseName'])) {
                 $res = $this->addUserCourse($courseData, $user);
@@ -1328,37 +1329,39 @@ class UserService
     public function addUserCourse($courseData, $user)
     {
         $emailFlag = '';
-        if (empty($courseData['courseCode'])) {
+        if (empty($courseData['crmId'])) {
+            $message = 'Facilitator CRM ID cannot be empty!';
+        } elseif (empty($courseData['courseCode'])) {
             $message = 'Please enter course code!';
         } elseif (empty($courseData['courseName'])) {
             $message = 'Please enter course name!';
         } else {
             $courseExist = $this->checkUserCourseExist($courseData['courseCode'], $user->getId());
-            $facilitatorRoleUser = $this->getUserIDByRole(2);
-            $assessorRoleUser = $this->getUserIDByRole(3);
-            $rtoRoleUser = $this->getUserIDByRole(4);
-            if ($courseExist <= 0) {
-                $userCoursesObj = new UserCourses();
-                $userCoursesObj->setUser($user);
-                $userCoursesObj->setCourseCode(isset($courseData['courseCode']) ? $courseData['courseCode'] : '');
-                $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
-                $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : 1);
-                $userCoursesObj->setZohoId(isset($courseData['zohoId']) ? $courseData['zohoId'] : '');
-                $userCoursesObj->setCreatedOn(time());
-                $userCoursesObj->setFacilitator(isset($facilitatorRoleUser) ? $facilitatorRoleUser : '');
-                $userCoursesObj->setAssessor(isset($assessorRoleUser) ? $assessorRoleUser : '');
-                $userCoursesObj->setRto(isset($rtoRoleUser) ? $rtoRoleUser : '');
-                $userCoursesObj->setFacilitatorstatus(0);
-                $userCoursesObj->setAssessorstatus(0);
-                $userCoursesObj->setRtostatus(0);
-                $targetDate = date('Y-m-d H:m:s', strtotime('+90 days'));
-                $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : $targetDate);
-                $this->em->persist($userCoursesObj);
-                $this->em->flush();
-                $message = 'Qualification: '.$courseData['courseCode'].' for this user added successfully!';
-                $emailFlag = 'Q';
+            $facilitatorRoleUser = $this->getCrmUserId($courseData['crmId']);
+            if (!empty($facilitatorRoleUser)) {
+                if ($courseExist <= 0) {
+                    $userCoursesObj = new UserCourses();
+                    $userCoursesObj->setUser($user);
+                    $userCoursesObj->setCourseCode(isset($courseData['courseCode']) ? $courseData['courseCode'] : '');
+                    $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
+                    $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : 1);
+                    $userCoursesObj->setZohoId(isset($courseData['zohoId']) ? $courseData['zohoId'] : '');
+                    $userCoursesObj->setCreatedOn(time());
+                    $userCoursesObj->setFacilitator(isset($facilitatorRoleUser) ? $facilitatorRoleUser : '');
+                    $userCoursesObj->setFacilitatorstatus(0);
+                    $userCoursesObj->setAssessorstatus(0);
+                    $userCoursesObj->setRtostatus(0);
+                    $targetDate = date('Y-m-d H:m:s', strtotime('+90 days'));
+                    $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : $targetDate);
+                    $this->em->persist($userCoursesObj);
+                    $this->em->flush();
+                    $message = 'Qualification: '.$courseData['courseCode'].' for this user added successfully!';
+                    $emailFlag = 'Q';
+                } else {
+                    $message = 'Qualification: '.$courseData['courseCode'].' for this user already exist!';
+                }
             } else {
-                $message = 'Qualification: '.$courseData['courseCode'].' for this user already exist!';
+                $message = 'Invalid facilitator CRM Id!';
             }
         }
         return compact('message', 'emailFlag');
@@ -1903,6 +1906,7 @@ class UserService
         $userObj->setCeophone(isset($data['ceophone']) ? $data['ceophone'] : '');
         $userObj->setCreatedby(isset($data['createdby']) ? $data['createdby'] : '');
         $userObj->setStatus(isset($data['status']) ? $data['status'] : '1');
+        $userObj->setCrmId(isset($data['crmId']) ? $data['crmId'] : '');
         $this->em->persist($userObj);
         $this->em->flush();
         $userId = $userObj->getId();
@@ -1941,24 +1945,11 @@ class UserService
     
     
     /**
-     * Function to get User id By Role
+     * Function to get CRM User id By Role
      */
-    public function getUserIDByRole($type)
+    public function getCrmUserId($crmId)
     {
-        $connection = $this->em->getConnection();
-        $statement = $connection->prepare("SELECT id FROM user WHERE (roletype = :role) AND status = 1 LIMIT 1");
-        if ($type == 2) {
-            $statement->bindValue('role', \GqAus\UserBundle\Entity\Facilitator::ROLE);
-        } elseif ($type == 3) {
-            $statement->bindValue('role', \GqAus\UserBundle\Entity\Assessor::ROLE);
-        } elseif ($type == 4) {
-            $statement->bindValue('role', \GqAus\UserBundle\Entity\Rto::ROLE);
-        }
-        $statement->execute();
-        $users = $statement->fetch();
-        if (!empty($users)) {
-            $user = $this->em->getRepository('GqAusUserBundle:User')->find($users['id']);
-        }
+        $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('crmId' => trim($crmId), 'status' => 1));
         return $user;
     }
     

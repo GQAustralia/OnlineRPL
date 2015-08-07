@@ -40,6 +40,10 @@ class UserController extends Controller
             $userProfileForm->remove('ceoemail');
             $userProfileForm->remove('ceophone');
         }
+        
+        if ($user_role != 'ROLE_FACILITATOR') {
+            $userProfileForm->remove('crmId');
+        }
 
         $documentTypes = $userService->getDocumentTypes();
         $idFilesForm = $this->createForm(new IdFilesForm(), $documentTypes);
@@ -490,11 +494,13 @@ class UserController extends Controller
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');
         }
-        
         if ($user_role != 'ROLE_RTO') {
             $userProfileForm->remove('ceoname');
             $userProfileForm->remove('ceoemail');
             $userProfileForm->remove('ceophone');
+        }
+        if ($user_role != 'ROLE_FACILITATOR') {
+            $userProfileForm->remove('crmId');
         }
 
         $resetForm = $this->createForm(new ChangePasswordForm(), array());
@@ -574,6 +580,9 @@ class UserController extends Controller
             $userProfileForm->remove('ceoname');
             $userProfileForm->remove('ceoemail');
             $userProfileForm->remove('ceophone');
+        }
+        if ($user_role != 'ROLE_FACILITATOR') {
+            $userProfileForm->remove('crmId');
         }
         if ($request->isMethod('POST')) {
             $userProfileForm->handleRequest($request);
