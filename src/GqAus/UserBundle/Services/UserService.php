@@ -1995,6 +1995,9 @@ class UserService
         if (!empty($courseObj)) {
             $courseObj->setCourseStatus($courseStatus);            
             
+            // get status list
+            $statusList = $this->getqualificationStatus();
+            
             if (in_array('ROLE_ASSESSOR', $userRole)) {
                 $sentId = $courseObj->getAssessor()->getId();
                 $sentUserName = $courseObj->getAssessor()->getUsername();
@@ -2026,18 +2029,40 @@ class UserService
                 }
                 
             } else {
+                
                 $sentId = $courseObj->getFacilitator()->getId();
                 $sentUserName = $courseObj->getFacilitator()->getUsername();
                 $sentEmail = $courseObj->getFacilitator()->getEmail();
-                $toEmail = $courseObj->getAssessor()->getEmail();
-                $toId = $courseObj->getAssessor()->getId();
-                $toUserName = $courseObj->getAssessor()->getUsername();
                 
-                if($courseStatus == 2) {
-                   $courseObj->setFacilitatorstatus('1');
-                   $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));                   
+                if($courseStatus == 2) {                   
+                   // checking whether the assessor is assigned or not
+                   if (!empty($courseObj->getAssessor())) {
+                        $courseObj->setFacilitatorstatus('1');
+                        $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
+                        $toEmail = $courseObj->getAssessor()->getEmail();
+                        $toId = $courseObj->getAssessor()->getId();
+                        $toUserName = $courseObj->getAssessor()->getUsername();
+                        $mailMessage = "Dear " . $toUserName . ", <br/><br/> Qualification Status of : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " has been updated to ".$statusList[$courseStatus]["status"].".
+                        <br/><br/> Regards, <br/> " . $sentUserName;
+                   } else {
+                        $response['type'] = 'Error';
+                        $response['code'] = 6;
+                        $response['msg'] = 'Please assign assessor!';
+                        return $response;
+                    }
                 }
                 else if ($courseStatus == 15) {  // if the facilitator submits the portfolio to rto                
+                    // checking whether the rto is assigned or not
+                    if (!empty($courseObj->getRto())) {
+                        $toEmail = $courseObj->getRto()->getEmail();
+                        $toId = $courseObj->getRto()->getId();
+                        $toUserName = $courseObj->getRto()->getUsername();
+                   } else {
+                        $response['type'] = 'Error';
+                        $response['code'] = 7;
+                        $response['msg'] = 'Please assign rto!';
+                        return $response;
+                    }                    
                     // checking whether the assessor and rto approved the qualification or not
                     if($courseObj->getAssessorstatus() != 1) {
                         //return 4;
@@ -2048,9 +2073,8 @@ class UserService
                     }
                     $courseObj->setFacilitatorstatus('1');
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
-                    $toEmail = $courseObj->getRto()->getEmail();
-                    $toId = $courseObj->getRto()->getId();
-                    $toUserName = $courseObj->getRto()->getUsername();
+                    
+                    
                     
                    $mailSubject = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
                    $mailMessage = "Dear " . $toUserName . ", <br/><br/> All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent <br/> Validated all the eviedences and moved portfolio to you.
@@ -2078,16 +2102,14 @@ class UserService
                 }
             }
             $this->em->persist($courseObj);
-            $this->em->flush();
+            $this->em->flush();            
             
-            // get status list
-            $statusList = $this->getqualificationStatus();
             
             // checking whether if the subject and message variables are already defined if no assigning the default data
-            if (!isset($mailSubject) && !isset($mailMessage) ) {
+            if (!isset($mailSubject) && !isset($mailMessageApplicant) ) {
                 $mailSubject = "Qualification Status Updated of " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
-                $mailMessage = "Dear " . $toUserName . ", <br/><br/> Qualification Status of : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " has been updated to ".$statusList[$courseStatus]["status"].".
-                     <br/><br/> Regards, <br/> " . $sentUserName;
+                /*$mailMessage = "Dear " . $toUserName . ", <br/><br/> Qualification Status of : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " has been updated to ".$statusList[$courseStatus]["status"].".
+                     <br/><br/> Regards, <br/> " . $sentUserName;*/
                 $mailMessageApplicant = "Dear " . $courseObj->getUser()->getUsername() . ", <br/><br/> Qualification Status of : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " has been updated to ".$statusList[$courseStatus]["status"].".
                      <br/><br/> Regards, <br/> " . $courseObj->getFacilitator()->getUsername();
             }
