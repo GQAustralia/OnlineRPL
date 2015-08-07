@@ -1351,7 +1351,8 @@ class UserService
                 $userCoursesObj->setFacilitatorstatus(0);
                 $userCoursesObj->setAssessorstatus(0);
                 $userCoursesObj->setRtostatus(0);
-                $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : '');
+                $targetDate = date('Y-m-d H:m:s', strtotime('+90 days'));
+                $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : $targetDate);
                 $this->em->persist($userCoursesObj);
                 $this->em->flush();
                 $message = 'Qualification: '.$courseData['courseCode'].' for this user added successfully!';
