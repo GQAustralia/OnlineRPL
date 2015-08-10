@@ -1245,8 +1245,8 @@ class UserService
     public function saveApplicantData($request)
     {
         $uniqid = uniqid();
-        $data['firstname'] = $request->get('firstname');
-        $data['lastname'] = $request->get('lastname');
+        $data['firstname'] = $request->get('firstName');
+        $data['lastname'] = $request->get('lastName');
         $data['email'] = $request->get('email');
         $data['newpassword'] = $request->get('password');
         $data['phone'] = $request->get('phone');
@@ -1286,11 +1286,11 @@ class UserService
             } else {
                 $message = 'This User already exist!';
             }
-            $courseData['courseCode'] = $request->get('coursecode');
-            $courseData['courseName'] = $request->get('coursename');
+            $courseData['courseCode'] = $request->get('courseCode');
+            $courseData['courseName'] = $request->get('courseName');
             $courseData['courseStatus'] = $request->get('coursestatus');
             $courseData['targetDate'] = $request->get('targetdate');
-            $courseData['crmId'] = $request->get('facilitatorcrmId');
+            $courseData['crmId'] = $request->get('facilitatorCrmId');
             $courseData['zohoId'] = $request->get('zohoId');
             if (!empty($courseData['courseCode']) || !empty($courseData['courseName'])) {
                 $res = $this->addUserCourse($courseData, $user);
