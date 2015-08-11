@@ -561,6 +561,8 @@ class UserController extends Controller
             $user_role = 'ROLE_FACILITATOR';
         } elseif ($roleType == 3) {
             $user_role = 'ROLE_ASSESSOR';
+        } elseif ($roleType == 4) {
+            $user_role = 'ROLE_RTO';
         } elseif ($roleType == 5) {
             $user_role = 'ROLE_MANAGER';
         }

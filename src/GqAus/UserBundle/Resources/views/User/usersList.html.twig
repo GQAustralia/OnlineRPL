@@ -11,9 +11,9 @@
     {% for key, list in applicantList %}
         <tr>        
             <td width="20%"><span class="">{{list.firstname}} {{list.lastname}}</span></td>
-            <td width="20%">{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% else %} Manager {% endif %}</td>
+            <td width="20%">{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% elseif list.getRole() == '4' %}  Rto {% else %} Manager {% endif %}</td>
             <td width="10%">
-                {% if list.getRole() != '5' %}
+                {% if (list.getRole() != '5') and (list.getRole() != '4') %}
                 <div class="gq-acc-row-title gq-assessor-list-dropdown-wrap" id="div_{{list.id}}">
                     <div class="gq-add-notes-icon-wrap setNotes text-center" id="{{list.id}}">
                         <img src = "{{asset('public/images/applicant-list-add-notes-icon.png') }}" />

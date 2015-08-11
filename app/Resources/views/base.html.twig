@@ -49,7 +49,7 @@
                             <div class="user-status">
                                 {% set muser = app.session.get('muser') %}
                                 {% set suser = app.session.get('suser') %}
-                                {% if ( muser and (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles))) %} 
+                                {% if ( muser and (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) or ('ROLE_RTO' in roles))) %} 
                                 <div class="pull-left gq-assessor-title-download gq-back-user">
                                     <a href="{{ app.request.baseUrl }}/userLogin/{{muser}}"><span class="gq-assessor-title-back-icon"></span>&nbsp;Switch to My Profile</a> &nbsp;|&nbsp; 
                                 </div>

@@ -26,7 +26,8 @@
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ app.request.baseUrl }}/addUser/2"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Facilitator</a></li>
                 <li class="divider"></li>
-                <li><a href="{{ app.request.baseUrl }}/addUser/3"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Assessor</a></li>
+                <li><a href="{{ app.request.baseUrl }}/addUser/3"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Assessor</a></li><li class="divider"></li>
+                <li><a href="{{ app.request.baseUrl }}/addUser/4"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Rto</a></li>
                 {% if ('ROLE_SUPERADMIN' in userRole) %}
                     <li class="divider"></li>
                     <li><a href="{{ app.request.baseUrl }}/addUser/5"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Manager</a></li>
@@ -58,9 +59,10 @@
                                 <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
                                     <div class="gq-applicant-filter-wrap-select">
                                         <select name="userType" id="userType" class="styled">
-                                            <option value="">{% if ('ROLE_SUPERADMIN' in userRole) %} All {% else %} Both {% endif %}</option>
+                                            <option value="">All</option>
                                             <option value="2">Facilitator</option>
                                             <option value="3">Assessor</option>
+                                            <option value="4">Rto</option>
                                             {% if ('ROLE_SUPERADMIN' in userRole) %}
                                                 <option value="5">Manager</option>
                                             {% endif %}
