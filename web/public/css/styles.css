@@ -1193,7 +1193,7 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
 .gq-back-user.gq-assessor-title-download { padding-top: 7px; padding-right: 4px; width: auto; }
 .gq-back-user .gq-assessor-title-back-icon { float: left; }
 .gq-user { float: left; }
-.user-status-msg.gq-addnewuser a{ font-size: 14px; float: left; }
+.user-status-msg.gq-addnewuser a{ font-size: 14px; /*float: left;*/ float: inherit; }
 .gq-add-icon { width:23px; height:23px; margin-left: 5px; padding:3px; background-image:url(../images/add.png); background-repeat:no-repeat; background-position: center center; display:block; }
 .gq-addnewuser .user-status-select .btn-group.open a.dropdown-toggle { box-shadow: 0 3px 5px rgba(0, 0, 0, 0) inset; }
 .gq-addnewuser .user-status-select .dropdown-menu { top: 35px; }
