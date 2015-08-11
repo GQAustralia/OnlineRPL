@@ -62,7 +62,7 @@
                 <!-- Content for respective tabs above will be in this section -->
                 <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data" />
                 <div class="tab-content">                    
-                    <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser  {% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% else %}other{% endif %}">
+                    <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% else %}other{% endif %}">
                     <input type='hidden' id='hdn-userId' name='hdn-userId' value="0">
                     <input type='hidden' id='hdn-type' name='hdn-type' value="2"><!-- 0: edit profile, 1: edit user, 2: add user -->
                     <input type="hidden" id="hdn-img" name="hdn-img" value="">

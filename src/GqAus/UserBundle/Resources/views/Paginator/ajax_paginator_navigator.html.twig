@@ -7,6 +7,8 @@
 {% set pagename = app.request.get('_route') %}
 {% if(pagename == 'searchApplicantsListReports') %}
     {% set classname = "gq-ajax-pagination" %}
+{% elseif(pagename == 'manageusers') %}
+    {% set classname = "gq-ajax-users-pagination" %}
 {% else %}
     {% set classname = "gq-ajax-app-pagination" %}
 {% endif%}
@@ -25,7 +27,6 @@
     {% endif %}
     {% if currentPage == totalPages %}
     {% else %}
-        <a href="javascript:void(0)" page="{{ currentPage + 1 }}" class="gq-ajax-app-pagination"><div class="gq-pagination-next-icon"></div></a>
-        
+        <a href="javascript:void(0)" page="{{ currentPage + 1 }}" class="{{ classname }}"><div class="gq-pagination-next-icon"></div></a>
     {% endif %}
 </div>

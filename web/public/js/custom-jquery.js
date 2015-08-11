@@ -1008,6 +1008,12 @@ $("body").on("click", ".gq-ajax-pagination", function() {
     loadApplicantListReports('currentList',pagenum);
 });
 
+$("body").on("click", ".gq-ajax-users-pagination", function() {   
+    pagenum = $(this).attr("page");
+    loadDataIcon('currentList');
+    loadUsersList('currentList',pagenum);
+});
+
 /*$("body").on("click", ".gq-ajax-pagination", function() {   
     pagenum = $(this).attr("page");
     loadDataIcon('currentList');

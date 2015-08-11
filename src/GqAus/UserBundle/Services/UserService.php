@@ -1667,14 +1667,16 @@ class UserService
                 $res->where('u instance of \GqAus\UserBundle\Entity\Facilitator');
             } elseif ($searchType == 3) {
                 $res->where('u instance of \GqAus\UserBundle\Entity\Assessor');
+            } elseif ($searchType == 4) {
+                $res->where('u instance of \GqAus\UserBundle\Entity\Rto');
             } elseif ($searchType == 5) {
                 $res->where('u instance of \GqAus\UserBundle\Entity\Manager');
             }
         } else {
             if ($userRole == 'ROLE_SUPERADMIN') {
-                $res->where('(u instance of \GqAus\UserBundle\Entity\Facilitator OR u instance of \GqAus\UserBundle\Entity\Assessor OR u instance of \GqAus\UserBundle\Entity\Manager)');
+                $res->where('(u instance of \GqAus\UserBundle\Entity\Facilitator OR u instance of \GqAus\UserBundle\Entity\Assessor OR u instance of \GqAus\UserBundle\Entity\Rto OR u instance of \GqAus\UserBundle\Entity\Manager)');
             } else {
-                $res->where('(u instance of \GqAus\UserBundle\Entity\Facilitator OR u instance of \GqAus\UserBundle\Entity\Assessor)');
+                $res->where('(u instance of \GqAus\UserBundle\Entity\Facilitator OR u instance of \GqAus\UserBundle\Entity\Assessor OR u instance of \GqAus\UserBundle\Entity\Rto)');
             }
         }
                         
@@ -1881,6 +1883,8 @@ class UserService
             $userObj = new \GqAus\UserBundle\Entity\Manager();
         } elseif ($role == 'ROLE_APPLICANT') {
             $userObj = new \GqAus\UserBundle\Entity\Applicant();
+        } elseif ($role == 'ROLE_RTO') {
+            $userObj = new \GqAus\UserBundle\Entity\Rto();
         } else {
             $userObj = new \GqAus\UserBundle\Entity\Applicant();
         }
@@ -1907,6 +1911,9 @@ class UserService
         $userObj->setCreatedby(isset($data['createdby']) ? $data['createdby'] : '');
         $userObj->setStatus(isset($data['status']) ? $data['status'] : '1');
         $userObj->setCrmId(isset($data['crmId']) ? $data['crmId'] : '');
+        $userObj->setContactName(isset($data['contactname']) ? $data['contactname'] : '');
+        $userObj->setContactEmail(isset($data['contactemail']) ? $data['contactemail'] : '');
+        $userObj->setContactPhone(isset($data['contactphone']) ? $data['contactphone'] : '');
         $this->em->persist($userObj);
         $this->em->flush();
         $userId = $userObj->getId();
@@ -1968,6 +1975,8 @@ class UserService
             $fieldName = 'facilitator';
         } elseif ($userType == '3') {
             $fieldName = 'assessor';
+        } elseif ($userType == '4') {
+            $fieldName = 'rto';
         }
         $userCourses = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array($fieldName => $userId));
         
@@ -2036,7 +2045,8 @@ class UserService
                 
                 if($courseStatus == 2) {                   
                    // checking whether the assessor is assigned or not
-                   if (!empty($courseObj->getAssessor())) {
+                   $cAssessor = $courseObj->getAssessor();
+                   if (!empty($cAssessor)) {
                         $courseObj->setFacilitatorstatus('1');
                         $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
                         $toEmail = $courseObj->getAssessor()->getEmail();
@@ -2053,7 +2063,8 @@ class UserService
                 }
                 else if ($courseStatus == 15) {  // if the facilitator submits the portfolio to rto                
                     // checking whether the rto is assigned or not
-                    if (!empty($courseObj->getRto())) {
+                    $cRto = $courseObj->getRto();
+                    if (!empty($cRto)) {
                         $toEmail = $courseObj->getRto()->getEmail();
                         $toId = $courseObj->getRto()->getId();
                         $toUserName = $courseObj->getRto()->getUsername();
