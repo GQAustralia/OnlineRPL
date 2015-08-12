@@ -28,33 +28,30 @@ class NotesController extends Controller
     }
 
     /**
-    * Function to get notes
-    */
+     * Function to get notes
+     */
     public function getUnitNotesAction()
     {
         $unitId = $this->getRequest()->get('unitId');
         $userType = $this->getRequest()->get('userType');
         if (!empty($unitId) && !empty($userType)) {
-          $results['notes'] = $this->get('NotesService')->getUnitNotes($unitId, $userType);
-          echo $template = $this->renderView('GqAusUserBundle:Note:unitnotes.html.twig', $results);  
+            $results['notes'] = $this->get('NotesService')->getUnitNotes($unitId, $userType);
+            echo $template = $this->renderView('GqAusUserBundle:Note:unitnotes.html.twig', $results);
         } else {
-          echo "Empty Unit Id";  
+            echo "Empty Unit Id";
         }
-        
+
         exit;
     }
 
     /**
      * Function to delete Evidence file
      *
-    public function deleteNotesAction()
-    {
-        $evidenceId = $this->getRequest()->get('nid');
-        $evidenceType = $this->getRequest()->get('ftype');
-        $fileName = $this->get('EvidenceService')->deleteEvidence($evidenceId, $evidenceType);
-        exit;
-    }*/
-
-    
-
+      public function deleteNotesAction()
+      {
+      $evidenceId = $this->getRequest()->get('nid');
+      $evidenceType = $this->getRequest()->get('ftype');
+      $fileName = $this->get('EvidenceService')->deleteEvidence($evidenceId, $evidenceType);
+      exit;
+      } */
 }

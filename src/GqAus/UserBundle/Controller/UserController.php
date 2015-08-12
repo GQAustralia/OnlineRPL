@@ -15,6 +15,7 @@ use GqAus\UserBundle\Form\MatrixForm;
 
 class UserController extends Controller
 {
+
     public function profileAction(Request $request)
     {
         $session = $request->getSession();
@@ -24,23 +25,23 @@ class UserController extends Controller
         $user = $userService->getCurrentUser();
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
         $user_role = $this->get('security.context')->getToken()->getUser()->getRoleName();
-        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_RTO' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR' || $user_role == 'ROLE_RTO' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('dateOfBirth');
             $userProfileForm->remove('universalStudentIdentifier');
             $userProfileForm->remove('gender');
         }
-        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_APPLICANT' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR' || $user_role == 'ROLE_APPLICANT' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('contactname');
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');
         }
-        
+
         if ($user_role != 'ROLE_RTO') {
             $userProfileForm->remove('ceoname');
             $userProfileForm->remove('ceoemail');
             $userProfileForm->remove('ceophone');
         }
-        
+
         if ($user_role != 'ROLE_FACILITATOR') {
             $userProfileForm->remove('crmId');
         }
@@ -121,14 +122,14 @@ class UserController extends Controller
         if (empty($matrixFiles)) {
             $matrixFiles = '';
         }
-        
+
         $tab = '';
         $httpRef = $this->get('request')->server->get('HTTP_REFERER');
         if (!empty($httpRef)) {
             $httpRef = basename($httpRef);
             $tab = $this->getRequest()->get('tab');
         }
-        
+
         return $this->render('GqAusUserBundle:User:profile.html.twig', array(
                     'form' => $userProfileForm->createView(),
                     'filesForm' => $idFilesForm->createView(),
@@ -147,21 +148,21 @@ class UserController extends Controller
                     'tab' => $tab
         ));
     }
-    
+
     public function addIdFileAction(Request $request)
     {
         $form = $this->createForm(new IdFilesForm(), array());
         if ($request->isMethod('POST')) {
             $form->bind($request);
             $data = $form->getData();
-            $result = $this->get('gq_aus_user.file_uploader')->uploadIdFiles($data);            
-            if($result){
+            $result = $this->get('gq_aus_user.file_uploader')->uploadIdFiles($data);
+            if ($result) {
                 echo $result;
             }
             exit;
         }
     }
-    
+
     public function deleteIdFilesAction()
     {
         $IdFileId = $this->getRequest()->get('fid');
@@ -170,11 +171,11 @@ class UserController extends Controller
         $this->get('gq_aus_user.file_uploader')->delete($fileName);
         exit;
     }
-    
+
     public function uploadProfilePicAction(Request $request)
     {
         $userId = $this->getRequest()->get('userId');
-        $folderPath = $this->get('kernel')->getRootDir().'/../web/public/uploads/';
+        $folderPath = $this->get('kernel')->getRootDir() . '/../web/public/uploads/';
         $proImg = $request->files->get('file');
         $profilePic = $proImg->getClientOriginalName();
         $profilePic = time() . "-" . $profilePic;
@@ -191,7 +192,7 @@ class UserController extends Controller
             echo "error";
         exit;
     }
-    
+
     public function checkMyPasswordAction(Request $request)
     {
         if ($request->isMethod('POST')) {
@@ -201,29 +202,27 @@ class UserController extends Controller
             $cur_db_password = $user->getPassword();
             if (password_verify($mypassword, $cur_db_password)) {
                 echo "success";
-            }
-            else {
+            } else {
                 echo "fail";
             }
         }
         exit;
-    }    
-    
+    }
+
     public function resumeAction(Request $request)
     {
         $form = $this->createForm(new resumeForm(), array());
         if ($request->isMethod('POST')) {
             $form->bind($request);
-            $data = $form->getData(); 
+            $data = $form->getData();
             $result = $this->get('gq_aus_user.file_uploader')->resume($data);
-            if($result){
+            if ($result) {
                 echo $result;
             }
             exit;
         }
-    }    
-        
-    
+    }
+
     public function qualificationAction(Request $request)
     {
         $form = $this->createForm(new QualificationForm(), array());
@@ -231,14 +230,13 @@ class UserController extends Controller
             $form->bind($request);
             $data = $form->getData();
             $result = $this->get('gq_aus_user.file_uploader')->resume($data);
-            if($result){
+            if ($result) {
                 echo $result;
             }
             exit;
         }
-    }   
-        
-    
+    }
+
     public function referenceAction(Request $request)
     {
         $form = $this->createForm(new ReferenceForm(), array());
@@ -246,14 +244,13 @@ class UserController extends Controller
             $form->bind($request);
             $data = $form->getData();
             $result = $this->get('gq_aus_user.file_uploader')->resume($data);
-            if($result){
+            if ($result) {
                 echo $result;
             }
             exit;
         }
-    }  
-        
-    
+    }
+
     public function matrixAction(Request $request)
     {
         $form = $this->createForm(new MatrixForm(), array());
@@ -261,13 +258,13 @@ class UserController extends Controller
             $form->bind($request);
             $data = $form->getData();
             $result = $this->get('gq_aus_user.file_uploader')->resume($data);
-            if($result){
+            if ($result) {
                 echo $result;
             }
             exit;
         }
     }
-    
+
     public function deleteOtherFilesAction()
     {
         $FileId = $this->getRequest()->get('fid');
@@ -275,18 +272,18 @@ class UserController extends Controller
         $this->get('gq_aus_user.file_uploader')->delete($fileName);
         exit;
     }
-    
+
     public function downloadMatrixAction()
-    {   
+    {
         $file = "template.xls";
         return $this->get('UserService')->downloadCourseCondition(null, $file);
     }
-    
+
     public function assessorProfileAction($uid)
     {
         $userService = $this->get('UserService');
         $user = $userService->getUserInfo($uid);
-        
+
         $resumeFiles = $userService->fetchOtherfiles($uid, 'resume');
         if (empty($resumeFiles)) {
             $resumeFiles = '';
@@ -306,9 +303,9 @@ class UserController extends Controller
         if (empty($matrixFiles)) {
             $matrixFiles = '';
         }
-        
+
         $userImage = $userService->userImage($user->getUserImage());
-        
+
         return $this->render('GqAusUserBundle:User:assessorProfile.html.twig', array(
                     'userImage' => $userImage,
                     'user' => $user,
@@ -318,23 +315,23 @@ class UserController extends Controller
                     'matrixFiles' => $matrixFiles)
         );
     }
-    
+
     /**
-    * Function to Zip all the assessor profile files
-    */
+     * Function to Zip all the assessor profile files
+     */
     public function downloadAssessorProfileAction($uid)
     {
         $files = array();
         $userService = $this->get('UserService');
         $assessorFiles = $userService->fetchOtherfiles($uid);
         foreach ($assessorFiles as $assessorFile) {
-            array_push($files, $this->container->getParameter('amazon_s3_base_url').$assessorFile->getPath());
+            array_push($files, $this->container->getParameter('amazon_s3_base_url') . $assessorFile->getPath());
         }
         $zip = new \ZipArchive();
-        $zipName = 'AssessorFiles-'.time().".zip";
-        $zip->open($zipName,  \ZipArchive::CREATE);
+        $zipName = 'AssessorFiles-' . time() . ".zip";
+        $zip->open($zipName, \ZipArchive::CREATE);
         foreach ($files as $f) {
-            $zip->addFromString(basename($f),  file_get_contents($f)); 
+            $zip->addFromString(basename($f), file_get_contents($f));
         }
         $zip->close();
         //session_write_close();
@@ -343,20 +340,20 @@ class UserController extends Controller
         header('Content-Length: ' . filesize($zipName));
         readfile($zipName);
     }
-    
-     /**
-    * Function to add new applicant
-    */
+
+    /**
+     * Function to add new applicant
+     */
     public function addApplicantAction(Request $request)
-    {        
+    {
         $userService = $this->get('UserService');
         $userService->saveApplicantData($request);
     }
-    
+
     /**
-    * Function to get user Evidence
-    * return $result array
-    */
+     * Function to get user Evidence
+     * return $result array
+     */
     public function getUserEvidencesAction()
     {
         $userId = $this->getRequest()->get('userId');
@@ -369,18 +366,18 @@ class UserController extends Controller
         echo $template = $this->renderView('GqAusUserBundle:User:userevidence.html.twig', $results);
         exit;
     }
-    
+
     /**
-    * Function to view user id files
-    * return $result array
-    */
+     * Function to view user id files
+     * return $result array
+     */
     public function viewUserIdFilesAction()
     {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
             if ($userRole[0] == "ROLE_FACILITATOR") {
                 $userId = $this->getRequest()->get('userId');
-                if ( !empty($userId) ) {
+                if (!empty($userId)) {
                     $user = $this->get('UserService')->getUserInfo($userId);
                     $userImage = $this->get('UserService')->userImage($user->getUserImage());
                     $results['user'] = $user;
@@ -389,27 +386,26 @@ class UserController extends Controller
                     return $this->render('GqAusUserBundle:User:userIdFiles.html.twig', $results);
                 }
             } else {
-                return $this->render('GqAusUserBundle:Default:error.html.twig');  
+                return $this->render('GqAusUserBundle:Default:error.html.twig');
             }
-        
         } else {
             return $this->redirect('dashboard');
         }
     }
-    
+
     /**
-    * Function to manage users
-    * return $result array
-    */
+     * Function to manage users
+     * return $result array
+     */
     public function manageusersAction()
     {
         $page = $this->get('request')->query->get('page', 1);
         $session_user = $this->get('security.context')->getToken()->getUser();
-        $users = $this->get('UserService')->manageUsers($session_user->getId(),$session_user->getRoleName(), '', '', $page = null);
+        $users = $this->get('UserService')->manageUsers($session_user->getId(), $session_user->getRoleName(), '', '', $page = null);
         $users['pageRequest'] = 'submit';
         return $this->render('GqAusUserBundle:User:manageusers.html.twig', $users);
     }
-    
+
     /**
      * Function search users list
      * return $result array
@@ -423,23 +419,23 @@ class UserController extends Controller
         if ($page == "") {
             $page = 1;
         }
-        $results = $this->get('UserService')->manageUsers($session_user->getId(),$session_user->getRoleName(),$searchName, $searchType, $page);
+        $results = $this->get('UserService')->manageUsers($session_user->getId(), $session_user->getRoleName(), $searchName, $searchType, $page);
         $results['pageRequest'] = 'ajax';
         echo $this->renderView('GqAusUserBundle:User:usersList.html.twig', $results);
         exit;
     }
-    
+
     /**
-    * Function to manage managers
-    * return $result array
-    */
+     * Function to manage managers
+     * return $result array
+     */
     public function managemanagersAction()
     {
         $page = $this->get('request')->query->get('page', 1);
-        $users = $this->get('UserService')->manageManagers('', $page = null);        
+        $users = $this->get('UserService')->manageManagers('', $page = null);
         return $this->render('GqAusUserBundle:User:managemanagers.html.twig', $users);
     }
-    
+
     /**
      * Function search managers list
      * return $result array
@@ -455,7 +451,7 @@ class UserController extends Controller
         echo $this->renderView('GqAusUserBundle:User:managerList.html.twig', $results);
         exit;
     }
-    
+
     /**
      * Function to delete users
      * return $result array
@@ -464,9 +460,10 @@ class UserController extends Controller
     {
         $deluserId = $this->getRequest()->get('deluserId');
         $delUserRole = $this->getRequest()->get('delUserRole');
-        echo $result = $this->get('UserService')->deleteUser($deluserId, $delUserRole); exit;
+        echo $result = $this->get('UserService')->deleteUser($deluserId, $delUserRole);
+        exit;
     }
-    
+
     /**
      * Function to edit user
      * return $result array
@@ -483,13 +480,13 @@ class UserController extends Controller
         }
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
         $user_role = $user->getRoleName();
-        
-        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_RTO' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
+
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR' || $user_role == 'ROLE_RTO' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('dateOfBirth');
             $userProfileForm->remove('universalStudentIdentifier');
             $userProfileForm->remove('gender');
         }
-        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_APPLICANT' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR' || $user_role == 'ROLE_APPLICANT' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('contactname');
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');
@@ -537,7 +534,7 @@ class UserController extends Controller
             $httpRef = basename($httpRef);
             $tab = $this->getRequest()->get('tab');
         }
-        
+
         return $this->render('GqAusUserBundle:User:userprofile.html.twig', array(
                     'form' => $userProfileForm->createView(),
                     'userImage' => $userImage,
@@ -547,7 +544,7 @@ class UserController extends Controller
                     'userRole' => $user_role
         ));
     }
-    
+
     /**
      * Function to add user
      * return $result array
@@ -566,18 +563,18 @@ class UserController extends Controller
         } elseif ($roleType == 5) {
             $user_role = 'ROLE_MANAGER';
         }
-        
-        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_RTO' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
+
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR' || $user_role == 'ROLE_RTO' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('dateOfBirth');
             $userProfileForm->remove('universalStudentIdentifier');
             $userProfileForm->remove('gender');
         }
-        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR'|| $user_role == 'ROLE_APPLICANT' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
+        if ($user_role == 'ROLE_ASSESSOR' || $user_role == 'ROLE_FACILITATOR' || $user_role == 'ROLE_APPLICANT' || $user_role == 'ROLE_MANAGER' || $user_role == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('contactname');
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');
         }
-        
+
         if ($user_role != 'ROLE_RTO') {
             $userProfileForm->remove('ceoname');
             $userProfileForm->remove('ceoemail');
@@ -603,7 +600,7 @@ class UserController extends Controller
             $httpRef = basename($httpRef);
             $tab = $this->getRequest()->get('tab');
         }
-        
+
         return $this->render('GqAusUserBundle:User:addprofile.html.twig', array(
                     'form' => $userProfileForm->createView(),
                     'userImage' => '',
@@ -612,7 +609,7 @@ class UserController extends Controller
                     'userRole' => $user_role
         ));
     }
-    
+
     /**
      * Function to email exist
      * return $result array
@@ -620,7 +617,8 @@ class UserController extends Controller
     function checkEmailExistAction()
     {
         $emailId = $this->getRequest()->get('emailId');
-        echo $result = $this->get('UserService')->emailExist($emailId); exit;
+        echo $result = $this->get('UserService')->emailExist($emailId);
+        exit;
     }
-    
+
 }

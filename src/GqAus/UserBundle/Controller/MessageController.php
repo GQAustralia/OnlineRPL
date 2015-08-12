@@ -57,7 +57,7 @@ class MessageController extends Controller
             $unitname = $request->get("unit-name");
             $unitcode = $request->get("unit-code");
             $unitId = $request->get("unit-id");
-            $evidenceUser = $userService->getUserInfo($userid);            
+            $evidenceUser = $userService->getUserInfo($userid);
             $repuser = $evidenceUser->getEmail();
             if ($request->get("message_to_user")) {
                 $courseDetails = $this->get('CoursesService')->getCourseDetails($coursecode, $userid);
@@ -88,7 +88,7 @@ class MessageController extends Controller
                 $repuser = $message->getInbox()->getEmail();
             }
             $unitId = '';
-            if ($message->getUnitID()!="" || $message->getUnitID() > 0 ) {
+            if ($message->getUnitID() != "" || $message->getUnitID() > 0) {
                 $unitId = $message->getUnitID();
             }
             $newMsg = "false";
@@ -111,7 +111,7 @@ class MessageController extends Controller
      * return response
      */
     public function saveMessageAction(Request $request)
-    {        
+    {
         if ($request->isMethod('POST')) {
             $userService = $this->get('UserService');
             $curuser = $userService->getCurrentUser();
@@ -141,7 +141,7 @@ class MessageController extends Controller
                     $mailerInfo['fromEmail'] = $curuser->getEmail();
                     $mailerInfo['fromUserName'] = $curuser->getUsername();
                     $userService->sendExternalEmail($mailerInfo);
-                    
+
                     $userService->saveMessageData($sentuser, $curuser, $msgdata);
                     $request->getSession()->getFlashBag()->add(
                             'msgnotice', 'Message sent successfully!'
@@ -240,17 +240,18 @@ class MessageController extends Controller
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
-        
+
         // getting the last route to check whether it is coming from inbox or sent ot tash
         $request = $this->getRequest();
         //look for the referer route
         $referer = $request->headers->get('referer');
-        $path = $this->container->getParameter('applicationUrl');;
+        $path = $this->container->getParameter('applicationUrl');
+        ;
         $lastPath = str_replace($path, '', $referer);
-        if( $lastPath!="" ) {
-            $lastPath = explode("?", $lastPath);        
+        if ($lastPath != "") {
+            $lastPath = explode("?", $lastPath);
             // updating the readstatus if it is from inbox
-            if ( $lastPath[0] == 'messages' ) {
+            if ($lastPath[0] == 'messages') {
                 $messageService->setReadViewStatus($mid);
             }
         }
@@ -316,8 +317,6 @@ class MessageController extends Controller
         echo $unreadcount;
         exit;
     }
-    
-    
 
     /**
      * Function to view applicant and facilitator messages to assessor
@@ -328,15 +327,14 @@ class MessageController extends Controller
         $unitId = $this->getRequest()->get('unitId');
         $userId = $this->getRequest()->get('userId');
         $courseCode = $this->getRequest()->get('courseCode');
-        if (!empty($unitId) && !empty($userId) && !empty($courseCode) ) {
-          $courseData = $this->get('CoursesService')->getCourseDetails($courseCode, $userId);
-          $applicantId = $courseData->getUser()->getId();
-          $facilitatorId = $courseData->getFacilitator()->getId();
-          $results['messages'] = $this->get('UserService')->getFacilitatorApplicantMessages($unitId, $applicantId, $facilitatorId);
-          echo $template = $this->renderView('GqAusUserBundle:Message:facilitatorApplicant.html.twig', $results);
-          
+        if (!empty($unitId) && !empty($userId) && !empty($courseCode)) {
+            $courseData = $this->get('CoursesService')->getCourseDetails($courseCode, $userId);
+            $applicantId = $courseData->getUser()->getId();
+            $facilitatorId = $courseData->getFacilitator()->getId();
+            $results['messages'] = $this->get('UserService')->getFacilitatorApplicantMessages($unitId, $applicantId, $facilitatorId);
+            echo $template = $this->renderView('GqAusUserBundle:Message:facilitatorApplicant.html.twig', $results);
         } else {
-          echo "Empty Unit Id";
+            echo "Empty Unit Id";
         }
         exit;
     }
