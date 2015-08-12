@@ -56,8 +56,10 @@
                             </div>
                             <div class="col-lg-11 col-md-10 col-sm-10 col-xs-8 gq-msg-from-to-input">
                                 {% if user is defined and user != '' %}
-                                {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': ''} }) }}
+                                {{ form_widget(composemsgForm.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
+                                {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                                 {% else %}
+                                {{ form_widget(composemsgForm.toUserName, {'attr': {'placeholder': ''} }) }}
                                 {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
                                 {% endif %}
                             </div>
