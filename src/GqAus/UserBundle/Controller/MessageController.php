@@ -141,7 +141,7 @@ class MessageController extends Controller
                     // for sending external mail
                     $mailerInfo['subject'] = $this->container->getParameter('external_notification_sub');
                     $mailerInfo['to'] = $sentuser->getEmail();
-                    $mailMessage = "Dear ".$sentuser->getEmail().", <br/><br/> ". $this->container->getParameter('external_notification_msg') . "<br/><br/>". "Regards, <br/> " .$curuser->getEmail();
+                    $mailMessage = "Dear ".$sentuser->getUsername().", <br/><br/> ". $this->container->getParameter('external_notification_msg') . "<br/><br/>". "Regards, <br/> " .$curuser->getUsername();
                     $mailerInfo['body'] = $mailMessage;
                     $mailerInfo['fromEmail'] = $curuser->getEmail();
                     $mailerInfo['fromUserName'] = $curuser->getUsername();
