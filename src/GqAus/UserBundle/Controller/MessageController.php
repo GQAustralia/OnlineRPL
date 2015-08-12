@@ -49,7 +49,7 @@ class MessageController extends Controller
         $composeform = $this->createForm(new ComposeMessageForm(), array());
 
         $newMsg = "true";
-        $repMessage = $repSub = $repuser = '';
+        $repMessage = $repSub = $repuser = $repUserName = '';
         $coursename = $request->get("course-name");
         $coursecode = $request->get("course-code");
         if ($coursename != "" && $coursecode != "") {
@@ -64,6 +64,7 @@ class MessageController extends Controller
                 $toRoleUser = ($courseDetails->getFacilitator()->getID() === $curuser->getId()) ? $courseDetails->getAssessor() : $courseDetails->getFacilitator();
                 $evidenceUser = $userService->getUserInfo($toRoleUser);
                 $repuser = $evidenceUser->getEmail();
+                $repUserName = $evidenceUser->getUsername();
             }
             $repSub = $coursecode . " " . $coursename;
             $repMessage = "Course details : " . $coursecode . " " . $coursename . "\n";
@@ -84,8 +85,10 @@ class MessageController extends Controller
             $repSub = "Re: " . $message->getSubject();
             if ($curuser->getId() != $message->getSent()->getId()) {
                 $repuser = $message->getSent()->getEmail();
+                $repUserName = $message->getSent()->getUsername();
             } else {
                 $repuser = $message->getInbox()->getEmail();
+                $repUserName = $message->getInbox()->getUsername();
             }
             $unitId = '';
             if ($message->getUnitID()!="" || $message->getUnitID() > 0 ) {
@@ -100,6 +103,7 @@ class MessageController extends Controller
                     'repMessage' => $repMessage,
                     'sub' => $repSub,
                     'user' => $repuser,
+                    'userName' => $repUserName,
                     'newMsg' => $newMsg,
                     'unitId' => $unitId
                         )
@@ -111,7 +115,7 @@ class MessageController extends Controller
      * return response
      */
     public function saveMessageAction(Request $request)
-    {        
+    {   
         if ($request->isMethod('POST')) {
             $userService = $this->get('UserService');
             $curuser = $userService->getCurrentUser();
@@ -137,7 +141,8 @@ class MessageController extends Controller
                     // for sending external mail
                     $mailerInfo['subject'] = $subject;
                     $mailerInfo['to'] = $sentuser->getEmail();
-                    $mailerInfo['body'] = $message;
+                    $mailMessage = "Dear ".$sentuser->getEmail().", <br/><br/> ". $this->container->getParameter('external_notification_msg') . "<br/><br/>". "Regards, <br/> " .$curuser->getEmail();
+                    $mailerInfo['body'] = $mailMessage;
                     $mailerInfo['fromEmail'] = $curuser->getEmail();
                     $mailerInfo['fromUserName'] = $curuser->getUsername();
                     $userService->sendExternalEmail($mailerInfo);
@@ -197,8 +202,7 @@ class MessageController extends Controller
         $messages = $messageService->getCurrentUser()->getInboxMessages();
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
-        return $this->render(
-                        'GqAusUserBundle:Message:draft.html.twig', array('unreadcount' => $unreadcount));
+        return $this->render('GqAusUserBundle:Message:draft.html.twig', array('unreadcount' => $unreadcount));
     }
 
     /**

@@ -45,10 +45,12 @@
                                          {% set roleAcess = 'Aactive' %}
                                      {% endif %}
                                      {% for statusId, statusData in statusList %}
-                                         <option value="{{statusId}}"
-                                         {% if courseStatus == statusId %} {{ "selected" }} {% else %} {{ "" }} {% endif %}
-                                         {% if statusData[roleAcess] == 0 %} {{ "disabled" }} {% else %} {{ "" }} {% endif %}        
-                                         > {{statusData['status']}}</option>
+                                        {% if ('ROLE_FACILITATOR' in userRole or statusData[roleAcess] == 1) %}
+                                            <option value="{{statusId}}"
+                                            {% if courseStatus == statusId %} {{ "selected" }} {% else %} {{ "" }} {% endif %}
+                                            {% if statusData[roleAcess] == 0 %} {{ "disabled" }} {% else %} {{ "" }} {% endif %}        
+                                            >{{statusData['status']}}</option>
+                                        {% endif %} 
                                      {% endfor %}
                                      {% endif %}    
                                 </select>
