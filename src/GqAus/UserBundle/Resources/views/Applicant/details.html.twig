@@ -357,7 +357,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
                 <!-- accordion starts here -->
-                <div class="gq-acc-wrap">
+                <div class="gq-acc-wrap gq-acc-details-wrap">
                     {% set flagCore = '0' %}
                     {% set unitsData = courseInfo.Units.Unit %}
                     {% if courseInfo.Units.Unit.id is defined %}
@@ -406,7 +406,11 @@
                             </div>
                         </div>
                         <article class="acc-small">
-                            <p>{{units.name}}</p>
+                           <p>
+                            {% if units.details %}    
+                               {{units.details|raw}}
+                            {% endif%}   
+                           </p>
                         </article>
                     </div>
                         {% set i = i+1 %}
@@ -453,7 +457,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
             <!-- accordion starts here -->
-            <div class="gq-acc-wrap">
+            <div class="gq-acc-wrap gq-acc-details-wrap">
                 {% if courseInfo.Units %}
                 {% if courseInfo.Units.Unit %}
                     {% set flagElective = '0' %}
@@ -506,7 +510,11 @@
                                         </div>
                                     </div>
                                     <article class="acc-small">
-                                        <p>{{units.name}}</p>
+                                        <p>
+                                         {% if units.details %}    
+                                            {{units.details|raw}}
+                                         {% endif%}   
+                                        </p>
                                     </article>
                                 </div>
                                 {% set i = i+1 %}
