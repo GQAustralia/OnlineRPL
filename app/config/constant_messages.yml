@@ -1,0 +1,4 @@
+# constants for email message contents
+parameters:
+    external_notification_sub: "New message from OnlineRPL" 
+    external_notification_msg: "You have received a new message. Please login to read...." 
