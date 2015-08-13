@@ -150,7 +150,6 @@ class CoursesService
             return array();
 
         if (!function_exists('xml_parser_create')) {
-            //print "'xml_parser_create()' function not found!";
             return array();
         }
 
@@ -162,24 +161,19 @@ class CoursesService
         xml_parse_into_struct($parser, trim($contents), $xml_values);
         xml_parser_free($parser);
 
-        if (!$xml_values)
-            return; //Hmm...
+        if (!$xml_values) {
+            return;
+        }
 
-
-
-
-
-
-            
-//Initializations
-        $xml_array = array();
+        //Initializations
+        $xmlArray = array();
         $parents = array();
-        $opened_tags = array();
+        $openedTags = array();
         $arr = array();
 
-        $current = &$xml_array; //Refference
+        $current = &$xmlArray; //Refference
         //Go through the tags.
-        $repeated_tag_index = array(); //Multiple tags with same name will be turned into an array
+        $repeatedTagIndex = array(); //Multiple tags with same name will be turned into an array
         foreach ($xml_values as $data) {
             unset($attributes, $value); //Remove existing values, or there will be trouble
             //This command will extract these variables into the foreach scope
@@ -190,19 +184,21 @@ class CoursesService
             $attributes_data = array();
 
             if (isset($value)) {
-                if ($priority == 'tag')
+                if ($priority == 'tag') {
                     $result = $value;
-                else
+                } else {
                     $result['value'] = $value; //Put the value in a assoc array if we are in the 'Attribute' mode
+                }
             }
 
             //Set the attributes too.
             if (isset($attributes) and $get_attributes) {
                 foreach ($attributes as $attr => $val) {
-                    if ($priority == 'tag')
+                    if ($priority == 'tag') {
                         $attributes_data[$attr] = $val;
-                    else
+                    } else {
                         $result['attr'][$attr] = $val; //Set all the attributes in a array called 'attr'
+                    }
                 }
             }
 
@@ -213,44 +209,44 @@ class CoursesService
                     $current[$tag] = $result;
                     if ($attributes_data)
                         $current[$tag . '_attr'] = $attributes_data;
-                    $repeated_tag_index[$tag . '_' . $level] = 1;
+                    $repeatedTagIndex[$tag . '_' . $level] = 1;
 
                     $current = &$current[$tag];
                 } else { //There was another element with the same tag name
                     if (isset($current[$tag][0])) {//If there is a 0th element it is already an array
-                        $current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
-                        $repeated_tag_index[$tag . '_' . $level] ++;
+                        $current[$tag][$repeatedTagIndex[$tag . '_' . $level]] = $result;
+                        $repeatedTagIndex[$tag . '_' . $level] ++;
                     } else {//This section will make the value an array if multiple tags with the same name appear together
                         $current[$tag] = array($current[$tag], $result); //This will combine the existing item and the new item together to make an array
-                        $repeated_tag_index[$tag . '_' . $level] = 2;
+                        $repeatedTagIndex[$tag . '_' . $level] = 2;
 
                         if (isset($current[$tag . '_attr'])) { //The attribute of the last(0th) tag must be moved as well
                             $current[$tag]['0_attr'] = $current[$tag . '_attr'];
                             unset($current[$tag . '_attr']);
                         }
                     }
-                    $last_item_index = $repeated_tag_index[$tag . '_' . $level] - 1;
+                    $last_item_index = $repeatedTagIndex[$tag . '_' . $level] - 1;
                     $current = &$current[$tag][$last_item_index];
                 }
             } elseif ($type == "complete") { //Tags that ends in 1 line '<tag />'
                 //See if the key is already taken.
                 if (!isset($current[$tag])) { //New Key
                     $current[$tag] = $result;
-                    $repeated_tag_index[$tag . '_' . $level] = 1;
+                    $repeatedTagIndex[$tag . '_' . $level] = 1;
                     if ($priority == 'tag' and $attributes_data)
                         $current[$tag . '_attr'] = $attributes_data;
                 } else { //If taken, put all things inside a list(array)
                     if (isset($current[$tag][0]) and is_array($current[$tag])) {//If it is already an array...
                         // ...push the new element into that array.
-                        $current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
+                        $current[$tag][$repeatedTagIndex[$tag . '_' . $level]] = $result;
 
                         if ($priority == 'tag' and $get_attributes and $attributes_data) {
-                            $current[$tag][$repeated_tag_index[$tag . '_' . $level] . '_attr'] = $attributes_data;
+                            $current[$tag][$repeatedTagIndex[$tag . '_' . $level] . '_attr'] = $attributes_data;
                         }
-                        $repeated_tag_index[$tag . '_' . $level] ++;
+                        $repeatedTagIndex[$tag . '_' . $level] ++;
                     } else { //If it is not an array...
                         $current[$tag] = array($current[$tag], $result); //...Make it an array using using the existing value and the new value
-                        $repeated_tag_index[$tag . '_' . $level] = 1;
+                        $repeatedTagIndex[$tag . '_' . $level] = 1;
                         if ($priority == 'tag' and $get_attributes) {
                             if (isset($current[$tag . '_attr'])) { //The attribute of the last(0th) tag must be moved as well
                                 $current[$tag]['0_attr'] = $current[$tag . '_attr'];
@@ -258,10 +254,10 @@ class CoursesService
                             }
 
                             if ($attributes_data) {
-                                $current[$tag][$repeated_tag_index[$tag . '_' . $level] . '_attr'] = $attributes_data;
+                                $current[$tag][$repeatedTagIndex[$tag . '_' . $level] . '_attr'] = $attributes_data;
                             }
                         }
-                        $repeated_tag_index[$tag . '_' . $level] ++; //0 and 1 index is already taken
+                        $repeatedTagIndex[$tag . '_' . $level] ++; //0 and 1 index is already taken
                     }
                 }
             } elseif ($type == 'close') { //End of tag '</tag>'
@@ -269,7 +265,7 @@ class CoursesService
             }
         }
 
-        return($xml_array);
+        return($xmlArray);
     }
 
     /**

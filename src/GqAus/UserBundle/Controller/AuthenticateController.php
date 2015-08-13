@@ -15,21 +15,21 @@ class AuthenticateController extends Controller
      */
     public function userLoginAction($userId)
     {
-        $session_user = $this->get('security.context')->getToken()->getUser();
+        $sessionUser = $this->get('security.context')->getToken()->getUser();
         $userObj = $this->get('UserService')->getUser($userId);
         $usernamePasswordToken = new UsernamePasswordToken($userObj, null, 'secured_area');
         $this->container->get('security.context')->setToken($usernamePasswordToken);
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoleName();
 
-        if ($userId != $session_user->getId()) {
-            if ($session_user->getRoleName() == 'ROLE_SUPERADMIN' && $userRole == 'ROLE_MANAGER') {
-                $this->get('session')->set('suser', $session_user->getId());
+        if ($userId != $sessionUser->getId()) {
+            if ($sessionUser->getRoleName() == 'ROLE_SUPERADMIN' && $userRole == 'ROLE_MANAGER') {
+                $this->get('session')->set('suser', $sessionUser->getId());
                 return $this->redirect('/dashboard');
             }
             if ($userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
                 return $this->redirect('/manageusers');
             } else {
-                $this->get('session')->set('muser', $session_user->getId());
+                $this->get('session')->set('muser', $sessionUser->getId());
                 return $this->redirect('/dashboard');
             }
         }
