@@ -11,21 +11,22 @@ class Text extends \GqAus\UserBundle\Entity\Evidence
 {
 
     const TYPE = 'text';
-    
-/**
+
+    /**
      * @var string
      */
     private $path;
 
-     /**
+    /**
      * Returns type of evidence.
      *
      * @return string
      */
-    public function getType(){
+    public function getType()
+    {
         return self::TYPE;
     }
-    
+
     /**
      * Set path
      *
@@ -45,11 +46,11 @@ class Text extends \GqAus\UserBundle\Entity\Evidence
     {
         return $this->path;
     }
+
     /**
      * @var string
      */
     private $content;
-
 
     /**
      * Set content
@@ -73,4 +74,5 @@ class Text extends \GqAus\UserBundle\Entity\Evidence
     {
         return $this->content;
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace GqAus\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -6,6 +7,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ResumeForm extends AbstractType
 {
+
+    /**
+     * Function to build resume form
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('browse', 'file', array('required' => false));
@@ -17,6 +22,9 @@ class ResumeForm extends AbstractType
         ));
     }
 
+    /**
+     * Function to get name
+     */
     public function getName()
     {
         return 'resume';

@@ -12,12 +12,12 @@ class EvidenceController extends Controller
 
     /**
      * Function to add the Evidence
+     * return string
      */
     public function addAction(Request $request)
     {
         error_reporting(0);
         $form = $this->createForm(new EvidenceForm(), array());
-
         if ($request->isMethod('POST')) {
             $form->bind($request);
             $data = $form->getData();
@@ -29,17 +29,18 @@ class EvidenceController extends Controller
 
     /**
      * Function to display all the Evidences
+     * return array
      */
     public function viewAction(Request $request)
     {
         $evidenceService = $this->get('EvidenceService');
         $evidences = $evidenceService->getCurrentUser()->getEvidences();
-
         return $this->render('GqAusUserBundle:Evidence:view.html.twig', array('evidences' => $evidences));
     }
 
     /**
      * Function to save the existing Evidence
+     * return string
      */
     public function saveExistingEvidenceAction(Request $request)
     {
@@ -68,6 +69,7 @@ class EvidenceController extends Controller
 
     /**
      * Function to update Evidence Title
+     * return string
      */
     public function editTitleAction(Request $request)
     {
@@ -107,6 +109,7 @@ class EvidenceController extends Controller
 
     /**
      * Function to add the Evidence Self Assessment
+     * return string
      */
     public function addEvidenceAssessmentAction(Request $request)
     {

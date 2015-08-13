@@ -11,7 +11,8 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
  */
 abstract class User implements UserInterface, \Serializable, AdvancedUserInterface
 {
-   /**
+
+    /**
      * @var string
      */
     private $email;
@@ -35,44 +36,42 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @var \GqAus\UserBundle\Entity\UserCourses
      */
     private $courses;
-    
+
     /**
      * @var string
      */
     private $password;
-    
+
     /**
      * @var string
      */
     private $ceoname;
-    
-    
+
     /**
      * @var string
      */
     private $ceoemail;
-    
-    
+
     /**
      * @var string
      */
     private $ceophone;
-    
+
     /**
      * @var string
      */
     private $crmId;
-    
+
     /**
      * @var string
-    */
+     */
     private $createdby;
-    
+
     /**
      * @var string
-    */
+     */
     private $status;
-    
+
     /**
      * @ORM\Column(name="is_active", type="boolean")
      */
@@ -86,8 +85,8 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
         $this->isActive = true;
         $this->salt = md5(uniqid(null, true));
     }
-    
-     // ...
+
+    // ...
     public function isAccountNonExpired()
     {
         return true;
@@ -112,7 +111,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
         }
         return $this->isActive;
     }
-    
+
     /**
      * Set email
      *
@@ -214,7 +213,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->courses;
     }
-    
+
     /**
      * @var string
      */
@@ -224,27 +223,26 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @var string
      */
     private $lastName;
-    
-     /**
+
+    /**
      * @var string
      */
     private $passwordToken;
-    
-     /**
+
+    /**
      * @var datetime
      */
     private $tokenExpiry;
-    
-     /**
+
+    /**
      * @var string
      */
     private $tokenStatus;
-    
+
     /**
      * @var string
      */
     private $userImage;
-
 
     /**
      * Set firstName
@@ -291,8 +289,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->lastName;
     }
-    
-    
+
     /**
      * Set userImage
      *
@@ -315,7 +312,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->userImage;
     }
-    
+
     /**
      * Set passwordToken
      *
@@ -338,8 +335,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->passwordToken;
     }
-    
-    
+
     /**
      * Set tokenExpiry
      *
@@ -362,7 +358,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->tokenExpiry;
     }
-    
+
     /**
      * Set tokenStatus
      *
@@ -408,7 +404,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         $this->address->removeElement($address);
     }
-    
+
     /**
      * Set password
      *
@@ -421,7 +417,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
 
         return $this;
     }
-    
+
     /**
      * Get password
      *
@@ -431,18 +427,18 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->password;
     }
-    
+
     /**
      * @var string
      */
     private $salt;
-    
+
     /**
      * @inheritDoc
      */
     public function getUsername()
     {
-        return $this->firstName.' '.$this->lastName;
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     /**
@@ -451,16 +447,15 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     public function getSalt()
     {
         //return $this->salt;
-         return null;
+        return null;
     }
 
-   
     /**
      * @inheritDoc
      */
     public function getRoles()
     {
-       return array($this->getRoleName());
+        return array($this->getRoleName());
     }
 
     /**
@@ -468,6 +463,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      */
     public function eraseCredentials()
     {
+        
     }
 
     /**
@@ -487,7 +483,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         list (
             $this->id,
-        ) = unserialize($serialized);
+            ) = unserialize($serialized);
     }
 
     /**
@@ -512,11 +508,11 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         $this->courses->removeElement($courses);
     }
+
     /**
      * @var integer
      */
     private $courseConditionStatus;
-
 
     /**
      * Set courseConditionStatus
@@ -540,6 +536,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->courseConditionStatus;
     }
+
     /**
      * @var string
      */
@@ -554,7 +551,6 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @var string
      */
     private $universalStudentIdentifier;
-
 
     /**
      * Set dateOfBirth
@@ -624,11 +620,11 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->universalStudentIdentifier;
     }
+
     /**
      * @var \GqAus\UserBundle\Entity\UserIds
      */
     private $idfiles;
-
 
     /**
      * Set idfiles
@@ -675,11 +671,11 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         $this->idfiles->removeElement($idfiles);
     }
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $evidences;
-
 
     /**
      * Add evidences
@@ -713,11 +709,11 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->evidences;
     }
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $reminders;
-
 
     /**
      * Add reminders
@@ -751,11 +747,11 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->reminders;
     }
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $otherfiles;
-
 
     /**
      * Add otherfiles
@@ -789,7 +785,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->otherfiles;
     }
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -799,7 +795,6 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @var \Doctrine\Common\Collections\Collection
      */
     private $sentMessages;
-
 
     /**
      * Add inboxMessages
@@ -866,6 +861,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->sentMessages;
     }
+
     /**
      * @var string
      */
@@ -880,7 +876,6 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @var string
      */
     private $contactPhone;
-
 
     /**
      * Set contactName
@@ -950,7 +945,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->contactPhone;
     }
-    
+
     /**
      * Set ceoname
      *
@@ -963,7 +958,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
 
         return $this;
     }
-    
+
     /**
      * Set ceoemail
      *
@@ -976,7 +971,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
 
         return $this;
     }
-    
+
     /**
      * Set ceophone
      *
@@ -999,7 +994,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->ceoname;
     }
-    
+
     /**
      * Get ceoemail
      *
@@ -1009,8 +1004,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->ceoemail;
     }
-    
-    
+
     /**
      * Get ceophone
      *
@@ -1020,7 +1014,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->ceophone;
     }
-    
+
     /**
      * Set createdby
      *
@@ -1043,7 +1037,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->createdby;
     }
-    
+
     /**
      * Set status
      *
@@ -1066,7 +1060,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->status;
     }
-    
+
     /**
      * Get crmId
      *
@@ -1076,8 +1070,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->crmId;
     }
-    
-    
+
     /**
      * Get crmId
      *
@@ -1089,4 +1082,5 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
 
         return $this;
     }
+
 }

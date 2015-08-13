@@ -14,14 +14,29 @@ use Symfony\Component\HttpFoundation\Response;
 class EvidenceService
 {
 
+    /**
+     * @var Object
+     */
     private $userId;
+
+    /**
+     * @var Object
+     */
     private $repository;
+
+    /**
+     * @var Object
+     */
     private $currentUser;
 
     /**
      * @var Object
      */
     private $container;
+
+    /**
+     * @var Object
+     */
     private $userService;
 
     /**
@@ -38,11 +53,19 @@ class EvidenceService
         $this->userService = $userService;
     }
 
+    /**
+     * Function to get current user
+     * return array
+     */
     public function getCurrentUser()
     {
         return $this->repository->findOneById($this->userId);
     }
 
+    /**
+     * Function to save evidence
+     * return string
+     */
     public function saveEvidence($evidences, $data)
     {
         $i = 0;
@@ -123,11 +146,15 @@ class EvidenceService
             $this->em->persist($textObj);
             $this->em->flush();
             $this->updateCourseUnits($this->userId, $data['hid_unit_assess'], $data['hid_course_assess']);
-            return "1&&".$data['hid_unit_assess'];
+            return "1&&" . $data['hid_unit_assess'];
         } else
-            return "0&&".$data['hid_unit_assess'];
+            return "0&&" . $data['hid_unit_assess'];
     }
 
+    /**
+     * Function to get file size
+     * return string
+     */
     public function fileSize($size)
     {
         if ($size >= 1073741824) {
@@ -142,6 +169,10 @@ class EvidenceService
         return $fileSize;
     }
 
+    /**
+     * Function to save existing evidence
+     * return string
+     */
     public function saveExistingEvidence($request)
     {
         $evidences = $request->get('evidence-file');
@@ -205,6 +236,10 @@ class EvidenceService
         return $unitId;
     }
 
+    /**
+     * Function to delete evidence
+     * return string
+     */
     public function deleteEvidence($evidenceId, $evidenceType)
     {
         $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
@@ -313,6 +348,10 @@ class EvidenceService
         return $reposObj->findBy(array('user' => $userId, 'course' => $courseId));
     }
 
+    /**
+     * Function to save recording
+     * return -
+     */
     public function saveRecord($evidence, $applicantID, $unitCode, $courseCode)
     {
         $user = $this->repository->findOneById($applicantID);
@@ -327,14 +366,16 @@ class EvidenceService
         $this->em->flush();
     }
 
+    /**
+     * Function to update coures units
+     * return -
+     */
     public function updateCourseUnits($userId, $unitId, $courseCode)
     {
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
-                ->findOneBy(array('user' => $userId, 'unitId' => $unitId, 'courseCode' => $courseCode));
+            ->findOneBy(array('user' => $userId, 'unitId' => $unitId, 'courseCode' => $courseCode));
         if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
-
-
-            $mailerInfo = array();            
+            $mailerInfo = array();
             $courseUnitObj->setFacilitatorstatus(0);
             $courseUnitObj->setAssessorstatus(0);
             $courseUnitObj->setRtostatus(0);
@@ -342,7 +383,7 @@ class EvidenceService
             $this->em->flush();
 
             $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                    ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
+                ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
             $courseObj->setFacilitatorstatus(0);
             $courseObj->setAssessorstatus(0);
             $this->em->persist($courseObj);
@@ -361,7 +402,7 @@ class EvidenceService
             $mailerInfo['fromUserName'] = $userInfo->getUsername();
             $this->userService->sendExternalEmail($mailerInfo);
             $this->userService->sendMessagesInbox($mailerInfo);
-            
+
             // checking whether the assessor is assigned or not
             $cAssessor = $courseObj->getAssessor();
             if (!empty($cAssessor)) {

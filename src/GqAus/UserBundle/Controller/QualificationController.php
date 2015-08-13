@@ -7,10 +7,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class QualificationController extends Controller
 {
+
     /**
-    * Function to get unit Evidence
-    * return $result array
-    */
+     * Function to get unit Evidence
+     * return $result array
+     */
     public function getUnitEvidencesAction()
     {
         $userId = $this->getRequest()->get('userId');
@@ -30,4 +31,5 @@ class QualificationController extends Controller
         echo $template = $this->renderView('GqAusUserBundle:Qualification:unitevidence.html.twig', $results);
         exit;
     }
+
 }

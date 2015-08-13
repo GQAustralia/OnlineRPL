@@ -1,26 +1,31 @@
-<?php 
+<?php
+
 namespace GqAus\UserBundle\Twig;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class AppExtension extends \Twig_Extension {
-    
+class AppExtension extends \Twig_Extension
+{
+
     private $userService;
+
     public function __construct($userService)
     {
         $this->userService = $userService;
     }
+
     /**
      * {@inheritdoc}
      */
-    public function getFunctions() {
+    public function getFunctions()
+    {
         return array(
             'completeness' => new \Twig_Function_Method($this, 'evidenceCompleteness'),
             'timeRemaining' => new \Twig_Function_Method($this, 'getTimeRemaining'),
             'userAssignedQualifications' => new \Twig_Function_Method($this, 'getUserAssignedQualifications')
         );
     }
-    
+
     /**
      * @param userId $string
      * @param courseCode $string
@@ -31,7 +36,7 @@ class AppExtension extends \Twig_Extension {
         $result = $this->userService->getEvidenceCompleteness($userId, $courseCode);
         return $result;
     }
-    
+
     /**
      * @param id $string
      * @return string
@@ -41,7 +46,7 @@ class AppExtension extends \Twig_Extension {
         $result = $this->userService->getTimeRemaining($id);
         return $result;
     }
-    
+
     /**
      * @param userId $string
      * @param courseCode $string
@@ -51,12 +56,15 @@ class AppExtension extends \Twig_Extension {
     {
         return $this->userService->getUserAssignedQualifications($userId, $userType);
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function getName() {
+    public function getName()
+    {
         return 'my_bundle';
     }
+
 }
- ?>
+
+?>

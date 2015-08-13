@@ -31,9 +31,7 @@ class MessageController extends Controller
         $response->headers->set("Pragma", "no-cache");
         $response->headers->set("Expires", "-1");
         $response->send();
-
         return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
-        //return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
     }
 
     /**
@@ -47,7 +45,6 @@ class MessageController extends Controller
         $curuser = $userService->getCurrentUser();
         $unreadcount = $userService->getUnreadMessagesCount($curuser->getId());
         $composeform = $this->createForm(new ComposeMessageForm(), array());
-
         $newMsg = "true";
         $repMessage = $repSub = $repuser = $repUserName = '';
         $coursename = $request->get("course-name");
@@ -57,7 +54,7 @@ class MessageController extends Controller
             $unitname = $request->get("unit-name");
             $unitcode = $request->get("unit-code");
             $unitId = $request->get("unit-id");
-            $evidenceUser = $userService->getUserInfo($userid);            
+            $evidenceUser = $userService->getUserInfo($userid);
             $repuser = $evidenceUser->getEmail();
             if ($request->get("message_to_user")) {
                 $courseDetails = $this->get('CoursesService')->getCourseDetails($coursecode, $userid);
@@ -91,22 +88,21 @@ class MessageController extends Controller
                 $repUserName = $message->getInbox()->getUsername();
             }
             $unitId = '';
-            if ($message->getUnitID()!="" || $message->getUnitID() > 0 ) {
+            if ($message->getUnitID() != "" || $message->getUnitID() > 0) {
                 $unitId = $message->getUnitID();
             }
             $newMsg = "false";
         }
         /* Compose Action End */
         return $this->render('GqAusUserBundle:Message:compose.html.twig', array(
-                    'composemsgForm' => $composeform->createView(),
-                    'unreadcount' => $unreadcount,
-                    'repMessage' => $repMessage,
-                    'sub' => $repSub,
-                    'user' => $repuser,
-                    'userName' => $repUserName,
-                    'newMsg' => $newMsg,
-                    'unitId' => $unitId
-                        )
+                'composemsgForm' => $composeform->createView(),
+                'unreadcount' => $unreadcount,
+                'repMessage' => $repMessage,
+                'sub' => $repSub,
+                'user' => $repuser,
+                'userName' => $repUserName,
+                'newMsg' => $newMsg,
+                'unitId' => $unitId)
         );
     }
 
@@ -115,7 +111,7 @@ class MessageController extends Controller
      * return response
      */
     public function saveMessageAction(Request $request)
-    {   
+    {
         if ($request->isMethod('POST')) {
             $userService = $this->get('UserService');
             $curuser = $userService->getCurrentUser();
@@ -131,8 +127,8 @@ class MessageController extends Controller
                     $unitId = $composearr['unitId'];
                 }
                 $user = $this->getDoctrine()
-                        ->getRepository('GqAusUserBundle:User')
-                        ->findOneBy(array('email' => $to));
+                    ->getRepository('GqAusUserBundle:User')
+                    ->findOneBy(array('email' => $to));
                 if ($user) {
                     $touser = $user->getId();
                     $sentuser = $userService->getUserInfo($touser);
@@ -141,19 +137,19 @@ class MessageController extends Controller
                     // for sending external mail
                     $mailerInfo['subject'] = $this->container->getParameter('external_notification_sub');
                     $mailerInfo['to'] = $sentuser->getEmail();
-                    $mailMessage = "Dear ".$sentuser->getUsername().", <br/><br/> ". $this->container->getParameter('external_notification_msg') . "<br/><br/>". "Regards, <br/> " .$curuser->getUsername();
+                    $mailMessage = "Dear " . $sentuser->getUsername() . ", <br/><br/> " . $this->container->getParameter('external_notification_msg') . "<br/><br/>" . "Regards, <br/> " . $curuser->getUsername();
                     $mailerInfo['body'] = $mailMessage;
                     $mailerInfo['fromEmail'] = $curuser->getEmail();
                     $mailerInfo['fromUserName'] = $curuser->getUsername();
                     $userService->sendExternalEmail($mailerInfo);
-                    
+
                     $userService->saveMessageData($sentuser, $curuser, $msgdata);
                     $request->getSession()->getFlashBag()->add(
-                            'msgnotice', 'Message sent successfully!'
+                        'msgnotice', 'Message sent successfully!'
                     );
                 } else {
                     $request->getSession()->getFlashBag()->add(
-                            'errornotice', 'User not existed'
+                        'errornotice', 'User not existed'
                     );
                 }
             }
@@ -196,6 +192,9 @@ class MessageController extends Controller
         return $this->render('GqAusUserBundle:Message:trash.html.twig', $result);
     }
 
+    /**
+     * Function to draft message
+     */
     public function draftAction(Request $request)
     {
         $messageService = $this->get('UserService');
@@ -207,6 +206,7 @@ class MessageController extends Controller
 
     /**
      * Function to mark as read / unread
+     * return string
      */
     public function markAsReadAction(Request $request)
     {
@@ -244,17 +244,17 @@ class MessageController extends Controller
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
-        
+
         // getting the last route to check whether it is coming from inbox or sent ot tash
         $request = $this->getRequest();
         //look for the referer route
         $referer = $request->headers->get('referer');
-        $path = $this->container->getParameter('applicationUrl');;
+        $path = $this->container->getParameter('applicationUrl');
         $lastPath = str_replace($path, '', $referer);
-        if( $lastPath!="" ) {
-            $lastPath = explode("?", $lastPath);        
+        if ($lastPath != "") {
+            $lastPath = explode("?", $lastPath);
             // updating the readstatus if it is from inbox
-            if ( $lastPath[0] == 'messages' ) {
+            if ($lastPath[0] == 'messages') {
                 $messageService->setReadViewStatus($mid);
             }
         }
@@ -282,14 +282,14 @@ class MessageController extends Controller
         }
         $content = nl2br($message->getMessage());
         return $this->render(
-                        'GqAusUserBundle:Message:message.html.twig', array(
-                    'unreadcount' => $unreadcount,
-                    "message" => $message,
-                    'content' => $content,
-                    'userName' => $userName,
-                    'from' => $from,
-                    'msgDetails' => $msgDetails
-                        )
+                'GqAusUserBundle:Message:message.html.twig', array(
+                'unreadcount' => $unreadcount,
+                "message" => $message,
+                'content' => $content,
+                'userName' => $userName,
+                'from' => $from,
+                'msgDetails' => $msgDetails
+                )
         );
     }
 
@@ -320,8 +320,6 @@ class MessageController extends Controller
         echo $unreadcount;
         exit;
     }
-    
-    
 
     /**
      * Function to view applicant and facilitator messages to assessor
@@ -332,15 +330,14 @@ class MessageController extends Controller
         $unitId = $this->getRequest()->get('unitId');
         $userId = $this->getRequest()->get('userId');
         $courseCode = $this->getRequest()->get('courseCode');
-        if (!empty($unitId) && !empty($userId) && !empty($courseCode) ) {
-          $courseData = $this->get('CoursesService')->getCourseDetails($courseCode, $userId);
-          $applicantId = $courseData->getUser()->getId();
-          $facilitatorId = $courseData->getFacilitator()->getId();
-          $results['messages'] = $this->get('UserService')->getFacilitatorApplicantMessages($unitId, $applicantId, $facilitatorId);
-          echo $template = $this->renderView('GqAusUserBundle:Message:facilitatorApplicant.html.twig', $results);
-          
+        if (!empty($unitId) && !empty($userId) && !empty($courseCode)) {
+            $courseData = $this->get('CoursesService')->getCourseDetails($courseCode, $userId);
+            $applicantId = $courseData->getUser()->getId();
+            $facilitatorId = $courseData->getFacilitator()->getId();
+            $results['messages'] = $this->get('UserService')->getFacilitatorApplicantMessages($unitId, $applicantId, $facilitatorId);
+            echo $template = $this->renderView('GqAusUserBundle:Message:facilitatorApplicant.html.twig', $results);
         } else {
-          echo "Empty Unit Id";
+            echo "Empty Unit Id";
         }
         exit;
     }

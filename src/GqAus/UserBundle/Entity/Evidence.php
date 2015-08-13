@@ -15,7 +15,7 @@ abstract class Evidence
      */
     private $id;
 
-     /**
+    /**
      * Returns type of evidence.
      *
      * @return string
@@ -31,6 +31,7 @@ abstract class Evidence
     {
         return $this->id;
     }
+
     /**
      * @var string
      */
@@ -40,7 +41,6 @@ abstract class Evidence
      * @var \GqAus\UserBundle\Entity\User
      */
     private $user;
-
 
     /**
      * Set unit
@@ -87,11 +87,11 @@ abstract class Evidence
     {
         return $this->user;
     }
+
     /**
      * @var string
      */
     private $created;
-
 
     /**
      * Set created
@@ -115,10 +115,10 @@ abstract class Evidence
     {
         return $this->created;
     }
-    
+
     private $size;
-    
-     /**
+
+    /**
      * Set size
      *
      * @param string $size
@@ -140,11 +140,11 @@ abstract class Evidence
     {
         return $this->size;
     }
+
     /**
      * @var string
      */
     private $course;
-
 
     /**
      * Set course
@@ -168,4 +168,5 @@ abstract class Evidence
     {
         return $this->course;
     }
+
 }

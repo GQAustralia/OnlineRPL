@@ -8,19 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
  * Manager
  */
 class Manager extends User
-{   
+{
+
     /**
      * Role type for Manager
      * 
      * @var Integer
      */
     const ROLE = 5;
-    
+
     /**
      * @var string
      */
     const ROLE_NAME = 'ROLE_MANAGER';
-    
+
     /**
      * Get type
      *
@@ -30,10 +31,10 @@ class Manager extends User
     {
         return self::ROLE;
     }
-    
+
     public function getRoleName()
     {
         return self::ROLE_NAME;
     }
-    
+
 }

@@ -31,14 +31,14 @@ class TokboxController extends Controller
             $encodedRoomId = base64_encode(base64_encode(base64_encode($roomId)));
             $this->get('UserService')->sendConversationMessage($this->getRequest()->get('courseCode'), $applicantId, $userId, $encodedRoomId);
             return $this->render('GqAusUserBundle:Tokbox:index.html.twig', array(
-                        'apiKey' => $this->container->getParameter('tokbox_key'),
-                        'sessionId' => $sessionId,
-                        'token' => $token,
-                        'roomId' => $encodedRoomId,
-                        'unitCode' => $this->getRequest()->get('unitCode'),
-                        'courseCode' => $this->getRequest()->get('courseCode'),
-                        'applicantId' => $applicantId,
-                        'userId' => $userId
+                    'apiKey' => $this->container->getParameter('tokbox_key'),
+                    'sessionId' => $sessionId,
+                    'token' => $token,
+                    'roomId' => $encodedRoomId,
+                    'unitCode' => $this->getRequest()->get('unitCode'),
+                    'courseCode' => $this->getRequest()->get('courseCode'),
+                    'applicantId' => $applicantId,
+                    'userId' => $userId
             ));
         } else {
             return $this->redirect('dashboard');
@@ -55,14 +55,13 @@ class TokboxController extends Controller
         $userId = $request->getSession()->get('user_id');
         if (base64_encode($room->getApplicant()) === base64_encode($userId)) {
             $openTok = new OpenTok($this->container->getParameter('tokbox_key'), $this->container->getParameter('tokbox_secret_key'));
-
             $token = $openTok->generateToken($room->getSession(), array(
                 'role' => Role::MODERATOR
             ));
             return $this->render('GqAusUserBundle:Tokbox:subscriber.html.twig', array(
-                        'apiKey' => $this->container->getParameter('tokbox_key'),
-                        'sessionId' => $room->getSession(),
-                        'token' => $token
+                    'apiKey' => $this->container->getParameter('tokbox_key'),
+                    'sessionId' => $room->getSession(),
+                    'token' => $token
             ));
         } else {
             return $this->redirect('dashboard');
@@ -105,23 +104,19 @@ class TokboxController extends Controller
     public function historyAction()
     {
         $openTok = new OpenTok($this->container->getParameter('tokbox_key'), $this->container->getParameter('tokbox_secret_key'));
-
         $page = intval($this->getRequest()->get('page'));
         if (empty($page)) {
             $page = 1;
         }
-
         $offset = ($page - 1) * 5;
-
         $archives = $openTok->listArchives($offset, 5);
-
         $toArray = function($archive) {
             return $archive->toArray();
         };
         return $this->render('GqAusUserBundle:Tokbox:history.html.twig', array(
-                    'archives' => array_map($toArray, $archives->getItems()),
-                    'showPrevious' => $page > 1 ? '/history?page=' . ($page - 1) : null,
-                    'showNext' => $archives->totalCount() > $offset + 5 ? '/history?page=' . ($page + 1) : null
+                'archives' => array_map($toArray, $archives->getItems()),
+                'showPrevious' => $page > 1 ? '/history?page=' . ($page - 1) : null,
+                'showNext' => $archives->totalCount() > $offset + 5 ? '/history?page=' . ($page + 1) : null
         ));
     }
 
@@ -132,10 +127,11 @@ class TokboxController extends Controller
     {
         $openTok = new OpenTok($this->container->getParameter('tokbox_key'), $this->container->getParameter('tokbox_secret_key'));
         $archive = $openTok->getArchive($aid);
-        if ($archive->url)
+        if ($archive->url) {
             return $this->redirect($archive->url);
-        else
+        } else {
             return $this->redirect('https://s3.amazonaws.com/rpl-upload.com/45145502/' . $aid);
+        }
     }
 
 }

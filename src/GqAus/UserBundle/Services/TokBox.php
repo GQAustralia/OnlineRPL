@@ -1,9 +1,11 @@
 <?php
 
 namespace GqAus\UserBundle\Services;
+
 use GqAus\UserBundle\Entity\Room;
 
-class TokBox {
+class TokBox
+{
 
     /**
      * @var Object
@@ -13,16 +15,26 @@ class TokBox {
     /**
      * Constructor
      */
-    public function __construct($em) {
+    public function __construct($em)
+    {
         $this->em = $em;
         $this->repository = $em->getRepository('GqAusUserBundle:Room');
     }
 
-    public function getRoom($roomId) {
+    /**
+     * Function to get room
+     * return array
+     */
+    public function getRoom($roomId)
+    {
         return $this->repository->find($roomId);
     }
 
-    public function updateRoom($id, $user_id) {
+    /**
+     * Function to update room
+     */
+    public function updateRoom($id, $user_id)
+    {
         $room = $this->repository->find($id);
         $room->setApplicant($user_id);
         $this->em->persist($room);
@@ -34,7 +46,8 @@ class TokBox {
      *  function to create a room for video communication.
      *  @return int
      */
-    public function createRoom($sessionId, $user_id, $applicantID) {
+    public function createRoom($sessionId, $user_id, $applicantID)
+    {
         $room = new Room();
         $room->setAssessor($user_id);
         $room->setSession($sessionId);
@@ -44,7 +57,11 @@ class TokBox {
         return $room->getId();
     }
 
-    public function isRoomExists($assessorId, $applicantID) {
+    /**
+     * Function to check room exists
+     */
+    public function isRoomExists($assessorId, $applicantID)
+    {
         return $this->repository->findOneBy(array('assessor' => $assessorId, 'applicant' => $applicantID));
     }
 
