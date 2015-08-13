@@ -6,16 +6,19 @@ use Doctrine\ORM\EntityManager;
 
 class MailService
 {
+
     private $em;
+
     /**
      * @var Object
      */
     private $container;
+
     /**
      * @var Object
      */
     private $mailer;
-    
+
     /**
      * Constructor
      */
@@ -25,7 +28,7 @@ class MailService
         $this->mailer = $mailer;
         $this->container = $container;
     }
-    
+
     /**
      * function to send external email .
      *  @return string
@@ -39,9 +42,10 @@ class MailService
                 ->setFrom($from)
                 ->setTo($mailerInfo['to'])
                 ->setBody($mailerInfo['body'])
-                ->setContentType("text/html");                
+                ->setContentType("text/html");
             $status = $this->mailer->send($emailContent);
-        } 
+        }
         return $status;
     }
+
 }

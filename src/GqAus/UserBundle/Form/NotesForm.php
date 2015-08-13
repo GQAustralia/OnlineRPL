@@ -1,10 +1,16 @@
 <?php
+
 namespace GqAus\UserBundle\Form;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class NotesForm extends AbstractType
 {
+
+    /**
+     * Function to build notes form
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('note_unit_id', 'hidden');
@@ -17,8 +23,13 @@ class NotesForm extends AbstractType
             'label' => 'Cancel',
         ));
     }
+
+    /**
+     * Function to get name
+     */
     public function getName()
     {
         return 'addnotes';
     }
+
 }

@@ -22,7 +22,7 @@ class ForgotPasswordController extends Controller
             $message = $userService->forgotPasswordRequest($email);
         }
         return $this->render(
-                        'GqAusUserBundle:Login:forgotpassword.html.twig', array('message' => $message));
+                'GqAusUserBundle:Login:forgotpassword.html.twig', array('message' => $message));
     }
 
     /**

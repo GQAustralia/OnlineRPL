@@ -11,21 +11,22 @@ class Audio extends \GqAus\UserBundle\Entity\Evidence
 {
 
     const TYPE = 'audio';
-    
-/**
+
+    /**
      * @var string
      */
     private $path;
 
-     /**
+    /**
      * Returns type of evidence.
      *
      * @return string
      */
-    public function getType(){
+    public function getType()
+    {
         return self::TYPE;
     }
-    
+
     /**
      * Set path
      *
@@ -45,11 +46,11 @@ class Audio extends \GqAus\UserBundle\Entity\Evidence
     {
         return $this->path;
     }
+
     /**
      * @var string
      */
     private $name;
-
 
     /**
      * Set name
@@ -73,15 +74,16 @@ class Audio extends \GqAus\UserBundle\Entity\Evidence
     {
         return $this->name;
     }
-	
-	/**
+
+    /**
      * Get title
      *
      * @return string 
      */
     public function getTitle()
     {
-       $pos = strpos($this->name, '.');
-       return substr($this->name, 0, $pos);
+        $pos = strpos($this->name, '.');
+        return substr($this->name, 0, $pos);
     }
+
 }

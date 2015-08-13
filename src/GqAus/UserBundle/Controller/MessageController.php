@@ -31,9 +31,7 @@ class MessageController extends Controller
         $response->headers->set("Pragma", "no-cache");
         $response->headers->set("Expires", "-1");
         $response->send();
-
         return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
-        //return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
     }
 
     /**
@@ -47,7 +45,6 @@ class MessageController extends Controller
         $curuser = $userService->getCurrentUser();
         $unreadcount = $userService->getUnreadMessagesCount($curuser->getId());
         $composeform = $this->createForm(new ComposeMessageForm(), array());
-
         $newMsg = "true";
         $repMessage = $repSub = $repuser = '';
         $coursename = $request->get("course-name");
@@ -95,14 +92,14 @@ class MessageController extends Controller
         }
         /* Compose Action End */
         return $this->render('GqAusUserBundle:Message:compose.html.twig', array(
-                    'composemsgForm' => $composeform->createView(),
-                    'unreadcount' => $unreadcount,
-                    'repMessage' => $repMessage,
-                    'sub' => $repSub,
-                    'user' => $repuser,
-                    'newMsg' => $newMsg,
-                    'unitId' => $unitId
-                        )
+                'composemsgForm' => $composeform->createView(),
+                'unreadcount' => $unreadcount,
+                'repMessage' => $repMessage,
+                'sub' => $repSub,
+                'user' => $repuser,
+                'newMsg' => $newMsg,
+                'unitId' => $unitId
+                )
         );
     }
 
@@ -127,8 +124,8 @@ class MessageController extends Controller
                     $unitId = $composearr['unitId'];
                 }
                 $user = $this->getDoctrine()
-                        ->getRepository('GqAusUserBundle:User')
-                        ->findOneBy(array('email' => $to));
+                    ->getRepository('GqAusUserBundle:User')
+                    ->findOneBy(array('email' => $to));
                 if ($user) {
                     $touser = $user->getId();
                     $sentuser = $userService->getUserInfo($touser);
@@ -144,11 +141,11 @@ class MessageController extends Controller
 
                     $userService->saveMessageData($sentuser, $curuser, $msgdata);
                     $request->getSession()->getFlashBag()->add(
-                            'msgnotice', 'Message sent successfully!'
+                        'msgnotice', 'Message sent successfully!'
                     );
                 } else {
                     $request->getSession()->getFlashBag()->add(
-                            'errornotice', 'User not existed'
+                        'errornotice', 'User not existed'
                     );
                 }
             }
@@ -191,6 +188,9 @@ class MessageController extends Controller
         return $this->render('GqAusUserBundle:Message:trash.html.twig', $result);
     }
 
+    /**
+     * Function to draft message
+     */
     public function draftAction(Request $request)
     {
         $messageService = $this->get('UserService');
@@ -198,11 +198,12 @@ class MessageController extends Controller
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
         return $this->render(
-                        'GqAusUserBundle:Message:draft.html.twig', array('unreadcount' => $unreadcount));
+                'GqAusUserBundle:Message:draft.html.twig', array('unreadcount' => $unreadcount));
     }
 
     /**
      * Function to mark as read / unread
+     * return string
      */
     public function markAsReadAction(Request $request)
     {
@@ -246,7 +247,6 @@ class MessageController extends Controller
         //look for the referer route
         $referer = $request->headers->get('referer');
         $path = $this->container->getParameter('applicationUrl');
-        ;
         $lastPath = str_replace($path, '', $referer);
         if ($lastPath != "") {
             $lastPath = explode("?", $lastPath);
@@ -279,14 +279,14 @@ class MessageController extends Controller
         }
         $content = nl2br($message->getMessage());
         return $this->render(
-                        'GqAusUserBundle:Message:message.html.twig', array(
-                    'unreadcount' => $unreadcount,
-                    "message" => $message,
-                    'content' => $content,
-                    'userName' => $userName,
-                    'from' => $from,
-                    'msgDetails' => $msgDetails
-                        )
+                'GqAusUserBundle:Message:message.html.twig', array(
+                'unreadcount' => $unreadcount,
+                "message" => $message,
+                'content' => $content,
+                'userName' => $userName,
+                'from' => $from,
+                'msgDetails' => $msgDetails
+                )
         );
     }
 

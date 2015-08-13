@@ -10,13 +10,17 @@ use \DateTime;
 
 class FileUploader
 {
-     /**
+
+    /**
      * @var Object
      */
     private $container;
 
+    /**
+     * @var Object
+     */
     private $filesystem;
-    
+
     /**
      * Constructor
      */
@@ -31,32 +35,39 @@ class FileUploader
         $this->container = $container;
     }
 
+    /**
+     * function to get current user
+     *  @return array
+     */
     public function getCurrentUser()
     {
         return $this->repository->findOneById($this->userId);
     }
-    
+
+    /**
+     * function to upload files in AWS S3.
+     *  @return string
+     */
     public function Process($files)
     {
         $fileNames = array();
         $i = 0;
         foreach ($files as $file) {
-            $array = $this->uploadToAWS($file);            
+            $array = $this->uploadToAWS($file);
             $fileNames[$i]['aws_file_name'] = $array['aws_file_name'];
             $fileNames[$i]['orginal_name'] = $array['orginal_name'];
             $i++;
         }
         return $fileNames;
-        
     }
-    
+
     /**
      * function to store documents types in AWS S3.
      *  @return array
      */
     public function uploadToAWS(UploadedFile $file)
     {
-        $size =    $file->getClientSize();
+        $size = $file->getClientSize();
         $maxFileSize = $this->container->getParameter('maxFileSize');
         if ($size <= $maxFileSize) {
             // Generate a unique filename based on the date and add file extension of the uploaded file
@@ -67,13 +78,13 @@ class FileUploader
             return array('aws_file_name' => $filename, 'orginal_name' => $file->getClientOriginalName());
         }
     }
-    
+
     /**
      * function to save document types.
      *  @return array
      */
     public function uploadIdFiles($data)
-    {        
+    {
         $fileNames = $this->uploadToAWS($data['browse']);
         if ($fileNames) {
             $userIdFiles = new UserIds();
@@ -97,7 +108,7 @@ class FileUploader
         }
         return $fileNames;
     }
-    
+
     /**
      * function to delete evidence file types in AWS S3.
      */
@@ -106,7 +117,7 @@ class FileUploader
         $adapter = $this->filesystem->getAdapter();
         $adapter->delete($fileName);
     }
-    
+
     /**
      * function to upload resume for assessor.
      *  @return array
@@ -135,7 +146,7 @@ class FileUploader
             return null;
         }
     }
-    
+
     /**
      * function to find whether file exists or not in AWS S3.
      */
@@ -144,4 +155,5 @@ class FileUploader
         $adapter = $this->filesystem->getAdapter();
         return $adapter->exists($fileName);
     }
+
 }

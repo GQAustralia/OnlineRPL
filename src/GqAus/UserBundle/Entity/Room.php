@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Room
 {
+
     /**
      * @var string
      */
@@ -33,7 +34,6 @@ class Room
      * @var integer
      */
     private $id;
-
 
     /**
      * Set session
@@ -136,11 +136,11 @@ class Room
     {
         return $this->id;
     }
+
     /**
      * @var string
      */
     private $token;
-
 
     /**
      * Set token
@@ -164,4 +164,5 @@ class Room
     {
         return $this->token;
     }
+
 }

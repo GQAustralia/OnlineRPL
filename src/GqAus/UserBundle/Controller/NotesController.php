@@ -11,6 +11,7 @@ class NotesController extends Controller
 
     /**
      * Function to add the notes
+     * return string
      */
     public function addNotesAction(Request $request)
     {
@@ -29,6 +30,7 @@ class NotesController extends Controller
 
     /**
      * Function to get notes
+     * return string
      */
     public function getUnitNotesAction()
     {
@@ -44,14 +46,4 @@ class NotesController extends Controller
         exit;
     }
 
-    /**
-     * Function to delete Evidence file
-     *
-      public function deleteNotesAction()
-      {
-      $evidenceId = $this->getRequest()->get('nid');
-      $evidenceType = $this->getRequest()->get('ftype');
-      $fileName = $this->get('EvidenceService')->deleteEvidence($evidenceId, $evidenceType);
-      exit;
-      } */
 }

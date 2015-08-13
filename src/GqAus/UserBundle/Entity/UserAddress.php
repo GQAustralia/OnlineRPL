@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserAddress
 {
+
     /**
      * @var string
      */
@@ -43,7 +44,6 @@ class UserAddress
      * @var \GqAus\UserBundle\Entity\User
      */
     private $user;
-
 
     /**
      * Set address
@@ -192,11 +192,11 @@ class UserAddress
     {
         return $this->user;
     }
+
     /**
      * @var string
      */
     private $suburb;
-
 
     /**
      * Set suburb
@@ -220,11 +220,11 @@ class UserAddress
     {
         return $this->suburb;
     }
+
     /**
      * @var string
      */
     private $country;
-
 
     /**
      * Set country
@@ -248,4 +248,5 @@ class UserAddress
     {
         return $this->country;
     }
+
 }

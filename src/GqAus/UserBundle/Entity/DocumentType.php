@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DocumentType
 {
+
     /**
      * @var string
      */
@@ -23,7 +24,6 @@ class DocumentType
      * @var integer
      */
     private $id;
-
 
     /**
      * Set name
@@ -80,11 +80,11 @@ class DocumentType
     {
         return $this->id;
     }
+
     /**
      * @var string
      */
     private $type;
-
 
     /**
      * Set type
@@ -108,4 +108,5 @@ class DocumentType
     {
         return $this->type;
     }
+
 }

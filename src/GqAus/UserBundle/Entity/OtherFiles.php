@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OtherFiles
 {
+
     /**
      * @var string
      */
@@ -38,7 +39,6 @@ class OtherFiles
      * @var \GqAus\UserBundle\Entity\User
      */
     private $assessor;
-
 
     /**
      * Set name
@@ -164,4 +164,5 @@ class OtherFiles
     {
         return $this->assessor;
     }
+
 }

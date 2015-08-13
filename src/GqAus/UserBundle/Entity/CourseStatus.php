@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CourseStatus
 {
+
     /**
      * @var string
      */
@@ -43,7 +44,6 @@ class CourseStatus
      * @var \GqAus\UserBundle\Entity\UserCourses
      */
     private $course;
-
 
     /**
      * Set unitCode
@@ -192,4 +192,5 @@ class CourseStatus
     {
         return $this->course;
     }
+
 }

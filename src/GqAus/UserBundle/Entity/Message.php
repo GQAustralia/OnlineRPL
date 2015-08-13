@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Message
 {
+
     /**
      * @var string
      */
@@ -58,12 +59,11 @@ class Message
      * @var \GqAus\UserBundle\Entity\User
      */
     private $sent;
-    
+
     /**
      * @var string
      */
     private $unitID;
-
 
     /**
      * Set subject
@@ -281,7 +281,7 @@ class Message
     {
         return $this->sent;
     }
-    
+
     /**
      * Get unitID
      *
@@ -291,8 +291,8 @@ class Message
     {
         return $this->unitID;
     }
-    
-     /**
+
+    /**
      * Set unitId
      *
      * @param integer $unitID
@@ -301,7 +301,8 @@ class Message
     public function setunitID($unitID)
     {
         $this->unitID = $unitID;
-        
+
         return $this;
     }
+
 }
