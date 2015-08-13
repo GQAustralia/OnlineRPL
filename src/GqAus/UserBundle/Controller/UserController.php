@@ -294,8 +294,8 @@ class UserController extends Controller
      */
     public function deleteOtherFilesAction()
     {
-        $FileId = $this->getRequest()->get('fid');
-        $fileName = $this->get('UserService')->deleteOtherFiles($FileId);
+        $fileId = $this->getRequest()->get('fid');
+        $fileName = $this->get('UserService')->deleteOtherFiles($fileId);
         $this->get('gq_aus_user.file_uploader')->delete($fileName);
         exit;
     }
