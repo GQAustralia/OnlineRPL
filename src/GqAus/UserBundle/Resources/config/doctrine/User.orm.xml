@@ -28,9 +28,9 @@
         </one-to-one>-->
         <one-to-one field="address" target-entity="GqAus\UserBundle\Entity\UserAddress" mapped-by="user" />
         <field name="userImage" type="string" column="user_img" length="255"/>
-        <field name="passwordToken" type="string" column="passwordToken" length="255"/>
-        <field name="tokenExpiry" type="string" column="tokenExpiry" />
-        <field name="tokenStatus" type="integer" column="tokenStatus" length="1"/>
+        <field name="passwordToken" type="string" column="password_token" length="255"/>
+        <field name="tokenExpiry" type="string" column="token_expiry" />
+        <field name="tokenStatus" type="integer" column="token_status" length="1"/>
         <field name="courseConditionStatus" type="integer" column="course_condition_status" length="1"/>
         <field name="dateOfBirth" type="string" column="date_of_birth" length="20" nullable="true"/>
         <field name="gender" type="string" column="gender" length="1"/>
