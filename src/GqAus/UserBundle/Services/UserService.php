@@ -1379,7 +1379,7 @@ class UserService
     public function getUsers($role)
     {
         $connection = $this->em->getConnection();
-        $statement = $connection->prepare("SELECT id, first_name as first_name, last_name as lastname FROM user WHERE role_type = :role AND status = 1");
+        $statement = $connection->prepare("SELECT id, first_name as firstname, last_name as lastname FROM user WHERE role_type = :role AND status = 1");
         $statement->bindValue('role', $role);
         $statement->execute();
         return $statement->fetchAll();
