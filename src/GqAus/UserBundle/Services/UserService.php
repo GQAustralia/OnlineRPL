@@ -993,7 +993,6 @@ class UserService
             ->setParameter('sent', $userId)
             ->setParameter('fromStatus', '1')
             ->addOrderBy('m.created', 'DESC');
-        //$query->orderBy('');
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
         return array('messages' => $pagination, 'paginator' => $paginator);
@@ -1380,7 +1379,7 @@ class UserService
     public function getUsers($role)
     {
         $connection = $this->em->getConnection();
-        $statement = $connection->prepare("SELECT id, firstname, lastname FROM user WHERE roletype = :role AND status = 1");
+        $statement = $connection->prepare("SELECT id, first_name as firstname, last_name as lastname FROM user WHERE role_type = :role AND status = 1");
         $statement->bindValue('role', $role);
         $statement->execute();
         return $statement->fetchAll();
@@ -1690,7 +1689,7 @@ class UserService
     public function getUserByRole()
     {
         $connection = $this->em->getConnection();
-        $statement = $connection->prepare("SELECT id, firstname, lastname, roletype, CONCAT(firstname, ' ', lastname) as username FROM user WHERE (roletype = :frole OR roletype = :arole) ORDER BY roletype");
+        $statement = $connection->prepare("SELECT id, first_name as firstname, last_name as lastname, role_type as roletype, CONCAT(first_name, ' ', last_name) as username FROM user WHERE (role_type = :frole OR role_type = :arole) ORDER BY role_type");
         $statement->bindValue('frole', \GqAus\UserBundle\Entity\Facilitator::ROLE);
         $statement->bindValue('arole', \GqAus\UserBundle\Entity\Assessor::ROLE);
         $statement->execute();
@@ -1774,10 +1773,11 @@ class UserService
         if (!empty($searchName)) {
             $searchNamearr = explode(" ", $searchName);
             for ($i = 0; $i < count($searchNamearr); $i++) {
-                if ($i == 0)
+                if ($i == 0) {
                     $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
-                else
+                } else {
                     $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                }
             }
             $res->andWhere($nameCondition);
         }
@@ -2052,8 +2052,6 @@ class UserService
                     $courseObj->setFacilitatorstatus('1');
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
 
-
-
                     $mailSubject = "All evidences are enough competent in " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
                     $mailMessage = "Dear " . $toUserName . ", <br/><br/> All the evidences for the Qualification : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " are enough competent <br/> Validated all the eviedences and moved portfolio to you.
                                  <br/><br/> Regards, <br/> " . $sentUserName;
@@ -2080,12 +2078,9 @@ class UserService
             $this->em->persist($courseObj);
             $this->em->flush();
 
-
             // checking whether if the subject and message variables are already defined if no assigning the default data
             if (!isset($mailSubject) && !isset($mailMessageApplicant)) {
                 $mailSubject = "Qualification Status Updated of " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
-                /* $mailMessage = "Dear " . $toUserName . ", <br/><br/> Qualification Status of : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " has been updated to ".$statusList[$courseStatus]["status"].".
-                  <br/><br/> Regards, <br/> " . $sentUserName; */
                 $mailMessageApplicant = "Dear " . $courseObj->getUser()->getUsername() . ", <br/><br/> Qualification Status of : " . $courseObj->getCourseCode() . " " . $courseObj->getCourseName() . " has been updated to " . $statusList[$courseStatus]["status"] . ".
                      <br/><br/> Regards, <br/> " . $courseObj->getFacilitator()->getUsername();
             }
