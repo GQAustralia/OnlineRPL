@@ -1379,7 +1379,7 @@ class UserService
     public function getUsers($role)
     {
         $connection = $this->em->getConnection();
-        $statement = $connection->prepare("SELECT id, firstname, lastname FROM user WHERE roletype = :role AND status = 1");
+        $statement = $connection->prepare("SELECT id, first_name as first_name, last_name as lastname FROM user WHERE role_type = :role AND status = 1");
         $statement->bindValue('role', $role);
         $statement->execute();
         return $statement->fetchAll();
@@ -1689,7 +1689,7 @@ class UserService
     public function getUserByRole()
     {
         $connection = $this->em->getConnection();
-        $statement = $connection->prepare("SELECT id, firstname, lastname, roletype, CONCAT(firstname, ' ', lastname) as username FROM user WHERE (roletype = :frole OR roletype = :arole) ORDER BY roletype");
+        $statement = $connection->prepare("SELECT id, first_name as firstname, last_name as lastname, role_type as roletype, CONCAT(first_name, ' ', last_name) as username FROM user WHERE (role_type = :frole OR role_type = :arole) ORDER BY role_type");
         $statement->bindValue('frole', \GqAus\UserBundle\Entity\Facilitator::ROLE);
         $statement->bindValue('arole', \GqAus\UserBundle\Entity\Assessor::ROLE);
         $statement->execute();
