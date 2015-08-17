@@ -8,7 +8,7 @@ parameters:
                                  <a href='#applicationUrl#login/'>Click Here</a> to login, Below are the account details.  <br/><br/> 
                                  Email: #email#<br/> 
                                  Password: #password# <br/><br/><br/> 
-                                 Regards,<br/>OnlineRPL
+                                 Regards,<br/>%default_from_username%
     mail_add_course_sub: "Qualification: #courseCode# - #courseName# has been added" 
     mail_add_course_con: >
                            Dear #firstName# #lastName#,<br/><br/> 
@@ -22,7 +22,7 @@ parameters:
                                 <br/><a href='#applicationUrl#login/'>Click Here</a> to login, Below are the account details.  
                                 <br/><br/> Email: #email#<br/> 
                                 Password: #password# <br/><br/><br/> 
-                                Regards,<br/>OnlineRPL
+                                Regards,<br/>%default_from_username%
     mail_notification_sub: "New message from OnlineRPL - #messageSubject#" 
     mail_notification_con: >
                              Dear #toUserName#, <br/><br/> 
@@ -36,7 +36,7 @@ parameters:
                                 <a href='#applicationUrl#resetpassword/#token#'>Click Here</a>.<br/>
                                 If you dont use this link within 4 hours, it will expire. <br/>
                                 To get a new password reset link, visit #applicationUrl#forgotpassword/<br/><br/>
-                                Regards,<br/>OnlineRPL 
+                                Regards,<br/>%default_from_username% 
     msg_add_evidence_sub: "Evidence added to - #courseCode# : #courseName#" 
     msg_add_evidence_con: >
                             Dear #toUserName#, <br/> 

@@ -392,8 +392,8 @@ class EvidenceService
             $userInfo = $this->userService->getUserInfo($userId);
             
             // finding and replacing the variables from message templates
-            $subSearch = array('#courseCode#', '#courseName#');
-            $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName());
+            $subSearch = array('#courseCode#', '#courseName#', '#unitId#');
+            $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName(), $courseUnitObj->getId());
             $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_add_evidence_sub'));
             $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_evidence_sub'));
             
@@ -404,11 +404,9 @@ class EvidenceService
             $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_evidence_con'));
             $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
             
-            $mailerInfo = $this->userService->buildMailerInfoArray($userId, $courseUnitObj->getId(), $mailSubject, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getId(), $userInfo->getEmail(), $userInfo->getUsername(), $mailBody);
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
             $this->userService->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $mailBody, $userInfo->getEmail(), $userInfo->getUsername());
-            $messageInfo = $this->userService->buildMailerInfoArray($userId, $courseUnitObj->getId(), $messageSubject, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getId(), $userInfo->getEmail(), $userInfo->getUsername(), $messageBody);
-            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
+             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
             $this->userService->sendMessagesInbox($courseObj->getFacilitator()->getId(), $userId, $messageSubject, $messageBody, $courseUnitObj->getId());
 
             // checking whether the assessor is assigned or not

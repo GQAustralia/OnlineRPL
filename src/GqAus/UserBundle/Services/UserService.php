@@ -1158,8 +1158,8 @@ class UserService
             $subReplace = array($courseData['courseCode'], $courseData['courseName']);
                                     
             // finding and replacing the variables from message templates
-            $msgSearch = array('#firstName#', '#lastName', '#courseCode#', '#courseName#', '#applicationUrl#');
-            $msgReplace = array($data['firstname'], $data['lastname'], $courseData['courseCode'], $courseData['courseName'], $this->container->getParameter('applicationUrl'));            
+            $msgSearch = array('#firstName#', '#lastName#', '#courseCode#', '#courseName#', '#applicationUrl#', '#email#', '#password#');
+            $msgReplace = array($data['firstname'], $data['lastname'], $courseData['courseCode'], $courseData['courseName'], $this->container->getParameter('applicationUrl'), $data['email'], $data['newpassword']);            
             
             if ($emailFlag == 'U' && $emailCourseFlag == 'Q') {
                 $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_user_course_sub'));
@@ -1955,7 +1955,8 @@ class UserService
         }
         $response['type'] = 'Success';
         $response['code'] = 1;
-        $response['msg'] = 'Status updated successfully.';               
+        $response['msg'] = 'Status updated successfully.';
+        return $response;
     }
     
     /**
@@ -1964,6 +1965,8 @@ class UserService
     public function facilitatorStatusChange($courseObj, $courseStatus)
     {
         $response = array();
+        $toEmail = $toId = $roleMessageBody = $roleMailBody = "";
+        
         // get status list
         $statusList = $this->getqualificationStatus();
         
@@ -1974,7 +1977,7 @@ class UserService
         $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_portfolio_update_sub'));
 
         // finding and replacing the variables from message templates
-        $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#status', '#fromUserName#');
+        $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#status#', '#fromUserName#');
         $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $statusList[$courseStatus]['status'], $courseObj->getFacilitator()->getUsername());
         $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_update_con'));
         $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
@@ -2005,10 +2008,18 @@ class UserService
                 }
             break;
             case 11:
-                $toEmail = $courseObj->getAssessor()->getEmail();
-                $toId = $courseObj->getAssessor()->getId();
-                $roleMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_update_con'));
-                $roleMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con')); 
+                // checking whether the assessor is assigned or not
+                $cAssessor = $courseObj->getAssessor();
+                if (!empty($cAssessor)) {
+                    $toEmail = $courseObj->getAssessor()->getEmail();
+                    $toId = $courseObj->getAssessor()->getId();
+                    $roleMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_update_con'));
+                    $roleMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
+                } else {
+                    $response['type'] = 'Error';
+                    $response['code'] = 6;
+                    $response['msg'] = 'Please assign assessor!';
+                }
             break;
             case 15:
                 // checking whether the assessor and rto approved the qualification or not
@@ -2085,7 +2096,8 @@ class UserService
         }
         $response['type'] = 'Success';
         $response['code'] = 1;
-        $response['msg'] = 'Status updated successfully.';               
+        $response['msg'] = 'Status updated successfully.';
+        return $response;
     }
     
     /**

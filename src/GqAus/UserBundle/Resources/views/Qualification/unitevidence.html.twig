@@ -380,7 +380,7 @@
             {% if ('ROLE_FACILITATOR' in currentUserRole and unitStatus.facilitatorstatus == '0' and unitStatus.assessorstatus == '0') %}
             <button type="submit" id="send_message" class="btn btn-grey">Send a Message</button>               
             {% endif %}
-            {% if ('ROLE_ASSESSOR' in currentUserRole and unitStatus.assessorstatus == '0') or ('ROLE_FACILITATOR' in currentUserRole and unitStatus.facilitatorstatus == '0' and unitStatus.assessorstatus == '0') %}    
+            {% if ('ROLE_ASSESSOR' in currentUserRole and unitStatus.assessorstatus == '0') or ('ROLE_FACILITATOR' in currentUserRole and unitStatus.facilitatorstatus == '0' and unitStatus.assessorstatus == '0' and (courseAssessor is defined and courseAssessor is not null) ) %}    
                 {% set role_user = ('ROLE_FACILITATOR' in currentUserRole) ? 'Assessor' : 'Facilitator' %}
             <button type="submit" id="message_to_user" name="message_to_user" value="1" class="btn btn-grey">Message to {{ role_user }}</button>
             {% endif %}

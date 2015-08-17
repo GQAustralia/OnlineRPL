@@ -56,6 +56,7 @@ class MessageController extends Controller
             $unitId = $request->get("unit-id");
             $evidenceUser = $userService->getUserInfo($userid);
             $repuser = $evidenceUser->getEmail();
+            $repUserName = $evidenceUser->getUsername();
             if ($request->get("message_to_user")) {
                 $courseDetails = $this->get('CoursesService')->getCourseDetails($coursecode, $userid);
                 $toRoleUser = ($courseDetails->getFacilitator()->getID() === $curuser->getId()) ? $courseDetails->getAssessor() : $courseDetails->getFacilitator();
