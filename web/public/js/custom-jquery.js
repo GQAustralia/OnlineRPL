@@ -1203,7 +1203,7 @@ function showMyTabs(msg)
 }
 function checkPhonenumber(inputtxt)
 {
-    var phoneno = /^[0-9+-]*$/;;
+    var phoneno = /^[0-9+-]*$/;
     if(inputtxt.match(phoneno)) {
         return "1";
     }
@@ -1559,6 +1559,7 @@ $(".changeUsers").click(function() {
             if(roleid == 4) {
                 $(".gq-rto-select-name").html(roleuserIdarr[1]);
                 $(".rto-change").children(".setUsers").trigger("click");
+                $("#rto-ceo-section").show();
                 $("#ceo_name").html(res['ceoName']);
                 $("#ceo_email").html(res['ceoEmail']);
                 $("#ceo_phone").html(res['ceoPhone']);

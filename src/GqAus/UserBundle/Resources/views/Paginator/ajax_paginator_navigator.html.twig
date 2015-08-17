@@ -7,12 +7,11 @@
 {% set pagename = app.request.get('_route') %}
 {% if(pagename == 'searchApplicantsListReports') %}
     {% set classname = "gq-ajax-pagination" %}
-{% elseif(pagename == 'manageusers') %}
+{% elseif((pagename == 'manageusers') or (pagename == 'searchUsersList')) %}
     {% set classname = "gq-ajax-users-pagination" %}
 {% else %}
     {% set classname = "gq-ajax-app-pagination" %}
 {% endif%}
-
 <div class="gq-msg-top-pagination pull-right">
     <div class="gq-msg-pagination-txt">
     {% if currentPage == totalPages %}

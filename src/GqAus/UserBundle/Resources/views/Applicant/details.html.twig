@@ -242,8 +242,7 @@
                                         <div class="gq-assessor-rto-title gq-assessor-rto-title-edit">
                                             <label>RTO</label>
                                             <span class="gq-rto-select-name">: {{rtoName}} </span>
-                                            {% if rtoName is not null and rtoName is not empty %}
-                                            <span class="gq-assessor-list-dropdown-wrap" >
+                                            <span class="gq-assessor-list-dropdown-wrap" id="rto-ceo-section" {% if rtoName is not null and rtoName is not empty %} {% else %} style="display:none;" {% endif %} >
                                                 <span class="gq-add-notes-icon-wrap gq-assessor-profile-img-txt setUsers">more..</span>
                                                 <span class="gq-assessor-list-dropdown">
                                                     <div class="caret-top"></div>
@@ -259,7 +258,6 @@
                                                     <div><label>CEO Phone </label>: <span id="ceo_phone">{{rtoCeoPhone}}</span></div>#}
                                                 </span>
                                             </span>
-                                            {% endif %}
                                         </div>
                                         <div id="div_35" class="gq-assessor-list-dropdown-wrap gq-assessor-name-edit rto-change">
                                             <div id="35" class="gq-add-notes-icon-wrap setUsers gq-assessor-rto-edit-icon">
