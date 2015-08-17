@@ -110,7 +110,6 @@ class NotesService
      */
     public function sendNotificationToFacilitator($data)
     {
-        $mailerInfo = array();
         $facilitatorInfo = $this->getQualificationUnitFacilitator($data['note_unit_id']);
         if (!empty($facilitatorInfo)) {
                         
