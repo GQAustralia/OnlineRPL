@@ -5,7 +5,7 @@ parameters:
     mail_account_creation_con: >
                                  Dear #firstName# #lastName#,<br/><br/> 
                                  Account has been created for GQ Australia! <br/>
-                                 <a href='#applicationUrl#login/'>Click Here</a> to login, Below are the account details.  <br/><br/> 
+                                 <a href='#applicationUrl#login'>Click Here</a> to login, Below are the account details.  <br/><br/> 
                                  Email: #email#<br/> 
                                  Password: #password# <br/><br/><br/> 
                                  Regards,<br/>%default_from_username%
@@ -13,20 +13,20 @@ parameters:
     mail_add_course_con: >
                            Dear #firstName# #lastName#,<br/><br/> 
                            Qualification : #courseCode# - #courseName# has been added. <br/>
-                           <a href='#applicationUrl#login/'>Click Here</a> to login.<br/><br/> 
+                           <a href='#applicationUrl#login'>Click Here</a> to login.<br/><br/> 
                            Regards,<br/>OnlineRPL
     mail_add_user_course_sub: "Get Qualified Australia: Online RPL - Welcome" 
     mail_add_user_course_con: >
                                 Dear #firstName# #lastName#,<br/><br/> 
                                 Account has been created for GQ Australia and Qualification : #courseCode# - #courseName# has been added. 
-                                <br/><a href='#applicationUrl#login/'>Click Here</a> to login, Below are the account details.  
+                                <br/><a href='#applicationUrl#login'>Click Here</a> to login, Below are the account details.  
                                 <br/><br/> Email: #email#<br/> 
                                 Password: #password# <br/><br/><br/> 
                                 Regards,<br/>%default_from_username%
     mail_notification_sub: "New message from OnlineRPL - #messageSubject#" 
     mail_notification_con: >
                              Dear #toUserName#, <br/><br/> 
-                             You have received a new message. Please <a href='#applicationUrl#login/'>login</a> to read.<br/><br/>
+                             You have received a new message. Please <a href='#applicationUrl#login'>login</a> to read.<br/><br/>
                              Regards, <br/>#fromUserName# 
     mail_forgot_password_sub: "Request for Password Reset" 
     mail_forgot_password_con: >
@@ -90,14 +90,14 @@ parameters:
     msg_conversation_invitation_sub: "Competency conversation invitation for - #courseCode# : #courseName#" 
     msg_conversation_invitation_con: >
                                        Dear #toUserName#, <br/> 
-                                       Please <a href='#applicationUrl#login/'>login</a> 
+                                       Please <a href='#applicationUrl#login'>login</a> 
                                        to your GQ-RPL account and use this URL #applicationUrl#applicant/#roomId# to join the competency conversation. <br/> 
                                        Awaiting for your response.<br/><br/>
                                        Regards, <br/>#fromUserName#
     mail_conversation_invitation_sub: "Competency conversation invitation for - #courseCode# #courseName#" 
     mail_conversation_invitation_con: >
                                         Dear #toUserName#, <br/> 
-                                        Please <a href='#applicationUrl#login/'>login</a>
+                                        Please <a href='#applicationUrl#login'>login</a>
                                         to your GQ-RPL account and use this URL #applicationUrl#applicant/#roomId# to join the competency conversation. <br/> 
                                         Awaiting for your response.<br/><br/>
                                         Regards, <br/>#fromUserName#

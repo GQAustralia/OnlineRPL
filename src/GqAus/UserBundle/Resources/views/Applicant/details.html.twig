@@ -86,11 +86,11 @@
                                             <span>Issued and Certified!</span>
                                     </div>
                                     {% if ('ROLE_RTO' in userRole) %}
-                                        {% if (rtostatus == '1') %}
+                                        {% if (rtoUnitStatus == '1') %}
                                             <div id="approve_section">
                                                 {% if ( courseStatus == '15') %}
                                                 <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green approve-for-certification-btn">Issue Certificate</button>
-                                                {% elseif ( courseStatus == '0') %}
+                                                {% elseif ( courseStatus == '0' or courseStatus == '16') %}
                                                 <span>Issued and Certified!</span>
                                                 {% endif %}
                                             </div>
