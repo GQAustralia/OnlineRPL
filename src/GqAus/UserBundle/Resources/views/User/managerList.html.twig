@@ -21,3 +21,9 @@
         </tr>
     {% endfor %}
 {% endif %}
+{% if pageRequest == 'ajax' %}
+    {% block javascripts %}
+        <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+		<script type="text/javascript">alert('hi');</script>
+    {% endblock %}
+{% endif %}

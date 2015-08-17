@@ -480,6 +480,7 @@ class UserController extends Controller
             $page = 1;
         }
         $results = $this->get('UserService')->manageManagers($searchName, $page);
+        $results['pageRequest'] = 'ajax';
         echo $this->renderView('GqAusUserBundle:User:managerList.html.twig', $results);
         exit;
     }
