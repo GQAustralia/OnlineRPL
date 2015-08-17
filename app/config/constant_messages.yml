@@ -1,4 +1,162 @@
 # constants for email message contents
 parameters:
-    external_notification_sub: "New message from OnlineRPL" 
-    external_notification_msg: "You have received a new message. Please login to read...." 
+    default_from_username: "OnlineRPL"
+    mail_account_creation_sub: "Get Qualified Australia: Online RPL - Welcome" 
+    mail_account_creation_con: >
+                                 Dear #firstName# #lastName#,<br/><br/> 
+                                 Account has been created for GQ Australia! <br/>
+                                 <a href='#applicationUrl#login/'>Click Here</a> to login, Below are the account details.  <br/><br/> 
+                                 Email: #email#<br/> 
+                                 Password: #password# <br/><br/><br/> 
+                                 Regards,<br/>%default_from_username%
+    mail_add_course_sub: "Qualification: #courseCode# - #courseName# has been added" 
+    mail_add_course_con: >
+                           Dear #firstName# #lastName#,<br/><br/> 
+                           Qualification : #courseCode# - #courseName# has been added. <br/>
+                           <a href='#applicationUrl#login/'>Click Here</a> to login.<br/><br/> 
+                           Regards,<br/>OnlineRPL
+    mail_add_user_course_sub: "Get Qualified Australia: Online RPL - Welcome" 
+    mail_add_user_course_con: >
+                                Dear #firstName# #lastName#,<br/><br/> 
+                                Account has been created for GQ Australia and Qualification : #courseCode# - #courseName# has been added. 
+                                <br/><a href='#applicationUrl#login/'>Click Here</a> to login, Below are the account details.  
+                                <br/><br/> Email: #email#<br/> 
+                                Password: #password# <br/><br/><br/> 
+                                Regards,<br/>%default_from_username%
+    mail_notification_sub: "New message from OnlineRPL - #messageSubject#" 
+    mail_notification_con: >
+                             Dear #toUserName#, <br/><br/> 
+                             You have received a new message. Please <a href='#applicationUrl#login/'>login</a> to read.<br/><br/>
+                             Regards, <br/>#fromUserName# 
+    mail_forgot_password_sub: "Request for Password Reset" 
+    mail_forgot_password_con: >
+                                Dear #toUserName#,<br/><br/> 
+                                We heard that you lost your password. Sorry about that! <br/>
+                                But don't worry! You can use the following link within the next 4 hours to reset your password 
+                                <a href='#applicationUrl#resetpassword/#token#'>Click Here</a>.<br/>
+                                If you dont use this link within 4 hours, it will expire. <br/>
+                                To get a new password reset link, visit #applicationUrl#forgotpassword/<br/><br/>
+                                Regards,<br/>%default_from_username% 
+    msg_add_evidence_sub: "Evidence added to - #courseCode# : #courseName#" 
+    msg_add_evidence_con: >
+                            Dear #toUserName#, <br/> 
+                            Evidence has been added to the Qualification : #courseCode# : #courseName# for unit : #unitId#. <br/> 
+                            Please check and review the evidence.<br/><br/>
+                            Regards, <br/>#fromUserName#
+    mail_add_evidence_sub: "Evidence added to - #courseCode# #courseName#" 
+    mail_add_evidence_con: >
+                             Dear #toUserName#, <br/> 
+                             Evidence has been added to the Qualification : #courseCode# : #courseName# for unit : #unitId#. <br/> 
+                             Please check and review the evidence.<br/><br/>
+                             Regards, <br/>#fromUserName#
+    msg_add_notes_sub: "Notes added for course : #courseCode# : #courseName# - Unit : #unitCode#" 
+    msg_add_notes_con: >
+                         Dear #toUserName#, <br/><br/>
+                         Notes added for unit #unitCode#. <br/> 
+                         Notes : #unitNotes# <br/><br/>
+                         Regards, <br/>#fromUserName#
+    mail_add_notes_sub: "Notes added for course : #courseCode# : #courseName# - Unit : #unitCode#" 
+    mail_add_notes_con: >
+                          Dear #toUserName#, <br/><br/>
+                          Notes added for unit #unitCode# <br/> 
+                          Notes : #unitNotes# <br/><br/>
+                          Regards, <br/>#fromUserName#
+    msg_disappove_evdience_asr_sub: "Evidences disapproved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    msg_disappove_evdience_asr_con: >
+                                    Dear #toUserName#, <br/><br/> 
+                                    Qualification : #courseCode# - #courseName#<br/> 
+                                    Unit : #unitId# #unitName# <br/>
+                                    Evidences are not yet competetent for user #userName#.<br/><br/>
+                                    Regards, <br/>#fromUserName#
+    mail_disappove_evdience_asr_sub: "Evidences disapproved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    mail_disappove_evdience_asr_con: >
+                                       Dear #toUserName#, <br/><br/> 
+                                       Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
+                                       Evidences are not yet competetent for user #userName#.<br/><br/>
+                                       Regards, <br/>#fromUserName#
+    msg_disappove_evdience_fac_sub: "Evidences disapproved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    msg_disappove_evdience_fac_con: >
+                                      Dear #toUserName#, <br/><br/> 
+                                      Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
+                                      Provided evidences for above unit are not yet competetent please add more evidences and get back to us.<br/><br/>
+                                      Regards, <br/>#fromUserName#
+    mail_disappove_evdience_fac_sub: "Evidences disapproved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    mail_disappove_evdience_fac_con: >
+                                       Dear #toUserName#, <br/><br/> 
+                                       Qualification : #courseCode# - #courseName#<br/> 
+                                       Unit : #unitId# #unitName# <br/>
+                                       Provided evidences for above unit are not yet competetent please add more evidences and get back to us.<br/><br/>
+                                       Regards, <br/>#fromUserName#
+    msg_conversation_invitation_sub: "Competency conversation invitation for - #courseCode# : #courseName#" 
+    msg_conversation_invitation_con: >
+                                       Dear #toUserName#, <br/> 
+                                       Please <a href='#applicationUrl#login/'>login</a> 
+                                       to your GQ-RPL account and use this URL #applicationUrl#applicant/#roomId# to join the competency conversation. <br/> 
+                                       Awaiting for your response.<br/><br/>
+                                       Regards, <br/>#fromUserName#
+    mail_conversation_invitation_sub: "Competency conversation invitation for - #courseCode# #courseName#" 
+    mail_conversation_invitation_con: >
+                                        Dear #toUserName#, <br/> 
+                                        Please <a href='#applicationUrl#login/'>login</a>
+                                        to your GQ-RPL account and use this URL #applicationUrl#applicant/#roomId# to join the competency conversation. <br/> 
+                                        Awaiting for your response.<br/><br/>
+                                        Regards, <br/>#fromUserName#
+    msg_rto_issue_certificate_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
+    msg_rto_issue_certificate_con: >
+                                     Dear #toUserName#, <br/> 
+                                     All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                     Validated all the evidences in the qualification.<br/><br/>
+                                     Regards, <br/>#fromUserName#
+    mail_rto_issue_certificate_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
+    mail_rto_issue_certificate_con: >
+                                      Dear #toUserName#, <br/> 
+                                      All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                      Validated all the evidences in the qualification.<br/><br/>
+                                      Regards, <br/>#fromUserName#
+    msg_asr_approve_course_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
+    msg_asr_approve_course_con: >
+                                  Dear #toUserName#, <br/> 
+                                  All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                  Validated all the evidences in the qualification.<br/><br/>
+                                  Regards, <br/>#fromUserName#
+    mail_asr_approve_course_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
+    mail_asr_approve_course_con: >
+                                   Dear #toUserName#, <br/> 
+                                   All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                   Validated all the evidences in the qualification.<br/><br/>
+                                   Regards, <br/>#fromUserName#
+    msg_portfolio_update_sub: "Portfolio Update : #courseCode# : #courseName#" 
+    msg_portfolio_update_con: >
+                                Dear #toUserName#, <br/> 
+                                Portfolio Status of : #courseCode# : #courseName# has been updated to #status#.<br/><br/>
+                                Regards, <br/>#fromUserName#
+    mail_portfolio_update_sub: "Portfolio Update : #courseCode# #courseName#" 
+    mail_portfolio_update_con: >
+                                 Dear #toUserName#, <br/> 
+                                 Portfolio Status of : #courseCode# : #courseName# has been updated to #status#.<br/><br/>
+                                 Regards, <br/>#fromUserName#
+    msg_portfolio_submitted_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
+    msg_portfolio_submitted_con: >
+                                   Dear #toUserName#, <br/> 
+                                   All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                   Validated all the evidences in the qualification and portfolio has been submitted to #role#.<br/><br/>
+                                   Regards, <br/>#fromUserName#
+    mail_portfolio_submitted_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
+    mail_portfolio_submitted_con: >
+                                    Dear #toUserName#, <br/> 
+                                    All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                    Validated all the evidences in the qualification and portfolio has been submitted to #role#.<br/><br/>
+                                    Regards, <br/>#fromUserName#                           
+    msg_issue_certificate_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
+    msg_issue_certificate_con: >
+                                 Dear #toUserName#, <br/> 
+                                 All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                 Validated all the evidences in the qualification and issued the certificate.<br/><br/>
+                                 Regards, <br/>#fromUserName#
+    mail_issue_certificate_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
+    mail_issue_certificate_con: >
+                                  Dear #toUserName#, <br/> 
+                                  All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                  Validated all the evidences in the qualification and issued the certificate.<br/><br/>
+                                  Regards, <br/>#fromUserName#"
+    

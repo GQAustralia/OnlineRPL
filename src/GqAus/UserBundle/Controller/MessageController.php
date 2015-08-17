@@ -56,6 +56,7 @@ class MessageController extends Controller
             $unitId = $request->get("unit-id");
             $evidenceUser = $userService->getUserInfo($userid);
             $repuser = $evidenceUser->getEmail();
+            $repUserName = $evidenceUser->getUsername();
             if ($request->get("message_to_user")) {
                 $courseDetails = $this->get('CoursesService')->getCourseDetails($coursecode, $userid);
                 $toRoleUser = ($courseDetails->getFacilitator()->getID() === $curuser->getId()) ? $courseDetails->getAssessor() : $courseDetails->getFacilitator();
@@ -134,14 +135,17 @@ class MessageController extends Controller
                     $sentuser = $userService->getUserInfo($touser);
                     $msgdata = array("subject" => $subject,
                         "message" => $message, "unitId" => $unitId);
+                    
                     // for sending external mail
-                    $mailerInfo['subject'] = $this->container->getParameter('external_notification_sub');
-                    $mailerInfo['to'] = $sentuser->getEmail();
-                    $mailMessage = "Dear " . $sentuser->getUsername() . ", <br/><br/> " . $this->container->getParameter('external_notification_msg') . "<br/><br/>" . "Regards, <br/> " . $curuser->getUsername();
-                    $mailerInfo['body'] = $mailMessage;
-                    $mailerInfo['fromEmail'] = $curuser->getEmail();
-                    $mailerInfo['fromUserName'] = $curuser->getUsername();
-                    $userService->sendExternalEmail($mailerInfo);
+                    $mailSubject = str_replace("#messageSubject#", $subject, $this->container->getParameter('mail_notification_sub'));
+                    
+                    // finding and replacing the variables from message templates
+                    $search = array('#toUserName#', '#applicationUrl#', '#fromUserName#');
+                    $replace = array($sentuser->getUsername(), $this->container->getParameter('applicationUrl'), $curuser->getUsername());
+                    $mailBody = str_replace($search, $replace, $this->container->getParameter('mail_notification_con'));
+                    
+                    /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
+                    $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject, $mailBody, $curuser->getEmail(), $curuser->getUsername());
 
                     $userService->saveMessageData($sentuser, $curuser, $msgdata);
                     $request->getSession()->getFlashBag()->add(

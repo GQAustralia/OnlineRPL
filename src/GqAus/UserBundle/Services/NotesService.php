@@ -113,17 +113,23 @@ class NotesService
         $mailerInfo = array();
         $facilitatorInfo = $this->getQualificationUnitFacilitator($data['note_unit_id']);
         if (!empty($facilitatorInfo)) {
-            $mailerInfo['sent'] = $data['session_user_id'];
-            $mailerInfo['subject'] = "Notes added for course :" . $facilitatorInfo['courseCode'] . " : " . $facilitatorInfo['courseName'] . " - Unit : " . $facilitatorInfo['unitCode'];
-            $mailerInfo['to'] = $facilitatorInfo['facilitatorEmail'];
-            $mailerInfo['inbox'] = $facilitatorInfo['facilitatorId'];
-            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorInfo['facilitatorUserName'] . ", <br/><br/> 
-            Notes added for unit " . $facilitatorInfo['unitCode'] . " <br/> Notes: " . $data['unit_notes'] . "     <br/><br/>Regards, <br/> " . $data['session_user_name'];
-            $mailerInfo['fromEmail'] = $data['session_user_email'];
-            $mailerInfo['fromUserName'] = $data['session_user_name'];
-            $mailerInfo['unitId'] = $data['note_unit_id'];
-            $this->userService->sendExternalEmail($mailerInfo);
-            $this->userService->sendMessagesInbox($mailerInfo);
+                        
+            // finding and replacing the variables from message templates
+            $subSearch = array('#courseCode#', '#courseName#', '#unitCode#');
+            $subReplace = array($facilitatorInfo['courseCode'], $facilitatorInfo['courseName'], $facilitatorInfo['unitCode']);
+            $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_add_notes_sub'));
+            $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_notes_sub'));
+            
+            // finding and replacing the variables from message templates
+            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitCode#', '#unitNotes#',  '#fromUserName#');
+            $msgReplace = array($facilitatorInfo['facilitatorUserName'], $facilitatorInfo['courseCode'], $facilitatorInfo['courseName'], $facilitatorInfo['unitCode'], $data['unit_notes'], $data['session_user_name']);
+            $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_notes_con'));
+            $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_notes_con'));
+            
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
+            $this->userService->sendExternalEmail($facilitatorInfo['facilitatorEmail'], $mailSubject, $mailBody, $data['session_user_email'], $data['session_user_name']);
+            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
+            $this->userService->sendMessagesInbox($facilitatorInfo['facilitatorId'], $data['session_user_id'], $messageSubject, $messageBody, $data['note_unit_id'] );
         }
     }
 

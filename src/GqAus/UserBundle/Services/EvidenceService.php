@@ -375,7 +375,7 @@ class EvidenceService
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
             ->findOneBy(array('user' => $userId, 'unitId' => $unitId, 'courseCode' => $courseCode));
         if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
-            $mailerInfo = array();
+           
             $courseUnitObj->setFacilitatorstatus(0);
             $courseUnitObj->setAssessorstatus(0);
             $courseUnitObj->setRtostatus(0);
@@ -390,32 +390,38 @@ class EvidenceService
             $this->em->flush();
 
             $userInfo = $this->userService->getUserInfo($userId);
-            $mailerInfo['sent'] = $userId;
-            $mailerInfo['unitId'] = $courseUnitObj->getId();
-            $mailerInfo['subject'] = "Evidence added to " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
+            
+            // finding and replacing the variables from message templates
+            $subSearch = array('#courseCode#', '#courseName#', '#unitId#');
+            $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName(), $courseUnitObj->getId());
+            $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_add_evidence_sub'));
+            $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_evidence_sub'));
+            
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
-            $mailerInfo['to'] = $courseObj->getFacilitator()->getEmail();
-            $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
-            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", <br/> Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". <br/> Please check and review the evidence.
-             <br/><br/> Regards, <br/> " . $userInfo->getUsername();
-            $mailerInfo['fromEmail'] = $userInfo->getEmail();
-            $mailerInfo['fromUserName'] = $userInfo->getUsername();
-            $this->userService->sendExternalEmail($mailerInfo);
-            $this->userService->sendMessagesInbox($mailerInfo);
+            // finding and replacing the variables from message templates
+            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#fromUserName#');
+            $msgReplace = array($facilitatorName, $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseUnitObj->getId(), $userInfo->getUsername());
+            $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_evidence_con'));
+            $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
+            
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
+            $this->userService->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $mailBody, $userInfo->getEmail(), $userInfo->getUsername());
+             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
+            $this->userService->sendMessagesInbox($courseObj->getFacilitator()->getId(), $userId, $messageSubject, $messageBody, $courseUnitObj->getId());
 
             // checking whether the assessor is assigned or not
             $cAssessor = $courseObj->getAssessor();
             if (!empty($cAssessor)) {
-                $mailerInfo['sent'] = $courseObj->getFacilitator()->getId();
                 $assessorName = $courseObj->getAssessor()->getUsername();
-                $mailerInfo['to'] = $courseObj->getAssessor()->getEmail();
-                $mailerInfo['inbox'] = $courseObj->getAssessor()->getId();
-                $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $assessorName . ", <br/> Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". <br/> Please check and review the evidence.
-                 <br/><br/> Regards, <br/> " . $facilitatorName;
-                $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
-                $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
-                $this->userService->sendExternalEmail($mailerInfo);
-                $this->userService->sendMessagesInbox($mailerInfo);
+                $msgReplace = array($assessorName, $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseUnitObj->getId(), $courseObj->getFacilitator()->getUsername());
+                $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_evidence_con'));
+                $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
+                
+                /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
+                $this->userService->sendExternalEmail($courseObj->getAssessor()->getEmail(), $mailSubject, $mailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername() );
+                /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
+                $this->userService->sendMessagesInbox($courseObj->getAssessor()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $messageBody, $courseUnitObj->getId());
+                
             }
         }
     }
