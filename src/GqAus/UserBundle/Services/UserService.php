@@ -1989,7 +1989,15 @@ class UserService
             case 2:
                 // checking whether the assessor is assigned or not
                 $cAssessor = $courseObj->getAssessor();
-                if (!empty($cAssessor)) {
+                if (empty($cAssessor)) {
+                    $response['type'] = 'Error';
+                    $response['code'] = 6;
+                    $response['msg'] = 'Please assign assessor!';
+                } else if ($courseObj->getAssessorstatus() == 1) {
+                    $response['type'] = 'Error';
+                    $response['code'] = 8;
+                    $response['msg'] = 'Assessor has already approved the qualification.';
+                } else {
                     $courseObj->setFacilitatorstatus('1');
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
                     $toEmail = $courseObj->getAssessor()->getEmail();
@@ -2003,11 +2011,7 @@ class UserService
                     $roleMailBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('mail_portfolio_submitted_con'));
                     $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_submitted_con'));
                     $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_submitted_con'));
-                } else {
-                    $response['type'] = 'Error';
-                    $response['code'] = 6;
-                    $response['msg'] = 'Please assign assessor!';
-                }
+                }                
             break;
             case 11:
                 // checking whether the assessor is assigned or not
@@ -2024,18 +2028,20 @@ class UserService
                 }
             break;
             case 15:
+                $cRto = $courseObj->getRto();                
                 // checking whether the assessor and rto approved the qualification or not
                 if ($courseObj->getAssessorstatus() != 1) {
                     $response['type'] = 'Error';
                     $response['code'] = 4;
                     $response['msg'] = 'Assessor has not yet approved the qualification.';
-                }
-                // checking whether the rto is assigned or not
-                $cRto = $courseObj->getRto();
-                if (empty($cRto)) {
+                } else if (empty($cRto)) { // checking whether the rto is assigned or not
                     $response['type'] = 'Error';
                     $response['code'] = 7;
                     $response['msg'] = 'Please assign rto!';
+                } else if ($courseObj->getRtostatus() == 1) {
+                    $response['type'] = 'Error';
+                    $response['code'] = 9;
+                    $response['msg'] = 'RTO has already approved the qualification.';
                 } else {
                     $courseObj->setFacilitatorstatus('1');
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
