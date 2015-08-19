@@ -38,7 +38,7 @@ class UserForm extends AbstractType
         $builder->add('contactemail', 'text', array('required' => false));
         $builder->add('contactphone', 'text', array('required' => false));
         $builder->add('userImage', 'file', array('required' => false, 'data_class' => null));
-        $builder->add('newpassword', 'password', array('required' => false));
+        $builder->add('newpassword', 'password', array('required' => false, 'attr' => array('autocomplete' => 'off')));
         $builder->add('crmId', 'text', array('required' => false));
         $builder->add('address', new AddressForm(), array('label' => false));
         $builder->add('save', 'submit');
