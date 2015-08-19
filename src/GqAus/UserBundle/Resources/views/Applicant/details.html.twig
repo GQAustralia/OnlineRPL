@@ -191,8 +191,7 @@
                                                     {% if facilitators %}
                                                         {% if facilitators|length > 0 %}
                                                             {% for key, facilitator in facilitators %}
-                                                                {% set completeName = facilitator.firstname~" "~facilitator.lastname %}
-                                                                <li class="gq-name-facilitator-list {% if completeName|trim ==  facilitatorName|trim %}selectedfacilitatornew {% endif %}" data-value="{{facilitator.id}}&&{{facilitator.firstname}} {{facilitator.lastname}}">{{facilitator.firstname}} {{facilitator.lastname}}</li>
+                                                                <li class="gq-name-facilitator-list {% if facilitator.id ==  facilitatorId %}selectedfacilitatornew {% endif %}" data-value="{{facilitator.id}}&&{{facilitator.firstname}} {{facilitator.lastname}}">{{facilitator.firstname}} {{facilitator.lastname}}</li>
                                                             {% endfor %}
                                                         {% endif %}
                                                     {% endif %}
@@ -223,8 +222,7 @@
                                                     {% if assessors %}
                                                         {% if assessors|length > 0 %}
                                                             {% for key, assessor in assessors %}
-                                                                {% set completeName = assessor.firstname~" "~assessor.lastname %}
-                                                                <li class="gq-name-list {% if completeName|trim ==  assessorName|trim %}selectednew{% endif %}" data-value="{{assessor.id}}&&{{assessor.firstname}} {{assessor.lastname}}">{{assessor.firstname}} {{assessor.lastname}}</li>
+                                                                <li class="gq-name-list {% if assessor.id ==  assessorId %}selectednew{% endif %}" data-value="{{assessor.id}}&&{{assessor.firstname}} {{assessor.lastname}}">{{assessor.firstname}} {{assessor.lastname}}</li>
                                                             {% endfor %}
                                                         {% endif %}
                                                     {% endif %}
@@ -270,8 +268,7 @@
                                                     {% if rtos %}
                                                         {% if rtos|length > 0 %}
                                                             {% for key, rto in rtos %}
-                                                                {% set completeRtoName = rto.firstname~" "~rto.lastname %}
-                                                                <li class="gq-rto-list {% if completeRtoName|trim ==  rtoName|trim %}selectedRtonew{% endif %}" data-value="{{rto.id}}&&{{rto.firstname}} {{rto.lastname}}">{{rto.firstname}} {{rto.lastname}}</li>
+                                                                <li class="gq-rto-list {% if rto.id ==  rtoId %}selectedRtonew{% endif %}" data-value="{{rto.id}}&&{{rto.firstname}} {{rto.lastname}}">{{rto.firstname}} {{rto.lastname}}</li>
                                                             {% endfor %}
                                                         {% endif %}
                                                     {% endif %}

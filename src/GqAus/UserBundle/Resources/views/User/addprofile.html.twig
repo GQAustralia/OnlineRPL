@@ -66,7 +66,7 @@
                     <input type='hidden' id='hdn-userId' name='hdn-userId' value="0">
                     <input type='hidden' id='hdn-type' name='hdn-type' value="2"><!-- 0: edit profile, 1: edit user, 2: add user -->
                     <input type="hidden" id="hdn-img" name="hdn-img" value="">
-                       
+                    <input type="password" style="display:none"/>
                        {#{{ form_start(form) }}#}
                         <div role="tabpanel" class="tab-pane {% if tab == 'id-fields' %} {% else %} active {% endif %}" id="personal">
                             <div class="gq-form-personal wid60p">
@@ -199,6 +199,8 @@
 <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
+		//$('#userprofile_newpassword').replaceWith('<input type="password" maxlength="30" autocomplete="off" name="userprofile[newpassword]" id="userprofile_newpassword">');
+
         $('.fancybox').fancybox();
         //$("#userprofile_dateOfBirth").datepicker();
         $("#userprofile_dateOfBirth").datepicker({

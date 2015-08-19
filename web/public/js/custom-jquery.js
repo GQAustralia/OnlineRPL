@@ -124,7 +124,7 @@ $(".modalClass").click(function() {
     qual_id = this.id;
 });
 $("#qclose").click(function() {
-    if (qual_id != '' && typeof qual_id === 'undefined') {
+    if (qual_id != '' && typeof qual_id !== 'undefined') {
         $(location).attr('href', 'qualificationDetails/' + qual_id);
     }
 });
@@ -1280,7 +1280,7 @@ function validateAddress()
             }
         }
         if (userrole == 'facilitatoruser') {
-            var crmId = $("#userprofile_crmId").val();
+            var crmId = ($.trim($("#userprofile_crmId").val()));
             if (crmId == "") {
                 showMyTabs("Please enter CRM ID");
                 $("#userprofile_crmId").focus();

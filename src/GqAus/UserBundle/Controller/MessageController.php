@@ -98,7 +98,7 @@ class MessageController extends Controller
         return $this->render('GqAusUserBundle:Message:compose.html.twig', array(
                 'composemsgForm' => $composeform->createView(),
                 'unreadcount' => $unreadcount,
-                'repMessage' => $repMessage,
+                'repMessage' => strip_tags($repMessage),
                 'sub' => $repSub,
                 'user' => $repuser,
                 'userName' => $repUserName,
