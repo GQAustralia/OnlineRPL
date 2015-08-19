@@ -98,13 +98,16 @@ $(function() {
                     } else if (result.type == 'Success') {
                         $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100); 
                     }   
-                    
                     if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
                     } else if(result.code != '5') {
-                      $("#courseStatus").val($("#currentCourseStatus").val());
-                      $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
-                      
+                          if ( $('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').length > 0 ) {  
+                              $("#courseStatus").val($("#currentCourseStatus").val());
+                              $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
+                          } else {
+                              $("#courseStatus").val($("#courseStatus option:first").val());
+                              $("#selectcourseStatus").html($("#courseStatus option:first").html());                          
+                          }
                     }
                 }
             });

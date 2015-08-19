@@ -55,7 +55,8 @@ class ApplicantController extends Controller
     public function setUserUnitEvidencesStatusAction()
     {
         $result = array();
-        $result['userId'] = $this->getRequest()->get('userId');
+        $userId = $this->getRequest()->get('userId');
+        $result['userId'] = $userId;
         $result['unit'] = $this->getRequest()->get('unit');
         $result['status'] = $this->getRequest()->get('status');
         $result['userRole'] = $this->getRequest()->get('userRole');
@@ -66,7 +67,7 @@ class ApplicantController extends Controller
         $result['courseCode'] = $this->getRequest()->get('courseCode');
         $result['unitName'] = $this->getRequest()->get('unitName');
         $userUnitEvStatus = $this->get('UserService')->updateApplicantEvidences($result);
-        echo $userUnitEvStatus.= "&&" . $this->get('UserService')->updateCourseRTOStatus($result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
+        echo $userUnitEvStatus.= "&&" . $this->get('UserService')->updateCourseRTOStatus($userId, $result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
         exit;
     }
 

@@ -353,6 +353,7 @@ class UserService
             $results['assessorstatus'] = $otheruser->getAssessorstatus();
             $results['facilitatorstatus'] = $otheruser->getFacilitatorstatus();
             $results['coursePrimaryId'] = $otheruser->getId();
+            $results['rtoUnitStatus'] = $this->checkAllUnitsApprovalByRole($otheruser, 'rtostatus');
         }
         return $results;
     }
@@ -1056,6 +1057,7 @@ class UserService
             'user' => $applicantId));
         if (!empty($courseObj)) {
             $courseObj->setCourseStatus('16');
+            $courseObj->setRtostatus('1');
             $courseObj->setRtoDate(date('Y-m-d H:i:s'));
             $this->em->persist($courseObj);
             $this->em->flush();
@@ -1888,7 +1890,7 @@ class UserService
         // if the assessor approves the qualification by updating the status
         if ($courseStatus == 3) {
             // checking whether the all units of this qualification has been approved or not
-            $unitsApproval = $this->checkAssessorAllUnitsApproved($courseObj);
+            $unitsApproval = $this->checkAllUnitsApprovalByRole($courseObj, 'assessorstatus');
             if ($unitsApproval == 0) { // if any unit pending approvals or any disapproved unit
                 $response['type'] = 'Error';
                 $response['code'] = 2;
@@ -1934,7 +1936,7 @@ class UserService
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
         $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $messageSubject, $facMessageBody, '');
+        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getAssessor()->getId(), $messageSubject, $facMessageBody, '');
 
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
@@ -1987,7 +1989,15 @@ class UserService
             case 2:
                 // checking whether the assessor is assigned or not
                 $cAssessor = $courseObj->getAssessor();
-                if (!empty($cAssessor)) {
+                if (empty($cAssessor)) {
+                    $response['type'] = 'Error';
+                    $response['code'] = 6;
+                    $response['msg'] = 'Please assign assessor!';
+                } else if ($courseObj->getAssessorstatus() == 1) {
+                    $response['type'] = 'Error';
+                    $response['code'] = 8;
+                    $response['msg'] = 'Assessor has already approved the qualification.';
+                } else {
                     $courseObj->setFacilitatorstatus('1');
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
                     $toEmail = $courseObj->getAssessor()->getEmail();
@@ -2001,11 +2011,7 @@ class UserService
                     $roleMailBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('mail_portfolio_submitted_con'));
                     $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_submitted_con'));
                     $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_submitted_con'));
-                } else {
-                    $response['type'] = 'Error';
-                    $response['code'] = 6;
-                    $response['msg'] = 'Please assign assessor!';
-                }
+                }                
             break;
             case 11:
                 // checking whether the assessor is assigned or not
@@ -2022,18 +2028,20 @@ class UserService
                 }
             break;
             case 15:
+                $cRto = $courseObj->getRto();                
                 // checking whether the assessor and rto approved the qualification or not
                 if ($courseObj->getAssessorstatus() != 1) {
                     $response['type'] = 'Error';
                     $response['code'] = 4;
                     $response['msg'] = 'Assessor has not yet approved the qualification.';
-                }
-                // checking whether the rto is assigned or not
-                $cRto = $courseObj->getRto();
-                if (empty($cRto)) {
+                } else if (empty($cRto)) { // checking whether the rto is assigned or not
                     $response['type'] = 'Error';
                     $response['code'] = 7;
                     $response['msg'] = 'Please assign rto!';
+                } else if ($courseObj->getRtostatus() == 1) {
+                    $response['type'] = 'Error';
+                    $response['code'] = 9;
+                    $response['msg'] = 'RTO has already approved the qualification.';
                 } else {
                     $courseObj->setFacilitatorstatus('1');
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
@@ -2072,7 +2080,7 @@ class UserService
         if($toEmail !="" && $toId !="" &&  $roleMessageBody !="" && $roleMailBody !="") {
             // send the external mail and internal message to facilitator
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-            $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getId(), $courseObj->getFacilitator()->getUsername());
+            $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
             $this->sendMessagesInbox($toId, $courseObj->getFacilitator()->getId(), $messageSubject, $roleMessageBody, '');
         }
@@ -2103,49 +2111,38 @@ class UserService
     /**
      * Function to update qualification rto status
      */
-    public function updateCourseRTOStatus($userId, $userRole, $courseCode)
+    public function updateCourseRTOStatus($userId, $roleId, $userRole, $courseCode)
     {
         $rtoEnable = 0;
         if (in_array('ROLE_RTO', $userRole)) {
             $userType = 'rto';
             $userStatus = 'rtostatus';
 
-            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array($userType => $userId, 'courseCode' => $courseCode));
+            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user'=>$userId, $userType => $roleId, 'courseCode' => $courseCode));
             if (!empty($courseObj)) {
-                $courseUnitCheckObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
-                    ->findOneBy(array('user' => $courseObj->getUser()->getId(),
-                    'courseCode' => $courseObj->getcourseCode(),
-                    $userStatus => array('0', '2'),
-                    'status' => '1'));
-                if (empty($courseUnitCheckObj) && (count($courseUnitCheckObj) == '0')) {
-                    $courseObj->setRtostatus('1');
-                    $courseObj->setRtoDate(date('Y-m-d H:i:s'));
-                    $this->em->persist($courseObj);
-                    $this->em->flush();
-                    $rtoEnable = 1;
-                }
+                $rtoEnable = $this->checkAllUnitsApprovalByRole($courseObj, $userStatus);
             }
         }
         return $rtoEnable;
     }
-
+    
     /**
-     * Function to update qualification rto status
+     * Function to check assessor unit status
      */
-    public function checkAssessorAllUnitsApproved($courseObj)
+    public function checkAllUnitsApprovalByRole($courseObj, $roleStatus)
     {
-        $assessorApproval = 0;
+        $roleApproval = 0;
         $courseUnitCheckObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
             ->findOneBy(array('user' => $courseObj->getUser()->getId(),
             'courseCode' => $courseObj->getcourseCode(),
-            'assessorstatus' => array('0', '2'),
+            $roleStatus => array('0', '2'),
             'status' => '1'));
         if (empty($courseUnitCheckObj) && (count($courseUnitCheckObj) == '0')) {
-            $assessorApproval = 1;
+            $roleApproval = 1;
         }
-        return $assessorApproval;
+        return $roleApproval;
     }
-
+   
     /**
      * Function to update qualification status in zoho crom
      */
