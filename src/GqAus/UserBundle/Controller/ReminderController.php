@@ -31,11 +31,10 @@ class ReminderController extends Controller
      */
     public function updateAction(Request $request)
     {
-        $id = $this->getRequest()->get("rmid");
-        $flag = $this->getRequest()->get("flag");
-        $userService = $this->get('UserService');
-        $userService->updateReminderStatus($id, $flag);
-        echo "success";
+        $id = $this->getRequest()->get('rmid');
+        $flag = $this->getRequest()->get('flag');
+        $this->get('UserService')->updateReminderStatus($id, $flag);
+        echo 'success';
         exit;
     }
 

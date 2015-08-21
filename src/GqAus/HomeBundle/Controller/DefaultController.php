@@ -35,7 +35,7 @@ class DefaultController extends Controller
             $results['applicantList'] = $appResults['applicantList'];
             $results['paginator'] = $appResults['paginator'];
             $results['page'] = $appResults['page'];
-            $results['pageRequest'] = "";
+            $results['pageRequest'] = '';
             $results['status'] = 0;
             return $this->render('GqAusHomeBundle:Default:dashboard.html.twig', $results);
         }
@@ -48,8 +48,7 @@ class DefaultController extends Controller
     public function downloadAction($file)
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        $userService = $this->get('UserService');
-        $userService->downloadCourseCondition($user, $file);
+        $this->get('UserService')->downloadCourseCondition($user, $file);
         exit;
     }
 
@@ -59,11 +58,13 @@ class DefaultController extends Controller
     public function updateConditionAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        $userService = $this->get('UserService');
-        $userService->updateCourseConditionStatus($user);
+        $this->get('UserService')->updateCourseConditionStatus($user);
         exit;
     }
 
+    /**
+     * function for unauthorized page
+     */
     public function unauthorizedAction()
     {
         return $this->render('GqAusHomeBundle:Default:unauthorized.html.twig');

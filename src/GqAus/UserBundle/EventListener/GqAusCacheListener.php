@@ -4,7 +4,7 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class GqAusCacheListener
 {
-	public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(FilterResponseEvent $event)
     {
         $response = $event->getResponse();
 

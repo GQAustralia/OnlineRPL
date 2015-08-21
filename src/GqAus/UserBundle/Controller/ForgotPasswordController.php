@@ -17,9 +17,8 @@ class ForgotPasswordController extends Controller
     {
         $message = '';
         if ($this->getRequest()->getMethod() == 'POST') {
-            $userService = $this->get('UserService');
             $email = $this->getRequest()->get('email');
-            $message = $userService->forgotPasswordRequest($email);
+            $message = $this->get('UserService')->forgotPasswordRequest($email);
         }
         return $this->render(
                 'GqAusUserBundle:Login:forgotpassword.html.twig', array('message' => $message));
@@ -33,8 +32,7 @@ class ForgotPasswordController extends Controller
     {
         $method = $this->getRequest()->getMethod();
         $password = $this->getRequest()->get('password');
-        $userService = $this->get('UserService');
-        $result = $userService->resetPasswordRequest($token, $method, $password);
+        $result = $this->get('UserService')->resetPasswordRequest($token, $method, $password);
         return $this->render('GqAusUserBundle:Login:resetpassword.html.twig', $result);
     }
 

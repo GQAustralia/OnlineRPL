@@ -28,7 +28,7 @@ class QualificationController extends Controller
                 if(!empty($cAssessor)) {
                     $results['courseAssessor'] = $courseObj->getAssessor();
                 }
-            }     
+            }
         } else {
             $user = $this->get('security.context')->getToken()->getUser();
         }

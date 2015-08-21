@@ -41,10 +41,8 @@ class CoursesController extends Controller
     public function qualificationsAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        $userCourses = $user->getCourses();
-        $courseConditionStatus = $user->getCourseConditionStatus();
         $statusList = $this->get('UserService')->getqualificationStatus();
-        return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', array('userCourses' => $userCourses, 'courseConditionStatus' => $courseConditionStatus, 'statusList' => $statusList));
+        return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', array('userCourses' => $user->getCourses(), 'courseConditionStatus' => $user->getCourseConditionStatus(), 'statusList' => $statusList));
     }
 
     /**

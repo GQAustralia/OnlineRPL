@@ -29,7 +29,6 @@
         <many-to-one field="rto" target-entity="GqAus\UserBundle\Entity\User">
             <join-column name="rto" referenced-column-name="id" />
         </many-to-one>
-        <one-to-many field="status" target-entity="GqAus\UserBundle\Entity\CourseStatus" mapped-by="course" />
         <one-to-many field="reminder" target-entity="GqAus\UserBundle\Entity\Reminder" mapped-by="course" />
     </entity>
 </doctrine-mapping>

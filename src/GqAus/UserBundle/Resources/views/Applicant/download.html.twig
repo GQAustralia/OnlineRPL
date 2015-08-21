@@ -158,7 +158,7 @@
                 <tr><td style="font-size:18px;">Applicant Details</td></tr>
                 <tr><td height="20"></td></tr>
 
-                <tr><td style="font-size:16px; background:#f0f0f0;width:96%;padding:6px;">{{courseInfo.id}} {{courseInfo.name}}</td></tr>	
+                <tr><td style="font-size:16px; background:#f0f0f0;width:96%;padding:6px;">{{courseInfo.id}} {{courseInfo.name}}</td></tr>    
                 <tr><td style="width:96%;">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
                             <tr>
@@ -194,7 +194,7 @@
         {% if courseInfo.Units %}
             {% if courseInfo.Units.Unit %}
 
-                <tr><td style="font-size:16px; background:#f0f0f0;width:96%;padding:6px;">Core Units</td></tr>	
+                <tr><td style="font-size:16px; background:#f0f0f0;width:96%;padding:6px;">Core Units</td></tr>    
                 {% for key, units in courseInfo.Units.Unit %}
                     {% if units.type == 'core' %}
                         <tr><td style="font-size:14px; background:#f0f0f0;width:96%;padding:6px;">{{units.id}}&nbsp;&nbsp;{% spaceless %}{{units.name|trim}}{% endspaceless %}</td></tr> 
@@ -215,7 +215,7 @@
                     {% endif %}
                   {% endfor %}
                  <tr><td height="20"></td></tr>    
-                <tr><td style="font-size:16px; background:#f0f0f0;width:96%;padding:6px;">Elective Units</td></tr>	
+                <tr><td style="font-size:16px; background:#f0f0f0;width:96%;padding:6px;">Elective Units</td></tr>    
                 {% set flagElective = '0' %}
                 {% for key, eUnits in courseInfo.Units.Unit %}
                    {% if eUnits.type == 'elective' %}

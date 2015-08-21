@@ -24,24 +24,15 @@ class FileUploader
     /**
      * Constructor
      */
-    public function __construct(Filesystem $filesystem, $em, $container)
+    public function __construct(Filesystem $filesystem, $em, $container, $userService)
     {
         $this->filesystem = $filesystem;
         $this->em = $em;
         $session = $container->get('session');
         $this->userId = $session->get('user_id');
         $this->repository = $em->getRepository('GqAusUserBundle:User');
-        $this->currentUser = $this->getCurrentUser();
+        $this->currentUser = $userService->getCurrentUser();
         $this->container = $container;
-    }
-
-    /**
-     * function to get current user
-     *  @return array
-     */
-    public function getCurrentUser()
-    {
-        return $this->repository->findOneById($this->userId);
     }
 
     /**

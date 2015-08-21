@@ -159,4 +159,15 @@ parameters:
                                   All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
                                   Validated all the evidences in the qualification and issued the certificate.<br/><br/>
                                   Regards, <br/>#fromUserName#"
-    
+    msg_portfolio_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
+    msg_portfolio_assessor_submitted_con: >
+                                   Dear #toUserName#, <br/> 
+                                   All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                   Qualification and portfolio has been submitted to #role#.<br/><br/>
+                                   Regards, <br/>#fromUserName#
+    mail_portfolio_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
+    mail_portfolio_assessor_submitted_con: >
+                                    Dear #toUserName#, <br/> 
+                                    All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                    Qualification and portfolio has been submitted to #role#.<br/><br/>
+                                    Regards, <br/>#fromUserName#

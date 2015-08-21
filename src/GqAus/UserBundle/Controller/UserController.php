@@ -187,7 +187,7 @@ class UserController extends Controller
         $folderPath = $this->get('kernel')->getRootDir() . '/../web/public/uploads/';
         $proImg = $request->files->get('file');
         $profilePic = $proImg->getClientOriginalName();
-        $profilePic = time() . "-" . $profilePic;
+        $profilePic = time() . '-' . $profilePic;
         if ($proImg->getClientOriginalName() != "") {
             $proImg->move($folderPath, $profilePic);
             $userService = $this->get('UserService');
@@ -198,7 +198,7 @@ class UserController extends Controller
             }
             echo $profilePic;
         } else
-            echo "error";
+            echo 'error';
         exit;
     }
 
@@ -209,13 +209,12 @@ class UserController extends Controller
     {
         if ($request->isMethod('POST')) {
             $mypassword = $request->get("mypassword");
-            $userService = $this->get('UserService');
-            $user = $userService->getCurrentUser();
+            $user = $this->get('UserService')->getCurrentUser();
             $curDbPassword = $user->getPassword();
             if (password_verify($mypassword, $curDbPassword)) {
-                echo "success";
+                echo 'success';
             } else {
-                echo "fail";
+                echo 'fail';
             }
         }
         exit;
@@ -355,13 +354,12 @@ class UserController extends Controller
     public function downloadAssessorProfileAction($uid)
     {
         $files = array();
-        $userService = $this->get('UserService');
-        $assessorFiles = $userService->fetchOtherfiles($uid);
+        $assessorFiles = $this->get('UserService')->fetchOtherfiles($uid);
         foreach ($assessorFiles as $assessorFile) {
             array_push($files, $this->container->getParameter('amazon_s3_base_url') . $assessorFile->getPath());
         }
         $zip = new \ZipArchive();
-        $zipName = 'AssessorFiles-' . time() . ".zip";
+        $zipName = 'AssessorFiles-' . time() . '.zip';
         $zip->open($zipName, \ZipArchive::CREATE);
         foreach ($files as $f) {
             $zip->addFromString(basename($f), file_get_contents($f));
@@ -378,8 +376,7 @@ class UserController extends Controller
      */
     public function addApplicantAction(Request $request)
     {
-        $userService = $this->get('UserService');
-        $userService->saveApplicantData($request);
+        $this->get('UserService')->saveApplicantData($request);
     }
 
     /**
@@ -458,34 +455,6 @@ class UserController extends Controller
     }
 
     /**
-     * Function to manage managers
-     * return $result array
-     */
-    public function managemanagersAction()
-    {
-        $page = $this->get('request')->query->get('page', 1);
-        $users = $this->get('UserService')->manageManagers('', $page = null);
-        return $this->render('GqAusUserBundle:User:managemanagers.html.twig', $users);
-    }
-
-    /**
-     * Function search managers list
-     * return $result array
-     */
-    public function searchManagersListAction()
-    {
-        $searchName = $this->getRequest()->get('searchName');
-        $page = $this->getRequest()->get('pagenum');
-        if ($page == "") {
-            $page = 1;
-        }
-        $results = $this->get('UserService')->manageManagers($searchName, $page);
-        $results['pageRequest'] = 'ajax';
-        echo $this->renderView('GqAusUserBundle:User:managerList.html.twig', $results);
-        exit;
-    }
-
-    /**
      * Function to delete users
      * return $result array
      */
@@ -503,7 +472,7 @@ class UserController extends Controller
      */
     public function editUserAction(Request $request)
     {
-        $uId = $request->get("uId");
+        $uId = $request->get('uId');
         $userService = $this->get('UserService');
         if (!empty($uId)) {
             $user = $userService->getUser($uId);
@@ -584,14 +553,19 @@ class UserController extends Controller
         $roleType = $request->get("roleType");
         $userProfileForm = $this->createForm(new UserForm());
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoleName();
-        if ($roleType == 2) {
-            $userRole = 'ROLE_FACILITATOR';
-        } elseif ($roleType == 3) {
-            $userRole = 'ROLE_ASSESSOR';
-        } elseif ($roleType == 4) {
-            $userRole = 'ROLE_RTO';
-        } elseif ($roleType == 5) {
-            $userRole = 'ROLE_MANAGER';
+        switch ($roleType) {
+            case 2:
+                $userRole = 'ROLE_FACILITATOR';
+                break;
+            case 3:
+                $userRole = 'ROLE_ASSESSOR';
+                break;
+            case 4:
+                $userRole = 'ROLE_RTO';
+                break;
+            case 5:
+                $userRole = 'ROLE_MANAGER';
+                break;
         }
 
         if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' || $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {

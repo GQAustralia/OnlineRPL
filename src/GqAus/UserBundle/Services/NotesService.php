@@ -52,7 +52,7 @@ class NotesService
             $notesObj->setCreated($dateObj);
             $this->em->persist($notesObj);
             $this->em->flush();
-            if ($data['session_user_role'] == 'ROLE_ASSESSOR') {
+            if ($data['session_user_role'] === 'ROLE_ASSESSOR') {
                 $this->sendNotificationToFacilitator($data);
             }
             return "success";
@@ -89,13 +89,12 @@ class NotesService
         if (!empty($unitObj)) {
             $applicantId = $unitObj->getUser();
             $courseCode = $unitObj->getCourseCode();
-            $unitCode = $unitObj->getUnitId();
             $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
                 'user' => $applicantId));
             if (!empty($courseObj)) {
                 $data['courseCode'] = $courseCode;
                 $data['courseName'] = $courseObj->getCourseName();
-                $data['unitCode'] = $unitCode;
+                $data['unitCode'] = $unitObj->getUnitId();
                 $data['facilitatorEmail'] = $courseObj->getFacilitator()->getEmail();
                 $data['facilitatorId'] = $courseObj->getFacilitator()->getId();
                 $data['facilitatorUserName'] = $courseObj->getFacilitator()->getUsername();

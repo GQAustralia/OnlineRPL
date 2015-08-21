@@ -7,8 +7,8 @@
         </id>
         <field name="unitId" type="string" column="unit_id" nullable="false"/>
         <field name="courseCode" type="string" column="course_code" nullable="false"/>
-		<field name="type" type="integer" column="type" nullable="false"/>
-		<field name="facilitatorstatus" type="integer" column="facilitator_status"/>
+        <field name="type" type="integer" column="type" nullable="false"/>
+        <field name="facilitatorstatus" type="integer" column="facilitator_status"/>
         <field name="assessorstatus" type="integer" column="assessor_status"/>
         <field name="rtostatus" type="integer" column="rto_status"/>  
         <field name="createdOn" type="string" column="created_on" nullable="false"/>

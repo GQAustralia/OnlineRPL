@@ -33,8 +33,7 @@ class EvidenceController extends Controller
      */
     public function viewAction(Request $request)
     {
-        $evidenceService = $this->get('EvidenceService');
-        $evidences = $evidenceService->getCurrentUser()->getEvidences();
+        $evidences = $this->get('EvidenceService')->currentUser->getEvidences();
         return $this->render('GqAusUserBundle:Evidence:view.html.twig', array('evidences' => $evidences));
     }
 
@@ -76,26 +75,24 @@ class EvidenceController extends Controller
         if ($request->isMethod('POST')) {
             $title = $request->get('title');
             $id = $request->get('id');
-            $evidenceService = $this->get('EvidenceService');
-            $evidenceService->updateEvidence($id, $title);
+            $this->get('EvidenceService')->updateEvidence($id, $title);
             echo "success";
         }
         exit;
     }
 
     /**
-     * Function to display all the Evidences
+     * Function to zip
      */
     public function zipAction(Request $request)
     {
         $files = array();
-        $evidenceService = $this->get('EvidenceService');
-        $evidences = $evidenceService->getCurrentUser()->getEvidences();
+        $evidences = $this->get('EvidenceService')->currentUser->getEvidences();
         foreach ($evidences as $evidence) {
             array_push($files, $this->container->getParameter('amazon_s3_base_url') . $evidence->getPath());
         }
         $zip = new \ZipArchive();
-        $zipName = 'Documents-' . time() . ".zip";
+        $zipName = 'Documents-' . time() . '.zip';
         $zip->open($zipName, \ZipArchive::CREATE);
         foreach ($files as $f) {
             $zip->addFromString(basename($f), file_get_contents($f));

@@ -51,7 +51,7 @@
             <div class="row" id="profile_suc_msg2"></div>
         </div>        
         {% set userRole = app.security.getToken().getUser().getRoles() %}
-		{% set userId = app.security.getToken().getUser().getId() %}
+        {% set userId = app.security.getToken().getUser().getId() %}
         <div class="col-xs-12">
             <div class="gq-dashboard-tabs">
                 <!-- Tabs start here -->
@@ -72,8 +72,8 @@
                 <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data" />
                 <div class="tab-content">                    
                     <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% else %}other{% endif %}">
-					<input type='hidden' id='hdn-userId' name='hdn-userId' value="{{userId}}">
-    				<input type='hidden' id='hdn-type' name='hdn-type' value="0">
+                    <input type='hidden' id='hdn-userId' name='hdn-userId' value="{{userId}}">
+                    <input type='hidden' id='hdn-type' name='hdn-type' value="0">
                     {% include 'GqAusUserBundle:User:user.html.twig' %}
                     
                     {% include 'GqAusUserBundle:User:idfiles.html.twig' %}

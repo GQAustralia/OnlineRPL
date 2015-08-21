@@ -27,7 +27,7 @@ class EvidenceService
     /**
      * @var Object
      */
-    private $currentUser;
+    public $currentUser;
 
     /**
      * @var Object
@@ -48,18 +48,9 @@ class EvidenceService
         $session = $container->get('session');
         $this->userId = $session->get('user_id');
         $this->repository = $em->getRepository('GqAusUserBundle:User');
-        $this->currentUser = $this->getCurrentUser();
+        $this->currentUser = $userService->getCurrentUser();
         $this->container = $container;
         $this->userService = $userService;
-    }
-
-    /**
-     * Function to get current user
-     * return array
-     */
-    public function getCurrentUser()
-    {
-        return $this->repository->findOneById($this->userId);
     }
 
     /**
@@ -375,7 +366,7 @@ class EvidenceService
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
             ->findOneBy(array('user' => $userId, 'unitId' => $unitId, 'courseCode' => $courseCode));
         if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
-           
+
             $courseUnitObj->setFacilitatorstatus(0);
             $courseUnitObj->setAssessorstatus(0);
             $courseUnitObj->setRtostatus(0);
@@ -396,7 +387,7 @@ class EvidenceService
             $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName(), $courseUnitObj->getUnitId());
             $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_add_evidence_sub'));
             $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_evidence_sub'));
-            
+
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
             // finding and replacing the variables from message templates
             $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#fromUserName#');

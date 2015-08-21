@@ -75,9 +75,8 @@ class TokboxController extends Controller
     {
         $openTok = new OpenTok($this->container->getParameter('tokbox_key'), $this->container->getParameter('tokbox_secret_key'));
         $roomId = base64_decode(base64_decode(base64_decode($roomId)));
-        $tokBox = $this->get('TokBox');
-        $sessionId = $tokBox->updateRoom($roomId, 1);
-        $archive = $openTok->startArchive($sessionId, "PHP Archiving Sample App");
+        $sessionId = $this->get('TokBox')->updateRoom($roomId, 1);
+        $archive = $openTok->startArchive($sessionId, 'PHP Archiving Sample App');
         $response = new Response( );
         $response->headers->set('Content-Type', 'application/json');
         echo $archive->toJson();
