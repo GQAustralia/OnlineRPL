@@ -19,10 +19,9 @@ class MessageController extends Controller
     {
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
-        $unreadcount = $messageService->getUnreadMessagesCount($userid);
         $page = $this->get('request')->query->get('page', 1);
         $result = $messageService->getmyinboxMessages($userid, $page);
-        $result['unreadcount'] = $unreadcount;
+        $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);
         $now = new DateTime('now');
         $result['today'] = $now->format('Y-m-d');
         // removing caching
@@ -45,38 +44,38 @@ class MessageController extends Controller
         $curuser = $userService->getCurrentUser();
         $unreadcount = $userService->getUnreadMessagesCount($curuser->getId());
         $composeform = $this->createForm(new ComposeMessageForm(), array());
-        $newMsg = "true";
+        $newMsg = 'true';
         $repMessage = $repSub = $repuser = $repUserName = '';
-        $coursename = $request->get("course-name");
-        $coursecode = $request->get("course-code");
-        if ($coursename != "" && $coursecode != "") {
-            $userid = $request->get("userid");
-            $unitname = $request->get("unit-name");
-            $unitcode = $request->get("unit-code");
-            $unitId = $request->get("unit-id");
+        $coursename = $request->get('course-name');
+        $coursecode = $request->get('course-code');
+        if ($coursename != '' && $coursecode != '') {
+            $userid = $request->get('userid');
+            $unitname = $request->get('unit-name');
+            $unitcode = $request->get('unit-code');
+            $unitId = $request->get('unit-id');
             $evidenceUser = $userService->getUserInfo($userid);
             $repuser = $evidenceUser->getEmail();
             $repUserName = $evidenceUser->getUsername();
-            if ($request->get("message_to_user")) {
+            if ($request->get('message_to_user')) {
                 $courseDetails = $this->get('CoursesService')->getCourseDetails($coursecode, $userid);
                 $toRoleUser = ($courseDetails->getFacilitator()->getID() === $curuser->getId()) ? $courseDetails->getAssessor() : $courseDetails->getFacilitator();
                 $evidenceUser = $userService->getUserInfo($toRoleUser);
                 $repuser = $evidenceUser->getEmail();
                 $repUserName = $evidenceUser->getUsername();
             }
-            $repSub = $coursecode . " " . $coursename;
-            $repMessage = "Course details : " . $coursecode . " " . $coursename . "\n";
-            if ($unitname != "" && $unitcode != "") {
-                $repMessage .= "Unit details : " . $unitcode . " " . $unitname;
-                $repSub .= " - " . $unitcode . " " . $unitname;
+            $repSub = $coursecode . ' ' . $coursename;
+            $repMessage = 'Course details : ' . $coursecode . ' ' . $coursename . "\n";
+            if ($unitname != '' && $unitcode != '') {
+                $repMessage .= 'Unit details : ' . $unitcode . ' ' . $unitname;
+                $repSub .= ' - ' . $unitcode . ' ' . $unitname;
             }
-            $newMsg = "false";
+            $newMsg = 'false';
         }
         $replyId = $this->getRequest()->get('reply_id');
         if ($replyId) {
             $message = $userService->getMessage($replyId);
             $repMessage = "\n\n\n\n";
-            $newDateCreated = date("d/m/Y", strtotime($message->getCreated()));
+            $newDateCreated = date('d/m/Y', strtotime($message->getCreated()));
             $repMessage .= "Received on :" . $newDateCreated . ", sent from :" . $message->getSent()->getUserName() . "\n";
             $repMessage .= "Subject :" . $message->getSubject() . "\n";
             $repMessage .= "Message :\n" . $message->getmessage();
@@ -89,10 +88,10 @@ class MessageController extends Controller
                 $repUserName = $message->getInbox()->getUsername();
             }
             $unitId = '';
-            if ($message->getUnitID() != "" || $message->getUnitID() > 0) {
+            if ($message->getUnitID() != '' || $message->getUnitID() > 0) {
                 $unitId = $message->getUnitID();
             }
-            $newMsg = "false";
+            $newMsg = 'false';
         }
         /* Compose Action End */
         return $this->render('GqAusUserBundle:Message:compose.html.twig', array(
@@ -133,11 +132,11 @@ class MessageController extends Controller
                 if ($user) {
                     $touser = $user->getId();
                     $sentuser = $userService->getUserInfo($touser);
-                    $msgdata = array("subject" => $subject,
-                        "message" => $message, "unitId" => $unitId);
+                    $msgdata = array('subject' => $subject,
+                        'message' => $message, 'unitId' => $unitId);
                     
                     // for sending external mail
-                    $mailSubject = str_replace("#messageSubject#", $subject, $this->container->getParameter('mail_notification_sub'));
+                    $mailSubject = str_replace('#messageSubject#', $subject, $this->container->getParameter('mail_notification_sub'));
                     
                     // finding and replacing the variables from message templates
                     $search = array('#toUserName#', '#applicationUrl#', '#fromUserName#');
@@ -171,8 +170,7 @@ class MessageController extends Controller
         $userid = $messageService->getCurrentUser()->getId();
         $page = $this->get('request')->query->get('page', 1);
         $result = $messageService->getmySentMessages($userid, $page);
-        $unreadcount = $messageService->getUnreadMessagesCount($userid);
-        $result['unreadcount'] = $unreadcount;
+        $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);
         $now = new DateTime('now');
         $result['today'] = $now->format('Y-m-d');
         return $this->render('GqAusUserBundle:Message:sent.html.twig', $result);
@@ -186,10 +184,9 @@ class MessageController extends Controller
     {
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
-        $unreadcount = $messageService->getUnreadMessagesCount($userid);
         $page = $this->get('request')->query->get('page', 1);
         $result = $messageService->getmyTrashMessages($userid, $page);
-        $result['unreadcount'] = $unreadcount;
+        $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);
         $result['userid'] = $userid;
         $now = new DateTime('now');
         $result['today'] = $now->format('Y-m-d');
@@ -230,13 +227,13 @@ class MessageController extends Controller
      */
     public function deleteFromUserAction(Request $request)
     {
-        $type = $request->get("type");
-        $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
+        $type = $request->get('type');
+        $checkedMessages = json_decode(stripslashes($request->get('checkedMessages')));
         $messageService = $this->get('UserService');
         foreach ($checkedMessages as $cm) {
             $messageService->setUserDeleteStatus($cm, 1, $type);
         }
-        echo "success";
+        echo 'success';
         exit;
     }
 
@@ -248,15 +245,13 @@ class MessageController extends Controller
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);
-
         // getting the last route to check whether it is coming from inbox or sent ot tash
-        $request = $this->getRequest();
         //look for the referer route
-        $referer = $request->headers->get('referer');
+        $referer = $this->getRequest()->headers->get('referer');
         $path = $this->container->getParameter('applicationUrl');
         $lastPath = str_replace($path, '', $referer);
-        if ($lastPath != "") {
-            $lastPath = explode("?", $lastPath);
+        if ($lastPath != '') {
+            $lastPath = explode('?', $lastPath);
             // updating the readstatus if it is from inbox
             if ($lastPath[0] == 'messages') {
                 $messageService->setReadViewStatus($mid);
@@ -276,13 +271,13 @@ class MessageController extends Controller
         );
         if ($userid == $msgUser) {
             $userName = $message->getInbox()->getUserName();
-            $from = " from me";
+            $from = ' from me';
             if ($userid == $message->getInbox()->getId()) {
-                $from = " to me";
+                $from = ' to me';
             }
         } else {
             $userName = $message->getSent()->getUserName();
-            $from = " to me";
+            $from = ' to me';
         }
         $content = nl2br($message->getMessage());
         return $this->render(
@@ -302,13 +297,13 @@ class MessageController extends Controller
      */
     public function deleteFromTrashAction(Request $request)
     {
-        $checkedMessages = json_decode(stripslashes($request->get("checkedMessages")));
+        $checkedMessages = json_decode(stripslashes($request->get('checkedMessages')));
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         foreach ($checkedMessages as $cm) {
             $messageService->setToUserDeleteFromTrash($userid, $cm, 2);
         }
-        echo "success";
+        echo 'success';
         exit;
     }
 
@@ -341,7 +336,7 @@ class MessageController extends Controller
             $results['messages'] = $this->get('UserService')->getFacilitatorApplicantMessages($unitId, $applicantId, $facilitatorId);
             echo $template = $this->renderView('GqAusUserBundle:Message:facilitatorApplicant.html.twig', $results);
         } else {
-            echo "Empty Unit Id";
+            echo 'Empty Unit Id';
         }
         exit;
     }

@@ -390,11 +390,10 @@ class CoursesService
         $courseApprovedUnits = array();
         if (!empty($userCourseUnits)) {
             foreach ($userCourseUnits as $units) {
-                $status = $units->getStatus();
                 $facilitatorstatus = $units->getFacilitatorstatus();
                 $aStatus = $units->getAssessorstatus();
                 $rStatus = $units->getRtostatus();
-                if ($status == '0') {
+                if ($units->getStatus() == '0') {
                     $courseUnits[] = $units->getUnitId();
                 }
                 if (($aStatus == 1 && $rStatus == 2) || ($aStatus == 2 && $rStatus == 0) || ($aStatus == 0 && $rStatus == 0)) {

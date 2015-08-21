@@ -40,9 +40,8 @@ class NotesController extends Controller
             $results['notes'] = $this->get('NotesService')->getUnitNotes($unitId, $userType);
             echo $template = $this->renderView('GqAusUserBundle:Note:unitnotes.html.twig', $results);
         } else {
-            echo "Empty Unit Id";
+            echo 'Empty Unit Id';
         }
-
         exit;
     }
 

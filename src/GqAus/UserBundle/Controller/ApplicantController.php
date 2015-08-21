@@ -84,7 +84,7 @@ class ApplicantController extends Controller
             $userId = $this->getRequest()->get('listId');
         }
         $remindDate = str_replace('/', '-', $remindDate);
-        $remindDate = date("Y-m-d H:i:s", strtotime(strtoupper($remindDate)));
+        $remindDate = date('Y-m-d H:i:s', strtotime(strtoupper($remindDate)));
         $message = $this->getRequest()->get('message');
         echo $status = $this->get('UserService')->addQualificationReminder($userId, $userCourseId, $message, $remindDate);
         exit;
@@ -127,7 +127,7 @@ class ApplicantController extends Controller
         $filterByStatus = $this->getRequest()->get('filterByStatus');
         $status = $this->getRequest()->get('status');
         $page = $this->getRequest()->get('pagenum');
-        if ($page == "") {
+        if ($page == '') {
             $page = 1;
         }
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, $searchName, $searchTime, $filterByUser, $filterByStatus);
@@ -149,20 +149,20 @@ class ApplicantController extends Controller
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $searchName = trim($this->getRequest()->get('searchName'), " ");
+        $searchName = trim($this->getRequest()->get('searchName'), ' ');
         $searchTime = $this->getRequest()->get('searchTime');
-        $searchQualification = trim($this->getRequest()->get('searchQualification'), " ");
+        $searchQualification = trim($this->getRequest()->get('searchQualification'), ' ');
         $searchDateRange = $this->getRequest()->get('searchDateRange');
-        $searchDates = explode("-", $searchDateRange);
+        $searchDates = explode('-', $searchDateRange);
         $startDate = $searchDates[0];
         $endDate = $searchDates[1];
-        $startDatearr = explode("/", $startDate);
-        $startDate = trim($startDatearr[2], " ") . "-" . $startDatearr[1] . "-" . $startDatearr[0];
-        $endDatearr = explode("/", $endDate);
-        $endDate = $endDatearr[2] . "-" . $endDatearr[1] . "-" . trim($endDatearr[0], " ");
+        $startDatearr = explode('/', $startDate);
+        $startDate = trim($startDatearr[2], ' ') . '-' . $startDatearr[1] . '-' . $startDatearr[0];
+        $endDatearr = explode('/', $endDate);
+        $endDate = $endDatearr[2] . '-' . $endDatearr[1] . '-' . trim($endDatearr[0], ' ');
         $status = $this->getRequest()->get('status');
         $page = $this->getRequest()->get('pagenum');
-        if ($page == "") {
+        if ($page == '') {
             $page = 1;
         }
         $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, $status, $page, $searchName, $searchQualification, $startDate, $endDate, $searchTime);
@@ -212,15 +212,15 @@ class ApplicantController extends Controller
             $i++;
         }
         if (!empty($user) && isset($results['courseInfo']['id'])) {
-            $results["user"] = $user;
-            $results["userIdFiles"] = $user->getIdfiles();
+            $results['user'] = $user;
+            $results['userIdFiles'] = $user->getIdfiles();
             $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
             $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
             $results['projectPath'] = $this->get('kernel')->getRootDir() . '/../';
             $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
             $fileTemp = 'temp_' . time() . '.pdf';
             $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' .
-                str_replace(" ", "-", $results['courseInfo']['name']) . '_' . time() . '.pdf';
+                str_replace(' ', '-', $results['courseInfo']['name']) . '_' . time() . '.pdf';
             $html2pdf = $this->get('html2pdf_factory')->create('P', 'A4', 'en', true, 'UTF-8', array(10, 15, 10, 15));
             $html2pdf->setDefaultFont('OpenSans');
             $html2pdf->writeHTML($content, isset($_GET['vuehtml']));
@@ -249,7 +249,7 @@ class ApplicantController extends Controller
         $evidences = $evidenceObj->getUserCourseEvidences($uid, $qcode);
         if (count($evidences) > 0) {
             $zip = new \ZipArchive();
-            $zipName = str_replace(" ", "-", $user->getUserName()) . '-' . time() . ".zip";
+            $zipName = str_replace(' ', '-', $user->getUserName()) . '-' . time() . '.zip';
             $zip->open($zipName, \ZipArchive::CREATE);
             $fileFlag = 0;
             foreach ($evidences as $evidence) {
@@ -340,7 +340,7 @@ class ApplicantController extends Controller
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        if ($userRole[0] != "ROLE_ASSESSOR") {
+        if ($userRole[0] != 'ROLE_ASSESSOR') {
             $page = $this->get('request')->query->get('page', 1);
             $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, '3', $page);
             $results['pageRequest'] = 'submit';
@@ -371,8 +371,7 @@ class ApplicantController extends Controller
     {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             if ($idFileId > 0) {
-                $userObj = $this->get('UserService');
-                $idFileData = $userObj->getIdFileById($idFileId);
+                $idFileData = $this->get('UserService')->getIdFileById($idFileId);
                 if (count($idFileData) > 0) {
                     $results = array();
                     $results['path'] = $idFileData->getPath();

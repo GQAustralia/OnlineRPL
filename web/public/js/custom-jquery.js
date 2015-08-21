@@ -128,7 +128,7 @@ $(".modalClass").click(function() {
 });
 $("#qclose").click(function() {
     if (qual_id != '' && typeof qual_id !== 'undefined') {
-        $(location).attr('href', 'qualificationDetails/' + qual_id);
+        $(location).attr('href', base_url + 'qualificationDetails/' + qual_id);
     }
 });
 
@@ -169,7 +169,7 @@ $(".changeUnitStatus").click(function() {
                 $("#span_" + unitId).addClass("radioUnChecked");
             }  
             $(".qual_status_loader").hide();
-            $("#qclose").trigger("click");
+            $("#qeclose").trigger("click");
         }
     });
 });

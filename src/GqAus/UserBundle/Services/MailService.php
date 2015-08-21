@@ -42,7 +42,7 @@ class MailService
                 ->setFrom($from)
                 ->setTo($mailerInfo['to'])
                 ->setBody($mailerInfo['body'])
-                ->setContentType("text/html");
+                ->setContentType('text/html');
             $status = $this->mailer->send($emailContent);
         }
         return $status;
