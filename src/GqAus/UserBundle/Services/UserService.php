@@ -2013,7 +2013,7 @@ class UserService
                 }
             break;
             case 15:
-                $cRto = $courseObj->getRto();                
+                $cRto = $courseObj->getRto();
                 // checking whether the assessor and rto approved the qualification or not
                 if ($courseObj->getAssessorstatus() != 1) {
                     $response['type'] = 'Error';

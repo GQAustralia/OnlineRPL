@@ -31,6 +31,7 @@
                 <div class="gq-course-details-title-wrap">
                     <div class="gq-dashboard-box-title">{% if courseInfo.name %} {{courseInfo.id}} {{courseInfo.name}} {% endif %}</div>
                     {% if ('ROLE_ASSESSOR' in userRole and assessorstatus != 1) or ('ROLE_FACILITATOR' in userRole and courseStatus != 0) %}
+						{% set courseOrder = statusList[courseStatus].order %}
                      <div class="gq-dashboard-courses-status-txt gq-dashboard-courses-status">
                          <label>Status &nbsp;</label>
                             <input type="hidden" name="csCourseCode" id="csCourseCode" readonly="true" value="{{courseInfo.id}}" />
@@ -48,11 +49,11 @@
                                         {% if ('ROLE_FACILITATOR' in userRole or statusData[roleAcess] == 1) %}
                                             <option value="{{statusId}}"
                                             {% if courseStatus == statusId %} {{ "selected" }} {% else %} {{ "" }} {% endif %}
-                                            {% if statusData[roleAcess] == 0 %} {{ "disabled" }} {% else %} {{ "" }} {% endif %}        
+                                            {% if statusData[roleAcess] == 0 %} {{ "disabled" }} {% elseif ((assessorstatus == 1) and (statusData['order'] < courseStatus) and ('ROLE_FACILITATOR' in userRole) ) %} {{ "disabled" }} {% elseif ((rtostatus == 1) and (statusData['order'] < courseStatus) and ('ROLE_FACILITATOR' in userRole) ) %} {{ "disabled" }} {% else %} {{ "" }} {% endif %}
                                             >{{statusData['status']}}</option>
-                                        {% endif %} 
+                                        {% endif %}
                                      {% endfor %}
-                                     {% endif %}    
+                                     {% endif %}
                                 </select>
                             </div>
                      </div>
