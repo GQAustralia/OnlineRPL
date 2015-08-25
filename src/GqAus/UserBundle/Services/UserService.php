@@ -724,7 +724,7 @@ class UserService
      * @param int $applicantStatus
      * return integer
      */
-    public function getPendingapplicantsCount($userId, $userRole, $applicantStatus)
+    public function getPendingApplicantsCount($userId, $userRole, $applicantStatus)
     {
         if (in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_RTO', $userRole)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
@@ -756,7 +756,7 @@ class UserService
     public function getUsersDashboardInfo($user)
     {
         if (is_object($user) && count($user) > 0) {
-            $pendingApplicantsCount = $this->getPendingapplicantsCount($user->getId(), $user->getRoles(), '0');
+            $pendingApplicantsCount = $this->getPendingApplicantsCount($user->getId(), $user->getRoles(), '0');
             $unReadMessages = $this->getUnreadMessagesCount($user->getId());
             $todaysReminders = $this->getTodaysReminders($user->getId());
             return array('todaysReminders' => $todaysReminders,
@@ -936,7 +936,7 @@ class UserService
      * @param int $page
      * return array
      */
-    public function getmyinboxMessages($userId, $page)
+    public function getMyInboxMessages($userId, $page)
     {
         if ($page <= 0) {
             $page = 1;
@@ -980,7 +980,7 @@ class UserService
      * @param int $page
      * return array
      */
-    public function getmySentMessages($userId, $page)
+    public function getMySentMessages($userId, $page)
     {
         if ($page <= 0) {
             $page = 1;
@@ -1002,7 +1002,7 @@ class UserService
      * @param int $page
      * return array
      */
-    public function getmyTrashMessages($userId, $page)
+    public function getMyTrashMessages($userId, $page)
     {
         if ($page <= 0) {
             $page = 1;

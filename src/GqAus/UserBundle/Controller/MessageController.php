@@ -21,7 +21,7 @@ class MessageController extends Controller
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $page = $this->get('request')->query->get('page', 1);
-        $result = $messageService->getmyinboxMessages($userid, $page);
+        $result = $messageService->getMyInboxMessages($userid, $page);
         $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);
         $now = new DateTime('now');
         $result['today'] = $now->format('Y-m-d');
@@ -177,7 +177,7 @@ class MessageController extends Controller
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $page = $this->get('request')->query->get('page', 1);
-        $result = $messageService->getmySentMessages($userid, $page);
+        $result = $messageService->getMySentMessages($userid, $page);
         $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);
         $now = new DateTime('now');
         $result['today'] = $now->format('Y-m-d');
@@ -194,7 +194,7 @@ class MessageController extends Controller
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $page = $this->get('request')->query->get('page', 1);
-        $result = $messageService->getmyTrashMessages($userid, $page);
+        $result = $messageService->getMyTrashMessages($userid, $page);
         $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);
         $result['userid'] = $userid;
         $now = new DateTime('now');
