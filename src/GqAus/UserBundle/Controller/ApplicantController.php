@@ -6,6 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use GqAus\UserBundle\Form\NotesForm;
+use GqAus\UserBundle\Entity\Facilitator;
+use GqAus\UserBundle\Entity\Assessor;
+use GqAus\UserBundle\Entity\Rto;
+use GqAus\UserBundle\Entity\Manager;
+use GqAus\UserBundle\Entity\Superadmin;
 
 class ApplicantController extends Controller
 {
@@ -26,13 +31,11 @@ class ApplicantController extends Controller
         if (!empty($user) && isset($results['courseInfo']['id'])) {
             $applicantInfo = $userService->getApplicantInfo($user, $qcode);
             $role = $this->get('security.context')->getToken()->getUser()->getRoles();
-            if ($role[0] == \GqAus\UserBundle\Entity\Facilitator::ROLE_NAME ||
-                $role[0] == \GqAus\UserBundle\Entity\Manager::ROLE_NAME) {
-                $results['rtos'] = $userService->getUsers(\GqAus\UserBundle\Entity\Rto::ROLE);
-                $results['assessors'] = $userService->getUsers(\GqAus\UserBundle\Entity\Assessor::ROLE);
-                if ($role[0] == \GqAus\UserBundle\Entity\Superadmin::ROLE_NAME ||
-                    $role[0] == \GqAus\UserBundle\Entity\Manager::ROLE_NAME) {
-                    $results['facilitators'] = $userService->getUsers(\GqAus\UserBundle\Entity\Facilitator::ROLE);
+            if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Manager::ROLE_NAME) {
+                $results['rtos'] = $userService->getUsers(Rto::ROLE);
+                $results['assessors'] = $userService->getUsers(Assessor::ROLE);
+                if ($role[0] == Superadmin::ROLE_NAME || $role[0] == Manager::ROLE_NAME) {
+                    $results['facilitators'] = $userService->getUsers(Facilitator::ROLE);
                 }
             }
             $results['electiveUnits'] = $coursesService->getElectiveUnits($uid, $qcode);
@@ -40,8 +43,7 @@ class ApplicantController extends Controller
             // for getting the status list dropdown
             $results['statusList'] = array();
             $results['statusList'] = $userService->getQualificationStatus();
-            if ($role[0] == \GqAus\UserBundle\Entity\Facilitator::ROLE_NAME ||
-                $role[0] == \GqAus\UserBundle\Entity\Assessor::ROLE_NAME) {
+            if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Assessor::ROLE_NAME) {
                 $notesForm = $this->createForm(new NotesForm(), array());
                 $results['notesForm'] = $notesForm->createView();
             }
