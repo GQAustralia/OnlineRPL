@@ -7,6 +7,14 @@ use GqAus\UserBundle\Entity\User;
 use GqAus\UserBundle\Entity\Applicant;
 use GqAus\UserBundle\Entity\UserAddress;
 use GqAus\UserBundle\Entity\UserCourses;
+use GqAus\UserBundle\Entity\Facilitator;
+use GqAus\UserBundle\Entity\Assessor;
+use GqAus\UserBundle\Entity\Rto;
+use GqAus\UserBundle\Entity\Manager;
+use GqAus\UserBundle\Entity\Superadmin;
+use GqAus\UserBundle\Entity\Reminder;
+use GqAus\UserBundle\Entity\Message;
+use GqAus\UserBundle\Entity\Evidence\Text;
 
 class UserService
 {
@@ -119,7 +127,8 @@ class UserService
             $mailBody = str_replace($search, $replace, $this->container->getParameter('mail_forgot_password_con'));
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($user->getEmail(), $mailSubject, $mailBody, 
-                $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
+                $this->container->getParameter('fromEmailAddress'),
+                $this->container->getParameter('default_from_username'));
 
             $message = '1';
         } else {
@@ -696,7 +705,7 @@ class UserService
             $remindDate = date('d/m/Y H:i:s');
         }
         $remindDate = date('Y-m-d H:i:s', strtotime($remindDate));
-        $reminderObj = new \GqAus\UserBundle\Entity\Reminder();
+        $reminderObj = new Reminder();
         $reminderObj->setCourse($courseObj);
         $reminderObj->setUser($userObj);
         $reminderObj->setDate($remindDate);
@@ -848,7 +857,7 @@ class UserService
                 ->select('DISTINCT e.unit')
                 ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId)
                 ->andWhere(sprintf('e.%s = :%s', 'course', 'course'))->setParameter('course', $courseCode)
-                ->andWhere('e instance of \GqAus\UserBundle\Entity\Evidence\Text');
+                ->andWhere('e instance of GqAusUserBundle:Evidence\Text');
             $applicantList = $res->getQuery()->getResult();
             $evidenceCount = count($applicantList);
             $completeness = ($evidenceCount / $totalNoCourses) * 100;
@@ -951,7 +960,7 @@ class UserService
      */
     public function saveMessageData($sentuser, $curuser, $msgdata)
     {
-        $msgObj = new \GqAus\UserBundle\Entity\Message();
+        $msgObj = new Message();
         $msgObj->setInbox($sentuser);
         $msgObj->setSent($curuser);
         $msgObj->setSubject($msgdata['subject']);
@@ -1315,7 +1324,8 @@ class UserService
 
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($data['email'], $mailSubject, $mailBody,
-                $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
+                $this->container->getParameter('fromEmailAddress'), 
+                $this->container->getParameter('default_from_username'));
         }
         echo $message;
         exit;
@@ -1393,11 +1403,11 @@ class UserService
     {
         $course = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($courseId);
         $user = $this->getUserInfo($userId);
-        if ($role == \GqAus\UserBundle\Entity\Rto::ROLE) {
+        if ($role == Rto::ROLE) {
             $course->setRto($user);
-        } else if ($role == \GqAus\UserBundle\Entity\Assessor::ROLE) {
+        } else if ($role == Assessor::ROLE) {
             $course->setAssessor($user);
-        } else if ($role == \GqAus\UserBundle\Entity\Facilitator::ROLE) {
+        } else if ($role == Facilitator::ROLE) {
             $course->setFacilitator($user);
         }
         $this->em->persist($course);
@@ -1451,7 +1461,8 @@ class UserService
         // finding and replacing the variables from message templates
         $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#applicationUrl#', '#roomId#', '#fromUserName#');
         $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(),
-            $courseObj->getCourseName(), $this->container->getParameter('applicationUrl'), $roomId, $assessor->getUsername());
+            $courseObj->getCourseName(), $this->container->getParameter('applicationUrl'), $roomId,
+            $assessor->getUsername());
         $facMessageBody = str_replace($msgSearch, $facMsgReplace,
             $this->container->getParameter('msg_conversation_invitation_con'));
         $facMailBody = str_replace($msgSearch, $facMsgReplace,
@@ -1727,26 +1738,26 @@ class UserService
         if (!empty($searchType)) {
             switch ($searchType) {
                 case 2:
-                    $res->where('u instance of \GqAus\UserBundle\Entity\Facilitator');
+                    $res->where('u instance of GqAusUserBundle:Facilitator');
                     break;
                 case 3:
-                    $res->where('u instance of \GqAus\UserBundle\Entity\Assessor');
+                    $res->where('u instance of GqAusUserBundle:Assessor');
                     break;
                 case 4:
-                    $res->where('u instance of \GqAus\UserBundle\Entity\Rto');
+                    $res->where('u instance of GqAusUserBundle:Rto');
                     break;
                 case 5:
-                    $res->where('u instance of \GqAus\UserBundle\Entity\Manager');
+                    $res->where('u instance of GqAusUserBundle:Manager');
                     break;
             }
         } else {
             if ($userRole == 'ROLE_SUPERADMIN') {
-                $res->where('(u instance of \GqAus\UserBundle\Entity\Facilitator OR u instance '
-                    . 'of \GqAus\UserBundle\Entity\Assessor OR u instance of \GqAus\UserBundle\Entity\Rto OR'
-                    . ' u instance of \GqAus\UserBundle\Entity\Manager)');
+                $res->where('(u instance of GqAusUserBundle:Facilitator OR u instance '
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto OR'
+                    . ' u instance of GqAusUserBundle:Manager)');
             } else {
-                $res->where('(u instance of \GqAus\UserBundle\Entity\Facilitator OR u instance '
-                    . 'of \GqAus\UserBundle\Entity\Assessor OR u instance of \GqAus\UserBundle\Entity\Rto)');
+                $res->where('(u instance of GqAusUserBundle:Facilitator OR u instance '
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
             }
         }
 
@@ -1796,8 +1807,8 @@ class UserService
         $statement = $connection->prepare("SELECT id, first_name as firstname, last_name as lastname, "
             . "role_type as roletype, CONCAT(first_name, ' ', last_name) as username FROM user WHERE"
             . " (role_type = :frole OR role_type = :arole) ORDER BY role_type");
-        $statement->bindValue('frole', \GqAus\UserBundle\Entity\Facilitator::ROLE);
-        $statement->bindValue('arole', \GqAus\UserBundle\Entity\Assessor::ROLE);
+        $statement->bindValue('frole', Facilitator::ROLE);
+        $statement->bindValue('arole', Assessor::ROLE);
         $statement->execute();
         $users = $statement->fetchAll();
         return $users;
@@ -1929,22 +1940,22 @@ class UserService
     {
         switch ($role) {
             case 'ROLE_ASSESSOR':
-                $userObj = new \GqAus\UserBundle\Entity\Assessor();
+                $userObj = new Assessor();
                 break;
             case 'ROLE_FACILITATOR':
-                $userObj = new \GqAus\UserBundle\Entity\Facilitator();
+                $userObj = new Facilitator();
                 break;
             case 'ROLE_MANAGER':
-                $userObj = new \GqAus\UserBundle\Entity\Manager();
+                $userObj = new Manager();
                 break;
             case 'ROLE_APPLICANT':
-                $userObj = new \GqAus\UserBundle\Entity\Applicant();
+                $userObj = new Applicant();
                 break;
             case 'ROLE_RTO':
-                $userObj = new \GqAus\UserBundle\Entity\Rto();
+                $userObj = new Rto();
                 break;
             default:
-                $userObj = new \GqAus\UserBundle\Entity\Applicant();
+                $userObj = new Applicant();
                 break;
         }
 
@@ -1990,7 +2001,7 @@ class UserService
      */
     public function saveUserAddress($data, $userObj)
     {
-        $userAddressObj = new \GqAus\UserBundle\Entity\UserAddress();
+        $userAddressObj = new UserAddress();
         $userAddressObj->setUser($userObj);
         $userAddressObj->setAddress(isset($data['address']) ? $data['address'] : '');
         $userAddressObj->setArea(isset($data['area']) ? $data['area'] : '');

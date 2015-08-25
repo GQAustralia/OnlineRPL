@@ -437,7 +437,8 @@ class EvidenceService
 
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->userService->sendExternalEmail($courseObj->getAssessor()->getEmail(), 
-                    $mailSubject, $mailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
+                    $mailSubject, $mailBody, $courseObj->getFacilitator()->getEmail(),
+                    $courseObj->getFacilitator()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
                 $this->userService->sendMessagesInbox($courseObj->getAssessor()->getId(), 
                     $courseObj->getFacilitator()->getId(), $messageSubject, $messageBody, $courseUnitObj->getId());

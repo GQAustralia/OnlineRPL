@@ -596,12 +596,14 @@ class UserController extends Controller
                 break;
         }
 
-        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' || $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
+        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' ||
+            $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('dateOfBirth');
             $userProfileForm->remove('universalStudentIdentifier');
             $userProfileForm->remove('gender');
         }
-        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_APPLICANT' || $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
+        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_APPLICANT' ||
+            $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('contactname');
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');

@@ -120,7 +120,8 @@ class NotesService
 
             // finding and replacing the variables from message templates
             $subSearch = array('#courseCode#', '#courseName#', '#unitCode#');
-            $subReplace = array($facilitatorInfo['courseCode'], $facilitatorInfo['courseName'], $facilitatorInfo['unitCode']);
+            $subReplace = array($facilitatorInfo['courseCode'], $facilitatorInfo['courseName'],
+                $facilitatorInfo['unitCode']);
             $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_add_notes_sub'));
             $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_notes_sub'));
 
