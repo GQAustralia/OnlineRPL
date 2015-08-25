@@ -4,6 +4,7 @@ namespace GqAus\HomeBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
+use GqAus\UserBundle\Entity\UserCourseUnits
 
 class CoursesService
 {
@@ -295,7 +296,7 @@ class CoursesService
             'unitId' => $unitId,
             'courseCode' => $courseCode));
         if (empty($userUnitObj)) {
-            $reposObj = new \GqAus\UserBundle\Entity\UserCourseUnits();
+            $reposObj = new UserCourseUnits();
             $userObj = $this->em->getRepository('GqAusUserBundle:User')
                 ->find($userId);
             $reposObj->setUnitId($unitId);
@@ -375,7 +376,7 @@ class CoursesService
                             'unitId' => $unit['id'],
                             'courseCode' => trim($courseCode)));
                         if (empty($userUnitObj)) {
-                            $reposUnitObj = new \GqAus\UserBundle\Entity\UserCourseUnits();
+                            $reposUnitObj = new UserCourseUnits();
                             $reposUnitObj->setUnitId($unit['id']);
                             $reposUnitObj->setCourseCode($courseCode);
                             if (trim($unit['type']) == 'core') {
