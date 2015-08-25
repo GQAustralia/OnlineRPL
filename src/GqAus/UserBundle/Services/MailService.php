@@ -21,6 +21,9 @@ class MailService
 
     /**
      * Constructor
+     * @param object $em
+     * @param object $container
+     * @param object $mailer
      */
     public function __construct($em, $container, $mailer)
     {
@@ -31,7 +34,8 @@ class MailService
 
     /**
      * function to send external email .
-     *  @return string
+     * @param array $mailerInfo
+     * return string
      */
     public function sendExternalEmail($mailerInfo)
     {

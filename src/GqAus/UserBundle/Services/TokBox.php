@@ -14,6 +14,7 @@ class TokBox
 
     /**
      * Constructor
+     * @param object $em
      */
     public function __construct($em)
     {
@@ -23,6 +24,7 @@ class TokBox
 
     /**
      * Function to get room
+     * @param int $roomId
      * return array
      */
     public function getRoom($roomId)
@@ -32,24 +34,30 @@ class TokBox
 
     /**
      * Function to update room
+     * @param int $id
+     * @param int $userId
+     * return array
      */
-    public function updateRoom($id, $user_id)
+    public function updateRoom($id, $userId)
     {
         $room = $this->repository->find($id);
-        $room->setApplicant($user_id);
+        $room->setApplicant($userId);
         $this->em->persist($room);
         $this->em->flush();
         return $room->getSession();
     }
 
     /**
-     *  function to create a room for video communication.
-     *  @return int
+     * Function to create a room for video communication.
+     * @param int $sessionId
+     * @param int $userId
+     * @param int $applicantID
+     *  return integer
      */
-    public function createRoom($sessionId, $user_id, $applicantID)
+    public function createRoom($sessionId, $userId, $applicantID)
     {
         $room = new Room();
-        $room->setAssessor($user_id);
+        $room->setAssessor($userId);
         $room->setSession($sessionId);
         $room->setApplicant($applicantID);
         $this->em->persist($room);
@@ -59,6 +67,9 @@ class TokBox
 
     /**
      * Function to check room exists
+     * @param int $assessorId
+     * @param int $applicantID
+     * return array
      */
     public function isRoomExists($assessorId, $applicantID)
     {

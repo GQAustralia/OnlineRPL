@@ -3,6 +3,7 @@
 namespace GqAus\HomeBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class CoursesService
 {
@@ -26,6 +27,10 @@ class CoursesService
 
     /**
      * Constructor
+     * @param object $em
+     * @param object $container
+     * @param object $mailer
+     * @param object $guzzleService
      */
     public function __construct($em, $container, $mailer, $guzzleService)
     {
@@ -38,6 +43,8 @@ class CoursesService
 
     /**
      * Function to get courses details
+     * @param string $qcode
+     * @param int $uid
      * return array
      */
     public function getCourseDetails($qcode, $uid)
@@ -48,7 +55,8 @@ class CoursesService
 
     /**
      * Function to get courses info
-     * return $result array
+     * @param int $id
+     * return array
      */
     public function getCoursesInfo($id)
     {
@@ -63,27 +71,32 @@ class CoursesService
 
     /**
      * Function to api request for courses
-     * return $result array
+     * @param int $id
+     * return array
      */
     public function fetchRequest($id)
     {
-        if (!empty($_SESSION['start']) && !empty($_SESSION['api_token'])) {
-            if ($_SESSION['start'] + 60 < time()) {
-                $_SESSION['api_token'] = '';
-                $_SESSION['start'] = '';
+        $session = new Session();
+        $start = $session->get('start');
+        $apiToken = $session->get('api_token');
+        if (!empty($start) && !empty($apiToken)) {
+            if ($start + 60 < time()) {
+                $session->set('api_token', '');
+                $session->set('start', '');
             }
         } else {
-            $_SESSION['start'] = time();
+            $session->set('start', time());
         }
-
         $postFields = array('code' => $id);
-        if (!empty($_SESSION['api_token'])) {
-            $postFields['token'] = $_SESSION['api_token'];
+        $apiToken = $session->get('api_token');
+        if (!empty($apiToken)) {
+            $postFields['token'] = $apiToken;
             $result = $this->accessAPI($postFields);
-        } else if (empty($_SESSION['api_token'])) {
+        } else if (empty($apiToken)) {
             $result = $this->accessAPI($postFields);
-            $postFields['token'] = $token = $_SESSION['api_token'] = $this->getTokenGenerated($result);
-            $_SESSION['start'] = time();
+            $postFields['token'] = $token = $this->getTokenGenerated($result);
+            $session->set('api_token', $token);
+            $session->set('start', time());
             if ($token) {
                 $result = $this->accessAPI($postFields);
             }
@@ -97,19 +110,19 @@ class CoursesService
 
     /**
      * Function to access API
-     * return $result array
+     * @param string $fieldString
+     * return array
      */
-    public function accessAPI($fields_string)
+    public function accessAPI($fieldString)
     {
         $apiUrl = $this->container->getParameter('apiUrl');
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "qualificationunits";
-
         $authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
         $this->guzzleService->addSubscriber($authPlugin);
         $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
-        $request = $this->guzzleService->post($url, null, $fields_string); // Create a request with basic Auth
+        $request = $this->guzzleService->post($url, null, $fieldString); // Create a request with basic Auth
         $response = $request->send(); // Send the request and get the response
         $result = $response->getBody();
         return $result;
@@ -117,7 +130,8 @@ class CoursesService
 
     /**
      * Function to generate api token
-     * return $result string
+     * @param string $result
+     * return string
      */
     public function getTokenGenerated($result)
     {
@@ -135,16 +149,13 @@ class CoursesService
     }
 
     /**
-     * xml2array() will convert the given XML text to an array in the XML structure.
-     * Link: http://www.bin-co.com/php/scripts/xml2array/
-     * Arguments : $contents - The XML text
-     *                $get_attributes - 1 or 0. If this is 1 the function will get the attributes as well as the tag values - this results in a different array structure in the return value.
-     *                $priority - Can be 'tag' or 'attribute'. This will change the way the resulting array sturcture. For 'tag', the tags are given more importance.
-     * Return: The parsed XML in an array form. Use print_r() to see the resulting array structure.
-     * Examples: $array =  xml2array(file_get_contents('feed.xml'));
-     *              $array =  xml2array(file_get_contents('feed.xml', 1, 'attribute'));
+     * Function to convert the given XML text to an array in the XML structure.
+     * @param string $contents
+     * @param int $getAttributes
+     * @param string $priority
+     * return string
      */
-    function xml2array($contents, $get_attributes = 1, $priority = 'tag')
+    function xml2array($contents, $getAttributes = 1, $priority = 'tag')
     {
         if (!$contents) {
             return array();
@@ -156,7 +167,7 @@ class CoursesService
 
         //Get the XML parser of PHP - PHP must have this module for the parser to work
         $parser = xml_parser_create('');
-        xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, "UTF-8"); # http://minutillo.com/steve/weblog/2004/6/17/php-xml-and-character-encodings-a-tale-of-sadness-rage-and-data-loss
+        xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, "UTF-8");
         xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
         xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
         xml_parse_into_struct($parser, trim($contents), $xmlValues);
@@ -193,7 +204,7 @@ class CoursesService
             }
 
             //Set the attributes too.
-            if (isset($attributes) and $get_attributes) {
+            if (isset($attributes) and $getAttributes) {
                 foreach ($attributes as $attr => $val) {
                     if ($priority == 'tag') {
                         $attributesData[$attr] = $val;
@@ -241,14 +252,14 @@ class CoursesService
                         // ...push the new element into that array.
                         $current[$tag][$repeatedTagIndex[$tag . '_' . $level]] = $result;
 
-                        if ($priority == 'tag' and $get_attributes and $attributesData) {
+                        if ($priority == 'tag' and $getAttributes and $attributesData) {
                             $current[$tag][$repeatedTagIndex[$tag . '_' . $level] . '_attr'] = $attributesData;
                         }
                         $repeatedTagIndex[$tag . '_' . $level] ++;
                     } else { //If it is not an array...
                         $current[$tag] = array($current[$tag], $result); //...Make it an array using using the existing value and the new value
                         $repeatedTagIndex[$tag . '_' . $level] = 1;
-                        if ($priority == 'tag' and $get_attributes) {
+                        if ($priority == 'tag' and $getAttributes) {
                             if (isset($current[$tag . '_attr'])) { //The attribute of the last(0th) tag must be moved as well
                                 $current[$tag]['0_attr'] = $current[$tag . '_attr'];
                                 unset($current[$tag . '_attr']);
@@ -271,7 +282,10 @@ class CoursesService
 
     /**
      * Function to update unit electives
-     * return $result string
+     * @param int $userId
+     * @param int $unitId
+     * @param string $courseCode
+     * return integer
      */
     public function updateUnitElective($userId, $unitId, $courseCode)
     {
@@ -301,7 +315,9 @@ class CoursesService
 
     /**
      * Function to get elective units
-     * return $result array
+     * @param int $userId
+     * @param string $courseCode
+     * return array
      */
     public function getElectiveUnits($userId, $courseCode)
     {
@@ -320,7 +336,10 @@ class CoursesService
 
     /**
      * Function to get applicant unit status
-     * return $result array
+     * @param int $applicantId
+     * @param int $unitId
+     * @param string $courseCode
+     * return array
      */
     public function getUnitStatus($applicantId, $unitId, $courseCode)
     {
@@ -334,7 +353,9 @@ class CoursesService
 
     /**
      * Function to update qualification unit table
-     * return $result array
+     * @param int $userId
+     * @param string $courseCode
+     * @param array $apiResults
      */
     public function updateQualificationUnits($userId, $courseCode, $apiResults)
     {
@@ -369,7 +390,6 @@ class CoursesService
                             $reposUnitObj->setRtostatus('0');
                             $this->em->persist($reposUnitObj);
                             $this->em->flush();
-                            // $this->em->clear();
                         }//if
                     }//for
                 }
@@ -379,7 +399,9 @@ class CoursesService
 
     /**
      * Function to get qualification elective units
-     * return $result array
+     * @param int $userId
+     * @param string $courseCode
+     * return array
      */
     public function getQualificationElectiveUnits($userId, $courseCode)
     {
@@ -396,7 +418,8 @@ class CoursesService
                 if ($units->getStatus() == '0') {
                     $courseUnits[] = $units->getUnitId();
                 }
-                if (($aStatus == 1 && $rStatus == 2) || ($aStatus == 2 && $rStatus == 0) || ($aStatus == 0 && $rStatus == 0)) {
+                if (($aStatus == 1 && $rStatus == 2) || ($aStatus == 2 && $rStatus == 0) ||
+                    ($aStatus == 0 && $rStatus == 0)) {
                     $courseApprovedUnits[] = $units->getUnitId();
                 }
             }

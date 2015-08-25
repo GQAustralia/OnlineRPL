@@ -9,8 +9,8 @@
     {% endif %}
 
     {% for key, list in applicantList %}
-        <tr>        
-            <td width="20%"><span class="">{{list.firstname}} {{list.lastname}}</span></td>
+        <tr>
+            <td width="20%"><span class="">{{list.firstName}} {{list.lastName}}</span></td>
             <td width="20%">{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% elseif list.getRole() == '4' %}  Rto {% else %} Manager {% endif %}</td>
             <td width="10%">
                 {% if (list.getRole() != '5') and (list.getRole() != '4') %}

@@ -11,7 +11,8 @@ class ReminderController extends Controller
 
     /**
      * Function to view reminders
-     * return $result array
+     * @param object $request
+     * return string
      */
     public function viewAction(Request $request)
     {
@@ -20,14 +21,14 @@ class ReminderController extends Controller
         $reminders['todoReminders'] = $userService->getTodoReminders($userId);
         $reminders['completedReminders'] = $userService->getCompletedReminders($userId);
         $now = new DateTime('now');
-        return $this->render(
-                'GqAusUserBundle:Reminder:view.html.twig', array('reminders' => $reminders, 'today' => $now->format('Y-m-d H:i:s'))
-        );
+        return $this->render('GqAusUserBundle:Reminder:view.html.twig', 
+            array('reminders' => $reminders, 'today' => $now->format('Y-m-d H:i:s')));
     }
 
     /**
      * Function to update reminders
-     * return $result string
+     * @param object $request
+     * return string
      */
     public function updateAction(Request $request)
     {

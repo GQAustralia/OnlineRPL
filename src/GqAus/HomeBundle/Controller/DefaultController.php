@@ -10,8 +10,7 @@ class DefaultController extends Controller
 
     /**
      * Function for dashboard landing page
-     * params -
-     * return $result array
+     * return array
      */
     public function indexAction(Request $request)
     {
@@ -24,7 +23,7 @@ class DefaultController extends Controller
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         if (in_array('ROLE_APPLICANT', $userRole)) {
             $results = $userService->getDashboardInfo($user);
-            $results['statusList'] = $userService->getqualificationStatus();
+            $results['statusList'] = $userService->getQualificationStatus();
             return $this->render('GqAusHomeBundle:Default:index.html.twig', $results);
         } else if (in_array('ROLE_MANAGER', $userRole) || in_array('ROLE_SUPERADMIN', $userRole)) {
             $results = $this->get('UserService')->getManagersApplicantsCount($userId, $userRole);
@@ -43,7 +42,7 @@ class DefaultController extends Controller
 
     /**
      * function to download related file
-     * params $file string
+     * @param string $file
      */
     public function downloadAction($file)
     {

@@ -10,8 +10,8 @@ class ForgotPasswordController extends Controller
 {
 
     /**
-     * function to request for forgot password .
-     *  @return string
+     * Function to request for forgot password
+     * return string
      */
     public function indexAction()
     {
@@ -26,7 +26,8 @@ class ForgotPasswordController extends Controller
 
     /**
      * function to reset password.
-     *  @return string
+     * @param string $token
+     * return string
      */
     public function resetPasswordAction($token)
     {

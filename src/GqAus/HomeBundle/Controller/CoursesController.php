@@ -12,8 +12,9 @@ class CoursesController extends Controller
 
     /**
      * Function for dashboard landing page
-     * params $id
-     * return $result array
+     * @param int $id
+     * @param object $request
+     * return array
      */
     public function indexAction($id, Request $request)
     {
@@ -30,24 +31,27 @@ class CoursesController extends Controller
         $results['form'] = $form->createView();
         $assessmentForm = $this->createForm(new AssessmentForm(), array());
         $results['assessmentForm'] = $assessmentForm->createView();
-        $results['statusList'] = $this->get('UserService')->getqualificationStatus();
+        $results['statusList'] = $this->get('UserService')->getQualificationStatus();
         return $this->render('GqAusHomeBundle:Courses:index.html.twig', $results);
     }
 
     /**
      * Function for qualifications list
-     * return $result array
+     * return array
      */
     public function qualificationsAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        $statusList = $this->get('UserService')->getqualificationStatus();
-        return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', array('userCourses' => $user->getCourses(), 'courseConditionStatus' => $user->getCourseConditionStatus(), 'statusList' => $statusList));
+        $statusList = $this->get('UserService')->getQualificationStatus();
+        return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', 
+            array('userCourses' => $user->getCourses(),
+                'courseConditionStatus' => $user->getCourseConditionStatus(),
+                'statusList' => $statusList));
     }
 
     /**
      * Function to update status of unit electives
-     * return $result array
+     * return int
      */
     public function updateUnitElectiveAction()
     {
@@ -68,7 +72,7 @@ class CoursesController extends Controller
 
     /**
      * Function to get unit Evidence
-     * return $result array
+     * return string
      */
     public function getUnitEvidencesAction()
     {

@@ -1958,7 +1958,7 @@ $(".deleteUser").click(function() {
         url: base_url + "deleteUser",
         data: {deluserId: deluserId, delUserRole: delUserRole},
         success: function(result) {
-            $("#qclose").trigger("click");
+            $("#uclose").trigger("click");
             if (result == 0) {
                  $("#err_msg").html('<div class="gq-id-files-upload-error-text" style="display: block;"><h2><img src="' + base_url + '/public/images/login-error-icon.png">This User cannot be deleted!</h2></div>').delay(3000).fadeOut(100);
             } else {

@@ -18,6 +18,8 @@ class UserController extends Controller
 
     /**
      * Function to edit user profile
+     * @param object $request
+     * return string
      */
     public function profileAction(Request $request)
     {
@@ -28,12 +30,14 @@ class UserController extends Controller
         $user = $userService->getCurrentUser();
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoleName();
-        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' || $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
+        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' ||
+            $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('dateOfBirth');
             $userProfileForm->remove('universalStudentIdentifier');
             $userProfileForm->remove('gender');
         }
-        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_APPLICANT' || $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
+        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_APPLICANT' ||
+            $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('contactname');
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');
@@ -151,6 +155,8 @@ class UserController extends Controller
 
     /**
      * Function to add user Idfiles
+     * @param object $request
+     * return string
      */
     public function addIdFileAction(Request $request)
     {
@@ -180,6 +186,7 @@ class UserController extends Controller
 
     /**
      * Function to upload profile picture
+     * @param object $request
      */
     public function uploadProfilePicAction(Request $request)
     {
@@ -204,6 +211,8 @@ class UserController extends Controller
 
     /**
      * Function to verify correct password
+     * @param object $request
+     * return string
      */
     public function checkMyPasswordAction(Request $request)
     {
@@ -222,6 +231,8 @@ class UserController extends Controller
 
     /**
      * Function to upload resume
+     * @param object $request
+     * return string
      */
     public function resumeAction(Request $request)
     {
@@ -239,6 +250,8 @@ class UserController extends Controller
 
     /**
      * Function to upload qualification
+     * @param object $request
+     * return string
      */
     public function qualificationAction(Request $request)
     {
@@ -256,6 +269,8 @@ class UserController extends Controller
 
     /**
      * Function to upload reference
+     * @param object $request
+     * return string
      */
     public function referenceAction(Request $request)
     {
@@ -273,6 +288,8 @@ class UserController extends Controller
 
     /**
      * Function to upload matrix
+     * @param object $request
+     * return string
      */
     public function matrixAction(Request $request)
     {
@@ -301,6 +318,7 @@ class UserController extends Controller
 
     /**
      * Function to download matrix
+     * return string
      */
     public function downloadMatrixAction()
     {
@@ -310,6 +328,8 @@ class UserController extends Controller
 
     /**
      * Function to view assessor profile
+     * @param int $uid
+     * return string
      */
     public function assessorProfileAction($uid)
     {
@@ -350,6 +370,7 @@ class UserController extends Controller
 
     /**
      * Function to Zip all the assessor profile files
+     * @param int $uid
      */
     public function downloadAssessorProfileAction($uid)
     {
@@ -373,6 +394,7 @@ class UserController extends Controller
 
     /**
      * Function to add new applicant
+     * @param object $request
      */
     public function addApplicantAction(Request $request)
     {
@@ -381,7 +403,7 @@ class UserController extends Controller
 
     /**
      * Function to get user Evidence
-     * return $result array
+     * return string
      */
     public function getUserEvidencesAction()
     {
@@ -392,13 +414,13 @@ class UserController extends Controller
             $user = $this->get('security.context')->getToken()->getUser();
         }
         $results['evidences'] = $user->getEvidences();
-        echo $template = $this->renderView('GqAusUserBundle:User:userevidence.html.twig', $results);
+        echo $this->renderView('GqAusUserBundle:User:userevidence.html.twig', $results);
         exit;
     }
 
     /**
      * Function to view user id files
-     * return $result array
+     * return string
      */
     public function viewUserIdFilesAction()
     {
@@ -424,20 +446,21 @@ class UserController extends Controller
 
     /**
      * Function to manage users
-     * return $result array
+     * return string
      */
     public function manageusersAction()
     {
         $page = $this->get('request')->query->get('page', 1);
         $sessionUser = $this->get('security.context')->getToken()->getUser();
-        $users = $this->get('UserService')->manageUsers($sessionUser->getId(), $sessionUser->getRoleName(), '', '', $page = null);
+        $users = $this->get('UserService')->manageUsers($sessionUser->getId(),
+            $sessionUser->getRoleName(), '', '', $page = null);
         $users['pageRequest'] = 'submit';
         return $this->render('GqAusUserBundle:User:manageusers.html.twig', $users);
     }
 
     /**
      * Function search users list
-     * return $result array
+     * return string
      */
     public function searchUsersListAction()
     {
@@ -448,7 +471,8 @@ class UserController extends Controller
         if ($page == "") {
             $page = 1;
         }
-        $results = $this->get('UserService')->manageUsers($sessionUser->getId(), $sessionUser->getRoleName(), $searchName, $searchType, $page);
+        $results = $this->get('UserService')->manageUsers($sessionUser->getId(), $sessionUser->getRoleName(),
+            $searchName, $searchType, $page);
         $results['pageRequest'] = 'ajax';
         echo $this->renderView('GqAusUserBundle:User:usersList.html.twig', $results);
         exit;
@@ -456,19 +480,20 @@ class UserController extends Controller
 
     /**
      * Function to delete users
-     * return $result array
+     * return string
      */
     public function deleteUserAction()
     {
         $deluserId = $this->getRequest()->get('deluserId');
         $delUserRole = $this->getRequest()->get('delUserRole');
-        echo $result = $this->get('UserService')->deleteUser($deluserId, $delUserRole);
+        echo $this->get('UserService')->deleteUser($deluserId, $delUserRole);
         exit;
     }
 
     /**
      * Function to edit user
-     * return $result array
+     * @param object $request
+     * return string
      */
     public function editUserAction(Request $request)
     {
@@ -480,12 +505,14 @@ class UserController extends Controller
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
         $userRole = $user->getRoleName();
 
-        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' || $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
+        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' ||
+            $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('dateOfBirth');
             $userProfileForm->remove('universalStudentIdentifier');
             $userProfileForm->remove('gender');
         }
-        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_APPLICANT' || $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
+        if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_APPLICANT' ||
+            $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('contactname');
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');
@@ -546,7 +573,8 @@ class UserController extends Controller
 
     /**
      * Function to add user
-     * return $result array
+     * @param object $request
+     * return string
      */
     public function addUserAction(Request $request)
     {
@@ -616,12 +644,12 @@ class UserController extends Controller
 
     /**
      * Function to email exist
-     * return $result array
+     * return integer
      */
     function checkEmailExistAction()
     {
         $emailId = $this->getRequest()->get('emailId');
-        echo $result = $this->get('UserService')->emailExist($emailId);
+        echo $this->get('UserService')->emailExist($emailId);
         exit;
     }
 
