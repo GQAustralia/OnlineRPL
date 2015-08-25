@@ -44,7 +44,7 @@ class FileUploader
      * @param array $files
      *  return string
      */
-    public function Process($files)
+    public function process($files)
     {
         $fileNames = array();
         $i = 0;

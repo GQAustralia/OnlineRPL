@@ -4,7 +4,7 @@ namespace GqAus\HomeBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
-use GqAus\UserBundle\Entity\UserCourseUnits
+use GqAus\UserBundle\Entity\UserCourseUnits;
 
 class CoursesService
 {
