@@ -27,6 +27,9 @@ class NotesService
 
     /**
      * Constructor
+     * @param object $em
+     * @param object $container
+     * @param object $userService
      */
     public function __construct($em, $container, $userService)
     {
@@ -37,9 +40,9 @@ class NotesService
     }
 
     /**
-     * Save Notes
-     * Input : data
-     * Output: boolean
+     * Function to save Notes
+     * @param array $data
+     * return string
      */
     public function saveNotes($data)
     {
@@ -62,7 +65,9 @@ class NotesService
 
     /**
      * Function to get notes
-     * return array 
+     * @param int $unitId
+     * @param string $userType
+     * return array
      */
     public function getUnitNotes($unitId, $userType)
     {
@@ -79,6 +84,7 @@ class NotesService
 
     /**
      * Function to get facilitatorInfo
+     * @param int $unitId
      * return array 
      */
     public function getQualificationUnitFacilitator($unitId)
@@ -89,8 +95,8 @@ class NotesService
         if (!empty($unitObj)) {
             $applicantId = $unitObj->getUser();
             $courseCode = $unitObj->getCourseCode();
-            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
-                'user' => $applicantId));
+            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                ->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
             if (!empty($courseObj)) {
                 $data['courseCode'] = $courseCode;
                 $data['courseName'] = $courseObj->getCourseName();
@@ -105,29 +111,33 @@ class NotesService
 
     /**
      * Function to send Notification to facilitator
-     * return array 
+     * @param int $data
      */
     public function sendNotificationToFacilitator($data)
     {
         $facilitatorInfo = $this->getQualificationUnitFacilitator($data['note_unit_id']);
         if (!empty($facilitatorInfo)) {
-                        
+
             // finding and replacing the variables from message templates
             $subSearch = array('#courseCode#', '#courseName#', '#unitCode#');
-            $subReplace = array($facilitatorInfo['courseCode'], $facilitatorInfo['courseName'], $facilitatorInfo['unitCode']);
+            $subReplace = array($facilitatorInfo['courseCode'], $facilitatorInfo['courseName'],
+                $facilitatorInfo['unitCode']);
             $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_add_notes_sub'));
             $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_notes_sub'));
-            
+
             // finding and replacing the variables from message templates
-            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitCode#', '#unitNotes#',  '#fromUserName#');
-            $msgReplace = array($facilitatorInfo['facilitatorUserName'], $facilitatorInfo['courseCode'], $facilitatorInfo['courseName'], $facilitatorInfo['unitCode'], $data['unit_notes'], $data['session_user_name']);
+            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitCode#', '#unitNotes#', '#fromUserName#');
+            $msgReplace = array($facilitatorInfo['facilitatorUserName'], $facilitatorInfo['courseCode'], 
+                $facilitatorInfo['courseName'], $facilitatorInfo['unitCode'], $data['unit_notes'], $data['session_user_name']);
             $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_notes_con'));
             $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_notes_con'));
-            
-            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-            $this->userService->sendExternalEmail($facilitatorInfo['facilitatorEmail'], $mailSubject, $mailBody, $data['session_user_email'], $data['session_user_name']);
-            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-            $this->userService->sendMessagesInbox($facilitatorInfo['facilitatorId'], $data['session_user_id'], $messageSubject, $messageBody, $data['note_unit_id'] );
+
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+            $this->userService->sendExternalEmail($facilitatorInfo['facilitatorEmail'], $mailSubject, $mailBody, 
+                $data['session_user_email'], $data['session_user_name']);
+            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+            $this->userService->sendMessagesInbox($facilitatorInfo['facilitatorId'], $data['session_user_id'], 
+                $messageSubject, $messageBody, $data['note_unit_id']);
         }
     }
 

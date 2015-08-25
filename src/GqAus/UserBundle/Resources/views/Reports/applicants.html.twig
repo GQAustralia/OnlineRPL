@@ -11,7 +11,7 @@
     {% endif %}
     {% for key, list in applicantList %}
         <tr>
-            <td>{{list.user.userName}}</td>
+            <td>{{list.user.firstName}} {{list.user.lastName}}</td>
             <td>{{list.courseCode}} {{list.courseName}}</td>
             {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}             
             {% set userId = list.user.id %}

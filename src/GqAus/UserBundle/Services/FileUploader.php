@@ -23,6 +23,10 @@ class FileUploader
 
     /**
      * Constructor
+     * @param object $filesystem
+     * @param object $em
+     * @param object $container
+     * @param object $userService
      */
     public function __construct(Filesystem $filesystem, $em, $container, $userService)
     {
@@ -37,7 +41,8 @@ class FileUploader
 
     /**
      * function to upload files in AWS S3.
-     *  @return string
+     * @param array $files
+     *  return string
      */
     public function Process($files)
     {
@@ -54,7 +59,8 @@ class FileUploader
 
     /**
      * function to store documents types in AWS S3.
-     *  @return array
+     * @param object $file
+     *  return array
      */
     public function uploadToAWS(UploadedFile $file)
     {
@@ -62,7 +68,8 @@ class FileUploader
         $maxFileSize = $this->container->getParameter('maxFileSize');
         if ($size <= $maxFileSize) {
             // Generate a unique filename based on the date and add file extension of the uploaded file
-            $filename = sprintf('%s-%s-%s-%s.%s', date('Y'), date('m'), date('d'), uniqid(), $file->getClientOriginalExtension());
+            $filename = sprintf('%s-%s-%s-%s.%s', date('Y'), date('m'), date('d'), uniqid(),
+                $file->getClientOriginalExtension());
             $adapter = $this->filesystem->getAdapter();
             $adapter->setMetadata($filename, array('contentType' => $file->getClientMimeType()));
             $adapter->write($filename, file_get_contents($file->getPathname()));
@@ -72,7 +79,8 @@ class FileUploader
 
     /**
      * function to save document types.
-     *  @return array
+     * @param array $data
+     *  return array
      */
     public function uploadIdFiles($data)
     {
@@ -102,6 +110,7 @@ class FileUploader
 
     /**
      * function to delete evidence file types in AWS S3.
+     * @param string $fileName
      */
     public function delete($fileName)
     {
@@ -111,7 +120,8 @@ class FileUploader
 
     /**
      * function to upload resume for assessor.
-     *  @return array
+     * @param array $data
+     *  return array
      */
     public function resume($data)
     {
@@ -140,6 +150,8 @@ class FileUploader
 
     /**
      * function to find whether file exists or not in AWS S3.
+     * @param string $fileName
+     * return string
      */
     public function fileExists($fileName)
     {

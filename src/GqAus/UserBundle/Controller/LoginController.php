@@ -9,8 +9,8 @@ class LoginController extends Controller
 {
 
     /**
-     * login function.
-     *  @return string
+     * Function to login to application based on user roles
+     * return string
      */
     public function indexAction()
     {
@@ -40,7 +40,8 @@ class LoginController extends Controller
     }
 
     /**
-     * logout function.
+     * Function to logout from application
+     * return string
      */
     public function logoutAction()
     {

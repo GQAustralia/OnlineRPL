@@ -31,7 +31,7 @@
                 <div class="gq-course-details-title-wrap">
                     <div class="gq-dashboard-box-title">{% if courseInfo.name %} {{courseInfo.id}} {{courseInfo.name}} {% endif %}</div>
                     {% if ('ROLE_ASSESSOR' in userRole and assessorstatus != 1) or ('ROLE_FACILITATOR' in userRole and courseStatus != 0) %}
-						{% set courseOrder = statusList[courseStatus].order %}
+                        {% set courseOrder = statusList[courseStatus].order %}
                      <div class="gq-dashboard-courses-status-txt gq-dashboard-courses-status">
                          <label>Status &nbsp;</label>
                             <input type="hidden" name="csCourseCode" id="csCourseCode" readonly="true" value="{{courseInfo.id}}" />

@@ -10,7 +10,7 @@ class QualificationController extends Controller
 
     /**
      * Function to get unit Evidence
-     * return $result array
+     * return string
      */
     public function getUnitEvidencesAction()
     {
@@ -20,12 +20,13 @@ class QualificationController extends Controller
         $results['course_code'] = $courseCode;
         if (!empty($userId)) {
             $user = $this->get('UserService')->getUserInfo($userId);
-            $results['unitStatus'] = $this->get('CoursesService')->getUnitStatus($userId, $results['unitCode'], $results['course_code']);
+            $results['unitStatus'] = $this->get('CoursesService')->getUnitStatus($userId, $results['unitCode'],
+                $results['course_code']);
             // for getting assigned assessor
             $courseObj = $this->get('CoursesService')->getCourseDetails($courseCode, $userId);
-            if($courseObj) {
+            if ($courseObj) {
                 $cAssessor = $courseObj->getAssessor();
-                if(!empty($cAssessor)) {
+                if (!empty($cAssessor)) {
                     $results['courseAssessor'] = $courseObj->getAssessor();
                 }
             }

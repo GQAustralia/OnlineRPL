@@ -13,7 +13,8 @@ class MessageController extends Controller
 
     /**
      * Function to view all inbox messages
-     * return response
+     * @param object $request
+     * return string
      */
     public function viewAction(Request $request)
     {
@@ -35,7 +36,8 @@ class MessageController extends Controller
 
     /**
      * Function to save the message
-     * return response
+     * @param object $request
+     * return string
      */
     public function composeAction(Request $request)
     {
@@ -58,7 +60,8 @@ class MessageController extends Controller
             $repUserName = $evidenceUser->getUsername();
             if ($request->get('message_to_user')) {
                 $courseDetails = $this->get('CoursesService')->getCourseDetails($coursecode, $userid);
-                $toRoleUser = ($courseDetails->getFacilitator()->getID() === $curuser->getId()) ? $courseDetails->getAssessor() : $courseDetails->getFacilitator();
+                $toRoleUser = ($courseDetails->getFacilitator()->getID() === $curuser->getId()) ?
+                    $courseDetails->getAssessor() : $courseDetails->getFacilitator();
                 $evidenceUser = $userService->getUserInfo($toRoleUser);
                 $repuser = $evidenceUser->getEmail();
                 $repUserName = $evidenceUser->getUsername();
@@ -108,7 +111,8 @@ class MessageController extends Controller
 
     /**
      * Function to save composed message
-     * return response
+     * @param object $request
+     * return string
      */
     public function saveMessageAction(Request $request)
     {
@@ -134,17 +138,20 @@ class MessageController extends Controller
                     $sentuser = $userService->getUserInfo($touser);
                     $msgdata = array('subject' => $subject,
                         'message' => $message, 'unitId' => $unitId);
-                    
+
                     // for sending external mail
-                    $mailSubject = str_replace('#messageSubject#', $subject, $this->container->getParameter('mail_notification_sub'));
-                    
+                    $mailSubject = str_replace('#messageSubject#', $subject,
+                        $this->container->getParameter('mail_notification_sub'));
+
                     // finding and replacing the variables from message templates
                     $search = array('#toUserName#', '#applicationUrl#', '#fromUserName#');
-                    $replace = array($sentuser->getUsername(), $this->container->getParameter('applicationUrl'), $curuser->getUsername());
+                    $replace = array($sentuser->getUsername(),
+                        $this->container->getParameter('applicationUrl'), $curuser->getUsername());
                     $mailBody = str_replace($search, $replace, $this->container->getParameter('mail_notification_con'));
-                    
-                    /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-                    $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject, $mailBody, $curuser->getEmail(), $curuser->getUsername());
+
+                    /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+                    $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
+                        $mailBody, $curuser->getEmail(), $curuser->getUsername());
 
                     $userService->saveMessageData($sentuser, $curuser, $msgdata);
                     $request->getSession()->getFlashBag()->add(
@@ -162,7 +169,8 @@ class MessageController extends Controller
 
     /**
      * Function to view all sent messages
-     * return response
+     * @param object $request
+     * return string
      */
     public function sentAction(Request $request)
     {
@@ -178,7 +186,8 @@ class MessageController extends Controller
 
     /**
      * Function to view all trashed messages
-     * return response
+     * @param object $request
+     * return string
      */
     public function trashAction(Request $request)
     {
@@ -195,6 +204,8 @@ class MessageController extends Controller
 
     /**
      * Function to draft message
+     * @param object $request
+     * return string
      */
     public function draftAction(Request $request)
     {
@@ -207,7 +218,8 @@ class MessageController extends Controller
 
     /**
      * Function to mark as read / unread
-     * return string
+     * @param object $request
+     * return int
      */
     public function markAsReadAction(Request $request)
     {
@@ -224,6 +236,8 @@ class MessageController extends Controller
 
     /**
      * Function to trash messages.
+     * @param object $request
+     * return string
      */
     public function deleteFromUserAction(Request $request)
     {
@@ -239,6 +253,8 @@ class MessageController extends Controller
 
     /**
      * Function to view message
+     * @param int $mid
+     * return string
      */
     public function viewMessageAction($mid)
     {
@@ -294,6 +310,8 @@ class MessageController extends Controller
 
     /**
      * Function to delete messages from tash
+     * @param object $request
+     * return string
      */
     public function deleteFromTrashAction(Request $request)
     {
@@ -309,7 +327,8 @@ class MessageController extends Controller
 
     /**
      * Function to unread count
-     * return response
+     * @param object $request
+     * return int
      */
     public function unreadAction(Request $request)
     {
@@ -322,7 +341,8 @@ class MessageController extends Controller
 
     /**
      * Function to view applicant and facilitator messages to assessor
-     * return response
+     * @param object $request
+     * return string
      */
     public function facilitatorApplicantAction(Request $request)
     {
@@ -333,8 +353,9 @@ class MessageController extends Controller
             $courseData = $this->get('CoursesService')->getCourseDetails($courseCode, $userId);
             $applicantId = $courseData->getUser()->getId();
             $facilitatorId = $courseData->getFacilitator()->getId();
-            $results['messages'] = $this->get('UserService')->getFacilitatorApplicantMessages($unitId, $applicantId, $facilitatorId);
-            echo $template = $this->renderView('GqAusUserBundle:Message:facilitatorApplicant.html.twig', $results);
+            $results['messages'] = $this->get('UserService')
+                ->getFacilitatorApplicantMessages($unitId, $applicantId, $facilitatorId);
+            echo $this->renderView('GqAusUserBundle:Message:facilitatorApplicant.html.twig', $results);
         } else {
             echo 'Empty Unit Id';
         }

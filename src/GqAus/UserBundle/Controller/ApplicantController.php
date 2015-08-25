@@ -12,7 +12,10 @@ class ApplicantController extends Controller
 
     /**
      * Function to get applicant details page
-     * return $result array
+     * @param string $qcode
+     * @param int $uid
+     * @param object $request
+     * return string
      */
     public function detailsAction($qcode, $uid, Request $request)
     {
@@ -36,7 +39,7 @@ class ApplicantController extends Controller
             $results['courseCode'] = $qcode;
             // for getting the status list dropdown
             $results['statusList'] = array();
-            $results['statusList'] = $userService->getqualificationStatus();
+            $results['statusList'] = $userService->getQualificationStatus();
             if ($role[0] == \GqAus\UserBundle\Entity\Facilitator::ROLE_NAME ||
                 $role[0] == \GqAus\UserBundle\Entity\Assessor::ROLE_NAME) {
                 $notesForm = $this->createForm(new NotesForm(), array());
@@ -67,7 +70,8 @@ class ApplicantController extends Controller
         $result['courseCode'] = $this->getRequest()->get('courseCode');
         $result['unitName'] = $this->getRequest()->get('unitName');
         $userUnitEvStatus = $this->get('UserService')->updateApplicantEvidences($result);
-        echo $userUnitEvStatus.= "&&" . $this->get('UserService')->updateCourseRTOStatus($userId, $result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
+        echo $userUnitEvStatus.= "&&" . $this->get('UserService')
+            ->updateCourseRTOStatus($userId, $result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
         exit;
     }
 
@@ -86,13 +90,13 @@ class ApplicantController extends Controller
         $remindDate = str_replace('/', '-', $remindDate);
         $remindDate = date('Y-m-d H:i:s', strtotime(strtoupper($remindDate)));
         $message = $this->getRequest()->get('message');
-        echo $status = $this->get('UserService')->addQualificationReminder($userId, $userCourseId, $message, $remindDate);
+        echo $this->get('UserService')->addQualificationReminder($userId, $userCourseId, $message, $remindDate);
         exit;
     }
 
     /**
      * Function list applicants list
-     * return $result array
+     * return array
      */
     public function applicantsListAction()
     {
@@ -106,7 +110,7 @@ class ApplicantController extends Controller
         $qualificationStatus = array();
         if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
             $users = $this->get('UserService')->getUserByRole();
-            $qualificationStatus = $this->get('UserService')->getqualificationStatus();
+            $qualificationStatus = $this->get('UserService')->getQualificationStatus();
         }
         $results['users'] = $users;
         $results['qualificationStatus'] = $qualificationStatus;
@@ -115,7 +119,7 @@ class ApplicantController extends Controller
 
     /**
      * Function search applicants list
-     * return $result array
+     * return string
      */
     public function searchApplicantsListAction()
     {
@@ -130,9 +134,10 @@ class ApplicantController extends Controller
         if ($page == '') {
             $page = 1;
         }
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, $searchName, $searchTime, $filterByUser, $filterByStatus);
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, 
+            $searchName, $searchTime, $filterByUser, $filterByStatus);
         if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
-            $qualificationStatus = $this->get('UserService')->getqualificationStatus();
+            $qualificationStatus = $this->get('UserService')->getQualificationStatus();
             $results['qualificationStatus'] = $qualificationStatus;
         }
         $results['pageRequest'] = 'ajax';
@@ -143,7 +148,7 @@ class ApplicantController extends Controller
 
     /**
      * Function search complete applicants list
-     * return $result array
+     * return string
      */
     public function searchApplicantsListReportsAction()
     {
@@ -165,7 +170,8 @@ class ApplicantController extends Controller
         if ($page == '') {
             $page = 1;
         }
-        $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, $status, $page, $searchName, $searchQualification, $startDate, $endDate, $searchTime);
+        $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, $status, $page, 
+            $searchName, $searchQualification, $startDate, $endDate, $searchTime);
         $results['pageRequest'] = 'ajax';
         echo $this->renderView('GqAusUserBundle:Reports:ajax-applicants.html.twig', $results);
         exit;
@@ -173,7 +179,9 @@ class ApplicantController extends Controller
 
     /**
      * Function to get applicant details page
-     * return $result array
+     * @param string $qcode
+     * @param int $uid
+     * return string
      */
     public function downloadAction($qcode, $uid)
     {
@@ -188,7 +196,8 @@ class ApplicantController extends Controller
         }
         $i = 0;
         foreach ($results['courseInfo']['Units']['Unit'] as $unit) {
-            $results['courseInfo']['Units']['Unit'][$i]['name'] = preg_replace('/[^A-Za-z0-9\-]/', ' ', $results['courseInfo']['Units']['Unit'][$i]['name']);
+            $results['courseInfo']['Units']['Unit'][$i]['name'] = 
+                preg_replace('/[^A-Za-z0-9\-]/', ' ', $results['courseInfo']['Units']['Unit'][$i]['name']);
             if (in_array($unit['id'], $unitsIds)) {
                 $evidences = $evidenceObj->getUserUnitEvidences($uid, $unit['id']);
                 $j = 0;
@@ -217,13 +226,15 @@ class ApplicantController extends Controller
             $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
             $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
             $results['projectPath'] = $this->get('kernel')->getRootDir() . '/../';
-            $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
+            $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', 
+                array_merge($results, $applicantInfo));
             $fileTemp = 'temp_' . time() . '.pdf';
             $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' .
                 str_replace(' ', '-', $results['courseInfo']['name']) . '_' . time() . '.pdf';
             $html2pdf = $this->get('html2pdf_factory')->create('P', 'A4', 'en', true, 'UTF-8', array(10, 15, 10, 15));
             $html2pdf->setDefaultFont('OpenSans');
-            $html2pdf->writeHTML($content, isset($_GET['vuehtml']));
+            $vuehtml = $this->getRequest()->get('vuehtml');
+            $html2pdf->writeHTML($content, isset($vuehtml));
             $html2pdf->Output($fileTemp, 'F');
             $response = new Response( );
             $response->headers->set("Content-type", 'application/pdf');
@@ -239,6 +250,9 @@ class ApplicantController extends Controller
 
     /**
      * Function to Zip all the Evidences files of one course to specific user
+     * @param string $qcode
+     * @param int $uid
+     * return string
      */
     public function zipAction($qcode, $uid)
     {
@@ -287,7 +301,8 @@ class ApplicantController extends Controller
 
     /**
      * Function to view evidence
-     * return $result array
+     * @param int $evidenceId
+     * return string
      */
     public function viewEvidenceAction($evidenceId)
     {
@@ -335,6 +350,7 @@ class ApplicantController extends Controller
 
     /**
      * Function to view reports
+     * return string
      */
     public function reportsAction()
     {
@@ -352,6 +368,7 @@ class ApplicantController extends Controller
 
     /**
      * Function to set assessor and rto by facilitator for applicant profile
+     * return array
      */
     public function setRoleUsersAction()
     {
@@ -365,7 +382,8 @@ class ApplicantController extends Controller
 
     /**
      * Function to view Id file
-     * return $result array
+     * @param int $idFileId
+     * return string
      */
     public function viewIdFileAction($idFileId)
     {
@@ -385,6 +403,7 @@ class ApplicantController extends Controller
 
     /**
      * Function to update course status
+     * return array
      */
     public function updateCourseStatusAction()
     {

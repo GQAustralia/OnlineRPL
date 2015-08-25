@@ -11,6 +11,7 @@ class NotesController extends Controller
 
     /**
      * Function to add the notes
+     * @param object $request
      * return string
      */
     public function addNotesAction(Request $request)
@@ -23,7 +24,7 @@ class NotesController extends Controller
             $data['session_user_role'] = $this->get('security.context')->getToken()->getUser()->getRoleName();
             $data['session_user_email'] = $this->get('security.context')->getToken()->getUser()->getEmail();
             $data['session_user_name'] = $this->get('security.context')->getToken()->getUser()->getUsername();
-            echo $result = $this->get('NotesService')->saveNotes($data);
+            echo $this->get('NotesService')->saveNotes($data);
         }
         exit;
     }

@@ -12,6 +12,7 @@ class EvidenceController extends Controller
 
     /**
      * Function to add the Evidence
+     * @param object $request
      * return string
      */
     public function addAction(Request $request)
@@ -22,14 +23,15 @@ class EvidenceController extends Controller
             $form->bind($request);
             $data = $form->getData();
             $fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
-            echo $result = $this->get('EvidenceService')->saveEvidence($fileNames, $data);
+            echo $this->get('EvidenceService')->saveEvidence($fileNames, $data);
             exit;
         }
     }
 
     /**
      * Function to display all the Evidences
-     * return array
+     * @param integer $request
+     * return string
      */
     public function viewAction(Request $request)
     {
@@ -39,6 +41,7 @@ class EvidenceController extends Controller
 
     /**
      * Function to save the existing Evidence
+     * @param integer $request
      * return string
      */
     public function saveExistingEvidenceAction(Request $request)
@@ -68,6 +71,7 @@ class EvidenceController extends Controller
 
     /**
      * Function to update Evidence Title
+     * @param string $request
      * return string
      */
     public function editTitleAction(Request $request)
@@ -83,6 +87,7 @@ class EvidenceController extends Controller
 
     /**
      * Function to zip
+     * @param object $request
      */
     public function zipAction(Request $request)
     {
@@ -106,6 +111,7 @@ class EvidenceController extends Controller
 
     /**
      * Function to add the Evidence Self Assessment
+     * @param object $request
      * return string
      */
     public function addEvidenceAssessmentAction(Request $request)

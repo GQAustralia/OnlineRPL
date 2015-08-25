@@ -11,7 +11,8 @@ class AuthenticateController extends Controller
 
     /**
      * Function to login as user
-     * return $result array
+     * @param int $userId
+     * return string
      */
     public function userLoginAction($userId)
     {

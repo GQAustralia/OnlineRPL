@@ -268,39 +268,6 @@ class UserCourses
     }
 
     /**
-     * Add status
-     *
-     * @param \GqAus\UserBundle\Entity\CourseStatus $status
-     * @return UserCourses
-     */
-    public function addStatus(\GqAus\UserBundle\Entity\CourseStatus $status)
-    {
-        $this->status[] = $status;
-
-        return $this;
-    }
-
-    /**
-     * Remove status
-     *
-     * @param \GqAus\UserBundle\Entity\CourseStatus $status
-     */
-    public function removeStatus(\GqAus\UserBundle\Entity\CourseStatus $status)
-    {
-        $this->status->removeElement($status);
-    }
-
-    /**
-     * Get status
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $reminder;

@@ -7,6 +7,14 @@ use GqAus\UserBundle\Entity\User;
 use GqAus\UserBundle\Entity\Applicant;
 use GqAus\UserBundle\Entity\UserAddress;
 use GqAus\UserBundle\Entity\UserCourses;
+use GqAus\UserBundle\Entity\Facilitator;
+use GqAus\UserBundle\Entity\Assessor;
+use GqAus\UserBundle\Entity\Rto;
+use GqAus\UserBundle\Entity\Manager;
+use GqAus\UserBundle\Entity\Superadmin;
+use GqAus\UserBundle\Entity\Reminder;
+use GqAus\UserBundle\Entity\Message;
+use GqAus\UserBundle\Entity\Evidence\Text;
 
 class UserService
 {
@@ -43,6 +51,10 @@ class UserService
 
     /**
      * Constructor
+     * @param object $em
+     * @param object $container
+     * @param object $mailer
+     * @param object $guzzleService
      */
     public function __construct($em, $container, $mailer, $guzzleService)
     {
@@ -67,7 +79,6 @@ class UserService
 
     /**
      * function to save current user profile
-     * return -
      */
     public function saveProfile()
     {
@@ -77,7 +88,8 @@ class UserService
 
     /**
      * function to save personal profile
-     * return -
+     * @param object $user
+     * @param string $image
      */
     public function savePersonalProfile($user, $image)
     {
@@ -90,7 +102,8 @@ class UserService
 
     /**
      * function to request for forgot password .
-     *  @return string
+     * @param string $email
+     * return string
      */
     public function forgotPasswordRequest($email)
     {
@@ -107,13 +120,15 @@ class UserService
             $this->em->flush();
 
             $userName = $user->getUsername();
-             // finding and replacing the variables from message templates
-            $mailSubject = $this->container->getParameter('mail_forgot_password_sub');           
+            // finding and replacing the variables from message templates
+            $mailSubject = $this->container->getParameter('mail_forgot_password_sub');
             $search = array('#toUserName#', '#applicationUrl#', '#token#');
             $replace = array($userName, $this->container->getParameter('applicationUrl'), $token);
             $mailBody = str_replace($search, $replace, $this->container->getParameter('mail_forgot_password_con'));
-            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-            $this->sendExternalEmail($user->getEmail(), $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+            $this->sendExternalEmail($user->getEmail(), $mailSubject, $mailBody, 
+                $this->container->getParameter('fromEmailAddress'),
+                $this->container->getParameter('default_from_username'));
 
             $message = '1';
         } else {
@@ -124,7 +139,10 @@ class UserService
 
     /**
      * function to reset password.
-     *  @return array
+     * @param string $token
+     * @param string $method
+     * @param string $password
+     * return array
      */
     public function resetPasswordRequest($token, $method, $password)
     {
@@ -152,7 +170,8 @@ class UserService
 
     /**
      * function to download course conditions and terms.
-     *  @return array
+     * @param object $user
+     * @param string $file
      */
     public function downloadCourseCondition($user = null, $file)
     {
@@ -173,7 +192,8 @@ class UserService
             switch ($ext) {
                 case "pdf":
                     header('Content-type: application/pdf');
-                    header("Content-Disposition: attachment; filename=\"" . $pathParts["basename"] . "\""); // use 'attachment' to force a file download
+                    header("Content-Disposition: attachment; filename=\"" . $pathParts["basename"] . "\""); 
+                    // use 'attachment' to force a file download
                     break;
                 // add more headers for other content types here
                 default;
@@ -193,7 +213,7 @@ class UserService
 
     /**
      * function to update course condition status.
-     *  @return array
+     * @param object $user
      */
     public function updateCourseConditionStatus($user)
     {
@@ -204,7 +224,7 @@ class UserService
 
     /**
      * function to get dashboard information.
-     *  @return array
+     * @param object $user
      */
     public function getDashboardInfo($user)
     {
@@ -220,7 +240,7 @@ class UserService
 
     /**
      * function to get all document types.
-     *  @return array
+     * return array
      */
     public function getDocumentTypes()
     {
@@ -230,7 +250,8 @@ class UserService
 
     /**
      * function to get points for ID files uploaded.
-     *  @return integer
+     * @param object $user
+     * return integer
      */
     public function getIdPoints($user)
     {
@@ -245,7 +266,9 @@ class UserService
 
     /**
      * function to delete Id files.
-     *  @return string
+     * @param int $IdFileId
+     * @param string $IdFileType
+     * return string
      */
     public function deleteIdFiles($IdFileId, $IdFileType)
     {
@@ -261,7 +284,8 @@ class UserService
 
     /**
      * Function to get user details
-     * return $result array
+     * @param int $userId
+     * return array
      */
     public function getUserInfo($userId)
     {
@@ -270,7 +294,8 @@ class UserService
 
     /**
      * Function to get user profile percentage
-     * return $result array
+     * @param object $user
+     * return string
      */
     public function getUserProfilePercentage($user)
     {
@@ -318,7 +343,9 @@ class UserService
 
     /**
      * Function to get applicant information
-     * return $result array
+     * @param object $user
+     * @param string $qcode
+     * return array
      */
     public function getApplicantInfo($user, $qcode)
     {
@@ -358,11 +385,13 @@ class UserService
 
     /**
      * Function to update applicant evidences information
-     * return $result array
+     * @param array $result
+     * return array
      */
     public function updateApplicantEvidences($result)
     {
-        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $result['userId'],
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
+            ->findOneBy(array('user' => $result['userId'],
             'unitId' => $result['unit'], 'courseCode' => $result['courseCode']));
         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
             ->findOneBy(array('courseCode' => $result['courseCode'], 'user' => $result['userId']));
@@ -385,43 +414,67 @@ class UserService
         } else if ($result['status'] == '2') {
             $userName = $courseObj->getUser()->getUsername();
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
-            
+
             // finding and replacing the variables from message templates
             $subSearch = array('#courseCode#', '#courseName#', '#unitName#');
             $subReplace = array($result['courseCode'], $result['courseName'], $result['unitName']);
-            $facMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_disappove_evdience_fac_sub'));
-            $facMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_disappove_evdience_fac_sub'));
-            
+            $facMessageSubject = str_replace($subSearch, $subReplace,
+                $this->container->getParameter('msg_disappove_evdience_fac_sub'));
+            $facMailSubject = str_replace($subSearch, $subReplace,
+                $this->container->getParameter('mail_disappove_evdience_fac_sub'));
+
             // finding and replacing the variables from message templates
             $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#fromUserName#');
-            $msgReplace = array($userName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $facilitatorName);
-            $facMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_fac_con'));
-            $facMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_fac_con'));
+            $msgReplace = array($userName, $result['courseCode'], $result['courseName'], $result['unit'], 
+                $result['unitName'], $facilitatorName);
+            $facMessageBody = str_replace($msgSearch, $msgReplace,
+                $this->container->getParameter('msg_disappove_evdience_fac_con'));
+            $facMailBody = str_replace($msgSearch, $msgReplace,
+                $this->container->getParameter('mail_disappove_evdience_fac_con'));
             if ($result['userRole'] == 'ROLE_ASSESSOR') {
-                $asrMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_disappove_evdience_asr_sub'));
-                $asrMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_disappove_evdience_asr_sub'));
-                $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#userName#', '#fromUserName#');
-                $msgReplace = array($facilitatorName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $userName, $result['currentUserName']);
-                $asrMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_asr_con'));
-                $asrMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_asr_con')); 
-                /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-                $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $asrMailSubject, $asrMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
-                /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $asrMessageSubject, $asrMessageBody, $courseUnitObj->getId());
+                $asrMessageSubject = str_replace($subSearch, $subReplace,
+                    $this->container->getParameter('msg_disappove_evdience_asr_sub'));
+                $asrMailSubject = str_replace($subSearch, $subReplace,
+                    $this->container->getParameter('mail_disappove_evdience_asr_sub'));
+                $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#',
+                    '#userName#', '#fromUserName#');
+                $msgReplace = array($facilitatorName, $result['courseCode'], $result['courseName'],
+                    $result['unit'], $result['unitName'], $userName, $result['currentUserName']);
+                $asrMessageBody = str_replace($msgSearch, $msgReplace,
+                    $this->container->getParameter('msg_disappove_evdience_asr_con'));
+                $asrMailBody = str_replace($msgSearch, $msgReplace,
+                    $this->container->getParameter('mail_disappove_evdience_asr_con'));
+                /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+                $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $asrMailSubject, $asrMailBody,
+                    $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
+                /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'],
+                    $asrMessageSubject, $asrMessageBody, $courseUnitObj->getId());
             }
-            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-            $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
-            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+            $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody,
+                $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
+            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(),
+                $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
         }
         return $result['status'];
     }
 
     /**
      * Function to get applicants list information
-     * return $result array
+     * @param int $userId
+     * @param string $userRole
+     * @param int $status
+     * @param int $page
+     * @param string $searchName
+     * @param string $searchTime
+     * @param string $filterByUser
+     * @param int $filterByStatus
+     * return array
      */
-    public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, $searchTime = null, $filterByUser = null, $filterByStatus = null)
+    public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, 
+        $searchTime = null, $filterByUser = null, $filterByStatus = null)
     {
         if ($page <= 0) {
             $page = 1;
@@ -443,10 +496,10 @@ class UserService
             $userType = 'superadmin';
             $userStatus = '';
         }
-
+        $fields = 'partial c.{id, courseCode, courseName, courseStatus}, partial u.{id, firstName, lastName}';
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
             ->createQueryBuilder('c')
-            ->select('c, u')
+            ->select($fields)
             ->join('c.user', 'u');
 
         if ($userType != 'superadmin' && $userType != 'manager') {
@@ -477,9 +530,11 @@ class UserService
 
         if ($userType == 'manager' || $userType == 'superadmin') {
             if ($status == 1) {
-                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0'); //approved
+                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))
+                    ->setParameter('courseStatus', '0'); //approved
             } else {
-                $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
+                $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))
+                    ->setParameter('courseStatus', '0');
             }
         }
 
@@ -487,9 +542,11 @@ class UserService
             $searchNamearr = explode(" ", $searchName);
             for ($i = 0; $i < count($searchNamearr); $i++) {
                 if ($i == 0)
-                    $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                    $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
+                    . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
                 else
-                    $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                    $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
+                    . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
             }
             $res->andWhere($nameCondition);
         }
@@ -502,7 +559,8 @@ class UserService
         }
 
         if (!empty($filterByUser)) {
-            $res->andWhere('c.facilitator = :filterByUser OR c.assessor = :filterByUser')->setParameter('filterByUser', $filterByUser);
+            $res->andWhere('c.facilitator = :filterByUser OR c.assessor = :filterByUser')
+                ->setParameter('filterByUser', $filterByUser);
         }
 
         if (!empty($filterByStatus)) {
@@ -519,9 +577,19 @@ class UserService
 
     /**
      * Function to get applicants list information
-     * return $result array
+     * @param int $userId
+     * @param string $userRole
+     * @param int $status
+     * @param int $page
+     * @param string $searchName
+     * @param string $searchQualification
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $searchTime
+     * return array
      */
-    public function getUserApplicantsListReports($userId, $userRole, $status, $page, $searchName = null, $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null)
+    public function getUserApplicantsListReports($userId, $userRole, $status, $page, $searchName = null, 
+        $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null)
     {
         $nameCondition = null;
         $qualCondition = null;
@@ -535,10 +603,12 @@ class UserService
             $userType = 'rto';
             $userStatus = 'rtostatus';
         }
+        $fields = 'partial c.{id, courseCode, courseName, courseStatus, assessorstatus, facilitatorstatus, rtostatus,'
+            . ' assessorDate, facilitatorDate, rtoDate}, partial u.{id, firstName, lastName}';
         if ($status == 3) {
             $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                     ->createQueryBuilder('c')
-                    ->select('c, u')
+                    ->select($fields)
                     ->join('c.user', 'u')
                     ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
             if ($userType == 'rto') {
@@ -548,14 +618,14 @@ class UserService
             if ($status == 11) {
                 $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                     ->createQueryBuilder('c')
-                    ->select('c, u')
+                    ->select($fields)
                     ->join('c.user', 'u')
                     ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId)
                     ->andWhere("c.assessorstatus = '1'");
             } else {
                 $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                         ->createQueryBuilder('c')
-                        ->select('c, u')
+                        ->select($fields)
                         ->join('c.user', 'u')
                         ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
                 if ($status == 2) {
@@ -572,9 +642,11 @@ class UserService
             $searchNamearr = explode(" ", $searchName);
             for ($i = 0; $i < count($searchNamearr); $i++) {
                 if ($i == 0)
-                    $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                    $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
+                    . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
                 else
-                    $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                    $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
+                    . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
             }
             $res->andWhere($nameCondition);
         }
@@ -591,9 +663,11 @@ class UserService
             $searchQualificationarr = explode(" ", $searchQualification);
             for ($i = 0; $i < count($searchQualificationarr); $i++) {
                 if ($i == 0)
-                    $qualCondition .= "c.courseCode LIKE '%" . $searchQualificationarr[$i] . "%' OR c.courseName LIKE '%" . $searchQualificationarr[$i] . "%'";
+                    $qualCondition .= "c.courseCode LIKE '%" . $searchQualificationarr[$i] . "%' "
+                    . "OR c.courseName LIKE '%" . $searchQualificationarr[$i] . "%'";
                 else
-                    $qualCondition .= " OR c.courseCode LIKE '%" . $searchQualificationarr[$i] . "%' OR c.courseName LIKE '%" . $searchQualificationarr[$i] . "%'";
+                    $qualCondition .= " OR c.courseCode LIKE '%" . $searchQualificationarr[$i] . "%'"
+                    . " OR c.courseName LIKE '%" . $searchQualificationarr[$i] . "%'";
             }
             $res->andWhere($qualCondition);
         }
@@ -612,6 +686,10 @@ class UserService
 
     /**
      * Function to add qualification remainder
+     * @param int $userId
+     * @param int $userCourseId
+     * @param string $notes
+     * @param string $remindDate
      */
     public function addQualificationReminder($userId, $userCourseId, $notes, $remindDate)
     {
@@ -627,7 +705,7 @@ class UserService
             $remindDate = date('d/m/Y H:i:s');
         }
         $remindDate = date('Y-m-d H:i:s', strtotime($remindDate));
-        $reminderObj = new \GqAus\UserBundle\Entity\Reminder();
+        $reminderObj = new Reminder();
         $reminderObj->setCourse($courseObj);
         $reminderObj->setUser($userObj);
         $reminderObj->setDate($remindDate);
@@ -637,11 +715,14 @@ class UserService
         $this->em->persist($reminderObj);
         $this->em->flush();
         $this->em->clear();
-    }    
+    }
 
     /**
      * Function to get pending applicants count
-     * return $count string
+     * @param int $userId
+     * @param string $userRole
+     * @param int $applicantStatus
+     * return integer
      */
     public function getPendingapplicantsCount($userId, $userRole, $applicantStatus)
     {
@@ -649,7 +730,8 @@ class UserService
             if (in_array('ROLE_ASSESSOR', $userRole)) {
                 $userType = 'assessor';
                 $userStatus = 'assessorstatus';
-                $result = array($userType => $userId, $userStatus => $applicantStatus, 'courseStatus' => array(2, 10, 11, 12, 13, 14));
+                $result = array($userType => $userId, $userStatus => $applicantStatus,
+                    'courseStatus' => array(2, 10, 11, 12, 13, 14));
             } elseif (in_array('ROLE_RTO', $userRole)) {
                 $userType = 'rto';
                 $userStatus = 'rtostatus';
@@ -668,7 +750,8 @@ class UserService
 
     /**
      * Function to get user dashboard info
-     * return $result array
+     * @param object $user
+     * return array
      */
     public function getUsersDashboardInfo($user)
     {
@@ -684,32 +767,40 @@ class UserService
 
     /**
      * Function to get todays reminders
-     * return $result array
+     * @param int $userId
+     * return array
      */
     public function getTodaysReminders($userId)
     {
         $date = date('Y-m-d');
+        $fields = 'partial r.{id, completed, message, course}, partial u.{id, firstName, lastName}';
         $query = $this->em->getRepository('GqAusUserBundle:Reminder')
             ->createQueryBuilder('r')
-            ->select('r, u')
+            ->select($fields)
             ->leftJoin('r.createdby', 'u')
-            ->where('r.user = :userId and r.completed = 0 and r.date LIKE :date')->setParameter('userId', $userId)->setParameter('date', $date . '%')
+            ->where('r.user = :userId and r.completed = 0 and r.date LIKE :date')
+            ->setParameter('userId', $userId)->setParameter('date', $date . '%')
             ->addOrderBy('r.date', 'ASC');
         $getReminders = $query->getQuery()->getResult();
         return $getReminders;
     }
 
     /**
-     * function to send external email .
-     *  @return string
+     * function to send external email
+     * @param string $toEmail
+     * @param string $subject
+     * @param string $body
+     * @param string $fromEmail
+     * @param string $fromUserName
+     * return integer
      */
     public function sendExternalEmail($toEmail, $subject, $body, $fromEmail = '', $fromUserName = '')
     {
-        if( $toEmail != '' && $subject != '' && $body != '' ) {
-            if ( $fromEmail == '' && $fromUserName == '' ) {
+        if ($toEmail != '' && $subject != '' && $body != '') {
+            if ($fromEmail == '' && $fromUserName == '') {
                 $fromEmail = $this->container->getParameter('fromEmailAddress');
                 $fromUserName = 'Online RPL';
-            } 
+            }
             $emailContent = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom(array($fromEmail => $fromUserName))
@@ -735,7 +826,8 @@ class UserService
 
     /**
      * Function to update todo status
-     * return void
+     * @param int $id
+     * @param int $flag
      */
     public function updateReminderStatus($id, $flag)
     {
@@ -748,7 +840,9 @@ class UserService
 
     /**
      * Function to get Evidence Completeness
-     * return void
+     * @param int $userId
+     * @param string $courseCode
+     * return string
      */
     public function getEvidenceCompleteness($userId, $courseCode = null)
     {
@@ -763,7 +857,7 @@ class UserService
                 ->select('DISTINCT e.unit')
                 ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId)
                 ->andWhere(sprintf('e.%s = :%s', 'course', 'course'))->setParameter('course', $courseCode)
-                ->andWhere('e instance of \GqAus\UserBundle\Entity\Evidence\Text');
+                ->andWhere('e instance of GqAusUserBundle:Evidence\Text');
             $applicantList = $res->getQuery()->getResult();
             $evidenceCount = count($applicantList);
             $completeness = ($evidenceCount / $totalNoCourses) * 100;
@@ -773,12 +867,14 @@ class UserService
 
     /**
      * Function to fetch assessor other files
+     * @param int $userId
+     * @param string $type
      * return array
      */
-    public function fetchOtherFiles($user_id, $type = null)
+    public function fetchOtherFiles($userId, $type = null)
     {
         $Otherfiles = $this->em->getRepository('GqAusUserBundle:OtherFiles');
-        $params['assessor'] = $user_id;
+        $params['assessor'] = $userId;
         if ($type) {
             $params['type'] = $type;
         }
@@ -788,6 +884,7 @@ class UserService
 
     /**
      * Function to delete assessor other files
+     * @param id $FileId
      * return string
      */
     public function deleteOtherFiles($FileId)
@@ -804,7 +901,8 @@ class UserService
 
     /**
      * Function to get remaining weeks for the applicant status
-     * return void
+     * @param int $id
+     * return string
      */
     public function getTimeRemaining($id)
     {
@@ -822,7 +920,8 @@ class UserService
 
     /**
      * Function to get unread messages count
-     * return void
+     * @param int $userId
+     * return string
      */
     public function getUnreadMessagesCount($userId)
     {
@@ -833,6 +932,8 @@ class UserService
 
     /**
      * Function to get inbox messages
+     * @param int $userId
+     * @param int $page
      * return array
      */
     public function getmyinboxMessages($userId, $page)
@@ -853,11 +954,13 @@ class UserService
 
     /**
      * Function to save the message
-     * return void
+     * @param object $sentuser
+     * @param object $curuser
+     * @param array $msgdata
      */
     public function saveMessageData($sentuser, $curuser, $msgdata)
     {
-        $msgObj = new \GqAus\UserBundle\Entity\Message();
+        $msgObj = new Message();
         $msgObj->setInbox($sentuser);
         $msgObj->setSent($curuser);
         $msgObj->setSubject($msgdata['subject']);
@@ -873,6 +976,8 @@ class UserService
 
     /**
      * Function to get sent messages
+     * @param int $userId
+     * @param int $page
      * return array
      */
     public function getmySentMessages($userId, $page)
@@ -893,6 +998,8 @@ class UserService
 
     /**
      * Function to get trashed messages
+     * @param int $userId
+     * @param int $page
      * return array
      */
     public function getmyTrashMessages($userId, $page)
@@ -917,6 +1024,8 @@ class UserService
 
     /**
      * Function to mark as read / unread
+     * @param int $id
+     * @param int $flag
      */
     public function markReadStatus($id, $flag)
     {
@@ -928,6 +1037,9 @@ class UserService
 
     /**
      * Function to trash messages form inbox/sent items
+     * @param int $id
+     * @param int $flag
+     * @param string $type
      */
     public function setUserDeleteStatus($id, $flag, $type)
     {
@@ -946,6 +1058,9 @@ class UserService
 
     /**
      * Function to delete messages from tash
+     * @param int $userId
+     * @param int $id
+     * @param string $flag
      */
     public function setToUserDeleteFromTrash($userId, $id, $flag)
     {
@@ -967,7 +1082,8 @@ class UserService
 
     /**
      * Function to get messages to view
-     * return void
+     * @param int $mid
+     * return array
      */
     public function getMessage($mid)
     {
@@ -976,7 +1092,7 @@ class UserService
 
     /**
      * Function to set the read messages status
-     * return void
+     * @param int $mid
      */
     public function setReadViewStatus($mid)
     {
@@ -988,17 +1104,24 @@ class UserService
 
     /**
      * Function to send message to inbox
+     * @param int $toUserId
+     * @param int $fromUserId
+     * @param string $subject
+     * @param string $message
+     * @param string $unitId
      */
     public function sendMessagesInbox($toUserId, $fromUserId, $subject, $message, $unitId)
     {
         $inbox = $this->getUserInfo($toUserId);
         $sent = $this->getUserInfo($fromUserId);
-        $msgInfo = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId);   
+        $msgInfo = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId);
         $this->saveMessageData($inbox, $sent, $msgInfo);
     }
 
     /**
      * Function to send message to inbox
+     * @param string $image
+     * return string
      */
     public function userImage($image)
     {
@@ -1012,6 +1135,8 @@ class UserService
 
     /**
      * Function to convert date to words
+     * @param string $date
+     * return string
      */
     public function dateToWords($date)
     {
@@ -1051,51 +1176,66 @@ class UserService
 
     /**
      * Function to approve certification by rto
+     * @param string $courseCode
+     * @param int $applicantId
      */
     public function rtoApproveCertification($courseCode, $applicantId)
     {
-        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
-            'user' => $applicantId));
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+            ->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
         if (!empty($courseObj)) {
             $courseObj->setCourseStatus('16');
             $courseObj->setRtostatus('1');
             $courseObj->setRtoDate(date('Y-m-d H:i:s'));
             $this->em->persist($courseObj);
             $this->em->flush();
-            
+
             // finding and replacing the variables from message templates
             $subSearch = array('#courseCode#', '#courseName#');
             $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName());
-            $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_rto_issue_certificate_sub'));
-            $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_rto_issue_certificate_sub'));
-            
+            $messageSubject = str_replace($subSearch, $subReplace,
+                $this->container->getParameter('msg_rto_issue_certificate_sub'));
+            $mailSubject = str_replace($subSearch, $subReplace,
+                $this->container->getParameter('mail_rto_issue_certificate_sub'));
+
             // finding and replacing the variables from message templates
             $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#fromUserName#');
-            $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getRto()->getUsername());
-            $facMessageBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('msg_rto_issue_certificate_con'));
-            $facMailBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('mail_rto_issue_certificate_con'));
+            $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(),
+                $courseObj->getCourseName(), $courseObj->getRto()->getUsername());
+            $facMessageBody = str_replace($msgSearch, $facMsgReplace,
+                $this->container->getParameter('msg_rto_issue_certificate_con'));
+            $facMailBody = str_replace($msgSearch, $facMsgReplace,
+                $this->container->getParameter('mail_rto_issue_certificate_con'));
 
             // send the external mail and internal message to facilitator
-            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-            $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
-            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-            $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $messageSubject, $facMessageBody, '');
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+            $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody,
+                $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
+            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+            $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(),
+                $messageSubject, $facMessageBody, '');
 
             // send the external mail and internal message to applicant
             // re creating message data by replacing applicant values
-            $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getFacilitator()->getUsername());
-            $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_rto_issue_certificate_con'));
-            $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_rto_issue_certificate_con'));
-            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-            $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
-            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '');  
-            
+            $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(),
+                $courseObj->getCourseName(), $courseObj->getFacilitator()->getUsername());
+            $aplMessageBody = str_replace($msgSearch, $aplMsgReplace,
+                $this->container->getParameter('msg_rto_issue_certificate_con'));
+            $aplMailBody = str_replace($msgSearch, $aplMsgReplace,
+                $this->container->getParameter('mail_rto_issue_certificate_con'));
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+            $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody,
+                $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
+            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(),
+                $messageSubject, $aplMessageBody, '');
         }
     }
 
     /**
      * Function to save applicant data
+     * @param object $request
+     * return string
      */
     public function saveApplicantData($request)
     {
@@ -1155,29 +1295,37 @@ class UserService
             }
         }
         if (!empty($emailFlag) || !empty($emailCourseFlag)) {
-            
+
             // finding and replacing the variables from message templates
             $subSearch = array('#courseCode#', '#courseName#');
             $subReplace = array($courseData['courseCode'], $courseData['courseName']);
-                                    
+
             // finding and replacing the variables from message templates
-            $msgSearch = array('#firstName#', '#lastName#', '#courseCode#', '#courseName#', '#applicationUrl#', '#email#', '#password#');
-            $msgReplace = array($data['firstname'], $data['lastname'], $courseData['courseCode'], $courseData['courseName'], $this->container->getParameter('applicationUrl'), $data['email'], $data['newpassword']);            
-            
+            $msgSearch = array('#firstName#', '#lastName#', '#courseCode#', '#courseName#',
+                '#applicationUrl#', '#email#', '#password#');
+            $msgReplace = array($data['firstname'], $data['lastname'], $courseData['courseCode'],
+                $courseData['courseName'], $this->container->getParameter('applicationUrl'), $data['email'],
+                $data['newpassword']);
+
             if ($emailFlag == 'U' && $emailCourseFlag == 'Q') {
-                $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_user_course_sub'));
-                $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_user_course_con'));
+                $mailSubject = str_replace($subSearch, $subReplace,
+                    $this->container->getParameter('mail_add_user_course_sub'));
+                $mailBody = str_replace($msgSearch, $msgReplace,
+                    $this->container->getParameter('mail_add_user_course_con'));
             } elseif ($emailFlag == 'U') {
-                $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_account_creation_sub'));
-                $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_account_creation_con'));
+                $mailSubject = str_replace($subSearch, $subReplace,
+                    $this->container->getParameter('mail_account_creation_sub'));
+                $mailBody = str_replace($msgSearch, $msgReplace,
+                    $this->container->getParameter('mail_account_creation_con'));
             } elseif ($emailCourseFlag == 'Q') {
                 $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_course_sub'));
                 $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_course_con'));
             }
-            
-            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-            $this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
-            
+
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+            $this->sendExternalEmail($data['email'], $mailSubject, $mailBody,
+                $this->container->getParameter('fromEmailAddress'), 
+                $this->container->getParameter('default_from_username'));
         }
         echo $message;
         exit;
@@ -1185,6 +1333,9 @@ class UserService
 
     /**
      * Function to add user course
+     * @param int $courseData
+     * @param object $user
+     * return array
      */
     public function addUserCourse($courseData, $user)
     {
@@ -1229,28 +1380,34 @@ class UserService
 
     /**
      * Function to check User Course Exist
+     * @param string $courseCode
+     * @param int $userId
+     * return integer
      */
     public function checkUserCourseExist($courseCode, $userId)
     {
-        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
-            'user' => $userId));
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+            ->findOneBy(array('courseCode' => $courseCode, 'user' => $userId));
         return count($courseObj);
     }
 
     /*
      * Function to set the assessor and rto to applicant profile
-     * return int
+     * @param int $courseId
+     * @param string $role
+     * @param int $userId
+     * return array
      */
 
     public function setRoleUsersForCourse($courseId, $role, $userId)
     {
         $course = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($courseId);
         $user = $this->getUserInfo($userId);
-        if ($role == \GqAus\UserBundle\Entity\Rto::ROLE) {
+        if ($role == Rto::ROLE) {
             $course->setRto($user);
-        } else if ($role == \GqAus\UserBundle\Entity\Assessor::ROLE) {
+        } else if ($role == Assessor::ROLE) {
             $course->setAssessor($user);
-        } else if ($role == \GqAus\UserBundle\Entity\Facilitator::ROLE) {
+        } else if ($role == Facilitator::ROLE) {
             $course->setFacilitator($user);
         }
         $this->em->persist($course);
@@ -1265,12 +1422,15 @@ class UserService
 
     /*
      * Get List Users of specific role
+     * @param string $role
+     * return array
      */
 
     public function getUsers($role)
     {
         $connection = $this->em->getConnection();
-        $statement = $connection->prepare('SELECT id, first_name as firstname, last_name as lastname FROM user WHERE role_type = :role AND status = 1');
+        $statement = $connection->prepare('SELECT id, first_name as firstname, last_name as lastname FROM user'
+            . ' WHERE role_type = :role AND status = 1');
         $statement->bindValue('role', $role);
         $statement->execute();
         return $statement->fetchAll();
@@ -1278,52 +1438,71 @@ class UserService
 
     /**
      * Function to send start competency conversation notification to applicant
+     * @param string $courseCode
+     * @param int $applicantId
+     * @param int $assessorId
+     * @param int $roomId
      */
     public function sendConversationMessage($courseCode, $applicantId, $assessorId, $roomId)
     {
-        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
-            'user' => $applicantId));
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+            ->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
         $applicant = $this->getUserInfo($applicantId);
         $assessor = $this->getUserInfo($assessorId);
-        
+
         // finding and replacing the variables from message templates
         $subSearch = array('#courseCode#', '#courseName#');
         $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName());
-        $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_conversation_invitation_sub'));
-        $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_conversation_invitation_sub'));
+        $messageSubject = str_replace($subSearch, $subReplace,
+            $this->container->getParameter('msg_conversation_invitation_sub'));
+        $mailSubject = str_replace($subSearch, $subReplace,
+            $this->container->getParameter('mail_conversation_invitation_sub'));
 
         // finding and replacing the variables from message templates
         $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#applicationUrl#', '#roomId#', '#fromUserName#');
-        $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $this->container->getParameter('applicationUrl'), $roomId, $assessor->getUsername());
-        $facMessageBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('msg_conversation_invitation_con'));
-        $facMailBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('mail_conversation_invitation_con'));
-        
+        $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(),
+            $courseObj->getCourseName(), $this->container->getParameter('applicationUrl'), $roomId,
+            $assessor->getUsername());
+        $facMessageBody = str_replace($msgSearch, $facMsgReplace,
+            $this->container->getParameter('msg_conversation_invitation_con'));
+        $facMailBody = str_replace($msgSearch, $facMsgReplace,
+            $this->container->getParameter('mail_conversation_invitation_con'));
+
         // send the external mail and internal message to facilitator
-        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-        $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $assessor->getEmail(), $assessor->getUsername());
-        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $assessor->getId(), $messageSubject, $facMessageBody, '');
-        
+        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+        $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody,
+            $assessor->getEmail(), $assessor->getUsername());
+        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $assessor->getId(), $messageSubject,
+            $facMessageBody, '');
+
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
-        $aplMsgReplace = array($applicant->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $this->container->getParameter('applicationUrl'), $roomId, $courseObj->getFacilitator()->getUsername());
-        $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_conversation_invitation_con'));
-        $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_conversation_invitation_con'));
-        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-        $this->sendExternalEmail($applicant->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
-        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-        $this->sendMessagesInbox($applicant->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '');        
+        $aplMsgReplace = array($applicant->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(),
+            $this->container->getParameter('applicationUrl'), $roomId, $courseObj->getFacilitator()->getUsername());
+        $aplMessageBody = str_replace($msgSearch, $aplMsgReplace,
+            $this->container->getParameter('msg_conversation_invitation_con'));
+        $aplMailBody = str_replace($msgSearch, $aplMsgReplace,
+            $this->container->getParameter('mail_conversation_invitation_con'));
+        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+        $this->sendExternalEmail($applicant->getEmail(), $mailSubject, $aplMailBody,
+            $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
+        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+        $this->sendMessagesInbox($applicant->getId(), $courseObj->getFacilitator()->getId(), $messageSubject,
+            $aplMessageBody, '');
     }
 
     /**
      * Function to get todo reminders
-     * return $result array
+     * @param int $userId
+     * return array
      */
     public function getTodoReminders($userId)
     {
+        $fields = 'partial r.{id, completed, message, date, course}, partial u.{id, firstName, lastName}';
         $query = $this->em->getRepository('GqAusUserBundle:Reminder')
             ->createQueryBuilder('r')
-            ->select('r, u')
+            ->select($fields)
             ->leftJoin('r.createdby', 'u')
             ->where('r.user = :userId and r.completed = 0')->setParameter('userId', $userId)
             ->addOrderBy('r.date', 'ASC');
@@ -1333,13 +1512,15 @@ class UserService
 
     /**
      * Function to get completed reminders
-     * return $result array
+     * @param int $userId
+     * return array
      */
     public function getCompletedReminders($userId)
     {
+        $fields = 'partial r.{id, completed, message, date, course}, partial u.{id, firstName, lastName}';
         $query = $this->em->getRepository('GqAusUserBundle:Reminder')
             ->createQueryBuilder('r')
-            ->select('r, u')
+            ->select($fields)
             ->leftJoin('r.createdby', 'u')
             ->where('r.user = :userId and r.completed = 1')->setParameter('userId', $userId)
             ->addOrderBy('r.completedDate', 'desc');
@@ -1349,6 +1530,9 @@ class UserService
 
     /**
      * Function to convert date time to words
+     * @param string $date
+     * @param string $tab
+     * return string
      */
     public function toDoDateToWords($date, $tab)
     {
@@ -1403,7 +1587,11 @@ class UserService
 
     /**
      * Function to get applicant unit status
-     * return $approvalStatus int
+     * @param int $applicantId
+     * @param string $userRole
+     * @param string $unitId
+     * @param string $courseCode
+     * return integer
      */
     public function getUnitStatusByRoleWise($applicantId, $userRole, $unitId, $courseCode)
     {
@@ -1434,7 +1622,10 @@ class UserService
 
     /**
      * Function to get unit primary key
-     * return $unitPId int
+     * @param int $applicantId
+     * @param string $unitId
+     * @param string $courseCode
+     * return integer
      */
     public function getUnitPrimaryId($applicantId, $unitId, $courseCode)
     {
@@ -1452,6 +1643,9 @@ class UserService
 
     /**
      * Function to get inbox messages
+     * @param string $unitId
+     * @param int $toId
+     * @param int $fromId
      * return array
      */
     public function getFacilitatorApplicantMessages($unitId, $toId, $fromId)
@@ -1460,7 +1654,8 @@ class UserService
             ->createQueryBuilder('m')
             ->select('m')
             ->where('m.unitID = :unitId')->setParameter('unitId', $unitId)
-            ->andWhere('m.inbox = :toId and m.sent = :fromId or m.inbox = :fromId and m.sent = :toId')->setParameter('toId', $toId)->setParameter('fromId', $fromId)
+            ->andWhere('m.inbox = :toId and m.sent = :fromId or m.inbox = :fromId and m.sent = :toId')
+            ->setParameter('toId', $toId)->setParameter('fromId', $fromId)
             ->addOrderBy('m.created', 'DESC');
         $messages = $query->getQuery()->getResult();
         return $messages;
@@ -1468,17 +1663,19 @@ class UserService
 
     /**
      * Function to get Id file by id
+     * @param int $IdFileId
      * return array
      */
     public function getIdFileById($IdFileId)
     {
         $IdObj = $this->em->getRepository('GqAusUserBundle:UserIds');
-        $idFile = $IdObj->find($IdFileId);
-        return $idFile;
+        return $IdObj->find($IdFileId);
     }
 
     /**
      * Function to get managers pending applicants count
+     * @param int $userId
+     * @param string $userRole
      * return array
      */
     public function getManagersApplicantsCount($userId, $userRole)
@@ -1495,7 +1692,10 @@ class UserService
 
     /**
      * Function to get pending applicants count
-     * return array
+     * @param int $userId
+     * @param string $userTypeStatus
+     * @param string $status
+     * return integer
      */
     public function applicantsCount($userId, $userTypeStatus, $status)
     {
@@ -1518,6 +1718,11 @@ class UserService
 
     /**
      * Function to manage users
+     * @param int $userId
+     * @param string $userRole
+     * @param string $searchName
+     * @param string $searchType
+     * @param int $page
      * return array
      */
     public function manageUsers($userId, $userRole, $searchName = '', $searchType = '', $page = null)
@@ -1526,29 +1731,33 @@ class UserService
             $page = 1;
         }
         $nameCondition = null;
+        $fields = 'partial u.{id, firstName, lastName}';
         $res = $this->em->getRepository('GqAusUserBundle:User')
             ->createQueryBuilder('u')
-            ->select('u');
+            ->select($fields);
         if (!empty($searchType)) {
             switch ($searchType) {
                 case 2:
-                    $res->where('u instance of \GqAus\UserBundle\Entity\Facilitator');
+                    $res->where('u instance of GqAusUserBundle:Facilitator');
                     break;
                 case 3:
-                    $res->where('u instance of \GqAus\UserBundle\Entity\Assessor');
+                    $res->where('u instance of GqAusUserBundle:Assessor');
                     break;
                 case 4:
-                    $res->where('u instance of \GqAus\UserBundle\Entity\Rto');
+                    $res->where('u instance of GqAusUserBundle:Rto');
                     break;
                 case 5:
-                    $res->where('u instance of \GqAus\UserBundle\Entity\Manager');
+                    $res->where('u instance of GqAusUserBundle:Manager');
                     break;
             }
         } else {
             if ($userRole == 'ROLE_SUPERADMIN') {
-                $res->where('(u instance of \GqAus\UserBundle\Entity\Facilitator OR u instance of \GqAus\UserBundle\Entity\Assessor OR u instance of \GqAus\UserBundle\Entity\Rto OR u instance of \GqAus\UserBundle\Entity\Manager)');
+                $res->where('(u instance of GqAusUserBundle:Facilitator OR u instance '
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto OR'
+                    . ' u instance of GqAusUserBundle:Manager)');
             } else {
-                $res->where('(u instance of \GqAus\UserBundle\Entity\Facilitator OR u instance of \GqAus\UserBundle\Entity\Assessor OR u instance of \GqAus\UserBundle\Entity\Rto)');
+                $res->where('(u instance of GqAusUserBundle:Facilitator OR u instance '
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
             }
         }
 
@@ -1556,9 +1765,11 @@ class UserService
             $searchNamearr = explode(" ", $searchName);
             for ($i = 0; $i < count($searchNamearr); $i++) {
                 if ($i == 0) {
-                    $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                    $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
+                        . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
                 } else {
-                    $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                    $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
+                        . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
                 }
             }
             $res->andWhere($nameCondition);
@@ -1576,6 +1787,7 @@ class UserService
 
     /**
      * Function to get users by id
+     * @param int $userId
      * return array
      */
     public function getUser($userId)
@@ -1592,9 +1804,11 @@ class UserService
     public function getUserByRole()
     {
         $connection = $this->em->getConnection();
-        $statement = $connection->prepare("SELECT id, first_name as firstname, last_name as lastname, role_type as roletype, CONCAT(first_name, ' ', last_name) as username FROM user WHERE (role_type = :frole OR role_type = :arole) ORDER BY role_type");
-        $statement->bindValue('frole', \GqAus\UserBundle\Entity\Facilitator::ROLE);
-        $statement->bindValue('arole', \GqAus\UserBundle\Entity\Assessor::ROLE);
+        $statement = $connection->prepare("SELECT id, first_name as firstname, last_name as lastname, "
+            . "role_type as roletype, CONCAT(first_name, ' ', last_name) as username FROM user WHERE"
+            . " (role_type = :frole OR role_type = :arole) ORDER BY role_type");
+        $statement->bindValue('frole', Facilitator::ROLE);
+        $statement->bindValue('arole', Assessor::ROLE);
         $statement->execute();
         $users = $statement->fetchAll();
         return $users;
@@ -1604,7 +1818,7 @@ class UserService
      * Function to get qualification status
      * return array
      */
-    public function getqualificationStatus()
+    public function getQualificationStatus()
     {
         $statusList = array(
             '1' => array('status' => 'Welcome Call Completed Docs Sent', 'order' => 1, 'Factive' => 1, 'Aactive' => 0),
@@ -1630,7 +1844,11 @@ class UserService
     }
 
     /*
-     * filtering an array
+     * function to filtering an array
+     * @param array $array
+     * @param string $index
+     * @param string $value
+     * return array
      */
 
     public function filterByValue($array, $index, $value)
@@ -1653,14 +1871,16 @@ class UserService
      */
     public function getAssessorQualificationStatus()
     {
-        $statusList = $this->getqualificationStatus();
+        $statusList = $this->getQualificationStatus();
         $status = $this->filterByValue($statusList, 'Aactive', 1);
         return $status;
     }
 
     /**
      * Function to delete users
-     * return $result array
+     * @param int $deluserId
+     * @param string $delUserRole
+     * return integer
      */
     public function deleteUser($deluserId, $delUserRole)
     {
@@ -1674,6 +1894,9 @@ class UserService
 
     /**
      * Function to check to delete user
+     * @param int $userId
+     * @param string $delUserRole
+     * return integer
      */
     public function checkToDeleteUser($userId, $delUserRole)
     {
@@ -1685,7 +1908,7 @@ class UserService
         if ($delUserRole == '2' || $delUserRole == '3') {
             $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                 ->createQueryBuilder('c')
-                ->select('c')
+                ->select('c.id')
                 ->where(sprintf('c.%s = :%s', $fieldName, $fieldName))->setParameter($fieldName, $userId)
                 ->andWhere('c.courseStatus != 0');
             $result = $res->getQuery()->getResult();
@@ -1696,41 +1919,46 @@ class UserService
 
     /**
      * Function to update users status
+     * @param int $userId
      */
     public function updateUserStatus($userId)
     {
         $userObj = $this->em->getRepository('GqAusUserBundle:User')->find($userId);
-        $userObj->setStatus('0');
+        $userObj->setStatus(0);
         $this->em->persist($userObj);
         $this->em->flush();
     }
 
     /**
      * Function to add user profile
+     * @param string $role
+     * @param array $data
+     * @param string $image
+     * return array
      */
     public function addPersonalProfile($role, $data, $image = null)
     {
         switch ($role) {
             case 'ROLE_ASSESSOR':
-                $userObj = new \GqAus\UserBundle\Entity\Assessor();
+                $userObj = new Assessor();
                 break;
             case 'ROLE_FACILITATOR':
-                $userObj = new \GqAus\UserBundle\Entity\Facilitator();
+                $userObj = new Facilitator();
                 break;
             case 'ROLE_MANAGER':
-                $userObj = new \GqAus\UserBundle\Entity\Manager();
+                $userObj = new Manager();
                 break;
             case 'ROLE_APPLICANT':
-                $userObj = new \GqAus\UserBundle\Entity\Applicant();
+                $userObj = new Applicant();
                 break;
             case 'ROLE_RTO':
-                $userObj = new \GqAus\UserBundle\Entity\Rto();
+                $userObj = new Rto();
                 break;
             default:
-                $userObj = new \GqAus\UserBundle\Entity\Applicant();
+                $userObj = new Applicant();
                 break;
         }
-        
+
         if (!empty($image)) {
             $data['userImage'] = $image;
         }
@@ -1768,10 +1996,12 @@ class UserService
 
     /**
      * Function to save user address
+     * @param array $data
+     * @param object $userObj
      */
     public function saveUserAddress($data, $userObj)
     {
-        $userAddressObj = new \GqAus\UserBundle\Entity\UserAddress();
+        $userAddressObj = new UserAddress();
         $userAddressObj->setUser($userObj);
         $userAddressObj->setAddress(isset($data['address']) ? $data['address'] : '');
         $userAddressObj->setArea(isset($data['area']) ? $data['area'] : '');
@@ -1786,24 +2016,28 @@ class UserService
 
     /**
      * Function to check email exist
+     * @param string $emailId
+     * retrun array
      */
     public function checkEmailExist($emailId)
     {
-        $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('email' => $emailId, 'status' => 1));
-        return $user;
+        return $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('email' => $emailId, 'status' => 1));
     }
 
     /**
      * Function to get CRM User id By Role
+     * @param int $crmId
+     * retrun array
      */
     public function getCrmUserId($crmId)
     {
-        $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('crmId' => trim($crmId), 'status' => 1));
-        return $user;
+        return $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('crmId' => trim($crmId), 'status' => 1));
     }
 
     /**
      * Function check emailId exist
+     * @param string $emailId
+     * retrun integer
      */
     public function emailExist($emailId)
     {
@@ -1813,6 +2047,8 @@ class UserService
 
     /**
      * Function to get user assigned qualifications
+     * @param int $userId
+     * @param string $userType
      * return string
      */
     public function getUserAssignedQualifications($userId, $userType)
@@ -1830,35 +2066,41 @@ class UserService
         }
         $userCourses = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array($fieldName => $userId));
         $field = '<div class="gq-applicant-filter-wrap-select">
-                        <select name="course_' . $userId . '" id="course_' . $userId . '" class="styled" style="width:200px;">
+                    <select name="course_' . $userId . '" id="course_' . $userId . '" class="styled" style="width:200px;">
                             <option value="" selected="selected">Select Qualification</option>';
         if (!empty($userCourses)) {
             foreach ($userCourses as $courses) {
-                $field .= '<option value="' . $courses->getId() . '">' . $courses->getCourseCode() . ' : ' . $courses->getCourseName() . '</option>';
+                $field .= '<option value="' . $courses->getId() . '">' . 
+                    $courses->getCourseCode() . ' : ' . $courses->getCourseName() . '</option>';
             }
         }
         $field .= '</select>
                     </div><br/>';
         return $field;
     }
-    
+
     /**
      * Function to update course status
+     * @param string $courseStatus
+     * @param string $courseCode
+     * @param int $applicantId
+     * @param string $userRole
+     * return array
      */
     public function updateCourseStatus($courseStatus, $courseCode, $applicantId, $userRole)
     {
         $response = array();
-        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+            ->findOneBy(array('courseCode' => $courseCode,
             'user' => $applicantId));
         if (!empty($courseObj)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
                 $asrReturnData = $this->assessorStatusChange($courseObj, $courseStatus);
                 return $asrReturnData;
             } else {
-                 $facReturnData = $this->facilitatorStatusChange($courseObj, $courseStatus);
-                 return $facReturnData;
+                $facReturnData = $this->facilitatorStatusChange($courseObj, $courseStatus);
+                return $facReturnData;
             }
-            
         } else {
             $response['type'] = 'Error';
             $response['code'] = 0;
@@ -1866,9 +2108,12 @@ class UserService
         }
         return $response;
     }
-    
+
     /**
      * Function to change qualification status by assessor
+     * @param object $courseObj
+     * @param int $courseStatus
+     * return array
      */
     public function assessorStatusChange($courseObj, $courseStatus)
     {
@@ -1882,55 +2127,74 @@ class UserService
                 $response['code'] = 2;
                 $response['msg'] = 'Please approve all the units before approving the qualification.';
                 return $response;
+            } else {
+                $courseObj->setAssessorstatus('1');
+                $courseObj->setAssessorDate(date('Y-m-d H:i:s'));
             }
         }
         $courseObj->setCourseStatus($courseStatus);
-        $courseObj->setAssessorstatus('1');
-        $courseObj->setAssessorDate(date('Y-m-d H:i:s'));
         $this->em->persist($courseObj);
         $this->em->flush();
         // get status list
-        $statusList = $this->getqualificationStatus();
-            
+        $statusList = $this->getQualificationStatus();
+
         // finding and replacing the variables from message templates
         $subSearch = array('#courseCode#', '#courseName#');
         $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName());
-        
-        $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#status#', '#fromUserName#');            
-        $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $statusList[$courseStatus]['status'], $courseObj->getAssessor()->getUsername());
-        $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $statusList[$courseStatus]['status'], $courseObj->getFacilitator()->getUsername());
-            
+
+        $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#status#', '#fromUserName#');
+        $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(),
+            $courseObj->getCourseName(), $statusList[$courseStatus]['status'], $courseObj->getAssessor()->getUsername());
+        $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(),
+            $courseObj->getCourseName(), $statusList[$courseStatus]['status'], $courseObj->getFacilitator()->getUsername());
+
         if ($courseStatus == 3) {
-            $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_asr_approve_course_sub'));
-            $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_asr_approve_course_sub'));
-            $facMessageBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('msg_asr_approve_course_con'));
-            $facMailBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('mail_asr_approve_course_con'));
-            $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_asr_approve_course_con'));
-            $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_asr_approve_course_con'));        
+            $messageSubject = str_replace($subSearch, $subReplace,
+                $this->container->getParameter('msg_asr_approve_course_sub'));
+            $mailSubject = str_replace($subSearch, $subReplace,
+                $this->container->getParameter('mail_asr_approve_course_sub'));
+            $facMessageBody = str_replace($msgSearch, $facMsgReplace,
+                $this->container->getParameter('msg_asr_approve_course_con'));
+            $facMailBody = str_replace($msgSearch, $facMsgReplace,
+                $this->container->getParameter('mail_asr_approve_course_con'));
+            $aplMessageBody = str_replace($msgSearch, $aplMsgReplace,
+                $this->container->getParameter('msg_asr_approve_course_con'));
+            $aplMailBody = str_replace($msgSearch, $aplMsgReplace,
+                $this->container->getParameter('mail_asr_approve_course_con'));
         } else {
-            $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_portfolio_update_sub'));
-            $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_portfolio_update_sub'));
-            $facMessageBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('msg_portfolio_update_con'));
-            $facMailBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
-            $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_update_con'));
-            $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con')); 
+            $messageSubject = str_replace($subSearch, $subReplace,
+                $this->container->getParameter('msg_portfolio_update_sub'));
+            $mailSubject = str_replace($subSearch, $subReplace,
+                $this->container->getParameter('mail_portfolio_update_sub'));
+            $facMessageBody = str_replace($msgSearch, $facMsgReplace,
+                $this->container->getParameter('msg_portfolio_update_con'));
+            $facMailBody = str_replace($msgSearch, $facMsgReplace,
+                $this->container->getParameter('mail_portfolio_update_con'));
+            $aplMessageBody = str_replace($msgSearch, $aplMsgReplace,
+                $this->container->getParameter('msg_portfolio_update_con'));
+            $aplMailBody = str_replace($msgSearch, $aplMsgReplace,
+                $this->container->getParameter('mail_portfolio_update_con'));
         }
-        
-        
+
+
         // send the external mail and internal message to facilitator
-        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-        $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
-        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getAssessor()->getId(), $messageSubject, $facMessageBody, '');
+        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+        $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody,
+            $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
+        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getAssessor()->getId(),
+            $messageSubject, $facMessageBody, '');
 
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
-        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-        $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
-        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-        $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '');  
-            
-         // update the zoho api status
+        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+        $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody,
+            $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
+        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+        $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(),
+            $messageSubject, $aplMessageBody, '');
+
+        // update the zoho api status
         //$zohoId = '696292000010172044';
         if ($courseObj->getZohoId() != '') {
             $zohoId = $courseObj->getZohoId();
@@ -1945,32 +2209,41 @@ class UserService
         $response['msg'] = 'Status updated successfully.';
         return $response;
     }
-    
+
     /**
      * Function to change qualification status by facilitator
+     * @param object $courseObj
+     * @param int $courseStatus
+     * return array
      */
     public function facilitatorStatusChange($courseObj, $courseStatus)
     {
         $response = array();
         $toEmail = $toId = $roleMessageBody = $roleMailBody = '';
-        
+
         // get status list
-        $statusList = $this->getqualificationStatus();
-        
+        $statusList = $this->getQualificationStatus();
+
         // finding and replacing the variables from message templates
         $subSearch = array('#courseCode#', '#courseName#');
         $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName());
-        $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_portfolio_update_sub'));
-        $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_portfolio_update_sub'));
+        $messageSubject = str_replace($subSearch, $subReplace,
+            $this->container->getParameter('msg_portfolio_update_sub'));
+        $mailSubject = str_replace($subSearch, $subReplace,
+            $this->container->getParameter('mail_portfolio_update_sub'));
 
         // finding and replacing the variables from message templates
         $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#status#', '#fromUserName#');
-        $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $statusList[$courseStatus]['status'], $courseObj->getFacilitator()->getUsername());
-        $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_update_con'));
-        $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
-        
+        $aplMsgReplace = array($courseObj->getUser()->getUsername(),
+            $courseObj->getCourseCode(), $courseObj->getCourseName(),
+            $statusList[$courseStatus]['status'], $courseObj->getFacilitator()->getUsername());
+        $aplMessageBody = str_replace($msgSearch, $aplMsgReplace,
+            $this->container->getParameter('msg_portfolio_update_con'));
+        $aplMailBody = str_replace($msgSearch, $aplMsgReplace,
+            $this->container->getParameter('mail_portfolio_update_con'));
+
         $courseObj->setCourseStatus($courseStatus);
-        switch($courseStatus) {
+        switch ($courseStatus) {
             case 2:
                 // checking whether the assessor is assigned or not
                 $cAssessor = $courseObj->getAssessor();
@@ -1987,31 +2260,41 @@ class UserService
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
                     $toEmail = $courseObj->getAssessor()->getEmail();
                     $toId = $courseObj->getAssessor()->getId();
-                    $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_portfolio_assessor_submitted_sub'));
-                    $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_portfolio_assessor_submitted_sub'));                   
+                    $messageSubject = str_replace($subSearch, $subReplace,
+                        $this->container->getParameter('msg_portfolio_assessor_submitted_sub'));
+                    $mailSubject = str_replace($subSearch, $subReplace,
+                        $this->container->getParameter('mail_portfolio_assessor_submitted_sub'));
                     $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#');
-                    $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'Assessor', $courseObj->getFacilitator()->getUsername());
-                    $roleMsgReplace = array($courseObj->getAssessor()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername());
-                    $roleMessageBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('msg_portfolio_assessor_submitted_con'));
-                    $roleMailBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('mail_portfolio_assessor_submitted_con'));
-                    $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_assessor_submitted_con'));
-                    $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_assessor_submitted_con'));
-                }                
-            break;
+                    $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(),
+                        $courseObj->getCourseName(), 'Assessor', $courseObj->getFacilitator()->getUsername());
+                    $roleMsgReplace = array($courseObj->getAssessor()->getUsername(), $courseObj->getCourseCode(),
+                        $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername());
+                    $roleMessageBody = str_replace($msgSearch, $roleMsgReplace,
+                        $this->container->getParameter('msg_portfolio_assessor_submitted_con'));
+                    $roleMailBody = str_replace($msgSearch, $roleMsgReplace,
+                        $this->container->getParameter('mail_portfolio_assessor_submitted_con'));
+                    $aplMessageBody = str_replace($msgSearch, $aplMsgReplace,
+                        $this->container->getParameter('msg_portfolio_assessor_submitted_con'));
+                    $aplMailBody = str_replace($msgSearch, $aplMsgReplace,
+                        $this->container->getParameter('mail_portfolio_assessor_submitted_con'));
+                }
+                break;
             case 11:
                 // checking whether the assessor is assigned or not
                 $cAssessor = $courseObj->getAssessor();
                 if (!empty($cAssessor)) {
                     $toEmail = $courseObj->getAssessor()->getEmail();
                     $toId = $courseObj->getAssessor()->getId();
-                    $roleMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_update_con'));
-                    $roleMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
+                    $roleMessageBody = str_replace($msgSearch, $aplMsgReplace,
+                        $this->container->getParameter('msg_portfolio_update_con'));
+                    $roleMailBody = str_replace($msgSearch, $aplMsgReplace,
+                        $this->container->getParameter('mail_portfolio_update_con'));
                 } else {
                     $response['type'] = 'Error';
                     $response['code'] = 6;
                     $response['msg'] = 'Please assign assessor!';
                 }
-            break;
+                break;
             case 15:
                 $cRto = $courseObj->getRto();
                 // checking whether the assessor and rto approved the qualification or not
@@ -2033,7 +2316,7 @@ class UserService
                     $toEmail = $courseObj->getRto()->getEmail();
                     $toId = $courseObj->getRto()->getId();
                     $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_portfolio_submitted_sub'));
-                    $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_portfolio_submitted_sub'));                   
+                    $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_portfolio_submitted_sub'));
                     $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#');
                     $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'RTO', $courseObj->getFacilitator()->getUsername());
                     $roleMsgReplace = array($courseObj->getRto()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername());
@@ -2041,19 +2324,19 @@ class UserService
                     $roleMailBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('mail_portfolio_submitted_con'));
                     $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_submitted_con'));
                     $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_submitted_con'));
-                }   
-            break;
+                }
+                break;
             case 0:
-                if ($courseObj->getAssessorstatus() == 1 && $courseObj->getRtostatus() == 1) {                    
-                   $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_issue_certificate_sub'));
-                   $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_issue_certificate_sub'));
-                   $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_issue_certificate_con'));
-                   $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_issue_certificate_con'));             
-                } elseif($courseObj->getAssessorstatus() != 1 && $courseObj->getRtostatus() == 1) {
+                if ($courseObj->getAssessorstatus() == 1 && $courseObj->getRtostatus() == 1) {
+                    $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_issue_certificate_sub'));
+                    $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_issue_certificate_sub'));
+                    $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_issue_certificate_con'));
+                    $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_issue_certificate_con'));
+                } elseif ($courseObj->getAssessorstatus() != 1 && $courseObj->getRtostatus() == 1) {
                     $response['type'] = 'Error';
                     $response['code'] = 3;
                     $response['msg'] = 'Assessor has not yet approved the qualification.';
-                } elseif($courseObj->getAssessorstatus() == 1 && $courseObj->getRtostatus() != 1) {
+                } elseif ($courseObj->getAssessorstatus() == 1 && $courseObj->getRtostatus() != 1) {
                     $response['type'] = 'Error';
                     $response['code'] = 10;
                     $response['msg'] = 'Rto has not yet approved the qualification.';
@@ -2062,30 +2345,33 @@ class UserService
                     $response['code'] = 11;
                     $response['msg'] = 'Assessor and Rto has not yet approved the qualification.';
                 }
-            break;
+                break;
         }
         if (count($response) > 0) {
             return $response;
-        }    
+        }
         $this->em->persist($courseObj);
         $this->em->flush();
-        
-        if($toEmail !='' && $toId !='' &&  $roleMessageBody !='' && $roleMailBody !='') {
+
+        if ($toEmail != '' && $toId != '' && $roleMessageBody != '' && $roleMailBody != '') {
             // send the external mail and internal message to facilitator
-            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-            $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
-            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+            $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(),
+                $courseObj->getFacilitator()->getUsername());
+            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->sendMessagesInbox($toId, $courseObj->getFacilitator()->getId(), $messageSubject, $roleMessageBody, '');
         }
-        
+
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
-        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName*/
-        $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
-        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId*/
-        $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '');  
-            
-         // update the zoho api status
+        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+        $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody,
+            $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
+        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+        $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(),
+            $messageSubject, $aplMessageBody, '');
+
+        // update the zoho api status
         //$zohoId = '696292000010172044';
         if ($courseObj->getZohoId() != '') {
             $zohoId = $courseObj->getZohoId();
@@ -2100,24 +2386,33 @@ class UserService
         $response['msg'] = 'Status updated successfully.';
         return $response;
     }
-    
+
     /**
      * Function to update qualification rto status
+     * @param int $userId
+     * @param int $roleId
+     * @param string $userRole
+     * @param string $courseCode
+     * return integer
      */
     public function updateCourseRTOStatus($userId, $roleId, $userRole, $courseCode)
     {
         $rtoEnable = 0;
         if (in_array('ROLE_RTO', $userRole)) {
-            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user'=>$userId, 'rto' => $roleId, 'courseCode' => $courseCode));
+            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId,
+                'rto' => $roleId, 'courseCode' => $courseCode));
             if (!empty($courseObj)) {
                 $rtoEnable = $this->checkAllUnitsApprovalByRole($courseObj, 'rtostatus');
             }
         }
         return $rtoEnable;
     }
-    
+
     /**
      * Function to check assessor unit status
+     * @param object $courseObj
+     * @param string $roleStatus
+     * return integer
      */
     public function checkAllUnitsApprovalByRole($courseObj, $roleStatus)
     {
@@ -2132,14 +2427,18 @@ class UserService
         }
         return $roleApproval;
     }
-   
+
     /**
      * Function to update qualification status in zoho crom
+     * @param string $zohoId
+     * @param string $updatedStatus
+     * return array
      */
     public function updateZohoAPIStatus($zohoId, $updatedStatus)
     {
         $response = array();
-        $fieldsString = array('authtoken' => '7e32feeb048bdb5c679968c201833920', 'scope' => 'crmapi', 'id' => $zohoId, 'xmlData' => '<Potentials><row no="1"><FL val="Portfolio Stage">' . $updatedStatus . '</FL></row></Potentials>');
+        $fieldsString = array('authtoken' => '7e32feeb048bdb5c679968c201833920', 'scope' => 'crmapi', 'id' => $zohoId,
+            'xmlData' => '<Potentials><row no="1"><FL val="Portfolio Stage">' . $updatedStatus . '</FL></row></Potentials>');
         $request = $this->guzzleService->post('https://crm.zoho.com/crm/private/xml/Potentials/updateRecords', '', $fieldsString);
         $response = $request->send();
         $result = $response->xml();
