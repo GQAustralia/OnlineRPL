@@ -2283,12 +2283,18 @@ class UserService
                 // checking whether the assessor is assigned or not
                 $cAssessor = $courseObj->getAssessor();
                 if (!empty($cAssessor)) {
-                    $toEmail = $courseObj->getAssessor()->getEmail();
-                    $toId = $courseObj->getAssessor()->getId();
-                    $roleMessageBody = str_replace($msgSearch, $aplMsgReplace,
-                        $this->container->getParameter('msg_portfolio_update_con'));
-                    $roleMailBody = str_replace($msgSearch, $aplMsgReplace,
-                        $this->container->getParameter('mail_portfolio_update_con'));
+                    if ($courseObj->getAssessorstatus() == 1) {
+                        $response['type'] = 'Error';
+                        $response['code'] = 8;
+                        $response['msg'] = 'Assessor has already approved the qualification.';
+                    } else {
+                         $toEmail = $courseObj->getAssessor()->getEmail();
+                         $toId = $courseObj->getAssessor()->getId();
+                         $roleMessageBody = str_replace($msgSearch, $aplMsgReplace,
+                         $this->container->getParameter('msg_portfolio_update_con'));
+                         $roleMailBody = str_replace($msgSearch, $aplMsgReplace,
+                         $this->container->getParameter('mail_portfolio_update_con'));
+                    }
                 } else {
                     $response['type'] = 'Error';
                     $response['code'] = 6;
