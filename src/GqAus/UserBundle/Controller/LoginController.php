@@ -7,17 +7,17 @@ use Symfony\Component\Security\Core\SecurityContext;
 
 class LoginController extends Controller
 {
+
     /**
-     * login function.
-     *  @return string
+     * Function to login to application based on user roles
+     * return string
      */
     public function indexAction()
     {
         $request = $this->getRequest();
         $session = $request->getSession();
         $user = $this->get('security.context')->getToken()->getUser();
-        
-        if(is_object($user) && count($user) > 0) {
+        if (is_object($user) && count($user) > 0) {
             $session = $request->getSession();
             $session->set('user_id', $user->getId());
             return $this->redirect('dashboard');
@@ -31,24 +31,24 @@ class LoginController extends Controller
                 $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
                 $session->remove(SecurityContext::AUTHENTICATION_ERROR);
             }
-            
             return $this->render(
-                'GqAusUserBundle:Login:index.html.twig',
-                array(
-                    'error'         => $error,
-                )
+                    'GqAusUserBundle:Login:index.html.twig', array(
+                    'error' => $error,
+                    )
             );
         }
     }
-    
+
     /**
-     * logout function.
+     * Function to logout from application
+     * return string
      */
     public function logoutAction()
     {
         $this->container->get('security.context')->setToken(NULL);
         $this->get('session')->set('muser', NULL);
-        $this->get('session')->set('suser', NULL);        
+        $this->get('session')->set('suser', NULL);
         return $this->redirect('login');
     }
+
 }

@@ -9,8 +9,8 @@
     {% endif %}
 
     {% for key, list in applicantList %}
-        <tr>        
-            <td width="20%"><span class="">{{list.firstname}} {{list.lastname}}</span></td>
+        <tr>
+            <td width="20%"><span class="">{{list.firstName}} {{list.lastName}}</span></td>
             <td width="20%">{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% elseif list.getRole() == '4' %}  Rto {% else %} Manager {% endif %}</td>
             <td width="10%">
                 {% if (list.getRole() != '5') and (list.getRole() != '4') %}
@@ -55,21 +55,20 @@
 
 {% if pageRequest == 'ajax' %}
     {% block javascripts %}
-<script type="text/javascript">
-    //$(".datepic").datepicker();
-    $(".setNotes").click(function() {
-        id = $(this).attr("id");
-        var c = $('#div_' + id).hasClass("open");
-        if (c == false) {
-            $('#div_' + id).addClass('open');
-        } else {
-            $('#div_' + id).removeClass('open');
-        }
-    });
-    $(".delUser").click(function() {
-        deluserId = this.id;
-        delUserRole = $(this).attr("userRole");
-    });
-</script>
+    <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+    <script src="{{ asset('public/js/timepicker.js') }}"></script>    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var dateTime = new Date();
+            var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
+            var timeZoneDT = new Date(utc + (3600000*+10));
+            $(".datepic").datetimepicker({
+             dateFormat: "dd/mm/yy",
+             timeFormat: "hh:mm tt",
+             minDate : timeZoneDT,
+             minDateTime : timeZoneDT
+            });
+        });
+    </script>
     {% endblock %}
 {% endif %}

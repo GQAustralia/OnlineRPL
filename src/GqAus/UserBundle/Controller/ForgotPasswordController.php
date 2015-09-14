@@ -8,32 +8,33 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ForgotPasswordController extends Controller
 {
+
     /**
-     * function to request for forgot password .
-     *  @return string
+     * Function to request for forgot password
+     * return string
      */
     public function indexAction()
     {
         $message = '';
-        if($this->getRequest()->getMethod() == 'POST') {
-            $userService = $this->get('UserService');
+        if ($this->getRequest()->getMethod() == 'POST') {
             $email = $this->getRequest()->get('email');
-            $message = $userService->forgotPasswordRequest($email);
+            $message = $this->get('UserService')->forgotPasswordRequest($email);
         }
-         return $this->render(
-            'GqAusUserBundle:Login:forgotpassword.html.twig', array('message' => $message));
+        return $this->render(
+                'GqAusUserBundle:Login:forgotpassword.html.twig', array('message' => $message));
     }
 
     /**
      * function to reset password.
-     *  @return string
+     * @param string $token
+     * return string
      */
     public function resetPasswordAction($token)
     {
         $method = $this->getRequest()->getMethod();
         $password = $this->getRequest()->get('password');
-        $userService = $this->get('UserService');
-        $result = $userService->resetPasswordRequest($token, $method, $password);
+        $result = $this->get('UserService')->resetPasswordRequest($token, $method, $password);
         return $this->render('GqAusUserBundle:Login:resetpassword.html.twig', $result);
     }
+
 }

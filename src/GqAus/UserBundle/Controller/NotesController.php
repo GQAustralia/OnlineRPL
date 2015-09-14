@@ -11,6 +11,8 @@ class NotesController extends Controller
 
     /**
      * Function to add the notes
+     * @param object $request
+     * return string
      */
     public function addNotesAction(Request $request)
     {
@@ -22,39 +24,26 @@ class NotesController extends Controller
             $data['session_user_role'] = $this->get('security.context')->getToken()->getUser()->getRoleName();
             $data['session_user_email'] = $this->get('security.context')->getToken()->getUser()->getEmail();
             $data['session_user_name'] = $this->get('security.context')->getToken()->getUser()->getUsername();
-            echo $result = $this->get('NotesService')->saveNotes($data);
+            echo $this->get('NotesService')->saveNotes($data);
         }
         exit;
     }
 
     /**
-    * Function to get notes
-    */
+     * Function to get notes
+     * return string
+     */
     public function getUnitNotesAction()
     {
         $unitId = $this->getRequest()->get('unitId');
         $userType = $this->getRequest()->get('userType');
         if (!empty($unitId) && !empty($userType)) {
-          $results['notes'] = $this->get('NotesService')->getUnitNotes($unitId, $userType);
-          echo $template = $this->renderView('GqAusUserBundle:Note:unitnotes.html.twig', $results);  
+            $results['notes'] = $this->get('NotesService')->getUnitNotes($unitId, $userType);
+            echo $template = $this->renderView('GqAusUserBundle:Note:unitnotes.html.twig', $results);
         } else {
-          echo "Empty Unit Id";  
+            echo 'Empty Unit Id';
         }
-        
         exit;
     }
-
-    /**
-     * Function to delete Evidence file
-     *
-    public function deleteNotesAction()
-    {
-        $evidenceId = $this->getRequest()->get('nid');
-        $evidenceType = $this->getRequest()->get('ftype');
-        $fileName = $this->get('EvidenceService')->deleteEvidence($evidenceId, $evidenceType);
-        exit;
-    }*/
-
-    
 
 }

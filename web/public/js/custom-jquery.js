@@ -98,13 +98,16 @@ $(function() {
                     } else if (result.type == 'Success') {
                         $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100); 
                     }   
-                    
                     if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
                     } else if(result.code != '5') {
-                      $("#courseStatus").val($("#currentCourseStatus").val());
-                      $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
-                      
+                          if ( $('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').length > 0 ) {  
+                              $("#courseStatus").val($("#currentCourseStatus").val());
+                              $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
+                          } else {
+                              $("#courseStatus").val($("#courseStatus option:first").val());
+                              $("#selectcourseStatus").html($("#courseStatus option:first").html());                          
+                          }
                     }
                 }
             });
@@ -124,8 +127,8 @@ $(".modalClass").click(function() {
     qual_id = this.id;
 });
 $("#qclose").click(function() {
-    if (qual_id != '' && typeof qual_id === 'undefined') {
-        $(location).attr('href', 'qualificationDetails/' + qual_id);
+    if (qual_id != '' && typeof qual_id !== 'undefined') {
+        $(location).attr('href', base_url + 'qualificationDetails/' + qual_id);
     }
 });
 
@@ -166,7 +169,7 @@ $(".changeUnitStatus").click(function() {
                 $("#span_" + unitId).addClass("radioUnChecked");
             }  
             $(".qual_status_loader").hide();
-            $("#qclose").trigger("click");
+            $("#qeclose").trigger("click");
         }
     });
 });
@@ -1200,7 +1203,7 @@ function showMyTabs(msg)
 }
 function checkPhonenumber(inputtxt)
 {
-    var phoneno = /^[0-9+-]*$/;;
+    var phoneno = /^[0-9+-]*$/;
     if(inputtxt.match(phoneno)) {
         return "1";
     }
@@ -1280,7 +1283,7 @@ function validateAddress()
             }
         }
         if (userrole == 'facilitatoruser') {
-            var crmId = $("#userprofile_crmId").val();
+            var crmId = ($.trim($("#userprofile_crmId").val()));
             if (crmId == "") {
                 showMyTabs("Please enter CRM ID");
                 $("#userprofile_crmId").focus();
@@ -1556,6 +1559,7 @@ $(".changeUsers").click(function() {
             if(roleid == 4) {
                 $(".gq-rto-select-name").html(roleuserIdarr[1]);
                 $(".rto-change").children(".setUsers").trigger("click");
+                $("#rto-ceo-section").show();
                 $("#ceo_name").html(res['ceoName']);
                 $("#ceo_email").html(res['ceoEmail']);
                 $("#ceo_phone").html(res['ceoPhone']);
@@ -1954,7 +1958,7 @@ $(".deleteUser").click(function() {
         url: base_url + "deleteUser",
         data: {deluserId: deluserId, delUserRole: delUserRole},
         success: function(result) {
-            $("#qclose").trigger("click");
+            $("#uclose").trigger("click");
             if (result == 0) {
                  $("#err_msg").html('<div class="gq-id-files-upload-error-text" style="display: block;"><h2><img src="' + base_url + '/public/images/login-error-icon.png">This User cannot be deleted!</h2></div>').delay(3000).fadeOut(100);
             } else {

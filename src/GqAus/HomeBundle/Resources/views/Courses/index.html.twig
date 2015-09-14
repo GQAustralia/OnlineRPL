@@ -66,7 +66,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
             <!-- accordion starts here -->
-                <div class="gq-acc-wrap">
+                <div class="gq-acc-wrap gq-acc-details-wrap">
                     {% set i = 1 %}
                     {% set unitsData = courseInfo.Units.Unit %}
                     {% if courseInfo.Units.Unit.id is defined %}
@@ -120,7 +120,11 @@
                             </div>
                         </div>
                         <article class="acc-small">
-                            <p>{{units.name}}</p>
+                            <p>
+                            {% if units.details %}    
+                               {{units.details|raw}}
+                            {% endif%}   
+                           </p>
                         </article>
                     </div>
                         {% set i = i+1 %}
@@ -163,7 +167,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
             <!-- accordion starts here -->
-                <div class="gq-acc-wrap">
+                <div class="gq-acc-wrap gq-acc-details-wrap">
                     {% if courseInfo.Units %}
                     {% if courseInfo.Units.Unit %}
                     {% set unitsData = courseInfo.Units.Unit %}
@@ -250,7 +254,11 @@
                             {% endif %}
                         </div>
                         <article class="acc-small">
-                            <p>{{units.name}}</p>
+                            <p>
+                            {% if units.details %}    
+                               {{units.details|raw}}
+                            {% endif%}   
+                           </p>
                         </article>
                     </div>
                         {% set i = i+1 %}
@@ -273,7 +281,7 @@
   <div class="modal-dialog gq-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <button type="button" id="qeclose" class="close" data-dismiss="modal" aria-label="Close"></button>
         <h4 class="modal-title" id="myModalLabel">Do yo want to change the status of elective unit ?</h4>
       </div>
       <div class="modal-footer">

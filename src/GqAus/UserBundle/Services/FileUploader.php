@@ -10,70 +10,80 @@ use \DateTime;
 
 class FileUploader
 {
-     /**
+
+    /**
      * @var Object
      */
     private $container;
 
+    /**
+     * @var Object
+     */
     private $filesystem;
-    
+
     /**
      * Constructor
+     * @param object $filesystem
+     * @param object $em
+     * @param object $container
+     * @param object $userService
      */
-    public function __construct(Filesystem $filesystem, $em, $container)
+    public function __construct(Filesystem $filesystem, $em, $container, $userService)
     {
         $this->filesystem = $filesystem;
         $this->em = $em;
         $session = $container->get('session');
         $this->userId = $session->get('user_id');
         $this->repository = $em->getRepository('GqAusUserBundle:User');
-        $this->currentUser = $this->getCurrentUser();
+        $this->currentUser = $userService->getCurrentUser();
         $this->container = $container;
     }
 
-    public function getCurrentUser()
-    {
-        return $this->repository->findOneById($this->userId);
-    }
-    
-    public function Process($files)
+    /**
+     * function to upload files in AWS S3.
+     * @param array $files
+     *  return string
+     */
+    public function process($files)
     {
         $fileNames = array();
         $i = 0;
         foreach ($files as $file) {
-            $array = $this->uploadToAWS($file);            
+            $array = $this->uploadToAWS($file);
             $fileNames[$i]['aws_file_name'] = $array['aws_file_name'];
             $fileNames[$i]['orginal_name'] = $array['orginal_name'];
             $i++;
         }
         return $fileNames;
-        
     }
-    
+
     /**
      * function to store documents types in AWS S3.
-     *  @return array
+     * @param object $file
+     *  return array
      */
     public function uploadToAWS(UploadedFile $file)
     {
-        $size =    $file->getClientSize();
+        $size = $file->getClientSize();
         $maxFileSize = $this->container->getParameter('maxFileSize');
         if ($size <= $maxFileSize) {
             // Generate a unique filename based on the date and add file extension of the uploaded file
-            $filename = sprintf('%s-%s-%s-%s.%s', date('Y'), date('m'), date('d'), uniqid(), $file->getClientOriginalExtension());
+            $filename = sprintf('%s-%s-%s-%s.%s', date('Y'), date('m'), date('d'), uniqid(),
+                $file->getClientOriginalExtension());
             $adapter = $this->filesystem->getAdapter();
             $adapter->setMetadata($filename, array('contentType' => $file->getClientMimeType()));
             $adapter->write($filename, file_get_contents($file->getPathname()));
             return array('aws_file_name' => $filename, 'orginal_name' => $file->getClientOriginalName());
         }
     }
-    
+
     /**
      * function to save document types.
-     *  @return array
+     * @param array $data
+     *  return array
      */
     public function uploadIdFiles($data)
-    {        
+    {
         $fileNames = $this->uploadToAWS($data['browse']);
         if ($fileNames) {
             $userIdFiles = new UserIds();
@@ -97,19 +107,21 @@ class FileUploader
         }
         return $fileNames;
     }
-    
+
     /**
      * function to delete evidence file types in AWS S3.
+     * @param string $fileName
      */
     public function delete($fileName)
     {
         $adapter = $this->filesystem->getAdapter();
         $adapter->delete($fileName);
     }
-    
+
     /**
      * function to upload resume for assessor.
-     *  @return array
+     * @param array $data
+     *  return array
      */
     public function resume($data)
     {
@@ -135,13 +147,16 @@ class FileUploader
             return null;
         }
     }
-    
+
     /**
      * function to find whether file exists or not in AWS S3.
+     * @param string $fileName
+     * return string
      */
     public function fileExists($fileName)
     {
         $adapter = $this->filesystem->getAdapter();
         return $adapter->exists($fileName);
     }
+
 }

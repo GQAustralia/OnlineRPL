@@ -64,39 +64,39 @@
                 <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data" />
                 <div class="tab-content">                    
                     <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% else %}other{% endif %}">
-					<input type='hidden' id='hdn-userId' name='hdn-userId' value="{{userId}}">
-					<input type='hidden' id='hdn-type' name='hdn-type' value="1">
+                    <input type='hidden' id='hdn-userId' name='hdn-userId' value="{{userId}}">
+                    <input type='hidden' id='hdn-type' name='hdn-type' value="1">
                     {% include 'GqAusUserBundle:User:user.html.twig' %}
-    				
+                    
                     <!-- Change Password Start --> 
-					
-					<div role="tabpanel" class="tab-pane" id="change-pwd-form">
-						{{ form_start(changepwdForm) }}
-						<input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
-						<div class="gq-form-personal wid60p">
-							<div class="gq-form-row" style="display:none;">
-								<label for="gq-last-name">Current Password</label>
-									{{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30'} }) }}
-							</div>
-							<div class="gq-form-row">
-								<label for="gq-last-name">New Password</label>
-									{{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30'} }) }}
-							</div>
-							<div class="gq-form-row" style="display:none;">
-								<label for="gq-last-name">Confirm Password</label>
-									{{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30'} }) }}
-							</div>
+                    
+                    <div role="tabpanel" class="tab-pane" id="change-pwd-form">
+                        {{ form_start(changepwdForm) }}
+                        <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
+                        <div class="gq-form-personal wid60p">
+                            <div class="gq-form-row" style="display:none;">
+                                <label for="gq-last-name">Current Password</label>
+                                    {{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                            <div class="gq-form-row">
+                                <label for="gq-last-name">New Password</label>
+                                    {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                            <div class="gq-form-row" style="display:none;">
+                                <label for="gq-last-name">Confirm Password</label>
+                                    {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
 
-							<div class="gq-form-botton">
-									{{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'btn btn-default'}}) }}
-							</div>
-							<div class="gq-form-botton">
-								<a href="#personal" aria-controls="personal" role="tab" data-toggle="tab" id="emptypwdform" class="btn-grey">Cancel</a>
-							</div>
-						</div>
-						{{ form_end(changepwdForm) }}
-					</div>
-					
+                            <div class="gq-form-botton">
+                                    {{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'btn btn-default'}}) }}
+                            </div>
+                            <div class="gq-form-botton">
+                                <a href="#personal" aria-controls="personal" role="tab" data-toggle="tab" id="emptypwdform" class="btn-grey">Cancel</a>
+                            </div>
+                        </div>
+                        {{ form_end(changepwdForm) }}
+                    </div>
+                    
                     <!-- Change Password End -->
                 </div>
                 <!--End of content for respective tabs above will be in this section -->

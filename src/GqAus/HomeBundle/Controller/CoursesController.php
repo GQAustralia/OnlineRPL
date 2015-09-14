@@ -9,11 +9,13 @@ use GqAus\UserBundle\Form\AssessmentForm;
 
 class CoursesController extends Controller
 {
+
     /**
-    * Function for dashboard landing page
-    * params $id
-    * return $result array
-    */
+     * Function for dashboard landing page
+     * @param int $id
+     * @param object $request
+     * return array
+     */
     public function indexAction($id, Request $request)
     {
         $user = $this->get('security.context')->getToken()->getUser();
@@ -23,40 +25,40 @@ class CoursesController extends Controller
         $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
         $results['electiveUnits'] = $getUnits['courseUnits'];
         $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
-        $results['evidences'] = $user->getEvidences();        
+        $results['evidences'] = $user->getEvidences();
         $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
         $form = $this->createForm(new EvidenceForm(), array());
         $results['form'] = $form->createView();
         $assessmentForm = $this->createForm(new AssessmentForm(), array());
         $results['assessmentForm'] = $assessmentForm->createView();
-        $results['statusList'] = $this->get('UserService')->getqualificationStatus();
+        $results['statusList'] = $this->get('UserService')->getQualificationStatus();
         return $this->render('GqAusHomeBundle:Courses:index.html.twig', $results);
     }
-    
+
     /**
-    * Function for qualifications list
-    * return $result array
-    */
+     * Function for qualifications list
+     * return array
+     */
     public function qualificationsAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        $userCourses = $user->getCourses();
-        $courseConditionStatus = $user->getCourseConditionStatus();
-        $statusList = $this->get('UserService')->getqualificationStatus();
-        return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', array('userCourses' => $userCourses, 'courseConditionStatus' => $courseConditionStatus, 'statusList' => $statusList ));
+        $statusList = $this->get('UserService')->getQualificationStatus();
+        return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', 
+            array('userCourses' => $user->getCourses(),
+                'courseConditionStatus' => $user->getCourseConditionStatus(),
+                'statusList' => $statusList));
     }
-    
+
     /**
-    * Function to update status of unit electives
-    * return $result array
-    */
+     * Function to update status of unit electives
+     * return int
+     */
     public function updateUnitElectiveAction()
     {
         $userId = $this->getRequest()->get('userId');
         $unitId = $this->getRequest()->get('unitId');
         $courseCode = $this->getRequest()->get('courseCode');
-        
-        $getEvidences = $this->get('EvidenceService')->getUserUnitEvidences($userId, $unitId);        
+        $getEvidences = $this->get('EvidenceService')->getUserUnitEvidences($userId, $unitId);
         if (!empty($getEvidences)) {
             foreach ($getEvidences as $evidences) {
                 $evidenceId = $evidences->getId();
@@ -67,11 +69,11 @@ class CoursesController extends Controller
         echo $this->get('CoursesService')->updateUnitElective($userId, $unitId, $courseCode);
         exit;
     }
-    
+
     /**
-    * Function to get unit Evidence
-    * return $result array
-    */
+     * Function to get unit Evidence
+     * return string
+     */
     public function getUnitEvidencesAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
@@ -81,4 +83,5 @@ class CoursesController extends Controller
         echo $template = $this->renderView('GqAusHomeBundle:Courses:unitevidence.html.twig', $results);
         exit;
     }
+
 }

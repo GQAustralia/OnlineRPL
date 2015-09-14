@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Note
 {
+
     /**
      * @var integer
      */
@@ -33,7 +34,6 @@ class Note
      * @var integer
      */
     private $id;
-
 
     /**
      * Set unitID
@@ -136,4 +136,5 @@ class Note
     {
         return $this->id;
     }
+
 }

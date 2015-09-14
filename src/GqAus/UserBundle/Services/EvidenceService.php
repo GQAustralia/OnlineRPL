@@ -14,18 +14,36 @@ use Symfony\Component\HttpFoundation\Response;
 class EvidenceService
 {
 
+    /**
+     * @var Object
+     */
     private $userId;
+
+    /**
+     * @var Object
+     */
     private $repository;
-    private $currentUser;
+
+    /**
+     * @var Object
+     */
+    public $currentUser;
 
     /**
      * @var Object
      */
     private $container;
+
+    /**
+     * @var Object
+     */
     private $userService;
 
     /**
      * Constructor
+     * @param object $em
+     * @param object $container
+     * @param object $userService
      */
     public function __construct($em, $container, $userService)
     {
@@ -33,16 +51,17 @@ class EvidenceService
         $session = $container->get('session');
         $this->userId = $session->get('user_id');
         $this->repository = $em->getRepository('GqAusUserBundle:User');
-        $this->currentUser = $this->getCurrentUser();
+        $this->currentUser = $userService->getCurrentUser();
         $this->container = $container;
         $this->userService = $userService;
     }
 
-    public function getCurrentUser()
-    {
-        return $this->repository->findOneById($this->userId);
-    }
-
+    /**
+     * Function to save evidence
+     * @param array $evidences
+     * @param array $data
+     * return string
+     */
     public function saveEvidence($evidences, $data)
     {
         $i = 0;
@@ -109,8 +128,8 @@ class EvidenceService
 
     /**
      * Save Evidence Assessment 
-     * Input : data
-     * Output: boolean
+     * @param array $data
+     * return string
      */
     public function saveEvidenceAssessment($data)
     {
@@ -123,11 +142,16 @@ class EvidenceService
             $this->em->persist($textObj);
             $this->em->flush();
             $this->updateCourseUnits($this->userId, $data['hid_unit_assess'], $data['hid_course_assess']);
-            return "1&&".$data['hid_unit_assess'];
+            return "1&&" . $data['hid_unit_assess'];
         } else
-            return "0&&".$data['hid_unit_assess'];
+            return "0&&" . $data['hid_unit_assess'];
     }
 
+    /**
+     * Function to get file size
+     * @param int $size
+     * return string
+     */
     public function fileSize($size)
     {
         if ($size >= 1073741824) {
@@ -142,6 +166,11 @@ class EvidenceService
         return $fileSize;
     }
 
+    /**
+     * Function to save existing evidence
+     * @param object $request
+     * return string
+     */
     public function saveExistingEvidence($request)
     {
         $evidences = $request->get('evidence-file');
@@ -205,6 +234,12 @@ class EvidenceService
         return $unitId;
     }
 
+    /**
+     * Function to delete evidence
+     * @param int $evidenceId
+     * @param string $evidenceType
+     * return string
+     */
     public function deleteEvidence($evidenceId, $evidenceType)
     {
         $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
@@ -244,7 +279,9 @@ class EvidenceService
 
     /**
      * Function to get elective units
-     * return $result array
+     * @param int $userId
+     * @param int $unitId
+     * return array
      */
     public function getUserUnitEvidences($userId, $unitId)
     {
@@ -254,6 +291,9 @@ class EvidenceService
 
     /**
      * Function to update Evidence
+     * @param int $evidenceId
+     * @param string $evidenceType
+     * return boolean
      */
     public function updateInactiveEvidence($evidenceId, $evidenceType)
     {
@@ -294,6 +334,8 @@ class EvidenceService
 
     /**
      * Function to update Evidence Title
+     * @param int $evidenceId
+     * @param string $evidenceTitle
      */
     public function updateEvidence($evidenceId, $evidenceTitle)
     {
@@ -305,7 +347,9 @@ class EvidenceService
 
     /**
      * Function to get all evidences of the user for one course
-     * return $result array
+     * @param int $userId
+     * @param int $courseId
+     * return array
      */
     public function getUserCourseEvidences($userId, $courseId)
     {
@@ -313,6 +357,13 @@ class EvidenceService
         return $reposObj->findBy(array('user' => $userId, 'course' => $courseId));
     }
 
+    /**
+     * Function to save recording
+     * @param string $evidence
+     * @param int $applicantID
+     * @param string $unitCode
+     * @param string $courseCode
+     */
     public function saveRecord($evidence, $applicantID, $unitCode, $courseCode)
     {
         $user = $this->repository->findOneById($applicantID);
@@ -327,14 +378,18 @@ class EvidenceService
         $this->em->flush();
     }
 
+    /**
+     * Function to update coures units
+     * @param int $userId
+     * @param string $unitId
+     * @param string $courseCode
+     */
     public function updateCourseUnits($userId, $unitId, $courseCode)
     {
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
-                ->findOneBy(array('user' => $userId, 'unitId' => $unitId, 'courseCode' => $courseCode));
+            ->findOneBy(array('user' => $userId, 'unitId' => $unitId, 'courseCode' => $courseCode));
         if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
 
-
-            $mailerInfo = array();            
             $courseUnitObj->setFacilitatorstatus(0);
             $courseUnitObj->setAssessorstatus(0);
             $courseUnitObj->setRtostatus(0);
@@ -342,42 +397,59 @@ class EvidenceService
             $this->em->flush();
 
             $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                    ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
+                ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
             $courseObj->setFacilitatorstatus(0);
             $courseObj->setAssessorstatus(0);
             $this->em->persist($courseObj);
             $this->em->flush();
 
             $userInfo = $this->userService->getUserInfo($userId);
-            $mailerInfo['sent'] = $userId;
-            $mailerInfo['unitId'] = $courseUnitObj->getId();
-            $mailerInfo['subject'] = "Evidence added to " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName();
+
+            // finding and replacing the variables from message templates
+            $subSearch = array('#courseCode#', '#courseName#', '#unitId#');
+            $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName(), $courseUnitObj->getUnitId());
+            $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_add_evidence_sub'));
+            $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_evidence_sub'));
+
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
-            $mailerInfo['to'] = $courseObj->getFacilitator()->getEmail();
-            $mailerInfo['inbox'] = $courseObj->getFacilitator()->getId();
-            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $facilitatorName . ", <br/> Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". <br/> Please check and review the evidence.
-             <br/><br/> Regards, <br/> " . $userInfo->getUsername();
-            $mailerInfo['fromEmail'] = $userInfo->getEmail();
-            $mailerInfo['fromUserName'] = $userInfo->getUsername();
-            $this->userService->sendExternalEmail($mailerInfo);
-            $this->userService->sendMessagesInbox($mailerInfo);
-            
-            $mailerInfo['sent'] = $courseObj->getFacilitator()->getId();
-            $assessorName = $courseObj->getAssessor()->getUsername();
-            $mailerInfo['to'] = $courseObj->getAssessor()->getEmail();
-            $mailerInfo['inbox'] = $courseObj->getAssessor()->getId();
-            $mailerInfo['message'] = $mailerInfo['body'] = "Dear " . $assessorName . ", <br/> Evidence has been added to the Qualification : " . $courseObj->getCourseCode() . " : " . $courseObj->getCourseName() . " for unit  Unit : " . $unitId . ". <br/> Please check and review the evidence.
-             <br/><br/> Regards, <br/> " . $facilitatorName;
-            $mailerInfo['fromEmail'] = $courseObj->getFacilitator()->getEmail();
-            $mailerInfo['fromUserName'] = $courseObj->getFacilitator()->getUsername();
-            $this->userService->sendExternalEmail($mailerInfo);
-            $this->userService->sendMessagesInbox($mailerInfo);
+            // finding and replacing the variables from message templates
+            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#fromUserName#');
+            $msgReplace = array($facilitatorName, $courseObj->getCourseCode(), $courseObj->getCourseName(), 
+                $courseUnitObj->getUnitId(), $userInfo->getUsername());
+            $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_evidence_con'));
+            $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
+
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+            $this->userService->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, 
+                $mailBody, $userInfo->getEmail(), $userInfo->getUsername());
+            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+            $this->userService->sendMessagesInbox($courseObj->getFacilitator()->getId(), $userId, 
+                $messageSubject, $messageBody, $courseUnitObj->getId());
+
+            // checking whether the assessor is assigned or not
+            $cAssessor = $courseObj->getAssessor();
+            if (!empty($cAssessor)) {
+                $assessorName = $courseObj->getAssessor()->getUsername();
+                $msgReplace = array($assessorName, $courseObj->getCourseCode(), $courseObj->getCourseName(),
+                    $courseUnitObj->getUnitId(), $courseObj->getFacilitator()->getUsername());
+                $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_evidence_con'));
+                $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
+
+                /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+                $this->userService->sendExternalEmail($courseObj->getAssessor()->getEmail(), 
+                    $mailSubject, $mailBody, $courseObj->getFacilitator()->getEmail(),
+                    $courseObj->getFacilitator()->getUsername());
+                /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+                $this->userService->sendMessagesInbox($courseObj->getAssessor()->getId(), 
+                    $courseObj->getFacilitator()->getId(), $messageSubject, $messageBody, $courseUnitObj->getId());
+            }
         }
     }
 
     /**
      * Function to get evidence
-     * return $result array
+     * @param int $evidenceId
+     * return array
      */
     public function getEvidenceById($evidenceId)
     {

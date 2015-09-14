@@ -1,10 +1,16 @@
 <?php
+
 namespace GqAus\UserBundle\Form;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class EvidenceForm extends AbstractType
 {
+
+    /**
+     * Function to build evidence form
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('file', 'file', array(
@@ -16,8 +22,13 @@ class EvidenceForm extends AbstractType
             'label' => 'Upload',
         ));
     }
+
+    /**
+     * Function to get name
+     */
     public function getName()
     {
         return 'file';
     }
+
 }

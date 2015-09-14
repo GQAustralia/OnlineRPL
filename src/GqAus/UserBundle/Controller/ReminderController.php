@@ -8,27 +8,35 @@ use \DateTime;
 
 class ReminderController extends Controller
 {
+
+    /**
+     * Function to view reminders
+     * @param object $request
+     * return string
+     */
     public function viewAction(Request $request)
     {
         $userService = $this->get('UserService');
-        //$reminders = $userService->getCurrentUser()->getReminders();
         $userId = $userService->getCurrentUser()->getId();
         $reminders['todoReminders'] = $userService->getTodoReminders($userId);
         $reminders['completedReminders'] = $userService->getCompletedReminders($userId);
         $now = new DateTime('now');
-        return $this->render(
-            'GqAusUserBundle:Reminder:view.html.twig',
-            array('reminders' => $reminders, 'today' => $now->format('Y-m-d H:i:s'))
-        );
+        return $this->render('GqAusUserBundle:Reminder:view.html.twig', 
+            array('reminders' => $reminders, 'today' => $now->format('Y-m-d H:i:s')));
     }
+
+    /**
+     * Function to update reminders
+     * @param object $request
+     * return string
+     */
     public function updateAction(Request $request)
     {
-        $id = $this->getRequest()->get("rmid");
-        $flag = $this->getRequest()->get("flag");
-        $userService = $this->get('UserService');
-        $userService->updateReminderStatus($id,$flag);
-        echo "success";
+        $id = $this->getRequest()->get('rmid');
+        $flag = $this->getRequest()->get('flag');
+        $this->get('UserService')->updateReminderStatus($id, $flag);
+        echo 'success';
         exit;
     }
-	
+
 }

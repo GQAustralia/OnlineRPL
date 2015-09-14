@@ -9,11 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserCourses
 {
+
     /**
      * @var string
      */
     private $courseCode;
-    
+
     /**
      * @var string
      */
@@ -38,7 +39,6 @@ class UserCourses
      * @var \GqAus\UserBundle\Entity\User
      */
     private $user;
-
 
     /**
      * Set courseCode
@@ -141,11 +141,11 @@ class UserCourses
     {
         return $this->user;
     }
+
     /**
      * @var string
      */
     private $createdOn;
-
 
     /**
      * Set createdOn
@@ -169,6 +169,7 @@ class UserCourses
     {
         return $this->createdOn;
     }
+
     /**
      * @var integer
      */
@@ -267,42 +268,9 @@ class UserCourses
     }
 
     /**
-     * Add status
-     *
-     * @param \GqAus\UserBundle\Entity\CourseStatus $status
-     * @return UserCourses
-     */
-    public function addStatus(\GqAus\UserBundle\Entity\CourseStatus $status)
-    {
-        $this->status[] = $status;
-
-        return $this;
-    }
-
-    /**
-     * Remove status
-     *
-     * @param \GqAus\UserBundle\Entity\CourseStatus $status
-     */
-    public function removeStatus(\GqAus\UserBundle\Entity\CourseStatus $status)
-    {
-        $this->status->removeElement($status);
-    }
-
-    /**
-     * Get status
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $reminder;
-
 
     /**
      * Add reminder
@@ -336,33 +304,31 @@ class UserCourses
     {
         return $this->reminder;
     }
-    
-    
+
     private $remainingTime;
-    
+
     public function getRemainingTime()
     {
         $strtDate = $this->createdOn;
         $endDate = $this->targetDate;
         /*
-        $startDateWeekCnt = round(floor( date('d',strtotime($strtDate)) / 7)) ;
-        $endDateWeekCnt = round(ceil( date('d',strtotime($endDate)) / 7)) ;
-        $datediff = strtotime(date('Y-m',strtotime($endDate))."-01") - strtotime(date('Y-m',strtotime($strtDate))."-01");
-        $totalnoOfWeek = round(floor($datediff/(60*60*24)) / 7) + $endDateWeekCnt - $startDateWeekCnt ;
-        return $totalnoOfWeek.' week(s)';*/
-        
-        $date1=date_create($strtDate);
-        $date2=date_create($endDate);
-        $diff=date_diff($date1,$date2);
-        $getdiff = $diff->format("%a");
-        return round($getdiff/7)." weeks";
+          $startDateWeekCnt = round(floor( date('d',strtotime($strtDate)) / 7)) ;
+          $endDateWeekCnt = round(ceil( date('d',strtotime($endDate)) / 7)) ;
+          $datediff = strtotime(date('Y-m',strtotime($endDate))."-01") - strtotime(date('Y-m',strtotime($strtDate))."-01");
+          $totalnoOfWeek = round(floor($datediff/(60*60*24)) / 7) + $endDateWeekCnt - $startDateWeekCnt ;
+          return $totalnoOfWeek.' week(s)'; */
 
+        $date1 = date_create($strtDate);
+        $date2 = date_create($endDate);
+        $diff = date_diff($date1, $date2);
+        $getdiff = $diff->format("%a");
+        return round($getdiff / 7) . " weeks";
     }
+
     /**
      * @var string
      */
     private $targetDate;
-
 
     /**
      * Set targetDate
@@ -386,6 +352,7 @@ class UserCourses
     {
         return $this->targetDate;
     }
+
     /**
      * @var integer
      */
@@ -400,7 +367,6 @@ class UserCourses
      * @var integer
      */
     private $rtostatus;
-
 
     /**
      * Set facilitatorstatus
@@ -470,6 +436,7 @@ class UserCourses
     {
         return $this->rtostatus;
     }
+
     /**
      * @var \DateTime
      */
@@ -484,7 +451,6 @@ class UserCourses
      * @var \DateTime
      */
     private $rtoDate;
-
 
     /**
      * Set facilitatorDate
@@ -554,7 +520,7 @@ class UserCourses
     {
         return $this->rtoDate;
     }
-    
+
     /**
      * Set zohoId
      *
@@ -577,4 +543,5 @@ class UserCourses
     {
         return $this->zohoId;
     }
+
 }

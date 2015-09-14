@@ -56,8 +56,10 @@
                             </div>
                             <div class="col-lg-11 col-md-10 col-sm-10 col-xs-8 gq-msg-from-to-input">
                                 {% if user is defined and user != '' %}
-                                {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': ''} }) }}
+                                {{ form_widget(composemsgForm.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
+                                {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                                 {% else %}
+                                {{ form_widget(composemsgForm.toUserName, {'attr': {'placeholder': ''} }) }}
                                 {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
                                 {% endif %}
                             </div>
@@ -72,31 +74,28 @@
                                 {% else %}
                                 {{ form_widget(composemsgForm.subject, {'attr': {'placeholder': ''} }) }}
                                 {% endif %}
-                                
                             </div>
                         </div>
-						<div class="gq-msg-row-bg gq-msg-visited">
-                            <div class="col-xs-12">
-                            </div>
+                        <div class="gq-msg-row-bg gq-msg-visited">
+                            <div class="col-xs-12"></div>
                             <div class="gq-msg-from">
                                 <section class="textarea-example">
-                                        <div class="content">
-                                                <div class="textarea-wrapper">
-                                                        {% if user is defined and user != '' %}
-                                                        {{ form_widget(composemsgForm.message, {value  : repMessage}, {'attr': {'placeholder': 'Enter Message'} }) }}
-                                                        {% else %}
-                                                        {{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message'} }) }}
-                                                        {% endif %}
-                                                        <div class="textarea-clone"></div>
-                                                </div>
+                                    <div class="content">
+                                        <div class="textarea-wrapper">
+                                            {% if user is defined and user != '' %}
+                                            {{ form_widget(composemsgForm.message, {value  : repMessage|raw }, {'attr': {'placeholder': 'Enter Message'} }) }}
+                                            {% else %}
+                                            {{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message'} }) }}
+                                            {% endif %}
+                                            <div class="textarea-clone"></div>
                                         </div>
+                                    </div>
                                 </section>
                             </div>
                         </div>
-						
+                        
                         <div class="gq-msg-row-bg gq-msg-visited">
-                            <div class="col-xs-12">
-                            </div>
+                            <div class="col-xs-12"></div>
                             <div class="gq-messages-button-wrap">
                                 {{ form_widget(composemsgForm.unitId, {value  : unitId}, { 'attr': {'id': 'message-unit-id'}}) }}
                                 {{ form_widget(composemsgForm.save,{ 'label': 'Send' , 'attr': {'class': 'btn btn-red'}}) }}
@@ -130,67 +129,67 @@
 
 {% block javascripts %}
 <script type="text/javascript">
-	(function($){
-		$(window).load(function(){
-		
-			$('[data-toggle="tooltip"]').tooltip();
-			var newMsg = {{ newMsg }};
-			if (newMsg !== true) {
-				$("#compose_to").prop("readonly",true);
-			}
-			if(document.getElementById("flash-msg"))
-			{
-				document.getElementById("compose_to").value="";
-				document.getElementById("compose_subject").value="";
-				document.getElementById("compose_message").value="";
-			}
-			
-			/**************/
-			var textareaLineHeight=parseInt($(".textarea-wrapper textarea").css("line-height"));
-			
-			$(".textarea-wrapper").mCustomScrollbar({
-				scrollInertia:0,
-				theme:"dark-3",
-				advanced:{autoScrollOnFocus:false},
-				keyboard:{enable:false},
-				snapAmount:textareaLineHeight
-			});
-			
-			var textarea=$(".textarea-wrapper textarea"),textareaWrapper=$(".textarea-wrapper"),textareaClone=$(".textarea-wrapper .textarea-clone");
-			
-			textarea.bind("keyup keydown",function(e){
-				var $this=$(this),textareaContent=$this.val(),clength=textareaContent.length,cursorPosition=textarea.getCursorPosition();
-				textareaContent="<span>"+textareaContent.substr(0,cursorPosition)+"</span>"+textareaContent.substr(cursorPosition,textareaContent.length);
-				textareaContent=textareaContent.replace(/\n/g,"<br />");
-				textareaClone.html(textareaContent+"<br />");
-				$this.css("height",textareaClone.height());
-				var textareaCloneSpan=textareaClone.children("span"),textareaCloneSpanOffset=0,
-					viewLimitBottom=(parseInt(textareaClone.css("min-height")))-textareaCloneSpanOffset,viewLimitTop=textareaCloneSpanOffset,
-					viewRatio=Math.round(textareaCloneSpan.height()+textareaWrapper.find(".mCSB_container").position().top);
-				if(viewRatio>viewLimitBottom || viewRatio<viewLimitTop){
-					if((textareaCloneSpan.height()-textareaCloneSpanOffset)>0){
-						textareaWrapper.mCustomScrollbar("scrollTo",textareaCloneSpan.height()-textareaCloneSpanOffset-textareaLineHeight);
-					}else{
-						textareaWrapper.mCustomScrollbar("scrollTo","top");
-					}
-				}
-			});
-			
-			$.fn.getCursorPosition=function(){
-				var el=$(this).get(0),pos=0;
-				if("selectionStart" in el){
-					pos=el.selectionStart;
-				}else if("selection" in document){
-					el.focus();
-					var sel=document.selection.createRange(),selLength=document.selection.createRange().text.length;
-					sel.moveStart("character",-el.value.length);
-					pos=sel.text.length-selLength;
-				}
-				return pos;
-			}
-			
-		});
-	})(jQuery);
+    (function($){
+        $(window).load(function(){
+        
+            $('[data-toggle="tooltip"]').tooltip();
+            var newMsg = {{ newMsg }};
+            if (newMsg !== true) {
+                $("#compose_to").prop("readonly",true);
+            }
+            if(document.getElementById("flash-msg"))
+            {
+                document.getElementById("compose_to").value="";
+                document.getElementById("compose_subject").value="";
+                document.getElementById("compose_message").value="";
+            }
+            
+            /**************/
+            var textareaLineHeight=parseInt($(".textarea-wrapper textarea").css("line-height"));
+            
+            $(".textarea-wrapper").mCustomScrollbar({
+                scrollInertia:0,
+                theme:"dark-3",
+                advanced:{autoScrollOnFocus:false},
+                keyboard:{enable:false},
+                snapAmount:textareaLineHeight
+            });
+            
+            var textarea=$(".textarea-wrapper textarea"),textareaWrapper=$(".textarea-wrapper"),textareaClone=$(".textarea-wrapper .textarea-clone");
+            
+            textarea.bind("keyup keydown",function(e){
+                var $this=$(this),textareaContent=$this.val(),clength=textareaContent.length,cursorPosition=textarea.getCursorPosition();
+                textareaContent="<span>"+textareaContent.substr(0,cursorPosition)+"</span>"+textareaContent.substr(cursorPosition,textareaContent.length);
+                textareaContent=textareaContent.replace(/\n/g,"<br />");
+                textareaClone.html(textareaContent+"<br />");
+                $this.css("height",textareaClone.height());
+                var textareaCloneSpan=textareaClone.children("span"),textareaCloneSpanOffset=0,
+                    viewLimitBottom=(parseInt(textareaClone.css("min-height")))-textareaCloneSpanOffset,viewLimitTop=textareaCloneSpanOffset,
+                    viewRatio=Math.round(textareaCloneSpan.height()+textareaWrapper.find(".mCSB_container").position().top);
+                if(viewRatio>viewLimitBottom || viewRatio<viewLimitTop){
+                    if((textareaCloneSpan.height()-textareaCloneSpanOffset)>0){
+                        textareaWrapper.mCustomScrollbar("scrollTo",textareaCloneSpan.height()-textareaCloneSpanOffset-textareaLineHeight);
+                    }else{
+                        textareaWrapper.mCustomScrollbar("scrollTo","top");
+                    }
+                }
+            });
+            
+            $.fn.getCursorPosition=function(){
+                var el=$(this).get(0),pos=0;
+                if("selectionStart" in el){
+                    pos=el.selectionStart;
+                }else if("selection" in document){
+                    el.focus();
+                    var sel=document.selection.createRange(),selLength=document.selection.createRange().text.length;
+                    sel.moveStart("character",-el.value.length);
+                    pos=sel.text.length-selLength;
+                }
+                return pos;
+            }
+            
+        });
+    })(jQuery);
 </script>
 <!-- <script type="text/javascript" src="{{ asset('public/js/custom-jquery.js') }}"></script> -->
 {% endblock %}

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Reminder
 {
+
     /**
      * @var string
      */
@@ -38,7 +39,7 @@ class Reminder
      * @var \GqAus\UserBundle\Entity\User
      */
     private $user;
-    
+
     /**
      * @var \GqAus\UserBundle\Entity\User
      */
@@ -48,7 +49,6 @@ class Reminder
      * @var \GqAus\UserBundle\Entity\UserCourses
      */
     private $course;
-
 
     /**
      * Set date
@@ -197,11 +197,11 @@ class Reminder
     {
         return $this->course;
     }
+
     /**
      * @var string
      */
     private $completedDate;
-
 
     /**
      * Set completedDate
@@ -225,9 +225,7 @@ class Reminder
     {
         return $this->completedDate;
     }
-    
-    
-    
+
     /**
      * Set createdby
      *
@@ -250,4 +248,5 @@ class Reminder
     {
         return $this->createdby;
     }
+
 }

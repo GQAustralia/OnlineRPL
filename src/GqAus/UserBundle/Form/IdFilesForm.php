@@ -1,4 +1,5 @@
 <?php
+
 namespace GqAus\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -6,6 +7,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class IdFilesForm extends AbstractType
 {
+
+    /**
+     * Function to build Id files form
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('type', 'entity', array(
@@ -16,12 +21,16 @@ class IdFilesForm extends AbstractType
         ));
         $builder->add('browse', 'file', array('required' => false));
         $builder->add('save', 'submit', array(
-    'attr' => array('class' => 'btn btn-red', 'label' => 'Submit'),
-));
+            'attr' => array('class' => 'btn btn-red', 'label' => 'Submit'),
+        ));
     }
-    
+
+    /**
+     * Function to get name
+     */
     public function getName()
     {
         return 'userfiles';
     }
+
 }

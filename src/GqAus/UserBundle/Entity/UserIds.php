@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserIds
 {
+
     /**
      * @var string
      */
@@ -38,7 +39,6 @@ class UserIds
      * @var datetime
      */
     private $created;
-
 
     /**
      * Set name
@@ -164,4 +164,5 @@ class UserIds
 
         return $this;
     }
+
 }
