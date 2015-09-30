@@ -11,7 +11,7 @@ $("#cclose-cancel").click(function () {
 });
 //$(".deleteEvidence").click(function () {
 $(".viewModalClass").click(function () {
-    var c = confirm("Do yo want to delete selected file ?");
+    var c = confirm("Do you want to delete selected file ?");
     if (c == true) {
         fileid = $(this).attr('fileid');
         filetype = $(this).attr('filetype');

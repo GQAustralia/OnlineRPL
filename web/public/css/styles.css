@@ -815,6 +815,8 @@ input:invalid {box-shadow:none !important;}
 #courseStatus option { color: #5e5e5e; } 
 #courseStatus option:disabled { background-color: #f2f2f2; color: #c5c5c5; margin-bottom: 1px; } 
 
+.margin-left15 {margin-left:15px !important;}
+
 
 /* styling only for IE10 and IE11 */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {

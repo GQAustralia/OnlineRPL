@@ -459,6 +459,10 @@ $("#fclose-cancel").click(function() {
     $("#fclose").trigger("click");
 });
 
+$("#qeclose-cancel").click(function() {
+    $("#qeclose").trigger("click");
+});
+
 
 $("body").on("click", ".viewModalClass", function() {
     fileid = $(this).attr('fileid');
