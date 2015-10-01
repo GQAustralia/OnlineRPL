@@ -15,7 +15,7 @@ class IdFilesForm extends AbstractType
     {
         $builder->add('type', 'entity', array(
             'class' => 'GqAusUserBundle:DocumentType',
-            'property' => 'type',
+            'property' => 'typeWithPoints',
             'empty_value' => 'Select Document Type',
             'required' => false
         ));

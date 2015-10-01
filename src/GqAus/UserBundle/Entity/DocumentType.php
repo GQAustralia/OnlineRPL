@@ -108,5 +108,20 @@ class DocumentType
     {
         return $this->type;
     }
+    
+    /**
+     * @var string
+     */
+    private $typeWithPoints;
+    
+    /**
+     * Get type with points
+     *
+     * @return string 
+     */
+    public function getTypeWithPoints()
+    {
+        return $typeWithPoints = $this->type.' ('.$this->points.')';
+    }
 
 }
