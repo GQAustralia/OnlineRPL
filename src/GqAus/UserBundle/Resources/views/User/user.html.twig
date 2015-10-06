@@ -2,35 +2,35 @@
 <div role="tabpanel" class="tab-pane {% if tab == 'id-fields' %} {% else %} active {% endif %}" id="personal">
     <div class="gq-form-personal wid60p">
         <div class="gq-form-row">
-            <label for="gq-first-name">{% if ('ROLE_RTO' in userRole) %} College Name {% else %} First Name {% endif %}</label>
+            <label for="gq-first-name">{% if ('ROLE_RTO' in userRole) %} College Name {% else %} First Name {% endif %} <span class="astrik">*</span></label>
                 {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
-            <label for="gq-last-name">{% if ('ROLE_RTO' in userRole) %} Provider Code {% else %} Last Name {% endif %}</label>
+            <label for="gq-last-name">{% if ('ROLE_RTO' in userRole) %} Provider Code {% else %} Last Name {% endif %} <span class="astrik">*</span></label>
                 {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-row">
-            <label for="gq-email-name">Email</label>
+            <label for="gq-email-name">Email <span class="astrik">*</span></label>
                 {{ form_widget(form.email, { 'attr':{'readonly':'readonly'} }) }}
         </div>
        {% if ('ROLE_APPLICANT' in userRole) %}
         <div class="gq-form-row">
-            <label class="pull-left" for="gq-personal-pwd">Gender</label>
+            <label class="pull-left" for="gq-personal-pwd">Gender <span class="astrik">*</span></label>
                 {{ form_widget(form.gender) }}
         </div>
         {% endif %}
         <div class="gq-form-row">
-            <label for="gq-personal-pwd">Phone</label>
+            <label for="gq-personal-pwd">Phone <span class="astrik">*</span></label>
                 {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
         </div>
         
        {% if ('ROLE_APPLICANT' in userRole) %}
         <div class="gq-form-row">
-            <label for="gq-personal-pwd">Date Of Birth</label>
+            <label for="gq-personal-pwd">Date Of Birth <span class="astrik">*</span></label>
                 {{ form_widget(form.dateOfBirth, { 'attr':{'readonly':'readonly'} }) }}
         </div>
         <div class="gq-form-row USIrow">
-            <label for="gq-personal-pwd">USI</label>
+            <label for="gq-personal-pwd">USI <span class="astrik">*</span></label>
             <a href="http://www.usi.gov.au/create-your-USI/Pages/default.aspx" target="_blank">Don’t have one?<br/>Click here to create one</a>
                 {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
         </div>
@@ -96,6 +96,10 @@
             <label for="gq-last-name">City</label>
                 {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30'} }) }}
         </div>
+		<div class="gq-form-row">
+            <label for="gq-personal-pwd">Postcode</label>
+                {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '30'} }) }}
+        </div>
         <div class="gq-form-row">
             <label for="gq-email-name">State</label>
                 {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30'} }) }}
@@ -103,10 +107,6 @@
         <div class="gq-form-row">
             <label for="gq-email-name">Country</label>
                 {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        <div class="gq-form-row">
-            <label for="gq-personal-pwd">Postcode</label>
-                {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '30'} }) }}
         </div>
         <div class="gq-form-botton">
             <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default" onclick="return validateAddress();">Save</button>

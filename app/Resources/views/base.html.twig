@@ -40,9 +40,9 @@
                                 <button type="button" class="btn btn-default visible-xs" id="gq-menu-icon-mob">
                                     <span class="gq-menu-icon"></span>
                                 </button>
-                                <button type="button" class="btn btn-default visible-sm visible-md visible-lg" id="gq-menu-icon-desk">
+                                <!-- <button type="button" class="btn btn-default visible-sm visible-md visible-lg" id="gq-menu-icon-desk">
                                     <span class="gq-menu-icon"></span>
-                                </button>
+                                </button> -->
                             </div>
                         </div>
                         <div class="pull-right">
@@ -65,8 +65,10 @@
                                 {% else %}
                                     <div class="user-icon" id="ajax-gq-profile-small-page-img"></div>
                                  {% endif %}                                 
-                                <div class="user-status-msg">                                
-                                {{ app.security.getToken().getUser().getUsername() | capitalize }} </div>
+                                <div class="user-status-msg">      
+                                <a href="{{ app.request.baseUrl }}/userprofile">								
+                                {{ app.security.getToken().getUser().getUsername() | capitalize }} </a></div>
+								<a href="{{ app.request.baseUrl }}/logout"><span><img src="{{ asset('public/images/header-logout-icon.png') }}" /></span>Logout</a>
                                 <div class="user-status-select">
                                     <div class="btn-group">
                                       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
