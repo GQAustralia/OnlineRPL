@@ -182,7 +182,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-header .btn {padding:6px;}
 .gq-dashboard-header .btn-default{border:0 none;}
 .gq-logo-dashboard {float:left; height:66px; padding-top:4px;}
-.gq-dashboard-nav {float:left; padding-top:15px; padding-left:20px;}
+.gq-dashboard-nav {float:left; padding-top:15px; padding-right:10px;}
 .gq-dashboard-nav .btn-group {position:relative;}
 .gq-dashboard-nav .dropdown-menu{ margin: 0; position: absolute; top: 42px; padding:0;}
 .gq-dashboard-nav .dropdown-menu:before {
@@ -223,7 +223,7 @@ a.btn-red {color:#ffffff;}
 .gq-dashboard-right .gq-dashboard-title-desc {font-size:14px; color:#5e5e5e; width:100%; float:left;}
 .gq-dashboard-left-width{ width:6%; }
 .gq-dashboard-right-width{ width:94%; }
-
+.gq-logout{color: #23527c;text-decoration: underline; line-height:25px;}
 
 /* user status related styling */
 .user-status {}
@@ -1210,3 +1210,13 @@ input[type=checkbox]#chk-main-all, input[type=checkbox].gq-msg-custom-chk {top:9
     .gq-user { float: right; }
 }
 .astrik { color:#e01010; }
+
+/* Start main CSS file */
+. . .
+@media only screen and (-webkit-min-device-pixel-ratio: 3.0) {
+	#gq-menu-icon-mob{
+		display:block:
+	}
+/* here come styles from mobile-retina.css */
+}
+/* End main CSS file */

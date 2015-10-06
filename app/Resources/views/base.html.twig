@@ -35,15 +35,16 @@
                 <div class="row">
                     <div class="gq-dashboard-header">
                         <div class="pull-left">
-                            <div class="gq-logo-dashboard"><a href="{{ app.request.baseUrl }}/"><img src="{{ asset('public/images/gq-logo-dashboard.png') }}" alt="GQ logo" /></a></div>
                             <div class="gq-dashboard-nav">
-                                <button type="button" class="btn btn-default visible-xs" id="gq-menu-icon-mob">
+                                <button type="button" class="btn btn-default hidden-lg hidden-md" id="gq-menu-icon-mob">
                                     <span class="gq-menu-icon"></span>
                                 </button>
                                 <!-- <button type="button" class="btn btn-default visible-sm visible-md visible-lg" id="gq-menu-icon-desk">
                                     <span class="gq-menu-icon"></span>
                                 </button> -->
                             </div>
+							<div class="gq-logo-dashboard"><a href="{{ app.request.baseUrl }}/"><img src="{{ asset('public/images/gq-logo-dashboard.png') }}" alt="GQ logo" /></a></div>
+                           
                         </div>
                         <div class="pull-right">
                             <div class="user-status">
@@ -68,8 +69,8 @@
                                 <div class="user-status-msg">      
                                 <a href="{{ app.request.baseUrl }}/userprofile">								
                                 {{ app.security.getToken().getUser().getUsername() | capitalize }} </a></div>
-								<a href="{{ app.request.baseUrl }}/logout"><span><img src="{{ asset('public/images/header-logout-icon.png') }}" /></span>Logout</a>
-                                <div class="user-status-select">
+								<a class="gq-logout" href="{{ app.request.baseUrl }}/logout">Logout</a>
+                                <!--<div class="user-status-select">
                                     <div class="btn-group">
                                       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                         <span class="gq-down-icon"></span>
@@ -80,7 +81,7 @@
                                         <li><a href="{{ app.request.baseUrl }}/logout"><span><img src="{{ asset('public/images/header-logout-icon.png') }}" /></span>Logout</a></li>
                                       </ul>
                                     </div>
-                                </div>
+                                </div>-->
                                 </div>
                             </div>
                         </div>
