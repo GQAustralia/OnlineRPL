@@ -1,159 +1,319 @@
 {% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Dashboard{% endblock %}
-{% block stylesheets %}
-    <link href="{{ asset('public/css/pie-chart.css') }}" rel="stylesheet">
-{% endblock %}
+
 {% block body %}
-    <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
-        <div class="row">
-            <div class="col-xs-12">
-                <h1 class="gq-dashboard-title">Dashboard</h1>
-                <h6 class="gq-dashboard-title-desc">Welcome to GQ Australia Online RPL</h6>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 colxs-12">
-                <div class="gq-dashboard-box-1x gq-dashboard-bg-img4"> <!-- class "gq-dashboard-bg-img1" added for background image -->
-                    <div class="gq-dashboard-box-title-wrap">
-                        <h2 class="gq-dashboard-box-title">Pending Applicants</h2>
-                    </div>
-                    <div class="gq-dashboard-box-content-wrap">
-                        <div class="col-xs-6 no-padding text-center">
-                            <div class="gq-dashboard-running-txt">Currently you have</div>
-                            <div class="gq-dashboard-points-in-number wid100p">
-                                {% if pendingApplicantsCount > 0 %}
-                                    <a href="{{ app.request.baseUrl }}/applicants">{{pendingApplicantsCount}}</a>
-                                {% else %}
-                                    <a href="javascript:void(0);">{{pendingApplicantsCount}}</a>
-                                {% endif %}    
-                            </div>
-                        </div>
-                        <div class="col-xs-6 hidden-xs"></div>
-                    </div>
-                    <span class="flip-icon"></span>
-                </div>
-                <div class="gq-dashboard-box-1x gq-dashboard-bg-img5"> <!-- class "gq-dashboard-bg-img3" added for background image -->
-                    <div class="gq-dashboard-box-title-wrap">
-                        <h2 class="gq-dashboard-box-title">Messages</h2>
-                    </div>
-                    <div class="gq-dashboard-box-content-wrap">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class="gq-dashboard-running-txt text-center">Unread</div> 
-                            <div class="gq-dashboard-points-in-percent wid100p text-center"><a href="{{ app.request.baseUrl }}/messages">{{unReadMessages}}</a></div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 hidden-xs"></div>
-                    </div>
-                    <span class="flip-icon"></span>
-                </div>
-            </div>
-            
-            {% set roles = app.security.getToken().getUser().getRoles() %}            
-            {% if ('ROLE_RTO' in roles) %}
-            <div class="col-lg-8 col-md-8 col-sm-12 colxs-12">
-                <div class="tab-content">
-                    <div id="current" class="tab-pane active" role="tabpanel">
-                        <div class="table-responsive gq-applicant-list-table">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th><span class="">Name</span></th>
-                                        <th colspan="2"><span class="">Qualification Name</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="currentList" class="row">
-                                    {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-            {% endif %}
-            
-            
-            {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
-            <div class="col-lg-8 col-md-8 col-sm-12 colxs-12">
-                <div class="gq-dashboard-box-2x gq-dashboard-bg-img3 gq-facilitator-dashboard"> <!-- class "gq-dashboard-bg-img3" added for background image -->
-                    <div class="gq-dashboard-box-title-wrap">
-                        <h2 class="gq-dashboard-box-title">Today Reminders</h2>
-                    </div>
-                    <div class="gq-dashboard-courses-detail-wrap">
-                    <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-                    <form>
-                    <!-- accordion starts here -->
-                        <div class="gq-acc-wrap">
-                            {% if todaysReminders %}
-                                {% for key, reminders in todaysReminders %}
-                            <div>
-                                <input id="acc-{{reminders.id}}" name="accordion-1" type="checkbox"/>
-                                <div class="row no-margin">
-                                    <div id="div_{{reminders.id}}" class="gq-acc-row-bg">
-                                        <div class="col-xs-3">
-                                            <span class="msg-checkmark-icon2">
-                                                 <a class="todomodalClass checkmark-icon" data-toggle="modal" data-target="#myModal" data-flag="{{reminders.completed}}" id="{{reminders.id}}">
-                                                        <span id="span_BSBADM101A" class="radio"></span>
-                                                </a>
-                                            </span>
-                                            <div class="gq-acc-row-title">{% if reminders.course %}
-                                                                            {{reminders.user.userName}} 
-                                                                        {% else %}
-                                                                            {{reminders.createdby.firstname}} {{reminders.createdby.lastname}} 
-                                                                        {% endif %}</div>
-                                        </div>
-                                        <div class="col-xs-7">
-                                            <div class="gq-acc-row-title">{% if reminders.course %} {{reminders.course.courseCode}} {{reminders.course.courseName}} {% else %} Reminder {% endif %}</div>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <label for="acc-{{reminders.id}}" class="col-xs-4 btn add-btn upDownArrow openIcon">VIEW</label>
-                                            {#<label for="acc-{{reminders.id}}" class="col-xs-4 openIcon"></label>#}
-                                        </div>
-                                    </div>
-                                </div>
-                                <article class="acc-small">
-                                    <p>{{reminders.message}}</p>
-                                </article>
-                            </div>
-                                {% endfor %}
-                            {% else %}
-                                <div class="gq-tabs-no-content-text margin-top15">No Reminders found</div>
-                            {% endif %}
-                        </div>
-                        <!-- accordion ends here -->
-                    </form>
-                    </div>
-                    </div>
-                    </div>
-                    <span class="flip-icon"></span>
-                </div>
-            </div>
-            
-            {% endif %}
-            
-        </div>
-    </div>
-  </div>
-  
-  
-  <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog gq-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" id="todoclose" class="close" data-dismiss="modal" aria-label="Close"></button>
-                <h4 class="modal-title" id="myModalLabel">Do you want to change the status of Today Reminder ?</h4>
-            </div>
-            <div class="modal-footer">                
-                <a class="btn btn-white" id="todo-cancel">Cancel</a>
-                <a class="btn btn-white updateTodo margin-left15">Ok</a>
-                <span class="loading-icon todo_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-  <script src="{{ asset('public/js/jquery-2.js') }}"></script>
-  <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+    <div class="profile_section hidden-xs">
+		<div class="container">
+			<img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic"/>
+			<span>Rosa</span>
+		</div>
+	</div>
+	<div class="body_sec">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div class="to_do_list">
+						<div class="panel-group" id="accordion1">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<div class="panel-title">
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+										  <i class="material-icons keyboard_arrow_down hidden-lg">keyboard_arrow_down</i>
+										  <span>TO DO LIST</span>
+										</a>
+									</div>
+								</div>
+								<div id="collapse1" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<div class="to_do_list_title">
+											To Do Today - 30% Complete
+											<div class="progress">
+												<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+												  <span class="sr-only">70% Complete</span>
+												</div>
+											</div>
+										</div>
+										<ul>
+											<li>
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons message">message</i>
+														</a>
+														<p class="title_data bold">Apply environmental and sustainability best</p>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox"/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li>
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons message">message</i>
+														</a>
+														<p class="title_data bold">Apply environmental and sustainability best</p>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox"/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li>
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons message">message</i>
+														</a>
+														<p class="title_data bold">Apply environmental and sustainability best</p>
+														<span class="days_count disable_day">3d</span>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox"/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li>
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons account_circle">account_circle</i>
+														</a>
+														<p class="title_data bold">Apply environmental and sustainability best</p>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox"/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li>
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons cloud_upload">cloud_upload</i>
+														</a>
+														<p class="title_data">Apply environmental and sustainability best</p>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox"/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li>
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons cloud_upload">cloud_upload</i>
+														</a>
+														<p class="title_data">Apply environmental and sustainability best</p>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox"/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li>
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons cloud_upload">cloud_upload</i>
+														</a>
+														<p class="title_data">Apply environmental and sustainability best</p>
+														<span class="days_count active_day">5d</span>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox"/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li>
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons cloud_upload">cloud_upload</i>
+														</a>
+														<p class="title_data">Apply environmental and sustainability best</p>
+														<span class="days_count highlight_day">7d</span>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox"/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li>
+												<div class="day_title">Completed Today</div>
+											</li>
+											<li class="disable">
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons edit">edit</i>
+														</a>
+														<p class="title_data">Apply environmental and sustainability best</p>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox" checked/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li class="disable">
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons cloud_upload">cloud_upload</i>
+														</a>
+														<p class="title_data">Apply environmental and sustainability best</p>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox" checked/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li class="disable">
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons cloud_upload">cloud_upload</i>
+														</a>
+														<p class="title_data">Apply environmental and sustainability best</p>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox" checked/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li class="disable">
+												<div class="li_content">
+													<div class="left_side_data">
+														<a href="javascript:void(0)">
+															<i class="material-icons message">message</i>
+														</a>
+														<p class="title_data">Apply environmental and sustainability best</p>
+													</div>
+													<div class="checkbox_outer">
+														<input type="checkbox" checked/><span></span>
+													</div>
+												</div>
+												<div class="clearfix"></div>
+											</li>
+											<li>
+												<ul>
+													<li>
+														<a href="javascript:void(0)" class="icon">Add New</a>
+													</li>
+													<li>
+														<a href="javascript:void(0)" class="icon">
+															<i class="material-icons message">message</i>Message
+														</a>
+													</li>
+													<li>
+														<a href="javascript:void(0)" class="icon">
+															<i class="material-icons account_circle">account_circle</i>Portfolio
+														</a>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 colsm-6 col-md-6 col-lg-6">
+					<div class="accordian_block">
+						<div class="title_bar">
+							MESSAGES - <strong>4 UNREAD</strong>
+						</div>
+						<div class="panel-group" id="accordion2">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<div class="panel-title">
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+										  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+										  <span>3 new from Assessors</span>
+										</a>
+									</div>
+								</div>
+								<div id="collapse2" class="panel-collapse collapse">
+									<div class="panel-body">
+										text
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<div class="panel-title">
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+										  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+										  <span>1 new internal</span>
+										</a>
+									</div>
+								</div>
+								<div id="collapse3" class="panel-collapse collapse">
+									<div class="panel-body">
+										text
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="accordian_block">
+						<div class="title_bar">
+							PORTFOLIOS (7)
+						</div>
+						<div class="panel-group" id="accordion3">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<div class="panel-title">
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+										  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+										  <span>3 new from Assessors</span>
+										</a>
+									</div>
+								</div>
+								<div id="collapse4" class="panel-collapse collapse">
+									<div class="panel-body">
+										text
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<div class="panel-title">
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+										  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+										  <span>1 new internal</span>
+										</a>
+									</div>
+								</div>
+								<div id="collapse5" class="panel-collapse collapse">
+									<div class="panel-body">
+										text
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="profile_section hidden-sm hidden-md hidden-lg">
+			<div class="container">
+				<img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic"/>
+				<span>Rosa</span>
+			</div>
+		</div>
 {% endblock %}
