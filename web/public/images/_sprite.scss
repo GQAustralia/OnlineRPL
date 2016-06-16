@@ -1,0 +1,14 @@
+$icons : sprite-map("icons/*.png", $layout:smart);
+
+$names : sprite-names($icons);
+$base-class : ".gqa-icons";
+
+#{$base-class} {  
+	background: $icons no-repeat;
+}
+
+@include sprites($icons, $names, ".gqa-icons", $dimensions:true);
+ 
+$url : sprite-url($icons);
+$compress: compress_sprite($url);
+
