@@ -10,7 +10,6 @@ use \DateTime;
 
 class MessageController extends Controller
 {
-
     /**
      * Function to view all inbox messages
      * @param object $request
@@ -20,8 +19,8 @@ class MessageController extends Controller
     {
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();        
-        $page = $this->get('request')->query->get('page', 1);
-        $result = $messageService->getMyInboxMessages($userid, $page);
+        //$page = $this->get('request')->query->get('page', 1);
+        $result = $messageService->getMyInboxMessages($userid);      
         $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);       
         $now = new DateTime('now');
         $result['today'] = $now->format('Y-m-d');

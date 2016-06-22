@@ -941,11 +941,11 @@ class UserService
      * @param int $page
      * return array
      */
-    public function getMyInboxMessages($userId, $page)
+    public function getMyInboxMessages($userId)
     {
-        if ($page <= 0) {
-            $page = 1;
-        }
+        //if ($page <= 0) {
+         //   $page = 1;
+       // }
         $query = $this->em->getRepository('GqAusUserBundle:Message')
             ->createQueryBuilder('m')
             ->select('m')
@@ -954,9 +954,10 @@ class UserService
             ->orWhere(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId)
             ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0')
             ->addOrderBy('m.created', 'DESC');
-        $paginator = new \GqAus\UserBundle\Lib\Paginator();
-        $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
-        return array('messages' => $pagination, 'paginator' => $paginator, 'sentuserid' => $userId);
+        $getMessages = $query->getQuery()->getResult();
+       // $paginator = new \GqAus\UserBundle\Lib\Paginator();
+       // $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
+        return array('messages' => $getMessages,'sentuserid' => $userId);
     }
 
     /**
