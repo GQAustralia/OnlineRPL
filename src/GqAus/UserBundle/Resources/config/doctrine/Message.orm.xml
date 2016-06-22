@@ -11,6 +11,7 @@
         <field name="toStatus" type="string" column="to_status" length="1" nullable="false"/>
         <field name="fromStatus" type="string" column="from_status" length="1" nullable="false"/>
         <field name="reply" type="string" column="reply" length="1" nullable="false"/>
+		<field name="replymid" type="integer" column="replymid" length="10" nullable="false"/>
         <many-to-one field="inbox" target-entity="GqAus\UserBundle\Entity\User" inversed-by="inboxMessages">
             <join-column name="to_user" referenced-column-name="id" />
         </many-to-one>       

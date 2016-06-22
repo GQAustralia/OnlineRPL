@@ -1,17 +1,87 @@
 {% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Messages Inbox{% endblock %}
-{% block body %}    
-<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h1 class="gq-dashboard-title">Messages</h1>
-                    <h6 class="gq-dashboard-title-desc"><!-- can keep sub title here --></h6>
+{% block body %}
+<div class="body_section message_section">
+    <div class="container">
+        <div class="row">			
+            {% include 'GqAusUserBundle:Message:leftmenu.html.twig' %}
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" >
+                {% if msgID is defined %}
+                <div class="mail_compose_section hidden-xs" id="mail_welcome">
+                    <div class="title_bar">WELCOME
+                        <span><i class="material-icons close">close</i></span>
+                    </div>
+                    <div class="chat_room">
+                        <div class="chat_box from">
+                            <div class="person_profile clearfix">
+                                    <span class="chat_pic">
+                                            <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>
+                                    </span>
+                                    <span class="chat_name"><strong> {{fromUserName}} </strong></span>
+                                    <span class="date_time">4:20 PM</span>
+                            </div>
+                            <p class="chat_content">
+                                    {{content|raw}}
+                            </p>								
+                        </div>
+                        {% if msgType is defined and msgType=="reply" %}
+                        <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composemsgForm) }}>
+                        <input type="hidden" id="replymid" name="replymid" value="{{ replymid }}"/>
+                            <div class="chat_box to">
+                                <div class="person_profile">
+                                        <span class="chat_pic">
+                                                <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>
+                                        </span>
+                                        <span class="chat_name"><strong>
+                                                 {% if user is defined and user != '' %}
+                                        {{ form_widget(composemsgForm.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
+                                        {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}</strong></span> 
+                                        {{ form_widget(composemsgForm.subject, {value  : sub}, {'attr': {'placeholder': ''} }) }}
+                                        {% endif %}
+                                        <span class="date_time">4:20 PM</span>
+                                </div>
+                                {% if user is defined and user != '' %}
+                                    {{ form_widget(composemsgForm.message, {value  : '' }, {'attr': {'placeholder': 'Enter Message'} }) }}
+                                {% endif %}
+                            </div>        
+                        {% endif %}
+                    </div>
+                        {% if messages%}
+                            {% if message.replymid is defined and curuser == message.sent.id%}
+                                <div class="btn_section">                                                            
+                                </div>
+                            {% elseif msgType is defined and msgType=="reply" %}
+                                <div class="btn_section">
+                                 <a class="checkform-changed button cancel_link hidden-xs" data-toggle="modal" data-target="" >
+                                     <button class="btn btn-grey" name="compose[discard]" id="compose_discard" type="reset">CANCEL</button></a>
+                                {{ form_widget(composemsgForm.save,{ 'label': 'Send' , 'attr': {'class': 'button send_link'}}) }}                      
+                                </div>
+                                 {{ form_end(composemsgForm) }}
+                            {% else %}
+                                <div class="btn_section">
+                                     <form name="reply" action="{{ base_url }}messages/compose" method="post">
+                                    <input type="hidden" id="reply_id" name="reply_id" value="{{message.id}}"/>
+                                        <input type="Submit" class="button reply_link" value="Reply"/>
+                                    </form>
+                                        <a href="{{ base_url }}messages/compose" >NEW MESSAGE   <i class="material-icons add">add</i> </a>                                                          
+                                 </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    {% if messages %}
+                    {% if messages|length > 0 %}
+                    {% else %}
+                        <div class="gq-msg-row-bg">
+                            <div class="col-xs-12">
+                                <span class="msg-checkmark-icon">
+                                    <center>No Messages found</center>
+                                </span>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
                 </div>
-            </div>
-        </div>
-        <div class="col-xs-12">
+                <div class="col-xs-12">
             {% for flashMessage in app.session.flashbag.get('msgnotice') %}
             <div class="row" id="profile_suc_msg">
                 <div class="gq-id-files-upload-success-text">
@@ -24,184 +94,104 @@
                 {% for flashMessage in app.session.flashbag.get('errornotice') %}
                 <div class="gq-well well gq-id-files-upload-success-text">
                     <span class="login-warning-icon" aria-hidden="true"></span>
-                    <div class="login-warning-text">{{ flashMessage }}</div>
+                    <div class="login-warning-text" id="flash-msg">{{ flashMessage }}</div>
                 </div>
                {% endfor %}
             </div>
         </div>
-    </div>
-    <div class="row">
-        {% include 'GqAusUserBundle:Message:leftmenu.html.twig' %}
-        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="gq-id-files">
-                        <div class="gq-msg-header">
-                            <div class="row">
-                                <div class="gq-mail-title-text"><h2>Inbox</h2></div>
+                {% if msgType is defined and msgType=="new" %}
+                    <div class="new_message_section">
+                        <div class="title_bar">NEW MESSAGE
+                                <span><i class="material-icons close">close</i></span>
+                        </div>
+                        <div class="new_msg_section">
+                                <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composemsgForm) }}>
+                                    <div class="input_section">
+                                            <label>To:</label>
+                                            <input type="hidden" id="replymid" name="replymid" value="{{ replymid }}"/>
+                                            {% if user is defined and user != '' %}
+                                            {{ form_widget(composemsgForm.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
+                                            {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
+                                            {% else %}
+                                            {{ form_widget(composemsgForm.toUserName, {'attr': {'placeholder': ''} }) }}
+                                            {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
+                                            {% endif %}
+                                    </div>
+                                    <div class="input_section">
+                                            <label>Subject:</label>									
+                                              {% if user is defined and user != '' %}
+                                            {{ form_widget(composemsgForm.subject, {value  : sub}, {'attr': {'placeholder': ''} }) }}
+                                            {% else %}
+                                            {{ form_widget(composemsgForm.subject, {'attr': {'placeholder': ''} }) }}
+                                            {% endif %}
+                                    </div>
+                                    {% if user is defined and user != '' %}
+                                    {{ form_widget(composemsgForm.message, {value  : '' }, {'attr': {'placeholder': 'Enter Message'} }) }}
+                                    {% else %}
+                                    {{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message'} }) }}
+                                    {% endif %}
+                                    <div class="textarea-clone"></div>
+                        </div>
+                        <div class="btn_section">
+                                 <a class="checkform-changed button cancel_link hidden-xs" data-toggle="modal" data-target="" >
+                                     <button class="btn btn-grey" name="compose[discard]" id="compose_discard" type="reset">CANCEL</button></a>
+                                {{ form_widget(composemsgForm.save,{ 'label': 'Send' , 'attr': {'class': 'button send_link'}}) }}	                        </div>
+                                {{ form_end(composemsgForm) }}
+                        </div>
+
+                    {% endif %}
+                    <div class="mobile_version hidden-sm hidden-md hidden-lg">
+                        <div class="mail_compose_section">
+                            <div class="title_bar">WELCOME
+                                    <span><i class="material-icons arrow_back">arrow_back</i></span>
                             </div>
+                            <div class="chat_room">
+                                <div class="chat_box from">
+                                    <div class="person_profile clearfix">
+                                            <span class="chat_pic">
+                                                    <img src="{{asset('public/images/UPLOAD_PROFILE_PHOTO.png')}}" alt="chat_pic"/>
+                                            </span>
+                                            <span class="chat_name"><strong>Samantha</strong></span>
+                                            <span class="date_time">4:20 PM</span>
+                                    </div>
+                                    <p class="chat_content">
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
+                                    </p>
+                                    <div class="signature_section">
+                                            <p>Kind Regards,</p>
+                                            <p>Samantha</p>
+                                    </div>
+                                </div>
+                            <div class="chat_box to">
+                                <div class="person_profile">
+                                        <span class="chat_pic">
+                                            <img src="{{asset('public/images/UPLOAD_PROFILE_PHOTO.png')}}" alt="chat_pic"/>
+                                        </span>
+                                        <span class="chat_name"><strong>Samantha</strong></span>
+                                        <span class="date_time">4:20 PM</span>
+                                </div>
+                                <p class="chat_content">
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
+                                </p>
+                                <div class="signature_section">
+                                        <p>Kind Regards,</p>
+                                        <p>Samantha</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn_section">
+                            <a href="javascript:void(0)" class="reply_link">Reply</a>
+                            <a href="javascript:void(0)" class="send_link">
+                                    <i class="material-icons send">send</i>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 msg-folder-wrap">
-                    
-                    <div class="gq-msg-wrap" id="messages-grid">
-                        {% if messages %}
-                            {% if messages|length > 0 %}
-                                <div class="gq-msg-row-bg gq-messages-icons-border gq-grey-bg-border">
-                                    <div class="msg-checkmark-icon-wrap">
-                                        <span class="msg-checkmark-icon" onClick="inboxcheckall();">
-                                            <span class="custom-checkbox" name="main-chk-name" id="main-chk-id"></span>
-                                            <input type="checkbox" name="msgs_inbox[]" id="chk-main-all">
-                                        </span>
-                                    </div>
-                                    <div class="gq-msg-mark-icon-wrap">
-                                        <div class="gq-msg-mark-icon">
-                                            <span class="gq-dashboard-points-icon">
-                                                <a data-toggle="modal" data-target="" data-placement="right" class="modalClass deleteselected">
-                                                    <img src="{{ asset('public/images/trash.png') }}" />
-                                                </a>
-                                                <div class="tooltip-home top">
-                                                    <div class="tooltip-arrow"></div>
-                                                    <span class="">Delete selected</span>
-                                                </div>
-                                            </span>
-                                        </div>
-                                        <div class="gq-msg-mark-icon">
-                                            <span class="gq-dashboard-points-icon">
-                                                <a data-toggle="modal" data-target="" data-placement="right" class="modalClass markasread">
-                                                    <img src="{{ asset('public/images/read.png') }}" />
-                                                </a>
-                                                <div class="tooltip-home top">
-                                                    <div class="tooltip-arrow"></div>
-                                                    <span class="">Mark as Read</span>
-                                                </div>
-                                            </span>
-                                            
-                                        </div>
-
-                                        <div class="gq-msg-mark-icon">
-                                            <span class="gq-dashboard-points-icon">
-                                                <a data-toggle="modal" data-placement="right" class="markasunread">
-                                                    <img src="{{ asset('public/images/unread.png') }}" />
-                                                </a>
-                                                <div class="tooltip-home top">
-                                                    <div class="tooltip-arrow"></div>
-                                                    <span class="">Mark as UnRead</span>
-                                                </div>
-                                            </span>
-                                            
-                                        </div>
-                                        
-                                        <div class="gq-msg-mark-icon msg-ajax-loader" style="display:none;">
-                                            <span class="gq-dashboard-points-icon">
-                                                <a class="modalClass deleteselected">
-                                                    <img src="{{ asset('public/images/loading.gif') }}" />
-                                                </a>
-                                            </span>
-                                        </div>
-                                        
-                                    </div>
-                                    <div>
-                                        {# display navigation for pages - paginator_navigator #}
-                                        {% if messages|length > 0 and paginator.getTotalPages() > 1 %}
-                                            {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% endif %}
-                        {% if messages %}
-                            {% if messages|length > 0 %}
-                                {% for key, message in messages %}
-                                    <div class="gq-msg-row-bg {% if message.read == 1 %} gq-msg-visited {% endif %}" id="msg-{{message.id}}">
-                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                            <span class="msg-checkmark-icon">
-                                                <span class="custom-checkbox" name="custom-chk-name" id="custom-chk-id-{{ message.id }}"></span>
-                                                <input class="gq-msg-custom-chk" type="checkbox" id="chk-{{ message.id }}" name="chk_inbox" value="{{ message.id }}" onclick="uncheckSpecificCB('{{ message.id }}');">
-                                            </span>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-10">
-                                            <div class="gq-msg-from">{{message.sent.firstname}}</div>
-                                        </div>
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                                            <div class="gq-msg-title">
-                                                <a href="{{ base_url }}view/{{message.id}}">
-                                                {% if message.subject|length > 30 %}
-                                                    {{ message.subject[:30] ~ '...' }}
-                                                {% else %}
-                                                     {{ message.subject }}   
-                                                {% endif %}
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <div class="gq-msg-time-stamp">
-                                                {{ user_service.dateToWords(message.created) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                <div class="gq-msg-row-bg">
-                                    <div class="col-xs-12">
-                                        <span class="msg-checkmark-icon">
-                                            <center>No Messages found</center>
-                                        </span>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% else %}
-                        <div class="gq-msg-row-bg">
-                            <div class="col-xs-12">
-                                <span class="msg-checkmark-icon">
-                                    <center>No Messages found</center>
-                                </span>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                    <span class="flip-icon"></span>                    
-                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade deleteMessageModal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog gq-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
-                <h4 class="modal-title" id="myModalLabel">Do you want to delete selected message ?</h4>
-            </div>
-            <div class="modal-footer">                
-                <a class="btn btn-white" id="qclose-cancel">Cancel</a>
-                <a class="btn btn-white deleteMessages margin-left15">Ok</a>
-                <span class="loading-icon msg-loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
-            </div>
-        </div>
-    </div>
+<div class="plus_icon hidden-sm hidden-md hidden-lg">
+	<i class="material-icons add">add</i>
 </div>
-
-
-<div class="modal fade" id="mySelectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog gq-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" id="qclose" class="close" data-dismiss="modal" aria-label="Close"></button>
-                <h4 class="modal-title" id="myModalLabel">Please select atleast one record!</h4>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-{% block javascripts %}
-<script type="text/javascript">
-$(function () {
-    $('#chk-main-all').attr('checked',false);
-    $('[data-toggle="tooltip"]').tooltip();
-})
-</script>
-<script type="text/javascript" src="{{ asset('public/js/custom-jquery.js') }}"></script>
 {% endblock %}

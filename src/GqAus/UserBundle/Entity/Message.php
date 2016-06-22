@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Message
 {
-
+    
     /**
      * @var string
      */
@@ -64,13 +64,24 @@ class Message
      * @var string
      */
     private $unitID;
-
+    /**
+     * @var string
+     */
+    private $replymid;
+    
+    /**
+     * @var string
+     */
+    private $msgbody;
+    
     /**
      * Set subject
      *
      * @param string $subject
      * @return Message
      */
+   
+            
     public function setSubject($subject)
     {
         $this->subject = $subject;
@@ -301,6 +312,28 @@ class Message
     public function setunitID($unitID)
     {
         $this->unitID = $unitID;
+
+        return $this;
+    }
+/**
+     * Get ReplyMid
+     *
+     * @return integer 
+     */
+    public function getreplymid()
+    {
+        return $this->replymid;
+    }
+
+    /**
+     * Set unitId
+     *
+     * @param integer $replymid
+     * @return Message
+     */
+    public function setreplymid($replymid)
+    {
+        $this->replymid = $replymid;
 
         return $this;
     }
