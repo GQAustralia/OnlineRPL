@@ -18,7 +18,7 @@
                                             <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>
                                     </span>
                                     <span class="chat_name"><strong> {{fromUserName}} </strong></span>
-                                    <span class="date_time">4:20 PM</span>
+                                    <span class="date_time">{{ message.created | date('h:i A') }}</span>
                             </div>
                             <p class="chat_content">
                                     {{content|raw}}
