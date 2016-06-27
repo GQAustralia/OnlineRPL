@@ -38,7 +38,7 @@
                                         {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}</strong></span> 
                                         {{ form_widget(composemsgForm.subject, {value  : sub}, {'attr': {'placeholder': ''} }) }}
                                         {% endif %}
-                                        <span class="date_time">4:20 PM</span>
+                                        <span class="date_time">{{ message.created | date('h:i A') }}</span>
                                 </div>
                                 {% if user is defined and user != '' %}
                                     {{ form_widget(composemsgForm.message, {value  : '' }, {'attr': {'placeholder': 'Enter Message'} }) }}
@@ -154,7 +154,7 @@
                                                     <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>
                                             </span>
                                             <span class="chat_name"><strong>{{fromUserName}}</strong></span>
-                                            <span class="date_time">4:20 PM</span>
+                                            <span class="date_time">{{ message.created | date('h:i A') }}</span>
                                     </div>
                                     <p class="chat_content">
                                              {{content|raw}}
@@ -175,7 +175,7 @@
                                         {{ form_widget(composemsgForm.subject, {value  : sub}, {'attr': {'placeholder': ''} }) }}
                                         {% endif %}
                                         </strong></span>
-                                        <span class="date_time">4:20 PM</span>
+                                        <span class="date_time">{{ message.created | date('h:i A') }}</span>
                                 </div>
                                 {% if user is defined and user != '' %}
                                     {{ form_widget(composemsgForm.message, {value  : '' }, {'attr': {'placeholder': 'Enter Message'} }) }}
