@@ -132,12 +132,15 @@ class MessageController extends Controller
                     $result['msgType'] = "new";
                 }                
                 $composeform = $this->createForm(new ComposeMessageForm(), array());
-                $result['composemsgForm'] = $composeform->createView();                
+                $result['composemsgForm'] = $composeform->createView(); 
+                $composeformMobile = $this->createForm(new ComposeMessageForm(), array());
+                $result['composeformMobile'] = $composeformMobile->createView(); 
                 return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
             }
         }
         else
         {
+            $result['msgType'] = "";
             return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
         }
         /*View Message*/
@@ -412,7 +415,7 @@ class MessageController extends Controller
                 $messageService->setReadViewStatus($mid);
             }
         }
-        $message = $messageService->getMessage($mid);
+        $message = $messageService->getMessage($mid);    
         $msgUser = $message->getSent()->getId(); // from user
         $touser = $message->getInbox()->getId(); // to user
         $toStatus = $message->getToStatus();
@@ -501,7 +504,14 @@ class MessageController extends Controller
         }
         exit;
     }
-   
+   public function replyMessagesAction(Request $request)
+    {
+        $messageService = $this->get('UserService');
+        $userid = $messageService->getCurrentUser()->getId();
+        $unreadcount = $messageService->getUnreadMessagesCount($userid);
+        echo $unreadcount;
+        exit;
+    }
     
 
 }
