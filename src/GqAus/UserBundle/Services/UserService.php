@@ -950,11 +950,11 @@ class UserService
             ->createQueryBuilder('m')
             ->select('m')
             ->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $userId)
-            ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0')
+            ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0')            
             ->orWhere(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId)
             ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0')
             ->addOrderBy('m.created', 'DESC');
-        $getMessages = $query->getQuery()->getResult();
+        $getMessages = $query->getQuery()->getResult();        
        // $paginator = new \GqAus\UserBundle\Lib\Paginator();
        // $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
         return array('messages' => $getMessages,'sentuserid' => $userId);
@@ -1096,7 +1096,32 @@ class UserService
      */
     public function getMessage($mid)
     {
-        return $this->em->getRepository('GqAusUserBundle:Message')->find($mid);
+        return $this->em->getRepository('GqAusUserBundle:Message')->find($mid);     
+    }
+    
+    /**
+     * Function to get messages to view
+     * @param int $mid
+     * return array
+     */
+    public function getReplyMessages($mid)
+    {
+        $msgobj = $this->em->getRepository('GqAusUserBundle:Message')->find($mid); 
+        $replymid = $msgobj->getreplymid();   
+        if($replymid > 0) {
+            $query = $this->em->getRepository('GqAusUserBundle:Message')
+                ->createQueryBuilder('m')
+                ->select('m')
+                ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $replymid)
+                ->orWhere(sprintf('m.%s = :%s', 'replymid', 'replymid'))->setParameter('replymid', $replymid);
+        } else {
+            $query = $this->em->getRepository('GqAusUserBundle:Message')
+                ->createQueryBuilder('m')
+                ->select('m')
+                ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $mid);
+        }        
+        $getMessages = $query->getQuery()->getResult(); 
+        return $getMessages; 
     }
 
     /**

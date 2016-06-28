@@ -43,7 +43,7 @@ class MessageController extends Controller
             
             //$myrepMsgs = $messageService->getMyReplyMessages($mid);
             $replyId = $this->getRequest()->get('reply_id');
-            if($mid !="compose" ||  $replyId != "") {
+            if($mid !="compose" ||  $replyId != "") { 
                 if($replyId != "") {
                     $newmid = $mid;
                     $mid = $replyId;
@@ -58,44 +58,59 @@ class MessageController extends Controller
                         $messageService->setReadViewStatus($mid);
                     }
                 }
-                $message = $messageService->getMessage($mid);
-                $msgUser = $message->getSent()->getId(); // from user
-                $touser = $message->getInbox()->getId(); // to user
-                $toStatus = $message->getToStatus();
-                $fromStatus = $message->getFromStatus();               
-                $msgDetails = array(
-                    'fromUser' => $msgUser,
-                    'toUser' => $touser,
-                    'toStatus' => $toStatus,
-                    'fromStatus' => $fromStatus,
-                    'curUser' => $userid
-                );
-                if ($userid == $msgUser) {
-                    $userName = $message->getInbox()->getUserName();
-                    $from = ' from me';
-                    if ($userid == $message->getInbox()->getId()) {
+                $messages = $messageService->getReplyMessages($mid); 
+                $replymsgarr = array();
+                $i = 0;
+                foreach($messages as $message) {
+                    $msgUser = $message->getSent()->getId(); // from user
+                    $touser = $message->getInbox()->getId(); // to user
+                    $toStatus = $message->getToStatus();
+                    $fromStatus = $message->getFromStatus(); 
+                    $created = $message->getCreated();              
+                    /*$msgDetails = array(
+                        'fromUser' => $msgUser,
+                        'toUser' => $touser,
+                        'toStatus' => $toStatus,
+                        'fromStatus' => $fromStatus,
+                        'curUser' => $userid
+                    );*/
+                    if ($userid == $msgUser) {
+                        $userName = $message->getInbox()->getUserName();
+                        $from = ' from me';
+                        if ($userid == $message->getInbox()->getId()) {
+                            $from = ' to me';
+                        }
+                    } else {
+                        $userName = $message->getSent()->getUserName();
                         $from = ' to me';
                     }
-                } else {
-                    $userName = $message->getSent()->getUserName();
-                    $from = ' to me';
+
+                    $content = nl2br($message->getMessage());
+                    $fromUser = $messageService->getRequestUser($msgUser); 
+                    $toUser = $messageService->getRequestUser($touser);
+                    $replymsgarr[$i]['userImage'] = $fromUser->getUserImage();
+                    $replymsgarr[$i]['fromUserImage'] = $fromUser->getUserImage();
+                    $replymsgarr[$i]['toUserImage'] = $toUser->getUserImage();
+                    $replymsgarr[$i]['fromUserName'] = $fromUser->getUserName();               
+                    if($replymsgarr[$i]['fromUserImage'] == "" || $replymsgarr[$i]['toUserImage'] == "")
+                    {
+                        $replymsgarr[$i]['fromUserImage'] = "no-image.jpg";
+                        $replymsgarr[$i]['toUserImage'] = "no-image.jpg";
+                    }
+                    $replymsgarr[$i]['unreadcount'] = $unreadcount;
+                    $replymsgarr[$i]['message'] = $message;
+                    $replymsgarr[$i]['content'] = $content;
+                    $replymsgarr[$i]['userName'] = $userName;
+                    $replymsgarr[$i]['from'] = $from;
+                    $replymsgarr[$i]['created'] = $created;
+                    //$result['msgDetails'] = $msgDetails;
+                    //$result['msgID'] = $mid; 
+                    $i++;
                 }
-                
-                $content = nl2br($message->getMessage());
-                $Fromuser = $messageService->getRequestUser($msgUser);               
-                $result['userImage'] = $Fromuser->getUserImage();
-                $result['fromUserName'] = $Fromuser->getUserName();               
-                if($result['userImage'] == "")
-                    $result['userImage'] = "no-image.jpg";
-                $result['unreadcount'] = $unreadcount;
-                $result['message'] = $message;
-                $result['content'] = $content;
-                $result['userName'] = $userName;
-                $result['from'] = $from;
-                $result['msgDetails'] = $msgDetails;
-                $result['msgID'] = $mid;                
-                $message = $messageService->getMessage($mid);
-               
+                $result['msgID'] = $mid;
+                $result['replymsgarr'] = $replymsgarr;
+                //$message = $messageService->getMessage($mid);
+              // echo "<pre>"; dump($result); exit;
                 if($replyId == "")
                     return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
             }
@@ -119,13 +134,17 @@ class MessageController extends Controller
                     if ($message->getUnitID() != '' || $message->getUnitID() > 0) {
                         $unitId = $message->getUnitID();
                     }
+                    $fromUser = $messageService->getRequestUser($message->getSent()->getId()); 
+                    $toUser = $messageService->getRequestUser($message->getInbox()->getId());
+                    $result['userImage'] = $fromUser->getUserImage();
+                    $result['toUserImage'] = $toUser->getUserImage();
+                    $result['created'] = $message->getCreated();
                     $result['msgType'] = 'reply';
                     $result['user'] = $repuser;
                     $result['userName'] = $repUserName;
                     $result['unitId'] = $unitId;
                     $result['sub'] = $repSub;
-                    $result['replymid'] = $replyId;
-                    $result['replymid'] = $replyId;
+                    $result['replymid'] = $replyId;                   
                 }
                 else {
                     $result['replymid'] = "";
@@ -135,6 +154,7 @@ class MessageController extends Controller
                 $result['composemsgForm'] = $composeform->createView(); 
                 $composeformMobile = $this->createForm(new ComposeMessageForm(), array());
                 $result['composeformMobile'] = $composeformMobile->createView(); 
+                
                 return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
             }
         }
@@ -399,7 +419,7 @@ class MessageController extends Controller
      * return string
      */
     public function viewMessageAction($mid)
-    {
+    { 
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
         $unreadcount = $messageService->getUnreadMessagesCount($userid);      
@@ -415,7 +435,7 @@ class MessageController extends Controller
                 $messageService->setReadViewStatus($mid);
             }
         }
-        $message = $messageService->getMessage($mid);    
+        $message = $messageService->getMessage($mid);
         $msgUser = $message->getSent()->getId(); // from user
         $touser = $message->getInbox()->getId(); // to user
         $toStatus = $message->getToStatus();
