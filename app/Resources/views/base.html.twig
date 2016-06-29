@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/rto.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualififation.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">
     {% endblock %}
     {% block stylesheets %}{% endblock %}
     
@@ -31,7 +32,7 @@
                  <nav>
                     <ul class="menu">
                         <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/dashboard">DASHBOARD</a></li> 
-                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/dashboard">PORTFOLIOS<span>1</span></a></li>
+                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicant">PORTFOLIOS<span>1</span></a></li>
                         {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}                            
                             <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES</a></li>
                         {% endif %}                            
