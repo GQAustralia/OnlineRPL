@@ -32,7 +32,7 @@
                  <nav>
                     <ul class="menu">
                         <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/dashboard">DASHBOARD</a></li> 
-                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicant">PORTFOLIOS<span>1</span></a></li>
+                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span>1</span></a></li>
                         {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}                            
                             <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES</a></li>
                         {% endif %}                            
@@ -51,6 +51,7 @@
     <script src="{{ asset('public/js/jquery.min.js') }}"></script>
     <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/js/script.js') }}"></script>
+    <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
     {% block javascripts %}{% endblock %}
 </body>
 </html>
