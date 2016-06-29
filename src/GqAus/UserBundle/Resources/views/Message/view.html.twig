@@ -59,15 +59,15 @@
                         <span><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
                 </div>
                 <div class="chat_room"> 
-                    {% for message in replymsgarr %}
-                        <div class="chat_box from">
+                    {% for message in replymsgarr %}                        
+                        <div class="chat_box {% if message.from == " from me" %}from {% else %} to {% endif %} ">
                             <div class="person_profile clearfix">
                                     <span class="chat_pic">
                                             <img src="{{ asset('public/uploads/') }}{{ message.userImage }}" alt="chat_pic"/>
                                     </span>
                                     <span class="chat_name">
                                             <strong>
-                                                    {{message.fromUserName}}
+                                                    {% if message.from == " from me" %} You {% else %} {{message.fromUserName}} {% endif %}
                                             </strong>
                                     </span>
                                     <span class="date_time">{{ message.created | date('h:i A') }}</span>
@@ -209,5 +209,196 @@
 
    
     <!-- FOR DESKTOP -->
+    
+
+    <!-- FOR MOBILE -->
+    <div class="">        
+              
+            <div class="hidden-sm hidden-md hidden-lg">
+            <div class="mobile_version">
+       {% if messages %}
+        {% if messages|length > 0 %}  
+                {% if msgType is defined and msgType=="" %}
+            <div class="" id="newMsg"> 
+                    <ul class="mail_secion">
+                        {% for key, message in messages %}
+                            <li class="{% if message.read == 1 %} disable {% endif %} clearfix" id="msg-{{message.id}}">
+                            <span class="chat_pic">
+                                    <img src="{{ asset('public/uploads/') }}{{ message.sent.userImage }}" alt="chat_pic"/>
+                            </span>
+                            <span class="chat_content">
+                                <span class="chat_name">
+                                    {% if message.sent.id == curuser and  message.replymid=="0"%}                                                    
+                                    <strong>You</strong>
+                                    <span class="arrow"></span>
+                                    <strong>{{message.inbox.firstname}}</strong>
+                                    {% else %}
+                                            {{message.sent.firstname}}
+                                    {% endif %}
+                                </span>
+                                    <span class="chat_content">
+                                            <strong> 
+                                                {% if message.replymid is defined and message.replymid != 0 and curuser == message.sent.id%}                                       
+                                                <span class="reply"></span>
+                                                {% endif %}
+                                                <a href="{{ base_url }}messages/{{message.id}}">
+                                                {% if message.subject|length > 10 %}
+                                                    {{ message.subject|raw[:10] ~ '-' }}
+                                                {% else %}
+                                                    {{ message.subject|raw }}   
+                                                {% endif %}
+                                                </a> 
+                                            </strong>
+                                             {% if message.message|length > 20 %}
+                                            {{ message.message|raw[:20] ~ '...' }}
+                                        {% else %}
+                                            {{ message.message|raw }}   
+                                        {% endif %}
+                                    </span>
+                            </span>
+                                    <span class="date_time">{{ message.created | date("d/m/y") }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="floater_add_icon">
+                             <a href="{{ base_url }}messages/compose" onclick=""><i class="material-icons add">add</i> </a>
+                    </div>
+            </div>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+    {% if msgID is defined %}
+        <div class="mail_compose_section">
+                <div class="title_bar">WELCOME
+                        <span><a href="{{ base_url }}messages"><i class="material-icons arrow_back">arrow_back</i></a></span>
+                </div>
+
+                <div class="chat_room">
+                     {% for message in replymsgarr %}
+                        <div class="chat_box {% if message.from == " from me" %}from {% else %} to {% endif %} ">
+                                <div class="person_profile clearfix">
+                                        <span class="chat_pic">
+                                                <img src="{{ asset('public/uploads/') }}{{ message.userImage }}" alt="chat_pic"/>
+                                        </span>
+                                        <span class="chat_name"><strong>{% if message.from == " from me" %} You {% else %} {{message.fromUserName}} {% endif %}</strong></span>
+                                        <span class="date_time">{{ message.created | date('h:i A') }}</span>
+                                </div>
+                                <p class="chat_content">
+                                       {{message.content|raw}} 
+                                </p>
+
+                        </div>
+                     {% endfor %}
+                </div>
+
+                <div class="btn_section">
+                    
+                    {% if msgType is defined and msgType=="reply" %}                 
+                 <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composeformMobile) }}>
+                    <input type="hidden" id="replymid" name="replymid" value="{{ replymid }}"/>
+                    <span class="hidden">
+                                    {% if user is defined and user != '' %}
+                                {{ form_widget(composeformMobile.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
+                                {{ form_widget(composeformMobile.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
+                                {{ form_widget(composeformMobile.subject, {value  : sub}, {'attr': {'placeholder': ''} }) }}
+                                {% endif %}
+                    </span>
+
+                {% if user is defined and user != '' %}
+                            {{ form_widget(composeformMobile.message, {value  : '' }, {'attr': {'placeholder': 'Enter Message'} }) }}
+                        {% endif %}
+                {{ form_widget(composeformMobile.save,{ 'label': ' ' , 'attr': {'class': 'button send_link active'}}) }}
+                 {{ form_end(composeformMobile) }}
+               
+                {% else %}
+                   <form name="reply" action="{{ base_url }}messages/compose" method="post">
+                          <input type="hidden" id="reply_id" name="reply_id" value="{{msgID}}"/>
+                      <input type="submit" class="button reply_link" value="REPLY"/>
+                          </form>
+                
+                 {% endif %}
+                 </div>
+                
+               
+        </div>
+    {% endif %}
+    {% if messages %}
+        {% if messages|length > 0 %}
+        {% else %}
+            <div class="gq-msg-row-bg">
+                <div class="col-xs-12">
+                    <span class="msg-checkmark-icon">
+                        <center>No Messages found</center>
+                    </span>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    <div class="">
+    {% for flashMessage in app.session.flashbag.get('msgnotice') %}
+    <div class="row" id="profile_suc_msg">
+    <div class="gq-id-files-upload-success-text">
+      <span><!--<img src="{{ asset('public/images/tick.png') }}">-->
+        <i class="material-icons">done</i>{{ flashMessage }}</span>
+    </div>
+    </div>
+    {% endfor %}
+    <div class="col-xs-push-4 col-xs-4" id="change_pwd_error">
+    {% for flashMessage in app.session.flashbag.get('errornotice') %}
+    <div class="gq-well well gq-id-files-upload-success-text">
+        <span class="login-warning-icon" aria-hidden="true"></span>
+        <div class="login-warning-text" id="flash-msg">{{ flashMessage }}</div>
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+    
+    {% if msgType is defined and msgType=="new" %}
+        <div class="new_message_section">
+            <div class="title_bar">NEW MESSAGE
+                    <span><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
+            </div>
+            <div class="new_msg_section">
+                <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composeformMobile) }}>
+                    <div class="input_section">
+                    <label>To:</label>
+                    <input type="hidden" id="replymid" name="replymid" value="{{ replymid }}"/>
+                    {% if user is defined and user != '' %}
+                    {{ form_widget(composeformMobile.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
+                    {{ form_widget(composeformMobile.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
+                    {% else %}
+                    {{ form_widget(composeformMobile.toUserName, {'attr': {'placeholder': ''} }) }}
+                    {{ form_widget(composeformMobile.to, {'attr': {'placeholder': ''} }) }}
+                    {% endif %}
+                    </div>
+                    <div class="input_section">
+                    <label>Subject:</label>
+                    {% if user is defined and user != '' %}
+                    {{ form_widget(composeformMobile.subject, {value  : sub}, {'attr': {'placeholder': ''} }) }}
+                    {% else %}
+                    {{ form_widget(composeformMobile.subject, {'attr': {'placeholder': ''} }) }}
+                    {% endif %}
+                    </div>
+                    {% if user is defined and user != '' %}
+                    {{ form_widget(composeformMobile.message, {value  : '' }, {'attr': {'placeholder': 'Enter Message'} }) }}
+                    {% else %}
+                    {{ form_widget(composeformMobile.message, {'attr': {'placeholder': 'Enter Message'} }) }}
+                    {% endif %}
+                    <div class="textarea-clone"></div>  
+                    </div>
+                    <div class="btn_section">
+                      <a class="checkform-changed button cancel_link hidden-xs" data-toggle="modal" data-target="" >
+                          <button class="btn btn-grey" name="compose[discard]" id="compose_discard" type="reset">CANCEL</button></a>
+                     {{ form_widget(composeformMobile.save,{ 'label': 'Send' , 'attr': {'class': 'button send_link'}}) }}	                        </div>
+                     {{ form_end(composeformMobile) }}
+                     </form>
+            </div>
+        {% endif %}
+    </div>
+    </div>
+    </div>
+    </div>
+ <!-- FOR MOBILE -->
  {% endblock %}
  
