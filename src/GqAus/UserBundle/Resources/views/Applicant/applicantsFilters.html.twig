@@ -1,7 +1,7 @@
 <thead>
     <tr>
         <th width="20%" ><span class="">Name</span></th>
-        <th {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} {% else %}  width="25%" {% endif %} ><span class="">Qualification Name</span></th>
+        <th {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} {% else %}  width="25%" {% endif %} ><span class="">Qualification</span></th>
         {% if (('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %}
         <th width="20%"><span class="">Qualification Status </span></th>
         <th width="20%"><span class=""></span></th>
