@@ -36,6 +36,8 @@ twig:
         user_service: "@UserService"
         evidence_service: "@EvidenceService"
         tokbox_key: "%tokbox_key%"
+        rto_workspan: "%rto_workspan%"
+        fec_workspan: "%fec_workspan"
 
 # Assetic Configuration
 assetic:
