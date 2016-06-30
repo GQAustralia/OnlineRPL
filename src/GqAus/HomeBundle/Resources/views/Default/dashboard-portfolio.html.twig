@@ -1,0 +1,130 @@
+<div class="accordian_block">
+	<div class="title_bar clearfix">
+	    <span class="title">
+			PORTFOLIOS
+			{% if pendingApplicantsCount > 0 %}
+                <a href="{{ app.request.baseUrl }}/applicants" style="color:#ffffff;">({{pendingApplicantsCount}})</a>
+            {% else %}
+                <a href="javascript:void(0);" style="color:#ffffff;">({{pendingApplicantsCount}})</a>
+            {% endif %}	
+		</span>
+	</div>
+        {% if ('ROLE_FACILITATOR' in roles) %}
+        <ul class="count_list clearfix">
+            <li class="active">
+                <strong>55</strong>
+                <span class="average_count" style="height: 35px;"></span>
+            </li>
+            <li>
+                <strong>110</strong>
+                <span class="high_count" style="height: 50px;"></span>
+            </li>
+            <li>
+                <strong>32</strong>
+                <span class="low_count" style="height: 20px;"></span>
+            </li>
+            <li>
+                <strong>12</strong>
+                <span class="very_low_count" style="height: 10px;"></span>
+            </li>
+        </ul>
+        <ul class="range clearfix">
+            <li>
+                <span>0 - 30</span>
+            </li>
+            <li>
+                <span>31 - 60</span>
+            </li>
+            <li>
+                <span>61 -90</span>
+            </li>
+            <li>
+                <span>&gt;90</span>
+            </li>
+        </ul>
+        {% endif %}
+	<div class="panel-group" id="accordion3">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<span>{{applicantList|length}} new</span>
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#p_collapse1">
+					  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+					</a>
+				</div>
+			</div>
+			<div id="p_collapse1" class="panel-collapse collapse">
+					<div class="panel-body">				
+						<ul>
+                                                    {% for key, list in applicantList %}
+                                                            <li class="clearfix disable">
+                                                                    <span class="content"><strong>{{list.user.firstName}} {{list.user.lastName}}</strong> - {{list.courseName}}</span>
+                                                                    <span><i class="material-icons">playlist_add_check</i></span>
+                                                            </li>
+                                                    {% endfor %}
+						</ul>
+					</div>                                                        
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<span>17 older than 18 days</span>
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#p_collapse3">
+					  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+					</a>
+				</div>
+			</div>
+			<div id="p_collapse3" class="panel-collapse collapse">
+				<div class="panel-body">
+					text
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<span>3 evidences over 80% complete</span>
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#p_collapse4">
+					  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+					</a>
+				</div>
+			</div>
+			<div id="p_collapse4" class="panel-collapse collapse">
+				<div class="panel-body">
+					text
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<span>2 with assessor for more than 5 days</span>
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#p_collapse5">
+					  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+					</a>
+				</div>
+			</div>
+			<div id="p_collapse5" class="panel-collapse collapse">
+				<div class="panel-body">
+					text
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<span>3 with RTO than 12 days</span>
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#p_collapse6">
+					  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+					</a>
+				</div>
+			</div>
+			<div id="p_collapse6" class="panel-collapse collapse">
+				<div class="panel-body">
+					text
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

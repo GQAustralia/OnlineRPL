@@ -1,0 +1,94 @@
+<div class="accordian_block">
+	<div class="title_bar clearfix">
+		<span class="title">MESSAGES - <strong>{{unReadMessagesCount}} UNREAD</strong></span>
+		<span class="add_btn">NEW
+			<i class="material-icons add_icon">add</i>
+		</span>
+	</div>
+	<div class="panel-group" id="accordion2">
+		{% if facMsg %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<span>{{facMsg|length}} new from Facilitators</span>
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#m_collapse1">
+						  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+						</a>
+					</div>
+				</div>
+				<div id="m_collapse1" class="panel-collapse collapse">
+					<div class="panel-body">
+						<ul>
+							{% for key, faciMsg in facMsg %}
+								<li class="clearfix disable">
+									<span class="content">{{faciMsg.subject}} </span>
+									<span><i class="material-icons">playlist_add_check</i></span>
+								</li>
+							{% endfor %}
+							<li class="clearfix">
+								<span class="content"><strong>John Smith</strong>Hi Samantha, I'm having problems with</span>
+								<span><i class="material-icons">playlist_add</i></span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+		{% if assMsg %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<span>{{assMsg|length}} new from Assessors</span>
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#m_collapse2">
+						  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+						</a>
+					</div>
+				</div>
+				<div id="m_collapse2" class="panel-collapse collapse">
+					<div class="panel-body">
+						<ul>
+							{% for key, ascMsg in assMsg %}
+								<li class="clearfix disable">
+									<span class="content"><strong>{{ ascMsg.sent.firstName}} {{ ascMsg.sent.lastName}}</strong> - {{ascMsg.subject}}</span>
+									<span><i class="material-icons">playlist_add_check</i></span>
+								</li>
+							{% endfor %}
+							<li class="clearfix">
+								<span class="content"><strong>John Smith</strong>Hi Samantha, I'm having problems with</span>
+								<span><i class="material-icons">playlist_add</i></span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+		{% if rtoMsg %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<span>{{rtoMsg|length}} new from RTO</span>
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#m_collapse3">
+					  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+					</a>
+				</div>
+			</div>
+			<div id="m_collapse3" class="panel-collapse collapse">
+				<div class="panel-body">
+					<ul>
+						{% for key, rtosMsg in rtoMsg %}
+							<li class="clearfix disable">
+								<span class="content"><strong>{{ rtosMsg.sent.firstName}} {{ rtosMsg.sent.lastName}}</strong> - {{rtosMsg.subject}} </span>
+								<span><i class="material-icons">playlist_add_check</i></span>
+							</li>
+						{% endfor %}
+						<li class="clearfix">
+							<span class="content"><strong>John Smith</strong>Hi Samantha, I'm having problems with</span>
+							<span><i class="material-icons">playlist_add</i></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</div>

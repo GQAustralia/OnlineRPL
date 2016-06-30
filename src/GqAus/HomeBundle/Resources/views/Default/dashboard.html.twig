@@ -1,334 +1,39 @@
 {% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Dashboard{% endblock %}
-
 {% block body %}
+{% set roles = app.security.getToken().getUser().getRoles() %}
+{# {{ dump(roles) }} #}
     <div class="profile_section hidden-xs">
-		<div class="container">
-			<img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic"/>
-			<span>Rosa</span>
-		</div>
-	</div>
-	<div class="body_sec">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-					<div class="to_do_list">
-						<div class="panel-group" id="accordion1">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<div class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-										  <i class="material-icons keyboard_arrow_down hidden-lg">keyboard_arrow_down</i>
-										  <span>TO DO LIST </span>
-										</a>
-									</div>
-								</div>
-								<div id="collapse1" class="panel-collapse collapse in">
-									<div class="panel-body">
-										<div class="to_do_list_title">
-											To Do Today - 30% Complete
-											<div class="progress">
-												<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-												  <span class="sr-only">70% Complete</span>
-												</div>
-											</div>
-										</div>
-										<ul>
-											<li>
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons message">message</i>
-														</a>
-														<p class="title_data bold">Apply environmental and sustainability best</p>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox"/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li>
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons message">message</i>
-														</a>
-														<p class="title_data bold">Apply environmental and sustainability best</p>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox"/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li>
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons message">message</i>
-														</a>
-														<p class="title_data bold">Apply environmental and sustainability best</p>
-														<span class="days_count disable_day">3d</span>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox"/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li>
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons account_circle">account_circle</i>
-														</a>
-														<p class="title_data bold">Apply environmental and sustainability best</p>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox"/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li>
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons cloud_upload">cloud_upload</i>
-														</a>
-														<p class="title_data">Apply environmental and sustainability best</p>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox"/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li>
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons cloud_upload">cloud_upload</i>
-														</a>
-														<p class="title_data">Apply environmental and sustainability best</p>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox"/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li>
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons cloud_upload">cloud_upload</i>
-														</a>
-														<p class="title_data">Apply environmental and sustainability best</p>
-														<span class="days_count active_day">5d</span>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox"/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li>
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons cloud_upload">cloud_upload</i>
-														</a>
-														<p class="title_data">Apply environmental and sustainability best</p>
-														<span class="days_count highlight_day">7d</span>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox"/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li>
-												<div class="day_title">Completed Today</div>
-											</li>
-											<li class="disable">
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons edit">edit</i>
-														</a>
-														<p class="title_data">Apply environmental and sustainability best</p>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox" checked/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li class="disable">
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons cloud_upload">cloud_upload</i>
-														</a>
-														<p class="title_data">Apply environmental and sustainability best</p>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox" checked/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li class="disable">
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons cloud_upload">cloud_upload</i>
-														</a>
-														<p class="title_data">Apply environmental and sustainability best</p>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox" checked/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li class="disable">
-												<div class="li_content">
-													<div class="left_side_data">
-														<a href="javascript:void(0)">
-															<i class="material-icons message">message</i>
-														</a>
-														<p class="title_data">Apply environmental and sustainability best</p>
-													</div>
-													<div class="checkbox_outer">
-														<input type="checkbox" checked/><span></span>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-											<li>
-												<ul>
-													<li>
-														<a href="javascript:void(0)" class="icon">Add New</a>
-													</li>
-													<li>
-														<a href="javascript:void(0)" class="icon">
-															<i class="material-icons message">message</i>Message
-														</a>
-													</li>
-													<li>
-														<a href="javascript:void(0)" class="icon">
-															<i class="material-icons account_circle">account_circle</i>Portfolio
-														</a>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-12 colsm-6 col-md-6 col-lg-6">
-					<div class="accordian_block">
-						<div class="title_bar">
-							MESSAGES - <strong>4 UNREAD</strong>
-						</div>
-						<div class="panel-group" id="accordion2">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<div class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-										  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-										  <span>3 new from Assessors</span>
-										</a>
-									</div>
-								</div>
-								<div id="collapse2" class="panel-collapse collapse">
-									<div class="panel-body">
-										text
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<div class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-										  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-										  <span>1 new internal</span>
-										</a>
-									</div>
-								</div>
-								<div id="collapse3" class="panel-collapse collapse">
-									<div class="panel-body">
-										text
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="accordian_block">
-						<div class="title_bar">
-							PORTFOLIOS (7)
-						</div>
-						<div class="panel-group" id="accordion3">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<div class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse4">
-										  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-										  <span>2 new ready for your approval</span>
-										</a>
-									</div>
-								</div>
-								<div id="collapse4" class="panel-collapse collapse">
-									<div class="panel-body">
-										text
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<div class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse5">
-										  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-										  <span>3 less than 4 days left</span>
-										</a>
-									</div>
-								</div>
-								<div id="collapse5" class="panel-collapse collapse">
-									<div class="panel-body">
-										text
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<div class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse6">
-										  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-										  <span>2 assesment in progress</span>
-										</a>
-									</div>
-								</div>
-								<div id="collapse6" class="panel-collapse collapse">
-									<div class="panel-body">
-										text
-									</div>
-								</div>
-							</div>                                                    
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="profile_section hidden-sm hidden-md hidden-lg">
-			<div class="container">
-				<img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic"/>
-				<span>Rosa</span>
-			</div>
-		</div>
+        <div class="container">
+                <img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic"/>
+                <span>Rosa</span>
+        </div>
+    </div>
+    <div class="body_section">
+        <div class="container">
+                <div class="row">
+                        {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">                              
+                                {% include 'GqAusHomeBundle:Default:todolist.html.twig' %}
+                            </div>
+                        {% endif %}                    
+                            <div class="col-xs-12 colsm-6 col-md-6 col-lg-6">
+                                {% include 'GqAusHomeBundle:Default:dashboard-messages.html.twig' %}
+                            {% if ('ROLE_RTO' in roles) %}
+                            </div>
+                            <div class="col-xs-12 colsm-6 col-md-6 col-lg-6">
+                            {% endif %}
+                                {% include 'GqAusHomeBundle:Default:dashboard-portfolio.html.twig' %}
+                                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
+                                    {% include 'GqAusHomeBundle:Default:dashboard-evidences.html.twig' %}
+                                {% endif %}
+                            </div>
+                </div>
+        </div>
+        <div class="profile_section hidden-sm hidden-md hidden-lg">
+            <div class="container">
+                    <img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic"/>
+                    <span>Rosa</span>
+            </div>
+        </div>
 {% endblock %}
