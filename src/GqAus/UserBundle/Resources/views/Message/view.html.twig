@@ -8,6 +8,7 @@
         {% if messages%}
             {% if messages|length > 0 %}
                 <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
+                    <div class="left">
                         <ul class="mail_secion">
                             {% for key, message in messages %}
                                 <li class="{% if message.read == 1 %} disable {% endif %} clearfix" id="msg-{{message.id}}">
@@ -49,6 +50,12 @@
 
                             {% endfor %}
                         </ul>
+                    <div class="floater_add_icon">
+                            <a href="javascript:void(0)">
+                                    <i class="material-icons add">add</i>
+                            </a>
+                    </div>
+                    </div>
                 </div>
                 {% endif %}
         {% endif %}
