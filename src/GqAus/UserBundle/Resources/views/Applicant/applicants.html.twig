@@ -1,18 +1,18 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
 <!-- accordion starts here -->
 {% if applicantList %}
-    {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+   <!-- {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
     <tr>
         <td class="gq-pagination-area" {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
             {# display navigation for pages - paginator_navigator #}        
             {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
         </td>
     </tr>
-    {% endif %}
+    {% endif %} -->
 {% for key, list in applicantList %}
     <tr>
-        <td>{{list.user.firstName}} {{list.user.lastName}}</td>
-        <td>{{list.courseCode}} {{list.courseName}}</td>
+        <td class="col-md-2 col-lg-2">{{list.user.firstName}} {{list.user.lastName}}</td>
+        <td class="col-md-3 col-lg-3">{{list.courseCode}} {{list.courseName}}</td>
         {% if (('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %}
             <td>{{qualificationStatus[list.courseStatus].status}}</td>
         {% endif %}
@@ -48,16 +48,18 @@
         <td>{{ timeRemaining(id) }}</td>
     {% endif %}
         {% endif %}
+        <!--
         <td>
             <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
                 <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button>
             </a>
         </td>
+        -->
     </tr>
             {% endfor %}
             {% else %}
     <tr>
-        <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %} class="gq-tabs-no-content-text margin-top15">
+        <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
             No Applicants Found</td>
     </tr>
         {% endif %}

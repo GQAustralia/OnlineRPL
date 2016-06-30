@@ -17,14 +17,15 @@
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualififation.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">
     {% endblock %}
     {% block stylesheets %}{% endblock %}
      <script src="{{ asset('public/js/jquery.min.js') }}"></script>
         <script type="text/javascript">
             var base_url = "{{ base_url }}";
             var amazon_link = "{{ amazon_link }}";
-        </script>
-    
+        </script>    
+
   </head>
   <body>
     {% set roles = app.security.getToken().getUser().getRoles() %}
@@ -39,7 +40,8 @@
                  <nav>
                     <ul class="menu">
                         <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/dashboard">DASHBOARD</a></li> 
-                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span>1</span></a></li>
+
+                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS</a></li>
                         {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}                            
                             <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES</a></li>
                         {% endif %}                            
@@ -64,7 +66,8 @@
     <script src="{{ asset('public/js/jquery-1.10.2.js') }}"></script>
     <script src="{{ asset('public/js/jquery-ui.js') }}"></script>    
     <script src="{{ asset('public/js/moment.js') }}"></script>
-    <script src="{{ asset('public/js/daterangepicker.js') }}"></script>
+    <script src="{{ asset('public/js/daterangepicker.js') }}"></script>    
+     <script src="{{ asset('public/js/timepicker.js') }}"></script>
     <script>
     onloadCount();
     $(document).ready(function(){
@@ -146,6 +149,7 @@
         }        
     }
     </script>
+
     {% block javascripts %}{% endblock %}
 </body>
 </html>
