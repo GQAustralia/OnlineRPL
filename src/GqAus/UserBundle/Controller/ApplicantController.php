@@ -26,8 +26,11 @@ class ApplicantController extends Controller
     {
         $userService = $this->get('UserService');
         $coursesService = $this->get('CoursesService');
+       
         $user = $userService->getUserInfo($uid);
+        
         $results = $coursesService->getCoursesInfo($qcode);
+        
         if (!empty($user) && isset($results['courseInfo']['id'])) {
             $applicantInfo = $userService->getApplicantInfo($user, $qcode);
             $role = $this->get('security.context')->getToken()->getUser()->getRoles();
@@ -47,6 +50,16 @@ class ApplicantController extends Controller
                 $notesForm = $this->createForm(new NotesForm(), array());
                 $results['notesForm'] = $notesForm->createView();
             }
+            if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Assessor::ROLE_NAME) {
+                $roleType = ($role[0] == Facilitator::ROLE_NAME) ? 'f' : 'a';
+                $results['notes'] = $userService->getNotesFromUserAndCourse($qcode, $uid, $roleType);
+            }
+            $electiveUnitArr = $results['electiveUnits'];
+            $results['coreUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'core');
+            $results['electiveUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'elective', $electiveUnitArr);
+            $results['evidenceCompleteness'] = $userService->getEvidenceCompleteness($uid, $qcode);
+            //$results['daysRemaining'] = $userService->getDaysRemaining($uid, $qcode,'15','1','0');
+            $results['daysRemaining'] = $userService->getDaysRemaining('38', 'AUR50112','15','1','0');
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
@@ -228,11 +241,9 @@ class ApplicantController extends Controller
             $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
             $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
             $results['projectPath'] = $this->get('kernel')->getRootDir() . '/../';
-            $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', 
-                array_merge($results, $applicantInfo));
+            $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig',array_merge($results, $applicantInfo));
             $fileTemp = 'temp_' . time() . '.pdf';
-            $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' .
-                str_replace(' ', '-', $results['courseInfo']['name']) . '_' . time() . '.pdf';
+            $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' .str_replace(' ', '-', $results['courseInfo']['name']) . '_' . time() . '.pdf';
             $html2pdf = $this->get('html2pdf_factory')->create('P', 'A4', 'en', true, 'UTF-8', array(10, 15, 10, 15));
             $html2pdf->setDefaultFont('OpenSans');
             $vuehtml = $this->getRequest()->get('vuehtml');
@@ -416,6 +427,51 @@ class ApplicantController extends Controller
         $result = $this->get('UserService')->updateCourseStatus($courseStatus, $courseCode, $applicantId, $userRole);
         echo json_encode($result);
         exit;
+    }
+    
+    /**
+     * Function to get applicant details page
+     * @param string $qcode
+     * @param int $uid
+     * @param object $request
+     * return string
+     */
+    public function courseunitDetailsAction($qcode,$unitcode, $uid, Request $request)
+    {
+        $userService = $this->get('UserService');
+        $coursesService = $this->get('CoursesService');
+        $evidenceService = $this->get('EvidenceService');
+       
+        $user = $userService->getUserInfo($uid);
+        
+        $results = $coursesService->getCoursesInfo($qcode);
+        
+        if (!empty($user) && isset($results['courseInfo']['id'])) {
+            $applicantInfo = $userService->getApplicantInfo($user, $qcode);
+            $role = $this->get('security.context')->getToken()->getUser()->getRoles();
+            if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Manager::ROLE_NAME) {
+                $results['rtos'] = $userService->getUsers(Rto::ROLE);
+                $results['assessors'] = $userService->getUsers(Assessor::ROLE);
+                if ($role[0] == Superadmin::ROLE_NAME || $role[0] == Manager::ROLE_NAME) {
+                    $results['facilitators'] = $userService->getUsers(Facilitator::ROLE);
+                }
+            }
+            $results['courseCode'] = $qcode;
+            $units = $results['courseInfo']['Units']['Unit'];
+            foreach($units as $key => $value)
+            {   
+                if($value['id'] === $unitcode){
+                    $results['unitCode'] = $value['id'];
+                    $results['unitName'] = $value['name'];
+                    $results['unitDetails'] = $value['details'];
+                }
+            }
+            $results['evidences'] = $evidenceService->getUserUnitEvidences($uid, $unitcode);
+            $results['evidenceCount'] = count($evidenceService->getUserUnitEvidences($uid, $unitcode));
+            return $this->render('GqAusUserBundle:Applicant:unitdetails.html.twig', array_merge($results, $applicantInfo));
+        } else {
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+        }
     }
 
 }

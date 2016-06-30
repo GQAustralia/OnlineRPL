@@ -282,7 +282,6 @@ if($('#frmSelectEvidence').length)
     });
 }
 
-
 $("#download_profile").click(function() {
     userId = $(this).attr("userid");
     courseCode = $(this).attr("course_code");
@@ -798,12 +797,12 @@ function onloadCount()
     $.ajax({
         url: base_url + "unread",
         cache: false,
-        success: function(result) {           
+        success: function(result) {
             if (result > 0) {
                 $("#unread-count").html('<span class="gq-ms-counter">' + result + '<span>');
                 $(".inbox-cnt").html("(" + result + ")");
             } else {
-                $("#unread-count").css("display","none");
+                $("#unread-count").html("");
                 $(".inbox-cnt").html("");
             }
         }
@@ -965,9 +964,8 @@ function loadDataIcon(listdiv)
         var tdcolspan = $("#ajaxHtml").attr("tdcolspan");
     else
         var tdcolspan = $("#ajaxHtml").attr("tdrtocolspan");
-    var ajaxLoadHTML = '<tr class="load-icon-tr"><td colspan="'+tdcolspan+'">'+ajaxLoadImg+'</td></tr>';
-    $("#"+listdiv).html(ajaxLoadHTML);    
-
+    var ajaxLoadHTML = '<tr class="load-icon-tr"><td colspan="'+tdcolspan+'">'+ajaxLoadImg+'</td></tr>'; 
+    $("#"+listdiv).html(ajaxLoadHTML);
 }
 /*$("#timeRemaining").change(function() {
     pagenum = 1;
@@ -1033,9 +1031,8 @@ $("#searchFilterReports").click(function() {
     loadDataIcon('currentList');
     loadApplicantListReports('currentList',pagenum);
 });
-
-/*$("#searchFilter").click(function() {
- *     pagenum = 1;
+$("#searchFilter").click(function() {   
+    pagenum = 1;
     if(applicantStatus==0)
     {
         loadDataIcon('currentList');
@@ -1045,17 +1042,6 @@ $("#searchFilterReports").click(function() {
     {
         loadDataIcon('completedList');
         loadApplicantList('completedList',pagenum);
-    }
-});
-*/
-$("#searchName").keyup(function (e) {   
-    if (e.keyCode == 13) {         
-        pagenum = 1;        
-    if(applicantStatus==0)
-    {      
-        loadDataIcon('currentList');
-        loadApplicantList('currentList',pagenum);
-    }    
     }
 });
 function loadApplicantList(divContent)
@@ -1986,42 +1972,3 @@ $(".deleteUser").click(function() {
         }
     });
 });
-
-function searchUsernames(id) {  
-   $(id).autocomplete({
-        source: function(request, response) {
-            $.getJSON(base_url + "messages/usernamesbyRoles", {
-                term: extractLast(request.term)
-            }, response);
-
-        },
-        search: function() {
-            var term = extractLast(this.value);
-              if (term.length < 2) {
-                return false;
-            }
-        },
-        focus: function() {
-            // prevent value inserted on focus
-            return false;
-        },
-        select: function(event, ui) {
-            var terms = split(this.value);
-            // remove the current input
-            terms.pop();
-            // add the selected item
-            terms.push(ui.item.value);
-            // add placeholder to get the comma-and-space at the end
-            terms.push("");
-            this.value = terms.join(" ");
-            return false;
-        }
-    });
-}
-function split(val) {
-    return val.split(/,\s*/);
-}
-function extractLast(term) {
-    return split(term).pop();
-}
-
