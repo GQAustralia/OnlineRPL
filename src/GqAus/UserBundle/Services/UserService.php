@@ -2525,6 +2525,13 @@ class UserService
         }
         return $allRcrds;
     }
+	/**
+     * Function to get the Evidences from Unit & course & userid wise 
+     * @param integer $courseId 
+     * @param integer $unitId
+	 * @param integer userId
+     * return Array
+     */
     public function getEvidenceForUnit($courseId, $unitId, $userId){
         $connection = $this->em->getConnection();
         $statement = $connection->prepare('SELECT count(*) as noFiles FROM evidence WHERE user_id = :userId AND unit_code =:unitCode AND course_code = :courseCode');
