@@ -1984,8 +1984,8 @@ $(".deleteUser").click(function() {
         }
     });
 });
-function searchUsernames() {
-   $("#compose_toUserName").autocomplete({
+function searchUsernames(id) {  
+   $(id).autocomplete({
         source: function(request, response) {
             $.getJSON(base_url + "messages/usernamesbyRoles", {
                 term: extractLast(request.term)

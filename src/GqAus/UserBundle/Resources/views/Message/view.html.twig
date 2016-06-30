@@ -77,22 +77,23 @@
                             </p>
                         </div>
                      {% endfor %}
-                        {% if msgType is defined and msgType=="reply" %}                         
+                        {% if msgType is defined and msgType=="reply" %}  
+                            {{user}}
                         <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composemsgForm) }}>
                         <input type="hidden" id="replymid" name="replymid" value="{{ replymid }}"/>
                         <div class="chat_box to">
                                 <div class="person_profile">
                                         <span class="chat_pic">
                                             {% if user is defined and user != '' %}
-                                                <img src="{{ asset('public/uploads/') }}{{ toUserImage }}" alt="chat_pic"/>
+                                                <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>                                           
                                             {% else %}
                                                 <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>
                                             {% endif %}
                                         </span>
                                         <span class="chat_name"><strong>
                                             {% if user is defined and user != '' %}
-                                                      You
-                                                <span class="hidden">                                              
+                                               You
+                                        <span class="hidden">                                              
                                         {{ form_widget(composemsgForm.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                                         {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                                         </span>
@@ -176,7 +177,7 @@
                     {{ form_widget(composemsgForm.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                     {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                     {% else %}
-                    {{ form_widget(composemsgForm.toUserName, {'attr': {'placeholder': ''} }) }}
+                    {{ form_widget(composemsgForm.toUserName, {'attr': {'placeholder': '','onKeyUp':'searchUsernames("#compose_toUserName")'} }) }}
                     {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
                     {% endif %}
                     </div>
@@ -210,7 +211,6 @@
    
     <!-- FOR DESKTOP -->
     
-
     <!-- FOR MOBILE -->
     <div class="">        
               
@@ -368,7 +368,7 @@
                     {{ form_widget(composeformMobile.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                     {{ form_widget(composeformMobile.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                     {% else %}
-                    {{ form_widget(composeformMobile.toUserName, {'attr': {'placeholder': ''} }) }}
+                    {{ form_widget(composeformMobile.toUserName, {'attr': {'placeholder': '','onKeyUp':'searchUsernames(".mobto")','class':'mobto'} }) }}
                     {{ form_widget(composeformMobile.to, {'attr': {'placeholder': ''} }) }}
                     {% endif %}
                     </div>
@@ -400,5 +400,6 @@
     </div>
     </div>
  <!-- FOR MOBILE -->
+
  {% endblock %}
  

@@ -43,7 +43,7 @@ class MessageController extends Controller
             
             //$myrepMsgs = $messageService->getMyReplyMessages($mid);
             $replyId = $this->getRequest()->get('reply_id');
-            if($mid !="compose" ||  $replyId != "") { 
+            if(($mid !="compose" && $mid !="usernamesbyRoles")  ||  $replyId != "") { 
                 if($replyId != "") {
                     $newmid = $mid;
                     $mid = $replyId;
@@ -157,6 +157,21 @@ class MessageController extends Controller
                 
                 return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
             }
+            
+            if($newmid == "usernamesbyRoles") {
+                $messageService = $this->get('UserService');
+                $userrole = $messageService->getCurrentUser()->getRoles();
+                $term = strtolower($_GET["term"]);
+                $results = array();
+                $rows = $messageService->getUsernamesbyRoles(array('keyword' => $term),$userrole[0]);
+                $json_array = array();
+                foreach ($rows as $row)
+                {
+                    array_push($json_array, $row[1]);
+                }
+                echo json_encode($json_array);
+                exit;
+            }
         }
         else
         {
@@ -248,7 +263,7 @@ class MessageController extends Controller
      * return string
      */
     public function saveMessageAction(Request $request)
-    {     
+    {         
         if ($request->isMethod('POST')) {            
             $userService = $this->get('UserService');
             $curuser = $userService->getCurrentUser();
@@ -267,11 +282,28 @@ class MessageController extends Controller
                 if (isset($composearr['unitId'])) {
                     $unitId = $composearr['unitId'];
                 }
-                $user = $this->getDoctrine()
-                    ->getRepository('GqAusUserBundle:User')
-                    ->findOneBy(array('email' => $to));             
+                if(isset($replymid) && $replymid != "" && $replymid != 0)
+                {
+                    $user = $this->getDoctrine()
+                        ->getRepository('GqAusUserBundle:User')
+                        ->findOneBy(array('email' => $to));                                 
+                    if ($user) 
+                        $touser = $user->getId();
+                }
+                else {
+                    $nameCondition="";
+                    $query = $this->getDoctrine()->getRepository('GqAusUserBundle:User')
+                            ->createQueryBuilder('u')
+                            ->select('u');
+                    $searchIn = $query->expr()->concat('u.firstName', $query->expr()->concat($query->expr()->literal(' '), 'u.lastName'));
+                    $nameCondition .= $searchIn."='".$to."'" ;
+                    $query->Where($nameCondition);
+                    $user = $query->getQuery()->getResult(); 
+                    if ($user) 
+                        $touser = $user[0]->getId();
+                }
+                //echo "<pre>"; dump($user); exit;
                 if ($user) {
-                    $touser = $user->getId();
                     $msgRespose = $userService->checkMessage($touser,$curuser->getId());
                     if($msgRespose == 1)
                     {
@@ -524,6 +556,7 @@ class MessageController extends Controller
         }
         exit;
     }
+    
    public function replyMessagesAction(Request $request)
     {
         $messageService = $this->get('UserService');
@@ -532,6 +565,4 @@ class MessageController extends Controller
         echo $unreadcount;
         exit;
     }
-    
-
 }
