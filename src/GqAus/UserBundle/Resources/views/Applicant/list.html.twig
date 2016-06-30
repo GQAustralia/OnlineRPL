@@ -29,9 +29,9 @@
                             <div class="portfolio-filter">
                                 <div class="row">
                                     <div class="col-md-8 col-lg-8">
-                                        <form action="#" class="filter">
-                                            <input type="text" value="" name="searchName" id="searchName" placeholder="Applicant Name" class="search-box" placeholder="Search"/>
-                                        </form>
+                                       <!-- <form action="#" class="filter"> -->
+                                            <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search Applicant Name"/>
+                                       <!-- </form>-->
                                     </div>
                                     <div class="col-md-2 col-lg-2" {% if ('ROLE_RTO' in userRole) %} style="display:none;" {% endif %}>
                                         <div class="status active">
@@ -48,11 +48,14 @@
                         </div>
                     </div>
                     <div class="col-lg-12">
+                        <div id="ajaxHtml" style="display:none" {% if ('ROLE_RTO' in userRole) %} tdcolspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+                                    <img src="{{ asset('public/images')}}/loading.gif" />
+                        </div>
                         <div class="container">
-                            <div class="portfolio-data-table">
+                            <div class="portfolio-data-table">                                
                                 <table class="table">
                                   {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
-                                    <tbody>
+                                    <tbody id="currentList">
                                         {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
                                     </tbody>
                                 </table>

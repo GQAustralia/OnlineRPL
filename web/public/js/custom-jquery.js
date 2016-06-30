@@ -959,14 +959,14 @@ $(".deleteTrash").click(function() {
 
 var applicantStatus = '0';
 function loadDataIcon(listdiv)
-{    
+{
     var ajaxLoadImg = $("#ajaxHtml").html();
     if(listdiv == "currentList")
         var tdcolspan = $("#ajaxHtml").attr("tdcolspan");
     else
         var tdcolspan = $("#ajaxHtml").attr("tdrtocolspan");
     var ajaxLoadHTML = '<tr class="load-icon-tr"><td colspan="'+tdcolspan+'">'+ajaxLoadImg+'</td></tr>'; 
-    $("#"+listdiv).html(ajaxLoadHTML);
+    $("#"+listdiv).html(ajaxLoadHTML);    
 }
 /*$("#timeRemaining").change(function() {
     pagenum = 1;
@@ -1032,7 +1032,7 @@ $("#searchFilterReports").click(function() {
     loadDataIcon('currentList');
     loadApplicantListReports('currentList',pagenum);
 });
-$("#searchFilter").click(function() {       
+/*$("#searchFilter").click(function() {       
     pagenum = 1;
     if(applicantStatus==0)
     {
@@ -1044,20 +1044,19 @@ $("#searchFilter").click(function() {
         loadDataIcon('completedList');
         loadApplicantList('completedList',pagenum);
     }
-});
-$("#searchName").keyup(function (e) {
-    if (e.keyCode == 13) {
-        pagenum = 1;
+});*/
+$("#searchName").keyup(function (e) {   
+    if (e.keyCode == 13) {         
+        pagenum = 1;        
     if(applicantStatus==0)
-    {
+    {      
         loadDataIcon('currentList');
         loadApplicantList('currentList',pagenum);
-    }
-    
+    }    
     }
 });
 function loadApplicantList(divContent)
-{
+{   
     searchName = $('#searchName').val();
     searchTime = $('#timeRemaining').val();
     filterByUser = $('#filterByUser').val();

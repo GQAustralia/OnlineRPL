@@ -18,7 +18,10 @@
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">
     {% endblock %}
     {% block stylesheets %}{% endblock %}
-    
+    <script type="text/javascript">
+            var base_url = "{{ base_url }}";
+            var amazon_link = "{{ amazon_link }}";
+        </script>
   </head>
   <body>
     {% set roles = app.security.getToken().getUser().getRoles() %}
@@ -52,6 +55,7 @@
     <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/js/script.js') }}"></script>
     <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+     <script src="{{ asset('public/js/timepicker.js') }}"></script>
     {% block javascripts %}{% endblock %}
 </body>
 </html>
