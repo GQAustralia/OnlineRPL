@@ -28,14 +28,37 @@ class DefaultController extends Controller
         } else if (in_array('ROLE_MANAGER', $userRole) || in_array('ROLE_SUPERADMIN', $userRole)) {
             $results = $this->get('UserService')->getManagersApplicantsCount($userId, $userRole);
             return $this->render('GqAusHomeBundle:Default:user-dashboard.html.twig', $results);
-        } else {
-            $appResults = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0');
-            $results = $userService->getUsersDashboardInfo($user);
-            $results['applicantList'] = $appResults['applicantList'];
-            $results['paginator'] = $appResults['paginator'];
-            $results['page'] = $appResults['page'];
-            $results['pageRequest'] = '';
-            $results['status'] = 0;
+        } else { /* 2-Facilitator, 3-Assessor, 4-Rto */
+           $appResults = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '1');
+           $results = $userService->getUsersDashboardInfo($user);
+           $todoReminders = $userService->getTodoReminders($userId);
+           $todoCompletedReminders = $userService->getCompletedReminders($userId);
+
+           $todoRemindersCount = count($todoReminders);
+           $todoCompletedRemindersCount = count($todoCompletedReminders);
+           $totalRemindersCount = $todoRemindersCount + $todoCompletedRemindersCount;
+           /* dump($appResults['applicantList']);
+           exit; */
+           if($todoRemindersCount > 0) {
+                $percentageForItem = $totalRemindersCount/$todoRemindersCount;
+                $percentage = ($todoCompletedRemindersCount/$totalRemindersCount)*100;
+            } else {
+                    $percentageForItem = 0;
+                    $percentage = 100;
+            }
+
+           $results['todoRemindersCount'] = $todoRemindersCount;
+           $results['completedRemindersCount'] = $todoCompletedRemindersCount;
+           $results['totalRemindersCount'] = $totalRemindersCount;
+           $results['todoReminders'] = $todoReminders;
+           $results['completedReminders'] = $todoCompletedReminders;
+           $results['percentage'] = $percentage;	   
+           $results['applicantList'] = $appResults['applicantList'];
+           $results['paginator'] = $appResults['paginator'];
+           $results['page'] = $appResults['page'];
+           $results['pageRequest'] = '';
+           $results['status'] = 0;
+
             return $this->render('GqAusHomeBundle:Default:dashboard.html.twig', $results);
         }
     }
