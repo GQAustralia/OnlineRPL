@@ -76,7 +76,12 @@ class UserService
     {
         return $this->repository->findOneById($this->userId);
     }
-
+    
+    public function getRequestUser($userId)
+    {
+        return $this->repository->findOneById($userId);
+    }
+    
     /**
      * function to save current user profile
      */
@@ -926,7 +931,7 @@ class UserService
     public function getUnreadMessagesCount($userId)
     {
         $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
-            'read' => '0', 'toStatus' => '0'));
+            'read' => '0', 'toStatus' => '0')); 
         return count($getMessages);
     }
 
@@ -936,20 +941,23 @@ class UserService
      * @param int $page
      * return array
      */
-    public function getMyInboxMessages($userId, $page)
+    public function getMyInboxMessages($userId)
     {
-        if ($page <= 0) {
-            $page = 1;
-        }
+        //if ($page <= 0) {
+         //   $page = 1;
+       // }
         $query = $this->em->getRepository('GqAusUserBundle:Message')
             ->createQueryBuilder('m')
             ->select('m')
             ->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $userId)
-            ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0')
+            ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0')            
+            ->orWhere(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId)
+            ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0')
             ->addOrderBy('m.created', 'DESC');
-        $paginator = new \GqAus\UserBundle\Lib\Paginator();
-        $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
-        return array('messages' => $pagination, 'paginator' => $paginator);
+        $getMessages = $query->getQuery()->getResult();        
+       // $paginator = new \GqAus\UserBundle\Lib\Paginator();
+       // $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
+        return array('messages' => $getMessages,'sentuserid' => $userId);
     }
 
     /**
@@ -970,6 +978,7 @@ class UserService
         $msgObj->setToStatus(0);
         $msgObj->setReply(0);
         $msgObj->setunitID($msgdata['unitId']);
+        $msgObj->setreplymid($msgdata['replymid']);
         $this->em->persist($msgObj);
         $this->em->flush();
     }
@@ -1087,7 +1096,32 @@ class UserService
      */
     public function getMessage($mid)
     {
-        return $this->em->getRepository('GqAusUserBundle:Message')->find($mid);
+        return $this->em->getRepository('GqAusUserBundle:Message')->find($mid);     
+    }
+    
+    /**
+     * Function to get messages to view
+     * @param int $mid
+     * return array
+     */
+    public function getReplyMessages($mid)
+    {
+        $msgobj = $this->em->getRepository('GqAusUserBundle:Message')->find($mid); 
+        $replymid = $msgobj->getreplymid();   
+        if($replymid > 0) {
+            $query = $this->em->getRepository('GqAusUserBundle:Message')
+                ->createQueryBuilder('m')
+                ->select('m')
+                ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $replymid)
+                ->orWhere(sprintf('m.%s = :%s', 'replymid', 'replymid'))->setParameter('replymid', $replymid);
+        } else {
+            $query = $this->em->getRepository('GqAusUserBundle:Message')
+                ->createQueryBuilder('m')
+                ->select('m')
+                ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $mid);
+        }        
+        $getMessages = $query->getQuery()->getResult(); 
+        return $getMessages; 
     }
 
     /**
@@ -2458,5 +2492,37 @@ class UserService
         }
         return $response;
     }
-
+    
+    /**
+     * Function to get inbox messages
+     * @param int $userId
+     * @param int $page
+     * return array
+     */
+    public function getMyReplyMessages($replymid)
+    {
+        $getReplyId = $this->em->getRepository('GqAusUserBundle:Message')->findOneBy(array('id' => $replymid));
+        $replymid = $getReplyId->getreplymid(); 
+        $repMsgs = array();
+        if($replymid != 0) {
+            $repMsgs = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('replymid' => $replymid));
+        }
+        return $repMsgs;
+    }
+    /**
+     * Check Messages Role wise Authentication
+     * @param: $to_user and $from_user
+     */
+    public function checkMessage($touser){ 
+        $response = 1;
+        $fromuserInfo = $this->getCurrentUser();
+        $touserInfo = $this->getRequestUser($touser);       
+        $fromuserRole = $fromuserInfo->getRole(); 
+        $touserRole = $touserInfo->getRole(); 
+        if(($fromuserRole == 1 || $fromuserRole == 3 || $fromuserRole == 4) && $touserRole!='2')
+        {
+            $response = 0;
+        }       
+        return $response;
+    }
 }

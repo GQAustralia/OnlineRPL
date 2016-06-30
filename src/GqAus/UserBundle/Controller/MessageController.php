@@ -10,19 +10,18 @@ use \DateTime;
 
 class MessageController extends Controller
 {
-
     /**
      * Function to view all inbox messages
      * @param object $request
      * return string
      */
-    public function viewAction(Request $request)
+    public function viewAction(Request $request, $mid=null)
     {
         $messageService = $this->get('UserService');
-        $userid = $messageService->getCurrentUser()->getId();
-        $page = $this->get('request')->query->get('page', 1);
-        $result = $messageService->getMyInboxMessages($userid, $page);
-        $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);
+        $userid = $messageService->getCurrentUser()->getId();        
+        //$page = $this->get('request')->query->get('page', 1);
+        $result = $messageService->getMyInboxMessages($userid);      
+        $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);       
         $now = new DateTime('now');
         $result['today'] = $now->format('Y-m-d');
         // removing caching
@@ -31,7 +30,141 @@ class MessageController extends Controller
         $response->headers->set("Pragma", "no-cache");
         $response->headers->set("Expires", "-1");
         $response->send();
-        return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
+        $newmid = $mid;
+        $result['curuser'] = $userid;
+        /*View Message Code -- msgcode*/
+        if(isset($mid) && $mid!="")
+        {
+            $messageService = $this->get('UserService');
+            $unreadcount = $messageService->getUnreadMessagesCount($userid);
+            // getting the last route to check whether it is coming from inbox or sent ot tash
+            //look for the referer route
+            
+            
+            //$myrepMsgs = $messageService->getMyReplyMessages($mid);
+            $replyId = $this->getRequest()->get('reply_id');
+            if($mid !="compose" ||  $replyId != "") { 
+                if($replyId != "") {
+                    $newmid = $mid;
+                    $mid = $replyId;
+                }
+                $referer = $this->getRequest()->headers->get('referer');
+                $path = $this->container->getParameter('applicationUrl');
+                $lastPath = str_replace($path, '', $referer);
+                if ($lastPath != '') {
+                    $lastPath = explode('?', $lastPath);
+                    // updating the readstatus if it is from inbox
+                    if ($lastPath[0] == 'messages') {
+                        $messageService->setReadViewStatus($mid);
+                    }
+                }
+                $messages = $messageService->getReplyMessages($mid); 
+                $replymsgarr = array();
+                $i = 0;
+                foreach($messages as $message) {
+                    $msgUser = $message->getSent()->getId(); // from user
+                    $touser = $message->getInbox()->getId(); // to user
+                    $toStatus = $message->getToStatus();
+                    $fromStatus = $message->getFromStatus(); 
+                    $created = $message->getCreated();              
+                    /*$msgDetails = array(
+                        'fromUser' => $msgUser,
+                        'toUser' => $touser,
+                        'toStatus' => $toStatus,
+                        'fromStatus' => $fromStatus,
+                        'curUser' => $userid
+                    );*/
+                    if ($userid == $msgUser) {
+                        $userName = $message->getInbox()->getUserName();
+                        $from = ' from me';
+                        if ($userid == $message->getInbox()->getId()) {
+                            $from = ' to me';
+                        }
+                    } else {
+                        $userName = $message->getSent()->getUserName();
+                        $from = ' to me';
+                    }
+
+                    $content = nl2br($message->getMessage());
+                    $fromUser = $messageService->getRequestUser($msgUser); 
+                    $toUser = $messageService->getRequestUser($touser);
+                    $replymsgarr[$i]['userImage'] = $fromUser->getUserImage();
+                    $replymsgarr[$i]['fromUserImage'] = $fromUser->getUserImage();
+                    $replymsgarr[$i]['toUserImage'] = $toUser->getUserImage();
+                    $replymsgarr[$i]['fromUserName'] = $fromUser->getUserName();               
+                    if($replymsgarr[$i]['fromUserImage'] == "" || $replymsgarr[$i]['toUserImage'] == "")
+                    {
+                        $replymsgarr[$i]['fromUserImage'] = "no-image.jpg";
+                        $replymsgarr[$i]['toUserImage'] = "no-image.jpg";
+                    }
+                    $replymsgarr[$i]['unreadcount'] = $unreadcount;
+                    $replymsgarr[$i]['message'] = $message;
+                    $replymsgarr[$i]['content'] = $content;
+                    $replymsgarr[$i]['userName'] = $userName;
+                    $replymsgarr[$i]['from'] = $from;
+                    $replymsgarr[$i]['created'] = $created;
+                    //$result['msgDetails'] = $msgDetails;
+                    //$result['msgID'] = $mid; 
+                    $i++;
+                }
+                $result['msgID'] = $mid;
+                $result['replymsgarr'] = $replymsgarr;
+                //$message = $messageService->getMessage($mid);
+              // echo "<pre>"; dump($result); exit;
+                if($replyId == "")
+                    return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
+            }
+
+            if($newmid == "compose") {
+                   
+                $replyId = $this->getRequest()->get('reply_id');
+                
+                if ($replyId) {
+                    $message = $messageService->getMessage($replyId);
+                    $newDateCreated = date('d/m/Y', strtotime($message->getCreated()));
+                    $repSub = "Re: " . $message->getSubject();
+                    if ($messageService->getCurrentUser()->getId() != $message->getSent()->getId()) {
+                        $repuser = $message->getSent()->getEmail();
+                        $repUserName = $message->getSent()->getUsername();
+                    } else {
+                        $repuser = $message->getInbox()->getEmail();
+                        $repUserName = $message->getInbox()->getUsername();
+                    }
+                    $unitId = '';
+                    if ($message->getUnitID() != '' || $message->getUnitID() > 0) {
+                        $unitId = $message->getUnitID();
+                    }
+                    $fromUser = $messageService->getRequestUser($message->getSent()->getId()); 
+                    $toUser = $messageService->getRequestUser($message->getInbox()->getId());
+                    $result['userImage'] = $fromUser->getUserImage();
+                    $result['toUserImage'] = $toUser->getUserImage();
+                    $result['created'] = $message->getCreated();
+                    $result['msgType'] = 'reply';
+                    $result['user'] = $repuser;
+                    $result['userName'] = $repUserName;
+                    $result['unitId'] = $unitId;
+                    $result['sub'] = $repSub;
+                    $result['replymid'] = $replyId;                   
+                }
+                else {
+                    $result['replymid'] = "";
+                    $result['msgType'] = "new";
+                }                
+                $composeform = $this->createForm(new ComposeMessageForm(), array());
+                $result['composemsgForm'] = $composeform->createView(); 
+                $composeformMobile = $this->createForm(new ComposeMessageForm(), array());
+                $result['composeformMobile'] = $composeformMobile->createView(); 
+                
+                return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
+            }
+        }
+        else
+        {
+            $result['msgType'] = "";
+            return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
+        }
+        /*View Message*/
+        
     }
 
     /**
@@ -115,15 +248,19 @@ class MessageController extends Controller
      * return string
      */
     public function saveMessageAction(Request $request)
-    {
-        if ($request->isMethod('POST')) {
+    {     
+        if ($request->isMethod('POST')) {            
             $userService = $this->get('UserService');
             $curuser = $userService->getCurrentUser();
             $composeform = $this->createForm(new ComposeMessageForm(), array());
             $composeform->handleRequest($request);
+            $replymid = $this->getRequest()->get('replymid');
             if ($composeform->isValid()) {
-                $composearr = $request->get('compose');
-                $to = $composearr['to'];
+                $composearr = $request->get('compose'); 
+                if($composearr['to'] == "")
+                   $to = $composearr['toUserName'];
+                else
+                   $to = $composearr['to'];
                 $subject = $composearr['subject'];
                 $message = $composearr['message'];
                 $unitId = '';
@@ -132,35 +269,60 @@ class MessageController extends Controller
                 }
                 $user = $this->getDoctrine()
                     ->getRepository('GqAusUserBundle:User')
-                    ->findOneBy(array('email' => $to));
+                    ->findOneBy(array('email' => $to));             
                 if ($user) {
                     $touser = $user->getId();
-                    $sentuser = $userService->getUserInfo($touser);
-                    $msgdata = array('subject' => $subject,
-                        'message' => $message, 'unitId' => $unitId);
+                    $msgRespose = $userService->checkMessage($touser,$curuser->getId());
+                    if($msgRespose == 1)
+                    {
+                        $sentuser = $userService->getUserInfo($touser);
+                        if(isset($replymid) && $replymid != "" && $replymid != 0)
+                        {
+                            $getReplyId = $this->getDoctrine()
+                                        ->getRepository('GqAusUserBundle:Message')
+                                        ->findOneBy(array('id' => $replymid));
+                            $newreplymid = $getReplyId->getreplymid();
+                            if($newreplymid == 0)
+                                $replymid = $replymid;
+                            else
+                                $replymid = $newreplymid;
+                        }
 
-                    // for sending external mail
-                    $mailSubject = str_replace('#messageSubject#', $subject,
-                        $this->container->getParameter('mail_notification_sub'));
+                        $msgdata = array('subject' => $subject,
+                            'message' => $message, 'unitId' => $unitId, 'replymid' => $replymid);
 
-                    // finding and replacing the variables from message templates
-                    $search = array('#toUserName#', '#applicationUrl#', '#fromUserName#');
-                    $replace = array($sentuser->getUsername(),
-                        $this->container->getParameter('applicationUrl'), $curuser->getUsername());
-                    $mailBody = str_replace($search, $replace, $this->container->getParameter('mail_notification_con'));
+                        // for sending external mail
+                        $mailSubject = str_replace('#messageSubject#', $subject,
+                            $this->container->getParameter('mail_notification_sub'));
 
-                    /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-                    $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
-                        $mailBody, $curuser->getEmail(), $curuser->getUsername());
+                        // finding and replacing the variables from message templates
+                        $search = array('#toUserName#', '#applicationUrl#', '#fromUserName#');
+                        $replace = array($sentuser->getUsername(),
+                            $this->container->getParameter('applicationUrl'), $curuser->getUsername());
+                        $mailBody = str_replace($search, $replace, $this->container->getParameter('mail_notification_con'));
 
-                    $userService->saveMessageData($sentuser, $curuser, $msgdata);
-                    $request->getSession()->getFlashBag()->add(
-                        'msgnotice', 'Message sent successfully!'
-                    );
-                } else {
-                    $request->getSession()->getFlashBag()->add(
-                        'errornotice', 'User not existed'
-                    );
+                        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+                        //$userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
+                       //     $mailBody, $curuser->getEmail(), $curuser->getUsername());
+
+                        $userService->saveMessageData($sentuser, $curuser, $msgdata);
+
+                        $request->getSession()->getFlashBag()->add(
+                            'msgnotice', 'Message sent successfully!'
+                        );
+                    }
+                    else
+                    {
+                        $request->getSession()->getFlashBag()->add(
+                            'errornotice', 'This User not Authorised to send messages'
+                        );
+                    }
+                }
+                else {
+
+                        $request->getSession()->getFlashBag()->add(
+                            'errornotice', 'User not existed'
+                        );
                 }
             }
             return $this->redirect('messages');
@@ -257,10 +419,10 @@ class MessageController extends Controller
      * return string
      */
     public function viewMessageAction($mid)
-    {
+    { 
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();
-        $unreadcount = $messageService->getUnreadMessagesCount($userid);
+        $unreadcount = $messageService->getUnreadMessagesCount($userid);      
         // getting the last route to check whether it is coming from inbox or sent ot tash
         //look for the referer route
         $referer = $this->getRequest()->headers->get('referer');
@@ -283,7 +445,8 @@ class MessageController extends Controller
             'toUser' => $touser,
             'toStatus' => $toStatus,
             'fromStatus' => $fromStatus,
-            'curUser' => $userid
+            'curUser' => $userid,
+            'replymid' => $replymid
         );
         if ($userid == $msgUser) {
             $userName = $message->getInbox()->getUserName();
@@ -361,5 +524,14 @@ class MessageController extends Controller
         }
         exit;
     }
+   public function replyMessagesAction(Request $request)
+    {
+        $messageService = $this->get('UserService');
+        $userid = $messageService->getCurrentUser()->getId();
+        $unreadcount = $messageService->getUnreadMessagesCount($userid);
+        echo $unreadcount;
+        exit;
+    }
+    
 
 }

@@ -15,8 +15,15 @@
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/rto.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualififation.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate.css') }}">
+
     {% endblock %}
     {% block stylesheets %}{% endblock %}
+     <script src="{{ asset('public/js/jquery.min.js') }}"></script>
+        <script type="text/javascript">
+            var base_url = "{{ base_url }}";
+            var amazon_link = "{{ amazon_link }}";
+        </script>
     
   </head>
   <body>
@@ -24,14 +31,15 @@
    <main class="main_container">
        {% block navmenu %}
         <header>
+
             <section class="container">
                 <div class="hidden-xs logo">
-                    <img src="{{ asset('public/images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/>
+                    <img src="{{ asset('public/images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/>          
                 </div>
                  <nav>
                     <ul class="menu">
                         <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/dashboard">DASHBOARD</a></li> 
-                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/dashboard">PORTFOLIOS<span>1</span></a></li>
+                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span>1</span></a></li>
                         {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}                            
                             <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES</a></li>
                         {% endif %}                            
@@ -50,6 +58,94 @@
     <script src="{{ asset('public/js/jquery.min.js') }}"></script>
     <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/js/script.js') }}"></script>
+    <script src="{{ asset('public/js/custom-jquery.js') }}"></script>    
+    <script src="{{ asset('public/js/jquery.form.js') }}"></script>
+    <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>    
+    <script src="{{ asset('public/js/jquery-ui.js') }}"></script>
+    
+    <script src="{{ asset('public/js/moment.js') }}"></script>
+    <script src="{{ asset('public/js/daterangepicker.js') }}"></script>
+    <script>
+    onloadCount();
+    $(document).ready(function(){
+    if( $(window).width() > 768 ) {
+           setInterval(function(){SetHeight()}, 100);
+       }
+        //var showOrHide = true; 
+        var showOrHide = checkCookie(); 
+        $("#gq-menu-icon-desk").click(function() {
+               if ( showOrHide === 'true' || showOrHide === true ) {
+                   $(".left-nav-txt").hide();
+                   $(".gq-dashboard-left-nav li a").animate({height:'54px'});
+                   showOrHide = false;
+              } else if ( showOrHide === 'false' || showOrHide === false ) {
+                   $(".left-nav-txt").show();
+                   $(".gq-dashboard-left-nav li a").animate({height:'92px'});
+                   showOrHide = true;
+              }
+              $('.gq-dashboard-left').toggleClass('gq-dashboard-left-width');
+              $('.gq-dashboard-right').toggleClass('gq-dashboard-right-width');
+              
+              setCookie("menuType", showOrHide);
+         });
+        
+        // function for toggle menu in mobile layout
+        $("#gq-menu-icon-mob").click(function(){
+            $("#gq-dashboard-left").slideToggle("slow");    
+        });
+        
+        $(window).resize(function(){
+            if ($(window).width() < 768) {
+                $("#gq-dashboard-left").css("display", "none");
+            } else {
+                $("#gq-dashboard-left").css("display", "block");
+            }
+        });
+        $(".gq-id-files-upload-success-text").delay(5000).fadeOut(100);
+            
+    });
+    
+    function SetHeight() {
+        var RightHeight = $('html').height();
+        //$('.gq-dashboard-right').height(RightHeight - 66);                
+        $('.gq-dashboard-right').css("min-height",RightHeight);
+    }
+    // function to save the menu type in cookie
+    function setCookie(cname, cvalue, exdays) {
+        document.cookie = cname + "=" + cvalue;
+    }
+    // function to get the menu type from cookie
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+        return "";
+    }
+    // function to check whether the cookie is created or not 
+    function checkCookie() {
+        var menuType = getCookie("menuType");
+        if (menuType != "") {                   
+            var menuVal = menuType;
+        } else {
+          var menuVal = true;
+        }        
+        loadMenuType(menuVal);
+        return menuVal;
+    }
+    // function to check and load if collapased menu select on page load
+    function loadMenuType(menuVal){
+        if ( menuVal === 'false' || menuVal === false ) {           
+            $(".left-nav-txt").hide();
+            $(".gq-dashboard-left-nav li a").animate({height:'54px'});
+            $('.gq-dashboard-left').toggleClass('gq-dashboard-left-width');
+            $('.gq-dashboard-right').toggleClass('gq-dashboard-right-width');
+        }        
+    }
+    </script>
     {% block javascripts %}{% endblock %}
 </body>
 </html>

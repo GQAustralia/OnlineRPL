@@ -95,8 +95,8 @@ download_assessor_profile:
     path:     /downloadAssessorProfile/{uid}
     defaults:  { _controller: GqAusUserBundle:User:downloadAssessorProfile }
 messages:
-    path:     /messages
-    defaults: { _controller: GqAusUserBundle:Message:view } 
+    path:     /messages/{mid}
+    defaults: { _controller: GqAusUserBundle:Message:view, mid: null } 
 compose:
     path:     /compose
     defaults: { _controller: GqAusUserBundle:Message:compose } 
