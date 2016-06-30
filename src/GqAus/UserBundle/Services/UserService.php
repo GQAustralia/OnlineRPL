@@ -2511,7 +2511,7 @@ class UserService
     }
     /**
      * Check Messages Role wise Authentication
-     * @param: $to_user and $from_user
+     * @param: $touserInfo and $fromuserInfo
      */
     public function checkMessage($touser){ 
         $response = 1;
@@ -2524,5 +2524,33 @@ class UserService
             $response = 0;
         }       
         return $response;
+    }
+    /**
+     * Display usernames in New message Role wise Authentication
+     * @param: $userRole
+     */
+    public function getUsernamesbyRoles($options = array(),$userRole) {        
+        $query = $this->em->getRepository('GqAusUserBundle:User')
+            ->createQueryBuilder('u')
+            ->select( "CONCAT( CONCAT(u.firstName, ' '), u.lastName)" );
+        $nameCondition = "";
+        if ($userRole == 'ROLE_APPLICANT' || $userRole == 'ROLE_ASSESSOR' ||$userRole == 'ROLE_RTO' ) {
+            $query->where('(u instance of GqAusUserBundle:Facilitator)');
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";
+            $query->andWhere($nameCondition);       
+        }
+        else if ($userRole == 'ROLE_FACILITATOR') {
+            $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";
+            $query->andWhere($nameCondition);
+        }
+        $getMessages = $query->getQuery()->getResult(); 
+        $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getMessages)));
+        sort($getMessages);
+        //echo "<pre>"; dump($getMessages); 
+        return $getMessages;
     }
 }
