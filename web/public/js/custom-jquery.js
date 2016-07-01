@@ -305,47 +305,35 @@ $(".todomodalClass").click(function() {
 $("#todo-cancel").click(function() {
     $("#todoclose").trigger("click");
 });
-
+/* dashboard update todo list functionality starts */
 $(".updateTodo").click(function() {
-    $(".todo_loader").show();
-    var rmid = reminderid;
-    var flag = reminderflag;
-    if (flag == "0")
-        flag = "1";
-    else
-        flag = "0";
+    //$(".todo_loader").show();
+    var rmid = this.id;
+    var flag = $(this).attr("data-status");
+    flag = (flag == "0") ? "1":"0";
+	var completedItem = 1;
+	var percentage = '';
+	var currentTodoItem = $(this).parent().parent();
     $.ajax({
         type: "POST",
         url: "updateTodo",
         data: {rmid: rmid, flag: flag},
         success: function(result) {
-            if (result == "success") {
-                $("#records-not-found").hide();
-                var dateTime = new Date();
-                var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
-                var timeZoneDT = new Date(utc + (3600000*+11));
-                var hours = timeZoneDT.getHours();
-                var suffix = "AM";
-                if (hours >= 12) {
-                    suffix = "PM";
-                    hours = hours - 12;
-                }
-                if (hours == 0) {
-                    hours = 12;
-                }
-                $("#title_" + rmid).html('<span class="todo_day">'+ hours +':'+ timeZoneDT.getMinutes() +' '+ suffix +'</span>');
-                $("#" + rmid).remove();
-                $("#completed-tab").prepend("<div class='gq-to-do-list-row'>" + $("#div_" + rmid).parent().parent().html() + "</div>");
-                $("#div_" + rmid).parent().parent().remove();
-                if(parseInt($(".gq-to-do-list-row-completed").length)==0)
-                    $(".no-todo").show();
-                $(".todo_loader").hide();
-                $("#todoclose").trigger("click");
+            if (result == "success")
+			{
+				completedItem = parseInt(completedItem) + parseInt($('.progress-bar').attr('data-citem'));
+				totalItem = parseInt($('.progress-bar').attr('data-titem'));
+				percentage = (completedItem/totalItem)*100;
+				currentTodoItem.addClass('disable').find('span.content').removeClass('bold');
+				currentTodoItem.addClass('disable').find('input[type="checkbox"]').removeClass('updateTodo').attr('data-status', '0').prop('disabled', 'disabled');
+				$('.completed-list').prepend(currentTodoItem);
+				$('.progress-bar').css('width', percentage+"%").attr('data-citem', completedItem);
+				$('.todo-percent').html(Math.ceil(percentage));
             }
         }
     });
 });
-
+/* dashboard update todo list functionality ends */
 function validateExisting()
 {
     var efile = $(".check_evidence:checkbox:checked").length;
