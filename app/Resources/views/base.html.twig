@@ -33,7 +33,7 @@
                         <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/dashboard">DASHBOARD</a></li> 
                         <li class="portfolio"><a href="{{ app.request.baseUrl }}/dashboard">PORTFOLIOS<span>1</span></a></li>
                         {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}                            
-                            <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES</a></li>
+                            <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES<span id="unread-count"></span></a></li>
                         {% endif %}                            
                         <li class="messages"><a href="{{ app.request.baseUrl }}/messages">EVIDENCE</a></li>
                     </ul>
