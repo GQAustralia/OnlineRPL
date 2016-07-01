@@ -1,0 +1,250 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Applicant Details{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualififation.css') }}">
+    <link rel="stylesheet" type="text/css" href="/public/css/jquery.fancybox.css?v=2.1.5" media="screen" />
+{% endblock %}
+{% block navmenu %}
+    <header>
+        <section class="container">
+            <div class="portfolio-name"><strong>{{userName}}</strong></div>
+            <nav>
+                 <ul class="nav">
+                    <li><a class="active" href="#"><i class="material-icons">school</i><span>Qualification</span></a></li>
+                    <li><a href="#"><i class="material-icons">cloud_upload</i><span>Files</span></a></li>
+                    <li><a href="#"><i class="material-icons">account_circle</i><span>Profile</span></a></li>
+                </ul>            
+            </nav>
+        </section>
+    </header>
+    <div class="presentation-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-lg-11">
+                    <p>
+                        <span>{% if courseInfo.name %} {{courseInfo.name}} {% endif %}</span>
+                        <span>{% if courseInfo.id %} {{courseInfo.id}} {% endif %}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}    
+{% block body %}
+    {% set userRole = app.security.getToken().getUser().getRoles() %}
+    <!-- Small Screens HTML -->
+        <div class="hidden-lg body_section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        <div class="edu-tag">
+                            <p>
+                                <span class="tag-edu">Qualification</span>
+                                <span class="tag-id">Unit {{ unitCode }}</span>
+                                <span class="tag-copy">{{unitName}}</span>                        
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        <div class="panel-group">
+                            <div class="panel clearfix">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <span>Evidence</span>
+                                        <span class="pull-right"><strong> {{ evidenceCount }} Evidence Files Received</strong></span>
+                                    </h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel-copy">
+                                        {% for evidence in evidences %}
+                                            {% set evidenceType = evidence.type %}
+                                            {% if evidence.unit == unitCode %}
+                                                {% set evidenceType = evidence.type %}
+                                                {% if evidenceType == 'image' %} 
+                                                    {% set evtype = "photo"  %}
+                                                    {% set evfancy = "fancybox"  %}
+                                                {% elseif evidenceType == 'audio' %} 
+                                                       {% set evtype = "mic"  %}
+                                                       {% set evfancy = "" %}
+                                                {% elseif evidenceType == 'video' %} 
+                                                       {% set evtype = "videocam" %}  
+                                                       {% set evfancy = "" %}
+                                                {% elseif evidenceType == 'text' %}
+                                                       {% set evtype = "text_fields" %}
+                                                       {% set evfancy = "text" %}      
+                                                {% elseif evidenceType == 'file' %} 
+                                                       {% set evtype = "description" %}
+                                                       {% set evfancy = "fancybox fancybox.iframe" %}
+                                                {% elseif evidenceType == 'recording' %} 
+                                                       {% set evtype = "fiber_manual_record" %}
+                                                {% endif %}
+                                               <div class="file-info">
+                                                   <a href = "{{ amazon_link }}{{  evidence.path }}" {% if evfancy == 'fancybox' or evfancy == 'fancybox fancybox.iframe'%} class="{{ evfancy }}" {% else %} target="_blank" {% endif %}><span class="icon"><i class="material-icons">{{ evtype }}</i></span></a>
+                                                   <span class="file-discription">{{evidence.size}} | Added {{ evidence.created|date("d/m/Y") }}</span>
+                                               </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Small Screens HTML End -->
+    
+    <!-- Larg Screens HTML -->
+    <div class="hidden-xs body_section">
+        <div class="container">    
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="edu-tag">
+                        <p>
+                            <span class="tag-edu">Qualification</span>
+                            <span class="tag-id">Unit {{ unitCode }}</span>
+                            <span class="tag-copy">{{unitName}}</span>                        
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 nopadding col-md-6 col-lg-4">
+                    <div class="panel-group">
+                        <div class="panel clearfix">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <span>Evidence</span>
+                                    <span class="pull-right"><strong> {{ evidenceCount }} Evidence Files Received</strong></span>
+                                </h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="panel-copy">
+                                    {% for evidence in evidences %}
+                                        {% if evidence.unit == unitCode %}
+                                            {% set evidenceType = evidence.type %}
+                                            {% if evidenceType == "image" %} 
+                                                {% set evtype = "photo"  %}
+                                                {% set evfancy = "fancybox"  %}
+                                            {% elseif evidenceType == "audio" %} 
+                                                   {% set evtype = "mic"  %}
+                                                   {% set evfancy = "" %}
+                                            {% elseif evidenceType == "aideo" %} 
+                                                   {% set evtype = "videocam" %}  
+                                                   {% set evfancy = "" %}
+                                            {% elseif evidenceType == "text" %}
+                                                   {% set evtype = "text_fields" %}
+                                                   {% set evfancy = "text" %}      
+                                            {% elseif evidenceType == "file" %} 
+                                                   {% set evtype = "description" %}
+                                                   {% set evfancy = "fancybox fancybox.iframe" %}
+                                            {% elseif evidenceType == "recording" %} 
+                                                   {% set evtype = "fiber_manual_record" %}
+                                                   {% set evfancy = "" %}
+                                            {% else %}
+                                                   {% set evtype = "" %}
+                                                   {% set evfancy = "" %}
+                                            {% endif %}
+                                                <div class="file-info">
+                                                    <a href = "{{ amazon_link }}{{  evidence.path }}" {% if evfancy == 'fancybox' or evfancy == 'fancybox fancybox.iframe'%} class="{{ evfancy }}" {% else %} target="_blank" {% endif %}>
+                                                        <span class="icon"><i class="material-icons">{{ evtype }}</i></span>
+                                                    </a>
+                                                    <span class="file-discription">{{evidence.name}} <br/>{{evidence.size}} | Added {{ evidence.created|date("d/m/Y") }}</span>                                              
+                                                    {% if ('ROLE_FACILITATOR' in userRole) %}
+                                                        <span class="clear"><i class="material-icons">clear</i></span>
+                                                    {% endif %}
+                                                </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
+                    <div class="panel-group" id="accordion1">
+                        <div class="panel panel-default">
+                            <div class="panel-heading clearfix">
+                                <h4 class="panel-title"><span>About this unit</span></h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="panel-group" id="nested">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <div class="panle_body_content">
+                                                        <p><strong>Elements and Performanace Criteria</strong></p>
+                                                    </div>
+                                                    <a href="#nested-collapseSeven" data-parent="#nested" data-toggle="collapse" aria-expanded="false" class="collapsed">
+                                                        <i class="material-icons keyboard_arrow_down">keyboard_arrow_right</i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="panel-collapse collapse in" id="nested-collapseSeven" style="" aria-expanded="true">
+                                                <div class="panel-body">
+                                                    <div class="panel-copy">
+                                                        <div class="file-info">{{ unitDetails|raw }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <div class="panle_body_content">
+                                                        <p><strong>Required Skills &amp; Knowledge</strong></p>
+                                                    </div>
+                                                    <a href="#nested-collapseEight" data-parent="#nested" data-toggle="collapse">
+                                                        <i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="panel-collapse collapse" id="nested-collapseEight">
+                                                <div class="panel-body">
+                                                    <div class="panel-copy">
+                                                        <div class="file-info">{{ unitDetails|raw }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <div class="panle_body_content">
+                                                        <p><strong>Evidence Guide &amp; Rance Statement</strong></p>
+                                                    </div>
+                                                    <a href="#nested-collapseNine" data-parent="#nested" data-toggle="collapse">
+                                                        <i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="panel-collapse collapse" id="nested-collapseNine">
+                                                <div class="panel-body">
+                                                    <div class="panel-copy">
+                                                        <div class="file-info">{{ unitDetails|raw }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Larg Screens HTML -->
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="/public/js/jquery.fancybox.js?v=2.1.5"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.fancybox').fancybox();
+        });
+    </script>
+{% endblock %}
