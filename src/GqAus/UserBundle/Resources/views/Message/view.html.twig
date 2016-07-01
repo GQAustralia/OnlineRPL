@@ -54,7 +54,7 @@
 
                             {% endfor %}
                         </ul>
-                    <div class="floater_add_icon">
+                    <div class="floater_add_icon" title="Add New Message">
                             <a href="{{ base_url }}messages/compose">
                                     <i class="material-icons add">add</i>
                             </a>
@@ -88,8 +88,7 @@
                             </p>
                         </div>
                      {% endfor %}
-                        {% if msgType is defined and msgType=="reply" %}  
-                            {{user}}
+                        {% if msgType is defined and msgType=="reply" %}                            
                         <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composemsgForm) }}>
                         <input type="hidden" id="replymid" name="replymid" value="{{ replymid }}"/>
                         <div class="chat_box to">
@@ -271,7 +270,7 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    <div class="floater_add_icon">
+                    <div class="floater_add_icon" title="Add New Message">
                              <a href="{{ base_url }}messages/compose" onclick=""><i class="material-icons add">add</i> </a>
                     </div>
             </div>
@@ -411,6 +410,15 @@
     </div>
     </div>
  <!-- FOR MOBILE -->
-
+{% block javascripts %}
+       <script> onloadCount();</script>
+    <script src="{{ asset('public/js/jquery.form.js') }}"></script>
+    <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>  
+    <script src="{{ asset('public/js/jquery-1.10.2.js') }}"></script>
+    <script src="{{ asset('public/js/jquery-ui.js') }}"></script>    
+    <script src="{{ asset('public/js/moment.js') }}"></script>
+    <script src="{{ asset('public/js/daterangepicker.js') }}"></script>    
+     <script src="{{ asset('public/js/timepicker.js') }}"></script>
+{% endblock %}
  {% endblock %}
  

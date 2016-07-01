@@ -802,7 +802,7 @@ function onloadCount()
                 $("#unread-count").html('<span class="gq-ms-counter">' + result + '<span>');
                 $(".inbox-cnt").html("(" + result + ")");
             } else {
-                $("#unread-count").html("");
+                $("#unread-count").css("display","none");
                 $(".inbox-cnt").html("");
             }
         }
@@ -1031,7 +1031,7 @@ $("#searchFilterReports").click(function() {
     loadDataIcon('currentList');
     loadApplicantListReports('currentList',pagenum);
 });
-$("#searchFilter").click(function() {   
+/*$("#searchFilter").click(function() {   
     pagenum = 1;
     if(applicantStatus==0)
     {
@@ -1043,7 +1043,18 @@ $("#searchFilter").click(function() {
         loadDataIcon('completedList');
         loadApplicantList('completedList',pagenum);
     }
+});*/
+$("#searchName").keyup(function (e) {   
+    if (e.keyCode == 13) {         
+        pagenum = 1;        
+    if(applicantStatus==0)
+    {      
+        loadDataIcon('currentList');
+        loadApplicantList('currentList',pagenum);
+    }    
+    }
 });
+
 function loadApplicantList(divContent)
 {
     searchName = $('#searchName').val();
@@ -1972,3 +1983,40 @@ $(".deleteUser").click(function() {
         }
     });
 });
+function searchUsernames(id) {  
+   $(id).autocomplete({
+        source: function(request, response) {
+            $.getJSON(base_url + "messages/usernamesbyRoles", {
+                term: extractLast(request.term)
+            }, response);
+
+        },
+        search: function() {
+            var term = extractLast(this.value);
+              if (term.length < 2) {
+                return false;
+            }
+        },
+        focus: function() {
+            // prevent value inserted on focus
+            return false;
+        },
+        select: function(event, ui) {
+            var terms = split(this.value);
+            // remove the current input
+            terms.pop();
+            // add the selected item
+            terms.push(ui.item.value);
+            // add placeholder to get the comma-and-space at the end
+            terms.push("");
+            this.value = terms.join(" ");
+            return false;
+        }
+    });
+}
+function split(val) {
+    return val.split(/,\s*/);
+}
+function extractLast(term) {
+    return split(term).pop();
+}
