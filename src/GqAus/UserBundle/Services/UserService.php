@@ -733,6 +733,19 @@ class UserService
      */
     public function getPendingApplicantsCount($userId, $userRole, $applicantStatus)
     {
+        $getCourseStatus = $this->getPendingApplicants($userId, $userRole, $applicantStatus);
+        return count($getCourseStatus);
+    }
+
+     /**
+     * Function to get pending applicants
+     * @param int $userId
+     * @param string $userRole
+     * @param int $applicantStatus
+     * return integer
+     */
+    public function getPendingApplicants($userId, $userRole, $applicantStatus)
+    {
         if (in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_RTO', $userRole)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
                 $userType = 'assessor';
@@ -764,11 +777,27 @@ class UserService
     {
         if (is_object($user) && count($user) > 0) {
             $pendingApplicantsCount = $this->getPendingApplicantsCount($user->getId(), $user->getRoles(), '0');
-            $unReadMessages = $this->getUnreadMessagesCount($user->getId());
+            $pendingApplicants = $this->getPendingApplicants($user->getId(), $user->getRoles(), '0');
+            $unReadMessagesCount = $this->getUnreadMessagesCount($user->getId());
+            $unReadMessages = $this->getUnreadMessages($user->getId()); 
             $todaysReminders = $this->getTodaysReminders($user->getId());
-            return array('todaysReminders' => $todaysReminders,
-                'unReadMessages' => $unReadMessages,
-                'pendingApplicantsCount' => $pendingApplicantsCount);
+            $usersDashboardInfo = array('todaysReminders' => $todaysReminders,
+                'unReadMessagesCount' => $unReadMessagesCount,
+                'pendingApplicantsCount' => $pendingApplicantsCount,
+                'pendingApplicants' => $pendingApplicants);            
+           if(is_array($unReadMessages)){
+                foreach($unReadMessages as $key => $messages){
+                    $classNameSpace = get_class($messages->getSent());
+                    $classNameSpace = str_replace("GqAus\UserBundle\Entity\\", "", $classNameSpace);
+                    $results[$classNameSpace][] = $messages;
+                }
+           }
+           
+           $usersDashboardInfo['facMsg'] = (isset($results) && isset($results['Facilitator'])) ? $results['Facilitator'] : '';
+           $usersDashboardInfo['assMsg'] = (isset($results) && isset($results['Assessor'])) ? $results['Assessor'] : '';
+           $usersDashboardInfo['rtoMsg'] = (isset($results) && isset($results['Rto'])) ? $results['Rto'] : '';
+          
+            return $usersDashboardInfo;
         }
     }
 
@@ -932,11 +961,22 @@ class UserService
      */
     public function getUnreadMessagesCount($userId)
     {
-        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
-            'read' => '0', 'toStatus' => '0'));
+         $getMessages = $this->getUnreadMessages($userId);
         return count($getMessages);
     }
 
+    /**
+     * Function to get unread messages
+     * @param int $userId
+     * return array
+     */
+    public function getUnreadMessages($userId)
+    {
+        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
+            'read' => '0', 'toStatus' => '0'));
+        return $getMessages;
+    }
+    
     /**
      * Function to get inbox messages
      * @param int $userId
