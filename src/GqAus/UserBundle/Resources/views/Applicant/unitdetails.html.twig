@@ -130,10 +130,10 @@
                                                 {% set evfancy = "fancybox"  %}
                                             {% elseif evidenceType == "audio" %} 
                                                    {% set evtype = "mic"  %}
-                                                   {% set evfancy = "" %}
-                                            {% elseif evidenceType == "aideo" %} 
+                                                   {% set evfancy = "fancybox fancybox.iframe" %}
+                                            {% elseif evidenceType == "video" %} 
                                                    {% set evtype = "videocam" %}  
-                                                   {% set evfancy = "" %}
+                                                   {% set evfancy = "fancybox fancybox.iframe" %}
                                             {% elseif evidenceType == "text" %}
                                                    {% set evtype = "text_fields" %}
                                                    {% set evfancy = "text" %}      
@@ -142,13 +142,13 @@
                                                    {% set evfancy = "fancybox fancybox.iframe" %}
                                             {% elseif evidenceType == "recording" %} 
                                                    {% set evtype = "fiber_manual_record" %}
-                                                   {% set evfancy = "" %}
+                                                   {% set evfancy = "fancybox fancybox.iframe" %}
                                             {% else %}
                                                    {% set evtype = "" %}
                                                    {% set evfancy = "" %}
                                             {% endif %}
                                                 <div class="file-info">
-                                                    <a href = "{{ amazon_link }}{{  evidence.path }}" {% if evfancy == 'fancybox' or evfancy == 'fancybox fancybox.iframe'%} class="{{ evfancy }}" {% else %} target="_blank" {% endif %}>
+                                                    <a href = "{{ amazon_link }}{{  evidence.path }}" {% if evfancy == 'fancybox' or evfancy == 'fancybox fancybox.iframe' %} class="{{ evfancy }}" {% else %} target="_blank" {% endif %}>
                                                         <span class="icon"><i class="material-icons">{{ evtype }}</i></span>
                                                     </a>
                                                     <span class="file-discription">{{evidence.name}} <br/>{{evidence.size}} | Added {{ evidence.created|date("d/m/Y") }}</span>                                              
@@ -248,3 +248,4 @@
         });
     </script>
 {% endblock %}
+    
