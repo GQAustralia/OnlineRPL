@@ -787,7 +787,7 @@ function onloadCount()
         cache: false,
         success: function(result) {
             if (result > 0) {
-                $("#unread-count").html('<span class="gq-ms-counter">' + result + '<span>');
+                $("#unread-count").html(result);
                 $(".inbox-cnt").html("(" + result + ")");
             } else {
                 $("#unread-count").css("display","none");
@@ -1030,8 +1030,8 @@ $("#searchFilterReports").click(function() {
         loadApplicantList('completedList',pagenum);
     }
 });*/
-$("#searchName").keyup(function (e) {   
-    if (e.keyCode == 13) {        
+$(".search-box").keyup(function (e) {   
+    //if (e.keyCode == 13) {        
        // pagenum = 1;        
     if(applicantStatus==0)
     {      
@@ -1043,9 +1043,8 @@ $("#searchName").keyup(function (e) {
         loadDataIcon('completedList');
         loadApplicantList('completedList');
     }
-    }
-}); 
-
+    //}
+});
 function loadApplicantList(divContent)
 {
     searchName = $('#searchName').val();
