@@ -575,11 +575,11 @@ class UserService
         }
         $res->orderBy('c.id', 'DESC');
         /* Pagination */
-        $paginator = new \GqAus\UserBundle\Lib\Paginator();
-        $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
+        //$paginator = new \GqAus\UserBundle\Lib\Paginator();
+        //$pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
         /* Pagination */
-        $applicantList = $res->getQuery()->getResult();
-        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
+        $applicantList = $res->getQuery()->getResult();        
+        return array('applicantList' => $applicantList);
     }
 
     /**
@@ -947,11 +947,14 @@ class UserService
                 ->select('DATE_DIFF(c.targetDate, c.createdOn) as diff')
                 ->where(sprintf('c.%s = :%s', 'id', 'id'))->setParameter('id', $id);
         $applicantList = $res->getQuery()->getResult();
-        $diff = (($applicantList[0]['diff']) / 7);
-        if (is_float($diff)) {
-            $diff = $diff + 1;
-        }
-        return floor($diff) . ' week(s)';
+        //dump($applicantList[0]['diff']);exit;
+       // $diff = (($applicantList[0]['diff']) / 7);
+       // if (is_float($diff)) {
+       //     $diff = $diff + 1;
+      //  }
+      //  return floor($diff) . ' week(s)';
+        
+        return $applicantList[0]['diff'];
     }
 
     /**

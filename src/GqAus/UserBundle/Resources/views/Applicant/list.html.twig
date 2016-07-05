@@ -2,7 +2,7 @@
 {% block title %}GQ - RPL Applicant Lists{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('public/css/timepicker.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">    
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/rto.css') }}">
 {% endblock %}
 {% block body %}
@@ -129,7 +129,8 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('public/js/timepicker.js') }}"></script>    
+    <script src="{{ asset('public/js/daterangepicker.js') }}"></script>    
+    <script src="{{ asset('public/js/timepicker.js') }}"></script>   
     <script type="text/javascript">
         $(document).ready(function() {
             var dateTime = new Date();

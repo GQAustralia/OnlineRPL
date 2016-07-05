@@ -1,63 +1,50 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
 <!-- accordion starts here -->
 {% if applicantList %}
-   <!-- {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
-    <tr>
-        <td class="gq-pagination-area" {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
-            {# display navigation for pages - paginator_navigator #}        
-            {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
-        </td>
-    </tr>
-    {% endif %} -->
 {% for key, list in applicantList %}
     <tr>
-        <td class="col-md-2 col-lg-2"><a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" >{{list.user.firstName}} {{list.user.lastName}}</a></td>
+        <td class="col-md-2 col-lg-2"><a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" >{{list.user.firstName}} {{list.user.lastName}}</a></td>        
         <td class="col-md-3 col-lg-3">{{list.courseCode}} {{list.courseName}}</td>
-        {% if (('ROLE_SUPERADMIN' in userRole) or ('ROLE_MANAGER' in userRole)) %}
-            <td>{{qualificationStatus[list.courseStatus].status}}</td>
+        {% if (status == 0) %}
+        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+        {% set userId = list.user.id %}
+        {% set id = list.id %}
+        {% set courseCode = list.courseCode %}  
+        {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %}
+        <td class="col-md-2 col-lg-2">
+            <div class="progress">
+              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ completeness(userId,courseCode) }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ completeness(userId,courseCode) }}"></div>
+            </div>                        
+            <div class="progress-copy">{{ completeness(userId,courseCode) }}</div>
+        </td>
+        {% endif %}
         {% endif %}
         {% if (status == 0) %}
-    {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-        <td style="text-align:center;">                         
+        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_RTO' in userRole)%}
         {% set userId = list.user.id %}
         {% set id = list.id %}
         {% set courseCode = list.courseCode %}
-        {{ completeness(userId,courseCode) }}
+        {% set leftDays = timeRemaining(id) %}
+        {% set remaining = rto_workspan - leftDays  %}
+        {% set remaingraph = ((remaining*100)/rto_workspan)|round %}
+        <td class="col-md-2 col-lg-2">
+            <div class="progress">
+              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{remaingraph}}%" aria-valuemin="0" aria-valuemax="100" style="width:{{remaingraph}}%"></div>
+            </div>                        
+            <div class="progress-copy un-reviewed">{{ remaining }}</div>
         </td>
-        <td>
-            <div class="gq-acc-row-title gq-assessor-list-dropdown-wrap" id="div_{{list.id}}">
-                <div class="gq-add-notes-icon-wrap setNotes" id="{{list.id}}">
-                    <img src = "{{asset('public/images/applicant-list-add-notes-icon.png') }}" />
-                </div>
-                <div class="gq-assessor-list-dropdown">
-                    <div class="caret-top"></div>
-                    <div class="gq-applicant-list-notes-box">
-                        <textarea class="notes-area" placeholder="Notes" id="notes_{{list.id}}"></textarea>
-                    </div>
-                    <div class="gq-applicant-list-due-date">
-                        <div class="col-xs-8 no-padding">
-                            <input type="text" class="datepic date-area" id="remindDate_{{list.id}}" placeholder="Due Date" /></div>
-                        <div class="col-xs-4 no-padding"><a class="pull-right"><img src="{{ asset('public/images/applicant-lists-grey-date-icon.png') }}" id="{{list.id}}" class="date-icon" /></a></div>
-                    </div>
-                    <div class="gq-applicant-list-notes-box">
-                        <button class="btn btn-red setData" userCourseId="{{list.id}}" listId="{{list.id}}" >SET</button>
-                    </div>
-                </div>
-            </div>
-        </td>
-        <td>{{ timeRemaining(id) }}</td>
-    {% endif %}
         {% endif %}
-        <!--
-        <td>
-            <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
-                <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button>
-            </a>
-        </td>
-        -->
+        {% endif %}
+        {% if (status == 0) %}
+        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+        <td>{{ courseStatus }}</td>
+        <td><a href="#"><i class="material-icons">playlist_add</i></a></td>
+        {% endif %}
+        {% endif %}
+                         
     </tr>
-            {% endfor %}
-            {% else %}
+{% endfor %}
+{% else %}
     <tr>
         <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
             No Applicants Found</td>

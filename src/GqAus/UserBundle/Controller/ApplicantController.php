@@ -118,19 +118,27 @@ class ApplicantController extends Controller
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $pendingApplicantsCount = $this->get('UserService')->getPendingApplicantsCount($userId, $userRole, '0');
-        $page = $this->get('request')->query->get('page', 1);
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
+       // $page = $this->get('request')->query->get('page', 1);
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', '');         
         $results['pageRequest'] = 'submit';
         $results['status'] = 0;
         $results['pendingApplicantsCount']=$pendingApplicantsCount;
-        $users = array();
+        $users = array();        
         $qualificationStatus = array();
-        if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
+       // if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
             $users = $this->get('UserService')->getUserByRole();
             $qualificationStatus = $this->get('UserService')->getQualificationStatus();
-        }
+       // }
+            $coursearray = array();
+            $i = 0;
+         //foreach($results['applicantList'] as $applicantlist)
+        // {
+            //dump($results['applicantList'][$i]);exit;
+        // }
+      //  $results['daysRemaining'] = $this->get('UserService')->getDaysRemaining($userId, $qcode,'15','1','0');
         $results['users'] = $users;
-        $results['qualificationStatus'] = $qualificationStatus;
+        $results['qualificationStatus'] = $qualificationStatus;     
+         
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
 
