@@ -128,14 +128,7 @@ class ApplicantController extends Controller
        // if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
             $users = $this->get('UserService')->getUserByRole();
             $qualificationStatus = $this->get('UserService')->getQualificationStatus();
-       // }
-            $coursearray = array();
-            $i = 0;
-         //foreach($results['applicantList'] as $applicantlist)
-        // {
-            //dump($results['applicantList'][$i]);exit;
-        // }
-      //  $results['daysRemaining'] = $this->get('UserService')->getDaysRemaining($userId, $qcode,'15','1','0');
+       //}         
         $results['users'] = $users;
         $results['qualificationStatus'] = $qualificationStatus;     
          
@@ -490,5 +483,6 @@ class ApplicantController extends Controller
             return $this->render('GqAusUserBundle:Default:error.html.twig');
         }
     }
+    
 
 }

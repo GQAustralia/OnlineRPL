@@ -1210,7 +1210,7 @@ class UserService
             ->createQueryBuilder('u')
             ->select( "CONCAT( CONCAT(u.firstName, ' '), u.lastName)" );
         $nameCondition = "";
-        if ($userRole == 'ROLE_APPLICANT' || $userRole == 'ROLE_ASSESSOR' ||$userRole == 'ROLE_RTO' ) {
+        if ($userRole == 'ROLE_APPLICANT' || $userRole == 'ROLE_ASSESSOR' ||$userRole == 'ROLE_RTO' ) {            
             $query->where('(u instance of GqAusUserBundle:Facilitator)');
             $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
                         . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";
@@ -1221,13 +1221,13 @@ class UserService
                     . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
             $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
                         . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";
-            $query->andWhere($nameCondition);
+            $query->andWhere($nameCondition);            
+        }
             $getMessages = $query->getQuery()->getResult(); 
             $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getMessages)));
             sort($getMessages);
             //echo "<pre>"; dump($getMessages); 
             return $getMessages;
-        }
         }
 
 

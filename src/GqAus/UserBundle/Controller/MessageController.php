@@ -163,12 +163,15 @@ class MessageController extends Controller
                 $userrole = $messageService->getCurrentUser()->getRoles();
                 $term = strtolower($_GET["term"]);
                 $results = array();
-                $rows = $messageService->getUsernamesbyRoles(array('keyword' => $term),$userrole[0]);
-                $json_array = array();
-                foreach ($rows as $row)
+                $rows = $messageService->getUsernamesbyRoles(array('keyword' => $term),$userrole[0]);               
+                $json_array = array();                
+                if (is_array($rows))
                 {
-                    array_push($json_array, $row[1]);
-                }
+                    foreach ($rows as $row)
+                    {
+                        array_push($json_array, $row[1]);
+                    }
+                }               
                 echo json_encode($json_array);
                 exit;
             }
