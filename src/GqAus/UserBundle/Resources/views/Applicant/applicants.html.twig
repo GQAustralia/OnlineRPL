@@ -23,15 +23,18 @@
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_RTO' in userRole)%}
         {% set userId = list.user.id %}
         {% set id = list.id %}
-        {% set courseCode = list.courseCode %}
-        {% set leftDays = timeRemaining(id) %}
-        {% set remaining = rto_workspan - leftDays  %}
-        {% set remaingraph = ((remaining*100)/rto_workspan)|round %}
+        {% set courseCode = list.courseCode %}        
+        {% set leftDays = timeRemaining(id) %} 
+        {% if leftDays > 0 %}
+            {% set remaingraph = 90 - leftDays %}  
+        {% else %}
+            {% set remaingraph = 0 %}
+        {% endif %}
         <td class="col-md-2 col-lg-2">
             <div class="progress">
-              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{remaingraph}}%" aria-valuemin="0" aria-valuemax="100" style="width:{{remaingraph}}%"></div>
+              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{remaingraph}}%"></div>
             </div>                        
-            <div class="progress-copy un-reviewed">{{ remaining }}</div>
+            <div class="progress-copy un-reviewed">{% if leftDays > 0 %}{{leftDays}} d {% else %} 0d!{%endif%} </div>
         </td>
         {% endif %}
         {% endif %}

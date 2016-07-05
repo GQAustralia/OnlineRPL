@@ -117,7 +117,7 @@ class ApplicantController extends Controller
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $pendingApplicantsCount = $this->get('UserService')->getPendingApplicantsCount($userId, $userRole, '0');
+        $pendingApplicantsCount = $this->get('UserService')->getPendingApplicants($userId, $userRole, '0');       
        // $page = $this->get('request')->query->get('page', 1);
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', '');         
         $results['pageRequest'] = 'submit';
