@@ -62,7 +62,21 @@
                     </div>
                 </div>
                 {% endif %}
+        {% else %}
+         <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
+            <div class="left">
+                <ul class="mail_secion message">
+                    <li><strong>No Messages Found</strong></li>
+                </ul>
+                <div class="floater_add_icon" title="Add New Message">
+                        <a href="{{ base_url }}messages/compose">
+                                <i class="material-icons add">add</i>
+                        </a>
+                </div>
+            </div>
+         </div>
         {% endif %}
+        
         <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
         {% if msgID is defined %}
         <div class="mail_compose_section hidden-xs">

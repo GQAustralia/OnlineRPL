@@ -148,6 +148,7 @@ class ApplicantController extends Controller
      */
     public function searchApplicantsListAction()
     {
+
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $searchName = $this->getRequest()->get('searchName');
@@ -155,18 +156,24 @@ class ApplicantController extends Controller
         $filterByUser = $this->getRequest()->get('filterByUser');
         $filterByStatus = $this->getRequest()->get('filterByStatus');
         $status = $this->getRequest()->get('status');
-        $page = $this->getRequest()->get('pagenum');
-        if ($page == '') {
-            $page = 1;
-        }
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, 
-            $searchName, $searchTime, $filterByUser, $filterByStatus);
-        if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
-            $qualificationStatus = $this->get('UserService')->getQualificationStatus();
-            $results['qualificationStatus'] = $qualificationStatus;
-        }
+       // $page = $this->getRequest()->get('pagenum');
+        //if ($page == '') {
+       //     $page = 1;
+       // }
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, '', 
+            $searchName, $searchTime, $filterByUser, $filterByStatus);        
+        
+        $qualificationStatus = $this->get('UserService')->getQualificationStatus();
+        $results['qualificationStatus'] = $qualificationStatus;
+
         $results['pageRequest'] = 'ajax';
         $results['status'] = $status;
+        /* if($status == 0){
+            echo 'fali';
+            dump($results['status']);
+            dump($results);
+            exit;   
+        } */
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results);
         exit;
     }
