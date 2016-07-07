@@ -34,14 +34,23 @@
             <div class="progress">
               <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{remaingraph}}%"></div>
             </div>                        
-            <div class="progress-copy un-reviewed">{% if leftDays > 0 %}{{leftDays}} d {% else %} 0d!{%endif%} </div>
+            <div class="progress-copy {% if leftDays > 0 %}{% else %} un-reviewed {%endif%}">{% if leftDays > 0 %}{{leftDays}} d {% else %} 0d!{%endif%} </div>
         </td>
         {% endif %}
         {% endif %}
         {% if (status == 0) %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-        <td>{{ courseStatus }}</td>
-        <td><a href="#"><i class="material-icons">playlist_add</i></a></td>
+        <td class="col-md-2 col-lg-2">{{ courseStatus }}</td>
+        <td><div class="dropdown keep-open" id="div_{{list.id}}">
+                    <span class="dropdown-toggle " data-toggle="dropdown" id="{{list.id}}"><i class="material-icons">playlist_add</i></span>
+                    <div class="dropdown-menu">
+                            <textarea rows="3" placeholder="Notes" class="notes-area" id="notes_{{list.id}}"></textarea>
+                            <div class="date_section clearfix">
+                                    <input type="text" class="date_field form-control" id="remindDate_{{list.id}}" placeholder="Due Date" />
+                            </div>
+                            <button type="button" class="btn_red setData" userCourseId="{{list.id}}" listId="{{list.id}}">SET</button>
+                    </div>
+            </div></td>
         {% endif %}
         {% endif %}
                          

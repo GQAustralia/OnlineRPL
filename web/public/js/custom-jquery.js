@@ -787,11 +787,27 @@ function onloadCount()
         cache: false,
         success: function(result) {
             if (result > 0) {
+                 console.log(result);
                 $("#unread-count").html(result);
                 $(".inbox-cnt").html("(" + result + ")");
             } else {
                 $("#unread-count").css("display","none");
                 $(".inbox-cnt").html("");
+            }
+        }
+    });
+}
+function onloadPortfolioCount()
+{   
+    count = $('#portfolioCount').val();   
+    $.ajax({
+        url: base_url,
+        cache: false,
+        success: function() {          
+            if (count > 0) {
+                $("#portfolio-current").html(count);               
+            } else {
+                $("#portfolio-current").css("display","none");                
             }
         }
     });
@@ -1033,6 +1049,19 @@ $("#searchFilterReports").click(function() {
 $(".search-box").keyup(function (e) {   
     //if (e.keyCode == 13) {        
        // pagenum = 1;        
+    if(applicantStatus==0)
+    {      
+        loadDataIcon('currentList');
+        loadApplicantList('currentList');
+    }
+    if(applicantStatus==1)
+    {
+        loadDataIcon('completedList');
+        loadApplicantList('completedList');
+    }
+    //}
+});
+$(".search-box-mobile").keypress(function () {     
     if(applicantStatus==0)
     {      
         loadDataIcon('currentList');
@@ -1936,7 +1965,7 @@ $("#searchUserFilter").click(function() {
 });
 function loadUsersList(divContent)
 {
-    searchName = $('#searchName').val();
+    searchName = $('#search-box').val();
     userType = $('#userType').val();
     $.ajax({
         type: "POST",

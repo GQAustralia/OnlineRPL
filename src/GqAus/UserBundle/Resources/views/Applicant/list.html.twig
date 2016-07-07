@@ -53,6 +53,8 @@
                     </div>
                 </div>
             </div>
+            </div>
+        <div class="row">
             <div class="col-lg-12 tab-content">
                 <div id="ajaxHtml" style="display:none" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
                             <img src="{{ asset('public/images')}}/loading.gif" />
@@ -67,7 +69,8 @@
                         </table>
                     </div>
                 </div>
-                <div ole="tabpanel" class="container tab-pane" id="completed">
+                
+                <div role="tabpanel" class="container tab-pane" id="completed">
                     <div class="portfolio-data-table">
                         <table class="table">
                             <thead>
@@ -89,7 +92,6 @@
         
 <!-- Larg Screens HTML End -->
 <!-- Small Screens HTML Start -->
-
 <section class="portfolio-container hidden-sm hidden-md hidden-lg">
     <div class="container-fluid">
         <div class="row no-gutter">
@@ -99,6 +101,7 @@
                         <div class="panel-heading clearfix">
                             <h4 class="panel-title">
                                 <span>Portfolios </span><span class="count"> {% if pendingApplicantsCount > 0 %}({{pendingApplicantsCount}}){% endif %}  </span>
+                                <input type="hidden" value="{% if pendingApplicantsCount > 0 %}{{pendingApplicantsCount}}{% endif %}" name="portfolioCount" id="portfolioCount">
                             </h4>
                         </div>
                     </div>
@@ -108,33 +111,50 @@
                 <div class="portfolio-filter">
                      <div class="row no-gutter">
                         <div class="col-xs-12 col-sm-12 col-md-12">
-                                <ul role="tablist">
+                                <ul role="tablist" id="myTab" >
                                         <li role="presentation" id="applicantPending" class="status active">
-                                                <a href="#current" aria-controls="current" role="tab" data-toggle="tab">Pending</a>
+                                                <a href="#current" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>
                                         </li>
                                         <li role="presentation" id="applicantCompleted" class="status in-active">
-                                                <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Approved</a>
+                                                <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">COMPLETED</a>
                                         </li>
                                 </ul>
                         </div>
-                    </div>
+                    </div>                    
                     <div class="row no-gutter">
-                        <div class="col-xs-12 col-sm-12 col-md-12 filter">                            
+                        <div class="col-xs-12 col-sm-12 col-md-12 filter gq-app-aearch-grid">                            
                                 <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/>                          
                         </div>
                     </div>                            
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="portfolio-data-table mobile-portfolio-data-table">
+            <div class="col-xs-12 col-sm-12 col-md-12 tab-content" >
+                <div id="ajaxHtml" style="display:none" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+                            <img src="{{ asset('public/images')}}/loading.gif" />
+                </div>
+                <div class="portfolio-data-table mobile-portfolio-data-table tab-pane active" role="tabpanel" id="current">
                     <table class="table">
-                       {% include 'GqAusUserBundle:Applicant:mobileApplicantFilters.html.twig' %}
-                        <tbody>
+                       {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                        <tbody id="currentList">
                              {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
                         </tbody>
                     </table>
                 </div>
+                <div role="tabpanel" class="portfolio-data-table mobile-portfolio-data-table tab-pane" id="completed">                    
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width:20%"><span class="">NAME</span></th>
+                            <th ><span class="">QUALIFICATION</span></th> 
+                        </tr>
+                    </thead>
+                    <tbody id="completedList">
+                        {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                    </tbody>
+                </table>                   
             </div>
+            </div>
+            
         </div>            
     </div>
 </section>
@@ -143,16 +163,16 @@
         
 {% endblock %}
 
-{% block javascripts %}
-    <script src="{{ asset('public/js/daterangepicker.js') }}"></script>    
-    <script src="{{ asset('public/js/timepicker.js') }}"></script>   
+{% block javascripts %}    
+    <script src="{{ asset('public/js/jquery-ui.js') }}"></script>    
+    <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js') }}"></script>      
     <script type="text/javascript">
         $(document).ready(function() {
             var dateTime = new Date();
             var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
             var timeZoneDT = new Date(utc + (3600000 * +10));
-            $(".datepic").datetimepicker({
-                dateFormat: "dd/mm/yy",
+            $(".date_field").datetimepicker({                
+               dateFormat: "dd/mm/yy",
                 timeFormat: "hh:mm tt",
                 minDate: timeZoneDT,
                 minDateTime: timeZoneDT

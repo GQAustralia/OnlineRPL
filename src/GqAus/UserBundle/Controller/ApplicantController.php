@@ -160,13 +160,7 @@ class ApplicantController extends Controller
         $results['qualificationStatus'] = $qualificationStatus;
 
         $results['pageRequest'] = 'ajax';
-        $results['status'] = $status;
-        /* if($status == 0){
-            echo 'fali';
-            dump($results['status']);
-            dump($results);
-            exit;   
-        } */
+        $results['status'] = $status;        
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results);
         exit;
     }
@@ -484,5 +478,5 @@ class ApplicantController extends Controller
         }
     }
     
-
+  
 }
