@@ -777,9 +777,11 @@ $(".setData").click(function() {
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
             }
         });
+        var parentDiv = $(this).parent().parent().parent();
+        parentDiv.find('.material-icons').html('').html('playlist_add_check');
     }
 });
-
+/*Messages Unread Count in Menu*/
 function onloadCount()
 {
     $.ajax({
@@ -797,6 +799,7 @@ function onloadCount()
         }
     });
 }
+/*Portfolio Current Count in Menu*/
 function onloadPortfolioCount()
 {   
     count = $('#portfolioCount').val();   
