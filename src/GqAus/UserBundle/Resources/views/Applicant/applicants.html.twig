@@ -2,6 +2,7 @@
 <!-- accordion starts here -->
 {% if applicantList %}
 {% for key, list in applicantList %}
+
     <tr>
         <td class="col-md-2 col-lg-2"><a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" >{{list.user.firstName}} {{list.user.lastName}}</a></td>        
         <td class="col-md-3 col-lg-3">{{list.courseCode}} {{list.courseName}}</td>
@@ -21,26 +22,39 @@
         {% endif %}
         
         {% set currUser = user_service.getCurrentUser.getId() %}      
-        {% set toDoApplicantCount = user_service.getCheckTodoApplicant( currUser , list.id ) %}       
-        {% if (status == 0) %}
-        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_RTO' in userRole)%}
+        {% set toDoApplicantCount = user_service.getCheckTodoApplicant( currUser , list.id ) %} 
         {% set userId = list.user.id %}
         {% set id = list.id %}
-        {% set courseCode = list.courseCode %}        
-        {% set leftDays = timeRemaining(id) %} 
-        
-        {% if leftDays > 0 %}
-            {% set remaingraph = 90 - leftDays %}  
-        {% else %}
-            {% set remaingraph = 0 %}
+        {% set courseCode = list.courseCode %}
+        {% if (status == 0) %}
+        {% if ('ROLE_ASSESSOR' in userRole) or ('ROLE_RTO' in userRole)%}           
+            {% set remaingDays = user_service.getDaysRemaining(userId, list.courseCode,list.courseStatus ,list.assessorstatus,list.rtostatus ) %}
+            {% set startDate = remaingDays|date('Y-m-d') %}
+            {% set difference = date( 'now' | date() ).diff(date(startDate)) %}
+            {% set leftDays = difference.days %}
+        {% if ('ROLE_ASSESSOR' in userRole)  %}
+             {% set workSpan = ass_workspan %}
+        {% elseif ('ROLE_RTO' in userRole)  %}
+            {% set workSpan = rto_workspan %}
         {% endif %}
+            {% set remaining = workSpan - leftDays  %}
+            {% set remaingraph = ((remaining*100)/workSpan)|round %}
+        {% endif %}
+        {% if ('ROLE_FACILITATOR' in userRole) %} 
+            {% set remaining = timeRemaining(id) %}       
+            {% if remaining > 0 %}
+                {% set remaingraph = 100 - remaining %}  
+            {% else %}
+                {% set remaingraph = 0 %}
+            {% endif %}        
+         {% endif %}
         <td class="col-md-2 col-lg-2">
             <div class="progress">
               <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{remaingraph}}%"></div>
             </div>                        
-            <div class="progress-copy {% if leftDays > 0 %}{% else %} un-reviewed {%endif%}">{% if leftDays > 0 %}{{leftDays}} d {% else %} 0d!{%endif%} </div>
+            <div class="progress-copy {% if remaining > 0 %}{% else %} un-reviewed {%endif%}">{% if remaining > 0 %}{{remaining}} d {% elseif remaining == 0 %} 0d!{% else %}{{remaining}}d!{%endif%} </div>
         </td>
-        {% endif %}
+        
         {% endif %}
         {% if (status == 0) %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
