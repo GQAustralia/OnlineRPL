@@ -10,7 +10,7 @@
         {% set userId = list.user.id %}
         {% set id = list.id %}
         {% set courseCode = list.courseCode %}  
-        {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %}
+        {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %}       
         <td class="col-md-2 col-lg-2">
             <div class="progress">
               <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ completeness(userId,courseCode) }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ completeness(userId,courseCode) }}"></div>
@@ -19,12 +19,16 @@
         </td>
         {% endif %}
         {% endif %}
+        
+        {% set currUser = user_service.getCurrentUser.getId() %}      
+        {% set toDoApplicantCount = user_service.getCheckTodoApplicant( currUser , list.id ) %}       
         {% if (status == 0) %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_RTO' in userRole)%}
         {% set userId = list.user.id %}
         {% set id = list.id %}
         {% set courseCode = list.courseCode %}        
         {% set leftDays = timeRemaining(id) %} 
+        
         {% if leftDays > 0 %}
             {% set remaingraph = 90 - leftDays %}  
         {% else %}
@@ -42,7 +46,7 @@
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
         <td class="col-md-2 col-lg-2">{{ courseStatus }}</td>
         <td><div class="dropdown keep-open" id="div_{{list.id}}">
-                    <span class="dropdown-toggle " data-toggle="dropdown" id="{{list.id}}"><i class="material-icons">playlist_add</i></span>
+                    <span class="dropdown-toggle " data-toggle="dropdown" id="{{list.id}}"><i class="material-icons">{% if toDoApplicantCount == 0 %}playlist_add{% else %} playlist_add_check{%endif%}</i></span>
                     <div class="dropdown-menu">
                             <textarea rows="3" placeholder="Notes" class="notes-area" id="notes_{{list.id}}"></textarea>
                             <div class="date_section clearfix">
@@ -64,19 +68,7 @@
         {% endif %}
 <!-- accordion ends here -->
 
-{% if pageRequest == 'ajax' %}
+
     {% block javascripts %}
-<script type="text/javascript">
-    //$(".datepic").datepicker();
-    $(".setNotes").click(function() {
-        id = $(this).attr("id");
-        var c = $('#div_' + id).hasClass("open");
-        if (c == false) {
-            $('#div_' + id).addClass('open');
-        } else {
-            $('#div_' + id).removeClass('open');
-        }
-    });
-</script>
+
     {% endblock %}
-{% endif %}

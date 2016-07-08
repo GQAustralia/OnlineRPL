@@ -767,13 +767,7 @@ $(".setData").click(function() {
             cache: false,
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate, listId: listId},
             success: function(result) {
-                $('#err_msg').show();
-                resetDateTimePicker(listId);
-                $('#course_'+listId+' option').prop('selected', function() {
-                    return this.defaultSelected;
-                });
-                $('#selectcourse_'+ listId).html('Select Qualification');
-                $('#div_' + listId).removeClass('open');
+                $('#err_msg').show();                
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
             }
         });

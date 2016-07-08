@@ -36,14 +36,19 @@ $(document).ready(function(){
 	
 	$('#onboard1 .submit_btn').click(function() {  
 		$('#onboard1').hide();
-	});	
-	
-	$('.dropdown.keep-open').on({
-		"shown.bs.dropdown": function() { this.closable = false; },
-		"click":             function() { this.closable = true; },
-		"hide.bs.dropdown":  function() { return this.closable; }
 	});
-	$('.dropdown-menu').bind('click', function (e) { e.stopPropagation() })
+	$('.date_field').each(function(){
+		$(this).datetimepicker({
+			controlType: 'select',
+			oneLine: true,
+			timeFormat: 'hh:mm tt',
+			dateFormat: 'dd/mm/yy'
+		});
+	});
+	
+	$("#ui-datepicker-div").click(function (event) {
+		event.stopPropagation();
+	});
 });
 $(window).resize(function(){
 	var window_Ht = $(window).height();

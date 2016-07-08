@@ -62,7 +62,7 @@
                 </div>
                 <div class="container tab-pane active" role="tabpanel" id="current">
                     <div class="portfolio-data-table">                                
-                        <table class="table">
+                        <table class="table" id="myTable">
                           {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
                             <tbody id="currentList">
                                 {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
@@ -168,7 +168,16 @@
     <script src="{{ asset('public/js/jquery-ui.js') }}"></script>    
     <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js') }}"></script>      
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function() {            
+            $('#myTable').DataTable( {
+                  "paging":   false,                  
+                  "info":     false,
+                  "searching": false,
+                  "aaSorting": [],
+                  "columnDefs": [
+                    { "orderable": false, "targets":  [ 0, 1,2,4,5 ] }
+                  ]
+                } );
             var dateTime = new Date();
             var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
             var timeZoneDT = new Date(utc + (3600000 * +10));
@@ -179,5 +188,6 @@
                 minDateTime: timeZoneDT
             });
         });
-    </script>
+   </script>   
+   <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script> 
 {% endblock %}

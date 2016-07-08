@@ -767,6 +767,15 @@ class UserService
         }
         return count($getCourseStatus);
     }
+    
+    public function getCheckTodoApplicant($userId, $courseId)
+    {          
+        $qb = $this->em->getRepository('GqAusUserBundle:reminder')->createQueryBuilder('r');
+        $qb->where(sprintf('r.%s = :%s', 'course', 'course'))->setParameter('course', $courseId);
+        $qb->andWhere(sprintf('r.%s = :%s','user', 'user'))->setParameter('user', $userId);        
+        $getTodoApplicantCount = $qb->getQuery()->getResult();         
+        return count($getTodoApplicantCount);
+    }
 
     /**
      * Function to get user dashboard info
