@@ -796,8 +796,7 @@ function onloadCount()
 /*Portfolio Current Count in Menu*/
 function onloadPortfolioCount()
 {   
-    count = $('#portfolioCount').val();  
-    alert(count);
+    count = $('#portfolioCount').val();    
     $.ajax({
         url: base_url,
         cache: false,
