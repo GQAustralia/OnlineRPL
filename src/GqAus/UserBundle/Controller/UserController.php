@@ -654,5 +654,14 @@ class UserController extends Controller
         echo $this->get('UserService')->emailExist($emailId);
         exit;
     }
+    /**
+     * Function to display FAQ
+     * return array
+     */
+    function faqAction()
+    {
+         $faq = $this->get('UserService')->getFaq();        
+         return $this->render('GqAusUserBundle:Faq:faq.html.twig',array('faq' => $faq));
+    }
 
 }

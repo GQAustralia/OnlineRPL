@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="GqAus\UserBundle\Entity\Faq" table="faq">
+        <id name="id" type="string" column="faq_id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="question" type="string" column="faq_que" nullable="false"/>
+        <field name="answer" type="string" column="faq_ans" nullable="false"/>
+        <field name="status" type="integer" column="faq_sts" nullable="false"/>        
+    </entity>
+</doctrine-mapping>
