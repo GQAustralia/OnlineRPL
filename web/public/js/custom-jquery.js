@@ -796,7 +796,7 @@ function onloadCount()
 /*Portfolio Current Count in Menu*/
 function onloadPortfolioCount()
 {   
-    count = $('#portfolioCount').val();   
+    count = $('#portfolioCount').val();    
     $.ajax({
         url: base_url,
         cache: false,
@@ -977,49 +977,51 @@ function loadDataIcon(listdiv)
 
 
 $("#applicantPending").click(function() {
-    //pagenum = 1;   
+    pagenum = 1;   
     loadDataIcon('currentList');
     applicantStatus = '0';
    // $("#remainingweekDiv").show();
-    loadApplicantList('currentList');
+    loadApplicantList('currentList',pagenum);
+     $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
 });
 
 $("#applicantCompleted").click(function() {
-   // pagenum = 1;
+    pagenum = 1;
     loadDataIcon('completedList');
     applicantStatus = '1';
-   // $("#remainingweekDiv").hide();
-    loadApplicantList('completedList');
+    $("#remainingweekDiv").hide();
+    loadApplicantList('completedList',pagenum);
+     $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
 });
 
 $("body").on("click", ".gq-ajax-app-pagination", function() {   
-    //pagenum = $(this).attr("page");
+    pagenum = $(this).attr("page");
     if(applicantStatus==0)
     {
         loadDataIcon('currentList');
-        loadApplicantList('currentList');
+        loadApplicantList('currentList',pagenum);
     }
     if(applicantStatus==1)
     {
         loadDataIcon('completedList');
-        loadApplicantList('completedList');
+        loadApplicantList('completedList',pagenum);
     }
 });
 
 
 $("body").on("click", ".gq-ajax-pagination", function() {   
-   // pagenum = $(this).attr("page");
+    pagenum = $(this).attr("page");
     loadDataIcon('currentList');
-    loadApplicantListReports('currentList');
+    loadApplicantListReports('currentList',pagenum);
 });
 
 $("body").on("click", ".gq-ajax-users-pagination", function() {   
-    //pagenum = $(this).attr("page");
+    pagenum = $(this).attr("page");
     loadDataIcon('currentList');
     loadUsersList('currentList');
 });
 
-/*$("body").on("click", ".gq-ajax-pagination", function() {   
+$("body").on("click", ".gq-ajax-pagination", function() {   
     pagenum = $(this).attr("page");
     loadDataIcon('currentList');
     loadApplicantListReports('currentList',pagenum);
@@ -1028,8 +1030,8 @@ $("body").on("click", ".gq-ajax-users-pagination", function() {
 $("#searchFilterReports").click(function() { 
     //pagenum = $(this).attr("page");
     loadDataIcon('currentList');
-    loadApplicantListReports('currentList');
-});*/
+    loadApplicantListReports('currentList',pagenum);
+});
 /*$("#searchFilter").click(function() {   
     pagenum = 1;
     if(applicantStatus==0)
@@ -1044,34 +1046,32 @@ $("#searchFilterReports").click(function() {
     }
 });*/
 $(".search-box").keyup(function (e) {   
-    //if (e.keyCode == 13) {        
-       // pagenum = 1;        
+    pagenum = 1;        
     if(applicantStatus==0)
     {      
         loadDataIcon('currentList');
-        loadApplicantList('currentList');
+        loadApplicantList('currentList',pagenum);
     }
     if(applicantStatus==1)
     {
         loadDataIcon('completedList');
-        loadApplicantList('completedList');
-    }
-    //}
+        loadApplicantList('completedList',pagenum);
+    }  
 });
 $(".search-box-mobile").keypress(function () {     
     if(applicantStatus==0)
     {      
         loadDataIcon('currentList');
-        loadApplicantList('currentList');
+        loadApplicantList('currentList',pagenum);
     }
     if(applicantStatus==1)
     {
         loadDataIcon('completedList');
-        loadApplicantList('completedList');
+        loadApplicantList('completedList',pagenum);
     }
     //}
 });
-function loadApplicantList(divContent)
+function loadApplicantList(divContent,pagenum)
 {
     searchName = $('#searchName').val();
    // searchTime = $('#timeRemaining').val();
@@ -1081,7 +1081,7 @@ function loadApplicantList(divContent)
         type: "POST",
         url: base_url + "searchApplicantsList",
         cache: false,
-        data: {pagenum:'', searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: '', filterByStatus: ''},
+        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: '', filterByStatus: ''},
         success: function(result) { 
            // $("#filter-by-name").hide();
            // $("#filter-by-week").hide();

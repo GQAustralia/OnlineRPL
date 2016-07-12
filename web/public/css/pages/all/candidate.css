@@ -2,3 +2,9 @@
 .gq-id-files-upload-success-text{text-align: center;color: green;font-size: 15px;width: 100%;}
 .gq-id-files-upload-success-text span i{color: green;vertical-align: top;font-size: 23px;}
 .gq-ms-counter {background-color: #e01010; border-radius: 50%; color: #ffffff; font-size: 10px; padding: 3px; position: absolute; right: 0; top: 0; min-height: 22px; min-width: 22px;}
+.gq-msg-top-pagination{padding-top:5px;}
+.gq-pagination-next-icon, .gq-pagination-prev-icon {float:left;border:1px solid #e9e9e9; width:32px; height:32px; background-color:#ffffff; background-repeat:no-repeat; background-position:center center;}
+.gq-pagination-next-icon:hover, .gq-pagination-next-icon:focus, .gq-pagination-prev-icon:hover, .gq-pagination-prev-icon:focus {background-color:#fefefe; cursor:pointer;}
+.gq-pagination-prev-icon{margin-right:-1px; background-image:url('../../../images/prev-msg.png');}
+.gq-pagination-next-icon{background-image:url('../../../images/next-msg.png');}
+.gq-msg-pagination-txt {float:left; color:#5e5e5e; font-size:14px; line-height:32px; padding-right:14px;}

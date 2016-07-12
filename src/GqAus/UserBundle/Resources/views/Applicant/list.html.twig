@@ -57,7 +57,7 @@
         <div id="err_msg"></div>
         <div class="row">
             <div class="col-lg-12 tab-content">
-                <div id="ajaxHtml" style="display:none" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+                <div id="ajaxHtml" style="display:none;" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
                             <img src="{{ asset('public/images')}}/loading.gif" class="img"/>
                 </div>
                 <div class="container tab-pane active" role="tabpanel" id="current">
@@ -130,7 +130,7 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 tab-content" >
-                <div id="ajaxHtml" style="display:none" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+                <div id="ajaxHtml" style="display:none;" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
                             <img src="{{ asset('public/images')}}/loading.gif" />
                 </div>
                 <div class="portfolio-data-table mobile-portfolio-data-table tab-pane active" role="tabpanel" id="current">

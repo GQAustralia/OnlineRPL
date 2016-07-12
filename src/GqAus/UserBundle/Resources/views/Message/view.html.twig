@@ -60,7 +60,14 @@
                             </a>
                     </div>
                     </div>
+                    <div>
+                    {# display navigation for pages - paginator_navigator #}
+                    {% if messages|length > 0 and paginator.getTotalPages() > 1 %}                    
+                        {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                    {% endif %}
                 </div>
+                </div>
+                
                 {% endif %}
         {% else %}
          <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">

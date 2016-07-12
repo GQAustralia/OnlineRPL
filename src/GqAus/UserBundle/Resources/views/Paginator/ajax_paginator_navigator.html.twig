@@ -21,10 +21,12 @@
     {% endif %}
     </div>
     {% if currentPage == 1 %}
+        <a href="javascript:void(0)" class="" page=""><div class="gq-pagination-prev-icon"></div></a>
     {% else %}
         <a href="javascript:void(0)" class="{{ classname }}" page="gq-ajax-app-pagination"><div class="gq-pagination-prev-icon"></div></a>
     {% endif %}
     {% if currentPage == totalPages %}
+        <a href="javascript:void(0)" page="" class=""><div class="gq-pagination-next-icon"></div></a>
     {% else %}
         <a href="javascript:void(0)" page="{{ currentPage + 1 }}" class="{{ classname }}"><div class="gq-pagination-next-icon"></div></a>
     {% endif %}
