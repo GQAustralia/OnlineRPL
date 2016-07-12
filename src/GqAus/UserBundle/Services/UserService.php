@@ -995,12 +995,11 @@ class UserService
      * @param int $page
      * return array
      */
-    public function getMyInboxMessages($userId)    
+    public function getMyInboxMessages($userId, $page)    
     {
-        //if ($page <= 0) {
-         //   $page = 1;
-       // }
-        
+        if ($page <= 0) {
+            $page = 1;
+        }        
         $query = $this->em->getRepository('GqAusUserBundle:Message')
             ->createQueryBuilder('m')
             ->select('m')
@@ -1011,9 +1010,11 @@ class UserService
             ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0')
             ->addOrderBy('m.created', 'DESC');
         $getMessages = $query->getQuery()->getResult();        
-       // $paginator = new \GqAus\UserBundle\Lib\Paginator();
-       // $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
-        return array('messages' => $getMessages,'sentuserid' => $userId);
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
+        return array('messages' => $pagination, 'paginator' => $paginator,'sentuserid' => $userId);
+        
+       // return array('messages' => $getMessages,'sentuserid' => $userId);
         
     }
 
@@ -2639,7 +2640,7 @@ class UserService
      * return datetime
      */
     public function getDaysRemaining($userId,$qCode, $courseStatus, $accessorStatus, $rtoStatus)
-    {  
+    {          
         $userCourse = $this->em->getRepository('GqAusUserBundle:UserCourses');
         $userCourseDetails = $userCourse->findOneBy(array('user' => $userId,
                 'courseCode' => $qCode, 
@@ -2647,6 +2648,7 @@ class UserService
                 'assessorstatus' => $accessorStatus, 
                 'rtostatus' => $rtoStatus)
         );
+       
         if($userCourseDetails)
             return $userCourseDetails->getAssessorDate();
     }
