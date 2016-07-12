@@ -1,14 +1,14 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
 <!-- accordion starts here -->
 {% if applicantList %}
-   <!-- {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+    {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
     <tr>
         <td class="gq-pagination-area" {% if ('ROLE_FACILITATOR' in userRole) %} colspan="5" {% else %} colspan="3" {% endif %}>
             {# display navigation for pages - paginator_navigator #}        
             {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
         </td>
     </tr>
-    {% endif %}-->
+    {% endif %}
     {% for key, list in applicantList %}
         <tr>
             <td class="col-md-2 col-lg-2"><a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" >{{list.user.userName}}</a></td>

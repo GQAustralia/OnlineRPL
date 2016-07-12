@@ -575,11 +575,11 @@ class UserService
         }
         $res->orderBy('c.id', 'DESC');
         /* Pagination */
-        //$paginator = new \GqAus\UserBundle\Lib\Paginator();
-        //$pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
         /* Pagination */
         $applicantList = $res->getQuery()->getResult();        
-        return array('applicantList' => $applicantList);
+        return array('applicantList' => $applicantList,'paginator' => $paginator, 'page' => $page);
     }
 
     /**
