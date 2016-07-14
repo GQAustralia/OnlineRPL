@@ -4,6 +4,7 @@ imports:
     - { resource: services.yml }
     - { resource: constant_messages.yml } 
     - { resource: languages.yml } 
+    - { resource: roleconstants.yml }
 
 framework:
     #esi:             ~
