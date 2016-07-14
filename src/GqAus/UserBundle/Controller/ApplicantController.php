@@ -58,8 +58,7 @@ class ApplicantController extends Controller
             $results['coreUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'core');
             $results['electiveUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'elective', $electiveUnitArr);
             $results['evidenceCompleteness'] = $userService->getEvidenceCompleteness($uid, $qcode);
-            //$results['daysRemaining'] = $userService->getDaysRemaining($uid, $qcode,'15','1','0');
-            $results['daysRemaining'] = $userService->getDaysRemaining('38', 'AUR50112','15','1','0');
+            
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
@@ -470,6 +469,7 @@ class ApplicantController extends Controller
                     $results['unitDetails'] = $value['details'];
                 }
             }
+			$results['unitStatus'] = $coursesService->getUnitStatus($uid, $unitcode,$qcode);
             $results['evidences'] = $evidenceService->getUserUnitEvidences($uid, $unitcode);
             $results['evidenceCount'] = count($evidenceService->getUserUnitEvidences($uid, $unitcode));
             return $this->render('GqAusUserBundle:Applicant:unitdetails.html.twig', array_merge($results, $applicantInfo));
@@ -491,6 +491,26 @@ class ApplicantController extends Controller
         echo $pendingApplicantsCount;
         exit;
     }
+	/**
+     * Function to insert record into messsage table when the facilitlaor has clicked on not satisafactory button
+     *  return string
+     */
+    public function sendMsgtoApplicantAction()
+    {
+        $userService = $this->get('UserService');
+        $userId = $this->getRequest()->get('userId');
+        $fromUser = $userId;
+        $fromUser = $userService->getUserInfo($fromUser);
+        $curuser = $userService->getCurrentUser();
+        $unitId = $this->getRequest()->get('unitId');
+        $subject = $this->getRequest()->get('subject');
+        $message = $this->getRequest()->get('message');
+        $msgdata = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId, 'replymid' => '0');
+        $userUnitEvStatus = $userService->saveMessageData($fromUser,$curuser,$msgdata);
+        echo json_encode($userUnitEvStatus);
+        exit;
+    }
+
     
   
 }
