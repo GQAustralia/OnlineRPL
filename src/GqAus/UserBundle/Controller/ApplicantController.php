@@ -479,8 +479,7 @@ class ApplicantController extends Controller
     }
     
      /**
-     * Function to unread count
-     * @param object $request
+     * Function to pendingApplicant count     
      * return int
      */
     public function pendingApplicantCountAction()
