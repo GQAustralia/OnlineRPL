@@ -782,8 +782,7 @@ function onloadCount()
         url: base_url + "unread",
         cache: false,
         success: function(result) {
-            if (result > 0) {
-                 console.log(result);
+            if (result > 0) {                
                 $("#unread-count").html(result);
                 $(".inbox-cnt").html("(" + result + ")");
             } else {
@@ -795,15 +794,14 @@ function onloadCount()
 }
 /*Portfolio Current Count in Menu*/
 function onloadPortfolioCount()
-{   
-    count = $('#portfolioCount').val();    
+{    
     $.ajax({
-        url: base_url,
+        url: base_url + "pendingApplicantCount",
         cache: false,
-        success: function() {          
-            if (count > 0) {
-                $("#portfolio-current").html(count);               
-            } else {
+        success: function(result) {         
+            if (result > 0) {                
+                $("#portfolio-current").html(result);               
+            } else {                
                 $("#portfolio-current").css("display","none");                
             }
         }

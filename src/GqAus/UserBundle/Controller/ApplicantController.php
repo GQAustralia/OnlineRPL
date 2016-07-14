@@ -117,8 +117,7 @@ class ApplicantController extends Controller
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $pendingApplicantsCount = $this->get('UserService')->getPendingApplicants($userId, $userRole, '0');
-        //$TodoApplicantsCount = $this->get('UserService')->getCheckTodoApplicant(6, 34);
+        $pendingApplicantsCount = $this->get('UserService')->getPendingApplicants($userId, $userRole, '0');        
         $page = $this->get('request')->query->get('page', 1);
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);        
         $results['pageRequest'] = 'submit';
@@ -477,6 +476,21 @@ class ApplicantController extends Controller
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
         }
+    }
+    
+     /**
+     * Function to unread count
+     * @param object $request
+     * return int
+     */
+    public function pendingApplicantCountAction()
+    {
+        
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $pendingApplicantsCount = $this->get('UserService')->getPendingApplicants($userId, $userRole, '0');
+        echo $pendingApplicantsCount;
+        exit;
     }
     
   
