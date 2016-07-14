@@ -2,7 +2,8 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: constant_messages.yml }
+    - { resource: constant_messages.yml } 
+    - { resource: languages.yml } 
 
 framework:
     #esi:             ~
@@ -37,7 +38,8 @@ twig:
         evidence_service: "@EvidenceService"
         tokbox_key: "%tokbox_key%"
         rto_workspan: "%rto_workspan%"
-        fec_workspan: "%fec_workspan%"        
+        fec_workspan: "%fec_workspan%"
+        ass_workspan: "%ass_workspan%"
 
 # Assetic Configuration
 assetic:

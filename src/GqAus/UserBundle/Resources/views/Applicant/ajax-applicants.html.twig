@@ -53,7 +53,7 @@
 {% else %}
     <tr>
         <td {% if ('ROLE_FACILITATOR' in userRole) %} colspan="3" {% endif %} class="gq-tabs-no-content-text margin-top15">
-            No Applicants Found</td>
+            {{no_applicants}}</td>
     </tr>
 {% endif %}
 <!-- accordion ends here -->

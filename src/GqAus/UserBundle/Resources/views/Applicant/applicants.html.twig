@@ -84,12 +84,7 @@
 {% else %}
     <tr>
         <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
-            No Applicants Found</td>
+            {{no_applicants}}</td>
     </tr>
         {% endif %}
-<!-- accordion ends here -->
 
-
-    {% block javascripts %}
-
-    {% endblock %}
