@@ -84,8 +84,8 @@ $(function() {
         var userId = $("#csUserId").val();
         var courseCode = $("#csCourseCode").val();
         var courseStatus = $("#courseStatus").val();
-        $("#courseStatusMsg").show();
-        $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/loading.gif"></div>');
+		$("#status-message").show();
+        $("#status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
         if (courseStatus !== "") {
             $.ajax({
                 type: "POST",
@@ -94,9 +94,9 @@ $(function() {
                 success: function(responseText) {
                     var result = jQuery.parseJSON(responseText);
                     if(result.type == 'Error' ) {
-                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100);   
+						$("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100);
                     } else if (result.type == 'Success') {
-                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100); 
+						$("#status-message").html('<div style="display: block;"><strong><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</strong></div>').delay(3000).fadeOut(100); 
                     }   
                     if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
@@ -112,8 +112,7 @@ $(function() {
                 }
             });
       } else {
-          $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please select status</h2></div>').delay(3000).fadeOut(100);
-
+          $("#status-message").html('<strong><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</strong>').delay(3000).fadeOut(100);
       }
     });
 });
@@ -2034,3 +2033,70 @@ function split(val) {
 function extractLast(term) {
     return split(term).pop();
 }
+$("#submittoassessor").click(function(){
+	var userId = $("#csUserId").val();
+	var courseCode = $("#csCourseCode").val();
+	var courseStatus = $(this).data("coursestatus");
+	$("#status-message").show();
+	$("#status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
+	if (courseStatus !== "") {
+		$.ajax({
+			type: "POST",
+			url: base_url + "updateCourseStatus",
+			data: {courseStatus: courseStatus, courseCode: courseCode, userId: userId},
+			success: function(responseText) {
+				var result = jQuery.parseJSON(responseText);
+				if(result.type == 'Error' ) {
+					$("#status-message").html('<div"><strong><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</strong></div>').delay(3000).fadeOut(100);   
+				} else if (result.type == 'Success') {
+					$("#status-message").html('<div style="display: block;"><strong><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</strong></div>').delay(3000).fadeOut(100); 
+				}   
+				if(result.code == '1'){
+				  $("#currentCourseStatus").val(courseStatus);  
+				} else if(result.code != '5') {
+					  if ( $('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').length > 0 ) {  
+						  $("#courseStatus").val($("#currentCourseStatus").val());
+						  $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
+					  } else {
+						  $("#courseStatus").val($("#courseStatus option:first").val());
+						  $("#selectcourseStatus").html($("#courseStatus option:first").html());                          
+					  }
+				}
+			}
+		});
+  } else {
+	  $("#status-message").html('<strong><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</strong>').delay(3000).fadeOut(100);
+
+  }
+});
+function searchUsersFromCourse(id) {  
+   $(id).autocomplete({
+        source: function(request, response) {
+            $.getJSON(base_url + "usersFromCourse", { term: extractLast(request.term) }, response);
+        },
+        search: function() {
+            var term = extractLast(this.value);
+              if (term.length < 2) {
+                return false;
+            }
+        },
+        focus: function() {
+            // prevent value inserted on focus
+            return false;
+        },
+        select: function(event, ui) {
+            var terms = split(this.value);
+            // remove the current input
+            terms.pop();
+            // add the selected item
+            terms.push(ui.item.value);
+            //$('#toUserId').val(ui.item.key);
+            // add placeholder to get the comma-and-space at the end
+            terms.push("");
+            this.value = terms.join(" ");
+            return false;
+        }
+    });
+}
+
+

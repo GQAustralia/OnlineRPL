@@ -1,4 +1,18 @@
 $(document).ready(function(){
+	$('a[data-collapse="child"]').on('click', function(){
+    var nestedCollapse;
+
+		$( 'a[data-collapse="child"]').each( function( index, element ){
+				 $(this).children('.material-icons').text('expand_more'); 
+		});
+
+		if($(this).attr('aria-expanded')==='true'){
+
+			$(this).children('.material-icons').text('expand_more'); 
+		}else{
+		   $(this).children('.material-icons').text('expand_less');       
+		}
+	});
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
 	$(".mobile_version,.login_page").css("height",window_Ht);
