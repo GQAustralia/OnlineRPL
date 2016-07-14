@@ -15,6 +15,7 @@ use GqAus\UserBundle\Entity\Superadmin;
 use GqAus\UserBundle\Entity\Reminder;
 use GqAus\UserBundle\Entity\Message;
 use GqAus\UserBundle\Entity\Evidence\Text;
+use GqAus\UserBundle\Entity\Faq;
 
 
 class UserService
@@ -2690,6 +2691,15 @@ class UserService
         $statement->bindValue('courseCode', $courseId);
         $statement->execute();
         return $statement->fetchAll();
+    }
+    /**
+     * Function to get the FAQ     
+     * return Array
+     */
+    public function getFaq()
+    {
+          $faq = $this->em->getRepository('GqAusUserBundle:Faq');        
+          return $faq->findByStatus('1');
     }
     
 }
