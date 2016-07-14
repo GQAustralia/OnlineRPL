@@ -24,6 +24,9 @@ class NotesController extends Controller
             $data['session_user_role'] = $this->get('security.context')->getToken()->getUser()->getRoleName();
             $data['session_user_email'] = $this->get('security.context')->getToken()->getUser()->getEmail();
             $data['session_user_name'] = $this->get('security.context')->getToken()->getUser()->getUsername();
+			$data['unit_notes'] = $this->getRequest()->get('noteMsg');
+            $data['unit_note_type'] = $this->getRequest()->get('noteType');
+            $data['course_id'] = $this->getRequest()->get('courseId');
             echo $this->get('NotesService')->saveNotes($data);
         }
         exit;

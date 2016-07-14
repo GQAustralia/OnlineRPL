@@ -223,4 +223,11 @@ faq:
 pendingApplicantCount:
     path:    /pendingApplicantCount
     defaults: { _controller: GqAusUserBundle:Applicant:pendingApplicantCount }  
+sendMsgtoApplicant:
+    path:     /sendMsgtoApplicant
+    defaults:  { _controller: GqAusUserBundle:Applicant:sendMsgtoApplicant }
+usersFromCourse:
+    path:     /usersFromCourse
+    defaults: { _controller: GqAusUserBundle:Message:usersFromCourse }
+
 
