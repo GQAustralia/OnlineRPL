@@ -67,6 +67,17 @@
                             <tbody id="currentList">
                                 {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
                             </tbody>
+                            <tfooter>
+                                
+                                {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+                                    <tr>
+                                        <td class="gq-pagination-area" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
+                                            {# display navigation for pages - paginator_navigator #}        
+                                            {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tfooter>
                         </table>
                     </div>
                 </div>
@@ -163,18 +174,18 @@
         
 {% endblock %}
 
-{% block javascripts %}    
+{% block javascripts %}         
     <script src="{{ asset('public/js/jquery-ui.js') }}"></script>    
     <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js') }}"></script>      
     <script type="text/javascript">
         $(document).ready(function() {            
-            $('#myTable').DataTable( {
+        $('#myTable').DataTable( {
                   "paging":   false,                  
                   "info":     false,
                   "searching": false,
                   "aaSorting": [],
                   "columnDefs": [
-                    { "orderable": false, "targets":  [ 0, 1,2,4,5 ] }
+                    { "orderable": false, "targets":  [ 0,1,2,4,5 ] }
                   ]
                 } );
             var dateTime = new Date();
@@ -187,6 +198,7 @@
                 minDateTime: timeZoneDT
             });
         });
-   </script>   
-   <script type="text/javascript" src="{{ asset('public/js/jquery.tablesorter.js') }}"></script> 
+   </script>  
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>   
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 {% endblock %}
