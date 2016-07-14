@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
-{% block title %}GQ - RPL Applicant Details{% endblock %}
+{% block title %}GQ - RPL Applicant Course Unit Details{% endblock %}
 {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('public/css//bootstrap-datetimepicker.css')}}">
+    <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/css/jquery-ui-timepicker-addon.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualififation.css') }}">
-    <link rel="stylesheet" type="text/css" href="/public/css/jquery.fancybox.css?v=2.1.5" media="screen" />
+    <link rel="stylesheet" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
 {% endblock %}
 {% block navmenu %}
     <header>
@@ -17,27 +20,33 @@
             </nav>
         </section>
     </header>
-    <div class="presentation-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-lg-11">
-                    <p>
-                        <span>{% if courseInfo.name %} {{courseInfo.name}} {% endif %}</span>
-                        <span>{% if courseInfo.id %} {{courseInfo.id}} {% endif %}</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 {% endblock %}    
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
+    {% set unitFacStatus = unitStatus.facilitatorstatus %}
+    {% set unitAssStatus = unitStatus.assessorstatus %}
+    {% set unitRtostatus = unitStatus.rtostatus %}
+    
     <!-- Small Screens HTML -->
         <div class="hidden-lg body_section">
+            <div class="presentation-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-11">
+                            <p>
+                                <span>{% if courseInfo.name %} {{courseInfo.name}} {% endif %}</span>
+                                <span>{% if courseInfo.id %} {{courseInfo.id}} {% endif %}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="edu-tag">
+                            
                             <p>
                                 <span class="tag-edu">Qualification</span>
                                 <span class="tag-id">Unit {{ unitCode }}</span>
@@ -82,7 +91,7 @@
                                                 {% endif %}
                                                <div class="file-info">
                                                    <a href = "{{ amazon_link }}{{  evidence.path }}" {% if evfancy == 'fancybox' or evfancy == 'fancybox fancybox.iframe'%} class="{{ evfancy }}" {% else %} target="_blank" {% endif %}><span class="icon"><i class="material-icons">{{ evtype }}</i></span></a>
-                                                   <span class="file-discription">{{evidence.size}} | Added {{ evidence.created|date("d/m/Y") }}</span>
+                                                   <span class="file-discription">{{evidence.size}} | ADDED {{ evidence.created|date("d/m/y") }}</span>
                                                </div>
                                             {% endif %}
                                         {% endfor %}
@@ -96,16 +105,37 @@
         </div>
     <!-- Small Screens HTML End -->
     
-    <!-- Larg Screens HTML -->
+    <!-- Large Screens HTML -->
     <div class="hidden-xs body_section">
+        <div class="presentation-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-11">
+                        <p>
+                            <span>{% if courseInfo.name %} {{courseInfo.name}} {% endif %}</span>
+                            <span>{% if courseInfo.id %} {{courseInfo.id}} {% endif %}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="status-message" id="status-message" style="display:none;"></div>
         <div class="container">    
             <div class="row">
                 <div class="col-lg-12">
                     <div class="edu-tag">
+                        {% set inloop = 0 %}
+                        {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], unitCode, courseInfo.id ) %}
+                        {% if ('ROLE_ASSESSOR' in userRole and approvalStatus =='0') %} 
+                            {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_FACILITATOR', unitCode, courseInfo.id ) %}
+                            {% set inloop = 1 %}
+                        {% endif %}   
+                        {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
+                        {% if approvalText|length > 0 %}<p> <span class="tag">{{approvalText}} </span> </p>{% endif %}
                         <p>
                             <span class="tag-edu">Qualification</span>
                             <span class="tag-id">Unit {{ unitCode }}</span>
-                            <span class="tag-copy">{{unitName}}</span>                        
+                            <span class="tag-copy">{{unitName|raw}}</span>                        
                         </p>
                     </div>
                 </div>
@@ -124,42 +154,86 @@
                                 <div class="panel-copy">
                                     {% for evidence in evidences %}
                                         {% if evidence.unit == unitCode %}
-                                            {% set evidenceType = evidence.type %}
-                                            {% if evidenceType == "image" %} 
-                                                {% set evtype = "photo"  %}
-                                                {% set evfancy = "fancybox"  %}
-                                            {% elseif evidenceType == "audio" %} 
-                                                   {% set evtype = "mic"  %}
-                                                   {% set evfancy = "fancybox fancybox.iframe" %}
-                                            {% elseif evidenceType == "video" %} 
-                                                   {% set evtype = "videocam" %}  
-                                                   {% set evfancy = "fancybox fancybox.iframe" %}
-                                            {% elseif evidenceType == "text" %}
-                                                   {% set evtype = "text_fields" %}
-                                                   {% set evfancy = "text" %}      
-                                            {% elseif evidenceType == "file" %} 
-                                                   {% set evtype = "description" %}
-                                                   {% set evfancy = "fancybox fancybox.iframe" %}
-                                            {% elseif evidenceType == "recording" %} 
-                                                   {% set evtype = "fiber_manual_record" %}
-                                                   {% set evfancy = "fancybox fancybox.iframe" %}
-                                            {% else %}
-                                                   {% set evtype = "" %}
-                                                   {% set evfancy = "" %}
-                                            {% endif %}
+                                            {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
+                                            {% set output = eviType|split('&&') %}
                                                 <div class="file-info">
-                                                    <a href = "{{ amazon_link }}{{  evidence.path }}" {% if evfancy == 'fancybox' or evfancy == 'fancybox fancybox.iframe' %} class="{{ evfancy }}" {% else %} target="_blank" {% endif %}>
-                                                        <span class="icon"><i class="material-icons">{{ evtype }}</i></span>
-                                                    </a>
-                                                    <span class="file-discription">{{evidence.name}} <br/>{{evidence.size}} | Added {{ evidence.created|date("d/m/Y") }}</span>                                              
-                                                    {% if ('ROLE_FACILITATOR' in userRole) %}
-                                                        <span class="clear"><i class="material-icons">clear</i></span>
-                                                    {% endif %}
+                                                   <a href="{{ amazon_link }}{{  evidence.path }}" 
+                                                        {% if output[1] is defined %}
+                                                            {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
+                                                        {%endif%}>
+                                                        <span class="icon"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
+                                                   </a><span class="file-discription">{% if evidence.name is defined %}{{evidence.name}}{%endif%}<br/>{% if evidence.size is defined %}{{evidence.size}} |{%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}</span>   
                                                 </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
+                                <div class="gqa-btn-group">
+                                    <div class="row no-gutter">
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="btn">
+                                                <div class="dropdown keep-open">
+                                                    <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>ToDo list</a></span>
+                                                    <div class="arrow" style="left: 50%;"></div>
+                                                    <div class="dropdown-menu">
+                                                        <div class="data_section">
+                                                            <textarea rows="3" placeholder="Notes" id="todolist-msg" name="todolist-msg"></textarea>
+                                                            <div class="date_section clearfix"><input type="text"  id="remindDate"  class="date_field form-control"/></div>
+                                                        </div>
+                                                        <button type="button" class="btn_red setToDoList"  listid="{% if coursePrimaryId >0 %}{{coursePrimaryId}}{% endif %}" usercourseid="{% if coursePrimaryId >0 %}{{coursePrimaryId}}{% endif %}">SET</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg gqa-btn-group">
+                        <div class="form">
+                        <div class="row no-gutter">
+                            {% if selfAssessmentText|length > 0 %}
+                            <div class="col-md-12 col-lg-12">
+                                <div class="panel-group">
+                                    <div class="panel clearfix">
+                                        <div class="panel-heading clearfix">
+                                            <h4 class="panel-title">
+                                                <span>Self Assessment Notes ( Min. 50 Words)</span>
+                                            </h4>
+                                        </div>
+                                        <div class="panel-body">
+                                            <textarea>{{selfAssessmentText.0.content}}</textarea>
+                                            <span class="char-count">52/50</span>
+                                        </div>
+                                    </div>                                        
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% if ('ROLE_FACILITATOR' in userRole) %}
+                            {% if unitFacStatus == '0' or unitFacStatus == '2' %}
+            <div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory">Satisfactory</button></div>
+                                {% if unitFacStatus == '0' %}
+            <div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#not-satisfactory">Not yet Satisfactory</button></div>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% if ('ROLE_ASSESSOR' in userRole) %}
+                            {% if unitAssStatus == '0' or unitAssStatus == '2' %}
+            <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
+                                {% if unitAssStatus == '0' %}
+            <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% if ('ROLE_RTO' in userRole) %}
+                            {% if unitRtoStatus == '0' or unitRtoStatus == '2' %}
+            <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger border-right approve-for-certification-btn" type="button" id="approve-for-certification" >Approved</button></div>
+                              {% if unitRtoStatus == '0' %}           
+            <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger" type="button" >Not yet approved</button></div>
+                                {% endif %} 
+                            {% endif %} 
+                        {% endif %}
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -178,15 +252,15 @@
                                                     <div class="panle_body_content">
                                                         <p><strong>Elements and Performanace Criteria</strong></p>
                                                     </div>
-                                                    <a href="#nested-collapseSeven" data-parent="#nested" data-toggle="collapse" aria-expanded="false" class="collapsed">
-                                                        <i class="material-icons keyboard_arrow_down">keyboard_arrow_right</i>
+    <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse" aria-expanded="false" class="collapsed">
+                                                        <i class="material-icons">expand_less</i>
                                                     </a>
                                                 </div>
                                             </div>
                                             <div class="panel-collapse collapse in" id="nested-collapseSeven" style="" aria-expanded="true">
                                                 <div class="panel-body">
                                                     <div class="panel-copy">
-                                                        <div class="file-info">{{ unitDetails|raw }}</div>
+                                                        <div class="file-info">{%if unitDetails|length > 0%}{{unitDetails|raw}}{% endif %}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -197,15 +271,15 @@
                                                     <div class="panle_body_content">
                                                         <p><strong>Required Skills &amp; Knowledge</strong></p>
                                                     </div>
-                                                    <a href="#nested-collapseEight" data-parent="#nested" data-toggle="collapse">
-                                                        <i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i>
+                                                    <a href="#nested-collapseEight" data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse">
+                                                        <i class="material-icons">expand_more</i>
                                                     </a>
                                                 </div>
                                             </div>
                                             <div class="panel-collapse collapse" id="nested-collapseEight">
                                                 <div class="panel-body">
                                                     <div class="panel-copy">
-                                                        <div class="file-info">{{ unitDetails|raw }}</div>
+                                                        <div class="file-info">{%if unitDetails|length > 0%}{{unitDetails|raw}}{% endif %}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -216,15 +290,15 @@
                                                     <div class="panle_body_content">
                                                         <p><strong>Evidence Guide &amp; Rance Statement</strong></p>
                                                     </div>
-                                                    <a href="#nested-collapseNine" data-parent="#nested" data-toggle="collapse">
-                                                        <i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i>
+                                                    <a href="#nested-collapseNine" data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse">
+                                                        <i class="material-icons">expand_more</i>
                                                     </a>
                                                 </div>
                                             </div>
                                             <div class="panel-collapse collapse" id="nested-collapseNine">
                                                 <div class="panel-body">
                                                     <div class="panel-copy">
-                                                        <div class="file-info">{{ unitDetails|raw }}</div>
+                                                        <div class="file-info">{%if unitDetails|length > 0%}{{unitDetails|raw}}{% endif %}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -238,10 +312,70 @@
             </div>
         </div>
     </div>
+    <div class="modal-pop">
+        <div role="dialog" id="satisfactory" class="modal fade" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content satisfactory-modal-content">
+                    <div class="modal-body"><p><strong>Done!</strong><br>This unit is  {% if ('ROLE_FACILITATOR' in userRole) %}SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}COMPETENT{% endif %}.<br/>Do you want to send {{userName}} a message about this?</p></div>
+                    <div class="modal-footer">
+                        <div class="form-group form-group-lg gqa-btn-group" id="applicantEStatus" userRole="{{userRole.0}}">
+                            <div class="form">
+                                <div class="row no-gutter">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button id="approveyes" data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right" type="button">Yes</button>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button id="approveno" data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button">No</button>
+                                    </div>
+                                    <input type="hidden" id="course-name" name="course-name" value="{{courseInfo.name}}">
+                                    <input type="hidden" id="course-code" name="course-code" value="{{courseInfo.id}}">
+                                    <input type="hidden" id="userid" name="userid" value="{{userId}}">
+                                    <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
+                                    <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
+                                    <input type="hidden" id="unit-id" name="unit-id" value="{{unitStatus.id}}"> 
+                                </div>
+                            </div>
+                        </div>          
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div role="dialog" id="not-satisfactory" class="modal fade" style="display: none;">
+            <div class="modal-dialog"><!-- Modal content-->
+               <div class="modal-content not-satisfactory-modal-content">
+                    <div class="modal-body"><p><strong>Add a Message</strong><br>Please let {{userName}} know why this unit is <br>{% if ('ROLE_FACILITATOR' in userRole) %}NOT YET SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}NOT YET COMPETENT{% endif %}</p>
+                        <p><textarea name="msg-body" id="msg-body" cols="30" rows="4"></textarea></p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group form-group-lg gqa-btn-group">
+                            <form class="form" action="#">
+                                <div class="row no-gutter">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button id="disapproveno" data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right" type="button">Cancel</button>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button id="disapproveyes" data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button">Send</button>
+                                    </div>
+                                     <input type="hidden" id="course-name" name="course-name" value="{{courseInfo.name}}">
+                                    <input type="hidden" id="course-code" name="course-code" value="{{courseInfo.id}}">
+                                    <input type="hidden" id="userid" name="userid" value="{{userId}}">
+                                    <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
+                                    <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
+                                    <input type="hidden" id="unit-id" name="unit-id" value="{{unitStatus.id}}"> 
+                                    <input type="hidden" id="fromuser-id" name="fromuser-id" value="{{facilitatorId}}">
+                                </div>
+                            </form>
+                        </div>          
+                   </div>
+               </div>
+            </div>
+        </div>
+    </div>
     <!-- Larg Screens HTML -->
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript" src="/public/js/jquery.fancybox.js?v=2.1.5"></script>
+    <script type="text/javascript" src="{{ asset('public/js/custom-jquery-ajax.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('.fancybox').fancybox();
