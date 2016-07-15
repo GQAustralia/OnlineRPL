@@ -30,7 +30,7 @@ class ApplicantController extends Controller
         $user = $userService->getUserInfo($uid);
         
         $results = $coursesService->getCoursesInfo($qcode);
-        
+      
         if (!empty($user) && isset($results['courseInfo']['id'])) {
             $applicantInfo = $userService->getApplicantInfo($user, $qcode);
             $role = $this->get('security.context')->getToken()->getUser()->getRoles();
@@ -53,12 +53,12 @@ class ApplicantController extends Controller
             if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Assessor::ROLE_NAME) {
                 $roleType = ($role[0] == Facilitator::ROLE_NAME) ? 'f' : 'a';
                 $results['notes'] = $userService->getNotesFromUserAndCourse($qcode, $uid, $roleType);
+                $results['notesFromCourse'] = $userService->getNotesFromCourseIdOnly($applicantInfo['coursePrimaryId'], $roleType);
             }
             $electiveUnitArr = $results['electiveUnits'];
             $results['coreUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'core');
             $results['electiveUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'elective', $electiveUnitArr);
             $results['evidenceCompleteness'] = $userService->getEvidenceCompleteness($uid, $qcode);
-            
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');

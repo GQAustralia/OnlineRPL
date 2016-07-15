@@ -18,8 +18,7 @@
                 </ul>            
             </nav>
         </section>
-    </header>
-    
+    </header>   
 {% endblock %}    
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
@@ -313,7 +312,7 @@
                         </div>
                     </div>
                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                        {% if notes|length > 0 %}
+                        {% if notes|length > 0 or  notesFromCourse|length > 0 %}
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="comments">
@@ -322,15 +321,26 @@
                                                 <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
                                             </div>
                                             {% for note in notes %} 
-                                            <div class="panel-content">
-                                                <img src="{% if userImage %} {{ userImage }} {% endif %}" class="profile-img">
-                                                <span><strong>{{note.userName}}</strong></span>
-                                                <span class="date-time">
-                                                    <span class="date">{{ note.created|date('m/d/y')}}</span>
-                                                    <span class="time">{{ note.created|date('H:i')}}</span>
-                                                </span>
-                                                <p>{{note.note}}</p>
-                                            </div>
+                                                <div class="panel-content">
+                                                    <img src="{% if userImage %} {{ userImage }} {% endif %}" class="profile-img">
+                                                    <span><strong>{{note.userName}}</strong></span>
+                                                    <span class="date-time">
+                                                        <span class="date">{{ note.created|date('m/d/y')}}</span>
+                                                        <span class="time">{{ note.created|date('H:i')}}</span>
+                                                    </span>
+                                                    <p>{{note.note}}</p>
+                                                </div>
+                                            {% endfor %}
+                                            {% for note in notesFromCourse%}
+                                                <div class="panel-content">
+                                                    <img src="{% if userImage %} {{ userImage }} {% endif %}" class="profile-img">
+                                                    <span><strong>{{userName}}</strong></span>
+                                                    <span class="date-time">
+                                                        <span class="date">{{ note.created|date('m/d/y')}}</span>
+                                                        <span class="time">{{ note.created|date('H:i')}}</span>
+                                                    </span>
+                                                    <p>{% if note.note is defined %}{{note.note}}{%endif%}</p>
+                                                </div>
                                             {% endfor %}
                                         </div>
                                     </div>

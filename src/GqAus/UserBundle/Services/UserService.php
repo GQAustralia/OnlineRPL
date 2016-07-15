@@ -2710,6 +2710,16 @@ class UserService
         return $allRcrds;
     }
     /**
+     * Function to get the notes based on course & roletype for portfolio details pages
+     * @param integer $courseId
+     * @param string $roleType
+     */
+    public function getNotesFromCourseIdOnly($courseId, $roleType)
+    {
+        $courseNotesObj = $this->em->getRepository('GqAusUserBundle:Note')->findBy(array('courseId' => $courseId, 'type' => $roleType));
+        return $courseNotesObj;
+    }
+    /**
     * Function to get the Evidences from Unit & course & userid wise 
     * @param integer $courseId 
     * @param integer $unitId
