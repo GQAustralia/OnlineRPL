@@ -313,28 +313,30 @@
                         </div>
                     </div>
                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="comments">
-                                <div class="panel-group">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
+                        {% if notes|length > 0 %}
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="comments">
+                                        <div class="panel-group">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
+                                            </div>
+                                            {% for note in notes %} 
+                                            <div class="panel-content">
+                                                <img src="{% if userImage %} {{ userImage }} {% endif %}" class="profile-img">
+                                                <span><strong>{{note.userName}}</strong></span>
+                                                <span class="date-time">
+                                                    <span class="date">{{ note.created|date('m/d/y')}}</span>
+                                                    <span class="time">{{ note.created|date('H:i')}}</span>
+                                                </span>
+                                                <p>{{note.note}}</p>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
                                     </div>
-                                    {% for note in notes %} 
-                                    <div class="panel-content">
-                                        <img src="{% if userImage %} {{ userImage }} {% endif %}" class="profile-img">
-                                        <span><strong>{{note.userName}}</strong></span>
-                                        <span class="date-time">
-                                            <span class="date">{{ note.created|date('m/d/y')}}</span>
-                                            <span class="time">{{ note.created|date('H:i')}}</span>
-                                        </span>
-                                        <p>{{note.note}}</p>
-                                    </div>
-                                    {% endfor %}
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        {% endif %}
                     {% endif %}
                     <div class="row">
                         <div class="form-group form-group-lg gqa-btn-group">
