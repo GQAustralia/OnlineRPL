@@ -26,35 +26,17 @@
         {% set id = list.id %}
         {% set courseCode = list.courseCode %}
         {% if (status == 0) %}
-        {% if ('ROLE_ASSESSOR' in userRole) or ('ROLE_RTO' in userRole)%}           
-            {% set remaingDays = user_service.getDaysRemaining(userId, list.courseCode,list.courseStatus ,list.assessorstatus,list.rtostatus ) %}
-            {% set startDate = remaingDays|date('Y-m-d') %}
-            {% set difference = date( 'now' | date() ).diff(date(startDate)) %}
-            {% set leftDays = difference.days %}
-        {% if ('ROLE_ASSESSOR' in userRole)  %}
-             {% set workSpan = ass_workspan %}
-        {% elseif ('ROLE_RTO' in userRole)  %}
-            {% set workSpan = rto_workspan %}
+            {% set remaingDays = user_service.getDaysRemainingFromRole(userId, list.courseCode, userRole[0]) %}
+            {% set output = remaingDays|split('&&') %}
         {% endif %}
-            {% set remaining = workSpan - leftDays  %}
-            {% set remaingraph = ((remaining*100)/workSpan)|round %}
-        {% endif %}
-        {% if ('ROLE_FACILITATOR' in userRole) %} 
-            {% set remaining = timeRemaining(id) %}       
-            {% if remaining > 0 %}
-                {% set remaingraph = 100 - remaining %}  
-            {% else %}
-                {% set remaingraph = 0 %}
-            {% endif %}        
-         {% endif %}
+      
         <td class="col-md-2 col-lg-2">
             <div class="progress">
-              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{remaingraph}}%"></div>
+              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{% if output[1] >0 %}{{ output[1] }}{%else%} 0 {% endif %}%"></div>
             </div>                        
-            <div class="progress-copy {% if remaining > 0 %}{% else %} un-reviewed {%endif%}">{% if remaining > 0 %}{{remaining}} d {% elseif remaining == 0 %} 0d!{% else %}{{remaining}}d!{%endif%} </div>
+            <div class="progress-copy">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%} </div>
         </td>
         
-        {% endif %}
         {% if (status == 0) %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
         <td class="col-md-2 col-lg-2">{{ courseStatus }}</td>
