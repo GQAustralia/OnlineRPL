@@ -2638,9 +2638,9 @@ class UserService
      * @param string $userRole
      * return string
      */
-	public function getDaysRemainingFromRole($userId, $courseCode, $userRole)
+    public function getDaysRemainingFromRole($userId, $courseCode, $userRole)
     {          
-		$courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId,'courseCode' => $courseCode));
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId,'courseCode' => $courseCode));
         $createdDate = $courseObj->getCreatedOn();
         $targetDate = $courseObj->getTargetDate();
         $facDate =  $courseObj->getFacilitatorDate();
@@ -2693,8 +2693,8 @@ class UserService
      * return Array
      * 
      */
-    public function getNotesFromUserAndCourse($courseId, $userId, $roleType){
-        
+    public function getNotesFromUserAndCourse($courseId, $userId, $roleType)
+    {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare('SELECT n.note,uc.user_id,n.created FROM note as n, user_course_units as uc WHERE uc.course_code = :courseCode AND uc.id = n.unit_id and uc.user_id = :userId and n.type = :roleType');
         $statement->bindValue('courseCode', $courseId);
@@ -2709,13 +2709,13 @@ class UserService
         }
         return $allRcrds;
     }
-	/**
-     * Function to get the Evidences from Unit & course & userid wise 
-     * @param integer $courseId 
-     * @param integer $unitId
-	 * @param integer userId
-     * return Array
-     */
+    /**
+    * Function to get the Evidences from Unit & course & userid wise 
+    * @param integer $courseId 
+    * @param integer $unitId
+    * @param integer userId
+    * return Array
+    */
     public function getEvidenceForUnit($courseId, $unitId, $userId){
         $connection = $this->em->getConnection();
         $statement = $connection->prepare('SELECT count(*) as noFiles FROM evidence WHERE user_id = :userId AND unit_code =:unitCode AND course_code = :courseCode');
@@ -2734,13 +2734,13 @@ class UserService
           $faq = $this->em->getRepository('GqAusUserBundle:Faq');        
           return $faq->findByStatus('1');
     }
-	/** get Course count based on the unit
-	 * @param integer $applicantId 
-     * @param string $userRole
-	 * @param string $courseCode
-	 * @param string $type
-     */
-	public function getCourseCountStatusByRoleWise($applicantId, $userRole, $courseCode, $type)
+    /** get Course count based on the unit
+    * @param integer $applicantId 
+    * @param string $userRole
+    * @param string $courseCode
+    * @param string $type
+    */
+    public function getCourseCountStatusByRoleWise($applicantId, $userRole, $courseCode, $type)
     {
          switch ($userRole) {
             case 'ROLE_FACILITATOR':
