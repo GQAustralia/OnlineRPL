@@ -81,3 +81,24 @@ $(window).resize(function(){
 		$(".login_section .login_btn").css("position","absolute");
 	}
 });
+/* for showing the dropdown up and down of the respective field based on the page scroll */
+function determineDropDirection(){
+	$(".dropdown-menu").each( function(){
+		$(this).css({
+		  visibility: "hidden",
+		  display: "block"
+		});
+		
+		$(this).parent().removeClass("dropup");
+		
+		if ($(this).offset().top + $(this).outerHeight() > $(window).innerHeight() + $(window).scrollTop()){
+		  $(this).parent().addClass("dropup");
+		}
+		
+		$(this).removeAttr("style");
+	});
+}
+
+determineDropDirection();
+
+$(window).scroll(determineDropDirection);
