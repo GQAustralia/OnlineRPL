@@ -52,7 +52,9 @@ class UserController extends Controller
         if ($userRole != 'ROLE_FACILITATOR') {
             $userProfileForm->remove('crmId');
         }
-
+        
+        $currentIdPoints = $userService->getIdPoints($user);
+        $userProfilePercentage = $userService->getUserProfilePercentage($user);
         $documentTypes = $userService->getDocumentTypes();
         $idFilesForm = $this->createForm(new IdFilesForm(), $documentTypes);
         $resetForm = $this->createForm(new ChangePasswordForm(), array());
@@ -149,7 +151,9 @@ class UserController extends Controller
                 'qualFiles' => $qualificationFiles,
                 'referenceFiles' => $referenceFiles,
                 'matrixFiles' => $matrixFiles,
-                'tab' => $tab
+                'tab' => $tab,
+                'userProfilePercentage' => $userProfilePercentage,
+                'currentIdPoints' => $currentIdPoints
         ));
     }
 

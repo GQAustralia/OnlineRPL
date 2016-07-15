@@ -1,117 +1,133 @@
-{#{{ form_start(form) }}#}
-<div role="tabpanel" class="tab-pane {% if tab == 'id-fields' %} {% else %} active {% endif %}" id="personal">
-    <div class="gq-form-personal wid60p">
-        <div class="gq-form-row">
-            <label for="gq-first-name">{% if ('ROLE_RTO' in userRole) %} College Name {% else %} First Name {% endif %} <span class="astrik">*</span></label>
-                {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
+<div class="hidden-xs col-sm-12 col-md-12 col-lg-6">                 
+        {% set userRole = app.security.getToken().getUser().getRoles() %}
+        {% set userId = app.security.getToken().getUser().getId() %}
+        <div class="form_block">
+                <div class="title_bar clearfix">
+                        <span class="left">YOUR DETAILS</span>
+                        <span class="right"><strong>{{userProfilePercentage}} COMPLETED</strong>{% if userProfilePercentage == "100%" %}<i class="material-icons">done</i>{% endif %}</span>
+                </div>
+                 <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data" />
+                 <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% else %}other{% endif %}">
+                 <input type='hidden' id='hdn-userId' name='hdn-userId' value="{{userId}}">
+                 <input type='hidden' id='hdn-type' name='hdn-type' value="0">
+                        <div class="section half clearfix">
+                                <div class="form-group">
+                                        <label or="gq-first-name">First Name</label>
+                                        {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="form-group">
+                                        <label for="gq-last-name">Last Name</label>
+                                        {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                        </div>
+                        <div class="section">
+                                <div class="form-group clearfix gender_section">
+                                        <label >Gender</label>
+                                        {{ form_widget(form.gender) }}
+                                </div>
+                        </div>
+                        <div class="section">
+                                <div class="form-group">
+                                        <label for="gq-email-name">Email</label>
+                                        {{ form_widget(form.email, { 'attr':{'readonly':'readonly'} }) }}
+                                </div>
+                        </div>
+                        <div class="section half clearfix">
+                                <div class="form-group">
+                                        <label for="gq-personal-pwd">Mobile</label>
+                                        {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
+                                </div>
+                                <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="text" value="........"/>
+                                        <span><i class="material-icons">lock</i></span>
+                                </div>
+                                <a href="javascript:void(0)" class="change_link" data-toggle="modal" data-target="#change_pwd_popup">Change?</a>
+                        </div>
+                        <div class="section">
+                                <div class="form-group">
+                                        <label for="gq-personal-pwd">USI</label>
+                                        {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                        </div>
+                        <div class="title_bar clearfix">
+                                <span class="left">ADDRESS</span>
+                        </div>
+                        <div class="section">
+                                <div class="form-group street_info">
+                                        <label for="gq-last-name">Street Number</label>
+                                        {{ form_widget(form.address.address,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                        </div>
+                        <div class="section">
+                                <div class="form-group street_info">
+                                        <label for="gq-last-name">Street Name</label>
+                                        {{ form_widget(form.address.area,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                        </div>
+                        <div class="section">
+                                <div class="form-group">
+                                        <label for="gq-last-name">Suburb</label>
+                                        {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                        </div>
+                        <div class="section half clearfix">
+                                <div class="form-group">
+                                        <label for="gq-last-name">City</label>
+                                        {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="form-group">
+                                        <label for="gq-last-name">Postcode</label>
+                                        {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                        </div>
+                        <div class="section half clearfix">
+                                <div class="form-group">
+                                        <label for="gq-last-name">State</label>
+                                        {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                                <div class="form-group">
+                                        <label for="gq-last-name">Country</label>
+                                        {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30'} }) }}
+                                </div>
+                        </div>
+              
         </div>
-        <div class="gq-form-row">
-            <label for="gq-last-name">{% if ('ROLE_RTO' in userRole) %} Provider Code {% else %} Last Name {% endif %} <span class="astrik">*</span></label>
-                {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
+                <div class="link_section clearfix">
+                        <a href="javascript:void(0)" class="faq_link">
+                                <span><i class="material-icons">help</i></span>FAQs
+                        </a>
+                        <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn update_btn disable" onclick="return validateAddress();">UPDATE</button>
+                </div>
         </div>
-        <div class="gq-form-row">
-            <label for="gq-email-name">Email <span class="astrik">*</span></label>
-                {{ form_widget(form.email, { 'attr':{'readonly':'readonly'} }) }}
-        </div>
-       {% if ('ROLE_APPLICANT' in userRole) %}
-        <div class="gq-form-row">
-            <label class="pull-left" for="gq-personal-pwd">Gender <span class="astrik">*</span></label>
-                {{ form_widget(form.gender) }}
-        </div>
-        {% endif %}
-        <div class="gq-form-row">
-            <label for="gq-personal-pwd">Phone <span class="astrik">*</span></label>
-                {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
-        </div>
-        
-       {% if ('ROLE_APPLICANT' in userRole) %}
-        <div class="gq-form-row">
-            <label for="gq-personal-pwd">Date Of Birth <span class="astrik">*</span></label>
-                {{ form_widget(form.dateOfBirth, { 'attr':{'readonly':'readonly'} }) }}
-        </div>
-        <div class="gq-form-row USIrow">
-            <label for="gq-personal-pwd">USI <span class="astrik">*</span></label>
-            <a href="http://www.usi.gov.au/create-your-USI/Pages/default.aspx" target="_blank">Don’t have one?<br/>Click here to create one</a>
-                {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        {% endif %}        
-       {% if ('ROLE_RTO' in userRole) %}
-        <div class="gq-form-row">
-            <label for="gq-personal-pwd">Contact Person Name</label>
-                {{ form_widget(form.contactname,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        <div class="gq-form-row">
-            <label for="gq-personal-pwd">Contact Person Phone</label>
-                {{ form_widget(form.contactphone,{ 'attr': {'maxlength': '20'} }) }}
-        </div>
-        <div class="gq-form-row">
-            <label for="gq-personal-pwd">Contact Person Email</label>
-                {{ form_widget(form.contactemail,{ 'attr': {'maxlength': '50'} }) }}
-        </div>
-        
-        <div class="gq-form-row">
-            <label for="gq-personal-pwd">CEO Name</label>
-                {{ form_widget(form.ceoname,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        <div class="gq-form-row">
-            <label for="gq-personal-pwd">CEO Email</label>
-                {{ form_widget(form.ceoemail) }}
-        </div>
-        <div class="gq-form-row">
-            <label for="gq-personal-pwd">CEO Phone</label>
-                {{ form_widget(form.ceophone,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        {% endif %}
-        
-        {% if ('ROLE_FACILITATOR' in userRole) %}
-        <div class="gq-form-row">
-            <label for="gq-last-name">CRM ID</label>
-                {{ form_widget(form.crmId,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        {% endif %}
-        
-        <div class="wid100p text-center margin-top15">
-            <a href="#change-pwd-form" aria-controls="change-pwd-form" role="tab" data-toggle="tab" id="emptypwdform1">Change Password</a>
-        </div>
-        <div class="gq-form-botton">
-                {{ form_widget(form.save, {'attr': {'class': 'btn btn-default'}}) }}
-        </div>
-    </div>
-</div>
-<div role="tabpanel" class="tab-pane" id="address">
-    <div class="gq-form-personal wid60p">
-        <div class="gq-form-row">
-            <label for="gq-last-name">Street Number</label>
-                {{ form_widget(form.address.address,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        <div class="gq-form-row">
-            <label for="gq-last-name">Street Name</label>
-                {{ form_widget(form.address.area,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        <div class="gq-form-row">
-            <label for="gq-last-name">Suburb</label>
-                {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        <div class="gq-form-row">
-            <label for="gq-last-name">City</label>
-                {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-		<div class="gq-form-row">
-            <label for="gq-personal-pwd">Postcode</label>
-                {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        <div class="gq-form-row">
-            <label for="gq-email-name">State</label>
-                {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        <div class="gq-form-row">
-            <label for="gq-email-name">Country</label>
-                {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30'} }) }}
-        </div>
-        <div class="gq-form-botton">
-            <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default" onclick="return validateAddress();">Save</button>
-        </div>
+        {{ form_end(form) }}
 
-    </div>
+<div id="change_pwd_popup" class="modal fade change_pwd_popup" role="dialog">
+        <div class="vertical-alignment-helper">
+                <div class="modal-dialog vertical-align-center">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                                <div class="modal-body">
+                                        <form class="form-inline">
+                                                <div class="form-group">
+                                                        <label for="email">Current Password</label>
+                                                        <input type="email" class="form-control" id="email">
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="pwd">Change Password</label>
+                                                        <input type="password" class="form-control" id="pwd">
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="pwd">Confirm Password</label>
+                                                        <input type="password" class="form-control" id="pwd">
+                                                </div>
+                                                <div class="btn_section clearfix">
+                                                        <input type="submit" class="btn change_pwd_btn" value="Change Password"/>
+                                                        <input type="button" class="btn" value="Cancel"/>
+                                                </div>
+                                        </form>
+                                </div>
+                        </div>
+                </div>
+        </div>
 </div>
- {{ form_end(form) }}
