@@ -85,7 +85,7 @@ $(function() {
         var courseCode = $("#csCourseCode").val();
         var courseStatus = $("#courseStatus").val();
 		$("#status-message").show();
-        $("#status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
+        $("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/loading.gif"></div>');
         if (courseStatus !== "") {
             $.ajax({
                 type: "POST",
@@ -94,9 +94,9 @@ $(function() {
                 success: function(responseText) {
                     var result = jQuery.parseJSON(responseText);
                     if(result.type == 'Error' ) {
-						$("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100);
+                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100);
                     } else if (result.type == 'Success') {
-						$("#status-message").html('<div style="display: block;"><strong><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</strong></div>').delay(3000).fadeOut(100); 
+                        $("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>').delay(3000).fadeOut(100); 
                     }   
                     if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
@@ -273,7 +273,7 @@ if($('#frmSelectEvidence').length)
             $('#gq-dashboard-tabs-success').show();
             if (responseText){            
                 $('#sp_'+responseText).show();
-                $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2>').delay(3000).fadeOut(100);
+                $('#gq-dashboard-tabs-success').html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2></div>').delay(3000).fadeOut(100);
             }
             setTimeout(function(){jQuery("#evd_close").trigger('click');},3000);
         },
@@ -1896,10 +1896,10 @@ if($('#frmAddNotes').length)
             $('#notes-loading').addClass('hide');
             if (responseText == "success") {
                 $('#notes-success-msg').show();
-                $("#notes-success-msg").html('<h2><img src="' + base_url + 'public/images/tick.png">Notes added successfully!</h2>').delay(5000).fadeOut(100);
+                $("#notes-success-msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/tick.png">Notes added successfully!</h2></div>').delay(5000).fadeOut(100);
             } else {
                 $('#notes-error-msg').show();
-               $("#notes-error-msg").html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Error saving notes!</h2>').delay(5000).fadeOut(100);
+               $("#notes-error-msg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error saving notes!</h2></div>').delay(5000).fadeOut(100);
             }
         },
         resetForm: true
@@ -2047,25 +2047,25 @@ $("#submittoassessor").click(function(){
 			success: function(responseText) {
 				var result = jQuery.parseJSON(responseText);
 				if(result.type == 'Error' ) {
-					$("#status-message").html('<div"><strong><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</strong></div>').delay(3000).fadeOut(100);   
+					$("#status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>').delay(3000).fadeOut(100);   
 				} else if (result.type == 'Success') {
-					$("#status-message").html('<div style="display: block;"><strong><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</strong></div>').delay(3000).fadeOut(100); 
+					$("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>').delay(3000).fadeOut(100); 
 				}   
 				if(result.code == '1'){
 				  $("#currentCourseStatus").val(courseStatus);  
 				} else if(result.code != '5') {
-					  if ( $('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').length > 0 ) {  
-						  $("#courseStatus").val($("#currentCourseStatus").val());
-						  $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
-					  } else {
-						  $("#courseStatus").val($("#courseStatus option:first").val());
-						  $("#selectcourseStatus").html($("#courseStatus option:first").html());                          
-					  }
+                                    if ( $('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').length > 0 ) {  
+                                            $("#courseStatus").val($("#currentCourseStatus").val());
+                                            $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
+                                    } else {
+                                            $("#courseStatus").val($("#courseStatus option:first").val());
+                                            $("#selectcourseStatus").html($("#courseStatus option:first").html());                          
+                                    }
 				}
 			}
 		});
   } else {
-	  $("#status-message").html('<strong><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</strong>').delay(3000).fadeOut(100);
+	  $("#status-message").html('<div class="gq-id-files-upload-error-text"><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</div>').delay(3000).fadeOut(100);
 
   }
 });
