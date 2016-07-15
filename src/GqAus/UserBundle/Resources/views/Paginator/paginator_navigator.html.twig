@@ -13,12 +13,12 @@
     {% endif %}
     </div>
     {% if currentPage == 1 %}
-        <a href=""><div class="gq-pagination-prev-icon"></div></a>
+        <a href="{{ currentPath }}?page={{ currentPage - 1 }}"><div class="gq-pagination-prev-icon"></div></a>
     {% else %}
         <a href="{{ currentPath }}?page={{ currentPage - 1 }}"><div class="gq-pagination-prev-icon"></div></a>
     {% endif %}
     {% if currentPage == totalPages %}
-        <a href=""><div class="gq-pagination-next-icon"></div></a>
+        <a href="{{ currentPath }}?page={{ currentPage + 1 }}"><div class="gq-pagination-next-icon"></div></a>
     {% else %}
         <a href="{{ currentPath }}?page={{ currentPage + 1 }}"><div class="gq-pagination-next-icon"></div></a>
     {% endif %}
