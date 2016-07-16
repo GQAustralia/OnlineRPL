@@ -13,6 +13,16 @@ class Reminder
     /**
      * @var string
      */
+    private $reminderType;
+	
+    /**
+     * @var integer
+     */
+    private $reminderTypeId;
+	
+    /**
+     * @var string
+     */
     private $date;
 
     /**
@@ -249,4 +259,49 @@ class Reminder
         return $this->createdby;
     }
 
+    /**
+     * Set reminderType
+     *
+     * @param $reminderType
+     * @return Reminder
+     */
+    public function setReminderType($reminderType)
+    {
+        $this->reminderType = $reminderType;
+
+        return $this;
+    }
+
+    /**
+     * Get reminderType
+     *
+     * @return Reminder 
+     */
+    public function getReminderType()
+    {
+        return $this->reminderType;
+    }
+    /**
+     * Set reminderTypeId
+     *
+     * @param $reminderTypeId
+     * @return Reminder
+     */
+    public function setReminderTypeId($reminderTypeId)
+    {
+        $this->reminderTypeId = $reminderTypeId;
+
+        return $this;
+    }
+
+    /**
+     * Get reminderTypeId
+     *
+     * @return Reminder 
+     */
+    public function getReminderTypeId()
+    {
+        return $this->reminderTypeId;
+	}
+    	
 }

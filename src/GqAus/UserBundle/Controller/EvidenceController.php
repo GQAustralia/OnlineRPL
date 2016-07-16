@@ -35,7 +35,21 @@ class EvidenceController extends Controller
      */
     public function viewAction(Request $request)
     {
-        $evidences = $this->get('EvidenceService')->currentUser->getEvidences();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userService = $this->get('UserService');
+
+        $pendingApplicants = $userService->getPendingApplicants($user->getId(), $user->getRoles(), '0');
+        
+        if (in_array('ROLE_APPLICANT', $userRole)) {
+            $evidences = $this->get('EvidenceService')->currentUser->getEvidences();
+        } else if(in_array('ROLE_FACILITATOR', $userRole)){
+            foreach($pendingApplicants as $user){
+                $evidences = $userService->getUserInfo($user->getUser()->getId())->getEvidences();
+                if(!empty($evidence))
+                    $userEvidences = $evidence;
+            }
+        }
         return $this->render('GqAusUserBundle:Evidence:view.html.twig', array('evidences' => $evidences));
     }
 

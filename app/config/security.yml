@@ -14,7 +14,7 @@ security:
         - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/qualificationDetails/.*, roles: ROLE_APPLICANT }
         - { path: ^/qualifications, roles: ROLE_APPLICANT }
-        - { path: ^/evidences, roles: ROLE_APPLICANT } 
+        - { path: ^/evidences, roles: [ROLE_APPLICANT, ROLE_FACILITATOR] } 
         - { path: ^/userprofile, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/applicantDetails/.*, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/applicants, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
