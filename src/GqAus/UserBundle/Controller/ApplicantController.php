@@ -486,7 +486,7 @@ class ApplicantController extends Controller
         
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $pendingApplicantsCount = $this->get('UserService')->getPendingApplicants($userId, $userRole, '0');
+        $pendingApplicantsCount = $this->get('UserService')->getPendingApplicantsCount($userId, $userRole, '0');
         echo $pendingApplicantsCount;
         exit;
     }
