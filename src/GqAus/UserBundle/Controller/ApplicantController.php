@@ -47,10 +47,21 @@ class ApplicantController extends Controller
                 $notesForm = $this->createForm(new NotesForm(), array());
                 $results['notesForm'] = $notesForm->createView();
             }
+			
+			if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Assessor::ROLE_NAME) {
+				$roleType = ($role[0] == Facilitator::ROLE_NAME) ? 'f' : 'a';
+				$results['notes'] = $userService->getNotesFromUserAndCourse($qcode, $uid, $roleType);
+			}
+			$electiveUnitArr = $results['electiveUnits'];
+			$results['coreUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'core');
+			$results['electiveUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'elective', $electiveUnitArr);
+			$results['evidenceCompleteness'] = $userService->getEvidenceCompleteness($uid, $qcode);
+			
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
         }
+		
     }
 
     /**
@@ -106,16 +117,18 @@ class ApplicantController extends Controller
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+		$pendingApplicantsCount = $this->get('UserService')->getPendingApplicantsCount($userId, $userRole, '0');
         $page = $this->get('request')->query->get('page', 1);
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
         $results['pageRequest'] = 'submit';
         $results['status'] = 0;
+		$results['pendingApplicantsCount']=$pendingApplicantsCount;
         $users = array();
         $qualificationStatus = array();
-        if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
+       //if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
             $users = $this->get('UserService')->getUserByRole();
             $qualificationStatus = $this->get('UserService')->getQualificationStatus();
-        }
+        //}
         $results['users'] = $users;
         $results['qualificationStatus'] = $qualificationStatus;
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
@@ -140,10 +153,8 @@ class ApplicantController extends Controller
         }
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, 
             $searchName, $searchTime, $filterByUser, $filterByStatus);
-        if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
-            $qualificationStatus = $this->get('UserService')->getQualificationStatus();
-            $results['qualificationStatus'] = $qualificationStatus;
-        }
+		$qualificationStatus = $this->get('UserService')->getQualificationStatus();
+		$results['qualificationStatus'] = $qualificationStatus;
         $results['pageRequest'] = 'ajax';
         $results['status'] = $status;
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results);
@@ -230,11 +241,9 @@ class ApplicantController extends Controller
             $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
             $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
             $results['projectPath'] = $this->get('kernel')->getRootDir() . '/../';
-            $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', 
-                array_merge($results, $applicantInfo));
+            $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
             $fileTemp = 'temp_' . time() . '.pdf';
-            $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' .
-                str_replace(' ', '-', $results['courseInfo']['name']) . '_' . time() . '.pdf';
+            $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' .str_replace(' ', '-', $results['courseInfo']['name']) . '_' . time() . '.pdf';
             $html2pdf = $this->get('html2pdf_factory')->create('P', 'A4', 'en', true, 'UTF-8', array(10, 15, 10, 15));
             $html2pdf->setDefaultFont('OpenSans');
             $vuehtml = $this->getRequest()->get('vuehtml');
@@ -420,4 +429,84 @@ class ApplicantController extends Controller
         exit;
     }
 
+    
+    /**
+     * Function to get applicant details page
+     * @param string $qcode
+     * @param int $uid
+     * @param object $request
+     * return string
+     */
+    public function courseunitDetailsAction($qcode,$unitcode, $uid, Request $request)
+    {
+        $userService = $this->get('UserService');
+        $coursesService = $this->get('CoursesService');
+        $evidenceService = $this->get('EvidenceService');
+       
+        $user = $userService->getUserInfo($uid);
+        
+        $results = $coursesService->getCoursesInfo($qcode);
+        
+        if (!empty($user) && isset($results['courseInfo']['id'])) {
+            $applicantInfo = $userService->getApplicantInfo($user, $qcode);
+            $role = $this->get('security.context')->getToken()->getUser()->getRoles();
+            if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Manager::ROLE_NAME) {
+                $results['rtos'] = $userService->getUsers(Rto::ROLE);
+                $results['assessors'] = $userService->getUsers(Assessor::ROLE);
+                if ($role[0] == Superadmin::ROLE_NAME || $role[0] == Manager::ROLE_NAME) {
+                    $results['facilitators'] = $userService->getUsers(Facilitator::ROLE);
+                }
+            }
+            $results['courseCode'] = $qcode;
+            $units = $results['courseInfo']['Units']['Unit'];
+            foreach($units as $key => $value)
+            {   
+                if($value['id'] === $unitcode){
+                    $results['unitCode'] = $value['id'];
+                    $results['unitName'] = $value['name'];
+                    $results['unitDetails'] = $value['details'];
+                }
+            }
+			$results['unitStatus'] = $coursesService->getUnitStatus($uid, $unitcode,$qcode);
+            $results['evidences'] = $evidenceService->getUserUnitEvidences($uid, $unitcode);
+            $results['evidenceCount'] = count($evidenceService->getUserUnitEvidences($uid, $unitcode));
+			$results['selfAssessmentText'] = $evidenceService->getSelfAssessmentFromUnit($uid, $qcode, $unitcode);
+            return $this->render('GqAusUserBundle:Applicant:unitdetails.html.twig', array_merge($results, $applicantInfo));
+        } else {
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+        }
+    }
+    
+     /**
+     * Function to pendingApplicant count     
+     * return int
+     */
+    public function pendingApplicantCountAction()
+    {
+        
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $pendingApplicantsCount = $this->get('UserService')->getPendingApplicants($userId, $userRole, '0');
+        echo $pendingApplicantsCount;
+        exit;
+    }
+	/**
+     * Function to insert record into messsage table when the facilitlaor has clicked on not satisafactory button
+     *  return string
+     */
+    public function sendMsgtoApplicantAction()
+    {
+        $userService = $this->get('UserService');
+        $userId = $this->getRequest()->get('userId');
+        $fromUser = $userId;
+        $fromUser = $userService->getUserInfo($fromUser);
+        $curuser = $userService->getCurrentUser();
+        $unitId = $this->getRequest()->get('unitId');
+        $subject = $this->getRequest()->get('subject');
+        $message = $this->getRequest()->get('message');
+        $msgdata = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId, 'replymid' => '0');
+        $userUnitEvStatus = $userService->saveMessageData($fromUser,$curuser,$msgdata);
+        echo json_encode($userUnitEvStatus);
+        exit;
+    } 
 }
