@@ -57,7 +57,7 @@
         <div id="err_msg"></div>
         <div class="row">
             <div class="col-lg-12 tab-content">
-                <div id="ajaxHtml" style="display:none" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+                <div id="ajaxHtml" style="display:none;" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
                             <img src="{{ asset('public/images')}}/loading.gif" class="img"/>
                 </div>
                 <div class="container tab-pane active" role="tabpanel" id="current">
@@ -67,6 +67,17 @@
                             <tbody id="currentList">
                                 {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
                             </tbody>
+                            <tfooter>
+                                
+                                {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+                                    <tr>
+                                        <td class="gq-pagination-area" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
+                                            {# display navigation for pages - paginator_navigator #}        
+                                            {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tfooter>
                         </table>
                     </div>
                 </div>
@@ -101,8 +112,7 @@
                     <div class="panel">
                         <div class="panel-heading clearfix">
                             <h4 class="panel-title">
-                                <span>Portfolios </span><span class="count"> {% if pendingApplicantsCount > 0 %}({{pendingApplicantsCount}}){% endif %}  </span>
-                                <input type="hidden" value="{% if pendingApplicantsCount > 0 %}{{pendingApplicantsCount}}{% endif %}" name="portfolioCount" id="portfolioCount">
+                                <span>Portfolios </span><span class="count"> {% if pendingApplicantsCount > 0 %}({{pendingApplicantsCount}}){% endif %}  </span>                                
                             </h4>
                         </div>
                     </div>
@@ -130,7 +140,7 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 tab-content" >
-                <div id="ajaxHtml" style="display:none" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+                <div id="ajaxHtml" style="display:none;" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
                             <img src="{{ asset('public/images')}}/loading.gif" />
                 </div>
                 <div class="portfolio-data-table mobile-portfolio-data-table tab-pane active" role="tabpanel" id="current">
@@ -164,18 +174,21 @@
         
 {% endblock %}
 
-{% block javascripts %}    
-    <script src="{{ asset('public/js/jquery-ui.js') }}"></script>    
+{% block javascripts %}  
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.12.3.js"></script>   
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>
+     <script src="{{ asset('public/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js') }}"></script>      
     <script type="text/javascript">
         $(document).ready(function() {            
-            $('#myTable').DataTable( {
+        $('#myTable').DataTable( {
                   "paging":   false,                  
                   "info":     false,
                   "searching": false,
                   "aaSorting": [],
                   "columnDefs": [
-                    { "orderable": false, "targets":  [ 0, 1,2,4,5 ] }
+                    { "orderable": false, "targets":  [ 0,1,2,4,5 ] }
                   ]
                 } );
             var dateTime = new Date();
@@ -188,6 +201,6 @@
                 minDateTime: timeZoneDT
             });
         });
-   </script>   
-   <script type="text/javascript" src="{{ asset('public/js/jquery.tablesorter.js') }}"></script> 
+   </script>  
+  
 {% endblock %}

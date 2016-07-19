@@ -1,94 +1,73 @@
 {% if ('ROLE_APPLICANT' in userRole) %}
-<div role="tabpanel" class="tab-pane {% if tab == 'id-fields' %} active {% else %} {% endif %}" id="id-fields">
-    <div class="gq-id-files-upload-text">
-        <h2>Upload ID Files</h2>
-    </div>
-
-    <div class="gq-id-files">
-        <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data">
-            <div class="gq-id-files-header gq-id-files-header-applicant">
-                <div class="row">
-                    <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
-                        <div class="gq-id-files-select">
-                             {{ form_widget(filesForm.type, {'attr': {'class': 'styled'}}) }}
+<div class="hidden-xs col-sm-12 col-md-12 col-lg-6">
+                <div class="info_block">
+                        <div class="title_bar clearfix">
+                                <span class="left">YOUR ID</span>
+                                <span class="right"><strong>{{currentIdPoints}}{% if currentIdPoints < "100" %} POINTS REQUIRED <i class="material-icons">info</i>{% else %} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
                         </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-                        <div class="gq-id-files-upload-btn">
-                            <span class="cloud-icon-browse">{{ form_widget(filesForm.browse, {'attr': {'class': 'show_path'}}) }} </span>
+                    <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data">                            
+                                {{ form_widget(filesForm.type, {'attr': {'class': 'selectpicker'}}) }}                          
+                        <div class="add_section " role="tabpanel">
+                                {{ form_widget(filesForm.browse, {'attr': {'class': 'hidden uploadFile'}}) }}
+                                <span class="button uploadTrigger"><i class="material-icons">add</i></span><strong>Add ID</strong>
                         </div>
-                    </div>
-                    <div id="idfiletype_image"></div>
-                    <div class="loading-icon" style="display: none;" id="ID_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>                    
-                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-                        <div class="gq-id-files-submit-btn">
-                            {{ form_widget(filesForm.save, { 'label': 'Upload' }) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div class="gq-id-files-content-wrap">
-            <div class="gq-dashboard-box-1x">
-                <div class="gq-dashboard-box-title-wrap">
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-10">
-                        <h2 class="gq-dashboard-box-title">Your ID Files</h2>
-                    </div>
-                    <div class="col-xs-6" id="idfiles_msg"></div>
-                    <div class="col-xs-3"></div>
-                </div>
-                <div class="gq-dashboard-courses-detail-wrap margin-top15">
-                    <div class="row Id_files">
+                         <div id="idfiletype_image"></div>
+                    <div class="loading-icon" style="display: none;" id="ID_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>   
+                    </form>
+                        <div class="col-xs-6" id="idfiles_msg"></div>
+                        <div class="file_block">
+                                <ul>
                         {% if userIdFiles is not null and userIdFiles is not empty %}
                         {% for item in userIdFiles %}
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.id}}">
-                            <div class="gq-dashboard-courses-detail">                                                
-                                <span class="gq-dashboard-points-icon">
-                                    <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
-                                        <div class="gq-del-evidence"></div></a>
-                                    <div class="tooltip-home top">
-                                        <div class="tooltip-arrow"></div>
-                                        <span class="">Delete ID File</span>
-                                    </div>
-                                </span>
-                                {% if item.type.id == 1 %}
-                                    {% set doc_type = 'gq-id-files-content-img-icon' %}
-                                {#{% elseif item.type.id == 2 %}
-                                    {% set doc_type = 'gq-id-files-content-pdf-icon' %}#}
-                                {% else %}
-                                     {% set doc_type = 'gq-id-files-content-esc-icon' %}
-                                {% endif %}
-                                <a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap {{doc_type}}"></div></a>
-                                <div class="gq-id-files-content-row-wrap">
-                                    <div class="gq-id-files-content-row">
-                                        <label>Title</label>
-                                        <a href="{{ amazon_link~item.path }}" target="_blank">
-                                            <span>
-                                            {% if item.type.type|length > 17 %}
-                                                {{ item.type.type[:17] ~ '...' }}
-                                            {% else %}
-                                                 {{ item.type.type }}   
-                                            {% endif %}
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="gq-id-files-content-row">
-                                        <label>Added on</label><span>{{item.created|date("d/m/Y") }}</span>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
+                        {% if item.type.id == 1 %}
+                        {% set doc_type = 'insert_photo' %}
+                        {#{% elseif item.type.id == 2 %}
+                            {% set doc_type = 'gq-id-files-content-pdf-icon' %}#}
                         {% else %}
-                        <center id="idfiles_no_files">No Id files found</center>                        
+                             {% set doc_type = 'sim_card_alert' %}
                         {% endif %}
+                                        <li>
+                                                <div class="title_bar clearfix">
+                                                        <span class="content">{{ item.type.type }}</span>
+                                                        <span class="number">{{ item.type.points }}</span>
+                                                </div>
+                                                <div class="file_info">
+                                                        <span class="icon">
+                                                                <i class="material-icons">{{doc_type}}</i>
+                                                        </span>
+                                                        <span class="file-discription">
+                                                                {{item.name}} <br>10kb | Added {{item.created|date("d/m/Y") }}
+                                                        </span>
+                                                        <a class="clear" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
+                                                                <i class="material-icons">clear</i><div class="gq-del-evidence"></div></a>
+                                                </div>
+                                        </li>
+                                   {% endfor %}
+                            {% else %}
+                                <center id="idfiles_no_files">No Id files found</center>                        
+                            {% endif %}
+                                </ul>
+                        </div>
+
+                        <p>You can use your mobile to take a pic of your ID <strong>SMS a link to my mobile</strong></p>
+                </div>
+        </div>
+{% endif %}
+
+<div class="modal fade confirm_popup" id="myModal" role="dialog">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-title" id="myModalLabel">Do you want to delete selected file?<span class="close"><i class="material-icons" id="fclose"  data-dismiss="modal" aria-label="Close">clear</i></span></div>
+                    <div class="btn_section">
+                        <button class="btn btn_red deleteIdFiles">OK</button>
+                        <button class="btn" id="fclose-cancel">CANCEL</button>
+                         <span class="loading-icon" id="ajax-loading-delete-assessor-file" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
                     </div>
                 </div>
-                <span class="flip-icon"></span>
             </div>
         </div>
     </div>
-
 </div>
-{% endif %}

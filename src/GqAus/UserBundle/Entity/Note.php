@@ -34,6 +34,11 @@ class Note
      * @var integer
      */
     private $id;
+	    
+    /**
+     * @var integer
+     */
+    private $courseId;
 
     /**
      * Set unitID
@@ -136,5 +141,28 @@ class Note
     {
         return $this->id;
     }
+	/**
+     * Set courseId
+     *
+     * @param integer $courseId
+     * @return integer
+     */
+    public function setCourseId($courseId)
+    {
+        $this->courseId = $courseId;
+
+        return $this;
+    }
+
+    /**
+     * Get courseId
+     *
+     * @return integer 
+     */
+    public function getCourseId()
+    {
+        return $this->courseId;
+    }
+
 
 }

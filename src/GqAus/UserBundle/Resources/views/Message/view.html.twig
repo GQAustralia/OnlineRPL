@@ -60,13 +60,20 @@
                             </a>
                     </div>
                     </div>
+                    <div>
+                    {# display navigation for pages - paginator_navigator #}
+                    {% if messages|length > 0 and paginator.getTotalPages() > 1 %}                    
+                        {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                    {% endif %}
                 </div>
+                </div>
+                
                 {% endif %}
         {% else %}
          <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
             <div class="left">
                 <ul class="mail_secion message">
-                    <li><strong>No Messages Found</strong></li>
+                    <li><strong>{{no_messages}}</strong></li>
                 </ul>
                 <div class="floater_add_icon" title="Add New Message">
                         <a href="{{ base_url }}messages/compose">

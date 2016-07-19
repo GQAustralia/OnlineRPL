@@ -32,15 +32,15 @@ class ProfileForm extends AbstractType
         $builder->add('ceoname', 'text', array('required' => false));
         $builder->add('ceoemail', 'text', array('required' => false));
         $builder->add('ceophone', 'text', array('required' => false));
-        $builder->add('dateOfBirth', 'text', array('required' => false));
+        //$builder->add('dateOfBirth', 'text', array('required' => false));
         $builder->add('universalStudentIdentifier', 'text', array('required' => false));
         $builder->add('contactname', 'text', array('required' => false));
         $builder->add('contactemail', 'text', array('required' => false));
         $builder->add('contactphone', 'text', array('required' => false));
-        $builder->add('userImage', 'file', array('required' => false, 'data_class' => null));
+        //$builder->add('userImage', 'file', array('required' => false, 'data_class' => null));
         $builder->add('address', new AddressForm(), array('label' => false));
-        $builder->add('crmId', 'text', array('required' => false));
-        $builder->add('save', 'submit');
+        //$builder->add('crmId', 'text', array('required' => false));
+        $builder->add('save', 'submit',array('label' => 'UPDATE','attr' =>array('class' => 'btn update_btn disable')));
     }
 
 }

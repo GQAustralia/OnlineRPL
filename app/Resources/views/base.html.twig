@@ -4,21 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}Recognition of Prior Learning{% endblock %}</title>
 
     <!-- Bootstrap -->
-    {% block head %}   
+    {% block head %} 
+        <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/css/jquery-ui-timepicker-addon.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('public/css/bootstrap-flex.css') }}" />
         <link rel="stylesheet" href="{{ asset('public/css/bootstrap-grid.css') }}" />
         <link rel="stylesheet" href="{{ asset('public/css/bootstrap-reboot.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}">
-        <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}">
-        <link rel="stylesheet" href="{{ asset('public/css/jquery-ui-timepicker-addon.css') }}">
-        <!-- Profile CSS-->
-        <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css') }}">
-        
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     {% endblock %}
     {% block stylesheets %}{% endblock %}     
         <script type="text/javascript">
@@ -29,7 +26,6 @@
   </head>
   <body>
     {% set roles = app.security.getToken().getUser().getRoles() %}
-    {% set userdata = app.security.getToken().getUser() %}
    <main class="main_container">
        {% block navmenu %}
         <header>
@@ -37,7 +33,11 @@
                 <div class="hidden-xs logo"><img src="{{ asset('public/images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/></div>
                 <nav>
                     <ul class="menu">
-                        <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/dashboard">DASHBOARD</a></li> 
+                        {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/dashboard">DASHBOARD</a></li> 
+                         {% else %}
+                            <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="">QUALIFICATION</a></li> 
+                         {% endif %}
                        {% if ('ROLE_APPLICANT' not in roles)  %}
                         <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span id="portfolio-current"></span></a></li>
                         {% endif %} 
@@ -45,12 +45,6 @@
                             <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES<span id="unread-count"></span></a></li>
                         {% endif %}                            
                         <li class="messages"><a href="{{ app.request.baseUrl }}/messages">EVIDENCE</a></li>
-                        {% if ('ROLE_APPLICANT' not in roles)  %}
-                            <li class="profile"><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">profile2</a></li>
-                        {% else %}
-                            <li class="profile"><a href="{{ app.request.baseUrl }}/userprofile">PROFILE</a></li>
-                            
-                       {% endif %} 
                     </ul>
                 <nav>
             </section>
@@ -58,20 +52,26 @@
         {% endblock %}
         <!-- Dashboard page starts here -->
         {% block body %}{% endblock %}
-        <!-- Dashboard page ends here -->    
+        <!-- Dashboard page ends here -->
     </main>
-   
-    <!-- Profile Modal-->
-    {% include 'profile_popup.html.twig' %}
-
 	    <!-- jQuery first, then Bootstrap JS. -->          
-    <script src="{{ asset('public/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('public/js/jquery.min.js') }}"></script>  
+    <script src="{{ asset('public/js/jquery-ui.js')}}"></script> 
+    <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js')}}"></script>
+    <script src="{{ asset('public/js/jquery.form.js') }}"></script>
     <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('public/js/script.js') }}"></script>
+    <script src="{{ asset('public/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('public/js/script.js') }}"></script>    
     <script src="{{ asset('public/js/custom-jquery.js') }}"></script>   
      {% block javascripts %}{% endblock %}
     <script> onloadCount();</script>
     <script> onloadPortfolioCount();</script>
-    
+    <script>
+     $(document).ready(function(){
+        $(".gq-id-files-upload-success-text").delay(5000).fadeOut(100);
+     });
+    </script>
+   
 </body>
+
 </html>

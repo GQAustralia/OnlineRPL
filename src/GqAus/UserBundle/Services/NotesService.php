@@ -47,10 +47,13 @@ class NotesService
     public function saveNotes($data)
     {
         if (!empty($data['unit_notes'])) {
+			$note_unit_id = ($data['note_unit_id'] == null)? 0 : $data['note_unit_id']; 
+            $course_id =  ($data['course_id'] == null)? 0 :  $data['course_id'];
             $notesObj = new Note();
-            $notesObj->setUnitID($data['note_unit_id']);
+			$notesObj->setUnitID($note_unit_id);
             $notesObj->setNote($data['unit_notes']);
             $notesObj->setType($data['unit_note_type']);
+			$notesObj->setCourseId($course_id);
             $dateObj = new DateTime('now');
             $notesObj->setCreated($dateObj);
             $this->em->persist($notesObj);

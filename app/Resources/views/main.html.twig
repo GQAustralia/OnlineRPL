@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Required meta tags always come first -->	
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable= no, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 	<title>{% block title %}{% endblock %}</title>
-    <link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/css/styles.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/css/bootstrap-flex.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/css/bootstrap-grid.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/css/bootstrap-reboot.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/login.css') }}">  
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     
-  </head>
-  <body>
-    <div class="page-wrap">
-        <div class="container-fluid">
-            <!-- Login page starts here -->
-            <div class="login-page">
-                <div class="row text-center">
-                    <div class="col-xs-12"><img src="{{ asset('public/images/gq-logo-login.png') }}" alt="GQ Australia logo" /></div>
-                </div>
-				{% block content %}{% endblock %}
-            </div>
-            <!-- Login page ends here -->
-        </div>
-    </div>
+    {% block stylesheets %}
+   {% endblock %}
+    </head>
+<body>
+<main class="main_container">
+	
+	<div class="body_section login_page">
+		<div class="login_section">
+			<div class="gqa_logo">
+				<img src="{{ asset('public/images/logo.png') }}" alt="gqa-logo"/>
+			</div>
+			{% block content %}{% endblock %}
+		</div>
+	</div>
+	
+</main>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

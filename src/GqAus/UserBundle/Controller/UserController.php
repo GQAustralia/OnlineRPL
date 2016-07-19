@@ -52,7 +52,9 @@ class UserController extends Controller
         if ($userRole != 'ROLE_FACILITATOR') {
             $userProfileForm->remove('crmId');
         }
-
+        
+        $currentIdPoints = $userService->getIdPoints($user);
+        $userProfilePercentage = $userService->getUserProfilePercentage($user);
         $documentTypes = $userService->getDocumentTypes();
         $idFilesForm = $this->createForm(new IdFilesForm(), $documentTypes);
         $resetForm = $this->createForm(new ChangePasswordForm(), array());
@@ -61,9 +63,9 @@ class UserController extends Controller
         $referenceForm = $this->createForm(new ReferenceForm(), array());
         $matrixForm = $this->createForm(new MatrixForm(), array());
         $image = $user->getUserImage();
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {            
             $userProfileForm->handleRequest($request);
-            if ($userProfileForm->isValid()) {
+            if ($userProfileForm->isValid()) {                 
                 $userService->savePersonalProfile($user, $image);
                 $request->getSession()->getFlashBag()->add(
                     'notice', 'Profile updated successfully!'
@@ -149,7 +151,9 @@ class UserController extends Controller
                 'qualFiles' => $qualificationFiles,
                 'referenceFiles' => $referenceFiles,
                 'matrixFiles' => $matrixFiles,
-                'tab' => $tab
+                'tab' => $tab,
+                'userProfilePercentage' => $userProfilePercentage,
+                'currentIdPoints' => $currentIdPoints
         ));
     }
 
@@ -216,7 +220,7 @@ class UserController extends Controller
      */
     public function checkMyPasswordAction(Request $request)
     {
-        if ($request->isMethod('POST')) {
+         if ($request->isMethod('POST')) {
             $mypassword = $request->get("mypassword");
             $user = $this->get('UserService')->getCurrentUser();
             $curDbPassword = $user->getPassword();
@@ -658,6 +662,16 @@ class UserController extends Controller
     }
     
     /**
+     * Function to display FAQ
+     * return array
+     */
+    function faqAction()
+    {
+         $faq = $this->get('UserService')->getFaq();        
+         return $this->render('GqAusUserBundle:Faq:faq.html.twig',array('faq' => $faq));
+    }
+    
+    /**
      * Function to update the user profile from popup.
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
@@ -732,8 +746,8 @@ class UserController extends Controller
         $userService->savePersonalProfile($user, $image);
         exit;
     }
+
     
-    
-    
+
 
 }

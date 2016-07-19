@@ -2,9 +2,8 @@
 <!-- accordion starts here -->
 {% if applicantList %}
 {% for key, list in applicantList %}
-
     <tr>
-        <td class="col-md-2 col-lg-2"><a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" >{{list.user.firstName}} {{list.user.lastName}}</a></td>        
+        <td class="col-md-2 col-lg-2"><a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" target="MyNewWindow">{{list.user.firstName}} {{list.user.lastName}}</a></td>        
         <td class="col-md-3 col-lg-3">{{list.courseCode}} {{list.courseName}}</td>
         {% if (status == 0) %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
@@ -77,12 +76,7 @@
 {% else %}
     <tr>
         <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
-            No Applicants Found</td>
+            {{no_applicants}}</td>
     </tr>
         {% endif %}
-<!-- accordion ends here -->
 
-
-    {% block javascripts %}
-
-    {% endblock %}

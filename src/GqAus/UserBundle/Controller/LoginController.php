@@ -17,10 +17,17 @@ class LoginController extends Controller
         $request = $this->getRequest();
         $session = $request->getSession();
         $user = $this->get('security.context')->getToken()->getUser();
-        if (is_object($user) && count($user) > 0) {
+        if (is_object($user) && count($user) > 0) {            
+            $role = $user->getRoles();
             $session = $request->getSession();
             $session->set('user_id', $user->getId());
-            return $this->redirect('dashboard');
+            if($role[0] == "ROLE_APPLICANT")
+            {              
+                return $this->redirect('userprofile');
+            }
+            else{
+                return $this->redirect('dashboard');
+            }
         } else {
             // get the login error if there is one
             if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {

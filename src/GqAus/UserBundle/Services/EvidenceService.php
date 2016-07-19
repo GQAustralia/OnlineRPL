@@ -456,5 +456,60 @@ class EvidenceService
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
         return $reposObj->find($evidenceId);
     }
-
+	    /**
+     * Function to get self assessment
+     * @param int $userId
+     * @param string $courseCode
+     * @param string $UnitCode
+     * return array
+     */
+    public function getSelfAssessmentFromUnit($userId, $courseCode, $unitCode){
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare('SELECT * FROM evidence as e,evidence_text as et WHERE e.user_id = :applicantId AND e.unit_code = :unitCode AND e.course_code = :courseCode AND e.type = :type AND e.id=et.id');
+        $statement->bindValue('applicantId', $userId);
+        $statement->bindValue('courseCode', $courseCode);
+        $statement->bindValue('unitCode', $unitCode);
+        $statement->bindValue('type', 'text');
+        $statement->execute();
+        $allRcrds = $statement->fetchAll();
+        return $allRcrds;
+    }
+    /**
+     * Function to get the evidence showing type means fancybox or else....
+     * @param string $$evidenceType
+     * return string
+     */
+    public function getEvidenceShowType($evidenceType){
+        switch($evidenceType){
+            case 'image':
+                 $evtype = "photo";
+                 $evfancy = "fancybox";
+                 break;
+            case 'audio':
+                 $evtype = "mic";
+                 $evfancy = "fancybox fancybox.iframe";
+                 break; 
+            case 'video':
+                 $evtype = "videocam";
+                 $evfancy = "fancybox fancybox.iframe";
+                 break;
+            case 'file':
+                 $evtype = "description";
+                 $evfancy = "fancybox fancybox.iframe";
+                 break;
+            case 'recording':
+                 $evtype = "fiber_manual_record";
+                 $evfancy = "fancybox fancybox.iframe";
+                 break;
+            case 'text':
+                 $evtype = "text_fields";
+                 $evfancy = "text";
+                 break;
+            default:
+                 $evtype = "";
+                 $evfancy = "";
+                 break;            
+        }
+        return $evtype."&&".$evfancy;
+    }
 }

@@ -84,8 +84,8 @@ $(function() {
         var userId = $("#csUserId").val();
         var courseCode = $("#csCourseCode").val();
         var courseStatus = $("#courseStatus").val();
-        $("#courseStatusMsg").show();
-        $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/loading.gif"></div>');
+		$("#status-message").show();
+        $("#status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
         if (courseStatus !== "") {
             $.ajax({
                 type: "POST",
@@ -94,9 +94,9 @@ $(function() {
                 success: function(responseText) {
                     var result = jQuery.parseJSON(responseText);
                     if(result.type == 'Error' ) {
-                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100);   
+						$("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100);
                     } else if (result.type == 'Success') {
-                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">'+ result.msg+'</h2></div>').delay(3000).fadeOut(100); 
+						$("#status-message").html('<div style="display: block;"><strong><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</strong></div>').delay(3000).fadeOut(100); 
                     }   
                     if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
@@ -112,8 +112,7 @@ $(function() {
                 }
             });
       } else {
-          $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please select status</h2></div>').delay(3000).fadeOut(100);
-
+          $("#status-message").html('<strong><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</strong>').delay(3000).fadeOut(100);
       }
     });
 });
@@ -655,7 +654,6 @@ function checkspace(text)
 
 function checkCurrentPassword(mypassword)
 {
-    
     $("#hdn_pwd_check").val("0");
     var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var enddiv = '</h2></div>';
@@ -664,17 +662,29 @@ function checkCurrentPassword(mypassword)
     if(mypassword!="") {
         $("#change_pwd_error").show();
         $("#change_pwd_error").html('<div class="gq-id-files-upload-wait-text"><h2>Please wait..' + enddiv);
-        
-        var pswd_validation = $.parseJSON($.ajax({
-        type: "POST",
-        url:  'checkMyPassword',
-        dataType: "json", 
-        async: false,
-        data: {mypassword: mypassword}
-    }).responseText);
+        $.ajax({
+            type: "POST",
+            url: "checkMyPassword",
+            cache: false,
+            data: {mypassword: mypassword},
+            success: function(result) {
+                console.log(result);
+                $('#change_pwd_error').show();
+                if (result == "fail") {
+                    $("#hdn_pwd_check").val("0");
+                    $("#change_pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);;
+                    $("#password_oldpassword").val('');
+                    $("#password_oldpassword").focus();
+                    return false;
+                }
+                else if (result == "success") {
+                    $("#hdn_pwd_check").val("1");
+                    console.log($("#hdn_pwd_check").val());
+                    $("#change-pwd-form").children("form").submit();
+                }
+            }
+        });
     }
-    
-    return pswd_validation['status'];
 }
 $(".notes-area").keypress(function() {
     $(this).css("border","none");
@@ -773,8 +783,7 @@ function onloadCount()
         url: base_url + "unread",
         cache: false,
         success: function(result) {
-            if (result > 0) {
-                 console.log(result);
+            if (result > 0) {                
                 $("#unread-count").html(result);
                 $(".inbox-cnt").html("(" + result + ")");
             } else {
@@ -786,15 +795,14 @@ function onloadCount()
 }
 /*Portfolio Current Count in Menu*/
 function onloadPortfolioCount()
-{   
-    count = $('#portfolioCount').val();   
+{    
     $.ajax({
-        url: base_url,
+        url: base_url + "pendingApplicantCount",
         cache: false,
-        success: function() {          
-            if (count > 0) {
-                $("#portfolio-current").html(count);               
-            } else {
+        success: function(result) {         
+            if (result > 0) {                
+                $("#portfolio-current").html(result);               
+            } else {                
                 $("#portfolio-current").css("display","none");                
             }
         }
@@ -968,49 +976,51 @@ function loadDataIcon(listdiv)
 
 
 $("#applicantPending").click(function() {
-    //pagenum = 1;   
+    pagenum = 1;   
     loadDataIcon('currentList');
     applicantStatus = '0';
    // $("#remainingweekDiv").show();
-    loadApplicantList('currentList');
+    loadApplicantList('currentList',pagenum);
+     $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
 });
 
 $("#applicantCompleted").click(function() {
-   // pagenum = 1;
+    pagenum = 1;
     loadDataIcon('completedList');
     applicantStatus = '1';
-   // $("#remainingweekDiv").hide();
-    loadApplicantList('completedList');
+    $("#remainingweekDiv").hide();
+    loadApplicantList('completedList',pagenum);
+     $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
 });
 
 $("body").on("click", ".gq-ajax-app-pagination", function() {   
-    //pagenum = $(this).attr("page");
+    pagenum = $(this).attr("page");
     if(applicantStatus==0)
     {
         loadDataIcon('currentList');
-        loadApplicantList('currentList');
+        loadApplicantList('currentList',pagenum);
     }
     if(applicantStatus==1)
     {
         loadDataIcon('completedList');
-        loadApplicantList('completedList');
+        loadApplicantList('completedList',pagenum);
     }
 });
 
 
 $("body").on("click", ".gq-ajax-pagination", function() {   
-   // pagenum = $(this).attr("page");
+    pagenum = $(this).attr("page");
     loadDataIcon('currentList');
-    loadApplicantListReports('currentList');
+    loadApplicantListReports('currentList',pagenum);
 });
 
 $("body").on("click", ".gq-ajax-users-pagination", function() {   
-    //pagenum = $(this).attr("page");
+    pagenum = $(this).attr("page");
     loadDataIcon('currentList');
     loadUsersList('currentList');
 });
 
-/*$("body").on("click", ".gq-ajax-pagination", function() {   
+$("body").on("click", ".gq-ajax-pagination", function() {   
     pagenum = $(this).attr("page");
     loadDataIcon('currentList');
     loadApplicantListReports('currentList',pagenum);
@@ -1019,8 +1029,8 @@ $("body").on("click", ".gq-ajax-users-pagination", function() {
 $("#searchFilterReports").click(function() { 
     //pagenum = $(this).attr("page");
     loadDataIcon('currentList');
-    loadApplicantListReports('currentList');
-});*/
+    loadApplicantListReports('currentList',pagenum);
+});
 /*$("#searchFilter").click(function() {   
     pagenum = 1;
     if(applicantStatus==0)
@@ -1035,34 +1045,32 @@ $("#searchFilterReports").click(function() {
     }
 });*/
 $(".search-box").keyup(function (e) {   
-    //if (e.keyCode == 13) {        
-       // pagenum = 1;        
+    pagenum = 1;        
     if(applicantStatus==0)
     {      
         loadDataIcon('currentList');
-        loadApplicantList('currentList');
+        loadApplicantList('currentList',pagenum);
     }
     if(applicantStatus==1)
     {
         loadDataIcon('completedList');
-        loadApplicantList('completedList');
-    }
-    //}
+        loadApplicantList('completedList',pagenum);
+    }  
 });
 $(".search-box-mobile").keypress(function () {     
     if(applicantStatus==0)
     {      
         loadDataIcon('currentList');
-        loadApplicantList('currentList');
+        loadApplicantList('currentList',pagenum);
     }
     if(applicantStatus==1)
     {
         loadDataIcon('completedList');
-        loadApplicantList('completedList');
+        loadApplicantList('completedList',pagenum);
     }
     //}
 });
-function loadApplicantList(divContent)
+function loadApplicantList(divContent,pagenum)
 {
     searchName = $('#searchName').val();
    // searchTime = $('#timeRemaining').val();
@@ -1072,7 +1080,7 @@ function loadApplicantList(divContent)
         type: "POST",
         url: base_url + "searchApplicantsList",
         cache: false,
-        data: {pagenum:'', searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: '', filterByStatus: ''},
+        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: '', filterByStatus: ''},
         success: function(result) { 
            // $("#filter-by-name").hide();
            // $("#filter-by-week").hide();
@@ -1415,8 +1423,8 @@ function passwordShowMsg(errorMsg,msgId)
 {
     var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var enddiv = '</h2></div>';
-    $('#'+msgId+"_error_span").show();
-    $('#'+msgId+"_error_span").html(errorMsg).delay(3000).fadeOut(100);
+    $("#change_pwd_error").show();
+    $("#change_pwd_error").html(startdiv + errorMsg + enddiv).delay(3000).fadeOut(100);
     if($("#"+msgId).val() != "")
         $("#"+msgId).val('');
     $("#"+msgId).focus();
@@ -1470,16 +1478,10 @@ $("#password_save").click(function()
         }
     }
     if (curpwd != "" && newpwd != "" && newconfirmpwd != "") {
-        pswd_validation = checkCurrentPassword($("#password_oldpassword").val());
-        if(pswd_validation=='fail')
-        {
-            passwordShowMsg("Current password does not match", "password_oldpassword");
+        if (hdnpwdchk == 0) {
+            checkCurrentPassword($("#password_oldpassword").val());
             return false;
         }
-//        if (hdnpwdchk == 0) {
-//            pswd_validation = checkCurrentPassword($("#password_oldpassword").val());
-//            return false;
-//        }
     }
 });
 $("#password_newpassword,#password_confirmnewpassword").keyup(function() {
@@ -1766,7 +1768,7 @@ $( '#file_save' ).click( function( e ) {
 } );
 
 // for validating the upload ID file
-$( '#userfiles_save' ).click( function( e ) {
+$( '#userfiles_browse' ).change( function( e ) {
     if($("#userfiles_type").val()!="") {
         if ($("#userfiles_browse").val().length > 0) {
             var extension = $("#userfiles_browse").val().substring($("#userfiles_browse").val().lastIndexOf('.')+1);
@@ -2033,6 +2035,71 @@ function split(val) {
 function extractLast(term) {
     return split(term).pop();
 }
+$("#submittoassessor").click(function(){
+	var userId = $("#csUserId").val();
+	var courseCode = $("#csCourseCode").val();
+	var courseStatus = $(this).data("coursestatus");
+	$("#status-message").show();
+	$("#status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
+	if (courseStatus !== "") {
+		$.ajax({
+			type: "POST",
+			url: base_url + "updateCourseStatus",
+			data: {courseStatus: courseStatus, courseCode: courseCode, userId: userId},
+			success: function(responseText) {
+				var result = jQuery.parseJSON(responseText);
+				if(result.type == 'Error' ) {
+					$("#status-message").html('<div"><strong><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</strong></div>').delay(3000).fadeOut(100);   
+				} else if (result.type == 'Success') {
+					$("#status-message").html('<div style="display: block;"><strong><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</strong></div>').delay(3000).fadeOut(100); 
+				}   
+				if(result.code == '1'){
+				  $("#currentCourseStatus").val(courseStatus);  
+				} else if(result.code != '5') {
+					  if ( $('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').length > 0 ) {  
+						  $("#courseStatus").val($("#currentCourseStatus").val());
+						  $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
+					  } else {
+						  $("#courseStatus").val($("#courseStatus option:first").val());
+						  $("#selectcourseStatus").html($("#courseStatus option:first").html());                          
+					  }
+				}
+			}
+		});
+  } else {
+	  $("#status-message").html('<strong><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</strong>').delay(3000).fadeOut(100);
+
+  }
+});
+function searchUsersFromCourse(id) {  
+   $(id).autocomplete({
+        source: function(request, response) {
+            $.getJSON(base_url + "usersFromCourse", { term: extractLast(request.term) }, response);
+        },
+        search: function() {
+            var term = extractLast(this.value);
+              if (term.length < 2) {
+                return false;
+            }
+        },
+        focus: function() {
+            // prevent value inserted on focus
+            return false;
+        },
+        select: function(event, ui) {
+            var terms = split(this.value);
+            // remove the current input
+            terms.pop();
+            // add the selected item
+            terms.push(ui.item.value);
+            //$('#toUserId').val(ui.item.key);
+            // add placeholder to get the comma-and-space at the end
+            terms.push("");
+            this.value = terms.join(" ");
+            return false;
+        }
+    });
+}
 
 /* Profile Update (from popup) -*/
 $('#user_profile_form').on('submit', function(e) {
@@ -2045,19 +2112,10 @@ $('#user_profile_form').on('submit', function(e) {
             cache: false,
             data: form_data,
             success: function(result) {
-                res = JSON.parse(result);
-                if(res['status']=='true')
-                {
-                    alert(res['message']);
-                }
-                else
-                {
-                    alert(res['message']);
-                }
+                alert(result);
             }
         });
 }); 
-
 /**
  * Show or hide passowrd div
  * @param {int} type
@@ -2095,3 +2153,4 @@ $('#change_password_form').on('submit', function(e) {
             }
        });
 }); 
+

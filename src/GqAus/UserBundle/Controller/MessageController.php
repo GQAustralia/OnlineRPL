@@ -19,8 +19,8 @@ class MessageController extends Controller
     {
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();        
-        //$page = $this->get('request')->query->get('page', 1);
-        $result = $messageService->getMyInboxMessages($userid);      
+        $page = $this->get('request')->query->get('page', 1);
+        $result = $messageService->getMyInboxMessages($userid, $page);      
         $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);       
         $now = new DateTime('now');
         $result['today'] = $now->format('Y-m-d');
@@ -343,20 +343,20 @@ class MessageController extends Controller
                         $userService->saveMessageData($sentuser, $curuser, $msgdata);
 
                         $request->getSession()->getFlashBag()->add(
-                            'msgnotice', 'Message sent successfully!'
+                            'msgnotice', $this->container->getParameter('message_succ')
                         );
                     }
                     else
                     {
                         $request->getSession()->getFlashBag()->add(
-                            'errornotice', 'This User not Authorised to send messages'
+                            'errornotice', $this->container->getParameter('user_authorize')
                         );
                     }
                 }
                 else {
 
                         $request->getSession()->getFlashBag()->add(
-                            'errornotice', 'User not existed'
+                            'errornotice', $this->container->getParameter('no_user_found')
                         );
                 }
             }
