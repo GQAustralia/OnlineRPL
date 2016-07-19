@@ -33,7 +33,11 @@
                 <div class="hidden-xs logo"><img src="{{ asset('public/images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/></div>
                 <nav>
                     <ul class="menu">
-                        <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/dashboard">DASHBOARD</a></li> 
+                        {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/dashboard">DASHBOARD</a></li> 
+                         {% else %}
+                            <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="">QUALIFICATION</a></li> 
+                         {% endif %}
                        {% if ('ROLE_APPLICANT' not in roles)  %}
                         <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span id="portfolio-current"></span></a></li>
                         {% endif %} 
@@ -62,6 +66,11 @@
      {% block javascripts %}{% endblock %}
     <script> onloadCount();</script>
     <script> onloadPortfolioCount();</script>
+    <script>
+     $(document).ready(function(){
+        $(".gq-id-files-upload-success-text").delay(5000).fadeOut(100);
+     });
+    </script>
    
 </body>
 </html>

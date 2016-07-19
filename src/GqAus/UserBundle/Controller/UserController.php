@@ -63,9 +63,9 @@ class UserController extends Controller
         $referenceForm = $this->createForm(new ReferenceForm(), array());
         $matrixForm = $this->createForm(new MatrixForm(), array());
         $image = $user->getUserImage();
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {            
             $userProfileForm->handleRequest($request);
-            if ($userProfileForm->isValid()) {
+            if ($userProfileForm->isValid()) {                 
                 $userService->savePersonalProfile($user, $image);
                 $request->getSession()->getFlashBag()->add(
                     'notice', 'Profile updated successfully!'
@@ -220,7 +220,7 @@ class UserController extends Controller
      */
     public function checkMyPasswordAction(Request $request)
     {
-        if ($request->isMethod('POST')) {
+         if ($request->isMethod('POST')) {
             $mypassword = $request->get("mypassword");
             $user = $this->get('UserService')->getCurrentUser();
             $curDbPassword = $user->getPassword();

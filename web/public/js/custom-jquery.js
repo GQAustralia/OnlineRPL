@@ -668,6 +668,7 @@ function checkCurrentPassword(mypassword)
             cache: false,
             data: {mypassword: mypassword},
             success: function(result) {
+                console.log(result);
                 $('#change_pwd_error').show();
                 if (result == "fail") {
                     $("#hdn_pwd_check").val("0");
@@ -678,6 +679,7 @@ function checkCurrentPassword(mypassword)
                 }
                 else if (result == "success") {
                     $("#hdn_pwd_check").val("1");
+                    console.log($("#hdn_pwd_check").val());
                     $("#change-pwd-form").children("form").submit();
                 }
             }

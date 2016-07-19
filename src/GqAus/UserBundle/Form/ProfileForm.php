@@ -40,7 +40,7 @@ class ProfileForm extends AbstractType
         //$builder->add('userImage', 'file', array('required' => false, 'data_class' => null));
         $builder->add('address', new AddressForm(), array('label' => false));
         //$builder->add('crmId', 'text', array('required' => false));
-       // $builder->add('save', 'submit');
+        $builder->add('save', 'submit',array('label' => 'UPDATE','attr' =>array('class' => 'btn update_btn disable')));
     }
 
 }
