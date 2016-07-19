@@ -12,34 +12,34 @@
                  <input type='hidden' id='hdn-type' name='hdn-type' value="0">
                         <div class="section half clearfix">
                                 <div class="form-group">
-                                        <label or="gq-first-name"><span class="required">*</span>First Name</label>
+                                        <label or="gq-first-name">First Name</label>
                                         {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                                 <div class="form-group">
-                                        <label for="gq-last-name"><span class="required">*</span>Last Name</label>
+                                        <label for="gq-last-name">Last Name</label>
                                         {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                         </div>
                         <div class="section">
                                 <div class="form-group clearfix gender_section">
-                                        <label ><span class="required">*</span>Gender</label>                                        
+                                        <label >Gender</label>                                        
                                             {{ form_widget(form.gender) }}
                                         
                                 </div>
                         </div>
                         <div class="section">
                                 <div class="form-group">
-                                        <label for="gq-email-name"><span class="required">*</span>Email</label>
+                                        <label for="gq-email-name">Email</label>
                                         {{ form_widget(form.email, { 'attr':{'readonly':'readonly'} }) }}
                                 </div>
                         </div>
                         <div class="section half clearfix">
                                 <div class="form-group">
-                                        <label for="gq-personal-pwd"><span class="required">*</span>Mobile</label>
+                                        <label for="gq-personal-pwd">Mobile</label>
                                         {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
                                 </div>
                                 <div class="form-group">
-                                        <label><span class="required">*</span>Password</label>
+                                        <label>Password</label>
                                         <input type="text" value="........"/>
                                         <span><i class="material-icons">lock</i></span>
                                 </div>
@@ -47,7 +47,7 @@
                         </div>
                         <div class="section">
                                 <div class="form-group">
-                                        <label for="gq-personal-pwd"><span class="required">*</span>USI</label>
+                                        <label for="gq-personal-pwd">USI</label>
                                         {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                         </div>
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="form-group">
                                         <label for="gq-last-name">Postcode</label>
-                                        {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '30'} }) }}
+                                        {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '8'} }) }}
                                 </div>
                         </div>
                         <div class="section half clearfix">
@@ -111,9 +111,9 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                                 <div class="modal-body" id="change-pwd-form">
-                                     <div class="gq-change-profile-warning" id="change_pwd_error">
+                                     <div class="gq-change-pwd-warning" id="pwd_error">
                                         {% for flashMessage in app.session.flashbag.get('errornotice') %}
-                                        <div class="gq-id-files-upload-error-text" style="display:none">
+                                        <div class="gq-id-pwd-error-text" style="display:none">
                                             <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
                                         </div>
                                        {% endfor %}
@@ -134,7 +134,7 @@
                                                 </div>
                                                 <div class="btn_section clearfix">                                                        
                                                         {{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'btn change_pwd_btn'}}) }}
-                                                        <input type="button" class="btn" id="fclose-cancel"  value="Cancel"/>
+                                                        <input type="button" class="btn" id="fclose-cancel"  onclick="window.location='/userprofile';return false;" value="Cancel"/>
                                                 </div>
                                        {{ form_end(changepwdForm) }}
                                 </div>

@@ -3,7 +3,8 @@
                 <div class="info_block">
                         <div class="title_bar clearfix">
                                 <span class="left">YOUR ID</span>
-                                <span class="right"><strong>{{currentIdPoints}}{% if currentIdPoints < "100" %} POINTS REQUIRED <i class="material-icons">info</i>{% else %} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
+                                {% set requiredpoints = 100 - currentIdPoints %}
+                                <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED <i class="material-icons">info</i>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
                         </div>
                     <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data">                            
                                 {{ form_widget(filesForm.type, {'attr': {'class': 'selectpicker'}}) }}                          
@@ -44,7 +45,7 @@
                                         </li>
                                    {% endfor %}
                             {% else %}
-                                <center id="idfiles_no_files">No Id files found</center>                        
+                                <center id="idfiles_no_files">{{no_id_files}}</center>                        
                             {% endif %}
                                 </ul>
                         </div>
@@ -63,7 +64,7 @@
                     <div class="modal-title" id="myModalLabel">Do you want to delete selected file?<span class="close"><i class="material-icons" id="fclose"  data-dismiss="modal" aria-label="Close">clear</i></span></div>
                     <div class="btn_section">
                         <button class="btn btn_red deleteIdFiles">OK</button>
-                        <button class="btn" id="fclose-cancel">CANCEL</button>
+                        <button class="btn" id="fclose-cancel" onclick="window.location='/userprofile';return false;">CANCEL</button>
                          <span class="loading-icon" id="ajax-loading-delete-assessor-file" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
                     </div>
                 </div>

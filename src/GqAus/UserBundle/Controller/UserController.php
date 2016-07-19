@@ -68,8 +68,9 @@ class UserController extends Controller
             if ($userProfileForm->isValid()) {                 
                 $userService->savePersonalProfile($user, $image);
                 $request->getSession()->getFlashBag()->add(
-                    'notice', 'Profile updated successfully!'
+                    'notice', $this->container->getParameter('passwd_succ')
                 );
+                return $this->redirect('userprofile');
             }
             $resetForm->handleRequest($request);
             if ($resetForm->isValid()) {
@@ -87,16 +88,16 @@ class UserController extends Controller
                         $em->persist($user);
                         $em->flush();
                         $request->getSession()->getFlashBag()->add(
-                            'notice', 'Password updated successfully!'
+                            'notice', $this->container->getParameter('passwd_succ')
                         );
                     } else {
                         $request->getSession()->getFlashBag()->add(
-                            'errornotice', 'Current Password is not correct!'
+                            'errornotice', $this->container->getParameter('curr_pwd')
                         );
                     }
                 } else {
                     $request->getSession()->getFlashBag()->add(
-                        'errornotice', 'New Password and Confirm Password does not match'
+                        'errornotice', $this->container->getParameter('no_match_pwd')
                     );
                 }
             }
@@ -137,6 +138,7 @@ class UserController extends Controller
         }
 
         return $this->render('GqAusUserBundle:User:profile.html.twig', array(
+                'userProfilePercentage' => $userProfilePercentage,
                 'form' => $userProfileForm->createView(),
                 'filesForm' => $idFilesForm->createView(),
                 'userImage' => $userImage,
@@ -151,8 +153,7 @@ class UserController extends Controller
                 'qualFiles' => $qualificationFiles,
                 'referenceFiles' => $referenceFiles,
                 'matrixFiles' => $matrixFiles,
-                'tab' => $tab,
-                'userProfilePercentage' => $userProfilePercentage,
+                'tab' => $tab,                
                 'currentIdPoints' => $currentIdPoints
         ));
     }

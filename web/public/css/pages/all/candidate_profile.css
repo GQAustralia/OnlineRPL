@@ -20,7 +20,15 @@
 .gq-id-files-upload-error-text {padding-top:12px; text-align:center;}
 .gq-id-files-upload-error-text h2{color:#e01010; font-size:13px;}
 .gq-id-files-upload-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;}
+.gq-id-pwd-error-text {padding-top:12px; text-align:center;}
+.gq-id-pwd-error-text h2{color:#e01010; font-size:13px;}
+.gq-id-pwd-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;}
+.gq-id-address-error-text {padding-top:12px; text-align:center;}
+.gq-id-address-error-text h2{color:#e01010; font-size:13px;}
+.gq-id-address-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;}
 .gq-change-profile-warning {width:60%; margin:0 auto; position:relative;}
+.gq-change-address-warning {width:60%; margin:0 auto; position:relative;}
+.gq-change-pwd-warning {width:60%; margin:0 auto; position:relative;}
 .gq-id-files-upload-success-text {padding-top:12px; text-align:center;width: 100%;}
 .gq-id-files-upload-success-text h2{color:#86b332; font-size:15px;text-align: center;}
 .gq-id-files-upload-success-text img {margin-right:4px; padding-bottom:4px;width:auto !important;}
@@ -32,6 +40,8 @@
 #ajax-gq-profile-small-page-img.user-icon {border:0 none;}
 .ajax-profile-pic {width:33px; height:33px;}
 #change_pwd_error {width: 100%;margin-bottom:10px;}
+#pwd_error {width: 100%;margin-bottom:10px;}
+#change_address_error {width: 100%;margin-bottom:10px;}
 #userprofile_gender {display: inline-block;}
 #userprofile_gender input { width: 20px;}
 .confirm_popup .modal-dialog{width:450px;}

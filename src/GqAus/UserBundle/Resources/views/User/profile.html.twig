@@ -19,6 +19,13 @@
                 </div>
             </div>
             {% endfor %}
+            <div class="gq-change-address-warning" id="change_address_error">
+                {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                <div class="gq-id-address-error-text" style="dispaly:none">
+                    <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                </div>
+               {% endfor %}
+            </div>
             <div class="row" id="profile_suc_msg2"></div>
         </div>
         {% set userRole = app.security.getToken().getUser().getRoles() %}
