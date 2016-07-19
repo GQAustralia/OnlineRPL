@@ -101,8 +101,13 @@ class UserService
         if (!empty($image)) {
             $user->setUserImage($image);
         }
+        try{
         $this->em->persist($user);
         $this->em->flush();
+        return true;
+        }catch (Exception $exe) {
+            return false;
+        }
     }
 
     /**

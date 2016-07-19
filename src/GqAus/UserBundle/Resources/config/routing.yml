@@ -216,5 +216,11 @@ checkEmailExist:
     defaults: { _controller: GqAusUserBundle:User:checkEmailExist }
 updateCourseStatus:
     path:     /updateCourseStatus
-    defaults: { _controller: GqAusUserBundle:Applicant:updateCourseStatus }  
+    defaults: { _controller: GqAusUserBundle:Applicant:updateCourseStatus } 
+updateprofileAjax:
+    path:     /updateprofileAjax
+    defaults: { _controller: GqAusUserBundle:User:updateprofileAjax }
+updatepasswordAjax:
+    path:     /updatepasswordAjax
+    defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax } 
 

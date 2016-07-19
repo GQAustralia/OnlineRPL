@@ -655,6 +655,7 @@ function checkspace(text)
 
 function checkCurrentPassword(mypassword)
 {
+    
     $("#hdn_pwd_check").val("0");
     var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var enddiv = '</h2></div>';
@@ -663,27 +664,17 @@ function checkCurrentPassword(mypassword)
     if(mypassword!="") {
         $("#change_pwd_error").show();
         $("#change_pwd_error").html('<div class="gq-id-files-upload-wait-text"><h2>Please wait..' + enddiv);
-        $.ajax({
-            type: "POST",
-            url: "checkMyPassword",
-            cache: false,
-            data: {mypassword: mypassword},
-            success: function(result) {
-                $('#change_pwd_error').show();
-                if (result == "fail") {
-                    $("#hdn_pwd_check").val("0");
-                    $("#change_pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);;
-                    $("#password_oldpassword").val('');
-                    $("#password_oldpassword").focus();
-                    return false;
-                }
-                else if (result == "success") {
-                    $("#hdn_pwd_check").val("1");
-                    $("#change-pwd-form").children("form").submit();
-                }
-            }
-        });
+        
+        var pswd_validation = $.parseJSON($.ajax({
+        type: "POST",
+        url:  'checkMyPassword',
+        dataType: "json", 
+        async: false,
+        data: {mypassword: mypassword}
+    }).responseText);
     }
+    
+    return pswd_validation['status'];
 }
 $(".notes-area").keypress(function() {
     $(this).css("border","none");
@@ -1424,8 +1415,8 @@ function passwordShowMsg(errorMsg,msgId)
 {
     var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var enddiv = '</h2></div>';
-    $("#change_pwd_error").show();
-    $("#change_pwd_error").html(startdiv + errorMsg + enddiv).delay(3000).fadeOut(100);
+    $('#'+msgId+"_error_span").show();
+    $('#'+msgId+"_error_span").html(errorMsg).delay(3000).fadeOut(100);
     if($("#"+msgId).val() != "")
         $("#"+msgId).val('');
     $("#"+msgId).focus();
@@ -1479,10 +1470,16 @@ $("#password_save").click(function()
         }
     }
     if (curpwd != "" && newpwd != "" && newconfirmpwd != "") {
-        if (hdnpwdchk == 0) {
-            checkCurrentPassword($("#password_oldpassword").val());
+        pswd_validation = checkCurrentPassword($("#password_oldpassword").val());
+        if(pswd_validation=='fail')
+        {
+            passwordShowMsg("Current password does not match", "password_oldpassword");
             return false;
         }
+//        if (hdnpwdchk == 0) {
+//            pswd_validation = checkCurrentPassword($("#password_oldpassword").val());
+//            return false;
+//        }
     }
 });
 $("#password_newpassword,#password_confirmnewpassword").keyup(function() {
@@ -2036,3 +2033,65 @@ function split(val) {
 function extractLast(term) {
     return split(term).pop();
 }
+
+/* Profile Update (from popup) -*/
+$('#user_profile_form').on('submit', function(e) {
+
+    e.preventDefault();
+    form_data = $(this).serialize(); //Serializing the form data
+       $.ajax({
+            type: "POST",
+            url: "updateprofileAjax",
+            cache: false,
+            data: form_data,
+            success: function(result) {
+                res = JSON.parse(result);
+                if(res['status']=='true')
+                {
+                    alert(res['message']);
+                }
+                else
+                {
+                    alert(res['message']);
+                }
+            }
+        });
+}); 
+
+/**
+ * Show or hide passowrd div
+ * @param {int} type
+ * @returns {undefined}
+ */
+function changePassowordDiv(type)
+{
+    if(type==1) // 1- show
+    {
+        $('#change_password_form').show();
+        $('#user_profile_form').hide();
+        $('#user_profile_form_div').hide();
+    }
+    else
+    {
+        $('#change_password_form').hide();
+        $('#user_profile_form').show();
+        $('#user_profile_form_div').show();
+    }
+}
+
+/** Change password form **/
+$('#change_password_form').on('submit', function(e) {
+
+    e.preventDefault();
+    form_data = $(this).serialize(); //Serializing the form data
+    alert(form_data);
+    $.ajax({
+            type: "POST",
+            url: "updatepasswordAjax",
+            cache: false,
+            data: form_data,
+            success: function(result) {
+                alert(result);
+            }
+       });
+}); 

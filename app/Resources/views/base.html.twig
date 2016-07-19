@@ -15,6 +15,8 @@
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/jquery-ui-timepicker-addon.css') }}">
+        <!-- Profile CSS-->
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css') }}">
         
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     {% endblock %}
@@ -27,6 +29,7 @@
   </head>
   <body>
     {% set roles = app.security.getToken().getUser().getRoles() %}
+    {% set userdata = app.security.getToken().getUser() %}
    <main class="main_container">
        {% block navmenu %}
         <header>
@@ -42,6 +45,12 @@
                             <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES<span id="unread-count"></span></a></li>
                         {% endif %}                            
                         <li class="messages"><a href="{{ app.request.baseUrl }}/messages">EVIDENCE</a></li>
+                        {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <li class="profile"><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">profile2</a></li>
+                        {% else %}
+                            <li class="profile"><a href="{{ app.request.baseUrl }}/userprofile">PROFILE</a></li>
+                            
+                       {% endif %} 
                     </ul>
                 <nav>
             </section>
@@ -49,8 +58,12 @@
         {% endblock %}
         <!-- Dashboard page starts here -->
         {% block body %}{% endblock %}
-        <!-- Dashboard page ends here -->
+        <!-- Dashboard page ends here -->    
     </main>
+   
+    <!-- Profile Modal-->
+    {% include 'profile_popup.html.twig' %}
+
 	    <!-- jQuery first, then Bootstrap JS. -->          
     <script src="{{ asset('public/js/jquery.min.js') }}"></script>
     <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
@@ -59,6 +72,6 @@
      {% block javascripts %}{% endblock %}
     <script> onloadCount();</script>
     <script> onloadPortfolioCount();</script>
-   
+    
 </body>
 </html>
