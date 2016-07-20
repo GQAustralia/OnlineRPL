@@ -771,6 +771,7 @@ $(".setData").click(function() {
             }
         });
         var parentDiv = $(this).parent().parent().parent();
+		parentDiv.addClass('disable').find('.dropdown-menu').addClass('hide');
         parentDiv.find('.material-icons').html('').html('playlist_add_check');
     }
 });
