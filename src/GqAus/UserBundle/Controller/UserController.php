@@ -154,7 +154,8 @@ class UserController extends Controller
                 'referenceFiles' => $referenceFiles,
                 'matrixFiles' => $matrixFiles,
                 'tab' => $tab,                
-                'currentIdPoints' => $currentIdPoints
+                'currentIdPoints' => $currentIdPoints,
+                'documentTypes' => $documentTypes
         ));
     }
 

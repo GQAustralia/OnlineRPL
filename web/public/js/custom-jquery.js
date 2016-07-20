@@ -479,7 +479,7 @@ if($('#Id_files').length)
                 $("#idfiles_msg").show();
                 var result = jQuery.parseJSON(responseText);
                 var name = result.name.split('.');
-                var ftype = result.type.split('.');
+                var ftype = result.type.split('.');                
                 var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
                                 <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="' + result.id + '" filetype="' + result.type + '">\n\
                                     <div class="gq-del-evidence"></div></a>\n\
@@ -1831,18 +1831,18 @@ $( '#userfiles_browse' ).change( function( e ) {
             var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF'];
             if (allowedExtensions.indexOf(extension) === -1) 
             {
-              $('#change_pwd_error').show();
-              $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>').delay(3000).fadeOut(100);  
+              $('#change_file_error').show();
+              $('#change_file_error').html('<div class="gq-id-file-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>').delay(3000).fadeOut(100);  
             } else {
                 $('#Id_files').submit();
             }
         } else {
-            $('#change_pwd_error').show();
-            $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2></div>').delay(3000).fadeOut(100);
+            $('#change_file_error').show();
+            $('#change_file_error').html('<div class="gq-id-file-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2></div>').delay(3000).fadeOut(100);
         }
     } else {
-        $('#change_pwd_error').show();
-        $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select document type!</h2></div>').delay(3000).fadeOut(100);
+        $('#change_file_error').show();
+        $('#change_file_error').html('<div class="gq-id-file-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select document type!</h2></div>').delay(3000).fadeOut(100);
     }
     e.preventDefault();
     return false;

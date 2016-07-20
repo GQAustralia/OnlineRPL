@@ -3,8 +3,9 @@
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="{{ asset('public/css/bootstrap-select.min.css') }}" />
 <link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
-<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
 <link rel="stylesheet" type="text/css" href="{{ asset('public/css/pages/all/candidate_profile.css') }}" />
+<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
 {% endblock %}
 {% block body %}
 <div class="body_section">
@@ -38,4 +39,12 @@
     </div>
 </div>
 
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+    });
+</script>
 {% endblock %}
