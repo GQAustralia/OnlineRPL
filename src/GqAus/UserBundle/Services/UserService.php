@@ -335,12 +335,12 @@ class UserService
             if (!empty($usi)) {
                 $profileCompleteness += 10;
             }
-            if (!empty($dob)) {
-                $profileCompleteness += 10;
-            }
+            //if (!empty($dob)) {
+            //    $profileCompleteness += 10;
+            //}
 
-            if (!empty($address) && $address != '0') {
-                $profileCompleteness += 30;
+            if (!empty($address) && $address != '0' && $address->getAddress()!="") {
+                $profileCompleteness += 40;
             }
         }
         $percentage = ($profileCompleteness * $maximumPoints) / 100;
