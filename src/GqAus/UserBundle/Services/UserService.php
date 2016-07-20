@@ -1107,14 +1107,13 @@ class UserService
      */
     public function getPendingApplicantEvidences($pendingApplicants)
     {
+		$evidences = array();
         if(is_array($pendingApplicants)){
             foreach($pendingApplicants as $key => $user){
                   $evidences = $this->getUserInfo($user->getUser()->getId())->getEvidences();
                   if(!empty($evidence))
                     $evidences[] = $evidence;
-            }      
-        } else {
-            $evidences = '';
+            }
         }
         return $evidences;
     }

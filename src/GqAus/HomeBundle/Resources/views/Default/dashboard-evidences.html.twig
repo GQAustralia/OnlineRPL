@@ -1,9 +1,10 @@
 {% set reminderType = 'evidence' %}
 <div class="accordian_block">
     <div class="title_bar clearfix">
-        <span class="title">EVIDENCES - <strong>({{ evidencesCount }} TO REVIEW)</strong></span>
+        <span class="title"><a href="{{ app.request.baseUrl }}/evidences" style="color:#ffffff;" title="View Pending Evidences">EVIDENCES - <strong>({{ evidencesCount }} TO REVIEW)</a></strong></span>
         {# <span class="add_btn">ADD<i class="material-icons add_icon">add</i></span> #}
     </div>
+	{% if (newEvidences|length) > 0 %}
     <div class="panel-group" id="accordion4">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -41,4 +42,5 @@
             </div>
         </div>
     </div>
+	{% endif %}
 </div>

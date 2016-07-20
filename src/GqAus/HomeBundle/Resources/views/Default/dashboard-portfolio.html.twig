@@ -1,15 +1,17 @@
 <div class="accordian_block">
     <div class="title_bar clearfix">
         <span class="title">
-                    PORTFOLIOS
-                    {% if pendingApplicantsCount > 0 %}
-            <a href="{{ app.request.baseUrl }}/applicants" style="color:#ffffff;" title="View All Portfolios">({{ pendingApplicantsCount }})</a>
-        {% else %}
-            <a href="javascript:void(0);" style="color:#ffffff;">(0)</a>
-        {% endif %}	
-            </span>
+		   <a href="{{ app.request.baseUrl }}/applicants" style="color:#ffffff;" title="View All Portfolios"> PORTFOLIOS
+				{% if pendingApplicantsCount > 0 %}
+					({{ pendingApplicantsCount }})
+				{% else %}
+					(0)
+				{% endif %}
+			</a>
+        </span>
     </div>
-    {% if ('ROLE_FACILITATOR' in roles) %}
+    {% if ('ROLE_FACILITATOR' in roles) %}	
+		{% if pendingApplicantsCount > 0 %}
         <ul class="count_list clearfix">
             <li class="active">
                 <strong>{{ dateRangeRecords.thirtyDaysApplicantsCount }}</strong>
@@ -39,124 +41,126 @@
                 <span>61 -90</span>
             </li>
             <li>
-                <span>&gt;90</span>
+                <span><strong>&gt;90</strong></span>
             </li>
         </ul>
+		{% endif %}
     {% endif %}
     <div class="panel-group" id="accordion3">
         {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)) %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <span>{{newApplicantList|length}} new</span>
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse1">
-                      <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-                    </a>
-                </div>
-            </div>
-            {% if newApplicantList|length > 0 %}
-            <div id="p_collapse1" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul>
-                        {% for key, list in newApplicantList %}
-                                {% set remStatus = user_service.checkReminderExists(list.facilitator.id, list.id, '') %}
-                                <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                    <span class="content"><strong><a href="/applicantDetails/{{ list.courseCode }}/{{ list.user.id }}" title="View Portfolio">{{list.user.firstName}} {{list.user.lastName}}</a></strong> - {{list.courseName}}</span>
-                                    <div class="dropdown keep-open">
-                                        <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
-                                        <div class="dropdown-menu {{ remStatus.calendarClass }}">
-                                            <div class="data_section">
-                                                <textarea rows="3" placeholder="Notes" id="notes_{{list.id}}"></textarea>
-                                                <div class="date_section clearfix">
-                                                        <input type="text" class="date_field form-control" id="remindDate_{{list.id}}">
-                                                </div>
-                                             </div>   
-                                            <button type="button" class="btn_red setData" usercourseid="{{ list.id }}" listid="{{ list.id }}" remindertype="" remindertypeid="">Send</button>
-                                        </div>
-                                    </div>
-                                </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-        
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <span>{{ eightyDaysApplicantList|length }} older than 80 days</span>
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse3">
-                      <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-                    </a>
-                </div>
-            </div>
-            {% if eightyDaysApplicantList|length > 0 %}
-            <div id="p_collapse3" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul>
-                        {% for dKey, dList in eightyDaysApplicantList %}
-                        {% set remStatus = user_service.checkReminderExists(dList.facilitator.id, dList.id, '') %}
-                            <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                <span class="content"><strong><a href="/applicantDetails/{{ dList.courseCode }}/{{ dList.user.id }}" title="View Portfolio">{{dList.user.firstName}} {{dList.user.lastName}}</a></strong> - {{dList.courseName}}</span>
-                                <div class="dropdown keep-open">
-                                    <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
-                                    <div class="dropdown-menu {{ remStatus.calendarClass }}">
-                                        <div class="data_section">
-                                            <textarea rows="3" placeholder="Notes" id="notes_{{dList.id}}"></textarea>
-                                            <div class="date_section clearfix">
-                                                <input type="text" class="date_field form-control" id="remindDate_{{dList.id}}">
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn_red setData" usercourseid="{{ dList.id }}" listid="{{ dList.id }}" remindertype="portfolio" remindertypeid="">Send</button>
-                                    </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-       
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <span>{{ eightyPercEvd| length }} evidences over 80% complete</span>
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse4">
-                      <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-                    </a>
-                </div>
-            </div>
-            {% if eightyPercEvd|length > 0%}
-            <div id="p_collapse4" class="panel-collapse collapse">
-               <div class="panel-body">
-                   <ul>
-                       {% for eKey, eList in eightyPercEvd %}
-                       {% set remStatus = user_service.checkReminderExists(eList.facilitator.id, eList.id, '') %}
-                           <li class="clearfix {{ remStatus.playlistIconClass }}">
-                               <span class="content"><strong><a href="/applicantDetails/{{ eList.courseCode }}/{{ eList.user.id }}" title="View Portfolio">{{eList.user.firstName}} {{eList.user.lastName}}</a></strong> - {{eList.courseName}}</span>
-                               <div class="dropdown keep-open">
-                                   <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
-                                    <div class="dropdown-menu {{ remStatus.calendarClass }}">
-                                       <div class="data_section">
-                                           <textarea rows="3" placeholder="Notes" id="notes_{{eList.id}}"></textarea>
-                                           <div class="date_section clearfix">
-                                                   <input type="text" class="date_field form-control" id="remindDate_{{eList.id}}">
-                                           </div>
-                                       </div>
-                                       <button type="button" class="btn_red setData" usercourseid="{{ eList.id }}" listid="{{ eList.id }}" remindertype="" remindertypeid="">Send</button>
-                                   </div>
-                               </div>
-                           </li>
-                       {% endfor %}
-                   </ul>
-               </div>
-            </div>
-            {% endif %}
-        </div>
+			{% if newApplicantList|length > 0 %}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="panel-title">
+							<span>{{newApplicantList|length}} new</span>
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse1">
+							  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+							</a>
+						</div>
+					</div>
+					<div id="p_collapse1" class="panel-collapse collapse">
+						<div class="panel-body">
+							<ul>
+								{% for key, list in newApplicantList %}
+										{% set remStatus = user_service.checkReminderExists(list.facilitator.id, list.id, '') %}
+										<li class="clearfix {{ remStatus.playlistIconClass }}">
+											<span class="content"><strong><a href="/applicantDetails/{{ list.courseCode }}/{{ list.user.id }}" title="View Portfolio">{{list.user.firstName}} {{list.user.lastName}}</a></strong> - {{list.courseName}}</span>
+											<div class="dropdown keep-open">
+												<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+												<div class="dropdown-menu {{ remStatus.calendarClass }}">
+													<div class="data_section">
+														<textarea rows="3" placeholder="Notes" id="notes_{{list.id}}"></textarea>
+														<div class="date_section clearfix">
+																<input type="text" class="date_field form-control" id="remindDate_{{list.id}}">
+														</div>
+													 </div>   
+													<button type="button" class="btn_red setData" usercourseid="{{ list.id }}" listid="{{ list.id }}" remindertype="" remindertypeid="">Send</button>
+												</div>
+											</div>
+										</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+			{% if eightyDaysApplicantList|length > 0 %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<span>{{ eightyDaysApplicantList|length }} older than 80 days</span>
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse3">
+						  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+						</a>
+					</div>
+				</div>
+				{% if eightyDaysApplicantList|length > 0 %}
+				<div id="p_collapse3" class="panel-collapse collapse">
+					<div class="panel-body">
+						<ul>
+							{% for dKey, dList in eightyDaysApplicantList %}
+							{% set remStatus = user_service.checkReminderExists(dList.facilitator.id, dList.id, '') %}
+								<li class="clearfix {{ remStatus.playlistIconClass }}">
+									<span class="content"><strong><a href="/applicantDetails/{{ dList.courseCode }}/{{ dList.user.id }}" title="View Portfolio">{{dList.user.firstName}} {{dList.user.lastName}}</a></strong> - {{dList.courseName}}</span>
+									<div class="dropdown keep-open">
+										<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+										<div class="dropdown-menu {{ remStatus.calendarClass }}">
+											<div class="data_section">
+												<textarea rows="3" placeholder="Notes" id="notes_{{dList.id}}"></textarea>
+												<div class="date_section clearfix">
+													<input type="text" class="date_field form-control" id="remindDate_{{dList.id}}">
+												</div>
+											</div>
+											<button type="button" class="btn_red setData" usercourseid="{{ dList.id }}" listid="{{ dList.id }}" remindertype="portfolio" remindertypeid="">Send</button>
+										</div>
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% endif %}
+			{% if eightyPercEvd|length > 0%}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<span>{{ eightyPercEvd| length }} evidences over 80% complete</span>
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse4">
+						  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+						</a>
+					</div>
+				</div>
+				<div id="p_collapse4" class="panel-collapse collapse">
+				   <div class="panel-body">
+					   <ul>
+						   {% for eKey, eList in eightyPercEvd %}
+						   {% set remStatus = user_service.checkReminderExists(eList.facilitator.id, eList.id, '') %}
+							   <li class="clearfix {{ remStatus.playlistIconClass }}">
+								   <span class="content"><strong><a href="/applicantDetails/{{ eList.courseCode }}/{{ eList.user.id }}" title="View Portfolio">{{eList.user.firstName}} {{eList.user.lastName}}</a></strong> - {{eList.courseName}}</span>
+								   <div class="dropdown keep-open">
+									   <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+										<div class="dropdown-menu {{ remStatus.calendarClass }}">
+										   <div class="data_section">
+											   <textarea rows="3" placeholder="Notes" id="notes_{{eList.id}}"></textarea>
+											   <div class="date_section clearfix">
+													   <input type="text" class="date_field form-control" id="remindDate_{{eList.id}}">
+											   </div>
+										   </div>
+										   <button type="button" class="btn_red setData" usercourseid="{{ eList.id }}" listid="{{ eList.id }}" remindertype="" remindertypeid="">Send</button>
+									   </div>
+								   </div>
+							   </li>
+						   {% endfor %}
+					   </ul>
+				   </div>
+				</div>
+			</div>
+			{% endif %}
         {% endif %}
         {% if ('ROLE_FACILITATOR' in roles) %}
+		{% if applicantsWithAssesor|length > 0%}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="panel-title">
@@ -166,7 +170,7 @@
                     </a>
                 </div>
             </div>
-            {% if applicantsWithAssesor|length > 0%}
+           
             <div id="p_collapse5" class="panel-collapse collapse">
                 <div class="panel-body">
                     <ul>
@@ -191,117 +195,122 @@
                     </ul>
                 </div>
             </div>
-            {% endif %}
+            
         </div>
+		{% endif %}
         {% endif %}
         {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)) %}
+		{% if applicantsWithRto|length > 0%}
         <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <span>{{ applicantsWithRto|length }} with RTO than 12 days</span>
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse6">
-                          <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-                        </a>
-                    </div>
-                </div>
-                {% if applicantsWithRto|length > 0%}
-                <div id="p_collapse6" class="panel-collapse collapse">
-                        <div class="panel-body">
-                                <ul>
-                                    {% for rtoKey, rtoList in applicantsWithRto %}
-                                    {% set remStatus = user_service.checkReminderExists(rtoList.facilitator.id, rtoList.id, '') %}
-                                        <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                            <span class="content"><strong><a href="/applicantDetails/{{ rtoList.courseCode }}/{{ rtoList.user.id }}" title="View Portfolio">{{rtoList.user.firstName}} {{rtoList.user.lastName}}</a></strong> - {{rtoList.courseName}}</span>
-                                            <div class="dropdown keep-open">
-                                                <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
-                                                <div class="dropdown-menu {{ remStatus.calendarClass }}">
-                                                    <div class="data_section">
-                                                        <textarea rows="3" placeholder="Notes" id="notes_{{rtoList.id}}"></textarea>
-                                                        <div class="date_section clearfix">
-                                                                <input type="text" class="date_field form-control" id="remindDate_{{rtoList.id}}">
-                                                        </div>
-                                                     </div>
-                                                     <button type="button" class="btn_red setData" usercourseid="{{ rtoList.id }}" listid="{{ rtoList.id }}" remindertype="" remindertypeid="">Send</button>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                        </div>
-                </div>
-                {% endif %}
+			<div class="panel-heading">
+				<div class="panel-title">
+					<span>{{ applicantsWithRto|length }} with RTO than 12 days</span>
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse6">
+					  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+					</a>
+				</div>
+			</div>
+			<div id="p_collapse6" class="panel-collapse collapse">
+				<div class="panel-body">
+						<ul>
+							{% for rtoKey, rtoList in applicantsWithRto %}
+							{% set remStatus = user_service.checkReminderExists(rtoList.facilitator.id, rtoList.id, '') %}
+								<li class="clearfix {{ remStatus.playlistIconClass }}">
+									<span class="content"><strong><a href="/applicantDetails/{{ rtoList.courseCode }}/{{ rtoList.user.id }}" title="View Portfolio">{{rtoList.user.firstName}} {{rtoList.user.lastName}}</a></strong> - {{rtoList.courseName}}</span>
+									<div class="dropdown keep-open">
+										<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+										<div class="dropdown-menu {{ remStatus.calendarClass }}">
+											<div class="data_section">
+												<textarea rows="3" placeholder="Notes" id="notes_{{rtoList.id}}"></textarea>
+												<div class="date_section clearfix">
+													<input type="text" class="date_field form-control" id="remindDate_{{rtoList.id}}">
+												</div>
+											 </div>
+											 <button type="button" class="btn_red setData" usercourseid="{{ rtoList.id }}" listid="{{ rtoList.id }}" remindertype="" remindertypeid="">Send</button>
+										</div>
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+				</div>
+			</div>
         </div>
+		{% endif %}
         {% endif %}
         {% if ('ROLE_RTO' in roles) %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <span>{{rtoApproval|length}} new ready for your approval</span>
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse1">
-                      <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-                    </a>
-                </div>
-            </div>
-            {% if rtoApproval|length > 0 %}
-            <div id="p_collapse1" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul>
-                        {% for key, rtoAprvList in rtoApproval %}
-                                <li class="clearfix">
-                                    <span class="content"><strong><a href="/applicantDetails/{{ rtoAprvList.courseCode }}/{{ rtoAprvList.user.id }}" title="View Portfolio">{{rtoAprvList.user.firstName}} {{rtoAprvList.user.lastName}}</a></strong> - {{rtoAprvList.courseName}}</span>
-                                </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <span>{{rtoFourDaysList|length}} less than 4 days left</span>
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse2">
-                      <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-                    </a>
-                </div>
-            </div>
-            {% if rtoFourDaysList|length > 0 %}
-            <div id="p_collapse2" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul>
-                        {% for key, rtoFourList in rtoFourDaysList %}
-                            <li class="clearfix">
-                                <span class="content"><strong><a href="/applicantDetails/{{ rtoFourList.courseCode }}/{{ rtoFourList.user.id }}" title="View Portfolio">{{rtoFourList.user.firstName}} {{rtoFourList.user.lastName}}</a></strong> - {{rtoFourList.courseName}}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <span>{{rtoProgressList|length}} assesment in progress</span>
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse3">
-                      <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
-                    </a>
-                </div>
-            </div>
-            {% if rtoProgressList|length > 0 %}
-            <div id="p_collapse3" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul>
-                        {% for key, rtoProgressList in rtoProgressList %}
-                            <li class="clearfix">
-                                <span class="content"><strong><a href="/applicantDetails/{{ rtoProgressList.courseCode }}/{{ rtoProgressList.user.id }}" title="View Portfolio">{{rtoProgressList.user.firstName}} {{rtoProgressList.user.lastName}}</a></strong> - {{rtoProgressList.courseName}}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            {% endif %}
-        </div>        
+			{% if rtoApproval|length > 0 %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<span>{{rtoApproval|length}} new ready for your approval</span>
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse1">
+						  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+						</a>
+					</div>
+				</div>
+				
+				<div id="p_collapse1" class="panel-collapse collapse">
+					<div class="panel-body">
+						<ul>
+							{% for key, rtoAprvList in rtoApproval %}
+									<li class="clearfix">
+										<span class="content"><strong><a href="/applicantDetails/{{ rtoAprvList.courseCode }}/{{ rtoAprvList.user.id }}" title="View Portfolio">{{rtoAprvList.user.firstName}} {{rtoAprvList.user.lastName}}</a></strong> - {{rtoAprvList.courseName}}</span>
+									</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			{% if rtoFourDaysList|length > 0 %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<span>{{rtoFourDaysList|length}} less than 4 days left</span>
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse2">
+						  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+						</a>
+					</div>
+				</div>
+				
+				<div id="p_collapse2" class="panel-collapse collapse">
+					<div class="panel-body">
+						<ul>
+							{% for key, rtoFourList in rtoFourDaysList %}
+								<li class="clearfix">
+									<span class="content"><strong><a href="/applicantDetails/{{ rtoFourList.courseCode }}/{{ rtoFourList.user.id }}" title="View Portfolio">{{rtoFourList.user.firstName}} {{rtoFourList.user.lastName}}</a></strong> - {{rtoFourList.courseName}}</span>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			{% if rtoProgressList|length > 0 %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<span>{{rtoProgressList|length}} assesment in progress</span>
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2,#accordion3,#accordion4" href="#p_collapse3">
+						  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+						</a>
+					</div>
+				</div>
+				
+				<div id="p_collapse3" class="panel-collapse collapse">
+					<div class="panel-body">
+						<ul>
+							{% for key, rtoProgressList in rtoProgressList %}
+								<li class="clearfix">
+									<span class="content"><strong><a href="/applicantDetails/{{ rtoProgressList.courseCode }}/{{ rtoProgressList.user.id }}" title="View Portfolio">{{rtoProgressList.user.firstName}} {{rtoProgressList.user.lastName}}</a></strong> - {{rtoProgressList.courseName}}</span>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				
+			</div>
+			{% endif %}
         {% endif %}
     </div>
 </div>
