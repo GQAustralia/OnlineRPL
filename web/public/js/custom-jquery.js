@@ -655,29 +655,30 @@ function checkspace(text)
 function checkCurrentPassword(mypassword)
 {
     $("#hdn_pwd_check").val("0");
-    var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var enddiv = '</h2></div>';
     var mypassword = mypassword;
-    $("#change_pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
+    $("#pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
     if(mypassword!="") {
-        $("#change_pwd_error").show();
-        $("#change_pwd_error").html('<div class="gq-id-files-upload-wait-text"><h2>Please wait..' + enddiv);
+        $("#pwd_error").show();
+        $("#pwd_error").html('<div class="gq-id-files-upload-wait-text"><h2>Please wait..' + enddiv);
         $.ajax({
             type: "POST",
             url: "checkMyPassword",
             cache: false,
             data: {mypassword: mypassword},
-            success: function(result) {
+            success: function(result) {                
                 $('#change_pwd_error').show();
                 if (result == "fail") {
                     $("#hdn_pwd_check").val("0");
-                    $("#change_pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);;
+                    $("#pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);;
                     $("#password_oldpassword").val('');
                     $("#password_oldpassword").focus();
                     return false;
                 }
                 else if (result == "success") {
                     $("#hdn_pwd_check").val("1");
+                    console.log($("#hdn_pwd_check").val());
                     $("#change-pwd-form").children("form").submit();
                 }
             }
@@ -1221,13 +1222,10 @@ $("#userprofile_save").click(function() {
 });
 function showMyTabs(msg)
 {
-    var startMsg = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startMsg = '<div class="gq-id-address-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var endMsg = '</h2></div>';
-    $("#change_pwd_error").show();
-    $("#change_pwd_error").html(startMsg + msg + endMsg).delay(3000).fadeOut(100);
-    $('#personel-gq-tab').tab('show');
-    $('#personal').addClass('active');
-    $('#address').removeClass('active');
+    $("#change_address_error").show();
+    $("#change_address_error").html(startMsg + msg + endMsg).delay(3000).fadeOut(100);
 }
 function checkPhonenumber(inputtxt)
 {
@@ -1339,15 +1337,72 @@ function validateAddress()
            return false;
         }
     }
-    
-    if ($("#userprofile_address_address").val() == "") {
-        $("#change_pwd_error").show();
-        $("#change_pwd_error").html(startMsg + "Please enter Address" + endMsg).delay(3000).fadeOut(100);
-        $('#address-gq-tab').tab('show');
-        $('#personal').removeClass('active');
-        $('#address').addClass('active');
+   if ($("#userprofile_address_address").val() == "") {
+        $("#change_address_error").show();       
+        showMyTabs("Please enter address");        
         $("#userprofile_address_address").focus();
         return false;
+    } 
+    if ($("#userprofile_address_area").val() == "") {
+            showMyTabs("Please enter Street Name");
+            $("#userprofile_address_area").focus();
+            return false;
+        }
+        if ($("#userprofile_address_suburb").val() == "") {
+            showMyTabs("Please enter Suburb");
+            $("#userprofile_address_suburb").focus();
+            return false;
+        }
+        if ($("#userprofile_address_city").val() == "") {
+            showMyTabs("Please enter City");
+            $("#userprofile_address_city").focus();
+            return false;
+        }
+    else { 
+        if ($("#userprofile_address_city").val().search(country) == -1) {
+            $("#userprofile_address_city").val('');
+            showMyTabs("Please enter alphabets  only");             
+            $("#userprofile_address_city").focus();
+            return false;
+        }
+    }
+   if ($("#userprofile_address_state").val() == "") {
+            showMyTabs("Please enter State");
+            $("#userprofile_address_state").focus();
+            return false;
+        }
+    else { 
+        if ($("#userprofile_address_state").val().search(country) == -1) {
+            $("#userprofile_address_state").val('');
+            showMyTabs("Please enter alphabets  only");             
+            $("#userprofile_address_state").focus();
+            return false;
+        }
+    }
+    if ($("#userprofile_address_pincode").val() == "") {
+            showMyTabs("Please enter Postcode");
+            $("#userprofile_address_pincode").focus();
+            return false;
+        }
+    else { 
+        if ($("#userprofile_address_pincode").val().search(postcode) == -1) {
+            $("#userprofile_address_pincode").val('');
+            showMyTabs("Please enter alphabets and numbers only");             
+            $("#userprofile_address_pincode").focus();
+            return false;
+        }
+    }
+     if ($("#userprofile_address_country").val() == "") {
+            showMyTabs("Please enter Country");
+            $("#userprofile_address_country").focus();
+            return false;
+        }else { 
+        if ($("#userprofile_address_country").val().search(country) == -1) {
+            $("#userprofile_address_country").val('');
+            showMyTabs("Please enter alphabets only");             
+            $("#userprofile_address_country").focus();
+            return false;
+        }
     }
     if(userrole=='rtouser') {
         if ($("#userprofile_contactname").val() == "") {
@@ -1420,10 +1475,10 @@ function checkEmailExist(emailId) {
 /* Change Password Validations */
 function passwordShowMsg(errorMsg,msgId)
 {
-    var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var enddiv = '</h2></div>';
-    $("#change_pwd_error").show();
-    $("#change_pwd_error").html(startdiv + errorMsg + enddiv).delay(3000).fadeOut(100);
+    $("#pwd_error").show();
+    $("#pwd_error").html(startdiv + errorMsg + enddiv).delay(3000).fadeOut(100);
     if($("#"+msgId).val() != "")
         $("#"+msgId).val('');
     $("#"+msgId).focus();
@@ -1436,7 +1491,7 @@ $("#password_save").click(function()
     var curpwd = $("#password_oldpassword").val();
     var newpwd = $("#password_newpassword").val();
     var newconfirmpwd = $("#password_confirmnewpassword").val();
-    var startdiv = '<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var enddiv = '</h2></div>';
     var hdnpwdchk = $("#hdn_pwd_check").val();
     
@@ -1767,25 +1822,25 @@ $( '#file_save' ).click( function( e ) {
 } );
 
 // for validating the upload ID file
-$( '#userfiles_save' ).click( function( e ) {
+$( '#userfiles_browse' ).change( function( e ) {
     if($("#userfiles_type").val()!="") {
         if ($("#userfiles_browse").val().length > 0) {
             var extension = $("#userfiles_browse").val().substring($("#userfiles_browse").val().lastIndexOf('.')+1);
             var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF'];
             if (allowedExtensions.indexOf(extension) === -1) 
             {
-              $('#change_pwd_error').show();
-              $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>').delay(3000).fadeOut(100);  
+              $('#change_file_error').show();
+              $('#change_file_error').html('<div class="gq-id-file-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>').delay(3000).fadeOut(100);  
             } else {
                 $('#Id_files').submit();
             }
         } else {
-            $('#change_pwd_error').show();
-            $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2></div>').delay(3000).fadeOut(100);
+            $('#change_file_error').show();
+            $('#change_file_error').html('<div class="gq-id-file-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2></div>').delay(3000).fadeOut(100);
         }
     } else {
-        $('#change_pwd_error').show();
-        $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select document type!</h2></div>').delay(3000).fadeOut(100);
+        $('#change_file_error').show();
+        $('#change_file_error').html('<div class="gq-id-file-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select document type!</h2></div>').delay(3000).fadeOut(100);
     }
     e.preventDefault();
     return false;
