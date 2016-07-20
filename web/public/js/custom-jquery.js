@@ -772,7 +772,7 @@ $(".setData").click(function() {
             }
         });
         var parentDiv = $(this).parent().parent().parent();
-        parentDiv.find('.material-icons').html('').html('playlist_add_check');
+        parentDiv.find('.material-icons').html('').html('playlist_add_check').css("color","#ccc");
     }
 });
 /*Messages Unread Count in Menu*/

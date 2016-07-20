@@ -20,6 +20,9 @@
 .gq-id-files-upload-error-text {padding-top:12px; text-align:center;}
 .gq-id-files-upload-error-text h2{color:#e01010; font-size:13px;}
 .gq-id-files-upload-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;}
+.gq-id-file-error-text {padding-top:12px; text-align:center;}
+.gq-id-file-error-text h2{color:#e01010; font-size:13px;}
+.gq-id-file-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;}
 .gq-id-pwd-error-text {padding-top:12px; text-align:center;}
 .gq-id-pwd-error-text h2{color:#e01010; font-size:13px;}
 .gq-id-pwd-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;}
@@ -40,6 +43,7 @@
 #ajax-gq-profile-small-page-img.user-icon {border:0 none;}
 .ajax-profile-pic {width:33px; height:33px;}
 #change_pwd_error {width: 100%;margin-bottom:10px;}
+change_file_error {width: 100%;margin-bottom:10px;}
 #pwd_error {width: 100%;margin-bottom:10px;}
 #change_address_error {width: 100%;margin-bottom:10px;}
 #userprofile_gender {display: inline-block;}
