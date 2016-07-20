@@ -19,7 +19,7 @@ class IdFilesForm extends AbstractType
             'empty_value' => 'Select Document Type',
             'required' => false
         ));
-        $builder->add('browse', 'file', array('required' => false));
+        $builder->add('browse', 'file', array('required' => false,'attr' => array('class' => 'hidden uploadFile')));
         $builder->add('save', 'submit', array(
             'attr' => array('class' => 'btn btn-red', 'label' => 'Submit'),
         ));

@@ -39,9 +39,7 @@ class MessageController extends Controller
             $unreadcount = $messageService->getUnreadMessagesCount($userid);
             // getting the last route to check whether it is coming from inbox or sent ot tash
             //look for the referer route
-            
-            
-            //$myrepMsgs = $messageService->getMyReplyMessages($mid);
+            //For reply mails thread
             $replyId = $this->getRequest()->get('reply_id');
             if(($mid !="compose" && $mid !="usernamesbyRoles")  ||  $replyId != "") { 
                 if($replyId != "") {
@@ -66,14 +64,7 @@ class MessageController extends Controller
                     $touser = $message->getInbox()->getId(); // to user
                     $toStatus = $message->getToStatus();
                     $fromStatus = $message->getFromStatus(); 
-                    $created = $message->getCreated();              
-                    /*$msgDetails = array(
-                        'fromUser' => $msgUser,
-                        'toUser' => $touser,
-                        'toStatus' => $toStatus,
-                        'fromStatus' => $fromStatus,
-                        'curUser' => $userid
-                    );*/
+                    $created = $message->getCreated(); 
                     if ($userid == $msgUser) {
                         $userName = $message->getInbox()->getUserName();
                         $from = ' from me';
@@ -84,7 +75,6 @@ class MessageController extends Controller
                         $userName = $message->getSent()->getUserName();
                         $from = ' to me';
                     }
-
                     $content = nl2br($message->getMessage());
                     $fromUser = $messageService->getRequestUser($msgUser); 
                     $toUser = $messageService->getRequestUser($touser);
@@ -102,23 +92,19 @@ class MessageController extends Controller
                     $replymsgarr[$i]['content'] = $content;
                     $replymsgarr[$i]['userName'] = $userName;
                     $replymsgarr[$i]['from'] = $from;
-                    $replymsgarr[$i]['created'] = $created;
-                    //$result['msgDetails'] = $msgDetails;
-                    //$result['msgID'] = $mid; 
+                    $replymsgarr[$i]['created'] = $created;                    
                     $i++;
                 }
                 $result['msgID'] = $mid;
-                $result['replymsgarr'] = $replymsgarr;
-                //$message = $messageService->getMessage($mid);
-              // echo "<pre>"; dump($result); exit;
+                $result['replymsgarr'] = $replymsgarr;                
                 if($replyId == "")
                     return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
             }
-
+            //to new message
             if($newmid == "compose") {
                    
                 $replyId = $this->getRequest()->get('reply_id');
-                
+                //if replyid is there 
                 if ($replyId) {
                     $message = $messageService->getMessage($replyId);
                     $newDateCreated = date('d/m/Y', strtotime($message->getCreated()));
@@ -147,6 +133,7 @@ class MessageController extends Controller
                     $result['replymid'] = $replyId;                   
                 }
                 else {
+                    //For new amessages
                     $result['replymid'] = "";
                     $result['msgType'] = "new";
                 }                
@@ -157,7 +144,7 @@ class MessageController extends Controller
                 
                 return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
             }
-            
+            //to show Role against users suggest box
             if($newmid == "usernamesbyRoles") {
                 $messageService = $this->get('UserService');
                 $userrole = $messageService->getCurrentUser()->getRoles();
@@ -559,7 +546,9 @@ class MessageController extends Controller
         }
         exit;
     }
-    
+    /** Function to give reply messages
+     * @param object $request
+     * return int*/
    public function replyMessagesAction(Request $request)
     {
         $messageService = $this->get('UserService');

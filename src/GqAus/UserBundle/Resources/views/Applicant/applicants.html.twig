@@ -41,7 +41,7 @@
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
         <td class="col-md-2 col-lg-2">{{ courseStatus }}</td>
         <td><div class="dropdown keep-open" id="div_{{list.id}}">
-                    <span class="dropdown-toggle " data-toggle="dropdown" id="{{list.id}}"><i class="material-icons">{% if toDoApplicantCount == 0 %}playlist_add{% else %} playlist_add_check{%endif%}</i></span>
+                    <span {% if toDoApplicantCount == 0 %}class="dropdown-toggle " data-toggle="dropdown"{% endif %} id="{{list.id}}">{% if toDoApplicantCount == 0 %}<i class="material-icons">playlist_add </i>{% else %} <i class="material-icons" style="color:#ccc;">playlist_add_check{%endif%}</i></span>
                     <div class="dropdown-menu">
                             <textarea rows="3" placeholder="Notes" class="notes-area" id="notes_{{list.id}}"></textarea>
                             <div class="date_section clearfix">

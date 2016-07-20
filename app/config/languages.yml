@@ -3,6 +3,10 @@ parameters:
     no_user_found          : "User not existed"
     user_authorize         : "This User not Authorised to send messages"
     message_succ           : "Message sent successfully!"
+    passwd_succ            : "Password updated successfully!"
+    curr_pwd               : "Current Password is not correct!"
+    no_match_pwd           : "New Password and Confirm Password does not match"
+    profile_update         : "Profile updated successfully!"
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
@@ -10,3 +14,4 @@ twig:
         todo_list_not_found: "Todo List Not Found"
         no_messages        : "No Messages Found"
         no_applicants      : "No Applicants Found"
+        no_id_files        : "No Id files found"
