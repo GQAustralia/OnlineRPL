@@ -21,7 +21,7 @@ class UserController extends Controller
      * @param object $request
      * return string
      */
-    public function profileAction(Request $request)
+        public function profileAction(Request $request)
     {
         $session = $request->getSession();
         $sessionUser = $this->get('security.context')->getToken()->getUser();
@@ -52,7 +52,9 @@ class UserController extends Controller
         if ($userRole != 'ROLE_FACILITATOR') {
             $userProfileForm->remove('crmId');
         }
-
+        
+        $currentIdPoints = $userService->getIdPoints($user);
+        $userProfilePercentage = $userService->getUserProfilePercentage($user);
         $documentTypes = $userService->getDocumentTypes();
         $idFilesForm = $this->createForm(new IdFilesForm(), $documentTypes);
         $resetForm = $this->createForm(new ChangePasswordForm(), array());
@@ -61,13 +63,14 @@ class UserController extends Controller
         $referenceForm = $this->createForm(new ReferenceForm(), array());
         $matrixForm = $this->createForm(new MatrixForm(), array());
         $image = $user->getUserImage();
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {            
             $userProfileForm->handleRequest($request);
-            if ($userProfileForm->isValid()) {
+            if ($userProfileForm->isValid()) {                 
                 $userService->savePersonalProfile($user, $image);
                 $request->getSession()->getFlashBag()->add(
-                    'notice', 'Profile updated successfully!'
+                    'notice', $this->container->getParameter('passwd_succ')
                 );
+                return $this->redirect('userprofile');
             }
             $resetForm->handleRequest($request);
             if ($resetForm->isValid()) {
@@ -85,16 +88,16 @@ class UserController extends Controller
                         $em->persist($user);
                         $em->flush();
                         $request->getSession()->getFlashBag()->add(
-                            'notice', 'Password updated successfully!'
+                            'notice', $this->container->getParameter('passwd_succ')
                         );
                     } else {
                         $request->getSession()->getFlashBag()->add(
-                            'errornotice', 'Current Password is not correct!'
+                            'errornotice', $this->container->getParameter('curr_pwd')
                         );
                     }
                 } else {
                     $request->getSession()->getFlashBag()->add(
-                        'errornotice', 'New Password and Confirm Password does not match'
+                        'errornotice', $this->container->getParameter('no_match_pwd')
                     );
                 }
             }
@@ -135,6 +138,7 @@ class UserController extends Controller
         }
 
         return $this->render('GqAusUserBundle:User:profile.html.twig', array(
+                'userProfilePercentage' => $userProfilePercentage,
                 'form' => $userProfileForm->createView(),
                 'filesForm' => $idFilesForm->createView(),
                 'userImage' => $userImage,
@@ -149,7 +153,9 @@ class UserController extends Controller
                 'qualFiles' => $qualificationFiles,
                 'referenceFiles' => $referenceFiles,
                 'matrixFiles' => $matrixFiles,
-                'tab' => $tab
+                'tab' => $tab,                
+                'currentIdPoints' => $currentIdPoints,
+                'documentTypes' => $documentTypes
         ));
     }
 
