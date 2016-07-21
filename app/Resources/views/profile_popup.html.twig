@@ -1,0 +1,200 @@
+{# empty Twig template #}
+<!-- Modal -->
+<div class="modal fade profile_popup" id="profile2" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				
+				<div class="title_bar hidden-sm hidden-md hidden-lg">
+					<span><i class="material-icons arrow_back">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon">clear</i></span>
+				</div>
+				
+                                <!-- Profile Form -->
+                                <div class="header_block clearfix" id='user_profile_form_div'>
+                                    	<div class="profile_section">
+                                            <div id='ajax-gq-profile-page-img'><img src="{{ asset('public/uploads/'~userdata.getUserImage())}}" alt="profile_pic" id='user_profile_image'/></div>
+                                                <div class="content">
+							<h5 class="name"><strong>{{userdata.getFirstname()}} {{userdata.getLastname()}}</strong></h5>
+							<span class="field">
+                                                        {% if (roles[0]=='ROLE_FACILITATOR') %}
+                                                             Facilitator
+                                                             {% elseif(roles[0]=='ROLE_RTO') %}
+                                                             RTO
+                                                        {% endif %}
+                                                        </span>
+                                                        <span class="title uploadTrigger"><input type="file" id="userprofile_userImage" name="userprofile"></span>
+						</div>
+                                        </div>
+                                        
+					<div class="count">
+						<span class="number portfolio-current"></span>
+						<span class="title">Active Portfolios</span>
+					</div>
+                                       <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
+				</div>
+				<form class="form" id='user_profile_form'>
+					<div class="section name_group clearfix">
+						<div class="form-group">
+							<label>{% if ('ROLE_RTO' in roles) %} College Name {% else %} First Name {% endif %} </label>
+							<input type="text" value="{{userdata.getFirstname()}}" id='first_name' name='first_name'/>
+                                                        <input type="hidden" value="{{userdata.getId()}}" id='hdn-userId' name='hdn-userId'/>
+                                                        <input type="hidden" value="{{userdata.getId()}}" id='hdn-type' name='hdn-type'/>
+                                                        <span><i class="material-icons">mode_edit</i></span>
+						</div>
+						<div class="form-group">
+							<label>{% if ('ROLE_RTO' in roles) %} Provider Code {% else %} Last Name {% endif %}</label>
+							<input type="text" value="{{userdata.getLastname()}}" id='last_name' name='last_name'/>
+							<span><i class="material-icons">mode_edit</i></span>
+						</div>
+					</div>
+					<div class="section">
+						<div class="form-group">
+							<label>Email</label>
+							<input type="email" value="{{userdata.getEmail()}}" readonly/>
+							
+						</div>
+					</div>
+					<div class="section number_group clearfix">
+						<div class="form-group">
+							<label>Mobile</label>
+							<input type="text" value="{{userdata.getPhone()}}" id='phone' name='phone'/>
+							<span><i class="material-icons">mode_edit</i></span>
+						</div>
+						<div class="form-group">
+							<label>Password</label>
+							<input type="text" value="........" readonly/>
+							<span><i class="material-icons" onclick="changePassowordDiv('1')">lock</i></span>
+						</div>
+					</div>
+                                        <!-- Address -->
+                                        
+                                        <div class="btn_section clearfix ">
+                                            Address
+					</div>
+                                       
+                                        
+                                        <div class="section">
+						<div class="form-group">
+							<label>Street Name</label>
+							<input type="text" value="{{userdata.getAddress().getAddress()}}" id='street_name' name='street_name'/>
+							<span><i class="material-icons">mode_edit</i></span>
+						</div>
+						
+					</div>
+                                        <div class="section">
+                                            <div class="form-group">
+							<label>Street Number</label>
+							<input type="text" value="{{userdata.getAddress().getArea()}}" id="street_number" name="street_number"/>
+							<span><i class="material-icons">mode_edit</i></span>
+						</div>
+                                        </div>
+                                        
+                                        <div class="section name_group clearfix">
+						<div class="form-group">
+							<label>Suburb</label>
+							<input type="text" value="{{userdata.getAddress().getSuburb()}}" id='suburb' name='suburb'/>
+							<span><i class="material-icons">mode_edit</i></span>
+						</div>
+                                            <div class="form-group">
+							<label>PostCode</label>
+							<input type="text" value="{{userdata.getAddress().getPincode()}}" id='postcode' name='postcode'/>
+							<span><i class="material-icons">mode_edit</i></span>
+						</div>
+						
+					</div>
+                                        
+                                        <div class="section name_group clearfix">
+						<div class="form-group">
+							<label>City</label>
+							<input type="text" value="{{userdata.getAddress().getCity()}}" id="city" name="city"/>
+							<span><i class="material-icons">mode_edit</i></span>
+						</div>
+						<div class="form-group">
+							<label>State</label>
+							<input type="text" value="{{userdata.getAddress().getState()}}" id="state" name="state"/>
+							<span><i class="material-icons">mode_edit</i></span>
+						</div>
+					</div>
+                                        
+                                        <div class="section">
+						<div class="form-group">
+							<label>Country</label>
+							<input type="text" value="{{userdata.getAddress().getCountry()}}" id="country" name="country"/>
+							<span><i class="material-icons">mode_edit</i></span>
+						</div>
+					</div>
+                                        
+                                    
+				{% if (roles[0]=='ROLE_ASSESSOR') %}
+				<div class="btn_section clearfix">
+					<a href="javascript:void(0)">
+						<span><i class="material-icons">add</i></span>Add Trainer Matrix Files
+					</a>
+					<a href="javascript:void(0)" download>
+						<span><i class="material-icons">file_download</i></span>Download Trainer Matrix.pdf
+					</a>
+				</div>
+				<div>
+					<div class="file_info_block">
+						<div class="file_info">
+							<span class="icon">
+								<i class="material-icons">description</i>
+							</span>
+							<span class="file-discription">
+								testimonial.doc <br>10kb | Added 30/06/2016
+							</span>
+							<span class="clear">
+								<i class="material-icons">clear</i>
+							</span>
+						</div>
+						<div class="file_info">
+							<span class="icon">
+								<i class="material-icons">description</i>
+							</span>
+							<span class="file-discription">
+								testimonial.doc <br>10kb | Added 30/06/2016
+							</span>
+							<span class="clear">
+								<i class="material-icons">clear</i>
+							</span>
+						</div>
+					</div>
+                                    
+				</div>
+                                    {% endif%}
+				<button type="submit" class="submit_btn">SUBMIT</button>
+                              </form>
+                              <!-- Chaneg password form --->
+                              <form class="form-inline change_pwd_form" id='change_password_form' style="display:none">
+					<div class="form-group">
+						<label for="email">Current Password</label>
+                                                <div class="input_section">
+                                                    <input type="password" id="password_oldpassword" name='password_oldpassword' value="" />
+                                                    <span class="error_message" id="password_oldpassword_error_span"></span>
+                                                </div>
+					</div>
+					<div class="form-group">
+						<label for="pwd">New Password</label>
+                                                <div class="input_section">
+                                                    <input type="password" id='password_newpassword' name='password_newpassword' value="" />
+                                                    <span class="error_message" id="password_newpassword_error_span"></span>
+                                                </div>
+					</div>
+					<div class="form-group">
+						<label for="pwd">Confirm Password</label>
+                                                <div class="input_section">
+                                                    <input type="password" id="password_confirmnewpassword" name='password_confirmnewpassword' value="" />
+                                                    <span class="error_message" id="password_confirmnewpassword_error_span"></span>
+                                                </div>
+					</div>
+					<div class="btn_section clearfix">
+						<input type="submit" class="btn change_pwd_btn" value="Change Password" id='password_save' />
+						<input type="button" class="btn" value="Cancel" onclick="changePassowordDiv('0')"/>
+					</div>
+				</form>
+                              
+			</div>
+		</div>
+	</div>
+</div>
