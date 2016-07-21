@@ -233,6 +233,7 @@ $(".deleteIdFiles").click(function() {
             $('#idfiles_' + fid).hide();
             $("#fclose").trigger("click");
             $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File deleted successfully!</h2></div>').delay(5000).fadeOut(100);
+             window.location.href = base_url+'userprofile';
         }
     });
 });
@@ -479,22 +480,14 @@ if($('#Id_files').length)
                 $("#idfiles_msg").show();
                 var result = jQuery.parseJSON(responseText);
                 var name = result.name.split('.');
-                var ftype = result.type.split('.');
-                var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
-                                <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="' + result.id + '" filetype="' + result.type + '">\n\
-                                    <div class="gq-del-evidence"></div></a>\n\
-                                <div class="tooltip-home top">\n\
-                                    <div class="tooltip-arrow"></div>\n\
-                                    <span class="">Delete ID File</span>\n\
-                                </div>\n\
-                            </span>\n\
-                            <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + ftype + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
+                var ftype = result.type.split('.');                
                 if ($('#idfiles_no_files').html() === 'No Id files found') {
-                    $('.Id_files').html(html);
+                    $('.Id_files').html();
                 } else {
-                    $('.Id_files').append(html);
+                    $('.Id_files').append();
                 }
                 $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File added successfully!</h2></div>').delay(5000).fadeOut(100);
+                window.location.href = base_url+'userprofile';
             }
         },
         resetForm: true
