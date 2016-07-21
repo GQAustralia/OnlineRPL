@@ -16,16 +16,20 @@
         <link rel="stylesheet" href="{{ asset('public/css/bootstrap-reboot.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}">
 	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+         <!-- Profile CSS-->
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css') }}">
     {% endblock %}
     {% block stylesheets %}{% endblock %}     
         <script type="text/javascript">
             var base_url = "{{ base_url }}";
             var amazon_link = "{{ amazon_link }}";
+            var upload_path = "{{ asset('public/uploads/')}}";
         </script>    
 
   </head>
   <body>
     {% set roles = app.security.getToken().getUser().getRoles() %}
+    {% set userdata = app.security.getToken().getUser() %}
    <main class="main_container">
        {% block navmenu %}
         <header>
@@ -39,12 +43,18 @@
                             <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="">QUALIFICATION</a></li> 
                          {% endif %}
                        {% if ('ROLE_APPLICANT' not in roles)  %}
-                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span id="portfolio-current"></span></a></li>
+                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span class="portfolio-current"></span></a></li>
                         {% endif %} 
                         {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}                            
                             <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES<span id="unread-count"></span></a></li>
                         {% endif %}                            
                         <li class="messages"><a href="{{ app.request.baseUrl }}/messages">EVIDENCE</a></li>
+                        {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <li class="profile"><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">profile2</a></li>
+                        {% else %}
+                            <li class="profile"><a href="{{ app.request.baseUrl }}/userprofile">PROFILE</a></li>
+                            
+                       {% endif %} 
                     </ul>
                 <nav>
             </section>
@@ -54,6 +64,10 @@
         {% block body %}{% endblock %}
         <!-- Dashboard page ends here -->
     </main>
+   
+    <!-- Profile Modal-->
+    {% include 'profile_popup.html.twig' %}
+
 	    <!-- jQuery first, then Bootstrap JS. -->          
     <script src="{{ asset('public/js/jquery.min.js') }}"></script>  
     <script src="{{ asset('public/js/jquery-ui.js')}}"></script> 

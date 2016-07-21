@@ -360,7 +360,7 @@ $("#userprofile_userImage").change(function() {
         form_data.append('file', file_data);
         $.ajax({
             type: "POST",
-            url: base_url + "uploadProfilePic/"+userId,
+            url: "uploadProfilePic/"+userId,
             cache: false,
             contentType: false,
             processData: false,
@@ -368,17 +368,18 @@ $("#userprofile_userImage").change(function() {
             success: function(result) {
                 if (result != "error")
                 {
-                    $("#profile_suc_msg2").show();
-                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
-                    $("#ajax-profile-error").hide();
-                    $("#ajax-gq-profile-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
-                    if (userType == 0) {
-                        $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
-                    }
-                    if (userType == 2) {
-                        $('#hdn-img').val(result);
-                    }
-                    $("#ajax-loading-icon").hide();
+                    $('#user_profile_image').attr('src',upload_path+result);
+//                    $("#profile_suc_msg2").show();
+//                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
+//                    $("#ajax-profile-error").hide();
+//                    $("#ajax-gq-profile-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
+//                    if (userType == 0) {
+//                        $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
+//                    }
+//                    if (userType == 2) {
+//                        $('#hdn-img').val(result);
+//                    }
+//                    $("#ajax-loading-icon").hide();
                 }
                 else
                 {
@@ -797,13 +798,13 @@ function onloadCount()
 function onloadPortfolioCount()
 {    
     $.ajax({
-        url: base_url + "pendingApplicantCount",
+        url: "pendingApplicantCount",
         cache: false,
-        success: function(result) {         
+        success: function(result) {    
             if (result > 0) {                
-                $("#portfolio-current").html(result);               
+                $(".portfolio-current").html(result);               
             } else {                
-                $("#portfolio-current").css("display","none");                
+                $(".portfolio-current").css("display","none");                
             }
         }
     });
