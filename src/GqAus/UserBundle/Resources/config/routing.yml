@@ -229,5 +229,8 @@ sendMsgtoApplicant:
 usersFromCourse:
     path:     /usersFromCourse
     defaults: { _controller: GqAusUserBundle:Message:usersFromCourse }
+searchUsersListFrom:
+    path:     /searchUsersListFrom
+    defaults: { _controller: GqAusUserBundle:Message:searchUsersListFrom }
 
 

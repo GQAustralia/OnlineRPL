@@ -2125,10 +2125,10 @@ $("#submittoassessor").click(function(){
 
   }
 });
-function searchUsersFromCourse(id) {  
+function searchUsersFromCourse(id, facVal, accVal, rtoVal, curuserId) {  
    $(id).autocomplete({
         source: function(request, response) {
-            $.getJSON(base_url + "usersFromCourse", { term: extractLast(request.term) }, response);
+			$.getJSON(base_url + "usersFromCourse", { term: extractLast(request.term), facId : facVal, accId : accVal, rtoId : rtoVal, curuserId : curuserId}, response);
         },
         search: function() {
             var term = extractLast(this.value);
@@ -2146,7 +2146,15 @@ function searchUsersFromCourse(id) {
             terms.pop();
             // add the selected item
             terms.push(ui.item.value);
-            //$('#toUserId').val(ui.item.key);
+			$.ajax({
+                type: "POST",
+                url: base_url + "searchUsersListFrom",
+                cache: false,
+                data: {name:ui.item.value},
+                success: function(result) { 
+                    $("#UserId").val(result);
+                }
+            });
             // add placeholder to get the comma-and-space at the end
             terms.push("");
             this.value = terms.join(" ");

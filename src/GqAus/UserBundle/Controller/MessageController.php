@@ -557,4 +557,46 @@ class MessageController extends Controller
         echo $unreadcount;
         exit;
     }
+    /**
+     * Function to get the users
+	 * @param object $request
+     * 
+     */
+    public function usersFromCourseAction(Request $request){
+        $userService = $this->get('UserService');
+        $userrole = $userService->getCurrentUser()->getRoles();
+        $term = strtolower($_GET["term"]);
+        $facId = $request->query->get('facId');
+        $assId = $request->query->get('accId');
+        $rtoId = $request->query->get('rtoId');
+        $curUserId = $request->query->get('curuserId');
+        $results = array();
+        $rows = $userService->getUsersFromCourse(array('keyword' => $term), $userrole[0], $facId, $assId, $rtoId, $curUserId);
+        $json_array = array();
+        foreach ($rows as $row)
+        {
+            array_push($json_array, $row[1]);
+        }
+        echo json_encode($json_array);
+        exit;
+    }
+    /**
+	 * Function to get the users
+     * @param object $request
+     */
+    public function searchUsersListFromAction(Request $request){
+        $to = $this->getRequest()->get('name');
+        $nameCondition="";
+        $query = $this->getDoctrine()->getRepository('GqAusUserBundle:User')
+        ->createQueryBuilder('u')
+        ->select('u');
+        $searchIn = $query->expr()->concat('u.firstName', $query->expr()->concat($query->expr()->literal(' '), 'u.lastName'));
+        $nameCondition .= $searchIn."='".$to."'" ;
+        $query->Where($nameCondition);
+        $user = $query->getQuery()->getResult(); 
+        if ($user) 
+            echo $touser = $user[0]->getId();
+        exit;
+    }
+
 }

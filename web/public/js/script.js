@@ -1,4 +1,17 @@
 $(document).ready(function(){
+	/* header menu js starts*/
+    
+    $("li.profile").filter(function(){
+        return ( $(this).children('ul').length > 0 );
+        
+    }).on("click", function(e) {
+        e.preventDefault();
+        // hide sibling ul element (if it exists)
+        $(this).children("ul").toggleClass("hide show");
+    });
+    
+    /* header menu js ends*/
+	
 	$('a[data-collapse="child"]').on('click', function(){
     var nestedCollapse;
 

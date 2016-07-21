@@ -3228,5 +3228,26 @@ class UserService
         $courseNotesObj = $this->em->getRepository('GqAusUserBundle:Note')->findBy(array('courseId' => $courseId, 'type' => $roleType));
         return $courseNotesObj;
     }
-
+	/** 
+     * Display usernames in New message Role wise Authentication
+     * @param: $userRole
+     */
+    public function getUsersfromCourse($options = array(), $userRole, $facId, $assId, $rtoId, $curuserId) {     
+        
+        $query = $this->em->getRepository('GqAusUserBundle:User')
+            ->createQueryBuilder('u')
+            ->select( "CONCAT( CONCAT(u.firstName, ' '), u.lastName)" );
+        $nameCondition = "";
+        if ($userRole == 'ROLE_FACILITATOR') {
+            $query->where('(u instance of GqAusUserBundle:Applicant OR u instance of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
+            $query->andWhere("u.firstName LIKE '%" . $options['keyword'] . "%' OR u.lastName LIKE '%" . $options['keyword'] . "%'");
+            $avals = array($curuserId, $assId, $rtoId);
+            $query->andWhere('u.id IN (:ids)')->setParameter('ids', $avals);
+            $getMessages = $query->getQuery()->getResult(); 
+            
+            $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getMessages)));
+            sort($getMessages);
+        }
+        return $getMessages;
+    }
 }
