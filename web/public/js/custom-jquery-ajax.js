@@ -63,6 +63,9 @@ $("#approveno").click(function () {
 $("#disapproveno").click(function () {
      $('#not-satisfactory').modal('hide');
 });
+$(".modal-body span.close").click(function(){
+    $('#currProfile').modal('hide');
+});
 
 $("#disapproveyes").click(function () {
     var newunit = $('#unit-code').val();
