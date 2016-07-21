@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="/public/css/jquery.fancybox.css?v=2.1.5" media="screen" />
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate_profile.css') }}">
+{% endblock %}
+{% block navmenu %}
+    <header>
+        <section class="container">
+            <div class="info-header">
+                <div class="portfolio">
+                    <strong class="title">{{user.firstName~' '~user.lastName}}</strong>
+                    <a href="#"><i class="material-icons clear">clear</i></a>
+                </div>
+                <div class="unit-info hide">
+                    <a href="#"><i class="material-icons btn-back">arrow_back</i></a>
+                    <strong class="title">Unit info</strong>
+                </div>            
+            </div>
+            <nav>
+                <ul class="nav">
+                    <li><a {% if app.request.attributes.get('_route') == 'applicantDetails'%} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicantDetails/"><i class="material-icons">school</i><span>Qualification</span></a></li>
+                    <li><a href="#"><i class="material-icons">cloud_upload</i><span>Files</span></a></li>
+                    <li><a {% if app.request.attributes.get('_route') == 'candidateProfile'%} class="active" {% endif %}><i class="material-icons">account_circle</i><span>Profile</span></a>
+                </li>
+                <li class="profile">
+                    <a href="#"><img class="profile-img" src="{{ asset('public/images/PROFILE.png')}}" alt="profile" /><i class="material-icons">expand_more</i></a>
+                    <ul class="hide"><li><a href="#">Profile</a></li><li><a href="#">Log out</a></li></ul>
+                </li>
+            </ul>          
+            </nav>
+        </section>
+    </header>
+{% endblock %}    
+{% block body %}
+    <div class="body_section">
+        <div class="container">
+            <div class="row"><!-- DESKTOP VERSION -->
+                <div class="hidden-xs col-sm-12 col-md-12 col-lg-6">
+                    <div class="form_block">
+                        <div class="title_bar clearfix">
+                                <span class="left">CANDIDATE DETAILS</span>
+                                <span class="right"><strong>{{userProfilePercentage}} COMPLETED</strong>{% if userProfilePercentage == "100%" %}<i class="material-icons">done</i>{% endif %}</span>
+                        </div>
+                        <form class="form">
+                            <div class="section half clearfix">
+                                <div class="form-group">
+                                        <label><span class="required">*</span>First Name</label>
+                                        <input type="text" value="{%if user.firstName is defined %}{{user.firstName}}{%endif%}" readonly="true"/>
+                                </div>
+                                <div class="form-group">
+                                        <label><span class="required">*</span>Last Name</label>
+                                        <input type="text" value="{%if user.lastName is defined %}{{user.lastName}}{%endif%}" readonly="true"/>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="form-group clearfix gender_section">
+                                    <label><span class="required">*</span>Gender</label>
+                                    <div class="radio"><label><input type="radio" disabled name="optradio" {% if(user.gender =='male')%}checked{% endif %}>Male</label></div>
+                                    <div class="radio"><label><input type="radio" disabled name="optradio" {% if(user.gender =='female')%}checked{% endif %}>Female</label></div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group">
+                                        <label><span class="required">*</span>Email</label>
+                                        <input type="email" value="{%if user.email is defined %}{{user.email}}{%endif%}" readonly="true"/>
+                                    </div>
+                            </div>
+                            <div class="section half clearfix">
+                                    <div class="form-group">
+                                            <label><span class="required">*</span>Mobile</label>
+                                            <input type="text" value="{%if user.phone is defined %}{{user.phone}}{%endif%}" readonly="true"/>
+                                    </div>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group">
+                                            <label><span class="required">*</span>USI</label>
+                                            <input type="text" value="{%if user.universalStudentIdentifier is defined %}{{user.universalStudentIdentifier}}{%endif%}" readonly="true"/>
+                                    </div>
+                            </div>
+                            <div class="title_bar clearfix">
+                                    <span class="left">ADDRESS</span>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group street_info">
+                                            <label><span class="required">*</span>Street Number</label>
+                                            <input type="text" value="{%if user.address.address is defined %}{{user.address.address}}{%endif%}" readonly="true"/>
+                                    </div>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group street_info">
+                                            <label><span class="required">*</span>Street Name</label>
+                                            <input type="text" value="{%if user.address.area is defined %}{{user.address.area}}{%endif%}" readonly="true"/>
+                                    </div>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group">
+                                            <label>Suburb</label>
+                                            <input type="text" value="{%if user.address.suburb is defined %}{{user.address.suburb}}{%endif%}" readonly="true"/>
+                                    </div>
+                            </div>
+                            <div class="section half clearfix">
+                                    <div class="form-group">
+                                            <label>City</label>
+                                            <input type="text" value="{%if user.address.city is defined %}{{user.address.city}}{%endif%}" readonly="true"/>
+                                    </div>
+                                    <div class="form-group">
+                                            <label>Postcode</label>
+                                            <input type="text" value="{%if user.address.pincode is defined %}{{user.address.pincode}}{%endif%}" readonly="true"/>
+                                    </div>
+                            </div>
+                            <div class="section half clearfix">
+                                    <div class="form-group">
+                                            <label>State</label>
+                                            <input type="text" value="{%if user.address.state is defined %}{{user.address.state}}{%endif%}" readonly="true"/>
+                                    </div>
+                                    <div class="form-group">
+                                            <label>Country</label>
+                                            <input type="text" value="{%if user.address.country is defined %}{{user.address.country}}{%endif%}" readonly="true"/>
+                                    </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="link_section clearfix">
+                        <a href="javascript:void(0)" class="faq_link">
+                                <span><i class="material-icons">help</i></span>FAQs
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden-xs col-sm-12 col-md-12 col-lg-6">
+                    <div class="info_block">
+                        <div class="title_bar clearfix">
+                            <span class="left">CANDIDATE ID</span>
+                             {% set requiredpoints = 100 - currentIdPoints %}
+                            <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED <i class="material-icons">info</i>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
+                        </div>
+                        <div class="file_block">
+                            <ul class="Id_files">
+                            {% if userIdFiles is not null and userIdFiles is not empty %}
+                               {% for evidence in userIdFiles %}
+                                {% set doc_type = evidence_service.getEvidenceTypeByEvidenceId(evidence.type.id)%}
+                                    <li>
+                                        <div class="title_bar clearfix"><span class="content">{{ evidence.type.type }}</span><span class="number">{{ evidence.type.points }}</span></div>
+                                        <div class="file_info">
+                                            <a href = "{{ amazon_link~evidence.path }}" class="fancybox fancybox.iframe"> 
+                                                <span class="icon"><i class="material-icons">{{doc_type}}</i></span></a>
+                                                <span class="file-discription">{{evidence.name}} <br>10KB | ADDED {{evidence.created|date("d/m/y") }}</span>
+                                            </div>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <center id="idfiles_no_files">{{no_id_files}}</center>                        
+                            {% endif %}
+                            </ul>
+                        </div>
+                </div>
+            </div>
+                <!-- DESKTOP VERSION -->
+                <!-- MOBILE VERSION -->
+                <!-- MOBILE VERSION -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="/public/js/jquery.fancybox.js?v=2.1.5"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.fancybox').fancybox();
+        });
+    </script>
+{% endblock %}
+
+
