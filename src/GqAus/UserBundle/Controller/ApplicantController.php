@@ -48,15 +48,15 @@ class ApplicantController extends Controller
                 $results['notesForm'] = $notesForm->createView();
             }
 			
-			if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Assessor::ROLE_NAME) {
-				$roleType = ($role[0] == Facilitator::ROLE_NAME) ? 'f' : 'a';
-				$results['notes'] = $userService->getNotesFromUserAndCourse($qcode, $uid, $roleType);
-                $results['notesFromCourse'] = $userService->getNotesFromCourseIdOnly($applicantInfo['coursePrimaryId'], $roleType);
-			}
-			$electiveUnitArr = $results['electiveUnits'];
-			$results['coreUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'core');
-			$results['electiveUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'elective', $electiveUnitArr);
-			$results['evidenceCompleteness'] = $userService->getEvidenceCompleteness($uid, $qcode);
+            if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Assessor::ROLE_NAME) {
+                    $roleType = ($role[0] == Facilitator::ROLE_NAME) ? 'f' : 'a';
+                    $results['notes'] = $userService->getNotesFromUserAndCourse($qcode, $uid, $roleType);
+                    $results['notesFromCourse'] = $userService->getNotesFromCourseIdOnly($applicantInfo['coursePrimaryId'], $roleType);
+            }
+            $electiveUnitArr = $results['electiveUnits'];
+            $results['coreUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'core');
+            $results['electiveUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'elective', $electiveUnitArr);
+            $results['evidenceCompleteness'] = $userService->getEvidenceCompleteness($uid, $qcode);
 			
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
         } else {

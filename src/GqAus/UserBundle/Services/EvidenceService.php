@@ -512,4 +512,24 @@ class EvidenceService
         }
         return $evtype."&&".$evfancy;
     }
+    /**
+     * Function to get the EvidenceType By Evidence Id
+     * @param type $evidenceId
+     * @return string
+     */
+    public function getEvidenceTypeByEvidenceId($evidenceId)
+    {
+        switch($evidenceId){
+            case 1:
+                $evType ='photo';
+                break;
+            case 2:
+                $evType ='gq-id-files-content-pdf-icon';
+                break;
+            default:
+                $evType ='photo';
+                break;
+        }
+        return $evType;
+    }
 }

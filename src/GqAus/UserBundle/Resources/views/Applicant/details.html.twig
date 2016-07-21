@@ -19,9 +19,9 @@
             </div>
             <nav>
                 <ul class="nav">
-                    <li><a class="active" href="#"><i class="material-icons">school</i><span>Qualification</span></a></li>
+                    <li><a {% if app.request.attributes.get('_route') == 'applicantDetails'%} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicantDetails/{{courseInfo.id}}/{{userId}}"><i class="material-icons">school</i><span>Qualification</span></a></li>
                     <li><a href="#"><i class="material-icons">cloud_upload</i><span>Files</span></a></li>
-                    <li><a href="#"><i class="material-icons">account_circle</i><span>Profile</span></a>
+                    <li><a {% if app.request.attributes.get('_route') == 'candidateProfile'%} class="active" {% endif %} href="{{ app.request.baseUrl }}/candidateProfile/{{userId}}"><i class="material-icons">account_circle</i><span>Profile</span></a>
                 </li>
                 <li class="profile">
                     <a href="#"><img class="profile-img" src="{{ asset('public/images/PROFILE.png')}}" alt="profile" /><i class="material-icons">expand_more</i></a>

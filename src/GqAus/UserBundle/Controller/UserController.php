@@ -106,6 +106,7 @@ class UserController extends Controller
         $userImage = $userService->userImage($user->getUserImage());
 
         $userIdFiles = $user->getIdfiles();
+        
         if (empty($userIdFiles)) {
             $userIdFiles = '';
         }
@@ -668,6 +669,28 @@ class UserController extends Controller
     {
          $faq = $this->get('UserService')->getFaq();        
          return $this->render('GqAusUserBundle:Faq:faq.html.twig',array('faq' => $faq));
+    }
+    /**
+     * Function to get the Candidate Profile For Facilitator & Assessor & Rto
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function candidateProfileAction($userId, Request $request)
+    {
+        $userService = $this->get('UserService');
+        $user = $userService->getUserInfo($userId);
+        $currentIdPoints = $userService->getIdPoints($user);
+        $userProfilePercentage = $userService->getUserProfilePercentage($user);
+        $documentTypes = $userService->getDocumentTypes();
+        $userProfileForm = $this->createForm(new ProfileForm(), $user);
+        $userIdFiles = $user->getIdfiles();
+        
+        return $this->render('GqAusUserBundle:User:candidateProfile.html.twig', array(
+                'user' => $user,
+                'userProfilePercentage' => $userProfilePercentage,
+                'currentIdPoints' => $currentIdPoints,
+                'documentTypes' => $documentTypes,
+                'userIdFiles' => $userIdFiles
+        ));
     }
 
 }

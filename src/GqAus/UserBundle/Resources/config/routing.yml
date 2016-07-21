@@ -232,5 +232,7 @@ usersFromCourse:
 searchUsersListFrom:
     path:     /searchUsersListFrom
     defaults: { _controller: GqAusUserBundle:Message:searchUsersListFrom }
-
+candidateProfile:
+    path:     /candidateProfile/{userId}
+    defaults: { _controller: GqAusUserBundle:User:candidateProfile }
 

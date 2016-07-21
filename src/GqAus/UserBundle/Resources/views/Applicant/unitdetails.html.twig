@@ -20,13 +20,13 @@
             </div>
             <nav>
                 <ul class="nav">
-                    <li><a class="active" href="#"><i class="material-icons">school</i><span>Qualification</span></a></li>
+                    <li><a {% if app.request.attributes.get('_route') == 'courseunitDetails'%} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicantDetails/{{courseInfo.id}}/{{userId}}"><i class="material-icons">school</i><span>Qualification</span></a></li>
                     <li><a href="#"><i class="material-icons">cloud_upload</i><span>Files</span></a></li>
-                    <li><a href="#"><i class="material-icons">account_circle</i><span>Profile</span></a>
+                    <li><a {% if app.request.attributes.get('_route') == 'candidateProfile'%} class="active" {% endif %} href="{{ app.request.baseUrl }}/candidateProfile/{{userId}}"><i class="material-icons">account_circle</i><span>Profile</span></a>
                 </li>
                 <li class="profile">
                     <a href="#"><img class="profile-img" src="{{ asset('public/images/PROFILE.png')}}" alt="profile" /><i class="material-icons">expand_more</i></a>
-                    <ul class="hide"><li><a href="#">Profile</a></li><li><a href="#">Log out</a></li></ul>
+                    <ul class="hide"><li><a href="#">Profile</a></li><li><a href="{{ app.request.baseUrl }}/logout">Log out</a></li></ul>
                 </li>
             </ul>          
             </nav>
@@ -256,7 +256,7 @@
                             </div>
                             <div id="collapseTwo" class="panel-collapse collapse in">
                                 <div class="panel-body">
-                                    <div class="panel-group" id="nested">
+                                    <div class="accordion panel-group" id="nested">
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
                                                 <div class="panel-title">
