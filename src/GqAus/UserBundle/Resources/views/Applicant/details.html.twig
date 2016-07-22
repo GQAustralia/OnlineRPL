@@ -313,13 +313,13 @@
                                     <div class="review_content">
                                         <p><strong class="text-uppercase">{{facProName}}</strong> {{facVocName}} {{userName}}'s CSR for this course</p>
                                     </div>
-                                    <div class="review_profile-pic"><span><img class="profile-img" src="{% if facilitatorImage %} {{ facilitatorImage }} {% endif %}" /></span></div>
+                                    <div class="review_profile-pic"><span><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if facilitatorImage %} {{ facilitatorImage }} {% endif %}" /></span></div>
                                 </div>
                                 <div class="review">
                                     <div class="review_content">
                                         <p><strong class="text-uppercase">{{assProName}}</strong> {{assVocName}} {{userName}}'s assessor for this cource</p>
                                     </div>
-                                    <div class="review_profile-pic"><span><img class="profile-img" src="{% if assessorImage %} {{ assessorImage }} {% endif %}" /></span></div>
+                                    <div class="review_profile-pic"><span><img class="profile-img" data-target="#assProfile" data-toggle="modal"  src="{% if assessorImage %} {{ assessorImage }} {% endif %}" /></span></div>
                                 </div>
                             </div>
                         </div>
@@ -443,7 +443,8 @@
                               {% set coreUnitCount = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'core') %} 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    {% set coreUnitsRvd =  (coreUnitCount['noOfNotRvdrcrds'] > 0) ? coreUnitCount['noOfNotRvdrcrds']~' to be reviewed' : "Satisfacty" %}
+                                    {% if ('ROLE_RTO' in userRole or 'ROLE_ASSESSOR' in userRole) %}{% set totalUnitStatus = 'COMPETENT'%}{%else%}{% set totalUnitStatus = 'Satisfacty'%}{%endif%}
+                                    {% set coreUnitsRvd =  (coreUnitCount['noOfNotRvdrcrds'] > 0) ? coreUnitCount['noOfNotRvdrcrds']~' to be reviewed' : totalUnitStatus %}
                                     <h4 class="panel-title"><span>{{coreUnitCount['noOfNotRvdrcrds']+coreUnitCount['noOfRvdRcrds']}} CORE UNITS - <strong>{{coreUnitsRvd}}</strong></span>
                                             <a class="btn-accordion collapsed" data-collapse="parent"  data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                                                     <i class="material-icons">expand_more</i>
@@ -467,8 +468,8 @@
                                                         <div class="panle_body_content">
                                                             {% set inloop = 0 %}
                                                             {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], units.id, courseInfo.id ) %}
-                                                            {% if ('ROLE_ASSESSOR' in userRole and approvalStatus =='0') %} 
-                                                                {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_FACILITATOR', units.id, courseInfo.id ) %}
+                                                            {% if ('ROLE_RTO' in userRole and approvalStatus =='0') %} 
+                                                                {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_ASSESSOR', units.id, courseInfo.id ) %}
                                                                 {% set inloop = 1 %}
                                                             {% endif %}   
                                                             {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
@@ -521,8 +522,8 @@
                                                                 <div class="panle_body_content">
                                                             {% set inloop = 0 %}
                                                             {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], units.id, courseInfo.id ) %}
-                                                            {% if ('ROLE_ASSESSOR' in userRole and approvalStatus =='0') %} 
-                                                                {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_FACILITATOR', units.id, courseInfo.id ) %}
+                                                            {% if ('ROLE_RTO' in userRole and approvalStatus =='0') %} 
+                                                                {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_ASSESSOR', units.id, courseInfo.id ) %}
                                                                 {% set inloop = 1 %}
                                                             {% endif %}   
                                                             {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
@@ -615,7 +616,7 @@
                         {% set toName = ('ROLE_ASSESSOR' in userRole or 'ROLE_RTO' in userRole) ? facilitatorName : userName %}
                         <form>
                             <div class="input_section">
-                                <label class="to">To:</label>
+                                <label class="to">To :</label>
                                 {% if 'ROLE_FACILITATOR' in userRole %}
                                     <input type="text" onkeyup="searchUsersFromCourse('#advanced-demo','{{facilitatorId}}','{{assessorId}}','{{rtoId}}','{{userId}}');" value="{{ toName }}" placeholder="" required="required"  name="advanced-demo"  id="advanced-demo" class="ui-autocomplete-input" autocomplete="off" >
                                 {% else %}
@@ -623,8 +624,8 @@
                                 {% endif %}
                             </div>
                             <div class="input_section">
-                                    <label class="subject">Subject:</label>
-                                    <input type="text" name="msgSubject" value="{{courseInfo.name}}" id="msgSubject">
+                                    <label class="subject">Subject : </label>
+                                    <input type="text" name="msgSubject" value="{%if courseInfo.id is defined %}{{courseInfo.id}} - {%endif%}{{courseInfo.name}}" id="msgSubject">
                             </div>
                             <textarea name="msgBody" id="msgBody"></textarea>
                             <input type="hidden" name="UserId" id="UserId" value="{%if('ROLE_ASSESSOR' in userRole or 'ROLE_RTO' in userRole)%}{{facilitatorId}}{% else %}{{userId}}{%endif%}" />
@@ -640,13 +641,12 @@
 </div>
 <!-- This modal popup will come when the loggedin user clicks on myprofile link -->
 <div class="modal fade profile_popup" id="currProfile" role="dialog">
-    <div class="modal-dialog">
-		<!-- Modal content-->
+    <div class="modal-dialog"><!-- Modal content-->
         <div class="modal-content">
             <div class="modal-body">
                 <span class="close"><i class="material-icons clear_icon">clear</i></span>
                 <div class="title_bar hidden-sm hidden-md hidden-lg">
-                        <span><i class="material-icons arrow_back">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon">clear</i></span>
+                    <span><i class="material-icons arrow_back">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon">clear</i></span>
                 </div>
                 <div class="header_block clearfix">
                     <div class="profile_section">
@@ -662,72 +662,162 @@
                             <span class="title">Active Portfolios</span>
                     </div>
                 </div>
-                    <form class="form">
-                            <div class="section name_group clearfix">
-                                    <div class="form-group">
-                                            <label>First Name</label>
-                                            <input type="text" readonly="" value="{{firstName}}">
-                                            <span><i class="material-icons">mode_edit</i></span>
-                                    </div>
-                                    <div class="form-group">
-                                            <label>Last Name</label>
-                                            <input type="text" readonly="" value="{{lastName}}">
-                                            <span><i class="material-icons">mode_edit</i></span>
-                                    </div>
-                            </div>
-                            <div class="section">
-                                    <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="email" readonly="" value="{{email}}">
-                                            <span><i class="material-icons">mode_edit</i></span>
-                                    </div>
-                            </div>
-                            <div class="section number_group clearfix">
-                                    <div class="form-group">
-                                            <label>Mobile</label>
-                                            <input type="text" readonly="" value="{{mobile}}">
-                                            <span><i class="material-icons">mode_edit</i></span>
-                                    </div>
-                                    <div class="form-group">
-                                            <label>Password</label>
-                                            <input type="text" readonly="" value="........">
-                                            <span><i class="material-icons">lock</i></span>
-                                    </div>
-                            </div>
-                            <button class="submit_btn" type="submit">SUBMIT</button>
-                    </form>
-                    <form class="form-inline change_pwd_form">
-                            <div class="form-group clearfix">
-                                    <label for="email">Current Password</label>
-                                    <div class="input_section">
-                                            <input type="email" id="email" class="form-control">
-                                            <span class="error_message">Please enter current password</span>
-                                    </div>
-                            </div>
-                            <div class="form-group clearfix">
-                                    <label for="pwd">Change Password</label>
-                                    <div class="input_section">
-                                            <input type="password" id="pwd" class="form-control">
-                                            <span class="error_message">Please enter current password</span>
-                                    </div>
-                            </div>
-                            <div class="form-group clearfix">
-                                    <label for="pwd">Confirm Password</label>
-                                    <div class="input_section">
-                                            <input type="password" id="pwd" class="form-control">
-                                            <span class="error_message">Please enter current password</span>
-                                    </div>
-                            </div>
-                            <div class="btn_section clearfix">
-                                    <input type="submit" value="Change Password" class="btn change_pwd_btn">
-                                    <input type="button" value="Cancel" class="btn">
-                            </div>
-                    </form>
+                <form class="form">
+                        <div class="section name_group clearfix">
+                                <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" readonly="" value="{{firstName}}">
+                                        <span><i class="material-icons">mode_edit</i></span>
+                                </div>
+                                <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" readonly="" value="{{lastName}}">
+                                        <span><i class="material-icons">mode_edit</i></span>
+                                </div>
+                        </div>
+                        <div class="section">
+                                <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" readonly="" value="{{email}}">
+                                        <span><i class="material-icons">mode_edit</i></span>
+                                </div>
+                        </div>
+                        <div class="section number_group clearfix">
+                                <div class="form-group">
+                                        <label>Mobile</label>
+                                        <input type="text" readonly="" value="{{mobile}}">
+                                        <span><i class="material-icons">mode_edit</i></span>
+                                </div>
+                                <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="text" readonly="" value="........">
+                                        <span><i class="material-icons">lock</i></span>
+                                </div>
+                        </div>
+                        <button class="submit_btn" type="submit">SUBMIT</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
+<div class="modal fade profile_popup" id="facProfile" role="dialog">
+    <div class="modal-dialog"><!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="close"><i class="material-icons clear_icon">clear</i></span>
+                <div class="title_bar hidden-sm hidden-md hidden-lg">
+                    <span><i class="material-icons arrow_back">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon">clear</i></span>
+                </div>
+                <div class="header_block clearfix">
+                    <div class="profile_section">
+                        <img class="profile_image" alt="profile_pic" src="{{ facilitatorImage }}">
+                        <input type="file" class="hidden browse_btn">
+                        <div class="content">
+                                <h5 class="name"><strong>{{facProName}}</strong></h5>
+                                <span class="field"> Facilitator</span>
+                        </div>
+                    </div>
+                    <div class="count">
+                            <span class="number"><strong>17</strong></span>
+                            <span class="title">Active Portfolios</span>
+                    </div>
+                </div>
+                <form class="form">
+                        <div class="section name_group clearfix">
+                                <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" readonly="" value="{{firstName}}">
+                                        <span><i class="material-icons">mode_edit</i></span>
+                                </div>
+                                <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" readonly="" value="{{lastName}}">
+                                        <span><i class="material-icons">mode_edit</i></span>
+                                </div>
+                        </div>
+                        <div class="section">
+                                <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" readonly="" value="{{email}}">
+                                        <span><i class="material-icons">mode_edit</i></span>
+                                </div>
+                        </div>
+                        <div class="section number_group clearfix">
+                                <div class="form-group">
+                                        <label>Mobile</label>
+                                        <input type="text" readonly="" value="{{mobile}}">
+                                        <span><i class="material-icons">mode_edit</i></span>
+                                </div>
+                                <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="text" readonly="" value="........">
+                                        <span><i class="material-icons">lock</i></span>
+                                </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade profile_popup" id="assProfile" role="dialog">
+    <div class="modal-dialog"><!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="close"><i class="material-icons clear_icon">clear</i></span>
+                <div class="title_bar hidden-sm hidden-md hidden-lg">
+                    <span><i class="material-icons arrow_back">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon">clear</i></span>
+                </div>
+                <div class="header_block clearfix">
+                    <div class="profile_section">
+                        <img class="profile_image" alt="profile_pic" src="{{assessorImage}}">
+                        <input type="file" class="hidden browse_btn">
+                        <div class="content">
+                                <h5 class="name"><strong>{{assProName}}</strong></h5>
+                                <span class="field"> {% if 'ROLE_ASSESSOR' in userRole %}Assessor{%endif%}</span>
+                        </div>
+                    </div>
+                    <div class="count">
+                            <span class="number"><strong>17</strong></span>
+                            <span class="title">Active Portfolios</span>
+                    </div>
+                </div>
+                <form class="form">
+                    <div class="section name_group clearfix">
+                            <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" readonly="" value="{{firstName}}">
+                                    <span><i class="material-icons">mode_edit</i></span>
+                            </div>
+                            <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" readonly="" value="{{lastName}}">
+                                    <span><i class="material-icons">mode_edit</i></span>
+                            </div>
+                    </div>
+                    <div class="section">
+                            <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" readonly="" value="{{email}}">
+                                    <span><i class="material-icons">mode_edit</i></span>
+                            </div>
+                    </div>
+                    <div class="section number_group clearfix">
+                            <div class="form-group">
+                                    <label>Mobile</label>
+                                    <input type="text" readonly="" value="{{mobile}}">
+                                    <span><i class="material-icons">mode_edit</i></span>
+                            </div>
+                            <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="text" readonly="" value="........">
+                                    <span><i class="material-icons">lock</i></span>
+                            </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('public/js/custom-jquery-ajax.js') }}"></script>

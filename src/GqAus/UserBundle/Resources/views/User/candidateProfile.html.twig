@@ -24,7 +24,10 @@
                 </li>
                 <li class="profile">
                     <a href="#"><img class="profile-img" src="{{ asset('public/images/PROFILE.png')}}" alt="profile" /><i class="material-icons">expand_more</i></a>
-                    <ul class="hide"><li><a href="#">Profile</a></li><li><a href="#">Log out</a></li></ul>
+                    <ul class="hide">
+                        <li><a href="#" data-toggle="modal" data-target="#currProfile">Profile</a></li>
+                        <li><a href="/logout">Log out</a></li>
+                    </ul>
                 </li>
             </ul>          
             </nav>

@@ -65,6 +65,8 @@ $("#disapproveno").click(function () {
 });
 $(".modal-body span.close").click(function(){
     $('#currProfile').modal('hide');
+    $('#facProfile').modal('hide');
+    $('#assProfile').modal('hide');
 });
 
 $("#disapproveyes").click(function () {

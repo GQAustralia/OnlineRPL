@@ -366,8 +366,10 @@ class UserService
         if (!empty($otheruser)) {
             $assessor = $this->getUserInfo($otheruser->getAssessor());
             $results['assessorName'] = !empty($assessor) ? $assessor->getUsername() : '';
+            $results['assEmail'] =  !empty($assessor) ? $assessor->getEmail() : '';
+            $results['assPhone'] =  !empty($assessor) ? $assessor->getPhone() : '';
             $rto = $this->getUserInfo($otheruser->getRto());
-			$results['assessorImage'] = !empty($assessor) ? $this->userImage($assessor->getUserImage()) : '';
+            $results['assessorImage'] = !empty($assessor) ? $this->userImage($assessor->getUserImage()) : '';
 			
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
             $results['rtoCeoName'] = !empty($rto) ? $rto->getCeoname() : '';
@@ -376,7 +378,7 @@ class UserService
 
             $facilitator = $this->getUserInfo($otheruser->getFacilitator());
             $results['facilitatorName'] = !empty($facilitator) ? $facilitator->getUsername() : '';
-			$results['facilitatorImage'] = !empty($facilitator) ? $this->userImage($facilitator->getUserImage()) : '';
+            $results['facilitatorImage'] = !empty($facilitator) ? $this->userImage($facilitator->getUserImage()) : '';
             $results['facilitatorId'] = !empty($facilitator) ? $facilitator->getId() : '';
             $results['assessorId'] = !empty($assessor) ? $assessor->getId() : '';
             $results['rtoId'] = !empty($rto) ? $rto->getId() : '';
@@ -3193,19 +3195,23 @@ class UserService
     public function getStausByStatus($status, $inLoop, $userRole){
          switch ($userRole) {
              case 'ROLE_FACILITATOR':
-                    if($inLoop == 0 && $status == 1)
+                    if($status == 1)
                         return 'Satisfactory';
-                    elseif($inLoop == 0 && $status == 2)
+                    elseif($status == 2)
                         return 'Not Yet Satisfactory';
                     else
                         return '';
                    break;
              case 'ROLE_ASSESSOR';
+                   if($status == 1)
+                        return 'Competent';
+                   elseif($status == 2)
+                        return 'Not Yet Competent';
              case 'ROLE_RTO';
                     if($inLoop == 1 && $status == 1)
-                        return 'Satisfactory';
+                        return 'Competent';
                     elseif($inLoop == 1 && $status == 2)
-                        return 'Not Yet Satisfactory';
+                        return 'Not Yet Competent';
                     elseif($inLoop == 0 && $status == 1)
                         return 'Competent';
                     elseif($inLoop == 0 && $status == 2)

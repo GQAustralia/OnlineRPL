@@ -26,7 +26,10 @@
                 </li>
                 <li class="profile">
                     <a href="#"><img class="profile-img" src="{{ asset('public/images/PROFILE.png')}}" alt="profile" /><i class="material-icons">expand_more</i></a>
-                    <ul class="hide"><li><a href="#">Profile</a></li><li><a href="{{ app.request.baseUrl }}/logout">Log out</a></li></ul>
+                    <ul class="hide">
+                        <li><a href="#" data-toggle="modal" data-target="#currProfile">Profile</a></li>
+                        <li><a href="/logout">Log out</a></li>
+                    </ul>
                 </li>
             </ul>          
             </nav>
@@ -202,23 +205,16 @@
                     </div>
                     <div class="gqa-btn-group">
                         <div class="row no-gutter">
-                            {% if selfAssessmentText|length > 0 %}
                             <div class="col-md-12 col-lg-12">
                                 <div class="panel-group">
                                     <div class="panel clearfix">
-                                        <div class="panel-heading clearfix">
-                                            <h4 class="panel-title">
-                                                <span>Self Assessment Notes ( Min. 50 Words)</span>
-                                            </h4>
-                                        </div>
+                                        <div class="panel-heading clearfix"><h4 class="panel-title"><span>Self Assessment Notes ( Min. 50 Words)</span></h4></div>
                                         <div class="panel-body">
-                                            <textarea>{{selfAssessmentText.0.content}}</textarea>
-                                            <span class="char-count">52/50</span>
+                                            <p>{% if selfAssessmentText|length > 0 %}{{selfAssessmentText.0.content}}{%else%} Not yet receieved to this unit {% endif %}</p>
                                         </div>
                                     </div>                                        
                                 </div>
                             </div>
-                            {% endif %}
                         {% if ('ROLE_FACILITATOR' in userRole) %}
                             {% if unitFacStatus == '0' or unitFacStatus == '2' %}
             <div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory">Satisfactory</button></div>
