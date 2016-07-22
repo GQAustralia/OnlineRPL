@@ -473,7 +473,7 @@ class ApplicantController extends Controller
 			$results['unitStatus'] = $coursesService->getUnitStatus($uid, $unitcode,$qcode);
             $results['evidences'] = $evidenceService->getUserUnitEvidences($uid, $unitcode);
             $results['evidenceCount'] = count($evidenceService->getUserUnitEvidences($uid, $unitcode));
-			$results['selfAssessmentText'] = $evidenceService->getSelfAssessmentFromUnit($uid, $qcode, $unitcode);
+            $results['selfAssessmentText'] = $evidenceService->getSelfAssessmentFromUnit($uid, $qcode, $unitcode);
             return $this->render('GqAusUserBundle:Applicant:unitdetails.html.twig', array_merge($results, $applicantInfo));
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
