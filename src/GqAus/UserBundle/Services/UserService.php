@@ -102,8 +102,13 @@ class UserService
         if (!empty($image)) {
             $user->setUserImage($image);
         }
+        try{
         $this->em->persist($user);
         $this->em->flush();
+        return true;
+        }catch (Exception $exe) {
+            return false;
+        }
     }
 
     /**
@@ -2587,6 +2592,7 @@ class UserService
     public function emailExist($emailId)
     {
         $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('email' => $emailId, 'status' => 1));
+        dump($user);exit;
         return count($user);
     }
 

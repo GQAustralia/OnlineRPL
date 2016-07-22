@@ -6,6 +6,31 @@ $(document).ready(function(){
     });
     
     /* header menu js ends*/
+        
+    /* Candidate Details */
+	 
+    $('.candidate-details').hide();
+    $('.info-header').hide();
+
+    function showHideUserProfile(reqValue){
+        if(reqValue){
+               $('.candidate-details').show();
+               $('.info-header').show();
+        }else{
+               $('.candidate-details').hide();
+               $('.info-header').hide();
+        }
+    }
+    $('.clickForMobileView').on('click',function(){
+        $('.portfolio-container').hide();
+        showHideUserProfile(true);
+     });
+
+     $('.closeprofile').on('click',function(){
+             $('.portfolio-container').show();
+             showHideUserProfile(false);
+     });
+        
 	
     $('a[data-collapse="child"]').on('click', function(){
         var nestedCollapse;
@@ -33,7 +58,13 @@ $(document).ready(function(){
     $(".uploadTrigger").click(function(){
        $(".uploadFile").click();
     });
-
+	$("#add_file").click(function(){
+	   $("#fileBtn").click();
+	});
+	
+	$(".profile_image").click(function(){
+		$(".browse_btn").click();
+	});
     var textarea_ht = window_Ht - 135;
     $(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
 

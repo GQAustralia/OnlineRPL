@@ -39,6 +39,10 @@ class UserIds
      * @var datetime
      */
     private $created;
+    /**
+     * @var size
+     */
+    private $size;
 
     /**
      * Set name
@@ -163,6 +167,28 @@ class UserIds
         $this->created = $created;
 
         return $this;
+    }
+    /**
+     * Set size
+     *
+     * @param string $path
+     * @return UserIds
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getSize()
+    {
+        return $this->size;
     }
 
 }

@@ -233,6 +233,7 @@ $(".deleteIdFiles").click(function() {
             $('#idfiles_' + fid).hide();
             $("#fclose").trigger("click");
             $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File deleted successfully!</h2></div>').delay(5000).fadeOut(100);
+             window.location.href = base_url+'userprofile';
         }
     });
 });
@@ -368,8 +369,9 @@ $("#userprofile_userImage").change(function() {
             success: function(result) {
                 if (result != "error")
                 {
+                     $('#user_profile_image').attr('src',upload_path+result);                    
                     $("#profile_suc_msg2").show();
-                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
+                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
                     $("#ajax-profile-error").hide();
                     $("#ajax-gq-profile-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
                     if (userType == 0) {
@@ -479,22 +481,9 @@ if($('#Id_files').length)
                 $("#idfiles_msg").show();
                 var result = jQuery.parseJSON(responseText);
                 var name = result.name.split('.');
-                var ftype = result.type.split('.');
-                var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
-                                <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" fileid="' + result.id + '" filetype="' + result.type + '">\n\
-                                    <div class="gq-del-evidence"></div></a>\n\
-                                <div class="tooltip-home top">\n\
-                                    <div class="tooltip-arrow"></div>\n\
-                                    <span class="">Delete ID File</span>\n\
-                                </div>\n\
-                            </span>\n\
-                            <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + ftype + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-                if ($('#idfiles_no_files').html() === 'No Id files found') {
-                    $('.Id_files').html(html);
-                } else {
-                    $('.Id_files').append(html);
-                }
+                var ftype = result.type.split('.'); 
                 $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File added successfully!</h2></div>').delay(5000).fadeOut(100);
+                window.location.href = base_url+'userprofile';
             }
         },
         resetForm: true
@@ -801,9 +790,9 @@ function onloadPortfolioCount()
         cache: false,
         success: function(result) {         
             if (result > 0) {                
-                $("#portfolio-current").html(result);               
+                $(".portfolio-current").html(result);               
             } else {                
-                $("#portfolio-current").css("display","none");                
+                $(".portfolio-current").css("display","none");                
             }
         }
     });
@@ -1238,11 +1227,13 @@ function checkPhonenumber(inputtxt)
     }
 }  
 function validateAddress()
-{
+{    
     var userrole = $("#hdn-userrole").val();
     var useremail = $("#userprofile_email").val();
     var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
+    country = /^[a-zA-Z\s]+$/;
+    postcode = /^[a-zA-Z0-9\s]+$/;
     if ($("#userprofile_firstname").val() == "") {
         if(userrole=='rtouser')
             showMyTabs("Please enter College Name");
@@ -1271,64 +1262,13 @@ function validateAddress()
             return false;
         }
     }
-    if (userType == 2) {
-        var count = checkEmailExist($("#userprofile_email").val());
-        if (count > 0) {
-            showMyTabs("This Email already exist!");
-            $("#userprofile_email").focus();
-            return false;
-        }
-    }
-    
-    if ($("#userprofile_phone").val() == "") {
-        showMyTabs("Please enter Phone Number");
-        $("#userprofile_phone").focus();
-        return false;
-    }
-    if ($("#userprofile_phone").val() != "") {
-        if(checkPhonenumber($("#userprofile_phone").val()) == 0) {
-            showMyTabs("Please enter valid Phone Number");
-            $("#userprofile_phone").val("");
-            $("#userprofile_phone").focus();
-            return false;
-        }
-    }
-    // if add user
-    if (userType == 2) {
-        var newpwd = $("#userprofile_newpassword").val();
-        if (newpwd == "") {
-            showMyTabs("Please enter Password");
-            $("#userprofile_newpassword").focus();
-            return false;
-        }
-        if (newpwd != "") {
-            if (newpwd.length < 6) {
-                showMyTabs("Password must be minimum of 6 characters");
-                $("#userprofile_newpassword").focus();
-                return false;
-            }
-        }
-        if (userrole == 'facilitatoruser') {
-            var crmId = ($.trim($("#userprofile_crmId").val()));
-            if (crmId == "") {
-                showMyTabs("Please enter CRM ID");
-                $("#userprofile_crmId").focus();
-                return false;
-            }
-        }
-    }
-    
-    if ($("#userprofile_dateOfBirth").val() == "") {
-        showMyTabs("Please enter Date Of Birth");
-        $("#userprofile_dateOfBirth").focus();
-        return false;
-    }
+    if(userrole=='applicant') {
     if ($("#userprofile_universalStudentIdentifier").val() == "") {
         showMyTabs("Please enter USI");
         $("#userprofile_universalStudentIdentifier").focus();
         return false;
-    } else {
-        var USI = $("#userprofile_universalStudentIdentifier").val();
+    } else if ($("#userprofile_universalStudentIdentifier").val() != "") {
+        var USI = $("#userprofile_universalStudentIdentifier");
         if(USI.length != 10) {
             showMyTabs("Please enter 10 characters USI");
            return false;
@@ -1337,6 +1277,8 @@ function validateAddress()
            return false;
         }
     }
+    }
+    if(userrole!='facilitatoruser') {
    if ($("#userprofile_address_address").val() == "") {
         $("#change_address_error").show();       
         showMyTabs("Please enter address");        
@@ -1404,6 +1346,7 @@ function validateAddress()
             return false;
         }
     }
+    }
     if(userrole=='rtouser') {
         if ($("#userprofile_contactname").val() == "") {
             showMyTabs("Please enter Contact Person Name");
@@ -1423,38 +1366,11 @@ function validateAddress()
                 return false;
             }
         }
-        if ($("#userprofile_contactemail").val() == "") {
-            showMyTabs("Please enter Contact Person Email");
-            $("#userprofile_contactemail").focus();
-            return false;
-        }
-        if ($("#userprofile_contactemail").val() != "") {
-            if ($("#userprofile_contactemail").val().search(regexp) == -1) {
-                showMyTabs("Please enter valid Contact Person Email");
-                $("#userprofile_contactemail").val("");
-                $("#userprofile_contactemail").focus();
-                return false;
-            }
-        }
         
-        if ($("#userprofile_ceoemail").val() != "") {
-            if ($("#userprofile_ceoemail").val().search(regexp) == -1) {
-                showMyTabs("Please enter valid CEO Email");
-                $("#userprofile_ceoemail").focus();
-                return false;
-            }
-        }
-        
-        if ($("#userprofile_ceophone").val() != "") {
-            if(checkPhonenumber($("#userprofile_ceophone").val()) == 0) {
-                showMyTabs("Please enter valid CEO Phone Number");
-                $("#userprofile_ceophone").val("");
-                $("#userprofile_ceophone").focus();
-                return false;
-            }
-        }
     }
-
+    
+return true;
+    
 }
 
 /* function to check email already exist */
@@ -1465,7 +1381,7 @@ function checkEmailExist(emailId) {
         url: base_url + "checkEmailExist",
         async: false,
         data: {emailId: emailId},
-        success: function(result) {
+        success: function(result) {           
            count = result;
         }
     });
@@ -1486,8 +1402,7 @@ function passwordShowMsg(errorMsg,msgId)
 $("#password_save").click(function()
 {
     var displayOldPwd = $("#password_oldpassword").parent().css( "display" );
-    var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );
-    
+    var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );    
     var curpwd = $("#password_oldpassword").val();
     var newpwd = $("#password_newpassword").val();
     var newconfirmpwd = $("#password_confirmnewpassword").val();
@@ -1822,7 +1737,7 @@ $( '#file_save' ).click( function( e ) {
 } );
 
 // for validating the upload ID file
-$( '#userfiles_browse' ).change( function( e ) {
+$( '#userfiles_browse' ).change( function( e ) {    
     if($("#userfiles_type").val()!="") {
         if ($("#userfiles_browse").val().length > 0) {
             var extension = $("#userfiles_browse").val().substring($("#userfiles_browse").val().lastIndexOf('.')+1);
@@ -2162,5 +2077,64 @@ function searchUsersFromCourse(id, facVal, accVal, rtoVal, curuserId) {
         }
     });
 }
+/* Profile Update (from popup) -*/
+$('#user_profile_form').on('submit', function(e) {
+     if(validateAddress()){  
+        e.preventDefault();
+        form_data = $(this).serialize(); //Serializing the form data
+           $.ajax({
+                type: "POST",
+                url: "updateprofileAjax",
+                cache: false,
+                data: form_data,
+                success: function(result) {
+                    $("#profile_suc_msg2").show();
+                        $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile updated successfully!</h2></div>').delay(3000).fadeOut(100);
+                }
+            });
+        }
+       
+   return false;
+}); 
+/**
+ * Show or hide passowrd div
+ * @param {int} type
+ * @returns {undefined}
+ */
+function changePassowordDiv(type)
+{
+    if(type==1) // 1- show
+    {
+        $('#change_password_form').show();
+        $('#user_profile_form').hide();
+        $('#user_profile_form_div').hide();
+    }
+    else
+    {
+        $('#change_password_form').hide();
+        $('#user_profile_form').show();
+        $('#user_profile_form_div').show();
+    }
+}
 
+/** Change password form **/
+$('#change_password_form').on('submit', function(e) {
+
+    e.preventDefault();
+    form_data = $(this).serialize(); //Serializing the form data    
+    $.ajax({
+            type: "POST",
+            url: "updatepasswordAjax",
+            cache: false,
+            data: form_data,
+            success: function(result) {
+                $("#profile_suc_msg2").show();
+               // $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Password updated successfully!</h2></div>').delay(3000).fadeOut(100);
+                $('#change_password_form').hide();
+                $('#user_profile_form').show();
+                $('#user_profile_form_div').show();
+                
+            }
+       });
+});
 
