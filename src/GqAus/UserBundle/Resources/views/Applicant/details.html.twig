@@ -654,20 +654,20 @@
                         <input type="file" class="hidden browse_btn">
                         <div class="content">
                                 <h5 class="name"><strong>{{firstName~' '~lastName}}</strong></h5>
-                                <span class="field"> {% if 'ROLE_FACILITATOR' in userRole %}Facilitator{%endif%}</span>
+                                <span class="field"> {% if 'ROLE_FACILITATOR' in userRole %}Facilitator{%elseif 'ROLE_ASSESSOR' in userRole%}Assessor{%endif%}</span>
                         </div>
                     </div>
                     <div class="count">
-                            <span class="number"><strong>17</strong></span>
+                            <span class="number"><strong>{% if 'ROLE_FACILITATOR' in userRole %}{{facApplicantsCount}}{%elseif 'ROLE_ASSESSOR' in userRole%}{{assApplicantsCount}}{%endif%}</strong></span>
                             <span class="title">Active Portfolios</span>
                     </div>
                 </div>
                 <form class="form">
                         <div class="section name_group clearfix">
                                 <div class="form-group">
-                                        <label>First Name</label>
-                                        <input type="text" readonly="" value="{{firstName}}">
-                                        <span><i class="material-icons">mode_edit</i></span>
+                                    <label>First Name</label>
+                                    <input type="text" readonly="" value="{{firstName}}">
+                                    <span><i class="material-icons">mode_edit</i></span>
                                 </div>
                                 <div class="form-group">
                                         <label>Last Name</label>
@@ -713,48 +713,27 @@
                         <img class="profile_image" alt="profile_pic" src="{{ facilitatorImage }}">
                         <input type="file" class="hidden browse_btn">
                         <div class="content">
-                                <h5 class="name"><strong>{{facProName}}</strong></h5>
+                                <h5 class="name"><strong>{{facilitatorName}}</strong></h5>
                                 <span class="field"> Facilitator</span>
                         </div>
                     </div>
                     <div class="count">
-                            <span class="number"><strong>17</strong></span>
+                            <span class="number"><strong>{{facApplicantsCount}}</strong></span>
                             <span class="title">Active Portfolios</span>
                     </div>
                 </div>
-                <form class="form">
+                <div class="form">
                         <div class="section name_group clearfix">
-                                <div class="form-group">
-                                        <label>First Name</label>
-                                        <input type="text" readonly="" value="{{firstName}}">
-                                        <span><i class="material-icons">mode_edit</i></span>
-                                </div>
-                                <div class="form-group">
-                                        <label>Last Name</label>
-                                        <input type="text" readonly="" value="{{lastName}}">
-                                        <span><i class="material-icons">mode_edit</i></span>
-                                </div>
+                                <div class="form-group"><label>First Name</label><input type="text" readonly="" value="{{facilitatorfirstName}}"></div>
+                                <div class="form-group"><label>Last Name</label><input type="text" readonly="" value="{{facilitatorlastName}}"></div>
                         </div>
                         <div class="section">
-                                <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="email" readonly="" value="{{email}}">
-                                        <span><i class="material-icons">mode_edit</i></span>
-                                </div>
+                                <div class="form-group"><label>Email</label><input type="email" readonly="" value="{{facilitatorEmail}}"></div>
                         </div>
                         <div class="section number_group clearfix">
-                                <div class="form-group">
-                                        <label>Mobile</label>
-                                        <input type="text" readonly="" value="{{mobile}}">
-                                        <span><i class="material-icons">mode_edit</i></span>
-                                </div>
-                                <div class="form-group">
-                                        <label>Password</label>
-                                        <input type="text" readonly="" value="........">
-                                        <span><i class="material-icons">lock</i></span>
-                                </div>
+                                <div class="form-group"><label>Mobile</label><input type="text" readonly="" value="{{facilitatorPhone}}"></div>
                         </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -772,48 +751,27 @@
                         <img class="profile_image" alt="profile_pic" src="{{assessorImage}}">
                         <input type="file" class="hidden browse_btn">
                         <div class="content">
-                                <h5 class="name"><strong>{{assProName}}</strong></h5>
-                                <span class="field"> {% if 'ROLE_ASSESSOR' in userRole %}Assessor{%endif%}</span>
+                                <h5 class="name"><strong>{{assessorName}}</strong></h5>
+                                <span class="field">Assessor</span>
                         </div>
                     </div>
                     <div class="count">
-                            <span class="number"><strong>17</strong></span>
+                            <span class="number"><strong>{{assApplicantsCount}}</strong></span>
                             <span class="title">Active Portfolios</span>
                     </div>
                 </div>
-                <form class="form">
+                <div class="form">
                     <div class="section name_group clearfix">
-                            <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" readonly="" value="{{firstName}}">
-                                    <span><i class="material-icons">mode_edit</i></span>
-                            </div>
-                            <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" readonly="" value="{{lastName}}">
-                                    <span><i class="material-icons">mode_edit</i></span>
-                            </div>
+                            <div class="form-group"><label>First Name</label><input type="text" readonly="" value="{{assessorfirstName}}"></div>
+                            <div class="form-group"><label>Last Name</label><input type="text" readonly="" value="{{assessorlastName}}"></div>
                     </div>
                     <div class="section">
-                            <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" readonly="" value="{{email}}">
-                                    <span><i class="material-icons">mode_edit</i></span>
-                            </div>
+                            <div class="form-group"><label>Email</label><input type="email" readonly="" value="{{assessorEmail}}"></div>
                     </div>
                     <div class="section number_group clearfix">
-                            <div class="form-group">
-                                    <label>Mobile</label>
-                                    <input type="text" readonly="" value="{{mobile}}">
-                                    <span><i class="material-icons">mode_edit</i></span>
-                            </div>
-                            <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="text" readonly="" value="........">
-                                    <span><i class="material-icons">lock</i></span>
-                            </div>
+                            <div class="form-group"><label>Mobile</label><input type="text" readonly="" value="{{assessorPhone}}"></div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

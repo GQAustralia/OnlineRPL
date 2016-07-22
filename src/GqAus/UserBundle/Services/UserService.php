@@ -365,20 +365,26 @@ class UserService
             'user' => $user->getId()));
         if (!empty($otheruser)) {
             $assessor = $this->getUserInfo($otheruser->getAssessor());
+            $results['assessorfirstName'] = !empty($assessor) ? $assessor->getFirstname() : '';
+            $results['assessorlastName'] = !empty($assessor) ? $assessor->getLastname() : '';
             $results['assessorName'] = !empty($assessor) ? $assessor->getUsername() : '';
-            $results['assEmail'] =  !empty($assessor) ? $assessor->getEmail() : '';
-            $results['assPhone'] =  !empty($assessor) ? $assessor->getPhone() : '';
-            $rto = $this->getUserInfo($otheruser->getRto());
             $results['assessorImage'] = !empty($assessor) ? $this->userImage($assessor->getUserImage()) : '';
-			
+            $results['assessorEmail'] =  !empty($assessor) ? $assessor->getEmail() : '';
+            $results['assessorPhone'] =  !empty($assessor) ? $assessor->getPhone() : '';
+            
+            $rto = $this->getUserInfo($otheruser->getRto());
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
             $results['rtoCeoName'] = !empty($rto) ? $rto->getCeoname() : '';
             $results['rtoCeoEmail'] = !empty($rto) ? $rto->getCeoemail() : '';
             $results['rtoCeoPhone'] = !empty($rto) ? $rto->getCeophone() : '';
 
             $facilitator = $this->getUserInfo($otheruser->getFacilitator());
+            $results['facilitatorfirstName'] = !empty($facilitator) ? $facilitator->getFirstname() : '';
+            $results['facilitatorlastName'] = !empty($facilitator) ? $facilitator->getLastname() : '';
             $results['facilitatorName'] = !empty($facilitator) ? $facilitator->getUsername() : '';
             $results['facilitatorImage'] = !empty($facilitator) ? $this->userImage($facilitator->getUserImage()) : '';
+            $results['facilitatorEmail'] =  !empty($facilitator) ? $facilitator->getEmail() : '';
+            $results['facilitatorPhone'] =  !empty($facilitator) ? $facilitator->getPhone() : '';
             $results['facilitatorId'] = !empty($facilitator) ? $facilitator->getId() : '';
             $results['assessorId'] = !empty($assessor) ? $assessor->getId() : '';
             $results['rtoId'] = !empty($rto) ? $rto->getId() : '';

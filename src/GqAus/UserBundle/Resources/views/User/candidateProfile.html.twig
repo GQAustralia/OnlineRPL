@@ -47,36 +47,36 @@
                         <form class="form">
                             <div class="section half clearfix">
                                 <div class="form-group">
-                                        <label><span class="required">*</span>First Name</label>
+                                        <label>First Name</label>
                                         <input type="text" value="{%if user.firstName is defined %}{{user.firstName}}{%endif%}" readonly="true"/>
                                 </div>
                                 <div class="form-group">
-                                        <label><span class="required">*</span>Last Name</label>
+                                        <label>Last Name</label>
                                         <input type="text" value="{%if user.lastName is defined %}{{user.lastName}}{%endif%}" readonly="true"/>
                                 </div>
                             </div>
                             <div class="section">
                                 <div class="form-group clearfix gender_section">
-                                    <label><span class="required">*</span>Gender</label>
+                                    <label>Gender</label>
                                     <div class="radio"><label><input type="radio" disabled name="optradio" {% if(user.gender =='male')%}checked{% endif %}>Male</label></div>
                                     <div class="radio"><label><input type="radio" disabled name="optradio" {% if(user.gender =='female')%}checked{% endif %}>Female</label></div>
                                 </div>
                             </div>
                             <div class="section">
                                     <div class="form-group">
-                                        <label><span class="required">*</span>Email</label>
+                                        <label>Email</label>
                                         <input type="email" value="{%if user.email is defined %}{{user.email}}{%endif%}" readonly="true"/>
                                     </div>
                             </div>
                             <div class="section half clearfix">
                                     <div class="form-group">
-                                            <label><span class="required">*</span>Mobile</label>
+                                            <label>Mobile</label>
                                             <input type="text" value="{%if user.phone is defined %}{{user.phone}}{%endif%}" readonly="true"/>
                                     </div>
                             </div>
                             <div class="section">
                                     <div class="form-group">
-                                            <label><span class="required">*</span>USI</label>
+                                            <label>USI</label>
                                             <input type="text" value="{%if user.universalStudentIdentifier is defined %}{{user.universalStudentIdentifier}}{%endif%}" readonly="true"/>
                                     </div>
                             </div>
@@ -85,13 +85,13 @@
                             </div>
                             <div class="section">
                                     <div class="form-group street_info">
-                                            <label><span class="required">*</span>Street Number</label>
+                                            <label>Street Number</label>
                                             <input type="text" value="{%if user.address.address is defined %}{{user.address.address}}{%endif%}" readonly="true"/>
                                     </div>
                             </div>
                             <div class="section">
                                     <div class="form-group street_info">
-                                            <label><span class="required">*</span>Street Name</label>
+                                            <label>Street Name</label>
                                             <input type="text" value="{%if user.address.area is defined %}{{user.address.area}}{%endif%}" readonly="true"/>
                                     </div>
                             </div>
