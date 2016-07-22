@@ -20,7 +20,7 @@
         {% endif %}
         {% endif %}
         
-        {% set currUser = user_service.getCurrentUser.getId() %}      
+        {% set currUser = app.security.getToken().getUser().getId() %}      
         {% set toDoApplicantCount = user_service.getCheckTodoApplicant( currUser , list.id ) %} 
         {% set userId = list.user.id %}
         {% set id = list.id %}

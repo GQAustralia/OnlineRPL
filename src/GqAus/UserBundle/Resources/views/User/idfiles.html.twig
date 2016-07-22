@@ -39,23 +39,24 @@
             {% if userIdFiles is not null and userIdFiles is not empty %}
             {% for item in userIdFiles %}
             {% if item.type.id == 1 %}
-            {% set doc_type = 'insert_photo' %}
+            {% set doc_type = 'photo' %}
             {#{% elseif item.type.id == 2 %}
                 {% set doc_type = 'gq-id-files-content-pdf-icon' %}#}
             {% else %}
-                 {% set doc_type = 'sim_card_alert' %}
+                 {% set doc_type = 'photo' %}
             {% endif %}
+            {% set filesize = evidence_service.fileSize(item.size) %}
             <li>
                     <div class="title_bar clearfix">
                             <span class="content">{{ item.type.type }}</span>
                             <span class="number">{{ item.type.points }}</span>
                     </div>
                     <div class="file_info">
-                        <a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"> <span class="icon">
+                        <span class="icon"><a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"> 
                                  <i class="material-icons">{{doc_type}}</i>
-                         </span></a>
+                         </a></span>
                          <span class="file-discription">
-                                 {{item.name}} <br>10kb | Added {{item.created|date("d/m/Y") }}
+                                 {{item.name}} <br>{{filesize}} | ADDED {{item.created|date("d/m/y") }}
                          </span>
                          <a class="modalClass viewModalClass clear" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
                                  <i class="material-icons">clear</i><div class="gq-del-evidence"></div></a>

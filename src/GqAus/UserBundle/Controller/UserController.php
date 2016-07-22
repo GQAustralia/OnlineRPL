@@ -669,5 +669,80 @@ class UserController extends Controller
          $faq = $this->get('UserService')->getFaq();        
          return $this->render('GqAusUserBundle:Faq:faq.html.twig',array('faq' => $faq));
     }
+    /**
+     * Function to update the user profile from popup.
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    function updateprofileAjaxAction(Request $request){
+        
+        $firstName = $request->get('first_name');
+        $lastName = $request->get('last_name');
+        $phone = $request->get('phone');
+        
+        $street_name = $request->get('street_name');
+        $street_number = $request->get('street_number');
+        $postcode = $request->get('postcode');
+        $suburb = $request->get('suburb');
+        $city = $request->get('city');
+        $state = $request->get('state');
+        $country = $request->get('country');
+              
+        // User object
+        $userService = $this->get('UserService');
+        $user = $userService->getCurrentUser();
+        
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setPhone($phone);
+        $image = $user->getUserImage();
+        
+        // User Address object
+        $userAddress = $user->getAddress();
+        $userAddress->setPincode($postcode);
+        $userAddress->setCity($city);
+        $userAddress->setState($state);
+        $userAddress->setCountry($country);
+        $userAddress->setSuburb($suburb);
+        $userAddress->setAddress($street_name);
+        $userAddress->setArea($street_number);
+        $user->setAddress($userAddress);
+        
+        //Saving to profile
+        $success = $userService->savePersonalProfile($user, $image);
+        if(!$success)
+        {
+            $status = 'false';
+            $message = 'Error please try again';
+             
+        }
+        else
+        {
+            $status = 'true';
+            $message = 'Profile successfully updated';
+        }
+        echo json_encode(array('status'=>$status,'message'=>$message));
+        exit;
+    }
+    
+    
+    
+     function updatepasswordAjaxAction(Request $request){
+        
+        $newpassword = $request->get('password_newpassword');
+
+        // User object
+        $userService = $this->get('UserService');
+        $user = $userService->getCurrentUser();
+        $password = password_hash($newpassword, PASSWORD_BCRYPT);
+        $user->getFirstName();
+        $user->getLastName();
+        $user->getPhone();
+        $user->setPassword($password);
+        $image = $user->getUserImage();
+        
+        //Saving to profile
+        $userService->savePersonalProfile($user, $image);
+        exit;
+    }
 
 }

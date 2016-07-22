@@ -232,5 +232,10 @@ usersFromCourse:
 searchUsersListFrom:
     path:     /searchUsersListFrom
     defaults: { _controller: GqAusUserBundle:Message:searchUsersListFrom }
-
+updateprofileAjax:
+    path:     /updateprofileAjax
+    defaults: { _controller: GqAusUserBundle:User:updateprofileAjax }
+updatepasswordAjax:
+    path:     /updatepasswordAjax
+    defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax } 
 

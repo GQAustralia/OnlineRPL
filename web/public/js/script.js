@@ -35,9 +35,17 @@ $(document).ready(function(){
 		}).on('hidden.bs.collapse', function(){
 		$(this).parent().find(".keyboard_arrow_right").removeClass("keyboard_arrow_right").addClass("keyboard_arrow_down");
 	});
+        
+            $(".uploadTrigger").click(function(){
+       $(".uploadFile").click();
+            });
 	
-	$(".uploadTrigger").click(function(){
-	   $(".uploadFile").click();
+	$("#add_file").click(function(){
+	   $("#fileBtn").click();
+	});
+	
+	$(".profile_image").click(function(){
+		$(".browse_btn").click();
 	});
 	
 	var textarea_ht = window_Ht - 135;
@@ -69,12 +77,17 @@ $(document).ready(function(){
 			controlType: 'select',
 			oneLine: true,
 			timeFormat: 'hh:mm tt',
-			dateFormat: 'dd/mm/yy'
+			dateFormat: 'dd/mm/yy',
+                        minDate: 'today'
 		});
 	});
+        
 	
 	$("#ui-datepicker-div").click(function (event) {
 		event.stopPropagation();
+	});
+        $(".profile_popup .form-group span").click(function(){
+		$(this).prev().removeAttr('readonly').focus();
 	});
 });
 $(window).resize(function(){

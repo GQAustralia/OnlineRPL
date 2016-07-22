@@ -73,7 +73,7 @@ class FileUploader
             $adapter = $this->filesystem->getAdapter();
             $adapter->setMetadata($filename, array('contentType' => $file->getClientMimeType()));
             $adapter->write($filename, file_get_contents($file->getPathname()));
-            return array('aws_file_name' => $filename, 'orginal_name' => $file->getClientOriginalName());
+            return array('aws_file_name' => $filename, 'orginal_name' => $file->getClientOriginalName(),'file_size' =>$file->getClientSize());
         }
     }
 
@@ -84,7 +84,7 @@ class FileUploader
      */
     public function uploadIdFiles($data)
     {
-        $fileNames = $this->uploadToAWS($data['browse']);
+        $fileNames = $this->uploadToAWS($data['browse']);        
         if ($fileNames) {
             $userIdFiles = new UserIds();
             $userIdFiles->setUser($this->currentUser);
@@ -93,6 +93,7 @@ class FileUploader
             $userIdFiles->setType($documentID);
             $userIdFiles->setName($fileNames['orginal_name']);
             $userIdFiles->setPath($fileNames['aws_file_name']);
+            $userIdFiles->setSize($fileNames['file_size']);            
             $this->em->persist($userIdFiles);
             $this->em->flush();
             $now = new DateTime('now');
@@ -101,7 +102,8 @@ class FileUploader
                 'name' => $fileNames['orginal_name'],
                 'path' => $fileNames['aws_file_name'],
                 'type' => $userIdFiles->getType()->getType(),
-                'date' => $now->format('d/m/Y')
+                'date' => $now->format('d/m/Y'),
+                'size' => $fileNames['file_size']
             );
             return json_encode($result);
         }
