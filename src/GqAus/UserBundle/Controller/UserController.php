@@ -675,8 +675,10 @@ class UserController extends Controller
      * Function to get the Candidate Profile For Facilitator & Assessor & Rto
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
-    public function candidateProfileAction($userId, Request $request)
+    public function candidateProfileAction(Request $request)
     {
+        $userId =  $request->get('userId');
+        $courseCode = $request->get('courseCode');
         $userService = $this->get('UserService');
         $user = $userService->getUserInfo($userId);
         $currentIdPoints = $userService->getIdPoints($user);
@@ -685,12 +687,15 @@ class UserController extends Controller
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
         $userIdFiles = $user->getIdfiles();
         
+        
         return $this->render('GqAusUserBundle:User:candidateProfile.html.twig', array(
                 'user' => $user,
                 'userProfilePercentage' => $userProfilePercentage,
                 'currentIdPoints' => $currentIdPoints,
                 'documentTypes' => $documentTypes,
-                'userIdFiles' => $userIdFiles
+                'userIdFiles' => $userIdFiles,
+                'courseCode' => $courseCode,
+                'userId' => $userId
         ));
     }
      /* Function to update the user profile from popup.

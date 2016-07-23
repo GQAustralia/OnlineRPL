@@ -233,8 +233,8 @@ searchUsersListFrom:
     path:     /searchUsersListFrom
     defaults: { _controller: GqAusUserBundle:Message:searchUsersListFrom }
 candidateProfile:
-    path:     /candidateProfile/{userId}
-    defaults: { _controller: GqAusUserBundle:User:candidateProfile }
+    path:     /candidateProfile/{courseCode}/{userId}
+    defaults: { _controller: GqAusUserBundle:User:candidateProfile, courseCode: null }
 updateprofileAjax:
     path:     /updateprofileAjax
     defaults: { _controller: GqAusUserBundle:User:updateprofileAjax }

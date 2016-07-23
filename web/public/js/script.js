@@ -9,7 +9,7 @@ $(document).ready(function(){
         
     /* Candidate Details */
 	 
-    $('.candidate-details').hide();
+    /*$('.candidate-details').hide();
     $('.info-header').hide();
 
     function showHideUserProfile(reqValue){
@@ -30,7 +30,7 @@ $(document).ready(function(){
              $('.portfolio-container').show();
              showHideUserProfile(false);
      });
-        
+      */  
 	
     $('a[data-collapse="child"]').on('click', function(){
         var nestedCollapse;

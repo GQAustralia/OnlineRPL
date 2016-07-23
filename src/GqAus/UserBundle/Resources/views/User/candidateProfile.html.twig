@@ -4,35 +4,7 @@
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate_profile.css') }}">
 {% endblock %}
 {% block navmenu %}
-    <header>
-        <section class="container">
-            <div class="info-header">
-                <div class="portfolio">
-                    <strong class="title">{{user.firstName~' '~user.lastName}}</strong>
-                    <a href="#"><i class="material-icons clear">clear</i></a>
-                </div>
-                <div class="unit-info hide">
-                    <a href="#"><i class="material-icons btn-back">arrow_back</i></a>
-                    <strong class="title">Unit info</strong>
-                </div>            
-            </div>
-            <nav>
-                <ul class="nav">
-                    <li><a {% if app.request.attributes.get('_route') == 'applicantDetails'%} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicantDetails/"><i class="material-icons">school</i><span>Qualification</span></a></li>
-                    <li><a href="#"><i class="material-icons">cloud_upload</i><span>Files</span></a></li>
-                    <li><a {% if app.request.attributes.get('_route') == 'candidateProfile'%} class="active" {% endif %}><i class="material-icons">account_circle</i><span>Profile</span></a>
-                </li>
-                <li class="profile">
-                    <a href="#"><img class="profile-img" src="{{ asset('public/images/PROFILE.png')}}" alt="profile" /><i class="material-icons">expand_more</i></a>
-                    <ul class="hide">
-                        <li><a href="#" data-toggle="modal" data-target="#currProfile">Profile</a></li>
-                        <li><a href="/logout">Log out</a></li>
-                    </ul>
-                </li>
-            </ul>          
-            </nav>
-        </section>
-    </header>
+    {% include 'GqAusUserBundle:Applicant/includes:navmenu.html.twig' %}
 {% endblock %}    
 {% block body %}
     <div class="body_section">
