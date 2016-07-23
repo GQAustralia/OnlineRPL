@@ -90,16 +90,21 @@ $(document).ready(function(){
             $('#onboard1').hide();
     });
     $('.date_field').each(function(){
-            $(this).datetimepicker({
-                    controlType: 'select',
-                    oneLine: true,
-                    timeFormat: 'hh:mm tt',
-                    dateFormat: 'dd/mm/yy'
-            });
+		$(this).datetimepicker({
+			controlType: 'select',
+			oneLine: true,
+			timeFormat: 'hh:mm tt',
+			dateFormat: 'dd/mm/yy',
+                        minDate: 'today'
+		});
     });
+
 
     $("#ui-datepicker-div").click(function (event) {
             event.stopPropagation();
+    });
+    $(".profile_popup .form-group span").click(function(){
+            $(this).prev().removeAttr('readonly').focus();
     });
 });
 $(window).resize(function(){
