@@ -145,9 +145,9 @@
                 </div>
                 <div class="portfolio-data-table mobile-portfolio-data-table tab-pane active" role="tabpanel" id="current">
                     <table class="table">
-                       {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                       {% include 'GqAusUserBundle:Applicant:mobile-apllicantsFilters.html.twig' %}
                         <tbody id="currentList">
-                             {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                             {% include 'GqAusUserBundle:Applicant:mobile-applicants.html.twig' %}
                         </tbody>
                     </table>
                 </div>
@@ -160,7 +160,7 @@
                         </tr>
                     </thead>
                     <tbody id="completedList">
-                        {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                        {% include 'GqAusUserBundle:Applicant:mobile-applicants.html.twig' %}
                     </tbody>
                 </table>                   
             </div>
@@ -176,8 +176,7 @@
 
 {% block javascripts %}  
     <script type="text/javascript" src="{{ asset('public/js/jquery-1.12.3.js') }}"></script>   
-    <script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}></script>
-    <script src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>  
      <script src="{{ asset('public/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js') }}"></script>      
     <script type="text/javascript">
