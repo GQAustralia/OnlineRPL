@@ -39,7 +39,7 @@
                             <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="">QUALIFICATION</a></li> 
                          {% endif %}
                        `{% if ('ROLE_APPLICANT' not in roles)  %}
-                        <li class="portfolio"><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span class="portfolio-current"></span></a></li>
+                        <li class="portfolio" {% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span class="portfolio-current"></span></a></li>
                         {% endif %} 
                         {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}                            
                             <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES<span id="unread-count"></span></a></li>
@@ -48,7 +48,7 @@
                         {% if ('ROLE_APPLICANT' not in roles)  %}
                             <li class="profile"><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">PROFILE</a></li>
                         {% else %}
-                            <li class="profile"><a href="{{ app.request.baseUrl }}/userprofile">PROFILE</a></li>
+                            <li class="profile" {% if app.request.attributes.get('_route') == 'user_homepage' %} active {% endif %}><a href="{{ app.request.baseUrl }}/userprofile">PROFILE</a></li>
                        {% endif %} 
                     </ul>
                 <nav>
@@ -60,7 +60,7 @@
         <!-- Dashboard page ends here -->
     </main>
         <!-- Profile Modal Starts -->
-        {% include 'profile_popup.html.twig' %}
+          {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
         <!-- Profile Modal Ends -->
 	    <!-- jQuery first, then Bootstrap JS. -->          
         <script src="{{ asset('public/js/jquery.min.js') }}"></script>
