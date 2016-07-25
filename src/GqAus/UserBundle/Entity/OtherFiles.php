@@ -39,7 +39,10 @@ class OtherFiles
      * @var \GqAus\UserBundle\Entity\User
      */
     private $assessor;
-
+     /**
+     * @var size
+     */
+    private $size;
     /**
      * Set name
      *
@@ -163,6 +166,28 @@ class OtherFiles
     public function getAssessor()
     {
         return $this->assessor;
+    }
+    /**
+     * Set size
+     *
+     * @param string $path
+     * @return UserIds
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getSize()
+    {
+        return $this->size;
     }
 
 }
