@@ -221,7 +221,7 @@ $(".deleteEvidence").click(function() {
 $(".deleteIdFiles").click(function() {
     var fid = fileid;
     var ftype = filetype;
-    var url = (otherfiles) ? "deleteOtherFiles" : "deleteIdFiles";
+    var url = (otherfiles) ? "deleteOtherFiles" : "deleteIdFiles";alert(url);
     $("#ajax-loading-delete-assessor-file").show();
     $.ajax({
         type: "POST",
@@ -233,8 +233,14 @@ $(".deleteIdFiles").click(function() {
             $('#idfiles_' + fid).hide();
             $("#fclose").trigger("click");
             $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File deleted successfully!</h2></div>').delay(5000).fadeOut(100);
-             window.location.href = base_url+'userprofile';
-        }
+            if(url == 'deleteIdFiles')
+                    window.location.href = base_url+'userprofile';
+             else 
+                    {
+                        window.location.reload(false);
+                        $("#profile2").load(location.href + " #profile2>*", "");
+                }
+       } 
     });
 });
 
@@ -1783,7 +1789,7 @@ $( '#reference_save' ).click( function( e ) {
 });
 
 // for validating the upload matrix file
-$( '#matrix_save' ).click( function( e ) {
+$( '#matrix_browse' ).change( function( e ) {
     validateFileUpload($("#matrix_browse").val(), 'matrixUpload');
     e.preventDefault();
     return false;

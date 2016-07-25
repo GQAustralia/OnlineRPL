@@ -74,19 +74,19 @@
 {% endif %}
 
 <div class="modal fade confirm_popup" id="myModal" role="dialog">
-    <div class="vertical-alignment-helper">
-        <div class="modal-dialog vertical-align-center">
+   
+        <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="modal-title" id="myModalLabel">Do you want to delete selected file?<span class="close"><i class="material-icons" id="fclose"  data-dismiss="modal" aria-label="Close">clear</i></span></div>
                     <div class="btn_section">
                         <button class="btn btn_red deleteIdFiles">OK</button>
-                        <button class="btn" id="fclose-cancel" onclick="window.location='/userprofile';return false;">CANCEL</button>
+                        <button class="btn" id="fclose-cancel" data-dismiss="modal">CANCEL</button>
                          <span class="loading-icon" id="ajax-loading-delete-assessor-file" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+  
 </div>

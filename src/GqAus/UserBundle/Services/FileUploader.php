@@ -134,6 +134,7 @@ class FileUploader
             $otherFiles->setType($data['type']);
             $otherFiles->setName($fileNames['orginal_name']);
             $otherFiles->setPath($fileNames['aws_file_name']);
+            $otherFiles->setSize($fileNames['file_size']);
             $this->em->persist($otherFiles);
             $this->em->flush();
             $now = new DateTime('now');
@@ -142,12 +143,14 @@ class FileUploader
                 'name' => $fileNames['orginal_name'],
                 'path' => $fileNames['aws_file_name'],
                 'type' => $otherFiles->getType(),
-                'date' => $now->format('d/m/Y')
+                'date' => $now->format('d/m/Y'),
+                'size' => $fileNames['file_size']
             );
             return json_encode($result);
         } catch (Exception $e) {
             return null;
         }
+       
     }
 
     /**

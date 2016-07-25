@@ -58,13 +58,16 @@ $(document).ready(function(){
     $(".uploadTrigger").click(function(){
        $(".uploadFile").click();
     });
-	$("#add_file").click(function(){
-	   $("#fileBtn").click();
+    $("#uploadTrigger").click(function(){
+	   $("#matrix_browse").click();
 	});
-	
-	$(".profile_image").click(function(){
-		$(".browse_btn").click();
-	});
+    $("#add_file").click(function(){
+       $("#fileBtn").click();
+    });
+
+    $(".profile_image").click(function(){
+            $(".browse_btn").click();
+    });
     var textarea_ht = window_Ht - 135;
     $(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
 
