@@ -19,34 +19,21 @@ class TokboxController extends Controller
      */
     public function indexAction(Request $request)
     {
-        if ($this->getRequest()->get('unitCode')) {
-            $openTok = new OpenTok($this->container->getParameter('tokbox_key'), 
-                $this->container->getParameter('tokbox_secret_key'));
-            $session = $openTok->createSession(array('mediaMode' => MediaMode::ROUTED));
-            $sessionId = $session->getSessionId();
-            $token = $openTok->generateToken($sessionId, array(
-                'role' => Role::MODERATOR
-            ));
-            $userId = $request->getSession()->get('user_id');
-            $applicantId = $this->getRequest()->get('applicantId');
-            $room = $this->get('TokBox')->isRoomExists($userId, $applicantId);
-            $roomId = $this->get('TokBox')->createRoom($sessionId, $userId, $applicantId);
-            $encodedRoomId = base64_encode(base64_encode(base64_encode($roomId)));
-            $this->get('UserService')->sendConversationMessage($this->getRequest()->get('courseCode'), 
-                $applicantId, $userId, $encodedRoomId);
-            return $this->render('GqAusUserBundle:Tokbox:index.html.twig', array(
-                    'apiKey' => $this->container->getParameter('tokbox_key'),
-                    'sessionId' => $sessionId,
-                    'token' => $token,
-                    'roomId' => $encodedRoomId,
-                    'unitCode' => $this->getRequest()->get('unitCode'),
-                    'courseCode' => $this->getRequest()->get('courseCode'),
-                    'applicantId' => $applicantId,
-                    'userId' => $userId
-            ));
-        } else {
-            return $this->redirect('dashboard');
-        }
+        $openTok = new OpenTok($this->container->getParameter('tokbox_key'), $this->container->getParameter('tokbox_secret_key'));
+        $session = $openTok->createSession(array('mediaMode' => MediaMode::ROUTED));
+        $sessionId = $session->getSessionId();
+        $token = $openTok->generateToken($sessionId, array('role' => Role::MODERATOR));
+        $courseCode = $this->getRequest()->get('courseCode');
+        $applicantId = $this->getRequest()->get('applicantId');;
+        $userId = $request->getSession()->get('user_id');
+        $room = $this->get('TokBox')->isRoomExists($userId, $applicantId);
+        $roomId = $this->get('TokBox')->createRoom($sessionId, $userId, $applicantId);
+        $encodedRoomId = base64_encode(base64_encode(base64_encode($roomId)));
+        $this->get('UserService')->sendConversationMessage($courseCode, $applicantId, $userId, $encodedRoomId);
+        return $this->render('GqAusUserBundle:Tokbox:index.html.twig', array(
+                'apiKey' => $this->container->getParameter('tokbox_key'), 'sessionId' => $sessionId, 'token' => $token, 'roomId' => $encodedRoomId, 'courseCode' => $courseCode, 'applicantId' => $applicantId, 'userId' => $userId
+        ));
+       
     }
 
     /**
@@ -83,8 +70,7 @@ class TokboxController extends Controller
      */
     public function startAction($roomId)
     {
-        $openTok = new OpenTok($this->container->getParameter('tokbox_key'), 
-            $this->container->getParameter('tokbox_secret_key'));
+        $openTok = new OpenTok($this->container->getParameter('tokbox_key'), $this->container->getParameter('tokbox_secret_key'));
         $roomId = base64_decode(base64_decode(base64_decode($roomId)));
         $sessionId = $this->get('TokBox')->updateRoom($roomId, 1);
         $archive = $openTok->startArchive($sessionId, 'PHP Archiving Sample App');
@@ -104,8 +90,7 @@ class TokboxController extends Controller
      */
     public function stopAction($archiveId, $applicantId, $unitCode, $courseCode)
     {
-        $openTok = new OpenTok($this->container->getParameter('tokbox_key'), 
-            $this->container->getParameter('tokbox_secret_key'));
+        $openTok = new OpenTok($this->container->getParameter('tokbox_key'), $this->container->getParameter('tokbox_secret_key'));
         $archive = $openTok->stopArchive($archiveId);
         $result = $this->get('EvidenceService')->saveRecord($archiveId, $applicantId, $unitCode, $courseCode);
         $response = new Response( );

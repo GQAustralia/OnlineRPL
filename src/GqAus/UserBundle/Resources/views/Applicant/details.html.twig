@@ -363,9 +363,14 @@
                                 </div>
                     {% endif %}
                     {% if ('ROLE_ASSESSOR' in userRole) %}
-                        <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
-                            <div class="btn"><i class="material-icons">call</i><a href="#">Request CC</a></div>
-                        </div>
+                            <form name="startConversation" method="post" action="{{ base_url }}startConversation">    
+                                <input type="hidden" value="{% if courseInfo.id %}{{courseInfo.id}}{% endif %}" name="courseCode">
+                                <input type="hidden" value="{% if userId is defined %}{{userId}}{% endif %}" name="applicantId">
+                                <input type="hidden" value="CHCCS400C" name="unitCode">
+                                 <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
+                                    <div class="btn"><i class="material-icons">call</i><a href="javascript:document.startConversation.submit()">Request CC</a></div>
+                                </div>
+                            </form>
                     {% endif %}
                         </div>
                     </div>

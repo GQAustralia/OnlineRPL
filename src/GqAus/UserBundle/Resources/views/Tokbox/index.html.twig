@@ -1,26 +1,45 @@
 {% extends 'base.html.twig' %}
-{% block title %}GQ - RPL Assessor conversation{% endblock %}
+{% block title %}{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/competency-call.css')}}">
+    {% endblock %}
+{% block navmenu %}{% endblock %}    
 {% block body %}
-<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+<div class="container-fluid">
     <div class="row">
-        <div class="gq-video-section-wrap">
-            <div class="gq-video-others" id="subscriberContainer"></div>
-            <div class="gq-video-ours" id="publisherContainer"></div>
-            <div class="gq-video-controls">
-                <div class="gq-video-copy-url">{{ base_url }}applicant/{{ roomId}}</div>
-                <div class="gq-video-start-recording start">Start Competency Conversation <span class="gq-video-recording-icon"></span></div>
-                <div class="gq-video-stop-recording stop">Stop Conversation <span class="gq-video-recording-icon"></span></div>
-                <div class="gq-video-back-btn"><a href="javascript:void(0)" class="btn btn-red" id="close_btn_uni">close</a></div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="competency-call-container">
+                <div class="dialer-pad">
+                    <p class="call-status">Calling...</p>
+                    <p class="call-to"><strong>Sandeep Patel</strong></p>
+                    <div class="profile-img"><img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" /></div>
+                    <div class="ctrl-section">
+                        <button type="button" class="btn player-btn icon icon-play" id="btn-play"><i class="material-icons">pause</i><label>Pause</label></button>
+                        <button type="button" class="btn player-btn icon icon-record" id="btn-record"><i class="material-icons">fiber_manual_record</i><label>Record</label></button>
+                        <button type="button" class="btn player-btn icon icon-stop" id="btn-stop"><i class="material-icons">stop</i><label>Stop</label></button>
+                    </div>
+                </div>
+                <footer>
+                    <div class="dialer-pad">
+                        <div class="ctrl-section">
+                            <button type="button" class="btn player-btn icon icon-speaker" id="btn-speaker"><i class="material-icons">volume_up</i><label>Speaker</label></button>
+                            <button type="button" class="btn player-btn icon icon-mute" id="btn-mute"><i class="material-icons">mic_off</i><label>Mute</label></button>
+                            <button type="button" class="btn player-btn icon icon-endcall" id="btn-endcall"><i class="material-icons">call_end</i><label>End Call</label></button>
+                            <button type="button" class="btn player-btn icon icon-addcaller" id="btn-addcaller"><i class="material-icons">add_circle</i><label>Add Caller</label></button>
+                            <button type="button" class="btn player-btn icon icon-video" id="btn-video"><i class="material-icons">videocam</i><label>Video</label></button>
+                        </div>
+                    </div>                            
+                </footer>
             </div>
-        </div>
+        </div>                    
     </div>
 </div>
-<script src="http://static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
-<script type="text/javascript">
+<script src="https://static.opentok.com/v2/js/opentok.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
     var apiKey = '{{ apiKey }}';
     var sessionId = '{{ sessionId }}';
     var token = '{{ token }}';
-    var session = OT.initSession(sessionId),
+    var session = OT.initSession(apiKey, sessionId),
     property = {width: "100%", height: "100%", insertMode: "append"},
     publisher = OT.initPublisher("publisherContainer", property),
     archiveID = null;
@@ -43,8 +62,8 @@
             return "Are you Sure do you want to leave? Recording is in progress"; 
         });
         //window.onbeforeunload = closeIt;
-        $(".start").hide();
-        $(".stop").show();
+        $(".icon-record").hide();
+        $(".icon-stop").show();
     });
 
     session.on('archiveStopped', function(event) {
@@ -52,19 +71,18 @@
         console.log("ARCHIVE STOPPED");
         //window.onbeforeunload = null;
         $(window).unbind('beforeunload');
-        $(".start").show();
-        $(".stop").hide();
+        $(".icon-record").show();
+        $(".icon-stop").hide();
     });
     
     $(document).ready(function() {
-        var rid = "{{ roomId}}";
-        var aid = "{{ applicantId}}";
-        var uid = "{{ unitCode}}";
-        var cid = "{{ courseCode}}";
-        $(".start").click(function(event) {
+        var rid = "{{roomId}}";
+        var aid = "{{applicantId}}";
+        var cid = "{{courseCode}}";
+        $(".icon-record").click(function(event) {
             $.get("startArchive/" + rid);
         }).show();
-        $(".stop").click(function(event) {
+        $(".icon-stop").click(function(event) {
             $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);
         }).hide();
         
