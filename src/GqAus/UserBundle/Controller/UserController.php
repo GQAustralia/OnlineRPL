@@ -227,10 +227,12 @@ class UserController extends Controller
             $mypassword = $request->get("mypassword");
             $user = $this->get('UserService')->getCurrentUser();
             $curDbPassword = $user->getPassword();
-            if (password_verify($mypassword, $curDbPassword)) {
-                echo 'success';
+             if (password_verify($mypassword, $curDbPassword)) {
+                $status = 'success';
+                echo json_encode(array('status'=>$status));
             } else {
-                echo 'fail';
+                $status = 'fail';
+                echo json_encode(array('status'=>$status));
             }
         }
         exit;
@@ -300,11 +302,10 @@ class UserController extends Controller
      */
     public function matrixAction(Request $request)
     {
-        $form = $this->createForm(new MatrixForm(), array());
-        if ($request->isMethod('POST')) {
-            $form->bind($request);
-            $data = $form->getData();
-            $result = $this->get('gq_aus_user.file_uploader')->resume($data);
+        $proImg = $request->files->get('matrix');
+        $data = array('browse' => $proImg['browse'],'type' => 'matrix');
+        if ($request->isMethod('POST')) {    
+            $result = $this->get('gq_aus_user.file_uploader')->resume($data);            
             if ($result) {
                 echo $result;
             }
@@ -714,6 +715,8 @@ class UserController extends Controller
         $city = $request->get('city');
         $state = $request->get('state');
         $country = $request->get('country');
+        $contactname = $request->get('contactname');
+        $contactphone = $request->get('contactphone');
               
         // User object
         $userService = $this->get('UserService');
@@ -722,6 +725,8 @@ class UserController extends Controller
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
         $user->setPhone($phone);
+        $user->setContactName($contactname);
+        $user->setContactPhone($contactphone);
         $image = $user->getUserImage();
         
         // User Address object
