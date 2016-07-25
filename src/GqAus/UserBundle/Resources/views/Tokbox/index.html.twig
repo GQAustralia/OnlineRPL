@@ -34,6 +34,8 @@
         </div>                    
     </div>
 </div>
+{% endblock %}
+{% block javascripts %}
 <script src="https://static.opentok.com/v2/js/opentok.js" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
     var apiKey = '{{ apiKey }}';
@@ -95,9 +97,7 @@
             }
         })
     });
-
-
 </script>
-{% endblock %}
+{%endblock%}
 
 
