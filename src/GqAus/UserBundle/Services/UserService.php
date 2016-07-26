@@ -15,6 +15,7 @@ use GqAus\UserBundle\Entity\Superadmin;
 use GqAus\UserBundle\Entity\Reminder;
 use GqAus\UserBundle\Entity\Message;
 use GqAus\UserBundle\Entity\Evidence\Text;
+use GqAus\UserBundle\Entity\Faq;
 
 class UserService
 {
@@ -76,6 +77,11 @@ class UserService
     {
         return $this->repository->findOneById($this->userId);
     }
+	
+    public function getRequestUser($userId)
+    {
+        return $this->repository->findOneById($userId);
+    }	
 
     /**
      * function to save current user profile
@@ -329,12 +335,12 @@ class UserService
             if (!empty($usi)) {
                 $profileCompleteness += 10;
             }
-            if (!empty($dob)) {
-                $profileCompleteness += 10;
-            }
+            //if (!empty($dob)) {
+            //    $profileCompleteness += 10;
+            //}
 
-            if (!empty($address) && $address != '0') {
-                $profileCompleteness += 30;
+            if (!empty($address) && $address != '0' && $address->getAddress()!="") {
+                $profileCompleteness += 40;
             }
         }
         $percentage = ($profileCompleteness * $maximumPoints) / 100;
@@ -361,6 +367,8 @@ class UserService
             $assessor = $this->getUserInfo($otheruser->getAssessor());
             $results['assessorName'] = !empty($assessor) ? $assessor->getUsername() : '';
             $rto = $this->getUserInfo($otheruser->getRto());
+			$results['assessorImage'] = !empty($assessor) ? $this->userImage($assessor->getUserImage()) : '';
+			
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
             $results['rtoCeoName'] = !empty($rto) ? $rto->getCeoname() : '';
             $results['rtoCeoEmail'] = !empty($rto) ? $rto->getCeoemail() : '';
@@ -368,7 +376,7 @@ class UserService
 
             $facilitator = $this->getUserInfo($otheruser->getFacilitator());
             $results['facilitatorName'] = !empty($facilitator) ? $facilitator->getUsername() : '';
-
+			$results['facilitatorImage'] = !empty($facilitator) ? $this->userImage($facilitator->getUserImage()) : '';
             $results['facilitatorId'] = !empty($facilitator) ? $facilitator->getId() : '';
             $results['assessorId'] = !empty($assessor) ? $assessor->getId() : '';
             $results['rtoId'] = !empty($rto) ? $rto->getId() : '';
@@ -445,15 +453,15 @@ class UserService
                 $asrMailBody = str_replace($msgSearch, $msgReplace,
                     $this->container->getParameter('mail_disappove_evdience_asr_con'));
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-                $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $asrMailSubject, $asrMailBody,
-                    $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
+               /* $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $asrMailSubject, $asrMailBody,
+                    $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername()); */
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
                 $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'],
                     $asrMessageSubject, $asrMessageBody, $courseUnitObj->getId());
             }
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-            $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody,
-                $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
+            /* $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody,
+                $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); */
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(),
                 $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
@@ -575,7 +583,7 @@ class UserService
         /* Pagination */
         $applicantList = $res->getQuery()->getResult();
 
-        return array('applicantList' => $applicantList, 'dateApplicantList' => '', 'paginator' => $paginator, 'page' => $page);
+        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
     }
     
     /**
@@ -906,7 +914,7 @@ class UserService
      */
     public function getPendingApplicants($userId, $userRole, $applicantStatus)
     {
-        
+        $getCourseStatus = array();
         if (in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_RTO', $userRole)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
                 $userType = 'assessor';
@@ -928,6 +936,15 @@ class UserService
         }
         return $getCourseStatus;
     }
+	
+	public function getCheckTodoApplicant($userId, $courseId)
+    {          
+        $qb = $this->em->getRepository('GqAusUserBundle:reminder')->createQueryBuilder('r');
+        $qb->where(sprintf('r.%s = :%s', 'course', 'course'))->setParameter('course', $courseId);
+        $qb->andWhere(sprintf('r.%s = :%s','user', 'user'))->setParameter('user', $userId);        
+        $getTodoApplicantCount = $qb->getQuery()->getResult();         
+        return count($getTodoApplicantCount);
+    }	
 
      /**
      * Function to get applicants ready for rto approval
@@ -1090,14 +1107,22 @@ class UserService
      */
     public function getPendingApplicantEvidences($pendingApplicants)
     {
+	$evidences = array();
+        
+//        $userId = 6;
+//        $connection = $this->em->getConnection();
+//        $statement = $connection->prepare('SELECT evd.* FROM user_courses uc join evidence evd on evd.user_id = uc.user_id WHERE uc.user_id = evd.user_id and evd.course_code=uc.course_code  and uc.facilitator = :facId');
+//        $statement->bindValue('facId', $userId);
+//        $statement->execute();
+//        $evidences = $statement->fetchAll();
+//        dump($evidences); exit
+        
         if(is_array($pendingApplicants)){
             foreach($pendingApplicants as $key => $user){
                   $evidences = $this->getUserInfo($user->getUser()->getId())->getEvidences();
                   if(!empty($evidence))
                     $evidences[] = $evidence;
-            }      
-        } else {
-            $evidences = '';
+            }
         }
         return $evidences;
     }
@@ -1278,11 +1303,12 @@ class UserService
                 ->select('DATE_DIFF(c.targetDate, c.createdOn) as diff')
                 ->where(sprintf('c.%s = :%s', 'id', 'id'))->setParameter('id', $id);
         $applicantList = $res->getQuery()->getResult();
-        $diff = (($applicantList[0]['diff']) / 7);
+        /* $diff = (($applicantList[0]['diff']) / 7);
         if (is_float($diff)) {
             $diff = $diff + 1;
         }
-        return floor($diff) . ' week(s)';
+        return floor($diff) . ' week(s)'; */
+		return $applicantList[0]['diff'];
     }
 
     /**
@@ -1335,20 +1361,27 @@ class UserService
     * @param int $page
     * return array
     */
-    public function getMyInboxMessages($userId, $page)
+   public function getMyInboxMessages($userId, $page)    
     {
         if ($page <= 0) {
             $page = 1;
-        }
+        }        
         $query = $this->em->getRepository('GqAusUserBundle:Message')
             ->createQueryBuilder('m')
             ->select('m')
             ->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $userId)
+            ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0')            
+            ->orWhere(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId)
+            ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0')
             ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0')
             ->addOrderBy('m.created', 'DESC');
+        $getMessages = $query->getQuery()->getResult();        
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
-        return array('messages' => $pagination, 'paginator' => $paginator);
+        return array('messages' => $pagination, 'paginator' => $paginator,'sentuserid' => $userId);
+        
+       // return array('messages' => $getMessages,'sentuserid' => $userId);
+        
     }
 
     /**
@@ -1369,6 +1402,7 @@ class UserService
         $msgObj->setToStatus(0);
         $msgObj->setReply(0);
         $msgObj->setunitID($msgdata['unitId']);
+		$msgObj->setreplymid($msgdata['replymid']);
         $this->em->persist($msgObj);
         $this->em->flush();
     }
@@ -1488,6 +1522,90 @@ class UserService
     {
         return $this->em->getRepository('GqAusUserBundle:Message')->find($mid);
     }
+	
+    /**
+     * Function to get messages to view
+     * @param int $mid
+     * return array
+     */
+    public function getReplyMessages($mid)
+    {
+        $msgobj = $this->em->getRepository('GqAusUserBundle:Message')->find($mid); 
+        $replymid = $msgobj->getreplymid();   
+        if($replymid > 0) {
+            $query = $this->em->getRepository('GqAusUserBundle:Message')
+                ->createQueryBuilder('m')
+                ->select('m')
+                ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $replymid)
+                ->orWhere(sprintf('m.%s = :%s', 'replymid', 'replymid'))->setParameter('replymid', $replymid);
+        } else {
+            $query = $this->em->getRepository('GqAusUserBundle:Message')
+                ->createQueryBuilder('m')
+                ->select('m')
+                ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $mid);
+        }        
+        $getMessages = $query->getQuery()->getResult(); 
+        return $getMessages; 
+    }
+        /**
+     * Function to get inbox messages
+     * @param int $userId
+     * @param int $page
+     * return array
+     */
+    public function getMyReplyMessages($replymid)
+    {
+    $getReplyId = $this->em->getRepository('GqAusUserBundle:Message')->findOneBy(array('id' => $replymid));
+    $replymid = $getReplyId->getreplymid(); 
+    $repMsgs = array();
+    if($replymid != 0) {
+        $repMsgs = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('replymid' => $replymid));
+            return $repMsgs;
+    }
+    }
+    /**
+     * Check Messages Role wise Authentication
+     * @param: $touserInfo and $fromuserInfo
+     */
+    public function checkMessage($touser){ 
+        $response = 1;
+        $fromuserInfo = $this->getCurrentUser();
+        $touserInfo = $this->getRequestUser($touser);       
+        $fromuserRole = $fromuserInfo->getRole(); 
+        $touserRole = $touserInfo->getRole(); 
+        if(($fromuserRole == 1 || $fromuserRole == 3 || $fromuserRole == 4) && $touserRole!='2')
+        {
+            $response = 0;
+        }       
+        return $response;
+    }
+     /* Display usernames in New message Role wise Authentication
+     * @param: $userRole
+     */
+        public function getUsernamesbyRoles($options = array(),$userRole) {        
+        $query = $this->em->getRepository('GqAusUserBundle:User')
+            ->createQueryBuilder('u')
+            ->select( "CONCAT( CONCAT(u.firstName, ' '), u.lastName)" );
+        $nameCondition = "";
+        if ($userRole == 'ROLE_APPLICANT' || $userRole == 'ROLE_ASSESSOR' ||$userRole == 'ROLE_RTO' ) {            
+            $query->where('(u instance of GqAusUserBundle:Facilitator)');
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";
+            $query->andWhere($nameCondition);       
+        }
+        else if ($userRole == 'ROLE_FACILITATOR') {
+            $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";
+            $query->andWhere($nameCondition);            
+        }
+            $getMessages = $query->getQuery()->getResult(); 
+            $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getMessages)));
+            sort($getMessages);
+            //echo "<pre>"; dump($getMessages); 
+            return $getMessages;
+        }	
 
     /**
      * Function to set the read messages status
@@ -1509,11 +1627,11 @@ class UserService
      * @param string $message
      * @param string $unitId
      */
-    public function sendMessagesInbox($toUserId, $fromUserId, $subject, $message, $unitId)
+    public function sendMessagesInbox($toUserId, $fromUserId, $subject, $message, $unitId = '')
     {
         $inbox = $this->getUserInfo($toUserId);
         $sent = $this->getUserInfo($fromUserId);
-        $msgInfo = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId);
+        $msgInfo = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId, 'replymid' => '');
         $this->saveMessageData($inbox, $sent, $msgInfo);
     }
 
@@ -2790,8 +2908,8 @@ class UserService
         if ($toEmail != '' && $toId != '' && $roleMessageBody != '' && $roleMailBody != '') {
             // send the external mail and internal message to facilitator
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-            $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(),
-                $courseObj->getFacilitator()->getUsername());
+            /* $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(),
+                $courseObj->getFacilitator()->getUsername()); */
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->sendMessagesInbox($toId, $courseObj->getFacilitator()->getId(), $messageSubject, $roleMessageBody, '');
         }
@@ -2799,8 +2917,8 @@ class UserService
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-        $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody,
-            $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
+        /* $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody,
+            $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); */
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
         $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(),
             $messageSubject, $aplMessageBody, '');
@@ -2885,6 +3003,277 @@ class UserService
             $response['msg'] = 'Success';
         }
         return $response;
-    }
 
+    }
+/**
+     * Function to get the core units & elective units from the course
+     * @param array $units
+     * @param string $cond
+     * @param array $electiveUnitArr
+     * return integer 
+     */
+    public function getCountUnits($units, $cond, $electiveUnitArr = '')
+    {   
+        $counter = 0;
+        for($i = 0; $i < count($units); $i++) {
+            if($cond == 'core' && $units[$i]['type'] == 'core'){
+                $counter+=1;
+            }
+            if($cond == 'elective' && $units[$i]['type'] == 'elective' && array_key_exists($units[$i]['id'],$electiveUnitArr)){
+                $counter+=1;
+            }
+        }
+        return $counter;
+    }
+    /**
+     * Function to get the days assessordate 
+     * @param integer $userId
+     * @param string  $courseCode
+     * @param string $userRole
+     * return string
+     */
+	public function getDaysRemainingFromRole($userId, $courseCode, $userRole)
+    {          
+		$courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId,'courseCode' => $courseCode));
+        $createdDate = $courseObj->getCreatedOn();
+        $targetDate = $courseObj->getTargetDate();
+        $facDate =  $courseObj->getFacilitatorDate();
+        $assDate =  $courseObj->getAssessorDate();
+        $rtoDate =  $courseObj->getRtoDate();
+        $facStatus =$courseObj->getFacilitatorstatus();
+        $assStatus =$courseObj->getAssessorstatus();
+        $rtoStatus =$courseObj->getRtostatus();
+        $fecWorkSpan = $this->container->getParameter('fec_workspan');
+        $assWorkSpan = $this->container->getParameter('ass_workspan');
+        $rtoWorkSpan = $this->container->getParameter('rto_workspan');
+        $currentDate = date('Y-m-d H:i:s');
+        switch($userRole){
+            case 'ROLE_FACILITATOR':
+                  $diff = abs(strtotime($targetDate) - strtotime($currentDate));
+                  $days = floor(($diff)/ (60*60*24));
+                  $field = $fecWorkSpan;
+                  break;
+            case 'ROLE_ASSESSOR':
+                  $field = $assWorkSpan;  
+                  if($facStatus == 1):
+                    $diff = abs(strtotime($currentDate) - strtotime($facDate));
+                    $days = floor(($diff)/ (60*60*24));
+                    $days = floor($assWorkSpan-$days);
+                  else:
+                      $days=0;
+                  endif;
+                  break;
+            case 'ROLE_RTO':
+                  $field = $rtoWorkSpan;
+                  if($facStatus == 1):
+                    $diff = abs(strtotime($currentDate) - strtotime($assDate));
+                    $days = floor(($diff)/ (60*60*24));
+                    $days = floor($rtoWorkSpan-$days);
+                  else:
+                      $days=0;
+                  endif;
+                  break;
+        }
+        if($days > 0 )
+            $graph = round(($days*100)/($field));
+        else
+            $graph = 0;
+        return $days."&&".$graph;
+    }
+    /**
+     * Function to get the Notes 
+     * @param string $courseId 
+     * @param integer $userId
+     * return Array
+     * 
+     */
+    public function getNotesFromUserAndCourse($courseId, $userId, $roleType){
+        
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare('SELECT n.note,uc.user_id,n.created FROM note as n, user_course_units as uc WHERE uc.course_code = :courseCode AND uc.id = n.unit_id and uc.user_id = :userId and n.type = :roleType');
+        $statement->bindValue('courseCode', $courseId);
+        $statement->bindValue('userId', $userId);
+        $statement->bindValue('roleType', $roleType);
+        $statement->execute();
+        $allRcrds = $statement->fetchAll();
+        for($i=0; $i<count($allRcrds); $i++){
+            $user = $this->getUserInfo($allRcrds[$i]['user_id']);
+            $allRcrds[$i]['userImage'] = !empty($user) ? $this->userImage($user->getUserImage()) : '';
+            $allRcrds[$i]['userName'] = !empty($user) ? $user->getUsername() : '';
+        }
+        return $allRcrds;
+    }
+	/**
+     * Function to get the Evidences from Unit & course & userid wise 
+     * @param integer $courseId 
+     * @param integer $unitId
+	 * @param integer userId
+     * return Array
+     */
+    public function getEvidenceForUnit($courseId, $unitId, $userId){
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare('SELECT count(*) as noFiles FROM evidence WHERE user_id = :userId AND unit_code =:unitCode AND course_code = :courseCode');
+        $statement->bindValue('userId', $userId);
+        $statement->bindValue('unitCode', $unitId);
+        $statement->bindValue('courseCode', $courseId);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+    /**
+     * Function to get the FAQ     
+     * return Array
+     */
+    public function getFaq()
+    {
+          $faq = $this->em->getRepository('GqAusUserBundle:Faq');        
+          return $faq->findByStatus('1');
+    }
+	/** get Course count based on the unit
+	 * @param integer $applicantId 
+     * @param string $userRole
+	 * @param string $courseCode
+	 * @param string $type
+     */
+	public function getCourseCountStatusByRoleWise($applicantId, $userRole, $courseCode, $type)
+    {
+         switch ($userRole) {
+            case 'ROLE_FACILITATOR':
+                $field = 'facilitator_status';
+                break;
+            case 'ROLE_ASSESSOR':
+                $field = 'assessor_status';
+                break;
+            case 'ROLE_RTO':
+                $field = 'rto_status';
+                break;
+        }
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare('SELECT * FROM user_course_units WHERE user_id = :applicantId AND course_code = :courseCode AND type = :type');
+        $statement->bindValue('applicantId', $applicantId);
+        $statement->bindValue('courseCode', $courseCode);
+        $statement->bindValue('type', $type);
+        $statement->execute();
+        $allRcrds = $statement->fetchAll();
+        $noOfNotRvdrcrds = 0;
+        $noOfRvdRcrds = 0;
+        foreach($allRcrds as $key=>$value){
+            if($value[$field] == '0'){
+                $noOfNotRvdrcrds++;
+            }
+            else{
+                $noOfRvdRcrds++;
+            }
+        }
+        $allRcrds['noOfNotRvdrcrds'] = $noOfNotRvdrcrds;
+        $allRcrds['noOfRvdRcrds'] = $noOfRvdRcrds;
+       
+        return $allRcrds;
+    }
+    /* 
+     * Function to get the tabs from userrole
+     * @param string $userRole
+     * return integer
+     */
+    public function separateTabsBasedOnroleWise($userRole)
+    {
+        switch ($userRole) {
+            case 'ROLE_FACILITATOR':
+                $colLg = '4';
+                break;
+            case 'ROLE_ASSESSOR':
+                $colLg = '3';
+                break;
+            case 'ROLE_RTO':
+                $colLg = '12';
+                break;
+            default :
+                $colLg = '12';
+                break;
+        }
+        return $colLg;
+    }
+    /*
+     * Function to get unit status based on the user role,If the assessor don't have any status about unit, we need to pull the unit status from fecilitator
+     * @param integer $status
+     * @param integer $inloop
+     * @param string $userRole
+     * return string status
+     */
+    public function getStausByStatus($status, $inLoop, $userRole){
+         switch ($userRole) {
+             case 'ROLE_FACILITATOR':
+                    if($inLoop == 0 && $status == 1)
+                        return 'Satisfactory';
+                    elseif($inLoop == 0 && $status == 2)
+                        return 'Not Yet Satisfactory';
+                    else
+                        return '';
+                   break;
+             case 'ROLE_ASSESSOR';
+             case 'ROLE_RTO';
+                    if($inLoop == 1 && $status == 1)
+                        return 'Satisfactory';
+                    elseif($inLoop == 1 && $status == 2)
+                        return 'Not Yet Satisfactory';
+                    elseif($inLoop == 0 && $status == 1)
+                        return 'Competent';
+                    elseif($inLoop == 0 && $status == 2)
+                        return 'Not Yet Competent';
+                    else
+                        return '';
+                    break;
+              default:
+                   return '';
+                   break;
+         }
+    }
+    /**
+     * Function to get the notes based on course & roletype for portfolio details pages
+     * @param integer $courseId
+     * @param string $roleType
+     */
+    public function getNotesFromCourseIdOnly($courseId, $roleType)
+    {
+        $courseNotesObj = $this->em->getRepository('GqAusUserBundle:Note')->findBy(array('courseId' => $courseId, 'type' => $roleType));
+        return $courseNotesObj;
+    }
+	/** 
+     * Display usernames in New message Role wise Authentication
+     * @param: $userRole
+     */
+    public function getUsersfromCourse($options = array(), $userRole, $facId, $assId, $rtoId, $curuserId) {     
+        
+        $query = $this->em->getRepository('GqAusUserBundle:User')
+            ->createQueryBuilder('u')
+            ->select( "CONCAT( CONCAT(u.firstName, ' '), u.lastName)" );
+        $nameCondition = "";
+        if ($userRole == 'ROLE_FACILITATOR') {
+            $query->where('(u instance of GqAusUserBundle:Applicant OR u instance of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
+            $query->andWhere("u.firstName LIKE '%" . $options['keyword'] . "%' OR u.lastName LIKE '%" . $options['keyword'] . "%'");
+            $avals = array($curuserId, $assId, $rtoId);
+            $query->andWhere('u.id IN (:ids)')->setParameter('ids', $avals);
+            $getMessages = $query->getQuery()->getResult(); 
+            
+            $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getMessages)));
+            sort($getMessages);
+        }
+        return $getMessages;
+    }
+    
+    /** 
+     * Get unit type of unit code
+     * @param: $unitType
+     */
+    public function getUserCourseUnitType($applicantId, $courseCode, $unitId) {
+        $unitType = '';
+        if($courseCode && $unitId){
+            $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+            $userCourseUnits = $reposObj->findOneBy(array(
+                'user' => $applicantId,
+                'unitId' => $unitId,
+                'courseCode' => $courseCode));
+            $unitType = $userCourseUnits->getType();
+        }
+        return $unitType;
+    }
 }

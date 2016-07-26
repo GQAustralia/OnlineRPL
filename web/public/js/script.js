@@ -1,18 +1,4 @@
 $(document).ready(function(){
-	$('a[data-collapse="child"]').on('click', function(){
-    var nestedCollapse;
-
-		$( 'a[data-collapse="child"]').each( function( index, element ){
-				 $(this).children('.material-icons').text('expand_more'); 
-		});
-
-		if($(this).attr('aria-expanded')==='true'){
-
-			$(this).children('.material-icons').text('expand_more'); 
-		}else{
-		   $(this).children('.material-icons').text('expand_less');       
-		}
-	});
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
 	$(".mobile_version,.login_page").css("height",window_Ht);
@@ -23,8 +9,12 @@ $(document).ready(function(){
 		$(this).parent().find(".keyboard_arrow_right").removeClass("keyboard_arrow_right").addClass("keyboard_arrow_down");
 	});
 	
-	$(".uploadTrigger").click(function(){
-	   $(".uploadFile").click();
+	$("#add_file").click(function(){
+	   $("#fileBtn").click();
+	});
+	
+	$(".profile_image").click(function(){
+		$(".browse_btn").click();
 	});
 	
 	var textarea_ht = window_Ht - 135;
@@ -51,18 +41,25 @@ $(document).ready(function(){
 	$('#onboard1 .submit_btn').click(function() {  
 		$('#onboard1').hide();
 	});
+	
 	$('.date_field').each(function(){
 		$(this).datetimepicker({
 			controlType: 'select',
 			oneLine: true,
 			timeFormat: 'hh:mm tt',
-			dateFormat: 'dd/mm/yy'
+			dateFormat: 'dd/mm/yy',
+			minDate: 'today'
 		});
 	});
 	
 	$("#ui-datepicker-div").click(function (event) {
 		event.stopPropagation();
 	});
+	
+	$(".profile_popup .form-group span").click(function(){
+		$(this).prev().removeAttr('readonly');
+	});
+	
 });
 $(window).resize(function(){
 	var window_Ht = $(window).height();
@@ -81,6 +78,7 @@ $(window).resize(function(){
 		$(".login_section .login_btn").css("position","absolute");
 	}
 });
+
 /* for showing the dropdown up and down of the respective field based on the page scroll */
 function determineDropDirection(){
 	$(".dropdown-menu").each( function(){

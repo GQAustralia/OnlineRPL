@@ -15,14 +15,7 @@ abstract class Evidence
      */
     private $id;
 
-    /**
-     * Returns type of evidence.
-     *
-     * @return string
-     */
-    abstract public function getType();
-
-    /**
+     /**
      * Get id
      *
      * @return integer 
@@ -31,6 +24,24 @@ abstract class Evidence
     {
         return $this->id;
     }
+    
+     /**
+     * @var string
+     * @ORM\Column(name="type", type="string")
+     */
+    private $ctype;
+    
+    
+    public function getCtype() {
+        return $this->type;
+    }
+
+        /**
+     * Returns type of evidence.
+     *
+     * @return string
+     */
+    abstract public function getType();
 
     /**
      * @var string

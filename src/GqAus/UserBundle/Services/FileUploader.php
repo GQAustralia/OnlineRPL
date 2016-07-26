@@ -113,7 +113,7 @@ class FileUploader
      * @param string $fileName
      */
     public function delete($fileName)
-    {
+    {   
         $adapter = $this->filesystem->getAdapter();
         $adapter->delete($fileName);
     }

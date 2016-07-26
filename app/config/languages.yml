@@ -10,3 +10,4 @@ twig:
         todo_list_not_found: "Todo List Not Found"
         no_messages        : "No Messages Found"
         no_applicants      : "No Applicants Found"
+        delete_evidence_confirm: "Are you want to delete the evidence?"

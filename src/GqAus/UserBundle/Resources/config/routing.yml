@@ -229,5 +229,12 @@ sendMsgtoApplicant:
 usersFromCourse:
     path:     /usersFromCourse
     defaults: { _controller: GqAusUserBundle:Message:usersFromCourse }
-
-
+searchEvidence:
+    path:     /searchEvidence
+    defaults: { _controller: GqAusUserBundle:Evidence:searchEvidence }
+files:
+    path:     /files
+    defaults: { _controller: GqAusUserBundle:File:view }
+files:
+    path:     /addFiles
+    defaults: { _controller: GqAusUserBundle:File:add} 

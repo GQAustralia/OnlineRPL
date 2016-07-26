@@ -41,6 +41,7 @@ twig:
         rto_workspan: "%rto_workspan%"
         fec_workspan: "%fec_workspan%"
         ass_workspan: "%ass_workspan%"
+        maximum_upload_size: "%maximum_upload_size%"
 
 # Assetic Configuration
 assetic:

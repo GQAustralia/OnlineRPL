@@ -40,8 +40,12 @@
                         {% endif %} 
                         {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}                            
                             <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES<span id="unread-count"></span></a></li>
-                        {% endif %}                            
-                        <li class="evidence"><a href="{{ app.request.baseUrl }}/evidences">EVIDENCE</a></li>
+                        {% endif %}
+                        {% if ('ROLE_APPLICANT' in roles) %}
+                            <li class="evidence"><a href="{{ app.request.baseUrl }}/files">FILES</a></li>
+                        {% else %}
+                            <li class="evidence"><a href="{{ app.request.baseUrl }}/evidences">EVIDENCE</a></li>
+                        {% endif %}
                     </ul>
                 <nav>
             </section>
@@ -53,15 +57,19 @@
     </main>
 	    <!-- jQuery first, then Bootstrap JS. -->          
     <script src="{{ asset('public/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('public/js/jquery-1.10.2.js') }}"></script>
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="{#{ asset('public/js/jquery-1.10.2.js') }#}"></script>
     <script src="{{ asset('public/js/jquery-ui.js')}}"></script>   
     <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js')}}"></script>
     <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/js/script.js') }}"></script>
-    <script src="{{ asset('public/js/custom-jquery.js') }}"></script>   
+
+        
      {% block javascripts %}{% endblock %}
-    <script> onloadCount();</script>
-    <script> onloadPortfolioCount();</script>
-   
+    <!-- <script> onloadCount();</script> 
+    <script> onloadPortfolioCount();</script> -->
+    
+    <script src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('public/js/custom-jquery.js') }}"></script>   
 </body>
 </html>

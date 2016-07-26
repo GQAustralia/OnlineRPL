@@ -1,132 +1,294 @@
 {% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Evidences{% endblock %}
 {% block stylesheets %}
-	<link rel="stylesheet" href="{{ asset('public/css/pages/all/evidence.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/jquery.dataTables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/dropzone.css') }}" media="screen" />
+<link rel="stylesheet" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/evidence.css') }}">
 {% endblock %}
 {% block body %}
+{% set userId = app.security.getToken().getUser().getId() %}
 {% set roles = app.security.getToken().getUser().getRoles() %}
-    <div class="body_section">	<div class="body_section facilitator">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-12 hidden-sm hidden-md hidden-lg">
-					<div class="file_upload_block">
-						<div class="title_bar clearfix">
-							<span class="title">UPLOAD EVIDENCE FILES</span>
-						</div>
-						<div class="upload_btn">
-							<input type="file" class="hidden uploadFile"/>
-							<div class="button uploadTrigger">Add a file</div>
-						</div>
-						<span class="file_size_limit">Maximum file size is 3.0 GB per upload</span>
-					</div>
-				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-					<div class="evidence_block">
-						<div class="title_bar clearfix">
-							<span class="title">EVIDENCE <strong>({{ evidences|length }} TO REVIEW)</strong></span>
-							<span class="info_btn">
-								<i class="material-icons info_icon">info</i>
-							</span>
+    <div class="body_section">
+        <div class="body_section facilitator">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+                                        <div class="file_upload_block">
+                                                <div class="title_bar clearfix">
+                                                        <span class="title">UPLOAD EVIDENCE FILES</span>
+                                                </div>
+                                                <!--<div class="upload_btn">
+                                                        <input type="file" id='fileBtn' class="dropzone uploadFile" multiple="multiple">
+                                                        <div class="button add_file" id="add_file">Add a file</div>
+                                                </div>-->
+                                                <span class="file_size_limit">Maximum file size is {{ maximum_upload_size }} GB per upload</span>
+                                        </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                        <div class="evidence_block">
+                                                <div class="title_bar clearfix">
+                                                    <span class="title">EVIDENCE <strong>({{ evidences|length }} TO REVIEW)</strong></span>
+                                                    <span class="info_btn">
+                                                        <i class="material-icons info_icon">info</i>
+                                                    </span>
+                                                </div>
+                                                <div class="tab_section clearfix">
+                                                    <div class="tab clearfix">
+                                                        <span class="search_icon"><i class="material-icons">search</i></span>
+                                                        <input type="text" class="search namesearch" placeholder="Search"  userid="{{ userId }}" role="{{ roles['0']}}" />
+                                                    </div>
+                                                    <div class="tab filter_tab">
+                                                        <span class="filter">
+                                                            <i class="material-icons">filter_list</i>Filter
+                                                        </span>
+                                                    </div>
+                                                    <div class="tab hidden-sm hidden-md hidden-lg">
+                                                        <span class="sort">
+                                                            <i class="material-icons">code</i>Sort
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+						<div class="check_box_section hide" id="evidence-filter" style="display: block;">
+							<div class="section">
+                                                            <div class="title_bar clearfix">
+                                                                <span class="title">File Type</span>
+                                                            </div>
+                                                            <ul class="clearfix">
+                                                                <li>
+                                                                    {% set videoCount = (evdMapping.typeCount.video is defined) ? evdMapping.typeCount.video|length : '0' %}
+                                                                    <span>video({{ videoCount }})</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="video" class="children-filter" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    {% set audioCount = (evdMapping.typeCount.audio is defined) ? evdMapping.typeCount.audio|length : '0' %}
+                                                                    <span>audio({{ audioCount }})</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="audio" class="children-filter" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    {% set imageCount = (evdMapping.typeCount.image is defined) ? evdMapping.typeCount.image|length : '0' %}
+                                                                    <span>image({{ imageCount }})</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="image" class="children-filter" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    {% set pdfCount = (evdMapping.typeCount.pdf is defined) ? evdMapping.typeCount.pdf|length : '0' %}
+                                                                    <span>PDF({{ pdfCount }})</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="pdf" class="children-filter" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    {% set textCount = (evdMapping.typeCount.text is defined) ? evdMapping.typeCount.text|length : '0' %}
+                                                                    <span>text({{ textCount }})</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="text" class="children-filter" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+							</div>
+							<div class="section">
+                                                            <div class="title_bar clearfix">
+                                                                <span class="title">Mapped to units</span>
+                                                            </div>
+                                                            <ul class="clearfix">
+                                                                <li>
+                                                                    <span>un-mapped({{ evdMapping.unMappedEvidences|length }})</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox"  value="un-mapped" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>mapped to 1 unit({{ evdMapping.mappedToOneUnit|length }})</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="mapped" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>mapped to multiple({{ evdMapping.mappedToMultipleUnit|length }})</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="multiple-mapped" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+							</div>
 						</div>
 
+                                                <div class="titles_block hidden-xs">
+                                                    <ul class="clearfix">
+                                                        <li style="width:15%;">
+                                                            <span>Type</span>
+                                                        </li>
+                                                        <li style="width:35%;">
+                                                            <span class="file_name">File Name</span>
+                                                        </li>
+                                                        <li style="width:20%;">
+                                                            <span>File Size</span>
+                                                        </li>
+                                                        <li style="width:30%;">
+                                                            <span class="date_section orderby-date">
+                                                                <i class="material-icons">arrow_downward</i><strong>Date Added</strong>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="file_info_block">
+                                                {% if evidences|length > 0%}
+                                                <table id="evidence" class="display" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hide">Course</th>    
+                                                            <th class="hide">Type</th>
+                                                            <th class="hide">Mapped to Units</th>
+                                                            <th class="hide">File Name</th>
+                                                            <th class="hide sortbydate">Date Added</th>
+                                                            <th class="hide">Name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for eKey, evd in evidences %}
+                                                    {% set checkPath = (evd[0].type !='text') ? evd[0].path : evd[0].content %} 
+                                                    {% set mappedContent =  (checkPath in evdMapping.mappedToMultipleUnit) ? 'mapped2': ((checkPath in evdMapping.mappedToOneUnit) ? 'mapped1' : 'mapped0') %}
+                                                    {% if evd[0].type !='text' %}
+                                                        {% set eviType = evidence_service.getEvidenceShowType(evd[0].type) %}
+                                                        {% set output = eviType|split('&&') %}
 
-						<div class="tab_section clearfix">
-							<div class="tab clearfix">
-								<span class="search_icon"><i class="material-icons">search</i></span>
-								<input type="text" class="search" value="Search"/>
-							</div>
-							<div class="tab">
-								<span class="filter">
-									<i class="material-icons">filter_list</i>Filter
-								</span>
-							</div>
-							<div class="tab hidden-sm hidden-md hidden-lg">
-								<span class="sort">
-									<i class="material-icons">code</i>Sort
-								</span>
-							</div>
-						</div>
-						<div class="titles_block hidden-xs">
-							<ul class="clearfix">
-								<li style="width:15%;">
-									<span>Type</span>
-								</li>
-								<li style="width:35%;">
-									<span class="file_name">File Name</span>
-								</li>
-								<li style="width:20%;">
-									<span>File Size</span>
-								</li>
-								<li style="width:30%;">
-									<span class="date_section">
-										<i class="material-icons">arrow_downward</i><strong>Date Added</strong>
-									</span>
-								</li>
-							</ul>
-						</div>
-						<div class="file_info_block">
-                                                {% for eKey, evd in evidences %}
-                                                    {% if evd.type !='text' %}
-                                                        {% if evd.name %} 
-                                                            <div class="block">
-                                                                    <p class="name"><strong>{{ evd.user.firstName }} {{ evd.user.lastName }}</strong></p>
-                                                                    <div class="file_info hidden-xs">
-                                                                            <span class="icon">
-                                                                                    <i class="material-icons">description</i>
-                                                                            </span>
+                                                        {% if evd[0].name %}
+                                                        <tr id="{{ evd[0].id }}">
+                                                            <td class="hide">{{ evd[0].course }}</td>
+                                                            <td class="hide">{{ evd[0].type }}</td>
+                                                            <td class="hide">{{mappedContent}}</td>
+                                                            <td class="hide">{{ evd[0].name }}</td>
+                                                            <td class="hide">{{ evd[0].created|date("d/m/y") }}</td>
+                                                            <td>
+                                                                {% if evd[0].name %} 
+                                                                    <div class="block">
+                                                                        <div class="file_info hidden-xs">
+                                                                            <a href="{{ amazon_link }}{{  evd[0].path }}"
+                                                                                {% if output[1] is defined %}
+                                                                                {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
+                                                                                {%endif%}><span class="icon"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
+                                                                            </a>
                                                                             <span class="file_name">
-                                                                                    {{ evd.name }}
+                                                                                {{ evd[0].name }}
                                                                             </span>
                                                                             <span class="file_size">
-                                                                                    {{ evd.size }}
+                                                                                {{ evd[0].size }}
                                                                             </span>
                                                                             <span class="clear">
-                                                                                   ADDED {{ evd.created|date("d/m/y") }}
+                                                                                ADDED {{ evd[0].created|date("d/m/y") }}
                                                                             </span>
-                                                                    </div>
-                                                                    <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
+                                                                        </div>
+                                                                        <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
-                                                                                    <span class="icon">
-                                                                                            <i class="material-icons">description</i>
-                                                                                    </span>
-                                                                                    <span class="file-discription">
-                                                                                            {{ evd.name }} <br> {{ evd.size }} | Added {{ evd.created|date("d/m/y") }}
-                                                                                    </span>
+                                                                                <span class="icon">
+                                                                                    <i class="material-icons">description</i>
+                                                                                </span>
+                                                                                <span class="file-discription">
+                                                                                    {{ evd[0].name }} <br> {{ evd[0].size }} | Added {{ evd[0].created|date("d/m/y") }}
+                                                                                </span>
                                                                             </div>
+                                                                        </div>
+                                                                        <div class="link_section">
+                                                                            {% for lKey, linkedVal in evd %}
+                                                                                {% if(linkedVal.unit) %}
+                                                                                {% set unitType = '' %}
+                                                                                {% set unitType = user_service.getUserCourseUnitType(evd[0].user.id,linkedVal.course,linkedVal.unit) %}
+                                                                                    <span class="content">
+                                                                                        <a href="http://local.gqaevidence.com/courseunitDetails/{{ linkedVal.course }}/{{ linkedVal.unit}}/{{ evd[0].user.id }}">
+                                                                                            <i class="material-icons">insert_link</i>Linked to {{ linkedVal.unit }} ({{ unitType }} unit)
+                                                                                        </a>
+                                                                                    </span>
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="link_section">
-                                                                            <span class="content">
-                                                                                    <i class="material-icons">insert_link</i>Linked to {{ evd.unit }} (core unit)
-                                                                                    <span class="clear_icon"><i class="material-icons">clear</i></span>
-                                                                            </span>
-                                                                    </div>
-                                                            </div>                                                    
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
                                                         {% endif %}
-                                                    {%endif%}
-                                                {% endfor %}
-						</div>
-					</div>
-				</div>
-				<div class="hidden-xs col-sm-12 col-md-12 col-lg-6">
-					<div class="file_upload_block">
-						<div class="title_bar clearfix">
-							<span class="title">UPLOAD EVIDENCE FILES</span>
-						</div>
-						<div class="upload_btn">
-							<input type="file" class="hidden uploadFile"/>
-							<div class="button uploadTrigger">Add a file</div>
-						</div>
-						<span class="file_size_limit">Maximum file size is 3.0 GB per upload</span>
-					</div>
-				</div>
-				<div class="col-xs-12 hidden-sm hidden-md hidden-lg">
-					<div class="profile_section hidden-sm hidden-md hidden-lg">
-						<div class="container">
-							<img alt="profile_pic" src="../images/UPLOAD_PROFILE_PHOTO.png">
-							<span>Samantha</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                                                    {% else %}
+                                                        <tr id="{{ evd[0].id }}">
+                                                            <td class="hide">{{ evd[0].course }}</td>
+                                                            <td class="hide">{{ evd[0].type }}</td>
+                                                            <td class="hide">{{mappedContent}}</td>
+                                                            <td class="hide">{{ evd[0].content }}</td>
+                                                            <td class="hide sortdateby">{{ evd[0].created|date("d/m/y") }}</td>
+                                                            <td>
+                                                                {% if evd[0].content %} 
+                                                                    <div class="block">
+                                                                        <div class="file_info hidden-xs">
+                                                                            <span class="icon">
+                                                                                <i class="material-icons">description</i>
+                                                                            </span>
+                                                                            <span class="file_name">
+                                                                                {{ evd[0].content }}
+                                                                            </span>
+                                                                            <span class="file_size"></span>
+                                                                            <span class="clear">
+                                                                                ADDED {{ evd[0].created|date("d/m/y") }}
+                                                                            </span>                                                        
+                                                                        </div>
+                                                                        <div class="link_section">
+                                                                            {% for lKey, linkedVal in evd %}
+                                                                                {% if(linkedVal.unit) %}
+                                                                                {% set unitType = '' %}
+                                                                                {% set unitType = user_service.getUserCourseUnitType(evd[0].user.id,linkedVal.course,linkedVal.unit) %}
+                                                                                <span class="content">
+                                                                                    <a href="http://local.gqaevidence.com/courseunitDetails/{{ evd[0].course }}/{{ evd[0].unit}}/{{ evd[0].user.id }}">
+                                                                                        <i class="material-icons">insert_link</i>Linked to {{ evd[0].unit }} (core unit)
+                                                                                    </a>
+                                                                                </span>
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="hidden-xs col-sm-12 col-md-12 col-lg-6 hide">
+                                    <div class="file_upload_block">
+                                        <div class="title_bar clearfix">
+                                            <span class="title">UPLOAD EVIDENCE FILES</span>
+                                        </div>
+                                        <div class="upload_btn">
+                                                <input type="file" id='fileBtn' class="dropzone uploadFile" multiple="multiple">
+                                                <span class="white"></span>
+                                                <div class="button add_file" id="add_file">Add a file</div>
+                                        </div>
+                                        <span class="file_size_limit">Maximum file size is {{ maximum_upload_size }} GB per upload</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+                                    <div class="profile_section hidden-sm hidden-md hidden-lg">
+                                        <div class="container">
+                                            {#<img alt="profile_pic" src="../images/UPLOAD_PROFILE_PHOTO.png">#}
+                                            <span>Samantha</span>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.fancybox').fancybox();
+        });
+    </script>
 {% endblock %}
