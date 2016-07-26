@@ -221,7 +221,7 @@ $(".deleteEvidence").click(function() {
 $(".deleteIdFiles").click(function() {
     var fid = fileid;
     var ftype = filetype;
-    var url = (otherfiles) ? "deleteOtherFiles" : "deleteIdFiles";alert(url);
+    var url = (otherfiles) ? "deleteOtherFiles" : "deleteIdFiles";
     $("#ajax-loading-delete-assessor-file").show();
     $.ajax({
         type: "POST",

@@ -38,18 +38,24 @@
                          {% else %}
                             <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="">QUALIFICATION</a></li> 
                          {% endif %}
-                       `{% if ('ROLE_APPLICANT' not in roles)  %}
-                        <li class="portfolio" {% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span class="portfolio-current"></span></a></li>
+                       {% if ('ROLE_APPLICANT' not in roles)  %}
+                        <li class="portfolio {% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}" ><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span class="portfolio-current"></span></a></li>
                         {% endif %} 
                         {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}                            
-                            <li class="messages"><a href="{{ app.request.baseUrl }}/messages">MESSAGES<span id="unread-count"></span></a></li>
+                            <li class="messages {% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/messages">MESSAGES<span id="unread-count"></span></a></li>
                         {% endif %}                            
                         <li class="evidence"><a href="{{ app.request.baseUrl }}/evidences">EVIDENCE</a></li>
-                        {% if ('ROLE_APPLICANT' not in roles)  %}
-                            <li class="profile"><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">PROFILE</a></li>
-                        {% else %}
-                            <li class="profile" {% if app.request.attributes.get('_route') == 'user_homepage' %} active {% endif %}><a href="{{ app.request.baseUrl }}/userprofile">PROFILE</a></li>
-                       {% endif %} 
+                       <li class="profile" {% if app.request.attributes.get('_route') == 'user_homepage' %} active {% endif %}>
+                            <a href="#"><i class="material-icons">expand_more</i></a>
+                            <ul class="hide">
+                                {% if ('ROLE_APPLICANT' not in roles)  %}
+                                <li ><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">PROFILE</a></li>                                
+                                {% else %}
+                                <li><a href="{{ app.request.baseUrl }}/userprofile">PROFILE</a></li>
+                                {% endif %}
+                                <li><a href="/logout">Log out</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 <nav>
             </section>
@@ -68,6 +74,7 @@
         <script src="{{ asset('public/js/jquery-ui.js')}}"></script>   
         <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js')}}"></script>
         <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+         <script src="{{ asset('public/js/jquery.form.js') }}"></script>
         <script src="{{ asset('public/js/script.js') }}"></script>
         <script src="{{ asset('public/js/custom-jquery.js') }}"></script>   
      {% block javascripts %}{% endblock %}
