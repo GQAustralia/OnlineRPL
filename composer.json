@@ -8,7 +8,7 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.6.*",
+        "symfony/symfony": "2.8.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
@@ -21,17 +21,17 @@
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "ircmaxell/password-compat": "~1.0.3",
-        "misd/guzzle-bundle": "1.1.*@dev",
-        "guzzle/guzzle":"dev-master",
-        "knplabs/gaufrette":                    "dev-master",
-        "knplabs/knp-gaufrette-bundle":         "dev-master",
-        "amazonwebservices/aws-sdk-for-php":    "dev-master",
-        "knplabs/knp-snappy-bundle":            "dev-master",
-        "opentok/opentok": "2.2.x",
+        "eightpoints/guzzle-bundle": "5.x",
+        "guzzlehttp/guzzle": "6.2.x",
+        "knplabs/gaufrette":                    "~0.2.1",
+        "knplabs/knp-gaufrette-bundle": "~0.3",
+        "aws/aws-sdk-php":    "dev-master",
+        "knplabs/knp-snappy-bundle":            "1.4",
+        "opentok/opentok": "2.3.x",
         "ensepar/html2pdf-bundle" : "~2.0"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "3.0"
     },
     "scripts": {
         "post-root-package-install": [

@@ -3,24 +3,21 @@ parameters:
     database_driver: pdo_mysql
     database_host: 127.0.0.1
     database_port: null
-    database_name: gqrpl
+    database_name: onlinerpl_db
     database_user: root
     database_password: null
     mailer_transport: smtp
     mailer_host: smtp.gmail.com
     mailer_user: rpl@gqaustralia.com.au
     mailer_password: Sienna99@
-    mailer_encryption: tls
-    mailer_port: 587
-    mailer_auth_mode: login
     locale: en
     secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
-    applicationUrl: "http://local.demo.com/"
+    applicationUrl: 'http://local.demo.com/'
     amazon_aws_key: AKIAJYBUA7H4EMZHC62A
     amazon_aws_secret_key: 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
-    amazon_s3_base_url: https://s3.amazonaws.com/rpl-upload.com/
+    amazon_s3_base_url: 'https://s3.amazonaws.com/rpl-upload.com/'
     amazon_s3_bucket_name: rpl-upload.com
-    apiUrl: "http://api.gqaus.com.au/web/app_dev.php/api/v1/"
+    apiUrl: 'http://api.gqaus.com.au/web/app_dev.php/api/v1/'
     apiAuthUsername: stgaccess
     apiAuthPassword: u9FGDU8K
     maxFileSize: 10000000
@@ -28,3 +25,6 @@ parameters:
     pagination_limit_page: 10
     tokbox_key: 45625952
     tokbox_secret_key: 7352c026b302ce7999468ad724f8a2a19a2a8130
+    mailer_encryption: null
+    mailer_auth_mode: null
+    mailer_port: null
