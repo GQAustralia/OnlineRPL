@@ -11,10 +11,10 @@
         <link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('public/css/bootstrap-flex.css') }}" />
         <link rel="stylesheet" href="{{ asset('public/css/bootstrap-grid.css') }}" />
-        <link rel="stylesheet" href="{{ asset('public/css/bootstrap-reboot.css') }}">
-        <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}">       
+        <link rel="stylesheet" href="{{ asset('public/css/bootstrap-reboot.css') }}">              
         <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/jquery-ui-timepicker-addon.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}"> 
 	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     {% endblock %}
     {% block stylesheets %}{% endblock %}     
@@ -28,38 +28,99 @@
     {% set roles = app.security.getToken().getUser().getRoles() %}
    <main class="main_container">
        {% block navmenu %}
-        <header>
+       <header>
             <section class="container">
-                <div class="hidden-xs logo"><img src="{{ asset('public/images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/></div>
+                <div class="logo">
+                    <img src="{{ asset('public//images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/>
+                </div>
+
+                <div class="info-header hide">
+                    <div class="portfolio">
+                        <strong class="title">Profile Name</strong>
+                        <a href="#"><i class="material-icons clear">clear</i></a>
+                    </div>
+
+                    <div class="unit-info">
+                        <a href="#"><i class="material-icons btn-back">arrow_back</i></a>
+                        <strong class="title">Unit info</strong>
+                    </div>            
+                </div>
+
                 <nav>
-                    <ul class="menu">
-                        {% if ('ROLE_APPLICANT' not in roles)  %}
-                            <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/dashboard">DASHBOARD</a></li> 
-                         {% else %}
-                            <li class="dashboard {% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}"><a href="">QUALIFICATION</a></li> 
-                         {% endif %}
-                       {% if ('ROLE_APPLICANT' not in roles)  %}
-                        <li class="portfolio {% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}" ><a href="{{ app.request.baseUrl }}/applicants">PORTFOLIOS<span class="portfolio-current"></span></a></li>
-                        {% endif %} 
-                        {% if ('ROLE_MANAGER' not in roles) and ('ROLE_SUPERADMIN' not in roles) %}                            
-                            <li class="messages {% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}"><a href="{{ app.request.baseUrl }}/messages">MESSAGES<span id="unread-count"></span></a></li>
-                        {% endif %}                            
-                        <li class="evidence"><a href="{{ app.request.baseUrl }}/evidences">EVIDENCE</a></li>
-                       <li class="profile" {% if app.request.attributes.get('_route') == 'user_homepage' %} active {% endif %}>
-                            <a href="#"><i class="material-icons">expand_more</i></a>
+                    <ul class="nav">
+                            {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <li>
+
+                            <a class="{% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}" href="{{ app.request.baseUrl }}/dashboard">
+                            <i class="material-icons">school</i>
+                            <span>Dashboard</span>
+                            </a>
+                            </li>
+                            {% else %}
+                            <li>
+
+                            <a class="{% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} active {% endif %}" href="{{ app.request.baseUrl }}/qualifications">
+                            <i class="material-icons">school</i>
+                            <span>Qualification</span>
+                            </a>
+                            </li>
+                            {% endif %}
+                            {% if ('ROLE_APPLICANT' not in roles)  %}
+                                <li>
+                                <svg height="35" width="35">
+                                <circle cx="27" cy="12" r="8" fill="red"/>
+                                <text text-anchor="middle" x="27" y="15" fill="#fff" class="portfolio-current"></text>
+                                </svg>
+                                <a class="{% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}" href="{{ app.request.baseUrl }}/applicants">
+                                <i class="material-icons">message</i>
+                                <span>portfolios</span>                        
+                                </a>
+                                </li>
+                            {% endif %}
+                            {% if ('ROLE_SUPERADMIN' not in roles) %}  
+                                <li>
+                                <svg height="35" width="35">
+                                <circle cx="27" cy="12" r="8" fill="red"/>
+                                <text text-anchor="middle" x="27" y="15" fill="#fff"><span id="unread-count"></span></text>
+                                </svg>
+                                <a class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}" href="{{ app.request.baseUrl }}/messages">
+                                <i class="material-icons">message</i>
+                                <span>Messages</span>                        
+                                </a>
+                                </li>
+                            {% endif %}
+                            <li>
+
+                            <a href="{{ app.request.baseUrl }}/evidences">
+                            <i class="material-icons">cloud_upload</i>
+                            <span>Evidences</span>
+                            </a>
+                            </li> 
+                            <li>
+                            <a href="#">
+                            <i class="material-icons">cloud_upload</i>
+                            <span>Files</span>
+                            </a>
+                            </li>                       
+                            <li class="profile">
+                            <a href="#">
+                            <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="profile" />
+                            <i class="material-icons">expand_more</i>
+                            </a>
                             <ul class="hide">
-                                {% if ('ROLE_APPLICANT' not in roles)  %}
-                                <li ><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">PROFILE</a></li>                                
-                                {% else %}
-                                <li><a href="{{ app.request.baseUrl }}/userprofile">PROFILE</a></li>
-                                {% endif %}
-                                <li><a href="/logout">Log out</a></li>
+                            {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <li><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">Profile</a></li>
+                            {% else %}
+                            <li><a href="{{ app.request.baseUrl }}/userprofile">Profile</a></li>
+                            {% endif %}
+                            <li><a href="/logout">Log out</a></li>
                             </ul>
+
                         </li>
-                    </ul>
-                <nav>
+                    </ul>            
+                </nav>
             </section>
-        </header>       
+        </header>    
         {% endblock %}
         <!-- Dashboard page starts here -->
         {% block body %}{% endblock %}
