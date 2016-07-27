@@ -66,7 +66,7 @@ class CoursesService
             if (!empty($courseInfo['details'])) {
                 $courseInfo['details'] = html_entity_decode($courseInfo['details']);
             }
-        }
+        }        
         return array('courseInfo' => $courseInfo);
     }
 
@@ -334,7 +334,26 @@ class CoursesService
         }
         return $courseUnits;
     }
-
+    /**
+     * Function to get count of core and elective units
+     * @param int $userId
+     * @param string $courseCode
+     * return int
+     */
+    public function getCoreElectiveUnitsCount($userId, $courseCode,$type)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+            'courseCode' => $courseCode,
+            'type' => $type));
+        $courseUnits = array();
+        if (!empty($userCourseUnits)) {
+            foreach ($userCourseUnits as $units) {
+                $courseUnits[trim($units->getUnitId())] = trim($units->getUnitId());
+            }
+        }        
+        return count($courseUnits);
+    }
     /**
      * Function to get applicant unit status
      * @param int $applicantId
