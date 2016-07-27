@@ -378,6 +378,8 @@ class UserService
             $results['assessorPhone'] =  !empty($assessor) ? $assessor->getPhone() : '';
             
             $rto = $this->getUserInfo($otheruser->getRto());
+			$results['assessorImage'] = !empty($assessor) ? $this->userImage($assessor->getUserImage()) : '';
+			
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
             $results['rtoCeoName'] = !empty($rto) ? $rto->getCeoname() : '';
             $results['rtoCeoEmail'] = !empty($rto) ? $rto->getCeoemail() : '';
@@ -927,7 +929,7 @@ class UserService
      */
     public function getPendingApplicants($userId, $userRole, $applicantStatus)
     {
-        
+        $getCourseStatus = array();
         if (in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_RTO', $userRole)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
                 $userType = 'assessor';
@@ -1120,7 +1122,17 @@ class UserService
      */
     public function getPendingApplicantEvidences($pendingApplicants)
     {
+
 		$evidences = array();
+        
+        /* $userId = 6;
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare('SELECT evd.* FROM user_courses uc join evidence evd on evd.user_id = uc.user_id WHERE uc.user_id = evd.user_id and evd.course_code=uc.course_code  and uc.facilitator = :facId');
+        $statement->bindValue('facId', $userId);
+        $statement->execute();
+        $evidences = $statement->fetchAll();
+        dump($evidences); exit */
+
         if(is_array($pendingApplicants)){
             foreach($pendingApplicants as $key => $user){
                   $evidences = $this->getUserInfo($user->getUser()->getId())->getEvidences();
@@ -3267,5 +3279,22 @@ class UserService
             sort($getMessages);
         }
         return $getMessages;
+    }
+
+    /** 
+     * Get unit type of unit code
+     * @param: $unitType
+     */
+    public function getUserCourseUnitType($applicantId, $courseCode, $unitId) {
+        $unitType = '';
+        if($courseCode && $unitId){
+            $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+            $userCourseUnits = $reposObj->findOneBy(array(
+                'user' => $applicantId,
+                'unitId' => $unitId,
+                'courseCode' => $courseCode));
+            $unitType = $userCourseUnits->getType();
+        }
+        return $unitType;
     }
 }

@@ -17,6 +17,7 @@ class EvidenceController extends Controller
      */
     public function addAction(Request $request)
     {
+
         error_reporting(0);
         $form = $this->createForm(new EvidenceForm(), array());
         if ($request->isMethod('POST')) {
@@ -39,18 +40,51 @@ class EvidenceController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $userService = $this->get('UserService');
 
+        
         $pendingApplicants = $userService->getPendingApplicants($user->getId(), $user->getRoles(), '0');
+        
+//        $userId = $user->getId();
+//        $result = $this->get('EvidenceService')->searchEvidencesByUserRole($userId, $userRole, $pendingApplicants);
+//        dump($result);
+//        exit;
         
         if (in_array('ROLE_APPLICANT', $userRole)) {
             $evidences = $this->get('EvidenceService')->currentUser->getEvidences();
+            
         } else if(in_array('ROLE_FACILITATOR', $userRole)){
+
             foreach($pendingApplicants as $user){
                 $evidences = $userService->getUserInfo($user->getUser()->getId())->getEvidences();
                 if(!empty($evidence))
                     $userEvidences = $evidence;
             }
         }
-        return $this->render('GqAusUserBundle:Evidence:view.html.twig', array('evidences' => $evidences));
+
+        $evidenceTypeCount = $mappedEvidence = $unMappedEvidences = $mappedToMultipleUnit = $mappedToOneUnit = $mappingCount = array();
+        foreach($evidences as $key => $evidence){
+            $evdPath = (method_exists($evidence,'getName')) ?  $evidence->getPath() : $evidence->getContent();
+            $evidenceTypeCount[$evidence->getType()][] = $evdPath;
+            if($evidence->getUnit())
+                $mappedEvidence[$evdPath][] = $evidence->getUnit();
+            else
+                $unMappedEvidences[$evdPath][] = $evidence->getId();
+            
+            $formattedEvidences[$evdPath][] = $evidence;
+        }
+//        dump($formattedEvidences);
+//        exit;
+        foreach($mappedEvidence as $mKey => $mappedEvd){
+            if(count($mappedEvd) > 1)
+                $mappedToMultipleUnit[] = $mKey;
+            else if(count($mappedEvd) == 1)
+                $mappedToOneUnit[] = $mKey;
+        }
+        $evdMapping['unMappedEvidences'] = $unMappedEvidences;
+        $evdMapping['mappedToOneUnit'] = $mappedToOneUnit;
+        $evdMapping['mappedToMultipleUnit'] = $mappedToMultipleUnit;
+        $evdMapping['typeCount'] = $evidenceTypeCount;
+
+        return $this->render('GqAusUserBundle:Evidence:view.html.twig', array('evidences' => $formattedEvidences, 'evdMapping' => $evdMapping));
     }
 
     /**
@@ -140,4 +174,17 @@ class EvidenceController extends Controller
         exit;
     }
 
+    /**
+     * Function to search evidences
+     * @param object $request
+     * return string
+     */
+    public function searchEvidenceAction(Request $request)
+    {
+        $userId = $this->getRequest()->get('userId');
+        $userRole = $this->getRequest()->get('userRole');
+        $result = $this->get('EvidenceService')->searchEvidencesByUserRole($userId, $userRole);
+        echo json_encode($result);
+        exit;
+    }
 }

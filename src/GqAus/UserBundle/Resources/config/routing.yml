@@ -241,5 +241,12 @@ updateprofileAjax:
 updatepasswordAjax:
     path:     /updatepasswordAjax
     defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax } 
-
-
+searchEvidence:
+    path:     /searchEvidence
+    defaults: { _controller: GqAusUserBundle:Evidence:searchEvidence }
+files:
+    path:     /files
+    defaults: { _controller: GqAusUserBundle:File:view }
+filesAdd:
+    path:     /addFiles
+    defaults: { _controller: GqAusUserBundle:File:add}

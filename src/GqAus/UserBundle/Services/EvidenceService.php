@@ -100,12 +100,14 @@ class EvidenceService
                     $fileObj->setName($evidence['orginal_name']);
                     $fileObj->setUser($this->currentUser);
                     $fileObj->setSize($size);
-                    $fileObj->setUnit($data['hid_unit']);
-                    $fileObj->setCourse($data['hid_course']);
+                    if(isset($data['hid_unit'])) // null value added for unmapped file upload
+                        $fileObj->setUnit($data['hid_unit']);
+                    if(isset($data['hid_course'])) // null value added for unmapped file upload
+                        $fileObj->setCourse($data['hid_course']);
                     $this->em->persist($fileObj);
                     $this->em->flush();
-
-                    $this->updateCourseUnits($this->userId, $data['hid_unit'], $data['hid_course']);
+                    if(isset($data['hid_unit']) && isset($data['hid_course'])) // Uploading evidence by candidate then update course units
+                        $this->updateCourseUnits($this->userId, $data['hid_unit'], $data['hid_course']);
                     $i++;
                 } else {
                     $seterror = 'yes';
@@ -531,5 +533,56 @@ class EvidenceService
                 break;
         }
         return $evType;
+    }
+    
+    /**
+     * Function to search Evidence files
+     * @param int $userId
+     * @param int $userRole
+     * @param string $evidenceTitle
+     */
+    public function searchEvidencesByFacilitator($userId, $userRole, $pendingApplicants)
+    {
+        dump($pendingApplicants);
+        foreach($pendingApplicants as $user){
+            $users[] = $user->getUser()->getId();
+            $courseCodes[] = $user->getcourseCode();
+        }
+        $userList = array_unique($users);
+        $courseList = array_unique($courseCodes);
+        
+        dump($userList);
+        dump($courseList);
+
+        //$fields = 'partial r.{id, completed, message, course}, partial u.{id, firstName, lastName}';
+        $fields = 'partial e.{id}';
+        $image = 'image';
+        $userId = '31';
+        $query = $this->em->getRepository('GqAusUserBundle:Evidence')
+            ->createQueryBuilder('e')
+            ->select()
+            ->where('e.user IN (:userIds)')->setParameter('userIds', $userList)
+           // ->andWhere('e.course IN (:courseCodes)')->setParameter('courseCodes', $courseList)
+            ->andWhere('e INSTANCE OF :type')->setParameter('type', ['Audio', 'File', 'Image', 'Recording', 'Text', 'Video']);  
+
+		// ->andWhere('e INSTANCE OF GqAusUserBundle:Evidence')
+		// ->setParameter('type', $image);
+		//$evidences = $this->em->getRepository('GqAusUserBundle:Evidence')->findBy(array('user' => array(31, 5), 'course' => array('CHC30113')));        
+		// $page = 2;
+        //$paginator = new \GqAus\UserBundle\Lib\Paginator();
+        //$pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));        
+        $evidences = $query->getQuery()->getResult();
+        dump($evidences);
+        
+        $query = $query->getQuery();
+        print_r(array(
+            'sql'        => $query->getSQL(),
+            'parameters' => $query->getParameters(),
+        ));
+        exit;
+
+        //echo 'inside';
+        exit;
+        return $evidences;
     }
 }

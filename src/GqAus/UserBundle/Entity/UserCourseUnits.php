@@ -166,7 +166,7 @@ class UserCourseUnits
     }
 
     /**
-     * @var integer
+     * @var string
      */
     private $type;
 
@@ -188,7 +188,7 @@ class UserCourseUnits
     /**
      * Set type
      *
-     * @param integer $type
+     * @param string $type
      * @return UserCourseUnits
      */
     public function setType($type)
@@ -201,7 +201,7 @@ class UserCourseUnits
     /**
      * Get type
      *
-     * @return integer 
+     * @return string 
      */
     public function getType()
     {

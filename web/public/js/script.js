@@ -31,6 +31,44 @@ $(document).ready(function(){
              showHideUserProfile(false);
      });
       */  
+	var window_Ht = $(window).height();
+	var window_Wt = $(window).width();
+	$(".mobile_version,.login_page").css("height",window_Ht);
+	
+	$('.collapse').on('shown.bs.collapse', function(){
+		$(this).parent().find(".keyboard_arrow_down").removeClass("keyboard_arrow_down").addClass("keyboard_arrow_right");
+		}).on('hidden.bs.collapse', function(){
+		$(this).parent().find(".keyboard_arrow_right").removeClass("keyboard_arrow_right").addClass("keyboard_arrow_down");
+	});
+	
+	$("#add_file").click(function(){
+	   $("#fileBtn").click();
+	});
+	
+	$(".profile_image").click(function(){
+		$(".browse_btn").click();
+	});
+	
+	var textarea_ht = window_Ht - 135;
+	$(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
+	
+	if(window_Wt < 530 && window_Ht >= 480){
+		$("#profile1 .modal-body").css("height",window_Ht);
+		$("#profile1 .submit_btn").css("position","absolute");
+	}
+	
+	if(window_Wt < 767 && window_Ht > 370){
+		$(".login_section .login_btn").css("position","absolute");
+	}
+	
+	$(".form_block input").focus(function(){
+		$(this).prev().css("color","red");
+		$(".update_btn").css("background","red");
+	});
+	$(".form_block input").blur(function(){
+		$(this).prev().css("color","#4a4a4a");
+		$(".update_btn").css("background","#d8d8d8");
+	});
 	
     $('a[data-collapse="child"]').on('click', function(){
         var nestedCollapse;
@@ -98,10 +136,9 @@ $(document).ready(function(){
 			oneLine: true,
 			timeFormat: 'hh:mm tt',
 			dateFormat: 'dd/mm/yy',
-                        minDate: 'today'
+            minDate: 'today'
 		});
     });
-
 
     $("#ui-datepicker-div").click(function (event) {
             event.stopPropagation();
@@ -127,6 +164,7 @@ $(window).resize(function(){
 		$(".login_section .login_btn").css("position","absolute");
 	}
 });
+
 /* for showing the dropdown up and down of the respective field based on the page scroll */
 function determineDropDirection(){
 	$(".dropdown-menu").each( function(){

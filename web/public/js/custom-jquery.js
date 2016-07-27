@@ -201,8 +201,8 @@ $(".fromBottom").click(function() {
 });*/
 
 $(".deleteEvidence").click(function() {
-   $('.deleteevidence_loader').show();
-   $("#evidence_msg").show();
+    $('.deleteevidence_loader').show();
+    $("#evidence_msg").show();
     var fid = fileid;
     var ftype = filetype;
     $.ajax({
@@ -212,8 +212,16 @@ $(".deleteEvidence").click(function() {
         success: function(result) {
             $('#evd_' + fid).hide();
             $("#qclose").trigger("click");
+            $('#confirm_popup').modal('hide');            
             $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + '/public/images/tick.png">Evidence File deleted successfully!</h2></div>').delay(3000).fadeOut(100);
             $('.deleteevidence_loader').hide();
+            var table = $('#evidence').DataTable();
+            table.row('#tr'+fid).remove().draw(false);            
+//            $('#evidence tr#'+fid).remove();
+//            evidenceCount = $('#evidence-total').attr('total');
+//            evidenceCount = evidenceCount - 1;
+//            $('#evidence-total').html(evidenceCount).attr('total', evidenceCount);
+           
         }
     });
 });
@@ -243,7 +251,9 @@ $(".deleteIdFiles").click(function() {
        } 
     });
 });
-
+$('#file_file').on('change', function(){
+    $('#file_save').trigger('click');
+});
 if($('#frmAddEvidence').length) 
 {
     $("#frmAddEvidence").ajaxForm({
@@ -1740,7 +1750,7 @@ $( '#file_save' ).click( function( e ) {
     }
     e.preventDefault();
     return false;
-} );
+});
 
 // for validating the upload ID file
 $( '#userfiles_browse' ).change( function( e ) {    
@@ -2123,6 +2133,7 @@ function changePassowordDiv(type)
     }
 }
 
+
 /** Change password form **/
 $('#change_password_form').on('submit', function(e) {
 
@@ -2144,3 +2155,174 @@ $('#change_password_form').on('submit', function(e) {
        });
 });
 
+$(document).ready(function(){
+	$(".filter_tab").click(function(){
+		var checkBoxSection = $(".check_box_section");
+		if(checkBoxSection.hasClass('hide'))
+			checkBoxSection.removeClass('hide').addClass('open');
+		else
+			checkBoxSection.removeClass('open').addClass('hide');
+	});
+});
+
+if($('#evidencefiles').length>0) {
+
+	$.extend( $.fn.dataTable.defaults, {
+            ordering:  true
+        });
+	var oTable = $('#evidencefiles').DataTable({
+			"pagingType": "simple"
+		});
+
+	$.fn.dataTableExt.afnFiltering.push(
+	  function(oSettings, aData, iDataIndex) {
+                var parent_match = 0;
+                $('#evidence-filter input[type="checkbox"].parent-filter:checked').each(function(index,value){
+                    var val =$(this).val().toLowerCase();
+                    for (var col=0; col<aData.length; col++) {
+                            if (aData[col].toLowerCase().indexOf(val)>-1) {
+                                    parent_match++;
+                                    break;
+                            }
+			}
+                }); 
+                if(parent_match == 0 ) return false;
+		var totalLength = $('#evidence-filter input[type="checkbox"].children-filter:not(".parent-filter")').length;
+		var checkedLength = $('#evidence-filter input[type="checkbox"].children-filter:checked').not(".parent-filter").length;
+		var filterArray = [];
+		if(totalLength != checkedLength) {
+			$('#evidence-filter input[type="checkbox"].children-filter:checked').not(".parent-filter").each(function(index,value){
+				filterArray.push($(this).val());
+			});
+		}
+		var keywords = filterArray;
+		var matches = 0;
+		for (var k=0; k<keywords.length; k++) {
+			var keyword = keywords[k].toLowerCase();
+			for (var col=0; col<aData.length; col++) {
+				if (aData[col].toLowerCase().indexOf(keyword)>-1) {
+					matches++;
+					break;
+				}
+			}
+		}
+
+                if((matches == 0 && keywords.length > 0) || (checkedLength == 0)) return false;
+                var totalLength = $('#evidence-filter input[type="checkbox"]:not(".parent-filter,.children-filter")').length;
+		var checkedLength = $('#evidence-filter input[type="checkbox"]:checked').not(".parent-filter,.children-filter").length;
+		var filterArray = [];
+		if(totalLength != checkedLength) {
+			$('#evidence-filter input[type="checkbox"]:checked').not(".parent-filter,.children-filter").each(function(index,value){
+				filterArray.push($(this).val());
+			});
+		}
+		var keywords = filterArray;
+		var matches = 0;
+		for (var k=0; k<keywords.length; k++) {
+			var keyword = keywords[k].toLowerCase();
+			for (var col=0; col<aData.length; col++) {
+				if (aData[col].toLowerCase().indexOf(keyword)>-1) {
+					matches++;
+					break;
+				}
+			}
+		}
+
+                var searchString = $(".dataTables_filter input").val().toLowerCase();  
+		var searchMatches = 0;
+		for (var col=0; col<aData.length; col++) {
+		    if (aData[col].toLowerCase().indexOf(searchString)>-1) {
+				searchMatches++;
+				break;
+			
+			}
+		}
+		if(searchMatches>0 && (matches > 0 || keywords.length==0) && (checkedLength > 0)) return true;
+		  return false;
+		}
+		
+	);
+}
+
+/* CAND*/
+
+
+if($('#evidence').length>0) {
+
+	$.extend( $.fn.dataTable.defaults, {
+            ordering:  true
+        });
+	var oTable = $('#evidence').DataTable({
+			"pagingType": "simple"
+		});
+
+	$.fn.dataTableExt.afnFiltering.push(
+	  function(oSettings, aData, iDataIndex) {
+		var totalLength = $('#evidence-filter input[type="checkbox"].children-filter').length;
+		var checkedLength = $('#evidence-filter input[type="checkbox"].children-filter:checked').length;
+
+		var filterArray = [];
+		if(totalLength != checkedLength) {
+			$('#evidence-filter input[type="checkbox"].children-filter:checked').each(function(index,value){
+				filterArray.push($(this).val());
+			});
+		}
+		var keywords = filterArray;
+		var matches = 0;
+		for (var k=0; k<keywords.length; k++) {
+			var keyword = keywords[k].toLowerCase();
+			for (var col=0; col<aData.length; col++) {
+				if (aData[col].toLowerCase().indexOf(keyword)>-1) {
+					matches++;
+					break;
+				}
+			}
+		}
+                if((matches == 0 && keywords.length > 0) || (checkedLength == 0)) return false;
+                var totalLength = $('#evidence-filter input[type="checkbox"]:not(".children-filter")').length;
+		var checkedLength = $('#evidence-filter input[type="checkbox"]:checked').not(".children-filter").length;
+		var filterArray = [];
+		if(totalLength != checkedLength) {
+			$('#evidence-filter input[type="checkbox"]:checked').not(".children-filter").each(function(index,value){
+				filterArray.push($(this).val());
+			});
+		}
+		var keywords = filterArray;
+		var matches = 0;
+		for (var k=0; k<keywords.length; k++) {
+			var keyword = keywords[k].toLowerCase();
+			for (var col=0; col<aData.length; col++) {
+				if (aData[col].toLowerCase().indexOf(keyword)>-1) {
+					matches++;
+					break;
+				}
+			}
+		}
+                var searchString = $(".dataTables_filter input").val().toLowerCase();
+                console.log('searchString :: '+searchString);
+		var searchMatches = 0;
+		for (var col=0; col<aData.length; col++) {
+		    if (aData[col].toLowerCase().indexOf(searchString)>-1) {
+				searchMatches++;
+				break;
+			
+			}
+		}
+		if(searchMatches>0 && (matches > 0 || keywords.length==0) && (checkedLength > 0)) return true;
+		  return false;
+		}
+	);
+}
+
+$('#evidence-filter').on('click','input[type="checkbox"]',function(){
+	oTable.search($('.namesearch').val()).draw();
+});
+$('.namesearch').keyup(function(){
+oTable.search($(this).val()).draw();
+});
+$('.orderby-date').click(function(){
+    $('.sortbydate').trigger("click");
+    var currentArrow = $('.orderby-date i').html();
+    newArrow = (currentArrow == 'arrow_downward') ? 'arrow_upward' : 'arrow_downward';
+    $('.orderby-date i').html(newArrow);
+});
