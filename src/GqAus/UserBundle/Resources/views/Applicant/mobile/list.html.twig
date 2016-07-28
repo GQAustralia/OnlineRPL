@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Applicant Lists{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('public/css/timepicker.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">    
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/rto.css') }}">
+{% endblock %}
+{% block body %}
+
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+ <!-- Larg Screens HTML Start -->
+        
+<section class="portfolio-container hidden-xs">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading clearfix">
+                            <h4 class="panel-title">
+                                <span>Portfolios </span><span class="count" > {% if pendingApplicantsCount > 0 %}({{pendingApplicantsCount}}){% endif %} </span>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="container">
+                    <div class="portfolio-filter">
+                        <div class="row">
+                            <div class="col-md-8 col-lg-8 filter gq-app-aearch-grid">                                       
+                                    <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/>                                      
+                            </div>
+                            <div class="col-md-4 col-lg-4">
+                               <div class="row no-gutter">
+                                        <div class="col-md-12 col-lg-12">
+                                        <div class="gq-dashboard-tabs-header wid20p">
+                                            <ul role="tablist" id="myTab" >
+                                                    <li role="presentation" id="applicantPending" class="status active">
+                                                            <a href="#current" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>
+                                                    </li>
+                                                    <li role="presentation" id="applicantCompleted" class="status in-active">
+                                                            <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">COMPLETED</a>
+                                                    </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                               </div>
+                            </div>             
+                        </div>                            
+                    </div>
+                </div>
+            </div>
+            </div>
+        <div id="err_msg"></div>
+        <div class="row">
+            <div class="col-lg-12 tab-content">
+                <div id="ajaxHtml" style="display:none;" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+                            <img src="{{ asset('public/images')}}/loading.gif" class="img"/>
+                </div>
+                <div class="container tab-pane active" role="tabpanel" id="current">
+                    <div class="portfolio-data-table">                                
+                        <table class="table" id="myTable">
+                          {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                            <tbody id="currentList">
+                                {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                            </tbody>
+                            <tfooter>
+                                
+                                {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+                                    <tr>
+                                        <td class="gq-pagination-area" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
+                                            {# display navigation for pages - paginator_navigator #}        
+                                            {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tfooter>
+                        </table>
+                    </div>
+                </div>
+                
+                <div role="tabpanel" class="container tab-pane" id="completed">
+                    <div class="portfolio-data-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width:20%"><span class="">NAME</span></th>
+                                    <th ><span class="">QUALIFICATION</span></th> 
+                                </tr>
+                            </thead>
+                            <tbody id="completedList">
+                                {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>            
+        </div>            
+    </div>
+</section>
+        
+<!-- Larg Screens HTML End -->
+
+        
+{% endblock %}
+
+{% block javascripts %}  
+    <script type="text/javascript" src="{{ asset('public/js/jquery-1.12.3.js') }}"></script>   
+    <script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>  
+     <script src="{{ asset('public/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js') }}"></script>      
+    <script type="text/javascript">
+        $(document).ready(function() {            
+        $('#myTable').DataTable( {
+                  "paging":   false,                  
+                  "info":     false,
+                  "searching": false,
+                  "aaSorting": [],
+                  "columnDefs": [
+                    { "orderable": false, "targets":  [ 0,1,2,4,5 ] }
+                  ]
+                } );
+            var dateTime = new Date();
+            var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
+            var timeZoneDT = new Date(utc + (3600000 * +10));
+            $(".date_field").datetimepicker({                
+               dateFormat: "dd/mm/yy",
+                timeFormat: "hh:mm tt",
+                minDate: timeZoneDT,
+                minDateTime: timeZoneDT
+            });
+        });
+   </script>  
+  
+{% endblock %}
