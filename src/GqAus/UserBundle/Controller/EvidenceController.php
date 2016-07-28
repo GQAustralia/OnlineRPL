@@ -47,7 +47,7 @@ class EvidenceController extends Controller
 //        $result = $this->get('EvidenceService')->searchEvidencesByUserRole($userId, $userRole, $pendingApplicants);
 //        dump($result);
 //        exit;
-        
+        $evidences = array();
         if (in_array('ROLE_APPLICANT', $userRole)) {
             $evidences = $this->get('EvidenceService')->currentUser->getEvidences();
             
@@ -60,7 +60,7 @@ class EvidenceController extends Controller
             }
         }
 
-        $evidenceTypeCount = $mappedEvidence = $unMappedEvidences = $mappedToMultipleUnit = $mappedToOneUnit = $mappingCount = array();
+        $formattedEvidences = $evidenceTypeCount = $mappedEvidence = $unMappedEvidences = $mappedToMultipleUnit = $mappedToOneUnit = $mappingCount = array();
         foreach($evidences as $key => $evidence){
             $evdPath = (method_exists($evidence,'getName')) ?  $evidence->getPath() : $evidence->getContent();
             $evidenceTypeCount[$evidence->getType()][] = $evdPath;
