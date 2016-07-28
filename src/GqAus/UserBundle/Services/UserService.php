@@ -3293,7 +3293,7 @@ class UserService
                 'user' => $applicantId,
                 'unitId' => $unitId,
                 'courseCode' => $courseCode));
-            $unitType = $userCourseUnits->getType();
+                $unitType = ($userCourseUnits) ? $userCourseUnits->getType() : '';
         }
         return $unitType;
     }

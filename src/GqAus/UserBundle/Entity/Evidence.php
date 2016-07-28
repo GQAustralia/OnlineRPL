@@ -26,17 +26,6 @@ abstract class Evidence
     }
     
      /**
-     * @var string
-     * @ORM\Column(name="type", type="string")
-     */
-    private $ctype;
-    
-    
-    public function getCtype() {
-        return $this->type;
-    }
-
-        /**
      * Returns type of evidence.
      *
      * @return string

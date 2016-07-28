@@ -38,27 +38,9 @@ class EvidenceController extends Controller
     {
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $user = $this->get('security.context')->getToken()->getUser();
-        $userService = $this->get('UserService');
 
-        
-        $pendingApplicants = $userService->getPendingApplicants($user->getId(), $user->getRoles(), '0');
-        
-//        $userId = $user->getId();
-//        $result = $this->get('EvidenceService')->searchEvidencesByUserRole($userId, $userRole, $pendingApplicants);
-//        dump($result);
-//        exit;
         $evidences = array();
-        if (in_array('ROLE_APPLICANT', $userRole)) {
-            $evidences = $this->get('EvidenceService')->currentUser->getEvidences();
-            
-        } else if(in_array('ROLE_FACILITATOR', $userRole)){
-
-            foreach($pendingApplicants as $user){
-                $evidences = $userService->getUserInfo($user->getUser()->getId())->getEvidences();
-                if(!empty($evidence))
-                    $userEvidences = $evidence;
-            }
-        }
+        $evidences = $this->get('EvidenceService')->getPendingApplicantEvidences($user);
 
         $formattedEvidences = $evidenceTypeCount = $mappedEvidence = $unMappedEvidences = $mappedToMultipleUnit = $mappedToOneUnit = $mappingCount = array();
         foreach($evidences as $key => $evidence){
@@ -71,14 +53,14 @@ class EvidenceController extends Controller
             
             $formattedEvidences[$evdPath][] = $evidence;
         }
-//        dump($formattedEvidences);
-//        exit;
+
         foreach($mappedEvidence as $mKey => $mappedEvd){
             if(count($mappedEvd) > 1)
                 $mappedToMultipleUnit[] = $mKey;
             else if(count($mappedEvd) == 1)
                 $mappedToOneUnit[] = $mKey;
         }
+        
         $evdMapping['unMappedEvidences'] = $unMappedEvidences;
         $evdMapping['mappedToOneUnit'] = $mappedToOneUnit;
         $evdMapping['mappedToMultipleUnit'] = $mappedToMultipleUnit;

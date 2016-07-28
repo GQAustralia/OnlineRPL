@@ -2299,7 +2299,6 @@ if($('#evidence').length>0) {
 			}
 		}
                 var searchString = $(".dataTables_filter input").val().toLowerCase();
-                console.log('searchString :: '+searchString);
 		var searchMatches = 0;
 		for (var col=0; col<aData.length; col++) {
 		    if (aData[col].toLowerCase().indexOf(searchString)>-1) {

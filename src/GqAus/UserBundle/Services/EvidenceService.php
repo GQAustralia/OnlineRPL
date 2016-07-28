@@ -536,53 +536,23 @@ class EvidenceService
     }
     
     /**
-     * Function to search Evidence files
+     * Function to get pendign applicant evidence files
      * @param int $userId
-     * @param int $userRole
-     * @param string $evidenceTitle
      */
-    public function searchEvidencesByFacilitator($userId, $userRole, $pendingApplicants)
+    public function getPendingApplicantEvidences($user)
     {
-        dump($pendingApplicants);
-        foreach($pendingApplicants as $user){
-            $users[] = $user->getUser()->getId();
-            $courseCodes[] = $user->getcourseCode();
-        }
-        $userList = array_unique($users);
-        $courseList = array_unique($courseCodes);
-        
-        dump($userList);
-        dump($courseList);
+        $userId = $user->getId();
+        $qb = $this->em->createQueryBuilder()
+            ->select('evd')
+            ->from('GqAusUserBundle:UserCourses', 'uc')
+            ->leftJoin('GqAusUserBundle:Evidence','evd','WITH','uc.user=evd.user and evd.course = uc.courseCode')
+            ->leftJoin('GqAusUserBundle:UserCourseUnits', 'ucu','WITH','evd.user = ucu.user and evd.course = ucu.courseCode and evd.unit = ucu.unitId')
+            ->where('uc.facilitator = :facilitator')
+            ->andWhere('uc.courseStatus <> 0')
+            ->andWhere('ucu.facilitatorstatus = 0')
+            ->setParameter('facilitator', $userId);
+            $evidences = $qb->getQuery()->getResult();
 
-        //$fields = 'partial r.{id, completed, message, course}, partial u.{id, firstName, lastName}';
-        $fields = 'partial e.{id}';
-        $image = 'image';
-        $userId = '31';
-        $query = $this->em->getRepository('GqAusUserBundle:Evidence')
-            ->createQueryBuilder('e')
-            ->select()
-            ->where('e.user IN (:userIds)')->setParameter('userIds', $userList)
-           // ->andWhere('e.course IN (:courseCodes)')->setParameter('courseCodes', $courseList)
-            ->andWhere('e INSTANCE OF :type')->setParameter('type', ['Audio', 'File', 'Image', 'Recording', 'Text', 'Video']);  
-
-		// ->andWhere('e INSTANCE OF GqAusUserBundle:Evidence')
-		// ->setParameter('type', $image);
-		//$evidences = $this->em->getRepository('GqAusUserBundle:Evidence')->findBy(array('user' => array(31, 5), 'course' => array('CHC30113')));        
-		// $page = 2;
-        //$paginator = new \GqAus\UserBundle\Lib\Paginator();
-        //$pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));        
-        $evidences = $query->getQuery()->getResult();
-        dump($evidences);
-        
-        $query = $query->getQuery();
-        print_r(array(
-            'sql'        => $query->getSQL(),
-            'parameters' => $query->getParameters(),
-        ));
-        exit;
-
-        //echo 'inside';
-        exit;
         return $evidences;
     }
 }
