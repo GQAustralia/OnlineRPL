@@ -8,9 +8,8 @@
 {% block body %}
 
 {% set userRole = app.security.getToken().getUser().getRoles() %}
- <!-- Larg Screens HTML Start -->
-        
-<section class="portfolio-container hidden-xs">
+ <!-- Larg Screens HTML Start -->        
+<section class="portfolio-container">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -63,9 +62,9 @@
                 <div class="container tab-pane active" role="tabpanel" id="current">
                     <div class="portfolio-data-table">                                
                         <table class="table" id="myTable">
-                          {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                          {% include 'GqAusUserBundle:Applicant/mobile:apllicantsFilters.html.twig' %}
                             <tbody id="currentList">
-                                {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                {% include 'GqAusUserBundle:Applicant/mobile:applicants.html.twig' %}
                             </tbody>
                             <tfooter>
                                 
