@@ -1,4 +1,5 @@
 {% set reminderType = 'evidence' %}
+{% if ('ROLE_FACILITATOR' in roles) %}
 <div class="accordian_block">
     <div class="title_bar clearfix">
         <span class="title"><a href="{{ app.request.baseUrl }}/evidences" title="View Pending Evidences">EVIDENCES - <strong>({{ evidencesCount }} TO REVIEW)</a></strong></span>
@@ -44,3 +45,4 @@
     </div>
 	{% endif %}
 </div>
+{% endif %}

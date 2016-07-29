@@ -1076,7 +1076,7 @@ class UserService
                              $evidenceComp['eightyPercEvd'][] = $value;
                          }
                      }
-                     $evidences = $this->getPendingApplicantEvidences($pendingApplicants);
+                     $evidences = $this->getPendingApplicantEvidences($user);
                  }
                  $evidencesCount = (isset($evidences)) ? count($evidences) : 0;
                  $newEvidenceStartDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') - 5, date('Y')));
@@ -1120,26 +1120,20 @@ class UserService
      * @param array $pendingApplicants
      * return array $evidences
      */
-    public function getPendingApplicantEvidences($pendingApplicants)
+    public function getPendingApplicantEvidences($user)
     {
+        $userId = $user->getId();
+        $qb = $this->em->createQueryBuilder()
+            ->select('evd')
+            ->from('GqAusUserBundle:UserCourses', 'uc')
+            ->leftJoin('GqAusUserBundle:Evidence','evd','WITH','uc.user=evd.user and evd.course = uc.courseCode')
+            ->leftJoin('GqAusUserBundle:UserCourseUnits', 'ucu','WITH','evd.user = ucu.user and evd.course = ucu.courseCode and evd.unit = ucu.unitId')
+            ->where('uc.facilitator = :facilitator')
+            ->andWhere('uc.courseStatus <> 0')
+            ->andWhere('ucu.facilitatorstatus = 0')
+            ->setParameter('facilitator', $userId);
+            $evidences = $qb->getQuery()->getResult();
 
-		$evidences = array();
-        
-        /* $userId = 6;
-        $connection = $this->em->getConnection();
-        $statement = $connection->prepare('SELECT evd.* FROM user_courses uc join evidence evd on evd.user_id = uc.user_id WHERE uc.user_id = evd.user_id and evd.course_code=uc.course_code  and uc.facilitator = :facId');
-        $statement->bindValue('facId', $userId);
-        $statement->execute();
-        $evidences = $statement->fetchAll();
-        dump($evidences); exit */
-
-        if(is_array($pendingApplicants)){
-            foreach($pendingApplicants as $key => $user){
-                  $evidences = $this->getUserInfo($user->getUser()->getId())->getEvidences();
-                  if(!empty($evidence))
-                    $evidences[] = $evidence;
-            }
-        }
         return $evidences;
     }
 

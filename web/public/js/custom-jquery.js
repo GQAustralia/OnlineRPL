@@ -2173,6 +2173,18 @@ if($('#evidencefiles').length>0) {
 	var oTable = $('#evidencefiles').DataTable({
 			"pagingType": "simple"
 		});
+                
+        rowsCount = oTable.rows().count();
+        imageCount = oTable.rows('.image').count();
+        audioCount = oTable.rows('.audio').count();
+        videoCount = oTable.rows('.video').count();
+        textCount = oTable.rows('.text').count();
+        fileCount = oTable.rows('.file').count();
+        unmappedCount = oTable.rows('.mapped0').count();
+        mapped1Count = oTable.rows('.mapped1').count();
+        mapped2Count = oTable.rows('.mapped2').count();
+        console.log(rowsCount);
+        $('#evidence-total').html(rowsCount);
 
 	$.fn.dataTableExt.afnFiltering.push(
 	  function(oSettings, aData, iDataIndex) {
@@ -2242,6 +2254,16 @@ if($('#evidencefiles').length>0) {
 		}
 		
 	);
+
+        $('.image-count').html(imageCount);
+        $('.audio-count').html(audioCount);
+        $('.video-count').html(videoCount);
+        $('.text-count').html(textCount);
+        $('.file-count').html(fileCount);
+        $('.unmapped-unit').html(unmappedCount);
+        $('.mapped-one').html(mapped1Count);
+        $('.mapped-two').html(mapped2Count);
+
 }
 
 /* CAND*/
@@ -2255,6 +2277,25 @@ if($('#evidence').length>0) {
 	var oTable = $('#evidence').DataTable({
 			"pagingType": "simple"
 		});
+
+        rowsCount = oTable.rows().count();
+        imageCount = oTable.rows('.image').count();
+        audioCount = oTable.rows('.audio').count();
+        videoCount = oTable.rows('.video').count();
+        textCount = oTable.rows('.text').count();
+        fileCount = oTable.rows('.file').count();
+        unmappedCount = oTable.rows('.mapped0').count();
+        mapped1Count = oTable.rows('.mapped1').count();
+        mapped2Count = oTable.rows('.mapped2').count();
+        $('#evidence-total').html(rowsCount);
+        $('.image-count').html(imageCount);
+        $('.audio-count').html(audioCount);
+        $('.video-count').html(videoCount);
+        $('.text-count').html(textCount);
+        $('.file-count').html(fileCount);
+        $('.unmapped-unit').html(unmappedCount);
+        $('.mapped-one').html(mapped1Count);
+        $('.mapped-two').html(mapped2Count);
 
 	$.fn.dataTableExt.afnFiltering.push(
 	  function(oSettings, aData, iDataIndex) {
