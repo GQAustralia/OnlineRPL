@@ -5,25 +5,29 @@
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualififation.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/candidate/round-progress.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/candidate/roundslider.css') }}">
-<link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate.css') }}"> 
 {% endblock %}
 {% block body %}
     
 <!-- Larg Screens HTML -->
 {% if userCourses %}
+{% set counter = '' %}
+{% set counterArr = 0 %}
 {% for key, courses in userCourses %} 
     {% set userRole = app.security.getToken().getUser().getRoles() %}
     {% set userId = app.security.getToken().getUser().getId() %} 
     
     {% set flagCurrent = '1' %}
 {% if courses.courseStatus !=0 %}
+
     {% set courseCode = courses.getCourseCode()%}
     {% set courseInfo = courses_service.getCoursesInfo(courseCode)%}
 {% if courseInfo.courseInfo == "No records found" %}
 {% else %}
 {% if courseInfo.courseInfo.Units %}
 {% if courseInfo.courseInfo.Units.Unit %}
-
+{% set evidenceCompleteness = user_service.getEvidenceCompletenessCount(userId, courseCode) %}
+{% set counter = counter~evidenceCompleteness~',' %}
 <div class="hidden-xs body_section">
         
         <div class="presentation-section">
@@ -81,6 +85,8 @@
                         </div>
                     </div>
 				</div>#}
+                    {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}
+                    {% set output = remaining|split('&&') %}
                     <div class="col-md-5 col-lg-4">
 					<div class="info-box">
                         <div class="progres_bar_section">
@@ -92,18 +98,20 @@
                             </p>
                             <div class="progres-content">
                                 <div class="activ-middle">
-                                    <div id="slider8" class="rslider"></div>
+                                    <div id="slider{{counterArr}}" class="round-progress rslider"></div>
+                                    <div class="evidence-status">Evidence Submitted</div>
                                 </div>
                                 <p class="day-progress clearfix">
                                     <span class="start-day">0<br/>days</span>
                                     <span class="end-day">90<br/>days</span>
                                 </p>
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:3%">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="90" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
+                                        
                                       <span class="sr-only">70% Complete</span>
                                     </div>
                                 </div>
-                                <p class="text-center">Today is first day</p>
+                                <p class="text-center">Today is {{output[1]}}{%if (output[1] == 1) %}st{% elseif (output[1] == 2) %} nd {% elseif (output[1] == 3) %} rd {% else %}th{% endif %} day</p>
                             </div>
                         </div>
 					</div>
@@ -156,7 +164,7 @@
                                                                 <p> <span class="tag-id">{{units.id}}</span> </p>
                                                                 <p><a href="/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                         </div>
-                                                        <a data-toggle="collapse" data-parent="#nested" data-collapse="child" href="#nested-collapseSeven">
+                                                        <a href="/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">
                                                                 <i class="material-icons">chevron_right</i>
                                                         </a>
                                                 </div>
@@ -214,10 +222,10 @@
                         <span>Common Foundation Skills</span>
                     </h4>
                 </div>
-                <div class="panle_body_content clearfix">
+                <div class="panle_body_content unit-selection clearfix">
                     <i class="material-icons info">info</i>
                     <div class="tag-copy">
-                        <p> <span class="tag-id">342423423{{units.id}}</span> </p>
+                        <p> <span class="tag-id">{{units.id}}</span> </p>
                         <p><a href="/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
                     </div>
                     <div class="checkbox_outer">
@@ -229,6 +237,7 @@
             </div>
                         
                     {% endif %}
+                
             {% endfor %}
             {% endif %}
             {% endif %}
@@ -243,48 +252,68 @@
   {% include 'GqAusHomeBundle:Courses:facProfilePopups.html.twig' %}                  
 {% endif %}
             
-      {% endif %}{% endif %}
-
-        
+      {% endif %}
+ {% set counterArr = counterArr+1 %}
+{% endif %}
              {% endif %}
+   
             {% endfor %}
+    
+    <input type="hidden" id="courseCount" name="courseCount" value="{{counter}}">
             {% endif %}
+    
+    <script>
+        
+    </script>
     <!-- Larg Screens HTML End -->
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog gq-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" id="qeclose" class="close" data-dismiss="modal" aria-label="Close"></button>
-        <h4 class="modal-title" id="myModalLabel">Do you want to change the status of elective unit ?</h4>
-      </div>
-      <div class="modal-footer">
-        <a class="btn btn-white" id="qeclose-cancel">Cancel</a>
-        <a class="btn btn-white changeUnitStatus margin-left15">Ok</a>        
-        <span class="loading-icon qual_status_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
-      </div>
+<div class="modal fade confirm_popup" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+   <!-- Modal content-->
+   <div class="modal-content">
+    <div class="modal-header">
+     <button type="button" id="qeclose" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+     <div class="modal-title">Do you want to change the status of elective unit ?</div>
     </div>
+    <div class="modal-body">
+     <div class="btn_section">
+      <button class="btn btn_red changeUnitStatus">OK</button>
+      <button class="btn" data-dismiss="modal" id="qeclose-cancel">CANCEL</button>
+       <span class="loading-icon qual_status_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+     </div>
+    </div>
+   </div>
   </div>
-</div>
+ </div>
+
 {% endblock %}
     
 {% block javascripts %}
 <script type="text/javascript" src="{{ asset('public/js/roundslider.js') }}"></script>
 <script>
-        $(function () {
-            $("#slider8").roundSlider({
-                sliderType: "min-range",
-                value: 2,
-                min:1,
-                max: 100,
-                startAngle: 90,
-                circleShape: "half-top",		
-                radius: 80,
-                handleSize: 0,
-                width: 20,
-                editableTooltip: true,
-
-            });
+        $(function () {           
+           function getTheSliderValues(){
+               var valuesStr=$('#courseCount').val();
+               var perValuesArr=valuesStr.split(",");
+               perValuesArr.pop();
+               for(var i=0;i<perValuesArr.length;i++){
+                   var obj=new Object();
+                    obj.sliderType= "min-range";
+                    obj.value=perValuesArr[i];
+                    obj.min=0;
+                    obj.max=100;
+                    obj.startAngle= 90;
+                    obj.circleShape="half-top";
+                    obj.radius=80;
+                    obj.handleSize=0;
+                    obj.width=20;
+                    obj.editableTooltip=false;
+                    $("#slider"+i).roundSlider(obj);
+               }
+                
+           }
+           getTheSliderValues();         
         });
-    </script>	
+    </script>
+   
 {% endblock %}
