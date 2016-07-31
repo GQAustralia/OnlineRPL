@@ -131,10 +131,10 @@
 						</div>
                                                 <div class="titles_block hidden-xs">
                                                     <ul class="clearfix">
-                                                        <li style="width:15%;">
+                                                        <li style="width:13%;">
                                                             <span>Type</span>
                                                         </li>
-                                                        <li style="width:35%;">
+                                                        <li style="width:37%;">
                                                             <span class="file_name">File Name</span>
                                                         </li>
                                                         <li style="width:20%;">
@@ -169,7 +169,7 @@
                                                         {% set output = eviType|split('&&') %}
 
                                                         {% if evd[0].name %}
-                                                        <tr id="{{ evd[0].id }}">
+                                                        <tr id="{{ evd[0].id }}" class="{{ evd[0].type }} {{ mappedContent }}">
                                                             <td class="hide">{{ evd[0].course }}</td>
                                                             <td class="hide">{{ evd[0].type }}</td>
                                                             <td class="hide">{{mappedContent}}</td>
@@ -223,7 +223,7 @@
                                                         </tr>
                                                         {% endif %}
                                                     {% else %}
-                                                        <tr id="{{ evd[0].id }}">
+                                                        <tr id="{{ evd[0].id }}"  class="{{ evd[0].type }} {{ mappedContent }}">
                                                             <td class="hide">{{ evd[0].course }}</td>
                                                             <td class="hide">{{ evd[0].type }}</td>
                                                             <td class="hide">{{mappedContent}}</td>
