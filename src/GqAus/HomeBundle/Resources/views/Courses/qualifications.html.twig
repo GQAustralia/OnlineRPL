@@ -37,14 +37,17 @@
                         <div class="col-sm-12 col-lg-11">
                             <p>
                                 <span> {{ courses.getCourseName() }}</span>
-                                <span>{{ courses.getCourseCode() }}</span>
+                                <span data-toggle="collapse" data-target="#collapse-{{courseCode}}">{{ courses.getCourseCode() }}
+                                    <a href="#">
+                                            <i class="material-icons">expand_less</i>
+                                        </a></span>
                             </p>
                         </div>
                     </div>
 
                 </div>
             </div>
-		<div class="container candidate">
+		<div class="container candidate collapse in"  id="collapse-{{courseCode}}">
 		<div class="row">
                 {#<div class="col-md-6 col-lg-4">
                     <div class="row">

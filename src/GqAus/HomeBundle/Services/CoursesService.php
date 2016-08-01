@@ -155,14 +155,14 @@ class CoursesService
             }
         }
 
-//        if (!empty($result)) {         
-//            $qualificationUnits = $this->xml2array($result);
-//        }       
-        $myfile = fopen("newfile.txt", "r") or die("Unable to open file!");
-        $qualificationUnits =  json_decode(fread($myfile,filesize("newfile.txt")),true);
-        dump($qualificationUnits); 
-        fclose($myfile);
-        exit();
+        if (!empty($result)) {         
+            $qualificationUnits = $this->xml2array($result);
+        }       
+//        $myfile = fopen("newfile.txt", "r") or die("Unable to open file!");
+//        $qualificationUnits =  json_decode(fread($myfile,filesize("newfile.txt")),true);
+//        dump($qualificationUnits); 
+//        fclose($myfile);
+//        exit();
         return (!empty($qualificationUnits['qualification'])) ? $qualificationUnits['qualification'] : array();
     }
     /**
