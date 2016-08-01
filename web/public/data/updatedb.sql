@@ -18,3 +18,6 @@ ALTER TABLE `evidence` CHANGE `unit_code` `unit_code` VARCHAR(50) NULL DEFAULT N
 
 ALTER TABLE `evidence` CHANGE `course_code` `course_code` VARCHAR(100) NULL DEFAULT NULL;
 
+--New Applicant landing pages
+ALTER TABLE `user` ADD `apllicantstatus` INT(20) NOT NULL AFTER `crm_id`;
+

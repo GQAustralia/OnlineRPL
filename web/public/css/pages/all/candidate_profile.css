@@ -36,5 +36,8 @@ change_file_error {width: 100%;margin-bottom:10px;}
 .confirm_popup .btn_section{margin:10px auto 0;text-align:center;}
 .confirm_popup .btn_section .btn{border-radius:0;}
 .confirm_popup .btn_section .btn.btn_red{border:1px solid #E01010;background-color:#E01010;color:#fff;margin-right:10px;}
-
-
+.gq-id-pwd-error-text1 {padding-top:12px; text-align:center;}
+.gq-id-pwd-error-text1 h2{color:#e01010; font-size:13px;}
+.gq-id-pwd-error-text1 img {width:auto !important; margin-right:4px; padding-bottom:4px;}
+.gq-change-pwd-warning1 {width:60%; margin:0 auto; position:relative;}
+#pwd_error1 {width: 100%;margin-bottom:10px;}

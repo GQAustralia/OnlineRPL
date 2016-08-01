@@ -98,7 +98,7 @@ class UserService
      * @param string $image
      */
     public function savePersonalProfile($user, $image)
-    {
+    {        
         if (!empty($image)) {
             $user->setUserImage($image);
         }
@@ -1779,6 +1779,7 @@ class UserService
         $data['ceophone'] = $request->get('ceophone');
         $data['createdby'] = $request->get('createdby');
         $data['status'] = $request->get('status');
+        $data['applicantStatus'] = '1';
         $data['address']['address'] = $request->get('address');
         $data['address']['pincode'] = $request->get('pincode');
         $data['newpassword'] = isset($data['newpassword']) ? $data['newpassword'] : $uniqid;
@@ -1848,6 +1849,7 @@ class UserService
                 $this->container->getParameter('fromEmailAddress'), 
                 $this->container->getParameter('default_from_username'));
         }
+        
         echo $message;
         exit;
     }

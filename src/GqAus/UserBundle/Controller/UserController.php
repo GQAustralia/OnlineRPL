@@ -777,5 +777,30 @@ class UserController extends Controller
         $userService->savePersonalProfile($user, $image);
         exit;
     }
+    function updateNewPasswordAjaxAction(Request $request){
+        $newpassword = $request->get('new-password');       
+        $userService = $this->get('UserService');
+        $user = $userService->getCurrentUser();
+        $password = password_hash($newpassword, PASSWORD_BCRYPT);
+        $user->getFirstName();
+        $user->getLastName();
+        $user->getPhone();
+        $user->setPassword($password);
+        $user->setApplicantStatus('2');
+        $image = $user->getUserImage();
+        
+        //Saving to profile
+        $userService->savePersonalProfile($user, $image);
+        exit;
+    }
+    function updateNewUserAjaxAction(Request $requset)
+    {
+        $userService = $this->get('UserService');
+        $user = $userService->getCurrentUser();
+        $user->setApplicantStatus('0');
+         $image = $user->getUserImage();
+         $userService->savePersonalProfile($user, $image);
+        exit;
+    }
 
 }

@@ -10,6 +10,7 @@
         <field name="email" type="string" column="email" length="128" nullable="false"/>
         <field name="phone" type="string" column="phone" length="128" nullable="false"/>
         <field name="password" type="string" column="password" length="128" nullable="false"/>
+        
         <discriminator-column name="role_type" type="integer" />
         <discriminator-map>
             <discriminator-mapping value="1" class="GqAus\UserBundle\Entity\Applicant" />
@@ -44,6 +45,7 @@
         <field name="createdby" type="integer" column="created_by" length="11" nullable="true"/>
         <field name="status" type="integer" column="status" length="1" nullable="false" />
         <field name="crmId" type="string" column="crm_id" nullable="true"/>
+        <field name="applicantStatus" type="integer" column="applicantStatus" length="1" nullable="false"/>
         <one-to-many field="idfiles" target-entity="GqAus\UserBundle\Entity\UserIds" mapped-by="user" />        
         <one-to-many field="evidences" target-entity="GqAus\UserBundle\Entity\Evidence" mapped-by="user" />
         <one-to-many field="reminders" target-entity="GqAus\UserBundle\Entity\Reminder" mapped-by="user" />

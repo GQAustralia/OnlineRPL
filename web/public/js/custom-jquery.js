@@ -2102,6 +2102,7 @@ $('#user_profile_form').on('submit', function(e) {
        
    return false;
 }); 
+
 /**
  * Show or hide passowrd div
  * @param {int} type
@@ -2143,4 +2144,87 @@ $('#change_password_form').on('submit', function(e) {
             }
        });
 });
-
+/* Change Password Validations */
+function passwordShowerrorMsg(errorMsg,msgId)
+{
+    var startdiv = '<div class="gq-id-pwd-error-text1"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var enddiv = '</h2></div>';
+    $("#pwd_error1").show();
+    $("#pwd_error1").html(startdiv + errorMsg + enddiv).delay(3000).fadeOut(100);
+    if($("#"+msgId).val() != "")
+        $("#"+msgId).val('');
+    $("#"+msgId).focus();
+}
+function newPasswordUpdate()
+{
+    var displayConfirmPwd = $("#confirm-password").parent().css( "display" );  
+    var newpwd = $("#new-password").val();
+    var newconfirmpwd = $("#confirm-password").val();
+    var startdiv = '<div class="gq-id-pwd-error-text1"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var enddiv = '</h2></div>';
+  
+    
+    if (newpwd == "") {
+        passwordShowerrorMsg("Please enter New Password", "new-password");
+        return false;
+    }
+    if (newpwd != "") {
+        if (newpwd.length < 6) {
+            passwordShowerrorMsg("New Password must be minimum of 6 characters", "new-password");
+            return false;
+        }
+    }
+    if (newconfirmpwd == "" && displayConfirmPwd != 'none') {
+        passwordShowerrorMsg("Please enter Confirm Password", "confirm-password");
+        return false;
+    }
+    if (newconfirmpwd != "" && displayConfirmPwd != 'none') {
+        if (newconfirmpwd.length < 6) {
+            passwordShowerrorMsg("New Confirm Password must be minimum of 6 characters", "confirm-password");
+            return false;
+        }
+    }
+    if (newpwd != "" && newconfirmpwd != "" ) {        
+        if (newpwd != newconfirmpwd)
+        {
+            passwordShowerrorMsg("New Password and Confirm Password does not match", "confirm-password");
+            return false;
+        }
+    } 
+    
+    return true;
+}
+/* Password Update (from New User) -*/
+$('#updatePassword').on('submit', function(e) {
+     if(newPasswordUpdate()){  
+        e.preventDefault();
+        form_data = $(this).serialize(); //Serializing the form data
+           $.ajax({
+                type: "POST",
+                url: "updateNewPasswordAjax",
+                cache: false,
+                data: form_data,
+                success: function(result) {
+                    $("#profile_suc_msg3").show();
+                    $("#profile_suc_msg3").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile updated successfully!</h2></div>').delay(3000).fadeOut(100);                    
+                   window.location.href = base_url+'userprofile';
+                  
+                }
+            });
+        }
+       
+   return false;
+});
+function saveUserPassword(){       
+           $.ajax({
+                type: "POST",
+                url: "updateNewUserAjax",
+                cache: false,                
+                success: function(result) {
+                   window.location.href = base_url+'userprofile';
+                }
+            });
+      
+       
+   return false;
+}
