@@ -43,7 +43,26 @@
         {% if (status == 0) %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)%}
         {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %}  
-        <td class="col-md-2 col-lg-2">{{ courseStatus }}{% set courseFacilitator = user_service.getFacilitaorInfo(list.courseCode, list.user.id) %}
+        <td class="col-md-2 col-lg-2">{{ courseStatus }}
+         </td>
+         {% endif %}
+        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+        <td><div class="dropdown keep-open" id="div_{{list.id}}">
+                    <span {% if toDoApplicantCount == 0 %}class="dropdown-toggle " data-toggle="dropdown"{% endif %} id="{{list.id}}">{% if toDoApplicantCount == 0 %}<i class="material-icons">playlist_add </i>{% else %} <i class="material-icons" style="color:#ccc;">playlist_add_check{%endif%}</i></span>
+                    <div class="dropdown-menu">
+                            <textarea rows="3" placeholder="Notes" class="notes-area" id="notes_{{list.id}}"></textarea>
+                            <div class="date_section clearfix">
+                                    <input type="text" class="date_field form-control" id="remindDate_{{list.id}}" placeholder="Due Date" />
+                            </div>
+                            <button type="button" class="btn_red setData" userCourseId="{{list.id}}" listId="{{list.id}}">SET</button>
+                    </div>
+            </div></td>
+        {% endif %}
+        {% if ('ROLE_MANAGER' in userRole) %}
+         <td>
+             <a href="javascript:void(0)" data-toggle="modal" data-target="#update_popup_{{id}}"><i class="material-icons">control_point</i></a>
+             <!-- Modal -->
+        {% set courseFacilitator = user_service.getFacilitaorInfo(list.courseCode, list.user.id) %}
        
         <div class="modal fade update_popup" id="update_popup_{{id}}" role="dialog">
                         <div class="modal-dialog">
@@ -69,29 +88,13 @@
                                 </div>
                         </div>
                
-        </div></td>
-         {% endif %}
-        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-        <td><div class="dropdown keep-open" id="div_{{list.id}}">
-                    <span {% if toDoApplicantCount == 0 %}class="dropdown-toggle " data-toggle="dropdown"{% endif %} id="{{list.id}}">{% if toDoApplicantCount == 0 %}<i class="material-icons">playlist_add </i>{% else %} <i class="material-icons" style="color:#ccc;">playlist_add_check{%endif%}</i></span>
-                    <div class="dropdown-menu">
-                            <textarea rows="3" placeholder="Notes" class="notes-area" id="notes_{{list.id}}"></textarea>
-                            <div class="date_section clearfix">
-                                    <input type="text" class="date_field form-control" id="remindDate_{{list.id}}" placeholder="Due Date" />
-                            </div>
-                            <button type="button" class="btn_red setData" userCourseId="{{list.id}}" listId="{{list.id}}">SET</button>
-                    </div>
-            </div></td>
-        {% endif %}
-        {% if ('ROLE_MANAGER' in userRole) %}
-         <td>
-		<a href="javascript:void(0)" data-toggle="modal" data-target="#update_popup_{{id}}"><i class="material-icons">control_point</i></a>
+        </div>
          </td>
          {% endif %}
         {% endif %}
                          
     </tr>
-    <!-- Modal -->
+   
     
 {% endfor %}
 {% else %}
