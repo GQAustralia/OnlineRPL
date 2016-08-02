@@ -98,7 +98,7 @@ class UserService
      * @param string $image
      */
     public function savePersonalProfile($user, $image)
-    {        
+    {
         if (!empty($image)) {
             $user->setUserImage($image);
         }
@@ -1778,8 +1778,7 @@ class UserService
         $data['ceoemail'] = $request->get('ceoemail');
         $data['ceophone'] = $request->get('ceophone');
         $data['createdby'] = $request->get('createdby');
-        $data['status'] = $request->get('status');
-        $data['applicantStatus'] = '1';
+        $data['status'] = $request->get('status');                
         $data['address']['address'] = $request->get('address');
         $data['address']['pincode'] = $request->get('pincode');
         $data['newpassword'] = isset($data['newpassword']) ? $data['newpassword'] : $uniqid;
@@ -1798,10 +1797,12 @@ class UserService
             }
         } else {
             if (!empty($data['email']) && count($user) <= 0) {
+                $data['applicantStatus'] = '1';
                 $user = $this->addPersonalProfile('ROLE_APPLICANT', $data);
                 $message = 'User added successfully!';
                 $emailFlag = 'U';
             } else {
+                $data['applicantStatus'] = '0';
                 $message = 'This User already exist!';
             }
             $courseData['courseCode'] = $request->get('courseCode');
@@ -1849,7 +1850,6 @@ class UserService
                 $this->container->getParameter('fromEmailAddress'), 
                 $this->container->getParameter('default_from_username'));
         }
-        
         echo $message;
         exit;
     }
@@ -2520,6 +2520,7 @@ class UserService
         $userObj->setPhone(isset($data['phone']) ? $data['phone'] : '');
         $password = password_hash($data['newpassword'], PASSWORD_BCRYPT);
         $userObj->setPassword($password);
+        $userObj->setApplicantStatus($data['applicantStatus']);
         $userObj->setTokenStatus(isset($data['tokenStatus']) ? $data['tokenStatus'] : 1);
         $userObj->setUserImage(isset($data['userImage']) ? $data['userImage'] : '');
         $userObj->setPasswordToken(isset($data['pwdToken']) ? $data['pwdToken'] : '');
