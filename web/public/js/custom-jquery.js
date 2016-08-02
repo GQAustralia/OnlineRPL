@@ -1026,8 +1026,8 @@ $("#searchFilterReports").click(function() {
     loadDataIcon('currentList');
     loadApplicantListReports('currentList',pagenum);
 });
-/*$("#searchFilter").click(function() {   
-    pagenum = 1;
+$("#searchFilter").click(function() {   
+    pagenum = 1;    
     if(applicantStatus==0)
     {
         loadDataIcon('currentList');
@@ -1038,7 +1038,7 @@ $("#searchFilterReports").click(function() {
         loadDataIcon('completedList');
         loadApplicantList('completedList',pagenum);
     }
-});*/
+});
 $(".search-box").keyup(function (e) {   
     pagenum = 1;        
     if(applicantStatus==0)
@@ -1068,15 +1068,16 @@ $(".search-box-mobile").keypress(function () {
 function loadApplicantList(divContent,pagenum)
 {
     searchName = $('#searchName').val();
-   // searchTime = $('#timeRemaining').val();
-   // filterByUser = $('#filterByUser').val();
-   // filterByStatus = $('#filterByStatus').val();
+ //   searchTime = $('#timeRemaining').val();
+    filterByUser = $('#filterByUser').val();
+    filterByStatus = $('#filterByStatus').val();
     $.ajax({
         type: "POST",
         url: base_url + "searchApplicantsList",
         cache: false,
-        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: '', filterByStatus: ''},
+        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
         success: function(result) { 
+            alert
            // $("#filter-by-name").hide();
            // $("#filter-by-week").hide();
            // $("#app-pending-approve").hide();          

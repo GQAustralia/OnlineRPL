@@ -3,6 +3,7 @@
 
 {% if applicantList %}
 {% for key, list in applicantList %}
+{% set id = list.id %}
     <tr>
         <td class="col-md-2 col-lg-2"><a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" target="MyNewWindow">{{list.user.firstName}} {{list.user.lastName}}</a></td>        
         <td class="col-md-3 col-lg-3">{{list.courseCode}} {{list.courseName}}</td>
@@ -11,7 +12,7 @@
         {% set userId = list.user.id %}
         {% set id = list.id %}
         {% set courseCode = list.courseCode %}  
-        {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %}       
+             
         <td class="col-md-2 col-lg-2">
             <div class="progress">
               <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ completeness(userId,courseCode) }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ completeness(userId,courseCode) }}"></div>
@@ -20,7 +21,7 @@
         </td>
         {% endif %}
         {% endif %}
-        
+        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_RTO' in userRole)%}
         {% set currUser = app.security.getToken().getUser().getId() %}      
         {% set toDoApplicantCount = user_service.getCheckTodoApplicant( currUser , list.id ) %} 
         {% set userId = list.user.id %}
@@ -38,9 +39,39 @@
             <div class="progress-copy">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%} </div>
         </td>
       {% endif %}
+        {% endif %}
         {% if (status == 0) %}
+        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)%}
+        {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %}  
+        <td class="col-md-2 col-lg-2">{{ courseStatus }}{% set courseFacilitator = user_service.getFacilitaorInfo(list.courseCode, list.user.id) %}
+       
+        <div class="modal fade update_popup" id="update_popup_{{id}}" role="dialog">
+                        <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                        <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h5 class="modal-title">Select Facilitator</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                                <form class="form">
+                                                    {% if facilitators %}
+                                                    <select class="form-control" id="{{id}}">
+                                                                <option>Select</option>
+                                                        {% for key,faclist in facilitators%}
+                                                                <option value="{{faclist.id}}" {% if courseFacilitator[0][1] == faclist.id%} selected {% else %} {% endif %}>{{faclist.firstname}} {{faclist.lastname}}</option>
+                                                               {% endfor %}
+                                                        </select>
+                                                    {% endif %}
+                                                        <button class="btn btn_red">UPDATE</button>
+                                                </form>
+                                        </div>
+                                </div>
+                        </div>
+               
+        </div></td>
+         {% endif %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-        <td class="col-md-2 col-lg-2">{{ courseStatus }}</td>
         <td><div class="dropdown keep-open" id="div_{{list.id}}">
                     <span {% if toDoApplicantCount == 0 %}class="dropdown-toggle " data-toggle="dropdown"{% endif %} id="{{list.id}}">{% if toDoApplicantCount == 0 %}<i class="material-icons">playlist_add </i>{% else %} <i class="material-icons" style="color:#ccc;">playlist_add_check{%endif%}</i></span>
                     <div class="dropdown-menu">
@@ -52,9 +83,16 @@
                     </div>
             </div></td>
         {% endif %}
+        {% if ('ROLE_MANAGER' in userRole) %}
+         <td>
+		<a href="javascript:void(0)" data-toggle="modal" data-target="#update_popup_{{id}}"><i class="material-icons">control_point</i></a>
+         </td>
+         {% endif %}
         {% endif %}
                          
     </tr>
+    <!-- Modal -->
+    
 {% endfor %}
 {% else %}
     <tr>

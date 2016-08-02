@@ -127,6 +127,9 @@ class ApplicantController extends Controller
         $results['status'] = 0;
 		$results['pendingApplicantsCount']=$pendingApplicantsCount;
         $users = array();
+        if ($userRole[0] == Superadmin::ROLE_NAME || $userRole[0] == Manager::ROLE_NAME) {
+                    $results['facilitators'] = $this->get('UserService')->getUsers(Facilitator::ROLE);                   
+                }
         $qualificationStatus = array();
        //if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
             $users = $this->get('UserService')->getUserByRole();
@@ -134,6 +137,7 @@ class ApplicantController extends Controller
         //}
         $results['users'] = $users;
         $results['qualificationStatus'] = $qualificationStatus;
+       // dump( $results['facilitators']);
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
 
@@ -143,6 +147,7 @@ class ApplicantController extends Controller
      */
     public function searchApplicantsListAction()
     {
+       
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $searchName = $this->getRequest()->get('searchName');
@@ -150,16 +155,19 @@ class ApplicantController extends Controller
         $filterByUser = $this->getRequest()->get('filterByUser');
         $filterByStatus = $this->getRequest()->get('filterByStatus');
         $status = $this->getRequest()->get('status');
-        $page = $this->getRequest()->get('pagenum');
+        $page = $this->getRequest()->get('pagenum');        
         if ($page == '') {
             $page = 1;
-        }
+        }         
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, 
             $searchName, $searchTime, $filterByUser, $filterByStatus);
+            if ($userRole[0] == Superadmin::ROLE_NAME || $userRole[0] == Manager::ROLE_NAME) {
+                    $results['facilitators'] = $this->get('UserService')->getUsers(Facilitator::ROLE);                    
+                }        
 		$qualificationStatus = $this->get('UserService')->getQualificationStatus();
-		$results['qualificationStatus'] = $qualificationStatus;
+		$results['qualificationStatus'] = $qualificationStatus;              
         $results['pageRequest'] = 'ajax';
-        $results['status'] = $status;
+        $results['status'] = $status;        
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results);
         exit;
     }
@@ -512,4 +520,6 @@ class ApplicantController extends Controller
         echo json_encode($userUnitEvStatus);
         exit;
     } 
+    
+    
 }
