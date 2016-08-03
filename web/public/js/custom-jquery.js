@@ -778,9 +778,11 @@ function onloadCount()
             if (result > 0) {                
                 $("#unread-count").html(result);
                 $(".inbox-cnt").html("(" + result + ")");
+				$("#messageCount").attr('class', '');
             } else {
                 $("#unread-count").css("display","none");
                 $(".inbox-cnt").html("");
+				$("#messageCount").attr('class', 'hide');
             }
         }
     });
@@ -793,9 +795,10 @@ function onloadPortfolioCount()
         cache: false,
         success: function(result) {         
             if (result > 0) {                
-                $(".portfolio-current").html(result);               
+                $(".portfolio-current").html(result);
+				$("#portfolioCount").attr('class', '');			
             } else {                
-                $(".portfolio-current").css("display","none");                
+                $(".portfolio-current").css("display","none");
             }
         }
     });
@@ -824,9 +827,11 @@ $(".markasread").click(function() {
                         if (parseInt(rec[0]) > 0) {
                             $(".inbox-cnt").html("(" + rec[0] + ")");
                             $("#unread-count").html('<span class="gq-ms-counter">' + rec[0] + '<span>');
+							$("#messageCount").attr('class', '');	
                         } else {
                             $(".inbox-cnt").html("");
                             $("#unread-count").html("");
+							$("#messageCount").attr('class', 'hide');	
                         }
                         $("#chk-main-all").prop('checked', false);
                         $("#chk-main-all").prev().removeClass("checked");
@@ -866,9 +871,11 @@ $(".markasunread").click(function() {
                         if (parseInt(rec[0]) > 0) {
                             $(".inbox-cnt").html("(" + rec[0] + ")");
                             $("#unread-count").html('<span class="gq-ms-counter">' + rec[0] + '<span>');
+							$("#messageCount").attr('class', '');	
                         } else {
                             $(".inbox-cnt").html("");
                             $("#unread-count").html("");
+							$("#messageCount").attr('class', 'hide');	
                         }
                         $("#chk-main-all").prop('checked', false);
                         $("#chk-main-all").prev().removeClass("checked");
