@@ -134,7 +134,7 @@
                                                 </div>
                                                 <div class="btn_section clearfix">                                                        
                                                         {{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'btn change_pwd_btn'}}) }}
-                                                        <input type="button" class="btn" id="fclose-cancel"  onclick="window.location='/userprofile';return false;" value="Cancel"/>
+                                                        <input type="button" class="btn" id="fclose-cancel"  data-dismiss="modal" value="Cancel"/>
                                                 </div>
                                        {{ form_end(changepwdForm) }}
                                 </div>
