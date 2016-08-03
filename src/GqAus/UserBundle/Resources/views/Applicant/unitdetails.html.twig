@@ -13,84 +13,6 @@
     {% set unitFacStatus = unitStatus.facilitatorstatus %}
     {% set unitAssStatus = unitStatus.assessorstatus %}
     {% set unitRtostatus = unitStatus.rtostatus %}
-    
-    <!-- Small Screens HTML -->
-        <div class="hidden-lg body_section">
-            <div class="presentation-section">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 col-lg-11">
-                            <p>
-                                <span>{% if courseInfo.name %} {{courseInfo.name}} {% endif %}</span>
-                                <span>{% if courseInfo.id %} {{courseInfo.id}} {% endif %}</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6">
-                        <div class="edu-tag">
-                            
-                            <p>
-                                <span class="tag-edu">Qualification</span>
-                                <span class="tag-id">Unit {{ unitCode }}</span>
-                                <span class="tag-copy">{{unitName}}</span>                        
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6">
-                        <div class="panel-group">
-                            <div class="panel clearfix">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <span>Evidence</span>
-                                        <span class="pull-right"><strong> {{ evidenceCount }} Evidence Files Received</strong></span>
-                                    </h4>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="panel-copy">
-                                        {% for evidence in evidences %}
-                                            {% set evidenceType = evidence.type %}
-                                            {% if evidence.unit == unitCode %}
-                                                {% set evidenceType = evidence.type %}
-                                                {% if evidenceType == 'image' %} 
-                                                    {% set evtype = "photo"  %}
-                                                    {% set evfancy = "fancybox"  %}
-                                                {% elseif evidenceType == 'audio' %} 
-                                                       {% set evtype = "mic"  %}
-                                                       {% set evfancy = "" %}
-                                                {% elseif evidenceType == 'video' %} 
-                                                       {% set evtype = "videocam" %}  
-                                                       {% set evfancy = "" %}
-                                                {% elseif evidenceType == 'text' %}
-                                                       {% set evtype = "text_fields" %}
-                                                       {% set evfancy = "text" %}      
-                                                {% elseif evidenceType == 'file' %} 
-                                                       {% set evtype = "description" %}
-                                                       {% set evfancy = "fancybox fancybox.iframe" %}
-                                                {% elseif evidenceType == 'recording' %} 
-                                                       {% set evtype = "fiber_manual_record" %}
-                                                {% endif %}
-                                               <div class="file-info">
-                                                   <a href = "{{ amazon_link }}{{  evidence.path }}" {% if evfancy == 'fancybox' or evfancy == 'fancybox fancybox.iframe'%} class="{{ evfancy }}" {% else %} target="_blank" {% endif %}><span class="icon"><i class="material-icons">{{ evtype }}</i></span></a>
-                                                   <span class="file-discription">{{evidence.size}} | ADDED {{ evidence.created|date("d/m/y") }}</span>
-                                               </div>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <!-- Small Screens HTML End -->
-    
     <!-- Large Screens HTML -->
     <div class="hidden-xs body_section">
         <div class="presentation-section">
@@ -110,12 +32,12 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="edu-tag">
-                        {% set inloop = 0 %}
+                         {% set inloop = 0 %}
                         {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], unitCode, courseInfo.id ) %}
-                        {% if ('ROLE_ASSESSOR' in userRole and approvalStatus =='0') %} 
-                            {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_FACILITATOR', unitCode, courseInfo.id ) %}
+                        {% if ('ROLE_RTO' in userRole and approvalStatus =='0') %} 
+                            {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_ASSESSOR', unitCode, courseInfo.id ) %}
                             {% set inloop = 1 %}
-                        {% endif %}   
+                        {% endif %}  
                         {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
                         {% if approvalText|length > 0 %}<p> <span class="tag">{{approvalText}} </span> </p>{% endif %}
                         <p>
@@ -143,12 +65,16 @@
                                             {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                             {% set output = eviType|split('&&') %}
                                                 <div class="file-info">
-                                                   <a href="{{ amazon_link }}{{  evidence.path }}" 
+                                                   <a href="{% if evidence.type != 'recording' %}{{ amazon_link }}{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
                                                         {% if output[1] is defined %}
                                                             {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
                                                         {%endif%}>
                                                         <span class="icon"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
-                                                   </a><span class="file-discription">{% if evidence.name is defined %}{{evidence.name}}{%endif%}<br/>{% if evidence.size is defined %}{{evidence.size}} |{%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}</span>   
+                                                   </a><span class="file-discription">
+                                                            {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{%endif%}
+                                                       <br/>{% if evidence.size is defined %}{{evidence.size}} {% if evidence.type != 'recording' %} |{%endif%} {%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}
+
+                                                   </span>   
                                                 </div>
                                         {% endif %}
                                     {% endfor %}
