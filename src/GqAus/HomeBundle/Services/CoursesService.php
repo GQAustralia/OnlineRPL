@@ -66,10 +66,24 @@ class CoursesService
             if (!empty($courseInfo['details'])) {
                 $courseInfo['details'] = html_entity_decode($courseInfo['details']);
             }
-        }
+        }        
         return array('courseInfo' => $courseInfo);
     }
-
+     /**
+     * Function to get courses info
+     * @param int $id
+     * return array
+     */
+    public function getUserCoursesInfo($id)
+    {
+        $courseInfo = $this->fetchCourseRequest($id);
+        if (!empty($courseInfo)) {
+            if (!empty($courseInfo['details'])) {
+                $courseInfo['details'] = html_entity_decode($courseInfo['details']);
+            }
+        }        
+        return array('courseInfo' => $courseInfo);
+    }
     /**
      * Function to api request for courses
      * @param int $id
@@ -107,6 +121,68 @@ class CoursesService
             $qualificationUnits = $this->xml2array($result);
         }
         return (!empty($qualificationUnits['qualification'])) ? $qualificationUnits['qualification'] : array();
+    }
+    /**
+     * Function to api request for courses
+     * @param int $id
+     * return array
+     */
+    public function fetchCourseRequest($id)
+    {
+        $session = new Session();
+        $start = $session->get('start');
+        $apiToken = $session->get('api_token');
+        if (!empty($start) && !empty($apiToken)) {
+            if ($start + 60 < time()) {
+                $session->set('api_token', '');
+                $session->set('start', '');
+            }
+        } else {
+            $session->set('start', time());
+        }
+        $postFields = array('code' => $id);
+        $apiToken = $session->get('api_token');
+        if (!empty($apiToken)) {
+            $postFields['token'] = $apiToken;
+            $result = $this->accessCourseAPI($postFields);
+        } else if (empty($apiToken)) {
+            $result = $this->accessCourseAPI($postFields);
+            $postFields['token'] = $token = $this->getTokenGenerated($result);
+            $session->set('api_token', $token);
+            $session->set('start', time());
+            if ($token) {
+                $result = $this->accessCourseAPI($postFields);
+            }
+        }
+
+        if (!empty($result)) {         
+            $qualificationUnits = $this->xml2array($result);
+        }       
+//        $myfile = fopen("newfile.txt", "r") or die("Unable to open file!");
+//        $qualificationUnits =  json_decode(fread($myfile,filesize("newfile.txt")),true);
+//        dump($qualificationUnits); 
+//        fclose($myfile);
+//        exit();
+        return (!empty($qualificationUnits['qualification'])) ? $qualificationUnits['qualification'] : array();
+    }
+    /**
+     * Function to access API
+     * @param string $fieldString
+     * return array
+     */
+    public function accessCourseAPI($fieldString)
+    {
+        $apiUrl = $this->container->getParameter('apiUrl');
+        $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
+        $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
+        $url = $apiUrl . "qualificationunits";
+        $authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
+        $this->guzzleService->addSubscriber($authPlugin);
+        $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
+        $request = $this->guzzleService->post($url, null, $fieldString); // Create a request with basic Auth
+        $response = $request->send(); // Send the request and get the response
+        $result = $response->getBody();
+        return $result;
     }
 
     /**
@@ -157,7 +233,7 @@ class CoursesService
      * return string
      */
     function xml2array($contents, $getAttributes = 1, $priority = 'tag')
-    {
+    {        
         if (!$contents) {
             return array();
         }
@@ -177,7 +253,7 @@ class CoursesService
         if (!$xmlValues) {
             return;
         }
-
+        
         //Initializations
         $xmlArray = array();
         $parents = array();
@@ -277,7 +353,7 @@ class CoursesService
                 $current = &$parent[$level - 1];
             }
         }
-
+       
         return($xmlArray);
     }
 
@@ -334,7 +410,26 @@ class CoursesService
         }
         return $courseUnits;
     }
-
+    /**
+     * Function to get count of core and elective units
+     * @param int $userId
+     * @param string $courseCode
+     * return int
+     */
+    public function getCoreElectiveUnitsCount($userId, $courseCode,$type)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+            'courseCode' => $courseCode,
+            'type' => $type));
+        $courseUnits = array();
+        if (!empty($userCourseUnits)) {
+            foreach ($userCourseUnits as $units) {
+                $courseUnits[trim($units->getUnitId())] = trim($units->getUnitId());
+            }
+        }        
+        return count($courseUnits);
+    }
     /**
      * Function to get applicant unit status
      * @param int $applicantId

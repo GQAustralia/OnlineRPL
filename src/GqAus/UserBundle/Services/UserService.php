@@ -1266,7 +1266,32 @@ class UserService
         }
         return round($completeness) . '%';
     }
-
+/**
+     * Function to get Evidence Completeness
+     * @param int $userId
+     * @param string $courseCode
+     * return string
+     */
+    public function getEvidenceCompletenessCount($userId, $courseCode = null)
+    {
+        $completeness = 0;
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId,
+            'courseCode' => $courseCode,
+            'status' => '1'));
+        $totalNoCourses = count($courseUnitObj);
+        if ($totalNoCourses > 0) {
+            $res = $this->em->getRepository('GqAusUserBundle:Evidence')
+                ->createQueryBuilder('e')
+                ->select('DISTINCT e.unit')
+                ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $userId)
+                ->andWhere(sprintf('e.%s = :%s', 'course', 'course'))->setParameter('course', $courseCode)
+                ->andWhere('e instance of GqAusUserBundle:Evidence\Text');
+            $applicantList = $res->getQuery()->getResult();
+            $evidenceCount = count($applicantList);
+            $completeness = ($evidenceCount / $totalNoCourses) * 100;
+        }
+        return round($completeness);
+    }
     /**
      * Function to fetch assessor other files
      * @param int $userId
@@ -3048,7 +3073,7 @@ class UserService
      */
 	public function getDaysRemainingFromRole($userId, $courseCode, $userRole)
     {          
-		$courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId,'courseCode' => $courseCode));
+	$courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId,'courseCode' => $courseCode));
         $createdDate = $courseObj->getCreatedOn();
         $targetDate = $courseObj->getTargetDate();
         $facDate =  $courseObj->getFacilitatorDate();
@@ -3086,12 +3111,46 @@ class UserService
                   else:
                       $days=0;
                   endif;
-                  break;
+                  break;           
         }
         if($days > 0 )
             $graph = round(($days*100)/($field));
         else
             $graph = 0;
+       
+        return $days."&&".$graph;
+    }
+     /**
+     * Function to get the days assessordate 
+     * @param integer $userId
+     * @param string  $courseCode
+     * @param string $userRole
+     * return string
+     */
+	public function getDaysRemainingApplicant($userId, $courseCode, $userRole)
+    {          
+	$courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId,'courseCode' => $courseCode));
+        $createdDate = $courseObj->getCreatedOn();
+        $targetDate = $courseObj->getTargetDate();
+        $facDate =  $courseObj->getFacilitatorDate();
+        $assDate =  $courseObj->getAssessorDate();
+        $rtoDate =  $courseObj->getRtoDate();
+        $facStatus =$courseObj->getFacilitatorstatus();
+        $assStatus =$courseObj->getAssessorstatus();
+        $rtoStatus =$courseObj->getRtostatus();
+        $fecWorkSpan = $this->container->getParameter('fec_workspan');
+        $assWorkSpan = $this->container->getParameter('ass_workspan');
+        $rtoWorkSpan = $this->container->getParameter('rto_workspan');
+        $currentDate = date('Y-m-d H:i:s');
+        
+            $diff = abs(strtotime($targetDate) - strtotime($currentDate));
+            $days = floor(($diff)/ (60*60*24));
+            $field = 90;
+            
+        if($days > 0 )
+            $graph = 90-$days;
+        else
+            $graph = 0;       
         return $days."&&".$graph;
     }
     /**

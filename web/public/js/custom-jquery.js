@@ -137,7 +137,7 @@ $(".checkmark-icon").click(function() {
     userId = $(this).attr("user_id");
 });
 
-$(".changeUnitStatus").click(function() {
+$(".changeUnitStatus").click(function() {   
     $(".qual_status_loader").show();
     $.ajax({
         type: "POST",

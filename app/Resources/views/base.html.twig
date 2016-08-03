@@ -82,8 +82,8 @@
                             {% if ('ROLE_SUPERADMIN' not in roles) %}  
                                 <li>
                                 <svg height="35" width="35">
-									<circle cx="27" cy="12" r="8" fill="red"/>
-									<text id="unread-count" text-anchor="middle" x="27" y="15" fill="#fff"></text>
+                                <circle cx="27" cy="12" r="8" fill="red"/>
+                                <text id="unread-count" text-anchor="middle" x="27" y="15" fill="#fff"></text>
                                 </svg>
                                 <a class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}" href="{{ app.request.baseUrl }}/messages">
                                 <i class="material-icons">message</i>
@@ -91,31 +91,31 @@
                                 </a>
                                 </li>
                             {% endif %}
-							{% if ('ROLE_FACILITATOR' in roles)  %}
-								<li>
-									<a href="{{ app.request.baseUrl }}/evidences"><i class="material-icons">cloud_upload</i><span>Evidences</span></a>
-								</li>
-							{% endif %}
-							{% if ('ROLE_APPLICANT' in roles)  %}
-								<li>
-									<a href="{{ app.request.baseUrl }}/files"><i class="material-icons">cloud_upload</i><span>Files</span></a>
-								</li>
-							{% endif %}
+                            {% if ('ROLE_FACILITATOR' in roles)  %}
+                                    <li>
+                                            <a href="{{ app.request.baseUrl }}/evidences"><i class="material-icons">cloud_upload</i><span>Evidences</span></a>
+                                    </li>
+                            {% endif %}
+                            {% if ('ROLE_APPLICANT' in roles)  %}
+                                    <li>
+                                            <a href="{{ app.request.baseUrl }}/files"><i class="material-icons">cloud_upload</i><span>Files</span></a>
+                                    </li>
+                            {% endif %}
                             <li class="profile">
-								<a href="#">
-									<img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="profile" />
-									<i class="material-icons">expand_more</i>
-								</a>
-								<ul class="hide">
-									{% if ('ROLE_APPLICANT' not in roles)  %}
-										<li><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">Profile</a></li>
-									{% else %}
-										<li><a href="{{ app.request.baseUrl }}/userprofile">Profile</a></li>
-									{% endif %}
-									<li><a href="/logout">Log out</a></li>
-								</ul>
-							</li>
-                    </ul>     
+                                <a href="#">
+                                        <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="profile" />
+                                        <i class="material-icons">expand_more</i>
+                                </a>
+                                <ul class="hide">
+                                        {% if ('ROLE_APPLICANT' not in roles)  %}
+                                                <li><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">Profile</a></li>
+                                        {% else %}
+                                                <li><a href="{{ app.request.baseUrl }}/userprofile">Profile</a></li>
+                                        {% endif %}
+                                        <li><a href="/logout">Log out</a></li>
+                                </ul>
+                        </li>
+                    </ul>
                 </nav>
             </section>
         </header>    

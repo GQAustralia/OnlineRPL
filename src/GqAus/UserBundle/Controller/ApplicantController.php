@@ -445,7 +445,8 @@ class ApplicantController extends Controller
         $userService = $this->get('UserService');
         $coursesService = $this->get('CoursesService');
         $evidenceService = $this->get('EvidenceService');
-       
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $user = $userService->getUserInfo($uid);
         
         $results = $coursesService->getCoursesInfo($qcode);
@@ -474,7 +475,10 @@ class ApplicantController extends Controller
             $results['evidences'] = $evidenceService->getUserUnitEvidences($uid, $unitcode);
             $results['evidenceCount'] = count($evidenceService->getUserUnitEvidences($uid, $unitcode));
             $results['selfAssessmentText'] = $evidenceService->getSelfAssessmentFromUnit($uid, $qcode, $unitcode);
-            return $this->render('GqAusUserBundle:Applicant:unitdetails.html.twig', array_merge($results, $applicantInfo));
+            if ($userRole[0] == "ROLE_APPLICANT")
+                 return $this->render('GqAusHomeBundle:Courses:unitevidence.html.twig', array_merge($results, $applicantInfo));
+            else
+                return $this->render('GqAusUserBundle:Applicant:unitdetails.html.twig', array_merge($results, $applicantInfo));
         } else {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
         }
