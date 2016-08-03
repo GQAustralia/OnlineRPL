@@ -137,7 +137,7 @@ $(".checkmark-icon").click(function() {
     userId = $(this).attr("user_id");
 });
 
-$(".changeUnitStatus").click(function() {   
+$(".changeUnitStatus").click(function() {
     $(".qual_status_loader").show();
     $.ajax({
         type: "POST",
@@ -194,11 +194,10 @@ $(".fromBottom").click(function() {
     }
 });
 
-/*$("#frmSelectEvidence").submit(function() {
-    alert('submit');
+/* $("#frmSelectEvidence").submit(function() {   
     $('#select_hid_unit').val(unit);
     $('#select_hid_course').val(courseCode);
-});*/
+}); */
 
 $(".deleteEvidence").click(function() {
    $('.deleteevidence_loader').show();
@@ -342,6 +341,7 @@ $(".updateTodo").click(function() {
 /* dashboard update todo list functionality ends */
 function validateExisting()
 {
+
     var efile = $(".check_evidence:checkbox:checked").length;
     if (efile <= 0 || efile == '' || typeof efile === 'undefined') {
         //alert('Please select atleast one Existing Evidence!');
@@ -2143,4 +2143,33 @@ $('#change_password_form').on('submit', function(e) {
             }
        });
 });
+if($('.file_info_block .block').length>0) {
+        imageLength = $('.file_info_block .type-image').length;
+        textLength = $('.file_info_block .type-text').length;
+        videoLength = $('.file_info_block .type-video').length;
+        audioLength = $('.file_info_block .type-audio').length;
+        fileLength = $('.file_info_block .type-file').length;
+        
+        imageCount = (imageLength) ? imageLength: 0;
+        textCount = (textLength) ? textLength : 0;
+        videoCount = (videoLength) ? videoLength : 0;
+        audioCount = (audioLength) ? audioLength : 0;
+        fileCount = (fileLength)? fileLength : 0;
+        
+        $('.image-count').html(imageCount);
+        $('.audio-count').html(audioCount);
+        $('.video-count').html(videoCount);
+        $('.text-count').html(textCount);
+        $('.file-count').html(fileCount);
 
+        $('#evidence-filter input[type="checkbox"]').on('click',function(){
+            thisValue = $(this).val();
+            if($(this).attr('checked')){
+                $(this).removeAttr('checked');
+                $('.file_info_block .type-'+thisValue).addClass('hide').removeClass('open');
+            } else {
+                $(this).attr('checked', 'checked');
+                $('.file_info_block .type-'+thisValue).addClass('open').removeClass('hide');
+            }
+        });
+}
