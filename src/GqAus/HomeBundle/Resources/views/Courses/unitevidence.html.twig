@@ -4,6 +4,7 @@
 <link href="{{ asset('public/css/accordion.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualififation.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/jquery.mCustomScrollbar.min.css') }}">
 {% endblock %}
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
@@ -48,38 +49,45 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-
-                        <div class="panel-group">
-                            <div class="panel clearfix">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <span>Evidence</span>
-                                        <span class="pull-right"><strong> 0 Evidence Files Linked</strong></span>
-                                    </h4>
-                                </div>
-                                <div class="panel-body">
-                                    <input type="file" multiple />
-                                </div>
+                    <div class="panel-group">
+                        <div class="panel clearfix">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <span>Evidence</span>
+                                    <span class="pull-right"><strong> 0 Evidence Files Linked</strong></span>
+                                </h4>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-12">
-                                <div class="panel-group self-assessment">
-                                    <div class="panel">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <span>Self Assessment Notes ( Min. 50 Words)</span>
-                                            </h4>
-                                        </div>
-                                            <div class="panel-body">
-                                                <textarea>I have contributed to qulity work otcomes by maintaining high standars of work ethics stand other important thins. I focus especially on keeping across health and safety standards and regularly updating our material safery data sheets. I keep the workshop tiry, making it a very safe work environment for our team.</textarea>
-                                                <span class="char-count">52/50</span>
+                            <div class="panel-body">
+                                <div class="gqa-btn-group">
+                                    <div class="row no-gutter">
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="btn-add btn" data-toggle="modal" data-target="#add-evidence">
+                                                <i class="material-icons add-evidence-btn">add</i>
+                                                <a href="#">Add Evidence</a>
                                             </div>
-                                    </div>                                        
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="panel-group self-assessment">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <span>Self Assessment Notes ( Min. 50 Words)</span>
+                                        </h4>
+                                    </div>
+                                        <div class="panel-body">
+                                            <textarea>I have contributed to qulity work otcomes by maintaining high standars of work ethics stand other important thins. I focus especially on keeping across health and safety standards and regularly updating our material safery data sheets. I keep the workshop tiry, making it a very safe work environment for our team.</textarea>
+                                            <span class="char-count">52/50</span>
+                                        </div>
+                                </div>                                        
+                            </div>
+                        </div>
+                    </div>
                     <div class="gqa-btn-group">
                         <div class="row no-gutter">
                             <div class="col-md-12 col-lg-12">
@@ -89,10 +97,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                    
+                        </div>                   
                     </div>
-                        
-                    </div>
+                </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
                     <div class="accordion panel-group" id="accordion1">
                         <div class="panel panel-default">
@@ -228,14 +235,32 @@
         </div>
     </div>
     <!-- Larg Screens HTML -->
+{% include 'GqAusHomeBundle:Courses:addevidencestounitmodal.html.twig' %}
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('public/js/custom-jquery-ajax.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.fancybox').fancybox();
-        });
-    </script>
-{% endblock %}
-    
+    <script src="{{ asset('public/js/upload.js') }}"></script>
+    <script src="{{ asset('public/js/file-que.js') }}"></script>
+    <script src="{{ asset('public/js/jquery.mCustomScrollbar.js') }}"></script>
+    <script>
+        (function($){
+                $(window).on("load",function(){
+
+                        $("a[rel='load-content']").click(function(e){
+                                e.preventDefault();
+                                var url=$(this).attr("href");
+                                $.get(url,function(data){
+                                        $(".content .mCSB_container").append(data); //load new content inside .mCSB_container
+                                        //scroll-to appended content 
+                                        $(".content").mCustomScrollbar("scrollTo","h2:last");
+                                });
+                        });
+
+                        $(".content").delegate("a[href='top']","click",function(e){
+                                e.preventDefault();
+                                $(".content").mCustomScrollbar("scrollTo",$(this).attr("href"));
+                        });
+
+                });
+        })(jQuery);
+    </script>  
+ {% endblock %}
