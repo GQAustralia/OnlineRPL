@@ -29,8 +29,9 @@
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
       
    <main class="main_container">
-       {% block navmenu %}
-       <header>
+		{% block navmenu %}
+		{% set className =  (app.request.attributes.get('_route') in header_class_pages) ? 'header-border' : '' %}
+		<header class="{{ className }}">
             <section class="container">
                 <div class="logo">
                     <img src="{{ asset('public/images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/>
@@ -69,7 +70,7 @@
                             {% endif %}
                             {% if ('ROLE_APPLICANT' not in roles)  %}
                                 <li>
-                                <svg height="35" width="35">
+                                <svg height="35" width="35" id="portfolioCount" class="hide">
                                 <circle cx="27" cy="12" r="8" fill="red"/>
                                 <text text-anchor="middle" x="27" y="15" fill="#fff" class="portfolio-current"></text>
                                 </svg>
@@ -81,7 +82,7 @@
                             {% endif %}
                             {% if ('ROLE_SUPERADMIN' not in roles) %}  
                                 <li>
-                                <svg height="35" width="35">
+                                <svg height="35" width="35"  id="messageCount" class="hide">
                                 <circle cx="27" cy="12" r="8" fill="red"/>
                                 <text id="unread-count" text-anchor="middle" x="27" y="15" fill="#fff"></text>
                                 </svg>

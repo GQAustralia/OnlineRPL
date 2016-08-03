@@ -43,6 +43,7 @@ twig:
         fec_workspan: "%fec_workspan%"
         ass_workspan: "%ass_workspan%"
         maximum_upload_size: "%maximum_upload_size%"
+        header_class_pages: "%header_class_pages%"
 
 # Assetic Configuration
 assetic:
