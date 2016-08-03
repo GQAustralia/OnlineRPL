@@ -68,7 +68,7 @@ class UserController extends Controller
             if ($userProfileForm->isValid()) {                 
                 $userService->savePersonalProfile($user, $image);
                 $request->getSession()->getFlashBag()->add(
-                    'notice', $this->container->getParameter('passwd_succ')
+                    'notice', $this->container->getParameter('profile_update')
                 );
                 return $this->redirect('userprofile');
             }

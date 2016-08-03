@@ -663,31 +663,18 @@ function checkCurrentPassword(mypassword)
     var startdiv = '<div class="gq-id-pwd-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var enddiv = '</h2></div>';
     var mypassword = mypassword;
-    $("#pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
+    //$("#pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
     if(mypassword!="") {
-        $("#pwd_error").show();
-        $("#pwd_error").html('<div class="gq-id-files-upload-wait-text"><h2>Please wait..' + enddiv);
-        $.ajax({
-            type: "POST",
-            url: "checkMyPassword",
-            cache: false,
-            data: {mypassword: mypassword},
-            success: function(result) {                
-                $('#change_pwd_error').show();
-                if (result == "fail") {
-                    $("#hdn_pwd_check").val("0");
-                    $("#pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);;
-                    $("#password_oldpassword").val('');
-                    $("#password_oldpassword").focus();
-                    return false;
-                }
-                else if (result == "success") {
-                    $("#hdn_pwd_check").val("1");
-                    console.log($("#hdn_pwd_check").val());
-                    $("#change-pwd-form").children("form").submit();
-                }
-            }
-        });
+       // $("#pwd_error").show();
+        //$("#pwd_error").html('<div class="gq-id-files-upload-wait-text"><h2>Please wait..' + enddiv);
+         var pswd_validation = $.parseJSON($.ajax({
+        type: "POST",
+        url:  'checkMyPassword',
+        dataType: "json", 
+        async: false,
+        data: {mypassword: mypassword}
+    }).responseText);
+        return pswd_validation['status'];
     }
 }
 $(".notes-area").keypress(function() {
@@ -1463,8 +1450,10 @@ $("#password_save").click(function()
         }
     }
     if (curpwd != "" && newpwd != "" && newconfirmpwd != "") {
-        if (hdnpwdchk == 0) {
-            checkCurrentPassword($("#password_oldpassword").val());
+          pswd_validation = checkCurrentPassword($("#password_oldpassword").val());
+        if(pswd_validation=='fail')
+        {
+            passwordShowMsg("Current password does not match", "password_oldpassword");
             return false;
         }
     }
@@ -2151,7 +2140,7 @@ $('#change_password_form').on('submit', function(e) {
             success: function(result) {
                 $("#profile_suc_msg2").show();
                 $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Password updated successfully!</h2></div>').delay(3000).fadeOut(100);
-                $('#change_password_form').hide();
+                //$('#change_password_form').hide();
                // $('#user_profile_form').show();
                // $('#user_profile_form_div').show();
                 

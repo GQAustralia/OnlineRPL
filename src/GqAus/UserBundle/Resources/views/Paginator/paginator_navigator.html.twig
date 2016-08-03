@@ -5,7 +5,7 @@
 {% set totalPages = paginator.getTotalPages() %}
 {% set count = paginator.getCount() %}
 <div class="gq-msg-top-pagination pull-right">
-    <div class="gq-msg-pagination-txt">
+    <div class="gq-msg-pagination-txt">        
     {% if currentPage == totalPages %}
         {{(currentPage * 10) - 9}}-{{count}} of {{count}}
     {% else %}
@@ -13,12 +13,12 @@
     {% endif %}
     </div>
     {% if currentPage == 1 %}
-        <a href="{{ currentPath }}?page={{ currentPage - 1 }}"><div class="gq-pagination-prev-icon"></div></a>
+        <a href=""><div class="gq-pagination-prev-icon"></div></a>
     {% else %}
         <a href="{{ currentPath }}?page={{ currentPage - 1 }}"><div class="gq-pagination-prev-icon"></div></a>
     {% endif %}
     {% if currentPage == totalPages %}
-        <a href="{{ currentPath }}?page={{ currentPage + 1 }}"><div class="gq-pagination-next-icon"></div></a>
+        <a href=""><div class="gq-pagination-next-icon"></div></a>
     {% else %}
         <a href="{{ currentPath }}?page={{ currentPage + 1 }}"><div class="gq-pagination-next-icon"></div></a>
     {% endif %}

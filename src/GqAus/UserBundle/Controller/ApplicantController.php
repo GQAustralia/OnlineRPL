@@ -157,7 +157,7 @@ class ApplicantController extends Controller
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, 
             $searchName, $searchTime, $filterByUser, $filterByStatus);
 		$qualificationStatus = $this->get('UserService')->getQualificationStatus();
-		$results['qualificationStatus'] = $qualificationStatus;
+		$results['qualificationStatus'] = $qualificationStatus;        
         $results['pageRequest'] = 'ajax';
         $results['status'] = $status;
         echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results);
