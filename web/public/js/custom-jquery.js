@@ -2100,7 +2100,7 @@ $('#user_profile_form').on('submit', function(e) {
         form_data = $(this).serialize(); //Serializing the form data
            $.ajax({
                 type: "POST",
-                url: "updateprofileAjax",
+                url: base_url+"updateprofileAjax",
                 cache: false,
                 data: form_data,
                 success: function(result) {
@@ -2125,12 +2125,15 @@ function changePassowordDiv(type)
         $('#change_password_form').show();
         $('#user_profile_form').hide();
         $('#user_profile_form_div').hide();
+        $('#matrixfileDiv').hide();
+        
     }
     else
     {
         $('#change_password_form').hide();
         $('#user_profile_form').show();
         $('#user_profile_form_div').show();
+        $('#matrixfileDiv').show();
     }
 }
 
@@ -2142,7 +2145,7 @@ $('#change_password_form').on('submit', function(e) {
     form_data = $(this).serialize(); //Serializing the form data    
     $.ajax({
             type: "POST",
-            url: "updatepasswordAjax",
+            url: base_url+"updatepasswordAjax",
             cache: false,
             data: form_data,
             success: function(result) {
