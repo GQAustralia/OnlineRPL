@@ -2,7 +2,7 @@
 {% block title %}GQ - RPL Applicant conversation{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/competency-call.css')}}">
-    {% endblock %}
+{% endblock %}
 {% block navmenu %}{% endblock %}
 {% block body %}
 <div class="container-fluid">
@@ -37,7 +37,6 @@
     var sessionId = '{{ sessionId }}';
     var token = '{{ token }}';
     property = {width: "100%", height: "100%", insertMode: "append"},
-    //property = {width: "100%", height: "100%", insertMode: "append", subscribeToAudio:true, subscribeToVideo:true},
     publisher = OT.initPublisher("publisherContainer", property),
     session = OT.initSession(apiKey, sessionId);
     session.on("streamCreated", function(event) {

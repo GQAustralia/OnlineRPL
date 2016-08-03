@@ -24,14 +24,13 @@ class TokboxController extends Controller
         $session = $openTok->createSession(array('mediaMode' => MediaMode::ROUTED));
         $sessionId = $session->getSessionId();
         $token = $openTok->generateToken($sessionId, array('role' => Role::MODERATOR));
-        $courseCode = $this->getRequest()->get('courseCode');
-        $applicantId = $this->getRequest()->get('applicantId');;
-        $applicantDetails = $userService->getUserInfo($applicantId);
         $userId = $request->getSession()->get('user_id');
+        $applicantId = $this->getRequest()->get('applicantId');
         $room = $this->get('TokBox')->isRoomExists($userId, $applicantId);
         $roomId = $this->get('TokBox')->createRoom($sessionId, $userId, $applicantId);
         $encodedRoomId = base64_encode(base64_encode(base64_encode($roomId)));
-        $this->get('UserService')->sendConversationMessage($courseCode, $applicantId, $userId, $encodedRoomId);
+        $applicantDetails = $userService->getUserInfo($applicantId);
+        $this->get('UserService')->sendConversationMessage($this->getRequest()->get('courseCode'), $applicantId, $userId, $encodedRoomId);
         return $this->render('GqAusUserBundle:Tokbox:index.html.twig', array(
                 'apiKey' => $this->container->getParameter('tokbox_key'), 'sessionId' => $sessionId, 'token' => $token, 'roomId' => $encodedRoomId, 
                 'courseCode' => $courseCode, 'applicantId' => $applicantId, 'userId' => $userId, 'applicantDetails' => $applicantDetails
@@ -50,7 +49,6 @@ class TokboxController extends Controller
         $roomId = base64_decode(base64_decode(base64_decode($roomId)));
         $room = $this->get('TokBox')->getRoom($roomId);
         $userId = $request->getSession()->get('user_id');
-        
         if (base64_encode($room->getApplicant()) === base64_encode($userId)) {
             $openTok = new OpenTok($this->container->getParameter('tokbox_key'), 
                 $this->container->getParameter('tokbox_secret_key'));
