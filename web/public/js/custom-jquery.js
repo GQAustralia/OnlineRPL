@@ -2150,10 +2150,10 @@ $('#change_password_form').on('submit', function(e) {
             data: form_data,
             success: function(result) {
                 $("#profile_suc_msg2").show();
-               // $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Password updated successfully!</h2></div>').delay(3000).fadeOut(100);
+                $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Password updated successfully!</h2></div>').delay(3000).fadeOut(100);
                 $('#change_password_form').hide();
-                $('#user_profile_form').show();
-                $('#user_profile_form_div').show();
+               // $('#user_profile_form').show();
+               // $('#user_profile_form_div').show();
                 
             }
        });
