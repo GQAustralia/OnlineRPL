@@ -62,7 +62,7 @@ var dateStr=[todayDate.getDate(), todayDate.getMonth()+1, todayDate.getFullYear(
 		icon='description';
 	}
 
-	html +=" <div class='file-info' data-index='" + files[i].index+"'> <span class='icon'><i class='material-icons'>"+icon+"</i></span><span class='file-discription'>" + files[i].name +"<br>"+files[i].size+"| Added"+dateStr+"</span><span class='file-progress'><progress class='prgbar' value='0' max='100'></progress></span> <span class='clear'><a href='#'><i class='material-icons'>clear</i></a></span></div>"
+	html +=" <div class='file-info' data-index='" + files[i].index+"'> <span class='icon'><i class='material-icons'>"+icon+"</i></span><span class='file-discription'>" + files[i].name +"<br>"+files[i].size+"| Added"+dateStr+"</span><span class='file-progress'><progress class='prgbar' value='0' max='100'></progress></span> <span class='clear'><a href='#' onclick='removeThisEle(this)'><i class='material-icons'>clear</i></a></span></div>"
 	
 		//html += '<li data-index="' + files[i].index + '"><span class="file">' + files[i].name + '</span><span class="cancel">Cancel</span><span class="progress">Queued</span></li>';
 	}
@@ -73,7 +73,10 @@ $('#fileListContainer').append(html);
 		.append(html);
 		debugger;*/
 }
-
+function removeThisEle(req){
+    $(req).closest('.file-info').remove();
+    //debugger;
+}
 function onStart(e, files) {
 	console.log("Start");
 	$("#fileListContainer")
