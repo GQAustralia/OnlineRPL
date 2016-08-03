@@ -38,6 +38,7 @@ twig:
         base_url: %applicationUrl%
         user_service: "@UserService"
         evidence_service: "@EvidenceService"
+        courses_service: "@CoursesService"
         tokbox_key: "%tokbox_key%"
         rto_workspan: "%rto_workspan%"
         fec_workspan: "%fec_workspan%"
