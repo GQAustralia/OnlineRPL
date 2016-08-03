@@ -9,8 +9,10 @@
 {% endblock %}
 {% block body %}
     
-<!-- Larg Screens HTML -->
-{% if userCourses %}
+<!-- Larg Screens HTML --> 
+{% if userCourses is empty%}
+    <div>No Courses Available</div>
+{% else %}
 {% set counter = '' %}
 {% set counterArr = 0 %}
 {% for key, courses in userCourses %} 
@@ -264,7 +266,10 @@
             {% endfor %}
     
     <input type="hidden" id="courseCount" name="courseCount" value="{{counter}}">
+    
+    
             {% endif %}
+  
     
     <script>
         

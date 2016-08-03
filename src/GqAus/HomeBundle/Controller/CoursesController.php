@@ -43,22 +43,27 @@ class CoursesController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $statusList = $this->get('UserService')->getQualificationStatus();       
-        $userCourses = $user->getCourses();        
-        foreach($userCourses as $coursearr){
-            $id = $coursearr->getCourseCode();
-            $courseService = $this->get('CoursesService');
-            $results = $courseService->getCoursesInfo($id);
-            $courseService->updateQualificationUnits($user->getId(), $id, $results);
-            $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
-            $results['electiveUnits'] = $getUnits['courseUnits'];
-            $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
-            $results['evidences'] = $user->getEvidences();
-            $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
-            $form = $this->createForm(new EvidenceForm(), array());
-            $results['form'] = $form->createView();
-            $assessmentForm = $this->createForm(new AssessmentForm(), array());
-            $results['assessmentForm'] = $assessmentForm->createView();
-        }      
+        $userCourses = $user->getCourses();
+        if(is_array($userCourses))
+        {
+            foreach($userCourses as $coursearr){
+                $id = $coursearr->getCourseCode();
+                $courseService = $this->get('CoursesService');
+                $results = $courseService->getCoursesInfo($id);
+                $courseService->updateQualificationUnits($user->getId(), $id, $results);
+                $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
+                $results['electiveUnits'] = $getUnits['courseUnits'];
+                $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
+                $results['evidences'] = $user->getEvidences();
+                $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
+                $form = $this->createForm(new EvidenceForm(), array());
+                $results['form'] = $form->createView();
+                $assessmentForm = $this->createForm(new AssessmentForm(), array());
+                $results['assessmentForm'] = $assessmentForm->createView();
+            } 
+        }
+        else
+            $results = '';
         return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', 
             array('userCourses' => $user->getCourses(),
                 'courseConditionStatus' => $user->getCourseConditionStatus(),
