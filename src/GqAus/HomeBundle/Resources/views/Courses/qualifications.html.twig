@@ -193,8 +193,9 @@
             <div class="panel-heading">
             <h4 class="panel-title">
               {% set   electiveUnitsCount = courses_service.getCoreElectiveUnitsCount(userId,courseCode,'elective') %}
+             
                 <span>{{electiveUnitsCount}} ELECTIVE UNITS - Choose 5</span>
-                <a href="#"><i class="material-icons edit">edit</i></a>
+                <a aria-expanded="false" data-toggle="collapse" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}"><i class="material-icons edit">edit</i></a>
                 <a aria-expanded="false" class="btn-accordion collapsed" data-toggle="collapse" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}">
                     <i class="material-icons down">keyboard_arrow_down</i>
                 </a>                                
@@ -218,7 +219,7 @@
                     {% if units.type == 'elective' %}
                         {% set unitId = units.id %}
                         {% set flagElective = '1' %}
-                
+                 {% set electiveUnits = courses_service.getQualificationElectiveUnits(userId, courseCode) %}                   
             <div class="select">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -231,10 +232,10 @@
                         <p> <span class="tag-id">{{units.id}}</span> </p>
                         <p><a href="/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
                     </div>
-                    <div class="checkbox_outer">
-                        <a class="modalClass checkmark-icon" data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">
-                            <input  id="span_{{units.id}}" type="checkbox"><span></span>
-                       </a>
+                    <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">
+                        
+                            <input  id="span_{{units.id}}" type="checkbox" {% if units.id  in electiveUnits.courseUnits %}checked{% else %}unchecked{% endif %}><span></span>
+                      
                     </div>
                 </div>
             </div>
