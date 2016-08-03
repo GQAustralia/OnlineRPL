@@ -90,6 +90,8 @@
                                                                 {% if userEvidences|length > 0%}
                                                                     {% for eKey, evd in userEvidences %}
                                                                         {% if evd.type !='text' %}
+                                                                                {% set iconType = (evd.type == 'image') ? 'photo' : 'video' %}
+                                                                
                                                                             {% if evd.name %}
                                                                                 <div class="block type-{{ evd.type}}" style="margin-bottom: 10px;">
                                                                                     <div class="file_info hidden-xs">
@@ -146,12 +148,19 @@
                                                                         {% endif %}
                                                                     {% endfor %}
                                                                 {% endif %}
-                                                                <input type="submit" class="btn btn-red pull-right" value="Save">
+                                                                {# <input type="submit" class="btn btn-red pull-right" value="Save">    #}
                                                             </form>
                                                         </div>
                                                     </div>
                                                 </div>                                                                                                
                                             </div>
+                                        <div class="gqa-btn-group btn-file-save">
+                                            <div class="row no-gutter">
+                                                <div class="col-md-12 col-lg-12">
+                                                    <input type="submit" class="btn btn-danger" value="Save" />
+                                                </div>
+                                            </div>
+                                        </div>                                            
                                         </div>
                                     </div>
                                 </div>
