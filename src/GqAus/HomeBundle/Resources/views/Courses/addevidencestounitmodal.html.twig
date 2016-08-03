@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal-pop">
+<div class="modal-pop link-evidence">
     <div class="modal fade" id="add-evidence" role="dialog">
         <div class="modal-dialog modal-sm modal-lg add-evidence-modal">
             <!-- Modal content-->
@@ -23,12 +23,12 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                            <span class="caution">Maximum file size is 3.0Gb per upload</span>
+                                            <span class="caution">Maximum file size is 3tsetests.0 Gb per upload</span>
                                         </div>
                                         <div class="panel-group">
                                             <div class="panel clearfix">
                                                 <div class="panel-body">
-                                                    <div class="panel-copy" id="fileListContainer"></div>
+                                                    <div class="panel-copy fileListContainer"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -48,31 +48,31 @@
                                                     </div>
                                                     <ul class="clearfix">
                                                         <li>
-                                                            <span>video(<span class="video-count"></span>)</span>
+                                                            <span>video(<span class="evd-count video-count"></span>)</span>
                                                             <span class="checkbox_outer">
                                                                 <input type="checkbox" value="video" class="children-filter" checked><span></span>
                                                             </span>
                                                         </li>
                                                         <li>
-                                                            <span>audio(<span class="audio-count"></span>)</span>
+                                                            <span>audio(<span class="evd-count audio-count"></span>)</span>
                                                             <span class="checkbox_outer">
                                                                 <input type="checkbox" value="audio" class="children-filter" checked><span></span>
                                                             </span>
                                                         </li>
                                                         <li>
-                                                            <span>image(<span class="image-count"></span>)</span>
+                                                            <span>image(<span class="evd-count image-count"></span>)</span>
                                                             <span class="checkbox_outer">
                                                                 <input type="checkbox" value="image" class="children-filter" checked><span></span>
                                                             </span>
                                                         </li>
                                                             <li>
-                                                                <span>PDF(<span class="file-count"></span>)</span>
+                                                                <span>PDF(<span class="evd-count file-count"></span>)</span>
                                                                 <span class="checkbox_outer">
                                                                     <input type="checkbox" value="file" class="children-filter" checked><span></span>
                                                                 </span>
                                                             </li>
                                                             <li>
-                                                                <span>text(<span class="text-count"></span>)</span>
+                                                                <span>text(<span class="evd-count text-count"></span>)</span>
                                                                 <span class="checkbox_outer">
                                                                     <input type="checkbox" value="text" class="children-filter" checked><span></span>
                                                                 </span>
@@ -80,87 +80,88 @@
                                                         </ul>
                                                     </div>
                                             </div>
+											<div class="row"><div id="gq-dashboard-tabs-success" style="width: 100%;"></div></div>
                                             <div class="file_info_block">
-                                                <div class="scroll-content mCustomScrollbar _mCS_1">
-                                                    <div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside">
-                                                        <div id="mCSB_1_container" class="mCSB_container">
-                                                            <form method="post" id="frmSelectEvidence" action="/saveExistingEvidence" name="frmSelectEvidence" enctype="multipart/form-data" onsubmit="return validateExisting();">
-                                                                <input type="hidden" name="select_hid_course" id="select_hid_course" value="{{ courseCode }}">
-                                                                <input type="hidden" name="select_hid_unit" id="select_hid_unit" value="{{ unitCode }}">
-                                                                {% if userEvidences|length > 0%}
-                                                                    {% for eKey, evd in userEvidences %}
-                                                                        {% if evd.type !='text' %}
-                                                                                {% set iconType = (evd.type == 'image') ? 'photo' : 'video' %}
-                                                                
-                                                                            {% if evd.name %}
-                                                                                <div class="block type-{{ evd.type}}" style="margin-bottom: 10px;">
-                                                                                    <div class="file_info hidden-xs">
-                                                                                        <span class="icon"><i class="material-icons"></i></span>
-                                                                                        <span class="file_name">
-                                                                                            {{ evd.name }}
-                                                                                        </span>
-                                                                                        <span class="file_size">
-                                                                                            {{ evd.size }}
-                                                                                        </span>
-                                                                                        <span class="clear">
-                                                                                            ADDED {{ evd.created|date("d/m/y") }}
+												<form method="post" id="frmSelectEvidence" action="/saveExistingEvidence" name="frmSelectEvidence" enctype="multipart/form-data" onsubmit="return validateExisting();">
+													<div class="scroll-content mCustomScrollbar _mCS_1">
+														<div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside">
+															<div id="mCSB_1_container" class="mCSB_container">
+																	<input type="hidden" name="select_hid_course" id="select_hid_course" value="{{ courseCode }}">
+																	<input type="hidden" name="select_hid_unit" id="select_hid_unit" value="{{ unitCode }}">
+																	{% if userEvidences|length > 0%}
+																		{% for eKey, evd in userEvidences %}
+																			{% if evd.type !='text' %}
+																					{% set iconType = (evd.type == 'image') ? 'photo' : ((evd.type == 'audio') ? 'mic' : (evd.type == 'video') ? 'video' : '') %}
+																				{% if evd.name %}
+																					<div class="block type-{{ evd.type}}" style="margin-bottom: 10px;">
+																						<div class="file_info hidden-xs">
+																							<span class="icon"><i class="material-icons">{{ iconType }}</i></span>
+																							<span class="file_name">
+																								{{ evd.name }}
+																							</span>
+																							<span class="file_size">
+																								{{ evd.size }}
+																							</span>
+																							<span class="clear">
+																								ADDED {{ evd.created|date("d/m/y") }}
 
-                                                                                        </span>
-                                                                                        <span class="checkbox_outer">
-                                                                                                <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
-                                                                                        </span>
-                                                                                    </div>
-                                                                                    <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
-                                                                                        <div class="file_info">
-                                                                                            <span class="icon">
-                                                                                                <i class="material-icons">description</i>
-                                                                                            </span>
-                                                                                            <span class="file-discription">
-                                                                                                {{ evd.name }} <br> {{ evd.size }} | Added {{ evd.created|date("d/m/y") }}
-                                                                                            </span>
-                                                                                            <span class="checkbox_outer">
-                                                                                                <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
-                                                                                            </span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            {% endif %}
-                                                                        {% else %}
-                                                                            {% if evd.content %} 
-                                                                                <div class="block type-{{ evd.type}}" style="margin-bottom: 10px;">
-                                                                                    <div class="file_info hidden-xs">
-                                                                                        <span class="icon">
-                                                                                            <i class="material-icons">description</i>
-                                                                                        </span>
-                                                                                        <span class="file_name">
-                                                                                            {{ evd.content }}
-                                                                                        </span>
-                                                                                        <span class="file_size"></span>
-                                                                                        <span class="clear">
-                                                                                            ADDED {{ evd.created|date("d/m/y") }}
-                                                                                        </span>
-                                                                                        <span class="checkbox_outer">
-                                                                                            <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
-                                                                                        </span>                                                                                                                    
-                                                                                    </div>
-                                                                                </div>
-                                                                            {% endif %}
-                                                                        {% endif %}
-                                                                    {% endfor %}
-                                                                {% endif %}
-                                                                {# <input type="submit" class="btn btn-red pull-right" value="Save">    #}
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>                                                                                                
-                                            </div>
-                                        <div class="gqa-btn-group btn-file-save">
-                                            <div class="row no-gutter">
-                                                <div class="col-md-12 col-lg-12">
-                                                    <input type="submit" class="btn btn-danger" value="Save" />
-                                                </div>
-                                            </div>
-                                        </div>                                            
+																							</span>
+																							<span class="checkbox_outer">
+																									<input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
+																							</span>
+																						</div>
+																						<div class="files_mobile_version hidden-sm hidden-md hidden-lg">
+																							<div class="file_info">
+																								<span class="icon">
+																									<i class="material-icons">description</i>
+																								</span>
+																								<span class="file-discription">
+																									{{ evd.name }} <br> {{ evd.size }} | Added {{ evd.created|date("d/m/y") }}
+																								</span>
+																								<span class="checkbox_outer">
+																									<input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
+																								</span>
+																							</div>
+																						</div>
+																					</div>
+																				{% endif %}
+																			{% else %}
+																				{% if evd.content %} 
+																					<div class="block type-{{ evd.type}}" style="margin-bottom: 10px;">
+																						<div class="file_info hidden-xs">
+																							<span class="icon">
+																								<i class="material-icons">description</i>
+																							</span>
+																							<span class="file_name">
+																								{{ evd.content }}
+																							</span>
+																							<span class="file_size"></span>
+																							<span class="clear">
+																								ADDED {{ evd.created|date("d/m/y") }}
+																							</span>
+																							<span class="checkbox_outer">
+																								<input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
+																							</span>                                                                                                                    
+																						</div>
+																					</div>
+																				{% endif %}
+																			{% endif %}
+																		{% endfor %}
+																	{% endif %}
+																	{# <input type="submit" class="btn btn-red pull-right" value="Save">    #}
+															   
+															</div>
+														</div>
+													</div>                                                                                                
+													<div class="gqa-btn-group btn-file-save">
+														<div class="row no-gutter">
+															<div class="col-md-12 col-lg-12">
+																<input type="submit" class="btn btn-danger" value="Save" />
+															</div>
+														</div>
+													</div>
+												</form>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </div>
