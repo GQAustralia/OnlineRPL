@@ -5,7 +5,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="container">
+
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#upload-evidence">Upload Evidence</a></li>
                             <li><a data-toggle="tab" href="#select-from">Select from Existing Evidence</a></li>
@@ -119,7 +119,7 @@
                                                                                                 {{ evd.name }} <br> {{ evd.size }} | Added {{ evd.created|date("d/m/y") }}
                                                                                             </span>
                                                                                             <span class="checkbox_outer">
-                                                                                                <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]">
+                                                                                                <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
                                                                                             </span>
                                                                                         </div>
                                                                                     </div>
@@ -140,7 +140,7 @@
                                                                                             ADDED {{ evd.created|date("d/m/y") }}
                                                                                         </span>
                                                                                         <span class="checkbox_outer">
-                                                                                            <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]">
+                                                                                            <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
                                                                                         </span>                                                                                                                    
                                                                                     </div>
                                                                                 </div>
@@ -167,7 +167,7 @@
                             </div>
                             {% endif %}
                         </div>
-                    </div>
+
                     </div>
                 </div>
             </div>
