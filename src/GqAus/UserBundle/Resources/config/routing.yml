@@ -241,5 +241,7 @@ updateprofileAjax:
 updatepasswordAjax:
     path:     /updatepasswordAjax
     defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax } 
-
+updateFacilitator:
+    path:     /updateFacilitator
+    defaults: { _controller: GqAusUserBundle:Applicant:updateFacilitator } 
 

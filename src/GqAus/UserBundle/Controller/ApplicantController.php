@@ -521,5 +521,14 @@ class ApplicantController extends Controller
         exit;
     } 
     
-    
+    /**
+     * Function to Update Facilitator in Manager Portfolio
+     */    
+    public function updateFacilitatorAction(Request $request)
+    {
+        $userId = $this->getRequest()->get('userId');
+        $courseCode = $this->getRequest()->get('courseCode');
+        $facilitator = $this->getRequest()->get('facilitator');
+        $updateFacVal = $userService->saveMessageData($fromUser,$curuser,$msgdata);
+    }
 }

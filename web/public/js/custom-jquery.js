@@ -2145,3 +2145,21 @@ $('#change_password_form').on('submit', function(e) {
        });
 });
 
+/*Facilitator Update in Manager Portfolio */
+function updateFacilitator(courseCode , userId, listId)
+{
+    facVal = $('#'+listId).val();
+        $.ajax({
+            type: "POST",
+            url: "updateFacilitator",
+            cache: false,
+            data: {userId:userId,courseCode:courseCode,facilitator:facVal},
+            success: function(result) {
+                
+                
+            }
+       });
+       
+       return false;
+}
+
