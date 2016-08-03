@@ -26,6 +26,8 @@
   </head>
   <body>
     {% set roles = app.security.getToken().getUser().getRoles() %}
+    {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
+      
    <main class="main_container">
        {% block navmenu %}
        <header>
@@ -124,6 +126,7 @@
     </main>
         <!-- Profile Modal Starts -->
           {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
+         {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
         <!-- Profile Modal Ends -->
 	    <!-- jQuery first, then Bootstrap JS. -->          
         <script src="{{ asset('public/js/jquery.min.js') }}"></script>
@@ -140,6 +143,18 @@
     <script> onloadPortfolioCount();</script>
 	<script>
 	 $(document).ready(function(){
+                if({{applicantStatus}} == 1)
+                {                 
+                   $('#changePassword').modal('show');  
+                   $("#onboard2").addClass("hidden");
+                }
+              
+                if({{applicantStatus}} == 2)
+                {    
+                    $('#onboard2').modal('show');  
+                    $("#changePassword").addClass("hidden");
+                }
+                
 		$(".gq-id-files-upload-success-text").delay(5000).fadeOut(100);
 		$(".gq-id-pwd-error-text").delay(5000).fadeOut(100);
 	 });

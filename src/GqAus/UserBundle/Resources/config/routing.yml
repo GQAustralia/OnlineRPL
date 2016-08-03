@@ -238,6 +238,12 @@ candidateProfile:
 updateprofileAjax:
     path:     /updateprofileAjax
     defaults: { _controller: GqAusUserBundle:User:updateprofileAjax }
+updateNewPasswordAjax:
+    path:     /updateNewPasswordAjax
+    defaults: { _controller: GqAusUserBundle:User:updateNewPasswordAjax }
+updateNewUserAjax:
+    path:     /updateNewUserAjax
+    defaults: { _controller: GqAusUserBundle:User:updateNewUserAjax }
 updatepasswordAjax:
     path:     /updatepasswordAjax
     defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax } 

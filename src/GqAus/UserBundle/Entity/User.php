@@ -76,6 +76,10 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
+     /**
+     * @var string
+     */
+    private $applicantStatus;
 
     /**
      * Constructor
@@ -1060,7 +1064,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->status;
     }
-
+        
     /**
      * Get crmId
      *
@@ -1081,6 +1085,28 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
         $this->crmId = $crmId;
 
         return $this;
+    }
+     /**
+     * Set ApplicantStatus
+     *
+     * @param string $status
+     * @return User
+     */
+    public function setApplicantStatus($applicantStatus)
+    {
+        $this->applicantStatus = $applicantStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get ApplicantStatus
+     *
+     * @return string 
+     */
+    public function getApplicantStatus()
+    {
+        return $this->applicantStatus;
     }
 
 }
