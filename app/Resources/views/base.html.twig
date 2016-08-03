@@ -93,12 +93,12 @@
                             {% endif %}
                             {% if ('ROLE_FACILITATOR' in roles)  %}
                                     <li>
-                                            <a href="{{ app.request.baseUrl }}/evidences"><i class="material-icons">cloud_upload</i><span>Evidences</span></a>
+                                            <a class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}" href="{{ app.request.baseUrl }}/evidences"><i class="material-icons">cloud_upload</i><span>Evidences</span></a>
                                     </li>
                             {% endif %}
                             {% if ('ROLE_APPLICANT' in roles)  %}
                                     <li>
-                                            <a href="{{ app.request.baseUrl }}/files"><i class="material-icons">cloud_upload</i><span>Files</span></a>
+                                            <a class="{% if app.request.attributes.get('_route') == 'files' %} active {% endif %}" href="{{ app.request.baseUrl }}/file"><i class="material-icons">cloud_upload</i><span>Files</span></a>
                                     </li>
                             {% endif %}
                             <li class="profile">
