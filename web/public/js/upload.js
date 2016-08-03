@@ -7340,7 +7340,7 @@
                     },
                     customClass: "",
                     dataType: "html",
-                    label: "<i class='material-icons'>add</i> Add a file or Drag and Drop",
+                    label: "<i class='material-icons'>add</i> Add a file",
                     leave: "You have uploads pending, are you sure you want to leave this page?",
                     maxQueue: 2,
                     maxSize: 3115870208,

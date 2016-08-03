@@ -68,7 +68,7 @@ var dateStr=[todayDate.getDate(), todayDate.getMonth()+1, todayDate.getFullYear(
 	}
 
 console.log($(this).parents("form").find("fileListContainer"));
-$('#fileListContainer').append(html);
+$('.fileListContainer').append(html);
 	/*$(this).parents("form").find("fileListContainer")
 		.append(html);
 		debugger;*/
@@ -79,7 +79,7 @@ function removeThisEle(req){
 }
 function onStart(e, files) {
 	console.log("Start");
-	$("#fileListContainer")
+	$(".fileListContainer")
 		.find("div")
 		.find(".progress").text("Waiting");
 }
@@ -92,14 +92,14 @@ function onComplete(e) {
 function onFileStart(e, file) {
 	console.log("File Start");
         //.find(".prgbar").text("0%");
-	$("#fileListContainer")
+	$(".fileListContainer")
 		.find("div[data-index=" + file.index + "]")
 		.find(".progress").text("0%");
 }
 
 function onFileProgress(e, file, percent) {
 	console.log("File Progress"+percent+':'+file.index);
-	$("#fileListContainer")
+	$(".fileListContainer")
 		.find("div[data-index=" + file.index + "]")
 		.find(".prgbar").val(percent);
 }
@@ -107,12 +107,12 @@ function onFileProgress(e, file, percent) {
 function onFileComplete(e, file, response) {
 	console.log("File Complete");
 	if (response.trim() === "" || response.toLowerCase().indexOf("error") > -1) {
-	$("#fileListContainer")
+	$(".fileListContainer")
 			.find("li[data-index=" + file.index + "]").addClass("error")
 			.find(".progress").text(response.trim());
 	}
 	else {
-		var $target = $("#fileListContainer").find("li[data-index=" + file.index + "]");
+		var $target = $(".fileListContainer").find("li[data-index=" + file.index + "]");
 		$target.find(".file").text(file.name);
 		$target.find(".progress").remove();
 		$target.find(".cancel").remove();
@@ -122,7 +122,7 @@ function onFileComplete(e, file, response) {
 
 function onFileError(e, file, error) {
 	console.log("File Error");
-	$("#fileListContainer")
+	$(".fileListContainer")
 		.find("li[data-index=" + file.index + "]").addClass("error")
 		.find(".progress").text("Error: " + error);
 }
