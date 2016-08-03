@@ -11,37 +11,40 @@
             <div class="competency-call-container">
                 <div class="dialer-pad">
                     <p class="call-status">Calling...</p>
-                    <p class="call-to"><strong>Sandeep Patel</strong></p>
-                    <div class="profile-img"><img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" /></div>
+                    <p class="call-to"><strong>{{applicantDetails.firstname~' '~applicantDetails.lastname}}</strong></p>
+                    <div class="profile-img">
+                        <img src="{%if applicantDetails.userImage is defined%}{{ base_url }}public/uploads/{{applicantDetails.userImage}}{%else%}{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}{%endif%}" />
+                    </div>
+                    <div>{{ base_url }}applicant/{{ roomId}}</div>
                     <div class="ctrl-section">
                         <button type="button" class="btn player-btn icon icon-play" id="btn-play"><i class="material-icons">pause</i><label>Pause</label></button>
                         <button type="button" class="btn player-btn icon icon-record" id="btn-record"><i class="material-icons">fiber_manual_record</i><label>Record</label></button>
                         <button type="button" class="btn player-btn icon icon-stop" id="btn-stop"><i class="material-icons">stop</i><label>Stop</label></button>
                     </div>
                 </div>
+                <div id="subscriberContainer"></div>
+                <div id="publisherContainer"></div>
                 <footer>
                     <div class="dialer-pad">
                         <div class="ctrl-section">
-                            <button type="button" class="btn player-btn icon icon-speaker" id="btn-speaker"><i class="material-icons">volume_up</i><label>Speaker</label></button>
                             <button type="button" class="btn player-btn icon icon-mute" id="btn-mute"><i class="material-icons">mic_off</i><label>Mute</label></button>
                             <button type="button" class="btn player-btn icon icon-endcall" id="btn-endcall"><i class="material-icons">call_end</i><label>End Call</label></button>
-                            <button type="button" class="btn player-btn icon icon-addcaller" id="btn-addcaller"><i class="material-icons">add_circle</i><label>Add Caller</label></button>
                             <button type="button" class="btn player-btn icon icon-video" id="btn-video"><i class="material-icons">videocam</i><label>Video</label></button>
                         </div>
                     </div>                            
                 </footer>
             </div>
-        </div>                    
+        </div>                
     </div>
 </div>
 {% endblock %}
 {% block javascripts %}
-<script src="https://static.opentok.com/v2/js/opentok.js" charset="utf-8"></script>
-<script type="text/javascript" charset="utf-8">
+<script src="http://static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
+<script type="text/javascript">
     var apiKey = '{{ apiKey }}';
     var sessionId = '{{ sessionId }}';
     var token = '{{ token }}';
-    var session = OT.initSession(apiKey, sessionId),
+    var session = OT.initSession(sessionId),
     property = {width: "100%", height: "100%", insertMode: "append"},
     publisher = OT.initPublisher("publisherContainer", property),
     archiveID = null;
@@ -78,9 +81,10 @@
     });
     
     $(document).ready(function() {
-        var rid = "{{roomId}}";
-        var aid = "{{applicantId}}";
-        var cid = "{{courseCode}}";
+        var rid = "{{ roomId}}";
+        var aid = "{{ applicantId}}";
+        var uid = "CHCCS400C";
+        var cid = "{{ courseCode}}";
         $(".icon-record").click(function(event) {
             $.get("startArchive/" + rid);
         }).show();
@@ -88,7 +92,7 @@
             $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);
         }).hide();
         
-        $("#close_btn_uni").click(function(event) {
+        $("#btn-endcall").click(function(event) {
             if(confirm("Are you sure want to close the conversation?")) {
                 if (archiveID !== null) {
                     $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);   
@@ -98,6 +102,6 @@
         })
     });
 </script>
-{%endblock%}
+{% endblock %}
 
 
