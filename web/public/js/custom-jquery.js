@@ -2153,9 +2153,13 @@ function updateFacilitator(courseCode , userId, listId)
             type: "POST",
             url: "updateFacilitator",
             cache: false,
-            data: {userId:userId,courseCode:courseCode,facilitator:facVal},
+            data: {listId:listId,facilitator:facVal},
             success: function(result) {
-                
+                var res = jQuery.parseJSON(result);
+                if(res.status=='true')
+                {
+                     $("#profile_suc_msg2_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>'+res.message+'</h2></div>').delay(3000).fadeOut(100);
+                }
                 
             }
        });

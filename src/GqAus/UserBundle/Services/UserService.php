@@ -3291,7 +3291,12 @@ class UserService
         }
         return $getMessages;
     }
-    
+    /**
+     * Function for get All facilitators
+     * @param type $courseCode
+     * @param type $userId
+     * @return type
+     */
     public function getFacilitaorInfo($courseCode , $userId)
     {
         $query  = $this->em->getRepository('GqAusUserBundle:UserCourses')
@@ -3301,5 +3306,22 @@ class UserService
             ->andWhere('u.user IN (:user)')->setParameter('user', $userId);
         $faclist = $query->getQuery()->getResult();        
         return $faclist;
+    }
+    /**
+     * Function to Update Facilitator
+     * @param type $userId
+     * @param type $courseCode
+     * @param type $facilitator*
+     */
+    public function updateQualificationFacilitator($listId,$facilitator)
+    {
+        $user = $this->getUserInfo($facilitator);
+        $remObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($listId);        
+        $remObj->setFacilitator($user);
+        $this->em->persist($remObj);
+        $this->em->flush();
+        
+        return true;
+        
     }
 }

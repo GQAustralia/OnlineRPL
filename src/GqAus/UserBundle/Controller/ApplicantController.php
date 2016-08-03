@@ -526,9 +526,21 @@ class ApplicantController extends Controller
      */    
     public function updateFacilitatorAction(Request $request)
     {
-        $userId = $this->getRequest()->get('userId');
-        $courseCode = $this->getRequest()->get('courseCode');
+        $listId = $this->getRequest()->get('listId');        
         $facilitator = $this->getRequest()->get('facilitator');
-        $updateFacVal = $userService->saveMessageData($fromUser,$curuser,$msgdata);
+        $updateFacVal = $this->get('UserService')->updateQualificationFacilitator($listId,$facilitator);
+        if($updateFacVal)
+        {
+            $status = 'true';
+            $message = 'updated successfully';
+        }
+        else
+        {
+            $status = 'false';
+            $message = 'Error while updating..';
+        }
+        $response = array('status' =>$status,'message' => $message);
+        echo json_encode($response);
+        exit;
     }
 }
