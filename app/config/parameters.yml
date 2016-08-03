@@ -1,9 +1,9 @@
 # This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_mysql
-    database_host: 127.0.0.1
+    database_host: localhost
     database_port: null
-    database_name: onlinerpl_db
+    database_name: gqrpl
     database_user: root
     database_password: null
     mailer_transport: smtp
@@ -12,12 +12,12 @@ parameters:
     mailer_password: Sienna99@
     locale: en
     secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
-    applicationUrl: 'http://local.demo.com/'
+    applicationUrl: http://localhost/onlineRPL/web/
     amazon_aws_key: AKIAJXKS7MGMDP6Y3MAA
     amazon_aws_secret_key: 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
     amazon_s3_base_url: https://s3-ap-southeast-2.amazonaws.com/onlinerplevidences/
     amazon_s3_bucket_name: onlinerplevidences
-    apiUrl: 'http://api.gqaus.com.au/web/app_dev.php/api/v1/'
+    apiUrl: http://api.gqaus.com.au/web/app_dev.php/api/v1/
     apiAuthUsername: stgaccess
     apiAuthPassword: u9FGDU8K
     maxFileSize: 10000000
@@ -25,7 +25,7 @@ parameters:
     pagination_limit_page: 10
     tokbox_key: 45630882
     tokbox_secret_key: 4430fc09d7a4fcb3b224ea1b9a69a261e45fa184
-        mailer_encryption: tls
-    mailer_port: 587
-    mailer_auth_mode: login
+    mailer_encryption: null
+    mailer_port: null
+    mailer_auth_mode: null
 

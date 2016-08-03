@@ -13,23 +13,8 @@ parameters:
     mailer_host:       127.0.0.1
     mailer_user:       ~
     mailer_password:   ~
-    mailer_encryption: ~
-    mailer_auth_mode: ~
-    mailer_port:    ~
+
     locale:            en
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
-    applicationUrl: "http://local.demo.com/"
-    amazon_aws_key: AKIAJYBUA7H4EMZHC62A
-    amazon_aws_secret_key: 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
-    amazon_s3_base_url: https://s3.amazonaws.com/rpl-upload.com/
-    amazon_s3_bucket_name: rpl-upload.com
-    apiUrl: "http://api.gqaus.com.au/web/app_dev.php/api/v1/"
-    apiAuthUsername: stgaccess
-    apiAuthPassword: u9FGDU8K
-    maxFileSize: 10000000
-    fromEmailAddress: rpl@gqaustralia.com.au
-    pagination_limit_page: 10
-    tokbox_key: 45625952
-    tokbox_secret_key: 7352c026b302ce7999468ad724f8a2a19a2a8130

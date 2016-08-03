@@ -24,6 +24,7 @@ framework:
     trusted_proxies: ~
     session:
         # handler_id set to null will use default session handler from php.ini
+        name: "NewSessionName"
         handler_id:  ~
     fragments:       ~
     http_method_override: true
@@ -37,7 +38,6 @@ twig:
         base_url: %applicationUrl%
         user_service: "@UserService"
         evidence_service: "@EvidenceService"
-        courses_service: "@CoursesService"
         tokbox_key: "%tokbox_key%"
         rto_workspan: "%rto_workspan%"
         fec_workspan: "%fec_workspan%"
@@ -92,10 +92,10 @@ swiftmailer:
     auth_mode: "%mailer_auth_mode%"
     spool:     { type: memory }
 
-#misd_guzzle:
-#    service_builder:
-#        class:              "Guzzle\Service\Builder\ServiceBuilder"
-#        configuration_file: "%kernel.root_dir%/config/webservices.json"
+misd_guzzle:
+    service_builder:
+        class:              "Guzzle\Service\Builder\ServiceBuilder"
+        configuration_file: "%kernel.root_dir%/config/webservices.json"
 knp_gaufrette:
     adapters:
         file_storage:

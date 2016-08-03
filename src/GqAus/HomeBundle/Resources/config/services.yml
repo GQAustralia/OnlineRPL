@@ -9,5 +9,5 @@ services:
         class: GqAus\HomeBundle\Services\CoursesService
         arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService']
     GuzzleService:
-        class: %guzzle.http_client.class%
+        class: %guzzle.client.class%
         arguments: []

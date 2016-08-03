@@ -19,7 +19,7 @@ class FileController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $userCourses = $user->getCourses();
         $evidences = $this->get('EvidenceService')->currentUser->getEvidences();       
-        $evidenceTypeCount = $mappedEvidence = $unMappedEvidences = $mappedToMultipleUnit = $mappedToOneUnit = $mappingCount = array();
+        $formattedEvidences = $evidenceTypeCount = $mappedEvidence = $unMappedEvidences = $mappedToMultipleUnit = $mappedToOneUnit = $mappingCount = array();
         if(!empty($evidences)){
             foreach($evidences as $key => $evidence){
                 $evdPath = (method_exists($evidence,'getName')) ?  $evidence->getPath() : $evidence->getContent();

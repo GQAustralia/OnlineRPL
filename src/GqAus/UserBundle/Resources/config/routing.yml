@@ -251,8 +251,8 @@ searchEvidence:
     path:     /searchEvidence
     defaults: { _controller: GqAusUserBundle:Evidence:searchEvidence }
 files:
-    path:     /files
-    defaults: { _controller: GqAusUserBundle:File:view }
+    path:     /files/{courseCode}/{userId}
+    defaults: { _controller: GqAusUserBundle:File:view, courseCode: null, userId: null  }
 filesAdd:
     path:     /addFiles
     defaults: { _controller: GqAusUserBundle:File:add}
