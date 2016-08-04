@@ -4,8 +4,8 @@
 			<h2>Welcome</h2>
                         <div id="change_pwd_error"></div>
 			<form class="form" action="{{ path('login_check') }}" name="frmLogin" id="frmLogin" method="post">
-				<input type="email" name = '_username'  class="form-control email" id="InputEmail1" placeholder="Email"/>
-				<input type="password" name='_password' class="form-control password" id="InputPassword1" placeholder="Password"/>
+				<input type="email" name = '_username' autocomplete="off"  class="form-control email" id="InputEmail1" placeholder="Email"/>
+				<input type="password" name='_password' autocomplete="off"  class="form-control password" id="InputPassword1" placeholder="Password"/>
 				 <a href="forgotpassword" class="forgot_pwd_link">Forgot password?</a>
 				<input type="submit" class="login_btn" value="LOGIN" onclick="return loginValidate();"/>
 			</form>
