@@ -37,6 +37,8 @@
         </div>                
     </div>
 </div>
+{% endblock %}
+{% block javascripts %}
 <script src="http://static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
 <script type="text/javascript">
     var apiKey = '{{ apiKey }}';
@@ -90,7 +92,7 @@
             $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);
         }).hide();
         
-        $("#btn-endcall").click(function(event) {
+        $(".icon-endcall").click(function(event) {
             if(confirm("Are you sure want to close the conversation?")) {
                 if (archiveID !== null) {
                     $.get("stopArchive/" + archiveID + "/" + aid + "/" + uid + "/" + cid);   
@@ -101,5 +103,3 @@
     });
 </script>
 {% endblock %}
-
-
