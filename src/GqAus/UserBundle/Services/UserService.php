@@ -322,6 +322,7 @@ class UserService
             $usi = $user->getUniversalStudentIdentifier();
             $dob = $user->getDateOfBirth();
             $address = $user->getAddress();
+           
             if (!empty($firstName)) {
                 $profileCompleteness += 10;
             }
@@ -345,7 +346,25 @@ class UserService
             //}
 
             if (!empty($address) && $address != '0' && $address->getAddress()!="") {
-                $profileCompleteness += 40;
+                $profileCompleteness += 10;                
+            }
+            if (!empty($address) && $address != '0' && $address->getArea()!="") {
+                $profileCompleteness += 5;
+            }
+            if (!empty($address) && $address != '0' && $address->getCity()!="") {
+                $profileCompleteness += 5;
+            }
+            if (!empty($address) && $address != '0' && $address->getState()!="") {
+                $profileCompleteness += 5;
+            }
+            if (!empty($address) && $address != '0' && $address->getPincode()!="") {
+                $profileCompleteness += 5;
+            }
+            if (!empty($address) && $address != '0' && $address->getCountry()!="") {
+                $profileCompleteness += 5;
+            }
+            if (!empty($address) && $address != '0' && $address->getSuburb()!="") {
+                $profileCompleteness += 5;
             }
         }
         $percentage = ($profileCompleteness * $maximumPoints) / 100;

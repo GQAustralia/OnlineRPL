@@ -39,16 +39,17 @@
                                 </div>
                                 <div class="form-group">
                                         <label>Password</label>
-                                        <input type="text" value="........"/>
-                                        <span><i class="material-icons">lock</i></span>
+                                        <input type="text" value="........" readonly/>
+                                        <span><i class="material-icons lock">lock</i></span>
                                 </div>
                                 <a href="" class="change_link" data-toggle="modal" data-target="#change_pwd_popup">Change?</a>
                         </div>
-                        <div class="section">
+                        <div class="section half clearfix">
                                 <div class="form-group">
                                         <label for="gq-personal-pwd">USI</label>
                                         {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
+                                <a href="http://www.usi.gov.au/create-your-USI/Pages/default.aspx" target="_blank" class="usilink">{{usi_link}}</a>
                         </div>
                         <div class="title_bar clearfix">
                                 <span class="left">ADDRESS</span>
@@ -94,7 +95,7 @@
               
         </div>
                 <div class="link_section clearfix">
-                        <a href="/faq" class="faq_link" target="MyNewWindow">
+                        <a href="{{ app.request.baseUrl }}/faq" class="faq_link" target="MyNewWindow">
                                 <span><i class="material-icons">help</i></span>FAQs
                         </a>
                      {{ form_widget(form.save, {'attr': {'class': 'btn update_btn disable'}}) }}

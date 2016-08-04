@@ -22,8 +22,12 @@ class LoginController extends Controller
             $session = $request->getSession();
             $session->set('user_id', $user->getId());
             if($role[0] == "ROLE_APPLICANT")
-            {              
-                return $this->redirect('userprofile');
+            { 
+                $userProfilePercentage = $this->get('UserService')->getUserProfilePercentage($user);
+                if($userProfilePercentage < 100)
+                    return $this->redirect('userprofile');
+                else
+                    return $this->redirect('qualifications');
             }
             else{
                 return $this->redirect('dashboard');
