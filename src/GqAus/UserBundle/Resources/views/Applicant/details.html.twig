@@ -14,6 +14,8 @@
     {% set lastName = app.security.getToken().getUser().getLastName() | capitalize %}
     {% set email = app.security.getToken().getUser().getEmail() %}
     {% set mobile = app.security.getToken().getUser().getPhone() %}
+    {% set coreUnitCount = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'core') %} 
+    {% set electiveUnits = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'elective') %} 
     
     {% set facProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : facilitatorName %}
     {% set facVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
@@ -21,7 +23,6 @@
     {% set assVocName = ('ROLE_ASSESSOR' in userRole) ? 'are' : 'is' %}
     {% set rtoProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : rtoName %}
     {% set rtoVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
-    
     <!-- Large Screens HTML -->
     <div class="hidden-xs body_section">
         <div class="presentation-section">
@@ -134,16 +135,14 @@
                     {% if ('ROLE_FACILITATOR' in userRole) %}
                         <div class="gqa-btn-group">
                             <div class="row no-gutter">     
-                                 {% if (facilitatorstatus != '1') %}
-                                    {% if (courseStatus == '1') %}
-                                        <div class="col-md-12 col-lg-12">
-                                            <div class="row no-gutter">
-                                                <div class="col-md-12 col-lg-12">
-                                                    <button type="button" id="submittoassessor"  class="btn btn-danger" data-courseStatus="2">Submit to Assessor</button>                                
-                                                </div>
+                                 {% if (facilitatorstatus != '1' and currentIdPoints >= '100') %}
+                                    <div class="col-md-12 col-lg-12">
+                                        <div class="row no-gutter">
+                                            <div class="col-md-12 col-lg-12">
+                                                <button type="button" id="submittoassessor"  class="btn btn-danger" data-courseStatus="2">Submit to Assessor</button>                                
                                             </div>
                                         </div>
-                                    {% endif %}
+                                    </div>
                                 {% endif %}
                             </div>                    
                         </div>
@@ -214,7 +213,6 @@
                     {% if courseInfo %}
                         {% if courseInfo.Units %}
                             {% if courseInfo.Units.Unit %}
-                              {% set coreUnitCount = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'core') %} 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     {% if ('ROLE_RTO' in userRole or 'ROLE_ASSESSOR' in userRole) %}{% set totalUnitStatus = 'COMPETENT'%}{%else%}{% set totalUnitStatus = 'Satisfacty'%}{%endif%}
@@ -227,7 +225,7 @@
                                 </div>
                                 <div id="collapseTwo" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        <div class="panel-group" id="nested">
+                                        <div class="accordion panel-group" id="nested">
                                             {% set flagCore = '0' %}
                                             {% set unitsData = courseInfo.Units.Unit %}
                                             {% if courseInfo.Units.Unit.id is defined %}
@@ -247,7 +245,8 @@
                                                                 {% set inloop = 1 %}
                                                             {% endif %}   
                                                             {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
-                                                            {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{% endif %}
+                                                            {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
+                                                            {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}
                                                             <p> <span class="tag-id">{{units.id}}</span> </p>
                                                             <p><a href="/courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                         </div>
@@ -267,7 +266,6 @@
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading clearfix">
-                                    {% set electiveUnits = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'elective') %} 
                                     {% set electiveUnitsRvd =  (electiveUnits['noOfNotRvdrcrds'] > 0) ? electiveUnits['noOfNotRvdrcrds']~' to be reviewed' : "Satisfacty" %}
                                     <h4 class="panel-title"><span>{{electiveUnits['noOfNotRvdrcrds'] + electiveUnits['noOfRvdRcrds']}} ELECTIVE UNITS - <strong>{{electiveUnitsRvd}}</strong></span>
                                         <a class="btn-accordion collapsed" data-collapse="parent" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
@@ -277,7 +275,7 @@
                                 </div>
                                 <div id="collapseThree" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        <div class="panel-group" id="nested">
+                                        <div class="accordion panel-group" id="nested">
                                     {% if courseInfo.Units %}
                                         {% if courseInfo.Units.Unit %}
                                             {% set flagElective = '0' %}
@@ -301,7 +299,8 @@
                                                                 {% set inloop = 1 %}
                                                             {% endif %}   
                                                             {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
-                                                            {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{% endif %}
+                                                            {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
+                                                            {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}
                                                                     <p> <span class="tag-id">{{units.id}}</span> </p>
                                                                     <p><a href="/courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                                 </div>
