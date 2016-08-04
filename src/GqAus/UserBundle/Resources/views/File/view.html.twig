@@ -261,7 +261,7 @@
                                                                                 {% set unitType = user_service.getUserCourseUnitType(evd[0].user.id,linkedVal.course,linkedVal.unit) %}
                                                                                 {% if(linkedVal.unit) %}
                                                                                     <span class="content">
-                                                                                        <a href="http://local.gqaevidence.com/courseunitDetails/{{ linkedVal.course }}/{{ linkedVal.unit}}/{{ evd[0].user.id }}">
+                                                                                        <a href="/courseunitDetails/{{ linkedVal.course }}/{{ linkedVal.unit}}/{{ evd[0].user.id }}">
                                                                                             <i class="material-icons">insert_link</i>Linked to {{ linkedVal.unit }} ({{ unitType }} unit)
                                                                                         </a>
                                                                                     </span>
