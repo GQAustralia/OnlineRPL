@@ -10,6 +10,7 @@
 {% endblock %}    
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
+    {% set actUnitStatus = unitStatus.status %}
     {% set unitFacStatus = unitStatus.facilitatorstatus %}
     {% set unitAssStatus = unitStatus.assessorstatus %}
     {% set unitRtostatus = unitStatus.rtostatus %}
@@ -111,7 +112,7 @@
                                     </div>                                        
                                 </div>
                             </div>
-                        {% if ('ROLE_FACILITATOR' in userRole) %}
+                        {% if ('ROLE_FACILITATOR' in userRole and actUnitStatus =='1') %}
                             {% if unitFacStatus == '0' or unitFacStatus == '2' %}
             <div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory">Satisfactory</button></div>
                                 {% if unitFacStatus == '0' %}
@@ -119,7 +120,7 @@
                                 {% endif %}
                             {% endif %}
                         {% endif %}
-                        {% if ('ROLE_ASSESSOR' in userRole) %}
+                        {% if ('ROLE_ASSESSOR' in userRole and actUnitStatus =='1') %}
                             {% if unitAssStatus == '0' or unitAssStatus == '2' %}
             <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
                                 {% if unitAssStatus == '0' %}
@@ -127,15 +128,9 @@
                                 {% endif %}
                             {% endif %}
                         {% endif %}
-                        {% if ('ROLE_RTO' in userRole) %}
-                            {#% if unitRtoStatus == '0' or unitRtoStatus == '2' %#}
-           <!-- <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger border-right approve-for-certification-btn" type="button" id="approve-for-certification" >Approved</button></div> -->
-                              {#% if unitRtoStatus == '0' %#}           
-            <!-- <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger" type="button" >Not yet approved</button></div> -->
-                                {#% endif %#} 
+                        {% if ('ROLE_RTO' in userRole and actUnitStatus =='1') %}
             <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger border-right" type="button" >Approved</button></div>
             <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger" type="button" >Not yet approved</button></div>
-                            {#% endif %#} 
                         {% endif %}
                         </div>
                     </div>

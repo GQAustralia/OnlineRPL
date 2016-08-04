@@ -12,7 +12,7 @@
             <div class="title_bar clearfix">
                     <span class="left">YOUR ID</span>
                     {% set requiredpoints = 100 - currentIdPoints %}
-                    <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED <i class="material-icons">info</i>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
+                    <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED <a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow"><i class="material-icons">info</i></a>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
             </div>
         {% if currentIdPoints < "100" %}
             <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data">                 
@@ -68,7 +68,7 @@
             {% endif %}
          </ul>
             </div>
-            <p>You can use your mobile to take a pic of your ID <strong>SMS a link to my mobile</strong></p>
+            {#<p>You can use your mobile to take a pic of your ID <strong>SMS a link to my mobile</strong></p>#}
     </div>
         </div>
 {% endif %}

@@ -16,3 +16,4 @@ twig:
         no_applicants      : "No Applicants Found"
         no_id_files        : "No Id files found"
         delete_evidence_confirm: "Are you want to delete the evidence?"
+        usi_link               : "Don't have one? Click here to create one"
