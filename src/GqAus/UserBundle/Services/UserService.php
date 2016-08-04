@@ -2024,8 +2024,8 @@ class UserService
 
         // send the external mail and internal message to facilitator
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-        $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody,
-            $assessor->getEmail(), $assessor->getUsername());
+        /*$this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody,
+            $assessor->getEmail(), $assessor->getUsername());*/
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
         $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $assessor->getId(), $messageSubject,
             $facMessageBody, '');
@@ -2039,8 +2039,8 @@ class UserService
         $aplMailBody = str_replace($msgSearch, $aplMsgReplace,
             $this->container->getParameter('mail_conversation_invitation_con'));
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-        $this->sendExternalEmail($applicant->getEmail(), $mailSubject, $aplMailBody,
-            $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
+      /*  $this->sendExternalEmail($applicant->getEmail(), $mailSubject, $aplMailBody,
+            $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); */
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
         $this->sendMessagesInbox($applicant->getId(), $courseObj->getFacilitator()->getId(), $messageSubject,
             $aplMessageBody, '');
