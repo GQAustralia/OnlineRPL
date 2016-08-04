@@ -62,7 +62,15 @@
 						<div class="panel-body">
 							<ul>
 								{% for key, list in newApplicantList %}
-										{% set remStatus = user_service.checkReminderExists(list.facilitator.id, list.id, '') %}
+										{% if ('ROLE_FACILITATOR' in roles) %}
+											{% set setUserId = list.facilitator.id %}
+										{% elseif ('ROLE_ASSESSOR' in roles) %}
+											{% set setUserId = list.assessor.id %}
+										{% else %}
+											{% set setUserId = list.rto.id %}
+										{% endif %}
+										
+										{% set remStatus = user_service.checkReminderExists(setUserId, list.id, '') %}
 										<li class="clearfix {{ remStatus.playlistIconClass }}">
 											<span class="content"><strong><a href="/applicantDetails/{{ list.courseCode }}/{{ list.user.id }}" title="View Portfolio">{{list.user.firstName}} {{list.user.lastName}}</a></strong> - {{list.courseName}}</span>
 											<div class="dropdown keep-open">
@@ -99,7 +107,14 @@
 					<div class="panel-body">
 						<ul>
 							{% for dKey, dList in eightyDaysApplicantList %}
-							{% set remStatus = user_service.checkReminderExists(dList.facilitator.id, dList.id, '') %}
+								{% if ('ROLE_FACILITATOR' in roles) %}
+									{% set setUserId = dList.facilitator.id %}
+								{% elseif ('ROLE_ASSESSOR' in roles) %}
+									{% set setUserId = dList.assessor.id %}
+								{% else %}
+									{% set setUserId = dList.rto.id %}
+								{% endif %}							
+							{% set remStatus = user_service.checkReminderExists(setUserId, dList.id, '') %}
 								<li class="clearfix {{ remStatus.playlistIconClass }}">
 									<span class="content"><strong><a href="/applicantDetails/{{ dList.courseCode }}/{{ dList.user.id }}" title="View Portfolio">{{dList.user.firstName}} {{dList.user.lastName}}</a></strong> - {{dList.courseName}}</span>
 									<div class="dropdown keep-open">
@@ -136,7 +151,14 @@
 				   <div class="panel-body">
 					   <ul>
 						   {% for eKey, eList in eightyPercEvd %}
-						   {% set remStatus = user_service.checkReminderExists(eList.facilitator.id, eList.id, '') %}
+								{% if ('ROLE_FACILITATOR' in roles) %}
+									{% set setUserId = eList.facilitator.id %}
+								{% elseif ('ROLE_ASSESSOR' in roles) %}
+									{% set setUserId = eList.assessor.id %}
+								{% else %}
+									{% set setUserId = eList.rto.id %}
+								{% endif %}							   
+						   {% set remStatus = user_service.checkReminderExists(setUserId, eList.id, '') %}
 							   <li class="clearfix {{ remStatus.playlistIconClass }}">
 								   <span class="content"><strong><a href="/applicantDetails/{{ eList.courseCode }}/{{ eList.user.id }}" title="View Portfolio">{{eList.user.firstName}} {{eList.user.lastName}}</a></strong> - {{eList.courseName}}</span>
 								   <div class="dropdown keep-open">
@@ -175,7 +197,14 @@
                 <div class="panel-body">
                     <ul>
                         {% for assKey, assList in applicantsWithAssesor %}
-                        {% set remStatus = user_service.checkReminderExists(assList.facilitator.id, assList.id, '') %}
+							{% if ('ROLE_FACILITATOR' in roles) %}
+								{% set setUserId = assList.facilitator.id %}
+							{% elseif ('ROLE_ASSESSOR' in roles) %}
+								{% set setUserId = assList.assessor.id %}
+							{% else %}
+								{% set setUserId = assList.rto.id %}
+							{% endif %}							
+                        {% set remStatus = user_service.checkReminderExists(setUserId, assList.id, '') %}
                             <li class="clearfix {{ remStatus.playlistIconClass }}">
                                 <span class="content"><strong><a href="/applicantDetails/{{ assList.courseCode }}/{{ assList.user.id }}" title="View Portfolio">{{assList.user.firstName}} {{assList.user.lastName}}</a></strong> - {{assList.courseName}}</span>
                                 <div class="dropdown keep-open">
@@ -214,7 +243,14 @@
 				<div class="panel-body">
 						<ul>
 							{% for rtoKey, rtoList in applicantsWithRto %}
-							{% set remStatus = user_service.checkReminderExists(rtoList.facilitator.id, rtoList.id, '') %}
+								{% if ('ROLE_FACILITATOR' in roles) %}
+									{% set setUserId = rtoList.facilitator.id %}
+								{% elseif ('ROLE_ASSESSOR' in roles) %}
+									{% set setUserId = rtoList.assessor.id %}
+								{% else %}
+									{% set setUserId = rtoList.rto.id %}
+								{% endif %}								
+							{% set remStatus = user_service.checkReminderExists(setUserId, rtoList.id, '') %}
 								<li class="clearfix {{ remStatus.playlistIconClass }}">
 									<span class="content"><strong><a href="/applicantDetails/{{ rtoList.courseCode }}/{{ rtoList.user.id }}" title="View Portfolio">{{rtoList.user.firstName}} {{rtoList.user.lastName}}</a></strong> - {{rtoList.courseName}}</span>
 									<div class="dropdown keep-open">
