@@ -167,9 +167,9 @@
                                                 <div class="panel-title">
                                                         <div class="panle_body_content">
                                                                 <p> <span class="tag-id">{{units.id}}</span> </p>
-                                                                <p><a href="/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
+                                                                <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                         </div>
-                                                        <a href="/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">
+                                                        <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">
                                                                 <i class="material-icons">chevron_right</i>
                                                         </a>
                                                 </div>
@@ -232,7 +232,7 @@
                     <i class="material-icons info">info</i>
                     <div class="tag-copy">
                         <p> <span class="tag-id">{{units.id}}</span> </p>
-                        <p><a href="/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
+                        <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
                     </div>
                     <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">
                         
