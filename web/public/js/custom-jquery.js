@@ -2385,27 +2385,46 @@ function newPasswordUpdate()
     var newconfirmpwd = $("#confirm-password").val();
     var startdiv = '<div class="gq-id-pwd-error-text1"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
     var enddiv = '</h2></div>';
-  
-    
+   
+      
     if (newpwd == "") {
         passwordShowerrorMsg("Please enter New Password", "new-password");
         return false;
     }
     if (newpwd != "") {
-        if (newpwd.length < 6) {
-            passwordShowerrorMsg("New Password must be minimum of 6 characters", "new-password");
+        if (newpwd.length < 8) {
+            passwordShowerrorMsg("New Password must be minimum of 8 characters", "new-password");
             return false;
         }
     }
-    if (newconfirmpwd == "" && displayConfirmPwd != 'none') {
+    if (newpwd != "") {
+        if (newpwd.length > 16 ) {
+            passwordShowerrorMsg("New Password must be maximum of 16 characters", "new-password");
+            return false;
+        }
+    }
+    if (newpwd != "") {
+        if (!(/\d/.test(newpwd) && /[a-zA-Z]/.test(newpwd))) {    // Password should contain atleast one letter and one number
+            passwordShowerrorMsg("Password should contain atleast one letter and one digit", "new-password");
+            return false;
+        }
+    }
+  
+    
+    return true;
+}
+
+//Check confirm password
+
+function checkConfirmPassword()
+{
+    var newpwd = $("#new-password").val();
+    var newconfirmpwd = $("#confirm-password").val();
+    var displayConfirmPwd = $("#confirm-password").parent().css( "display" ); 
+    
+     if (newconfirmpwd == "" && displayConfirmPwd != 'none') {
         passwordShowerrorMsg("Please enter Confirm Password", "confirm-password");
         return false;
-    }
-    if (newconfirmpwd != "" && displayConfirmPwd != 'none') {
-        if (newconfirmpwd.length < 6) {
-            passwordShowerrorMsg("New Confirm Password must be minimum of 6 characters", "confirm-password");
-            return false;
-        }
     }
     if (newpwd != "" && newconfirmpwd != "" ) {        
         if (newpwd != newconfirmpwd)
@@ -2414,12 +2433,29 @@ function newPasswordUpdate()
             return false;
         }
     } 
-    
-    return true;
+   $('#change_pswd_icon').show();
+   return true;
 }
+// On change of new password field icons
+function chnageMaterialIcon()
+{
+   
+        if (newPasswordUpdate())
+        {
+            $('#new_pswd_icon').show();
+            
+        }
+        else
+        {
+            $('#change_pswd_icon').hide();
+            $('#new_pswd_icon').hide();
+        }
+    
+}
+
 /* Password Update (from New User) -*/
 $('#updatePassword').on('submit', function(e) {
-     if(newPasswordUpdate()){  
+     if(newPasswordUpdate() && checkConfirmPassword()){  
         e.preventDefault();
         form_data = $(this).serialize(); //Serializing the form data
            $.ajax({

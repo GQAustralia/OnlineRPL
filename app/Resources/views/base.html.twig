@@ -22,11 +22,13 @@
             var base_url = "{{ base_url }}";
             var amazon_link = "{{ amazon_link }}";
             var upload_path = "{{ asset('public/uploads/')}}";
+            
         </script>    
   </head>
   <body>
     {% set roles = app.security.getToken().getUser().getRoles() %}
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
+      {% set page = app.request.attributes.get('_route') %}
       
    <main class="main_container">
 		{% block navmenu %}
@@ -144,15 +146,18 @@
     <script> onloadPortfolioCount();</script>
 	<script>
 	 $(document).ready(function(){
+              var page = '{{page}}';
                 if({{applicantStatus}} == 1)
                 {                 
-                   $('#changePassword').modal('show');  
                    $("#onboard2").addClass("hidden");
+                   $('#changePassword').modal({backdrop: 'static', keyboard: false,show:true});
                 }
-              
                 if({{applicantStatus}} == 2)
-                {    
-                    $('#onboard2').modal('show');  
+                {   
+                    if(page != 'faq')
+                    {
+                        $('#onboard2').modal({backdrop: 'static', keyboard: false,show:true});
+                    }
                     $("#changePassword").addClass("hidden");
                 }
                 
