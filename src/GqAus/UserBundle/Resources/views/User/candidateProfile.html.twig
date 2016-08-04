@@ -30,8 +30,12 @@
                             <div class="section">
                                 <div class="form-group clearfix gender_section">
                                     <label>Gender</label>
-                                    <div class="radio"><label><input type="radio" disabled name="optradio" {% if(user.gender =='male')%}checked{% endif %}>Male</label></div>
-                                    <div class="radio"><label><input type="radio" disabled name="optradio" {% if(user.gender =='female')%}checked{% endif %}>Female</label></div>
+                                    <div id="userprofile_gender">
+                                        <input type="radio" disabled name="optradio" {% if(user.gender =='male')%}checked{% endif %}>
+                                        <label for="userprofile_gender_0" class="required">Male</label>
+                                        <input type="radio" disabled name="optradio" {% if(user.gender =='female')%}checked{% endif %}>
+                                        <label for="userprofile_gender_0" class="required">Female</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="section">
@@ -96,7 +100,7 @@
                         </form>
                     </div>
                     <div class="link_section clearfix">
-                        <a href="javascript:void(0)" class="faq_link">
+                        <a href="/faq" class="faq_link"  target="MyNewWindow">
                                 <span><i class="material-icons">help</i></span>FAQs
                         </a>
                     </div>
@@ -106,7 +110,10 @@
                         <div class="title_bar clearfix">
                             <span class="left">CANDIDATE ID</span>
                              {% set requiredpoints = 100 - currentIdPoints %}
-                            <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED <i class="material-icons">info</i>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
+                            <span class="right">
+                                <strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED 
+                                       <a href="/faq" class="faq_link"  target="MyNewWindow"><i class="material-icons">info</i></a>{% else %} {{currentIdPoints}} POINTS COMPLETED 
+                                    <i class="material-icons">done</i>{% endif %}</strong></span>
                         </div>
                         <div class="file_block">
                             <ul class="Id_files">
@@ -128,9 +135,6 @@
                         </div>
                 </div>
             </div>
-                <!-- DESKTOP VERSION -->
-                <!-- MOBILE VERSION -->
-                <!-- MOBILE VERSION -->
             </div>
         </div>
     </div>

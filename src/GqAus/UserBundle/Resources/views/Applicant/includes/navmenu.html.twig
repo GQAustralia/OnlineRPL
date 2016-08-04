@@ -1,7 +1,7 @@
 {% set userName = (userName is defined)? userName : user.firstName~' '~user.lastName %}
 {% set courseCode = (courseInfo.id is defined) ? courseInfo.id : courseCode %}
 {% set applicantId = (userId is defined) ? userId : userId %}
-<header>
+<header {% if app.request.attributes.get('_route') != 'applicantDetails' and app.request.attributes.get('_route') != 'courseunitDetails' %}class="header-border"{%endif%}>
     <section class="container">
         <div class="info-header">
             <div class="portfolio">
