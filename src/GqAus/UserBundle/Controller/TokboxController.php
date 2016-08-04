@@ -33,7 +33,7 @@ class TokboxController extends Controller
         $this->get('UserService')->sendConversationMessage($this->getRequest()->get('courseCode'), $applicantId, $userId, $encodedRoomId);
         return $this->render('GqAusUserBundle:Tokbox:index.html.twig', array(
                 'apiKey' => $this->container->getParameter('tokbox_key'), 'sessionId' => $sessionId, 'token' => $token, 'roomId' => $encodedRoomId, 
-                'courseCode' => $courseCode, 'applicantId' => $applicantId, 'userId' => $userId, 'applicantDetails' => $applicantDetails
+                'courseCode' => $this->getRequest()->get('courseCode'), 'applicantId' => $applicantId, 'userId' => $userId, 'applicantDetails' => $applicantDetails
         ));
        
     }
