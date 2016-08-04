@@ -30,11 +30,11 @@
                                                
 						<form class="form" name="updatePassword"  id="updatePassword">
 							<div class="form-group">
-								<input type="password" name="new-password" id="new-password" class="form-control" placeholder="New Password">
+								<input type="password" name="new-password" autocomplete="off" id="new-password" class="form-control" placeholder="New Password">
 								<span><i class="material-icons">done</i></span>
 							</div>
 							<div class="form-group">
-								<input type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="Confirm Password">
+								<input type="password" name="confirm-password" autocomplete="off"  id="confirm-password" class="form-control" placeholder="Confirm Password">
 								<span><i class="material-icons">done</i></span>
 							</div>
 							<div class="form-group">
@@ -75,7 +75,7 @@
 							</li>
 						</ul>
 						<div class="btn_section clearfix">
-							<a href="javascript:void(0)" class="faq_btn">
+							<a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow" class="faq_btn">
 								<span><i class="material-icons">info</i></span>
 							FAQs</a>
 							<a href="javascript:void(0)" class="active" onclick="saveUserPassword()">Ok, got it</a>
