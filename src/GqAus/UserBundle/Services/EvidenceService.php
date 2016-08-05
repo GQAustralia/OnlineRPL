@@ -128,6 +128,73 @@ class EvidenceService
         return ($seterror == 'no') ? $data['hid_unit'] : $seterror;
     }
 
+     /**
+     * Function to save evidence
+     * @param array $evidences
+     * @param array $data
+     * return string
+     */
+    public function saveS3ToEvidence($data)
+    {
+        $i = 0;
+        $seterror = 'no';
+        $fileInfo = $data->get('fileInfo');
+        $filName = $data->get('fileName');
+        $otherInfo= $data->get('otherInfo');
+        $size = $fileInfo['size'];
+        $mimeType = $fileInfo['type'];;
+        $size = $this->fileSize($size);
+        $pos = strpos($mimeType, '/');
+        $type = substr($mimeType, 0, $pos);
+        switch ($type) {
+            case 'image':
+                $fileObj = new Image();
+                break;
+            case 'audio':
+                $fileObj = new Audio();
+                break;
+            case 'video':
+                $fileObj = new Video();
+                break;
+            case 'text':
+                $fileObj = new File();
+                break;
+            case 'application':
+                $fileObj = new File();
+                break;
+            default :
+                $fileObj = new File();
+                break;
+        }
+        $fileObj->setPath($filName);
+        $fileObj->setName($fileInfo['name']);
+        $fileObj->setUser($this->currentUser);
+        $fileObj->setSize($size);
+        if(isset($otherInfo['hid_unit'])) // null value added for unmapped file upload
+            $fileObj->setUnit($otherInfo['hid_unit']);
+        if(isset($otherInfo['hid_course'])) // null value added for unmapped file upload
+            $fileObj->setCourse($otherInfo['hid_course']);
+        $this->em->persist($fileObj);
+        $this->em->flush();
+        $evidenceId = $fileObj->getId();
+        if(isset($otherInfo['hid_unit']) && isset($otherInfo['hid_course'])) // Uploading evidence by candidate then update course units
+            $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course']);
+                    
+
+        if (!empty($otherInfo['self_assessment'])) {
+            $textObj = new Text();
+            $textObj->setContent($otherInfo['self_assessment']);
+            $textObj->setUnit($otherInfo['hid_unit']);
+            $textObj->setCourse($otherInfo['hid_course']);
+            $textObj->setUser($this->currentUser);
+            $this->em->persist($textObj);
+            $this->em->flush();
+            $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course']);
+        }
+        return json_encode(['evidenceId'=>$evidenceId]);
+        return ($seterror == 'no') ? $otherInfo['hid_unit'] : $seterror;
+    }
+    
     /**
      * Save Evidence Assessment 
      * @param array $data

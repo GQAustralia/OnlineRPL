@@ -21,10 +21,8 @@ class EvidenceController extends Controller
         error_reporting(0);
         $form = $this->createForm(new EvidenceForm(), array());
         if ($request->isMethod('POST')) {
-            $form->bind($request);
-            $data = $form->getData();
-            $fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
-            echo $this->get('EvidenceService')->saveEvidence($fileNames, $data);
+            //$fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
+            echo $this->get('EvidenceService')->saveS3ToEvidence($request->request);
             exit;
         }
     }

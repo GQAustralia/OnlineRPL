@@ -36,7 +36,7 @@
 												</div>
 											</div>
 										</div>
-										<span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
+										<span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} rrrGB per upload</span>
 										<div class="panel-group">
 											<div class="panel clearfix">
 												<div class="panel-body">
@@ -324,17 +324,20 @@
 										<div class="upload_btn">
 											<div class="file-upload">
 												<form action="#" method="GET" class="form demo_form">
-													<div class="upload fs-upload-element fs-upload fs-light" data-upload-options="">
+													{#<div class="upload fs-upload-element fs-upload fs-light" data-upload-options="">
 													
-													</div>
+													</div>#}
+                                                                                                   
 												</form>
+                                                                                             
 											</div>
 										</div>
-										<span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
+                                                                            <input type="file" multiple = "multiple" id="file" onchange="upload()">
+										<span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} ssss GB per upload</span>
 										<div class="panel-group">
 											<div class="panel clearfix">
 												<div class="panel-body">
-													<div class="panel-copy fileListContainer">
+													<div class="panel-copy fileListContainer" id="progress-bars">
 													
 													</div>
 												</div>
@@ -375,6 +378,7 @@
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('public/js/jquery.form.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/js/upload.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/js/file-que.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/s3-upload/firebug-lite/build/firebug-lite.js#startOpened') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/s3-upload/s3upload.js') }}"></script>
 {% endblock %}
