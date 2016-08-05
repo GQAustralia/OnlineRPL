@@ -4,7 +4,7 @@ $(document).ready(function() {
         console.log(ccode+':'+ucode);
 	$(".upload").upload({
                         action: "/addEvidences",
-                       postData: {'hid_unit':$('#select_hid_course').val(),'hid_course':$('#select_hid_unit').val()}
+                       postData: {'file[hid_unit]':$('#select_hid_course').val(),'file[hid_course]':$('#select_hid_unit').val()}
 		}).on("start.upload", onStart)
 		.on("complete.upload", onComplete)
 		.on("filestart.upload", onFileStart)
