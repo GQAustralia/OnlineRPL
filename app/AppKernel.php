@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new Ensepar\Html2pdfBundle\EnseparHtml2pdfBundle(),
+            new SunCat\MobileDetectBundle\MobileDetectBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
