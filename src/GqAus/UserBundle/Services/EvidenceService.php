@@ -37,7 +37,7 @@ class EvidenceService
     /**
      * @var Object
      */
-    private $userService;
+    public $userService;
 
     /**
      * Constructor
@@ -535,13 +535,48 @@ class EvidenceService
         return $evType;
     }
     
+    
+    /**
+    * Function to Format Evidences
+    * @param array $evidences
+    * @return array $evidenceList
+    */
+    public function formatEvidencesListToDisplay($evidences)
+    {
+        $formattedEvidences = $evidenceTypeCount = $mappedEvidence = $unMappedEvidences = $mappedToMultipleUnit = $mappedToOneUnit = $mappingCount = $evidenceList = array();
+        if(!empty($evidences)){
+            foreach($evidences as $key => $evidence){
+                $evdPath = (method_exists($evidence,'getName')) ?  $evidence->getPath() : $evidence->getContent();
+                $evidenceTypeCount[$evidence->getType()][] = $evdPath;
+                if($evidence->getUnit())
+                    $mappedEvidence[$evdPath][] = $evidence->getUnit();
+                else
+                    $unMappedEvidences[$evdPath][] = $evidence->getId();
+
+                $formattedEvidences[$evdPath][] = $evidence;
+            }
+            foreach($mappedEvidence as $mKey => $mappedEvd){
+                if(count($mappedEvd) > 1)
+                    $mappedToMultipleUnit[] = $mKey;
+                else if(count($mappedEvd) == 1)
+                    $mappedToOneUnit[] = $mKey;
+            }
+        }
+        $evdMapping['unMappedEvidences'] = $unMappedEvidences;
+        $evdMapping['mappedToOneUnit'] = $mappedToOneUnit;
+        $evdMapping['mappedToMultipleUnit'] = $mappedToMultipleUnit;
+        $evdMapping['typeCount'] = $evidenceTypeCount;        
+        $evidenceList['evdMapping'] = $evdMapping;
+        $evidenceList['formattedEvidences'] = $formattedEvidences;
+        return $evidenceList;
+    }
+
     /**
      * Function to get pendign applicant evidence files
      * @param int $userId
      */
     public function getPendingApplicantEvidences($user)
     {
-        $userId = $user->getId();
         $qb = $this->em->createQueryBuilder()
             ->select('evd')
             ->from('GqAusUserBundle:UserCourses', 'uc')

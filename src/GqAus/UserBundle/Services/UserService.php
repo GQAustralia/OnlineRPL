@@ -1135,13 +1135,13 @@ class UserService
     }
 
     /**
-     * Function to get Evidence Completeness
-     * @param array $pendingApplicants
+     * Function to get pending applicant evidences
+     * @param array $user
      * return array $evidences
      */
     public function getPendingApplicantEvidences($user)
     {
-        $userId = $user->getId();
+        $userId = $user->getId();     
         $qb = $this->em->createQueryBuilder()
             ->select('evd')
             ->from('GqAusUserBundle:UserCourses', 'uc')

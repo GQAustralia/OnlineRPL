@@ -2166,7 +2166,7 @@ $(document).ready(function(){
 });
 
 if($('#evidencefiles').length>0) {
-
+        $('.evidences-empty').hide();
 	$.extend( $.fn.dataTable.defaults, {
             ordering:  true
         });
@@ -2264,6 +2264,9 @@ if($('#evidencefiles').length>0) {
         $('.mapped-one').html(mapped1Count);
         $('.mapped-two').html(mapped2Count);
 
+} else {
+    $('#evidence-total, .image-count, .audio-count, .video-count, .text-count, .file-count, .unmapped-unit, .mapped-one, .mapped-two').html('0');
+    $('.evidences-empty').show();
 }
 
 /* CAND*/
