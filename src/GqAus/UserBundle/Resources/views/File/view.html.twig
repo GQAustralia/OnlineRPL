@@ -318,33 +318,35 @@
                                             </div>
                                         </div>
                                 </div>
-								<div class="hidden-xs col-sm-12 col-md-12 col-lg-6">
-									<div class="file_upload_block">
-										<div class="title_bar clearfix">
-											<span class="title">UPLOAD EVIDENCE FILES</span>
-										</div>
-										<div class="upload_btn">
-											<div class="file-upload">
-												<form action="#" method="GET" class="form demo_form">
-													<div class="upload fs-upload-element fs-upload fs-light" data-upload-options="">
-													
-													</div>
-												</form>
-											</div>
-										</div>
-										<span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
-										<div class="panel-group">
-											<div class="panel clearfix">
-												<div class="panel-body">
-													<div class="panel-copy fileListContainer">
-													
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<p>You can use your mobile to take a photos videos <strong>SMS a link to my mobile</strong></p>
-								</div>
+                                {% if('ROLE_APPLICANT' in roles) %}
+                                <div class="hidden-xs col-sm-12 col-md-12 col-lg-6">
+                                        <div class="file_upload_block">
+                                                <div class="title_bar clearfix">
+                                                        <span class="title">UPLOAD EVIDENCE FILES</span>
+                                                </div>
+                                                <div class="upload_btn">
+                                                        <div class="file-upload">
+                                                                <form action="#" method="GET" class="form demo_form">
+                                                                        <div class="upload fs-upload-element fs-upload fs-light" data-upload-options="">
+
+                                                                        </div>
+                                                                </form>
+                                                        </div>
+                                                </div>
+                                                <span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
+                                                <div class="panel-group">
+                                                        <div class="panel clearfix">
+                                                                <div class="panel-body">
+                                                                        <div class="panel-copy fileListContainer">
+
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <p>You can use your mobile to take a photos videos <strong>SMS a link to my mobile</strong></p>
+                                </div>
+                                {% endif %}
                                 <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
                                     <div class="profile_section hidden-sm hidden-md hidden-lg">
                                         <div class="container">

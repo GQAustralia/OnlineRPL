@@ -8,9 +8,9 @@
 {% endblock %}
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
-    {% set unitFacStatus = unitStatus.facilitatorstatus %}
+{#    {% set unitFacStatus = unitStatus.facilitatorstatus %}
     {% set unitAssStatus = unitStatus.assessorstatus %}
-    {% set unitRtostatus = unitStatus.rtostatus %}
+    {% set unitRtostatus = unitStatus.rtostatus %}#}
     
     <!-- Large Screens HTML -->
     <div class="hidden-xs body_section">
@@ -217,7 +217,6 @@
                                     <input type="hidden" id="userid" name="userid" value="{{userId}}">
                                     <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
                                     <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
-                                    <input type="hidden" id="unit-id" name="unit-id" value="{{unitStatus.id}}"> 
                                 </div>
                             </div>
                         </div>          
@@ -246,7 +245,6 @@
                                     <input type="hidden" id="userid" name="userid" value="{{userId}}">
                                     <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
                                     <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
-                                    <input type="hidden" id="unit-id" name="unit-id" value="{{unitStatus.id}}"> 
                                     <input type="hidden" id="fromuser-id" name="fromuser-id" value="{{facilitatorId}}">
                                 </div>
                             </form>
