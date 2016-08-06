@@ -1,0 +1,322 @@
+{% extends 'base.html.twig' %}
+{% block title %}{% if userName %}{{userName}}{% endif %}{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('public/css//bootstrap-datetimepicker.css')}}">
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualififation.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
+{% endblock %}
+{% block body %}
+    {% set userRole = app.security.getToken().getUser().getRoles() %}
+    {% set firstName = app.security.getToken().getUser().getFirstName() | capitalize %}
+    {% set lastName = app.security.getToken().getUser().getLastName() | capitalize %}
+    {% set email = app.security.getToken().getUser().getEmail() %}
+    {% set mobile = app.security.getToken().getUser().getPhone() %}
+    {% set coreUnitCount = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'core') %} 
+    {% set electiveUnits = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'elective') %} 
+    
+    {% set facProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : facilitatorName %}
+    {% set facVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
+    {% set assProName = ('ROLE_ASSESSOR' in userRole) ? 'You ' : assessorName %}
+    {% set assVocName = ('ROLE_ASSESSOR' in userRole) ? 'are' : 'is' %}
+    {% set rtoProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : rtoName %}
+    {% set rtoVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
+ <!-- Small Screens HTML -->
+    <div class="hidden-md hidden-lg body_section">
+        <div class="presentation-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <p>
+                            <span>{% if courseInfo.name %} {{courseInfo.name}} {% endif %}</span>
+                            <span>{% if courseInfo.id %} {{courseInfo.id}} {% endif %}<a data-toggle="collapse" href="#sm-collapse-2"><i class="material-icons">expand_less</i></a></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                    <div class="progres_bar_section">
+                        <div class="progres-content">
+                            <p class="title">Evidence submitted - {{evidenceCompleteness}} Complete</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{evidenceCompleteness}}" aria-valuemin="0" aria-valuemax="100" style="width:{{evidenceCompleteness}}">
+                                  <span class="sr-only">{{evidenceCompleteness}} Complete</span>
+                                </div>
+                            </div>                        
+                        </div>
+                        {% set remaining = user_service.getDaysRemainingFromRole(userId,courseInfo.id, userRole[0]) %}
+                        {% set output = remaining|split('&&') %}
+                        <div class="progres-content">
+                            <p class="title">Days remaining - {% if output[0] >0 %} {{ output[0] }} {%else%} 0 {% endif %}d</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
+                                  <span class="sr-only">{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}% Complete</span>
+                                </div>
+                            </div>                        
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <input type="hidden" name="csCourseCode" id="csCourseCode" readonly="true" value="{{courseInfo.id}}" />
+                            <input type="hidden" name="csUserId" id="csUserId" readonly="true" value="{{userId}}" />
+                            <div class="panel-group" id="accordion1">
+                                <div class="panel panel-default">
+                                    <div class="select-drop-box clearfix">
+                                        <select name="courseStatus" id="courseStatus" class="selectpicker"> 
+                                        {% if ('ROLE_ASSESSOR' in userRole and assessorstatus != 1) or ('ROLE_FACILITATOR' in userRole and courseStatus != 0) %}
+                                            {% set courseOrder = statusList[courseStatus].order %}
+                                                <option value="">Select Status</option>
+                                                         {% if (statusList is defined) %}
+                                                            {% set roleAcess = 'Factive' %}
+                                                            {% if ('ROLE_ASSESSOR' in userRole) %}
+                                                                {% set roleAcess = 'Aactive' %}
+                                                            {% endif %}
+                                                            {% for statusId, statusData in statusList %}
+                                                               {% if ('ROLE_FACILITATOR' in userRole or statusData[roleAcess] == 1) %}
+                                                <option value="{{statusId}}" {% if courseStatus == statusId %} {{ "selected" }} {% else %} {{ "" }} {% endif %} {% if statusData[roleAcess] == 0 %} {{ "disabled" }} {% elseif ((assessorstatus == 1) and (statusData['order'] < courseStatus) and ('ROLE_FACILITATOR' in userRole) ) %} {{ "disabled" }} {% elseif ((rtostatus == 1) and (statusData['order'] < courseStatus) and ('ROLE_FACILITATOR' in userRole) ) %} {{ "disabled" }} {% else %} {{ "" }} {% endif %}>{{statusData['status']}}</option>
+                                                               {% endif %}
+                                                            {% endfor %}
+                                                         {% endif %}
+
+                                        {% else %}
+                                                 <option>{{ statusList[courseStatus]['status'] }}</option>
+                                        {% endif %}
+                                        </select>   
+                                    </div>
+                                </div>
+                {% set i = 1 %}
+                    {% if courseInfo %}
+                        {% if courseInfo.Units %}
+                            {% if courseInfo.Units.Unit %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clearfix">
+                                        {% if ('ROLE_RTO' in userRole or 'ROLE_ASSESSOR' in userRole) %}{% set totalUnitStatus = 'COMPETENT'%}{%else%}{% set totalUnitStatus = 'Satisfacty'%}{%endif%}
+                                        {% set coreUnitsRvd =  (coreUnitCount['noOfNotRvdrcrds'] > 0) ? coreUnitCount['noOfNotRvdrcrds']~' to be reviewed' : totalUnitStatus %}
+                                        <h4 class="panel-title">
+                                            <span>{{coreUnitCount['noOfNotRvdrcrds']+coreUnitCount['noOfRvdRcrds']}} CORE UNITS - <strong>{{coreUnitsRvd}}</strong></span>
+                                            <a class="btn-accordion collapsed" data-toggle="collapse" data-parent="#accordion" data-collapse="parent" href="#xs-collapseTwo">
+                                                <i class="material-icons">expand_more</i>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="xs-collapseTwo" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="panel-group" id="nested">
+                                                {% set flagCore = '0' %}
+                                                {% set unitsData = courseInfo.Units.Unit %}
+                                                {% if courseInfo.Units.Unit.id is defined %}
+                                                    {% set unitsData = {0: courseInfo.Units.Unit} %}
+                                                {% endif %}
+                                                {% for key, units in unitsData %}
+                                                    {% if units.type == 'core' %}
+                                                {% set flagCore = '1' %}
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <div class="panel-title">
+                                                            <div class="panle_body_content">
+                                                                {% set inloop = 0 %}
+                                                                {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], units.id, courseInfo.id ) %}
+                                                                {% if ('ROLE_RTO' in userRole and approvalStatus =='0') %} 
+                                                                    {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_ASSESSOR', units.id, courseInfo.id ) %}
+                                                                    {% set inloop = 1 %}
+                                                                {% endif %}   
+                                                                {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
+                                                                {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
+                                                                {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}
+                                                                <p> <span class="tag-id">{{units.id}}</span> </p>
+                                                                <p><a href="/courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
+                                                            </div>
+                                                            <a href="/courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}"><i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% set i = i+1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if flagCore == '0' %}
+                                                    <div class="gq-acc-row-title load-icon-tr">No Core Units found</div>
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clearfix">
+                                        {% set electiveUnitsRvd =  (electiveUnits['noOfNotRvdrcrds'] > 0) ? electiveUnits['noOfNotRvdrcrds']~' to be reviewed' : "Satisfacty" %}
+                                        <h4 class="panel-title">
+                                            <span>{{electiveUnits['noOfNotRvdrcrds'] + electiveUnits['noOfRvdRcrds']}} ELECTIVE UNITS - <strong>{{electiveUnitsRvd}}</strong></span>
+                                            <a class="btn-accordion collapsed" data-toggle="collapse" data-parent="#accordion" href="#xs-collapseThree">
+                                                <i class="material-icons down">keyboard_arrow_down</i>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="xs-collapseThree" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="panel-group" id="nested">
+                                             {% if courseInfo.Units %}
+                                                {% if courseInfo.Units.Unit %}
+                                                    {% set flagElective = '0' %}
+                                                    {% set unitsData = courseInfo.Units.Unit %}
+                                                    {% if courseInfo.Units.Unit.id is defined %}
+                                                        {% set unitsData = {0: courseInfo.Units.Unit} %}
+                                                    {% endif %}
+                                                    {% for key, units in unitsData %}
+                                                        {% if units.type == 'elective' %}
+                                                            {% set unitId = units.id %}
+                                                            {% if unitId|trim in electiveUnits|keys %} 
+                                                                {% set flagElective = '1' %}
+                                                                <div class="panel panel-default">
+                                                                    <div class="panel-heading">
+                                                                        <div class="panel-title">
+                                                                            <div class="panle_body_content">
+                                                                                {% set inloop = 0 %}
+                                                                                {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], units.id, courseInfo.id ) %}
+                                                                                {% if ('ROLE_RTO' in userRole and approvalStatus =='0') %} 
+                                                                                    {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_ASSESSOR', units.id, courseInfo.id ) %}
+                                                                                    {% set inloop = 1 %}
+                                                                                {% endif %}   
+                                                                                {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
+                                                                                {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
+                                                                                {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}
+                                                                                <p> <span class="tag-id">{{units.id}}</span> </p>
+                                                                                <p><a href="/courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
+                                                                            </div>
+                                                                            <a href="/courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}"><i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% set i = i+1 %}
+                                                            {% else %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if flagElective == '0' %}
+                                                        <div class="gq-acc-row-title load-icon-tr">No Elective Units found</div>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             {% endif %}
+                        {% endif %}
+                    {% endif %}
+                                <div class="gqa-btn-group">
+                                    <div class="row no-gutter">
+                                        <div class="col-xs-4 col-sm-4 col-md-4">
+                                            <div class="btn">
+                                                <i class="material-icons">message</i>
+                                                <a href="#">Message</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-4 col-md-4">
+                                            <div class="btn">
+                                                <i class="material-icons">create</i>
+                                                <a href="#">Note</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-4 col-md-4">
+                                            <div class="btn">
+                                                <i class="material-icons">playlist_add</i>
+                                                <a href="#">To do list</a>
+                                            </div>
+                                        </div>                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review">
+                        <div class="review_content"><p><strong class="text-uppercase">Rto</strong> - {{rtoName}}</p></div>
+                        <div class="review_profile-pic"><span></span></div>
+                    </div>
+                    <div class="review">
+                        <div class="review_content"><p><strong class="text-uppercase">{{facProName}}</strong> {{facVocName}} {{userName}}'s CSR for this course</p></div>
+                        <div class="review_profile-pic"><span><img class="profile-img" src="{% if facilitatorImage %} {{ facilitatorImage }} {% endif %}" /></span></div>
+                    </div>
+                    <div class="review">
+                        <div class="review_content"><p><strong class="text-uppercase">{{assProName}}</strong> {{assVocName}} {{userName}}'s assessor for this cource</p></div>
+                        <div class="review_profile-pic"><span><img class="profile-img" src="{% if assessorImage %}{{ assessorImage }}{% endif %}" /></span>
+                        </div>
+                    </div>
+                    {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+                        {% if notes|length > 0 or  notesFromCourse|length > 0 %}
+                            <div class="comments">
+                                <div class="panel-group">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
+                                    </div>
+                                    {% for note in notes %} 
+                                        <div class="panel-content">
+                                            <img class="profile-img" src="{% if userImage %}{{ userImage }}{% endif %}" alt="profile pic" />
+                                            <span><strong>{{note.userName}}</strong></span>
+                                            <span class="date-time">
+                                                <span class="date">{{ note.created|date('m/d/y')}}</span>
+                                                <span class="time">{{ note.created|date('H:i')}}</span>
+                                            </span>
+                                            <p>{{note.note}}</p>
+                                        </div>
+                                    {%endfor%}
+                                    {% for note in notesFromCourse%}
+                                        <div class="panel-content">
+                                            <img src="{% if userImage %} {{ userImage }} {% endif %}" class="profile-img">
+                                            <span><strong>{{userName}}</strong></span>
+                                            <span class="date-time">
+                                                <span class="date">{{ note.created|date('m/d/y')}}</span>
+                                                <span class="time">{{ note.created|date('H:i')}}</span>
+                                            </span>
+                                            <p>{% if note.note is defined %}{{note.note}}{%endif%}</p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {%endif%}
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Small Screens HTML End -->
+<!-- Modal -->
+<div class="modal fade message_popup" id="message_popup" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="new_message_section">
+                    <div class="title_bar">NEW MESSAGE<span><i class="material-icons close">close</i></span></div>
+                    <div class="new_msg_section">
+                        {% set toName = ('ROLE_ASSESSOR' in userRole or 'ROLE_RTO' in userRole) ? facilitatorName : userName %}
+                        <form>
+                            <div class="input_section">
+                                <label class="to">To :</label>
+                                {% if 'ROLE_FACILITATOR' in userRole %}
+                                    <input type="text" onkeyup="searchUsersFromCourse('#advanced-demo','{{facilitatorId}}','{{assessorId}}','{{rtoId}}','{{userId}}');" value="{{ toName }}" placeholder="" required="required"  name="advanced-demo"  id="advanced-demo" class="ui-autocomplete-input" autocomplete="off" >
+                                {% else %}
+                                    <input type="text" name="advanced-demo" id="advanced-demo" value="{{ toName }}">
+                                {% endif %}
+                            </div>
+                            <div class="input_section">
+                                    <label class="subject">Subject : </label>
+                                    <input type="text" name="msgSubject" value="{%if courseInfo.id is defined %}{{courseInfo.id}} - {%endif%}{{courseInfo.name}}" id="msgSubject">
+                            </div>
+                            <textarea name="msgBody" id="msgBody"></textarea>
+                            <input type="hidden" name="UserId" id="UserId" value="{%if('ROLE_ASSESSOR' in userRole or 'ROLE_RTO' in userRole)%}{{facilitatorId}}{% else %}{{userId}}{%endif%}" />
+                        </form>
+                    </div>
+                    <div class="btn_section">
+                            <button class="button btn_red msgForCourse" type="button">SUBMIT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'GqAusUserBundle:Applicant/includes:facAssProfilePopups.html.twig' %}
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('public/js/custom-jquery-ajax.js') }}"></script>
+{% endblock %}
