@@ -2522,13 +2522,13 @@ if($('#select-from .file_info_block .block').length>0) {
 	});
 }
 $('.userprofile').on('click',function(){
-        getApplicantDetails();
+        var courseCode = $(this).attr("data-courseCode");
+        var userId = $(this).attr("data-userId");
+        getApplicantDetails(courseCode, userId);
         $('.portfolio-container').hide();
         $('ul.nav').addClass('hide');
 });
-function getApplicantDetails(){
-    var userId = '5';
-    var courseCode = 'CHC30113';
+function getApplicantDetails(courseCode, userId){
     $.ajax({
         type: "POST",
         url: base_url + 'applicantDetails/' + courseCode +'/'+ userId +'',
