@@ -2521,3 +2521,20 @@ if($('#select-from .file_info_block .block').length>0) {
 		}
 	});
 }
+$('.userprofile').on('click',function(){
+        getApplicantDetails();
+        $('.portfolio-container').hide();
+        $('ul.nav').addClass('hide');
+});
+function getApplicantDetails(){
+    var userId = '5';
+    var courseCode = 'CHC30113';
+    $.ajax({
+        type: "POST",
+        url: base_url + 'applicantDetails/' + courseCode +'/'+ userId +'',
+        cache: false,
+        success: function(result) {
+            $(".candidate-details").html(result);
+        }
+    });
+}
