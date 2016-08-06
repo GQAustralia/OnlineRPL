@@ -258,8 +258,9 @@
 {% include 'GqAusHomeBundle:Courses:addevidencestounitmodal.html.twig' %}
 {% endblock %}
 {% block javascripts %}
-    <script src="{{ asset('public/js/upload.js') }}"></script>
-    <script src="{{ asset('public/js/file-que.js') }}"></script>
+    <script src="{{ asset('public/js/s3-upload/firebug-lite/build/firebug-lite.js#startOpened') }}"></script>
+    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <script src="{{ asset('public/js/s3-upload/s3upload.js') }}"></script>
     <script src="{{ asset('public/js/jquery.mCustomScrollbar.js') }}"></script>
     <script>
         (function($){

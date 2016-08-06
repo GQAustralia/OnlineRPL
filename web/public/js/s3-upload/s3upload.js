@@ -45,10 +45,11 @@ var s3upload = null;
             //var btn = '<button onclick="cancel('+k+')">Cancel</button>';
             var progressBar = '<div class="file-info" id="progressbar-'+k+'" data-index="0"> <span class="icon"><i class="material-icons">description</i></span><span class="file-discription">'+file.name+'<br>'+file.size+'| Added4/8/2016</span><span class="file-progress"><progress id="summed_progress_'+k+'" class="prgbar" value="0" max="100"></progress></span> <span class="clear"><a href="#" onclick="cancel('+k+')"><i class="material-icons">clear</i></a></span></div>';
             $("#progress-bars").append(progressBar);
-            var unitId = $('#unitId').val() || '';
+            var unitId = $('#hid_unit').val() || '';
+            var courseCode = $('#hid_course').val() || '';
             var def = new $.Deferred();
 
-            s3uploads[k] = new S3MultiUpload(file, {user: 'user', pass: 'pass',fileNum: k,unitId: unitId});
+            s3uploads[k] = new S3MultiUpload(file, {user: 'user', pass: 'pass',fileNum: k,hid_unit: unitId,hid_course: courseCode});
 
             s3uploads[k].onServerError = function(command, jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status === 403) {
