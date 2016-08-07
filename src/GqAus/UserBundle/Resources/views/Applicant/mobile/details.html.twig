@@ -205,26 +205,25 @@
                              {% endif %}
                         {% endif %}
                     {% endif %}
+                    {% set colsLng = user_service.separateTabsBasedOnroleWise(userRole[0]) %}
                                 <div class="gqa-btn-group">
                                     <div class="row no-gutter">
-                                        <div class="col-xs-4 col-sm-4 col-md-4">
-                                            <div class="btn">
-                                                <i class="material-icons">message</i>
-                                                <a href="#">Message</a>
-                                            </div>
+                                        <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
+                                            <div class="btn"><a href="javascript:void(0)" data-toggle="modal" data-target="#message_popup"><i class="material-icons">message</i><a href="#">Message</a></div>
                                         </div>
-                                        <div class="col-xs-4 col-sm-4 col-md-4">
-                                            <div class="btn">
-                                                <i class="material-icons">create</i>
-                                                <a href="#">Note</a>
-                                            </div>
+                                    {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+                                        <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
+                                            <div class="btn"><a href="javascript:void(0)"><i class="material-icons">create</i>Note</a></div>
                                         </div>
-                                        <div class="col-xs-4 col-sm-4 col-md-4">
-                                            <div class="btn">
-                                                <i class="material-icons">playlist_add</i>
-                                                <a href="#">To do list</a>
-                                            </div>
-                                        </div>                                
+                                        <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
+                                            <div class="btn"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>To do list</a></div>
+                                        </div>
+                                    {% endif %}
+                                    {% if ('ROLE_ASSESSOR' in userRole) %}
+                                        <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
+                                           <div class="btn"><i class="material-icons">call</i><a href="#">Request CC</a></div>
+                                       </div>
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -236,11 +235,11 @@
                     </div>
                     <div class="review">
                         <div class="review_content"><p><strong class="text-uppercase">{{facProName}}</strong> {{facVocName}} {{userName}}'s CSR for this course</p></div>
-                        <div class="review_profile-pic"><span><img class="profile-img" src="{% if facilitatorImage %} {{ facilitatorImage }} {% endif %}" /></span></div>
+                        <div class="review_profile-pic"><span><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if facilitatorImage %} {{ facilitatorImage }} {% endif %}" /></span></div>
                     </div>
                     <div class="review">
                         <div class="review_content"><p><strong class="text-uppercase">{{assProName}}</strong> {{assVocName}} {{userName}}'s assessor for this cource</p></div>
-                        <div class="review_profile-pic"><span><img class="profile-img" src="{% if assessorImage %}{{ assessorImage }}{% endif %}" /></span>
+                        <div class="review_profile-pic"><span><img class="profile-img" data-target="#assProfile" data-toggle="modal"  src="{% if assessorImage %}{{ assessorImage }}{% endif %}" /></span>
                         </div>
                     </div>
                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
