@@ -69,18 +69,17 @@
                                         {% if ('ROLE_ASSESSOR' in userRole and assessorstatus != 1) or ('ROLE_FACILITATOR' in userRole and courseStatus != 0) %}
                                             {% set courseOrder = statusList[courseStatus].order %}
                                                 <option value="">Select Status</option>
-                                                         {% if (statusList is defined) %}
-                                                            {% set roleAcess = 'Factive' %}
-                                                            {% if ('ROLE_ASSESSOR' in userRole) %}
-                                                                {% set roleAcess = 'Aactive' %}
-                                                            {% endif %}
-                                                            {% for statusId, statusData in statusList %}
-                                                               {% if ('ROLE_FACILITATOR' in userRole or statusData[roleAcess] == 1) %}
+                                                    {% if (statusList is defined) %}
+                                                       {% set roleAcess = 'Factive' %}
+                                                       {% if ('ROLE_ASSESSOR' in userRole) %}
+                                                           {% set roleAcess = 'Aactive' %}
+                                                       {% endif %}
+                                                       {% for statusId, statusData in statusList %}
+                                                          {% if ('ROLE_FACILITATOR' in userRole or statusData[roleAcess] == 1) %}
                                                 <option value="{{statusId}}" {% if courseStatus == statusId %} {{ "selected" }} {% else %} {{ "" }} {% endif %} {% if statusData[roleAcess] == 0 %} {{ "disabled" }} {% elseif ((assessorstatus == 1) and (statusData['order'] < courseStatus) and ('ROLE_FACILITATOR' in userRole) ) %} {{ "disabled" }} {% elseif ((rtostatus == 1) and (statusData['order'] < courseStatus) and ('ROLE_FACILITATOR' in userRole) ) %} {{ "disabled" }} {% else %} {{ "" }} {% endif %}>{{statusData['status']}}</option>
-                                                               {% endif %}
-                                                            {% endfor %}
-                                                         {% endif %}
-
+                                                          {% endif %}
+                                                       {% endfor %}
+                                                    {% endif %}
                                         {% else %}
                                                  <option>{{ statusList[courseStatus]['status'] }}</option>
                                         {% endif %}

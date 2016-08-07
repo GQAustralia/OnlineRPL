@@ -475,7 +475,7 @@ class ApplicantController extends Controller
             $results['evidences'] = $evidenceService->getUserUnitEvidences($uid, $unitcode);
             $results['evidenceCount'] = count($evidenceService->getUserUnitEvidences($uid, $unitcode));
             $results['selfAssessmentText'] = $evidenceService->getSelfAssessmentFromUnit($uid, $qcode, $unitcode);
-            $results['userEvidences'] = $this->get('EvidenceService')->currentUser->getEvidences();
+          //  $results['userEvidences'] = $this->get('EvidenceService')->currentUser->getEvidences();
             
             if ($userRole[0] == "ROLE_APPLICANT")
                 return $this->render('GqAusHomeBundle:Courses:unitevidence.html.twig', array_merge($results, $applicantInfo));
