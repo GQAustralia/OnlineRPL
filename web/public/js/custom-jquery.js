@@ -336,15 +336,18 @@ $(".updateTodo").click(function() {
         data: {rmid: rmid, flag: flag},
         success: function(result) {
             if (result == "success")
-			{
-				completedItem = parseInt(completedItem) + parseInt($('.progress-bar').attr('data-citem'));
-				totalItem = parseInt($('.progress-bar').attr('data-titem'));
-				percentage = (completedItem/totalItem)*100;
-				currentTodoItem.addClass('disable').find('span.content').removeClass('bold');
-				currentTodoItem.addClass('disable').find('input[type="checkbox"]').removeClass('updateTodo').attr('data-status', '0').prop('disabled', 'disabled');
-				$('.completed-list').prepend(currentTodoItem);
-				$('.progress-bar').css('width', percentage+"%").attr('data-citem', completedItem);
-				$('.todo-percent').html(Math.ceil(percentage));
+            {
+                completedItem = parseInt(completedItem) + parseInt($('.progress-bar').attr('data-citem'));
+                totalItem = parseInt($('.progress-bar').attr('data-titem'));
+                percentage = (completedItem/totalItem)*100;
+                currentTodoItem.addClass('disable').find('span.content').removeClass('bold');
+                currentTodoItem.addClass('disable').find('input[type="checkbox"]').removeClass('updateTodo').attr('data-status', '0').prop('disabled', 'disabled');
+                $('.completed-list').prepend(currentTodoItem);
+                $('.completed-list').find('.emptyCompletedTodo').hide();
+                if($('.todo-list li').length == '1')
+                    $('.todo-list li.emptyPendingTodo').removeClass('hide');
+                $('.progress-bar').css('width', percentage+"%").attr('data-citem', completedItem);
+                $('.todo-percent').html(Math.ceil(percentage));
             }
         }
     });
@@ -1618,7 +1621,7 @@ $("#select_existing_evidence").click(function() {
         url: base_url + "getUserEvidences",
         data: {userId: userId},
         success: function(result) {
-            $('#select-from-evidence-tab').html(result);
+            $('#select-from').html(result);
             //Custom.init();
         }
     });
