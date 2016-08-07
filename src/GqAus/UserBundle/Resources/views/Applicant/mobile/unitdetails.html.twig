@@ -5,9 +5,7 @@
     <link rel="stylesheet" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualififation.css') }}">
 {% endblock %}
-{% block navmenu %}
-    {% include 'GqAusUserBundle:Applicant/includes:navmenu.html.twig' %}
-{% endblock %}    
+{% block navmenu %}{% endblock %}    
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
     {% set actUnitStatus = unitStatus.status %}
@@ -35,34 +33,30 @@
                 <div class="col-xs-12 col-sm-12">
                     <div class="panel-group">
                         <div class="panel clearfix">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><span>Evidence</span><span class="pull-right"><strong>{{ evidenceCount }} Evidence Files Received</strong></span></h4>
-                            </div>
+                            <div class="panel-heading"><h4 class="panel-title"><span>Evidence</span><span class="pull-right"><strong>{{ evidenceCount }} Evidence Files Received</strong></span></h4></div>
                             <div class="panel-body">
                                 <div class="panel-copy">
-                                    <div class="file-info">
-                                        {% for evidence in evidences %}
-                                            {% if evidence.unit == unitCode %}
-                                                {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
-                                                {% set output = eviType|split('&&') %}
-                                                    <div class="file-info">
-                                                        <span class="icon"><a href="{% if evidence.type != 'recording' %}{{ amazon_link }}{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
-                                                            {% if output[1] is defined %}
-                                                                {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
-                                                            {%endif%}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a>
-                                                        </span>
-                                                        <span class="file-discription">
-                                                                {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{%endif%}<br/>{% if evidence.size is defined %}{{evidence.size}} {% if evidence.type != 'recording' %} |{%endif%} {%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}
-                                                        </span>   
-                                                    </div>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
+                                    {% for evidence in evidences %}
+                                        {% if evidence.unit == unitCode %}
+                                            {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
+                                            {% set output = eviType|split('&&') %}
+                                                <div class="file-info">
+                                                    <span class="icon"><a href="{% if evidence.type != 'recording' %}{{ amazon_link }}{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
+                                                        {% if output[1] is defined %}
+                                                            {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
+                                                        {%endif%}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a>
+                                                    </span>
+                                                    <span class="file-discription">
+                                                            {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{%endif%}<br/>{% if evidence.size is defined %}{{evidence.size}} {% if evidence.type != 'recording' %} |{%endif%} {%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}
+                                                    </span>   
+                                                </div>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
-                        <div class="gqa-btn-group border-dark no-margin">
-                            <div class="row no-gutter">
+                        <div class="gqa-btn-group border-dark">
+                            <div class="row no-margin">
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="btn">
                                         <div class="dropdown keep-open">
@@ -80,52 +74,110 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="gqa-btn-group">
-                            <div class="row no-gutter">
-                                <div class="col-xs-12 col-sm-12">
-                                    <div class="panel-group self-assessment">
-                                        <div class="panel">
-                                            <div class="panel-heading"><h4 class="panel-title"><span>Self Assessment Notes</span></h4></div>
-                                            <div class="panel-body"><span class="if-no-assessment">{% if selfAssessmentText|length > 0 %}{{selfAssessmentText.0.content}}{%else%}Not yet received for this Unit {% endif %}</span></div>
-                                        </div>                                        
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="panel-group self-assessment">
+                                <div class="panel">
+                                    <div class="panel-heading"><h4 class="panel-title"><span>Self Assessment Notes</span></h4></div>
+                                    <div class="panel-body"><span class="if-no-assessment">{% if selfAssessmentText|length > 0 %}{{selfAssessmentText.0.content}}{%else%}Not yet received for this Unit {% endif %}</span></div>
+                                </div>   
                             </div>
                         </div>
-                        <div class="gqa-btn-group">
-                            <div class="row no-gutter">
-                                <div class="col-xs-12 col-sm-12">
-                                    <div class="row no-gutter">
-                                        {% if ('ROLE_FACILITATOR' in userRole and actUnitStatus =='1') %}
-                                            {% if unitFacStatus == '0' or unitFacStatus == '2' %}
-                                                <div class="col-xs-{% if unitFacStatus == '0' %}6{%else%}12{%endif%} col-sm-{% if unitFacStatus == '0' %}6{%else%}12{%endif%}"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory">Satisfactory</button></div>
-                                                {% if unitFacStatus == '0' %}
-                                                    <div class="col-xs-6 col-sm-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#not-satisfactory">Not yet Satisfactory</button></div>
-                                                {% endif %}
+                    </div>
+                    <div class="gqa-btn-group">
+                        <div class="row no-gutter">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="row no-gutter">
+                                    {% if ('ROLE_FACILITATOR' in userRole and actUnitStatus =='1') %}
+                                        {% if unitFacStatus == '0' or unitFacStatus == '2' %}
+                                            <div class="col-xs-{% if unitFacStatus == '0' %}6{%else%}12{%endif%} col-sm-{% if unitFacStatus == '0' %}6{%else%}12{%endif%}"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory">Satisfactory</button></div>
+                                            {% if unitFacStatus == '0' %}
+                                                <div class="col-xs-6 col-sm-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#not-satisfactory">Not yet Satisfactory</button></div>
                                             {% endif %}
                                         {% endif %}
-                                        {% if ('ROLE_ASSESSOR' in userRole and actUnitStatus =='1') %}
-                                            {% if unitAssStatus == '0' or unitAssStatus == '2' %}
-                                                <div class="col-xs-{% if unitAssStatus == '0' %}6{%else%}12{%endif%} col-sm-{% if unitAssStatus == '0' %}6{%else%}12{%endif%}"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
-                                                {% if unitAssStatus == '0' %}
-                                                    <div class="col-xs-6 col-sm-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
-                                                {% endif %}
+                                    {% endif %}
+                                    {% if ('ROLE_ASSESSOR' in userRole and actUnitStatus =='1') %}
+                                        {% if unitAssStatus == '0' or unitAssStatus == '2' %}
+                                            <div class="col-xs-{% if unitAssStatus == '0' %}6{%else%}12{%endif%} col-sm-{% if unitAssStatus == '0' %}6{%else%}12{%endif%}"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
+                                            {% if unitAssStatus == '0' %}
+                                                <div class="col-xs-6 col-sm-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
                                             {% endif %}
                                         {% endif %}
-                                        {% if ('ROLE_RTO' in userRole and actUnitStatus =='1') %}
-                                            {% if unitAssStatus == '0' or unitAssStatus == '2' %}
-                                                <div class="col-xs-6 col-sm-6"><button class="btn btn-danger border-right" type="button" >Approved</button></div>
-                                                <div class="col-xs-6 col-sm-6"><button class="btn btn-danger" type="button" >Not yet approved</button></div>
-                                            {% endif %}
+                                    {% endif %}
+                                    {% if ('ROLE_RTO' in userRole and actUnitStatus =='1') %}
+                                        {% if unitAssStatus == '0' or unitAssStatus == '2' %}
+                                            <div class="col-xs-6 col-sm-6"><button class="btn btn-danger border-right" type="button" >Approved</button></div>
+                                            <div class="col-xs-6 col-sm-6"><button class="btn btn-danger" type="button" >Not yet approved</button></div>
                                         {% endif %}
-                                    </div>
+                                    {% endif %}
                                 </div>
-                            </div>                    
-                        </div>
+                            </div>
+                        </div>                    
                     </div>
                 </div>
             </div>
-        </div><!-- Small Screens HTML End -->
+        </div>
+    </div><!-- Small Screens HTML End -->
+    <div class="modal-pop">
+        <div role="dialog" id="satisfactory" class="modal fade" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content satisfactory-modal-content">
+                    <div class="modal-body"><p><strong>Done!</strong><br>This unit is  {% if ('ROLE_FACILITATOR' in userRole) %}SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}COMPETENT{% endif %}.<br/>Do you want to send {{userName}} a message about this?</p></div>
+                    <div class="modal-footer">
+                        <div class="form-group form-group-lg gqa-btn-group" id="applicantEStatus" userRole="{{userRole.0}}">
+                            <div class="form">
+                                <div class="row no-gutter">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button id="approveyes" data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right" type="button">Yes</button>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button id="approveno" data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button">No</button>
+                                    </div>
+                                    <input type="hidden" id="course-name" name="course-name" value="{{courseInfo.name}}">
+                                    <input type="hidden" id="course-code" name="course-code" value="{{courseInfo.id}}">
+                                    <input type="hidden" id="userid" name="userid" value="{{userId}}">
+                                    <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
+                                    <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
+                                    <input type="hidden" id="unit-id" name="unit-id" value="{{unitStatus.id}}"> 
+                                </div>
+                            </div>
+                        </div>          
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div role="dialog" id="not-satisfactory" class="modal fade" style="display: none;">
+            <div class="modal-dialog"><!-- Modal content-->
+               <div class="modal-content not-satisfactory-modal-content">
+                    <div class="modal-body"><p><strong>Add a Message</strong><br>Please let {{userName}} know why this unit is <br>{% if ('ROLE_FACILITATOR' in userRole) %}NOT YET SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}NOT YET COMPETENT{% endif %}</p>
+                        <p><textarea name="msg-body" id="msg-body" cols="30" rows="4"></textarea></p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group form-group-lg gqa-btn-group">
+                            <form class="form" action="#">
+                                <div class="row no-gutter">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button id="disapproveno" data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right" type="button">Cancel</button>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button id="disapproveyes" data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button">Send</button>
+                                    </div>
+                                     <input type="hidden" id="course-name" name="course-name" value="{{courseInfo.name}}">
+                                    <input type="hidden" id="course-code" name="course-code" value="{{courseInfo.id}}">
+                                    <input type="hidden" id="userid" name="userid" value="{{userId}}">
+                                    <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
+                                    <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
+                                    <input type="hidden" id="unit-id" name="unit-id" value="{{unitStatus.id}}"> 
+                                    <input type="hidden" id="fromuser-id" name="fromuser-id" value="{{facilitatorId}}">
+                                </div>
+                            </form>
+                        </div>          
+                   </div>
+               </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('public/js/custom-jquery-ajax.js') }}"></script>
