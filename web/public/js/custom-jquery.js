@@ -2529,6 +2529,7 @@ $('.userprofile').on('click',function(){
         $('ul.nav').addClass('hide');
 });
 function getApplicantDetails(courseCode, userId){
+    $('body .candidate-details').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
     $.ajax({
         type: "POST",
         url: base_url + 'applicantDetails/' + courseCode +'/'+ userId +'',
@@ -2538,3 +2539,7 @@ function getApplicantDetails(courseCode, userId){
         }
     });
 }
+$('body').on('click', '.closeDivTag', function(){
+    $('.candidate-details').hide();
+    $('.portfolio-container').show();
+});
