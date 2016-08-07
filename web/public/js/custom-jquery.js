@@ -1610,7 +1610,7 @@ $("#gq-name-cancel, #gq-rtoname-cancel").click(function() {
     $(this).parent().parent().prev(".setUsers").trigger("click");
 });
 
-$("#div_existing_evidence a").click(function() {
+$("#select_existing_evidence").click(function() {
    userId = $(this).attr("userid");
    $('#select-from-evidence-tab').html('<div class="row" style="height:380px;"><div id="userEvidencesDiv" style="display: block;" class="load-icon-tr"><img src="' + base_url + '/public/images/loading.gif"></div></div>');            
    $.ajax({
@@ -1619,7 +1619,7 @@ $("#div_existing_evidence a").click(function() {
         data: {userId: userId},
         success: function(result) {
             $('#select-from-evidence-tab').html(result);
-            Custom.init();
+            //Custom.init();
         }
     });
 });
@@ -2491,36 +2491,16 @@ function saveUserPassword(){
    return false;
 }
 
-if($('#select-from .file_info_block .block').length>0) {
-	imageLength = $('.file_info_block .type-image').length;
-	textLength = $('.file_info_block .type-text').length;
-	videoLength = $('.file_info_block .type-video').length;
-	audioLength = $('.file_info_block .type-audio').length;
-	fileLength = $('.file_info_block .type-file').length;
-	
-	imageCount = (imageLength) ? imageLength: 0;
-	textCount = (textLength) ? textLength : 0;
-	videoCount = (videoLength) ? videoLength : 0;
-	audioCount = (audioLength) ? audioLength : 0;
-	fileCount = (fileLength)? fileLength : 0;
-	
-	$('.image-count').html(imageCount);
-	$('.audio-count').html(audioCount);
-	$('.video-count').html(videoCount);
-	$('.text-count').html(textCount);
-	$('.file-count').html(fileCount);
-
-	$('#evidence-filter input[type="checkbox"]').on('click',function(){
-		thisValue = $(this).val();
-		if($(this).attr('checked')){
-			$(this).removeAttr('checked');
-			$('.file_info_block .type-'+thisValue).addClass('hide').removeClass('open');
-		} else {
-			$(this).attr('checked', 'checked');
-			$('.file_info_block .type-'+thisValue).addClass('open').removeClass('hide');
-		}
-	});
-}
+$('body').on('click', '.existing-evidence-filter', function(){
+        thisValue = $(this).val();
+        if($(this).attr('checked')){
+            $(this).removeAttr('checked');
+            $('.file_info_block .type-'+thisValue).addClass('hide').removeClass('open');
+        } else {
+            $(this).attr('checked', 'checked');
+            $('.file_info_block .type-'+thisValue).addClass('open').removeClass('hide');
+        }
+});
 $('.userprofile').on('click',function(){
         var courseCode = $(this).attr("data-courseCode");
         var userId = $(this).attr("data-userId");
