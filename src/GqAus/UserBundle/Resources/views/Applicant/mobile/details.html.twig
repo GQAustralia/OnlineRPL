@@ -26,7 +26,7 @@
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="col-xs-12 col-sm-12">
                         <p>
                             <span>{% if courseInfo.name %} {{courseInfo.name}} {% endif %}</span>
                             <span>{% if courseInfo.id %} {{courseInfo.id}} {% endif %}<a data-toggle="collapse" href="#sm-collapse-2"><i class="material-icons">expand_less</i></a></span>
@@ -36,33 +36,37 @@
             </div>
         </div>
         <div class="container">
-            <div class="row">
+            <div class="row no-gutter">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-                    <div class="progres_bar_section">
-                        <div class="progres-content">
-                            <p class="title">Evidence submitted - {{evidenceCompleteness}} Complete</p>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{evidenceCompleteness}}" aria-valuemin="0" aria-valuemax="100" style="width:{{evidenceCompleteness}}">
-                                  <span class="sr-only">{{evidenceCompleteness}} Complete</span>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="progres_bar_section">
+                                <div class="progres-content">
+                                    <p class="title">Evidence submitted - {{evidenceCompleteness}} Complete</p>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{evidenceCompleteness}}" aria-valuemin="0" aria-valuemax="100" style="width:{{evidenceCompleteness}}">
+                                          <span class="sr-only">{{evidenceCompleteness}} Complete</span>
+                                        </div>
+                                    </div>                        
                                 </div>
-                            </div>                        
-                        </div>
-                        {% set remaining = user_service.getDaysRemainingFromRole(userId,courseInfo.id, userRole[0]) %}
-                        {% set output = remaining|split('&&') %}
-                        <div class="progres-content">
-                            <p class="title">Days remaining - {% if output[0] >0 %} {{ output[0] }} {%else%} 0 {% endif %}d</p>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
-                                  <span class="sr-only">{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}% Complete</span>
+                                {% set remaining = user_service.getDaysRemainingFromRole(userId,courseInfo.id, userRole[0]) %}
+                                {% set output = remaining|split('&&') %}
+                                <div class="progres-content">
+                                    <p class="title">Days remaining - {% if output[0] >0 %} {{ output[0] }} {%else%} 0 {% endif %}d</p>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
+                                          <span class="sr-only">{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}% Complete</span>
+                                        </div>
+                                    </div>                        
                                 </div>
-                            </div>                        
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="col-xs-12 col-sm-12">
                             <input type="hidden" name="csCourseCode" id="csCourseCode" readonly="true" value="{{courseInfo.id}}" />
                             <input type="hidden" name="csUserId" id="csUserId" readonly="true" value="{{userId}}" />
-                            <div class="panel-group" id="accordion1">
+                            <div class="accordion panel-group" id="accordion1">
                                 <div class="panel panel-default">
                                     <div class="select-drop-box clearfix">
                                         <select name="courseStatus" id="courseStatus" class="selectpicker"> 
@@ -103,7 +107,7 @@
                                     </div>
                                     <div id="xs-collapseTwo" class="panel-collapse collapse">
                                         <div class="panel-body">
-                                            <div class="panel-group" id="nested">
+                                            <div class="accordion panel-group" id="nested">
                                                 {% set flagCore = '0' %}
                                                 {% set unitsData = courseInfo.Units.Unit %}
                                                 {% if courseInfo.Units.Unit.id is defined %}
@@ -154,7 +158,7 @@
                                     </div>
                                     <div id="xs-collapseThree" class="panel-collapse collapse">
                                         <div class="panel-body">
-                                            <div class="panel-group" id="nested">
+                                            <div class="accordion panel-group" id="nested">
                                              {% if courseInfo.Units %}
                                                 {% if courseInfo.Units.Unit %}
                                                     {% set flagElective = '0' %}
@@ -205,14 +209,14 @@
                         {% endif %}
                     {% endif %}
                     {% set colsLng = user_service.separateTabsBasedOnroleWise(userRole[0]) %}
-                                <div class="gqa-btn-group">
+                                <div class="gqa-btn-group border-dark no-margin">
                                     <div class="row no-gutter">
                                         <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
-                                            <div class="btn"><a href="javascript:void(0)" data-toggle="modal" data-target="#message_popup"><i class="material-icons">message</i><a href="#">Message</a></div>
+                                            <div class="btn border-right"><a href="javascript:void(0)" data-toggle="modal" data-target="#message_popup"><i class="material-icons">message</i><a href="#">Message</a></div>
                                         </div>
                                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                                         <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
-                                            <div class="btn">
+                                            <div class="btn border-right">
                                                 <div class="dropdown keep-open">
                                                     <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">create</i>Note</a></span>
                                                     <div class="dropdown-menu">
@@ -252,19 +256,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="review">
-                        <div class="review_content"><p><strong class="text-uppercase">Rto</strong> - {{rtoName}}</p></div>
-                        <div class="review_profile-pic"><span></span></div>
-                    </div>
-                    <div class="review">
-                        <div class="review_content"><p><strong class="text-uppercase">{{facProName}}</strong> {{facVocName}} {{userName}}'s CSR for this course</p></div>
-                        <div class="review_profile-pic"><span><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if facilitatorImage %} {{ facilitatorImage }} {% endif %}" /></span></div>
-                    </div>
-                    <div class="review">
-                        <div class="review_content"><p><strong class="text-uppercase">{{assProName}}</strong> {{assVocName}} {{userName}}'s assessor for this cource</p></div>
-                        <div class="review_profile-pic"><span><img class="profile-img" data-target="#assProfile" data-toggle="modal"  src="{% if assessorImage %}{{ assessorImage }}{% endif %}" /></span>
+                    <div class="review-container">
+                        <div class="review">
+                            <div class="review_content"><p><strong class="text-uppercase">Rto</strong> - {{rtoName}}</p></div>
+                            <div class="review_profile-pic"><span></span></div>
+                        </div>
+                        <div class="review">
+                            <div class="review_content"><p><strong class="text-uppercase">{{facProName}}</strong> {{facVocName}} {{userName}}'s CSR for this course</p></div>
+                            <div class="review_profile-pic"><span><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if facilitatorImage %} {{ facilitatorImage }} {% endif %}" /></span></div>
+                        </div>
+                        <div class="review">
+                            <div class="review_content"><p><strong class="text-uppercase">{{assProName}}</strong> {{assVocName}} {{userName}}'s assessor for this cource</p></div>
+                            <div class="review_profile-pic"><span><img class="profile-img" data-target="#assProfile" data-toggle="modal"  src="{% if assessorImage %}{{ assessorImage }}{% endif %}" /></span>
+                            </div>
                         </div>
                     </div>
+                        
                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                         {% if notes|length > 0 or  notesFromCourse|length > 0 %}
                             <div class="comments">
