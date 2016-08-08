@@ -146,6 +146,11 @@ $(document).ready(function(){
     $(".profile_popup .form-group span").click(function(){
             $(this).prev().removeAttr('readonly').focus();
     });
+    
+    $("#add_file_txt").click(function(){
+        $("#file").click();
+     });
+    
 });
 $(window).resize(function(){
 	var window_Ht = $(window).height();
@@ -186,3 +191,4 @@ function determineDropDirection(){
 determineDropDirection();
 
 $(window).scroll(determineDropDirection);
+
