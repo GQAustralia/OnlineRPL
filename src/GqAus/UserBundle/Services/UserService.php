@@ -3145,6 +3145,8 @@ class UserService
                   endif;
                   break;
             case 'ROLE_RTO':
+            case 'ROLE_MANAGER':
+            case 'ROLE_SUPERADMIN':
                   $field = $rtoWorkSpan;
                   if($facStatus == 1):
                     $diff = abs(strtotime($currentDate) - strtotime($assDate));
@@ -3259,6 +3261,8 @@ class UserService
                 $field = 'assessor_status';
                 break;
             case 'ROLE_RTO':
+            case 'ROLE_MANAGER':
+            case 'ROLE_SUPERADMIN':
                 $field = 'rto_status';
                 break;
         }

@@ -212,10 +212,34 @@
                                         </div>
                                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                                         <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
-                                            <div class="btn"><a href="javascript:void(0)"><i class="material-icons">create</i>Note</a></div>
+                                            <div class="btn">
+                                                <div class="dropdown keep-open">
+                                                    <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">create</i>Note</a></span>
+                                                    <div class="dropdown-menu">
+                                                        <div class="data_section">
+                                                            <textarea rows="3" placeholder="Notes" id="note-msg" name="note-msg"></textarea>
+                                                            <input type="hidden" name="courseId" id="courseId" value="{% if coursePrimaryId >0 %}{{coursePrimaryId}}{% endif %}">
+                                                            <div class="date_section clearfix note-msg-inner"></div>
+                                                        </div>
+                                                        <button type="button" class="btn_red" id="courseUnitNote" name="courseUnitNote">Send</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
-                                            <div class="btn"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>To do list</a></div>
+                                            <div class="btn">
+                                                <div class="dropdown keep-open">
+                                                    <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>To do list</a></span>
+                                                    <div class="dropdown-menu">
+                                                        <div class="data_section">
+                                                            <textarea rows="3" placeholder="Notes" id="note-msg" name="note-msg"></textarea>
+                                                            <input type="hidden" name="courseId" id="courseId" value="{% if coursePrimaryId >0 %}{{coursePrimaryId}}{% endif %}">
+                                                            <div class="date_section clearfix note-msg-inner"></div>
+                                                        </div>
+                                                        <button type="button" class="btn_red" id="courseUnitNote" name="courseUnitNote">Send</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     {% endif %}
                                     {% if ('ROLE_ASSESSOR' in userRole) %}
