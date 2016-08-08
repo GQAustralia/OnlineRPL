@@ -21,8 +21,9 @@
 	
 	<div class="body_section login_page">
 		<div class="login_section">
-			<div class="gqa_logo">
-				<img src="{{ asset('public/images/logo.png') }}" alt="gqa-logo"/>
+			<div class="gqa_logo">				
+                                <img src="{{ asset('public/images/logo.png') }}" alt="gqa-logo" class="hidden-xs"/>
+				<img src="{{ asset('public/images/loginlogo.png') }}" alt="gqa-logo" class="hidden-sm hidden-md hidden-lg"/>
 			</div>
 			{% block content %}{% endblock %}
 		</div>

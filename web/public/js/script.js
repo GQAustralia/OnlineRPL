@@ -60,6 +60,9 @@ $(document).ready(function(){
 	if(window_Wt < 767 && window_Ht > 370){
 		$(".login_section .login_btn").css("position","absolute");
 	}
+        if(window_Wt < 640 && window_Ht > 370){
+		$(".login_section").css("padding-top","100px");
+	}
 	
 	$(".form_block input").focus(function(){
 		$(this).prev().css("color","red");
@@ -117,6 +120,9 @@ $(document).ready(function(){
     if(window_Wt < 767 && window_Ht > 370){
             $(".login_section .login_btn").css("position","absolute");
     }
+    if(window_Wt < 640 && window_Ht > 370){
+		$(".login_section").css("padding-top","100px");
+	}
 
     $(".form_block input").focus(function(){
             $(this).prev().css("color","red");
