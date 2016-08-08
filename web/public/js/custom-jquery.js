@@ -738,6 +738,8 @@ $(".setUsers").click(function() {
 
 $(".setData").click(function() {
     userCourseId = $(this).attr("userCourseId");
+    reminderTypeId = $(this).attr("reminderTypeId");
+    reminderType = $(this).attr("reminderType");
     listId = $(this).attr("listId");
     var courseId = $('#course_' + listId).val();
     if (courseId != '' && typeof courseId !== 'undefined') {
@@ -760,10 +762,12 @@ $(".setData").click(function() {
             type: "POST",
             url: "addReminder",
             cache: false,
-            data: {message: note, userCourseId: userCourseId, remindDate: remindDate, listId: listId},
+            data: {message: note, userCourseId: userCourseId, remindDate: remindDate, listId: listId, reminderTypeId: reminderTypeId, reminderType:reminderType},
             success: function(result) {
                 $('#err_msg').show();                
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
+                
+                
             }
         });
         var parentDiv = $(this).parent().parent().parent();

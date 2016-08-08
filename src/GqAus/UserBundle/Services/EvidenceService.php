@@ -644,6 +644,7 @@ class EvidenceService
      */
     public function getPendingApplicantEvidences($user)
     {
+        $userId = $user->getId();        
         $qb = $this->em->createQueryBuilder()
             ->select('evd')
             ->from('GqAusUserBundle:UserCourses', 'uc')
