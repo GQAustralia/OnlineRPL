@@ -981,20 +981,24 @@ function loadDataIcon(listdiv)
 
 
 
-$("#applicantPending").click(function() {
+$("#applicantPending").click(function() {    
     pagenum = 1;   
     loadDataIcon('currentList');
     applicantStatus = '0';
+    $("#completed").css("display", "none");
+    $("#current").css("display", "block");
    // $("#remainingweekDiv").show();
     loadApplicantList('currentList',pagenum);
      $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
 });
 
-$("#applicantCompleted").click(function() {
+$("#applicantCompleted").click(function() { 
     pagenum = 1;
     loadDataIcon('completedList');
     applicantStatus = '1';
-    $("#remainingweekDiv").hide();
+    //$("#remainingweekDiv").hide();
+    $("#completed").css("display", "block");
+    $("#current").css("display", "none");
     loadApplicantList('completedList',pagenum);
      $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
 });
@@ -2553,4 +2557,6 @@ function updateFacilitator(courseCode , userId, listId)
        return false;
 }
 
-
+if( $('.view-message').length > 0){   
+    $('header').addClass('hide');
+}

@@ -14,22 +14,41 @@
                         {% set id = list.id %}
                         {% set courseCode = list.courseCode %}
                         {% if (status == 0) %}
+                          {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                             {% set remaingDays = user_service.getDaysRemainingFromRole(userId, list.courseCode, userRole[0]) %}
                             {% set output = remaingDays|split('&&') %}
-                        {% endif %}
-                        {% if (status == 0) %}
+                          
                                        <div class="progress-container">                                                
                                            <div class="progress">
                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:{% if output[1] >0 %}{{ output[1] }}{%else%} 0 {% endif %}%""></div>
                                            </div>                        
                                            <div class="progress-copy">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%}</div>
                                        </div>
+                              {% else %}
+                                    {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %} 
+                                    <div class="">
+                                            <div>
+                                               <div ></div>
+                                           </div>                        
+                                           <div class="">{{courseStatus}}</div>
+                                    </div>
+                            {% endif%}
                          {% endif%}
                                     <div class="qualification-copy"><span>{{list.courseCode}} {{list.courseName}}</span></div>
                                 </div>
                             </td>
                         </tr>
                         {% endfor %}
+                              <tr>
+                        {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+                           
+                                <td class="gq-pagination-area" >
+                                    {# display navigation for pages - paginator_navigator #}        
+                                     {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}   
+                                </td>
+                           
+                        {% endif %}
+                     </tr>
                         {% else %}
                         <tr>
                             <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>

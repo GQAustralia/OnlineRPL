@@ -65,30 +65,29 @@
         {% set courseFacilitator = user_service.getFacilitaorInfo(list.courseCode, list.user.id) %}
        
         <div class="modal fade update_popup" id="update_popup_{{id}}" role="dialog">
-                        <div class="modal-dialog">
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                        <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h5 class="modal-title">Select Facilitator</h5>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div id='profile_suc_msg2_{{id}}'></div>
-                                                <form class="form">
-                                                    {% if facilitators %}
-                                                    <select class="form-control" id="{{id}}">
-                                                                <option>Select</option>
-                                                        {% for key,faclist in facilitators%}
-                                                                <option value="{{faclist.id}}" {% if courseFacilitator[0][1] == faclist.id%} selected {% else %} {% endif %}>{{faclist.firstname}} {{faclist.lastname}}</option>
-                                                               {% endfor %}
-                                                        </select>
-                                                    {% endif %}
-                                                        <button class="btn btn_red" onclick="return updateFacilitator('{{list.courseCode}}',{{list.user.id}},{{id}});">UPDATE</button>
-                                                </form>
-                                        </div>
-                                </div>
-                        </div>
-               
+            <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                            <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h5 class="modal-title">Select Facilitator</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div id='profile_suc_msg2_{{id}}'></div>
+                                    <form class="form">
+                                        {% if facilitators %}
+                                        <select class="form-control" id="{{id}}">
+                                                    <option>Select</option>
+                                            {% for key,faclist in facilitators%}
+                                                    <option value="{{faclist.id}}" {% if courseFacilitator[0][1] == faclist.id%} selected {% else %} {% endif %}>{{faclist.firstname}} {{faclist.lastname}}</option>
+                                                   {% endfor %}
+                                            </select>
+                                        {% endif %}
+                                            <button class="btn btn_red" onclick="return updateFacilitator('{{list.courseCode}}',{{list.user.id}},{{id}});">UPDATE</button>
+                                    </form>
+                            </div>
+                    </div>
+            </div>
         </div>
          </td>
          {% endif %}
@@ -98,8 +97,7 @@
    
     
 {% endfor %}
-    <tr>
-                                
+                       
         {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
             <tr>
                 <td class="gq-pagination-area" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
@@ -108,7 +106,7 @@
                 </td>
             </tr>
         {% endif %}
-    </tr>
+  
 {% else %}
     <tr>
         <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>

@@ -1,8 +1,12 @@
 <thead>
     <tr>
         <th class="col-xs-8 col-sm-8 col-md-8">Name</th>
-        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole)  or ('ROLE_RTO' in userRole)%}
-        <th class="col-xs-4 col-sm-4 col-md-4 sort-by">Days Left</th>
+        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+            <th class="col-xs-4 col-sm-4 col-md-4 sort-by">Days Left</th>
+        {% else %}
+                <th class="col-xs-4 col-sm-4 col-md-4 ">Status</th>
         {% endif %}
+            
     </tr>
 </thead>
+
