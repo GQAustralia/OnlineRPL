@@ -2532,12 +2532,26 @@ $('body').on('click', '.closeDivTag', function(){
 });
 function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
 {
+    var selfAssNotes = $('#selfassnote').val();
     $.ajax({
         type: "POST",
         url: base_url + "submitUnitForReview",
-        data: {unitId: unitCode, courseCode: courseCode, userId: userId},
+        data: {unitId: unitCode, courseCode: courseCode, userId: userId, selfAssNotes:selfAssNotes},
         success: function(result) {
-            
+             var rec = result.split("&&");
+            if (rec[0] == '0') {
+                $('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not submitted!</h2>').delay(3000).fadeOut(100);
+            } else if (rec[0] == '1') {
+                $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Submitting to this Unit successfully!</h2>').delay(3000).fadeOut(100);
+                $('#sp_'+rec[1]).show();
+            }
+            else if (rec[0] == '2') {
+                $('#gq-dashboard-tabs-error-assess').html('<h2>Please Upload Evidences</h2>').delay(3000).fadeOut(100);
+            }
+            else if (rec[0] == '3') {
+                $('#gq-dashboard-tabs-error-assess').html('<h2>Please  Enter SelfAssessment Notes</h2>').delay(3000).fadeOut(100);
+            }
+            setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
         }
         });
 }

@@ -31,6 +31,12 @@
     color: #fff;
     margin-right: 10px
 }
+.qualification-er-msg { color:#e01010; text-align:center; margin:0 auto;}
+.qualification-er-msg h2 {font-size:15px; color:#e01010; padding-top:10px;}
+.qualification-er-msg h2 img {margin-right:6px; padding-bottom:4px;}
+.qualification-success-msg { color:#85b430; text-align:center; margin:0 auto;}
+.qualification-success-msg h2 {font-size:15px; color:#85b430; padding-top:10px;}
+.qualification-success-msg h2 img {margin-right:6px; padding-bottom:4px;}
  @media screen and (min-width: 568px) {
     .confirm_popup .modal-dialog {
         width: 500px
