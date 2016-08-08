@@ -24,9 +24,9 @@
                                     {% elseif(roles[0]=='ROLE_APPLICANT') %}
                                         {% set role = '' %}
                                     {% elseif(roles[0]=='ROLE_MANAGER') %}
-                                        {% set role = '' %}
+                                        {% set role = 'Manager' %}
                                     {% elseif(roles[0]=='ROLE_SUPERADMIN') %}
-                                        {% set role = '' %}
+                                        {% set role = 'SuperAdmin' %}
                                     {% endif %}                            
                                 <!-- Profile Form -->
                                 <div class="header_block clearfix" id='user_profile_form_div'>
