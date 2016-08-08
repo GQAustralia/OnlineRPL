@@ -2530,3 +2530,14 @@ $('body').on('click', '.closeDivTag', function(){
     $('.candidate-details').hide();
     $('.portfolio-container').show();
 });
+function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "submitUnitForReview",
+        data: {unitId: unitCode, courseCode: courseCode, userId: userId},
+        success: function(result) {
+            
+        }
+        });
+}

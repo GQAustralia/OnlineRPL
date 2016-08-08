@@ -104,5 +104,27 @@ class CoursesController extends Controller
         echo $template = $this->renderView('GqAusHomeBundle:Courses:unitevidence.html.twig', $results);
         exit;
     }
+    /**
+     * Function to Submit Unit for Review
+     * return string
+     */
+    public function submitUnitForReviewAction()
+    {
+        $userId = $this->getRequest()->get('userId');
+        $unitId = $this->getRequest()->get('unitId');
+        $courseCode = $this->getRequest()->get('courseCode');
+        
+        $checkEvidenceforAvail = $this->get('EvidenceService')->getUserUnitwiseEvidences($userId, $unitId,$courseCode);
+        $countEvidences = count($checkEvidenceforAvail);
+        if($countEvidences > 0)
+        {
+            
+        }
+        else
+        {
+            
+        }
+        exit;
+    }
 
 }

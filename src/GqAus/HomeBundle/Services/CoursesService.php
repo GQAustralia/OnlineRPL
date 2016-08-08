@@ -522,5 +522,13 @@ class CoursesService
         }
         return compact('courseUnits', 'courseApprovedUnits');
     }
+    /**
+     * Function to Submit Unit for Review
+     */
+    
+    public function submitUnitForReview()
+    {
+        
+    }
 
 }
