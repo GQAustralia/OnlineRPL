@@ -586,10 +586,19 @@ class UserService
             for ($i = 0; $i < count($searchNamearr); $i++) {
                 if ($i == 0)
                     $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
-                    . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                    . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR u.email LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR u.phone LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR c.courseName LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR c.courseCode LIKE '%" . $searchNamearr[$i] . "%'";
                 else
                     $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
-                    . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                    . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR u.email LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR u.phone LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR c.course_name LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR c.courseName LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR c.courseCode LIKE '%" . $searchNamearr[$i] . "%'";
             }
             $res->andWhere($nameCondition);
         }
@@ -962,6 +971,20 @@ class UserService
             }
             $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy($result);
         } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
+            $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
+            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
+            $qb->andWhere('u.courseStatus != 0');
+
+            $getCourseStatus = $qb->getQuery()->getResult();
+        }
+        elseif (in_array('ROLE_MANAGER', $userRole)) {
+            $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
+            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
+            $qb->andWhere('u.courseStatus != 0');
+
+            $getCourseStatus = $qb->getQuery()->getResult();
+        }
+        elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
             $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
             $qb->andWhere('u.courseStatus != 0');
@@ -3356,6 +3379,7 @@ class UserService
         return $getMessages;
     }
 
+
     /** 
      * Get unit type of unit code
      * @param: $unitType
@@ -3371,5 +3395,38 @@ class UserService
                 $unitType = ($userCourseUnits) ? $userCourseUnits->getType() : '';
         }
         return $unitType;
+    }
+    /**
+     * Function for get All facilitators
+     * @param type $courseCode
+     * @param type $userId
+     * @return type
+     */
+    public function getFacilitaorInfo($courseCode , $userId)
+    {
+        $query  = $this->em->getRepository('GqAusUserBundle:UserCourses')
+            ->createQueryBuilder('u')
+            ->select('(u.facilitator)')            
+            ->where('u.courseCode IN (:courseCode)')->setParameter('courseCode', $courseCode)
+            ->andWhere('u.user IN (:user)')->setParameter('user', $userId);
+        $faclist = $query->getQuery()->getResult();        
+        return $faclist;
+    }
+    /**
+     * Function to Update Facilitator
+     * @param type $userId
+     * @param type $courseCode
+     * @param type $facilitator*
+     */
+    public function updateQualificationFacilitator($listId,$facilitator)
+    {
+        $user = $this->getUserInfo($facilitator);
+        $remObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($listId);        
+        $remObj->setFacilitator($user);
+        $this->em->persist($remObj);
+        $this->em->flush();
+        
+        return true;
+ 
     }
 }

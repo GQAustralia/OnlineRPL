@@ -10,11 +10,14 @@
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole)  or ('ROLE_RTO' in userRole)%}
         <th class="sort-by"><span class="">DAYS LEFT</span></th>
         {% endif %}
-        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+        {% if ('ROLE_RTO' not in userRole) %}
         <th><span class=""> Status </span></th>        
         {% endif %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
         <th ><span class="">To Do</span></th>
+        {% endif %}
+        {% if ('ROLE_MANAGER' in userRole)%}
+        <th ><span class="">Assign</span></th>
         {% endif %}
     </tr>
 </thead>

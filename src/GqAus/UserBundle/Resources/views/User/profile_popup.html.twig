@@ -23,6 +23,10 @@
                                         {% set role = 'Assessor' %}
                                     {% elseif(roles[0]=='ROLE_APPLICANT') %}
                                         {% set role = '' %}
+                                    {% elseif(roles[0]=='ROLE_MANAGER') %}
+                                        {% set role = '' %}
+                                    {% elseif(roles[0]=='ROLE_SUPERADMIN') %}
+                                        {% set role = '' %}
                                     {% endif %}                            
                                 <!-- Profile Form -->
                                 <div class="header_block clearfix" id='user_profile_form_div'>
@@ -291,6 +295,4 @@
         </div>
    
 </div>
-{% block javascripts %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-{% endblock %}
+

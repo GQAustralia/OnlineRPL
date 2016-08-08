@@ -2,14 +2,13 @@
 {% block title %}GQ - RPL Applicant Lists{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('public/css/timepicker.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">    
-    <link rel="stylesheet" href="{{ asset('public/css/pages/all/rto.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">  
+     <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}"> 
 {% endblock %}
 {% block body %}
 
 {% set userRole = app.security.getToken().getUser().getRoles() %}
- <!-- Larg Screens HTML Start -->
-        
+ <!-- Larg Screens HTML Start -->        
 <section class="portfolio-container hidden-xs">
     <div class="container">
         <div class="row">
@@ -45,15 +44,70 @@
                                                             <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">COMPLETED</a>
                                                     </li>
                                             </ul>
+        </div>  
+        {% if ('ROLE_MANAGER' not in userRole) and ('ROLE_SUPERADMIN' not in userRole) %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="container">
+                        <div class="portfolio-filter">
+                            <div class="row">
+                                <div class="col-md-8 col-lg-8 filter gq-app-aearch-grid">                                       
+                                        <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/>                                      
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                   <div class="row no-gutter">
+                                            <div class="col-md-12 col-lg-12">
+                                            <div class="gq-dashboard-tabs-header wid20p">
+                                                <ul role="tablist" id="myTab" >
+                                                        <li role="presentation" id="applicantPending" class="status active">
+                                                                <a href="#current" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>
+                                                        </li>
+                                                        <li role="presentation" id="applicantCompleted" class="status in-active">
+                                                                <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">COMPLETED</a>
+                                                        </li>
+                                                </ul>
+                                            </div>
+
                                         </div>
-                                    </div>
-                               </div>
-                            </div>             
-                        </div>                            
+                                   </div>
+                                </div>             
+                            </div>                            
+                        </div>
                     </div>
                 </div>
+                </div>
+        {% endif %}
+         {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}
+            
+               <div class="form-inline portfolio-filter">
+                    <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-lg-3">
+                                    <input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box">                                    
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-lg-3">
+                                    <label for="">Filter By</label>
+                                   <select name="filterByUser" id="filterByUser" class="form-control">
+                                        <option value="">Assessor/Facilitator</option>
+                                    {% for key, user in users %}
+                                        <option value="{{user.id}}">{% if user.roletype == 2 %} Facilitator {% else %} Assessor {% endif %} : {{user.username}}</option>
+                                    {% endfor %}
+                                    </select>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 col-lg-5">
+                                    <label for="">Qualification Status</label>
+                                    <select name="filterByStatus" id="filterByStatus" class="form-control">
+                                        <option value="">Qualification Status</option>
+                                        {% for key, status in qualificationStatus %}
+                                            <option value="{{key}}">{{status["status"]}}</option>
+                                        {% endfor %}
+                                    </select>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 no-padding">
+                                <button id="searchFilter" class="btn btn_red gq-reports-filter-btn">Filter</button>
+                            </div>
+                    </div>
             </div>
-            </div>
+         {% endif %}
         <div id="err_msg"></div>
         <div class="row no-gutter">
             <div class="col-lg-12 tab-content">
@@ -81,7 +135,7 @@
                                     <th ><span class="">QUALIFICATION</span></th> 
                                 </tr>
                             </thead>
-                            <tbody id="completedList">
+                            <tbody id="completedList">                                
                                 {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
                             </tbody>
                         </table>
@@ -99,9 +153,7 @@
 
 {% block javascripts %}  
     <script type="text/javascript" src="{{ asset('public/js/jquery-1.12.3.js') }}"></script>   
-    <script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>  
-     <script src="{{ asset('public/js/jquery-ui.js') }}"></script>
-    <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js') }}"></script>      
+    <script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {            
         $('#myTable').DataTable( {

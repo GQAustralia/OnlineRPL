@@ -256,3 +256,6 @@ files:
 filesAdd:
     path:     /addFiles
     defaults: { _controller: GqAusUserBundle:File:add}
+updateFacilitator:
+    path:     /updateFacilitator
+    defaults: { _controller: GqAusUserBundle:Applicant:updateFacilitator } 
