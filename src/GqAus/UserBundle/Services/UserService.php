@@ -810,6 +810,12 @@ class UserService
         } elseif (in_array('ROLE_RTO', $userRole)) {
             $userType = 'rto';
             $userStatus = 'rtostatus';
+        } elseif (in_array('ROLE_MANAGER', $userRole)) {
+            $userType = 'rto';
+            $userStatus = 'rtostatus';
+        } elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
+            $userType = 'rto';
+            $userStatus = 'rtostatus';
         }
         $fields = 'partial c.{id, courseCode, courseName, courseStatus, assessorstatus, facilitatorstatus, rtostatus,'
             . ' assessorDate, facilitatorDate, rtoDate}, partial u.{id, firstName, lastName}';
