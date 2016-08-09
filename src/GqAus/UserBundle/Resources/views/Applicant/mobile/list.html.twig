@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Applicant Lists{% endblock %}
+{% set userRole = app.security.getToken().getUser().getRoles() %}
 {% block stylesheets %}
+
     <link rel="stylesheet" href="{{ asset('public/css/timepicker.css') }}" />
+    {% if ('ROLE_MANAGER' not in userRole[0]) and ('ROLE_SUPERADMIN' not in userRole[0]) %}
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}"> 
-    <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}"> 
+    {% else %}
+     <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}"> 
+     {% endif %}
 {% endblock %}
 {% block body %}
-
-{% set userRole = app.security.getToken().getUser().getRoles() %}
  <!-- Larg Screens HTML Start --> 
  <section class="portfolio-container hidden-sm hidden-md hidden-lg">
             <div class="container-fluid">
@@ -89,7 +92,7 @@
                     
                     <div class="col-xs-12 col-sm-12 col-md-12 tab-pane active" role="tabpanel" id="current">
                         <div class="portfolio-data-table mobile-portfolio-data-table">
-                            <table class="table" id="myTable">
+                            <table class="table applicantTable">
                                 <thead>
                                     {% include 'GqAusUserBundle:Applicant/mobile:apllicantsFilters.html.twig' %}                                    
                                 </thead>
@@ -103,7 +106,7 @@
                     {% if ('ROLE_MANAGER' not in userRole[0]) and ('ROLE_SUPERADMIN' not in userRole[0]) %}
                     <div role="tabpanel" class="col-xs-12 col-sm-12 col-md-12 tab-pane" id="completed" style="display:none;">
                     <div class="portfolio-data-table mobile-portfolio-data-table">
-                        <table class="table" >
+                        <table class="table applicantTable">
                             <thead>
                                 <tr>
                                     <th style="width:20%"><span class="">NAME</span></th>
@@ -129,21 +132,18 @@
 {% endblock %}
 
 {% block javascripts %}  
-    <script type="text/javascript" src="{{ asset('public/js/jquery-1.12.3.js') }}"></script>   
-    <script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>  
-     <script src="{{ asset('public/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('public/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js') }}"></script>      
     <script type="text/javascript">
         $(document).ready(function() {            
-        $('#myTable').DataTable( {
-                  "paging":   false,                  
-                  "info":     false,
-                  "searching": false,
-                  "aaSorting": [],
-                  "columnDefs": [
-                    { "orderable": false, "targets":  [ 1] }
-                  ]
+        $('.applicantTable').DataTable( { 
+                "pageLength": 10,
+                "pagingType": "simple",
+                "searching": false,
+                "bFilter" : false,               
+                "bLengthChange": false,                
                 } );
+               
             var dateTime = new Date();
             var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
             var timeZoneDT = new Date(utc + (3600000 * +10));

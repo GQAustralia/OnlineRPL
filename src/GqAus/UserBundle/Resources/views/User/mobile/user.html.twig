@@ -1,0 +1,255 @@
+<!-- MOBILE VERSION -->
+{% if ('ROLE_APPLICANT' in userRole) %}				
+<div class="hidden-sm hidden-md hidden-lg full_width">
+<div class="mobile_version_block">
+<div class="" id="idfiles_msg"></div>
+<div class="gq-change-file-warning" id="change_file_error">
+   {% for flashMessage in app.session.flashbag.get('errornotice') %}
+   <div class="gq-id-file-error-text" style="dispaly:none">
+       <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+   </div>
+  {% endfor %}
+</div>
+    <div class="section">
+            <div class="info_block">
+                    <div class="title_bar clearfix">
+                            <span class="left">YOUR ID</span>
+                            {% set requiredpoints = 100 - currentIdPoints %}
+                            <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED</strong><i class="material-icons">info</i>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</span>
+                    </div>
+                    {% if currentIdPoints < "100" %}
+                     <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data"> 
+                        <div class="add_section">
+                                {{ form_widget(filesForm.browse, {'attr': {'class': 'hidden uploadFile'}}) }}
+                                <span class="button uploadTrigger" id="idfiles"><i class="material-icons">add</i></span><strong>Add ID</strong>
+                        </div>
+                         <div id="idfiletype_image"></div>
+                        <div class="loading-icon" style="display: none;" id="ID_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>  
+                        <select class="selectpicker" id="userfiles_type" name="userfiles[type]">
+                            <option value="">Select Document Type</option>
+                            {% if documentTypes %}
+                            {% for key, docs in documentTypes %}
+                            <option  value="{{docs.id}}" data-content='<span class="content">{{docs.type}}</span><span class="number">{{docs.points}}</span>'></option>
+                             {% endfor %}
+                            {% endif %}
+                        </select>
+                    </form>
+                    {% endif %}
+            </div>
+            <div class="form_block">
+                    <div class="title_bar clearfix">
+                            <span class="left">YOUR DETAILS</span>
+                            <span class="right"><strong>100% COMPLETED</strong><i class="material-icons">done</i></span>
+                    </div>
+                    <form class="form">
+                            <div class="section">
+                                    <div class="form-group clearfix">
+                                            <label>First Name</label>
+                                            <input type="text" value="William"/>
+                                    </div>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group clearfix">
+                                            <label>Last Name</label>
+                                            <input type="text" value="John"/>
+                                    </div>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group clearfix">
+                                            <label>Email</label>
+                                            <input type="email" value="william.john@gqaustralia.com.au"/>
+                                    </div>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group clearfix">
+                                            <label>Mobile</label>
+                                            <input type="text" value="0444 123 456"/>
+                                    </div>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group clearfix password_field">
+                                            <label>Password</label>
+                                            <input type="text" value="........"/>
+                                            <a href="javascript:void(0)" class="change_link" data-toggle="modal" data-target="#change_pwd_popup">Change?<i class="material-icons">lock</i></a>
+                                    </div>
+                            </div>
+                            <div class="section">
+                            <div class="form-group clearfix">
+                                    <label>USI</label>
+                                    <input type="text" value="Williamstown"/>
+                            </div>
+                            </div>
+                            <div class="title_bar clearfix">
+                                    <span class="left">ADDRESS</span>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group clearfix">
+                                            <label>Street Number</label>
+                                            <input type="text" value="1 Synamore Drive"/>
+                                    </div>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group clearfix">
+                                            <label>Street Name</label>
+                                            <input type="text" value="1 Synamore Drive"/>
+                                    </div>
+                            </div>
+                            <div class="section">
+                                    <div class="form-group clearfix">
+                                            <label>Suburb</label>
+                                            <input type="text" value="1 Synamore Drive"/>
+                                    </div>
+                            </div>
+                            <div class="section half">
+                                    <div class="form-group clearfix">
+                                            <label>City</label>
+                                            <input type="text" value="NSW"/>
+                                    </div>
+                                    <div class="form-group">
+                                            <label>Postcode</label>
+                                            <input type="text" value="2222"/>
+                                    </div>
+                            </div>
+                            <div class="section half clearfix">
+                                    <div class="form-group">
+                                            <label>State</label>
+                                            <input type="text" value="NSW"/>
+                                    </div>
+                                    <div class="form-group">
+                                            <label>Country</label>
+                                            <input type="text" value="2222"/>
+                                    </div>
+                            </div>
+                    </form>
+            </div>
+            <div class="link_section clearfix">
+                    <a href="javascript:void(0)" class="faq_link">
+                            <span><i class="material-icons">help</i></span>FAQs
+                    </a>
+                    <button class="btn update_btn disable">UPDATE</button>
+            </div>
+    </div>
+    <!--SECTION -->
+
+
+    <!--SECTION -->
+    <div class="section info_block hidden-xs">
+            <div class="heading_bar clearfix">
+                    <span class="left">
+                            <a href="javascript:void(0)">
+                                    <i class="material-icons">arrow_back</i>
+                            </a>Your ID
+                    </span>
+                    <span class="right">
+                            DONE
+                    </span>
+            </div>
+            <div class="title_bar clearfix">
+                    <span class="left">YOUR ID</span>
+                    <span class="right"><strong>100% POINTS REQUIRED</strong><i class="material-icons">info</i></span>
+            </div>
+            <select class="selectpicker">
+                    <option>Select Document Type</option>
+                    <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+                    <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+                    <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+                    <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+            </select>
+
+            <div class="attach_section clearfix">
+                    <div class="take_photo tab">
+                            <span data-target="#myModal" data-toggle="modal">
+                                    <i class="material-icons">camera_alt</i>Take a photo
+                            </span>
+                    </div>
+                    <div class="upload_btn tab">
+                            <i class="material-icons">add</i>
+                            <input type="file" class="hidden uploadFile">
+                            <span class="button uploadTrigger">Add a file</span>
+                    </div>
+            </div>
+
+            <div class="file_block">
+                    <ul>
+                            <li>
+                                    <div class="title_bar clearfix">
+                                            <span class="content">Department of veterans Affairs (DVA) card</span>
+                                            <span class="number">40</span>
+                                    </div>
+                                    <div class="file_info">
+                                            <span class="icon">
+                                                    <i class="material-icons">description</i>
+                                            </span>
+                                            <span class="file-discription">
+                                                    testimonial.doc <br>10kb | Added 30/06/2016
+                                            </span>
+                                            <span class="clear">
+                                                    <i class="material-icons">clear</i>
+                                            </span>
+                                    </div>
+                            </li>
+                    </ul>
+            </div>
+
+    </div>
+    <!--SECTION -->
+
+
+    <!--SECTION -->
+    <div class="section change_pwd_section mobile_version hidden-xs">
+            <div class="heading_bar clearfix">
+                    <span>
+                            Change Password
+                            <a href="javascript:void(0)">
+                                    <i class="material-icons">clear</i>
+                            </a>
+                    </span>
+            </div>
+            <div class="content">
+                    <p>Please enter your current password</p>
+                    <input type="password" placeholder="Password"/>
+                    <a href="javascript:void(0)">Forgot password?</a>
+            </div>
+            <button class="button btn">NEXT</button>
+    </div>
+    <!--SECTION -->
+
+
+    <!--SECTION -->
+    <div class="section change_pwd_section mobile_version hidden-xs">
+            <div class="heading_bar clearfix">
+                    <span>
+                            Change Password
+                    </span>
+            </div>
+            <div class="content">
+                    <p>Thanks now enter a new secure password that is 8 - 16 characters and contains both letters and numbers</p>
+                    <input type="password" placeholder="Password"/>
+                    <i class="material-icons">done</i>
+                    <input type="password" placeholder="Confirm Password"/>
+                    <i class="material-icons">done</i>
+            </div>
+            <button class="button btn btn_red">SUBMIT</button>
+    </div>
+    <!--SECTION -->
+
+    <!--SECTION -->
+    <div class="section change_pwd_section mobile_version">
+            <div class="heading_bar clearfix">
+                    <span>
+                            Change Password
+                    </span>
+            </div>
+            <div class="content">
+                    <span>
+                            <img src="../images/COMPLETE.png" alt="complete"/>
+                    </span>
+                    <p>Your password has been successfully changed.</p>
+            </div>
+    </div>
+    <!--SECTION -->
+
+        </div>
+</div>
+{% endif %}
+<!-- MOBILE VERSION -->

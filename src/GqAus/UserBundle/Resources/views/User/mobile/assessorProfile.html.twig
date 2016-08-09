@@ -1,0 +1,214 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Dashboard{% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
+<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+
+{% endblock %}
+{% block body %}
+<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="gq-dashboard-title">Assessor Profile</h1>
+            <!-- <h6 class="gq-dashboard-title-desc">Some description can be given here</h6>  -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12">
+                    <div class="gq-assessor-profile-page-img" style="background-image: url(&quot;{{ userImage }}&quot;);" ></div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12">
+                    <div class="gq-assessor-profile-page-desc-wrap">
+                        <div class="gq-assessor-profile-page-desc-red">{{ user.userName }}</div>
+                        <div class="gq-assessor-profile-page-desc">{{ user.email }}</div>
+                    </div>
+                </div>
+            </div>
+            {#<div class="row">
+                <div class="col-xs-12">
+                    <h6 class="gq-assessor-title-download text-right"><a href="javascript:void(0)" id="download_assessor_profile" userid="{{ user.id }}"> Download Portfolio<span class="gq-assessor-title-download-icon"></span></a></h6>
+                </div>
+            </div>#}
+        </div>    
+        <div class="col-xs-12 margin-top15">
+            <div class="gq-id-files">
+                <div class="gq-id-files-header gq-id-files-header-applicant">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="gq-course-details-header-title">Resume</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gq-id-files-content-wrap">
+                    <div class="gq-dashboard-box-1x">
+                        <div class="gq-dashboard-courses-detail-wrap margin-top15">
+                            <div class="row">
+                            {% if resumeFiles %}
+                                {% for item in resumeFiles %}
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.id}}">
+                                    <div class="gq-dashboard-courses-detail">
+                                        <a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a>                                                    
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span>{% set name = item.name|split('.') %}{{name.0}}</span>
+                                            </div>
+                                            {#<div class="gq-id-files-content-row">
+                                                <label>Size</label><span>918KB</span>
+                                            </div>#}
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>{{item.created|date("d/m/Y") }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                            
+                                {% endfor %}
+                            {% else %}
+                                <center>No Resumes found</center>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <span class="flip-icon"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gq-id-files">
+                <div class="gq-id-files-header gq-id-files-header-applicant">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="gq-course-details-header-title">Qualifications</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gq-id-files-content-wrap">
+                    <div class="gq-dashboard-box-1x">
+                        <div class="gq-dashboard-courses-detail-wrap margin-top15">
+                            <div class="row">
+                            {% if qualFiles %}
+                                {% for item in qualFiles %}
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.id}}">
+                                    <div class="gq-dashboard-courses-detail">
+                                        <a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a>                                                    
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span>{% set name = item.name|split('.') %}{{name.0}}</span>
+                                            </div>
+                                            {#<div class="gq-id-files-content-row">
+                                                <label>Size</label><span>918KB</span>
+                                            </div>#}
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>{{item.created|date("d/m/Y") }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                            
+                                {% endfor %}
+                            {% else %}
+                                <center>No Qualifications found</center>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <span class="flip-icon"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gq-id-files">
+                <div class="gq-id-files-header gq-id-files-header-applicant">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="gq-course-details-header-title">Industry and VET Currency</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gq-id-files-content-wrap">
+                    <div class="gq-dashboard-box-1x">
+                        <div class="gq-dashboard-courses-detail-wrap margin-top15">
+                            <div class="row">
+                            {% if referenceFiles %}
+                                {% for item in referenceFiles %}
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.id}}">
+                                    <div class="gq-dashboard-courses-detail">
+                                        <a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a>                                                    
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span>{% set name = item.name|split('.') %}{{name.0}}</span>
+                                            </div>
+                                            {#<div class="gq-id-files-content-row">
+                                                <label>Size</label><span>918KB</span>
+                                            </div>#}
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>{{item.created|date("d/m/Y") }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                            
+                                {% endfor %}
+                            {% else %}
+                                <center>No Industry and VET Currency found</center>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <span class="flip-icon"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="gq-id-files">
+                <div class="gq-id-files-header gq-id-files-header-applicant">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="gq-course-details-header-title">Trainer Matrix</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gq-id-files-content-wrap">
+                    <div class="gq-dashboard-box-1x">
+                        <div class="gq-dashboard-courses-detail-wrap margin-top15">
+                            <div class="row">
+                            {% if matrixFiles %}
+                                {% for item in matrixFiles %}
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_{{item.id}}">
+                                    <div class="gq-dashboard-courses-detail">
+                                        <a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a>                                                    
+                                        <div class="gq-id-files-content-row-wrap">
+                                            <div class="gq-id-files-content-row">
+                                                <label>Title</label><span>{% set name = item.name|split('.') %}{{name.0}}</span>
+                                            </div>
+                                            {#<div class="gq-id-files-content-row">
+                                                <label>Size</label><span>918KB</span>
+                                            </div>#}
+                                            <div class="gq-id-files-content-row">
+                                                <label>Added on</label><span>{{item.created|date("d/m/Y") }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                            
+                                {% endfor %}
+                            {% else %}
+                                <center>No Trainer Matrix found</center>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <span class="flip-icon"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+    });
+</script>
+{% endblock %}

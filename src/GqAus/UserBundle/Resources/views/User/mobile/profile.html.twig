@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Edit Profile{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/bootstrap-select.min.css') }}" />
+<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/pages/all/candidate_profile.css') }}" />
+<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+{% endblock %}
+{% block body %}
+<div class="body_section">
+    <div class="container">
+        <div class="row">
+           <div class="col-sm-12 col-md-12 col-lg-6" style="display:none">
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="row" id="profile_suc_msg">
+                <div class="gq-id-files-upload-success-text">
+                    <h2><img src="{{ asset('public/images/tick.png') }}">
+                    {{ flashMessage }}</h2>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="gq-change-address-warning" id="change_address_error">
+                {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                <div class="gq-id-address-error-text" style="dispaly:none">
+                    <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                </div>
+               {% endfor %}
+            </div>
+            <div class="row" id="profile_suc_msg2"></div>
+        </div>
+        {% set userRole = app.security.getToken().getUser().getRoles() %}
+        {% set userId = app.security.getToken().getUser().getId() %}
+         {% include 'GqAusUserBundle:User/mobile:idfiles.html.twig' %}
+        {% include 'GqAusUserBundle:User/mobile:user.html.twig' %}
+       
+        
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+<script src="{{ asset('public/js/jquery.form.js') }}"></script>
+<script src="{{ asset('public/js/bootstrap-select.min.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+    });
+</script>
+{% endblock %}

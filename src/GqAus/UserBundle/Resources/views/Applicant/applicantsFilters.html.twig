@@ -1,6 +1,6 @@
 <thead>
     <tr>
-        <th ><span class="">NAME</span></th>
+        <th class="nameClass" ><span class="">NAME</span></th>
         <th {% if ('ROLE_RTO' in userRole) %}  {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} {% else %}  {% endif %} ><span class="">QUALIFICATION</span></th>
         
        

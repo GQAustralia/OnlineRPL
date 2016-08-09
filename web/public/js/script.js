@@ -33,7 +33,9 @@ $(document).ready(function(){
       */  
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
-	$(".mobile_version,.login_page").css("height",window_Ht);
+	var header_Ht = $("header").height();
+        var mobile_view_Ht = window_Ht - header_Ht;
+        $(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
 	
 	$('.collapse').on('shown.bs.collapse', function(){
 		$(this).parent().find(".keyboard_arrow_down").removeClass("keyboard_arrow_down").addClass("keyboard_arrow_right");
@@ -105,9 +107,8 @@ $(document).ready(function(){
     $("#add_file").click(function(){
        $("#fileBtn").click();
     });
-
-    $(".profile_image").click(function(){
-            $(".browse_btn").click();
+    $("#user_profile_image").click(function(){
+            $("#userprofile_userImage").click();
     });
     var textarea_ht = window_Ht - 135;
     $(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
@@ -154,14 +155,21 @@ $(document).ready(function(){
     });
     
     $("#add_file_txt").click(function(){
+	
         $("#file").click();
      });
-    
+
+	$("body").on('click', '', function(){
+		$("#fileupload").click();
+	 });
+
 });
 $(window).resize(function(){
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
-	$(".mobile_version,.login_page").css("height",window_Ht);
+	var header_Ht = $("header").height();
+        var mobile_view_Ht = window_Ht - header_Ht;
+        $(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
 	
 	var textarea_ht = window_Ht - 135;
 	$(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
@@ -195,6 +203,12 @@ function determineDropDirection(){
 }
 
 determineDropDirection();
-
 $(window).scroll(determineDropDirection);
 
+document.getElementById('add_file_txt').addEventListener("drop", function(event) {
+    event.preventDefault();
+	 filesSelectedToUpload(event);
+	});
+document.getElementById('add_file_txt').addEventListener("dragover", function(event) {
+    event.preventDefault();
+});

@@ -39,16 +39,7 @@
                             </td>
                         </tr>
                         {% endfor %}
-                              <tr>
-                        {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
-                           
-                                <td class="gq-pagination-area" >
-                                    {# display navigation for pages - paginator_navigator #}        
-                                     {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}   
-                                </td>
-                           
-                        {% endif %}
-                     </tr>
+                          
                         {% else %}
                         <tr>
                             <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>

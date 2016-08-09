@@ -1,0 +1,88 @@
+<!-- Modal -->
+	<div class="modal fade center_popup transparent_popup" id="changePassword" role="dialog" >
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="login">
+						<div class="gqa_logo">
+							<img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="logo"/>
+						</div>
+                                            {% set applicant = app.security.getToken().getUser() %}
+						<h2 class="welcome_msg">Welcome {{applicant.getFirstName()}}.</h2>
+						<div class="user_content">
+							<p>Your username to log in here is:</p>
+							<p>{{applicant.getEmail()}}</p>
+						</div>
+						<div class="pwd_content">
+							<p>To log in, create a secure password.</p>
+							<p>Make sure it's 8-16 characters long and contains</p>
+							<p>lettes and numbers.</p>
+						</div>
+                                                <div class="row" id="profile_suc_msg3"></div>
+                                                <div class="gq-change-pwd-warning1" id="pwd_error1">
+                                        {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                                        <div class="gq-id-pwd-error-text1" style="display:none">
+                                            <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                                        </div>
+                                       {% endfor %}
+                                    </div>
+                                               
+						<form class="form" name="updatePassword"  id="updatePassword">
+							<div class="form-group">
+								<input type="password" name="new-password" autocomplete="off" id="new-password" class="form-control" placeholder="New Password" onchange='chnageMaterialIcon(1)'>
+								<span><i class="material-icons" id='new_pswd_icon' style='display:none'>done</i></span>
+							</div>
+							<div class="form-group">
+								<input type="password" name="confirm-password" autocomplete="off"  id="confirm-password" class="form-control" placeholder="Confirm Password">
+								<span><i class="material-icons" id='change_pswd_icon' style='display:none'>done</i></span>
+							</div>
+							<div class="form-group">
+								<input type="submit" class="button submit_btn" value="SUBMIT"/>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- Modal -->
+	<div class="modal fade center_popup transparent_popup" id="onboard2" role="dialog">
+		<div class="modal-dialog vertical-align-center">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="step_list">
+                                            <form class="form" name="save_userdata"  id="save_userdata">
+						<h2>Let's get you started!</h2>
+                                                
+						<ul>
+							<li>
+								<span class="title"><strong>Step 1:</strong></span>
+								<p class="content">Check and complete your details and 100 points of ID</p>
+							</li>
+							<li>
+								<span class="title"><strong>Step 2:</strong></span>
+								<p class="content">Choose elective units for your course</p>
+							</li>
+							<li>
+								<span class="title"><strong>Step 3:</strong></span>
+								<p class="content">Start uploading your files as evidence of your skills & knowledge</p>
+							</li>
+							<li>
+								<p class="content">For more info at any time, check the Frequently Asked Questions</p>
+							</li>
+						</ul>
+						<div class="btn_section clearfix">
+							<a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow" class="faq_btn">
+								<span><i class="material-icons">info</i></span>
+							FAQs</a>
+							<a href="javascript:void(0)" class="active" onclick="saveUserPassword()">Ok, got it</a>
+						</div>
+                                                </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

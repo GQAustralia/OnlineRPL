@@ -121,8 +121,8 @@ class ApplicantController extends Controller
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
 		$pendingApplicantsCount = $this->get('UserService')->getPendingApplicantsCount($userId, $userRole, '0');
-        $page = $this->get('request')->query->get('page', 1);
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
+        //$page = $this->get('request')->query->get('page', 1);
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0');
         $results['pageRequest'] = 'submit';
         $results['status'] = 0;
 		$results['pendingApplicantsCount']=$pendingApplicantsCount;
@@ -155,11 +155,11 @@ class ApplicantController extends Controller
         $filterByUser = $this->getRequest()->get('filterByUser');
         $filterByStatus = $this->getRequest()->get('filterByStatus');
         $status = $this->getRequest()->get('status');
-        $page = $this->getRequest()->get('pagenum');        
-        if ($page == '') {
-            $page = 1;
-        }         
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, 
+       // $page = $this->getRequest()->get('pagenum');        
+//        if ($page == '') {
+//            $page = 1;
+//        }         
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status,  
             $searchName, $searchTime, $filterByUser, $filterByStatus);
             if ($userRole[0] == Superadmin::ROLE_NAME || $userRole[0] == Manager::ROLE_NAME) {
                     $results['facilitators'] = $this->get('UserService')->getUsers(Facilitator::ROLE);                    

@@ -518,9 +518,9 @@ class UserService
     public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, 
         $searchTime = null, $filterByUser = null, $filterByStatus = null)
     {
-        if ($page <= 0 ) {
-            $page = 1;
-        }
+//        if ($page <= 0 ) {
+//            $page = 1;
+//        }
 
         $nameCondition = null;
         if (in_array('ROLE_ASSESSOR', $userRole)) {
@@ -621,12 +621,11 @@ class UserService
 
         $res->orderBy('c.id', 'DESC');
         /* Pagination */
-        $paginator = new \GqAus\UserBundle\Lib\Paginator();
-        $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
+        //$paginator = new \GqAus\UserBundle\Lib\Paginator();
+       // $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
         /* Pagination */
-        $applicantList = $res->getQuery()->getResult();
-
-        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
+        $applicantList = $res->getQuery()->getResult();      
+        return array('applicantList' => $applicantList);
     }
     
     /**
