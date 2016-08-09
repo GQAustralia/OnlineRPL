@@ -36,7 +36,14 @@
 		<header class="{{ className }}">
             <section class="container">
                 <div class="logo">
-                    <img src="{{ asset('public/images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/>
+                     {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <a href="{{ app.request.baseUrl }}/dashboard">
+                     {% else %}   
+                        <a href="{{ app.request.baseUrl }}/qualifications">
+                     {% endif %}
+                        <img src="{{ asset('public/images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/>
+                        
+                        </a>
                 </div>
 
                 <div class="info-header hide">
