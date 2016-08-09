@@ -318,29 +318,33 @@
                                             </div>
                                         </div>
                                 </div>
-								{% if('ROLE_APPLICANT' in roles) %}
-								<div class="hidden-xs col-sm-12 col-md-12 col-lg-6">
-									<div class="file_upload_block">
-										<div class="title_bar clearfix">
-											<span class="title">UPLOAD EVIDENCE FILES</span>
-										</div>
-                                                                                <div class="upload_btn">
-                                                                                    <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
-                                                                                    <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file</div>
-                                                                                </div>
-										<span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
-										<div class="panel-group">
-											<div class="panel clearfix">
-												<div class="panel-body">
-													<div class="panel-copy fileListContainer" id="progress-bars">
-													
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								{% endif %}
+                                {% if('ROLE_APPLICANT' in roles) %}
+                                <div class="hidden-xs col-sm-12 col-md-12 col-lg-6">
+                                        <div class="file_upload_block">
+                                                <div class="title_bar clearfix">
+                                                        <span class="title">UPLOAD EVIDENCE FILES</span>
+                                                </div>
+                                            <div id="dragandrophandler">
+                                                <div class="upload_btn">
+                                                    <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
+                                                    <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file</div>
+                                                </div>
+                                            </div>
+                                                
+                                                <span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
+                                                <div id="status1"></div>
+                                                <div class="panel-group">
+                                                        <div class="panel clearfix">
+                                                                <div class="panel-body">
+                                                                        <div class="panel-copy fileListContainer" id="progress-bars">
+
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                                {% endif %}
                                 <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
                                     <div class="profile_section hidden-sm hidden-md hidden-lg">
                                         <div class="container">
@@ -375,5 +379,5 @@
     <script type="text/javascript" src="{{ asset('public/js/jquery.form.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/s3-upload/firebug-lite/build/firebug-lite.js#startOpened') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/js/s3-upload/s3upload.js') }}"></script>    
+    <script type="text/javascript" src="{{ asset('public/js/s3-upload/s3upload.js') }}"></script>
 {% endblock %}

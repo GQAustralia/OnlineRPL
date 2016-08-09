@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal-pop link-evidence">
-    <div class="modal fade" id="add-evidence" role="dialog">
+    <div class="modal fade" id="add-evidence" role="dialog" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-sm modal-lg add-evidence-modal">
             <!-- Modal content-->
             <div class="modal-content">
@@ -9,6 +9,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#upload-evidence">Upload Evidence</a></li>
                             <li id="select_existing_evidence"><a data-toggle="tab" href="#select-from">Select from Existing Evidence</a></li>
+                            <li class="close" data-dismiss="modal" id="closeMyModal"><i class="material-icons">close</i></li>
                         </ul>
                         <div class="tab-content">
                             <div id="upload-evidence" class="tab-pane fade in active">
@@ -17,16 +18,16 @@
                                         <div class="info-box">
                                             <div class="upload_btn">
                                                 <input type="hidden" name="file[hid_course]" id="hid_course" value="{{ courseCode }}">
-                                                <input type="hidden" name="file[hid_unit]" id="hid_unit" value="{{ unitCode }}">                                                                                    
+                                                <input type="hidden" name="file[hid_unit]" id="hid_unit" value="{{ unitCode }}">                                             
                                                 <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
-                                                <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file</div>
-                                            </div>
-                                            <span class="caution">Maximum file size is 3.0 Gb per upload</span>
+                                                <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file or Drag and Drop</div>
+                                            </div>                                        
+                                            <span class="caution">Maximum file size is 3.0Gb per upload</span>
                                         </div>
                                         <div class="panel-group">
                                             <div class="panel clearfix">
                                                 <div class="panel-body">
-                                                   <div class="panel-copy fileListContainer" id="progress-bars"></div>
+                                                    <div class="panel-copy fileListContainer" id="progress-bars"></div>
                                                 </div>
                                             </div>
                                         </div>

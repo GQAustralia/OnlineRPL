@@ -22,6 +22,10 @@ var s3upload = null;
         }
         
     }
+    function filesSelectedToUpload(evt){
+      
+        processSchema(evt)
+    }
 
     function upload() {
 
@@ -30,22 +34,34 @@ var s3upload = null;
             return;
         }
 
-        processSchema();
+        processSchema(null);
         var file = $('#file')[0].files[0];
 
     }
 
-    var processSchema = function() {
+    var processSchema = function(reqevt) {
 
         var promises = [];
 
-        var files = document.getElementById("file").files;
+        var files;
+        
+        if(reqevt != null){
+         files=reqevt.dataTransfer.files;   
+        }else{
+            files = $('#file')[0].files; 
+        }
+        
         var k = s3uploads.length;
-        jQuery.each(jQuery('#file')[0].files, function(i, file) {
+        //jQuery.each(jQuery('#file')[0].files, function(i, file) {
+        for (var i = 0, file; file = files[i]; i++) {
+		
+	
+       // jQuery.each(files[0].files, function(i, file) {
             //var btn = '<button onclick="cancel('+k+')">Cancel</button>';
             var progressBar = '<div class="file-info" id="progressbar-'+k+'" data-index="0"> <span class="icon"><i class="material-icons">description</i></span><span class="file-discription">'+file.name+'<br>'+file.size+'| Added4/8/2016</span><span class="file-progress"><progress id="summed_progress_'+k+'" class="prgbar" value="0" max="100"></progress></span> <span class="clear"><a href="#" onclick="cancel('+k+')"><i class="material-icons">clear</i></a></span></div>';
             $("#progress-bars").append(progressBar);
-            var unitId = $('#hid_unit').val() || '';
+        
+           var unitId = $('#hid_unit').val() || '';
             var courseCode = $('#hid_course').val() || '';
             var def = new $.Deferred();
 
@@ -96,9 +112,9 @@ var s3upload = null;
             s3uploads[k].start();
             k++;
             promises.push(def);
-        });
+        }//);
 
         return $.when.apply(undefined, promises).promise();
-    }
+   }
     
    

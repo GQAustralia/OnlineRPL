@@ -154,9 +154,14 @@ $(document).ready(function(){
     });
     
     $("#add_file_txt").click(function(){
+	
         $("#file").click();
      });
-    
+
+	$("body").on('click', '', function(){
+		$("#fileupload").click();
+	 });
+
 });
 $(window).resize(function(){
 	var window_Ht = $(window).height();
@@ -195,6 +200,12 @@ function determineDropDirection(){
 }
 
 determineDropDirection();
-
 $(window).scroll(determineDropDirection);
 
+document.getElementById('add_file_txt').addEventListener("drop", function(event) {
+    event.preventDefault();
+	 filesSelectedToUpload(event);
+	});
+document.getElementById('add_file_txt').addEventListener("dragover", function(event) {
+    event.preventDefault();
+});
