@@ -782,6 +782,50 @@ class UserService
         $query = $query->getQuery();
         return $applicantList;
     }
+    /**
+     * 
+     * @param type $page
+     * @param type $searchName
+     * @param type $searchAge
+     * @param type $searchRoleId
+     */
+    public function getFacApplicantsListReports($page, $searchName = null, $searchAge = null, $searchRoleId = null){
+        $nameCondition = null;
+        $fields = 'partial c.{id, courseCode, courseName}, partial u.{id, firstName, lastName}';
+        $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                 ->createQueryBuilder('c')
+                 ->select($fields)
+                 ->join('c.user', 'u');
+        if (!empty($searchName)) {
+            $nameCondition .= "u.firstName LIKE '%" . $searchName . "%' OR u.lastName LIKE '%" . $searchName . "%'";
+            $res->where($nameCondition);
+            //$res->where("TIMESTAMPDIFF(YEAR,STR_TO_DATE(u.date_of_birth, '%m/%d/%Y'),CURDATE()) > 1");
+        }
+        if (!empty($searchAge)) {
+           // $nameCondition .= "u.firstName LIKE '%" . $searchName . "%' OR u.lastName LIKE '%" . $searchName . "%'";
+            $res->andWhere(" TIMESTAMPDIFF(YEAR,STR_TO_DATE(u.date_of_birth, '%m/%d/%Y'),CURDATE()) > 1");
+            //$res->where("TIMESTAMPDIFF(YEAR,STR_TO_DATE(u.date_of_birth, '%m/%d/%Y'),CURDATE()) > 1");
+        }
+        $res->orderBy('c.id', 'DESC');
+//        $query = $res->getQuery();
+//        print_r(array(
+//            'sql'        => $query->getSQL(),
+//            'parameters' => $query->getParameters(),
+//        )); 
+        
+        $applicantList = $res->getQuery()->getResult();
+        /* Pagination */
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        if($page){
+            $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
+        }
+        /* Pagination */
+        $page = ($page) ? $page : '0';
+        $applicantList = $res->getQuery()->getResult();
+
+        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
+         
+    }
     
     /**
      * Function to get applicants list information

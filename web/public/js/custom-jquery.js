@@ -1037,7 +1037,7 @@ $("body").on("click", ".gq-ajax-pagination", function() {
 });
 
 $("#searchFilterReports").click(function() { 
-    //pagenum = $(this).attr("page");
+    pagenum = 1;    
     loadDataIcon('currentList');
     loadApplicantListReports('currentList',pagenum);
 });
@@ -1101,19 +1101,16 @@ function loadApplicantList(divContent,pagenum)
     });
 }
 
-function loadApplicantListReports(divContent,pagenum)
+function loadApplicantListReports(divContent, pagenum)
 {
-    $("#filter-by-all").show();
     searchName = $('#searchName').val();
-    searchTime = $('#timeRemainingReports').val();
-    searchQualification = $('#searchQualification').val();
-    searchDateRange = $('#reportsDate').html();
-    statusReport = $("#statusReport").val();
+    searchAge = $('#searchAge').val();
+    searchRoleId = $('#searchRoleId').val();
     $.ajax({
         type: "POST",
         url: base_url + "searchApplicantsListReports",
         cache: false,
-        data: {pagenum:'', searchName: searchName, searchTime: '', searchQualification: '', searchDateRange: '', status: ''},
+        data: {pagenum:'', searchName: searchName, searchAge: searchAge, searchRoleId: searchRoleId},
         success: function(result) { 
             $("#current").show();
             $("#filter-by-all").hide();
@@ -2531,8 +2528,8 @@ function getApplicantDetails(courseCode, userId){
     });
 }
 $('body').on('click', '.closeDivTag', function(){
-    $('.candidate-details').hide();
-    $('.portfolio-container').show();
+    $('.candidate-details').addClass('hide');
+    $('.portfolio-container').addClass('show');
 });
 
 
@@ -2587,3 +2584,6 @@ function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
         });
 
 }
+$(".btn-back").click(function(){
+    window.location.href = base_url + "applicants";
+})

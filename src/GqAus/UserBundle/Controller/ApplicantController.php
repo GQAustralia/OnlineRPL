@@ -180,26 +180,14 @@ class ApplicantController extends Controller
      */
     public function searchApplicantsListReportsAction()
     {
-        $userId = $this->get('security.context')->getToken()->getUser()->getId();
-        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $searchName = trim($this->getRequest()->get('searchName'), ' ');
-        $searchTime = $this->getRequest()->get('searchTime');
-        $searchQualification = trim($this->getRequest()->get('searchQualification'), ' ');
-        $searchDateRange = $this->getRequest()->get('searchDateRange');
-        $searchDates = explode('-', $searchDateRange);
-        $startDate = $searchDates[0];
-        $endDate = $searchDates[1];
-        $startDatearr = explode('/', $startDate);
-        $startDate = trim($startDatearr[2], ' ') . '-' . $startDatearr[1] . '-' . $startDatearr[0];
-        $endDatearr = explode('/', $endDate);
-        $endDate = $endDatearr[2] . '-' . $endDatearr[1] . '-' . trim($endDatearr[0], ' ');
-        $status = $this->getRequest()->get('status');
+        $searchName = $this->getRequest()->get('searchName');
+        $searchAge = $this->getRequest()->get('searchAge');
+        $searchRoleId = $this->getRequest()->get('searchRoleId');
         $page = $this->getRequest()->get('pagenum');
         if ($page == '') {
             $page = 1;
         }
-        $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, $status, $page, 
-            $searchName, $searchQualification, $startDate, $endDate, $searchTime);
+        $results = $this->get('UserService')->getFacApplicantsListReports($page, $searchName, $searchAge, $searchRoleId);
         $results['pageRequest'] = 'ajax';
         echo $this->renderView('GqAusUserBundle:Reports:ajax-applicants.html.twig', $results);
         exit;

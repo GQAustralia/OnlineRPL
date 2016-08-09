@@ -4,7 +4,6 @@
     {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
     <tr>
         <td class="gq-pagination-area" {% if ('ROLE_FACILITATOR' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %}>
-            {# display navigation for pages - paginator_navigator #}        
             {{ include('GqAusUserBundle:Paginator:ajax_rep_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
         </td>
     </tr>
@@ -55,11 +54,6 @@
                 </td>
                 <!-- RTO Status -->   
             {% endif %}
-            <td>
-                <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
-                    <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button>
-                </a>
-            </td>
         </tr>
     {% endfor %}
 {% else %}
