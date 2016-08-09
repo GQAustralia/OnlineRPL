@@ -24,7 +24,7 @@
     {% set courseInfo = courses_service.getCoursesInfo(courseCode)%}
 {% if courseInfo.courseInfo == "No records found" %}
 {% else %}
-    {{dump(courseInfo.courseInfo)}}
+    
 {% if courseInfo.courseInfo.Units %}
 {% if courseInfo.courseInfo.Units.Unit %}
 {% set evidenceCompleteness = user_service.getEvidenceCompletenessCount(userId, courseCode) %}
