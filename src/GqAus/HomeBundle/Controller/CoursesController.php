@@ -124,7 +124,7 @@ class CoursesController extends Controller
         }
         else
         {
-            if($selfAssNotes == "")
+            if($selfAssNotes == "" || $countEvidences == 0)
             {
                 echo "3&&" . $unitId;
             }
