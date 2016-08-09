@@ -23,8 +23,7 @@
     {% set courseCode = courses.getCourseCode()%}
     {% set courseInfo = courses_service.getCoursesInfo(courseCode)%}
 {% if courseInfo.courseInfo == "No records found" %}
-{% else %}
-    
+{% else %}    
 {% if courseInfo.courseInfo.Units %}
 {% if courseInfo.courseInfo.Units.Unit %}
 {% set evidenceCompleteness = user_service.getEvidenceCompletenessCount(userId, courseCode) %}

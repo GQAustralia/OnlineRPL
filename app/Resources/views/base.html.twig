@@ -80,9 +80,9 @@
                             {% if ('ROLE_APPLICANT' not in roles)  %}
                                 <li>
                                 <svg height="35" width="35" id="portfolioCount" class="hide">
-                                <circle cx="25" cy="12" r="10" fill="red"/>
-                                <text text-anchor="middle" x="27" y="15" fill="#fff" class="portfolio-current"></text>
-                                </svg>                                 
+                                <circle cx="23" cy="12" r="12" fill="red"/>
+                                <text text-anchor="middle" x="24" y="16" fill="#fff" class="portfolio-current"></text>
+                                </svg>                                
                                 <a class="{% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}" href="{{ app.request.baseUrl }}/applicants">
                                 <i class="material-icons">message</i>
                                 <span>portfolios</span>                        
@@ -92,9 +92,9 @@
                             {% if ('ROLE_SUPERADMIN' not in roles) %}  
                                 <li>
                                 <svg height="35" width="35"  id="messageCount" class="hide">
-                                <circle cx="25" cy="12" r="10" fill="red"/>
-                                <text id="unread-count" text-anchor="middle" x="27" y="15" fill="#fff"></text>
-                                </svg>                                 
+                                <circle cx="23" cy="12" r="12" fill="red"/>
+                                <text id="unread-count" text-anchor="middle" x="24" y="16" fill="#fff"></text>
+                                </svg>  
                                 <a class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}" href="{{ app.request.baseUrl }}/messages">
                                 <i class="material-icons">message</i>
                                 <span>Messages</span>                        
