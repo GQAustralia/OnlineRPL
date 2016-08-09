@@ -28,4 +28,7 @@ evidences:
 unauthorized:
     path:     /unauthorized
     defaults: { _controller: GqAusHomeBundle:Default:unauthorized }      
+submitUnitForReview:
+    path:     /submitUnitForReview
+    defaults:  { _controller: GqAusHomeBundle:Courses:submitUnitForReview }
     

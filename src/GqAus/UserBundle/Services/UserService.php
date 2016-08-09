@@ -810,6 +810,12 @@ class UserService
         } elseif (in_array('ROLE_RTO', $userRole)) {
             $userType = 'rto';
             $userStatus = 'rtostatus';
+        } elseif (in_array('ROLE_MANAGER', $userRole)) {
+            $userType = 'rto';
+            $userStatus = 'rtostatus';
+        } elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
+            $userType = 'rto';
+            $userStatus = 'rtostatus';
         }
         $fields = 'partial c.{id, courseCode, courseName, courseStatus, assessorstatus, facilitatorstatus, rtostatus,'
             . ' assessorDate, facilitatorDate, rtoDate}, partial u.{id, firstName, lastName}';
@@ -3145,6 +3151,8 @@ class UserService
                   endif;
                   break;
             case 'ROLE_RTO':
+            case 'ROLE_MANAGER':
+            case 'ROLE_SUPERADMIN':
                   $field = $rtoWorkSpan;
                   if($facStatus == 1):
                     $diff = abs(strtotime($currentDate) - strtotime($assDate));
@@ -3259,6 +3267,8 @@ class UserService
                 $field = 'assessor_status';
                 break;
             case 'ROLE_RTO':
+            case 'ROLE_MANAGER':
+            case 'ROLE_SUPERADMIN':
                 $field = 'rto_status';
                 break;
         }

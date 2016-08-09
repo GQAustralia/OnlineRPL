@@ -41,13 +41,7 @@
                 <td>{% if (list.rtostatus == 1) %} {{list.rtoDate|date("d/m/Y")}} {% endif %}</td>
                 <td>{% if (list.rtostatus == 1) %} Approved {% if (list.courseStatus == 0) %} &amp; Certified {% endif %} {% else %} Pending {% endif %}</td>
             {% endif %}
-                <!--
-            <td>
-                <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
-                    <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button>
-                </a>
-            </td>
-                -->
+              
         </tr>
     {% endfor %}
 {% else %}

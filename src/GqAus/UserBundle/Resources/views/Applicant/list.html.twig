@@ -8,6 +8,7 @@
 {% block body %}
 
 {% set userRole = app.security.getToken().getUser().getRoles() %}
+     
  <!-- Larg Screens HTML Start -->        
 <section class="portfolio-container hidden-xs">
     <div class="container">
@@ -23,7 +24,8 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div> 
+        {% if ('ROLE_MANAGER' not in userRole[0]) and ('ROLE_SUPERADMIN' not in userRole[0]) %}
         <div class="row no-gutter">
             <div class="col-lg-12">
                 <div class="container">
@@ -44,42 +46,20 @@
                                                             <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">COMPLETED</a>
                                                     </li>
                                             </ul>
-        </div>  
-        {% if ('ROLE_MANAGER' not in userRole) and ('ROLE_SUPERADMIN' not in userRole) %}
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="container">
-                        <div class="portfolio-filter">
-                            <div class="row">
-                                <div class="col-md-8 col-lg-8 filter gq-app-aearch-grid">                                       
-                                        <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/>                                      
+                                        </div>  
+                                        </div>            
                                 </div>
-                                <div class="col-md-4 col-lg-4">
-                                   <div class="row no-gutter">
-                                            <div class="col-md-12 col-lg-12">
-                                            <div class="gq-dashboard-tabs-header wid20p">
-                                                <ul role="tablist" id="myTab" >
-                                                        <li role="presentation" id="applicantPending" class="status active">
-                                                                <a href="#current" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>
-                                                        </li>
-                                                        <li role="presentation" id="applicantCompleted" class="status in-active">
-                                                                <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">COMPLETED</a>
-                                                        </li>
-                                                </ul>
-                                            </div>
-
-                                        </div>
-                                   </div>
-                                </div>             
-                            </div>                            
-                        </div>
-                    </div>
+                            </div>    
+                         </div>
+                      </div>  
+                    </div>    
                 </div>
-                </div>
-        {% endif %}
-         {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}
-            
-               <div class="form-inline portfolio-filter">
+        </div>
+        {% else %}
+        <div class="row no-gutter">
+            <div class="col-lg-12">
+                <div class="container">
+        <div class="form-inline portfolio-filter">
                     <div class="row">
                             <div class="col-xs-12 col-sm-6 col-lg-3">
                                     <input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box">                                    
@@ -107,7 +87,10 @@
                             </div>
                     </div>
             </div>
-         {% endif %}
+               </div>    
+                </div>
+        </div>
+        {% endif %}
         <div id="err_msg"></div>
         <div class="row no-gutter">
             <div class="col-lg-12 tab-content">
@@ -144,6 +127,7 @@
             </div>            
         </div>            
     </div>
+  
 </section>
         
 <!-- Larg Screens HTML End -->

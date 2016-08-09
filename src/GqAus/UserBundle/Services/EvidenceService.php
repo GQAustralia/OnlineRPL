@@ -658,4 +658,16 @@ class EvidenceService
 
         return $evidences;
     }
+      /**
+     * Function to get elective units
+     * @param int $userId
+     * @param int $unitId
+     * return array
+     */
+    public function getUserUnitwiseEvidences($userId, $unitId, $courseCode)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
+        $evidences = $reposObj->findBy(array('user' => $userId, 'unit' => $unitId, 'course' => $courseCode));
+        return $evidences;
+    }
 }

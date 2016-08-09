@@ -25,7 +25,7 @@ security:
         - { path: ^/trash, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/view, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/viewUserIdFiles, roles: ROLE_FACILITATOR }
-        - { path: ^/reports, roles: [ROLE_FACILITATOR, ROLE_RTO] }
+        - { path: ^/reports, roles: [ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/downloadFiles, roles: [ROLE_ASSESSOR, ROLE_RTO] }
         - { path: ^/zipFiles, roles: [ROLE_ASSESSOR, ROLE_RTO] }
         - { path: ^/startConversation, roles: ROLE_ASSESSOR }
