@@ -522,5 +522,15 @@ class CoursesService
         }
         return compact('courseUnits', 'courseApprovedUnits');
     }
+    /**
+     * Function to Submit Unit for Review
+     */
+    
+    public function getsubmitUnitForReview($userId,$courseCode,$unitId)
+    {
+         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
+        $evidences = $reposObj->findBy(array('user' => $userId, 'unit' => $unitId, 'course' => $courseCode));
+        return $evidences;
+    }
 
 }

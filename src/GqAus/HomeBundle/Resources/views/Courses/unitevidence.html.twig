@@ -8,9 +8,7 @@
 {% endblock %}
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
-{#    {% set unitFacStatus = unitStatus.facilitatorstatus %}
-    {% set unitAssStatus = unitStatus.assessorstatus %}
-    {% set unitRtostatus = unitStatus.rtostatus %}#}
+    {% set userId = app.security.getToken().getUser().getId() %} 
     
     <!-- Large Screens HTML -->
     <div class="hidden-xs body_section">
@@ -26,7 +24,8 @@
                 </div>
             </div>
         </div>
-        <div class="status-message" id="status-message" style="display:none;"></div>
+        <div class="qualification-er-msg" id="gq-dashboard-tabs-error-assess"></div>
+        <div class="qualification-success-msg" id="gq-dashboard-tabs-success-assess"></div>
         <div class="container">    
             <div class="row">
                 <div class="col-lg-12">
@@ -40,7 +39,7 @@
                         {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
                         {% if approvalText|length > 0 %}<p> <span class="tag">{{approvalText}} </span> </p>{% endif %}
                         <p>
-                            <span class="tag-edu"><a href="/qualifications">Qualification</a></span>
+                            <span class="tag-edu"><a href="{{ app.request.baseUrl }}/qualifications">Qualification</a></span>
                             <span class="tag-id">Unit {{ unitCode }}</span>
                             <span class="tag-copy">{{unitName|raw}}</span>                        
                         </p>
@@ -103,8 +102,7 @@
                                         </h4>
                                     </div>
                                         <div class="panel-body">
-                                            <textarea>I have contributed to qulity work otcomes by maintaining high standars of work ethics stand other important thins. I focus especially on keeping across health and safety standards and regularly updating our material safery data sheets. I keep the workshop tiry, making it a very safe work environment for our team.</textarea>
-                                            <span class="char-count">52/50</span>
+                                            <textarea name="selfassnote" id="selfassnote" ></textarea>                                            
                                         </div>
                                 </div>                                        
                             </div>
@@ -115,7 +113,11 @@
                             <div class="col-md-12 col-lg-12">
                                 <div class="row no-gutter">
                                     <div class="col-md-12 col-lg-12">
-                                        <button type="button" class="btn btn-gray border-right">Submit this unit for review</button>
+                                        {% set evdText = courses_service.getsubmitUnitForReview(userId,courseInfo.id,unitCode) %}                                        
+                                               
+                                                 <button type="button" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
+                                               
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -217,6 +219,7 @@
                                     <input type="hidden" id="userid" name="userid" value="{{userId}}">
                                     <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
                                     <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
+                                    <input type="hidden" id="unit-id" name="unit-id" value="{{unitStatus.id}}"> 
                                 </div>
                             </div>
                         </div>          
@@ -245,6 +248,7 @@
                                     <input type="hidden" id="userid" name="userid" value="{{userId}}">
                                     <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
                                     <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
+                                    <input type="hidden" id="unit-id" name="unit-id" value="{{unitStatus.id}}"> 
                                     <input type="hidden" id="fromuser-id" name="fromuser-id" value="{{facilitatorId}}">
                                 </div>
                             </form>
@@ -258,9 +262,8 @@
 {% include 'GqAusHomeBundle:Courses:addevidencestounitmodal.html.twig' %}
 {% endblock %}
 {% block javascripts %}
-    <script src="{{ asset('public/js/s3-upload/firebug-lite/build/firebug-lite.js#startOpened') }}"></script>
-    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
-    <script src="{{ asset('public/js/s3-upload/s3upload.js') }}"></script>
+    <script src="{{ asset('public/js/upload.js') }}"></script>
+    <script src="{{ asset('public/js/file-que.js') }}"></script>
     <script src="{{ asset('public/js/jquery.mCustomScrollbar.js') }}"></script>
     <script>
         (function($){
