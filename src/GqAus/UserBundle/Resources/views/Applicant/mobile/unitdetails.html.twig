@@ -6,14 +6,16 @@
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualification.css') }}">
 {% endblock %}
 {% block navmenu %}
-    <header><section class="container">
- <div class="info-header">
-    <div class="unit-info">
-        <a href="#"><i class="material-icons btn-back">arrow_back</i></a>
-        <strong class="title">Unit info</strong>
-    </div>            
- </div></section>
-    </header>
+<header>
+    <section class="container">
+        <div class="info-header">
+            <div class="unit-info">
+                <a href="#"><i class="material-icons btn-back">arrow_back</i></a>
+                <strong class="title">Unit info</strong>
+            </div>            
+        </div>
+    </section>
+</header>
 {% endblock %}    
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
