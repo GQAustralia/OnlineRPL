@@ -298,7 +298,7 @@
                                                                         </div>
                                                                         <div class="link_section">
                                                                             <span class="content">
-                                                                                <a href="http://local.gqaevidence.com/courseunitDetails/{{ evd[0].course }}/{{ evd[0].unit}}/{{ evd[0].user.id }}">
+                                                                                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ evd[0].course }}/{{ evd[0].unit}}/{{ evd[0].user.id }}">
                                                                                     <i class="material-icons">insert_link</i>Linked to {{ evd[0].unit }} (core unit)
                                                                                 </a>
                                                                             </span>
