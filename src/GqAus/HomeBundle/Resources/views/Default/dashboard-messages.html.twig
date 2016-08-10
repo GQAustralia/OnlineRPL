@@ -21,7 +21,7 @@
                             {% for key, appliMsg in appMsg %}
                                 {% set remStatus = user_service.checkReminderExists(appliMsg.inbox.id, appliMsg.id, reminderType) %}
                                 <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                    <span class="content"><strong><a href="/view/{{ appliMsg.id }}" title="View Message">{{ appliMsg.sent.firstName}} {{ appliMsg.sent.lastName}}</a></strong> - {{appliMsg.subject}} </span>
+                                    <span class="content"><strong><a href="/messages/{{ appliMsg.id }}" title="View Message">{{ appliMsg.sent.firstName}} {{ appliMsg.sent.lastName}}</a></strong> - {{appliMsg.subject}} </span>
                                     <div class="dropdown keep-open">
                                          <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                          <div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -31,7 +31,7 @@
                                                          <input type="text" class="date_field form-control" id="remindDate_{{appliMsg.id}}">
                                                  </div>
                                              </div>
-                                             <button type="button" class="btn_red setData" userCourseId="" listId="{{appliMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{appliMsg.id}}">Send</button>
+                                             <button type="button" class="btn_red setData" userCourseId="" listId="{{appliMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{appliMsg.id}}">Save</button>
                                          </div>
                                     </div>
                                 </li>
@@ -57,7 +57,7 @@
                             {% for key, faciMsg in facMsg %}
                                     {% set remStatus = user_service.checkReminderExists(faciMsg.inbox.id, faciMsg.id, reminderType) %}
                                     <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                            <span class="content"><strong><a href="/view/{{ faciMsg.id }}" title="View Message">{{ faciMsg.sent.firstName}} {{ faciMsg.sent.lastName}}</a></strong> - {{faciMsg.subject}} </span>
+                                            <span class="content"><strong><a href="/messages/{{ faciMsg.id }}" title="View Message">{{ faciMsg.sent.firstName}} {{ faciMsg.sent.lastName}}</a></strong> - {{faciMsg.subject}} </span>
                                             <div class="dropdown keep-open">
                                                 {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)) %}
                                                  <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
@@ -69,7 +69,7 @@
                                                            <input type="text" class="date_field form-control" id="remindDate_{{faciMsg.inbox.id}}">
                                                         </div>
                                                     </div>                                                                                   
-                                                    <button type="button" class="btn_red setData" userCourseId="" listId="{{faciMsg.inbox.id}}" reminderType="{{reminderType}}" reminderTypeId="{{faciMsg.id}}">Send</button>
+                                                    <button type="button" class="btn_red setData" userCourseId="" listId="{{faciMsg.inbox.id}}" reminderType="{{reminderType}}" reminderTypeId="{{faciMsg.id}}">Save</button>
                                                  </div>
                                             </div>
                                     </li>
@@ -95,7 +95,7 @@
                             {% for key, ascMsg in assMsg %}
                                 {% set remStatus = user_service.checkReminderExists(ascMsg.inbox.id, ascMsg.id, reminderType) %}
                                 <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                    <span class="content"><strong><a href="/view/{{ ascMsg.id }}" title="View Message">{{ ascMsg.sent.firstName}} {{ ascMsg.sent.lastName}}</a></strong> - {{ascMsg.subject}}</span>
+                                    <span class="content"><strong><a href="/messages/{{ ascMsg.id }}" title="View Message">{{ ascMsg.sent.firstName}} {{ ascMsg.sent.lastName}}</a></strong> - {{ascMsg.subject}}</span>
                                     <div class="dropdown keep-open">
                                             <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                             <div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -105,7 +105,7 @@
                                                        <input type="text" class="date_field form-control" id="remindDate_{{ascMsg.id}}">
                                                     </div>
                                                 </div>
-                                                <button type="button" class="btn_red setData" userCourseId="" listId="{{ascMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{ascMsg.id}}">Send</button>
+                                                <button type="button" class="btn_red setData" userCourseId="" listId="{{ascMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{ascMsg.id}}">Save</button>
                                              </div>
                                     </div>
                                  </li>
@@ -131,7 +131,7 @@
                             {% for key, rtosMsg in rtoMsg %}
                                 {% set remStatus = user_service.checkReminderExists(rtosMsg.inbox.id, rtosMsg.id, reminderType) %}                                    
                                 <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                    <span class="content"><strong><a href="/view/{{ rtosMsg.id }}" title="View Message">{{ rtosMsg.sent.firstName}} {{ rtosMsg.sent.lastName}}</a></strong> - {{rtosMsg.subject}} </span>
+                                    <span class="content"><strong><a href="/messages/{{ rtosMsg.id }}" title="View Message">{{ rtosMsg.sent.firstName}} {{ rtosMsg.sent.lastName}}</a></strong> - {{rtosMsg.subject}} </span>
                                     <div class="dropdown keep-open">
                                         <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                         <div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -141,7 +141,7 @@
                                                         <input type="text" class="date_field form-control" id="remindDate_{{rtosMsg.id}}">
                                                 </div>
                                             </div>                                                                                     
-                                            <button type="button" class="btn_red setData" userCourseId="" listId="{{rtosMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{rtosMsg.id}}">Send</button>
+                                            <button type="button" class="btn_red setData" userCourseId="" listId="{{rtosMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{rtosMsg.id}}">Save</button>
                                         </div>
                                     </div>
                                 </li>
