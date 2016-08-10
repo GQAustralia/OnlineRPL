@@ -230,7 +230,7 @@
                                                                 {% if evd[0].name %} 
                                                                     <div class="block">
                                                                         <div class="file_info hidden-xs">
-                                                                            <a href="https://s3.amazonaws.com/rpl-upload.com/2015-08-06-55c33cb3d816b.pdf" 
+                                                                            <a href="{{ amazon_link }}{{  evd[0].path }}" 
                                                                                 {% if output[1] is defined %}
                                                                                 {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
                                                                                 {%endif%}><span class="icon"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
