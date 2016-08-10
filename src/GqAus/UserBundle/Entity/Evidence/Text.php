@@ -16,6 +16,11 @@ class Text extends \GqAus\UserBundle\Entity\Evidence
      * @var string
      */
     private $path;
+    
+    /**
+     * @var integer
+     */
+    private $selfAssessment;
 
     /**
      * Returns type of evidence.
@@ -73,6 +78,28 @@ class Text extends \GqAus\UserBundle\Entity\Evidence
     public function getContent()
     {
         return $this->content;
+    }
+    /**
+     * Set selfAssesssment
+     *
+     * @param integer $selfAssesssment
+     * @return integer
+     */
+    public function setSelfAssesssment($selfAssessment)
+    {
+        $this->selfAssessment = $selfAssessment;
+
+        return $this;
+    }
+
+    /**
+     * Get selfAssesssment
+     *
+     * @return integer 
+     */
+    public function getSelfAssesssment()
+    {
+        return $this->selfAssessment;
     }
 
 }

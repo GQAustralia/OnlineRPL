@@ -21,3 +21,9 @@ ALTER TABLE `evidence` CHANGE `course_code` `course_code` VARCHAR(100) NULL DEFA
 --New Applicant landing pages
 ALTER TABLE `user` ADD `applicantStatus` INT(20) NOT NULL AFTER `crm_id`;
 
+-- To display candidate selfassesment 
+ALTER TABLE `evidence_text`  ADD `self_assessment` INT(1) NOT NULL DEFAULT '0'  AFTER `content`;
+
+-- To elective status of the course unit
+ALTER TABLE `user_course_units` ADD `elective_status` INT(2) NOT NULL DEFAULT '0' AFTER `status`;
+

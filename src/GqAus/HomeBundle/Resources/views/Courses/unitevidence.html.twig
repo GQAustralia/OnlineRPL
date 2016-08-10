@@ -106,18 +106,19 @@
                                 <div class="panel">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <span>Self Assessment Notes ( Min. 50 Words)</span>
+                                            <span>Self Assessment Notes (Min. 50 Words)</span>
                                         </h4>
                                     </div>
                                         <div class="panel-body">
-                                        {% set evdText = courses_service.getsubmitUnitForReview(userId,courseInfo.id,unitCode) %}                                        
+                                        {% set evdText = courses_service.getsubmitUnitForReview(userId,courseInfo.id,unitCode) %}  
+                                            {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseInfo.id,unitCode) %}
                                         {% set selfAsseNote = '' %} 
                                         {% for key , test  in evdText %}
                                         {% if test.content  is defined %}
                                        {% set selfAsseNote = test.content %} 
                                          {% endif %}
                                         {% endfor%}
-                                            <textarea id="selfassnote" name="selfassnote" > {{selfAsseNote}} </textarea>                                            
+                                            <textarea id="selfassnote" name="selfassnote" >{{selfAsseNote}}</textarea>                                            
                                         </div>
                                 </div>                                        
                             </div>
@@ -129,9 +130,9 @@
                                 <div class="row no-gutter">
                                     <div class="col-md-12 col-lg-12">
                                   
-                                        {% if selfAsseNote  == "" %}                                        
+                                        {% if selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0 %}                                        
                                             <button type="button" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
-                                         {% endif %}
+                                        {% endif %}
                                          
                     
 

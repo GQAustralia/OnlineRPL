@@ -3,6 +3,7 @@
     <entity name="GqAus\UserBundle\Entity\Evidence\Text" table="evidence_text"> 
          
        <field name="content" type="string" column="content"/>
+       <field name="selfAssessment" type="integer" column="self_assessment"/>
    
     </entity>
 </doctrine-mapping>

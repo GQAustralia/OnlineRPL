@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualification.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/candidate/round-progress.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/candidate/roundslider.css') }}"> 
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
 {% endblock %}
 {% block body %}
 <!-- Larg Screens HTML --> 
@@ -50,7 +51,38 @@
     {% set output = remaining|split('&&') %}
    <div class="col-md-5 col-lg-4">
     <div class="info-box">
-    <div class="progres_bar_section">
+        
+        {% set unitsData = courseInfo.courseInfo.Units.Unit %}
+        {% if courseInfo.courseInfo.Units.Unit.id is defined %}
+        {% set unitsData = {0: courseInfo.courseInfo.Units.Unit} %}
+        {% endif %}
+        {% set newuserblock = 0 %}
+        {% for key, units in unitsData %}
+        {% if units.type == 'elective' %}
+        {% set unitId = units.id %}
+        
+            {% set electiveUnits = courses_service.getQualificationElectiveUnits(userId, courseCode) %} 
+            {% if units.id  in electiveUnits.courseUnits %}
+                {% set newuserblock = 1%}
+            {% endif %}
+           
+        {% endif %}
+        {% endfor %}
+        
+        {% if newuserblock == 0 %}
+            <div class="row">
+              <div class="col-lg-12">
+                  <div class="info-box">
+                      <div class="info-copy">
+                      <i class="material-icons info">info</i>
+                      <p>For this qualification you need to show you're experienced in a total of 12 units.</p>
+                      <strong>Start by choosing your <span class="text-uppercase">Elective Units.</span></strong>
+                      </div>
+                  </div>
+                  </div>
+               </div>
+        {% else %}
+        <div class="progres_bar_section">
         <p class="text-center">
             <strong>
                 Welcome to your new qualification,<br/>
@@ -75,6 +107,8 @@
             <p class="text-center">Today is {{output[1]}}{%if (output[1] == 1) %}st{% elseif (output[1] == 2) %} nd {% elseif (output[1] == 3) %} rd {% else %}th{% endif %} day</p>
         </div>
     </div>
+        {% endif %}
+    
     </div>
     <div class="hidden-xs review">
         <div class="review_content">
@@ -128,9 +162,9 @@
                                </div>
                        </div>
                        <div id="nested-collapseSeven" class="panel-collapse collapse">
-                               <div class="panel-body">
+                               {#<div class="panel-body">
                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                               </div>
+                               </div>#}
                        </div>
                    </div>
                    {% set i = i+1 %}
@@ -157,9 +191,10 @@
     </div>
     <div aria-expanded="false" style="height: 0px;" id="nested-collapseSTR-{{courseCode}}" class="panel-collapse collapse">
     <div class="panel-body">
-    <p class="panel-copy">
+        
+   {# <p class="panel-copy">
         Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-    </p>
+    </p>#}
     {% if courseInfo.courseInfo.Units %}
     {% if courseInfo.courseInfo.Units.Unit %}
     {% set flagElective = '0' %}
@@ -171,21 +206,22 @@
         {% if units.type == 'elective' %}
         {% set unitId = units.id %}
         {% set flagElective = '1' %}
-    {% set electiveUnits = courses_service.getQualificationElectiveUnits(userId, courseCode) %}                   
+    {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,unitId) %}  
+        
     <div class="select">
-        <div class="panel-heading">
+        {#<div class="panel-heading">
             <h4 class="panel-title">
                 <span>Common Foundation Skills</span>
             </h4>
-        </div>
-        <div class="panle_body_content unit-selection clearfix">
+        </div>#}
+        <div class="panle_body_content unit-selection border-bottom clearfix">
             <i class="material-icons info">info</i>
             <div class="tag-copy">
                 <p> <span class="tag-id">{{units.id}}</span> </p>
                 <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
             </div>
             <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
-                    <input  id="span_{{units.id}}" type="checkbox" {% if units.id  in electiveUnits.courseUnits %}checked{% else %}unchecked{% endif %}><span></span>                      
+                    <input  id="span_{{units.id}}" type="checkbox" {% if electiveUnits[0].electiveStatus==1 %}checked{% else %}unchecked{% endif %}><span></span>                      
             </div>
         </div>
     </div>
@@ -220,7 +256,7 @@
    <div class="modal-content">
     <div class="modal-header">
      <button type="button" id="qeclose" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-     <div class="modal-title">Do you want to change the status of elective unit ?</div>
+     <div class="modal-title">Do you want to select the elective unit ?</div>
     </div>
     <div class="modal-body">
      <div class="btn_section">
@@ -232,7 +268,6 @@
    </div>
   </div>
  </div>
-
 {% endblock %}
     
 {% block javascripts %}

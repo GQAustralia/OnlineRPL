@@ -28,15 +28,16 @@
         {% set id = list.id %}
         {% set courseCode = list.courseCode %}
         {% if (status == 0) %}
-            {% set remaingDays = user_service.getDaysRemainingFromRole(userId, list.courseCode, userRole[0]) %}
-            {% set output = remaingDays|split('&&') %}
+            
         {% endif %}
-     {% if (status == 0) %}
+     {% if (status == 0) %} 
         <td class="col-md-2 col-lg-2">
             <div class="progress">
-              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{% if output[1] >0 %}{{ output[1] }}{%else%} 0 {% endif %}%"></div>
-            </div>                        
-            <div class="progress-copy">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%} </div>
+              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" ></div>
+            </div>   
+            {% set remaingDays = user_service.getDaysRemainingFromRole(userId, list.courseCode, userRole[0]) %}
+            {% set output = remaingDays|split('&&') %}
+            <div class="progress-copy"> {{dump(output)}}{{userId}}{{ list.courseCode }}{{ userRole[0]}}</div>
         </td>
       {% endif %}
         {% endif %}
@@ -54,7 +55,7 @@
                             <div class="date_section clearfix">
                                     <input type="text" class="date_field form-control" id="remindDate_{{list.id}}" placeholder="Due Date" />
                             </div>
-                            <button type="button" class="btn_red setData" userCourseId="{{list.id}}" listId="{{list.id}}">SET</button>
+                            <button type="button" class="btn_red setData" userCourseId="{{list.id}}" listId="{{list.id}}">SAVE</button>
                     </div>
             </div></td>
         {% endif %}

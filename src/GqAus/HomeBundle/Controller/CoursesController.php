@@ -116,7 +116,7 @@ class CoursesController extends Controller
         $selfAssNotes = $this->getRequest()->get('selfAssNotes');
         $checkEvidenceforAvail = $this->get('EvidenceService')->getUserUnitwiseEvidences($userId, $unitId,$courseCode);
         $countEvidences = count($checkEvidenceforAvail);
-        $data = array('self_assessment'=>$selfAssNotes,'hid_unit_assess'=>$unitId,'hid_course_assess'=>$courseCode);
+       // $data = array('self_assessment'=>$selfAssNotes,'hid_unit_assess'=>$unitId,'hid_course_assess'=>$courseCode,'setAssessment' => '1');
         
         if($countEvidences == 0 )
         {
@@ -130,7 +130,7 @@ class CoursesController extends Controller
             }
             else
             {
-                $data = array('self_assessment'=>$selfAssNotes,'hid_unit_assess'=>$unitId,'hid_course_assess'=>$courseCode);
+                $data = array('self_assessment'=>$selfAssNotes,'hid_unit_assess'=>$unitId,'hid_course_assess'=>$courseCode,'setAssessment' => '1');
                 echo $result = $this->get('EvidenceService')->saveEvidenceAssessment($data);
             }
         }

@@ -207,10 +207,11 @@ class EvidenceService
             $textObj->setContent($data['self_assessment']);
             $textObj->setUnit($data['hid_unit_assess']);
             $textObj->setCourse($data['hid_course_assess']);
+            $textObj->setSelfAssesssment($data['setAssessment']);
             $textObj->setUser($this->currentUser);
             $this->em->persist($textObj);
             $this->em->flush();
-            $this->updateCourseUnits($this->userId, $data['hid_unit_assess'], $data['hid_course_assess']);
+            $this->updateCourseUnits($this->userId, $data['hid_unit_assess'], $data['hid_course_assess'],'1');
             return "1&&" . $data['hid_unit_assess'];
         } else
             return "0&&" . $data['hid_unit_assess'];
@@ -453,11 +454,18 @@ class EvidenceService
      * @param string $unitId
      * @param string $courseCode
      */
-    public function updateCourseUnits($userId, $unitId, $courseCode)
+    public function updateCourseUnits($userId, $unitId, $courseCode,$submit_review=null)
     {
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
             ->findOneBy(array('user' => $userId, 'unitId' => $unitId, 'courseCode' => $courseCode));
-        if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
+        
+        //to update - when candidate submit the unit review status 
+        if($submit_review!=null){
+          $courseUnitObj->setStatus(1);
+          $this->em->persist($courseUnitObj);
+          $this->em->flush();  
+        }
+        else if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
 
             $courseUnitObj->setFacilitatorstatus(0);
             $courseUnitObj->setAssessorstatus(0);

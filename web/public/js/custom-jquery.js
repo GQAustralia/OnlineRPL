@@ -1085,7 +1085,7 @@ $(".search-box-mobile").keypress(function () {
     //}
 });
 function loadApplicantList(divContent,pagenum)
-{
+{alert("here");
     searchName = $('#searchName').val();
  //   searchTime = $('#timeRemaining').val();
     filterByUser = $('#filterByUser').val();
@@ -1096,7 +1096,7 @@ function loadApplicantList(divContent,pagenum)
         cache: false,
         data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
         success: function(result) { 
-            alert
+            alert(result);
            // $("#filter-by-name").hide();
            // $("#filter-by-week").hide();
            // $("#app-pending-approve").hide();          
@@ -2566,29 +2566,44 @@ if( $('.view-message').length > 0){
     }
 function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
 {
-    var selfAssNotes = $('#selfassnote').val();    
-    $.ajax({
+    var selfAssNotes = $('#selfassnote').val();  
+    if (selfAssNotes == "") {
+        $('#gq-dashboard-tabs-error-assess').html('<h2>Please Enter Self Assessment Notes</h2>');
+   
+    }
+    else if(selfAssNotes.split(' ').length < 50){
+             $('#gq-dashboard-tabs-error-assess').html('<h2>Self Assessment Notes should be more than 50 words</h2>');
+             
+    }
+     else   
+     {
+         $.ajax({
         type: "POST",
         url: base_url + "submitUnitForReview",
         data: {unitId: unitCode, courseCode: courseCode, userId: userId, selfAssNotes:selfAssNotes},
         success: function(result) {
-             var rec = result.split("&&");             
+             var rec = result.split("&&");  
+             console
             if (rec[0] == '0') {
                 $('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not submitted!</h2>');
             } else if (rec[0] == '1') {
                 $('#gq-dashboard-tabs-error-assess').html('');
-                $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Submitting to this Unit successfully!</h2>');
+                $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Submitted successfully!</h2>');
                 $('#sp_'+rec[1]).show();
+                location.reload();
             }
             else if (rec[0] == '2') {
                 $('#gq-dashboard-tabs-error-assess').html('<h2>Please Upload Evidences</h2>');
             }
             else if (rec[0] == '3') {
-                $('#gq-dashboard-tabs-error-assess').html('<h2>Please  Enter SelfAssessment Notes</h2>');
+                $('#gq-dashboard-tabs-error-assess').html('<h2>Please Enter Self Assessment Notes</h2>');
             }
            // setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
         }
         });
+     
+    }
+    
 
 }
 $(".btn-back").click(function(){
