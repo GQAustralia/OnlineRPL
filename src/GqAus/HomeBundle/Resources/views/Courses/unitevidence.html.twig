@@ -76,22 +76,24 @@
                                 <div class="panel-copy" id="linkedEvidences">
                                     {% for evidence in evidences %}
                                         {% if evidence.unit == unitCode %}
-                                            {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
-                                            {% set output = eviType|split('&&') %}
-                                            <div class="file-info">
-                                                <span class="icon">
-                                                    <a href="{% if evidence.type != 'recording' %}{{ amazon_link }}{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
-                                                        {% if output[1] is defined %}
-                                                        {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
-                                                        {%endif%}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i>
-                                                    </a>
-                                                </span>
-                                                <span class="file-discription">
-                                                    {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{%endif%}
-                                                <br/>{% if evidence.size is defined %}{{evidence.size}} {% if evidence.type != 'recording' %} |{%endif%} {%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}
+                                            {% if evidence.type != 'text' %}
+                                                {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
+                                                {% set output = eviType|split('&&') %}
+                                                <div class="file-info">
+                                                    <span class="icon">
+                                                        <a href="{% if evidence.type != 'recording' %}{{ amazon_link }}{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
+                                                            {% if output[1] is defined %}
+                                                            {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
+                                                            {%endif%}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i>
+                                                        </a>
+                                                    </span>
+                                                    <span class="file-discription">
+                                                        {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{%endif%}
+                                                    <br/>{% if evidence.size is defined %}{{evidence.size}} {% if evidence.type != 'recording' %} |{%endif%} {%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}
 
-                                                </span>   
-                                            </div>
+                                                    </span>   
+                                                </div>
+                                            {% endif %}
                                         {% endif %}
                                     {% endfor %}
                                 </div>
