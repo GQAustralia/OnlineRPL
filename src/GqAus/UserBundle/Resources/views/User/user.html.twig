@@ -95,9 +95,10 @@
               
         </div>
                 <div class="link_section clearfix">
-                        <a href="{{ app.request.baseUrl }}/faq" class="faq_link" target="MyNewWindow">
-                                <span><i class="material-icons">help</i></span>FAQs
-                        </a>
+                    <span class="faq_link">
+                        <i class="material-icons">help</i>
+                        <a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow">FAQs</a>
+                    </span>
                      {{ form_widget(form.save, {'attr': {'class': 'btn update_btn disable'}}) }}
                         {#<button type="submit" id="userprofile_save" name="userprofile[save]" class="btn update_btn disable" onclick="return validateAddress();">UPDATE</button>#}
                 </div>
@@ -110,6 +111,10 @@
                 <div class="modal-dialog">                
                         <!-- Modal content-->
                         <div class="modal-content">
+                                <div class="modal-header">
+                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                     <!--<div class="modal-title">Change Password</div>-->
+                                </div>
                                 <div class="modal-body" id="change-pwd-form">
                                      <div class="gq-change-pwd-warning" id="pwd_error">
                                         {% for flashMessage in app.session.flashbag.get('errornotice') %}
@@ -125,15 +130,15 @@
                                                        {{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30','class': 'form-control'} }) }}
                                                 </div>
                                                 <div class="form-group">
-                                                        <label for="gq-last-name">Change Password</label>
+                                                        <label for="gq-last-name">Change New Password</label>
                                                          {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30','class': 'form-control'} }) }}
                                                 </div>
                                                 <div class="form-group">
-                                                        <label for="gq-last-name">Confirm Password</label>
+                                                        <label for="gq-last-name">Confirm New Password</label>
                                                         {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30','class': 'form-control'} }) }}
                                                 </div>
                                                 <div class="btn_section clearfix">                                                        
-                                                        {{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'btn change_pwd_btn'}}) }}
+                                                        {{ form_widget(changepwdForm.save,{ 'label': 'Submit' , 'attr': {'class': 'btn change_pwd_btn'}}) }}
                                                         <input type="button" class="btn" id="fclose-cancel"  data-dismiss="modal" value="Cancel"/>
                                                 </div>
                                        {{ form_end(changepwdForm) }}
