@@ -115,7 +115,7 @@
                 <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSR </span>for this qualification</p>
         </div>
         <div class="review_profile-pic">
-                <img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{ base_url}}{{'public/uploads/'}}{{courses.Facilitator.userImage}}{% endif %}">                               
+                <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{ base_url}}{{'public/uploads/'}}{{courses.Facilitator.userImage}}{% endif %}"></a>                               
         </div>
     </div>
     <div class="hidden-xs faq_link">
