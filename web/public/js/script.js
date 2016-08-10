@@ -33,20 +33,15 @@ $(document).ready(function(){
       */  
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
-	$(".mobile_version,.login_page").css("height",window_Ht);
+	    var header_Ht = $("header").height();
+        var mobile_view_Ht = window_Ht - header_Ht;
+        $(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
+
 	
 	$('.collapse').on('shown.bs.collapse', function(){
 		$(this).parent().find(".keyboard_arrow_down").removeClass("keyboard_arrow_down").addClass("keyboard_arrow_right");
 		}).on('hidden.bs.collapse', function(){
 		$(this).parent().find(".keyboard_arrow_right").removeClass("keyboard_arrow_right").addClass("keyboard_arrow_down");
-	});
-	
-	$("#add_file").click(function(){
-	   $("#fileBtn").click();
-	});
-	
-	$(".profile_image").click(function(){
-		$(".browse_btn").click();
 	});
 	
 	var textarea_ht = window_Ht - 135;
@@ -86,10 +81,6 @@ $(document).ready(function(){
            $(this).children('.material-icons').text('expand_less');       
         }
     });
-    var window_Ht = $(window).height();
-    var window_Wt = $(window).width();
-    $(".mobile_version,.login_page").css("height",window_Ht);
-
     $('.collapse').on('shown.bs.collapse', function(){
             $(this).parent().find(".keyboard_arrow_down").removeClass("keyboard_arrow_down").addClass("keyboard_arrow_right");
             }).on('hidden.bs.collapse', function(){
@@ -109,6 +100,9 @@ $(document).ready(function(){
     $(".profile_image").click(function(){
             $(".browse_btn").click();
     });
+    $("#user_profile_image").click(function(){
+        $("#userprofile_userImage").click();
+     });
     var textarea_ht = window_Ht - 135;
     $(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
 
@@ -166,7 +160,10 @@ $(document).ready(function(){
 $(window).resize(function(){
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
-	$(".mobile_version,.login_page").css("height",window_Ht);
+	    var header_Ht = $("header").height();
+        var mobile_view_Ht = window_Ht - header_Ht;
+        $(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
+
 	
 	var textarea_ht = window_Ht - 135;
 	$(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
