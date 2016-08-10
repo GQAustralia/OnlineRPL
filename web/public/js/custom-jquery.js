@@ -1085,7 +1085,7 @@ $(".search-box-mobile").keypress(function () {
     //}
 });
 function loadApplicantList(divContent,pagenum)
-{alert("here");
+{
     searchName = $('#searchName').val();
  //   searchTime = $('#timeRemaining').val();
     filterByUser = $('#filterByUser').val();
@@ -1096,7 +1096,6 @@ function loadApplicantList(divContent,pagenum)
         cache: false,
         data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
         success: function(result) { 
-            alert(result);
            // $("#filter-by-name").hide();
            // $("#filter-by-week").hide();
            // $("#app-pending-approve").hide();          
