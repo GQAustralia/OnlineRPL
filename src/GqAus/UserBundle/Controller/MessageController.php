@@ -84,8 +84,8 @@ class MessageController extends Controller
                     $replymsgarr[$i]['fromUserName'] = $fromUser->getUserName();               
                     if($replymsgarr[$i]['fromUserImage'] == "" || $replymsgarr[$i]['toUserImage'] == "")
                     {
-                        $replymsgarr[$i]['fromUserImage'] = "no-image.jpg";
-                        $replymsgarr[$i]['toUserImage'] = "no-image.jpg";
+                        $replymsgarr[$i]['fromUserImage'] = "no-image.png";
+                        $replymsgarr[$i]['toUserImage'] = "no-image.png";
                     }
                     $replymsgarr[$i]['unreadcount'] = $unreadcount;
                     $replymsgarr[$i]['message'] = $message;
