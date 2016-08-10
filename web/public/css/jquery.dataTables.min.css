@@ -89,7 +89,7 @@ table.dataTable.cell-border tbody tr:first-child td {
 }
 table.dataTable.stripe tbody tr.odd,
 table.dataTable.display tbody tr.odd {
-    background-color: #f9f9f9
+    background-color: #ffffff
 }
 table.dataTable.stripe tbody tr.odd.selected,
 table.dataTable.display tbody tr.odd.selected {
@@ -97,7 +97,7 @@ table.dataTable.display tbody tr.odd.selected {
 }
 table.dataTable.hover tbody tr:hover,
 table.dataTable.display tbody tr:hover {
-    background-color: #f6f6f6
+    background-color: #ffffff
 }
 table.dataTable.hover tbody tr:hover.selected,
 table.dataTable.display tbody tr:hover.selected {
@@ -539,7 +539,7 @@ table.dataTable.cell-border tbody tr:first-child td {
 }
 table.dataTable.stripe tbody tr.odd,
 table.dataTable.display tbody tr.odd {
-    background-color: #f9f9f9
+    background-color: #ffffff
 }
 table.dataTable.stripe tbody tr.odd.selected,
 table.dataTable.display tbody tr.odd.selected {
@@ -547,7 +547,7 @@ table.dataTable.display tbody tr.odd.selected {
 }
 table.dataTable.hover tbody tr:hover,
 table.dataTable.display tbody tr:hover {
-    background-color: #f6f6f6
+    background-color: #ffffff
 }
 table.dataTable.hover tbody tr:hover.selected,
 table.dataTable.display tbody tr:hover.selected {
