@@ -19,7 +19,7 @@
 <script src="{{ asset('public/js/script.js') }}"></script>
      <script>
         $(document).ready(function() {
-            $(".gq-id-files-upload-success-text").delay(3000).fadeOut(100);
+            //$(".gq-id-files-upload-success-text").delay(3000).fadeOut(100);
         });
         var base_url = "{{ base_url }}";
         /*Login Validation*/
@@ -32,14 +32,14 @@
             regexp=/^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
             if(useremail=="") {
                 $("#change_pwd_error").show();
-                $("#change_pwd_error").html(startdiv + "Please enter Email" + enddiv).delay(3000).fadeOut(100);
+                $("#change_pwd_error").html(startdiv + "Please enter Email" + enddiv);
                 $("#InputEmail1").focus();    
                 return false;
             }
             else {
                 if(useremail.search(regexp)==-1) {
                     $("#change_pwd_error").show();
-                    $("#change_pwd_error").html(startdiv + "Please enter valid Email" + enddiv).delay(3000).fadeOut(100);
+                    $("#change_pwd_error").html(startdiv + "Please enter valid Email" + enddiv);
                     $("#InputEmail1").val('');
                     $("#InputEmail1").focus();
                     return false;
@@ -47,7 +47,7 @@
             }
             if(userpwd=="") {
                 $("#change_pwd_error").show();
-                $("#change_pwd_error").html(startdiv + "Please enter Password" + enddiv).delay(3000).fadeOut(100);
+                $("#change_pwd_error").html(startdiv + "Please enter Password" + enddiv);
                 $("#InputEmail1").focus();
                 return false;
             }
@@ -57,7 +57,7 @@
     {% if error %}
         <script>
             $("#change_pwd_error").show();
-            $("#change_pwd_error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid credentials</h2></div>').delay(3000).fadeOut(100);
+            $("#change_pwd_error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid credentials</h2></div>');
         </script>
     {% endif %}
 {% endblock %}
