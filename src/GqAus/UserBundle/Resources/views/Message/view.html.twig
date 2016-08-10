@@ -16,8 +16,13 @@
                         <ul class="mail_secion">
                             {% for key, message in messages %}
                                 <li class="{% if message.read == 1 %} disable {% endif %} clearfix" id="msg-{{message.id}}">
+                                    
                                         <span class="chat_pic">
+                                            {% if message.sent.userImage == "" %}
+                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                            {% else %}
                                                 <img src="{{ asset('public/uploads/') }}{{ message.sent.userImage }}" alt="chat_pic"/>
+                                             {% endif %} 
                                         </span>
                                         <span class="chat_content">
                                             <span class="chat_name">
