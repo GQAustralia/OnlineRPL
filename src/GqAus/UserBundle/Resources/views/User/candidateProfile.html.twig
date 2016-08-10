@@ -50,11 +50,12 @@
                                             <input type="text" value="{%if user.phone is defined %}{{user.phone}}{%endif%}" readonly="true"/>
                                     </div>
                             </div>
-                            <div class="section">
+                            <div class="section half clearfix">
                                     <div class="form-group">
                                             <label>USI</label>
                                             <input type="text" value="{%if user.universalStudentIdentifier is defined %}{{user.universalStudentIdentifier}}{%endif%}" readonly="true"/>
                                     </div>
+                                    <a class="usilink" target="_blank" href="http://www.usi.gov.au/create-your-USI/Pages/default.aspx">Don't have one? Click here to create one</a>
                             </div>
                             <div class="title_bar clearfix">
                                     <span class="left">ADDRESS</span>
