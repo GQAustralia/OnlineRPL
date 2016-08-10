@@ -377,13 +377,13 @@ class CoursesService
                 ->find($userId);
             $reposObj->setUnitId($unitId);
             $reposObj->setCourseCode($courseCode);
-            $reposObj->setStatus(1);
+            $reposObj->setElectiveStatus(1);
             $reposObj->setUser($userObj);
             $this->em->persist($reposObj);
         } else {
-            $status = $userUnitObj->getStatus();
+            $status = $userUnitObj->getElectiveStatus();
             $status = ($status == 1) ? '0' : '1';
-            $userUnitObj->setStatus($status);
+            $userUnitObj->setElectiveStatus($status);
         }
         $this->em->flush();
         $this->em->clear();
@@ -531,6 +531,21 @@ class CoursesService
          $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
         $evidences = $reposObj->findBy(array('user' => $userId, 'unit' => $unitId, 'course' => $courseCode));
         return $evidences;
+    }
+    /**
+     * Function to get qualification elective units using elective_status
+     * @param int $userId
+     * @param string $courseCode
+     * return array
+     */
+    public function getQualificationElectiveStatus($userId, $courseCode,$unitId)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+            'courseCode' => $courseCode,'unitId'=>$unitId,'type'=>'elective'));
+        $courseUnits = array();
+  
+        return $userCourseUnits;
     }
 
 }

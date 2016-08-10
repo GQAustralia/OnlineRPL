@@ -39,7 +39,11 @@ class UserCourseUnits
      * @var \GqAus\UserBundle\Entity\User
      */
     private $user;
-
+    
+     /**
+     * @var integer
+     */
+    private $electiveStatus;
     /**
      * Set unitId
      *
@@ -275,6 +279,29 @@ class UserCourseUnits
     public function getRtostatus()
     {
         return $this->rtostatus;
+    }
+    
+     /**
+     * Set ElectiveStatus
+     *
+     * @param integer $status
+     * @return UserCourseUnits
+     */
+    public function setElectiveStatus($electiveStatus)
+    {
+        $this->electiveStatus = $electiveStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get ElectiveStatus
+     *
+     * @return integer 
+     */
+    public function getElectiveStatus()
+    {
+        return $this->electiveStatus;
     }
 
 }

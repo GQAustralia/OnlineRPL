@@ -139,8 +139,7 @@
         
 {% endblock %}
 
-{% block javascripts %}  
-    <script type="text/javascript" src="{{ asset('public/js/jquery-1.12.3.js') }}"></script>   
+{% block javascripts %}        
     <script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {            
@@ -153,15 +152,7 @@
                     { "orderable": false, "targets":  [ 0,1,2,4,5 ] }
                   ]
                 } );
-            var dateTime = new Date();
-            var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
-            var timeZoneDT = new Date(utc + (3600000 * +10));
-            $(".date_field").datetimepicker({                
-               dateFormat: "dd/mm/yy",
-                timeFormat: "hh:mm tt",
-                minDate: timeZoneDT,
-                minDateTime: timeZoneDT
-            });
+            
         });
    </script>  
   

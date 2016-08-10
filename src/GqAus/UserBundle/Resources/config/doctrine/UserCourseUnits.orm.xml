@@ -13,6 +13,7 @@
         <field name="rtostatus" type="integer" column="rto_status"/>  
         <field name="createdOn" type="string" column="created_on" nullable="false"/>
         <field name="status" type="integer" column="status" nullable="false"/>
+        <field name="electiveStatus" type="integer" column="elective_status" nullable="false"/>
         <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User">
             <join-column name="user_id" referenced-column-name="id" />
         </many-to-one>
