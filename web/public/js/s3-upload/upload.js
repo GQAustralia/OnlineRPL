@@ -18,7 +18,7 @@
  */
 function S3MultiUpload(file, otheInfo) {
     this.PART_SIZE = 5 * 1024 * 1024; //minimum part size defined by aws s3
-    this.SERVER_LOC = 'http://local.s3upload.com/server.php'; //location of the server
+    this.SERVER_LOC = 'http://loopme-dev.stg.valuelabs.com/s3/server.php'; //location of the server
     this.RETRY_WAIT_SEC = 30; //wait before retrying again on upload failure
     this.file = file;
     this.fileInfo = {
