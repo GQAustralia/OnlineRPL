@@ -1634,6 +1634,8 @@ $("#select_existing_evidence").click(function() {
 });
 
 function sumitFormEvidence() {
+   var unit = $('#unit-code').val(),
+       courseCode = $('#course-code').val();
    $('#select_hid_unit').val(unit);
     $('#select_hid_course').val(courseCode);
     $('#file_save').hide();
