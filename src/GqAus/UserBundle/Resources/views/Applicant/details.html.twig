@@ -215,9 +215,9 @@
                             {% if courseInfo.Units.Unit %}
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    {% if ('ROLE_RTO' in userRole or 'ROLE_ASSESSOR' in userRole) %}{% set totalUnitStatus = 'COMPETENT'%}{%else%}{% set totalUnitStatus = ''%}{%endif%}
-                                    {% set coreUnitsRvd =  (coreUnitCount['noOfNotRvdrcrds'] > 0) ? coreUnitCount['noOfNotRvdrcrds']~' to be reviewed' : totalUnitStatus %}
-                                    <h4 class="panel-title"><span>{{coreUnitCount['noOfNotRvdrcrds']+coreUnitCount['noOfRvdRcrds']}} CORE UNITS - <strong>{{coreUnitsRvd}}</strong></span>
+                                    {#% if ('ROLE_RTO' in userRole or 'ROLE_ASSESSOR' in userRole) %}{% set totalUnitStatus = 'COMPETENT'%}{%else%}{% set totalUnitStatus = ''%}{%endif%#}
+                                    {% set coreUnitsRvd =  (coreUnitCount['noOfNotRvdrcrds'] > 0) ? coreUnitCount['noOfNotRvdrcrds']~' to be reviewed' : "" %}
+                                    <h4 class="panel-title"><span>{{coreUnitCount['noOfNotRvdrcrds']+coreUnitCount['noOfRvdRcrds']}} CORE UNITS {% if coreUnitsRvd is not empty%}-{%endif%} <strong>{{coreUnitsRvd}}</strong></span>
                                             <a class="btn-accordion collapsed" data-collapse="parent"  data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                                                     <i class="material-icons">expand_more</i>
                                             </a>
@@ -267,7 +267,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading clearfix">
                                     {% set electiveUnitsRvd =  (electiveUnits['noOfNotRvdrcrds'] > 0) ? electiveUnits['noOfNotRvdrcrds']~' to be reviewed' : "" %}
-                                    <h4 class="panel-title"><span>{{electiveUnits['noOfNotRvdrcrds'] + electiveUnits['noOfRvdRcrds']}} ELECTIVE UNITS - <strong>{{electiveUnitsRvd}}</strong></span>
+                                    <h4 class="panel-title"><span>{{electiveUnits['noOfNotRvdrcrds'] + electiveUnits['noOfRvdRcrds']}} ELECTIVE UNITS {% if electiveUnitsRvd is not empty%}-{%endif%} <strong>{{electiveUnitsRvd}}</strong></span>
                                         <a class="btn-accordion collapsed" data-collapse="parent" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
                                                 <i class="material-icons">expand_more</i>
                                         </a>
@@ -300,7 +300,7 @@
                                                             {% endif %}   
                                                             {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
                                                             {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
-                                                            {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}
+                                                            {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
                                                                     <p> <span class="tag-id">{{units.id}}</span> </p>
                                                                     <p><a href="{{ base_url }}courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                                 </div>
