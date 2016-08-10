@@ -136,6 +136,7 @@ class EvidenceService
      */
     public function saveS3ToEvidence($data)
     {
+	
         $i = 0;
         $seterror = 'no';
         $fileInfo = $data->get('fileInfo');
@@ -177,9 +178,8 @@ class EvidenceService
         $this->em->persist($fileObj);
         $this->em->flush();
         $evidenceId = $fileObj->getId();
-        if(isset($otherInfo['hid_unit']) && isset($otherInfo['hid_course'])) // Uploading evidence by candidate then update course units
+        if((isset($otherInfo['hid_unit']) && !empty($otherInfo['hid_unit'])) && (isset($otherInfo['hid_course']) && !empty($otherInfo['hid_unit']))) // Uploading evidence by candidate then update course units
             $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course']);
-                    
 
         if (!empty($otherInfo['self_assessment'])) {
             $textObj = new Text();
@@ -194,7 +194,7 @@ class EvidenceService
         return json_encode(['evidenceId'=>$evidenceId]);
         return ($seterror == 'no') ? $otherInfo['hid_unit'] : $seterror;
     }
-    
+
     /**
      * Save Evidence Assessment 
      * @param array $data
