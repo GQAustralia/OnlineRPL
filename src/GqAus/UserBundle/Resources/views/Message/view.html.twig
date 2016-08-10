@@ -100,7 +100,12 @@
                         <div class="chat_box {% if message.from == " from me" %}from {% else %} to {% endif %} ">
                             <div class="person_profile clearfix">
                                     <span class="chat_pic">
-                                            <img src="{{ asset('public/uploads/') }}{{ message.userImage }}" alt="chat_pic"/>
+                                            {% if message.userImage == "" %}
+                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                            {% else %}
+                                                <img src="{{ asset('public/uploads/') }}{{ message.userImage }}" alt="chat_pic"/>
+                                            {% endif %}
+                                            
                                     </span>
                                     <span class="chat_name">
                                             <strong>
@@ -120,10 +125,14 @@
                         <div class="chat_box to">
                                 <div class="person_profile">
                                         <span class="chat_pic">
-                                            {% if user is defined and user != '' %}
-                                                <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>                                           
+                                            {% if userImage == "" %}
+                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
                                             {% else %}
-                                                <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>
+                                                {% if user is defined and user != '' %}
+                                                    <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>                                           
+                                                {% else %}
+                                                    <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>
+                                                {% endif %}
                                             {% endif %}
                                         </span>
                                         <span class="chat_name"><strong>
