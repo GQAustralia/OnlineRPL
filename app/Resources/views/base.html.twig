@@ -81,7 +81,7 @@
                                 <li>
                                 <svg height="35" width="35" id="portfolioCount" class="hide">
                                 <circle cx="23" cy="12" r="12" fill="red"/>
-                                <text text-anchor="middle" x="24" y="16" fill="#fff" class="portfolio-current"></text>
+                                <text text-anchor="middle" x="23" y="16" fill="#fff" class="portfolio-current"></text>
                                 </svg>                                
                                 <a class="{% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}" href="{{ app.request.baseUrl }}/applicants">
                                 <i class="material-icons">message</i>
@@ -93,7 +93,7 @@
                                 <li>
                                 <svg height="35" width="35"  id="messageCount" class="hide">
                                 <circle cx="23" cy="12" r="12" fill="red"/>
-                                <text id="unread-count" text-anchor="middle" x="24" y="16" fill="#fff"></text>
+                                <text id="unread-count" text-anchor="middle" x="23" y="16" fill="#fff"></text>
                                 </svg>  
                                 <a class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}" href="{{ app.request.baseUrl }}/messages">
                                 <i class="material-icons">message</i>
