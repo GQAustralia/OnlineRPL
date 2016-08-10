@@ -130,9 +130,9 @@
                                                                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
                                                                 {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}
                                                                 <p> <span class="tag-id">{{units.id}}</span> </p>
-                                                                <p><a href="/courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
+                                                                <p><a href="{{ base_url }}courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                             </div>
-                                                            <a href="/courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}"><i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i></a>
+                                                            <a href="{{ base_url }}courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}"><i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -185,9 +185,9 @@
                                                                                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
                                                                                 {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}
                                                                                 <p> <span class="tag-id">{{units.id}}</span> </p>
-                                                                                <p><a href="/courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
+                                                                                <p><a href="{{ base_url }}courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                                             </div>
-                                                                            <a href="/courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}"><i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i></a>
+                                                                            <a href="{{ base_url }}courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}"><i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i></a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
