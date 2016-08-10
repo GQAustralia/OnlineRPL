@@ -66,14 +66,14 @@
                                             {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                             {% set output = eviType|split('&&') %}
                                                 <div class="file-info">
-                                                    <span class="icon"><a href="{% if evidence.type != 'recording' %}{{ amazon_link }}{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
-                                                        {% if output[1] is defined %}
-                                                            {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
-                                                        {%endif%}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a></span>
-                                                   <span class="file-discription">
-                                                            {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{%endif%}
-                                                       <br/>{% if evidence.size is defined %}{{evidence.size}} {% if evidence.type != 'recording' %} |{%endif%} {%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}
-
+	<span class="icon"><a {% if evidence.type != 'text' %} href="{% if evidence.type == 'recording' %}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%else%}{{ amazon_link }}{{  evidence.path }}{%endif%}" 
+				{% if output[1] is defined %}
+					{% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
+				{%endif%}{%endif%}>
+		<i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a></span>
+    <span class="file-discription">
+                                                            {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{% if evidence.content is defined %}{{evidence.content}}{%endif%}{%endif%}
+                                                       <br/>{% if evidence.size is defined %}{{evidence.size}} {% if evidence.type != 'recording' and evidence.type != 'text'%} |{%endif%} {%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}
                                                    </span>   
                                                 </div>
                                         {% endif %}
@@ -178,7 +178,7 @@
                                             <div class="panel-collapse collapse" id="nested-collapseEight">
                                                 <div class="panel-body">
                                                     <div class="panel-copy">
-                                                        <div class="file-info">{%if unitDetails|length > 0%}{{unitDetails|raw}}{% endif %}</div>
+                                                        <div class="unit-element-details">{%if unitDetails|length > 0%}{{unitDetails|raw}}{% endif %}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -197,7 +197,7 @@
                                             <div class="panel-collapse collapse" id="nested-collapseNine">
                                                 <div class="panel-body">
                                                     <div class="panel-copy">
-                                                        <div class="file-info">{%if unitDetails|length > 0%}{{unitDetails|raw}}{% endif %}</div>
+                                                        <div class="unit-element-details">{%if unitDetails|length > 0%}{{unitDetails|raw}}{% endif %}</div>
                                                     </div>
                                                 </div>
                                             </div>
