@@ -791,29 +791,27 @@ class UserService
      */
     public function getFacApplicantsListReports($page, $searchName = null, $searchAge = null, $searchRoleId = null){
         $nameCondition = null;
+        $ageCondition = null;
+        $roleCondition = null;
         $fields = 'partial c.{id, courseCode, courseName}, partial u.{id, firstName, lastName}';
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                  ->createQueryBuilder('c')
                  ->select($fields)
-                 ->join('c.user', 'u');
+                 ->join('c.user', 'u','WITH','c.user = u.id');
         if (!empty($searchName)) {
             $nameCondition .= "u.firstName LIKE '%" . $searchName . "%' OR u.lastName LIKE '%" . $searchName . "%'";
             $res->where($nameCondition);
-            //$res->where("TIMESTAMPDIFF(YEAR,STR_TO_DATE(u.date_of_birth, '%m/%d/%Y'),CURDATE()) > 1");
         }
         if (!empty($searchAge)) {
-           // $nameCondition .= "u.firstName LIKE '%" . $searchName . "%' OR u.lastName LIKE '%" . $searchName . "%'";
-            $res->andWhere(" TIMESTAMPDIFF(YEAR,STR_TO_DATE(u.date_of_birth, '%m/%d/%Y'),CURDATE()) > 1");
-            //$res->where("TIMESTAMPDIFF(YEAR,STR_TO_DATE(u.date_of_birth, '%m/%d/%Y'),CURDATE()) > 1");
+            $ageCondition = "DATE_SUB(CURRENT_DATE(),u.dateOfBirth,'month') > 12";
+            $res->andWhere($ageCondition);
+        }
+        if (!empty($searchRoleId)) {
+            $roleCondition = "c.facilitator = $searchRoleId ";
+            $res->andWhere($roleCondition);
         }
         $res->orderBy('c.id', 'DESC');
-//        $query = $res->getQuery();
-//        print_r(array(
-//            'sql'        => $query->getSQL(),
-//            'parameters' => $query->getParameters(),
-//        )); 
         
-        $applicantList = $res->getQuery()->getResult();
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         if($page){
