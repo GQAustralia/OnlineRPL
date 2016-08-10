@@ -110,7 +110,14 @@
                                         </h4>
                                     </div>
                                         <div class="panel-body">
-                                            <textarea id="selfassnote" name="selfassnote"></textarea>                                            
+                                        {% set evdText = courses_service.getsubmitUnitForReview(userId,courseInfo.id,unitCode) %}                                        
+                                        {% set selfAsseNote = '' %} 
+                                        {% for key , test  in evdText %}
+                                        {% if test.content  is defined %}
+                                       {% set selfAsseNote = test.content %} 
+                                         {% endif %}
+                                        {% endfor%}
+                                            <textarea id="selfassnote" name="selfassnote" > {{selfAsseNote}} </textarea>                                            
                                         </div>
                                 </div>                                        
                             </div>
@@ -121,9 +128,12 @@
                             <div class="col-md-12 col-lg-12">
                                 <div class="row no-gutter">
                                     <div class="col-md-12 col-lg-12">
-                                                    {% set evdText = courses_service.getsubmitUnitForReview(userId,courseInfo.id,unitCode) %}                                        
-
-                     <button type="button" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
+                                  
+                                        {% if selfAsseNote  == "" %}                                        
+                                            <button type="button" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
+                                         {% endif %}
+                                         
+                    
 
                                     </div>
                                 </div>
