@@ -43,7 +43,7 @@
                 {% if ('ROLE_ASSESSOR' in userRole) %}
                 <div class="col-lg-11">
                     <div class="gqa-btn-group">
-                        <div class="btn border-dark">
+                        <div class="btn btn-download border-dark">
                             <i class="material-icons">file_download</i>
                             <a download="" href="#">Download Assessment Kit for this qualification</a>
                         </div>                    
@@ -151,7 +151,7 @@
                         <div class="row no-gutter">
                             {% if ('ROLE_RTO' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                                 <div class="col-md-12 col-lg-12">
-                                    <div class="btn border-dark">
+                                    <div class="btn btn-download border-dark">
                                         <i class="material-icons">file_download</i>
                                         <a href ="javascript:void(0)" id="download_profile" userid="{{userId}}" course_code="{{courseInfo.id}}">Download complete Portfolio</a>
                                     </div>
