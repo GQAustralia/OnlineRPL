@@ -801,7 +801,11 @@ function onloadPortfolioCount()
         url: base_url + "pendingApplicantCount",
         cache: false,
         success: function(result) {         
-            if (result > 0) {                
+            if (result >= 0) {    
+                if(result==0)
+                {
+                    $('#portfolioCount').css("display","none");
+                }
                 $(".portfolio-current").html(result);
 				$("#portfolioCount").attr('class', '');			
             } else {                
