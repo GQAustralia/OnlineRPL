@@ -157,7 +157,12 @@ $(".msgForCourse").click(function(){
         $('#advanced-demo').css("border","1px solid red");
         return false;
     }
-    if (to != '') {
+    if (msgBody === '') {
+        $('#msgBody').focus();
+        $('#msgBody').css("border","1px solid red");
+        return false;
+    }
+    if (to != '' && msgBody != '') {
         $.ajax({
             type: "POST",
             url: base_url + "sendMsgtoApplicant",
