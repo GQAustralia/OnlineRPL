@@ -62,7 +62,9 @@
                             </div>
                             <div class="panel-body">
                                 <div class="panel-copy">
+								{%set inc = 0 %}
                                     {% for evidence in evidences %}
+									 {%set inc = inc+1 %}
                                         {% if evidence.unit == unitCode %}
                                             {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                             {% set output = eviType|split('&&') %}
@@ -70,14 +72,15 @@
 	<span class="icon"><a {% if evidence.type != 'text' %} href="{% if evidence.type == 'recording' %}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%else%}{{ amazon_link }}{{  evidence.path }}{%endif%}" 
 				{% if output[1] is defined %}
 					{% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
-				{%endif%}{%endif%}>
+				{%endif%}{%else%}href="#{{evidence.unit}}{{inc}}" class="fancybox" id="btnForm"{%endif%}>
 		<i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a></span>
     <span class="file-discription">
-                                                            {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{% if evidence.content is defined %}{{evidence.content}}{%endif%}{%endif%}
+                                                            {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{% if evidence.content is defined %}{{evidence.content|slice(0,20)}}{%endif%}{%endif%}
                                                        <br/>{% if evidence.size is defined %}{{evidence.size}} {% if evidence.type != 'recording' and evidence.type != 'text'%} |{%endif%} {%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}
                                                    </span>   
                                                 </div>
                                         {% endif %}
+										<div id="{{evidence.unit}}{{inc}}" style="display:none;width:800px;height:400px;overflow:auto;">{% if evidence.content is defined %}{{evidence.content}}{%endif%}</div>
                                     {% endfor %}
                                 </div>
                                 <div class="gqa-btn-group border-dark no-margin">
@@ -152,7 +155,7 @@
                                                     <div class="panle_body_content">
                                                         <p><strong>Elements and Performanace Criteria</strong></p>
                                                     </div>
-    <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse" aria-expanded="true" class="collapsed">
+    <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse" aria-expanded="false" class="collapsed">
                                                         <i class="material-icons">expand_less</i>
                                                     </a>
                                                 </div>
@@ -279,6 +282,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('.fancybox').fancybox();
+		    $("#btnForm").fancybox();
         });
     </script>
 {% endblock %}
