@@ -42,7 +42,7 @@
                         {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
                         {% if approvalText|length > 0 %}<p> <span class="tag">{{approvalText}} </span> </p>{% endif %}
                         <p>
-                            <span class="tag-edu">Qualification</span>
+                            <span class="tag-edu"><a href="{{ base_url }}applicantDetails/{% if courseInfo.id %}{{courseInfo.id}}{% endif %}/{% if userId %}{{userId}}{%endif%}">Qualification</a></span>
                             <span class="tag-id">Unit {{ unitCode }}</span>
                             <span class="tag-copy">{{unitName|raw}}</span>                        
                         </p>
