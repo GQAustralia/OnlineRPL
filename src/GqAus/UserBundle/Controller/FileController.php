@@ -17,7 +17,9 @@ class FileController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-
+        $userName = '';
+        $courseCode ='';
+        $userId ='';
         $evidenceService = $this->get('EvidenceService');
         if (in_array('ROLE_APPLICANT', $userRole)) {
             $userCourses = $user->getCourses();
@@ -27,9 +29,12 @@ class FileController extends Controller
             $toViewUser = $evidenceService->userService->getUserInfo($userId);
             $userCourses = $toViewUser->getCourses();
             $evidences = $toViewUser->getEvidences();
+            $userName = $toViewUser->getFirstName()." ".$toViewUser->getLastName();
+            $courseCode = $request->get('courseCode');
+            $userId = $toViewUser->getId();
             //$evidences = array();
         }
         $formattedEvd = $evidenceService->formatEvidencesListToDisplay($evidences);
-        return $this->render('GqAusUserBundle:File:view.html.twig', array('evidences' => $formattedEvd['formattedEvidences'], 'evdMapping' => $formattedEvd['evdMapping'], 'courses' => $userCourses));
+        return $this->render('GqAusUserBundle:File:view.html.twig', array('evidences' => $formattedEvd['formattedEvidences'], 'evdMapping' => $formattedEvd['evdMapping'], 'courses' => $userCourses,'userName' => $userName,'courseCode' => $courseCode,'userId' => $userId));
     }
 }

@@ -1,4 +1,4 @@
- {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Files{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('public/css/jquery.dataTables.min.css') }}">
@@ -6,6 +6,110 @@
 <link rel="stylesheet" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/evidence.css') }}">
 {% endblock %}
+{% block navmenu %}
+    {% set roles = app.security.getToken().getUser().getRoles() %}
+    {% if('ROLE_APPLICANT' not in roles) %} 
+        {% include 'GqAusUserBundle:Applicant/includes:navmenu.html.twig' %}
+    {%else%}
+        {% set className =  (app.request.attributes.get('_route') in header_class_pages) ? 'header-border' : '' %}
+		<header class="{{ className }}">
+            <section class="container">
+                <div class="logo">
+                     {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <a href="{{ app.request.baseUrl }}/dashboard">
+                     {% else %}   
+                        <a href="{{ app.request.baseUrl }}/qualifications">
+                     {% endif %}
+                        <img src="{{ asset('public/images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/>
+                        
+                        </a>
+                </div>
+
+                <div class="info-header hide">
+                    <div class="portfolio">
+                        <strong class="title">Profile Name</strong>
+                        <a href="#"><i class="material-icons clear">clear</i></a>
+                    </div>
+
+                    <div class="unit-info">
+                        <a href="#"><i class="material-icons btn-back">arrow_back</i></a>
+                        <strong class="title">Unit info</strong>
+                    </div>            
+                </div>
+
+                <nav>
+                    <ul class="nav">
+                            {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <li>
+
+                            <a class="{% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}" href="{{ app.request.baseUrl }}/dashboard">
+                            <i class="material-icons">school</i>
+                            <span>Dashboard</span>
+                            </a>
+                            </li>
+                            {% else %}
+                            <li>
+
+                            <a class="{% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} active {% endif %}" href="{{ app.request.baseUrl }}/qualifications">
+                            <i class="material-icons">school</i>
+                            <span>Qualification</span>
+                            </a>
+                            </li>
+                            {% endif %}
+                            {% if ('ROLE_APPLICANT' not in roles)  %}
+                                <li>
+                                <svg height="35" width="35" id="portfolioCount" class="hide">
+                                <circle cx="23" cy="12" r="12" fill="red"/>
+                                <text text-anchor="middle" x="23" y="16" fill="#fff" class="portfolio-current"></text>
+                                </svg>                                
+                                <a class="{% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}" href="{{ app.request.baseUrl }}/applicants">
+                                <i class="material-icons">message</i>
+                                <span>portfolios</span>                        
+                                </a>
+                                </li>
+                            {% endif %}
+                            {% if ('ROLE_SUPERADMIN' not in roles) %}  
+                                <li>
+                                <svg height="35" width="35"  id="messageCount" class="hide">
+                                <circle cx="23" cy="12" r="12" fill="red"/>
+                                <text id="unread-count" text-anchor="middle" x="23" y="16" fill="#fff"></text>
+                                </svg>  
+                                <a class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}" href="{{ app.request.baseUrl }}/messages">
+                                <i class="material-icons">message</i>
+                                <span>Messages</span>                        
+                                </a>
+                                </li>
+                            {% endif %}
+                            {% if ('ROLE_FACILITATOR' in roles)  %}
+                                    <li>
+                                            <a class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}" href="{{ app.request.baseUrl }}/evidences"><i class="material-icons">cloud_upload</i><span>Evidences</span></a>
+                                    </li>
+                            {% endif %}
+                            {% if ('ROLE_APPLICANT' in roles)  %}
+                                    <li>
+                                            <a class="{% if app.request.attributes.get('_route') == 'files' %} active {% endif %}" href="{{ app.request.baseUrl }}/files"><i class="material-icons">cloud_upload</i><span>Files</span></a>
+                                    </li>
+                            {% endif %}
+                            <li class="profile">
+                                <a href="#">
+                                        <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="profile" />
+                                        <i class="material-icons">expand_more</i>
+                                </a>
+                                <ul class="hide">
+                                        {% if ('ROLE_APPLICANT' not in roles)  %}
+                                                <li><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">Profile</a></li>
+                                        {% else %}
+                                                <li><a href="{{ app.request.baseUrl }}/userprofile">Profile</a></li>
+                                        {% endif %}
+                                        <li><a href="{{ app.request.baseUrl }}/logout">Log out</a></li>
+                                </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+        </header> 
+    {%endif%}
+{% endblock %}  
 {% block body %}
 {% set userId = app.security.getToken().getUser().getId() %}
 {% set roles = app.security.getToken().getUser().getRoles() %}
@@ -242,8 +346,10 @@
                                                                                 {{ evd[0].size }}
                                                                             </span>
                                                                             <span class="clear">
-                                                                                ADDED {{ evd[0].created|date("d/m/y") }}
+                                                                                ADDED  {{ evd[0].created|date("d/m/y") }}
+                                                                                {% if('ROLE_APPLICANT' in roles) %}
                                                                                 <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
+                                                                                {% endif %}
                                                                             </span>
                                                                         </div>
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
@@ -293,7 +399,9 @@
                                                                             <span class="file_size"></span>
                                                                             <span class="clear">
                                                                                 ADDED {{ evd[0].created|date("d/m/y") }}
+                                                                                {% if('ROLE_APPLICANT' in roles) %}
                                                                                 <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
+                                                                                {%endif%}
                                                                             </span>                                                        
                                                                         </div>
                                                                         <div class="link_section">
