@@ -778,6 +778,7 @@ $(".setData").click(function() {
 /*Messages Unread Count in Menu*/
 function onloadCount()
 {
+    
     $.ajax({
         url: base_url + "unread",
         cache: false,
@@ -985,7 +986,8 @@ function loadDataIcon(listdiv)
 
 
 
-$("#applicantPending").click(function() {    
+$("#applicantPending").click(function() {
+    $('#filterByStatus').val('0');
     pagenum = 1;   
     loadDataIcon('currentList');
     applicantStatus = '0';
@@ -996,7 +998,8 @@ $("#applicantPending").click(function() {
      $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
 });
 
-$("#applicantCompleted").click(function() { 
+$("#applicantCompleted").click(function() {
+    $('#filterByStatus').val('0');
     pagenum = 1;
     loadDataIcon('completedList');
     applicantStatus = '1';
@@ -1088,13 +1091,13 @@ function loadApplicantList(divContent,pagenum)
 {
     searchName = $('#searchName').val();
  //   searchTime = $('#timeRemaining').val();
-    filterByUser = $('#filterByUser').val();
-    filterByStatus = $('#filterByStatus').val();
+ filterByUser = $('#filterByUser').val();
+filterByStatus = $('#filterByStatus').val(); alert(filterByStatus);
     $.ajax({
         type: "POST",
         url: base_url + "searchApplicantsList",
         cache: false,
-        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
+        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: filterByStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
         success: function(result) { 
            // $("#filter-by-name").hide();
            // $("#filter-by-week").hide();
@@ -2566,7 +2569,7 @@ if( $('.view-message').length > 0){
 function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
 {
     var selfAssNotes = $('#selfassnote').val();  
-    var evdcount = $('.evdcount').attr('data-evdcount');  
+    var evdcount = $('.evdcount').attr('data-evdcount');    
     if (evdcount == 0 || evdcount == "0" || selfAssNotes == "" ) {
         $('#btn-submit').attr({"data-toggle":"modal", "data-target":"#review-submit"});
     }

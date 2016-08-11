@@ -139,9 +139,9 @@
                                 <div class="row no-gutter">
                                     <div class="col-md-12 col-lg-12">
                                        {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseInfo.id) %}
-                                        {% if unitType.type=="core" and unitType.status !=1 %}
+                                        {% if unitType.type=="core" %}
                                                 <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
-                                        {% elseif electiveUnits[0] is defined and selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0  and unitType =="" %}                                        
+                                       {% endif %} {% if electiveUnits[0] is defined and selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0 and unitType.type='elective'%}                                        
                                             <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
                                         {% endif %}
                                          
