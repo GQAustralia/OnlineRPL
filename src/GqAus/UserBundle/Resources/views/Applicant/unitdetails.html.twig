@@ -40,7 +40,8 @@
                             {% set inloop = 1 %}
                         {% endif %}  
                         {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
-                        {% if approvalText|length > 0 %}<p> <span class="tag">{{approvalText}} </span> </p>{% endif %}
+                        {% set currUnitStatus = courses_service.getUnitStatus(userId, unitCode, courseInfo.id)%}
+                        {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{%endif%}{% endif %}
                         <p>
                             <span class="tag-edu"><a href="{{ base_url }}applicantDetails/{% if courseInfo.id %}{{courseInfo.id}}{% endif %}/{% if userId %}{{userId}}{%endif%}">Qualification</a></span>
                             <span class="tag-id">Unit {{ unitCode }}</span>
@@ -151,7 +152,7 @@
                                                     <div class="panle_body_content">
                                                         <p><strong>Elements and Performanace Criteria</strong></p>
                                                     </div>
-    <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse" aria-expanded="false" class="collapsed">
+    <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse" aria-expanded="true" class="collapsed">
                                                         <i class="material-icons">expand_less</i>
                                                     </a>
                                                 </div>
