@@ -22,17 +22,23 @@ var s3upload = null;
             var fileId = $('#upload_id'+k).attr('data-upid');
             var fileType = $('#upload_id'+k).attr('data-evdtype');
             var delData = 'fid='+fileId+'&ftype='+fileType;
-
-            $.ajax({
-                type: "POST",
-                url: base_url + "deleteEvidenceFile",
-                data: delData,
-                dataType:'json',
-                success: function(result) {
-                    console.log('Evidence Deleted');
-                }
-            });
+            if(fileId != '' && fileType !='') {
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "deleteEvidenceFile",
+                    data: delData,
+                    dataType:'json',
+                    success: function(result) {
+                        console.log('Evidence Deleted');
+                    }
+                });
+            }
             $('#progressbar-'+k).remove();
+            
+            console.log('child length :: '+$("#progress-bars .file-info").length);
+            if($(".file-info").length == 0) {
+                $("#fileListContainer").addClass('hide');
+            }
         }
     }
     function filesSelectedToUpload(evt){
@@ -88,6 +94,7 @@ var s3upload = null;
             //var btn = '<button onclick="cancel('+k+')">Cancel</button>';
             var progressBar = '<div class="file-info" id="progressbar-'+k+'" data-index="0"> <span class="icon"><i class="material-icons">description</i></span><span class="file-discription">'+file.name+'<br>'+calFileSize+'| ADDED '+curDate+'</span><span class="file-progress"><progress id="summed_progress_'+k+'" class="prgbar" value="0" max="100"></progress></span> <span class="clear"><a href="#" onclick="cancel('+k+')"><i id="upload_id'+k+'" class="material-icons">clear</i></a></span></div>';
             $("#progress-bars").append(progressBar);
+            $("#fileListContainer").show().removeClass('hide');
         
            var unitId = $('#hid_unit').val() || '';
             var courseCode = $('#hid_course').val() || '';
