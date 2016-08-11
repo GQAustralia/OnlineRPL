@@ -178,6 +178,7 @@ class EvidenceService
         $this->em->persist($fileObj);
         $this->em->flush();
         $evidenceId = $fileObj->getId();
+        $fileNumber = $otherInfo['fileNum'];
         if((isset($otherInfo['hid_unit']) && !empty($otherInfo['hid_unit'])) && (isset($otherInfo['hid_course']) && !empty($otherInfo['hid_unit']))) // Uploading evidence by candidate then update course units
             $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course']);
 
@@ -191,7 +192,7 @@ class EvidenceService
             $this->em->flush();
             $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course']);
         }
-        return json_encode(['evidenceId'=>$evidenceId]);
+        return json_encode(['evidenceId'=>$evidenceId, 'fileNumber' => $fileNumber, 'evdType' => $type]);
         return ($seterror == 'no') ? $otherInfo['hid_unit'] : $seterror;
     }
 
