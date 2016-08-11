@@ -128,6 +128,11 @@ $(".setToDoList").click(function() {
     listId = $(this).attr("listId");
     var remindDate = $('#remindDate').val();
     var todoMsg = $('#todolist-msg').val();
+    if (todoMsg === '') {
+        $('#todolist-msg').focus();
+        $('#todolist-msg').css("border","1px solid red");
+        return false;
+    }
     if (remindDate === '') {
         $('#remindDate').focus();
         $('#remindDate').css("border","1px solid red");
