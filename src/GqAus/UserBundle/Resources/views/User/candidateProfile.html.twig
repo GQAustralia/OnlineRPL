@@ -7,7 +7,7 @@
     {% include 'GqAusUserBundle:Applicant/includes:navmenu.html.twig' %}
 {% endblock %}    
 {% block body %}
-    <div class="body_section">
+    <div class="body_section candidate_profile">
         <div class="container">
             <div class="row"><!-- DESKTOP VERSION -->
                 <div class="hidden-xs col-sm-12 col-md-12 col-lg-6">
@@ -101,9 +101,12 @@
                         </form>
                     </div>
                     <div class="link_section clearfix">
-                        <a href="/faq" class="faq_link"  target="MyNewWindow">
-                                <span><i class="material-icons">help</i></span>FAQs
-                        </a>
+                        <span class="faq_link">
+                            <i class="material-icons">help</i>
+                            <a href="/faq" target="MyNewWindow">
+                                   FAQs
+                            </a>
+                        </span>
                     </div>
                 </div>
                 <div class="hidden-xs col-sm-12 col-md-12 col-lg-6">
