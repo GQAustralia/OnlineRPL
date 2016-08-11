@@ -38,7 +38,7 @@
                                                                 <span class="days_count {{counterClass}}">{{daycount}}d{% if daycount > 6 %}!{% endif %}</span>
                                                            {% endif %}
                                                             <div class="checkbox_outer">
-                                                                    <input type="checkbox" class="updateTodo" id="{{ todoList.id }}" data-status="0" /><span></span>
+                                                                    <input type="checkbox" class="updateTodo" id="{{ todoList.id }}" data-status="0" data-toggle="modal" data-target="#confirm_popup"/><span></span>
                                                             </div>
 							</li>
 							{% endfor %}
@@ -90,24 +90,25 @@
 						<li>
 							<a href="javascript:void(0)" class="icon">
 								<i class="material-icons message">message</i>
-								<span>Message</span>
+                                                                <span><a href="{{ app.request.baseUrl }}/messages" title="Message">Message</a></span>
 							</a>
 						</li>
 						<li>
 							<a href="javascript:void(0)" class="icon">
 								<i class="material-icons account_circle">account_circle</i>
-								<span>Portfolio</span>
+								<span><a href="{{ app.request.baseUrl }}/applicants" title="Portfolio">Portfolio</a></span>
 							</a>
 						</li>
 						<li>
 							<a href="javascript:void(0)" class="icon">
-								<i class="material-icons cloud_upload">cloud_upload</i> <span>Evidence</span>
+								<i class="material-icons cloud_upload">cloud_upload</i> 
+                                                                <span><a href="{{ app.request.baseUrl }}/evidences" title="Evidence">Evidence</a></span>
 							</a>
 						</li>
 						<li>
 						<div class="icon note">
 								<div class="dropdown keep-open">
-									<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons edit">edit</i><span class="hidden-xs">Note</span></span>
+									<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons edit">edit</i><span class="hidden-xs" title="Add Reminder Note">Note</span></span>
 										<div class="dropdown-menu">
 											<div class="data_section">
 												<textarea rows="3" placeholder="Notes" id="notes_note"></textarea>
@@ -126,3 +127,21 @@
 		</div>
 	</div>
 </div>
+<!-- Modal -->
+<!-- <div class="modal fade confirm_popup" id="confirm_popup" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <div class="modal-title">Do you want to change the status?</div>
+            </div>
+            <div class="modal-body">
+                <div class="btn_section">
+                    <button class="btn btn_red">OK</button>
+                    <button class="btn" data-dismiss="modal">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
