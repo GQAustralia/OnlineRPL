@@ -139,7 +139,7 @@
                                 <div class="row no-gutter">
                                     <div class="col-md-12 col-lg-12">
                                        {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseInfo.id) %}
-                                        {% if unitType.type=="core"%}
+                                        {% if unitType.type=="core" and unitType.status !=1 %}
                                                 <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
                                         {% elseif electiveUnits[0] is defined and selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0  and unitType =="" %}                                        
                                             <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
@@ -166,7 +166,7 @@
                                             <div class="panel-heading">
                                                 <div class="panel-title">
                                                     <div class="panle_body_content">
-                                                        <p><strong>Elements and Performanace Criteria</strong></p>
+                                                        <p><strong>Elements & Performanace Criteria</strong></p>
                                                     </div>
     <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse" aria-expanded="false" class="collapsed">
                                                         <i class="material-icons">expand_less</i>
