@@ -2615,3 +2615,6 @@ function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
 $(".btn-back").click(function(){
     window.location.href = base_url + "applicants";
 })
+$('#closeMyModal').click(function(){
+   location.reload();
+});
