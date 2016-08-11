@@ -2566,16 +2566,18 @@ if( $('.view-message').length > 0){
 function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
 {
     var selfAssNotes = $('#selfassnote').val();  
-    if (selfAssNotes == "") {
-        $('#gq-dashboard-tabs-error-assess').html('<h2>Please Enter Self Assessment Notes</h2>');
-   
+    var evdcount = $('.evdcount').attr('data-evdcount');  
+    if (evdcount == 0 || evdcount == "0" || selfAssNotes == "" ) {
+        $('#btn-submit').attr({"data-toggle":"modal", "data-target":"#review-submit"});
     }
-    else if(selfAssNotes.split(' ').length < 50){
-             $('#gq-dashboard-tabs-error-assess').html('<h2>Self Assessment Notes should be more than 50 words</h2>');
+    else if(evdcount != "" && evdcount != "undefined" && selfAssNotes != "" && selfAssNotes.split(' ').length < 50){
+        $('#btn-submit').removeAttr("data-toggle","data-target");
+        $('#btn-submit').attr({"data-toggle":"modal", "data-target":"#min-words-count"});   
              
     }
      else   
      {
+         $('#btn-submit').removeAttr("data-toggle","data-target");
          $.ajax({
         type: "POST",
         url: base_url + "submitUnitForReview",
@@ -2584,18 +2586,23 @@ function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
              var rec = result.split("&&");  
              console
             if (rec[0] == '0') {
-                $('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not submitted!</h2>');
+                //$('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not submitted!</h2>');
             } else if (rec[0] == '1') {
-                $('#gq-dashboard-tabs-error-assess').html('');
-                $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Submitted successfully!</h2>');
-                $('#sp_'+rec[1]).show();
-                location.reload();
+                //alert('Success-----');
+               //  $('#btn-submit').removeAttr("data-toggle","data-target");
+               // $('#gq-dashboard-tabs-error-assess').html('');
+             //  $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Submitted successfully!</h2>');
+                $('#btn-submit').attr({"data-toggle":"modal", "data-target":"#suceess-msg"});
+                 $('#suceess-msg').modal('show');
+                
+               // $('#sp_'+rec[1]).show();
+                //location.reload();
             }
             else if (rec[0] == '2') {
-                $('#gq-dashboard-tabs-error-assess').html('<h2>Please Upload Evidences</h2>');
+                //$('#gq-dashboard-tabs-error-assess').html('<h2>Please Upload Evidences</h2>');
             }
             else if (rec[0] == '3') {
-                $('#gq-dashboard-tabs-error-assess').html('<h2>Please Enter Self Assessment Notes</h2>');
+                //$('#gq-dashboard-tabs-error-assess').html('<h2>Please Enter Self Assessment Notes</h2>');
             }
            // setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
         }
