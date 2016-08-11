@@ -92,7 +92,7 @@
         <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
         {% if msgID is defined %}
         <div class="mail_compose_section hidden-xs">
-                <div class="title_bar">WELCOME
+                <div class="title_bar">WELCOME!
                         <span><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
                 </div>
                 <div class="chat_room"> 
@@ -163,14 +163,14 @@
                 <div class="btn_section">
                         <a class="checkform-changed button cancel_link hidden-xs"  href="{{ base_url }}messages/{{msgID}}">
                                      CANCEL</a>
-                                {{ form_widget(composemsgForm.save,{ 'label': 'Send' , 'attr': {'class': 'button send_link'}}) }} 
+                                {{ form_widget(composemsgForm.save,{ 'label': 'SEND' , 'attr': {'class': 'button send_link'}}) }} 
                 </div>
                  {{ form_end(composemsgForm) }}
                 {% else %}
                     <div class="btn_section">
                         <form name="reply" action="{{ base_url }}messages/compose" method="post">
                        <input type="hidden" id="reply_id" name="reply_id" value="{{msgID}}"/>
-                           <input type="Submit" class="button reply_link" value="Reply"/>
+                           <input type="Submit" class="button reply_link" value="REPLY"/>
                        </form>
                            <a href="{{ base_url }}messages/compose" >NEW MESSAGE   <i class="material-icons add">add</i> </a>                                                          
                     </div>
@@ -244,7 +244,7 @@
                     <div class="btn_section">
                       <a class="checkform-changed button cancel_link hidden-xs" data-toggle="modal" data-target="" >
                           <button class="btn btn-grey" name="compose[discard]" id="compose_discard" type="reset">CANCEL</button></a>
-                     {{ form_widget(composemsgForm.save,{ 'label': 'Send' , 'attr': {'class': 'button send_link'}}) }}	                        </div>
+                     {{ form_widget(composemsgForm.save,{ 'label': 'SEND' , 'attr': {'class': 'button send_link'}}) }}	                        </div>
                      {{ form_end(composemsgForm) }}
                      </form>
             </div>

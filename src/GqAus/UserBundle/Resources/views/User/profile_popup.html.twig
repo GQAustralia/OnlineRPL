@@ -31,7 +31,7 @@
                                 <!-- Profile Form -->
                                 <div class="header_block clearfix" id='user_profile_form_div'>
                                     	<div class="profile_section">
-                                            <div id='ajax-gq-profile-page-img'><img src="{{ asset('public/uploads/'~userdata.getUserImage())}}" alt="profile_pic" id='user_profile_image' class="profile_image"/><input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
+                                            <div id='ajax-gq-profile-page-img'><img src="{% if userdata.getUserImage() !="" %}{{ asset('public/uploads/'~userdata.getUserImage())}} {% else %} {{ asset('public/images/userprofile.png')}} {% endif %}" alt="profile_pic" id='user_profile_image' class="profile_image"/><input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
                                                 <div class="content">
 							<h5 class="name"><strong>{% if ('ROLE_RTO' in roles) %}{{userdata.getContactName()}} {% else %} {{userdata.getFirstName()}}  {% endif %} </strong></h5>
 							<span class="field">

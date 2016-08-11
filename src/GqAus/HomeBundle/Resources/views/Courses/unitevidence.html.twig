@@ -57,7 +57,7 @@
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <span>Evidence</span>
-                                    <span class="pull-right"><strong> {{ evidenceCount }} Evidence Files Linked</strong></span>
+                                    <span class="pull-right evdcount" data-evdcount="{{evidenceCount}}"><strong> {{ evidenceCount }} Evidence Files Linked</strong></span>
                                 </h4>
                             </div>
                             <div class="panel-body" style="border-bottom:1px solid #d8d8d8">
@@ -130,8 +130,8 @@
                                 <div class="row no-gutter">
                                     <div class="col-md-12 col-lg-12">
                                   
-                                        {% if selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0 %}                                        
-                                            <button type="button" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
+                                        {% if electiveUnits[0] is defined and selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0   %}                                        
+                                            <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
                                         {% endif %}
                                          
                     
@@ -271,6 +271,74 @@
                         </div>          
                    </div>
                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="review-submit" role="dialog" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>
+                        <!--button type="button" class="close" data-dismiss="modal">&times;</button-->
+                            <strong>Not ready to submit!</strong>
+                            <br/>
+                            You must add evidence files and self-assessment notes to this unit to be able to submit it for review
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="gqa-btn-group btn-file-save">
+                                <div class="row no-gutter">
+                                    <div class="col-md-12 col-lg-12">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="min-words-count" role="dialog" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>
+                        <!--button type="button" class="close" data-dismiss="modal">&times;</button-->
+                            Self Assessment Notes should be more than 50 words
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="gqa-btn-group btn-file-save">
+                                <div class="row no-gutter">
+                                    <div class="col-md-12 col-lg-12">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="suceess-msg" role="dialog" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>
+                        <!--button type="button" class="close" data-dismiss="modal">&times;</button-->
+                            Submitted Successfully
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="gqa-btn-group btn-file-save">
+                                <div class="row no-gutter">
+                                    <div class="col-md-12 col-lg-12">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="javascript:location.reload()">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
