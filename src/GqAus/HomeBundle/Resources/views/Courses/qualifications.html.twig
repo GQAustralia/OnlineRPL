@@ -221,7 +221,7 @@
                 <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
             </div>
             <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
-                    <input  id="span_{{units.id}}" type="checkbox" {% if electiveUnits[0].electiveStatus==1 %}checked{% else %}unchecked{% endif %}><span></span>                      
+                    <input  id="span_{{units.id}}" type="checkbox" {% if electiveUnits is defined and electiveUnits[0].electiveStatus==1 %}checked{% else %}unchecked{% endif %}><span></span>                      
             </div>
         </div>
     </div>
