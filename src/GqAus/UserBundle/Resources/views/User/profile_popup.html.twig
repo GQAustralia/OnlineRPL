@@ -51,7 +51,7 @@
                                 <div class="gq-change-address-warning" id="change_address_error">
                                     {% for flashMessage in app.session.flashbag.get('errornotice') %}
                                     <div class="gq-id-address-error-text" style="dispaly:none">
-                                        <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                                        <h2>{{ flashMessage }}</h2>
                                     </div>
                                    {% endfor %}
                                 </div>
@@ -185,7 +185,7 @@
                                {% set matrixFiles = user_service.fetchOtherFiles(userId, 'matrix') %}
                                
                                 <div class="gq-id-files-upload-success-text "  style="display: none;" id="resume_msg">
-                                                <h2><img src="{{ asset('public/images')}}/tick.png"/> Files uploaded successfully</h2>
+                                                <h2> Files uploaded successfully</h2>
                                 </div>
                                 <div id="idfiletype_image"></div>
                                 <div class="loading-icon" style="display: none;" id="matrix_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
