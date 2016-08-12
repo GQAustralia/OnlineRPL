@@ -76,25 +76,19 @@
                             <div class="review-container">
                             {%if rtoId is not empty %}
                                 <div class="review">
-                                    <div class="review_content">
-                                        <p><strong class="text-uppercase">Rto</strong> - {{rtoName}}</p>
-                                    </div>
+                                    <div class="review_content"><p><strong class="text-uppercase">Rto</strong> - {{rtoName}}</p></div>
                                     <div class="review_profile-pic"><span></span></div>
                                 </div>
                             {%endif%}
                             {%if facilitatorId is not empty %}
                                 <div class="review">
-                                    <div class="review_content">
-                                        <p><strong class="text-uppercase">{{facProName}}</strong> {{facVocName}} {{userName}}'s CSR for this course</p>
-                                    </div>
+                                    <div class="review_content"><p><strong class="text-uppercase">{{facProName}}</strong> {{facVocName}} {{userName}}'s CSR for this course</p></div>
                                     <div class="review_profile-pic"><span><a href="javascript:viod(0);"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if facilitatorImage %}{{facilitatorImage}}{% endif %}" /></a></span></div>
                                 </div>
                             {%endif%}
                             {%if assessorId is not empty %}
                                 <div class="review">
-                                    <div class="review_content">
-                                        <p><strong class="text-uppercase">{{assProName}}</strong> {{assVocName}} {{userName}}'s assessor for this cource</p>
-                                    </div>
+                                    <div class="review_content"><p><strong class="text-uppercase">{{assProName}}</strong> {{assVocName}} {{userName}}'s assessor for this cource</p></div>
                                     <div class="review_profile-pic"><span><a href="javascript:viod(0);"><img class="profile-img" data-target="#assProfile" data-toggle="modal"  src="{% if assessorImage %}{{ assessorImage }}{% endif %}" /></a></span></div>
                                 </div>
                             {%endif%}
@@ -252,7 +246,15 @@
                                                             {% endif %}   
                                                             {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
                                                             {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
-                                                            {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{%endif%}{% endif %}
+                                                            {% if approvalText|length > 0 %}
+                                                                <p> <span class="tag status in-progress">{{approvalText}} </span> </p>
+                                                            {%else%}
+                                                                {%if currUnitStatus.status is defined%}
+                                                                    {%if currUnitStatus.status == '1'%}
+                                                                        <p> <span class="tag status done">Submitted</span> </p>
+                                                                    {%endif%}
+                                                                {%endif%}
+                                                            {% endif %}
                                                             <p> <span class="tag-id">{{units.id}}</span> </p>
                                                             <p><a href="{{ base_url }}courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                         </div>
