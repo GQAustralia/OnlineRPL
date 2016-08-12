@@ -81,6 +81,23 @@ $(document).ready(function(){
            $(this).children('.material-icons').text('expand_less');       
         }
     });
+    
+    $('a[data-collapse="parent"]').on('click', function(){
+           var isShown;
+         if($(this).attr('aria-expanded')==='true'){
+            isShown=true;
+         }else{
+            isShown=false;
+         }
+         isShown =! isShown;
+       $(this).attr('aria-expanded',isShown);
+        if($(this).attr('aria-expanded')==='true'){
+           $(this).children('.material-icons').text('expand_less');       
+        }else{
+           $(this).children('.material-icons').text('expand_more'); 
+        }
+         
+    });
     $('.collapse').on('shown.bs.collapse', function(){
             $(this).parent().find(".keyboard_arrow_down").removeClass("keyboard_arrow_down").addClass("keyboard_arrow_right");
             }).on('hidden.bs.collapse', function(){

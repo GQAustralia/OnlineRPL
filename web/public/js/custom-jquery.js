@@ -746,11 +746,11 @@ $(".setData").click(function() {
         userCourseId = courseId;
     }
     note = $('#notes_' + listId).val();
-    if (note === '') {
+    /*if (note === '') {
         $('#notes_' + listId).focus();
         $('#notes_' + listId).css("border","1px solid red");
         return false;
-    }
+    }*/
     remindDate = $('#remindDate_' + listId).val();
     if (remindDate === '') {
         $('#remindDate_' + listId).focus();
