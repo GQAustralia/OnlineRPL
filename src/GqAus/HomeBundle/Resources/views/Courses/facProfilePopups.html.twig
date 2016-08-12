@@ -1,3 +1,4 @@
+    {% set userId = app.security.getToken().getUser().getId() %} 
 <div class="modal fade profile_popup" id="facProfile" role="dialog">
     <div class="modal-dialog"><!-- Modal content-->
         <div class="modal-content">
@@ -16,7 +17,9 @@
                         </div>
                     </div>
                     <div class="count">
-                            <span class="number"><strong>{{10}}</strong></span>
+                        {% set  portfoliosCount = user_service.getPendingApplicantsCount(userId, 'ROLE_FACILITATOR', '0') %}
+                        {{dump(portfoliosCount)}}
+                            <span class="number"><strong>{{1}}</strong></span>
                             <span class="title">Active Portfolios</span>
                     </div>
                 </div>

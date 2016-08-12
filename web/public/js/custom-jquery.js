@@ -2588,16 +2588,9 @@ function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
              console
             if (rec[0] == '0') {
                 //$('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not submitted!</h2>');
-            } else if (rec[0] == '1') {
-                //alert('Success-----');
-               //  $('#btn-submit').removeAttr("data-toggle","data-target");
-               // $('#gq-dashboard-tabs-error-assess').html('');
-             //  $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Submitted successfully!</h2>');
+            } else if (rec[0] == '1') {             
                 $('#btn-submit').attr({"data-toggle":"modal", "data-target":"#suceess-msg"});
-                 $('#suceess-msg').modal('show');
-                
-               // $('#sp_'+rec[1]).show();
-                //location.reload();
+                 $('#suceess-msg').modal('show');                
             }
             else if (rec[0] == '2') {
                 //$('#gq-dashboard-tabs-error-assess').html('<h2>Please Upload Evidences</h2>');
