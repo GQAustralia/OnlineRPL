@@ -1773,7 +1773,8 @@ $( '#userfiles_browse' ).change( function( e ) {
               $('#change_file_error').show();
               $('#change_file_error').html('<div class="gq-id-file-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>');  
             } else {
-                $('#Id_files').submit();
+                profileIdUpload();
+                //$('#Id_files').submit();
             }
         } else {
             $('#change_file_error').show();

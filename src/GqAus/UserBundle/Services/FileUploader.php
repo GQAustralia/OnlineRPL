@@ -84,29 +84,40 @@ class FileUploader
      */
     public function uploadIdFiles($data)
     {
-        $fileNames = $this->uploadToAWS($data['browse']);        
-        if ($fileNames) {
+      //
+        $fileInfo = $data->get('fileInfo');
+        $fileName = $data->get('fileName');
+        $otherInfo= $data->get('otherInfo');
+        $size = $fileInfo['size'];
+        $mimeType = $fileInfo['type'];
+        $otherInfo = $data->get('otherInfo');
+       // $size = $this->fileSize($size);
+        $pos = strpos($mimeType, '/');
+        $type = substr($mimeType, 0, $pos);
+       // $size   = '900';
+       // $fileNames = $this->uploadToAWS($data['browse']);        
+       // if ($fileNames) {
             $userIdFiles = new UserIds();
             $userIdFiles->setUser($this->currentUser);
             $documentType = $this->em->getRepository('GqAusUserBundle:DocumentType');
-            $documentID = $documentType->findOneById($data['type']->getId());
+            $documentID = $documentType->findOneByType($otherInfo['docType']);  
             $userIdFiles->setType($documentID);
-            $userIdFiles->setName($fileNames['orginal_name']);
-            $userIdFiles->setPath($fileNames['aws_file_name']);
-            $userIdFiles->setSize($fileNames['file_size']);            
+            $userIdFiles->setName($fileInfo['name']);
+            $userIdFiles->setPath($fileName);
+            $userIdFiles->setSize($size);            
             $this->em->persist($userIdFiles);
             $this->em->flush();
             $now = new DateTime('now');
             $result = array(
-                'id' => $userIdFiles->getId(),
-                'name' => $fileNames['orginal_name'],
-                'path' => $fileNames['aws_file_name'],
+                'id' =>   $userIdFiles->getId(),
+                'name' => $fileInfo['name'],
+                'path' => $fileName,
                 'type' => $userIdFiles->getType()->getType(),
                 'date' => $now->format('d/m/Y'),
-                'size' => $fileNames['file_size']
+                'size' => $size
             );
             return json_encode($result);
-        }
+        //}
         return $fileNames;
     }
 

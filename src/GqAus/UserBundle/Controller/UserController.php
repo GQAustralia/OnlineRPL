@@ -169,9 +169,9 @@ class UserController extends Controller
     {
         $form = $this->createForm(new IdFilesForm(), array());
         if ($request->isMethod('POST')) {
-            $form->bind($request);
-            $data = $form->getData();
-            $result = $this->get('gq_aus_user.file_uploader')->uploadIdFiles($data);
+//            $form->bind($request);
+//            $data = $form->getData();
+            $result = $this->get('gq_aus_user.file_uploader')->uploadIdFiles($request->request);
             if ($result) {
                 echo $result;
             }

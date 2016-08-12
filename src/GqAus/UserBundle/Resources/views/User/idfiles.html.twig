@@ -12,7 +12,7 @@
             <div class="title_bar clearfix">
                     <span class="left">YOUR ID</span>
                     {% set requiredpoints = 100 - currentIdPoints %}
-                    <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED <a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow"><i class="material-icons">info</i></a>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
+                    <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED <a href="{{ app.request.baseUrl }}/faq" target="_blank"><i class="material-icons">info</i></a>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
             </div>
         {% if currentIdPoints < "100" %}
             <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data">                 
@@ -21,7 +21,7 @@
                     <option value="">Select document type</option>
                     {% if documentTypes %}
                     {% for key, docs in documentTypes %}
-                    <option  value="{{docs.id}}" data-content='<span class="content">{{docs.type}}</span><span class="number">{{docs.points}}</span>'></option>
+                    <option  value="{{docs.id}}" data-content='<span class="content" doc-type="{{docs.type}}" id="doc-type">{{docs.type}}</span><span class="number">{{docs.points}}</span>'></option>
                      {% endfor %}
                     {% endif %}
             </select>
@@ -29,6 +29,11 @@
                         {{ form_widget(filesForm.browse, {'attr': {'class': 'hidden uploadFile'}}) }}
                         <span class="button uploadTrigger"><i class="material-icons">add</i></span><strong>Add ID</strong>
                 </div>
+                    <div class="panel-group" id="fileListContainer">
+                        <div class="panel clearfix">
+                                <div class="panel-body">
+                  <div class="panel-copy fileListContainer" id="progress-bars"></div>
+                  </div></div></div>
                  <div id="idfiletype_image"></div>
             <div class="loading-icon" style="display: none;" id="ID_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>   
             </form>
@@ -90,3 +95,7 @@
         </div>
   
 </div>
+{% block javascripts %}
+<script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+<script src="{{ asset('public/js/s3-upload/s3upload-profileid.js') }}"></script>
+ {% endblock %}
