@@ -27,3 +27,6 @@ ALTER TABLE `evidence_text`  ADD `self_assessment` INT(1) NOT NULL DEFAULT '0'  
 -- To elective status of the course unit
 ALTER TABLE `user_course_units` ADD `elective_status` INT(2) NOT NULL DEFAULT '0' AFTER `status`;
 
+-- submit this Unit Status
+ALTER TABLE `user_course_units` ADD `issubmitted` INT(2) NULL DEFAULT NULL AFTER `elective_status`;
+
