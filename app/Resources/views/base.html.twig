@@ -135,8 +135,9 @@
         {% block body %}{% endblock %}
         <!-- Dashboard page ends here -->
     </main>
+     {% block outofbody %}{% endblock %}
         <!-- Profile Modal Starts -->
-          {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
+         {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
          {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
         <!-- Profile Modal Ends -->
 	    <!-- jQuery first, then Bootstrap JS. -->          
