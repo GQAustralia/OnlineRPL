@@ -1,131 +1,156 @@
 {% set roles = app.security.getToken().getUser().getRoles() %}
 <div class="to_do_list">
-	<div class="panel-group" id="accordion1">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<div class="panel-title">
-					<span>TO DO LIST</span>
-					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-					  <i class="material-icons keyboard_arrow_down hidden-lg">keyboard_arrow_down</i>
-					</a>
-				</div>
-			</div>
-			<div id="collapse1" class="panel-collapse collapse in">
-				<div class="panel-body">
-					<div class="progres_bar_sec">
-						<p class="title">To Do Today - <span class="todo-percent"> {{ percentage|number_format(0) }}</span>% Complete</p>
-						<div class="progress">
-							<div class="progress-bar" role="progressbar" data-citem="{{ completedRemindersCount }}" data-titem="{{ totalRemindersCount }}" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:{{percentage|number_format(0)}}%">
-							  <span class="sr-only">30% Complete</span>
-							</div>
-						</div>
-					</div>
-					<ul  class="todo-list">
-						{% if todoReminders|length > 0 %}
-                                                        
-							{% for key, todoList in todoReminders %}
-                                                        {% set startDate = todoList.date|date('Y-m-d') %}
-                                                        {% set difference = date( 'now' | date() ).diff(date(startDate)) %}
-                                                        {% set daycount = difference.days %}
-                                                        {% set counterClass = (daycount<=3)? 'disable_day': ((daycount<=5)? 'active_day': 'highlight_day') %}
-                                                        {% set todoIcon = (todoList.reminderType == 'image') ? 'cloud_upload': ((todoList.reminderType=='message')? 'message': 'account_circle') %}
-							<li class="list_item clearfix">
-                                                            <span class="list_icon">
-                                                                    <i class="material-icons message">{{todoIcon}}</i>
-                                                            </span>
-                                                            <span class="content bold">{{ todoList.user.firstName }} {{ todoList.user.lastName  }} - {{ todoList.message}}</span>
-                                                           {% if daycount > 2 %}
-                                                                <span class="days_count {{counterClass}}">{{daycount}}d{% if daycount > 6 %}!{% endif %}</span>
-                                                           {% endif %}
-                                                            <div class="checkbox_outer">
-                                                                    <input type="checkbox" class="updateTodo" id="{{ todoList.id }}" data-status="0" data-toggle="modal" data-target="#confirm_popup"/><span></span>
-                                                            </div>
-							</li>
-							{% endfor %}
-						{% endif %}
-                                                <li class="emptyPendingTodo disable {% if todoReminders|length > 0 %} hide {% endif %}">
-                                                    <div class="li_content">
-                                                        <div class="left_side_data">
-                                                                <p class="title_data">{{todo_list_not_found}}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                </li>
-						
-					</ul>
-					<div>
-						<span class="day_title">Completed Today</span>
-					</div>
-					<ul class="completed-list">
-						{% if completedReminders|length > 0 %}
-							{% for  key, todoCompleteList in completedReminders %}
-                                                                {% set todoCompletedIcon = (todoCompleteList.reminderType == 'image') ? 'cloud_upload': ((todoCompleteList.reminderType=='message')? 'message': 'account_circle') %}
-								<li class="list_item clearfix disable">
-									<span class="list_icon">
-										<i class="material-icons message">{{ todoCompletedIcon }}</i>
-									</span>
-									<span class="content">{{ todoCompleteList.message }}</span>
-									<div class="checkbox_outer">
-										<input type="checkbox" id="{{ todoCompleteList.id }}" checked disabled="disabled" /><span></span>
-									</div>
-								</li>
-							{% endfor %}
-						{% else %}
-							<li class="emptyCompletedTodo disable">
-								<div class="li_content">
-									<div class="left_side_data">
-										<p class="title_data">No Completed Todo List found</p>
-									</div>
-								</div>
-								<div class="clearfix"></div>
-							</li>                                                                                    
-						{% endif %}
-					</ul>					
-					<ul class="navigation_link_section clearfix">
-						<li>
-							<a href="javascript:void(0)" class="icon">
-								<strong class="hidden-xs">Add New</strong>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)" class="icon">
-								<i class="material-icons message">message</i>
-                                                                <span><a href="{{ app.request.baseUrl }}/messages" title="Message">Message</a></span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)" class="icon">
-								<i class="material-icons account_circle">account_circle</i>
-								<span><a href="{{ app.request.baseUrl }}/applicants" title="Portfolio">Portfolio</a></span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)" class="icon">
-								<i class="material-icons cloud_upload">cloud_upload</i> 
-                                                                <span><a href="{{ app.request.baseUrl }}/evidences" title="Evidence">Evidence</a></span>
-							</a>
-						</li>
-						<li>
-						<div class="icon note">
-								<div class="dropdown keep-open">
-									<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons edit">edit</i><span class="hidden-xs" title="Add Reminder Note">Note</span></span>
-										<div class="dropdown-menu">
-											<div class="data_section">
-												<textarea rows="3" placeholder="Notes" id="notes_note"></textarea>
-												<div class="date_section clearfix">
-														<input type="text" class="date_field form-control" id="remindDate_note" />
-												</div>
-											</div>
-											<button type="button" class="btn_red setData" usercourseid="" listid="note" remindertype="portfolio" remindertypeid="">Save</button>
-										</div>
-								</div>
-						</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="panel-group" id="accordion1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <span>TO DO LIST</span>
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                      <i class="material-icons keyboard_arrow_down hidden-lg">keyboard_arrow_down</i>
+                    </a>
+                </div>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div class="progres_bar_sec">
+                        <p class="title">To Do Today - <span class="todo-percent"> {{ percentage|number_format(0) }}</span>% Complete</p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" data-citem="{{ completedRemindersCount }}" data-titem="{{ totalRemindersCount }}" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:{{percentage|number_format(0)}}%">
+                              <span class="sr-only">30% Complete</span>
+                            </div>
+                        </div>
+                            {#{{ dump(todoReminders) }}#}
+                    </div>
+                    <ul  class="todo-list">
+                        {% if todoReminders|length > 0 %}
+
+                                {% for key, todoList in todoReminders %}
+                                {% set startDate = todoList.date|date('Y-m-d') %}
+                                {% set difference = date( 'now' | date() ).diff(date(startDate)) %}
+                                {% set daycount = difference.days %}
+                                {% set counterClass = (daycount<=3)? 'disable_day': ((daycount<=5)? 'active_day': 'highlight_day') %}
+                                {% set todoIcon = (todoList.reminderType == 'evidence') ? 'cloud_upload': ((todoList.reminderType=='portfolio')? 'account_circle': (todoList.reminderType=='message')? 'message': 'edit') %}
+                                {#{{ dump(rTypeContent) }}#}
+                                <li class="list_item clearfix">                                    
+                                    {% if (todoList.reminderType == 'portfolio' or todoList.reminderType == 'message' or todoList.reminderType == 'evidence') %}
+                                        {% set rTypeContent = user_service.getRemindeTypeContent(todoList.reminderTypeId, todoList.reminderType) %}
+                                        <a href="{{ rTypeContent.link }}" target="_blank">
+                                            <span class="list_icon">
+                                                    <i class="material-icons message">{{todoIcon}}</i>
+                                            </span>
+                                            <span class="content bold">
+                                                {{ rTypeContent.text }}
+                                            </span>
+                                        </a>
+                                    {% else %}
+                                        <span class="list_icon"><i class="material-icons message">{{todoIcon}}</i></span>
+                                        <span class="content bold">{{ todoList.message}}</span>
+                                    {% endif %}
+                                   {% if daycount > 2 %}
+                                        <span class="days_count {{counterClass}}">{{daycount}}d{% if daycount > 6 %}!{% endif %}</span>
+                                   {% endif %}
+                                    <div class="checkbox_outer">
+                                            <input type="checkbox" class="updateTodo" id="{{ todoList.id }}" data-status="0" data-toggle="modal" data-target="#confirm_popup"/><span></span>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                        {% endif %}
+                        <li class="emptyPendingTodo disable {% if todoReminders|length > 0 %} hide {% endif %}">
+                            <div class="li_content">
+                                <div class="left_side_data">
+                                        <p class="title_data">{{todo_list_not_found}}</p>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </li>
+                    </ul>
+                    <div>
+                            <span class="day_title">Completed Today</span>
+                    </div>
+                    <ul class="completed-list">
+                        {% if completedReminders|length > 0 %}
+                            {% for  key, todoCompleteList in completedReminders %}
+                                    {% set todoCompletedIcon = (todoCompleteList.reminderType == 'evidence') ? 'cloud_upload': ((todoCompleteList.reminderType=='portfolio')? 'account_circle': (todoCompleteList.reminderType=='message')? 'message': 'edit') %}
+                                    <li class="list_item clearfix disable">
+                                        
+                                    {% if (todoCompleteList.reminderType == 'portfolio' or todoCompleteList.reminderType == 'message' or todoCompleteList.reminderType == 'evidence') %}
+                                        {% set rTypeContent = user_service.getRemindeTypeContent(todoCompleteList.reminderTypeId, todoCompleteList.reminderType) %}
+                                        <a href="{{ rTypeContent.link }}" target="_blank">
+                                            <span class="list_icon">
+                                                    <i class="material-icons message">{{todoCompletedIcon}}</i>
+                                            </span>
+                                            <span class="content">
+                                                {{ rTypeContent.text }}
+                                            </span>
+                                        </a>
+                                    {% else %}
+                                        <span class="list_icon">
+                                                <i class="material-icons message">{{ todoCompletedIcon }}</i>
+                                        </span>
+                                    {% endif %}                                        
+
+                                        {#<span class="content bold">{{ rcTypeContent[0].user.firstName }} {{ rcTypeContent[0].user.lastName  }} - {{ rcTypeContent[0].courseName}}</span>#}
+                                        <div class="checkbox_outer">
+                                                <input type="checkbox" id="{{ todoCompleteList.id }}" checked disabled="disabled" /><span></span>
+                                        </div>
+                                    </li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="emptyCompletedTodo disable">
+                                <div class="li_content">
+                                    <div class="left_side_data">
+                                        <p class="title_data">No Completed Todo List found</p>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </li>                                                                                    
+                        {% endif %}
+                    </ul>					
+                    <ul class="navigation_link_section clearfix" style="display: none;">
+                        <li>
+                            <a href="javascript:void(0)" class="icon">
+                                <strong class="hidden-xs">Add New</strong>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" class="icon">
+                                <i class="material-icons message">message</i>
+                                <span><a href="{{ app.request.baseUrl }}/messages" title="Message">Message</a></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" class="icon">
+                                <i class="material-icons account_circle">account_circle</i>
+                                <span><a href="{{ app.request.baseUrl }}/applicants" title="Portfolio">Portfolio</a></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" class="icon">
+                                <i class="material-icons cloud_upload">cloud_upload</i> 
+                                <span><a href="{{ app.request.baseUrl }}/evidences" title="Evidence">Evidence</a></span>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="icon note">
+                                <div class="dropdown keep-open">
+                                    <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons edit">edit</i><span class="hidden-xs" title="Add Reminder Note">Note</span></span>
+                                    <div class="dropdown-menu">
+                                        <div class="data_section">
+                                            <textarea rows="3" placeholder="Notes" id="notes_note"></textarea>
+                                            <div class="date_section clearfix">
+                                                <input type="text" class="date_field form-control" id="remindDate_note" />
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn_red setData" usercourseid="" listid="note" remindertype="note" remindertypeid="">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Modal -->
 <!-- <div class="modal fade confirm_popup" id="confirm_popup" role="dialog">

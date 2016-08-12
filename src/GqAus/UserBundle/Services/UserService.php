@@ -1106,7 +1106,8 @@ class UserService
             $pendingApplicants = $this->getPendingApplicants($userId, $user->getRoles(), '0');
             $unReadMessagesCount = $this->getUnreadMessagesCount($userId);
             $unReadMessages = $this->getMyInboxNewMessages($userId); 
-            $todaysReminders = $this->getTodaysReminders($user->getId());
+            //$todaysReminders = $this->getTodaysReminders($user->getId());
+            $todaysReminders = array();
             $todoReminders = $this->getTodoReminders($userId);
             $todoCompletedReminders = $this->getCompletedReminders($userId);
             $todoRemindersCount = count($todoReminders);
@@ -1246,6 +1247,7 @@ class UserService
         $getReminders = $query->getQuery()->getResult();
         return $getReminders;
     }
+    
     
     /**
      * Function to check reminder exists or not
@@ -2144,7 +2146,6 @@ class UserService
     public function getTodoReminders($userId)
     {
         $todayTime = \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 00:00:00") );
-       // dump($today_enddatetime); exit;
         $fields = 'partial r.{id, completed, message, date, course, reminderType, reminderTypeId}, partial u.{id, firstName, lastName}';
         $query = $this->em->getRepository('GqAusUserBundle:Reminder')
             ->createQueryBuilder('r')
@@ -2155,6 +2156,51 @@ class UserService
             ->addOrderBy('r.date', 'DESC');
         $getReminders = $query->getQuery()->getResult();
         return $getReminders;
+    }
+    
+    /**
+     * Function to get todo reminders type content
+     * @param int $typeId
+     * @param string $type
+     * return array content
+     */
+    public function getRemindeTypeContent($typeId, $type)
+    {
+        
+        switch ($type) {
+            case 'portfolio':
+                        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourses');
+                        $typeContent = $reposObj->findOneBy(array('id' => $typeId));
+                        $contentText = $typeContent->getUser()->getFirstname().' '.$typeContent->getUser()->getLastname().' - '.$typeContent->getCourseName();
+                        if(strlen($contentText) > 55 )
+                            $contentText = substr($contentText, 0, 55).'...';
+
+                        $content['text'] = $contentText;
+                        $content['link'] = '/applicantDetails/'.$typeContent->getCourseCode().'/'.$typeContent->getUser()->getId();
+                break;
+            case 'message':
+                $reposObj = $this->em->getRepository('GqAusUserBundle:Message');
+                        $typeContent = $reposObj->findOneBy(array('id' => $typeId));
+                        $contentText = $typeContent->getSent()->getFirstname().' '.$typeContent->getSent()->getLastname().' - '.$typeContent->getSubject();
+
+                        if(strlen($contentText) > 55 )
+                            $contentText = substr($contentText, 0, 55).'...';
+                        $content['text'] = $contentText;
+                        $content['link'] = '/messages/'.$typeId;
+                break;
+            case 'evidence':
+                $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
+                        $typeContent = $reposObj->findOneBy(array('id' => $typeId));
+                        $contentText = $typeContent->getUser()->getFirstname().' '.$typeContent->getUser()->getLastname().' - '.$typeContent->getName();
+
+                        if(strlen($contentText) > 55 )
+                            $contentText = substr($contentText, 0, 55).'...';
+                        $content['text'] = $contentText;
+                        $content['link'] = '#';
+                break;
+        }
+
+        return $content;
     }
 
     /**
