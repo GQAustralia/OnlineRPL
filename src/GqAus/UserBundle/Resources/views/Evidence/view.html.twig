@@ -219,11 +219,11 @@
                                                                 {% if evd[0].content %} 
                                                                     <div class="block">
                                                                         <div class="file_info hidden-xs">
-                                                                            <span class="icon">
-                                                                                <i class="material-icons">description</i>
+                                                                            <span class="icon"><a href="#text{{evd[0].id}}" class="fancybox" id="btnForm">
+                                                                                <i class="material-icons">description</i></a>
                                                                             </span>
                                                                             <span class="file_name">
-                                                                                {{ evd[0].content }}
+                                                                                {{ evd[0].content|slice(0,40) }}
                                                                             </span>
                                                                             <span class="file_size"></span>
                                                                             <span class="clear">
@@ -244,6 +244,7 @@
                                                                             {% endfor %}
                                                                         </div>
                                                                     </div>
+																	<div id="text{{evd[0].id}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evd[0].content is defined %}{{evd[0].content}}{%endif%}</div>
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
