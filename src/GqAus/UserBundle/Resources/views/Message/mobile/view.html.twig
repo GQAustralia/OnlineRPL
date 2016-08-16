@@ -68,7 +68,7 @@
 
     {% if msgID is defined %}
         <div class="mail_compose_section view-message">
-                <div class="title_bar">WELCOME
+                <div class="title_bar">WELCOME!
                         <span><a href="{{ base_url }}messages"><i class="material-icons arrow_back">arrow_back</i></a></span>
                 </div>
 
@@ -142,14 +142,14 @@
     </div>
     </div>
     {% endfor %}
-    <div class="col-xs-push-4 col-xs-4" id="change_pwd_error">
+   {# <div class="col-xs-push-4 col-xs-4" id="change_pwd_error">
     {% for flashMessage in app.session.flashbag.get('errornotice') %}
     <div class="gq-well well gq-id-files-upload-success-text">
         <span class="login-warning-icon" aria-hidden="true"></span>
         <div class="login-warning-text" id="flash-msg">{{ flashMessage }}</div>
     </div>
     {% endfor %}
-    </div>
+    </div>#}
     </div>
     
     {% if msgType is defined and msgType=="new" %}
