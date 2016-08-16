@@ -33,14 +33,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="edu-tag">
-                         {% set inloop = 0 %}
-                        {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], unitCode, courseInfo.id ) %}
-                        {% if ('ROLE_RTO' in userRole and approvalStatus =='0') %} 
-                            {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_ASSESSOR', unitCode, courseInfo.id ) %}
-                            {% set inloop = 1 %}
-                        {% endif %}  
-                        {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
                         {% set currUnitStatus = courses_service.getUnitStatus(userId, unitCode, courseInfo.id)%}
+                        {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, unitCode, courseInfo.id, userRole[0]) %}
                         {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{%endif%}{% endif %}
                         <p>
                             <span class="tag-edu"><a href="{{ base_url }}applicantDetails/{% if courseInfo.id %}{{courseInfo.id}}{% endif %}/{% if userId %}{{userId}}{%endif%}">Qualification</a></span>
@@ -124,7 +118,7 @@
                             {% endif %}
                         {% endif %}
                         {% if ('ROLE_ASSESSOR' in userRole and actUnitStatus =='1') %}
-                            {% if unitAssStatus == '0' or unitAssStatus == '2' %}
+                            {% if (unitAssStatus == '0' or unitAssStatus == '2') and unitFacStatus == '1' %}
             <div class="col-xs-{% if unitAssStatus == '0' %}6{%else%}12{%endif%} col-lg-{% if unitAssStatus == '0' %}6{%else%}12{%endif%}"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
                                 {% if unitAssStatus == '0' %}
             <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
@@ -132,7 +126,7 @@
                             {% endif %}
                         {% endif %}
                         {% if ('ROLE_RTO' in userRole and actUnitStatus =='1') %}
-                            {% if unitAssStatus == '0' or unitAssStatus == '2' %}
+                            {% if (unitRtostatus == '0' or unitRtostatus == '2') and unitAssStatus == '1' %}
             <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger border-right" type="button" >Approved</button></div>
             <div class="col-xs-6 col-sm-6 col-md-6"><button class="btn btn-danger" type="button" >Not yet approved</button></div>
                             {% endif %}
