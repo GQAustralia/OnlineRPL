@@ -33,9 +33,10 @@ $(document).ready(function(){
       */  
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
-	    var header_Ht = $("header").height();
-        var mobile_view_Ht = window_Ht - header_Ht;
-        $(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
+	var header_Ht = $("header").height();
+	
+	var mobile_view_Ht = window_Ht - header_Ht;
+	$(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
 
 	
 	$('.collapse').on('shown.bs.collapse', function(){
@@ -55,8 +56,16 @@ $(document).ready(function(){
 	if(window_Wt < 767 && window_Ht > 370){
 		$(".login_section .login_btn").css("position","absolute");
 	}
-        if(window_Wt < 640 && window_Ht > 370){
+	
+	if(window_Wt < 640 && window_Ht > 370){
 		$(".login_section").css("padding-top","100px");
+	}
+	
+	var title_Ht = $(".mobile_version .mail_compose_section .title_bar").height();
+	var btnSection_Ht = $(".mobile_version .mail_compose_section .btn_section").height();
+	var chat_Ht = window_Ht -(title_Ht+btnSection_Ht);
+	if(window_Wt < 767 && window_Ht >= 320){
+		$(".mobile_version .chat_room").css("height",chat_Ht);
 	}
 	
 	$(".form_block input").focus(function(){
@@ -71,12 +80,11 @@ $(document).ready(function(){
     $('a[data-collapse="child"]').on('click', function(){
         var nestedCollapse;
         $( 'a[data-collapse="child"]').each( function( index, element ){
-                         $(this).children('.material-icons').text('expand_more'); 
+			$(this).children('.material-icons').text('expand_more'); 
         });
 
         if($(this).attr('aria-expanded')==='true'){
-
-                $(this).children('.material-icons').text('expand_more'); 
+			$(this).children('.material-icons').text('expand_more'); 
         }else{
            $(this).children('.material-icons').text('expand_less');       
         }
@@ -119,21 +127,7 @@ $(document).ready(function(){
     }); */
     $("#user_profile_image").click(function(){
         $("#userprofile_userImage").click();
-     });
-    var textarea_ht = window_Ht - 135;
-    $(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
-
-    if(window_Wt < 530 && window_Ht >= 480){
-            $("#profile1 .modal-body").css("height",window_Ht);
-            $("#profile1 .submit_btn").css("position","absolute");
-    }
-
-    if(window_Wt < 767 && window_Ht > 370){
-            $(".login_section .login_btn").css("position","absolute");
-    }
-    if(window_Wt < 640 && window_Ht > 370){
-		$(".login_section").css("padding-top","100px");
-	}
+    });
 
     $(".form_block input").focus(function(){
             $(this).prev().css("color","red");
@@ -177,11 +171,11 @@ $(document).ready(function(){
 $(window).resize(function(){
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
-	    var header_Ht = $("header").height();
-        var mobile_view_Ht = window_Ht - header_Ht;
-        $(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
-
+	var header_Ht = $("header").height();
+	var mobile_view_Ht = window_Ht - header_Ht;
 	
+	$(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
+
 	var textarea_ht = window_Ht - 135;
 	$(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
 	
@@ -192,6 +186,13 @@ $(window).resize(function(){
 	
 	if(window_Wt < 767 && window_Ht > 370){
 		$(".login_section .login_btn").css("position","absolute");
+	}
+	
+	var title_Ht = $(".mobile_version .mail_compose_section .title_bar").height();
+	var btnSection_Ht = $(".mobile_version .mail_compose_section .btn_section").height();
+	var chat_Ht = window_Ht -(title_Ht+btnSection_Ht);
+	if(window_Wt < 767 && window_Ht >= 320){
+		$(".mobile_version .chat_room").css("height",chat_Ht);
 	}
 });
 
