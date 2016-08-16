@@ -79,6 +79,11 @@ $("#disapproveyes").click(function () {
     var unitId = $('#unit-id').val();
     var courseCode = $('#course-code').val();
     var msgBody = $('#msg-body').val();
+    if (msgBody === '') {
+        $('#msg-body').focus();
+        $('#msg-body').css("border","1px solid red");
+        return false;
+    }
     var subject = "Evidenced are Not sufficient for the unit "+ unitName +"";    
 	$.ajax({
         type: "POST",
