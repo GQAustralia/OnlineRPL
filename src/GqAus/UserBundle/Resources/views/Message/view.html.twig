@@ -18,19 +18,16 @@
                                 <li class="{% if message.read == 1 %} disable {% endif %} clearfix" id="msg-{{message.id}}">
                                     
                                         <span class="chat_pic">
-                                            {% if message.sent.userImage == "" %}
-                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
-                                            {% else %}
-                                                <img src="{{ asset('public/uploads/') }}{{ message.sent.userImage }}" alt="chat_pic"/>
-                                             {% endif %} 
+                                            
+											 <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
                                         </span>
                                         <span class="chat_content">
                                             <span class="chat_name">
-                                                {% if message.sent.id == curuser and  message.replymid=="0"%}                                                    
+                                                {% if message.sent.id is defined and message.sent.id == curuser and  message.replymid=="0"%}                                                    
                                                     <strong>You</strong>
                                                     <span class="arrow"></span>
                                                     <strong>{{message.inbox.firstname}}</strong>
-                                                    {% else %}
+                                                    {% elseif message.sent.id is defined %}
                                                             {{message.sent.firstname}}
                                                     {% endif %}
                                             </span>

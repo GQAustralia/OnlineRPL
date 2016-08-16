@@ -1,0 +1,261 @@
+<!-- MOBILE VERSION -->
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+{% set userId = app.security.getToken().getUser().getId() %}	
+<div class="hidden-sm hidden-md hidden-lg full_width">
+    <div class="mobile_version_block" >
+         <div class="gq-change-pwd-warning" id="pwd_error">
+            {% for flashMessage in app.session.flashbag.get('errornotice') %}
+            <div class="gq-id-pwd-error-text" style="display:none">
+                <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+            </div>
+           {% endfor %}
+        </div>
+        <!--SECTION -->
+        <div class="section idfilediv" id="idfiles">
+            <div class="info_block">
+                    <div class="title_bar clearfix">
+                            <span class="left">YOUR ID</span>
+                            {% set requiredpoints = 100 - currentIdPoints %}
+                            <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED</strong><i class="material-icons">info</i>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</span>
+                    </div>
+                    <div class="add_section">
+                            <span class="button uploadTrigger"><i class="material-icons">add</i></span><strong>Add ID</strong>
+                    </div>
+                    <ul class="list">
+                            <li>
+                                    <span class="content">Foreign Passport(current)</span>
+                                    <span class="number">70</span>
+                            </li>
+                    </ul>
+            </div>
+        <div class="form_block profilediv" id="profileinfo">
+        <div class="title_bar clearfix">
+                <span class="left">YOUR DETAILS</span>
+                <span class="right"><strong>{{userProfilePercentage}} COMPLETED</strong>{% if userProfilePercentage == "100%" %}<i class="material-icons">done</i>{% endif %}</span>
+        </div>
+        <form class="form" name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data"/>  
+        <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% else %}other{% endif %}">
+        <input type='hidden' id='hdn-userId' name='hdn-userId' value="{{userId}}">
+        <input type='hidden' id='hdn-type' name='hdn-type' value="0">
+                <div class="section">
+                        <div class="form-group clearfix">
+                                <label for="gq-first-name">First Name</label>
+                                {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
+                        </div>
+                </div>
+                <div class="section">
+                        <div class="form-group clearfix">
+                                <label for="gq-last-name">Last Name</label>
+                                {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
+                        </div>
+                </div>
+                <div class="section">
+                        <div class="form-group clearfix gender_section">
+                                <label >Gender</label>                                        
+                                    {{ form_widget(form.gender) }}                                        
+                        </div>
+                </div>
+                <div class="section">
+                        <div class="form-group clearfix">
+                                <label for="gq-email-name">Email</label>
+                                {{ form_widget(form.email, { 'attr':{'readonly':'readonly'} }) }}
+                        </div>
+                </div>
+                <div class="section">
+                        <div class="form-group clearfix">
+                                <label for="gq-personal-pwd">Mobile</label>
+                                {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
+                        </div>
+                </div>
+                <div class="section">
+                        <div class="form-group clearfix password_field">
+                                <label>Password</label>
+                                <input type="text" value="........"/>
+                                <a href="javascript:void(0)" class="change_link mobileval" >Change?<i class="material-icons">lock</i></a>
+                        </div>
+                </div>
+                <div class="section">
+                <div class="form-group clearfix">
+                        <label for="gq-personal-pwd">USI</label>
+                        {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
+                </div>
+                </div>                
+                <div class="section">
+                        <div class="form-group clearfix">
+                                <label for="gq-last-name">Street Number</label>
+                                {{ form_widget(form.address.address,{ 'attr': {'maxlength': '30'} }) }}
+                        </div>
+                </div>
+                <div class="section">
+                        <div class="form-group clearfix">
+                                <label for="gq-last-name">Street Name</label>
+                                {{ form_widget(form.address.area,{ 'attr': {'maxlength': '30'} }) }}
+                        </div>
+                </div>
+                <div class="section">
+                        <div class="form-group clearfix">
+                                <label for="gq-last-name">Suburb</label>
+                                {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30'} }) }}
+                        </div>
+                </div>
+                <div class="section half clearfix">
+                        <div class="form-group ">
+                                <label for="gq-last-name">City</label>
+                                {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30'} }) }}
+                        </div>
+                        <div class="form-group">
+                                <label for="gq-last-name">Postcode</label>
+                                {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '8'} }) }}
+                        </div>
+                </div>
+                <div class="section half clearfix">
+                        <div class="form-group">
+                                <label for="gq-last-name">State</label>
+                                {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30'} }) }}
+                        </div>
+                        <div class="form-group">
+                                <label for="gq-last-name">Country</label>
+                                {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30'} }) }}
+                        </div>
+                </div>
+                    
+            </div>
+            <div class="link_section clearfix">
+                    <a href="javascript:void(0)" class="faq_link">
+                            <span><i class="material-icons">help</i></span>FAQs
+                    </a>
+                    {{ form_widget(form.save, {'attr': {'class': 'btn update_btn disable'}}) }}
+            </div>
+            {{ form_end(form) }}</form>
+        </div>
+        <!--SECTION -->
+
+
+            <!--SECTION -->
+            <div class="section info_block hidden-xs">
+                    <div class="heading_bar clearfix">
+                            <span class="left">
+                                    <a href="javascript:void(0)">
+                                            <i class="material-icons">arrow_back</i>
+                                    </a>Your ID
+                            </span>
+                            <span class="right">
+                                    DONE
+                            </span>
+                    </div>
+                    <div class="title_bar clearfix">
+                            <span class="left">YOUR ID</span>
+                            <span class="right"><strong>100% POINTS REQUIRED</strong><i class="material-icons">info</i></span>
+                    </div>
+                    <select class="selectpicker">
+                            <option>Select Document Type</option>
+                            <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+                            <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+                            <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+                            <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+                    </select>
+
+                    <div class="attach_section clearfix">
+                            <div class="take_photo tab">
+                                    <span data-target="#myModal" data-toggle="modal">
+                                            <i class="material-icons">camera_alt</i>Take a photo
+                                    </span>
+                            </div>
+                            <div class="upload_btn tab">
+                                    <i class="material-icons">add</i>
+                                    <input type="file" class="hidden uploadFile">
+                                    <span class="button uploadTrigger">Add a file</span>
+                            </div>
+                    </div>
+
+                <div class="file_block">
+                    <ul>
+                        <li>
+                            <div class="title_bar clearfix">
+                                    <span class="content">Department of veterans Affairs (DVA) card</span>
+                                    <span class="number">40</span>
+                            </div>
+                            <div class="file_info">
+                                    <span class="icon">
+                                            <i class="material-icons">description</i>
+                                    </span>
+                                    <span class="file-discription">
+                                            testimonial.doc <br>10kb | Added 30/06/2016
+                                    </span>
+                                    <span class="clear">
+                                            <i class="material-icons">clear</i>
+                                    </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <!--SECTION -->
+
+
+            <!--SECTION -->
+            <div class="section change_pwd_section mobile_version currentpassword hidden-xs">
+                    <div class="heading_bar clearfix">
+                            <span>
+                                    Change Password
+                                    <a href="javascript:void(0)">
+                                            <i class="material-icons">clear</i>
+                                    </a>
+                            </span>
+                    </div>
+                    {{ form_start(changepwdForm, {'attr': {'class': 'form-inline'}}) }} 
+                    <div class="content" id="change-pwd-form">
+                            <p>Please enter your current password</p>
+                            <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
+                            <input type="password" id="password_hdnoldpassword" name="password[hdnoldpassword]" maxlength="30" placeholder="Password"/>
+                             <input type="hidden" id="password_oldpassword" name="password[oldpassword]" maxlength="30" placeholder="Password"/>
+                    </div>
+                    <button class="button btn currpwdnext" >NEXT</button>
+            </div>
+            <!--SECTION -->
+
+
+            <!--SECTION -->
+            <div class="section change_pwd_section mobile_version chngpwddiv hidden-xs">
+                    <div class="heading_bar clearfix">
+                            <span>
+                                    Change Password
+                            </span>
+                    </div>
+                    <div class="content" >
+                            <p>Thanks now enter a new secure password that is 8 - 16 characters and contains both letters and numbers</p>
+                            
+                                     <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">                            
+                            {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30','class': 'form-control','placeholder':'Password'} }) }}
+                            <i class="material-icons">done</i>
+                            {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30','class': 'form-control','placeholder':'ConfirmPassword'} }) }}
+                            <i class="material-icons">done</i>
+                    </div>
+                           {{ form_widget(changepwdForm.save,{ 'label': 'SUBMIT' , 'attr': {'class': 'button btn btn_red chngpwdval'}}) }}
+                           
+            </div>
+            <!--SECTION -->
+
+            <!--SECTION -->
+            <div class="section change_pwd_section mobile_version pwdsucc hidden-xs">
+                    <div class="heading_bar clearfix">
+                            <span>
+                                    Change Password
+                                    <a href="javascript:void(0)"><i class="material-icons">clear</i></a>
+                            </span>
+                    </div>
+                    <div class="content">
+                            <span>
+                                    <img src=""{{ asset('public/images/COMPLETE.png') }}" alt="complete"/>
+                            </span>
+                            <p>Your password has been successfully changed.</p>
+                    </div>
+            </div>
+            <!--SECTION -->
+            {{ form_end(changepwdForm) }}
+
+    </div>
+</div>
+
+<!-- MOBILE VERSION -->
