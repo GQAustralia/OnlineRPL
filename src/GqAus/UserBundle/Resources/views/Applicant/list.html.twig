@@ -147,19 +147,10 @@
                 "bFilter" : false,               
                 "bLengthChange": false,                
                 "columnDefs": [
-                    { "orderable": false, "targets":  [ 0,1,2,4,5 ] }
+                    { "orderable": false, "targets":  [5 ] }
                   ]
                 } );
-           oTable1 = $('#DataTables_Table_1').DataTable( { 
-             "pageLength": 10,
-             "pagingType": "simple",
-             "searching": false,
-             "bFilter" : false,               
-             "bLengthChange": false,
-             "columnDefs": [
-                 { "orderable": false, "targets":  [ 0,1] }
-               ]
-             } );
+          
             var dateTime = new Date();
             var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
             var timeZoneDT = new Date(utc + (3600000 * +10));

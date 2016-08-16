@@ -999,6 +999,27 @@ $("#applicantCompleted").click(function() {
     $("#completed").css("display", "block");
     $("#current").css("display", "none");
     loadApplicantList('completedList');
+     oTable12 = $('#DataTables_Table_1').DataTable( { 
+             "pageLength": 5,
+             "pagingType": "simple",
+             "searching": false,
+             "bFilter" : false,               
+             "bLengthChange": false,
+             "columnDefs": [
+                 { "orderable": false }
+               ]
+             } );   
+    oTable12.destroy();
+    oTable12 = $('#DataTables_Table_1').DataTable( { 
+             "pageLength": 5,
+             "pagingType": "simple",
+             "searching": false,
+             "bFilter" : false,               
+             "bLengthChange": false,
+             "columnDefs": [
+                 { "orderable": false }
+               ]
+             } );
      $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
 });
 
