@@ -3423,17 +3423,31 @@ class UserService
             switch ($userRole) {
                 case 'ROLE_RTO' :
                     $approvalStatus = $userCourseUnits->getRtostatus();
-                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Approved' : 'Not Yet Approved';  
-                    else $approvalStatus = $userCourseUnits->getAssessorstatus();
-                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
-                    else $approvalStatus = $userCourseUnits->getFacilitatorstatus();
-                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
+                    if($approvalStatus != 0)
+                        $approvalStatus = ($approvalStatus == 1) ? 'Approved' : 'Not Yet Approved';  
+                    else {
+                            $approvalStatus = $userCourseUnits->getAssessorstatus();
+                            if($approvalStatus != 0){
+                                $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
+                            }
+                            else{
+                                $approvalStatus = $userCourseUnits->getFacilitatorstatus();
+                                if($approvalStatus != 0){
+                                    $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
+                                }
+                            }
+                                
+                        }
                     break;
                 case 'ROLE_ASSESSOR' :
                     $approvalStatus = $userCourseUnits->getAssessorstatus();
-                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
-                    else $approvalStatus = $userCourseUnits->getFacilitatorstatus();
-                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
+                    if($approvalStatus != 0){
+                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
+                    }
+                    else{
+                        $approvalStatus = $userCourseUnits->getFacilitatorstatus();
+                        if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
+                    }
                     break;
                 case 'ROLE_FACILITATOR' :
                     $approvalStatus = $userCourseUnits->getFacilitatorstatus();
