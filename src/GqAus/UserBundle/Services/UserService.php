@@ -3406,43 +3406,44 @@ class UserService
         return $colLg;
     }
     /*
-     * Function to get unit status based on the user role,If the assessor don't have any status about unit, we need to pull the unit status from fecilitator
+     * Function to get unit status based on the user role,If the assessor don't have any status about unit, we need to pull the unit status from fecilitator & vide versa
      * @param integer $status
-     * @param integer $inloop
+     * @param integer $applicantId
+     * @param string $unitId
+     * $param string $courseCode
      * @param string $userRole
      * return string status
      */
-    public function getStausByStatus($status, $inLoop, $userRole){
-         switch ($userRole) {
-             case 'ROLE_FACILITATOR':
-                    if($status == 1)
-                        return 'Satisfactory';
-                    elseif($status == 2)
-                        return 'Not Yet Satisfactory';
-                    else
-                        return '';
-                   break;
-             case 'ROLE_ASSESSOR';
-                   if($status == 1)
-                        return 'Competent';
-                   elseif($status == 2)
-                        return 'Not Yet Competent';
-             case 'ROLE_RTO';
-                    if($inLoop == 1 && $status == 1)
-                        return 'Competent';
-                    elseif($inLoop == 1 && $status == 2)
-                        return 'Not Yet Competent';
-                    elseif($inLoop == 0 && $status == 1)
-                        return 'Competent';
-                    elseif($inLoop == 0 && $status == 2)
-                        return 'Not Yet Competent';
-                    else
-                        return '';
+    public function getStausByStatus($status, $applicantId, $unitId, $courseCode, $userRole){
+        $approvalStatus = 0;
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findOneBy(array( 'user' => $applicantId, 'unitId' => $unitId, 'courseCode' => $courseCode));
+         if ($userCourseUnits) {
+            $approvalStatus = 0;
+            switch ($userRole) {
+                case 'ROLE_RTO' :
+                    $approvalStatus = $userCourseUnits->getRtostatus();
+                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Approved' : 'Not Yet Approved';  
+                    else $approvalStatus = $userCourseUnits->getAssessorstatus();
+                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
+                    else $approvalStatus = $userCourseUnits->getFacilitatorstatus();
+                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
                     break;
-              default:
-                   return '';
-                   break;
-         }
+                case 'ROLE_ASSESSOR' :
+                    $approvalStatus = $userCourseUnits->getAssessorstatus();
+                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
+                    else $approvalStatus = $userCourseUnits->getFacilitatorstatus();
+                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
+                    break;
+                case 'ROLE_FACILITATOR' :
+                    $approvalStatus = $userCourseUnits->getFacilitatorstatus();
+                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
+                    break;
+                default :
+                    $approvalStatus = 0;
+            }
+        }
+        return $approvalStatus;
     }
     /**
      * Function to get the notes based on course & roletype for portfolio details pages
