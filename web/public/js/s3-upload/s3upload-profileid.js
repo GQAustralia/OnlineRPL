@@ -136,12 +136,11 @@ var s3upload = null;
                     url: base_url + "idfileupload",
                     data: datas,
                     dataType:'json',
-                    success: function(res) {
-                        console.log(res);
-//                        if (res.evidenceId){
-//                            $('#upload_id'+res.fileNumber).attr('data-upId', res.evidenceId).attr('data-evdtype', res.evdType);
-//                            insertIds[l] = res.evidenceId;
-//                        }
+                    success: function(res) {                       
+                       // $('#userProfile').html('<div class="modal-title" id="myModalLabel">Uploaded Successfully</div><div class="btn_section"><button class="btn btn_red" onclick="javascript:location.reload();">OK</button></div>');
+                       // $('#myModal').modal('show');
+                       $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File Uploaded successfully!</h2></div>');
+                       location.reload();
                     }
                 }); 
                 def.resolve('success');

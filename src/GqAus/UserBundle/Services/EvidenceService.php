@@ -462,7 +462,7 @@ class EvidenceService
         
         //to update - when candidate submit the unit review status 
         if($submit_review!=null){
-          $courseUnitObj->setStatus(1);
+          $courseUnitObj->setIssubmitted(1);
           $this->em->persist($courseUnitObj);
           $this->em->flush();  
         }

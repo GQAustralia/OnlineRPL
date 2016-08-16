@@ -75,9 +75,9 @@
                             </div>
                             <div class="panel-body">
                                 <div class="panel-copy" id="linkedEvidences">
-								{%set inc = 0 %}
+				{%set inc = 0 %}
                                     {% for evidence in evidences %}
-									{%set inc = inc+1 %}
+					{%set inc = inc+1 %}
                                         {% if evidence.unit == unitCode %}
 
                                                 {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
@@ -105,7 +105,7 @@
                                                     <span class="clear"><a href="#"><i class="material-icons">clear</i></a></span>
                                                 </div>
                                         {% endif %}
-										<div id="{{evidence.unit}}{{inc}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evidence.content is defined %}{{evidence.content}}{%endif%}</div>
+					<div id="{{evidence.unit}}{{inc}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evidence.content is defined %}{{evidence.content}}{%endif%}</div>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -143,7 +143,7 @@
                                     <div class="col-md-12 col-lg-12">
                                        {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseInfo.id) %}
 
-                                        {% if unitType.type == "core" %}
+                                        {% if unitType.type == "core" and unitType.issubmitted != 1%}
                                                 <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
                                        {% endif %} 
                                         {% if electiveUnits[0] is defined and selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0 and unitType.type=='elective' %}                                        

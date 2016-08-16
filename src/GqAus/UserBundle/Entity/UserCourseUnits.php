@@ -44,6 +44,10 @@ class UserCourseUnits
      * @var integer
      */
     private $electiveStatus;
+      /**
+     * @var integer
+     */
+    private $issubmitted;
     /**
      * Set unitId
      *
@@ -302,6 +306,28 @@ class UserCourseUnits
     public function getElectiveStatus()
     {
         return $this->electiveStatus;
+    }
+    /**
+     * Set issubmitted
+     *
+     * @param integer $issubmitted
+     * @return integer
+     */
+    public function setIssubmitted($issubmitted)
+    {
+        $this->issubmitted = $issubmitted;
+
+        return $this;
+    }
+
+    /**
+     * Get issubmitted
+     *
+     * @return integer 
+     */
+    public function getIssubmitted()
+    {
+        return $this->issubmitted;
     }
 
 }
