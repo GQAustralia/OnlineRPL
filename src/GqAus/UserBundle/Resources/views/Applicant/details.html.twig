@@ -238,23 +238,9 @@
                                                 <div class="panel-heading no-background">
                                                     <div class="panel-title">
                                                         <div class="panle_body_content">
-                                                            {% set inloop = 0 %}
-                                                            {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], units.id, courseInfo.id ) %}
-                                                            {% if ('ROLE_RTO' in userRole and approvalStatus =='0') %} 
-                                                                {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_ASSESSOR', units.id, courseInfo.id ) %}
-                                                                {% set inloop = 1 %}
-                                                            {% endif %}   
-                                                            {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
                                                             {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
-                                                            {% if approvalText|length > 0 %}
-                                                                <p> <span class="tag status in-progress">{{approvalText}} </span> </p>
-                                                            {%else%}
-                                                                {%if currUnitStatus.status is defined%}
-                                                                    {%if currUnitStatus.status == '1'%}
-                                                                        <p> <span class="tag status done">Submitted</span> </p>
-                                                                    {%endif%}
-                                                                {%endif%}
-                                                            {% endif %}
+                                                            {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseInfo.id, userRole[0]) %}
+                                                            {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
                                                             <p> <span class="tag-id">{{units.id}}</span> </p>
                                                             <p><a href="{{ base_url }}courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                         </div>
@@ -300,15 +286,9 @@
                                                         <div class="panel-heading no-background">
                                                             <div class="panel-title">
                                                                 <div class="panle_body_content">
-                                                            {% set inloop = 0 %}
-                                                            {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], units.id, courseInfo.id ) %}
-                                                            {% if ('ROLE_RTO' in userRole and approvalStatus =='0') %} 
-                                                                {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_ASSESSOR', units.id, courseInfo.id ) %}
-                                                                {% set inloop = 1 %}
-                                                            {% endif %}   
-                                                            {% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
-                                                            {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
-                                                            {% if approvalText|length > 0 %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
+                                                                    {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
+                                                                    {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseInfo.id, userRole[0]) %}
+                                                                    {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
                                                                     <p> <span class="tag-id">{{units.id}}</span> </p>
                                                                     <p><a href="{{ base_url }}courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                                 </div>
