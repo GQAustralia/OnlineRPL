@@ -41,18 +41,18 @@ class MessageController extends Controller
             //look for the referer route
             //For reply mails thread
             $replyId = $this->getRequest()->get('reply_id');
-            if(($mid !="compose" && $mid !="usernamesbyRoles")  ||  $replyId != "") { 
-                if($replyId != "") {
+            if(($mid !="compose" && $mid !="usernamesbyRoles")  ||  $replyId != "") {               
+               if($replyId != "") {
                     $newmid = $mid;
                     $mid = $replyId;
                 }
                 $referer = $this->getRequest()->headers->get('referer');
                 $path = $this->container->getParameter('applicationUrl');
-                $lastPath = str_replace($path, '', $referer);
-                if ($lastPath != '') {
-                    $lastPath = explode('?', $lastPath);
+                $lastPath = str_replace($path, '', $referer); 
+                if ($lastPath != '') {                    
+                    $lastPath = explode('/', $lastPath);
                     // updating the readstatus if it is from inbox
-                    if ($lastPath[0] == 'messages') {
+                    if ($lastPath[0] == 'messages') {                        
                         $messageService->setReadViewStatus($mid);
                     }
                 }
