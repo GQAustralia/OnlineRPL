@@ -154,7 +154,7 @@ class CoursesService
                 $result = $this->accessCourseAPI($postFields);
             }
         }
-
+        
         if (!empty($result)) {         
             $qualificationUnits = $this->xml2array($result);
         }       
@@ -163,7 +163,8 @@ class CoursesService
 //        dump($qualificationUnits); 
 //        fclose($myfile);
 //        exit();
-        return (!empty($qualificationUnits['qualification'])) ? $qualificationUnits['qualification'] : array();
+       
+        return (!empty($qualificationUnits['Units'])) ? $qualificationUnits['Units'] : array();
     }
     /**
      * Function to access API
@@ -181,7 +182,130 @@ class CoursesService
         $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
         $request = $this->guzzleService->post($url, null, $fieldString); // Create a request with basic Auth
         $response = $request->send(); // Send the request and get the response
-        $result = $response->getBody();
+        //$result = $response->getBody();
+        $result = '<Units>
+	<Core>
+		<unit>
+		<item>
+			<id>ICTDBS501</id>
+			<type>core</type>
+			<name>Monitor and improve knowledge management system&#xA0;</name>
+			<details></details>
+		</item>
+                <item>
+			<id>ICTDBS501</id>
+			<type>core</type>
+			<name>Monitor and improve knowledge management system&#xA0;</name>
+			<details></details>
+		</item>
+                <item>
+			<id>ICTDBS501</id>
+			<type>core</type>
+			<name>Monitor and improve knowledge management system&#xA0;</name>
+			<details></details>
+		</item>
+                <item>
+			<id>ICTDBS501</id>
+			<type>core</type>
+			<name>Monitor and improve knowledge management system&#xA0;</name>
+			<details></details>
+		</item>
+		</unit>
+	</Core>
+	<Elective>
+		<validation>
+			<type>Count</type> 
+			<requirement>5</requirement>
+			<group>
+				<item>
+					<id>1</id>
+					<type>Count</type>
+					<minrequirement>1</minrequirement>
+					<maxrequirement>2</maxrequirement>
+				</item>
+			</group>
+                        <group>
+				<item>
+					<id>2</id>
+					<type>Count</type>
+					<minrequirement>3</minrequirement>
+					<maxrequirement>4</maxrequirement>
+				</item>
+			</group>
+		</validation>
+		<groups>
+			<group>
+				<id>1</id>
+				<name>Knowledge management</name>
+				<unit>
+					<item>
+						<id>BSBADM506B</id>
+						<type>elective</type>
+						<name>Manage business document design and development</name>
+						<details>Monitor and improve knowledge management system1Monitor and improve knowledge management system1Monitor and improve knowledge management system1Monitor and improve knowledge management system1</details>
+					</item>
+					<item>
+						<id>BSBAUD402B</id>
+						<type>elective</type>
+						<name>Participate in a quality audit </name>
+						<details>Monitor and improve knowledge management system2Monitor and improve knowledge management system2Monitor and improve knowledge management system2Monitor and improve knowledge management system2</details>
+					</item>
+
+				</unit>
+			</group>
+			<group>
+				<id>2</id>
+				<name>Systems development</name>
+				<unit>
+					<item>
+						<id>BSBAUD501B</id>
+						<type>elective</type>
+						<name>Initiate a quality audit</name>
+						<details></details>
+					</item>
+					<item>
+						<id>BSBAUD503B</id>
+						<type>elective</type>
+						<name>Lead a quality audit </name>
+						<details></details>
+					</item>
+                                        <item>
+						<id>BSBAUD504B</id>
+						<type>elective</type>
+						<name>Report on a quality audit </name>
+						<details></details>
+					</item>
+                                        <item>
+						<id>BSBINM501A</id>
+						<type>elective</type>
+						<name>Manage an information or knowledge management system </name>
+						<details></details>
+					</item>
+                                        <item>
+						<id>BSBMGT502B</id>
+						<type>elective</type>
+						<name>Manage people performance </name>
+						<details></details>
+					</item>
+                                        <item>
+						<id>BSBMGT516C</id>
+						<type>elective</type>
+						<name>Facilitate continuous improvement </name>
+						<details></details>
+					</item>
+                                        <item>
+						<id>BSBPMG513A</id>
+						<type>elective</type>
+						<name>Manage project quality</name>
+						<details></details>
+					</item>
+				</unit>
+			</group>
+		</groups>
+		
+	</Elective>
+	
+</Units>';
         return $result;
     }
 
@@ -386,7 +510,7 @@ class CoursesService
             $userUnitObj->setElectiveStatus($status);
         }
         $this->em->flush();
-        $this->em->clear();
+        $this->em->clear();        
         return $status;
     }
 
@@ -546,6 +670,27 @@ class CoursesService
         $courseUnits = array();
   
         return $userCourseUnits;
+    }
+    
+    /**
+     * Function to get Elective CheckedValues
+     * @param type $userId
+     * @param type $courseCode     /
+     */
+    public function getElectiveCheckedValues($userId, $courseCode)
+    {
+         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+         $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+            'courseCode' => $courseCode,
+            'type' => 'elective',
+            'electiveStatus' => '1'));
+        $courseUnits = array();
+        if (!empty($userCourseUnits)) {
+            foreach ($userCourseUnits as $units) {
+                $courseUnits[trim($units->getUnitId())] = trim($units->getUnitId());
+            }
+        }                
+        return count($courseUnits);
     }
 
 }
