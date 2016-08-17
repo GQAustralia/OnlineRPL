@@ -45,7 +45,10 @@ $(document).ready(function(){
 		$(this).parent().find(".keyboard_arrow_right").removeClass("keyboard_arrow_right").addClass("keyboard_arrow_down");
 	});
 	
-	var textarea_ht = window_Ht - 135;
+	var newTitle_Ht = $(".mobile_version .new_message_section .title_bar").height();
+	var inputField_Ht = $(".input_section").height() * 2;
+	var sendBtnSection_Ht = $(".mobile_version .new_message_section .btn_section").height();
+	var textarea_ht = window_Ht - (newTitle_Ht + inputField_Ht + sendBtnSection_Ht);
 	$(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
 	
 	if(window_Wt < 530 && window_Ht >= 480){
@@ -53,8 +56,20 @@ $(document).ready(function(){
 		$("#profile1 .submit_btn").css("position","absolute");
 	}
 	
-	if(window_Wt < 767 && window_Ht > 370){
+	/*if(window_Wt < 767 && window_Ht > 370){
 		$(".login_section .login_btn").css("position","absolute");
+	}*/
+	if(window_Wt < 767 && window_Ht > 370){
+		var _originalSize = $(window).width() + $(window).height();
+		$(window).resize(function(){
+			if($(window).width() + $(window).height() != _originalSize){
+				alert("keyboard show up");
+				$(".login_section .login_btn").css("position","static");  
+			}else{
+				alert("keyboard closed");
+				$(".login_section .login_btn").css("position","absolute");  
+			}
+		});
 	}
 	
 	if(window_Wt < 640 && window_Ht > 370){
@@ -176,7 +191,10 @@ $(window).resize(function(){
 	
 	$(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
 
-	var textarea_ht = window_Ht - 135;
+	var newTitle_Ht = $(".mobile_version .new_message_section .title_bar").height();
+	var inputField_Ht = $(".input_section").height() * 2;
+	var sendBtnSection_Ht = $(".mobile_version .new_message_section .btn_section").height();
+	var textarea_ht = window_Ht - (newTitle_Ht + inputField_Ht + sendBtnSection_Ht);
 	$(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
 	
 	if(window_Wt < 530 && window_Ht >= 480){
@@ -184,8 +202,20 @@ $(window).resize(function(){
 		$("#profile1 .submit_btn").css("position","absolute");
 	}
 	
-	if(window_Wt < 767 && window_Ht > 370){
+	/*if(window_Wt < 767 && window_Ht > 370){
 		$(".login_section .login_btn").css("position","absolute");
+	}*/
+	if(window_Wt < 767 && window_Ht > 370){
+		var _originalSize = $(window).width() + $(window).height();
+		$(window).resize(function(){
+			if($(window).width() + $(window).height() != _originalSize){
+				alert("keyboard show up");
+				$(".login_section .login_btn").css("position","static");  
+			}else{
+				alert("keyboard closed");
+				$(".login_section .login_btn").css("position","absolute");  
+			}
+		});
 	}
 	
 	var title_Ht = $(".mobile_version .mail_compose_section .title_bar").height();

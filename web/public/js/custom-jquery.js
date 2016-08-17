@@ -2564,6 +2564,9 @@ function updateFacilitator(courseCode , userId, listId)
 if( $('.view-message').length > 0){   
     $('header').addClass('hide');
     }
+if($('.mobile_new_message_section').length > 0){   
+    $('header').addClass('hide');
+}
 function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
 {
     var selfAssNotes = $('#selfassnote').val();  

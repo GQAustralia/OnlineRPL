@@ -2,7 +2,7 @@ input:focus{outline:0}.modal{text-align:center;padding:0 !important}.modal:befor
 .gq-id-files-upload-success-text{width: 100%;text-align: center;}
 .gq-id-files-upload-success-text h2{color:#86b332; font-size:15px;text-align: center;}
 .gq-id-files-upload-success-text.gq-id-files-upload-success-text img {margin-right:4px; padding-bottom:4px;width:auto !important;dipslay: inline;}
-.gq-id-files-upload-success-text span{width:19px; height:13px; background-image:url('../images/tick.png'); background-repeat:no-repeat; backgrounc-positoin:center center; float:left; margin-right:12px;}
+.gq-id-files-upload-success-text span{width:19px; height:13px; background-repeat:no-repeat; backgrounc-positoin:center center; float:left; margin-right:12px;}
 .gq-id-pwd-error-text {padding-top:12px; text-align:center;}
 .gq-id-pwd-error-text h2{color:#e01010; font-size:13px;}
 .gq-id-pwd-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;display: inline;}

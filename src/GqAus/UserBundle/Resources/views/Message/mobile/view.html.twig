@@ -153,11 +153,11 @@
     </div>
     
     {% if msgType is defined and msgType=="new" %}
-        <div class="new_message_section">
+        <div class="new_message_section mobile_new_message_section">
             <div class="title_bar">NEW MESSAGE
                     <span><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
             </div>
-            <div class="new_msg_section">
+            <div class="new_msg_section ">
                 <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composeformMobile) }}>
                     <div class="input_section">
                     <label>To:</label>
