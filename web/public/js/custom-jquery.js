@@ -1763,8 +1763,7 @@ $( '#file_save' ).click( function( e ) {
 });
 
 // for validating the upload ID file
-$( '#userfiles_browse' ).change( function( e ) {   
-    alert('ddd');
+$( '#userfiles_browse' ).change( function( e ) {  
     if($("#userfiles_type").val()!="") {
         if ($("#userfiles_browse").val().length > 0) {
             var extension = $("#userfiles_browse").val().substring($("#userfiles_browse").val().lastIndexOf('.')+1);
