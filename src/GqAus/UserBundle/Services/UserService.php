@@ -992,6 +992,8 @@ class UserService
      */
     public function getPendingApplicantsCount($userId, $userRole, $applicantStatus)
     {
+        if($userRole == "ROLE_FACILITATOR")
+            $userRole = array('ROLE_FACILITATOR');
         $getCourseStatus = $this->getPendingApplicants($userId, $userRole, $applicantStatus);
         return count($getCourseStatus);
     }

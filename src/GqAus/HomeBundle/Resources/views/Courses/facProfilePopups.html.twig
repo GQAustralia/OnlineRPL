@@ -12,14 +12,14 @@
                         <img class="profile_image" alt="profile_pic" src="{{ base_url}}{{'public/uploads/'}}{{courses.Facilitator.userImage}}">
                         <input type="file" class="hidden browse_btn">
                         <div class="content">
+                            
                                 <h5 class="name"><strong>{{courses.facilitator.firstName}} </strong></h5>
                                 <span class="field"> Facilitator</span>
                         </div>
                     </div>
                     <div class="count">
-                        {% set  portfoliosCount = user_service.getPendingApplicantsCount(userId, 'ROLE_FACILITATOR', '0') %}
-                        {{dump(portfoliosCount)}}
-                            <span class="number"><strong>{{1}}</strong></span>
+                       {% set facApplicantsCount = user_service.getPendingApplicantsCount(courses.facilitator.id, 'ROLE_FACILITATOR', '0') %}                       
+                            <span class="number"><strong>{{facApplicantsCount}}</strong></span>
                             <span class="title">Active Portfolios</span>
                     </div>
                 </div>
