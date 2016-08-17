@@ -9,9 +9,9 @@
 {% endblock %}
 {% block body %}
 <div class="body_section candidate_profile">
-    <div class="container">
+    <div class="">
         <div class="row">
-           <div class="col-xs-12">
+          {# <div class="col-xs-12">
             {% for flashMessage in app.session.flashbag.get('notice') %}
             <div class="row" id="profile_suc_msg">
                 <div class="gq-id-files-upload-success-text">
@@ -27,14 +27,14 @@
                 </div>
                {% endfor %}
             </div>
-            <div class="row" id="profile_suc_msg2"></div>
+            <div class="row" id="profile_suc_msg2"></div>#}
         </div>
         {% set userRole = app.security.getToken().getUser().getRoles() %}
         {% set userId = app.security.getToken().getUser().getId() %}
-        <!-- DESKTOP VERSION -->
-        {% include 'GqAusUserBundle:User:user.html.twig' %}
-        {% include 'GqAusUserBundle:User:idfiles.html.twig' %}
-        <!-- DESKTOP VERSION -->
+        <!-- MOBILE VERSION -->
+        {% include 'GqAusUserBundle:User/mobile:user.html.twig' %}
+        
+        <!-- MOBILE VERSION -->
         </div>
     </div>
 </div>

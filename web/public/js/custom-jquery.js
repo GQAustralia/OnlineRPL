@@ -1763,7 +1763,8 @@ $( '#file_save' ).click( function( e ) {
 });
 
 // for validating the upload ID file
-$( '#userfiles_browse' ).change( function( e ) {    
+$( '#userfiles_browse' ).change( function( e ) {   
+    alert('ddd');
     if($("#userfiles_type").val()!="") {
         if ($("#userfiles_browse").val().length > 0) {
             var extension = $("#userfiles_browse").val().substring($("#userfiles_browse").val().lastIndexOf('.')+1);
@@ -2614,4 +2615,209 @@ $(".btn-back").click(function(){
 })
 $('#closeMyModal').click(function(){
    location.reload();
+});
+//Mobile Version Change Password
+function checkCurrentRolePassword(){
+    mypassword = $('#current_password').val();
+    $("#hdn_pwd_check").val("0");
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
+    var enddiv = '</h2></div>';
+    var mypassword = mypassword;
+    $("#pwd_error").html('');
+    $("#pwd_error").show();
+    //$("#pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
+    if(mypassword!="") {        
+        $.ajax({
+            type: "POST",
+            url: "checkMyPassword",
+            cache: false,
+            data: {mypassword: mypassword},
+            success: function(response) {
+                result = JSON.parse(response)       
+                $('#change_pwd_error').show();              
+                if (result.status == "fail") {
+                    $("#hdn_pwd_check").val("0");
+                    $("#pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);
+                    $("#password_hdnoldpassword").val('');
+                    $("#password_hdnoldpassword").focus();
+                    return false;
+                }
+                else if (result.status == "success") {
+                            val = $("#password_hdnoldpassword").val;
+                            $("#password_oldpassword").val=val;
+                            $("#idfiles").addClass("hidden-xs");
+                            $("#profileinfo").addClass("hidden-xs");
+                            $(".currentpassword").addClass("hidden-xs");
+                            $(".chngpwddiv").removeClass("hidden-xs");
+                }
+            }
+        });
+    }
+    else
+    {
+        $("#pwd_error").html(startdiv + 'Please enter current password' + enddiv).delay(3000).fadeOut(100);
+    }
+}
+    $(".change_link ").click(function(){
+        $("#idfiles").addClass("hidden-xs");
+        $(".profileinfo").addClass("hidden-xs");
+        $(".currentpassword").removeClass("hidden-xs");
+        
+    });
+    $(".currpwdnext").click(function(){ 
+         var curpwd = $("#password_hdnoldpassword").val(); 
+        var oldpwd = $("#password_oldpassword").val();
+         if(curpwd!="")
+            oldpwd = curpwd;
+        var displayOldPwd = $("#password_oldpassword").parent().css( "display" );        
+        var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );        
+        var hdnpwdchk = $("#hdn_pwd_check").val();
+       
+        
+        if (curpwd == "" && displayOldPwd != 'none') {
+            passwordShowMsg("Please enter Current Password", "password_oldpassword");
+            return false;
+        }
+        else if (curpwd != "" && hdnpwdchk == 0) {
+                checkCurrentRolePassword($("#password_hdnoldpassword").val());
+                return false;            
+        }
+        else{
+            $("#password_hdnoldpassword").val(curpwd);
+            $("#idfiles").addClass("hidden-xs");
+            $(".profileinfo").addClass("hidden-xs");
+            $(".currentpassword").addClass("hidden-xs");
+            $(".chngpwddiv").removeClass("hidden-xs");
+        }
+    });
+    $(".chngpwdval").click(function(){ 
+        $('#mbl_pwd_error').html('');
+        var curpwd = $("#password_hdnoldpassword").val(); 
+        var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );        
+        var newpwd = $("#password_newpassword").val();
+        var newconfirmpwd = $("#password_confirmnewpassword").val();
+        if (newpwd == "") {
+        $('#mbl_pwd_error').html("Please enter New Password");
+        passwordShowMsg("Please enter New Password", "password_newpassword");
+        return false;
+        }
+        if (newpwd != "") {
+            if (newpwd.length < 8) {
+                $('#mbl_pwd_error').html("New Password must be minimum of 8 characters");
+                passwordShowMsg("New Password must be minimum of 8 characters", "password_newpassword");
+                return false;
+            }
+        }
+        if (newconfirmpwd == "") {
+            $('#mbl_pwd_error').html("Please enter Confirm Password");
+            passwordShowMsg("Please enter Confirm Password", "password_confirmnewpassword");
+            return false;
+        }
+        if (newconfirmpwd != "" && displayConfirmPwd != 'none') {
+             
+            if (newconfirmpwd.length < 8) {
+                $('#mbl_pwd_error').html("New Confirm Password must be minimum of 8 characters");
+                passwordShowMsg("New Confirm Password must be minimum of 8 characters", "password_confirmnewpassword");
+                return false;
+            }
+        }
+        if (newpwd != "" && newconfirmpwd != "") {
+            if (curpwd == newpwd) {
+                $('#mbl_pwd_error').html("Current Password and New Password must be different");
+                passwordShowMsg("Current Password and New Password must be different", "password_newpassword");
+                $("#password_confirmnewpassword").val('');
+                return false;
+            }
+            if (newpwd != newconfirmpwd)
+            {
+                 $('#mbl_pwd_error').html("New Password and Confirm Password does not match");
+                passwordShowMsg("New Password and Confirm Password does not match", "password_confirmnewpassword");
+                return false;
+            }            
+         $.ajax({
+            type: "POST",
+            url: base_url+"updatepasswordAjax",
+            cache: false,
+            data: {password_newpassword:newpwd},
+            success: function(result) {
+              $("#idfiles").addClass("hidden-xs");
+            $(".profileinfo").addClass("hidden-xs");
+            $(".currentpassword").addClass("hidden-xs");
+            $(".chngpwddiv").addClass("hidden-xs");
+            $(".pwdsucc").removeClass("hidden-xs");
+                
+            }
+       });
+         
+        }      
+        
+
+    });
+	
+	
+	$("#password_save").click(function()
+{
+    var displayOldPwd = $("#password_oldpassword").parent().css( "display" );
+    var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );
+      var hdnpass = $("#password_hdnoldpassword").val();           
+    var curpwd = $("#password_oldpassword").val();
+     if(curpwd == "" )
+         curpwd = hdnpass;
+    
+    var newpwd = $("#password_newpassword").val();
+    var newconfirmpwd = $("#password_confirmnewpassword").val();
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var enddiv = '</h2></div>';
+    var hdnpwdchk = $("#hdn_pwd_check").val();
+    
+    if (curpwd == "" && displayOldPwd != 'none') {
+        passwordShowMsg("Please enter Current Password", "password_oldpassword");
+        return false;
+    }
+    if (newpwd == "") {
+        passwordShowMsg("Please enter New Password", "password_newpassword");
+        return false;
+    }
+    if (newpwd != "") {
+        if (newpwd.length < 6) {
+            passwordShowMsg("New Password must be minimum of 6 characters", "password_newpassword");
+            return false;
+        }
+    }
+    if (newconfirmpwd == "" && displayConfirmPwd != 'none') {
+        passwordShowMsg("Please enter Confirm Password", "password_confirmnewpassword");
+        return false;
+    }
+    if (newconfirmpwd != "" && displayConfirmPwd != 'none') {
+        if (newconfirmpwd.length < 6) {
+            passwordShowMsg("New Confirm Password must be minimum of 6 characters", "password_confirmnewpassword");
+            return false;
+        }
+    }
+    if (newpwd != "" && newconfirmpwd != "" && displayOldPwd != 'none') {
+        if (curpwd == newpwd) {
+            passwordShowMsg("Current Password and New Password must be different", "password_newpassword");
+            $("#password_confirmnewpassword").val('');
+            return false;
+        }
+        if (newpwd != newconfirmpwd)
+        {
+            passwordShowMsg("New Password and Confirm Password does not match", "password_confirmnewpassword");
+            return false;
+        }
+    }
+    if (curpwd != "" && newpwd != "" && newconfirmpwd != "") {
+        if (hdnpwdchk == 0) {
+            checkCurrentPassword($("#password_oldpassword").val());
+            return false;
+        }
+    }
+});
+$('.clear_pswd_div').click(function()
+{
+    $("#idfiles").removeClass("hidden-xs");
+            $(".profileinfo").removeClass("hidden-xs");
+            $(".currentpassword").addClass("hidden-xs");
+            $(".chngpwddiv").addClass("hidden-xs");
+            $(".pwdsucc").addClass("hidden-xs");
 });

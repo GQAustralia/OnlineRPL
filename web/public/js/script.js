@@ -126,8 +126,12 @@ $(document).ready(function(){
             $(this).parent().find(".keyboard_arrow_right").removeClass("keyboard_arrow_right").addClass("keyboard_arrow_down");
     });
 
-    $(".uploadTrigger").click(function(){
+    
+    $("#idfileUpload").click(function(){
        $(".uploadFile").click();
+    });
+       $("#idfileUpload-mobile").click(function(){
+       $(".uploadFile1").click();
     });
     $("#uploadTrigger").click(function(){
 	   $("#matrix_browse").click();
