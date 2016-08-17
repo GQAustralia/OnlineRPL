@@ -1,149 +1,349 @@
-<div class="hidden-xs col-sm-12 col-md-12 col-lg-6">                 
+<!-- MOBILE VERSION -->				
+<div class="hidden-sm hidden-md hidden-lg full_width">
+        <div class="mobile_version_block">
         {% set userRole = app.security.getToken().getUser().getRoles() %}
         {% set userId = app.security.getToken().getUser().getId() %}
-        <div class="form_block">
+<!--SECTION -->
+<div class="section">
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="row" id="profile_suc_msg">
+        <div class="gq-id-files-upload-success-text">
+            <h2>
+            {{ flashMessage }}</h2>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="gq-change-address-warning" id="change_address_error">
+        {% for flashMessage in app.session.flashbag.get('errornotice') %}
+        <div class="gq-id-address-error-text" style="dispaly:none">
+            <h2>{{ flashMessage }}</h2>
+        </div>
+       {% endfor %}
+    </div>
+    <div class="row" id="profile_suc_msg2"></div>
+        <div class="info_block" id="idfiles">
+                <div class="title_bar clearfix">
+                        <span class="left">YOUR ID</span>
+                         {% set requiredpoints = 100 - currentIdPoints %}
+                        
+                        <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED <a href="{{ app.request.baseUrl }}/faq" target="_blank"><i class="material-icons">info</i></a>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
+                </div>
+            {% if currentIdPoints < "100" %}
+             <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data">                 
+                <div class="add_section" role="tabpanel">
+                        {{ form_widget(filesForm.browse, {'attr': {'class': 'hidden uploadFile1'}}) }}
+                        <span class="button" id="idfileUpload-mobile"><i class="material-icons">add</i></span><strong>Add ID</strong>
+                </div>
+                  <select class="selectpicker" id="userfiles_type" name="userfiles[type]">
+                    <option value="">Select document type</option>
+                    {% if documentTypes %}
+                    {% for key, docs in documentTypes %}
+                    <option  value="{{docs.id}}" data-content='<span class="content" doc-type="{{docs.type}}" id="doc-type">{{docs.type}}</span><span class="number">{{docs.points}}</span>'></option>
+                     {% endfor %}
+                    {% endif %}
+            </select>
+                 <div class="panel-group" id="fileListContainer">
+                        <div class="panel clearfix">
+                                <div class="panel-body">
+                  <div class="panel-copy fileListContainer" id="progress-bars"></div>
+                  </div></div></div>
+                 <div id="idfiletype_image"></div>
+            </form>
+        {% endif %}
+            <div class="file_block">
+       <ul class="Id_files">
+            {% if userIdFiles is not null and userIdFiles is not empty %}
+            {% for item in userIdFiles %}
+            {% if item.type.id == 1 %}
+            {% set doc_type = 'photo' %}
+            {#{% elseif item.type.id == 2 %}
+                {% set doc_type = 'gq-id-files-content-pdf-icon' %}#}
+            {% else %}
+                 {% set doc_type = 'photo' %}
+            {% endif %}
+            {% set filesize = evidence_service.fileSize(item.size) %}
+            <li>
+                    <div class="title_bar clearfix">
+                            <span class="content">{{ item.type.type }}</span>
+                            <span class="number">{{ item.type.points }}</span>
+                    </div>
+                    <div class="file_info">
+                        <span class="icon"><a href = "{{ amazon_link~item.path }}" class="fancybox fancybox.iframe"> 
+                                 <i class="material-icons">{{doc_type}}</i>
+                         </a></span>
+                         <span class="file-discription">
+                                 {{item.name}} <br>{{filesize}} | ADDED {{item.created|date("d/m/y") }}
+                         </span>
+                         <a class="modalClass viewModalClass clear" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
+                                 <i class="material-icons">clear</i><div class="gq-del-evidence"></div></a>
+                    </div>
+            </li>
+            {% endfor %}
+            {% else %}
+                <center id="idfiles_no_files">{{no_id_files}}</center>                        
+            {% endif %}
+         </ul>
+            </div>
+        </div>
+        <div class="form_block profileinfo">
                 <div class="title_bar clearfix">
                         <span class="left">YOUR DETAILS</span>
                         <span class="right"><strong>{{userProfilePercentage}} COMPLETED</strong>{% if userProfilePercentage == "100%" %}<i class="material-icons">done</i>{% endif %}</span>
-                </div>
-                 <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data"/>
+               </div>
+                <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data"/>
                  <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% else %}other{% endif %}">
                  <input type='hidden' id='hdn-userId' name='hdn-userId' value="{{userId}}">
                  <input type='hidden' id='hdn-type' name='hdn-type' value="0">
-                        <div class="section half clearfix">
-                                <div class="form-group">
-                                        <label for="gq-first-name">First Name</label>
+                        <div class="section">
+                                <div class="form-group clearfix">
+                                        <label>First Name</label>
                                         {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
-                                <div class="form-group">
-                                        <label for="gq-last-name">Last Name</label>
+                        </div>
+                        <div class="section">
+                                <div class="form-group clearfix">
+                                        <label>Last Name</label>
                                         {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                         </div>
                         <div class="section">
-                                <div class="form-group clearfix gender_section">
+                               <div class="form-group clearfix gender_section">
                                         <label >Gender</label>                                        
                                             {{ form_widget(form.gender) }}                                        
                                 </div>
                         </div>
                         <div class="section">
-                                <div class="form-group">
-                                        <label for="gq-email-name">Email</label>
+                                <div class="form-group clearfix">
+                                        <label>Email</label>
                                         {{ form_widget(form.email, { 'attr':{'readonly':'readonly'} }) }}
                                 </div>
                         </div>
-                        <div class="section half clearfix">
-                                <div class="form-group">
-                                        <label for="gq-personal-pwd">Mobile</label>
+                        <div class="section">
+                                <div class="form-group clearfix">
+                                        <label>Mobile</label>
                                         {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
                                 </div>
-                                <div class="form-group">
-                                        <label>Password</label>
-                                        <input type="text" value="........" readonly/>
-                                        <span><i class="material-icons lock">lock</i></span>
-                                </div>
-                                <a href="" class="change_link" data-toggle="modal" data-target="#change_pwd_popup">Change?</a>
                         </div>
-                        <div class="section half clearfix">
-                                <div class="form-group">
-                                        <label for="gq-personal-pwd">USI</label>
-                                        {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
+                        <div class="section">
+                                <div class="form-group clearfix password_field">
+                                        <label>Password</label>
+                                        <input type="text" value="........"/>
+                                        <a href="javascript:void(0)" class="change_link">Change?<i class="material-icons">lock</i></a>
                                 </div>
-                                <a href="http://www.usi.gov.au/create-your-USI/Pages/default.aspx" target="_blank" class="usilink">{{usi_link}}</a>
+                        </div>
+                        <div class="section">
+                        <div class="form-group clearfix">
+                                <label>USI</label>
+                                {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
+                        </div>
                         </div>
                         <div class="title_bar clearfix">
                                 <span class="left">ADDRESS</span>
                         </div>
                         <div class="section">
-                                <div class="form-group street_info">
-                                        <label for="gq-last-name">Street Number</label>
+                                <div class="form-group clearfix">
+                                        <label>Street Number</label>
                                         {{ form_widget(form.address.address,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                         </div>
                         <div class="section">
-                                <div class="form-group street_info">
-                                        <label for="gq-last-name">Street Name</label>
+                                <div class="form-group clearfix">
+                                        <label>Street Name</label>
                                         {{ form_widget(form.address.area,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                         </div>
                         <div class="section">
-                                <div class="form-group">
-                                        <label for="gq-last-name">Suburb</label>
+                                <div class="form-group clearfix">
+                                        <label>Suburb</label>
                                         {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                         </div>
-                        <div class="section half clearfix">
-                                <div class="form-group">
-                                        <label for="gq-last-name">City</label>
+                        <div class="section half">
+                                <div class="form-group clearfix">
+                                        <label>City</label>
                                         {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                                 <div class="form-group">
-                                        <label for="gq-last-name">Postcode</label>
+                                        <label>Postcode</label>
                                         {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '8'} }) }}
                                 </div>
                         </div>
                         <div class="section half clearfix">
                                 <div class="form-group">
-                                        <label for="gq-last-name">State</label>
+                                        <label>State</label>
                                         {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                                 <div class="form-group">
-                                        <label for="gq-last-name">Country</label>
+                                        <label>Country</label>
                                         {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                         </div>
-              
+                
+       
+        <div class="link_section clearfix profileinfo">
+                <a href="javascript:void(0)" class="faq_link">
+                        <span><i class="material-icons">help</i></span>FAQs
+                </a>
+                {{ form_widget(form.save, {'attr': {'class': 'btn update_btn disable'}}) }}
+                
         </div>
-                <div class="link_section clearfix">
-                    <span class="faq_link">
-                        <i class="material-icons">help</i>
-                        <a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow">FAQs</a>
-                    </span>
-                     {{ form_widget(form.save, {'attr': {'class': 'btn update_btn disable'}}) }}
-                        {#<button type="submit" id="userprofile_save" name="userprofile[save]" class="btn update_btn disable" onclick="return validateAddress();">UPDATE</button>#}
+       {{ form_end(form) }}
+                  </div>
+</div>
+<!--SECTION -->
+						
+						
+<!--SECTION -->
+<div class="section info_block hidden-xs">
+        <div class="heading_bar clearfix">
+                <span class="left">
+                        <a href="javascript:void(0)">
+                                <i class="material-icons">arrow_back</i>
+                        </a>Your ID
+                </span>
+                <span class="right">
+                        DONE
+                </span>
+        </div>
+        <div class="title_bar clearfix">
+                <span class="left">YOUR ID</span>
+                <span class="right"><strong>100% POINTS REQUIRED</strong><i class="material-icons">info</i></span>
+        </div>
+        <select class="selectpicker">
+                <option>Select Document Type</option>
+                <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+                <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+                <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+                <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
+        </select>
+
+        <div class="attach_section clearfix">
+                <div class="take_photo tab">
+                        <span data-target="#myModal" data-toggle="modal">
+                                <i class="material-icons">camera_alt</i>Take a photo
+                        </span>
+                </div>
+                <div class="upload_btn tab">
+                        <i class="material-icons">add</i>
+                        <input type="file" class="hidden uploadFile">
+                        <span class="button uploadTrigger">Add a file</span>
                 </div>
         </div>
-        {{ form_end(form) }}
 
-{#Change Password Model#}
-<div id="change_pwd_popup" class="modal fade change_pwd_popup" role="dialog">
-
-                <div class="modal-dialog">                
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                                <div class="modal-header">
-                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                     <!--<div class="modal-title">Change Password</div>-->
-                                </div>
-                                <div class="modal-body" id="change-pwd-form">
-                                     <div class="gq-change-pwd-warning" id="pwd_error">
-                                        {% for flashMessage in app.session.flashbag.get('errornotice') %}
-                                        <div class="gq-id-pwd-error-text" style="display:none">
-                                            <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
-                                        </div>
-                                       {% endfor %}
-                                    </div>
-                                    {{ form_start(changepwdForm, {'attr': {'class': 'form-inline'}}) }} 
-                                     <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
-                                                <div class="form-group">
-                                                        <label for="gq-last-name">Current Password</label>
-                                                       {{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30','class': 'form-control'} }) }}
-                                                </div>
-                                                <div class="form-group">
-                                                        <label for="gq-last-name">Change New Password</label>
-                                                         {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30','class': 'form-control'} }) }}
-                                                </div>
-                                                <div class="form-group">
-                                                        <label for="gq-last-name">Confirm New Password</label>
-                                                        {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30','class': 'form-control'} }) }}
-                                                </div>
-                                                <div class="btn_section clearfix">                                                        
-                                                        {{ form_widget(changepwdForm.save,{ 'label': 'Submit' , 'attr': {'class': 'btn change_pwd_btn'}}) }}
-                                                        <input type="button" class="btn" id="fclose-cancel"  data-dismiss="modal" value="Cancel"/>
-                                                </div>
-                                       {{ form_end(changepwdForm) }}
-                                </div>
-                        </div>
-                </div>
+        <div class="file_block">
+                <ul>
+                    <li>
+                            <div class="title_bar clearfix">
+                                    <span class="content">Department of veterans Affairs (DVA) card</span>
+                                    <span class="number">40</span>
+                            </div>
+                            <div class="file_info">
+                                    <span class="icon">
+                                            <i class="material-icons">description</i>
+                                    </span>
+                                    <span class="file-discription">
+                                            testimonial.doc <br>10kb | Added 30/06/2016
+                                    </span>
+                                    <span class="clear">
+                                            <i class="material-icons">clear</i>
+                                    </span>
+                            </div>
+                    </li>
+                </ul>
+        </div>
 
 </div>
+<!--SECTION -->
+						
+						
+<!--SECTION -->
+<div class="section change_pwd_section mobile_version hidden-xs currentpassword">
+        <div class="heading_bar clearfix">
+                <span>
+                        Change Password
+                        <a href="javascript:void(0)">
+                                <i class="material-icons clear_pswd_div">clear</i>
+                        </a>
+                </span>
+        </div>
+        <div class="content">
+            <p>Please enter your current password</p><div id="pwd_error"></div>
+                <input type="password" placeholder="Password" id="current_password"/>
+                <a href="javascript:void(0)">Forgot password?</a>
+        </div>
+        <button class="button btn" onclick="checkCurrentRolePassword()">NEXT</button>
+</div>
+<!--SECTION -->
+
+
+<!--SECTION -->
+<div class="section change_pwd_section mobile_version hidden-xs chngpwddiv">
+        <div class="heading_bar clearfix">
+                <span>
+                        Change Password
+                        <a href="javascript:void(0)">
+                                <i class="material-icons clear_pswd_div">clear</i>
+                        </a>
+                </span>
+        </div>
+     {{ form_start(changepwdForm, {'attr': {'class': 'form-inline'}}) }} 
+        <div class="content">
+                <p>Thanks now enter a new secure password that is 8 - 16 characters and contains both letters and numbers</p><div id="mbl_pwd_error"></div>
+               
+                <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
+                {{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30','class': 'hidden'} }) }}
+                {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30','class': '','placeholder':'New Password'} }) }}
+                <i class="material-icons">done</i>
+                {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30','class': '','placeholder':'Confirm Password'} }) }}
+                <i class="material-icons">done</i>
+        </div>
+    {{ form_widget(changepwdForm.save,{ 'label': 'Submit' , 'attr': {'class': 'button btn btn_red chngpwdval'}}) }}
+        {{ form_end(changepwdForm) }}
+    
+</div>
+<!--SECTION -->
+
+<!--SECTION -->
+<div class="section change_pwd_section mobile_version hidden-xs pwdsucc">
+         <div class="heading_bar clearfix">
+                <span>
+                        Change Password
+                        <a href="javascript:void(0)">
+                                <i class="material-icons clear_pswd_div">clear</i>
+                        </a>
+                </span>
+        </div>
+        <div class="content">
+                <span>
+                        <img src="{{ asset('public/images/COMPLETE.png') }}" alt="complete"/>
+                </span>
+                <p>Your password has been successfully changed.</p>
+        </div>
+</div>
+<!--SECTION -->
+<div class="modal fade confirm_popup" id="myModal" role="dialog">
+   
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" id="userProfile">
+                    <div class="modal-title" id="myModalLabel">Do you want to delete selected file?<span class="close"><i class="material-icons" id="fclose"  data-dismiss="modal" aria-label="Close">clear</i></span></div>
+                    <div class="btn_section">
+                        <button class="btn btn_red deleteIdFiles">OK</button>
+                        <button class="btn" id="fclose-cancel" data-dismiss="modal">CANCEL</button>
+                         <span class="loading-icon" id="ajax-loading-delete-assessor-file" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+</div>
+						
+</div>
+</div>
+
+<!-- MOBILE VERSION -->
+{% block javascripts %}
+<script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+<script src="{{ asset('public/js/s3-upload/s3upload-profileid.js') }}"></script>
+ {% endblock %}
