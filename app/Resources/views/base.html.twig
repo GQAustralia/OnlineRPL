@@ -85,7 +85,7 @@
                                 <text text-anchor="middle" x="23" y="16" fill="#fff" class="portfolio-current"></text>
                                 </svg>                                
                                 <a class="{% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}" href="{{ app.request.baseUrl }}/applicants">
-                                <i class="material-icons">message</i>
+                                <i class="material-icons">account_circle</i>
                                 <span>portfolios</span>                        
                                 </a>
                                 </li>
@@ -128,11 +128,37 @@
                         </li>
                     </ul>
                 </nav>
+                
             </section>
         </header>    
         {% endblock %}
         <!-- Dashboard page starts here -->
         {% block body %}{% endblock %}
+         <div class="mobi-profile hidden-sm hidden-md hidden-lg">
+                <ul class="clearfix">
+                    <li class="profile-tag">
+                        {% set userName = app.security.getToken().getUser().getFirstName()%}
+                        {% set userImage = app.security.getToken().getUser().getUserImage()%}
+                        
+                         {% if ('ROLE_APPLICANT' in roles)  %}
+                        
+                            <a href="{{ app.request.baseUrl }}/userprofile">
+                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="profile">
+                                <label class="profile-tag">{{userName}}</label>
+                            </a>
+                        {% else %}
+                        
+                            <a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">
+                                <img class="profile-img" src="{{ asset('public/uploads/') }}{{userImage}}" alt="profile">
+                                <label class="profile-tag">{{userName}}</label>
+                            </a>
+                        {% endif %}
+                    </li>
+                    <li class="sign-out">
+                        <a href="{{ app.request.baseUrl }}/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
         <!-- Dashboard page ends here -->
     </main>
      {% block outofbody %}{% endblock %}

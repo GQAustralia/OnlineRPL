@@ -61,12 +61,11 @@ $(document).ready(function(){
 	}*/
 	if(window_Wt < 767 && window_Ht > 370){
 		var _originalSize = $(window).width() + $(window).height();
+                $(".login_section .login_btn").css("position","absolute");
 		$(window).resize(function(){
 			if($(window).width() + $(window).height() != _originalSize){
-				alert("keyboard show up");
 				$(".login_section .login_btn").css("position","static");  
 			}else{
-				alert("keyboard closed");
 				$(".login_section .login_btn").css("position","absolute");  
 			}
 		});
@@ -207,12 +206,11 @@ $(window).resize(function(){
 	}*/
 	if(window_Wt < 767 && window_Ht > 370){
 		var _originalSize = $(window).width() + $(window).height();
+                $(".login_section .login_btn").css("position","absolute");
 		$(window).resize(function(){
 			if($(window).width() + $(window).height() != _originalSize){
-				alert("keyboard show up");
 				$(".login_section .login_btn").css("position","static");  
 			}else{
-				alert("keyboard closed");
 				$(".login_section .login_btn").css("position","absolute");  
 			}
 		});

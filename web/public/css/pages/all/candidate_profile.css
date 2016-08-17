@@ -18,7 +18,7 @@ input:focus,button:focus,.button:focus{outline:0}.btn.dropdown-toggle.btn-defaul
 .gq-id-files-upload-success-text {padding-top:12px; text-align:center;width: 100%;}
 .gq-id-files-upload-success-text h2{color:#86b332; font-size:15px;text-align: center;}
 .gq-id-files-upload-success-text img {margin-right:4px; padding-bottom:4px;width:auto !important;}
-.gq-id-files-upload-success-text span{width:19px; height:13px; background-image:url('../images/tick.png'); background-repeat:no-repeat; backgrounc-positoin:center center; float:left; margin-right:12px;}
+.gq-id-files-upload-success-text span{width:19px; height:13px; background-repeat:no-repeat; backgrounc-positoin:center center; float:left; margin-right:12px;}
 .gq-id-files-upload-text, .gq-id-files-upload-success-text {padding-bottom:20px;}
 .gq-id-files-upload-wait-text {padding-top:12px; text-align:center;}
 .gq-id-files-upload-wait-text h2{font-size:13px;}
