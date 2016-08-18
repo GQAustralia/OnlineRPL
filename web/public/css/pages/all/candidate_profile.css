@@ -30,7 +30,7 @@ change_file_error {width: 100%;margin-bottom:10px;}
 #pwd_error {width: 100%;margin-bottom:10px;}
 #change_address_error {width: 100%;margin-bottom:10px;}
 #userprofile_gender {display: inline-block;}
-#userprofile_gender input { width: 20px;}
+#userprofile_gender input { width: 20px;margin-top: 2px;}
 .confirm_popup .modal-dialog{width:450px;}
 .confirm_popup .modal-content{border-radius:0;box-shadow:none;}
 .confirm_popup .close{float:right;opacity:1;}
