@@ -981,6 +981,7 @@ class UserService
         $this->em->persist($reminderObj);
         $this->em->flush();
         $this->em->clear();
+        return json_encode(array('reminderId' => $reminderObj->getId()));
     }
 
     /**

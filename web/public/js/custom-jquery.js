@@ -314,9 +314,8 @@ $("#download_assessor_profile").click(function() {
     window.open(base_url + "downloadAssessorProfile/" + userId);
 });
 
-$(".todomodalClass").click(function() {
-    reminderid = this.id;
-    reminderflag = $(this).attr("data-flag");
+$(".todo-list").on('click', '.todomodalClass', function(){
+    reminderid = $(this).attr('id');
 });
 $("#todo-cancel").click(function() {
     $("#todoclose").trigger("click");
@@ -324,12 +323,16 @@ $("#todo-cancel").click(function() {
 /* dashboard update todo list functionality starts */
 $(".updateTodo").click(function() {
     //$(".todo_loader").show();
-    var rmid = this.id;
-    var flag = $(this).attr("data-status");
-    flag = (flag == "0") ? "1":"0";
-	var completedItem = 1;
-	var percentage = '';
-	var currentTodoItem = $(this).parent().parent();
+    //var rmid = this.id;
+    var rmid = reminderid;
+    //var flag = reminderflag;
+    //flag = (flag == "0") ? "1":"0";
+
+    flag = "1";
+    var completedItem = 1;
+    var percentage = '';
+    var currentTodoItem = $('#'+rmid).parent().parent();
+
     $.ajax({
         type: "POST",
         url: "updateTodo",
@@ -337,6 +340,7 @@ $(".updateTodo").click(function() {
         success: function(result) {
             if (result == "success")
             {
+                $('.close').trigger('click');
                 completedItem = parseInt(completedItem) + parseInt($('.progress-bar').attr('data-citem'));
                 totalItem = parseInt($('.progress-bar').attr('data-titem'));
                 percentage = (completedItem/totalItem)*100;
@@ -351,6 +355,11 @@ $(".updateTodo").click(function() {
             }
         }
     });
+});
+$('.cancelTodo').click(function(){
+    $('#'+reminderid).prop('checked', false);
+    alert('cancelTodo reminderid'+rmid);
+    return false;
 });
 /* dashboard update todo list functionality ends */
 function validateExisting()
@@ -757,6 +766,20 @@ $(".setData").click(function() {
         $('#remindDate_' + listId).css("border","1px solid red");
         return false;
     }
+    var currEle = $(this).parent().parent().parent();
+    var stPos = {topPos:($(currEle[0]).offset().top),leftPos:$(currEle[0]).offset().left};
+
+    var newTodoItemElement = false;
+
+    if( $('.dashboard').length > 0 ){
+        var todoIcon = (reminderType == 'evidence') ? 'cloud_upload': ((reminderType=='portfolio')? 'account_circle': (reminderType=='message')? 'message': 'edit'); 
+        var itemElement = $(this).parent().parent().parent().find('.content');
+        var itemContent = itemElement.text();
+        var itemLink = itemElement.find('a').attr('href');
+        newTodoItemContent = '<li class="list_item clearfix todoContent"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">"'+itemContent+'"</span></li>';
+        newTodoItemElement = '<li class="list_item clearfix todoContent"><a href="'+itemLink+'" target="_blank"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">"'+itemContent+'"</span></a><div class="checkbox_outer"><input type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
+    }
+    var completedItem = 0;    
     if (remindDate != '') {
         $.ajax({
             type: "POST",
@@ -764,10 +787,24 @@ $(".setData").click(function() {
             cache: false,
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate, listId: listId, reminderTypeId: reminderTypeId, reminderType:reminderType},
             success: function(result) {
-                $('#err_msg').show();                
+
+                var res = $.parseJSON(result);
+                $('#err_msg').show();           
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>');
-                
-                
+                if(newTodoItemElement) {
+                    newTodoItem = newTodoItemElement.replace("reminderId", res.reminderId);
+                    flyToElement(newTodoItemContent, $('.todo-list'),stPos);
+                    setTimeout(function(){$('.todo-list').append(newTodoItem);},1000);
+                    totalItem = parseInt($('.progress-bar').attr('data-titem'));
+                    $('.todo-list li.emptyPendingTodo').addClass('hide');
+                    $('.progress-bar').attr('data-titem', totalItem+1);
+
+                    completedItem = parseInt(completedItem) + parseInt($('.progress-bar').attr('data-citem'));
+                    totalItem = parseInt($('.progress-bar').attr('data-titem'));
+                    percentage = (completedItem/totalItem)*100;
+                    $('.progress-bar').css('width', percentage+"%").attr('data-citem', completedItem);
+                    $('.todo-percent').html(Math.ceil(percentage));
+                }
             }
         });
         var parentDiv = $(this).parent().parent().parent();

@@ -50,7 +50,7 @@
                                         <span class="days_count {{counterClass}}">{{daycount}}d{% if daycount > 6 %}!{% endif %}</span>
                                    {% endif %}
                                     <div class="checkbox_outer">
-                                            <input type="checkbox" class="updateTodo" id="{{ todoList.id }}" data-status="0" data-toggle="modal" data-target="#confirm_popup"/><span></span>
+                                            <input type="checkbox" id="{{ todoList.id }}" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"/><span></span>
                                     </div>
                                 </li>
                                 {% endfor %}
@@ -153,9 +153,9 @@
     </div>
 </div>
 <!-- Modal -->
-<!-- <div class="modal fade confirm_popup" id="confirm_popup" role="dialog">
+<div class="modal fade confirm_popup" id="confirm_popup" role="dialog">
     <div class="modal-dialog">
-        <!-- Modal content
+        <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">x</button>
@@ -163,10 +163,10 @@
             </div>
             <div class="modal-body">
                 <div class="btn_section">
-                    <button class="btn btn_red">OK</button>
-                    <button class="btn" data-dismiss="modal">CANCEL</button>
+                    <button class="btn btn_red updateTodo">OK</button>
+                    <button class="btn cancelTodo" data-dismiss="modal">CANCEL</button>
                 </div>
             </div>
         </div>
     </div>
-</div> -->
+</div>
