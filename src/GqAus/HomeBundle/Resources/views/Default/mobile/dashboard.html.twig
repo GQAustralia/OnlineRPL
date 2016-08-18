@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Dashboard{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/common_dashboard.css') }}">
+{% endblock %}
+{% block body %}
+{% set roles = app.security.getToken().getUser().getRoles() %}
+{# {{ dump(roles) }} #}
+    <div class="profile_section hidden-xs">
+        <div class="container">
+            {% if app.security.getToken().getUser().getUserImage() %}
+                <img src="{{ asset('public/uploads/') }}{{ app.security.getToken().getUser().getUserImage() }}" alt="profile_pic"/>
+            {% else %}
+                <img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic"/>
+            {% endif %}
+            <span>{{ app.security.getToken().getUser().getUserName() }}</span>                
+        </div>
+    </div>
+    <div class="body_section dashboard">
+        <div class="container">
+                <div id="err_msg"></div>
+                <div class="row">
+                        {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">                              
+                                {% include 'GqAusHomeBundle:Default:todolist.html.twig' %}
+                            </div>
+                        {% endif %}                    
+                            <div class="col-xs-12 colsm-6 col-md-6 col-lg-6">
+                                {% include 'GqAusHomeBundle:Default:dashboard-messages.html.twig' %}
+                            {% if ('ROLE_RTO' in roles) %}
+                            </div>
+                            <div class="col-xs-12 colsm-6 col-md-6 col-lg-6">
+                            {% endif %}                                
+                                    {% include 'GqAusHomeBundle:Default:dashboard-portfolio.html.twig' %}
+                                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
+                                    {% include 'GqAusHomeBundle:Default:dashboard-evidences.html.twig' %}
+                                {% endif %}
+                            </div>
+                </div>
+        </div>
+        <div class="profile_section hidden-sm hidden-md hidden-lg">
+            <div class="container">
+                    <img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic"/>
+                    <span>Rosa</span>
+            </div>
+        </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('public/js/codex-fly.js') }}"></script>
+    {#<script type="text/javascript">
+        $(document).ready(function(){
+            $('.btn_red').on('click',function(){
+                console.log('inside');
+                var itemElement = $(this).parent().parent().parent().find('.content');
+
+                console.log('itemElement');
+                console.log(itemElement);
+                //.appendTo('.todo-list');
+                //var itemContent = .find('img').eq(0);
+                //Scroll to top if cart icon is hidden on top
+               $('html, body').animate({
+                        'scrollTop' : $(".cart_anchor").position().top
+                });
+                //Select item image and pass to the function
+                var itemImg = $(this).parent().find('img').eq(0);
+                flyToElement($(itemImg), $('.cart_anchor'));
+            });
+        });
+    </script>#}
+ {% endblock %}

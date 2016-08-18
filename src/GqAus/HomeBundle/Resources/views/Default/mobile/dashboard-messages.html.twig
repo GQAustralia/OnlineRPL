@@ -1,0 +1,155 @@
+{% set reminderType = 'message' %}
+<div class="accordian_block">
+    <div class="title_bar clearfix">
+        <span class="title"><a href="{{ app.request.baseUrl }}/messages" title="View Pending Evidences">MESSAGES - {{unReadMessagesCount}} UNREAD</a></strong></span>
+        <span class="add_btn"><a href="/messages/compose" title="Add New Message">NEW <i class="material-icons add_icon">add</i></a></span>
+    </div>
+    <div class="panel-group" id="accordion2">
+        {% if appMsg %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <span>{{appMsg|length}} new from Candidates</span>
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#m_collapse1">
+                          <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+                        </a>
+                    </div>
+                </div>
+                <div id="m_collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul>
+                            {% for key, appliMsg in appMsg %}
+                                {% set remStatus = user_service.checkReminderExists(appliMsg.inbox.id, appliMsg.id, reminderType) %}
+                                <li class="clearfix {{ remStatus.playlistIconClass }}">
+                                    <span class="content"><strong><a target="_blank" href="/messages/{{ appliMsg.id }}" title="View Message">{{ appliMsg.sent.firstName}} {{ appliMsg.sent.lastName}}</a></strong> - {{appliMsg.subject}} </span>
+                                    <div class="dropdown keep-open">
+                                         <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+                                         <div class="dropdown-menu {{ remStatus.calendarClass }}">
+                                             <div class="data_section">
+                                                 <textarea rows="3" placeholder="Notes" id="notes_{{appliMsg.id}}"></textarea>
+                                                 <div class="date_section clearfix">
+                                                         <input type="text" class="date_field form-control" id="remindDate_{{appliMsg.id}}">
+                                                 </div>
+                                             </div>
+                                             <button type="button" class="btn_red setData" userCourseId="" listId="{{appliMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{appliMsg.id}}">Save</button>
+                                         </div>
+                                    </div>
+                                </li>
+                            {% endfor %} 
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}          
+        {% if facMsg %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <span>{{facMsg|length}} new from Facilitators</span>
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#m_collapse1">
+                          <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+                        </a>
+                    </div>
+                </div>
+                <div id="m_collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul>
+                            {% for key, faciMsg in facMsg %}
+                                    {% set remStatus = user_service.checkReminderExists(faciMsg.inbox.id, faciMsg.id, reminderType) %}
+                                    <li class="clearfix {{ remStatus.playlistIconClass }}">
+                                            <span class="content"><strong><a target="_blank" href="/messages/{{ faciMsg.id }}" title="View Message">{{ faciMsg.sent.firstName}} {{ faciMsg.sent.lastName}}</a></strong> - {{faciMsg.subject}} </span>
+                                            <div class="dropdown keep-open">
+                                                {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)) %}
+                                                 <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+                                                {% endif %}
+                                                 <div class="dropdown-menu {{ remStatus.calendarClass }}">
+                                                    <div class="data_section">
+                                                        <textarea rows="3" placeholder="Notes" id="notes_{{faciMsg.inbox.id}}"></textarea>
+                                                        <div class="date_section clearfix">
+                                                           <input type="text" class="date_field form-control" id="remindDate_{{faciMsg.inbox.id}}">
+                                                        </div>
+                                                    </div>                                                                                   
+                                                    <button type="button" class="btn_red setData" userCourseId="" listId="{{faciMsg.inbox.id}}" reminderType="{{reminderType}}" reminderTypeId="{{faciMsg.id}}">Save</button>
+                                                 </div>
+                                            </div>
+                                    </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %} 
+        {% if assMsg %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <span>{{assMsg|length}} new from Assessors</span>
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#m_collapse2">
+                          <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+                        </a>
+                    </div>
+                </div>
+                <div id="m_collapse2" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul>
+                            {% for key, ascMsg in assMsg %}
+                                {% set remStatus = user_service.checkReminderExists(ascMsg.inbox.id, ascMsg.id, reminderType) %}
+                                <li class="clearfix {{ remStatus.playlistIconClass }}">
+                                    <span class="content"><strong><a target="_blank" href="/messages/{{ ascMsg.id }}" title="View Message">{{ ascMsg.sent.firstName}} {{ ascMsg.sent.lastName}}</a></strong> - {{ascMsg.subject}}</span>
+                                    <div class="dropdown keep-open">
+                                            <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+                                            <div class="dropdown-menu {{ remStatus.calendarClass }}">
+                                                <div class="data_section">
+                                                    <textarea rows="3" placeholder="Notes" id="notes_{{ascMsg.id}}"></textarea>
+                                                    <div class="date_section clearfix">
+                                                       <input type="text" class="date_field form-control" id="remindDate_{{ascMsg.id}}">
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn_red setData" userCourseId="" listId="{{ascMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{ascMsg.id}}">Save</button>
+                                             </div>
+                                    </div>
+                                 </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if rtoMsg %}
+        <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <span>{{rtoMsg|length}} new from RTOs</span>
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#m_collapse3">
+                          <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+                        </a>
+                    </div>
+                </div>
+                <div id="m_collapse3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul>
+                            {% for key, rtosMsg in rtoMsg %}
+                                {% set remStatus = user_service.checkReminderExists(rtosMsg.inbox.id, rtosMsg.id, reminderType) %}                                    
+                                <li class="clearfix {{ remStatus.playlistIconClass }}">
+                                    <span class="content"><strong><a target="_blank" href="/messages/{{ rtosMsg.id }}" title="View Message">{{ rtosMsg.sent.firstName}} {{ rtosMsg.sent.lastName}}</a></strong> - {{rtosMsg.subject}} </span>
+                                    <div class="dropdown keep-open">
+                                        <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+                                        <div class="dropdown-menu {{ remStatus.calendarClass }}">
+                                            <div class="data_section">
+                                                <textarea rows="3" placeholder="Notes" id="notes_{{rtosMsg.id}}"></textarea>
+                                                <div class="date_section clearfix">
+                                                        <input type="text" class="date_field form-control" id="remindDate_{{rtosMsg.id}}">
+                                                </div>
+                                            </div>                                                                                     
+                                            <button type="button" class="btn_red setData" userCourseId="" listId="{{rtosMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{rtosMsg.id}}">Save</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+        </div>
+        {% endif %}
+    </div>
+</div>

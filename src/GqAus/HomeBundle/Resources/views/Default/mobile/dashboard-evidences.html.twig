@@ -1,0 +1,48 @@
+{% set reminderType = 'evidence' %}
+{% if ('ROLE_FACILITATOR' in roles) %}
+<div class="accordian_block">
+    <div class="title_bar clearfix">
+        <span class="title"><a href="{{ app.request.baseUrl }}/evidences" title="View Pending Evidences">EVIDENCES - <strong>({{ evidencesCount }} TO REVIEW)</a></strong></span>
+        {# <span class="add_btn">ADD<i class="material-icons add_icon">add</i></span> #}
+    </div>
+	{% if (newEvidences|length) > 0 %}
+    <div class="panel-group" id="accordion4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <span>{{ newEvidences|length }} new uploads</span>
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#e_collapse1">
+                      <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+                    </a>
+                </div>
+            </div>
+            <div id="e_collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul>
+                        {% set currentUserId = app.security.getToken().getUser().getId() %}
+                        {% for key, newEvd  in newEvidences %}
+                        {% set remStatus = user_service.checkReminderExists(currentUserId, newEvd.id, reminderType) %}
+                            <li class="clearfix {{ remStatus.playlistIconClass }}">
+                                <span class="content"><strong><a href="#" title="View Evidence">{{ newEvd.user.firstName }} {{ newEvd.user.lastName }}</a></strong> - {{newEvd.name}} </span>
+                                <div class="dropdown keep-open">
+                                     <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+                                     <div class="dropdown-menu {{ remStatus.calendarClass }}">
+                                         <div class="data_section">    
+                                             <textarea rows="3" placeholder="Notes" id="notes_{{newEvd.id}}"></textarea>
+                                             <div class="date_section clearfix">
+                                                     <input type="text" class="date_field form-control"  id="remindDate_{{newEvd.id}}">
+                                             </div>
+                                         </div>
+                                         <button type="button" class="btn_red setData" userCourseId="" listId="{{newEvd.id}}" reminderType="{{ reminderType }}" reminderTypeId="{{newEvd.id}}">Save</button>
+                                     </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	{% endif %}
+</div>
+{% endif %}

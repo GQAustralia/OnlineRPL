@@ -1,0 +1,496 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Files{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('public/css/jquery.dataTables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/dropzone.css') }}" media="screen" />
+<link rel="stylesheet" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/evidence.css') }}">
+{% endblock %}
+{% block navmenu %}
+    {% set roles = app.security.getToken().getUser().getRoles() %}
+    {% if('ROLE_APPLICANT' not in roles) %} 
+        {% include 'GqAusUserBundle:Applicant/includes:navmenu.html.twig' %}
+    {%else%}
+        {% set className =  (app.request.attributes.get('_route') in header_class_pages) ? 'header-border' : '' %}
+		<header class="{{ className }}">
+            <section class="container">
+                <div class="logo">
+                     {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <a href="{{ app.request.baseUrl }}/dashboard">
+                     {% else %}   
+                        <a href="{{ app.request.baseUrl }}/qualifications">
+                     {% endif %}
+                        <img src="{{ asset('public/images/gqalogo.png') }}" alt="Get Qualified Australia Logo"/>
+                        
+                        </a>
+                </div>
+
+                <div class="info-header hide">
+                    <div class="portfolio">
+                        <strong class="title">Profile Name</strong>
+                        <a href="#"><i class="material-icons clear">clear</i></a>
+                    </div>
+
+                    <div class="unit-info">
+                        <a href="#"><i class="material-icons btn-back">arrow_back</i></a>
+                        <strong class="title">Unit info</strong>
+                    </div>            
+                </div>
+
+                <nav>
+                    <ul class="nav">
+                            {% if ('ROLE_APPLICANT' not in roles)  %}
+                            <li>
+
+                            <a class="{% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}" href="{{ app.request.baseUrl }}/dashboard">
+                            <i class="material-icons">school</i>
+                            <span>Dashboard</span>
+                            </a>
+                            </li>
+                            {% else %}
+                            <li>
+
+                            <a class="{% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} active {% endif %}" href="{{ app.request.baseUrl }}/qualifications">
+                            <i class="material-icons">school</i>
+                            <span>Qualification</span>
+                            </a>
+                            </li>
+                            {% endif %}
+                            {% if ('ROLE_APPLICANT' not in roles)  %}
+                                <li>
+                                <svg height="35" width="35" id="portfolioCount" class="hide">
+                                <circle cx="23" cy="12" r="12" fill="red"/>
+                                <text text-anchor="middle" x="23" y="16" fill="#fff" class="portfolio-current"></text>
+                                </svg>                                
+                                <a class="{% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}" href="{{ app.request.baseUrl }}/applicants">
+                                <i class="material-icons">message</i>
+                                <span>portfolios</span>                        
+                                </a>
+                                </li>
+                            {% endif %}
+                            {% if ('ROLE_SUPERADMIN' not in roles) %}  
+                                <li>
+                                <svg height="35" width="35"  id="messageCount" class="hide">
+                                <circle cx="23" cy="12" r="12" fill="red"/>
+                                <text id="unread-count" text-anchor="middle" x="23" y="16" fill="#fff"></text>
+                                </svg>  
+                                <a class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}" href="{{ app.request.baseUrl }}/messages">
+                                <i class="material-icons">message</i>
+                                <span>Messages</span>                        
+                                </a>
+                                </li>
+                            {% endif %}
+                            {% if ('ROLE_FACILITATOR' in roles)  %}
+                                    <li>
+                                            <a class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}" href="{{ app.request.baseUrl }}/evidences"><i class="material-icons">cloud_upload</i><span>Evidences</span></a>
+                                    </li>
+                            {% endif %}
+                            {% if ('ROLE_APPLICANT' in roles)  %}
+                                    <li>
+                                            <a class="{% if app.request.attributes.get('_route') == 'files' %} active {% endif %}" href="{{ app.request.baseUrl }}/files"><i class="material-icons">cloud_upload</i><span>Files</span></a>
+                                    </li>
+                            {% endif %}
+                            <li class="profile">
+                                <a href="#">
+                                        <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="profile" />
+                                        <i class="material-icons">expand_more</i>
+                                </a>
+                                <ul class="hide">
+                                        {% if ('ROLE_APPLICANT' not in roles)  %}
+                                                <li><a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">Profile</a></li>
+                                        {% else %}
+                                                <li><a href="{{ app.request.baseUrl }}/userprofile">Profile</a></li>
+                                        {% endif %}
+                                        <li><a href="{{ app.request.baseUrl }}/logout">Log out</a></li>
+                                </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+        </header> 
+    {%endif%}
+{% endblock %}  
+{% block body %}
+{% set userId = app.security.getToken().getUser().getId() %}
+{% set roles = app.security.getToken().getUser().getRoles() %}
+{#dump() #}
+    <div class="body_section">
+        <div class="body_section">
+                <div class="container">
+                    <div id="evidence_msg"></div><div id="gq-dashboard-tabs-success"></div>
+                        <div class="row">
+                                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+                                        <div class="file_upload_block">
+                                                <div class="title_bar clearfix">
+                                                        <span class="title">UPLOAD EVIDENCE FILES</span>
+                                                </div>
+                                                <div class="clearfix">
+                                                        <div class="take_photo">
+                                                                <span>
+                                                                        <i class="material-icons">camera_alt</i>Take a photo
+                                                                </span>
+                                                        </div>
+                                                        <div class="upload_btn">
+                                                                <div class="file-upload">
+                                                                        <form action="#" method="GET" class="form demo_form">
+                                                                                <div class="upload fs-upload-element fs-upload fs-light" data-upload-options="">
+
+                                                                                </div>
+                                                                        </form>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
+                                                <div class="panel-group">
+                                                        <div class="panel clearfix">
+                                                                <div class="panel-body">
+                                                                        <div class="panel-copy fileListContainer">
+
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+								{% if evidences|length < 0%}	
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+									<div class="evidence_block">
+										<div class="title_bar clearfix">
+											<span class="title">YOUR EVIDENCE FILES</span>
+											<span class="info_btn">
+												<i class="material-icons info_icon">info</i>
+											</span>
+										</div>
+										<div class="content">
+											<span class="icon">
+												<i class="material-icons">error_outline</i>
+											</span>
+											<span><strong>There are two ways of uploading:</strong></span>
+											<ul>
+												<li>
+													<span>
+														1. You can upload evidence files from this screen, then go to your units and linkfiles to relevant units.
+													</span>
+												</li>
+												<li>
+													<span>
+														2. You can upload files directly from a unit and they will be automatically linked. Whichever way you choose, all your uploaded files will appear here. 
+													</span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								{% endif %}
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+                                        <div class="evidence_block">
+                                                <div class="title_bar clearfix">
+                                                    <span class="title">EVIDENCE <strong>(<span id="evidence-total" class="evidence-total" style="padding: 0px;"></span> TO REVIEW)</strong></span>
+                                                    <span class="info_btn">
+                                                        <i class="material-icons info_icon">info</i>
+                                                    </span>
+                                                </div>
+                                                <div class="tab_section clearfix">
+                                                    <div class="tab clearfix">
+                                                        <span class="search_icon"><i class="material-icons">search</i></span>
+                                                        <input type="text" class="search namesearch" placeholder="Search"  userid="{{ userId }}" role="{{ roles['0']}}" />
+                                                    </div>
+                                                    <div class="tab filter_tab">
+                                                        <span class="filter">
+                                                            <i class="material-icons">filter_list</i>Filter
+                                                        </span>
+                                                    </div>
+                                                    <div class="tab hidden-sm hidden-md hidden-lg">
+                                                        <span class="sort">
+                                                            <i class="material-icons">code</i>Sort
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+												<div class="check_box_section hide" id="evidence-filter" style="display: block;">
+														<div class="section">
+															<div class="title_bar clearfix">
+																<span class="title">Qualification</span>
+															</div>
+																							{% for cKey, course in courses %}
+															<div class="content_block clearfix">
+																<span class="content">{{ course.courseName }}</span>
+																<div class="checkbox_outer">
+																										<input type="checkbox" value="{{ course.courseCode }}" class="parent-filter" checked><span></span>
+																</div>
+															</div>
+																							{% endfor %}
+														</div>
+														<div class="section">
+                                                            <div class="title_bar clearfix">
+                                                                <span class="title">File Type</span>
+                                                            </div>
+                                                            <ul class="clearfix">
+                                                                <li>
+                                                                    <span>video(<span class="video-count"></span>)</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="video" class="children-filter" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>audio(<span class="audio-count"></span>)</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="audio" class="children-filter" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>image(<span class="image-count"></span>)</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="image" class="children-filter" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>PDF(<span class="file-count"></span>)</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="file" class="children-filter" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>text(<span class="text-count"></span>)</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="text" class="children-filter" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+														</div>
+														<div class="section">
+                                                            <div class="title_bar clearfix">
+                                                                <span class="title">Mapped to units</span>
+                                                            </div>
+                                                            <ul class="clearfix">
+                                                                <li>
+                                                                    <span>un-mapped(<span class="unmapped-unit"></span>)</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox"  value="un-mapped" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>mapped to 1 unit(<span class="mapped-one"></span>)</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="mapped" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span>mapped to multiple(<span class="mapped-two"></span>)</span>
+                                                                    <span class="checkbox_outer">
+                                                                        <input type="checkbox" value="multiple-mapped" checked><span></span>
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+														</div>
+												</div>
+                                                <div class="titles_block hidden-xs">
+                                                    <ul class="clearfix">
+                                                        <li style="width:12%;">
+                                                            <span>Type</span>
+                                                        </li>
+                                                        <li style="width:30%;">
+                                                            <span class="file_name">File Name</span>
+                                                        </li>
+                                                        <li style="width:25%;">
+                                                            <span>File Size</span>
+                                                        </li>
+                                                        <li style="width:33%;">
+                                                            <span class="date_section orderby-date">
+                                                                <i class="material-icons">arrow_downward</i><strong>Date Added</strong>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="file_info_block">
+                                                {% if evidences|length > 0%}
+                                                <table id="evidencefiles" class="display" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hide">Course</th>    
+                                                            <th class="hide">Type</th>
+                                                            <th class="hide">Mapped to Units</th>
+                                                            <th class="hide">File Name</th>
+                                                            <th class="hide sortbydate">Date Added</th>
+                                                            <th class="hide">Name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for eKey, evd in evidences %}
+                                                    {% set checkPath = (evd[0].type !='text') ? evd[0].path : evd[0].content %} 
+                                                    {% set mappedContent =  (checkPath in evdMapping.mappedToMultipleUnit) ? 'mapped2': ((checkPath in evdMapping.mappedToOneUnit) ? 'mapped1' : 'mapped0') %}
+                                                    {% if evd[0].type !='text' %}
+                                                        {% set eviType = evidence_service.getEvidenceShowType(evd[0].type) %}
+                                                        {% set output = eviType|split('&&') %}
+
+                                                        {% if evd[0].name %}
+                                                        <tr id="{{ evd[0].id }}" class="{{ evd[0].type }} {{ mappedContent }}">
+                                                            <td class="hide">{{ evd[0].course }}</td>
+                                                            <td class="hide">{{ evd[0].type }}</td>
+                                                            <td class="hide">{{mappedContent}}</td>
+                                                            <td class="hide">{{ evd[0].name }}</td>
+                                                            <td class="hide">{{ evd[0].created|date("d/m/y") }}</td>
+                                                            <td>
+                                                                {% if evd[0].name %} 
+                                                                    <div class="block">
+                                                                        <div class="file_info hidden-xs">
+                                                                            <a href="{{ amazon_link }}{{  evd[0].path }}" 
+                                                                                {% if output[1] is defined %}
+                                                                                {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
+                                                                                {%endif%}><span class="icon"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
+                                                                            </a>
+                                                                            <span class="file_name">
+                                                                                {{ evd[0].name }}
+                                                                            </span>
+                                                                            <span class="file_size">
+                                                                                {{ evd[0].size }}
+                                                                            </span>
+                                                                            <span class="clear">
+                                                                                ADDED  {{ evd[0].created|date("d/m/y") }}
+                                                                                {% if('ROLE_APPLICANT' in roles) %}
+                                                                                <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
+                                                                                {% endif %}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
+                                                                            <div class="file_info">
+                                                                                <span class="icon">
+                                                                                    <i class="material-icons">description</i>
+                                                                                </span>
+                                                                                <span class="file-discription">
+                                                                                    {{ evd[0].name }} <br> {{ evd[0].size }} | Added {{ evd[0].created|date("d/m/y") }}
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="link_section">
+                                                                            {% for lKey, linkedVal in evd %}
+                                                                                {% set unitType = user_service.getUserCourseUnitType(evd[0].user.id,linkedVal.course,linkedVal.unit) %}
+                                                                                {% if(linkedVal.unit) %}
+                                                                                    <span class="content">
+                                                                                        <a href="/courseunitDetails/{{ linkedVal.course }}/{{ linkedVal.unit}}/{{ evd[0].user.id }}">
+                                                                                            <i class="material-icons">insert_link</i>Linked to {{ linkedVal.unit }} ({{ unitType }} unit)
+                                                                                        </a>
+                                                                                    </span>
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <tr id="{{ evd[0].id }}"  class="{{ evd[0].type }} {{ mappedContent }}">
+                                                            <td class="hide">{{ evd[0].course }}</td>
+                                                            <td class="hide">{{ evd[0].type }}</td>
+                                                            <td class="hide">{{mappedContent}}</td>
+                                                            <td class="hide">{{ evd[0].content }}</td>
+                                                            <td class="hide sortdateby">{{ evd[0].created|date("d/m/y") }}</td>
+                                                            <td>
+                                                                {% if evd[0].content %} 
+                                                                    <div class="block">
+                                                                        <div class="file_info hidden-xs">
+                                                                            <span class="icon"><a href="#text{{evd[0].id}}" class="fancybox" id="btnForm">
+                                                                                <i class="material-icons">description</i></a>
+                                                                            </span>
+                                                                            <span class="file_name">
+                                                                                {{ evd[0].content|slice(0,40) }}
+                                                                            </span>
+                                                                            <span class="file_size"></span>
+                                                                            <span class="clear">
+                                                                                ADDED {{ evd[0].created|date("d/m/y") }}
+                                                                                {% if('ROLE_APPLICANT' in roles) %}
+                                                                                <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
+                                                                                {%endif%}
+                                                                            </span>                                                        
+                                                                        </div>
+                                                                        <div class="link_section">
+                                                                            <span class="content">
+                                                                                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ evd[0].course }}/{{ evd[0].unit}}/{{ evd[0].user.id }}">
+                                                                                    <i class="material-icons">insert_link</i>Linked to {{ evd[0].unit }} (core unit)
+                                                                                </a>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+																	<div id="text{{evd[0].id}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evd[0].content is defined %}{{evd[0].content}}{%endif%}</div>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                                                                    
+                                                    </tbody>
+                                                </table>
+                                                {% else %}
+                                                    <p>No evidences found</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                </div>
+                                {% if('ROLE_APPLICANT' in roles) %}
+                                <div class="hidden-xs col-sm-12 col-md-12 col-lg-5">
+                                        <div class="file_upload_block">
+                                                <div class="title_bar clearfix">
+                                                        <span class="title">UPLOAD EVIDENCE FILES</span>
+                                                </div>
+                                            <div id="dragandrophandler">
+                                                <div class="upload_btn">
+                                                    <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
+                                                    <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file</div>
+                                                </div>
+                                            </div>
+                                                
+                                                <span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
+                                                <div class="panel-group hide" id="fileListContainer">
+                                                        <div class="panel clearfix">
+                                                                <div class="panel-body">
+                                                                        <div class="panel-copy fileListContainer" id="progress-bars">
+
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                                {% endif %}
+                                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+                                    <div class="profile_section hidden-sm hidden-md hidden-lg">
+                                        <div class="container">
+                                            {#<img alt="profile_pic" src="../images/UPLOAD_PROFILE_PHOTO.png">#}
+                                            <span>Samantha</span>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                </div>
+
+	<!-- Modal -->
+	<div class="modal fade confirm_popup" id="confirm_popup" role="dialog" >
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="modal-title">{{ delete_evidence_confirm }}</div>
+				</div>
+				<div class="modal-body">
+					<div class="btn_section">
+						<button class="btn btn_red deleteEvidence">OK</button>
+						<button class="btn" data-dismiss="modal">CANCEL</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('public/js/jquery.form.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/s3-upload/s3upload.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.fancybox').fancybox();
+        });
+    </script>	
+{% endblock %}

@@ -70,7 +70,7 @@
 											{% set setUserId = list.rto.id %}
 										{% endif %}
 										
-										{% set remStatus = user_service.checkReminderExists(setUserId, list.id, 'portfolio') %}
+										{% set remStatus = user_service.checkReminderExists(setUserId, list.id, '') %}
 										<li class="clearfix {{ remStatus.playlistIconClass }}">
 											<span class="content"><strong><a target="_blank" href="/applicantDetails/{{ list.courseCode }}/{{ list.user.id }}" title="View Portfolio">{{list.user.firstName}} {{list.user.lastName}}</a></strong> - {{list.courseName}}</span>
 											<div class="dropdown keep-open">
