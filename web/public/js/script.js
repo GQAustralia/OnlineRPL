@@ -34,8 +34,9 @@ $(document).ready(function(){
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
 	var header_Ht = $("header").height();
+	var footer_Ht = $(".mobi-profile").height();
+	var mobile_view_Ht = window_Ht - header_Ht - footer_Ht;
 	
-	var mobile_view_Ht = window_Ht - header_Ht;
 	$(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
 
 	
@@ -190,7 +191,8 @@ $(window).resize(function(){
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
 	var header_Ht = $("header").height();
-	var mobile_view_Ht = window_Ht - header_Ht;
+	var footer_Ht = $(".mobi-profile").height();
+	var mobile_view_Ht = window_Ht - header_Ht - footer_Ht;
 	
 	$(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
 
