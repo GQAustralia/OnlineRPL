@@ -124,12 +124,14 @@
                                 <span><a href="{{ app.request.baseUrl }}/applicants" title="Portfolio" target="_blank">Portfolio</a></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="javascript:void(0)" class="icon">
-                                <i class="material-icons cloud_upload">cloud_upload</i> 
-                                <span><a href="{{ app.request.baseUrl }}/evidences" title="Evidence" target="_blank">Evidence</a></span>
-                            </a>
-                        </li>
+                        {% if ('ROLE_FACILITATOR' in roles) %}
+                            <li>
+                                <a href="javascript:void(0)" class="icon">
+                                    <i class="material-icons cloud_upload">cloud_upload</i> 
+                                    <span><a href="{{ app.request.baseUrl }}/evidences" title="Evidence" target="_blank">Evidence</a></span>
+                                </a>
+                            </li>
+                        {% endif %}
                         <li>
                             <div class="icon note">
                                 <div class="dropdown keep-open">

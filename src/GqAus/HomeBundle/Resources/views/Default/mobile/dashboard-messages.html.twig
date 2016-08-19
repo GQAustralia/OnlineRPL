@@ -26,12 +26,12 @@
                                          <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                          <div class="dropdown-menu {{ remStatus.calendarClass }}">
                                              <div class="data_section">
-                                                 <textarea rows="3" placeholder="Notes" id="notes_{{appliMsg.id}}"></textarea>
+                                                 <textarea rows="3" placeholder="Notes" id="appMsg_notes_{{appliMsg.id}}"></textarea>
                                                  <div class="date_section clearfix">
-                                                         <input type="text" class="date_field form-control" id="remindDate_{{appliMsg.id}}">
+                                                         <input type="text" class="date_field form-control" id="appMsg_remindDate_{{appliMsg.id}}">
                                                  </div>
                                              </div>
-                                             <button type="button" class="btn_red setData" userCourseId="" listId="{{appliMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{appliMsg.id}}">Save</button>
+                                             <button type="button" class="btn_red setData" userCourseId="" prefix="appMsg" listId="{{appliMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{appliMsg.id}}">Save</button>
                                          </div>
                                     </div>
                                 </li>
@@ -64,12 +64,12 @@
                                                 {% endif %}
                                                  <div class="dropdown-menu {{ remStatus.calendarClass }}">
                                                     <div class="data_section">
-                                                        <textarea rows="3" placeholder="Notes" id="notes_{{faciMsg.inbox.id}}"></textarea>
+                                                        <textarea rows="3" placeholder="Notes" id="facMsg_notes_{{faciMsg.id}}"></textarea>
                                                         <div class="date_section clearfix">
-                                                           <input type="text" class="date_field form-control" id="remindDate_{{faciMsg.inbox.id}}">
+                                                           <input type="text" class="date_field form-control" id="facMsg_remindDate_{{faciMsg.id}}">
                                                         </div>
                                                     </div>                                                                                   
-                                                    <button type="button" class="btn_red setData" userCourseId="" listId="{{faciMsg.inbox.id}}" reminderType="{{reminderType}}" reminderTypeId="{{faciMsg.id}}">Save</button>
+                                                    <button type="button" class="btn_red setData" userCourseId="" prefix="facMsg"  listId="{{faciMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{faciMsg.id}}">Save</button>
                                                  </div>
                                             </div>
                                     </li>
@@ -100,12 +100,12 @@
                                             <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                             <div class="dropdown-menu {{ remStatus.calendarClass }}">
                                                 <div class="data_section">
-                                                    <textarea rows="3" placeholder="Notes" id="notes_{{ascMsg.id}}"></textarea>
+                                                    <textarea rows="3" placeholder="Notes" id="assMsg_notes_{{ascMsg.id}}"></textarea>
                                                     <div class="date_section clearfix">
-                                                       <input type="text" class="date_field form-control" id="remindDate_{{ascMsg.id}}">
+                                                       <input type="text" class="date_field form-control" id="assMsg_remindDate_{{ascMsg.id}}">
                                                     </div>
                                                 </div>
-                                                <button type="button" class="btn_red setData" userCourseId="" listId="{{ascMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{ascMsg.id}}">Save</button>
+                                                <button type="button" class="btn_red setData" userCourseId="" prefix="assMsg" listId="{{ascMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{ascMsg.id}}">Save</button>
                                              </div>
                                     </div>
                                  </li>
@@ -136,12 +136,12 @@
                                         <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                         <div class="dropdown-menu {{ remStatus.calendarClass }}">
                                             <div class="data_section">
-                                                <textarea rows="3" placeholder="Notes" id="notes_{{rtosMsg.id}}"></textarea>
+                                                <textarea rows="3" placeholder="Notes" id="rtoMsg_notes_{{rtosMsg.id}}"></textarea>
                                                 <div class="date_section clearfix">
-                                                        <input type="text" class="date_field form-control" id="remindDate_{{rtosMsg.id}}">
+                                                        <input type="text" class="date_field form-control" id="rtoMsg_remindDate_{{rtosMsg.id}}">
                                                 </div>
                                             </div>                                                                                     
-                                            <button type="button" class="btn_red setData" userCourseId="" listId="{{rtosMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{rtosMsg.id}}">Save</button>
+                                            <button type="button" class="btn_red setData" userCourseId="" prefix="rtoMsg" listId="{{rtosMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{rtosMsg.id}}">Save</button>
                                         </div>
                                     </div>
                                 </li>
