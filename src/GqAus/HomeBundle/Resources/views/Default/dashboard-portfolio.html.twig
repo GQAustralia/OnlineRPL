@@ -77,12 +77,12 @@
 												<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
 												<div class="dropdown-menu {{ remStatus.calendarClass }}">
 													<div class="data_section">
-														<textarea rows="3" placeholder="Notes" id="notes_{{list.id}}"></textarea>
+														<textarea rows="3" placeholder="Notes" id="newApp_notes_{{list.id}}"></textarea>
 														<div class="date_section clearfix">
-																<input type="text" class="date_field form-control" id="remindDate_{{list.id}}">
+																<input type="text" class="date_field form-control" id="newApp_remindDate_{{list.id}}">
 														</div>
 													 </div>   
-													<button type="button" class="btn_red setData" usercourseid="{{ list.id }}" listid="{{ list.id }}" remindertype="portfolio" remindertypeid="{{ list.id }}">Save</button>
+													<button type="button" class="btn_red setData" usercourseid="{{ list.id }}" prefix="newApp" listid="{{ list.id }}" remindertype="portfolio" remindertypeid="{{ list.id }}">Save</button>
 												</div>
 											</div>
 										</li>
@@ -121,12 +121,12 @@
 										<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
 										<div class="dropdown-menu {{ remStatus.calendarClass }}">
 											<div class="data_section">
-												<textarea rows="3" placeholder="Notes" id="notes_{{dList.id}}"></textarea>
+												<textarea rows="3" placeholder="Notes" id="eighty_notes_{{dList.id}}"></textarea>
 												<div class="date_section clearfix">
-													<input type="text" class="date_field form-control" id="remindDate_{{dList.id}}">
+													<input type="text" class="date_field form-control" id="eighty_remindDate_{{dList.id}}">
 												</div>
 											</div>
-											<button type="button" class="btn_red setData" usercourseid="{{ dList.id }}" listid="{{ dList.id }}" remindertype="portfolio" remindertypeid="{{ dList.id }}">Save</button>
+											<button type="button" class="btn_red setData" usercourseid="{{ dList.id }}" prefix="eighty" listid="{{ dList.id }}" remindertype="portfolio" remindertypeid="{{ dList.id }}">Save</button>
 										</div>
 									</div>
 								</li>
@@ -165,12 +165,12 @@
 									   <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
 										<div class="dropdown-menu {{ remStatus.calendarClass }}">
 										   <div class="data_section">
-											   <textarea rows="3" placeholder="Notes" id="notes_{{eList.id}}"></textarea>
+											   <textarea rows="3" placeholder="Notes" id="eightyPerc_notes_{{eList.id}}"></textarea>
 											   <div class="date_section clearfix">
-													   <input type="text" class="date_field form-control" id="remindDate_{{eList.id}}">
+													   <input type="text" class="date_field form-control" id="eightyPerc_remindDate_{{eList.id}}">
 											   </div>
 										   </div>
-										   <button type="button" class="btn_red setData" usercourseid="{{ eList.id }}" listid="{{ eList.id }}" remindertype="portfolio" remindertypeid="{{ eList.id }}">Save</button>
+										   <button type="button" class="btn_red setData" usercourseid="{{ eList.id }}" prefix="eightyPerc" listid="{{ eList.id }}" remindertype="portfolio" remindertypeid="{{ eList.id }}">Save</button>
 									   </div>
 								   </div>
 							   </li>
@@ -197,13 +197,13 @@
                 <div class="panel-body">
                     <ul>
                         {% for assKey, assList in applicantsWithAssesor %}
-							{% if ('ROLE_FACILITATOR' in roles) %}
-								{% set setUserId = assList.facilitator.id %}
-							{% elseif ('ROLE_ASSESSOR' in roles) %}
-								{% set setUserId = assList.assessor.id %}
-							{% else %}
-								{% set setUserId = assList.rto.id %}
-							{% endif %}							
+                        {% if ('ROLE_FACILITATOR' in roles) %}
+                                {% set setUserId = assList.facilitator.id %}
+                        {% elseif ('ROLE_ASSESSOR' in roles) %}
+                                {% set setUserId = assList.assessor.id %}
+                        {% else %}
+                                {% set setUserId = assList.rto.id %}
+                        {% endif %}
                         {% set remStatus = user_service.checkReminderExists(setUserId, assList.id, '') %}
                             <li class="clearfix {{ remStatus.playlistIconClass }}">
                                 <span class="content"><strong><a target="_blank" href="/applicantDetails/{{ assList.courseCode }}/{{ assList.user.id }}" title="View Portfolio">{{assList.user.firstName}} {{assList.user.lastName}}</a></strong> - {{assList.courseName}}</span>
@@ -211,12 +211,12 @@
                                     <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                     <div class="dropdown-menu">
                                         <div class="data_section">
-                                            <textarea rows="3" placeholder="Notes" id="notes_{{assList.id}}"></textarea>
+                                            <textarea rows="3" placeholder="Notes" id="appAss_notes_{{assList.id}}"></textarea>
                                             <div class="date_section clearfix">
-                                                    <input type="text" class="date_field form-control" id="remindDate_{{assList.id}}">
+                                                    <input type="text" class="date_field form-control" id="appAss_remindDate_{{assList.id}}">
                                             </div>
                                          </div>
-                                         <button type="button" class="btn_red setData" usercourseid="{{ assList.id }}" listid="{{ assList.id }}" remindertype="portfolio" remindertypeid="{{ assList.id }}">Save</button>
+                                         <button type="button" class="btn_red setData" usercourseid="{{ assList.id }}" listid="{{ assList.id }}" prefix="appAss" remindertype="portfolio" remindertypeid="{{ assList.id }}">Save</button>
                                     </div>
                                 </div>
                             </li>
@@ -257,12 +257,12 @@
 										<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
 										<div class="dropdown-menu {{ remStatus.calendarClass }}">
 											<div class="data_section">
-												<textarea rows="3" placeholder="Notes" id="notes_{{rtoList.id}}"></textarea>
+												<textarea rows="3" placeholder="Notes" id="appRto_notes_{{rtoList.id}}"></textarea>
 												<div class="date_section clearfix">
-													<input type="text" class="date_field form-control" id="remindDate_{{rtoList.id}}">
+													<input type="text" class="date_field form-control" id="appRto_remindDate_{{rtoList.id}}">
 												</div>
 											 </div>
-											 <button type="button" class="btn_red setData" usercourseid="{{ rtoList.id }}" listid="{{ rtoList.id }}" remindertype="portfolio" remindertypeid="{{ rtoList.id }}">Save</button>
+											 <button type="button" class="btn_red setData" usercourseid="{{ rtoList.id }}" prefix="appRto" listid="{{ rtoList.id }}" remindertype="portfolio" remindertypeid="{{ rtoList.id }}">Save</button>
 										</div>
 									</div>
 								</li>

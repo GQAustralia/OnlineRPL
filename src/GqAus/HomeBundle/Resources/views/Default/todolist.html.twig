@@ -106,7 +106,7 @@
                             </li>                                                                                    
                         {% endif %}
                     </ul>					
-                    <ul class="navigation_link_section clearfix" style="display: none;">
+                    <ul class="navigation_link_section clearfix">
                         <li>
                             <a href="javascript:void(0)" class="icon">
                                 <strong class="hidden-xs">Add New</strong>
@@ -115,19 +115,19 @@
                         <li>
                             <a href="javascript:void(0)" class="icon">
                                 <i class="material-icons message">message</i>
-                                <span><a href="{{ app.request.baseUrl }}/messages" title="Message">Message</a></span>
+                                <span><a href="{{ app.request.baseUrl }}/messages" title="Message" target="_blank">Message</a></span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" class="icon">
                                 <i class="material-icons account_circle">account_circle</i>
-                                <span><a href="{{ app.request.baseUrl }}/applicants" title="Portfolio">Portfolio</a></span>
+                                <span><a href="{{ app.request.baseUrl }}/applicants" title="Portfolio" target="_blank">Portfolio</a></span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" class="icon">
                                 <i class="material-icons cloud_upload">cloud_upload</i> 
-                                <span><a href="{{ app.request.baseUrl }}/evidences" title="Evidence">Evidence</a></span>
+                                <span><a href="{{ app.request.baseUrl }}/evidences" title="Evidence" target="_blank">Evidence</a></span>
                             </a>
                         </li>
                         <li>
@@ -136,12 +136,12 @@
                                     <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons edit">edit</i><span class="hidden-xs" title="Add Reminder Note">Note</span></span>
                                     <div class="dropdown-menu">
                                         <div class="data_section">
-                                            <textarea rows="3" placeholder="Notes" id="notes_note"></textarea>
+                                            <textarea rows="3" placeholder="Notes" id="note_notes_note"></textarea>
                                             <div class="date_section clearfix">
-                                                <input type="text" class="date_field form-control" id="remindDate_note" />
+                                                <input type="text" class="date_field form-control" id="note_remindDate_note" />
                                             </div>
                                         </div>
-                                        <button type="button" class="btn_red setData" usercourseid="" listid="note" remindertype="note" remindertypeid="">Save</button>
+                                        <button type="button" class="btn_red setData" usercourseid="" prefix="note" listid="note" remindertype="note" remindertypeid="">Save</button>
                                     </div>
                                 </div>
                             </div>

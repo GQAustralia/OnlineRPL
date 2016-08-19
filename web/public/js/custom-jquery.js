@@ -751,17 +751,26 @@ $(".setData").click(function() {
     reminderTypeId = $(this).attr("reminderTypeId");
     reminderType = $(this).attr("reminderType");
     listId = $(this).attr("listId");
-    var courseId = $('#course_' + listId).val();
+    console.log();
+
+    if( $('.dashboard').length > 0 ){
+        var prefixId = $(this).attr("prefix");
+        var courseId = $('#'+prefixId+'_course_' + listId).val();
+        note = $('#'+prefixId+'_notes_' + listId).val();
+        remindDate = $('#'+prefixId+'_remindDate_' + listId).val();
+    } else {
+        var courseId = $('#course_' + listId).val();
+        note = $('#notes_' + listId).val();
+        remindDate = $('#remindDate_' + listId).val();
+    }
     if (courseId != '' && typeof courseId !== 'undefined') {
         userCourseId = courseId;
     }
-    note = $('#notes_' + listId).val();
     /*if (note === '') {
         $('#notes_' + listId).focus();
         $('#notes_' + listId).css("border","1px solid red");
         return false;
     }*/
-    remindDate = $('#remindDate_' + listId).val();
     if (remindDate === '') {
         $('#remindDate_' + listId).focus();
         $('#remindDate_' + listId).css("border","1px solid red");
