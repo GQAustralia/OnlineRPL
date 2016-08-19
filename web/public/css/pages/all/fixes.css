@@ -1,0 +1,54 @@
+/* In portfolio */
+.portfolio-container .portfolio-data-table .table th.sort-by:before{
+	content: "\E5DB";
+	vertical-align: top;
+}
+.portfolio-container .portfolio-filter .filter input {
+	padding: 8px 25px 8px 30px;
+	background: url("../../../images/search_icon.png");
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+@media (max-width: 767px){
+	.portfolio-container .portfolio-data-table .table thead{
+		border-left: 0;
+		border-right: 0;
+	}
+	.portfolio-container .portfolio-filter{
+		border: 0;
+	}
+	#myTab{
+		margin: 0;
+		border-bottom: 1px solid;
+		border-top: 1px solid;
+	}
+	.portfolio-container .portfolio-filter .status a{
+		padding: 18px 0;
+	}
+	.portfolio-container .portfolio-filter .status a{
+		color: #999;
+	}
+	.portfolio-container .portfolio-filter{
+		padding: 10px 15px 0;
+	}
+}
+
+
+/* In qualification */
+.nav-tabs li.close{
+	opacity: 1;
+}
+
+/* In header */
+.mobi-profile ul li.profile-tag .profile-img{
+	height: 30px;
+}
+.mobi-profile ul li a label{
+	margin-bottom: 0;
+}
+.mobi-profile ul li a {
+    color: #fff;
+    display: inline-block;
+    vertical-align: sub;
+}
+
