@@ -43,7 +43,7 @@ change_file_error {width: 100%;margin-bottom:10px;}
 .gq-change-pwd-warning1 {width:60%; margin:0 auto; position:relative;}
 #pwd_error1 {width: 100%;margin-bottom:10px;}
 @media screen and (min-width: 320px){
-	#userprofile_gender input ~ label {width: 120px;}
+	#userprofile_gender input ~ label {width: 100px;}
 }
 @media screen and (min-width: 568px){
 	.confirm_popup .modal-dialog{width:450px;}
