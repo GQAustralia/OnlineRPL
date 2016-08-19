@@ -9,6 +9,9 @@
     <div class="container">		
         <!-- FOR DESKTOP -->
     <div class="row">
+        <!-- getting current path -->
+        {% set currentPath = app.request.uri %}
+        {% set parameters = currentPath|split('?') %}
         {% if messages%}
             {% if messages|length > 0 %}
                 <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
@@ -36,7 +39,13 @@
                                                             {% if message.replymid is defined and message.replymid != 0 %}                                       
                                                             <span class="reply"></span>
                                                             {% endif %}
-                                                            <a href="{{ base_url }}messages/{{message.id}}">
+                                                            
+                                                            {% if parameters[1] is defined %}
+                                                             <a href="{{ base_url }}messages/{{message.id}}?{{parameters[1]}}">
+                                                            {%else%}
+                                                             <a href="{{ base_url }}messages/{{message.id}}">
+                                                            {%endif%}
+                                                            
                                                             {% if message.subject|length > 10 %}
                                                                 {{ message.subject|raw[:10] ~ '-' }}
                                                             {% else %}
@@ -147,7 +156,7 @@
                                         <span class="date_time">{{ 'now' | date('h:i A') }}</span>
                                 </div>
                                {% if user is defined and user != '' %}
-                                    {{ form_widget(composemsgForm.message, {value  : '' }, {'attr': {'placeholder': 'Enter Message'} }) }}
+                                       {{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message','msgType':'reply'} },{value  : '' }) }}
                                 {% endif %}
                         </div>
                       {% endif %}   
@@ -192,7 +201,7 @@
     <div class="row" id="profile_suc_msg">
     <div class="gq-id-files-upload-success-text">
       <span style="width:100%;"><!--<img src="{{ asset('public/images/tick.png') }}">-->
-        <i class="material-icons">done</i>{{ flashMessage }}</span>
+        <!--<i class="material-icons">done</i>-->{{ flashMessage }}</span>
     </div>
     </div>
     {% endfor %}
@@ -259,5 +268,20 @@
  
 {% block javascripts %}       
     <script src="{{ asset('public/js/jquery.form.js') }}"></script>
-    <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>         
+    <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>    
+    <script>
+        function getMessageElement(){
+         var msgTypeVal=$('#compose_message').attr('msgType');
+         if(msgTypeVal!='undefined' && msgTypeVal==='reply'){
+          $('.chat_room').animate({
+           scrollTop: 1000
+          });
+         }
+        }
+        $(document).ready(function(){
+         getMessageElement();
+        
+        });
+
+</script> 
 {% endblock %}

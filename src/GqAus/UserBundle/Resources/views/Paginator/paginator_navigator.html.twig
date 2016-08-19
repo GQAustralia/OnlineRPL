@@ -4,6 +4,13 @@
 {% set currentPage = paginator.getCurrentPage() %}
 {% set totalPages = paginator.getTotalPages() %}
 {% set count = paginator.getCount() %}
+
+<!-- Checking for msgs-->
+{% set parameters = currentPath|split('messages') %}
+{% if parameters[1] is defined %}
+{% set currentPath = base_url ~ 'messages'%}
+{%endif%}
+
 <div class="gq-msg-top-pagination pull-right">
     <div class="gq-msg-pagination-txt">        
     {% if currentPage == totalPages %}
