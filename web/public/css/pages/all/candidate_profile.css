@@ -30,8 +30,8 @@ change_file_error {width: 100%;margin-bottom:10px;}
 #pwd_error {width: 100%;margin-bottom:10px;}
 #change_address_error {width: 100%;margin-bottom:10px;}
 #userprofile_gender {display: inline-block;}
-#userprofile_gender input { width: 20px;margin-top: 2px;}
-.confirm_popup .modal-dialog{width:450px;}
+#userprofile_gender input {  width: 20px; margin-top: 0;vertical-align: sub; height: 17px;}
+.confirm_popup .modal-dialog{width:100%;}
 .confirm_popup .modal-content{border-radius:0;box-shadow:none;}
 .confirm_popup .close{float:right;opacity:1;}
 .confirm_popup .btn_section{margin:10px auto 0;text-align:center;}
@@ -42,3 +42,10 @@ change_file_error {width: 100%;margin-bottom:10px;}
 .gq-id-pwd-error-text1 img {width:auto !important; margin-right:4px; padding-bottom:4px;}
 .gq-change-pwd-warning1 {width:60%; margin:0 auto; position:relative;}
 #pwd_error1 {width: 100%;margin-bottom:10px;}
+@media screen and (min-width: 320px){
+	#userprofile_gender input ~ label {width: 120px;}
+}
+@media screen and (min-width: 568px){
+	.confirm_popup .modal-dialog{width:450px;}
+	#userprofile_gender input ~ label {width: 137px;}
+}

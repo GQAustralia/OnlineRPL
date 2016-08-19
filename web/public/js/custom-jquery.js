@@ -318,6 +318,7 @@ $(".todo-list").on('click', '.todomodalClass', function(){
     reminderid = $(this).attr('id');
 });
 $("#todo-cancel").click(function() {
+    alert('test');
     $("#todoclose").trigger("click");
 });
 /* dashboard update todo list functionality starts */
@@ -340,7 +341,7 @@ $(".updateTodo").click(function() {
         success: function(result) {
             if (result == "success")
             {
-                $('.close').trigger('click');
+                $('#confirm_popup').modal('hide');
                 completedItem = parseInt(completedItem) + parseInt($('.progress-bar').attr('data-citem'));
                 totalItem = parseInt($('.progress-bar').attr('data-titem'));
                 percentage = (completedItem/totalItem)*100;
@@ -358,7 +359,7 @@ $(".updateTodo").click(function() {
 });
 $('.cancelTodo').click(function(){
     $('#'+reminderid).prop('checked', false);
-    alert('cancelTodo reminderid'+rmid);
+    $('.closeModal').trigger('click');
     return false;
 });
 /* dashboard update todo list functionality ends */
