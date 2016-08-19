@@ -9,7 +9,7 @@ services:
         class: GqAus\HomeBundle\Services\CoursesService
         arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService']
     GuzzleService:
-        class: %guzzle.client.class%
+        class: %guzzle.http_client.class%
         arguments: []
     templating.engine.twig:
         class: GqAus\UserBundle\Twig\TwigEngine

@@ -26,10 +26,10 @@ class AppKernel extends Kernel
             new GqAus\UserBundle\GqAusUserBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new GqAus\HomeBundle\GqAusHomeBundle(),
-            new Misd\GuzzleBundle\MisdGuzzleBundle(),
+            new EightPoints\Bundle\GuzzleBundle\GuzzleBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
-            new Ensepar\Html2pdfBundle\EnseparHtml2pdfBundle(),
+            new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
         );
 

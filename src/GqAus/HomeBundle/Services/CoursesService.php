@@ -176,11 +176,17 @@ class CoursesService
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "qualificationunits";
-        $authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
+       /*  $authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
         $this->guzzleService->addSubscriber($authPlugin);
         $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
         $request = $this->guzzleService->post($url, null, $fieldString); // Create a request with basic Auth
         $response = $request->send(); // Send the request and get the response
+        $result = $response->getBody(); */
+        $response = $this->guzzleService->request('POST', $url, [
+        		'auth' => [$apiAuthUsername, $apiAuthPassword],
+        		'query' => $fieldString
+        		]);
+        
         $result = $response->getBody();
         return $result;
     }
@@ -196,11 +202,17 @@ class CoursesService
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "qualificationunits";
-        $authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
+        /*$authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
         $this->guzzleService->addSubscriber($authPlugin);
         $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
         $request = $this->guzzleService->post($url, null, $fieldString); // Create a request with basic Auth
         $response = $request->send(); // Send the request and get the response
+        $result = $response->getBody();*/
+        $response = $this->guzzleService->request('POST', $url, [
+        		'auth' => [$apiAuthUsername, $apiAuthPassword],
+        		'query' => $fieldString
+        		]);
+        
         $result = $response->getBody();
         return $result;
     }
