@@ -755,13 +755,14 @@ $(".setData").click(function() {
 
     if( $('.dashboard').length > 0 ){
         var prefixId = $(this).attr("prefix");
+        var reminderDateId = '#'+prefixId+'_remindDate_' + listId;
         var courseId = $('#'+prefixId+'_course_' + listId).val();
         note = $('#'+prefixId+'_notes_' + listId).val();
-        remindDate = $('#'+prefixId+'_remindDate_' + listId).val();
+        remindDate = $(reminderDateId).val();
     } else {
         var courseId = $('#course_' + listId).val();
         note = $('#notes_' + listId).val();
-        remindDate = $('#remindDate_' + listId).val();
+        remindDate = $(reminderDateId).val();
     }
     if (courseId != '' && typeof courseId !== 'undefined') {
         userCourseId = courseId;
@@ -771,9 +772,10 @@ $(".setData").click(function() {
         $('#notes_' + listId).css("border","1px solid red");
         return false;
     }*/
+    console.log('remindDate '+remindDate);
     if (remindDate === '') {
-        $('#remindDate_' + listId).focus();
-        $('#remindDate_' + listId).css("border","1px solid red");
+        $(reminderDateId).focus();
+        $(reminderDateId).css("border","1px solid red");
         return false;
     }
     var currEle = $(this).parent().parent().parent();
