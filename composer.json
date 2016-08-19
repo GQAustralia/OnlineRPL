@@ -21,14 +21,14 @@
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "ircmaxell/password-compat": "~1.0.3",
-        "misd/guzzle-bundle": "1.1.*@dev",
-        "guzzle/guzzle":"dev-master",
+        "eightpoints/guzzle-bundle": "~4.4",
+        "guzzlehttp/guzzle":"dev-master",
         "knplabs/gaufrette":                    "dev-master",
         "knplabs/knp-gaufrette-bundle":         "dev-master",
-        "amazonwebservices/aws-sdk-for-php":    "dev-master",
+        "aws/aws-sdk-php": "3.15.*",
         "knplabs/knp-snappy-bundle":            "dev-master",
         "opentok/opentok": "2.2.x",
-        "ensepar/html2pdf-bundle" : "~2.0",
+        "whiteoctober/tcpdf-bundle": "dev-master",
         "suncat/mobile-detect-bundle" : "~1.0"
     },
     "require-dev": {
