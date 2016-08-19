@@ -62,12 +62,15 @@ $(document).ready(function(){
 	}*/
 	if(window_Wt < 767 && window_Ht > 370){
 		var _originalSize = $(window).width() + $(window).height();
-                $(".login_section .login_btn").css("position","absolute");
+		$(".login_section .login_btn").css("position","absolute");
+		$(".mobile_version .mail_compose_section .btn_section").css("position","absolute");
 		$(window).resize(function(){
 			if($(window).width() + $(window).height() != _originalSize){
 				$(".login_section .login_btn").css("position","static");  
+				$(".mobile_version .mail_compose_section .btn_section").css("position","static"); 
 			}else{
 				$(".login_section .login_btn").css("position","absolute");  
+				$(".mobile_version .mail_compose_section .btn_section").css("position","absolute");  
 			}
 		});
 	}
@@ -78,16 +81,16 @@ $(document).ready(function(){
 	
 	var title_Ht = $(".mobile_version .mail_compose_section .title_bar").height();
 	var btnSection_Ht = $(".mobile_version .mail_compose_section .btn_section").height();
-	var chat_Ht = window_Ht -(title_Ht+btnSection_Ht);
+	var chat_Ht = window_Ht -(title_Ht+btnSection_Ht+40);
 	if(window_Wt < 767 && window_Ht >= 320){
 		$(".mobile_version .chat_room").css("height",chat_Ht);
 	}
 	
-	$(".form_block input").focus(function(){
+	$(".form_block input[type='text']").focus(function(){
 		$(this).prev().css("color","red");
 		$(".update_btn").css("background","red");
 	});
-	$(".form_block input").blur(function(){
+	$(".form_block input[type='text']").blur(function(){
 		$(this).prev().css("color","#4a4a4a");
 		$(".update_btn").css("background","#d8d8d8");
 	});
@@ -212,19 +215,22 @@ $(window).resize(function(){
 	}*/
 	if(window_Wt < 767 && window_Ht > 370){
 		var _originalSize = $(window).width() + $(window).height();
-                $(".login_section .login_btn").css("position","absolute");
+		$(".login_section .login_btn").css("position","absolute");
+		$(".mobile_version .mail_compose_section .btn_section").css("position","absolute");
 		$(window).resize(function(){
 			if($(window).width() + $(window).height() != _originalSize){
 				$(".login_section .login_btn").css("position","static");  
+				$(".mobile_version .mail_compose_section .btn_section").css("position","static"); 
 			}else{
 				$(".login_section .login_btn").css("position","absolute");  
+				$(".mobile_version .mail_compose_section .btn_section").css("position","absolute");  
 			}
 		});
 	}
 	
 	var title_Ht = $(".mobile_version .mail_compose_section .title_bar").height();
 	var btnSection_Ht = $(".mobile_version .mail_compose_section .btn_section").height();
-	var chat_Ht = window_Ht -(title_Ht+btnSection_Ht);
+	var chat_Ht = window_Ht -(title_Ht+btnSection_Ht+40);
 	if(window_Wt < 767 && window_Ht >= 320){
 		$(".mobile_version .chat_room").css("height",chat_Ht);
 	}
