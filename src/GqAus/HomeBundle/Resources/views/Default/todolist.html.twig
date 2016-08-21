@@ -33,8 +33,8 @@
                                 {#{{ dump(rTypeContent) }}#}
                                 <li class="list_item clearfix">                                    
                                     {% if (todoList.reminderType == 'portfolio' or todoList.reminderType == 'message' or todoList.reminderType == 'evidence') %}
-                                        {% set rTypeContent = user_service.getRemindeTypeContent(todoList.reminderTypeId, todoList.reminderType) %}
-                                        <a href="{{ rTypeContent.link }}" target="_blank">
+                                        {% set rTypeContent = user_service.getRemindeTypeContent(todoList.reminderTypeId, todoList.reminderType, todoList.message) %}
+                                        <a href="{{ rTypeContent.link }}" target="_blank" title="{{ rTypeContent.fulltext }}">
                                             <span class="list_icon">
                                                     <i class="material-icons message">{{todoIcon}}</i>
                                             </span>
@@ -44,13 +44,13 @@
                                         </a>
                                     {% else %}
                                         <span class="list_icon"><i class="material-icons message">{{todoIcon}}</i></span>
-                                        <span class="content bold">{{ todoList.message}}</span>
+                                        <span class="content bold">{{ todoList.message }}</span>
                                     {% endif %}
                                    {% if daycount > 2 %}
                                         <span class="days_count {{counterClass}}">{{daycount}}d{% if daycount > 6 %}!{% endif %}</span>
                                    {% endif %}
                                     <div class="checkbox_outer">
-                                            <input type="checkbox" id="{{ todoList.id }}" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"/><span></span>
+                                            <input data-todotype="{{ todoList.reminderType }}" data-todotypeid="{{ todoList.reminderTypeId }}" type="checkbox" id="{{ todoList.id }}" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"/><span></span>
                                     </div>
                                 </li>
                                 {% endfor %}
@@ -74,7 +74,7 @@
                                     <li class="list_item clearfix disable">
                                         
                                     {% if (todoCompleteList.reminderType == 'portfolio' or todoCompleteList.reminderType == 'message' or todoCompleteList.reminderType == 'evidence') %}
-                                        {% set rTypeContent = user_service.getRemindeTypeContent(todoCompleteList.reminderTypeId, todoCompleteList.reminderType) %}
+                                        {% set rTypeContent = user_service.getRemindeTypeContent(todoCompleteList.reminderTypeId, todoCompleteList.reminderType, todoCompleteList.message) %}
                                         <a href="{{ rTypeContent.link }}" target="_blank">
                                             <span class="list_icon">
                                                     <i class="material-icons message">{{todoCompletedIcon}}</i>

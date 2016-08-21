@@ -356,6 +356,11 @@ $(".updateTodo").click(function() {
             }
         }
     });
+    var todoType = $('#'+reminderid).attr('data-todotype');
+    var todoTypeId = $('#'+reminderid).attr('data-todotypeid');
+    console.log('todoType :: '+todoType);
+    console.log('data-todotypeid :: '+todoTypeId);
+
 });
 $('.cancelTodo').click(function(){
     $('#'+reminderid).prop('checked', false);
@@ -751,7 +756,6 @@ $(".setData").click(function() {
     reminderTypeId = $(this).attr("reminderTypeId");
     reminderType = $(this).attr("reminderType");
     listId = $(this).attr("listId");
-    console.log();
 
     if( $('.dashboard').length > 0 ){
         var prefixId = $(this).attr("prefix");
@@ -772,7 +776,6 @@ $(".setData").click(function() {
         $('#notes_' + listId).css("border","1px solid red");
         return false;
     }*/
-    console.log('remindDate '+remindDate);
     if (remindDate === '') {
         $(reminderDateId).focus();
         $(reminderDateId).css("border","1px solid red");
@@ -788,9 +791,39 @@ $(".setData").click(function() {
         var itemElement = $(this).parent().parent().parent().find('.content');
         var itemContent = itemElement.text();
         var itemLink = itemElement.find('a').attr('href');
-        newTodoItemContent = '<li class="list_item clearfix todoContent"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">"'+itemContent+'"</span></li>';
-        newTodoItemElement = '<li class="list_item clearfix todoContent"><a href="'+itemLink+'" target="_blank"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">"'+itemContent+'"</span></a><div class="checkbox_outer"><input type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
+
+        if(note != '' && note != 'undefined')
+            itemContent = itemContent+' - '+note;
+        var contentSub = '';
+        if(itemContent.length > 64 )
+            contentSub = itemContent.substring(0, 64)+'...';
+        else 
+            contentSub = itemContent;
+
+        newTodoItemContent = '<li class="list_item clearfix todoContent"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></li>';
+        newTodoItemElement = '<li class="list_item clearfix todoContent"><a title="'+itemContent+'" href="'+itemLink+'" target="_blank"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></a><div class="checkbox_outer"><input type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
+
+        var todayDate = new Date();
+        var todayMonth = todayDate.getMonth() + 1;
+        var todayDay = todayDate.getDate();
+        var todayYear = todayDate.getFullYear();
+
+        if(todayMonth < 10)
+            todayMonth = '0'+todayMonth;
+
+        var todayDateText =  todayYear + "-" + todayMonth + "-" + todayDay;
+        var selectedDate = remindDate.split('/');
+        var selectedYear = selectedDate['2'].substring(0, selectedDate['2'].indexOf(' '));
+        var selectedDateText =  selectedYear + "-" + selectedDate[1] + "-" + selectedDate[0];
+        var addToToDo = true;
+        if (Date.parse(todayDateText) < Date.parse(selectedDateText)) {
+            addToToDo = false;
+        }
+
+        
+        
     }
+
     var completedItem = 0;    
     if (remindDate != '') {
         $.ajax({
@@ -803,7 +836,7 @@ $(".setData").click(function() {
                 var res = $.parseJSON(result);
                 $('#err_msg').show();           
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>');
-                if(newTodoItemElement) {
+                if(newTodoItemElement && addToToDo) {
                     newTodoItem = newTodoItemElement.replace("reminderId", res.reminderId);
                     flyToElement(newTodoItemContent, $('.todo-list'),stPos);
                     setTimeout(function(){$('.todo-list').append(newTodoItem);},1000);

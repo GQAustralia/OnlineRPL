@@ -2167,7 +2167,7 @@ class UserService
      * @param string $type
      * return array content
      */
-    public function getRemindeTypeContent($typeId, $type)
+    public function getRemindeTypeContent($typeId, $type, $reminderNote = "")
     {
         
         switch ($type) {
@@ -2175,9 +2175,11 @@ class UserService
                         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourses');
                         $typeContent = $reposObj->findOneBy(array('id' => $typeId));
                         $contentText = $typeContent->getUser()->getFirstname().' '.$typeContent->getUser()->getLastname().' - '.$typeContent->getCourseName();
-                        if(strlen($contentText) > 55 )
-                            $contentText = substr($contentText, 0, 55).'...';
+                        $fullText = ($reminderNote != '') ? $contentText.' - '.$reminderNote : $contentText;
+                        if(strlen($fullText) > 55 )
+                            $contentText = substr($fullText, 0, 55).'...';
 
+                        $content['fulltext'] = $fullText;
                         $content['text'] = $contentText;
                         $content['link'] = '/applicantDetails/'.$typeContent->getCourseCode().'/'.$typeContent->getUser()->getId();
                 break;
@@ -2185,9 +2187,11 @@ class UserService
                 $reposObj = $this->em->getRepository('GqAusUserBundle:Message');
                         $typeContent = $reposObj->findOneBy(array('id' => $typeId));
                         $contentText = $typeContent->getSent()->getFirstname().' '.$typeContent->getSent()->getLastname().' - '.$typeContent->getSubject();
+                        $fullText = ($reminderNote != '') ? $contentText.' - '.$reminderNote : $contentText;
+                        if(strlen($fullText) > 55 )
+                            $contentText = substr($fullText, 0, 55).'...';
 
-                        if(strlen($contentText) > 55 )
-                            $contentText = substr($contentText, 0, 55).'...';
+                        $content['fulltext'] = $fullText;
                         $content['text'] = $contentText;
                         $content['link'] = '/messages/'.$typeId;
                 break;
@@ -2195,14 +2199,15 @@ class UserService
                 $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
                         $typeContent = $reposObj->findOneBy(array('id' => $typeId));
                         $contentText = $typeContent->getUser()->getFirstname().' '.$typeContent->getUser()->getLastname().' - '.$typeContent->getName();
+                        $fullText = ($reminderNote != '') ? $contentText.' - '.$reminderNote : $contentText;
+                        if(strlen($fullText) > 55 )
+                            $contentText = substr($fullText, 0, 55).'...';
 
-                        if(strlen($contentText) > 55 )
-                            $contentText = substr($contentText, 0, 55).'...';
+                        $content['fulltext'] = $fullText;
                         $content['text'] = $contentText;
                         $content['link'] = '#';
                 break;
         }
-
         return $content;
     }
 
