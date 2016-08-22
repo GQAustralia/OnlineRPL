@@ -139,6 +139,8 @@ $(".checkmark-icon").click(function() {
 
 $(".changeUnitStatus").click(function() {   
     $(".qual_status_loader").show();
+    var count = $('input[name="chk-val-'+courseCode+'[]"]:checked').length;
+    var countElectiveUnits = $('#chkboxCount').val();
     $.ajax({
         type: "POST",
         url: base_url + "updateUnitElective",
@@ -150,23 +152,37 @@ $(".changeUnitStatus").click(function() {
             }
             var label = $("#label_" + unitId).attr("temp");
             if (result == '0') {
-                $("#label_" + unitId).attr("for", "");
-                $( "#label_"+unitId ).attr('disabled','disabled');
-                $("#btnadd_" + unitId).attr('disabled', 'disabled');
-                $("#btncomment_" + unitId).attr('disabled', 'disabled');
-                $("#btneye_" + unitId).attr('disabled', 'disabled');
-                $("#div_" + unitId).addClass("gq-acc-row-checked");
+//                $("#label_" + unitId).attr("for", "");
+//                $( "#label_"+unitId ).attr('disabled','disabled');
+//                $("#btnadd_" + unitId).attr('disabled', 'disabled');
+//                $("#btncomment_" + unitId).attr('disabled', 'disabled');
+//                $("#btneye_" + unitId).attr('disabled', 'disabled');
+//                $("#div_" + unitId).addClass("gq-acc-row-checked");
                 $("#span_" + unitId).removeClass("radioUnChecked");
                 $("#sp_" + unitId).html('');
+                
             } else {
-                $("#label_" + unitId).attr("for", label);
-                $( "#label_"+unitId ).removeAttr('disabled','disabled');
-                $("#btnadd_" + unitId).removeAttr('disabled');
-                $("#btncomment_" + unitId).removeAttr('disabled');
-                $("#btneye_" + unitId).removeAttr('disabled');
-                $("#div_" + unitId).removeClass("gq-acc-row-checked");
+//                $("#label_" + unitId).attr("for", label);
+//                $( "#label_"+unitId ).removeAttr('disabled','disabled');
+//                $("#btnadd_" + unitId).removeAttr('disabled');
+//                $("#btncomment_" + unitId).removeAttr('disabled');
+//                $("#btneye_" + unitId).removeAttr('disabled');
+//                $("#div_" + unitId).removeClass("gq-acc-row-checked");
                 $("#span_" + unitId).addClass("radioUnChecked");
-            }  
+                
+            } 
+           
+                
+            if( count >= countElectiveUnits)
+            {
+                $("#btn-done-"+courseCode).removeClass('btn btn-warning hide').addClass("btn btn-warning show");
+                $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse').addClass("panel-collapse collapse in");
+            }
+            else
+            {
+                $("#btn-done-" + courseCode).removeClass('btn btn-warning show').addClass("btn btn-warning hide");
+                $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse in').addClass("panel-collapse collapse");
+            }
             $(".qual_status_loader").hide();
             $("#qeclose").trigger("click");
         }
