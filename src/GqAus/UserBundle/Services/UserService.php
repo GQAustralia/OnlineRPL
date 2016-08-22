@@ -1166,14 +1166,14 @@ class UserService
                     $userIds = ''; $courseUnit = '';
                      foreach($pendingApplicants as $key => $value){
                          $evidenceCompleteness = $this->getEvidenceCompleteness($value->getUser()->getId(), $value->getCourseCode());
-                         if(str_replace('%', '', $evidenceCompleteness) > '80'){
+                         if(str_replace('%', '', $evidenceCompleteness) > $this->container->getParameter('evidence_completeness')){
                              $evidenceComp['eightyPercEvd'][] = $value;
                          }
                      }
                      $evidences = $this->getPendingApplicantEvidences($user);
                  }
                  $evidencesCount = (isset($evidences)) ? count($evidences) : 0;
-                 $newEvidenceStartDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') - 5, date('Y')));
+                 $newEvidenceStartDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') - $this->container->getParameter('new_evidence_time_span'), date('Y')));
                  $newEvidences = '';
                  if($evidencesCount > 0) {
                      foreach($evidences as $evidenceFile){
@@ -2169,15 +2169,15 @@ class UserService
      */
     public function getRemindeTypeContent($typeId, $type, $reminderNote = "")
     {
-        
+        $contentLimit = $this->container->getParameter('todo_content_length');
         switch ($type) {
             case 'portfolio':
                         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourses');
                         $typeContent = $reposObj->findOneBy(array('id' => $typeId));
                         $contentText = $typeContent->getUser()->getFirstname().' '.$typeContent->getUser()->getLastname().' - '.$typeContent->getCourseName();
                         $fullText = ($reminderNote != '') ? $contentText.' - '.$reminderNote : $contentText;
-                        if(strlen($fullText) > 55 )
-                            $contentText = substr($fullText, 0, 55).'...';
+                        if(strlen($fullText) >  $contentLimit)
+                            $contentText = substr($fullText, 0, $contentLimit).'...';
 
                         $content['fulltext'] = $fullText;
                         $content['text'] = $contentText;
@@ -2188,8 +2188,8 @@ class UserService
                         $typeContent = $reposObj->findOneBy(array('id' => $typeId));
                         $contentText = $typeContent->getSent()->getFirstname().' '.$typeContent->getSent()->getLastname().' - '.$typeContent->getSubject();
                         $fullText = ($reminderNote != '') ? $contentText.' - '.$reminderNote : $contentText;
-                        if(strlen($fullText) > 55 )
-                            $contentText = substr($fullText, 0, 55).'...';
+                        if(strlen($fullText) > $contentLimit )
+                            $contentText = substr($fullText, 0, $contentLimit).'...';
 
                         $content['fulltext'] = $fullText;
                         $content['text'] = $contentText;
@@ -2200,8 +2200,8 @@ class UserService
                         $typeContent = $reposObj->findOneBy(array('id' => $typeId));
                         $contentText = $typeContent->getUser()->getFirstname().' '.$typeContent->getUser()->getLastname().' - '.$typeContent->getName();
                         $fullText = ($reminderNote != '') ? $contentText.' - '.$reminderNote : $contentText;
-                        if(strlen($fullText) > 55 )
-                            $contentText = substr($fullText, 0, 55).'...';
+                        if(strlen($fullText) > $contentLimit )
+                            $contentText = substr($fullText, 0, $contentLimit).'...';
 
                         $content['fulltext'] = $fullText;
                         $content['text'] = $contentText;

@@ -820,8 +820,6 @@ $(".setData").click(function() {
             addToToDo = false;
         }
 
-        
-        
     }
 
     var completedItem = 0;    
