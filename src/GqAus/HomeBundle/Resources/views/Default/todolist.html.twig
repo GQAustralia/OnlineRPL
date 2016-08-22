@@ -154,17 +154,23 @@
 <!-- Modal -->
 <div class="modal fade confirm_popup" id="confirm_popup" role="dialog">
     <div class="modal-dialog">
-        <!-- Modal content -->
+        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close cancelTodo closeModal" data-dismiss="modal">&times;</button>
                 <div class="modal-title">{{ todo_status_change }}</div>
             </div>
-            <div class="modal-body">
-                <div class="btn_section">
-                    <button class="btn btn_red updateTodo">OK</button>
-                    <button class="btn cancelTodo" data-dismiss="modal">CANCEL</button>
+            <div class="modal-footer">
+            <div class="btn_section gqa-btn-group btn-file-save">
+                <div class="row no-gutter">
+                    <div class="col-md-6 col-lg-6">
+                        <button type="button" class="btn btn-danger border-right updateTodo">OK</button>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <button type="button" class="btn btn-danger cancelTodo" data-dismiss="modal">CANCEL</button>
+                    </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>
