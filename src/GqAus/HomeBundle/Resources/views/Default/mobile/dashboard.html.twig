@@ -5,38 +5,27 @@
 {% endblock %}
 {% block body %}
 {% set roles = app.security.getToken().getUser().getRoles() %}
-{# {{ dump(roles) }} #}
-    <div class="profile_section hidden-xs">
-        <div class="container">
-            {% if app.security.getToken().getUser().getUserImage() %}
-                <img src="{{ asset('public/uploads/') }}{{ app.security.getToken().getUser().getUserImage() }}" alt="profile_pic"/>
-            {% else %}
-                <img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic"/>
-            {% endif %}
-            <span>{{ app.security.getToken().getUser().getUserName() }}</span>                
-        </div>
-    </div>
     <div class="body_section dashboard">
-        <div class="container">
-                <div id="err_msg"></div>
-                <div class="row">
+        <div>
+            <div id="err_msg"></div>
+            <div class="row">
+                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">                              
+                        {% include 'GqAusHomeBundle:Default:mobile/todolist.html.twig' %}
+                    </div>
+                {% endif %}                    
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        {% include 'GqAusHomeBundle:Default:mobile/dashboard-messages.html.twig' %}
+                    {% if ('ROLE_RTO' in roles) %}
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    {% endif %}                                
+                            {% include 'GqAusHomeBundle:Default:mobile/dashboard-portfolio.html.twig' %}
                         {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
-                            <div class="col-xs-12 col-sm-6 col-md-12 col-lg-6">                              
-                                {% include 'GqAusHomeBundle:Default:todolist.html.twig' %}
-                            </div>
-                        {% endif %}                    
-                            <div class="col-xs-12 col-sm-6 col-md-12 col-lg-6">
-                                {% include 'GqAusHomeBundle:Default:dashboard-messages.html.twig' %}
-                            {% if ('ROLE_RTO' in roles) %}
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-12 col-lg-6">
-                            {% endif %}                                
-                                    {% include 'GqAusHomeBundle:Default:dashboard-portfolio.html.twig' %}
-                                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
-                                    {% include 'GqAusHomeBundle:Default:dashboard-evidences.html.twig' %}
-                                {% endif %}
-                            </div>
-                </div>
+                            {% include 'GqAusHomeBundle:Default:mobile/dashboard-evidences.html.twig' %}
+                        {% endif %}
+                    </div>
+            </div>
         </div>
 {% endblock %}
 {% block javascripts %}
