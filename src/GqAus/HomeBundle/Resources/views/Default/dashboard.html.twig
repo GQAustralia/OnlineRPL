@@ -38,33 +38,7 @@
                             </div>
                 </div>
         </div>
-        <div class="profile_section hidden-sm hidden-md hidden-lg">
-            <div class="container">
-                    <img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic"/>
-                    <span>Rosa</span>
-            </div>
-        </div>
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('public/js/codex-fly.js') }}"></script>
-    {#<script type="text/javascript">
-        $(document).ready(function(){
-            $('.btn_red').on('click',function(){
-                console.log('inside');
-                var itemElement = $(this).parent().parent().parent().find('.content');
-
-                console.log('itemElement');
-                console.log(itemElement);
-                //.appendTo('.todo-list');
-                //var itemContent = .find('img').eq(0);
-                //Scroll to top if cart icon is hidden on top
-               $('html, body').animate({
-                        'scrollTop' : $(".cart_anchor").position().top
-                });
-                //Select item image and pass to the function
-                var itemImg = $(this).parent().find('img').eq(0);
-                flyToElement($(itemImg), $('.cart_anchor'));
-            });
-        });
-    </script>#}
- {% endblock %}
+{% endblock %}

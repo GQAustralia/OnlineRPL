@@ -107,27 +107,25 @@
                     </ul>					
                     <ul class="navigation_link_section clearfix">
                         <li>
-                            <a href="javascript:void(0)" class="icon">
-                                <strong class="hidden-xs">Add New</strong>
-                            </a>
+                            <strong class="hidden-xs">Add New</strong>
                         </li>
                         <li>
-                            <a href="javascript:void(0)" class="icon">
+                            <a href="{{ app.request.baseUrl }}/messages" title="Message" target="_blank" class="icon">
                                 <i class="material-icons message">message</i>
-                                <span><a href="{{ app.request.baseUrl }}/messages" title="Message" target="_blank">Message</a></span>
+                                <span>Message</span>
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:void(0)" class="icon">
+                            <a href="{{ app.request.baseUrl }}/applicants" title="Portfolio" target="_blank" class="icon">
                                 <i class="material-icons account_circle">account_circle</i>
-                                <span><a href="{{ app.request.baseUrl }}/applicants" title="Portfolio" target="_blank">Portfolio</a></span>
+                                <span>Portfolio</span>
                             </a>
                         </li>
                         {% if ('ROLE_FACILITATOR' in roles) %}
                             <li>
-                                <a href="javascript:void(0)" class="icon">
+                                <a href="{{ app.request.baseUrl }}/evidences" title="Evidence" target="_blank" class="icon">
                                     <i class="material-icons cloud_upload">cloud_upload</i> 
-                                    <span><a href="{{ app.request.baseUrl }}/evidences" title="Evidence" target="_blank">Evidence</a></span>
+                                    <span>Evidence</span>
                                 </a>
                             </li>
                         {% endif %}
