@@ -44,7 +44,7 @@
                                         </a>
                                     {% else %}
                                         <span class="list_icon"><i class="material-icons message">{{todoIcon}}</i></span>
-                                        <span class="content bold">{{ todoList.message }}</span>
+                                        <span class="content bold" title="{{ todoList.message }}">{{ todoList.message }}</span>
                                     {% endif %}
                                    {% if daycount > 2 %}
                                         <span class="days_count {{counterClass}}">{{daycount}}d{% if daycount > 6 %}!{% endif %}</span>
@@ -75,7 +75,7 @@
                                         
                                     {% if (todoCompleteList.reminderType == 'portfolio' or todoCompleteList.reminderType == 'message' or todoCompleteList.reminderType == 'evidence') %}
                                         {% set rTypeContent = user_service.getRemindeTypeContent(todoCompleteList.reminderTypeId, todoCompleteList.reminderType, todoCompleteList.message) %}
-                                        <a href="{{ rTypeContent.link }}" target="_blank">
+                                        <a href="{{ rTypeContent.link }}" target="_blank" title="{{ rTypeContent.fulltext }}">
                                             <span class="list_icon">
                                                     <i class="material-icons message">{{todoCompletedIcon}}</i>
                                             </span>
@@ -87,9 +87,8 @@
                                         <span class="list_icon">
                                                 <i class="material-icons message">{{ todoCompletedIcon }}</i>
                                         </span>
-                                    {% endif %}                                        
-
-                                        {#<span class="content bold">{{ rcTypeContent[0].user.firstName }} {{ rcTypeContent[0].user.lastName  }} - {{ rcTypeContent[0].courseName}}</span>#}
+                                        <span class="content" title="{{ todoCompleteList.message }}">{{ todoCompleteList.message }}</span>
+                                    {% endif %}
                                         <div class="checkbox_outer">
                                                 <input type="checkbox" id="{{ todoCompleteList.id }}" checked disabled="disabled" /><span></span>
                                         </div>
