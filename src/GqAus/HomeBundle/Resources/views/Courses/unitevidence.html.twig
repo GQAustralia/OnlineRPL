@@ -102,7 +102,7 @@
                                                             {{ evidence.content|slice(0,20) }}<br/>ADDED {{evidence.created|date("d/m/y")}}
                                                         {% endif %}
                                                     </span>
-                                                    <span class="clear"><a href="#"><i class="material-icons">clear</i></a></span>
+                                                    <span class="clear" data-toggle="modal" data-target="#confirm-alert-delete"><a href="#"><i class="material-icons">clear</i></a></span>
                                                 </div>
                                         {% endif %}
 					<div id="{{evidence.unit}}{{inc}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evidence.content is defined %}{{evidence.content}}{%endif%}</div>
@@ -358,7 +358,33 @@
                 </div>
             </div>
         </div>
-    </div>
+		<div class="modal fade" id="confirm-alert-delete" role="dialog" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <!--button type="button" class="close" data-dismiss="modal">&times;</button-->
+                            Do you want to "Delete this file" ?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="gqa-btn-group btn-file-save">
+							<div class="row no-gutter">
+								<div class="col-md-6 col-lg-6">
+									<button type="button" class="btn btn-danger border-right">Yes</button>
+								</div>
+								<div class="col-md-6 col-lg-6">
+									<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+								</div>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
     <!-- Larg Screens HTML -->
 {% include 'GqAusHomeBundle:Courses:addevidencestounitmodal.html.twig' %}
 {% endblock %}

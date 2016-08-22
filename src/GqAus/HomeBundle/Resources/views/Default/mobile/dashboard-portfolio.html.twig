@@ -1,13 +1,8 @@
+{% set pendingPortfolios = (pendingApplicantsCount > 0) ? pendingApplicantsCount : 0 %}
 <div class="accordian_block">
     <div class="title_bar clearfix">
         <span class="title">
-		   <a href="{{ app.request.baseUrl }}/applicants" title="View All Portfolios"> PORTFOLIOS
-				{% if pendingApplicantsCount > 0 %}
-					({{ pendingApplicantsCount }})
-				{% else %}
-					(0)
-				{% endif %}
-			</a>
+                <a href="{{ app.request.baseUrl }}/applicants" title="View All Portfolios"> PORTFOLIOS <strong>({{ pendingPortfolios }})</strong></a>
         </span>
     </div>
     {% if ('ROLE_FACILITATOR' in roles) %}	

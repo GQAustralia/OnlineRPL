@@ -1,50 +1,45 @@
+{% set pendingPortfolios = (pendingApplicantsCount > 0) ? pendingApplicantsCount : 0 %}
 <div class="accordian_block">
     <div class="title_bar clearfix">
         <span class="title">
-		   <a href="{{ app.request.baseUrl }}/applicants" title="View All Portfolios"> PORTFOLIOS
-				{% if pendingApplicantsCount > 0 %}
-					({{ pendingApplicantsCount }})
-				{% else %}
-					(0)
-				{% endif %}
-			</a>
+                <a href="{{ app.request.baseUrl }}/applicants" title="View All Portfolios"> PORTFOLIOS <strong>({{ pendingPortfolios }})</strong></a>
         </span>
     </div>
     {% if ('ROLE_FACILITATOR' in roles) %}	
-		{% if pendingApplicantsCount > 0 %}
-        <ul class="count_list clearfix">
-            <li class="active">
-                <strong>{{ dateRangeRecords.thirtyDaysApplicantsCount }}</strong>
-                <span class="average_count" style="height: {{ dateRangeRecords.thirtyDayApplicantsPercent }}px;"></span>
-            </li>
-            <li>
-                <strong>{{ dateRangeRecords.sixtyDaysApplicantsCount }}</strong>
-                <span class="high_count" style="height: {{ dateRangeRecords.sixtyDaysApplicantsPercent }}px;"></span>
-            </li>
-            <li>
-                <strong>{{ dateRangeRecords.ninetyDaysApplicantsCount }}</strong>
-                <span class="low_count" style="height: {{ dateRangeRecords.ninetyDaysApplicantsPercent }}px;"></span>
-            </li>
-            <li>
-                <strong>{{ dateRangeRecords.ninetyDaysPlusRecordsCount }}</strong>
-                <span class="very_low_count" style="height: {{ dateRangeRecords.ninetyDaysPlusRecordsPercent }}px;"></span>
-            </li>
-        </ul>
-        <ul class="range clearfix">
-            <li>
-                <span>0 - 30</span>
-            </li>
-            <li>
-                <span>31 - 60</span>
-            </li>
-            <li>
-                <span>61 -90</span>
-            </li>
-            <li>
-                <span><strong>&gt;90</strong></span>
-            </li>
-        </ul>
-		{% endif %}
+        {% if pendingApplicantsCount > 0 %}
+            <ul class="count_list clearfix">
+                <li class="active">
+                    <strong>{{ dateRangeRecords.thirtyDaysApplicantsCount }}</strong>
+                    <span class="average_count" style="height: {{ dateRangeRecords.thirtyDayApplicantsPercent }}px;"></span>
+                </li>
+                <li>
+                    <strong>{{ dateRangeRecords.sixtyDaysApplicantsCount }}</strong>
+                    <span class="high_count" style="height: {{ dateRangeRecords.sixtyDaysApplicantsPercent }}px;"></span>
+                </li>
+                <li>
+                    <strong>{{ dateRangeRecords.ninetyDaysApplicantsCount }}</strong>
+                    <span class="low_count" style="height: {{ dateRangeRecords.ninetyDaysApplicantsPercent }}px;"></span>
+                </li>
+                <li>
+                    <strong>{{ dateRangeRecords.ninetyDaysPlusRecordsCount }}</strong>
+                    <span class="very_low_count" style="height: {{ dateRangeRecords.ninetyDaysPlusRecordsPercent }}px;"></span>
+                </li>
+            </ul>
+            <ul class="range clearfix">
+                <li>
+                    <span>0 - 30</span>
+                </li>
+                <li>
+                    <span>31 - 60</span>
+                </li>
+                <li>
+                    <span>61 -90</span>
+                </li>
+                <li>
+                    <span><strong>&gt;90</strong></span>
+                </li>
+            </ul>
+        {% endif %}
     {% endif %}
     <div class="panel-group" id="accordion3">
         {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)) %}
