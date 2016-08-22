@@ -123,19 +123,17 @@
                                                         <span class="title">UPLOAD EVIDENCE FILES</span>
                                                 </div>
                                                 <div class="clearfix">
-                                                        <div class="take_photo">
-                                                                <span>
-                                                                        <i class="material-icons">camera_alt</i>Take a photo
-                                                                </span>
-                                                        </div>
-                                                        <div class="upload_btn">
-                                                                <div class="file-upload">
-                                                                        <form action="#" method="GET" class="form demo_form">
-                                                                                <div class="upload fs-upload-element fs-upload fs-light" data-upload-options="">
-
-                                                                                </div>
-                                                                        </form>
-                                                                </div>
+                                                        <div class="take_photo" id="take_photo">
+                                                            <input type="file" id="take_photo_btn">
+                                                            <span>
+                                                                <i class="material-icons">camera_alt</i>Take a photo
+                                                            </span>
+							</div>
+                                                        <div id="dragandrophandler">
+                                                            <div class="upload_btn">
+                                                                <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
+                                                                <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file</div>
+                                                            </div>
                                                         </div>
                                                 </div>
                                                 <span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
@@ -307,7 +305,7 @@
                                                         <tr>
                                                             <th class="hide">Course</th>    
                                                             <th class="hide">Type</th>
-                                                            <th class="">Mapped to Units</th>
+                                                            <th class="hide">Mapped to Units</th>
                                                             <th class="hide">File Name</th>
                                                             <th class="hide sortbydate">Date Added</th>
                                                             <th class="hide">Name</th>
@@ -402,6 +400,16 @@
                                                                                 {%endif%}
                                                                             </span>                                                        
                                                                         </div>
+                                                                        <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
+                                                                            <div class="file_info">
+                                                                                <span class="icon"><a href="#text{{evd[0].id}}" class="fancybox" id="btnForm">
+                                                                                    <i class="material-icons">description</i></a>
+                                                                                </span>
+                                                                                <span class="file-discription">
+                                                                                   {{ evd[0].content|slice(0,40) }} <br> Added {{ evd[0].created|date("d/m/y") }}
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>                                                                        
                                                                         <div class="link_section">
                                                                             <span class="content">
                                                                                 <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ evd[0].course }}/{{ evd[0].unit}}/{{ evd[0].user.id }}">
@@ -450,14 +458,6 @@
                                         </div>
                                 </div>
                                 {% endif %}
-                                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
-                                    <div class="profile_section hidden-sm hidden-md hidden-lg">
-                                        <div class="container">
-                                            {#<img alt="profile_pic" src="../images/UPLOAD_PROFILE_PHOTO.png">#}
-                                            <span>Samantha</span>
-                                        </div>
-                                    </div>
-                                </div>
                         </div>
                 </div>
 

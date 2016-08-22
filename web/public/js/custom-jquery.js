@@ -360,6 +360,8 @@ $(".updateTodo").click(function() {
     var todoTypeId = $('#'+reminderid).attr('data-todotypeid');
     console.log('todoType :: '+todoType);
     console.log('data-todotypeid :: '+todoTypeId);
+    
+    
 
 });
 $('.cancelTodo').click(function(){
@@ -751,6 +753,14 @@ $(".setUsers").click(function() {
     });    
 });
 
+$(".noteSet").click(function(){
+    if ($('#note_notes_note').val() == '') {
+        $('#note_notes_note').focus();
+        $('#note_notes_note').css("border","1px solid red");
+        return false;
+    }
+});
+
 $(".setData").click(function() {
     userCourseId = $(this).attr("userCourseId");
     reminderTypeId = $(this).attr("reminderTypeId");
@@ -776,6 +786,7 @@ $(".setData").click(function() {
         $('#notes_' + listId).css("border","1px solid red");
         return false;
     }*/
+    
     if (remindDate === '') {
         $(reminderDateId).focus();
         $(reminderDateId).css("border","1px solid red");
@@ -792,8 +803,11 @@ $(".setData").click(function() {
         var itemContent = itemElement.text();
         var itemLink = itemElement.find('a').attr('href');
 
-        if(note != '' && note != 'undefined')
+        if(itemContent != 'undefined' && itemContent != '' && note != '' && note != 'undefined')
             itemContent = itemContent+' - '+note;
+        else
+            itemContent = note;
+
         var contentSub = '';
         if(itemContent.length > 64 )
             contentSub = itemContent.substring(0, 64)+'...';
@@ -801,7 +815,10 @@ $(".setData").click(function() {
             contentSub = itemContent;
 
         newTodoItemContent = '<li class="list_item clearfix todoContent"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></li>';
-        newTodoItemElement = '<li class="list_item clearfix todoContent"><a title="'+itemContent+'" href="'+itemLink+'" target="_blank"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></a><div class="checkbox_outer"><input type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
+        if(todoIcon == 'edit')
+            newTodoItemElement = '<li class="list_item clearfix todoContent"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span><div class="checkbox_outer"><input data-todotype="'+reminderType+'" data-todotypeid="reminderId" type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
+        else 
+            newTodoItemElement = '<li class="list_item clearfix todoContent"><a title="'+itemContent+'" href="'+itemLink+'" target="_blank"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></a><div class="checkbox_outer"><input data-todotype="'+reminderType+'" data-todotypeid="reminderId" type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
 
         var todayDate = new Date();
         var todayMonth = todayDate.getMonth() + 1;
@@ -819,7 +836,6 @@ $(".setData").click(function() {
         if (Date.parse(todayDateText) < Date.parse(selectedDateText)) {
             addToToDo = false;
         }
-
     }
 
     var completedItem = 0;    
@@ -835,7 +851,7 @@ $(".setData").click(function() {
                 $('#err_msg').show();           
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Reminder added succesfully!</h2></div>');
                 if(newTodoItemElement && addToToDo) {
-                    newTodoItem = newTodoItemElement.replace("reminderId", res.reminderId);
+                    newTodoItem = newTodoItemElement.replace(/reminderId/g, res.reminderId);
                     flyToElement(newTodoItemContent, $('.todo-list'),stPos);
                     setTimeout(function(){$('.todo-list').append(newTodoItem);},1000);
                     totalItem = parseInt($('.progress-bar').attr('data-titem'));
@@ -850,9 +866,14 @@ $(".setData").click(function() {
                 }
             }
         });
-        var parentDiv = $(this).parent().parent().parent();
-		parentDiv.addClass('disable').find('.dropdown-menu').addClass('hide');
-        parentDiv.find('.material-icons').html('').html('playlist_add_check');
+        if(todoIcon != 'edit'){
+            var parentDiv = $(this).parent().parent().parent();
+            parentDiv.addClass('disable').find('.dropdown-menu').addClass('hide');
+            parentDiv.find('.material-icons').html('').html('playlist_add_check');
+        } else {
+            $('#note_notes_note').val('');
+            $('#note_remindDate_note').val('');
+        }
     }
 });
 /*Messages Unread Count in Menu*/

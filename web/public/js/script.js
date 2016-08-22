@@ -181,13 +181,16 @@ $(document).ready(function(){
     });
     
     $("#add_file_txt").click(function(){
-	
         $("#file").click();
-     });
+    });
 
-	$("body").on('click', '', function(){
-		$("#fileupload").click();
-	 });
+    $("body").on('click', '', function(){
+        $("#fileupload").click();
+    });
+         
+    $("#take_photo span").click(function(){
+        $("#take_photo_btn").click();
+    });
 
 });
 $(window).resize(function(){
