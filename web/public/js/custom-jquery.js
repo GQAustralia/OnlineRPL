@@ -805,11 +805,13 @@ $(".setData").click(function() {
         var itemElement = $(this).parent().parent().parent().find('.content');
         var itemContent = itemElement.text();
         var itemLink = itemElement.find('a').attr('href');
-
-        if(itemContent != 'undefined' && itemContent != '' && note != '' && note != 'undefined')
+        
+        if(note != '' && note != 'undefined')
             itemContent = itemContent+' - '+note;
-        else
+        
+        if($(this).hasClass('noteSet')){
             itemContent = note;
+        }
 
         var contentSub = '';
         if(itemContent.length > 64 )
