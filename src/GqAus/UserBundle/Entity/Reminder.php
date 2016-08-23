@@ -21,6 +21,11 @@ class Reminder
     private $reminderTypeId;
 	
     /**
+     * @var integer
+     */
+    private $reminderViewStatus;
+
+    /**
      * @var string
      */
     private $date;
@@ -302,6 +307,24 @@ class Reminder
     public function getReminderTypeId()
     {
         return $this->reminderTypeId;
-	}
-    	
+    }
+
+    /**
+     * set reminderViewStatus
+     *
+     * @return Reminder 
+     */
+    public function setReminderViewStatus($reminderViewStatus) {
+        $this->reminderViewStatus = $reminderViewStatus;
+    }
+    
+    /**
+     * get reminderViewStatus
+     *
+     * @return reminderViewStatus 
+     */
+    public function getReminderViewStatus() {
+        return $this->reminderViewStatus;
+    }
+	
 }

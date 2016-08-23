@@ -30,3 +30,5 @@ ALTER TABLE `user_course_units` ADD `elective_status` INT(2) NOT NULL DEFAULT '0
 -- submit this Unit Status
 ALTER TABLE `user_course_units` ADD `issubmitted` INT(2) NULL DEFAULT NULL AFTER `elective_status`;
 
+-- reminder view status
+ALTER TABLE `reminder` ADD `reminder_view_status` ENUM('0','1') NOT NULL DEFAULT '0' AFTER `reminder_type_id`;
