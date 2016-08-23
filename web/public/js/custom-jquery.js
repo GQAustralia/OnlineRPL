@@ -770,7 +770,7 @@ $(".setData").click(function() {
     } else {
         var courseId = $('#course_' + listId).val();
         note = $('#notes_' + listId).val();
-        remindDate = $(reminderDateId).val();
+        remindDate = $('#remindDate_'+listId).val();
     }
     if (courseId != '' && typeof courseId !== 'undefined') {
         userCourseId = courseId;
