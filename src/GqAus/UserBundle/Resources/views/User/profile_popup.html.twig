@@ -33,7 +33,7 @@
                                     	<div class="profile_section">
                                             <div id='ajax-gq-profile-page-img'><img src="{% if userdata.getUserImage() !="" %}{{ asset('public/uploads/'~userdata.getUserImage())}} {% else %} {{ asset('public/images/userprofile.png')}} {% endif %}" alt="profile_pic" id='user_profile_image' class="profile_image"/><input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
                                                 <div class="content">
-							<h5 class="name"><strong>{% if ('ROLE_RTO' in roles) %}{{userdata.getContactName()}} {% else %} {{userdata.getFirstName()}}  {% endif %} </strong></h5>
+							<h5 class="name"><strong>{% if ('ROLE_RTO' in roles) %}{{userdata.getContactName()}} {% else %} {{userdata.getFirstName()}} {{userdata.getLastName()}}  {% endif %} </strong></h5>
 							<span class="field">
                                                             {{role}}
                                                         </span>
@@ -206,8 +206,7 @@
                                         
 					<a href="#"  id="download_matrix">
 						<span><i class="material-icons" >file_download</i></span>
-                                                <span class="hidden-xs">Trainer Matrix.pdf</span>
-                                                <span class="hidden-sm hidden-md hidden-lg">Download Trainer Matrix.pdf</span>
+                                                <span>Download Trainer Matrix.pdf</span>
 					</a>
 				</div>
                         
@@ -248,6 +247,7 @@
                                     </div>
                               <!-- Chaneg password form --->
                               <form class="form-inline change_pwd_form" id='change_password_form' style="display:none">
+                                  <button type="button" class="close"  onclick="changePassowordDiv('0')">&times;</button>
 					<div class="form-group">
 						<label for="email">Current Password</label>
                                                 <div class="input_section">
@@ -270,7 +270,7 @@
                                                 </div>
 					</div>
 					<div class="btn_section clearfix">
-						<input type="submit" class="btn change_pwd_btn" value="Change Password" id='password_save' />
+						<input type="submit" class="btn change_pwd_btn" value="Submit" id='password_save' />
 						<input type="button" class="btn" value="Cancel" onclick="changePassowordDiv('0')"/>
 					</div>
 				</form>

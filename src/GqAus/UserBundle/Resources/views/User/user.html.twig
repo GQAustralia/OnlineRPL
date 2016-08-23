@@ -112,7 +112,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                                 <div class="modal-header">
-                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                     <button type="button" class="close" onclick="return passwordCancel();">&times;</button>
                                      <!--<div class="modal-title">Change Password</div>-->
                                 </div>
                                 <div class="modal-body" id="change-pwd-form">
@@ -139,7 +139,7 @@
                                                 </div>
                                                 <div class="btn_section clearfix">                                                        
                                                         {{ form_widget(changepwdForm.save,{ 'label': 'Submit' , 'attr': {'class': 'btn change_pwd_btn'}}) }}
-                                                        <input type="button" class="btn" id="fclose-cancel"  data-dismiss="modal" value="Cancel"/>
+                                                        <input type="button" class="btn" id="fclose-cancel" value="Cancel" onclick="return passwordCancel();"/>
                                                 </div>
                                        {{ form_end(changepwdForm) }}
                                 </div>
@@ -147,3 +147,23 @@
                 </div>
 
 </div>
+{% block javascripts %} 
+    <script>
+    $(".form_block input[type='text']").focus(function(){
+                $(this).prev().css("color","red");
+                $(".update_btn").css("background","red");
+        });
+        $(".form_block input[type='text']").blur(function(){
+                $(this).prev().css("color","#4a4a4a");
+                $(".update_btn").css("background","#d8d8d8");
+        });
+        $(".form_block input[type='radio']").focus(function(){
+                $(this).next().css("color","red");
+                $(".update_btn").css("background","red");
+        });
+        $(".form_block input[type='radio']").blur(function(){
+                $(this).next().css("color","#4a4a4a");
+                $(".update_btn").css("background","#d8d8d8");
+        });
+     </script>
+ {% endblock %}

@@ -163,7 +163,7 @@ class CoursesService
 //        dump($qualificationUnits); 
 //        fclose($myfile);
 //        exit();
-        return (!empty($qualificationUnits['qualification'])) ? $qualificationUnits['qualification'] : array();
+        return (!empty($qualificationUnits['package'])) ? $qualificationUnits['package'] : array();
     }
     /**
      * Function to access API
@@ -175,7 +175,7 @@ class CoursesService
         $apiUrl = $this->container->getParameter('apiUrl');
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
-        $url = $apiUrl . "qualificationunits";
+        $url = $apiUrl . "unitsbyqualifications";
        /*  $authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
         $this->guzzleService->addSubscriber($authPlugin);
         $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
@@ -558,6 +558,26 @@ class CoursesService
         $courseUnits = array();
   
         return $userCourseUnits;
+    }
+     /**
+     * Function to get Elective CheckedValues
+     * @param type $userId
+     * @param type $courseCode     /
+     */
+    public function getElectiveCheckedValues($userId, $courseCode)
+    {
+         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+         $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+            'courseCode' => $courseCode,
+            'type' => 'elective',
+            'electiveStatus' => '1'));
+        $courseUnits = array();
+        if (!empty($userCourseUnits)) {
+            foreach ($userCourseUnits as $units) {
+                $courseUnits[trim($units->getUnitId())] = trim($units->getUnitId());
+            }
+        }                
+        return count($courseUnits);
     }
 
 }

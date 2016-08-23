@@ -151,14 +151,7 @@ $(document).ready(function(){
         $("#userprofile_userImage").click();
     });
 
-    $(".form_block input").focus(function(){
-            $(this).prev().css("color","red");
-            $(".update_btn").css("background","red");
-    });
-    $(".form_block input").blur(function(){
-            $(this).prev().css("color","#4a4a4a");
-            $(".update_btn").css("background","#d8d8d8");
-    });
+    
 
     $('#onboard1 .submit_btn').click(function() {  
             $('#onboard1').hide();

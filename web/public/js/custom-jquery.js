@@ -139,6 +139,8 @@ $(".checkmark-icon").click(function() {
 
 $(".changeUnitStatus").click(function() {   
     $(".qual_status_loader").show();
+    var count = $('input[name="chk-val-'+courseCode+'[]"]:checked').length;
+    var countElectiveUnits = $('#chkboxCount').val();
     $.ajax({
         type: "POST",
         url: base_url + "updateUnitElective",
@@ -150,23 +152,37 @@ $(".changeUnitStatus").click(function() {
             }
             var label = $("#label_" + unitId).attr("temp");
             if (result == '0') {
-                $("#label_" + unitId).attr("for", "");
-                $( "#label_"+unitId ).attr('disabled','disabled');
-                $("#btnadd_" + unitId).attr('disabled', 'disabled');
-                $("#btncomment_" + unitId).attr('disabled', 'disabled');
-                $("#btneye_" + unitId).attr('disabled', 'disabled');
-                $("#div_" + unitId).addClass("gq-acc-row-checked");
+//                $("#label_" + unitId).attr("for", "");
+//                $( "#label_"+unitId ).attr('disabled','disabled');
+//                $("#btnadd_" + unitId).attr('disabled', 'disabled');
+//                $("#btncomment_" + unitId).attr('disabled', 'disabled');
+//                $("#btneye_" + unitId).attr('disabled', 'disabled');
+//                $("#div_" + unitId).addClass("gq-acc-row-checked");
                 $("#span_" + unitId).removeClass("radioUnChecked");
                 $("#sp_" + unitId).html('');
+                
             } else {
-                $("#label_" + unitId).attr("for", label);
-                $( "#label_"+unitId ).removeAttr('disabled','disabled');
-                $("#btnadd_" + unitId).removeAttr('disabled');
-                $("#btncomment_" + unitId).removeAttr('disabled');
-                $("#btneye_" + unitId).removeAttr('disabled');
-                $("#div_" + unitId).removeClass("gq-acc-row-checked");
+//                $("#label_" + unitId).attr("for", label);
+//                $( "#label_"+unitId ).removeAttr('disabled','disabled');
+//                $("#btnadd_" + unitId).removeAttr('disabled');
+//                $("#btncomment_" + unitId).removeAttr('disabled');
+//                $("#btneye_" + unitId).removeAttr('disabled');
+//                $("#div_" + unitId).removeClass("gq-acc-row-checked");
                 $("#span_" + unitId).addClass("radioUnChecked");
-            }  
+                
+            } 
+           
+                
+            if( count >= countElectiveUnits)
+            {
+                $("#btn-done-"+courseCode).removeClass('btn btn-warning hide').addClass("btn btn-warning show");
+                $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse').addClass("panel-collapse collapse in");
+            }
+            else
+            {
+                $("#btn-done-" + courseCode).removeClass('btn btn-warning show').addClass("btn btn-warning hide");
+                $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse in').addClass("panel-collapse collapse");
+            }
             $(".qual_status_loader").hide();
             $("#qeclose").trigger("click");
         }
@@ -240,7 +256,7 @@ $(".deleteIdFiles").click(function() {
             $("#idfiles_msg").show();
             $('#idfiles_' + fid).hide();
             $("#fclose").trigger("click");
-            $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File deleted successfully!</h2></div>');
+            $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>File deleted successfully!</h2></div>');
             if(url == 'deleteIdFiles')
                     window.location.href = base_url+'userprofile';
              else 
@@ -421,7 +437,7 @@ $("#userprofile_userImage").change(function() {
                 else
                 {
                     $("#ajax-profile-error").show();
-                    $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error in uploading</h2></div>');
+                    $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2>Error in uploading</h2></div>');
                 }
             }
         });
@@ -429,7 +445,7 @@ $("#userprofile_userImage").change(function() {
     else
     {
         $("#ajax-profile-error").show();
-        $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please upload valid image</h2></div>');
+        $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2>Please upload valid image</h2></div>');
         //alert("Please upload valid image");
         return false;
     }
@@ -463,6 +479,13 @@ $(".unit-evidence-id").click(function() {
 });
 
 $("#userfiles_browse").click(function() {
+     var doctype = $('li').attr('data-original-index');
+    if(doctype == 0)
+    {
+         $('#change_file_error').show();
+        $('#change_file_error').html('<div class="gq-id-file-error-text"><h2>Please Select document type!</h2></div>');
+    }
+    
     $("#idfiletype_image").html("");
 });
 
@@ -518,7 +541,7 @@ if($('#Id_files').length)
                 var result = jQuery.parseJSON(responseText);
                 var name = result.name.split('.');
                 var ftype = result.type.split('.'); 
-                $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">File added successfully!</h2></div>');
+                $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>File added successfully!</h2></div>');
                 window.location.href = base_url+'userprofile';
             }
         },
@@ -680,7 +703,7 @@ function checkspace(text)
 function checkCurrentPassword(mypassword)
 {
     $("#hdn_pwd_check").val("0");
-    var startdiv = '<div class="gq-id-pwd-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
     var enddiv = '</h2></div>';
     var mypassword = mypassword;
     //$("#pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
@@ -1520,7 +1543,7 @@ function checkEmailExist(emailId) {
 /* Change Password Validations */
 function passwordShowMsg(errorMsg,msgId)
 {
-    var startdiv = '<div class="gq-id-pwd-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
     var enddiv = '</h2></div>';
     $("#pwd_error").show();
     $("#pwd_error").html(startdiv + errorMsg + enddiv);
@@ -1535,7 +1558,7 @@ $("#password_save").click(function()
     var curpwd = $("#password_oldpassword").val();
     var newpwd = $("#password_newpassword").val();
     var newconfirmpwd = $("#password_confirmnewpassword").val();
-    var startdiv = '<div class="gq-id-pwd-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
     var enddiv = '</h2></div>';
     var hdnpwdchk = $("#hdn_pwd_check").val();
     
@@ -1635,7 +1658,7 @@ $("#approve-for-rto").click(function() {
             $("#approve_section_fac_ajax").show();
             $("#approve_loader_fac_ajax").hide();
             $('#approve_section').show();
-            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Portfolio submited to RTO!</h2></div>');
+            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Portfolio submited to RTO!</h2></div>');
             $("#status_ar").show();
         }
     });
@@ -1878,18 +1901,18 @@ $( '#userfiles_browse' ).change( function( e ) {
             if (allowedExtensions.indexOf(extension) === -1) 
             {
               $('#change_file_error').show();
-              $('#change_file_error').html('<div class="gq-id-file-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>');  
+              $('#change_file_error').html('<div class="gq-id-file-error-text"><h2>Invalid File Format !</h2></div>');  
             } else {
                 profileIdUpload();
                 //$('#Id_files').submit();
             }
         } else {
             $('#change_file_error').show();
-            $('#change_file_error').html('<div class="gq-id-file-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2></div>');
+            $('#change_file_error').html('<div class="gq-id-file-error-text"><h2>Please Select file to upload!</h2></div>');
         }
     } else {
         $('#change_file_error').show();
-        $('#change_file_error').html('<div class="gq-id-file-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select document type!</h2></div>');
+        $('#change_file_error').html('<div class="gq-id-file-error-text"><h2>Please Select document type!</h2></div>');
     }
     e.preventDefault();
     return false;
@@ -2240,6 +2263,8 @@ function changePassowordDiv(type)
 {
     if(type==1) // 1- show
     {
+        $('.gq-id-files-upload-success-text').hide();
+         $('.gq-id-pwd-error-text').hide();
         $('#change_password_form').show();
         $('#user_profile_form').hide();
         $('#user_profile_form_div').hide();
@@ -2248,10 +2273,16 @@ function changePassowordDiv(type)
     }
     else
     {
+         $('.gq-id-files-upload-success-text').hide();
+         $('.gq-id-pwd-error-text').hide();
+         $('#password_oldpassword').val('');
+     $('#password_newpassword').val('');
+     $("#password_confirmnewpassword").val('');
         $('#change_password_form').hide();
         $('#user_profile_form').show();
         $('#user_profile_form_div').show();
         $('#matrixfileDiv').show();
+        
     }
 }
 
@@ -2935,3 +2966,11 @@ $('body').on('keydown', '#compose_message', function(e) {
       return false;
     }  
   });
+
+function passwordCancel()
+{
+    $('#password_oldpassword').val('');
+     $('#password_newpassword').val('');
+     $("#password_confirmnewpassword").val('');
+     $('#change_pwd_popup').modal('hide');  
+}
