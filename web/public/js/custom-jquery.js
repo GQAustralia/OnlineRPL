@@ -478,16 +478,7 @@ $(".unit-evidence-id").click(function() {
     });
 });
 
-$("#userfiles_browse").click(function() {
-     var doctype = $('li').attr('data-original-index');
-    if(doctype == 0)
-    {
-         $('#change_file_error').show();
-        $('#change_file_error').html('<div class="gq-id-file-error-text"><h2>Please Select document type!</h2></div>');
-    }
-    
-    $("#idfiletype_image").html("");
-});
+
 
 $(".show_path").change(function() {
     var fileName = $(this).val().replace(/C:\\fakepath\\/i, '');
@@ -1893,8 +1884,18 @@ $( '#file_save' ).click( function( e ) {
 });
 
 // for validating the upload ID file
+$("#userfiles_browse").click(function(evt) {
+    if($("#userfiles_type").val()=="")
+    {
+        $('#change_file_error').show();
+        $('#change_file_error').html('<div class="gq-id-file-error-text"><h2>Please Select document type!</h2></div>');
+        evt.preventDefault();
+    }
+    $("#idfiletype_image").html("");
+});
+
 $( '#userfiles_browse' ).change( function( e ) {  
-    if($("#userfiles_type").val()!="") {
+     if($("#userfiles_type").val()!="") {
         if ($("#userfiles_browse").val().length > 0) {
             var extension = $("#userfiles_browse").val().substring($("#userfiles_browse").val().lastIndexOf('.')+1);
             var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF'];
@@ -1914,8 +1915,8 @@ $( '#userfiles_browse' ).change( function( e ) {
         $('#change_file_error').show();
         $('#change_file_error').html('<div class="gq-id-file-error-text"><h2>Please Select document type!</h2></div>');
     }
-    e.preventDefault();
-    return false;
+//    e.preventDefault();
+//    return false;
 } );
 
 // for validating the upload resume file
@@ -2969,6 +2970,7 @@ $('body').on('keydown', '#compose_message', function(e) {
 
 function passwordCancel()
 {
+    $('.gq-id-pwd-error-text').hide();
     $('#password_oldpassword').val('');
      $('#password_newpassword').val('');
      $("#password_confirmnewpassword").val('');
