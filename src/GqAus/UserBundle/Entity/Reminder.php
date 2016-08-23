@@ -21,7 +21,7 @@ class Reminder
     private $reminderTypeId;
 	
     /**
-     * @var integer
+     * @var string
      */
     private $reminderViewStatus;
 

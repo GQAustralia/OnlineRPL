@@ -976,6 +976,7 @@ class UserService
         $reminderObj->setMessage($notes);
         $reminderObj->setReminderType($reminderType);
         $reminderObj->setReminderTypeId($reminderTypeId);
+        $reminderObj->setReminderViewStatus(0);
         $reminderObj->setCompleted(0);
         $reminderObj->setCreatedby($this->currentUser);
         $this->em->persist($reminderObj);
@@ -1331,6 +1332,19 @@ class UserService
         $remObj = $this->em->getRepository('GqAusUserBundle:Reminder')->find($id);
         $remObj->setCompleted($flag);
         $remObj->setCompletedDate(date('Y-m-d H:i:s'));
+        $this->em->persist($remObj);
+        $this->em->flush();
+    }
+    
+    /**
+     * Function to update todo view status
+     * @param int $id
+     * @param int $flag
+     */
+    public function updateReminderViewStatus($id)
+    {
+        $remObj = $this->em->getRepository('GqAusUserBundle:Reminder')->find($id);
+        $remObj->setReminderViewStatus('1');
         $this->em->persist($remObj);
         $this->em->flush();
     }
@@ -2149,7 +2163,7 @@ class UserService
     public function getTodoReminders($userId)
     {
         $todayTime = \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 00:00:00") );
-        $fields = 'partial r.{id, completed, message, date, course, reminderType, reminderTypeId}, partial u.{id, firstName, lastName}';
+        $fields = 'partial r.{id, completed, message, date, course, reminderType, reminderTypeId, reminderViewStatus}, partial u.{id, firstName, lastName}';
         $query = $this->em->getRepository('GqAusUserBundle:Reminder')
             ->createQueryBuilder('r')
             ->select($fields)
