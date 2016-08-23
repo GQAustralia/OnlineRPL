@@ -753,13 +753,7 @@ $(".setUsers").click(function() {
     });    
 });
 
-$(".noteSet").click(function(){
-    if ($('#note_notes_note').val() == '') {
-        $('#note_notes_note').focus();
-        $('#note_notes_note').css("border","1px solid red");
-        return false;
-    }
-});
+
 
 $(".setData").click(function() {
     userCourseId = $(this).attr("userCourseId");
@@ -786,7 +780,16 @@ $(".setData").click(function() {
         $('#notes_' + listId).css("border","1px solid red");
         return false;
     }*/
-    
+    if($(this).hasClass('noteSet')){
+        if ($('#note_notes_note').val() == '') {
+            $('#note_notes_note').focus();
+            $('#note_notes_note').css("border","1px solid red");
+            return false;
+        } else {
+            $('#note_notes_note').css("border","1px solid #d8d8d8");
+        }
+    }
+
     if (remindDate === '') {
         $(reminderDateId).focus();
         $(reminderDateId).css("border","1px solid red");
@@ -873,6 +876,7 @@ $(".setData").click(function() {
         } else {
             $('#note_notes_note').val('');
             $('#note_remindDate_note').val('');
+            $('#note_remindDate_note').css("border","1px solid #d8d8d8");
         }
     }
 });
