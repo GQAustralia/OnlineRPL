@@ -39,4 +39,16 @@ class ReminderController extends Controller
         exit;
     }
 
+    /**
+     * Function to update reminders
+     * @param object $request
+     * return string
+     */
+    public function changeReminderViewStatusAction(Request $request)
+    {
+        $id = $this->getRequest()->get('reminderId');
+        $this->get('UserService')->updateReminderViewStatus($id);
+        echo 'success';
+        exit;
+    }
 }

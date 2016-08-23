@@ -9,22 +9,9 @@
 {% block body %}
 {% set userId = app.security.getToken().getUser().getId() %}
 {% set roles = app.security.getToken().getUser().getRoles() %}
-    <div class="body_section">
         <div class="body_section facilitator">
                 <div class="container">
                         <div class="row">
-                                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
-                                        <div class="file_upload_block">
-                                                <div class="title_bar clearfix">
-                                                        <span class="title">UPLOAD EVIDENCE FILES</span>
-                                                </div>
-                                                <!--<div class="upload_btn">
-                                                        <input type="file" id='fileBtn' class="dropzone uploadFile" multiple="multiple">
-                                                        <div class="button add_file" id="add_file">Add a file</div>
-                                                </div>-->
-                                                <span class="file_size_limit">Maximum file size is {{ maximum_upload_size }} GB per upload</span>
-                                        </div>
-                                </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
                                         <div class="evidence_block">
                                                 <div class="title_bar clearfix">
@@ -267,14 +254,6 @@
                                                 <div class="button add_file" id="add_file">Add a file</div>
                                         </div>
                                         <span class="file_size_limit">Maximum file size is {{ maximum_upload_size }} GB per upload</span>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
-                                    <div class="profile_section hidden-sm hidden-md hidden-lg">
-                                        <div class="container">
-                                            {#<img alt="profile_pic" src="../images/UPLOAD_PROFILE_PHOTO.png">#}
-                                            <span>Samantha</span>
-                                        </div>
                                     </div>
                                 </div>
                         </div>

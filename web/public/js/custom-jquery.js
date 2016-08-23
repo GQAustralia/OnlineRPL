@@ -2974,3 +2974,21 @@ function passwordCancel()
      $("#password_confirmnewpassword").val('');
      $('#change_pwd_popup').modal('hide');  
 }
+
+$('body').on('click', '.reminder-view', function(){
+    var remId = $(this).attr('data-reminderId');
+    var remViewStatus = $(this).attr('data-status');
+    var currentElement = $(this);
+    if(remViewStatus == '0'){
+        $.ajax({
+            type: "POST",
+            url: base_url + "changeReminderViewStatus",
+            cache: false,
+            data: {reminderId: remId },
+            success: function(result) {
+                currentElement.find('.content').removeClass('bold');
+                console.log(result);
+            }
+        });
+    }
+});

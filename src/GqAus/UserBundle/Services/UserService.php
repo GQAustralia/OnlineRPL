@@ -1335,6 +1335,19 @@ class UserService
         $this->em->persist($remObj);
         $this->em->flush();
     }
+    
+    /**
+     * Function to update todo view status
+     * @param int $id
+     * @param int $flag
+     */
+    public function updateReminderViewStatus($id)
+    {
+        $remObj = $this->em->getRepository('GqAusUserBundle:Reminder')->find($id);
+        $remObj->setReminderViewStatus('1');
+        $this->em->persist($remObj);
+        $this->em->flush();
+    }
 
     /**
      * Function to get Evidence Completeness

@@ -259,3 +259,6 @@ filesAdd:
 updateFacilitator:
     path:     /updateFacilitator
     defaults: { _controller: GqAusUserBundle:Applicant:updateFacilitator } 
+changeReminderViewStatus:
+    path:     /changeReminderViewStatus
+    defaults: { _controller: GqAusUserBundle:Reminder:changeReminderViewStatus }
