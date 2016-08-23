@@ -70,6 +70,23 @@ class CoursesService
         return array('courseInfo' => $courseInfo);
     }
      /**
+     * Function to get Unit info
+     * @param int $id
+     * return array
+     */
+    public function getUnitInfo($id)
+    {   
+        $unitInfo = $this->fetchUnitRequest($id);
+       
+        if (!empty($unitInfo)) {
+            if (!empty($unitInfo['details'])) {
+                $unitInfo['details'] = html_entity_decode($courseInfo['details']);
+            }
+        }        
+        return array('unitInfo' => $unitInfo);
+    }
+
+    /**
      * Function to get courses info
      * @param int $id
      * return array
@@ -166,6 +183,45 @@ class CoursesService
         return (!empty($qualificationUnits['package'])) ? $qualificationUnits['package'] : array();
     }
     /**
+     * Function to api request for unit
+     * @param int $id
+     * return array
+     */
+    public function fetchUnitRequest($id)
+    {
+        $session = new Session();
+        $start = $session->get('start');
+        $apiToken = $session->get('api_token');
+        if (!empty($start) && !empty($apiToken)) {
+            if ($start + 60 < time()) {
+                $session->set('api_token', '');
+                $session->set('start', '');
+            }
+        } else {
+            $session->set('start', time());
+        }
+        $postFields = array('code' => $id);
+        $apiToken = $session->get('api_token');
+        if (!empty($apiToken)) {
+            $postFields['token'] = $apiToken;
+            $result = $this->accessUnitAPI($postFields);
+        } else if (empty($apiToken)) {
+            $result = $this->accessUnitAPI($postFields);
+            $postFields['token'] = $token = $this->getTokenGenerated($result);
+            $session->set('api_token', $token);
+            $session->set('start', time());
+            if ($token) {
+                $result = $this->accessUnitAPI($postFields);
+            }
+        }
+        
+        if (!empty($result)) {
+            $qualificationUnits = $this->xml2array($result);
+        }
+        
+        return (!empty($qualificationUnits['unit'])) ? $qualificationUnits['unit'] : array();
+    }
+    /**
      * Function to access API
      * @param string $fieldString
      * return array
@@ -216,7 +272,31 @@ class CoursesService
         $result = $response->getBody();
         return $result;
     }
-
+    /**
+     * Function to access unit API
+     * @param string $fieldString
+     * return array
+     */
+    public function accessUnitAPI($fieldString)
+    {   
+        $apiUrl = $this->container->getParameter('apiUrl');
+        $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
+        $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
+        $url = $apiUrl . "units";
+        /*$authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
+        $this->guzzleService->addSubscriber($authPlugin);
+        $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
+        $request = $this->guzzleService->post($url, null, $fieldString); // Create a request with basic Auth
+        $response = $request->send(); // Send the request and get the response
+        $result = $response->getBody();*/
+        $response = $this->guzzleService->request('POST', $url, [
+        		'auth' => [$apiAuthUsername, $apiAuthPassword],
+        		'query' => $fieldString
+        		]);
+        
+        $result = $response->getBody();
+        return $result;
+    }
     /**
      * Function to generate api token
      * @param string $result
