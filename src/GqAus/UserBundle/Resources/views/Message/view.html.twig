@@ -40,7 +40,7 @@
                                                             {% if message.subject|length > 10 %}
                                                                 {{ message.subject|raw[:10] ~ '-' }}
                                                             {% else %}
-                                                                {{ message.subject|raw }}   
+                                                                {{ message.subject|raw ~ '-'}}   
                                                             {% endif %}
                                                             </a> 
                                                         </strong>
