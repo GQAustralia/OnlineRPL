@@ -10,7 +10,7 @@
 {% endblock %}    
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
-    {% set actUnitStatus = unitStatus.status %}
+    {% set actUnitStatus = unitStatus.issubmitted %}
     {% set unitFacStatus = unitStatus.facilitatorstatus %}
     {% set unitAssStatus = unitStatus.assessorstatus %}
     {% set unitRtostatus = unitStatus.rtostatus %}
@@ -35,7 +35,7 @@
                     <div class="edu-tag">
                         {% set currUnitStatus = courses_service.getUnitStatus(userId, unitCode, courseCode)%}
                         {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, unitCode, courseCode, userRole[0]) %}
-                        {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{%endif%}{% endif %}
+                        {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.issubmitted is defined%}{%if currUnitStatus.issubmitted == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{%endif%}{% endif %}
                         <p>
                             <span class="tag-edu"><a href="{{ base_url }}applicantDetails/{% if courseCode is defined %}{{courseCode}}{% endif %}/{% if userId %}{{userId}}{%endif%}">Qualification</a></span>
                             <span class="tag-id">Unit {{ unitCode }}</span>

@@ -240,7 +240,7 @@
                                                         <div class="panle_body_content">
                                                             {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
                                                             {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseInfo.id, userRole[0]) %}
-                                                            {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
+                                                            {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.issubmitted is defined%}{%if currUnitStatus.issubmitted == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
                                                             <p> <span class="tag-id">{{units.id}}</span> </p>
                                                             <p><a href="{{ base_url }}courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                         </div>
@@ -288,7 +288,7 @@
                                                                 <div class="panle_body_content">
                                                                     {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
                                                                     {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseInfo.id, userRole[0]) %}
-                                                                    {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
+                                                                    {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.issubmitted is defined%}{%if currUnitStatus.issubmitted == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
                                                                     <p> <span class="tag-id">{{units.id}}</span> </p>
                                                                     <p><a href="{{ base_url }}courseunitDetails/{{ courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                                                 </div>
