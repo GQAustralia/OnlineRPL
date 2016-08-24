@@ -86,14 +86,14 @@ $(document).ready(function(){
 		$(".mobile_version .chat_room").css("height",chat_Ht);
 	}
 	
-	$(".form_block input[type='text']").focus(function(){
+	/*$(".form_block input[type='text']").focus(function(){
 		$(this).prev().css("color","red");
 		$(".update_btn").css("background","red");
 	});
 	$(".form_block input[type='text']").blur(function(){
 		$(this).prev().css("color","#4a4a4a");
 		$(".update_btn").css("background","#d8d8d8");
-	});
+	}); */
 	
     $('a[data-collapse="child"]').on('click', function(){
         var nestedCollapse;
