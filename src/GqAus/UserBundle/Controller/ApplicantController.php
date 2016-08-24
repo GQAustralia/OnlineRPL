@@ -59,8 +59,8 @@ class ApplicantController extends Controller
             $results['electiveUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'elective', $electiveUnitArr);
             //$results['evidenceCompleteness'] = $userService->getEvidenceCompleteness($uid, $qcode);
             $results['evidenceCompleteness'] = $coursesService->getEvidenceByCourse($uid, $qcode);
-            $results['facApplicantsCount'] = $this->get('UserService')->getPendingApplicantsCount($uid, array('ROLE_FACILITATOR'), '0');
-            $results['assApplicantsCount'] = $this->get('UserService')->getPendingApplicantsCount($uid, array('ROLE_ASSESSOR'), '0');
+            $results['facApplicantsCount'] = $this->get('UserService')->getPendingApplicantsCount($applicantInfo['facilitatorId'], array('ROLE_FACILITATOR'), '0');
+            $results['assApplicantsCount'] = $this->get('UserService')->getPendingApplicantsCount($applicantInfo['assessorId'], array('ROLE_ASSESSOR'), '0');
             $results['currentIdPoints'] = $userService->getIdPoints($user);
             return $this->render('GqAusUserBundle:Applicant:details.html.twig', array_merge($results, $applicantInfo));
         } else {
