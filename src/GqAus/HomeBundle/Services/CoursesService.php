@@ -688,5 +688,20 @@ class CoursesService
         }                
         return count($courseUnits);
     }
-
+    /**
+     * Function to get the Evidence percenatge based on the units in the course 
+     * @param int $userId
+     * @param string $coursecode
+     * return string
+     */
+    public function getEvidenceByCourse($userId, $courseCode){
+        $reqNoUnits = $this->getReqUnitsForCourseByCourseId($courseCode);
+        $eviPercentage = 0;
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'issubmitted' => '1' ));
+        $totalNoOfUnits = count($courseUnitObj);
+        if($totalNoOfUnits > 0){
+            $eviPercentage = ($totalNoOfUnits / $reqNoUnits) * 100;
+        }
+        return round($eviPercentage) . '%';
+    }
 }
