@@ -17,6 +17,7 @@ class MessageController extends Controller
      */
     public function viewAction(Request $request, $mid=null)
     {
+        
         $messageService = $this->get('UserService');
         $userid = $messageService->getCurrentUser()->getId();        
         $page = $this->get('request')->query->get('page', 1);
@@ -35,13 +36,15 @@ class MessageController extends Controller
         /*View Message Code -- msgcode*/
         if(isset($mid) && $mid!="")
         {
+            
             $messageService = $this->get('UserService');
             $unreadcount = $messageService->getUnreadMessagesCount($userid);
             // getting the last route to check whether it is coming from inbox or sent ot tash
             //look for the referer route
             //For reply mails thread
             $replyId = $this->getRequest()->get('reply_id');
-            if(($mid !="compose" && $mid !="usernamesbyRoles")  ||  $replyId != "") {               
+            if(($mid !="compose" && $mid !="usernamesbyRoles")  ||  $replyId != "") {
+                $messageService->setReadViewStatus($mid);
                if($replyId != "") {
                     $newmid = $mid;
                     $mid = $replyId;
@@ -52,7 +55,7 @@ class MessageController extends Controller
                 if ($lastPath != '') {                    
                     $lastPath = explode('/', $lastPath);
                     // updating the readstatus if it is from inbox
-                    if ($lastPath[0] == 'messages') {                        
+                    if ($lastPath[0] == 'messages') {
                         $messageService->setReadViewStatus($mid);
                     }
                 }

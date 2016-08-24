@@ -1109,7 +1109,7 @@ class UserService
 
             $pendingApplicants = $this->getPendingApplicants($userId, $user->getRoles(), '0');
             $unReadMessagesCount = $this->getUnreadMessagesCount($userId);
-            $unReadMessages = $this->getMyInboxNewMessages($userId); 
+            $unReadMessages = $this->getUnreadMessages($userId);
             //$todaysReminders = $this->getTodaysReminders($user->getId());
             $todaysReminders = array();
             $todoReminders = $this->getTodoReminders($userId);
