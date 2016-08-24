@@ -538,7 +538,60 @@ class CoursesService
             'courseCode' => $courseCode));
         return !empty($userCourseUnits) ? $userCourseUnits : '';
     }
-
+  /**
+     * Function to get applicant any unit status
+     * @param int $applicantId     
+     * @param string $courseCode
+     * return int
+     */
+    public function getOneUnitStatus($applicantId, $courseCode)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array(
+            'user' => $applicantId,            
+            'courseCode' => $courseCode,
+            'issubmitted' => '1' ));
+        $result = !empty($userCourseUnits) ? count($userCourseUnits) : '0';
+        return $result;
+    }
+    /**
+     * Function to get core Units Status
+     * @param int $applicantId     
+     * @param string $courseCode
+     * @param string $unittype
+     * return array
+     */
+    public function getSubmittedCoreStatus($applicantId, $courseCode, $unittype)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array(
+            'user' => $applicantId,            
+            'courseCode' => $courseCode,
+            'type'=> $unittype,
+            'issubmitted' => '1' ,            
+            'status' => '1'));
+        
+        return !empty($userCourseUnits) ? count($userCourseUnits) : '';
+    }
+     /**
+     * Function to get submitted elective Units Status
+     * @param int $applicantId     
+     * @param string $courseCode
+     * @param string $unittype
+     * return array
+     */
+    public function getSubmittedElectiveStatus($applicantId, $courseCode, $unittype)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array(
+            'user' => $applicantId,            
+            'courseCode' => $courseCode,
+            'type'=> $unittype,
+            'issubmitted' => '1' ,            
+            'electiveStatus' => '1'));
+        
+        return !empty($userCourseUnits) ? count($userCourseUnits) : '';
+    }
     /**
      * Function to update qualification unit table
      * @param int $userId
@@ -658,5 +711,49 @@ class CoursesService
             }
         }                
         return count($courseUnits);
+    }
+    /**
+     * Function to get the Evidence percenatge based on the units in the course 
+     * @param int $userId
+     * @param string $coursecode
+     * return string
+     */
+    public function getEvidenceByCourse($userId, $courseCode){
+        $reqNoUnits = $this->getReqUnitsForCourseByCourseId($courseCode);
+        $eviPercentage = 0;
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'issubmitted' => '1' ));
+        $totalNoOfUnits = count($courseUnitObj);
+        if($totalNoOfUnits > 0){
+            $eviPercentage = ($totalNoOfUnits / $reqNoUnits) * 100;
+        }
+        return round($eviPercentage) . '%';
+    }
+    /**
+     * Function to get the Required Units Count is having both core & elective units
+     * @param type $courseCode
+     * @return integer
+     */
+    public function getReqUnitsForCourseByCourseId($courseCode){
+        $params = array('code' => $courseCode);
+        $totalReqUnits = 0;
+        $apiUrl = $this->container->getParameter('apiUrl');
+        $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
+        $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
+        $url = $apiUrl . "unitsbyqualifications";
+        $response = $this->guzzleService->request('POST', $url, [
+        		'auth' => [$apiAuthUsername, $apiAuthPassword],
+        		'query' => $params
+        		]);
+        
+        $result = $response->getBody();
+        if (!empty($result)) {         
+            $qualificationUnits = $this->xml2array($result);
+        }       
+        if(!empty($qualificationUnits['package'])){
+            $coreUnitsCount = count($qualificationUnits['package']['Units']['Core']['unit']);
+            $elecUnitsCount = $qualificationUnits['package']['Units']['Elective']['validation']['requirement'];
+            $totalReqUnits = $coreUnitsCount+$elecUnitsCount;
+        }
+        return $totalReqUnits;
     }
 }

@@ -3564,4 +3564,27 @@ class UserService
         return true;
  
     }
+    /**
+     * Function to get the Notes for Candidate
+     * @param string $courseId 
+     * @param integer $userId
+     * return Array
+     * 
+     */
+    public function getNotesFromUserAndCourseApplicant($courseId, $userId){
+        
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare('SELECT n.note,uc.user_id,n.created FROM note as n, user_course_units as uc WHERE uc.course_code = :courseCode AND uc.id = n.unit_id and uc.user_id = :userId');
+        $statement->bindValue('courseCode', $courseId);
+        $statement->bindValue('userId', $userId);        
+        $statement->execute();
+        $allRcrds = $statement->fetchAll();
+        for($i=0; $i<count($allRcrds); $i++){
+            $user = $this->getUserInfo($allRcrds[$i]['user_id']);
+            $allRcrds[$i]['userImage'] = !empty($user) ? $this->userImage($user->getUserImage()) : '';
+            $allRcrds[$i]['userName'] = !empty($user) ? $user->getUsername() : '';
+        }
+        return $allRcrds;
+    }
+      
 }
