@@ -34,11 +34,11 @@
                                 <li class="list_item clearfix">                                    
                                     {% if (todoList.reminderType == 'portfolio' or todoList.reminderType == 'message' or todoList.reminderType == 'evidence') %}
                                         {% set rTypeContent = user_service.getRemindeTypeContent(todoList.reminderTypeId, todoList.reminderType, todoList.message) %}
-                                        <a href="{{ rTypeContent.link }}" target="_blank" title="{{ rTypeContent.fulltext }}">
+                                        <a class="reminder-view" data-reminderId="{{todoList.id}}" data-status="{{todoList.reminderViewStatus}}" href="{{ rTypeContent.link }}" target="_blank" title="{{ rTypeContent.fulltext }}">
                                             <span class="list_icon">
                                                     <i class="material-icons message">{{todoIcon}}</i>
                                             </span>
-                                            <span class="content bold">
+                                            <span class="content {% if(todoList.reminderViewStatus == '0' ) %} bold {% endif %}"">
                                                 {{ rTypeContent.text }}
                                             </span>
                                         </a>

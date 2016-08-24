@@ -2219,7 +2219,7 @@ class UserService
 
                         $content['fulltext'] = $fullText;
                         $content['text'] = $contentText;
-                        $content['link'] = '#';
+                        $content['link'] = '/courseunitDetails/'.$typeContent->getCourse().'/'.$typeContent->getUnit().'/'.$typeContent->getUser()->getId();
                 break;
         }
         return $content;
