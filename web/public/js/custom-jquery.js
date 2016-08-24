@@ -231,8 +231,9 @@ $(".deleteEvidence").click(function() {
             $('#confirm_popup').modal('hide');            
             $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + '/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
             $('.deleteevidence_loader').hide();
-            var table = $('#evidence').DataTable();
-            table.row('#tr'+fid).remove().draw(false);            
+            setTimeout(function(){ location.reload(); }, 2000);
+              var table = $('#evidence').DataTable();
+              table.row('#tr'+fid).remove().draw(false);
 //            $('#evidence tr#'+fid).remove();
 //            evidenceCount = $('#evidence-total').attr('total');
 //            evidenceCount = evidenceCount - 1;
