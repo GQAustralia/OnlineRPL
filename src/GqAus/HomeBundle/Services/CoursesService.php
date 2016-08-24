@@ -659,5 +659,4 @@ class CoursesService
         }                
         return count($courseUnits);
     }
-
 }

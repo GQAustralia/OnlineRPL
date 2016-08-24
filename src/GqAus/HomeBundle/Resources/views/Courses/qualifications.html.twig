@@ -23,6 +23,7 @@
 
     {% set courseCode = courses.getCourseCode()%}   
     {% set courseInfo = courses_service.getUserCoursesInfo(courseCode)%}
+ 
 {% if courseInfo.courseInfo == "No records found" %}
 {% elseif courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
 {% set evidenceCompleteness = user_service.getEvidenceCompletenessCount(userId, courseCode) %}
@@ -35,9 +36,12 @@
                     <p>
                         <span> {{ courses.getCourseName() }}</span>
                         <span data-toggle="collapse" data-target="#collapse-{{courseCode}}">{{ courses.getCourseCode() }}
+                            {% if courses|length > 0 %}
                             <a href="#">
                                     <i class="material-icons">expand_less</i>
-                            </a></span>
+                            </a>
+                        {% endif %}
+                        </span>
                     </p>
                 </div>
             </div>
@@ -97,8 +101,8 @@
                     <div class="evidence-status">Evidence Submitted</div>
                 </div>
                 <p class="day-progress clearfix">
-                    <span class="start-day">0<br/>days</span>
-                    <span class="end-day">90<br/>days</span>
+                    <span class="start-day">0<br/>Days</span>
+                    <span class="end-day">90<br/>Days</span>
                 </p>
                 <div class="progress">
                    {# <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="90" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
@@ -164,6 +168,9 @@
                        <div class="panel-heading">
                                <div class="panel-title">
                                        <div class="panle_body_content">
+                {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
+                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}
+                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}                                           
                                                <p> <span class="tag-id">{{units.id}}</span> </p>
                                                <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                        </div>
@@ -210,7 +217,7 @@
         <input type="hidden" name="chkboxCount" id="chkboxCount" value="{{electiveUnitCountRequired}}">
             
     <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-heading"  id='strip_{{courseCode}}' {% if totalCheckedCount >= electiveUnitCountRequired%} style="background-color:red" {% else %}{% endif %}>
     <h4 class="panel-title">
         <span>{{electiveUnitsCount}} ELECTIVE UNITS - Choose {{electiveUnitCountRequired}}</span>
         <a aria-expanded="false" data-toggle="collapse" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}"><i class="material-icons edit">edit</i></a>
@@ -220,12 +227,14 @@
     </h4>       
         
         {% if totalCheckedCount >= electiveUnitCountRequired%}
+                <a id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='show'><i class="material-icons edit">edit</i></a>
                 <button type="button" class="btn btn-warning show" id="btn-done-{{courseCode}}">DONE</button>
         {% else %}
+                 <a id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='hide'><i class="material-icons edit">edit</i></a>
                 <button type="button" class="btn btn-warning hide" id="btn-done-{{courseCode}}">DONE</button>
         {% endif %}
     </div>
-    <div aria-expanded="false" style="height: 0px;" id="nested-collapseSTR-{{courseCode}}" class="panel-collapse collapse {% if totalCheckedCount >= electiveUnitCountRequired %} in {% endif %}">
+    <div aria-expanded="false" id="nested-collapseSTR-{{courseCode}}" class="panel-collapse collapse {% if totalCheckedCount >= electiveUnitCountRequired %} in {% endif %}">
     <div class="panel-body">
          
    {# <p class="panel-copy">
@@ -268,13 +277,35 @@
         <div class="panle_body_content unit-selection border-bottom clearfix">
             <i class="material-icons info">info</i>
             <div class="tag-copy">
+                {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
+                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}
+                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
                 <p> <span class="tag-id">{{units.id}}</span> </p>
                 <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
+              
             </div>
+             {% if totalCheckedCount >= electiveUnitCountRequired%}
+                <div class="checkbox_outer modalClass checkmark-icon hide"  data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
+                    <input  name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{units.id}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
+                     
+            </div>
+            <div class="arrow_ding show">
+                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
+                                               <i class="material-icons">chevron_right</i>
+                 </a>
+            </div>
+            {% else %}
+                    <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
+                    <input  name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{units.id}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
+                     
+            </div>
+            <div class="arrow_ding hide">
+                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
+                                               <i class="material-icons">chevron_right</i>
+                 </a>
+            </div>
+            {% endif %}
             
-            <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
-                    <input name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
-            </div>
         </div>
        {# {% endfor %}#}
           {% endif %}
@@ -308,7 +339,7 @@
 
   
     <!-- Larg Screens HTML End -->
-<!-- Modal -->
+    <input type="hidden" id="unitcheckval" name="unitcheckval" value="">
 <div class="modal fade confirm_popup" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
    <!-- Modal content-->
@@ -320,7 +351,7 @@
     <div class="modal-body">
      <div class="btn_section">
       <button class="btn btn_red changeUnitStatus">OK</button>
-      <button class="btn" data-dismiss="modal" id="qeclose-cancel">CANCEL</button>
+      <button class="btn"  id="qeclose-cancel" onclick="return cancelCheckbox();">CANCEL</button>
        <span class="loading-icon qual_status_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
      </div>
     </div>

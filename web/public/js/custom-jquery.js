@@ -140,6 +140,7 @@ $(".checkmark-icon").click(function() {
 $(".changeUnitStatus").click(function() {   
     $(".qual_status_loader").show();
     var count = $('input[name="chk-val-'+courseCode+'[]"]:checked').length;
+    
     var countElectiveUnits = $('#chkboxCount').val();
     $.ajax({
         type: "POST",
@@ -152,36 +153,53 @@ $(".changeUnitStatus").click(function() {
             }
             var label = $("#label_" + unitId).attr("temp");
             if (result == '0') {
-//                $("#label_" + unitId).attr("for", "");
-//                $( "#label_"+unitId ).attr('disabled','disabled');
-//                $("#btnadd_" + unitId).attr('disabled', 'disabled');
-//                $("#btncomment_" + unitId).attr('disabled', 'disabled');
-//                $("#btneye_" + unitId).attr('disabled', 'disabled');
-//                $("#div_" + unitId).addClass("gq-acc-row-checked");
                 $("#span_" + unitId).removeClass("radioUnChecked");
                 $("#sp_" + unitId).html('');
                 
             } else {
-//                $("#label_" + unitId).attr("for", label);
-//                $( "#label_"+unitId ).removeAttr('disabled','disabled');
-//                $("#btnadd_" + unitId).removeAttr('disabled');
-//                $("#btncomment_" + unitId).removeAttr('disabled');
-//                $("#btneye_" + unitId).removeAttr('disabled');
-//                $("#div_" + unitId).removeClass("gq-acc-row-checked");
                 $("#span_" + unitId).addClass("radioUnChecked");
                 
             } 
-           
-                
             if( count >= countElectiveUnits)
             {
                 $("#btn-done-"+courseCode).removeClass('btn btn-warning hide').addClass("btn btn-warning show");
                 $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse').addClass("panel-collapse collapse in");
+               
+                
+                 $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').each(function(){
+                        $(this).removeClass('hide');
+                        $(this).addClass('show');
+             });
+                 
+                 $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').prev().each(function(){
+                      $(this).addClass('hide');
+                        $(this).removeClass('show');
+                 });
+               
+                  $("#strip_"+courseCode).css("background-color", "#CB1212");
+                //  $("#edit_"+courseCode).addClass('show');
+                    $("#edit_"+courseCode).removeClass('hide');
+                 $("#edit_"+courseCode).addClass('show');
             }
             else
             {
                 $("#btn-done-" + courseCode).removeClass('btn btn-warning show').addClass("btn btn-warning hide");
                 $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse in').addClass("panel-collapse collapse");
+                $("#strip_"+courseCode).removeAttr("style");
+                //   $("#strip_"+courseCode).css('');
+               
+                $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').each(function(){
+                        $(this).removeClass('show');
+                        $(this).addClass('hide');
+             });
+                 
+                 $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').prev().each(function(){
+                      $(this).addClass('show');
+                        $(this).removeClass('hide');
+                 });
+                   $("#edit_"+courseCode).removeClass('show');
+                 $("#edit_"+courseCode).addClass('hide');
+                 
             }
             $(".qual_status_loader").hide();
             $("#qeclose").trigger("click");
@@ -2967,7 +2985,7 @@ $('body').on('keydown', '#compose_message', function(e) {
       return false;
     }  
   });
-
+/* To handle Change PAssword POPUP*/
 function passwordCancel()
 {
     $('.gq-id-pwd-error-text').hide();
@@ -2994,3 +3012,32 @@ $('body').on('click', '.reminder-view', function(){
         });
     }
 });
+/*to handle Checkbox Cancel button */
+function cancelCheckbox()
+{
+    var ckbox = $('#span_'+$('#unitcheckval').val());
+    if (ckbox.is(':checked')) {
+            $(ckbox ).prop( "checked", false );
+        } else {
+            $(ckbox ).prop( "checked", true );
+        }
+     
+}
+function setUnitId(id)
+{
+    $('#unitcheckval').val(id);
+}
+
+function convertToEdit(courseCode)
+{
+    alert(courseCode);
+      $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').each(function(){
+                        $(this).removeClass('show');
+                        $(this).addClass('hide');
+             });
+                 
+                 $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').prev().each(function(){
+                      $(this).addClass('show');
+                        $(this).removeClass('hide');
+                 });
+}
