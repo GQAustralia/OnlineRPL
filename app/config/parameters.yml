@@ -16,10 +16,10 @@ parameters:
     locale: en
     secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
     applicationUrl: "http://local.gqrpl.com/"
-    amazon_aws_key: AKIAJYBUA7H4EMZHC62A
-    amazon_aws_secret_key: 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
-    amazon_s3_base_url: https://s3.amazonaws.com/rpl-upload.com/
-    amazon_s3_bucket_name: rpl-upload.com
+    amazon_aws_key: AKIAJXKS7MGMDP6Y3MAA
+    amazon_aws_secret_key: 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
+    amazon_s3_base_url: https://s3-ap-southeast-2.amazonaws.com/onlinerplevidences/
+    amazon_s3_bucket_name: onlinerplevidences
     apiUrl: "http://api.gqaus.com.au/web/app_dev.php/api/v1/"
     apiAuthUsername: stgaccess
     apiAuthPassword: u9FGDU8K
@@ -27,6 +27,5 @@ parameters:
     fromEmailAddress: rpl@gqaustralia.com.au
     pagination_limit_page: 10
     filefield.load_form_template: false
-    tokbox_key: 45206682
-    tokbox_secret_key: 38a2d43587a4aa1c1203f8ffb05d6756579df199
-    rto_workspan: 14  #This indicates the 2 weeks (14 days) for RTO finish once it is for them to start the work.
+    tokbox_key: 45642692
+    tokbox_secret_key: 03af7e40569a102af23f06c8880d9b43dcf34aa2
