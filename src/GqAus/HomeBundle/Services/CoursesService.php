@@ -567,7 +567,60 @@ class CoursesService
             'courseCode' => $courseCode));
         return !empty($userCourseUnits) ? $userCourseUnits : '';
     }
-
+  /**
+     * Function to get applicant any unit status
+     * @param int $applicantId     
+     * @param string $courseCode
+     * return int
+     */
+    public function getOneUnitStatus($applicantId, $courseCode)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array(
+            'user' => $applicantId,            
+            'courseCode' => $courseCode,
+            'issubmitted' => '1' ));
+        $result = !empty($userCourseUnits) ? count($userCourseUnits) : '0';
+        return $result;
+    }
+    /**
+     * Function to get core Units Status
+     * @param int $applicantId     
+     * @param string $courseCode
+     * @param string $unittype
+     * return array
+     */
+    public function getSubmittedCoreStatus($applicantId, $courseCode, $unittype)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array(
+            'user' => $applicantId,            
+            'courseCode' => $courseCode,
+            'type'=> $unittype,
+            'issubmitted' => '1' ,            
+            'status' => '1'));
+        
+        return !empty($userCourseUnits) ? count($userCourseUnits) : '';
+    }
+     /**
+     * Function to get submitted elective Units Status
+     * @param int $applicantId     
+     * @param string $courseCode
+     * @param string $unittype
+     * return array
+     */
+    public function getSubmittedElectiveStatus($applicantId, $courseCode, $unittype)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array(
+            'user' => $applicantId,            
+            'courseCode' => $courseCode,
+            'type'=> $unittype,
+            'issubmitted' => '1' ,            
+            'electiveStatus' => '1'));
+        
+        return !empty($userCourseUnits) ? count($userCourseUnits) : '';
+    }
     /**
      * Function to update qualification unit table
      * @param int $userId
@@ -704,4 +757,5 @@ class CoursesService
         }
         return round($eviPercentage) . '%';
     }
+
 }

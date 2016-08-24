@@ -97,8 +97,14 @@
         
         <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
         {% if msgID is defined %}
+            {% set userSubject = '' %}
+            {%set i = 0%}
+            {% for message in replymsgarr %}  
+            {% if i == 0 %} {% set userSubject = message.message.subject %}{% endif %}
+            {%set i = i+1 %}
+            {% endfor %}
         <div class="mail_compose_section hidden-xs">
-                <div class="title_bar">WELCOME!
+                <div class="title_bar">{{userSubject}}
                         <span><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
                 </div>
                 <div class="chat_room"> 

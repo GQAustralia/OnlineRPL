@@ -13,15 +13,15 @@
                         <input type="file" class="hidden browse_btn">
                         <div class="content">
                             
-                                <h5 class="name"><strong>{{courses.facilitator.firstName}} </strong></h5>
+                                <h5 class="name"><strong>{{courses.facilitator.firstName}} {{courses.facilitator.lastName}}</strong></h5>
                                 <span class="field"> Facilitator</span>
                         </div>
                     </div>
-                    <div class="count">
+                    {#<div class="count">
                        {% set facApplicantsCount = user_service.getPendingApplicantsCount(courses.facilitator.id, 'ROLE_FACILITATOR', '0') %}                       
                             <span class="number"><strong>{{facApplicantsCount}}</strong></span>
                             <span class="title">Active Portfolios</span>
-                    </div>
+                    </div>#}
                 </div>
                 <div class="form">
                         <div class="section name_group clearfix">
