@@ -187,6 +187,7 @@
                         <input type="hidden" name="csUserId" id="csUserId" readonly="true" value="{{userId}}" />
                         <div class="panel panel-default">
                             <div class="select-drop-box clearfix">
+                                <input id="currentCourseStatus" type="hidden" value="{{courseStatus}}" readonly="true" />
                                 <select name="courseStatus" id="courseStatus" class="selectpicker"> 
                                 {% if ('ROLE_ASSESSOR' in userRole and assessorstatus != 1) or ('ROLE_FACILITATOR' in userRole and courseStatus != 0) %}
                                     {% set courseOrder = statusList[courseStatus].order %}

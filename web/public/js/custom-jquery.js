@@ -94,7 +94,7 @@ $(function() {
                 success: function(responseText) {
                     var result = jQuery.parseJSON(responseText);
                     if(result.type == 'Error' ) {
-                        $("#courseStatusMsg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">'+ result.msg+'</h2></div>');
+                        $("#status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">'+ result.msg+'</h2></div>');
                     } else if (result.type == 'Success') {
                         $("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
                     }   

@@ -437,6 +437,7 @@ class EvidenceService
      */
     public function saveRecord($evidence, $applicantID, $unitCode, $courseCode)
     {
+        $unitCode = ($unitCode == 'empty') ? '' : $unitCode;
         $user = $this->repository->findOneById($applicantID);
         $recordingObj = new Recording();
         $recordingObj->setPath($evidence);
