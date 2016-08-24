@@ -3564,4 +3564,16 @@ class UserService
         return true;
  
     }
+    /**
+     * Function to get the courses units status for facilitator
+     * @param type $userId
+     * @param type $courseCode
+     * @return integer
+     */
+    public function getTheStatusOfUnitsUnderCourse($userId, $courseCode)
+    {
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'facilitatorstatus' => '1'));
+        $result = !empty($courseUnitObj) ? count($courseUnitObj) : 0;
+        return $result;
+    }
 }

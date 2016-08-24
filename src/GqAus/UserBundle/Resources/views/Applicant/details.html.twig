@@ -16,7 +16,8 @@
     {% set mobile = app.security.getToken().getUser().getPhone() %}
     {% set coreUnitCount = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'core') %} 
     {% set electiveUnits = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'elective') %} 
-    
+    {% set totalReqUnits = courses_service.getReqUnitsForCourseByCourseId(courseInfo.id)%}
+    {% set statusOfUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id) %} 
     {% set facProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : facilitatorName %}
     {% set facVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
     {% set assProName = ('ROLE_ASSESSOR' in userRole) ? 'You ' : assessorName %}
@@ -135,7 +136,7 @@
                     {% if ('ROLE_FACILITATOR' in userRole) %}
                         <div class="gqa-btn-group">
                             <div class="row no-gutter">     
-                                 {% if (facilitatorstatus != '1' and currentIdPoints >= '100') %}
+                                 {% if (facilitatorstatus != '1' and currentIdPoints >= '100' and statusOfUnitsCount == totalReqUnits ) %}
                                     <div class="col-md-12 col-lg-12">
                                         <div class="row no-gutter">
                                             <div class="col-md-12 col-lg-12">

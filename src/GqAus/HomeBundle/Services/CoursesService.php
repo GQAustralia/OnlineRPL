@@ -298,6 +298,35 @@ class CoursesService
         return $result;
     }
     /**
+     * Function to get the Required Units Count is having both core & elective units
+     * @param type $courseCode
+     * @return integer
+     */
+    public function getReqUnitsForCourseByCourseId($courseCode){
+        $params = array('code' => $courseCode);
+        $totalReqUnits = 0;
+        $apiUrl = $this->container->getParameter('apiUrl');
+        $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
+        $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
+        $url = $apiUrl . "unitsbyqualifications";
+        $response = $this->guzzleService->request('POST', $url, [
+        		'auth' => [$apiAuthUsername, $apiAuthPassword],
+        		'query' => $params
+        		]);
+        
+        $result = $response->getBody();
+        if (!empty($result)) {         
+            $qualificationUnits = $this->xml2array($result);
+        }       
+        if(!empty($qualificationUnits['package'])){
+            $coreUnitsCount = count($qualificationUnits['package']['Units']['Core']['unit']);
+            $elecUnitsCount = $qualificationUnits['package']['Units']['Elective']['validation']['requirement'];
+            $totalReqUnits = $coreUnitsCount+$elecUnitsCount;
+        }
+        return $totalReqUnits;
+    }
+
+    /**
      * Function to generate api token
      * @param string $result
      * return string
