@@ -150,17 +150,18 @@
                                                     {% for eKey, evd in evidences %}
                                                     {% set checkPath = (evd[0].type !='text') ? evd[0].path : evd[0].content %} 
                                                     {% set mappedContent =  (checkPath in evdMapping.mappedToMultipleUnit) ? 'mapped2': ((checkPath in evdMapping.mappedToOneUnit) ? 'mapped1' : 'mapped0') %}
+                                                    {% set mappedCourse = (evd[0].course) ?  evd[0].course : 'nonmapped' %}
                                                     {% if evd[0].type !='text' %}
                                                         {% set eviType = evidence_service.getEvidenceShowType(evd[0].type) %}
                                                         {% set output = eviType|split('&&') %}
 
                                                         {% if evd[0].name %}
                                                         <tr id="{{ evd[0].id }}" class="{{ evd[0].type }} {{ mappedContent }}">
-                                                            <td class="hide">{{ evd[0].course }}</td>
+                                                            <td class="hide">{{ mappedCourse }}</td>
                                                             <td class="hide">{{ evd[0].type }}</td>
                                                             <td class="hide">{{mappedContent}}</td>
                                                             <td class="hide">{{ evd[0].name }}</td>
-                                                            <td class="hide">{{ evd[0].created|date("d/m/y") }}</td>
+                                                            <td class="hide">{{ evd[0].created|date("Ymd") }}</td>
                                                             <td>
                                                                 {% if evd[0].name %} 
                                                                     <div class="block">
@@ -210,11 +211,11 @@
                                                         {% endif %}
                                                     {% else %}
                                                         <tr id="{{ evd[0].id }}" class="{{ evd[0].type }} {{ mappedContent }}">
-                                                            <td class="hide">{{ evd[0].course }}</td>
+                                                            <td class="hide">{{ mappedCourse }}</td>
                                                             <td class="hide">{{ evd[0].type }}</td>
                                                             <td class="hide">{{mappedContent}}</td>
                                                             <td class="hide">{{ evd[0].content }}</td>
-                                                            <td class="hide sortdateby">{{ evd[0].created|date("d/m/y") }}</td>
+                                                            <td class="hide sortdateby">{{ evd[0].created|date("Ymd") }}</td>
                                                             <td>
                                                                 {% if evd[0].content %} 
                                                                     <div class="block">
@@ -244,7 +245,7 @@
                                                                             {% endfor %}
                                                                         </div>
                                                                     </div>
-																	<div id="text{{evd[0].id}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evd[0].content is defined %}{{evd[0].content}}{%endif%}</div>
+                                                                    <div id="text{{evd[0].id}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evd[0].content is defined %}{{evd[0].content}}{%endif%}</div>
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
