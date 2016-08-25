@@ -223,6 +223,9 @@ faq:
 pendingApplicantCount:
     path:    /pendingApplicantCount
     defaults: { _controller: GqAusUserBundle:Applicant:pendingApplicantCount }  
+unreadApplicantCount:
+    path:    /unreadApplicantCount
+    defaults: { _controller: GqAusUserBundle:Applicant:unreadApplicantCount }  
 sendMsgtoApplicant:
     path:     /sendMsgtoApplicant
     defaults:  { _controller: GqAusUserBundle:Applicant:sendMsgtoApplicant }

@@ -500,7 +500,20 @@ class ApplicantController extends Controller
         echo $pendingApplicantsCount;
         exit;
     }
-	/**
+    /**
+     * Function to get unreadApplicant count
+     * return int
+     */
+    public function unreadApplicantCountAction()
+    {
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $unreadApplicantsCount = $this->get('UserService')->getUnreadApplicantsCount($userId, $userRole, '0');
+        echo $unreadApplicantsCount;
+        exit;
+    }
+
+    /**
      * Function to insert record into messsage table when the facilitlaor has clicked on not satisafactory button
      *  return string
      */

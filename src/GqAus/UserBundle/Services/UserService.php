@@ -999,6 +999,20 @@ class UserService
         $getCourseStatus = $this->getPendingApplicants($userId, $userRole, $applicantStatus);
         return count($getCourseStatus);
     }
+    /**
+     * Function to get unread applicants count
+     * @param int $userId
+     * @param string $userRole
+     * @param int $applicantStatus
+     * return integer
+     */
+    public function getUnreadApplicantsCount($userId, $userRole, $applicantStatus)
+    {
+        if($userRole == "ROLE_FACILITATOR")
+            $userRole = array('ROLE_FACILITATOR');
+        $getCourseStatus = $this->getUnreadApplicants($userId, $userRole, $applicantStatus);
+        return count($getCourseStatus);
+    }
 
      /**
      * Function to get pending applicants
@@ -1045,8 +1059,53 @@ class UserService
         }
         return $getCourseStatus;
     }
-	
-	public function getCheckTodoApplicant($userId, $courseId)
+    /**
+     * Function to get the unread applicants count
+     * @param type $userId
+     * @param type $userRole
+     * @param type $applicantStatus
+     * @return type
+     */
+    public function getUnreadApplicants($userId, $userRole, $applicantStatus)
+    {
+        $getCourseStatus = array();
+        if (in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_RTO', $userRole)) {
+            if (in_array('ROLE_ASSESSOR', $userRole)) {
+                $userType = 'assessor';
+                $userStatus = 'assessorstatus';
+                $result = array($userType => $userId, $userStatus => $applicantStatus, 'courseStatus' => array(2, 10, 11, 12, 13, 14),  'assessorread' => '0');
+            } elseif (in_array('ROLE_RTO', $userRole)) {
+                $userType = 'rto';
+                $userStatus = 'rtostatus';
+                $result = array($userType => $userId, $userStatus => $applicantStatus, 'courseStatus' => '15', 'rtoread' => '0');
+            }
+            $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy($result);
+        } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
+            $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
+            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
+            $qb->andWhere('u.courseStatus != 0');
+            $qb->andWhere('u.facilitatorread = 0');
+
+            $getCourseStatus = $qb->getQuery()->getResult();
+        }
+        elseif (in_array('ROLE_MANAGER', $userRole)) {
+            $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
+            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
+            $qb->andWhere('u.courseStatus != 0');
+
+            $getCourseStatus = $qb->getQuery()->getResult();
+        }
+        elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
+            $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
+            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
+            $qb->andWhere('u.courseStatus != 0');
+
+            $getCourseStatus = $qb->getQuery()->getResult();
+        }
+        return $getCourseStatus;
+    }
+
+        public function getCheckTodoApplicant($userId, $courseId)
     {          
         $qb = $this->em->getRepository('GqAusUserBundle:reminder')->createQueryBuilder('r');
         $qb->where(sprintf('r.%s = :%s', 'course', 'course'))->setParameter('course', $courseId);

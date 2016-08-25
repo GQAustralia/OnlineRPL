@@ -1,17 +1,32 @@
 $(document).ready(function(){
     /* header menu js starts*/
     var menuEle=null;
-    
-    $(".profile").on("click", function(evt){
-        evt.stopPropagation();
-        menuEle=  $(this).children('ul');
-        $(menuEle).toggleClass("show hide");
-    });
-    
-    $(document).on("click", function(){
-        $(menuEle).toggleClass("show hide");
-        menuEle=null;
-    });
+        var isShow=false;
+
+        $(".profile").on("click", function(evt){
+            if(isShow){
+                isShow=false;
+            }else{
+                 menuEle=  $(this).children('ul');
+                $(menuEle).toggleClass("show hide");
+                 setTimeout(addEventForDoc($(this)),2000);   
+                isShow=true;
+            }
+        });
+
+        function addEventForDoc(reqEle){
+            $(document).on("mouseup", function(evt){
+                if(menuEle==null)
+                {
+                    evt.preventDefault();
+                    return false;
+                }else{
+                   $(menuEle).toggleClass("show hide");
+                    setTimeout(function(){isShow=false;},500);
+                }
+                menuEle=null;    
+            });
+        };
     
     /* header menu js ends*/
         

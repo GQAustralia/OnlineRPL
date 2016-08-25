@@ -938,7 +938,7 @@ function onloadCount()
 function onloadPortfolioCount()
 {    
     $.ajax({
-        url: base_url + "pendingApplicantCount",
+        url: base_url + "unreadApplicantCount",
         cache: false,
         success: function(result) {         
             if (result >= 0) {    
@@ -947,7 +947,8 @@ function onloadPortfolioCount()
                     $('#portfolioCount').css("display","none");
                 }
                 $(".portfolio-current").html(result);
-				$("#portfolioCount").attr('class', '');			
+				$("#portfolioCount").attr('class', '');	
+                                window.parent.opener.location.reload();
             } else {                
                 $(".portfolio-current").css("display","none");
             }
