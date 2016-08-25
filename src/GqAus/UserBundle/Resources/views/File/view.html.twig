@@ -117,39 +117,6 @@
                 <div class="container">
                     <div id="evidence_msg"></div><div id="gq-dashboard-tabs-success"></div>
                         <div class="row">
-                                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
-                                        <div class="file_upload_block">
-                                                <div class="title_bar clearfix">
-                                                        <span class="title">UPLOAD EVIDENCE FILES</span>
-                                                </div>
-                                                <div class="clearfix">
-                                                        <div class="take_photo">
-                                                                <span>
-                                                                        <i class="material-icons">camera_alt</i>Take a photo
-                                                                </span>
-                                                        </div>
-                                                        <div class="upload_btn">
-                                                                <div class="file-upload">
-                                                                        <form action="#" method="GET" class="form demo_form">
-                                                                                <div class="upload fs-upload-element fs-upload fs-light" data-upload-options="">
-
-                                                                                </div>
-                                                                        </form>
-                                                                </div>
-                                                        </div>
-                                                </div>
-                                                <span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
-                                                <div class="panel-group">
-                                                        <div class="panel clearfix">
-                                                                <div class="panel-body">
-                                                                        <div class="panel-copy fileListContainer">
-
-                                                                        </div>
-                                                                </div>
-                                                        </div>
-                                                </div>
-                                        </div>
-                                </div>
                                 {% if evidences|length < 0%}	
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                         <div class="evidence_block">
@@ -165,16 +132,8 @@
                                                         </span>
                                                         <span><strong>There are two ways of uploading:</strong></span>
                                                         <ul>
-                                                                <li>
-                                                                        <span>
-                                                                                1. You can upload evidence files from this screen, then go to your units and linkfiles to relevant units.
-                                                                        </span>
-                                                                </li>
-                                                                <li>
-                                                                        <span>
-                                                                                2. You can upload files directly from a unit and they will be automatically linked. Whichever way you choose, all your uploaded files will appear here. 
-                                                                        </span>
-                                                                </li>
+                                                            <li><span>1. You can upload evidence files from this screen, then go to your units and linkfiles to relevant units.</span></li>
+                                                            <li><span>2. You can upload files directly from a unit and they will be automatically linked. Whichever way you choose, all your uploaded files will appear here. </span></li>
                                                         </ul>
                                                 </div>
                                         </div>
@@ -352,16 +311,6 @@
                                                                                 {% endif %}
                                                                             </span>
                                                                         </div>
-                                                                        <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
-                                                                            <div class="file_info">
-                                                                                <span class="icon">
-                                                                                    <i class="material-icons">description</i>
-                                                                                </span>
-                                                                                <span class="file-discription">
-                                                                                    {{ evd[0].name }} <br> {{ evd[0].size }} | Added {{ evd[0].created|date("d/m/y") }}
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
                                                                         <div class="link_section">
                                                                             {% for lKey, linkedVal in evd %}
                                                                                 {% set unitType = user_service.getUserCourseUnitType(evd[0].user.id,linkedVal.course,linkedVal.unit) %}
@@ -452,35 +401,8 @@
                                         </div>
                                 </div>
                                 {% endif %}
-                                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
-                                    <div class="profile_section hidden-sm hidden-md hidden-lg">
-                                        <div class="container">
-                                            {#<img alt="profile_pic" src="../images/UPLOAD_PROFILE_PHOTO.png">#}
-                                            <span>Samantha</span>
-                                        </div>
-                                    </div>
-                                </div>
                         </div>
                 </div>
-
-	{#<!-- Modal -->
-	<div class="modal fade confirm_popup" id="confirm_popup" role="dialog" >
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<div class="modal-title">{{ delete_evidence_confirm }}</div>
-				</div>
-				<div class="modal-body">
-					<div class="btn_section">
-						<button class="btn btn_red deleteEvidence">OK</button>
-						<button class="btn" data-dismiss="modal">CANCEL</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>#}
         <!-- Modal -->
         <div class="modal fade confirm_popup" id="confirm_popup" role="dialog">
             <div class="modal-dialog">

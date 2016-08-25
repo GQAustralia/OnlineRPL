@@ -117,37 +117,37 @@
                 <div class="container">
                     <div id="evidence_msg"></div><div id="gq-dashboard-tabs-success"></div>
                         <div class="row">
+                                {% if('ROLE_APPLICANT' in roles) %}
                                 <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
-                                        <div class="file_upload_block">
-                                                <div class="title_bar clearfix">
-                                                        <span class="title">UPLOAD EVIDENCE FILES</span>
-                                                </div>
-                                                <div class="clearfix">
-                                                        <div class="take_photo" id="take_photo">
-                                                            <input type="file" id="take_photo_btn">
-                                                            <span>
-                                                                <i class="material-icons">camera_alt</i>Take a photo
-                                                            </span>
-							</div>
-                                                        <div id="dragandrophandler">
-                                                            <div class="upload_btn">
-                                                                <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
-                                                                <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file</div>
-                                                            </div>
-                                                        </div>
-                                                </div>
-                                                <span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
-                                                <div class="panel-group">
-                                                        <div class="panel clearfix">
-                                                                <div class="panel-body">
-                                                                        <div class="panel-copy fileListContainer">
-
-                                                                        </div>
-                                                                </div>
-                                                        </div>
-                                                </div>
+                                    <div class="file_upload_block">
+                                        <div class="title_bar clearfix">
+                                            <span class="title">UPLOAD EVIDENCE FILES</span>
                                         </div>
+                                        <div class="clearfix">
+                                            <div class="take_photo" id="take_photo">
+                                                <input type="file" id="take_photo_btn">
+                                                <span>
+                                                    <i class="material-icons">camera_alt</i>Take a photo
+                                                </span>
+                                            </div>
+                                            <div id="dragandrophandler">
+                                                <div class="upload_btn">
+                                                    <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
+                                                    <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
+                                        <div class="panel-group hide" id="fileListContainer">
+                                            <div class="panel clearfix">
+                                                <div class="panel-body">
+                                                    <div class="panel-copy fileListContainer" id="progress-bars"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                {% endif %}
                                 {% if evidences|length < 0%}	
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                         <div class="evidence_block">
@@ -331,25 +331,6 @@
                                                             <td>
                                                                 {% if evd[0].name %} 
                                                                     <div class="block">
-                                                                        <div class="file_info hidden-xs">
-                                                                            <a href="{{ amazon_link }}{{  evd[0].path }}" 
-                                                                                {% if output[1] is defined %}
-                                                                                {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
-                                                                                {%endif%}><span class="icon"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
-                                                                            </a>
-                                                                            <span class="file_name">
-                                                                                {{ evd[0].name }}
-                                                                            </span>
-                                                                            <span class="file_size">
-                                                                                {{ evd[0].size }}
-                                                                            </span>
-                                                                            <span class="clear">
-                                                                                ADDED  {{ evd[0].created|date("d/m/y") }}
-                                                                                {% if('ROLE_APPLICANT' in roles) %}
-                                                                                <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
-                                                                                {% endif %}
-                                                                            </span>
-                                                                        </div>
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
                                                                                 <span class="icon">
@@ -357,6 +338,11 @@
                                                                                 </span>
                                                                                 <span class="file-discription">
                                                                                     {{ evd[0].name }} <br> {{ evd[0].size }} | Added {{ evd[0].created|date("d/m/y") }}
+                                                                                </span>
+                                                                                <span class="clear">
+                                                                                    {% if('ROLE_APPLICANT' in roles) %}
+                                                                                    <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
+                                                                                    {% endif %}
                                                                                 </span>
                                                                             </div>
                                                                         </div>
@@ -387,21 +373,6 @@
                                                             <td>
                                                                 {% if evd[0].content %} 
                                                                     <div class="block">
-                                                                        <div class="file_info hidden-xs">
-                                                                            <span class="icon"><a href="#text{{evd[0].id}}" class="fancybox" id="btnForm">
-                                                                                <i class="material-icons">description</i></a>
-                                                                            </span>
-                                                                            <span class="file_name">
-                                                                                {{ evd[0].content|slice(0,40) }}
-                                                                            </span>
-                                                                            <span class="file_size"></span>
-                                                                            <span class="clear">
-                                                                                ADDED {{ evd[0].created|date("d/m/y") }}
-                                                                                {% if('ROLE_APPLICANT' in roles) %}
-                                                                                <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
-                                                                                {%endif%}
-                                                                            </span>                                                        
-                                                                        </div>
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
                                                                                 <span class="icon"><a href="#text{{evd[0].id}}" class="fancybox" id="btnForm">
@@ -410,6 +381,11 @@
                                                                                 <span class="file-discription">
                                                                                    {{ evd[0].content|slice(0,40) }} <br> Added {{ evd[0].created|date("d/m/y") }}
                                                                                 </span>
+                                                                                <span class="clear">
+                                                                                    {% if('ROLE_APPLICANT' in roles) %}
+                                                                                    <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
+                                                                                    {% endif %}
+                                                                                </span>                                                                                
                                                                             </div>
                                                                         </div>                                                                        
                                                                         <div class="link_section">
@@ -434,32 +410,6 @@
                                             </div>
                                         </div>
                                 </div>
-                                {% if('ROLE_APPLICANT' in roles) %}
-                                <div class="hidden-xs col-sm-12 col-md-12 col-lg-5">
-                                        <div class="file_upload_block">
-                                                <div class="title_bar clearfix">
-                                                        <span class="title">UPLOAD EVIDENCE FILES</span>
-                                                </div>
-                                            <div id="dragandrophandler">
-                                                <div class="upload_btn">
-                                                    <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
-                                                    <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file</div>
-                                                </div>
-                                            </div>
-                                                
-                                                <span class="file_size_limit">Maximum file size is {{ maximum_upload_size  }} GB per upload</span>
-                                                <div class="panel-group hide" id="fileListContainer">
-                                                        <div class="panel clearfix">
-                                                                <div class="panel-body">
-                                                                        <div class="panel-copy fileListContainer" id="progress-bars">
-
-                                                                        </div>
-                                                                </div>
-                                                        </div>
-                                                </div>
-                                        </div>
-                                </div>
-                                {% endif %}
                         </div>
                 </div>
 
