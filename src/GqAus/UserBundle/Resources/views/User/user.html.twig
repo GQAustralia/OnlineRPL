@@ -147,23 +147,3 @@
                 </div>
 
 </div>
-{% block javascripts %} 
-    <script>
-    $(".form_block input[type='text']").focus(function(){
-                $(this).prev().css("color","red");
-                $(".update_btn").css("background","red");
-        });
-        $(".form_block input[type='text']").blur(function(){
-                $(this).prev().css("color","#4a4a4a");
-                $(".update_btn").css("background","#d8d8d8");
-        });
-        $(".form_block input[type='radio']").focus(function(){
-                $(this).next().css("color","red");
-                $(".update_btn").css("background","red");
-        });
-        $(".form_block input[type='radio']").blur(function(){
-                $(this).next().css("color","#4a4a4a");
-                $(".update_btn").css("background","#d8d8d8");
-        });
-     </script>
- {% endblock %}

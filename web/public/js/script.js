@@ -1,19 +1,7 @@
 $(document).ready(function(){
-    /* header menu js starts*/
-    var menuEle=null;
-    
-    $(".profile").on("click", function(evt){
-        evt.stopPropagation();
-        menuEle=  $(this).children('ul');
-        $(menuEle).toggleClass("show hide");
+    $(".profile").on("click", function(){
+       $(this).children('ul').toggleClass("show hide");
     });
-    
-    $(document).on("click", function(){
-        $(menuEle).toggleClass("show hide");
-        menuEle=null;
-    });
-    
-    /* header menu js ends*/
         
     /* Candidate Details */
 	 

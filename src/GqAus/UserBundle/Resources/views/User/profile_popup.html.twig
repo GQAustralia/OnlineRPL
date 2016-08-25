@@ -46,7 +46,7 @@
 						<span class="number portfolio-current"></span>
 						<span class="title">Active Portfolios</span>
                                                 {% else %}
-                                                {% set noofQualifications = user_service.getNoofQualifications('ROLE_RTO',userId)%}
+                                                {% set noofQualifications = user_service.getNoofQualifications(userId)%}
                                                 <span class="number">{{noofQualifications}}</span>
 						<span class="title">Issued <br/> Qualifications</span>
                                                 {% endif %}
