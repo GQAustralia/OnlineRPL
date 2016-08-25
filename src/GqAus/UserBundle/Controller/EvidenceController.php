@@ -38,7 +38,7 @@ class EvidenceController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
 
         $evidences = array();
-        $evidences = $this->get('EvidenceService')->getPendingApplicantEvidences($user);
+        $evidences = $this->get('UserService')->getPendingApplicantEvidences($user);
 
         $formattedEvidences = $evidenceTypeCount = $mappedEvidence = $unMappedEvidences = $mappedToMultipleUnit = $mappedToOneUnit = $mappingCount = array();
         foreach($evidences as $key => $evidence){
@@ -155,15 +155,13 @@ class EvidenceController extends Controller
     }
 
     /**
-     * Function to search evidences
+     * Function to update s3 jobid once its completed
      * @param object $request
      * return string
      */
-    public function searchEvidenceAction(Request $request)
+    public function updateSthreeJobIdAction($jobId, Request $request)
     {
-        $userId = $this->getRequest()->get('userId');
-        $userRole = $this->getRequest()->get('userRole');
-        $result = $this->get('EvidenceService')->searchEvidencesByUserRole($userId, $userRole);
+        $result = $this->get('EvidenceService')->updateSthreeJobId($jobId);
         echo json_encode($result);
         exit;
     }

@@ -168,5 +168,27 @@ abstract class Evidence
     {
         return $this->course;
     }
+    
+    /**
+     * @var string
+     */
+    private $jobId;
 
+    /**
+     * Set jobId
+     *
+     * @return string 
+     */
+    public function setJobId($jobId) {
+        $this->jobId = $jobId;
+    }
+
+    /**
+     * Get jobId
+     *
+     * @return string 
+     */
+    public function getJobId() {
+        return $this->jobId;
+    }
 }

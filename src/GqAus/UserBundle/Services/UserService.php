@@ -1226,7 +1226,9 @@ class UserService
             ->where('uc.facilitator = :facilitator')
             ->andWhere('uc.courseStatus <> 0')
             ->andWhere('ucu.facilitatorstatus = 0')
-            ->setParameter('facilitator', $userId);
+            ->andWhere('evd.jobId =:empty')
+            ->setParameter('facilitator', $userId)
+            ->setParameter('empty', '');
             $evidences = $qb->getQuery()->getResult();
 
         return $evidences;

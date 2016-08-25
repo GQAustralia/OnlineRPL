@@ -247,9 +247,9 @@ updateNewUserAjax:
 updatepasswordAjax:
     path:     /updatepasswordAjax
     defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax } 
-searchEvidence:
-    path:     /searchEvidence
-    defaults: { _controller: GqAusUserBundle:Evidence:searchEvidence }
+updateJobId:
+    path:     /updateSthreeJobId/{jobId}
+    defaults: { _controller: GqAusUserBundle:Evidence:updateSthreeJobId }
 files:
     path:     /files/{courseCode}/{userId}
     defaults: { _controller: GqAusUserBundle:File:view, courseCode: null, userId: null  }

@@ -648,26 +648,6 @@ class EvidenceService
         return $evidenceList;
     }
 
-    /**
-     * Function to get pendign applicant evidence files
-     * @param int $userId
-     */
-    public function getPendingApplicantEvidences($user)
-    {
-        $userId = $user->getId();        
-        $qb = $this->em->createQueryBuilder()
-            ->select('evd')
-            ->from('GqAusUserBundle:UserCourses', 'uc')
-            ->leftJoin('GqAusUserBundle:Evidence','evd','WITH','uc.user=evd.user and evd.course = uc.courseCode')
-            ->leftJoin('GqAusUserBundle:UserCourseUnits', 'ucu','WITH','evd.user = ucu.user and evd.course = ucu.courseCode and evd.unit = ucu.unitId')
-            ->where('uc.facilitator = :facilitator')
-            ->andWhere('uc.courseStatus <> 0')
-            ->andWhere('ucu.facilitatorstatus = 0')
-            ->setParameter('facilitator', $userId);
-            $evidences = $qb->getQuery()->getResult();
-
-        return $evidences;
-    }
       /**
      * Function to get elective units
      * @param int $userId
@@ -679,5 +659,24 @@ class EvidenceService
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
         $evidences = $reposObj->findBy(array('user' => $userId, 'unit' => $unitId, 'course' => $courseCode));
         return $evidences;
+    }
+    
+    /**
+     * Function to get elective units
+     * @param int $userId
+     * @param int $unitId
+     * return array
+     */
+    public function updateSthreeJobId($jobId)
+    {
+        $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->findOneBy(array('jobId' => $jobId));
+        if (!empty($evdObj)) {
+            $evdObj->setJobId('');
+            $this->em->persist($evdObj);
+            $this->em->flush();
+            return true;
+        } else {
+            return false;
+        }
     }
 }
