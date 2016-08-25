@@ -169,6 +169,7 @@ class EvidenceService
         }
         $fileObj->setPath($filName);
         $fileObj->setName($fileInfo['name']);
+        $fileObj->setJobId('');
         $fileObj->setUser($this->currentUser);
         $fileObj->setSize($size);
         if(isset($otherInfo['hid_unit'])) // null value added for unmapped file upload
