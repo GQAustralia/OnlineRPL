@@ -3598,6 +3598,17 @@ class UserService
             $allRcrds[$i]['userName'] = !empty($user) ? $user->getUsername() : '';
         }
         return $allRcrds;
-    }      
+    } 
+    /**
+     * Function to get the NO of issued qualifications 
+     * @param integer $userId 
+     * return integer
+     */
+    public function getNoofQualifications($userId)
+    {
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('rto' => $userId, 'courseStatus' => '0'));
+        $result = !empty($courseUnitObj) ? count($courseUnitObj) : 0;        
+        return $result;
+    }
 
 }
