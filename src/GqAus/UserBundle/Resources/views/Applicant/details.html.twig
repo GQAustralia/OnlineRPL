@@ -106,9 +106,11 @@
                                                 <h4 class="panel-title">Notes <span class="count">({{notes|length + notesFromCourse|length}})</span></h4>
                                             </div>
                                             {% for note in notes %} 
+                                                {% set notecrted = (note.type =='f') ? facilitatorName : assessorName  %}
+                                                {% set notecrtedImg = (note.type =='f') ? facilitatorImage : assessorImage%}
                                                 <div class="panel-content">
-                                                    <img src="{% if userImage %}{{ userImage }}{% endif %}" class="profile-img">
-                                                    <span><strong>{{note.userName}}</strong></span>
+                                                    <img src="{% if notecrtedImg %} {{ notecrtedImg }} {% endif %}" class="profile-img">
+                                                    <span><strong>{{notecrted}}</strong></span>
                                                     <span class="date-time">
                                                         <span class="date">{{ note.created|date('m/d/y')}}</span>
                                                         <span class="date"> - </span>
@@ -336,6 +338,7 @@
                                                 <div class="data_section">
                                                     <textarea rows="3" placeholder="Notes" id="note-msg" name="note-msg"></textarea>
                                                     <input type="hidden" name="courseId" id="courseId" value="{% if coursePrimaryId >0 %}{{coursePrimaryId}}{% endif %}">
+                                                    <input type="hidden" name="noteType" id="noteType" value="{% if ('ROLE_FACILITATOR' in userRole)%}f{%else%}a{%endif%}">
                                                     <div class="date_section clearfix note-msg-inner"></div>
                                                 </div>
                                                 <button type="button" class="btn_red" id="courseUnitNote" name="courseUnitNote">Send</button>

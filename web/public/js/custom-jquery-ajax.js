@@ -109,7 +109,7 @@ $("#disapproveyes").click(function () {
 $("#courseUnitNote").click(function(){
     var noteMsg = $('#note-msg').val();
     var courseId = $('#courseId').val();
-    var noteType = 'f';
+    var noteType = $('#noteType').val();
     if (noteMsg === '') {
         $('#note-msg').focus();
         $('#note-msg').css("border","1px solid red");
