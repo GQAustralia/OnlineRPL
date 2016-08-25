@@ -2574,7 +2574,7 @@ class UserService
             '11' => array('status' => 'Competency Conversation Booked', 'order' => 10, 'Factive' => 1, 'Aactive' => 0),
             '12' => array('status' => 'Competency Conversation Completed', 'order' => 11, 'Factive' => 0, 'Aactive' => 1),
             '13' => array('status' => 'Gap Training Required', 'order' => 12, 'Factive' => 0, 'Aactive' => 1),
-            '3' => array('status' => 'Assessment Results Recived C', 'order' => 13, 'Factive' => 0, 'Aactive' => 1),
+            '3' => array('status' => 'Assessment Results Received C', 'order' => 13, 'Factive' => 0, 'Aactive' => 1),
             '14' => array('status' => 'Assessment Feedback Required NYC', 'order' => 14, 'Factive' => 0, 'Aactive' => 1),
             '15' => array('status' => 'Portfolio Submitted To RTO', 'order' => 15, 'Factive' => 1, 'Aactive' => 0),
             '16' => array('status' => 'Certificate Received By GQ', 'order' => 16, 'Factive' => 0, 'Aactive' => 0),
@@ -3457,8 +3457,7 @@ class UserService
                                 if($approvalStatus != 0){
                                     $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
                                 }
-                            }
-                                
+                            }   
                         }
                     break;
                 case 'ROLE_ASSESSOR' :
