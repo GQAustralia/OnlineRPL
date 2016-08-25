@@ -44,11 +44,11 @@ class MessageController extends Controller
             //For reply mails thread
             $replyId = $this->getRequest()->get('reply_id');
             if(($mid !="compose" && $mid !="usernamesbyRoles")  ||  $replyId != "") {
-                $messageService->setReadViewStatus($mid);
                if($replyId != "") {
                     $newmid = $mid;
                     $mid = $replyId;
                 }
+                $messageService->setReadViewStatus($mid);
                 $referer = $this->getRequest()->headers->get('referer');
                 $path = $this->container->getParameter('applicationUrl');
                 $lastPath = str_replace($path, '', $referer); 

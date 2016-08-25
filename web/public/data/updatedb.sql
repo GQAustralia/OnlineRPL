@@ -32,3 +32,6 @@ ALTER TABLE `user_course_units` ADD `issubmitted` INT(2) NULL DEFAULT NULL AFTER
 
 -- reminder view status
 ALTER TABLE `reminder` ADD `reminder_view_status` ENUM('0','1') NOT NULL DEFAULT '0' AFTER `reminder_type_id`;
+
+-- transcoder job id
+ALTER TABLE `evidence` ADD `job_id` VARCHAR(100) NOT NULL AFTER `course_code`;
