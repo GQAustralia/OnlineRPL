@@ -18,6 +18,7 @@
     {% set electiveUnits = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'elective') %} 
     {% set totalReqUnits = courses_service.getReqUnitsForCourseByCourseId(courseInfo.id)%}
     {% set statusOfUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id) %} 
+    {% set readStatus = user_service.updateReadStatus(courseInfo.id, userId, userRole[0])%}
     {% set facProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : facilitatorName %}
     {% set facVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
     {% set assProName = ('ROLE_ASSESSOR' in userRole) ? 'You ' : assessorName %}

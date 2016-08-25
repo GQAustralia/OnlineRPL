@@ -3599,6 +3599,33 @@ class UserService
             $allRcrds[$i]['userName'] = !empty($user) ? $user->getUsername() : '';
         }
         return $allRcrds;
-    }      
-
+    }   
+    /**
+     * Function to update the read status for facilitator & assessor & RTO 
+     * @param type $courseCode
+     * @param type $applicantId
+     * @param type $userRole
+     */
+    public function updateReadStatus($courseCode, $userId, $userRole)
+    {   
+        $status = '1';
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId, 'courseCode' => $courseCode));  
+        if (!empty($courseObj)) {
+            switch ($userRole) {
+                case 'ROLE_FACILITATOR':
+                    $courseObj->setFacilitatorread($status);
+                    break;
+                case 'ROLE_ASSESSOR':
+                    $courseObj->setAssessorread($status);
+                    break;
+                case 'ROLE_RTO':
+                    $courseObj->setRtoread($status);
+                    break;
+            }
+            $this->em->persist($courseObj);
+            $this->em->flush();
+            return true;
+        }
+        return false;
+    }
 }

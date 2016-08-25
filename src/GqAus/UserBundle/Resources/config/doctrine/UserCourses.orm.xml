@@ -13,6 +13,9 @@
         <field name="facilitatorstatus" type="integer" column="facilitator_status"/>
         <field name="assessorstatus" type="integer" column="assessor_status"/>
         <field name="rtostatus" type="integer" column="rto_status"/>
+        <field name="facilitatorread" type="integer" column="f_read"/>
+        <field name="assessorread" type="integer" column="a_read"/>
+        <field name="rtoread" type="integer" column="r_read"/>
         <field name="facilitatorDate" type="string" column="facilitator_date"/>
         <field name="assessorDate" type="string" column="assessor_date"/>
         <field name="rtoDate" type="string" column="rto_date"/>

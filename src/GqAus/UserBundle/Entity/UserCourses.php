@@ -436,6 +436,87 @@ class UserCourses
     {
         return $this->rtostatus;
     }
+    /**
+     * @var integer
+     */
+    private $facilitatorread;
+
+    /**
+     * @var integer
+     */
+    private $assessorread;
+
+    /**
+     * @var integer
+     */
+    private $rtoread;
+    
+    /**
+     * Set facilitatorread
+     *
+     * @param integer $facilitatorread
+     * @return UserCourses
+     */
+    public function setFacilitatorread($facilitatorread)
+    {
+        $this->facilitatorread = $facilitatorread;
+
+        return $this;
+    }
+
+    /**
+     * Get facilitatorread
+     *
+     * @return integer 
+     */
+    public function getFacilitatorread()
+    {
+        return $this->facilitatorread;
+    }
+    /**
+     * Set assessorread
+     *
+     * @param integer $assessorread
+     * @return UserCourses
+     */
+    public function setAssessorread($assessorread)
+    {
+        $this->assessorread = $assessorread;
+
+        return $this;
+    }
+
+    /**
+     * Get assessorread
+     *
+     * @return integer 
+     */
+    public function getAssessorread()
+    {
+        return $this->assessorread;
+    }
+    /**
+     * Set rtoread
+     *
+     * @param integer $rtoread
+     * @return UserCourses
+     */
+    public function setRtoread($rtoread)
+    {
+        $this->rtoread = $rtoread;
+
+        return $this;
+    }
+
+    /**
+     * Get rtoread
+     *
+     * @return integer 
+     */
+    public function getRtoread()
+    {
+        return $this->rtoread;
+    }
 
     /**
      * @var \DateTime
