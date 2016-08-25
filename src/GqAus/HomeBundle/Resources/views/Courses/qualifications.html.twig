@@ -18,6 +18,7 @@
 {% for key, courses in userCourses %} 
     {% set userRole = app.security.getToken().getUser().getRoles() %}
     {% set userId = app.security.getToken().getUser().getId() %} 
+    {% set userId = app.security.getToken().getUser().getId() %} 
     {% set flagCurrent = '1' %}
 {#{% if courses.courseStatus !=0 %}#}
 
@@ -167,7 +168,7 @@
             </a>
     </div>
     </div>                
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7"> 
+    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7"> 
     <div class="accordion panel-group">
     {% set i = 1 %}           
     {% set coreUnitsCount = courses_service.getCoreElectiveUnitsCount(userId,courseCode,'core') %}    
@@ -234,7 +235,7 @@
         
         {% if courseInfo.courseInfo.Units.Elective.validation is defined and  courseInfo.courseInfo.Units.Elective.validation%}    
    
-            {% if courseInfo.courseInfo.Units.Elective.validation.type is defined and  courseInfo.courseInfo.Units.Elective.validation.type == "Count"%}
+            {% if courseInfo.courseInfo.Units.Elective.validation.type is defined %}
                 {% if courseInfo.courseInfo.Units.Elective.validation.requirement is defined and courseInfo.courseInfo.Units.Elective.validation.requirement %}
                     {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}      
                         {% set totalCheckedCount = courses_service.getElectiveCheckedValues(userId,courseCode) %}           
@@ -250,7 +251,7 @@
         <input type="hidden" name="chkboxCount" id="chkboxCount" value="{{electiveUnitCountRequired}}">
             
     <div class="panel panel-default">
-    <div class="panel-heading"  id='strip_{{courseCode}}' {% if totalCheckedCount >= electiveUnitCountRequired%} style="background-color:red" {% else %}{% endif %}>
+    <div class="panel-heading"  id='strip_{{courseCode}}' {% if totalCheckedCount >= electiveUnitCountRequired%} style="background-color:#E01010" {% else %}{% endif %}>
     <h4 class="panel-title">
         <span>{{electiveUnitsCount}} ELECTIVE UNITS -  {% if electiveSubmitted > 1 and electiveRemaining < electiveUnitCountRequired %} <strong>{{electiveRemaining}} REMAINING </strong> {% elseif electiveSubmitted == 0 %} Choose {{electiveUnitCountRequired}} {% else %} {% endif %}</span>
         <a aria-expanded="false" data-toggle="collapse" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}"><i class="material-icons edit">edit</i></a>
@@ -260,11 +261,19 @@
     </h4>       
         
         {% if totalCheckedCount >= electiveUnitCountRequired%}
-                <a id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='show'><i class="material-icons edit">edit</i></a>
-                <button type="button" class="btn btn-warning show" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}')">DONE</button>
+
+                <div class="course-edit show"  id="course-btn-container-{{courseCode}}">
+					<a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show'><i class="material-icons edit">edit</i></a>
+					<button type="button" class="btn user-show" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
+				</div>
+
         {% else %}
-                 <a id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='hide'><i class="material-icons edit">edit</i></a>
-                <button type="button" class="btn btn-warning hide" id="btn-done-{{courseCode}}">DONE</button>
+                 <!--<a id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='hide'><i class="material-icons edit">edit</i></a>
+                <button type="button" class="btn btn-warning hide" id="btn-done-{{courseCode}}">DONE</button>-->
+				<div class="course-edit hide" id="course-btn-container-{{courseCode}}">
+					<a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show'><i class="material-icons edit">edit</i></a>
+					<button type="button" class="btn user-show" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
+				</div>
         {% endif %}
     </div>
     <div aria-expanded="false" id="nested-collapseSTR-{{courseCode}}" class="panel-collapse collapse {% if totalCheckedCount >= electiveUnitCountRequired %} in {% endif %}">
@@ -322,19 +331,19 @@
                     <input  name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{units.id}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
                      
             </div>
-            <div class="arrow_ding show">
+            <div class="user-redirect-arrow">
                 <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
-                                               <i class="material-icons">chevron_right</i>
-                 </a>
+					<i class="material-icons">chevron_right</i>
+                </a>
             </div>
             {% else %}
                     <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
                     <input  name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{units.id}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
                      
             </div>
-            <div class="arrow_ding hide">
+            <div class="user-redirect-arrow hide">
                 <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
-                                               <i class="material-icons">chevron_right</i>
+				<i class="material-icons">chevron_right</i>
                  </a>
             </div>
             {% endif %}

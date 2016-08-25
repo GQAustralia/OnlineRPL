@@ -162,43 +162,49 @@ $(".changeUnitStatus").click(function() {
             } 
             if( count >= countElectiveUnits)
             {
-                $("#btn-done-"+courseCode).removeClass('btn btn-warning hide').addClass("btn btn-warning show");
+                //$("#btn-done-"+courseCode).removeClass('btn btn-warning hide').addClass("btn btn-warning show");
+				 //$("#btn-done-"+courseCode).removeClass('course-edit hide').addClass('course-edit show');
+				  $("#course-btn-container-"+courseCode).removeClass('course-edit show').addClass('course-edit show');
+				
                 $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse').addClass("panel-collapse collapse in");
                
                 
-                 $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').each(function(){
+                 $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').each(function(){
                         $(this).removeClass('hide');
-                        $(this).addClass('show');
+                        $(this).addClass('edit-show');
              });
                  
-                 $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').prev().each(function(){
+                 $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').prev().each(function(){
                       $(this).addClass('hide');
-                        $(this).removeClass('show');
+                        $(this).removeClass('edit-show');
                  });
                
-                  $("#strip_"+courseCode).css("background-color", "#CB1212");
+                  $("#strip_"+courseCode).css("background-color", "#E01010");
                 //  $("#edit_"+courseCode).addClass('show');
                     $("#edit_"+courseCode).removeClass('hide');
                  $("#edit_"+courseCode).addClass('show');
             }
             else
             {
-                $("#btn-done-" + courseCode).removeClass('btn btn-warning show').addClass("btn btn-warning hide");
+                //$("#btn-done-" + courseCode).removeClass('btn btn-warning show').addClass("btn btn-warning hide");
+				 //$("#btn-done-"+courseCode).removeClass('course-edit show').addClass('course-edit hide');
+				 $("#course-btn-container-"+courseCode).removeClass('course-edit show').addClass('course-edit hide');
+				 
                 $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse in').addClass("panel-collapse collapse");
                 $("#strip_"+courseCode).removeAttr("style");
                 //   $("#strip_"+courseCode).css('');
                
-                $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').each(function(){
-                        $(this).removeClass('show');
+                $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').each(function(){
+                        $(this).removeClass('edit-show');
                         $(this).addClass('hide');
              });
                  
-                 $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').prev().each(function(){
-                      $(this).addClass('show');
+                 $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').prev().each(function(){
+                      $(this).addClass('edit-show');
                         $(this).removeClass('hide');
                  });
-                   $("#edit_"+courseCode).removeClass('show');
-                 $("#edit_"+courseCode).addClass('hide');
+                   //$("#edit_"+courseCode).removeClass('show');
+                 //$("#edit_"+courseCode).addClass('hide');
                  
             }
             $(".qual_status_loader").hide();
@@ -3029,26 +3035,28 @@ function setUnitId(id)
 }
 
 function convertToEdit(courseCode)
-{    
-      $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').each(function(){
-                        $(this).removeClass('show');
+{
+    
+      $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').each(function(){
+                        $(this).removeClass('edit-show');
                         $(this).addClass('hide');
              });
                  
-                 $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').prev().each(function(){
-                      $(this).addClass('show');
+                 $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').prev().each(function(){
+                      $(this).addClass('edit-show');
                         $(this).removeClass('hide');
                  });
 }
 function convertToCheck(courseCode)
-{    
-      $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').each(function(){
+{
+    
+      $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').each(function(){
                         $(this).removeClass('hide');
-                        $(this).addClass('show');
+                        $(this).addClass('edit-show');
              });
                  
-                 $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').prev().each(function(){
+                 $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').prev().each(function(){
                       $(this).addClass('hide');
-                        $(this).removeClass('show');
+                        $(this).removeClass('edit-show');
                  });
 }
