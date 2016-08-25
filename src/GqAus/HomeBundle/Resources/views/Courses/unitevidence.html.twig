@@ -131,7 +131,8 @@
                                          {% endif %}
                                         {% endfor%}
                                             
-                                            <textarea id="selfassnote" name="selfassnote" >{{selfAsseNote}}</textarea>                                            
+                                            <textarea id="selfassnote" name="selfassnote" >{{selfAsseNote}}</textarea>    
+                                             <div class="panel-body" id = "myWordCount"></div>
                                         </div>
                                 </div>                                        
                             </div>
@@ -400,6 +401,13 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('.fancybox').fancybox();
+             var orig_words = $('#selfassnote').val().split(/\s+/).length;
+            $('#myWordCount').text(orig_words+"/50 words ");
+            $('#selfassnote').on('keyup', function(){
+                // count words by whitespace
+                var words = $(this).val().split(/\s+/).length;
+                $('#myWordCount').text(words+"/50 words ");
+            });
         });
     </script>    
  {% endblock %}

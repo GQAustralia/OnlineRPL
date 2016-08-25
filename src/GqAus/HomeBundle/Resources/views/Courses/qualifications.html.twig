@@ -202,7 +202,7 @@
                                        <div class="panle_body_content">
                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}
-                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}                                           
+                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.issubmitted is defined%}{%if currUnitStatus.issubmitted == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}                                           
                                                <p> <span class="tag-id">{{units.id}}</span> </p>
                                                <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                        </div>
@@ -261,7 +261,7 @@
         
         {% if totalCheckedCount >= electiveUnitCountRequired%}
                 <a id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='show'><i class="material-icons edit">edit</i></a>
-                <button type="button" class="btn btn-warning show" id="btn-done-{{courseCode}}">DONE</button>
+                <button type="button" class="btn btn-warning show" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}')">DONE</button>
         {% else %}
                  <a id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='hide'><i class="material-icons edit">edit</i></a>
                 <button type="button" class="btn btn-warning hide" id="btn-done-{{courseCode}}">DONE</button>

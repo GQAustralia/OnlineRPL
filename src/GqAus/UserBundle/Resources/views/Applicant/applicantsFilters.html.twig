@@ -1,23 +1,23 @@
 <thead>
     <tr>
-        <th ><span class="">NAME</span></th>
-        <th {% if ('ROLE_RTO' in userRole) %}  {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} {% else %}  {% endif %} ><span class="">QUALIFICATION</span></th>
+        <th class="sort" data-sort="firstName"><span class="">NAME</span></th>
+        <th class="sort" data-sort="qualification" {% if ('ROLE_RTO' in userRole) %}  {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} {% else %}  {% endif %}  class="sort" data-sort="qualification"><span class="">QUALIFICATION</span></th>
         
        
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-        <th ><span class="">Evidence</span></th>        
+        <th class="sort" data-sort="evidence"><span class="">Evidence</span></th>        
          {% endif %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole)  or ('ROLE_RTO' in userRole)%}
-        <th class="sort-by"><span class="">DAYS LEFT</span></th>
+        <th class="sort" data-sort="daysleft"><span class="">DAYS LEFT</span></th>
         {% endif %}
         {% if ('ROLE_RTO' not in userRole) %}
-        <th><span class=""> Status </span></th>        
+        <th class="sort" data-sort="status"><span class=""> Status </span></th>        
         {% endif %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-        <th ><span class="">To Do</span></th>
+        <th><span class="">To Do</span></th>
         {% endif %}
         {% if ('ROLE_MANAGER' in userRole)%}
-        <th ><span class="">Assign</span></th>
+        <th><span class="">Assign</span></th>
         {% endif %}
     </tr>
 </thead>

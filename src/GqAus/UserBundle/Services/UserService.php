@@ -625,7 +625,19 @@ class UserService
         $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
         /* Pagination */
         $applicantList = $res->getQuery()->getResult();
-
+       //dump($applicantList);exit;
+        for($i=0;$i<count($applicantList);$i++)
+        {
+           
+            $userId     =  $applicantList[$i]->getUser()->getId();
+            $courseCode = $applicantList[$i]->getCourseCode();
+           
+         
+           $ldays =  $this->getDaysRemainingFromRole($userId,$courseCode, $userRole[0]);
+          
+           $applicantList[$i]->leftdays = $ldays;
+           
+        }
         return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
     }
     
@@ -3291,8 +3303,8 @@ class UserService
      * return string
      */
 	public function getDaysRemainingFromRole($userId, $courseCode, $userRole)
-    {          
-	$courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId,'courseCode' => $courseCode));
+        {  
+	$courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId, 'courseCode' => $courseCode));            
         $createdDate = $courseObj->getCreatedOn();
         $targetDate = $courseObj->getTargetDate();
         $facDate =  $courseObj->getFacilitatorDate();
@@ -3658,6 +3670,7 @@ class UserService
             $allRcrds[$i]['userName'] = !empty($user) ? $user->getUsername() : '';
         }
         return $allRcrds;
+
     }   
     /**
      * Function to update the read status for facilitator & assessor & RTO 
@@ -3687,4 +3700,19 @@ class UserService
         }
         return false;
     }
+
+     
+    /**
+     * Function to get the NO of issued qualifications 
+     * @param integer $userId 
+     * return integer
+     */
+    public function getNoofQualifications($userId)
+    {
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('rto' => $userId, 'courseStatus' => '0'));
+        $result = !empty($courseUnitObj) ? count($courseUnitObj) : 0;        
+        return $result;
+    }
+
+
 }

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     /* header menu js starts*/
     var menuEle=null;
         var isShow=false;
@@ -29,6 +30,7 @@ $(document).ready(function(){
         };
     
     /* header menu js ends*/
+
         
     /* Candidate Details */
 	 

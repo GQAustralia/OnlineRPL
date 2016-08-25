@@ -22,7 +22,7 @@
                                     
                                         <span class="chat_pic">
                                             
-											 <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+					 <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
                                         </span>
                                         <span class="chat_content">
                                             <span class="chat_name">
@@ -101,10 +101,12 @@
             {%set i = 0%}
             {% for message in replymsgarr %}  
             {% if i == 0 %} {% set userSubject = message.message.subject %}{% endif %}
+            {% if userSubject|length > 15 %}
+                      {% set userSubject = userSubject|raw[:15] %}{% endif %}                                        
             {%set i = i+1 %}
             {% endfor %}
         <div class="mail_compose_section hidden-xs">
-                <div class="title_bar">{{userSubject}}
+                <div class="title_bar">  {{ userSubject }}
                         <span><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
                 </div>
                 <div class="chat_room"> 
