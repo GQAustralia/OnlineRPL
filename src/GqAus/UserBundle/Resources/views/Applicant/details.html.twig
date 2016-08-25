@@ -18,6 +18,7 @@
     {% set electiveUnits = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'elective') %} 
     {% set totalReqUnits = courses_service.getReqUnitsForCourseByCourseId(courseInfo.id)%}
     {% set statusOfUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id) %} 
+    {% set getIssubmitStatus = courses_service.getOneUnitStatus(userId, courseInfo.id)%}
     {% set readStatus = user_service.updateReadStatus(courseInfo.id, userId, userRole[0])%}
     {% set facProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : facilitatorName %}
     {% set facVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
@@ -206,7 +207,25 @@
                                                     {% endif %}
                                                     {% for statusId, statusData in statusList %}
                                                        {% if ('ROLE_FACILITATOR' in userRole or statusData[roleAcess] == 1) %}
-                    <option value="{{statusId}}" {% if courseStatus == statusId %} {{ "selected" }} {% else %} {{ "" }} {% endif %} {% if statusData[roleAcess] == 0 %} {{ "disabled" }} {% elseif ((assessorstatus == 1) and (statusData['order'] < courseStatus) and ('ROLE_FACILITATOR' in userRole) ) %} {{ "disabled" }} {% elseif ((rtostatus == 1) and (statusData['order'] < courseStatus) and ('ROLE_FACILITATOR' in userRole) ) %} {{ "disabled" }} {% else %} {{ "" }} {% endif %}>{{statusData['status']}}</option>
+                    <option value="{{statusId}}" 
+                                {% if courseStatus == statusId %} 
+                                    {{ "selected" }} 
+                                {% else %} 
+                                    {{ "" }} 
+                                {% endif %} 
+                                {% if statusData[roleAcess] == 0 %} 
+                                    {{ "disabled" }} 
+                                {% elseif ((assessorstatus == 1) and (statusData['order'] < courseStatus) and ('ROLE_FACILITATOR' in userRole) ) %} 
+                                    {{ "disabled" }} 
+                                {% elseif ((rtostatus == 1) and (statusData['order'] < courseStatus) and ('ROLE_FACILITATOR' in userRole) ) %} 
+                                    {{ "disabled" }} 
+                                {% else %} 
+                                    {{ "" }} 
+                                {% endif %}
+                                {% if (statusId == '5' or statusId == '6' or statusId == '7') and getIssubmitStatus == '0'  %}{{ "disabled" }}{%endif%}
+                                {% if (statusId == '9') and getIssubmitStatus != totalReqUnits  %}{{ "disabled" }}{%endif%}
+                                {% if (statusId == '2') and (currentIdPoints < '100' or statusOfUnitsCount != totalReqUnits)  %}{{"disabled"}}{%endif%}
+                            >{{statusData['status']}}</option>
                                                        {% endif %}
                                                     {% endfor %}
                                                  {% endif %}
