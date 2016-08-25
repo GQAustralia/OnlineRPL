@@ -261,7 +261,7 @@
         
         {% if totalCheckedCount >= electiveUnitCountRequired%}
                 <a id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='show'><i class="material-icons edit">edit</i></a>
-                <button type="button" class="btn btn-warning show" id="btn-done-{{courseCode}}">DONE</button>
+                <button type="button" class="btn btn-warning show" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}')">DONE</button>
         {% else %}
                  <a id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='hide'><i class="material-icons edit">edit</i></a>
                 <button type="button" class="btn btn-warning hide" id="btn-done-{{courseCode}}">DONE</button>

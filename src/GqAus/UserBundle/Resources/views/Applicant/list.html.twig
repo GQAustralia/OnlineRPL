@@ -6,8 +6,44 @@
       {% if ('ROLE_MANAGER' not in userRole[0]) and ('ROLE_SUPERADMIN' not in userRole[0]) %}
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">  
     {% else %}
-     <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}"> 
+     <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}">      
      {% endif %}
+<style>
+    .sort:after {
+        display:inline-block;
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        content:"";
+        position: relative;
+        top:-10px;
+        right:-5px;
+    }
+    .sort.asc:after {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #000;
+        content:"";
+        position: relative;
+        top:4px;
+        right:-5px;
+    }
+    .sort.desc:after {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid #000;
+        content:"";
+        position: relative;
+        top:-4px;
+        right:-5px;
+    }
+</style>
 {% endblock %}
 {% block body %}
 
@@ -105,10 +141,17 @@
                     <div class="portfolio-data-table">                                
                         <table class="table" id="myTable">
                           {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
-                            <tbody id="currentList">
+                            <tbody class="list" id="currentList">
                                 {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
-                            </tbody>
-                            
+                             </tbody>
+                            <tfooter>
+                                <tr>
+                                    <td class="gq-pagination-area">
+                                        {# display navigation for pages - paginator_navigator #}        
+                                      {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                                    </td>
+                                </tr>
+                            </tfooter>
                         </table>
                     </div>
                 </div>
@@ -118,13 +161,13 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th style="width:20%"><span class="">NAME</span></th>
-                                    <th ><span class="">QUALIFICATION</span></th> 
+                                    <th style="width:20%" class="sort" data-sort="name"><span class="">NAME</span></th>
+                                    <th class="sort" data-sort="qualification"><span class="">QUALIFICATION</span></th> 
                                 </tr>
                             </thead>
-                            <tbody id="completedList">                                
+                            <tbody class="list" id="completedList">                                
                                 {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
-                            </tbody>
+                            </tbody>                             
                         </table>
                     </div>
                 </div>
@@ -140,7 +183,7 @@
 {% endblock %}
 
 {% block javascripts %}        
-    <script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>
+    {#<script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {            
         $('#myTable').DataTable( {
@@ -154,6 +197,16 @@
                 } );
             
         });
-   </script>  
-  
+   </script>#}  
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+   <script type="text/javascript" src="{{ asset('public/js/list.min.js') }}"></script>
+   <script type="text/javascript">
+       var options = {
+        valueNames: [ 'firstName','qualification', 'evidence','daysleft','status']
+        };
+        var currentList = new List('current', options);
+            var optionstatus = {
+                valueNames: [ 'firstName','qualification', 'evidence','daysleft','status']
+            };           
+   </script>
 {% endblock %}

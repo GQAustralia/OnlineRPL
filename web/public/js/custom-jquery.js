@@ -1226,6 +1226,7 @@ $(".search-box-mobile").keypress(function () {
 });
 function loadApplicantList(divContent,pagenum)
 {
+    
     searchName = $('#searchName').val();
  //   searchTime = $('#timeRemaining').val();
     filterByUser = $('#filterByUser').val();
@@ -1236,9 +1237,6 @@ function loadApplicantList(divContent,pagenum)
         cache: false,
         data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
         success: function(result) { 
-           // $("#filter-by-name").hide();
-           // $("#filter-by-week").hide();
-           // $("#app-pending-approve").hide();          
             $('#'+divContent).html(result);
         }
     });
@@ -3030,8 +3028,7 @@ function setUnitId(id)
 }
 
 function convertToEdit(courseCode)
-{
-    alert(courseCode);
+{    
       $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').each(function(){
                         $(this).removeClass('show');
                         $(this).addClass('hide');
@@ -3040,5 +3037,17 @@ function convertToEdit(courseCode)
                  $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').prev().each(function(){
                       $(this).addClass('show');
                         $(this).removeClass('hide');
+                 });
+}
+function convertToCheck(courseCode)
+{    
+      $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').each(function(){
+                        $(this).removeClass('hide');
+                        $(this).addClass('show');
+             });
+                 
+                 $('#nested-collapseSTR-'+courseCode).find('div.arrow_ding').prev().each(function(){
+                      $(this).addClass('hide');
+                        $(this).removeClass('show');
                  });
 }

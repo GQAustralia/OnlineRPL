@@ -32,8 +32,14 @@
         {% set userRole = app.security.getToken().getUser().getRoles() %}
         {% set userId = app.security.getToken().getUser().getId() %}
         <!-- DESKTOP VERSION -->
-        {% include 'GqAusUserBundle:User:user.html.twig' %}
-        {% include 'GqAusUserBundle:User:idfiles.html.twig' %}
+        <div class="hidden-md hidden-lg">
+            {% include 'GqAusUserBundle:User:idfiles.html.twig' %}
+            {% include 'GqAusUserBundle:User:user.html.twig' %}
+        </div>
+         <div class="hidden-sm col-lg-12">
+            {% include 'GqAusUserBundle:User:user.html.twig' %}
+            {% include 'GqAusUserBundle:User:idfiles.html.twig' %}
+        </div>
         <!-- DESKTOP VERSION -->
         </div>
     </div>
