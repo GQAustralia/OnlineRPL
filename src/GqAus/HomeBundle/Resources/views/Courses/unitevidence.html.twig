@@ -132,8 +132,7 @@
                                         {% endfor%}
                                             
                                             <textarea id="selfassnote" name="selfassnote" >{{selfAsseNote}}</textarea>    
-                                             <div class="char-count" id = "myWordCount"></div>
-                                             char-count
+                                             <span class="char-count" id = "myWordCount"></span>                                             
                                         </div>
                                 </div>                                        
                             </div>
@@ -403,11 +402,11 @@
         $(document).ready(function() {
             $('.fancybox').fancybox();
              var orig_words = $('#selfassnote').val().split(/\s+/).length;
-            $('#myWordCount').text(orig_words+"/50 words ");
+            $('#myWordCount').text(orig_words+"/50");
             $('#selfassnote').on('keyup', function(){
                 // count words by whitespace
                 var words = $(this).val().split(/\s+/).length;
-                $('#myWordCount').text(words+"/50 words ");
+                $('#myWordCount').text(words+"/50");
             });
         });
     </script>    

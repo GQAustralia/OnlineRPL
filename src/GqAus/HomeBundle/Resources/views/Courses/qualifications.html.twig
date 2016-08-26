@@ -33,13 +33,14 @@
                 <div class="col-sm-12 col-lg-11">
                     <p>
                         <span> {{ courses.getCourseName() }}</span>
+                         {% if courses|length > 1 %}
                         <span data-toggle="collapse" data-target="#collapse-{{courseCode}}">{{ courses.getCourseCode() }}                            
-                            {% if courses|length > 1 %}
+                           
                             <a href="#">
                                     <i class="material-icons">expand_less</i>
-                            </a>
-                        {% endif %}
+                            </a>                        
                         </span>
+                        {% endif %}
                     </p>
                 </div>
             </div>
