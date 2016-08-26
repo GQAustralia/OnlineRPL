@@ -21,3 +21,17 @@
 		background-color: transparent;
 	}
 }
+.orderby-filetype,
+.orderby-filename,
+.orderby-filesize{
+    cursor: pointer;
+}
+.orderby-filetype{
+}
+.orderby-filename{
+}
+.orderby-filesize{
+}
+.main_container .body_section .evidence_block .titles_block ul li span.orderby-filetype{ padding: 0 0 0 10px }
+.main_container .body_section .evidence_block .titles_block ul li span.sort_section{text-align:left; cursor:pointer}
+.main_container .body_section .evidence_block .titles_block ul li span.sort_section i{font-size: 13px;}
