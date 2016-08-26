@@ -1,6 +1,7 @@
 <div class="hidden-xs col-sm-12 col-md-12 col-lg-6 user_info">                 
         {% set userRole = app.security.getToken().getUser().getRoles() %}
         {% set userId = app.security.getToken().getUser().getId() %}
+    {% if ('ROLE_APPLICANT' in userRole) %}
         <div class="form_block">
                 <div class="title_bar clearfix">
                         <span class="left">YOUR DETAILS</span>
@@ -103,6 +104,7 @@
                         {#<button type="submit" id="userprofile_save" name="userprofile[save]" class="btn update_btn disable" onclick="return validateAddress();">UPDATE</button>#}
                 </div>
         </div>
+{% endif %}
         {{ form_end(form) }}
 
 {#Change Password Model#}
