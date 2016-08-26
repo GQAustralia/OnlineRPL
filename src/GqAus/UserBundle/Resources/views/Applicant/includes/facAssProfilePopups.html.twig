@@ -68,6 +68,23 @@
                             <div class="form-group"><label>Mobile</label><input type="text" readonly="" value="{{assessorPhone}}"></div>
                     </div>
                 </div>
+                {% if (roles[0]=='ROLE_RTO' and assessorId is not empty) %}
+                    <div class="file_info_block">
+                        <div class="content"><h5 class="name">Matrix files</h5></div>
+                       {% set matrixFiles = user_service.fetchOtherFiles(assessorId, 'matrix') %}
+                       {% if matrixFiles %}
+                           {% for item in matrixFiles %}
+                                {% set filesize = evidence_service.fileSize(item.size) %}
+                                <div class="file_info">
+                                     <span class="icon"><i class="material-icons">description</i></span>
+                                     <span class="file-discription">{{ item.name}} <br>{{filesize}} | ADDED {{item.created|date("d/m/y") }}</span>
+                                </div> 
+                            {% endfor %}
+                       {% else %}
+                            <center class="title">No Trainer Matrix are found</center>
+                       {% endif %}
+                    </div>
+                {%endif%}
             </div>
         </div>
     </div>
