@@ -1,5 +1,5 @@
 {% if ('ROLE_APPLICANT' in userRole) %}
-<div class="hidden-xs col-sm-12 col-md-12 col-lg-6">   
+<div class="hidden-xs col-sm-12 col-md-12 col-lg-6 idfiles_info">   
     <div class="" id="idfiles_msg"></div>
      <div class="gq-change-file-warning" id="change_file_error">
         {% for flashMessage in app.session.flashbag.get('errornotice') %}
