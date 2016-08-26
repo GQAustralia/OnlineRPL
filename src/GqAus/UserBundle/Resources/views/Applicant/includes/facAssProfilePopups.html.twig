@@ -76,7 +76,7 @@
                            {% for item in matrixFiles %}
                                 {% set filesize = evidence_service.fileSize(item.size) %}
                                 <div class="file_info">
-                                     <span class="icon"><i class="material-icons">description</i></span>
+                                     <span class="icon"><a class="fancybox" href="{{ amazon_link }}{{ item.path}}"><i class="material-icons">description</i></a></span>
                                      <span class="file-discription">{{ item.name}} <br>{{filesize}} | ADDED {{item.created|date("d/m/y") }}</span>
                                 </div> 
                             {% endfor %}

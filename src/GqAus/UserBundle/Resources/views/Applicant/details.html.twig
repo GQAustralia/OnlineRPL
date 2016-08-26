@@ -2,6 +2,7 @@
 {% block title %}{% if userName %}{{userName}}{% endif %}{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('public/css//bootstrap-datetimepicker.css')}}">
+    <link rel="stylesheet" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualification.css') }}">
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
 {% endblock %}
@@ -431,4 +432,10 @@
 {% block outofbody %}{% include 'GqAusUserBundle:Applicant/includes:facAssProfilePopups.html.twig' %}{% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('public/js/custom-jquery-ajax.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.fancybox').fancybox();
+        });
+    </script>
 {% endblock %}
