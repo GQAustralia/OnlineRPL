@@ -254,20 +254,15 @@
                     {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}      
                         {% set totalCheckedCount = courses_service.getElectiveCheckedValues(userId,courseCode) %}           
             {% set electiveSubmitted = courses_service.getSubmittedElectiveStatus(userId,courseCode,'elective') %}
-            {% set electiveRemaining = electiveUnitCountRequired - electiveSubmitted %}
+            {% set electiveRemaining = electiveUnitCountRequired - totalCheckedCount %}
                 {% endif %}
-            {% endif %}
-            {% if courseInfo.courseInfo.Units.Elective.validation.type is defined and  courseInfo.courseInfo.Units.Elective.validation.type == "Points"%}
-                {% if courseInfo.courseInfo.Units.Elective.validation.requirement is defined and courseInfo.courseInfo.Units.Elective.validation.requirement %}
-                    {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}      
-                {% endif %}
-            {% endif %}       
+            {% endif %}                  
         <input type="hidden" name="chkboxCount" id="chkboxCount" value="{{electiveUnitCountRequired}}">
-            
+           
     <div class="panel panel-default">
     <div class="panel-heading"  id='strip_{{courseCode}}' {% if totalCheckedCount >= electiveUnitCountRequired%} style="background-color:#E01010" {% else %}{% endif %}>
     <h4 class="panel-title">
-        <span>{{electiveUnitsCount}} ELECTIVE UNITS -  {% if electiveSubmitted > 1 and electiveRemaining < electiveUnitCountRequired %} <strong>{{electiveRemaining}} REMAINING </strong> {% elseif electiveSubmitted == 0 %} Choose {{electiveUnitCountRequired}} {% else %} {% endif %}</span>
+        <span>{{electiveUnitsCount}} ELECTIVE UNITS   {% if electiveRemaining < electiveUnitCountRequired %} <strong> - {{electiveRemaining}} REMAINING </strong> {% elseif electiveSubmitted == 0 %} - Choose {{electiveUnitCountRequired}} {% else %} {% endif %}</span>
         <a aria-expanded="false" data-toggle="collapse" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}"><i class="material-icons edit">edit</i></a>
         <a aria-expanded="false" class="btn-accordion collapsed" data-toggle="collapse" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}">
             <i class="material-icons down">keyboard_arrow_down</i>

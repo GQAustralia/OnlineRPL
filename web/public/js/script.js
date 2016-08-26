@@ -195,7 +195,7 @@ $(document).ready(function(){
             event.stopPropagation();
     });
     $(".profile_popup .form-group span").click(function(){
-            $(this).prev().removeAttr('readonly').focus();
+            $(this).prev().removeAttr('readonly').css({cursor: 'text',color: '#000'}).focus();
     });
     
     $("#add_file_txt").click(function(){
