@@ -121,7 +121,7 @@
                                                                         </span>
                                                                         <span class="file_size"></span>
                                                                         <span class="clear">
-                                                                                ADDED {{ evd.created|date("d/m/y") }}
+                                                                                ADDED {{ evd.created|date("d/m/y")|slice(0, 40) }}{% if(evd.content|length > 40) %}...{% endif %}
                                                                         </span>
                                                                         <span class="checkbox_outer">
                                                                                 <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
