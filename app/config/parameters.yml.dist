@@ -2,31 +2,31 @@
 parameters:
     database_driver: pdo_mysql
     database_host: 127.0.0.1
-    database_port: null
-    database_name: gqrpl
-    database_user: root
-    database_password: null
-    mailer_transport: smtp
-    mailer_host: smtp.gmail.com
-    mailer_user: rpl@gqaustralia.com.au
-    mailer_password: Sienna99@
-    mailer_encryption: tls
-    mailer_port: 587
-    mailer_auth_mode: login
+    database_port: ~
+    database_name: ~
+    database_user: ~
+    database_password: ~
+    mailer_transport: ~
+    mailer_host: ~
+    mailer_user: ~
+    mailer_password: ~
+    mailer_encryption: ~
+    mailer_port: ~
+    mailer_auth_mode: ~
     locale: en
     secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
-    applicationUrl: "http://local.gqaupload.com/"
-    amazon_aws_key: AKIAJYBUA7H4EMZHC62A
-    amazon_aws_secret_key: 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
-    amazon_s3_base_url: https://s3.amazonaws.com/rpl-upload.com/
-    amazon_s3_bucket_name: rpl-upload.com
-    apiUrl: "http://api.gqaus.com.au/web/app_dev.php/api/v1/"
-    apiAuthUsername: stgaccess
-    apiAuthPassword: u9FGDU8K
-    maxFileSize: 3115870208
-    fromEmailAddress: rpl@gqaustralia.com.au
-    pagination_limit_page: 10
-    filefield.load_form_template: false
-    tokbox_key: 45206682
-    tokbox_secret_key: 38a2d43587a4aa1c1203f8ffb05d6756579df199
+    applicationUrl: ~
+    amazon_aws_key: ~
+    amazon_aws_secret_key: ~
+    amazon_s3_base_url: ~
+    amazon_s3_bucket_name: ~
+    apiUrl: ~
+    apiAuthUsername: ~
+    apiAuthPassword: ~
+    maxFileSize: ~
+    fromEmailAddress: ~
+    pagination_limit_page: ~
+    filefield.load_form_template: ~
+    tokbox_key: ~
+    tokbox_secret_key: ~
     rto_workspan: 14  #This indicates the 2 weeks (14 days) for RTO finish once it is for them to start the work.
