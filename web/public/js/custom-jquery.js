@@ -1678,6 +1678,26 @@ $("#approve-for-rto").click(function() {
         }
     });
 });
+$("#approve-all-units-from-rto").click(function(){
+    var courseCode = $(this).attr("courseCode");
+    var applicantId = $(this).attr("applicantId");
+    $("#status-message").show();
+    $("#status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
+    $.ajax({
+        type: "POST",
+        url: base_url + "approveAllUnitsFromRTO",
+        async: false,
+        data: {courseCode: courseCode, applicantId: applicantId},
+        success: function(responseText) {
+            var result = jQuery.parseJSON(responseText);
+            if(result.type == 'Error' ) {
+                    $("#status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
+            } else if (result.type == 'Success') {
+                    $("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
+            } 
+        }
+    });
+});
 
 $(".gq-msg-title").children("a").click(function() {
     $(this).parent().parent().parent().addClass('gq-msg-visited');

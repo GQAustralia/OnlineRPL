@@ -145,6 +145,9 @@ subscriber:
 approveForRTO:    
     path:     /approveForRTO
     defaults: { _controller: GqAusUserBundle:Applicant:approveForRTO }
+approveAllUnitsFromRTO:
+    path: /approveAllUnitsFromRTO
+    defaults: { _controller: GqAusUserBundle:Applicant:approveAllUnitsFromRTO }
 reports:
     path:     /reports
     defaults: { _controller: GqAusUserBundle:Applicant:reports }
