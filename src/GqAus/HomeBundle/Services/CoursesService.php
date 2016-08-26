@@ -658,6 +658,8 @@ class CoursesService
                             $reposUnitObj->setFacilitatorstatus('0');
                             $reposUnitObj->setAssessorstatus('0');
                             $reposUnitObj->setRtostatus('0');
+                            $reposUnitObj->setElectiveStatus('0');
+                            $reposUnitObj->SetIssubmitted('0');
                             $this->em->persist($reposUnitObj);
                             $this->em->flush();
                         }//if
