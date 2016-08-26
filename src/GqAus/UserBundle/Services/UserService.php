@@ -454,51 +454,63 @@ class UserService
         if ($result['status'] == '1') {
             $evidenceStatus = 'Approved';
         } else if ($result['status'] == '2') {
+            $resetStatus = 0;
+            switch ($result['userRole']) {
+               case 'ROLE_FACILITATOR':
+                    $courseUnitObj->setFacilitatorstatus($resetStatus);
+                    $courseUnitObj->setIssubmitted($resetStatus);
+                    $courseObj->setCourseStatus('1');
+                    break;
+                case 'ROLE_ASSESSOR':
+                    $courseUnitObj->setAssessorstatus($resetStatus);
+                    $courseUnitObj->setFacilitatorstatus($resetStatus);
+                    $courseUnitObj->setIssubmitted($resetStatus);
+                    $courseObj->setCourseStatus('1');
+                    $courseObj->setFacilitatorstatus($resetStatus);
+                    break;
+                case 'ROLE_RTO':
+                    $courseUnitObj->setRtostatus($resetStatus);
+                    $courseUnitObj->setAssessorstatus($resetStatus);
+                    $courseUnitObj->setFacilitatorstatus($resetStatus);
+                    $courseUnitObj->setIssubmitted($resetStatus);
+                    $courseObj->setFacilitatorstatus($resetStatus);
+                    $courseObj->setAssessorstatus($resetStatus);
+                    break; 
+            }
+            $this->em->persist($courseUnitObj);
+            $this->em->flush();
+            $this->em->persist($courseObj);
+            $this->em->flush();
             $userName = $courseObj->getUser()->getUsername();
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
 
             // finding and replacing the variables from message templates
             $subSearch = array('#courseCode#', '#courseName#', '#unitName#');
             $subReplace = array($result['courseCode'], $result['courseName'], $result['unitName']);
-            $facMessageSubject = str_replace($subSearch, $subReplace,
-                $this->container->getParameter('msg_disappove_evdience_fac_sub'));
-            $facMailSubject = str_replace($subSearch, $subReplace,
-                $this->container->getParameter('mail_disappove_evdience_fac_sub'));
+            $facMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_disappove_evdience_fac_sub'));
+            $facMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_disappove_evdience_fac_sub'));
 
             // finding and replacing the variables from message templates
             $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#fromUserName#');
-            $msgReplace = array($userName, $result['courseCode'], $result['courseName'], $result['unit'], 
-                $result['unitName'], $facilitatorName);
-            $facMessageBody = str_replace($msgSearch, $msgReplace,
-                $this->container->getParameter('msg_disappove_evdience_fac_con'));
-            $facMailBody = str_replace($msgSearch, $msgReplace,
-                $this->container->getParameter('mail_disappove_evdience_fac_con'));
+            $msgReplace = array($userName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $facilitatorName);
+            $facMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_fac_con'));
+            $facMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_fac_con'));
             if ($result['userRole'] == 'ROLE_ASSESSOR') {
-                $asrMessageSubject = str_replace($subSearch, $subReplace,
-                    $this->container->getParameter('msg_disappove_evdience_asr_sub'));
-                $asrMailSubject = str_replace($subSearch, $subReplace,
-                    $this->container->getParameter('mail_disappove_evdience_asr_sub'));
-                $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#',
-                    '#userName#', '#fromUserName#');
-                $msgReplace = array($facilitatorName, $result['courseCode'], $result['courseName'],
-                    $result['unit'], $result['unitName'], $userName, $result['currentUserName']);
-                $asrMessageBody = str_replace($msgSearch, $msgReplace,
-                    $this->container->getParameter('msg_disappove_evdience_asr_con'));
-                $asrMailBody = str_replace($msgSearch, $msgReplace,
-                    $this->container->getParameter('mail_disappove_evdience_asr_con'));
+                $asrMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_disappove_evdience_asr_sub'));
+                $asrMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_disappove_evdience_asr_sub'));
+                $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#userName#', '#fromUserName#');
+                $msgReplace = array($facilitatorName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $userName, $result['currentUserName']);
+                $asrMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_asr_con'));
+                $asrMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_asr_con'));
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-               /* $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $asrMailSubject, $asrMailBody,
-                    $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername()); */
+                /* $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $asrMailSubject, $asrMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername()); */
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'],
-                    $asrMessageSubject, $asrMessageBody, $courseUnitObj->getId());
+                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $asrMessageSubject, $asrMessageBody, $courseUnitObj->getId());
             }
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-            /* $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody,
-                $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); */
+            /* $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); */
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(),
-                $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
+            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
         }
         return $result['status'];
     }
