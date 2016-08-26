@@ -44,7 +44,7 @@ class CoursesController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $statusList = $this->get('UserService')->getQualificationStatus();       
         $userCourses = $user->getCourses();
-        if(is_array($userCourses))
+        if(!empty($userCourses))
         {
             foreach($userCourses as $coursearr){
                 $id = $coursearr->getCourseCode();
