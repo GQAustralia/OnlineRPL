@@ -2309,7 +2309,7 @@ function changePassowordDiv(type)
     if(type==1) // 1- show
     {
         $('.gq-id-files-upload-success-text').hide();
-         $('.gq-id-pwd-error-text').hide();
+        $('.gq-id-pwd-error-text').hide();        
         $('#change_password_form').show();
         $('#user_profile_form').hide();
         $('#user_profile_form_div').hide();
@@ -2321,12 +2321,12 @@ function changePassowordDiv(type)
          $('.gq-id-files-upload-success-text').hide();
          $('.gq-id-pwd-error-text').hide();
          $('#password_oldpassword').val('');
-     $('#password_newpassword').val('');
-     $("#password_confirmnewpassword").val('');
-        $('#change_password_form').hide();
-        $('#user_profile_form').show();
-        $('#user_profile_form_div').show();
-        $('#matrixfileDiv').show();
+         $('#password_newpassword').val('');
+         $("#password_confirmnewpassword").val('');
+         $('#change_password_form').hide();        
+         $('#user_profile_form').show();
+         $('#user_profile_form_div').show();
+         $('#matrixfileDiv').show();
         
     }
 }
