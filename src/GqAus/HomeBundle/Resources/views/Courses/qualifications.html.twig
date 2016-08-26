@@ -104,8 +104,9 @@
             </p>
             <div class="progres-content">
                 <div class="activ-middle">
+                    {% set carr = counter|slice(0,2)  %}
                     <div id="slider{{counterArr}}" class="round-progress rslider"></div>
-                    <div class="evidence-status">Evidence Submitted</div>
+                    <div class="evidence-status">{% if carr > 1 %}Evidence Submitted{% else %}Awaiting Evidences{% endif %}</div>
                 </div>
                 <p class="day-progress clearfix">
                     <span class="start-day">0<br/>Days</span>

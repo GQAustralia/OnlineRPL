@@ -210,6 +210,7 @@ class EvidenceService
             $textObj->setUnit($data['hid_unit_assess']);
             $textObj->setCourse($data['hid_course_assess']);
             $textObj->setSelfAssesssment($data['setAssessment']);
+            $textObj->setJobId('');
             $textObj->setUser($this->currentUser);
             $this->em->persist($textObj);
             $this->em->flush();
