@@ -2368,7 +2368,8 @@ if($('#evidencefiles').length>0) {
             ordering:  true
         });
 	var oTable = $('#evidencefiles').DataTable({
-			"pagingType": "simple"
+			"pagingType": "simple",
+                        "order": []
 		});
                 
         rowsCount = oTable.rows().count();
@@ -2475,7 +2476,8 @@ if($('#evidence').length>0) {
             ordering:  true
         });
 	var oTable = $('#evidence').DataTable({
-			"pagingType": "simple"
+			"pagingType": "simple",
+                        "order": []
 		});
 
         rowsCount = oTable.rows().count();

@@ -2302,45 +2302,57 @@ class UserService
      */
     public function getRemindeTypeContent($typeId, $type, $reminderNote = "")
     {
-        $contentLimit = $this->container->getParameter('todo_content_length');
         switch ($type) {
             case 'portfolio':
-                        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourses');
-                        $typeContent = $reposObj->findOneBy(array('id' => $typeId));
-                        $contentText = $typeContent->getUser()->getFirstname().' '.$typeContent->getUser()->getLastname().' - '.$typeContent->getCourseName();
-                        $fullText = ($reminderNote != '') ? $contentText.' - '.$reminderNote : $contentText;
-                        if(strlen($fullText) >  $contentLimit)
-                            $contentText = substr($fullText, 0, $contentLimit).'...';
-
-                        $content['fulltext'] = $fullText;
-                        $content['text'] = $contentText;
-                        $content['link'] = '/applicantDetails/'.$typeContent->getCourseCode().'/'.$typeContent->getUser()->getId();
+                    $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourses');
+                    $typeContent = $reposObj->findOneBy(array('id' => $typeId));
+                    $content = $this->formatReminderTypeContent($typeContent, $type, $reminderNote = "");
                 break;
             case 'message':
-                $reposObj = $this->em->getRepository('GqAusUserBundle:Message');
-                        $typeContent = $reposObj->findOneBy(array('id' => $typeId));
-                        $contentText = $typeContent->getSent()->getFirstname().' '.$typeContent->getSent()->getLastname().' - '.$typeContent->getSubject();
-                        $fullText = ($reminderNote != '') ? $contentText.' - '.$reminderNote : $contentText;
-                        if(strlen($fullText) > $contentLimit )
-                            $contentText = substr($fullText, 0, $contentLimit).'...';
-
-                        $content['fulltext'] = $fullText;
-                        $content['text'] = $contentText;
-                        $content['link'] = '/messages/'.$typeId;
+                    $reposObj = $this->em->getRepository('GqAusUserBundle:Message');
+                    $typeContent = $reposObj->findOneBy(array('id' => $typeId));
+                    $content = $this->formatReminderTypeContent($typeContent, $type, $reminderNote = "");
                 break;
             case 'evidence':
-                $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
-                        $typeContent = $reposObj->findOneBy(array('id' => $typeId));
-                        $contentText = $typeContent->getUser()->getFirstname().' '.$typeContent->getUser()->getLastname().' - '.$typeContent->getName();
-                        $fullText = ($reminderNote != '') ? $contentText.' - '.$reminderNote : $contentText;
-                        if(strlen($fullText) > $contentLimit )
-                            $contentText = substr($fullText, 0, $contentLimit).'...';
-
-                        $content['fulltext'] = $fullText;
-                        $content['text'] = $contentText;
-                        $content['link'] = '/courseunitDetails/'.$typeContent->getCourse().'/'.$typeContent->getUnit().'/'.$typeContent->getUser()->getId();
+                    $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
+                    $typeContent = $reposObj->findOneBy(array('id' => $typeId));
+                    $content = $this->formatReminderTypeContent($typeContent, $type, $reminderNote = "");
                 break;
         }
+        return $content;
+    }
+
+    /**
+     * Function to get todo reminders type content
+     * @param object $remTypeContent
+     * @param string $remType
+     * return string $remNote
+     */
+    public function formatReminderTypeContent($remTypeContent, $remType, $remNote){
+        $contentLimit = $this->container->getParameter('todo_content_length');
+        $fullText = $contentText = $link = '';
+        if($remTypeContent){
+            switch ($remType) {
+                case 'portfolio':
+                    $contentText =  $remTypeContent->getUser()->getFirstname().' '.$remTypeContent->getUser()->getLastname().' '.$remTypeContent->getCourseName();
+                    $link = '/applicantDetails/'.$remTypeContent->getCourseCode().'/'.$remTypeContent->getUser()->getId();
+                    break;
+                case 'message':
+                    $contentText =  $remTypeContent->getSent()->getFirstname().' '.$remTypeContent->getSent()->getLastname().' '.$remTypeContent->getSubject();
+                    $link = '/messages/'.$remTypeContent->getId();
+                    break;
+                case 'evidence':
+                    $contentText = $remTypeContent->getUser()->getFirstname().' '.$remTypeContent->getUser()->getLastname().' '.$remTypeContent->getName();
+                    $link = '/courseunitDetails/'.$remTypeContent->getCourse().'/'.$remTypeContent->getUnit().'/'.$remTypeContent->getUser()->getId();
+                    break;
+            }
+            $fullText = ($remNote != '') ? $contentText.' - '.$remNote : $contentText;
+            if(strlen($fullText) >  $contentLimit)
+                $contentText = substr($fullText, 0, $contentLimit).'...';
+        }
+        $content['fulltext'] = $fullText;
+        $content['text'] = $contentText;
+        $content['link'] = $link;
         return $content;
     }
 
