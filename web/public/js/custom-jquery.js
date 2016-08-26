@@ -2945,8 +2945,8 @@ function checkCurrentRolePassword(){
     var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );
       var hdnpass = $("#password_hdnoldpassword").val();           
     var curpwd = $("#password_oldpassword").val();
-     if(curpwd == "" )
-         curpwd = hdnpass;
+//     if(curpwd == "" )
+//         curpwd = hdnpass;
     
     var newpwd = $("#password_newpassword").val();
     var newconfirmpwd = $("#password_confirmnewpassword").val();
