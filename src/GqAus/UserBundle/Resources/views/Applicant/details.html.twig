@@ -17,7 +17,9 @@
     {% set coreUnitCount = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'core') %} 
     {% set electiveUnits = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'elective') %} 
     {% set totalReqUnits = courses_service.getReqUnitsForCourseByCourseId(courseInfo.id)%}
-    {% set statusOfUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id) %} 
+    {% set statusOfFacUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'facilitatorstatus') %} 
+    {% set statusOfAssUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'assessorstatus') %} 
+    {% set statusOfRtoUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'rtostatus') %} 
     {% set getIssubmitStatus = courses_service.getOneUnitStatus(userId, courseInfo.id)%}
     {% set readStatus = user_service.updateReadStatus(courseInfo.id, userId, userRole[0])%}
     {% set facProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : facilitatorName %}
@@ -144,7 +146,7 @@
                     {% if ('ROLE_FACILITATOR' in userRole) %}
                         <div class="gqa-btn-group">
                             <div class="row no-gutter">     
-                                 {% if (facilitatorstatus != '1' and currentIdPoints >= '100' and statusOfUnitsCount == totalReqUnits ) %}
+                                 {% if (facilitatorstatus != '1' and currentIdPoints >= '100' and statusOfFacUnitsCount == totalReqUnits ) %}
                                     <div class="col-md-12 col-lg-12">
                                         <div class="row no-gutter">
                                             <div class="col-md-12 col-lg-12">
@@ -224,7 +226,9 @@
                                 {% endif %}
                                 {% if (statusId == '5' or statusId == '6' or statusId == '7') and getIssubmitStatus == '0'  %}{{ "disabled" }}{%endif%}
                                 {% if (statusId == '9') and getIssubmitStatus != totalReqUnits  %}{{ "disabled" }}{%endif%}
-                                {% if (statusId == '2') and (currentIdPoints < '100' or statusOfUnitsCount != totalReqUnits)  %}{{"disabled"}}{%endif%}
+                                {% if (statusId == '2') and (currentIdPoints < '100' or statusOfFacUnitsCount != totalReqUnits)  %}{{"disabled"}}{%endif%}
+                                {% if (statusId == '15' or statusId == '3') and (statusOfAssUnitsCount != totalReqUnits)  %}{{"disabled"}}{%endif%}
+                                {% if (statusId == '11') and (courseStatus != '10')  %}{{"disabled"}}{%endif%}
                             >{{statusData['status']}}</option>
                                                        {% endif %}
                                                     {% endfor %}
