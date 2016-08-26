@@ -367,6 +367,17 @@ class ApplicantController extends Controller
         $results = $this->get('UserService')->approveForRTOCertification($courseCode, $applicantId);
         exit;
     }
+    /**
+     * Function to approve the all units from RTO
+     */
+    public function approveAllUnitsFromRTOAction()
+    {
+        $courseCode = $this->getRequest()->get('courseCode');
+        $applicantId = $this->getRequest()->get('applicantId');
+        $results = $this->get('UserService')->approveAllUnitsFromRTO($courseCode, $applicantId);
+        echo json_encode($results);
+        exit;        
+    }
 
     /**
      * Function to view reports

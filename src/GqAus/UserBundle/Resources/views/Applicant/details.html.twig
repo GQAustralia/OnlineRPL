@@ -177,16 +177,10 @@
                                     </form>
                                 </div>
                             {% endif %}
-                            {% if ('ROLE_RTO' in userRole) %}
-                                {% if (rtoUnitStatus == '1') %}
+                            {% if ('ROLE_RTO' in userRole) and (statusOfAssUnitsCount == totalReqUnits) and (courseStatus == '15') %}
                                     <div class="col-md-12 col-lg-12">
-                                    {% if ( courseStatus == '15') %}
-                                        <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-for-certification" class="btn btn-green approve-for-certification-btn">Approved</button>
-                                     {% elseif ( courseStatus == '0' or courseStatus == '16') %}
-                                        <button type="button" class="btn btn-danger">Not yet approved</button>                                 
-                                    {% endif %}
+                                        <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-all-units-from-rto" class="btn btn-danger approve-for-certification-btn">Approved</button>
                                     </div>
-                                {% endif %}
                             {% endif %}
                         </div>
                     </div>

@@ -1965,6 +1965,40 @@ class UserService
                 $messageSubject, $aplMessageBody, '');
         }
     }
+    /**
+     * Function to update the units status from rto
+     * @param type $courseCode
+     * @param type $applicantId
+     * return string
+     */
+    public function approveAllUnitsFromRTO($courseCode, $applicantId)
+    {
+        $status = 1;
+        $response = array();
+        $courseUnitsObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $applicantId, 'courseCode' => $courseCode));
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
+        if (!empty($courseUnitsObj)) {
+            foreach($courseUnitsObj as $courseUnitObj){
+                $courseUnitObj->setRtostatus($status);
+                $this->em->persist($courseUnitObj);
+                $this->em->flush();
+            }
+            if (!empty($courseObj)) {
+                $courseObj->setRtostatus($status);
+                $this->em->persist($courseObj);
+                $this->em->flush();
+            }
+            $response['type'] = 'Success';
+            $response['code'] = 1;
+            $response['msg'] = 'All Units are approved.';
+        }
+        else{
+            $response['type'] = 'Error';
+            $response['code'] = 0;
+            $response['msg'] = 'Error in updating status.';
+        }
+        return $response;
+    }
 
     /**
      * Function to save applicant data
