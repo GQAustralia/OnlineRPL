@@ -352,7 +352,7 @@
                                                                                 <i class="material-icons">description</i></a>
                                                                             </span>
                                                                             <span class="file_name">
-                                                                                {{ evd[0].content|slice(0,40) }}
+                                                                                {{ evd[0].content|slice(0,35) }} {% if evd[0].content|length > 35 %}...{% endif %}
                                                                             </span>
                                                                             <span class="file_size"></span>
                                                                             <span class="clear">
