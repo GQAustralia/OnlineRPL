@@ -12,6 +12,7 @@
         <!-- getting current path -->
         {% set currentPath = app.request.uri %}
         {% set parameters = currentPath|split('?') %}
+        {% set userRole = app.security.getToken().getUser().getRoles() %}
         {% if messages%}
             {% if messages|length > 0 %}
                 <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
@@ -21,8 +22,20 @@
                                 <li class="{% if message.read == 1 %} disable {% endif %} clearfix" id="msg-{{message.id}}">
                                     
                                         <span class="chat_pic">
-                                            
-					 <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                            {% if ('ROLE_APPLICANT' in userRole) %}
+                                            <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                            {% else %}
+                                            {% if  message.sent.userImage is defined and message.sent.userImage!=''%}
+                                            {% set userimg = message.sent.userImage %}
+                                            {% else %}
+                                            {% set userimg = 'PROFILE.png' %}
+                                            {% endif %}
+                                                {% if message.sent.userImage != "" %}
+                                                <img src="{{ asset('public/uploads/') }}{{ message.sent.userImage }}" alt="chat_pic"/>
+                                                {% else %}
+                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                                {% endif %}
+                                            {% endif %}
                                         </span>
                                         <span class="chat_content">
                                             <span class="chat_name">
@@ -47,9 +60,9 @@
                                                             {%endif%}
                                                             
                                                             {% if message.subject|length > 10 %}
-                                                                {{ message.subject|raw[:10] ~ '-' }}
+                                                                {{ message.subject|raw[:10] ~ ' -' }}
                                                             {% else %}
-                                                                {{ message.subject|raw ~ '-' }}   
+                                                                {{ message.subject|raw ~  ' -' }}   
                                                             {% endif %}
                                                             </a> 
                                                         </strong>
@@ -114,10 +127,19 @@
                         <div class="chat_box {% if message.from == " from me" %}from {% else %} to {% endif %} ">
                             <div class="person_profile clearfix">
                                     <span class="chat_pic">
-                                            {% if message.userImage == "" %}
-                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                                {% if ('ROLE_APPLICANT' in userRole) %}
+                                            <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
                                             {% else %}
+                                            {% if  message.userImage is defined and message.userImage!=''%}
+                                            {% set userimg = message.userImage %}
+                                            {% else %}
+                                            {% set userimg = 'PROFILE.png' %}
+                                            {% endif %}
+                                                {% if message.userImage != "" %}
                                                 <img src="{{ asset('public/uploads/') }}{{ message.userImage }}" alt="chat_pic"/>
+                                                {% else %}
+                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                                {% endif %}
                                             {% endif %}
                                             
                                     </span>
@@ -138,14 +160,19 @@
                         <input type="hidden" id="replymid" name="replymid" value="{{ replymid }}"/>
                         <div class="chat_box to">
                                 <div class="person_profile">
-                                        <span class="chat_pic">
-                                            {% if userImage == "" %}
-                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                        <span class="chat_pic">                                           
+                                           {% if ('ROLE_APPLICANT' in userRole) %}
+                                            <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
                                             {% else %}
-                                                {% if user is defined and user != '' %}
-                                                    <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>                                           
+                                            {% if  toUserImage is defined and toUserImage!=''%}
+                                            {% set userimg = toUserImage %}
+                                            {% else %}
+                                            {% set userimg = 'PROFILE.png' %}
+                                            {% endif %}
+                                                {% if toUserImage != "" %}
+                                                <img src="{{ asset('public/uploads/') }}{{ toUserImage }}" alt="chat_pic"/>
                                                 {% else %}
-                                                    <img src="{{ asset('public/uploads/') }}{{ userImage }}" alt="chat_pic"/>
+                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
                                                 {% endif %}
                                             {% endif %}
                                         </span>

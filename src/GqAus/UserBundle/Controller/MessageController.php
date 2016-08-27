@@ -123,8 +123,8 @@ class MessageController extends Controller
                     if ($message->getUnitID() != '' || $message->getUnitID() > 0) {
                         $unitId = $message->getUnitID();
                     }
-                    $fromUser = $messageService->getRequestUser($message->getSent()->getId()); 
-                    $toUser = $messageService->getRequestUser($message->getInbox()->getId());
+                    $fromUser = $messageService->getRequestUser($message->getSent()->getId());  
+                    $toUser = $messageService->getRequestUser($message->getInbox()->getId()); 
                     $result['userImage'] = $fromUser->getUserImage();
                     $result['toUserImage'] = $toUser->getUserImage();
                     $result['created'] = $message->getCreated();
