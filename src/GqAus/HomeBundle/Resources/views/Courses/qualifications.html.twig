@@ -268,8 +268,9 @@
         <span>{{electiveUnitsCount}} ELECTIVE UNITS  <span id="spanremain"> {%if electiveRemaining>0 %}{% if electiveRemaining < electiveUnitCountRequired %} <strong> - {{electiveRemaining}} REMAINING </strong> {% elseif totalCheckedCount == 0 %} - Choose {{electiveUnitCountRequired}} {% else %} {% endif %}{% endif %}</span></span>
         <a aria-expanded="false" data-toggle="collapse" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}"><i class="material-icons edit">edit</i></a>
         <a aria-expanded="false" class="btn-accordion collapsed" data-toggle="collapse" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}">
-            <i class="material-icons down">keyboard_arrow_down</i>
-        </a>                                
+            <i class="material-icons">expand_more</i>
+        </a>
+        
     </h4>       
         
         {% if totalCheckedCount >= electiveUnitCountRequired%}
