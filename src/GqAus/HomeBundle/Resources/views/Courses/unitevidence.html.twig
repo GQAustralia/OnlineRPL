@@ -148,7 +148,7 @@
                                         {% if unitType.type == "core" and unitType.issubmitted != 1%}
                                                 <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">Submit this unit for review</button>
                                        {% endif %} 
-                                        {% if electiveUnits[0] is defined and selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0 and unitType.type=='elective' %}                                        
+                                        {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus!=0 and unitType.type=='elective' and unitType.issubmitted != 1 %}                                        
                                             <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">Submit this unit for review</button>
 
                                         {% endif %}

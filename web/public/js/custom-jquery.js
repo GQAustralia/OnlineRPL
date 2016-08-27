@@ -142,6 +142,7 @@ $(".changeUnitStatus").click(function() {
     var count = $('input[name="chk-val-'+courseCode+'[]"]:checked').length;
     
     var countElectiveUnits = $('#chkboxCount').val();
+    var countremain = parseInt(countElectiveUnits) - parseInt(count);
     $.ajax({
         type: "POST",
         url: base_url + "updateUnitElective",
@@ -183,6 +184,7 @@ $(".changeUnitStatus").click(function() {
                 //  $("#edit_"+courseCode).addClass('show');
                     $("#edit_"+courseCode).removeClass('hide');
                  $("#edit_"+courseCode).addClass('show');
+                 $("#spanremain").html('');
             }
             else
             {
@@ -190,7 +192,7 @@ $(".changeUnitStatus").click(function() {
 				 //$("#btn-done-"+courseCode).removeClass('course-edit show').addClass('course-edit hide');
 				 $("#course-btn-container-"+courseCode).removeClass('course-edit show').addClass('course-edit hide');
 				 
-                $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse in').addClass("panel-collapse collapse");
+                $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse in').addClass("panel-collapse collapse in");
                 $("#strip_"+courseCode).removeAttr("style");
                 //   $("#strip_"+courseCode).css('');
                
@@ -205,7 +207,13 @@ $(".changeUnitStatus").click(function() {
                  });
                    //$("#edit_"+courseCode).removeClass('show');
                  //$("#edit_"+courseCode).addClass('hide');
-                 
+                if(countremain < countElectiveUnits) {
+                     $("#spanremain").html('<strong> - '+countremain+' REMAINING </strong>');
+                }else {
+                    if(count == '0') {
+                        $("#spanremain").html('- Choose '+countElectiveUnits);
+                    }
+                }
             }
             $(".qual_status_loader").hide();
             $("#qeclose").trigger("click");

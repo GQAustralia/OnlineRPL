@@ -399,7 +399,7 @@ class EvidenceService
         }
 
         if (!empty($evidenceObj)) {
-            $evidenceObj->setUnit('');
+           // $evidenceObj->setUnit('');
             $this->em->persist($evidenceObj);
             $this->em->flush();
             return true;
