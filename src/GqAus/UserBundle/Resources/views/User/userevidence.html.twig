@@ -30,32 +30,31 @@
                         </div>
                         <ul class="clearfix">
                             <li>
-                                <span>video({{videoCount}})</span>
+                                <span>Video ({{videoCount}})</span>
                                 <span class="checkbox_outer">
                                     <input type="checkbox" value="video" class="existing-evidence-filter" checked><span></span>
                                 </span>
                             </li>
                             <li>
-                                <span>audio({{audioCount}})</span>
+                                <span>Audio ({{audioCount}})</span>
                                 <span class="checkbox_outer">
                                     <input type="checkbox" value="audio" class="existing-evidence-filter" checked><span></span>
                                 </span>
                             </li>
                             <li>
-                                <span>image({{imageCount}})</span>
+                                <span>Image ({{imageCount}})</span>
                                 <span class="checkbox_outer">
                                     <input type="checkbox" value="image" class="existing-evidence-filter" checked><span></span>
                                 </span>
                             </li>
                                 <li>
-                                    <span>PDF({{fileCount}})</span>
+                                    <span>Document ({{fileCount}})</span>
                                     <span class="checkbox_outer">
                                         <input type="checkbox" value="file" class="existing-evidence-filter" checked><span></span>
                                     </span>
                                 </li>
                                 <li>
-                                    <span>text({{textCount}})</span>
-                                    {#<span>text(<span class="evd-count text-count"></span>)</span>#}
+                                    <span>Text ({{textCount}})</span>
                                     <span class="checkbox_outer">
                                         <input type="checkbox" value="text" class="existing-evidence-filter" checked><span></span>
                                     </span>
@@ -117,7 +116,7 @@
                                                                                 <i class="material-icons">description</i>
                                                                         </span>
                                                                         <span class="file_name">
-                                                                                {{ evd.content }}
+                                                                                {{ evd.content|slice(0, 40) }}{% if(evd.content|length > 40) %}...{% endif %}
                                                                         </span>
                                                                         <span class="file_size"></span>
                                                                         <span class="clear">

@@ -296,6 +296,7 @@ class EvidenceService
                             $newObj->setUser($this->currentUser);
                             $newObj->setUnit($unitId);
                             $newObj->setCourse($courseCode);
+                            $newObj->setJobId("");
                             $this->em->persist($newObj);
                             $this->em->flush();
                             $this->updateCourseUnits($this->userId, $unitId, $courseCode);

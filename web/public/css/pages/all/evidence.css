@@ -21,3 +21,20 @@
 		background-color: transparent;
 	}
 }
+.fname,
+.fsize,
+.fsize,
+.fdate
+{
+    cursor: pointer;
+}
+.orderby-filetype{
+}
+.orderby-filename{
+}
+.orderby-filesize{
+}
+.main_container .body_section .evidence_block .titles_block ul li span i{ visibility: hidden }
+.main_container .body_section .evidence_block .titles_block ul li span.fdate i{ visibility: visible }
+.main_container .body_section .evidence_block .titles_block ul li span.sort_section{text-align:left; cursor:pointer}
+.main_container .body_section .evidence_block .titles_block ul li span.sort_section i{font-size: 13px;}

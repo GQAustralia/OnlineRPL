@@ -2353,13 +2353,26 @@ $('#change_password_form').on('submit', function(e) {
        });
 });
 $(document).ready(function(){
-	$(".filter_tab").click(function(){
-		var checkBoxSection = $(".check_box_section");
-		if(checkBoxSection.hasClass('hide'))
-			checkBoxSection.removeClass('hide').addClass('open');
-		else
-			checkBoxSection.removeClass('open').addClass('hide');
-	});
+    $(".filter_tab").click(function(){
+        var checkBoxSection = $(".check_box_section");
+        if(checkBoxSection.hasClass('hide'))
+            checkBoxSection.removeClass('hide').addClass('open');
+        else
+            checkBoxSection.removeClass('open').addClass('hide');
+    });
+});
+$(document).ready(function(){
+    $(".sort_tab").click(function(){
+        var checkBoxSection = $(".check_box_section");
+        var titlesBlockSection = $(".titles_block_mobile");
+//        if(checkBoxSection.hasClass('open'))
+//            checkBoxSection.removeClass('open').addClass('hide');
+            
+        if(titlesBlockSection.hasClass('hide'))
+            titlesBlockSection.removeClass('hide').addClass('open');
+        else
+            titlesBlockSection.removeClass('open').addClass('hide');
+    });
 });
 
 if($('#evidencefiles').length>0) {
@@ -2557,16 +2570,19 @@ if($('#evidence').length>0) {
 }
 
 $('#evidence-filter').on('click','input[type="checkbox"]',function(){
-	oTable.search($('.namesearch').val()).draw();
+    oTable.search($('.namesearch').val()).draw();
 });
 $('.namesearch').keyup(function(){
-oTable.search($(this).val()).draw();
+    oTable.search($(this).val()).draw();
 });
-$('.orderby-date').click(function(){
-    $('.sortbydate').trigger("click");
-    var currentArrow = $('.orderby-date i').html();
+$('.sort_section').click(function(){
+    var sortbyclass = $(this).attr('data-orderby')
+    var currentArrow = $('.f'+sortbyclass+' i').html();
+    $('.sorting li span i').css('visibility','hidden');
+    $('.sorting li span.f'+sortbyclass+' i').css('visibility','visible');
     newArrow = (currentArrow == 'arrow_downward') ? 'arrow_upward' : 'arrow_downward';
-    $('.orderby-date i').html(newArrow);
+    $('.f'+sortbyclass+' i').html(newArrow);
+    $('.sortby'+sortbyclass).trigger("click");
 });
 
 /* Change Password Validations */
