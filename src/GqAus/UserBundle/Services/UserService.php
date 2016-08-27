@@ -3568,6 +3568,7 @@ class UserService
      * return string status
      */
     public function getStausByStatus($status, $applicantId, $unitId, $courseCode, $userRole){
+      
         $approvalStatus = 0;
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findOneBy(array( 'user' => $applicantId, 'unitId' => $unitId, 'courseCode' => $courseCode));
@@ -3607,11 +3608,13 @@ class UserService
                     break;
               case 'ROLE_APPLICANT' :
                     $approvalStatus = $userCourseUnits->getRtostatus();
+                 
                     if($approvalStatus != 0){
                         $approvalStatus = ($approvalStatus == 1) ? 'Approved' : 'Not Yet Approved';
-            }
+                        }
                     else {
                         $approvalStatus = $userCourseUnits->getAssessorstatus();
+                         
                             if($approvalStatus != 0){
                                 $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
                             }
@@ -3622,13 +3625,15 @@ class UserService
                                 }
                                 else{
                                       $approvalStatus = $userCourseUnits->getIssubmitted();
+                                     
                                     if($approvalStatus != 0){
-                                        $approvalStatus = ($approvalStatus == 1) ? 'Submitted' : '';  
+                                        $approvalStatus = ($approvalStatus == 1) ? 'Submitted' : '';
+                                        
                                 }
                             }
                             }
                     }
-
+                break;   
                 default :
                     $approvalStatus = 0;
             }

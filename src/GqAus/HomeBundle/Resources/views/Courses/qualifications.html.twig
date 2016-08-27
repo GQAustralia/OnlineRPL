@@ -218,9 +218,9 @@
                        <div class="panel-heading">
                                <div class="panel-title">
                                        <div class="panle_body_content">
-                {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
-                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}
-                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.issubmitted is defined%}{%if currUnitStatus.issubmitted == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}                                           
+                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
+                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}                
+                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{% endif %}                                        
                                                <p> <span class="tag-id">{{units.id}}</span> </p>
                                                <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                        </div>
@@ -332,7 +332,7 @@
             <i class="material-icons info">info</i>
             <div class="tag-copy">
                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
-                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}
+                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}                
                 {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{% endif %}
                 <p> <span class="tag-id">{{units.id}}</span> </p>
                 <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
