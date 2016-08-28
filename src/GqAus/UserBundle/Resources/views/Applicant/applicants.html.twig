@@ -52,7 +52,8 @@
                     <div class="dropdown-menu">
                             <textarea rows="3" placeholder="Notes" class="notes-area" id="notes_{{list.id}}"></textarea>
                             <div class="date_section clearfix">
-                                    <input type="text" class="date_field form-control" id="remindDate_{{list.id}}" placeholder="Due Date" />
+                                    <input type="text" class="date_field form-control" id="remindDate_{{list.id}}" />
+									
                             </div>
                             <button type="button" class="btn_red setData" userCourseId="{{list.id}}" listId="{{list.id}}" remindertypeid="{{list.id}}" remindertype="portfolio">SAVE</button>
                     </div>
@@ -99,12 +100,9 @@
     
 {% else %}
     <tr>
-        <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
+        <td colspan="6">
             {{no_applicants}}</td>
     </tr>
     
         {% endif %}
-    
-                
-                              
 
