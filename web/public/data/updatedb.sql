@@ -47,3 +47,5 @@ ALTER TABLE `user_courses`  ADD `r_read` TINYINT(1) NULL DEFAULT '0'  AFTER `a_r
 
 --for softdelete
 ALTER TABLE `user_ids` ADD `status` INT(2) NULL AFTER `size`;
+
+ALTER TABLE `other_files`  ADD `isdeleted` INT(2) NULL  AFTER `created`;
