@@ -13,13 +13,14 @@
         {% set currentPath = app.request.uri %}
         {% set parameters = currentPath|split('?') %}
         {% set userRole = app.security.getToken().getUser().getRoles() %}
+        {% set userId = app.security.getToken().getUser().getId() %} 
         {% if messages%}
             {% if messages|length > 0 %}
                 <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
                     <div class="left">
                         <ul class="mail_secion">
                             {% for key, message in messages %}
-                                <li class="{% if message.read == 1 %} disable {% endif %} clearfix" id="msg-{{message.id}}">
+                                <li class="{% if message.read == 1 or message.sent.id == userId %} disable {% endif %} clearfix" id="msg-{{message.id}}">
                                     
                                         <span class="chat_pic">
                                             {% if ('ROLE_APPLICANT' in userRole) %}
