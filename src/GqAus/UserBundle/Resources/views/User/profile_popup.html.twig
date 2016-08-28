@@ -43,7 +43,8 @@
                                         
 					<div class="count">
                                                {% if ('ROLE_RTO' not in roles) %}
-						<span class="number portfolio-current"></span>
+                                            {% set pendingApplicantsCount = user_service.getPendingApplicantsCount(userId, userRole, '0') %}
+						<span class="number"> {{pendingApplicantsCount}}</span>
 						<span class="title">Active Portfolios</span>
                                                 {% else %}
                                                 {% set noofQualifications = user_service.getNoofQualifications(userId)%}

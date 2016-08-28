@@ -1939,6 +1939,9 @@ $( '#file_save' ).click( function( e ) {
 $("#userfiles_browse").click(function(evt) {
     if($("#userfiles_type").val()=="")
     {
+        
+        $('#change_address_error').hide();
+        $('#profile_suc_msg').hide();
         $('#change_file_error').show();
         $('#change_file_error').html('<div class="gq-id-file-error-text"><h2>Please Select document type!</h2></div>');
         evt.preventDefault();

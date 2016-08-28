@@ -577,9 +577,11 @@ class UserService
 
         if ($userType == 'facilitator') {
             if ($status == 1) {
-                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '1');
+                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
             } else {
-                $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
+                $avals = array('1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15');
+                $res->andWhere('c.courseStatus IN (:ids)')->setParameter('ids', $avals);
+               // $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '1');
             }
         }
 
