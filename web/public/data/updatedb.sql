@@ -44,3 +44,6 @@ ALTER TABLE `user_courses`  ADD `a_read` TINYINT(1) NULL DEFAULT '0'  AFTER `f_r
 
 -- rto has read the applicant
 ALTER TABLE `user_courses`  ADD `r_read` TINYINT(1) NULL DEFAULT '0'  AFTER `a_read`;
+
+--for softdelete
+ALTER TABLE `user_ids` ADD `status` INT(2) NULL AFTER `size`;
