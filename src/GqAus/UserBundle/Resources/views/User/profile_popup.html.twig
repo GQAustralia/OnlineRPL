@@ -228,6 +228,7 @@
                                             {% if matrixFiles %}
                                             {% for item in matrixFiles %}
                                             {% set filesize = evidence_service.fileSize(item.size) %}
+						{% if item.isdeleted != 1 %}
 						<div class="file_info">
 							<span class="icon">
 								<i class="material-icons">description</i>
@@ -241,6 +242,7 @@
 							</a>
                                                         </span>
 						</div> 
+						{% endif %}
                                              {% endfor %}
                                                 {% else %}
                                                 <center id="matrix_no_files">No Trainer Matrix found</center>                        

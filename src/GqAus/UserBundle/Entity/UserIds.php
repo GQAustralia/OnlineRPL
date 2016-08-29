@@ -43,6 +43,10 @@ class UserIds
      * @var size
      */
     private $size;
+      /**
+     * @var status
+     */
+    private $status;
 
     /**
      * Set name
@@ -172,7 +176,7 @@ class UserIds
      * Set size
      *
      * @param string $path
-     * @return UserIds
+     * @return size
      */
     public function setSize($size)
     {
@@ -182,13 +186,35 @@ class UserIds
     }
 
     /**
-     * Get path
+     * Get size
      *
      * @return string 
      */
     public function getSize()
     {
         return $this->size;
+    }
+    /**
+     * Set status
+     *
+     * @param int $status
+     * @return int
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return int 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
 }

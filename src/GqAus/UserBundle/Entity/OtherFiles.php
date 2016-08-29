@@ -43,6 +43,10 @@ class OtherFiles
      * @var size
      */
     private $size;
+	 /**
+     * @var size
+     */
+    private $isdeleted;
     /**
      * Set name
      *
@@ -170,8 +174,8 @@ class OtherFiles
     /**
      * Set size
      *
-     * @param string $path
-     * @return UserIds
+     * @param string $size
+     * @return int
      */
     public function setSize($size)
     {
@@ -181,13 +185,35 @@ class OtherFiles
     }
 
     /**
-     * Get path
+     * Get size
      *
-     * @return string 
+     * @return int 
      */
     public function getSize()
     {
         return $this->size;
+    }
+	/**
+     * Set isdeleted
+     *
+     * @param string $isdeleted
+     * @return int
+     */
+    public function setIsdeleted($isdeleted)
+    {
+        $this->isdeleted = $isdeleted;
+
+        return $this;
+    }
+
+    /**
+     * Get isdeleted
+     *
+     * @return int 
+     */
+    public function getIsdeleted()
+    {
+        return $this->isdeleted;
     }
 
 }

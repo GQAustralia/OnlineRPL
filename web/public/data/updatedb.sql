@@ -45,5 +45,12 @@ ALTER TABLE `user_courses`  ADD `a_read` TINYINT(1) NULL DEFAULT '0'  AFTER `f_r
 -- rto has read the applicant
 ALTER TABLE `user_courses`  ADD `r_read` TINYINT(1) NULL DEFAULT '0'  AFTER `a_read`;
 
+
 -- reminder view status
 ALTER TABLE `evidence` ADD `facilitator_view_status` ENUM('0','1') NOT NULL DEFAULT '0' AFTER `job_id`;
+
+--for softdelete
+ALTER TABLE `user_ids` ADD `status` INT(2) NULL AFTER `size`;
+
+ALTER TABLE `other_files`  ADD `isdeleted` INT(2) NULL  AFTER `created`;
+

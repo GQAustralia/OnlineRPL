@@ -51,6 +51,8 @@
                  {% set doc_type = 'photo' %}
             {% endif %}
             {% set filesize = evidence_service.fileSize(item.size) %}
+			{% set fileStatus = item.status %}
+			{% if fileStatus != 1 %}
             <li>
                     <div class="title_bar clearfix">
                             <span class="content">{{ item.type.type }}</span>
@@ -67,6 +69,7 @@
                                  <i class="material-icons">clear</i><div class="gq-del-evidence"></div></a>
                     </div>
             </li>
+			{% endif %}
             {% endfor %}
             {% else %}
                 <center id="idfiles_no_files">{{no_id_files}}</center>                        

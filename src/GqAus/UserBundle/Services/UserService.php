@@ -266,13 +266,17 @@ class UserService
      */
     public function getIdPoints($user)
     {
-        $idFiles = $user->getIdfiles();
+        $idFiles = $user->getIdfiles();		
         $points = array();
         foreach ($idFiles as $file) {
+		if($file->getStatus() != 1)
+		{
             $points[] = $file->getType()->getPoints();
         }
+		}
         return array_sum($points);
         exit;
+		
     }
 
     /**
@@ -286,10 +290,12 @@ class UserService
         $userIdObj = $this->em->getRepository('GqAusUserBundle:UserIds');
         $userIds = $userIdObj->find($IdFileId);
         if (!empty($userIds)) {
-            $fileName = $userIds->getPath();
-            $this->em->remove($userIds);
+           // $fileName = $userIds->getPath();
+           // $this->em->remove($userIds);
+            $userIds->setStatus('1');
+            $this->em->persist($userIds);
             $this->em->flush();
-            return $fileName;
+           // return $fileName;
         }
     }
 
