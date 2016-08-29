@@ -276,19 +276,25 @@
                         </div>
                     </div>
                     <div class="review-container">
-                        <div class="review">
-                            <div class="review_content"><p><strong class="text-uppercase">Rto</strong> - {{rtoName}}</p></div>
-                            <div class="review_profile-pic"><span></span></div>
-                        </div>
-                        <div class="review">
-                            <div class="review_content"><p><strong class="text-uppercase">{{facProName}}</strong> {{facVocName}} {{userName}}'s CSR for this course</p></div>
-                            <div class="review_profile-pic"><span><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if facilitatorImage %} {{ facilitatorImage }} {% endif %}" /></span></div>
-                        </div>
-                        <div class="review">
-                            <div class="review_content"><p><strong class="text-uppercase">{{assProName}}</strong> {{assVocName}} {{userName}}'s assessor for this cource</p></div>
-                            <div class="review_profile-pic"><span><img class="profile-img" data-target="#assProfile" data-toggle="modal"  src="{% if assessorImage %}{{ assessorImage }}{% endif %}" /></span>
+                        {%if rtoId is not empty %}
+                            <div class="review">
+                                <div class="review_content"><p><strong class="text-uppercase">Rto</strong> - {{rtoName}}</p></div>
+                                <div class="review_profile-pic"><span></span></div>
                             </div>
-                        </div>
+                        {%endif%}
+                        {%if facilitatorId is not empty %}
+                            <div class="review">
+                                <div class="review_content"><p><strong class="text-uppercase">{{facProName}}</strong> {{facVocName}} {{userName}}'s CSR for this course</p></div>
+                                <div class="review_profile-pic"><span><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if facilitatorImage %} {{ facilitatorImage }} {% endif %}" /></span></div>
+                            </div>
+                        {%endif%}
+                        {%if assessorId is not empty %}
+                            <div class="review">
+                                <div class="review_content"><p><strong class="text-uppercase">{{assProName}}</strong> {{assVocName}} {{userName}}'s assessor for this cource</p></div>
+                                <div class="review_profile-pic"><span><img class="profile-img" data-target="#assProfile" data-toggle="modal"  src="{% if assessorImage %}{{ assessorImage }}{% endif %}" /></span>
+                                </div>
+                            </div>
+                        {%endif%}
                     </div>
                         
                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
