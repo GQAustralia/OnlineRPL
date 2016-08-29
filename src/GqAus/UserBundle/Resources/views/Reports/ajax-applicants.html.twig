@@ -3,7 +3,7 @@
 {% if applicantList %}
     {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
     <tr>
-        <td class="gq-pagination-area" {% if ('ROLE_FACILITATOR' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %}>
+        <td class="gq-pagination-area" {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %}>
             {{ include('GqAusUserBundle:Paginator:ajax_rep_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
         </td>
     </tr>
@@ -12,53 +12,27 @@
         <tr>
             <td>{{list.user.userName}}</td>
             <td>{{list.courseCode}} {{list.courseName}}</td>
-            {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}             
+            {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}             
             {% set userId = list.user.id %}
             {% set id = list.id %}
             {% set courseCode = list.courseCode %}
             {% endif %}
-            {% if ('ROLE_FACILITATOR' in userRole) %}
-                <!-- Assessor Status -->
-                <td>{% if (list.assessorstatus == 1) %} Approved <span class="gq-sub-title">on {{list.assessorDate|date("d/m/Y")}}</span>
-                    {% else %} Pending {% endif %}
-                </td>
-                <!-- Assessor Status -->
-            {% endif%}              
-            <!-- Portfolio Received Status -->
-            {% if ('ROLE_RTO' in userRole) %}
-                <td>
-                    {% if list.courseStatus == 15 or list.courseStatus == 16 or list.courseStatus == 0 %}{{list.facilitatorDate|date("d/m/Y")}}
-                    {% endif %}  
-                </td>
-            {% endif%}
-            <!-- Portfolio Received Status-->
-            <!-- FACILITATOR own Status -->
-            {% if ('ROLE_FACILITATOR' in userRole) %}
-                <td>
-                    {% if list.courseStatus == 15 or list.courseStatus == 0%} Submitted Portfolio <span class="gq-sub-title">on {{list.facilitatorDate|date("d/m/Y")}}</span> 
-                    {% else %}Pending 
-                    {% endif %}  
-                </td>
-            {% endif %}
-            <!-- FACILITATOR own Status -->    
-            {% if ('ROLE_RTO' in userRole) %}
-                <td>
-                    {% if (list.courseStatus == 16 or list.courseStatus == 0) %} Issued <span class="gq-sub-title">on {{list.rtoDate|date("d/m/Y")}}</span>
-                    {% else %} Pending {% endif %}
-                </td>
-            {% endif %}
-            {% if ('ROLE_FACILITATOR' in userRole) %}
-                <!-- RTO Status -->
-                <td>{% if (list.rtostatus == 1) %} Issued <span class="gq-sub-title">on {{list.rtoDate|date("d/m/Y")}}</span>
-                  {% else %} Pending {% endif %}
-                </td>
-                <!-- RTO Status -->   
+            {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}   
+               <!-- Assessor Status -->
+               <td>
+                   {% if (list.assessorstatus == 1) %} Approved <span class="gq-sub-title">on {{list.assessorDate|date("d/m/Y")}}</span>
+                   {% elseif list.courseStatus == 15 or list.courseStatus == 16 or list.courseStatus == 0 %}{{list.facilitatorDate|date("d/m/Y")}}
+                   {% elseif list.courseStatus == 15 or list.courseStatus == 0%} Submitted Portfolio <span class="gq-sub-title">on {{list.facilitatorDate|date("d/m/Y")}}</span> 
+                   {% elseif (list.courseStatus == 16 or list.courseStatus == 0) %} Issued <span class="gq-sub-title">on {{list.rtoDate|date("d/m/Y")}}</span>
+                   {% elseif (list.rtostatus == 1) %} Issued <span class="gq-sub-title">on {{list.rtoDate|date("d/m/Y")}}</span>
+                   {% else %} Pending {% endif %}
+               </td>
             {% endif %}
         </tr>
     {% endfor %}
 {% else %}
     <tr>
-        <td {% if ('ROLE_FACILITATOR' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %} class="gq-tabs-no-content-text margin-top15">
+        <td {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %} class="gq-tabs-no-content-text margin-top15">
             No Applicants Found</td>
     </tr>
 {% endif %}

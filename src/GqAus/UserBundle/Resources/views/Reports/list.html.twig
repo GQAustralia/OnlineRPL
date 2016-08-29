@@ -31,11 +31,14 @@
                         </div>
                         <div class="col-xs-12 col-lg-3">
                             <label for="">Facilitator</label>
-                            <select class="form-control" id="searchRoleId" name="searchRoleId">
-                                    <option value="2">Kishore Babu</option>
-                                    <option value="6">Venkaiah kancharlapalli</option>
-                                    <option value="10">Bala Krishnan</option>
-                            </select>
+                                {% if facilitators %}
+                                    <select class="form-control" id="searchRoleId" name="searchRoleId">
+                                        <option>Select</option>
+                                        {% for key,faclist in facilitators%}
+                                            <option value="{{faclist.id}}">{{faclist.firstname}} {{faclist.lastname}}</option>
+                                        {% endfor %}
+                                    </select>
+                                 {% endif %}
                         </div>
                         <div class="col-xs-12 col-lg-2">
                             <button type="" class="btn btn_red"  id="searchFilterReports">Filter</button>

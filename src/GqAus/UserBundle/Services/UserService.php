@@ -825,7 +825,7 @@ class UserService
         $nameCondition = null;
         $ageCondition = null;
         $roleCondition = null;
-        $fields = 'partial c.{id, courseCode, courseName}, partial u.{id, firstName, lastName}';
+        $fields = 'partial c.{id, courseCode, courseName, courseStatus}, partial u.{id, firstName, lastName}';
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                  ->createQueryBuilder('c')
                  ->select($fields)
