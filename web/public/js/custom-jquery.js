@@ -2325,6 +2325,7 @@ function changePassowordDiv(type)
         $('#user_profile_form').hide();
         $('#user_profile_form_div').hide();
         $('#matrixfileDiv').hide();
+        $(".profile_popup").addClass("change_pwd");
         
     }
     else
@@ -2338,6 +2339,7 @@ function changePassowordDiv(type)
          $('#user_profile_form').show();
          $('#user_profile_form_div').show();
          $('#matrixfileDiv').show();
+         $(".profile_popup").removeClass("change_pwd");
         
     }
 }
