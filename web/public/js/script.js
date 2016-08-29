@@ -62,7 +62,9 @@ $(document).ready(function(){
 	var footer_Ht = $(".mobi-profile").height();
 	var mobile_view_Ht = window_Ht - header_Ht - footer_Ht;
 	
-	$(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
+	$(".mobile_version").css("position","relative");
+	$(".mobile_version").css("height",window_Ht);
+	$(".message_section .mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
 
 	
 	$('.collapse').on('shown.bs.collapse', function(){
@@ -218,7 +220,9 @@ $(window).resize(function(){
 	var footer_Ht = $(".mobi-profile").height();
 	var mobile_view_Ht = window_Ht - header_Ht - footer_Ht;
 	
-	$(".mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
+	$(".mobile_version").css("position","relative");
+	$(".mobile_version").css("height",window_Ht);
+	$(".message_section .mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
 
 	var newTitle_Ht = $(".mobile_version .new_message_section .title_bar").height();
 	var inputField_Ht = $(".input_section").height() * 2;

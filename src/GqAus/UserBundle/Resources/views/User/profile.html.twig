@@ -44,14 +44,14 @@
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
-      $(document).ready(function(){
+    $(document).ready(function(){
        
     $(".form_block input[type='text']").focus(function(){       
   $(this).prev().css("color","red");
   $(".update_btn").css("background","red");
  });
  $(".form_block input[type='text']").blur(function(){
-  $(this).prev().css("color","#4a4a4a");
+  $(this).prev().css("color","#999");
   $(".update_btn").css("background","#eee");
  });
  $(".form_block input[type='radio']").focus(function(){
@@ -59,7 +59,7 @@
   $(".update_btn").css("background","red");
  });
  $(".form_block input[type='radio']").blur(function(){
-  $(this).next().css("color","#4a4a4a");
+  $(this).next().css("color","#999");
   $(".update_btn").css("background","#eee");
  });
  

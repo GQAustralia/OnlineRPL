@@ -444,36 +444,8 @@ $("#userprofile_userImage").change(function() {
         var file_data = $('#userprofile_userImage').prop('files')[0];
         var form_data = new FormData();
         form_data.append('file', file_data);
-        $.ajax({
-            type: "POST",
-            url: base_url + "uploadProfilePic/"+userId,
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: form_data,
-            success: function(result) {
-                if (result != "error")
-                {
-                     $('#user_profile_image').attr('src',upload_path+result);                    
-                    $("#profile_suc_msg2").show();
-                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile Image updated successfully!</h2></div>');
-                    $("#ajax-profile-error").hide();
-                    $("#ajax-gq-profile-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
-                    if (userType == 0) {
-                        $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
-                    }
-                    if (userType == 2) {
-                        $('#hdn-img').val(result);
-                    }
-                    $("#ajax-loading-icon").hide();
-                }
-                else
-                {
-                    $("#ajax-profile-error").show();
-                    $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2>Error in uploading</h2></div>');
-                }
-            }
-        });
+        profileImageUpload();
+       
     }
     else
     {
@@ -2856,12 +2828,12 @@ function checkCurrentRolePassword(){
                     return false;
                 }
                 else if (result.status == "success") {
-                            val = $("#password_hdnoldpassword").val;
-                            $("#password_oldpassword").val=val;
-                            $("#idfiles").addClass("hidden-xs");
-                            $("#profileinfo").addClass("hidden-xs");
-                            $(".currentpassword").addClass("hidden-xs");
-                            $(".chngpwddiv").removeClass("hidden-xs");
+                val = $("#password_hdnoldpassword").val;
+                $("#password_oldpassword").val=val;
+                $("#idfiles").addClass("hidden-xs");
+                $("#profileinfo").addClass("hidden-xs");
+                $(".currentpassword").addClass("hidden-xs");
+                $(".chngpwddiv").removeClass("hidden-xs");
                 }
             }
         });
@@ -2871,11 +2843,12 @@ function checkCurrentRolePassword(){
         $("#pwd_error").html(startdiv + 'Please enter current password' + enddiv).delay(3000).fadeOut(100);
     }
 }
-    $(".change_link ").click(function(){
+   $(".change_link ").click(function(){
         $("#idfiles").addClass("hidden-xs");
         $(".profileinfo").addClass("hidden-xs");
         $(".currentpassword").removeClass("hidden-xs");
-        
+        $(".header-border").addClass("hidden-xs");
+        $(".mobi-profile").addClass("hidden-xs");
     });
     $(".currpwdnext").click(function(){ 
          var curpwd = $("#password_hdnoldpassword").val(); 

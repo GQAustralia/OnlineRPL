@@ -41,6 +41,36 @@
 
 {% endblock %}
 {% block javascripts %}
+<script type="text/javascript">
+      $(document).ready(function(){
+       
+    $(".form_block input[type='text']").focus(function(){       
+  $(this).prev().css("color","red");
+  $(".update_btn").css("background","red");
+ });
+ $(".form_block input[type='text']").blur(function(){
+  $(this).prev().css("color","#4a4a4a");
+  $(".update_btn").css("background","#eee");
+ });
+ $(".form_block input[type='radio']").focus(function(){
+  $(this).next().css("color","red");
+  $(".update_btn").css("background","red");
+ });
+ $(".form_block input[type='radio']").blur(function(){
+  $(this).next().css("color","#4a4a4a");
+  $(".update_btn").css("background","#eee");
+ });
+ 
+ $(".form_block .pwd input[type='text']").focus(function(){       
+  $(this).prev().css("color","#999");
+  $(".update_btn").css("background","#eee");
+ });
+ $(".form_block .pwd input[type='text']").blur(function(){
+  $(this).prev().css("color","#999");
+  $(".update_btn").css("background","#eee");
+ });
+    });
+</script>
 <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
 <script src="{{ asset('public/js/jquery.form.js') }}"></script>
 <script src="{{ asset('public/js/bootstrap-select.min.js') }}"></script>

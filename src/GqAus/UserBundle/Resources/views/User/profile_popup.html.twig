@@ -28,16 +28,17 @@
                                     {% elseif(roles[0]=='ROLE_SUPERADMIN') %}
                                         {% set role = 'SuperAdmin' %}
                                     {% endif %}                            
-                                <!-- Profile Form -->
+                                <!-- Profile Form -->                               
                                 <div class="header_block clearfix" id='user_profile_form_div'>
                                     	<div class="profile_section">
-                                            <div id='ajax-gq-profile-page-img'><img src="{% if userdata.getUserImage() !="" %}{{ asset('public/uploads/'~userdata.getUserImage())}} {% else %} {{ asset('public/images/userprofile.png')}} {% endif %}" alt="profile_pic" id='user_profile_image' class="profile_image"/><input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
+                                            <div id='ajax-gq-profile-page-img'><img src="{% if userdata.getUserImage() !="" %}{{amazon_link~userdata.userImage}} {% else %} {{ asset('public/images/userprofile.png')}} {% endif %}" alt="profile_pic" id='user_profile_image' class="profile_image"/><input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
+                                            <input type="hidden" name="userVal" id="userVal" value="{{userId}}">
                                                 <div class="content">
 							<h5 class="name"><strong>{% if ('ROLE_RTO' in roles) %}{{userdata.getContactName()}} {% else %} {{userdata.getFirstName()}} {{userdata.getLastName()}}  {% endif %} </strong></h5>
 							<span class="field">
                                                             {{role}}
                                                         </span>
-                                                        {#<span class="title uploadTrigger"><input type="file" ></span>#}
+                                                       
 						</div>
                                         </div>
                                         
@@ -54,6 +55,11 @@
 					</div>
                                        <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
 				</div>
+                                                        <div class="panel-group" id="fileListContainer">
+                                                            <div class="panel-copy fileListContainer" id="progress-bars">
+                                                                
+                                                            </div>
+                                                        </div>
                                 <div class="row" id="profile_suc_msg2"></div>
                                 <div class="gq-change-address-warning" id="change_address_error">
                                     {% for flashMessage in app.session.flashbag.get('errornotice') %}
@@ -277,8 +283,8 @@
                                                 </div>
 					</div>
 					<div class="btn_section clearfix">
-						<input type="submit" class="btn change_pwd_btn" value="Submit" id='password_save' />
-						<input type="button" class="btn" value="Cancel" onclick="changePassowordDiv('0')"/>
+						<input type="submit" class="btn change_pwd_btn" value="SUBMIT" id='password_save' />
+						<input type="button" class="btn" value="CANCEL" onclick="changePassowordDiv('0')"/>
 					</div>
 				</form>
                               
@@ -304,3 +310,10 @@
    
 </div>
 
+{% block javascripts %}
+<script type="text/javascript"> var amazon_link = "{{ amazon_link }}";
+var base_url = "{{ base_url }}";
+</script>
+<script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+<script src="{{ asset('public/js/s3-upload/s3upload-profileimg.js') }}"></script>
+ {% endblock %}
