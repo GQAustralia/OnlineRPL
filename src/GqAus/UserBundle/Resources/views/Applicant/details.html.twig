@@ -220,6 +220,8 @@
                                     {{ "" }} 
                                 {% endif %}
                                 {% if (statusId == '5' or statusId == '6' or statusId == '7') and getIssubmitStatus == '0'  %}{{ "disabled" }}{%endif%}
+                                {% if (statusId == '10') and getIssubmitStatus == '0'  %}{{ "disabled" }}{%endif%}
+                                {% if (statusId == '12' and courseStatus != '11' and getIssubmitStatus == '0')  %}{{ "disabled" }}{%endif%}
                                 {% if (statusId == '9') and getIssubmitStatus != totalReqUnits  %}{{ "disabled" }}{%endif%}
                                 {% if (statusId == '2') and (currentIdPoints < '100' or statusOfFacUnitsCount != totalReqUnits)  %}{{"disabled"}}{%endif%}
                                 {% if (statusId == '15' or statusId == '3') and (statusOfAssUnitsCount != totalReqUnits)  %}{{"disabled"}}{%endif%}
