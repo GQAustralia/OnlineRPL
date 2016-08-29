@@ -42,7 +42,7 @@
                      {% endfor %}
                     {% endif %}
             </select>
-                 <div class="panel-group" id="fileListContainer">
+                 <div class="panel-group hide" id="fileListContainer">
                         <div class="panel clearfix">
                                 <div class="panel-body">
                   <div class="panel-copy fileListContainer" id="progress-bars"></div>
@@ -108,7 +108,7 @@
                                 </div>
                         </div>
                         <div class="section">
-                                <div class="form-group clearfix password_field">
+                                <div class="form-group clearfix password_field pwd">
                                         <label>Password</label>
                                         <input type="text" value="........"/>
                                         <a href="javascript:void(0)" class="change_link">Change?<i class="material-icons">lock</i></a>
@@ -141,7 +141,7 @@
                                         {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30'} }) }}
                                 </div>
                         </div>
-                        <div class="section half">
+                        <div class="section half clearfix">
                                 <div class="form-group clearfix">
                                         <label>City</label>
                                         {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30'} }) }}
@@ -173,72 +173,7 @@
        {{ form_end(form) }}
                   </div>
 </div>
-<!--SECTION -->
-						
-						
-<!--SECTION -->
-<div class="section info_block hidden-xs">
-        <div class="heading_bar clearfix">
-                <span class="left">
-                        <a href="javascript:void(0)">
-                                <i class="material-icons">arrow_back</i>
-                        </a>Your ID
-                </span>
-                <span class="right">
-                        DONE
-                </span>
-        </div>
-        <div class="title_bar clearfix">
-                <span class="left">YOUR ID</span>
-                <span class="right"><strong>100% POINTS REQUIRED</strong><i class="material-icons">info</i></span>
-        </div>
-        <select class="selectpicker">
-                <option>Select Document Type</option>
-                <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
-                <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
-                <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
-                <option data-content='<span class="content">Department of veterans Affairs (DVA) card</span><span class="number">40</span>'></option>
-        </select>
-
-        <div class="attach_section clearfix">
-                <div class="take_photo tab">
-                        <span data-target="#myModal" data-toggle="modal">
-                                <i class="material-icons">camera_alt</i>Take a photo
-                        </span>
-                </div>
-                <div class="upload_btn tab">
-                        <i class="material-icons">add</i>
-                        <input type="file" class="hidden uploadFile">
-                        <span class="button uploadTrigger">Add a file</span>
-                </div>
-        </div>
-
-        <div class="file_block">
-                <ul>
-                    <li>
-                            <div class="title_bar clearfix">
-                                    <span class="content">Department of veterans Affairs (DVA) card</span>
-                                    <span class="number">40</span>
-                            </div>
-                            <div class="file_info">
-                                    <span class="icon">
-                                            <i class="material-icons">description</i>
-                                    </span>
-                                    <span class="file-discription">
-                                            testimonial.doc <br>10kb | Added 30/06/2016
-                                    </span>
-                                    <span class="clear">
-                                            <i class="material-icons">clear</i>
-                                    </span>
-                            </div>
-                    </li>
-                </ul>
-        </div>
-
-</div>
-<!--SECTION -->
-						
-						
+<!--SECTION -->			
 <!--SECTION -->
 <div class="section change_pwd_section mobile_version hidden-xs currentpassword">
         <div class="heading_bar clearfix">
@@ -273,12 +208,16 @@
         <div class="content">
                 <p>Thanks now enter a new secure password that is 8 - 16 characters and contains both letters and numbers</p><div id="mbl_pwd_error"></div>
                
-                <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
+                 <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
                 {{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30','class': 'hidden'} }) }}
+				<div class="pwd_field">
                 {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30','class': '','placeholder':'New Password'} }) }}
                 <i class="material-icons">done</i>
+				</div>
+				<div class="pwd_field">
                 {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30','class': '','placeholder':'Confirm Password'} }) }}
                 <i class="material-icons">done</i>
+				</div>
         </div>
     {{ form_widget(changepwdForm.save,{ 'label': 'Submit' , 'attr': {'class': 'button btn btn_red chngpwdval'}}) }}
         {{ form_end(changepwdForm) }}

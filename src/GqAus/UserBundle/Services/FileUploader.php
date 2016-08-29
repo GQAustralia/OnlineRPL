@@ -120,6 +120,23 @@ class FileUploader
         //}
         return $fileNames;
     }
+    public function uploadImgFiles($data)
+    {
+        $fileInfo = $data->get('fileInfo');
+        $fileName = $data->get('fileName');
+        $otherInfo= $data->get('otherInfo');
+        $size = $fileInfo['size'];
+        $mimeType = $fileInfo['type'];
+        $otherInfo = $data->get('otherInfo');
+       // $size = $this->fileSize($size);
+        $pos = strpos($mimeType, '/');
+        $type = substr($mimeType, 0, $pos); 
+       
+        return json_encode( str_replace('"', '', $fileName));
+        
+            return $fileName;
+      
+    }
 
     /**
      * function to delete evidence file types in AWS S3.

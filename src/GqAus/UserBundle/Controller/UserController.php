@@ -198,24 +198,25 @@ class UserController extends Controller
     public function uploadProfilePicAction(Request $request)
     {
         $userId = $this->getRequest()->get('userId');
-        $folderPath = $this->get('kernel')->getRootDir() . '/../web/public/uploads/';
-        $proImg = $request->files->get('file');
-        $profilePic = $proImg->getClientOriginalName();
-        $profilePic = time() . '-' . $profilePic;
-        if ($proImg->getClientOriginalName() != "") {
-            $proImg->move($folderPath, $profilePic);
-            $userService = $this->get('UserService');
-            if ($userId != '0') {
-                $user = $userService->getUser($userId);
-                $user->setUserImage($profilePic);
-                $userService->saveProfile();
-            }
-            echo $profilePic;
-        } else
-            echo 'error';
-        exit;
-    }
-
+       if ($request->isMethod('POST')) {
+//            $form->bind($request);
+//            $data = $form->getData();
+            $result = $this->get('gq_aus_user.file_uploader')->uploadImgFiles($request->request);
+             if ($result) {
+                 $userService = $this->get('UserService');
+                if ($userId != '0') {                    
+                     $user = $userService->getUser($userId);
+                     $user->setUserImage(str_replace('"', '', $result));
+                     $userService->saveProfile();
+                 }
+                 echo $result;
+                 }
+            
+        }
+            exit;
+        }
+        
+    
     /**
      * Function to verify correct password
      * @param object $request
