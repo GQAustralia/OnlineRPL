@@ -157,11 +157,6 @@
                                                             <i class="material-icons">filter_list</i>Filter
                                                         </span>
                                                     </div>
-                                                    <div class="tab hidden-sm hidden-md hidden-lg">
-                                                        <span class="sort">
-                                                            <i class="material-icons">code</i>Sort
-                                                        </span>
-                                                    </div>
                                                 </div>
 
                                                 <div class="check_box_section hide" id="evidence-filter" style="display: block;">
@@ -300,7 +295,7 @@
                                                             <td>
                                                                 {% if evd[0].name %} 
                                                                     <div class="block">
-                                                                        <div class="file_info hidden-xs">
+                                                                        <div class="file_info">
                                                                             <a href="{{ amazon_link }}{{  evd[0].path }}" 
                                                                                 {% if output[1] is defined %}
                                                                                 {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
@@ -347,7 +342,7 @@
                                                             <td>
                                                                 {% if evd[0].content %} 
                                                                     <div class="block">
-                                                                        <div class="file_info hidden-xs">
+                                                                        <div class="file_info">
                                                                             <span class="icon"><a href="#text{{evd[0].id}}" class="fancybox" id="btnForm">
                                                                                 <i class="material-icons">description</i></a>
                                                                             </span>
@@ -385,7 +380,7 @@
                                         </div>
                                 </div>
                                 {% if('ROLE_APPLICANT' in roles) %}
-                                <div class="hidden-xs col-sm-12 col-md-12 col-lg-5" id="file_upload_block">
+                                <div class=" col-sm-12 col-md-12 col-lg-5" id="file_upload_block">
                                         <div class="file_upload_block">
                                                 <div class="title_bar clearfix">
                                                         <span class="title">UPLOAD EVIDENCE FILES</span>

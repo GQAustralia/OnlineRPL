@@ -2597,6 +2597,19 @@ $('.sort_section').click(function(){
     $('.f'+sortbyclass+' i').html(newArrow);
     $('.sortby'+sortbyclass).trigger("click");
 });
+$('body').on('click', '.fac_view_evidence', function(){
+    var evdId = $(this).attr('data-evidenceid');
+    var evidenceItem = $(this).parent().parent().parent();
+    $.ajax({
+        type: "POST",
+        url: "changeEvidenceViewStaus",
+        cache: false,
+        data: {evidenceId: evdId},
+        success: function(result) {
+            evidenceItem.addClass('disable');
+        }
+    });
+});
 
 /* Change Password Validations */
 function passwordShowerrorMsg(errorMsg,msgId)

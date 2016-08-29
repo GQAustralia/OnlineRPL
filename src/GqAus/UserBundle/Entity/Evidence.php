@@ -191,4 +191,29 @@ abstract class Evidence
     public function getJobId() {
         return $this->jobId;
     }
+    
+    /**
+     * @var string
+     */
+    private $facilitatorViewStatus;
+
+    /**
+     * Set $facilitatorViewStatus
+     *
+     * @param string $facilitatorViewStatus
+     * @return string
+     */
+    public function setFacilitatorViewStatus($facilitatorViewStatus) {
+        $this->facilitatorViewStatus = $facilitatorViewStatus;
+        return $this;
+    }
+
+    /**
+     * Get $facilitatorViewStatus
+     *
+     * @return string
+     */
+    public function getFacilitatorViewStatus() {
+        return $this->facilitatorViewStatus;
+    }    
 }

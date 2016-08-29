@@ -165,4 +165,17 @@ class EvidenceController extends Controller
         echo json_encode($result);
         exit;
     }
+    
+    /**
+     * Function to update reminders
+     * @param object $request
+     * return string
+     */
+    public function changeEvidenceViewStausAction(Request $request)
+    {
+        $id = $this->getRequest()->get('evidenceId');
+        $this->get('EvidenceService')->updateEvidenceViewStaus($id);
+        echo 'success';
+        exit;
+    }
 }

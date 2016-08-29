@@ -682,4 +682,49 @@ class EvidenceService
             return false;
         }
     }
+    
+    /**
+     * Function to update evidence view status
+     * @param int $id
+     */
+    public function updateEvidenceViewStaus($id)
+    {
+        $remObj = $this->em->getRepository('GqAusUserBundle:Evidence')->find($id);
+        $remObj->setFacilitatorViewStatus('1');
+        $this->em->persist($remObj);
+        $this->em->flush();
+    }
+    
+    /**
+     * Function to convert file size to bytes
+     * @param string $size
+     * return int $byteSize
+     */
+    public function convertSizetoBytes($fileSizeString)
+    {   
+	preg_match('/[^\d]+/', $fileSizeString, $unitMatch);
+	preg_match('/\d+/', $fileSizeString, $sizeMatch);
+      
+	$fileSizeUnit = $unitMatch[0];
+        $fileSize = $sizeMatch[0];
+
+	switch($fileSizeUnit){
+            case 'KB':
+                    $byteSize = $fileSize * 1024;
+                    break;
+            case 'MB':
+                    $byteSize = $fileSize * (1024 * 1024);
+                    break;
+            case 'GB':
+                    $byteSize = $fileSize * 1024;
+                    break;
+            case 'TB':
+                    $byteSize = $fileSize * 1024;
+                    break;
+            case 'PB':
+                    $byteSize = $fileSize * 1024;
+                    break;
+	}
+	return $byteSize;
+    }
 }

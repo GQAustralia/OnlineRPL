@@ -268,3 +268,6 @@ updateFacilitator:
 changeReminderViewStatus:
     path:     /changeReminderViewStatus
     defaults: { _controller: GqAusUserBundle:Reminder:changeReminderViewStatus }
+changeEvidenceViewStaus:
+    path:     /changeEvidenceViewStaus
+    defaults: { _controller: GqAusUserBundle:Evidence:changeEvidenceViewStaus }
