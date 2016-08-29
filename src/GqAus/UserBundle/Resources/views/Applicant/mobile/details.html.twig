@@ -9,6 +9,7 @@
 {% endblock %}  
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
+    {% set roles = app.security.getToken().getUser().getRoles() %}
     {% set firstName = app.security.getToken().getUser().getFirstName() | capitalize %}
     {% set lastName = app.security.getToken().getUser().getLastName() | capitalize %}
     {% set email = app.security.getToken().getUser().getEmail() %}
@@ -370,5 +371,11 @@
     </div>
 </div>
 {% include 'GqAusUserBundle:Applicant/includes:facAssProfilePopups.html.twig' %}
-<script type="text/javascript" src="{{ asset('public/js/custom-jquery-ajax.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/custom-jquery-ajax.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.fancybox').fancybox();
+        });
+    </script>
 {% endblock %}
