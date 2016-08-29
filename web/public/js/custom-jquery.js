@@ -2572,7 +2572,7 @@ $('body').on('click', '.fac_view_evidence', function(){
     var evidenceItem = $(this).parent().parent().parent();
     $.ajax({
         type: "POST",
-        url: "changeEvidenceViewStaus",
+        url: base_url+"changeEvidenceViewStaus",
         cache: false,
         data: {evidenceId: evdId},
         success: function(result) {
