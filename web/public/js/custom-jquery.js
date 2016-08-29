@@ -364,20 +364,17 @@ $("#download_assessor_profile").click(function() {
 });
 
 $(".todo-list").on('click', '.todomodalClass', function(){
+    $('#confirm_popup').find('.updateTodo').prop('disabled', false);
     reminderid = $(this).attr('id');
 });
 $("#todo-cancel").click(function() {
-    alert('test');
     $("#todoclose").trigger("click");
 });
 /* dashboard update todo list functionality starts */
-$(".updateTodo").click(function() {
-    //$(".todo_loader").show();
-    //var rmid = this.id;
+$("body").on('click', '.updateTodo', function() {
+    $(this).prop('disabled', true);
+    $(this).addClass('progressque');
     var rmid = reminderid;
-    //var flag = reminderflag;
-    //flag = (flag == "0") ? "1":"0";
-
     flag = "1";
     var completedItem = 1;
     var percentage = '';
@@ -405,13 +402,6 @@ $(".updateTodo").click(function() {
             }
         }
     });
-    var todoType = $('#'+reminderid).attr('data-todotype');
-    var todoTypeId = $('#'+reminderid).attr('data-todotypeid');
-    console.log('todoType :: '+todoType);
-    console.log('data-todotypeid :: '+todoTypeId);
-    
-    
-
 });
 $('.cancelTodo').click(function(){
     $('#'+reminderid).prop('checked', false);
@@ -3073,11 +3063,11 @@ $('body').on('click', '.reminder-view', function(){
         $.ajax({
             type: "POST",
             url: base_url + "changeReminderViewStatus",
-            cache: false,
             data: {reminderId: remId },
             success: function(result) {
                 currentElement.find('.content').removeClass('bold');
                 console.log(result);
+                //return false;
             }
         });
     }
