@@ -186,7 +186,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
+                <div class="col-md-6 col-lg-7">
                     <div class="accordion panel-group" id="accordion1">
                         <input type="hidden" name="csCourseCode" id="csCourseCode" readonly="true" value="{{courseInfo.id}}" />
                         <input type="hidden" name="csUserId" id="csUserId" readonly="true" value="{{userId}}" />
@@ -244,7 +244,6 @@
                             {% if courseInfo.Units.Unit %}
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    {#% if ('ROLE_RTO' in userRole or 'ROLE_ASSESSOR' in userRole) %}{% set totalUnitStatus = 'COMPETENT'%}{%else%}{% set totalUnitStatus = ''%}{%endif%#}
                                     {% set coreUnitsRvd =  (coreUnitCount['noOfNotRvdrcrds'] > 0) ? coreUnitCount['noOfNotRvdrcrds']~' to be reviewed' : "" %}
                                     <h4 class="panel-title"><span>{{coreUnitCount['noOfNotRvdrcrds']+coreUnitCount['noOfRvdRcrds']}} CORE UNITS {% if coreUnitsRvd is not empty%}-{%endif%} <strong>{{coreUnitsRvd}}</strong></span>
                                             <a class="btn-accordion collapsed" data-collapse="parent"  data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
