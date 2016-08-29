@@ -46,4 +46,4 @@ ALTER TABLE `user_courses`  ADD `a_read` TINYINT(1) NULL DEFAULT '0'  AFTER `f_r
 ALTER TABLE `user_courses`  ADD `r_read` TINYINT(1) NULL DEFAULT '0'  AFTER `a_read`;
 
 -- reminder view status
-ALTER TABLE `reminder` ADD `facilitator_view_status` ENUM('0','1') NOT NULL DEFAULT '0' AFTER `reminder_view_status`;
+ALTER TABLE `evidence` ADD `facilitator_view_status` ENUM('0','1') NOT NULL DEFAULT '0' AFTER `job_id`;
