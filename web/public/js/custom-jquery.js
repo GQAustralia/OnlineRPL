@@ -364,6 +364,7 @@ $("#download_assessor_profile").click(function() {
 });
 
 $(".todo-list").on('click', '.todomodalClass', function(){
+    $('#confirm_popup').find('.updateTodo').prop('disabled', false);
     reminderid = $(this).attr('id');
 });
 $("#todo-cancel").click(function() {
@@ -372,11 +373,8 @@ $("#todo-cancel").click(function() {
 });
 /* dashboard update todo list functionality starts */
 $(".updateTodo").click(function() {
-    //$(".todo_loader").show();
-    //var rmid = this.id;
+    $(this).prop('disabled', true);
     var rmid = reminderid;
-    //var flag = reminderflag;
-    //flag = (flag == "0") ? "1":"0";
 
     flag = "1";
     var completedItem = 1;
