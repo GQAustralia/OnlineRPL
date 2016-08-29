@@ -29,7 +29,7 @@ class ApplicantController extends Controller
         $user = $userService->getUserInfo($uid);
         $results = $coursesService->getCoursesInfo($qcode);
        
-        if (!empty($user) && isset($results['courseInfo']['id'])) {
+        if (!empty($user) && isset($results['courseInfo']['id']) && isset($results['courseInfo']['Units'])) {
             $applicantInfo = $userService->getApplicantInfo($user, $qcode);
             $role = $this->get('security.context')->getToken()->getUser()->getRoles();
             if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Manager::ROLE_NAME) {
