@@ -34,7 +34,7 @@
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-11">
+                    <div class="col-md-12 col-lg-11">
                         <p>
                             <span>{% if courseInfo.name %} {{courseInfo.name}} {% endif %}</span>
                             <span>{% if courseInfo.id %} {{courseInfo.id}} {% endif %}</span>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 {% endif %}
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-4">
                     <div class="progres_bar_section">
                         <div class="progres-content">
                             <p class="title">Evidence Submitted - {{evidenceCompleteness}} Complete </p>
@@ -104,7 +104,7 @@
                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                         {% if notes|length > 0 or  notesFromCourse|length > 0 %}
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-md-12 col-lg-12">
                                     <div class="comments">
                                         <div class="panel-group">
                                             <div class="panel-heading">
@@ -135,7 +135,7 @@
                                                         <span class="date"> - </span>
                                                         <span class="time">{{ note.created|date('H:i')}}</span>
                                                     </span>
-                                                    <p>{% if note.note is defined %}{{note.note}}{%endif%}</p>
+                                                    <p>{%if note.note is defined%}{{note.note}}{%endif%}</p>
                                                 </div>
                                             {% endfor %}
                                         </div>

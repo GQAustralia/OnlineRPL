@@ -388,9 +388,10 @@ class ApplicantController extends Controller
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        if ($userRole[0] != 'ROLE_ASSESSOR') {
+        if ($userRole[0] == Superadmin::ROLE_NAME || $userRole[0] == Manager::ROLE_NAME) {
             $page = $this->get('request')->query->get('page', 1);
             $results = $this->get('UserService')->getUserApplicantsListReports($userId, $userRole, '3', $page);
+            $results['facilitators'] = $this->get('UserService')->getUsers(Facilitator::ROLE);             
             $results['pageRequest'] = 'submit';
             return $this->render('GqAusUserBundle:Reports:list.html.twig', $results);
         } else {
