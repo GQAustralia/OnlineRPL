@@ -249,7 +249,8 @@ class ApplicantController extends Controller
             $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' .str_replace(' ', '-', $results['courseInfo']['name']) . '_' . time() . '.pdf';
             /* $html2pdf = $this->get('html2pdf_factory')->create('P', 'A4', 'en', true, 'UTF-8', array(10, 15, 10, 15));
             $html2pdf->setDefaultFont('OpenSans'); */
-            $html2pdf = $this->get('white_october.tcpdf')->create();
+            $html2pdf = $this->get('white_october.tcpdf')->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+            $html2pdf->setFontSubsetting(true);
             $html2pdf->SetFont('helvetica', '', 10, '', true);
             $html2pdf->startPageGroup();
             $html2pdf->AddPage();
