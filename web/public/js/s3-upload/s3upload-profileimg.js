@@ -93,7 +93,7 @@ var s3upload = null;
          var calFileSize = formatBytes(file.size, 0);
        // jQuery.each(files[0].files, function(i, file) {
             //var btn = '<button onclick="cancel('+k+')">Cancel</button>';
-            var progressBar = '<div  id="progress-bars" > <img src="' + base_url + 'public/images/loading.gif">\n\
+            var progressBar = '<div  id="progress-bars" > <img class="loader" src="' + base_url + 'public/images/loading.gif">\n\
  \n\
 </div>';
             $("#progress-bars").append(progressBar);

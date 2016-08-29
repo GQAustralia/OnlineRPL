@@ -1521,10 +1521,11 @@ class UserService
         $Otherfiles = $this->em->getRepository('GqAusUserBundle:OtherFiles');
         $fileId = $Otherfiles->find($FileId);
         if (!empty($fileId)) {
-            $fileName = $fileId->getPath();
-            $this->em->remove($fileId);
+            //$fileName = $fileId->getPath();
+           // $this->em->remove($fileId);
+            $fileId->setIsdeleted('1');
             $this->em->flush();
-            return $fileName;
+            //return $fileName;
         }
     }
 

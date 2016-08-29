@@ -131,7 +131,7 @@
                 <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSR </span>for this qualification</p>
         </div>
         <div class="review_profile-pic">
-                <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{ base_url}}{{'public/uploads/'}}{{courses.Facilitator.userImage}}{% endif %}"></a>                               
+                <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~courses.Facilitator.userImage}}{% endif %}"></a>                               
         </div>
     </div>
 {% set notes = user_service.getNotesFromUserAndCourseApplicant(courseCode, userId) %}
@@ -230,17 +230,13 @@
                                </div>
                        </div>
                        <div id="nested-collapseSeven" class="panel-collapse collapse">
-                               {#<div class="panel-body">
-                                       Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                               </div>#}
+                              
                        </div>
                    </div>
                    {% endfor %} 
                     {% endif %}
                     {% endif %}
-                   {#{% if flagCore == '0' %}
-                           <div class="gq-acc-row-title load-icon-tr">No Core Units found</div>
-                   {% endif %}#}
+                  
                </div>
            </div>
        </div>
@@ -292,37 +288,23 @@
     <div aria-expanded="false" id="nested-collapseSTR-{{courseCode}}" class="panel-collapse collapse {% if totalCheckedCount >= electiveUnitCountRequired %} in {% endif %}">
     <div class="panel-body">
          
-   {# <p class="panel-copy">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-    </p>#}
+
         {% if courseInfo.courseInfo.Units.Elective.groups is defined and courseInfo.courseInfo.Units.Elective.groups %}
         {% if courseInfo.courseInfo.Units.Elective.groups.group is defined and courseInfo.courseInfo.Units.Elective.groups.group %}
             {% set unitsData = courseInfo.courseInfo.Units.Elective.groups.group.unit %}
         
         {% for key, units in unitsData %}   
-         {% set electiveUnitId = units.id %}
-       {# {% if electiveUnitCountRequired %}
-                {#{% set groupValidation = courseInfo.courseInfo.Units.Elective.validation.group %}#}
-                 {#{% if groupValidation %}
-                 {% for keyGroup,groupVal in groupValidation%}
-                   {% set groupId = groupVal.item.id %}
-               {% endfor %}
-                 {% endif %}#}
-       {# {% endif %}#}
+         {% set electiveUnitId = units.id %}       
        
     {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,electiveUnitId) %}  
         
     <div class="select">
-        {#<div class="panel-heading">
-            <h4 class="panel-title">
-                <span>Common Foundation Skills</span>
-            </h4>
-        </div>#}
+        {
         {% if unitsData %}
-               {# {% set groupItems = unitsData.unit.item %} #}
+              
                 {% set groupIdArray = '' %}
                 {% set groupSelectCount = 0 %}
-        {#{% for keyVal,groupUnitItem in groupItems %}#}
+       
                 {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,units.id) %} 
                 {% set electiveStatus = 1 %}
         {% if electiveStatus==1 %}
