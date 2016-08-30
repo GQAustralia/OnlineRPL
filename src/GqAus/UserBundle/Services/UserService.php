@@ -1879,10 +1879,15 @@ class UserService
      */
     public function userImage($image)
     {
-        $path = $this->container->getParameter('applicationUrl');
-        $userImage = $path . 'public/uploads/' . $image;
+        //$path = $this->container->getParameter('applicationUrl');
+        //$userImage = $path . 'public/uploads/' . $image;
+        //$path = $this->container->getParameter('applicationUrl');
+        $path = $this->container->getParameter('amazon_s3_base_url');
+        //$userImage = $path . 'public/uploads/' . $image;
+        $userImage = $path . $image;
         if (empty($image)) {
-            $userImage = $path . 'public/images/profielicon.png';
+            //$userImage = $path . 'public/images/profielicon.png';
+            $userImage = $this->container->getParameter('applicationUrl') . 'public/images/profielicon.png';
         }
         return $userImage;
     }
