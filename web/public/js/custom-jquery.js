@@ -94,7 +94,7 @@ $(function() {
                 success: function(responseText) {
                     var result = jQuery.parseJSON(responseText);
                     if(result.type == 'Error' ) {
-                        $("#status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">'+ result.msg+'</h2></div>');
+                        $("#status-message").html('<div class="gq-id-files-upload-error-text"><h2>'+ result.msg+'</h2></div>');
                     } else if (result.type == 'Success') {
                         $("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
                     }   
@@ -112,7 +112,7 @@ $(function() {
                 }
             });
       } else {
-          $("#status-message").html('<strong><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</strong>');
+          $("#status-message").html('<strong> Please select status</strong>');
       }
     });
 });
@@ -1353,7 +1353,7 @@ $("#userprofile_save").click(function() {
 });
 function showMyTabs(msg)
 {
-    var startMsg = '<div class="gq-id-address-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startMsg = '<div class="gq-id-address-error-text"><h2>';
     var endMsg = '</h2></div>';
     $("#change_address_error").show();
     $("#change_address_error").html(startMsg + msg + endMsg);
@@ -1917,8 +1917,9 @@ $("#userfiles_browse").click(function(evt) {
 });
 
 $( '#userfiles_browse' ).change( function( e ) {  
-     if($("#userfiles_type").val()!="") {
-        if ($("#userfiles_browse").val().length > 0) {
+     if($("#userfiles_type").val()!="") {        
+        if ($("#userfiles_browse").val().length > 0) {  
+           
             var extension = $("#userfiles_browse").val().substring($("#userfiles_browse").val().lastIndexOf('.')+1);
             var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF'];
             if (allowedExtensions.indexOf(extension) === -1) 
@@ -1976,7 +1977,7 @@ function validateFileUpload(fieldVal, formName) {
         if (allowedExtensions.indexOf(extension) === -1) 
         {
           $('#change_pwd_error').show();
-          $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Invalid File Format !</h2></div>');
+          $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2>Invalid File Format !</h2></div>');
           $('html, body').animate({
              scrollTop: $('#change_pwd_error').offset().top
            }, 500);
@@ -1985,7 +1986,7 @@ function validateFileUpload(fieldVal, formName) {
         }
     } else {
         $('#change_pwd_error').show();
-        $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please Select file to upload!</h2></div>');
+        $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2>Please Select file to upload!</h2></div>');
         $('html, body').animate({
             scrollTop: $('#change_pwd_error').offset().top
          }, 500);
@@ -2581,7 +2582,7 @@ $('body').on('click', '.fac_view_evidence', function(){
 /* Change Password Validations */
 function passwordShowerrorMsg(errorMsg,msgId)
 {
-    var startdiv = '<div class="gq-id-pwd-error-text1"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startdiv = '<div class="gq-id-pwd-error-text1"><h2>';
     var enddiv = '</h2></div>';
     $("#pwd_error1").show();
     $("#pwd_error1").html(startdiv + errorMsg + enddiv);
@@ -2594,7 +2595,7 @@ function newPasswordUpdate()
     var displayConfirmPwd = $("#confirm-password").parent().css( "display" );  
     var newpwd = $("#new-password").val();
     var newconfirmpwd = $("#confirm-password").val();
-    var startdiv = '<div class="gq-id-pwd-error-text1"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startdiv = '<div class="gq-id-pwd-error-text1"><h2>';
     var enddiv = '</h2></div>';
    
       
@@ -2737,6 +2738,7 @@ $('body').on('click', '.closeDivTag', function(){
 function updateFacilitator(courseCode , userId, listId)
 {
     facVal = $('#'+listId).val();
+    $("#profile_suc_msg2_"+listId).hide();
         $.ajax({
             type: "POST",
             url: "updateFacilitator",
@@ -2746,6 +2748,7 @@ function updateFacilitator(courseCode , userId, listId)
                 var res = jQuery.parseJSON(result);
                 if(res.status=='true')
                 {
+                    $("#profile_suc_msg2_"+listId).show();
                      $("#profile_suc_msg2_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>'+res.message+'</h2></div>');
                 }
                 
@@ -2754,7 +2757,53 @@ function updateFacilitator(courseCode , userId, listId)
        
        return false;
 }
-
+/*Assessor Update in Manager Portfolio */
+function updateAssessor(courseCode , userId, listId)
+{
+    assVal = $('#'+listId).val();
+    $("#profile_suc_msg3_"+listId).hide();
+        $.ajax({
+            type: "POST",
+            url: "updateAssessor",
+            cache: false,
+            data: {listId:listId,assessor:assVal},
+            success: function(result) {
+                var res = jQuery.parseJSON(result);
+                if(res.status=='true')
+                {
+                    $("#profile_suc_msg3_"+listId).show();
+                     $("#profile_suc_msg3_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>'+res.message+'</h2></div>');
+                }
+                
+            }
+       });
+       
+       return false;
+}
+/*Assessor Update in Manager Portfolio */
+function updateRto(courseCode , userId, listId)
+{
+    rtoVal = $('#'+listId).val();
+    $("#profile_suc_msg4_"+listId).hide();
+        $.ajax({
+            type: "POST",
+            url: "updateRto",
+            cache: false,
+            data: {listId:listId,rto:rtoVal},
+            success: function(result) {
+                var res = jQuery.parseJSON(result);
+                if(res.status=='true')
+                {
+                   
+                    $("#profile_suc_msg4_"+listId).show();
+                     $("#profile_suc_msg4_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>'+res.message+'</h2></div>');
+                }
+                
+            }
+       });
+       
+       return false;
+}
 if( $('.view-message').length > 0){   
     $('header').addClass('hide');
     }
@@ -2960,7 +3009,7 @@ function checkCurrentRolePassword(){
     
     var newpwd = $("#password_newpassword").val();
     var newconfirmpwd = $("#password_confirmnewpassword").val();
-    var startdiv = '<div class="gq-id-pwd-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">';
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
     var enddiv = '</h2></div>';
     var hdnpwdchk = $("#hdn_pwd_check").val();
     

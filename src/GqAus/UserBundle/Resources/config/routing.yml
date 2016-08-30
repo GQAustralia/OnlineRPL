@@ -264,7 +264,13 @@ filesAdd:
     defaults: { _controller: GqAusUserBundle:File:add}
 updateFacilitator:
     path:     /updateFacilitator
-    defaults: { _controller: GqAusUserBundle:Applicant:updateFacilitator } 
+    defaults: { _controller: GqAusUserBundle:Applicant:updateFacilitator }
+updateAssessor:
+    path:     /updateAssessor
+    defaults: { _controller: GqAusUserBundle:Applicant:updateAssessor }
+updateRto:
+    path:     /updateRto
+    defaults: { _controller: GqAusUserBundle:Applicant:updateRto }
 changeReminderViewStatus:
     path:     /changeReminderViewStatus
     defaults: { _controller: GqAusUserBundle:Reminder:changeReminderViewStatus }
