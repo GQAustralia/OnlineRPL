@@ -5,19 +5,19 @@
 {% for key, list in applicantList %}
 {% set id = list.id %}
 {% set ccode = list.courseCode%}
-    <tr class="">
+    <tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %} %}">
         <td class="col-md-2 col-lg-2 firstName"><a href="applicantDetails/{{ccode}}/{{list.user.id}}" target="_blank">{{list.user.firstName}} {{list.user.lastName}}</a></td>        
         <td class="col-md-3 col-lg-3 qualification">{{ccode}} {{list.courseName}}</td>
         {% if (status == 0) %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
         {% set userId = list.user.id %}
         {% set id = list.id %} 
-             
+        {% set evidenceCompleteness = courses_service.getEvidenceByCourse(userId, list.courseCode) %}
         <td class="col-md-2 col-lg-2 evidence">
             <div class="progress">
-              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ completeness(userId,ccode) }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ completeness(userId,ccode) }}"></div>
+              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{evidenceCompleteness}}" aria-valuemin="0" aria-valuemax="100" style="width:{{evidenceCompleteness}}"></div>
             </div>                        
-            <div class="progress-copy">{{ completeness(userId,ccode) }}</div>
+            <div class="progress-copy">{{evidenceCompleteness}}</div>
         </td>
         {% endif %}
         {% endif %}

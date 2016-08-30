@@ -51,7 +51,7 @@ var s3upload = null;
             alert("Sorry! You are using an older or unsupported browser. Please update your browser");
             return;
         }
-        alert("inside");
+      
         processSchema(null);
         var file = $('#userfiles_browse')[0].files[0];
 
@@ -67,7 +67,7 @@ var s3upload = null;
     }    
 
     var processSchema = function(reqevt) {
-console.log("dddd");
+
         var promises = [];
 
         var files;
@@ -129,7 +129,7 @@ console.log("dddd");
                 datas.fileInfo = obj.fileInfo;
                 datas.otherInfo = obj.otherInfo;
                 var l = datas.otherInfo.fileNum;
-                console.log("Madhoo34343");
+                
                 $.ajax({
                     type: "POST",
                     url: base_url + "idfileupload",
