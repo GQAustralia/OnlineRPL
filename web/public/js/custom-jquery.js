@@ -2734,8 +2734,11 @@ function getApplicantDetails(courseCode, userId){
 $('body').on('click', '.closeDivTag', function(){
     $('.candidate-details').addClass('hide');
     $('.portfolio-container').addClass('show');
+    window.location.href = base_url + "applicants";
 });
-
+$('body').on('click', '.mobileUnitInfo', function(){
+   
+});
 
 /*Facilitator Update in Manager Portfolio */
 function updateFacilitator(courseCode , userId, listId)
