@@ -1217,9 +1217,12 @@ filterByStatus = $('#filterByStatus').val();
         type: "POST",
         url: base_url + "searchApplicantsList",
         cache: false,
-        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: filterByStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
+        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
         success: function(result) { 
-            $('#'+divContent).html(result);
+           $("#filter-by-name").hide();
+            $("#filter-by-week").hide();
+            $("#app-pending-approve").hide();
+            $('#' + divContent).html(result);
         }
     });
 }

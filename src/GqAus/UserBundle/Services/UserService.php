@@ -552,12 +552,12 @@ class UserService
             $userStatus = 'rtostatus';
         } elseif (in_array('ROLE_MANAGER', $userRole)) {
             $userType = 'manager';
-            $userStatus = '';
+            $userStatus = 'facilitatorstatus';
         } elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
             $userType = 'superadmin';
-            $userStatus = '';
+            $userStatus = 'facilitatorstatus';
         }
-        $fields = 'partial c.{id, courseCode, courseName, courseStatus}, partial u.{id, firstName, lastName}';
+        $fields = 'partial c.{id, courseCode, courseName, courseStatus,targetDate,facilitatorDate,assessorDate,rtoDate,facilitatorread,assessorread,rtoread}, partial u.{id, firstName, lastName}';
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
             ->createQueryBuilder('c')
             ->select($fields)
@@ -580,24 +580,22 @@ class UserService
                 $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '15');
             }
         }
-
-        if ($userType == 'facilitator') {
+        if ($userType == 'facilitator') {            
             if ($status == 1) {
                 $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
             } else {
-                $avals = array('1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15');
+                $avals = array('1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14');
                 $res->andWhere('c.courseStatus IN (:ids)')->setParameter('ids', $avals);
                // $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '1');
             }
         }
-
         if ($userType == 'manager' || $userType == 'superadmin') {
             if ($status == 1) {
-                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
+                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))
+                    ->setParameter('courseStatus', '0'); //approved
             } else {
-                $avals = array('1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15');
-                $res->andWhere('c.courseStatus IN (:ids)')->setParameter('ids', $avals);
-               // $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '1');
+                $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))
+                    ->setParameter('courseStatus', '0');
             }
         }
 
@@ -3716,7 +3714,7 @@ class UserService
             ->createQueryBuilder('u')
             ->select();        
        if ($userRole == 'ROLE_FACILITATOR'){            
-            $query->where('(u instance of GqAusUserBundle:Facilitator)');
+            $query->where('(u instance of GqAusUserBundle:Facilitator) and u.status = 1 ');
              
         }
             $getValues = $query->getQuery()->getResult(); 
@@ -3737,7 +3735,7 @@ class UserService
             ->createQueryBuilder('u')
             ->select();        
        if ($userRole == 'ROLE_ASSESSOR'){            
-            $query->where('(u instance of GqAusUserBundle:Assessor)');
+            $query->where('(u instance of GqAusUserBundle:Assessor) and u.status = 1');
              
         }
             $getValues = $query->getQuery()->getResult(); 
@@ -3758,8 +3756,7 @@ class UserService
             ->createQueryBuilder('u')
             ->select();        
        if ($userRole == 'ROLE_RTO'){            
-            $query->where('(u instance of GqAusUserBundle:Rto)');
-             
+            $query->where('(u instance of GqAusUserBundle:Rto) and u.status = 1');
         }
             $getValues = $query->getQuery()->getResult(); 
             $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getValues)));
