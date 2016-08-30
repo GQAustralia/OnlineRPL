@@ -37,13 +37,13 @@ ALTER TABLE `reminder` ADD `reminder_view_status` ENUM('0','1') NOT NULL DEFAULT
 ALTER TABLE `evidence` ADD `job_id` VARCHAR(100) NOT NULL AFTER `course_code`;
 
 -- facilitator has read the applicant
-ALTER TABLE `user_courses`  ADD `f_read` TINYINT(1) NULL DEFAULT '0'  AFTER `rto_status`;
+ALTER TABLE `user_courses`  ADD `f_read` TINYINT(1) NOT NULL DEFAULT '0'  AFTER `rto_status`;
 
 -- assessor has read the applicant
-ALTER TABLE `user_courses`  ADD `a_read` TINYINT(1) NULL DEFAULT '0'  AFTER `f_read`;
+ALTER TABLE `user_courses`  ADD `a_read` TINYINT(1) NOT NULL DEFAULT '0'  AFTER `f_read`;
 
 -- rto has read the applicant
-ALTER TABLE `user_courses`  ADD `r_read` TINYINT(1) NULL DEFAULT '0'  AFTER `a_read`;
+ALTER TABLE `user_courses`  ADD `r_read` TINYINT(1) NOT NULL DEFAULT '0'  AFTER `a_read`;
 
 
 -- reminder view status
