@@ -74,6 +74,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {% if(evidences|length > 0 ) %}
                             <div class="panel-body">
                                 <div class="panel-copy" id="linkedEvidences">
 				{%set inc = 0 %}
@@ -110,6 +111,7 @@
                                     {% endfor %}
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="row">
