@@ -212,6 +212,7 @@ class EvidenceService
             $textObj->setCourse($data['hid_course_assess']);
             $textObj->setSelfAssesssment($data['setAssessment']);
             $textObj->setJobId('');
+            $textObj->setFacilitatorViewStatus('0');
             $textObj->setUser($this->currentUser);
             $this->em->persist($textObj);
             $this->em->flush();
