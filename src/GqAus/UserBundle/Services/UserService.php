@@ -640,11 +640,7 @@ class UserService
         }
 
         $res->orderBy('c.id', 'DESC');
-        $query = $res->getQuery();
-            print_r(array(
-                'sql'        => $query->getSQL(),
-                'parameters' => $query->getParameters(),
-            )); exit;
+        
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
@@ -2929,7 +2925,7 @@ class UserService
     public function emailExist($emailId)
     {
         $user = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('email' => $emailId, 'status' => 1));
-        dump($user);exit;
+       
         return count($user);
     }
 
