@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload To S3</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="firebug-lite/build/firebug-lite.js#startOpened"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<p>
+    Select file and press upload<input type="file" multiple = "multiple" id="file">
+    <button onclick="upload()">Upload</button>
+</p>
+
+<p id="progress-bars">
+    <!--<progress id="uploading_progress" value="0" max="100"></progress>-->
+    <!--<- Uploading Progress Bar-->
+    <!--<br>-->
+    <!--<progress id="uploaded_progress" value="0" max="100"></progress>-->
+    <!--<- Uploaded Progress Bar-->
+    <!--<br>-->
+    <!--<progress id="summed_progress" value="0" max="100"></progress>-->
+    <!--<- Uploading + Uploaded Progress Bar-->
+
+</p>
+<script src="jquery-1.9.1.min.js"></script>
+<script src="upload.js"></script>
+<script>
+    var s3upload = null;
+    var s3uploads = [];
+    function pause(k) {
+        s3uploads[k].pause();
+    }
+
+    function resume(k) {
+        s3uploads[k].resume();
+    }
+
+    function cancel(k) {
+        s3uploads[k].cancel();
+        s3uploads[k] = null;
+    }
+
+    function upload() {
+
+        if (!(window.File && window.FileReader && window.FileList && window.Blob && window.Blob.prototype.slice)) {
+            alert("Sorry! You are using an older or unsupported browser. Please update your browser");
+            return;
+        }
+
+        processSchema();
+        var file = $('#file')[0].files[0];
+
+    }
+
+    var processSchema = function() {
+
+        var promises = [];
+
+        var files = document.getElementById("file").files;
+		console.log(files);
+        var k = s3uploads.length;
+        jQuery.each(jQuery('#file')[0].files, function(i, file) {
+            var btn = '<button onclick="cancel('+k+')">Cancel</button>';
+            $("#progress-bars").append(' <progress id="summed_progress_'+k+'" value="0" max="100"></progress> '+ btn +' >> '+file.name +'<br />');
+            var def = new $.Deferred();
+
+            s3uploads[k] = new S3MultiUpload(file, {user: 'user', pass: 'pass',fileNum: k,userDirectory:'Sami'});
+
+            s3uploads[k].onServerError = function(command, jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 403) {
+                    alert("Sorry you are not allowed to upload");
+                } else {
+                    console.log("Our server is not responding correctly");
+                }
+            };
+
+            s3uploads[k].onS3UploadError = function(xhr) {
+                s3uploads[k].waitRetry();
+                alert("Upload is failing, we will retry in " + s3uploads[k].RETRY_WAIT_SEC + " seconds");
+            };
+
+            s3uploads[k].onProgressChanged = function(uploadingSize, uploadedSize, totalSize, fileNum) {
+                $('#summed_progress_'+fileNum).attr('value', uploadedSize + uploadingSize);
+                // $('#summed_progress').attr('max', totalSize);
+            };
+
+            s3uploads[k].onUploadCompleted = function() {
+                def.resolve('success');
+                console.log("Congratz, upload is complete now");
+
+            };
+
+            s3uploads[k].start();
+            k++;
+            promises.push(def);
+        });
+
+        return $.when.apply(undefined, promises).promise();
+    }
+</script>
+</body>
+</html>
