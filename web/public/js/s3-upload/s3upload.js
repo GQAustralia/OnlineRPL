@@ -98,9 +98,10 @@ var s3upload = null;
         
            var unitId = $('#hid_unit').val() || '';
             var courseCode = $('#hid_course').val() || '';
+			var userId = $('#hdn-userId').val() || 'default';
             var def = new $.Deferred();
 
-            s3uploads[k] = new S3MultiUpload(file, {user: 'user', pass: 'pass',fileNum: k,hid_unit: unitId,hid_course: courseCode});
+            s3uploads[k] = new S3MultiUpload(file, {user: 'user', pass: 'pass',fileNum: k,hid_unit: unitId,hid_course: courseCode,userDirectory:'user-'+userId});
 
             s3uploads[k].onServerError = function(command, jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status === 403) {
@@ -123,7 +124,8 @@ var s3upload = null;
             s3uploads[k].onUploadCompleted = function(data,obj) {
 
                 var datas = {};
-                datas.fileName = obj.uploadedName;
+				datas.fileName = data.fileName;
+				datas.jobId = data.jobId;
                 datas.fileInfo = obj.fileInfo;
                 datas.otherInfo = obj.otherInfo;
                 var l = datas.otherInfo.fileNum;

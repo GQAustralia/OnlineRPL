@@ -141,6 +141,7 @@ class EvidenceService
         $seterror = 'no';
         $fileInfo = $data->get('fileInfo');
         $filName = $data->get('fileName');
+		$jobId = $data->get('jobId');
         $otherInfo= $data->get('otherInfo');
         $size = $fileInfo['size'];
         $mimeType = $fileInfo['type'];;
@@ -169,7 +170,7 @@ class EvidenceService
         }
         $fileObj->setPath($filName);
         $fileObj->setName($fileInfo['name']);
-        $fileObj->setJobId('');
+        $fileObj->setJobId($jobId);
         $fileObj->setFacilitatorViewStatus('0');
         $fileObj->setUser($this->currentUser);
         $fileObj->setSize($size);

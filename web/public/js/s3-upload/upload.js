@@ -32,7 +32,7 @@ function S3MultiUpload(file, otheInfo) {
     this.uploadXHR = null;
     this.otherInfo = otheInfo;
     this.fileNum = otheInfo.fileNum;
-    this.uploadedName = this.file.name;
+	this.uploadedName = this.file.name;
     this.uploadedSize = 0;
     this.uploadingSize = 0;
     this.curUploadInfo = {
@@ -41,6 +41,14 @@ function S3MultiUpload(file, otheInfo) {
     };
     this.progress = [];
     this.suc = 0;
+    this.otherInfo.isTranscodeActive = 'false';
+    this.otherInfo.presetType = '';
+
+    if((this.file.type.match('audio.*') || this.file.type.match('video.*')) && ((this.file.type != "video/mp4" && this.file.type != "audio/mp3") || (this.file.size > this.PART_SIZE * 20)) ) {
+        this.otherInfo.isTranscodeActive = 'true'
+    }
+    if(this.file.type.match('audio.*')) this.otherInfo.presetType = 'audio';
+    if(this.file.type.match('video.*')) this.otherInfo.presetType = 'video';	
     if (console && console.log) {
         this.log = console.log;
     } else {
@@ -59,10 +67,8 @@ function S3MultiUpload(file, otheInfo) {
             otherInfo: self.otherInfo
         }).done(function(data) {
             self.sendBackData = data;
-            self.uploadedName = data.fileName;
-            self.uploadPart(1);
+			self.uploadedName = data.fileName;            self.uploadPart(1);
         }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR,textStatus,errorThrown);
             self.onServerError('CreateMultipartUpload', jqXHR, textStatus, errorThrown);
         });
     };

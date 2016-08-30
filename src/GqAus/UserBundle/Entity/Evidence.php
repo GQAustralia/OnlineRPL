@@ -181,6 +181,7 @@ abstract class Evidence
      */
     public function setJobId($jobId) {
         $this->jobId = $jobId;
+		return $this;
     }
 
     /**
@@ -191,7 +192,7 @@ abstract class Evidence
     public function getJobId() {
         return $this->jobId;
     }
-    
+
     /**
      * @var string
      */
