@@ -245,7 +245,7 @@
                             {% if courseInfo.Units.Unit %}
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    {% set coreUnitsRvd =  (coreUnitCount['noOfNotRvdrcrds'] > 0) ? coreUnitCount['noOfNotRvdrcrds']~' to be reviewed' : "" %}
+                                    {% set coreUnitsRvd =  (coreUnitCount['noOfNotRvdrcrds'] > 0) ? coreUnitCount['noOfNotRvdrcrds']~' to be reviewed' : user_service.getRoleStatus(userRole[0]) %}
                                     <h4 class="panel-title"><span>{{coreUnitCount['noOfNotRvdrcrds']+coreUnitCount['noOfRvdRcrds']}} CORE UNITS {% if coreUnitsRvd is not empty%}-{%endif%} <strong>{{coreUnitsRvd}}</strong></span>
                                             <a class="btn-accordion collapsed" data-collapse="parent"  data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                                                     <i class="material-icons">expand_more</i>
