@@ -18,6 +18,7 @@
     {% set coreUnitCount = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'core') %} 
     {% set electiveUnits = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'elective') %} 
     {% set totalReqUnits = courses_service.getReqUnitsForCourseByCourseId(courseInfo.id)%}
+    {% set reqElectUnits = totalReqUnits-(coreUnitCount['noOfNotRvdrcrds'] + coreUnitCount['noOfRvdRcrds']) %}
     {% set statusOfFacUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'facilitatorstatus') %} 
     {% set statusOfAssUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'assessorstatus') %} 
     {% set statusOfRtoUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'rtostatus') %} 
@@ -288,7 +289,7 @@
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading clearfix">
-                                    {% set electiveUnitsRvd =  (electiveUnits['noOfNotRvdrcrds'] > 0) ? electiveUnits['noOfNotRvdrcrds']~' to be reviewed' : "" %}
+                                    {% set electiveUnitsRvd =  (reqElectUnits > 0) ? reqElectUnits~' to be reviewed' : "" %}
                                     <h4 class="panel-title"><span>{{electiveUnits['noOfNotRvdrcrds'] + electiveUnits['noOfRvdRcrds']}} ELECTIVE UNITS {% if electiveUnitsRvd is not empty%}-{%endif%} <strong>{{electiveUnitsRvd}}</strong></span>
                                         <a class="btn-accordion collapsed" data-collapse="parent" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
                                                 <i class="material-icons">expand_more</i>
