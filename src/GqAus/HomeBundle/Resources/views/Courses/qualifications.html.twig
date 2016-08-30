@@ -299,7 +299,7 @@
     {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,electiveUnitId) %}  
         
     <div class="select">
-        {
+        
         {% if unitsData %}
               
                 {% set groupIdArray = '' %}
@@ -316,7 +316,7 @@
             <div class="tag-copy">
                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}                
-                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{% endif %}
+                {% if approvalText|length > 0 and approvalText != '0' %}<p id="sub_{{units.id}}"> <span class="tag status in-progress">{{approvalText}} </span> </p>{% endif %}
                 <p> <span class="tag-id">{{units.id}}</span> </p>
                 <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
               

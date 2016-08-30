@@ -147,25 +147,25 @@ $(".changeUnitStatus").click(function() {
         type: "POST",
         url: base_url + "updateUnitElective",
         data: {unitId: unitId, courseCode: courseCode, userId: userId},
-        success: function(result) {
+        success: function(result) {          
             var c = $("#label_"+unitId).hasClass("open");
             if (c == true) {
                 $("#label_"+unitId).trigger("click");
             }
             var label = $("#label_" + unitId).attr("temp");
             if (result == '0') {
-                $("#span_" + unitId).removeClass("radioUnChecked");
-                $("#sp_" + unitId).html('');
+                //$("#span_" + unitId).removeClass("radioUnChecked");
+                 $("#span_" + unitId).prop('checked', false);
+                 $("#sub_" + unitId).html('');
                 
             } else {
-                $("#span_" + unitId).addClass("radioUnChecked");
+                $("#span_" + unitId).prop('checked', true);
+             //   $("#span_" + unitId).addClass("radioUnChecked");
                 
             } 
             if( count >= countElectiveUnits)
-            {
-                //$("#btn-done-"+courseCode).removeClass('btn btn-warning hide').addClass("btn btn-warning show");
-				 //$("#btn-done-"+courseCode).removeClass('course-edit hide').addClass('course-edit show');
-				  $("#course-btn-container-"+courseCode).removeClass('course-edit show').addClass('course-edit show');
+            {                
+		$("#course-btn-container-"+courseCode).removeClass('course-edit show').addClass('course-edit show');
 				
                 $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse').addClass("panel-collapse collapse in");
                
@@ -180,21 +180,17 @@ $(".changeUnitStatus").click(function() {
                         $(this).removeClass('edit-show');
                  });
                
-                  $("#strip_"+courseCode).css("background-color", "#E01010");
-                //  $("#edit_"+courseCode).addClass('show');
+                  $("#strip_"+courseCode).css("background-color", "#E01010");               
                     $("#edit_"+courseCode).removeClass('hide');
                  $("#edit_"+courseCode).addClass('show');
                  $("#spanremain").html('');
             }
             else
             {
-                //$("#btn-done-" + courseCode).removeClass('btn btn-warning show').addClass("btn btn-warning hide");
-				 //$("#btn-done-"+courseCode).removeClass('course-edit show').addClass('course-edit hide');
-				 $("#course-btn-container-"+courseCode).removeClass('course-edit show').addClass('course-edit hide');
+                 $("#course-btn-container-"+courseCode).removeClass('course-edit show').addClass('course-edit hide');
 				 
                 $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse in').addClass("panel-collapse collapse in");
                 $("#strip_"+courseCode).removeAttr("style");
-                //   $("#strip_"+courseCode).css('');
                
                 $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').each(function(){
                         $(this).removeClass('edit-show');
@@ -205,8 +201,6 @@ $(".changeUnitStatus").click(function() {
                       $(this).addClass('edit-show');
                         $(this).removeClass('hide');
                  });
-                   //$("#edit_"+courseCode).removeClass('show');
-                 //$("#edit_"+courseCode).addClass('hide');
                 if(countremain < countElectiveUnits) {
                      $("#spanremain").html('<strong> - '+countremain+' REMAINING </strong>');
                 }else {
