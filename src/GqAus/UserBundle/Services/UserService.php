@@ -3561,6 +3561,9 @@ class UserService
             case 'ROLE_RTO':
                 $colLg = '12';
                 break;
+            case 'ROLE_MANAGER':
+                $colLg = '4';
+                break;
             default :
                 $colLg = '12';
                 break;

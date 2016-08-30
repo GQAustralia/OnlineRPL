@@ -10,7 +10,7 @@
     {% endif %}
     {% for key, list in applicantList %}
         <tr>
-            <td>{{list.user.userName}}</td>
+            <td><a target="_blank" href="{{base_url}}applicantDetails/{{list.courseCode}}/{{list.user.id}}">{{list.user.userName}}</a></td>
             <td>{{list.courseCode}} {{list.courseName}}</td>
             {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}             
             {% set userId = list.user.id %}

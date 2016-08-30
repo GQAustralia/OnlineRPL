@@ -101,7 +101,7 @@
                             </div>
                         </div>
                     </div>
-                    {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+                    {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
                         {% if notes|length > 0 or  notesFromCourse|length > 0 %}
                             <div class="row">
                                 <div class="col-md-12 col-lg-12">
@@ -144,7 +144,7 @@
                             </div>
                         {% endif %}
                     {% endif %}
-                    {% if ('ROLE_FACILITATOR' in userRole) %}
+                    {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
                         <div class="gqa-btn-group">
                             <div class="row no-gutter">     
                                  {% if (facilitatorstatus != '1' and currentIdPoints >= '100' and statusOfFacUnitsCount == totalReqUnits ) %}
@@ -194,7 +194,7 @@
                             <div class="select-drop-box clearfix">
                                 <input id="currentCourseStatus" type="hidden" value="{{courseStatus}}" readonly="true" />
                                 <select name="courseStatus" id="courseStatus" class="selectpicker"> 
-                                {% if ('ROLE_ASSESSOR' in userRole and assessorstatus != 1) or ('ROLE_FACILITATOR' in userRole and courseStatus != 0) %}
+                                {% if ('ROLE_ASSESSOR' in userRole and assessorstatus != 1) or ('ROLE_FACILITATOR' in userRole and courseStatus != 0) or ('ROLE_MANAGER' in userRole and courseStatus != 0) %}
                                     {% set courseOrder = statusList[courseStatus].order %}
                                                 <option value="">Select Status</option>
                                                  {% if (statusList is defined) %}
@@ -203,7 +203,7 @@
                                                         {% set roleAcess = 'Aactive' %}
                                                     {% endif %}
                                                     {% for statusId, statusData in statusList %}
-                                                       {% if ('ROLE_FACILITATOR' in userRole or statusData[roleAcess] == 1) %}
+                                                       {% if ('ROLE_FACILITATOR' in userRole or statusData[roleAcess] == 1) or ('ROLE_MANAGER' in userRole or statusData[roleAcess] == 1) %}
                     <option value="{{statusId}}" 
                                 {% if courseStatus == statusId %} 
                                     {{ "selected" }} 
@@ -349,7 +349,7 @@
                                     <a href="javascript:void(0)" data-toggle="modal" data-target="#message_popup"><i class="material-icons">message</i>Message</a>
                                 </div>
                             </div>
-                    {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+                    {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
                                 <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
                                     <div class="btn border-right">
                                         <div class="dropdown keep-open">
@@ -407,7 +407,7 @@
                         <form>
                             <div class="input_section">
                                 <label class="to">To :</label>
-                                {% if 'ROLE_FACILITATOR' in userRole %}
+                                {% if 'ROLE_FACILITATOR' in userRole or 'ROLE_MANAGER' in userRole %}
                                     <input type="text" onkeyup="searchUsersFromCourse('#advanced-demo','{{facilitatorId}}','{{assessorId}}','{{rtoId}}','{{userId}}');" value="{{ toName }}" placeholder="" required="required"  name="advanced-demo"  id="advanced-demo" class="ui-autocomplete-input" autocomplete="off" >
                                 {% else %}
                                     <input type="text" name="advanced-demo" id="advanced-demo" value="{{ toName }}">
