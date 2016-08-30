@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualification.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate.css') }}">
-{#<link rel="stylesheet" href="{{ asset('public/css/jquery.mCustomScrollbar.min.css') }}">#}
+<link rel="stylesheet" href="{{ asset('public/css/jquery.mCustomScrollbar.min.css') }}">
 {% endblock %}
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
@@ -398,6 +398,7 @@
     <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
     <script src="{{ asset('public/js/s3-upload/s3upload.js') }}"></script>
     <script src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+    <script src="{{ asset('public/js/jquery.mCustomScrollbar.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('.fancybox').fancybox();
@@ -409,5 +410,25 @@
                 $('#myWordCount').text(words+"/50 words ");
             });
         });
+        (function($){
+            $(window).on("load",function(){
+
+                    $("a[rel='load-content']").click(function(e){
+                            e.preventDefault();
+                            var url=$(this).attr("href");
+                            $.get(url,function(data){
+                                    $(".content .mCSB_container").append(data); //load new content inside .mCSB_container
+                                    //scroll-to appended content 
+                                    $(".content").mCustomScrollbar("scrollTo","h2:last");
+                            });
+                    });
+
+                    $(".content").delegate("a[href='top']","click",function(e){
+                            e.preventDefault();
+                            $(".content").mCustomScrollbar("scrollTo",$(this).attr("href"));
+                    });
+
+            });
+        })(jQuery);        
     </script>    
  {% endblock %}
