@@ -2878,8 +2878,7 @@ function checkCurrentRolePassword(){
             cache: false,
             data: {mypassword: mypassword},
             success: function(response) {
-                result = JSON.parse(response)       
-                $('#change_pwd_error').show();              
+                result = JSON.parse(response)  
                 if (result.status == "fail") {
                     $("#hdn_pwd_check").val("0");
                     $("#pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);
@@ -2903,6 +2902,50 @@ function checkCurrentRolePassword(){
         $("#pwd_error").html(startdiv + 'Please enter current password' + enddiv).delay(3000).fadeOut(100);
     }
 }
+//Mobile Version Change Password
+function checkCurrentOthersPassword(){
+    mypassword = $('#current_password').val();
+    $("#hdn_pwd_check").val("0");
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
+    var enddiv = '</h2></div>';
+    var mypassword = mypassword;
+    $("#pwd_error").html('');
+    $("#pwd_error").show();
+    $(".chngpwddiv").addClass("hidden-xs");
+    //$("#pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
+    if(mypassword!="") {        
+        $.ajax({
+            type: "POST",
+            url: "checkMyPassword",
+            cache: false,
+            data: {mypassword: mypassword},
+            success: function(response) {               
+                result = JSON.parse(response); 
+                $('#change_pwd_error').show();              
+                if (result.status == "fail") {
+                    $("#hdn_pwd_check").val("0");
+                    $("#pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);
+                    $("#current_password").val('');
+                    $("#current_password").focus();
+                    
+                    return false;
+                }
+                else if (result.status == "success") {
+                val = $("#current_password").val;
+                $("#password_oldpassword").val=val;
+                $("#idfiles").addClass("hidden-xs");
+                $("#user_profile_form_div").hide();
+                $(".currentpassword").addClass("hidden-xs");
+                $(".chngpwddiv").removeClass("hidden-xs");
+                }
+            }
+        });
+    }
+    else
+    {
+        $("#pwd_error").html(startdiv + 'Please enter current password' + enddiv).delay(3000).fadeOut(100);
+    }
+}
    $(".change_link ").click(function(){
         $("#idfiles").addClass("hidden-xs");
         $(".profileinfo").addClass("hidden-xs");
@@ -2910,16 +2953,24 @@ function checkCurrentRolePassword(){
         $(".header-border").addClass("hidden-xs");
         $(".mobi-profile").addClass("hidden-xs");
     });
-    $(".currpwdnext").click(function(){ 
+      $("#change_link ").click(function(){
+         $("#user_profile_form_div").hide();
+         $(".title_bar").hide();
+         $("#profile_suc_msg2").hide();
+         $("#change_address_error").hide();
+         $("#ajax-profile-error").hide();
+         $("#user_profile_form").hide();
+         $(".currentpassword").removeClass("hidden-xs");
+         
+    });
+    $(".chngpwdval").click(function(){ 
          var curpwd = $("#password_hdnoldpassword").val(); 
         var oldpwd = $("#password_oldpassword").val();
          if(curpwd!="")
             oldpwd = curpwd;
-        var displayOldPwd = $("#password_oldpassword").parent().css( "display" );        
+        var displayOldPwd = $("#password_oldpassword").parent().css( "display" );      
         var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );        
         var hdnpwdchk = $("#hdn_pwd_check").val();
-       
-        
         if (curpwd == "" && displayOldPwd != 'none') {
             passwordShowMsg("Please enter Current Password", "password_oldpassword");
             return false;
@@ -2938,6 +2989,7 @@ function checkCurrentRolePassword(){
     });
     $(".chngpwdval").click(function(){ 
         $('#mbl_pwd_error').html('');
+        $('#pwd_error').hide();
         var curpwd = $("#password_hdnoldpassword").val(); 
         var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );        
         var newpwd = $("#password_newpassword").val();
@@ -3001,7 +3053,7 @@ function checkCurrentRolePassword(){
     });
 	
 	
-	$("#password_save").click(function()
+$("#password_save").click(function()
 {
     var displayOldPwd = $("#password_oldpassword").parent().css( "display" );
     var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );
@@ -3066,6 +3118,8 @@ $('.clear_pswd_div').click(function()
             $(".currentpassword").addClass("hidden-xs");
             $(".chngpwddiv").addClass("hidden-xs");
             $(".pwdsucc").addClass("hidden-xs");
+             $(".header-border").removeClass("hidden-xs");
+            $(".mobi-profile").removeClass("hidden-xs");
 });
 
 /** Disabling first space on key enter while adding messages **/

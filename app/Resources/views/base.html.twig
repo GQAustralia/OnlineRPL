@@ -164,7 +164,11 @@
     </main>
      {% block outofbody %}{% endblock %}
         <!-- Profile Modal Starts -->
+       {% if is_mobile() %}        
+        {% include 'GqAusUserBundle:User/mobile:profile_popup.html.twig' %}
+        {% else %}
          {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
+        {% endif %}
          {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
         <!-- Profile Modal Ends -->
 	    <!-- jQuery first, then Bootstrap JS. -->          

@@ -224,9 +224,9 @@ class UserController extends Controller
      */
     public function checkMyPasswordAction(Request $request)
     {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {            
             $mypassword = $request->get("mypassword");
-            $user = $this->get('UserService')->getCurrentUser();
+            $user = $this->get('security.context')->getToken()->getUser();            
             $curDbPassword = $user->getPassword();
              if (password_verify($mypassword, $curDbPassword)) {
                 $status = 'success';

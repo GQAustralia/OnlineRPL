@@ -11,9 +11,7 @@
 			<div class="modal-body">
 				{% set userRole = app.security.getToken().getUser().getRoles() %}
                                 {% set userId = app.security.getToken().getUser().getId() %}
-				<div class="title_bar hidden-sm hidden-md hidden-lg">
-					<span><i class="material-icons arrow_back">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon">clear</i></span>
-				</div>
+				
                              {% set userdata = app.security.getToken().getUser() %}
                                     {% if (roles[0]=='ROLE_FACILITATOR') %}
                                         {% set role = 'Facilitator' %}
