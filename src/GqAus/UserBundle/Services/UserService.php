@@ -593,11 +593,11 @@ class UserService
 
         if ($userType == 'manager' || $userType == 'superadmin') {
             if ($status == 1) {
-                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))
-                    ->setParameter('courseStatus', '0'); //approved
+                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
             } else {
-                $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))
-                    ->setParameter('courseStatus', '0');
+                $avals = array('1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15');
+                $res->andWhere('c.courseStatus IN (:ids)')->setParameter('ids', $avals);
+               // $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '1');
             }
         }
 
@@ -885,11 +885,11 @@ class UserService
             $userType = 'rto';
             $userStatus = 'rtostatus';
         } elseif (in_array('ROLE_MANAGER', $userRole)) {
-            $userType = 'rto';
-            $userStatus = 'rtostatus';
+            $userType = 'manager';
+            $userStatus = 'facilitatorstatus';
         } elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
-            $userType = 'rto';
-            $userStatus = 'rtostatus';
+            $userType = 'superadmin';
+            $userStatus = 'facilitatorstatus';
         }
         $fields = 'partial c.{id, courseCode, courseName, courseStatus, assessorstatus, facilitatorstatus, rtostatus,'
             . ' assessorDate, facilitatorDate, rtoDate}, partial u.{id, firstName, lastName}';
@@ -3705,15 +3705,63 @@ class UserService
      * @param type $userId
      * @return type
      */
-    public function getFacilitaorInfo($courseCode , $userId)
+    public function getFacilitaorInfo($userRole)
     {
-        $query  = $this->em->getRepository('GqAusUserBundle:UserCourses')
+     
+      $query = $this->em->getRepository('GqAusUserBundle:User')
             ->createQueryBuilder('u')
-            ->select('(u.facilitator)')            
-            ->where('u.courseCode IN (:courseCode)')->setParameter('courseCode', $courseCode)
-            ->andWhere('u.user IN (:user)')->setParameter('user', $userId);
-        $faclist = $query->getQuery()->getResult();        
-        return $faclist;
+            ->select();        
+       if ($userRole == 'ROLE_FACILITATOR'){            
+            $query->where('(u instance of GqAusUserBundle:Facilitator)');
+             
+        }
+            $getValues = $query->getQuery()->getResult(); 
+            $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getValues)));
+            sort($getValues);           
+            return $getValues;
+    }
+    /**
+     * Function for get All Assessors
+     * @param type $courseCode
+     * @param type $userId
+     * @return type
+     */
+    public function getAssessorInfo($userRole)
+    {
+     
+      $query = $this->em->getRepository('GqAusUserBundle:User')
+            ->createQueryBuilder('u')
+            ->select();        
+       if ($userRole == 'ROLE_ASSESSOR'){            
+            $query->where('(u instance of GqAusUserBundle:Assessor)');
+             
+        }
+            $getValues = $query->getQuery()->getResult(); 
+            $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getValues)));
+            sort($getValues);    
+            
+            return $getValues;
+    }
+     /**
+     * Function for get All rto
+     * @param type $courseCode
+     * @param type $userId
+     * @return type
+     */
+    public function getRtoInfo($userRole)    {
+     
+      $query = $this->em->getRepository('GqAusUserBundle:User')
+            ->createQueryBuilder('u')
+            ->select();        
+       if ($userRole == 'ROLE_RTO'){            
+            $query->where('(u instance of GqAusUserBundle:Rto)');
+             
+        }
+            $getValues = $query->getQuery()->getResult(); 
+            $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getValues)));
+            sort($getValues);    
+            
+            return $getValues;
     }
     /**
      * Function to Update Facilitator
@@ -3726,6 +3774,40 @@ class UserService
         $user = $this->getUserInfo($facilitator);
         $remObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($listId);        
         $remObj->setFacilitator($user);
+        $this->em->persist($remObj);
+        $this->em->flush();
+        
+        return true;
+ 
+    }
+     /**
+     * Function to Update Assessor
+     * @param type $userId
+     * @param type $courseCode
+     * @param type $assessor
+     */
+    public function updateQualificationAssessor($listId,$assessor)
+    {
+        $user = $this->getUserInfo($assessor);
+        $remObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($listId);        
+        $remObj->setAssessor($user);
+        $this->em->persist($remObj);
+        $this->em->flush();
+        
+        return true;
+ 
+    }
+    /**
+     * Function to Update Rto
+     * @param type $userId
+     * @param type $courseCode
+     * @param type $rto
+     */
+    public function updateQualificationRto($listId,$rto)
+    {
+        $user = $this->getUserInfo($rto);
+        $remObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->find($listId);        
+        $remObj->setRto($user);
         $this->em->persist($remObj);
         $this->em->flush();
         

@@ -4,7 +4,7 @@
      <div class="gq-change-file-warning" id="change_file_error">
         {% for flashMessage in app.session.flashbag.get('errornotice') %}
         <div class="gq-id-file-error-text" style="dispaly:none">
-            <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+            <h2>{{ flashMessage }}</h2>
         </div>
        {% endfor %}
     </div>

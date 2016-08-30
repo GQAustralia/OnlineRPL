@@ -63,9 +63,9 @@
          <td>
              <a href="javascript:void(0)" data-toggle="modal" data-target="#update_popup_{{id}}"><i class="material-icons">control_point</i></a>
              <!-- Modal -->
-        {% set courseFacilitator = user_service.getFacilitaorInfo(ccode, list.user.id) %}
-       
-        <div class="modal fade update_popup" id="update_popup_{{id}}" role="dialog">
+        {% set courseFacilitator = user_service.getFacilitaorInfo('ROLE_FACILITATOR') %}
+        
+       <div class="modal fade update_popup" id="update_popup_{{id}}" role="dialog">
             <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -76,15 +76,77 @@
                             <div class="modal-body">
                                 <div id='profile_suc_msg2_{{id}}'></div>
                                     <form class="form">
-                                        {% if facilitators %}
+                                        {% if courseFacilitator %}
                                         <select class="form-control" id="{{id}}">
                                                     <option>Select</option>
-                                            {% for key,faclist in facilitators%}
-                                                    <option value="{{faclist.id}}" {% if courseFacilitator[0][1] == faclist.id%} selected {% else %} {% endif %}>{{faclist.firstname}} {{faclist.lastname}}</option>
+                                            {% for key,faclist in courseFacilitator%}
+                                                    <option value="{{faclist.id}}">{{faclist.firstname}} {{faclist.lastname}}</option>
                                                    {% endfor %}
                                             </select>
                                         {% endif %}
                                             <button class="btn btn_red" onclick="return updateFacilitator('{{ccode}}',{{list.user.id}},{{id}});">UPDATE</button>
+                                    </form>
+                            </div>
+                    </div>
+            </div>
+        </div>
+         </td>
+         <td>
+             <a href="javascript:void(0)" data-toggle="modal" data-target="#update_assessor_{{id}}"><i class="material-icons">control_point</i></a>
+             <!-- Modal -->
+        {% set courseAssessor = user_service.getAssessorInfo('ROLE_ASSESSOR') %}
+        
+       <div class="modal fade update_popup" id="update_assessor_{{id}}" role="dialog">
+            <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                            <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h5 class="modal-title">Select Assessor</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div id='profile_suc_msg3_{{id}}'></div>
+                                    <form class="form">
+                                        {% if courseAssessor %}
+                                        <select class="form-control" id="{{id}}">
+                                                    <option>Select</option>
+                                            {% for key,faclist in courseAssessor%}
+                                                    <option value="{{faclist.id}}">{{faclist.firstname}} {{faclist.lastname}}</option>
+                                                   {% endfor %}
+                                            </select>
+                                        {% endif %}
+                                            <button class="btn btn_red" onclick="return updateAssessor('{{ccode}}',{{list.user.id}},{{id}});">UPDATE</button>
+                                    </form>
+                            </div>
+                    </div>
+            </div>
+        </div>
+         </td>
+         <td>
+             <a href="javascript:void(0)" data-toggle="modal" data-target="#update_rto_{{id}}"><i class="material-icons">control_point</i></a>
+             <!-- Modal -->
+        {% set courseRto = user_service.getRtoInfo('ROLE_RTO') %}
+        
+       <div class="modal fade update_popup" id="update_rto_{{id}}" role="dialog">
+            <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                            <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h5 class="modal-title">Select Rto</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div id='profile_suc_msg4_{{id}}'></div>
+                                    <form class="form">
+                                        {% if courseRto %}
+                                        <select class="form-control" id="{{id}}">
+                                                    <option>Select</option>
+                                            {% for key,faclist in courseRto%}
+                                                    <option value="{{faclist.id}}">{{faclist.firstname}} {{faclist.lastname}}</option>
+                                                   {% endfor %}
+                                            </select>
+                                        {% endif %}
+                                            <button class="btn btn_red" onclick="return updateRto('{{ccode}}',{{list.user.id}},{{id}});">UPDATE</button>
                                     </form>
                             </div>
                     </div>

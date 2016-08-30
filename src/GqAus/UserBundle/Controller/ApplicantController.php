@@ -568,4 +568,48 @@ class ApplicantController extends Controller
         echo json_encode($response);
         exit;
     }
+    /**
+     * Function to Update Assessor in Manager Portfolio
+     */    
+    public function updateAssessorAction(Request $request)
+    {
+        $listId = $this->getRequest()->get('listId');        
+        $assessor = $this->getRequest()->get('assessor');
+        $updateAssVal = $this->get('UserService')->updateQualificationAssessor($listId,$assessor);
+        if($updateAssVal)
+        {
+            $status = 'true';
+            $message = 'updated successfully';
+        }
+        else
+        {
+            $status = 'false';
+            $message = 'Error while updating..';
+        }
+        $response = array('status' =>$status,'message' => $message);
+        echo json_encode($response);
+        exit;
+    }
+     /**
+     * Function to Update RTO in Manager Portfolio
+     */    
+    public function updateRtoAction(Request $request)
+    {
+        $listId = $this->getRequest()->get('listId');        
+        $rto = $this->getRequest()->get('rto');
+        $updateRtoVal = $this->get('UserService')->updateQualificationRto($listId,$rto);
+        if($updateRtoVal)
+        {
+            $status = 'true';
+            $message = 'updated successfully';
+        }
+        else
+        {
+            $status = 'false';
+            $message = 'Error while updating..';
+        }
+        $response = array('status' =>$status,'message' => $message);
+        echo json_encode($response);
+        exit;
+    }
 }

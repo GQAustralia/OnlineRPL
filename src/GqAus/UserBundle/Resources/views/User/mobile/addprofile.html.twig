@@ -42,7 +42,7 @@
             <div class="gq-change-profile-warning" id="change_pwd_error">
                 {% for flashMessage in app.session.flashbag.get('errornotice') %}
                 <div class="gq-id-files-upload-error-text">
-                    <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                    <h2>{{ flashMessage }}</h2>
                 </div>
                {% endfor %}
             </div>
