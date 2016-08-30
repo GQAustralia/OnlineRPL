@@ -164,7 +164,10 @@
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
                                                                                 <span class="icon">
-                                                                                    <i class="material-icons">description</i>
+                                                                                    <a href="{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"
+                                                                                    {% if output[1] is defined %}
+                                                                                    {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
+                                                                                    {%endif%}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a>
                                                                                 </span>
                                                                                 <span class="file-discription">
                                                                                     {{ evd[0].name }} <br> {{ evd[0].size }} | Added {{ evd[0].created|date("d/m/y") }}

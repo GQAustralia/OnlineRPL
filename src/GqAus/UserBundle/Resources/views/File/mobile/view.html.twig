@@ -326,6 +326,7 @@
                                                     {% set mappedCourse = (evd[0].course) ?  evd[0].course : 'nonmapped' %}
                                                     {% if evd[0].type !='text' %}
                                                         {% set eviType = evidence_service.getEvidenceShowType(evd[0].type) %}
+                                                        {#{% set evdByteSize = evidence_service.convertSizetoBytes(evd[0].size) %}#}
                                                         {% set output = eviType|split('&&') %}
 
                                                         {% if evd[0].name %}
