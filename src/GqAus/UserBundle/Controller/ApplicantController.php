@@ -156,7 +156,7 @@ class ApplicantController extends Controller
         $searchTime = $this->getRequest()->get('searchTime');
         $filterByUser = $this->getRequest()->get('filterByUser');
         $filterByStatus = $this->getRequest()->get('filterByStatus');
-        $status = $this->getRequest()->get('status');
+        echo $status = $this->getRequest()->get('status');
         $page = $this->getRequest()->get('pagenum');        
         if ($page == '') {
             $page = 1;

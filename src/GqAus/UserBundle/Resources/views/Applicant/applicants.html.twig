@@ -35,7 +35,7 @@
             <div class="progress">
               <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{% if output[1] >0 %}{{ output[1] }}{%else%} 0 {% endif %}%"></div>
             </div>   
-            
+            <input type="hidden" value="{{status}}" id="filterByStatus">
             <div class="progress-copy">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%} </div>
         </td>
       {% endif %}
