@@ -14,7 +14,7 @@
     {% set unitRtostatus = unitStatus.rtostatus %}#}
     
     <!-- Large Screens HTML -->
-    <div class="body_section">
+    <div class="hidden-xs body_section">
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
@@ -39,8 +39,9 @@
                             {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, 'ROLE_FACILITATOR', unitCode, courseCode ) %}
                             {% set inloop = 1 %}
                         {% endif %}   
-                        {#{% set approvalText = user_service.getStausByStatus(approvalStatus,inloop,userRole[0]) %}
-                        {% if approvalText|length > 0 %}<p> <span class="tag">{{approvalText}} </span> </p>{% endif %}#}
+                         {% set currUnitStatus = courses_service.getUnitStatus(userId, unitCode, courseCode)%}
+                        {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, unitCode, courseCode, userRole[0]) %}
+                        {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{% endif %}
                         <p>
                             <span class="tag-edu"><a href="/qualifications">Qualification</a></span>
                             <span class="tag-id">Unit {{ unitCode }}</span>
@@ -134,7 +135,7 @@
                                         {% endfor%}
                                             
                                             <textarea id="selfassnote" name="selfassnote" >{{selfAsseNote}}</textarea>    
-                                             <div class="panel-body" id = "myWordCount"></div>
+                                             <span class="char-count" id = "myWordCount"></span>                                             
                                         </div>
                                 </div>                                        
                             </div>
@@ -145,13 +146,20 @@
                             <div class="col-md-12 col-lg-12">
                                 <div class="row no-gutter">
                                     <div class="col-md-12 col-lg-12">
+
                                        {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseCode) %}
 
                                         {% if unitType.type == "core" and unitType.issubmitted != 1%}
                                                 <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">Submit this unit for review</button>
                                        {% endif %} 
-                                        {% if electiveUnits[0] is defined and selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0 and unitType.type=='elective' %}                                        
+                                        {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus!=0 and unitType.type=='elective' and unitType.issubmitted != 1 %}                                        
                                             <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">Submit this unit for review</button>
+
+                                       {#{% set unitType = courses_service.getUnitStatus(userId, unitCode,courseInfo.id) %}
+                                        {% if unitType.type=="core" %}
+                                                <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
+                                       {% endif %} {% if electiveUnits[0] is defined and selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0 and unitType.type='elective'%}                                        
+                                            <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>#}
 
                                         {% endif %}
                                         
@@ -368,7 +376,7 @@
             </div>
         </div>
         <div class="modal fade" id="confirm_popup" role="dialog" data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog">
+            <div class="modal-dialog remove-evidence">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-body">
@@ -394,7 +402,7 @@
         </div>
    </div>
     <!-- Larg Screens HTML -->
-{% include 'GqAusHomeBundle:Courses:mobile/addevidencestounitmodal.html.twig' %}
+{% include 'GqAusHomeBundle:Courses:addevidencestounitmodal.html.twig' %}
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
@@ -405,32 +413,32 @@
         $(document).ready(function() {
             $('.fancybox').fancybox();
              var orig_words = $('#selfassnote').val().split(/\s+/).length;
-            $('#myWordCount').text(orig_words+"/50 words ");
+            $('#myWordCount').text(orig_words+"/50");
             $('#selfassnote').on('keyup', function(){
                 // count words by whitespace
                 var words = $(this).val().split(/\s+/).length;
-                $('#myWordCount').text(words+"/50 words ");
+                $('#myWordCount').text(words+"/50");
             });
         });
         (function($){
-            $(window).on("load",function(){
+                $(window).on("load",function(){
 
-                    $("a[rel='load-content']").click(function(e){
-                            e.preventDefault();
-                            var url=$(this).attr("href");
-                            $.get(url,function(data){
-                                    $(".content .mCSB_container").append(data); //load new content inside .mCSB_container
-                                    //scroll-to appended content 
-                                    $(".content").mCustomScrollbar("scrollTo","h2:last");
-                            });
-                    });
+                        $("a[rel='load-content']").click(function(e){
+                                e.preventDefault();
+                                var url=$(this).attr("href");
+                                $.get(url,function(data){
+                                        $(".content .mCSB_container").append(data); //load new content inside .mCSB_container
+                                        //scroll-to appended content 
+                                        $(".content").mCustomScrollbar("scrollTo","h2:last");
+                                });
+                        });
 
-                    $(".content").delegate("a[href='top']","click",function(e){
-                            e.preventDefault();
-                            $(".content").mCustomScrollbar("scrollTo",$(this).attr("href"));
-                    });
+                        $(".content").delegate("a[href='top']","click",function(e){
+                                e.preventDefault();
+                                $(".content").mCustomScrollbar("scrollTo",$(this).attr("href"));
+                        });
 
-            });
-        })(jQuery);        
+                });
+        })(jQuery);
     </script>    
  {% endblock %}

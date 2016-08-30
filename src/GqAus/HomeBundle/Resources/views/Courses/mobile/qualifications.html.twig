@@ -14,7 +14,7 @@
 {% else %}
     {% set counter = '' %}
     {% set counterArr = 0 %}
-    <div class="body_section">
+    <div class="hidden-xs body_section">
 {% for key, courses in userCourses %} 
     {% set userRole = app.security.getToken().getUser().getRoles() %}
     {% set userId = app.security.getToken().getUser().getId() %} 
@@ -25,7 +25,7 @@
 {% if courseInfo.courseInfo == "No records found" %}
 {% elseif courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
 {% set evidenceCompleteness = courses_service.getEvidenceByCourse(userId, courseCode) %}
-{% set counter = counter~evidenceCompleteness~',' %}
+{% set counter = counter~evidenceCompleteness~',' %}      
 <div class="data-collapse">
     <div class="presentation-section">
         <div class="container">
@@ -33,13 +33,15 @@
                 <div class="col-sm-12 col-lg-11">
                     <p>
                         <span> {{ courses.getCourseName() }}</span>
-                        <span data-toggle="collapse" data-target="#collapse-{{courseCode}}">{{ courses.getCourseCode() }}
-                            {% if courses|length > 0 %}
-                            <a href="#">
+                         
+                        <span>{{ courses.getCourseCode() }}                            
+                           {% if courses|length > 1 %}
+                            <a href="#" data-toggle="collapse" data-target="#collapse-{{courseCode}}">
                                     <i class="material-icons">expand_less</i>
-                            </a>
-                        {% endif %}
+                            </a>  
+                            {% endif %}
                         </span>
+                        
                     </p>
                 </div>
             </div>
@@ -103,8 +105,9 @@
             </p>
             <div class="progres-content">
                 <div class="activ-middle">
+                    {% set carr = counter|slice(0,2)  %}
                     <div id="slider{{counterArr}}" class="round-progress rslider"></div>
-                    <div class="evidence-status">Evidence Submitted</div>
+                    <div class="evidence-status">{% if carr > 99 %}Evidence Submitted{% else %}Awaiting Evidences{% endif %}</div>
                 </div>
                 <p class="day-progress clearfix">
                     <span class="start-day">0<br/>Days</span>
@@ -116,49 +119,66 @@
                       <span class="sr-only">{{output[0]}} Complete</span>
                     </div>
                 </div>
-                <p class="text-center">{%if (output[1] == 1) %}Today is first day{% else %} You have <span> <strong>{{output[1]}} Days remaining </strong> </span> to submit your <br/> evidence files {% endif %}</p>
+                <p class="text-center">{%if (output[1] == 1) %}Today is first day{% else %} You have <strong class="text-danger">{{output[0]}} Days remaining </strong> to submit your <br/> evidence files {% endif %}</p>
                      
             </div>
             </div>
         {% endif %}
    
     </div>
-    <div class="review">
+    <div class="hidden-xs review">
         <div class="review_content">
                 <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSR </span>for this qualification</p>
         </div>
         <div class="review_profile-pic">
-                <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{ base_url}}{{'public/uploads/'}}{{courses.Facilitator.userImage}}{% endif %}"></a>                               
+                <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~courses.Facilitator.userImage}}{% endif %}"></a>                               
         </div>
     </div>
 {% set notes = user_service.getNotesFromUserAndCourseApplicant(courseCode, userId) %}
+{% set notesFromCourse = user_service.getNotesFromCourseIdOnly(courseCode, userRole[0]) %}       
     {% if notes|length > 0 %}
         <div class="row">
             <div class="col-lg-12">
                 <div class="comments">
                     <div class="panel-group">
                         <div class="panel-heading">
-                            <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
+                            <h4 class="panel-title">Notes <span class="count">({{notes|length + notesFromCourse|length}})</span></h4>
                         </div>
                         {% for note in notes %} 
+                            {% set notecrted = (note.type =='f') ? facilitatorName : assessorName  %}
+                            {% set notecrtedImg = (note.type =='f') ? facilitatorImage : assessorImage%}
                             <div class="panel-content">
-                                <img src="{% if userImage %}{{ userImage }}{% endif %}" class="profile-img">
-                                <span><strong>{{note.userName}}</strong></span>
+                                <img src="{% if notecrtedImg %} {{ notecrtedImg }} {% endif %}" class="profile-img">
+                                <span><strong>{{notecrted}}</strong></span>
                                 <span class="date-time">
                                     <span class="date">{{ note.created|date('m/d/y')}}</span>
+                                    <span class="date"> - </span>
                                     <span class="time">{{ note.created|date('H:i')}}</span>
                                 </span>
                                 <p>{{note.note}}</p>
                             </div>
                         {% endfor %}
-                        
+                        {% for note in notesFromCourse%}
+                            {% set notecrtd = (note.type =='f') ? facilitatorName : assessorName  %}
+                            {% set notecrtdImg = (note.type =='f') ? facilitatorImage : assessorImage%}
+                            <div class="panel-content">
+                                <img src="{% if notecrtdImg %} {{ notecrtdImg }} {% endif %}" class="profile-img">
+                                <span><strong>{{notecrtd}}</strong></span>
+                                <span class="date-time">
+                                    <span class="date">{{ note.created|date('m/d/y')}}</span>
+                                    <span class="date"> - </span>
+                                    <span class="time">{{ note.created|date('H:i')}}</span>
+                                </span>
+                                <p>{% if note.note is defined %}{{note.note}}{%endif%}</p>
+                            </div>
+                        {% endfor %}                        
                     </div>
                 </div>
             </div>
         </div>
     {% endif %}
 
-    <div class="faq_link">
+    <div class="hidden-xs faq_link">
             <a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow">
                     <i class="material-icons help">help</i>
                     <span>FAQs</span>
@@ -198,9 +218,9 @@
                        <div class="panel-heading">
                                <div class="panel-title">
                                        <div class="panle_body_content">
-                {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
-                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}
-                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.issubmitted is defined%}{%if currUnitStatus.issubmitted == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}                                           
+                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
+                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}                
+                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{% endif %}                                        
                                                <p> <span class="tag-id">{{units.id}}</span> </p>
                                                <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                        </div>
@@ -210,17 +230,13 @@
                                </div>
                        </div>
                        <div id="nested-collapseSeven" class="panel-collapse collapse">
-                               {#<div class="panel-body">
-                                       Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                               </div>#}
+                              
                        </div>
                    </div>
                    {% endfor %} 
                     {% endif %}
                     {% endif %}
-                   {#{% if flagCore == '0' %}
-                           <div class="gq-acc-row-title load-icon-tr">No Core Units found</div>
-                   {% endif %}#}
+                  
                </div>
            </div>
        </div>
@@ -237,24 +253,20 @@
                     {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}      
                         {% set totalCheckedCount = courses_service.getElectiveCheckedValues(userId,courseCode) %}           
             {% set electiveSubmitted = courses_service.getSubmittedElectiveStatus(userId,courseCode,'elective') %}
-            {% set electiveRemaining = electiveUnitCountRequired - electiveSubmitted %}
+            {% set electiveRemaining = electiveUnitCountRequired - totalCheckedCount %}
                 {% endif %}
-            {% endif %}
-            {% if courseInfo.courseInfo.Units.Elective.validation.type is defined and  courseInfo.courseInfo.Units.Elective.validation.type == "Points"%}
-                {% if courseInfo.courseInfo.Units.Elective.validation.requirement is defined and courseInfo.courseInfo.Units.Elective.validation.requirement %}
-                    {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}      
-                {% endif %}
-            {% endif %}       
+            {% endif %}                  
         <input type="hidden" name="chkboxCount" id="chkboxCount" value="{{electiveUnitCountRequired}}">
-            
+           
     <div class="panel panel-default">
     <div class="panel-heading"  id='strip_{{courseCode}}' {% if totalCheckedCount >= electiveUnitCountRequired%} style="background-color:#E01010" {% else %}{% endif %}>
     <h4 class="panel-title">
-        <span>{{electiveUnitsCount}} ELECTIVE UNITS -  {% if electiveSubmitted > 1 and electiveRemaining < electiveUnitCountRequired %} <strong>{{electiveRemaining}} REMAINING </strong> {% elseif electiveSubmitted == 0 %} Choose {{electiveUnitCountRequired}} {% else %} {% endif %}</span>
+        <span>{{electiveUnitsCount}} ELECTIVE UNITS  <span id="spanremain"> {%if electiveRemaining>0 %}{% if electiveRemaining < electiveUnitCountRequired %} <strong> - {{electiveRemaining}} REMAINING </strong> {% elseif totalCheckedCount == 0 %} - Choose {{electiveUnitCountRequired}} {% else %} {% endif %}{% endif %}</span></span>
         <a aria-expanded="false" data-toggle="collapse" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}"><i class="material-icons edit">edit</i></a>
         <a aria-expanded="false" class="btn-accordion collapsed" data-toggle="collapse" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}">
-            <i class="material-icons down">keyboard_arrow_down</i>
-        </a>                                
+            <i class="material-icons">expand_more</i>
+        </a>
+        
     </h4>       
         
         {% if totalCheckedCount >= electiveUnitCountRequired%}
@@ -276,37 +288,23 @@
     <div aria-expanded="false" id="nested-collapseSTR-{{courseCode}}" class="panel-collapse collapse {% if totalCheckedCount >= electiveUnitCountRequired %} in {% endif %}">
     <div class="panel-body">
          
-   {# <p class="panel-copy">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-    </p>#}
+
         {% if courseInfo.courseInfo.Units.Elective.groups is defined and courseInfo.courseInfo.Units.Elective.groups %}
         {% if courseInfo.courseInfo.Units.Elective.groups.group is defined and courseInfo.courseInfo.Units.Elective.groups.group %}
             {% set unitsData = courseInfo.courseInfo.Units.Elective.groups.group.unit %}
         
         {% for key, units in unitsData %}   
-         {% set electiveUnitId = units.id %}
-       {# {% if electiveUnitCountRequired %}
-                {#{% set groupValidation = courseInfo.courseInfo.Units.Elective.validation.group %}#}
-                 {#{% if groupValidation %}
-                 {% for keyGroup,groupVal in groupValidation%}
-                   {% set groupId = groupVal.item.id %}
-               {% endfor %}
-                 {% endif %}#}
-       {# {% endif %}#}
+         {% set electiveUnitId = units.id %}       
        
     {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,electiveUnitId) %}  
         
     <div class="select">
-        {#<div class="panel-heading">
-            <h4 class="panel-title">
-                <span>Common Foundation Skills</span>
-            </h4>
-        </div>#}
+
         {% if unitsData %}
-               {# {% set groupItems = unitsData.unit.item %} #}
+              
                 {% set groupIdArray = '' %}
                 {% set groupSelectCount = 0 %}
-        {#{% for keyVal,groupUnitItem in groupItems %}#}
+       
                 {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,units.id) %} 
                 {% set electiveStatus = 1 %}
         {% if electiveStatus==1 %}
@@ -317,8 +315,8 @@
             <i class="material-icons info">info</i>
             <div class="tag-copy">
                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
-                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}
-                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.status is defined%}{%if currUnitStatus.status == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
+                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}                
+                {% if approvalText|length > 0 and approvalText != '0' %}<p id="sub_{{units.id}}"> <span class="tag status in-progress">{{approvalText}} </span> </p>{% endif %}
                 <p> <span class="tag-id">{{units.id}}</span> </p>
                 <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
               
@@ -379,24 +377,30 @@
   
     <!-- Larg Screens HTML End -->
     <input type="hidden" id="unitcheckval" name="unitcheckval" value="">
-<div class="modal fade confirm_popup" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-   <!-- Modal content-->
-   <div class="modal-content">
-    <div class="modal-header">
-     <button type="button" id="qeclose" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-     <div class="modal-title">Do you want to check or Uncheck this elective unit ?</div>
-    </div>
-    <div class="modal-body">
-     <div class="btn_section">
-      <button class="btn btn_red changeUnitStatus">OK</button>
-      <button class="btn"  id="qeclose-cancel" onclick="return cancelCheckbox();">CANCEL</button>
-       <span class="loading-icon qual_status_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
-     </div>
-    </div>
-   </div>
-  </div>
- </div>
+    <div class="modal-pop">
+        <div role="dialog" id="myModal" class="modal fade" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body"><p>Do you want to check or Uncheck this elective unit ?</p></div>
+                    <div class="modal-footer">
+                        <div class="form-group form-group-lg gqa-btn-group">
+                            <div class="form">
+                                <div class="row no-gutter">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right changeUnitStatus" type="button">OK</button>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <button data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button" onclick="return cancelCheckbox();">CANCEL</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>          
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
 {% endblock %}
     
 {% block javascripts %}
