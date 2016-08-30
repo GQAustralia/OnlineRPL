@@ -90,13 +90,13 @@
                             {%if facilitatorId is not empty %}
                                 <div class="review">
                                     <div class="review_content"><p><strong class="text-uppercase">{{facProName}}</strong> {{facVocName}} {{userName}}'s CSR for this course</p></div>
-                                    <div class="review_profile-pic"><span><a href="javascript:viod(0);"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if facilitatorImage %}{{facilitatorImage}}{% endif %}" /></a></span></div>
+                                    <div class="review_profile-pic"><span><a href="javascript:viod(0);"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if facilitatorImage %}{{amazon_link~facilitatorImage}}{% endif %}" /></a></span></div>
                                 </div>
                             {%endif%}
                             {%if assessorId is not empty %}
                                 <div class="review">
                                     <div class="review_content"><p><strong class="text-uppercase">{{assProName}}</strong> {{assVocName}} {{userName}}'s assessor for this cource</p></div>
-                                    <div class="review_profile-pic"><span><a href="javascript:viod(0);"><img class="profile-img" data-target="#assProfile" data-toggle="modal"  src="{% if assessorImage %}{{ assessorImage }}{% endif %}" /></a></span></div>
+                                    <div class="review_profile-pic"><span><a href="javascript:viod(0);"><img class="profile-img" data-target="#assProfile" data-toggle="modal"  src="{% if assessorImage %}{{amazon_link~assessorImage }}{% endif %}" /></a></span></div>
                                 </div>
                             {%endif%}
                             </div>
@@ -115,7 +115,7 @@
                                                 {% set notecrted = (note.type =='f') ? facilitatorName : assessorName  %}
                                                 {% set notecrtedImg = (note.type =='f') ? facilitatorImage : assessorImage%}
                                                 <div class="panel-content">
-                                                    <img src="{% if notecrtedImg %} {{ notecrtedImg }} {% endif %}" class="profile-img">
+                                                    <img src="{% if notecrtedImg %} {{ amazon_link~notecrtedImg }} {% endif %}" class="profile-img">
                                                     <span><strong>{{notecrted}}</strong></span>
                                                     <span class="date-time">
                                                         <span class="date">{{ note.created|date('m/d/y')}}</span>
@@ -129,7 +129,7 @@
                                                 {% set notecrtd = (note.type =='f') ? facilitatorName : assessorName  %}
                                                 {% set notecrtdImg = (note.type =='f') ? facilitatorImage : assessorImage%}
                                                 <div class="panel-content">
-                                                    <img src="{% if notecrtdImg %} {{ notecrtdImg }} {% endif %}" class="profile-img">
+                                                    <img src="{% if notecrtdImg %} {{ amazon_link~notecrtdImg }} {% endif %}" class="profile-img">
                                                     <span><strong>{{notecrtd}}</strong></span>
                                                     <span class="date-time">
                                                         <span class="date">{{ note.created|date('m/d/y')}}</span>
