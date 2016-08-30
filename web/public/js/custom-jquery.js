@@ -368,7 +368,7 @@ $(".todo-list").on('click', '.todomodalClass', function(){
     reminderid = $(this).attr('id');
 });
 $("#todo-cancel").click(function() {
-    alert('test');
+   
     $("#todoclose").trigger("click");
 });
 /* dashboard update todo list functionality starts */
@@ -1218,7 +1218,7 @@ function loadApplicantList(divContent,pagenum)
     searchName = $('#searchName').val();
  //   searchTime = $('#timeRemaining').val();
  filterByUser = $('#filterByUser').val();
-filterByStatus = $('#filterByStatus').val(); alert(filterByStatus);
+filterByStatus = $('#filterByStatus').val(); 
     $.ajax({
         type: "POST",
         url: base_url + "searchApplicantsList",
