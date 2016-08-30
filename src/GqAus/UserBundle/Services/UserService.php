@@ -3814,6 +3814,28 @@ class UserService
         $result = !empty($courseUnitObj) ? count($courseUnitObj) : 0;        
         return $result;
     }
-
-
+    /**
+     * Function to get the status of the units based on role wise
+     * @param type $userRole
+     * @return string
+     */
+    public function getRoleStatus($userRole)
+    {   $unitStatus = '';
+        switch ($userRole) {
+            case 'ROLE_FACILITATOR':
+            case 'ROLE_MANAGER':
+                $unitStatus ='SATISFACTORY';
+                break;
+            case 'ROLE_ASSESSOR':
+                $unitStatus ='COMPETENT';
+                break;
+            case 'ROLE_RTO':
+                $unitStatus ='APPROVED';
+                break;
+            default:
+                $unitStatus ='';
+                break;
+        }
+        return $unitStatus;
+    }
 }
