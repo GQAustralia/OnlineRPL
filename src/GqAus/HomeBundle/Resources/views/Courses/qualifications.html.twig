@@ -34,9 +34,9 @@
                     <p>
                         <span> {{ courses.getCourseName() }}</span>
                          
-                        <span data-toggle="collapse" data-target="#collapse-{{courseCode}}">{{ courses.getCourseCode() }}                            
+                        <span>{{ courses.getCourseCode() }}                            
                            {% if courses|length > 1 %}
-                            <a href="#">
+                            <a href="#" data-toggle="collapse" data-target="#collapse-{{courseCode}}">
                                     <i class="material-icons">expand_less</i>
                             </a>  
                             {% endif %}
