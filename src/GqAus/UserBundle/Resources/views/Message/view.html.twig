@@ -31,7 +31,7 @@
                                             {% else %}
                                             {% set userimg = 'PROFILE.png' %}
                                             {% endif %}
-                                                {% if message.sent.userImage != "" %}
+                                                {% if message.sent.userImage is defined and message.sent.userImage != "" %}
                                                 <img src="{{ amazon_link~message.sent.userImage }}" alt="chat_pic"/>
                                                 {% else %}
                                                 <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
