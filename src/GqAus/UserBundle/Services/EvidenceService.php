@@ -170,6 +170,7 @@ class EvidenceService
         $fileObj->setPath($filName);
         $fileObj->setName($fileInfo['name']);
         $fileObj->setJobId('');
+        $fileObj->setFacilitatorViewStatus('0');
         $fileObj->setUser($this->currentUser);
         $fileObj->setSize($size);
         if(isset($otherInfo['hid_unit'])) // null value added for unmapped file upload
@@ -297,6 +298,7 @@ class EvidenceService
                             $newObj->setUnit($unitId);
                             $newObj->setCourse($courseCode);
                             $newObj->setJobId("");
+                            $newObj->setFacilitatorViewStatus('0');
                             $this->em->persist($newObj);
                             $this->em->flush();
                             $this->updateCourseUnits($this->userId, $unitId, $courseCode);

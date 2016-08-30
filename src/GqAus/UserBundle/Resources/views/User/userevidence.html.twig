@@ -1,6 +1,3 @@
-{% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('public/css/jquery.mCustomScrollbar.min.css') }}">
-{% endblock %}
 {% set videoCount = 0 %}
 {% set audioCount = 0 %}
 {% set imageCount = 0 %}
@@ -19,7 +16,6 @@
         {% set textCount = textCount + 1 %}
     {% endif %}
 {% endfor %}
-{% if evidences|length > 0 %}
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="evidence_block">
@@ -130,11 +126,14 @@
                                                         {% endif %}
                                                     {% endif %}
                                             {% endfor %}
+                                    {% else %}
+                                    <h5>{{ no_evidences_found }}</h5>
                                     {% endif %}
                                     {# <input type="submit" class="btn btn-red pull-right" value="Save">    #}
                                 </div>
                             </div>
-                        </div>                                                                                                
+                        </div>
+                        {% if evidences|length > 0%}
                         <div class="gqa-btn-group btn-file-save">
                             <div class="row no-gutter">
                                 <div class="col-md-12 col-lg-12">
@@ -142,35 +141,10 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                     </form>
                 </div>                                            
             </div>
         </div>
     </div>
 </div>
-{% endif %}
-{% block javascripts %}
-    <script src="{{ asset('public/js/jquery.mCustomScrollbar.js') }}"></script>
-    <script>
-        (function($){
-                $(window).on("load",function(){
-
-                        $("a[rel='load-content']").click(function(e){
-                                e.preventDefault();
-                                var url=$(this).attr("href");
-                                $.get(url,function(data){
-                                        $(".content .mCSB_container").append(data); //load new content inside .mCSB_container
-                                        //scroll-to appended content 
-                                        $(".content").mCustomScrollbar("scrollTo","h2:last");
-                                });
-                        });
-
-                        $(".content").delegate("a[href='top']","click",function(e){
-                                e.preventDefault();
-                                $(".content").mCustomScrollbar("scrollTo",$(this).attr("href"));
-                        });
-
-                });
-        })(jQuery);
-    </script>  
- {% endblock %}

@@ -18,3 +18,4 @@ twig:
         delete_evidence_confirm: "Are you want to delete the evidence?"
         usi_link           : "Don't have one? Click here to create one"
         todo_status_change : "Do you want to change the status?"
+        no_evidences_found : "No Evidences Found"
