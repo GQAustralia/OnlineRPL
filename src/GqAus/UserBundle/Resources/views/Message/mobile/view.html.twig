@@ -34,7 +34,7 @@
                                     {% set userimg = 'PROFILE.png' %}
                                     {% endif %}
                                         {% if message.sent.userImage is defined and message.sent.userImage != "" %}
-                                        <img src="{{ amazon_link~message.sent.userImage }}" alt="chat_pic"/>
+                                        <img src="{{ amazon_link~'user-'~message.sent.id~'/'~message.sent.userImage }}" alt="chat_pic"/>
                                         {% else %}
                                         <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
                                         {% endif %}
@@ -136,7 +136,7 @@
                                             {% set userimg = 'PROFILE.png' %}
                                             {% endif %}
                                                 {% if message.userImage != "" %}
-                                                <img src="{{ amazon_link~message.userImage }}" alt="chat_pic"/>
+                                                <img src="{{ amazon_link~'user-'~message.id~'/'~message.userImage }}" alt="chat_pic"/>
                                                 {% else %}
                                                 <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
                                                 {% endif %}

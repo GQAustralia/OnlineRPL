@@ -1,4 +1,4 @@
-<?php
+toUserImage<?php
 
 namespace GqAus\UserBundle\Controller;
 
@@ -84,6 +84,7 @@ class MessageController extends Controller
                     $replymsgarr[$i]['userImage'] = $fromUser->getUserImage();
                     $replymsgarr[$i]['fromUserImage'] = $fromUser->getUserImage();
                     $replymsgarr[$i]['toUserImage'] = $toUser->getUserImage();
+                    $replymsgarr[$i]['toUserId'] = $toUser->getId();
                     $replymsgarr[$i]['fromUserName'] = $fromUser->getUserName();               
                     if($replymsgarr[$i]['fromUserImage'] == "" || $replymsgarr[$i]['toUserImage'] == "")
                     {
