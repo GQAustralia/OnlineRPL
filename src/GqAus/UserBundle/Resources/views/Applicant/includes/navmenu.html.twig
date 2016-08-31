@@ -12,8 +12,8 @@
         <nav>
             <ul class="nav">
                 <li><a {% if app.request.attributes.get('_route') == 'applicantDetails' or app.request.attributes.get('_route') == 'courseunitDetails' %} class="active" {% endif %} href="{{ app.request.baseUrl }}/applicantDetails/{{courseCode}}/{{applicantId}}"><i class="material-icons">school</i><span>Qualification</span></a></li>
-                <li><a {% if app.request.attributes.get('_route') == 'files' or app.request.attributes.get('_route') == 'mobileRoleWiseFiles'%} class="active" {% endif %} href="javascript:void(0);" id="mobileFiles" data-courseCode="{{courseCode}}" data-userId="{{applicantId}}"><i class="material-icons">cloud_upload</i><span>Files</span></a></li>
-                <li><a {% if app.request.attributes.get('_route') == 'candidateProfile'%} class="active" {% endif %} href="javascript:void(0);" id="mobileCanProfile" data-courseCode="{{courseCode}}" data-userId="{{applicantId}}"><i class="material-icons">account_circle</i><span>Profile</span></a>
+                <li><a {% if app.request.attributes.get('_route') == 'files' or app.request.attributes.get('_route') == 'mobileRoleWiseFiles'%} class="active" {% endif %} {% if is_mobile() %} id="mobileFiles" href="javascript:void(0);" data-courseCode="{{courseCode}}" data-userId="{{applicantId}}" {%else%} href="{{ app.request.baseUrl }}/files/{{courseCode}}/{{applicantId}}" {%endif%} ><i class="material-icons">cloud_upload</i><span>Files</span></a></li>
+                <li><a {% if app.request.attributes.get('_route') == 'candidateProfile'%} class="active" {% endif %} {%if is_mobile()%} id="mobileCanProfile" href="javascript:void(0);" data-courseCode="{{courseCode}}" data-userId="{{applicantId}}" {%else%} href="{{ app.request.baseUrl }}/candidateProfile/{{courseCode}}/{{applicantId}}" {%endif%}><i class="material-icons">account_circle</i><span>Profile</span></a>
             </li>
             <li class="profile">
                 <a href="#"><img class="profile-img" src="{{ asset('public/images/PROFILE.png')}}" alt="profile" /><i class="material-icons">expand_more</i></a>

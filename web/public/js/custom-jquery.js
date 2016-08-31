@@ -2734,7 +2734,7 @@ $('body').on('click', '.existing-evidence-filter', function(){
             $('.file_info_block .type-'+thisValue).addClass('open').removeClass('hide');
         }
 });
-$('.userprofile').on('click',function(){
+$('body').on('click', '.userprofile', function(){
         var courseCode = $(this).attr("data-courseCode");
         var userId = $(this).attr("data-userId");
         getApplicantDetails(courseCode, userId);
