@@ -259,6 +259,9 @@ updateJobId:
 files:
     path:     /files/{courseCode}/{userId}
     defaults: { _controller: GqAusUserBundle:File:view, courseCode: null, userId: null  }
+mobileRoleWiseFiles:
+    path:     /rolewiseFiles/{courseCode}/{userId}
+    defaults: { _controller: GqAusUserBundle:File:mobileRoleWiseView, courseCode: null, userId: null  }
 filesAdd:
     path:     /addFiles
     defaults: { _controller: GqAusUserBundle:File:add}
