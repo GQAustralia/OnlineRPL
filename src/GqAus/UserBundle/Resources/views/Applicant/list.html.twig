@@ -15,7 +15,7 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
      
  <!-- Larg Screens HTML Start -->        
-<section class="portfolio-container hidden-xs">
+<section class="portfolio-container">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -66,10 +66,10 @@
                 <div class="container">
         <div class="form-inline portfolio-filter">
                     <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-lg-3">
+                            <div class="col-md-6 col-lg-3">
                                     <input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box">                                    
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-lg-3">
+                            <div class="col-md-6 col-lg-3">
                                     <label for="">Filter By</label>
                                    <select name="filterByUser" id="filterByUser" class="form-control">
                                         <option value="">Assessor/Facilitator</option>
@@ -78,7 +78,7 @@
                                     {% endfor %}
                                     </select>
                             </div>
-                            <div class="col-xs-12 col-sm-10 col-lg-5">
+                            <div class="col-md-10 col-lg-5">
                                     <label for="">Qualification Status</label>
                                     <select name="filterByStatus" id="filterByStatus" class="form-control">
                                         <option value="">Qualification Status</option>
@@ -87,7 +87,7 @@
                                         {% endfor %}
                                     </select>
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 no-padding">
+                            <div class="col-lg-1 col-md-1 no-padding">
                                 <button id="searchFilter" class="btn btn_red gq-reports-filter-btn">Filter</button>
                             </div>
                     </div>
@@ -149,23 +149,7 @@
         
 {% endblock %}
 
-{% block javascripts %}        
-    {#<script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {            
-        $('#myTable').DataTable( {
-                  "paging":   false,                  
-                  "info":     false,
-                  "searching": false,
-                  "aaSorting": [],
-                  "columnDefs": [
-                    { "orderable": false, "targets":  [ 0,1,2,4,5 ] }
-                  ]
-                } );
-            
-        });
-   </script>#}  
-
+{% block javascripts %} 
    <script type="text/javascript" src="{{ asset('public/js/list.min.js') }}"></script>
    <script type="text/javascript">
        var options = {

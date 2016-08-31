@@ -7,7 +7,7 @@
                         <tr>
                             <td colspan="2" class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="portfolio-data-row">                                                
-                                    <div class="name"><a class='userprofile' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}'>{{list.user.firstName}} {{list.user.lastName}}</a></div>
+                                    <div><a class='userprofile firstName' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}'>{{list.user.firstName}} {{list.user.lastName}}</a></div>
                         {% set currUser = app.security.getToken().getUser().getId() %}      
                         {% set toDoApplicantCount = user_service.getCheckTodoApplicant( currUser , list.id ) %} 
                         {% set userId = list.user.id %}
@@ -15,14 +15,14 @@
                         {% set courseCode = list.courseCode %}
                         {% if (status == 0) %}
                           {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                            {% set remaingDays = user_service.getDaysRemainingFromRole(userId, list.courseCode, userRole[0]) %}
+                            {% set remaingDays = list.leftdays %}
                             {% set output = remaingDays|split('&&') %}
                           
-                                       <div class="progress-container">                                                
+                                       <div class="progress-container ">                                                
                                            <div class="progress">
                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:{% if output[1] >0 %}{{ output[1] }}{%else%} 0 {% endif %}%""></div>
                                            </div>                        
-                                           <div class="progress-copy">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%}</div>
+                                           <div class="progress-copy daysleft">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%}</div>
                                        </div>
                               {% else %}
                                     {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %} 
