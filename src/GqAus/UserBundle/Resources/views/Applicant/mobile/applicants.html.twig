@@ -1,58 +1,47 @@
 
-                    {% set userRole = app.security.getToken().getUser().getRoles() %}
-                    <!-- accordion starts here -->
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+<!-- accordion starts here -->
 
-                    {% if applicantList %}
-                    {% for key, list in applicantList %}
-                        <tr>
-                            <td colspan="2" class="col-xs-12 col-sm-12 col-md-12">
-                                <div class="portfolio-data-row">                                                
-                                    <div class="firstName"><a class='userprofile ' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}'>{{list.user.firstName}} {{list.user.lastName}}</a></div>
-                        {% set currUser = app.security.getToken().getUser().getId() %}      
-                        {% set toDoApplicantCount = user_service.getCheckTodoApplicant( currUser , list.id ) %} 
-                        {% set userId = list.user.id %}
-                        {% set id = list.id %}
-                        {% set courseCode = list.courseCode %}
-                        {% if (status == 0) %}
-                          {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-                            {% set remaingDays = list.leftdays %}
-                            {% set output = remaingDays|split('&&') %}
-                          
-                                       <div class="progress-container ">                                                
-                                           <div class="progress">
-                                               <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:{% if output[1] >0 %}{{ output[1] }}{%else%} 0 {% endif %}%""></div>
-                                           </div>                        
-                                           <div class="progress-copy daysleft">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%}</div>
-                                       </div>
-                              {% else %}
-                                    {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %} 
-                                    <div class="">
-                                            <div>
-                                               <div ></div>
-                                           </div>                        
-                                           <div class="">{{courseStatus}}</div>
-                                    </div>
-                            {% endif%}
-                         {% endif%}
-                                    <div class="qualification-copy"><span>{{list.courseCode}} {{list.courseName}}</span></div>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                              <tr>
-                        {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
-                           
-                                <td class="gq-pagination-area" >
-                                    {# display navigation for pages - paginator_navigator #}        
-                                     {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}   
-                                </td>
-                           
-                        {% endif %}
-                     </tr>
-                        {% else %}
-                        <tr>
-                            <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
-                                {{no_applicants}}</td>
-                        </tr>
-                        {% endif %}
+{% if applicantList %}
+{% for key, list in applicantList %}
+{% set id = list.id %}
+{% set ccode = list.courseCode%}
+    <tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %} %}">
+        <td colspan="2" class="col-xs-12 col-sm-12 col-md-12">
+            <div class="portfolio-data-row">                                                
+                <div class="firstName"><a class='userprofile ' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}'>{{list.user.firstName}} {{list.user.lastName}}</a></div>
+    {% set currUser = app.security.getToken().getUser().getId() %}      
+    {% set toDoApplicantCount = user_service.getCheckTodoApplicant( currUser , list.id ) %} 
+    {% set userId = list.user.id %}
+    {% set id = list.id %}
+    {% set courseCode = list.courseCode %}
+        {% set remaingDays = list.leftdays %}
+        {% set output = remaingDays|split('&&') %}
+
+                   <div class="progress-container ">                                                
+                       <div class="progress">
+                           <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:{% if output[1] >0 %}{{ output[1] }}{%else%} 0 {% endif %}%""></div>
+                       </div>                        
+                       <div class="progress-copy daysleft">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%}</div>
+                   </div>
+          {% else %}
+                {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %} 
+                <div class="">
+                        <div>
+                           <div ></div>
+                       </div>                        
+                       <div class="">{{courseStatus}}</div>
+                </div>
+                <div class="qualification-copy"><span>{{list.courseCode}} {{list.courseName}}</span></div>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+          
+    {% else %}
+    <tr>
+        <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
+            {{no_applicants}}gbfdgdfg</td>
+    </tr>
+    {% endif %}
                     

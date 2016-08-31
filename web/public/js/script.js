@@ -63,12 +63,13 @@ $(document).ready(function(){
 	var mobile_view_Ht = window_Ht - header_Ht - footer_Ht;
 	
 	$(".mobile_version").css("position","relative");
-	$(".mobile_version").css("height",window_Ht);
-	$(".message_section .mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
-        if(window_Wt > 320 && window_Ht < 767){
-  $('.main_container').css("height",window_Ht);
-  $('.body_section').css("height",mobile_view_Ht);
- }
+	$(".mobile_version,.login_page").css("height",window_Ht);
+	$(".message_section .mobile_version,.mobile_version .mail_secion,.mobile_version .new_message_section").css("height",mobile_view_Ht);
+	
+	if(window_Wt > 320 && window_Ht < 767){
+		$('.main_container,.step_list').css("height",window_Ht);
+		$('.body_section,.portfolio-container').css("height",mobile_view_Ht);
+	}
 	
 	$('.collapse').on('shown.bs.collapse', function(){
 		$(this).parent().find(".keyboard_arrow_down").removeClass("keyboard_arrow_down").addClass("keyboard_arrow_right");
@@ -77,7 +78,7 @@ $(document).ready(function(){
 	});
 	
 	var newTitle_Ht = $(".mobile_version .new_message_section .title_bar").height();
-	var inputField_Ht = $(".input_section").height() * 2;
+	var inputField_Ht = $(".input_section").outerHeight() * 2;
 	var sendBtnSection_Ht = $(".mobile_version .new_message_section .btn_section").height();
 	var textarea_ht = window_Ht - (newTitle_Ht + inputField_Ht + sendBtnSection_Ht);
 	$(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
@@ -224,14 +225,16 @@ $(window).resize(function(){
 	var mobile_view_Ht = window_Ht - header_Ht - footer_Ht;
 	
 	$(".mobile_version").css("position","relative");
-	$(".mobile_version").css("height",window_Ht);
-	$(".message_section .mobile_version,.login_page,.mobile_version .mail_secion").css("height",mobile_view_Ht);
-if(window_Wt > 320 && window_Ht < 767){
-  $('.main_container').css("height",window_Ht);
-  $('.body_section').css("height",mobile_view_Ht);
- }
+	$(".mobile_version,.login_page").css("height",window_Ht);
+	$(".message_section .mobile_version,.mobile_version .mail_secion,.mobile_version .new_message_section").css("height",mobile_view_Ht);
+	
+	if(window_Wt > 320 && window_Ht < 767){
+		$('.main_container').css("height",window_Ht);
+		$('.body_section,.portfolio-container').css("height",mobile_view_Ht);
+	}
+
 	var newTitle_Ht = $(".mobile_version .new_message_section .title_bar").height();
-	var inputField_Ht = $(".input_section").height() * 2;
+	var inputField_Ht = $(".input_section").outerHeight() * 2;
 	var sendBtnSection_Ht = $(".mobile_version .new_message_section .btn_section").height();
 	var textarea_ht = window_Ht - (newTitle_Ht + inputField_Ht + sendBtnSection_Ht);
 	$(".mobile_version .new_msg_section textarea").css("height",textarea_ht);
