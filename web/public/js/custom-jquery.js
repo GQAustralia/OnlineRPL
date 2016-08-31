@@ -1375,10 +1375,13 @@ function validateAddress()
 {    
     var userrole = $("#hdn-userrole").val();
     var useremail = $("#userprofile_email").val();
+    $("#change_address_error").hide();
+    $("#profile_suc_msg2").hide();
     var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
     country = /^[a-zA-Z\s]+$/;
     postcode = /^[a-zA-Z0-9\s]+$/;
+    phone = /^\(?(\d{4})\)?[- ]?(\d{3})[- ]?(\d{3})$/;
     if ($("#userprofile_firstname").val() == "") {
         if(userrole=='rtouser')
             showMyTabs("Please enter College Name");
@@ -1407,6 +1410,22 @@ function validateAddress()
             return false;
         }
     }
+    if ($("#userprofile_phone").val() == "") {
+        showMyTabs("Please enter Phone");
+        $("#userprofile_phone").focus();
+        return false;
+    }
+    if ($("#userprofile_phone").val() != "" && $("#userprofile_phone").val().length < 12) {        
+            showMyTabs("Phone number must be XXXX-XXX-XXX format");
+            $("#userprofile_phone").focus();
+            return false;
+    }
+    if ($("#userprofile_phone").val() != "" && $("#userprofile_phone").val().length > 12) {        
+            showMyTabs("Phone number must be XXXX-XXX-XXX format");
+            $("#userprofile_phone").focus();
+            return false;
+    }
+    
     if(userrole=='applicant') {
     if ($("#userprofile_universalStudentIdentifier").val() == "") {
         showMyTabs("Please enter USI");
@@ -1497,20 +1516,22 @@ function validateAddress()
             showMyTabs("Please enter Contact Person Name");
             $("#userprofile_contactname").focus();
             return false;
-        }
+        }        
         if ($("#userprofile_contactphone").val() == "") {
-            showMyTabs("Please enter Contact Person Phone Number");
+        showMyTabs("Please enter Phone");
+        $("#userprofile_contactphone").focus();
+        return false;
+    }
+    if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length < 12) {        
+            showMyTabs("Phone number must be XXXX-XXX-XXX format");
             $("#userprofile_contactphone").focus();
             return false;
-        }
-        if ($("#userprofile_contactphone").val() != "") {
-            if(checkPhonenumber($("#userprofile_contactphone").val()) == 0) {
-                showMyTabs("Please enter valid Contact Person Phone Number");
-                $("#userprofile_contactphone").val("");
-                $("#userprofile_contactphone").focus();
-                return false;
-            }
-        }
+    }
+    if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length > 12) {        
+            showMyTabs("Phone number must be XXXX-XXX-XXX format");
+            $("#userprofile_contactphone").focus();
+            return false;
+    }
         
     }
     
