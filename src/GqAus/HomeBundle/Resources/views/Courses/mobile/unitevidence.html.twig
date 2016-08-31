@@ -194,11 +194,7 @@
                                             <div class="panel-collapse collapse in" id="nested-collapseSeven" style="" aria-expanded="true">
                                                 <div class="panel-body">
                                                     <div class="panel-copy">
-                                                        <div class="unit-element-details">{%if elements|length > 0%}<table><tbody>
-                                                            {% for key, data in elements.item|slice(0, 7) %}
-                                                                    <tr><td>{{data.elements|raw}}</td><td>{{data.performanceCriteria|raw}}</td></tr>
-                                                            {%endfor%}</tbody></table>
-                                                            {% endif %}</div>
+                                                        <div class="unit-element-details">{%if elements|length > 0%}{{elements|raw}}{% endif %}</div>
                                                     </div>
                                                 </div>
                                             </div>

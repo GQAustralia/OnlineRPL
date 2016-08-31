@@ -93,7 +93,7 @@
                                 <thead>
                                     {% include 'GqAusUserBundle:Applicant/mobile:apllicantsFilters.html.twig' %}                                    
                                 </thead>
-                                <tbody id="currentList">
+                                <tbody class="list" id="currentList">
                                      {% include 'GqAusUserBundle:Applicant/mobile:applicants.html.twig' %}
                                     
                                 </tbody>
@@ -133,7 +133,7 @@
         
 <!-- Larg Screens HTML End -->
 
-<div class='candidate-details'><div id='removeCandidate'></div></div>        
+<div class='candidate-details'><div id='removeCandidate'></div></div>         
 {% endblock %}
 
 {% block javascripts %}  
