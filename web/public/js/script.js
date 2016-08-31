@@ -126,20 +126,40 @@ $(document).ready(function(){
 		$(".update_btn").css("background","#d8d8d8");
 	}); */
 	
-    $('a[data-collapse="child"]').on('click', function(){
-        var nestedCollapse;
-        $( 'a[data-collapse="child"]').each( function( index, element ){
+	
+    $('a[data-collapse="child"]').on('click', function(evt){
+		var currtext=$(this).find('.material-icons').text();
+		var eleId=$(this).attr('href');
+		$( 'a[data-collapse="child"]').each( function( index, element ){
 			$(this).children('.material-icons').text('expand_more'); 
         });
-
-        if($(this).attr('aria-expanded')==='true'){
-			$(this).children('.material-icons').text('expand_more'); 
-        }else{
-           $(this).children('.material-icons').text('expand_less');       
-        }
+		
+		if(currtext=="expand_less"){
+			$(this).find('.material-icons').text('expand_more'); 
+			
+		}else{
+			$(this).find('.material-icons').text('expand_less'); 
+		}
+		addCollapeClass(eleId);
     });
+	
+	function addCollapeClass(reqEle){
+		var eleArr=['#nested-collapseSeven','#nested-collapseEight','#nested-collapseNine'];
+		for(var index in eleArr){
+			if(eleArr[index]!=reqEle){
+				if($(eleArr[index]).hasClass('in')){
+					$(eleArr[index]).removeClass('in');
+				}
+			}
+		}
+	}
+	
+	
+	
+//	panel-collapse collapse
     
     $('a[data-collapse="parent"]').on('click', function(){
+
            var isShown;
          if($(this).attr('aria-expanded')==='true'){
             isShown=true;
@@ -148,13 +168,24 @@ $(document).ready(function(){
          }
          isShown =! isShown;
        $(this).attr('aria-expanded',isShown);
+	   
         if($(this).attr('aria-expanded')==='true'){
-           $(this).children('.material-icons').text('expand_less');       
+			if($(this).hasClass('edit-course')){
+				$(this).next().children('.material-icons').text('expand_less');       
+			}else{
+				$(this).children('.material-icons').text('expand_less');       
+			}
         }else{
-           $(this).children('.material-icons').text('expand_more'); 
+			if($(this).hasClass('edit-course')){
+				$(this).next().children('.material-icons').text('expand_more');       
+			}else{
+				$(this).children('.material-icons').text('expand_more'); 
+			}
         }
          
     });
+	
+	
     $('.collapse').on('shown.bs.collapse', function(){
             $(this).parent().find(".keyboard_arrow_down").removeClass("keyboard_arrow_down").addClass("keyboard_arrow_right");
             }).on('hidden.bs.collapse', function(){

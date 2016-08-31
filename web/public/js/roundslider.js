@@ -545,8 +545,8 @@
 
         // Events binding
         _bindControlEvents: function (hook) {
-            this[hook](this.control, "mousedown", this._elementDown);
-            this[hook](this.control, "touchstart", this._elementDown);
+          //  this[hook](this.control, "mousedown", this._elementDown);
+           // this[hook](this.control, "touchstart", this._elementDown);
 			
 			//this[hook](this.innerContainer, "mousedown", this._elementDown);
           // this[hook](this.innerContainer, "touchstart", this._elementDown);
@@ -554,13 +554,13 @@
 			
         },
         _bindScrollEvents: function (hook) {
-            this[hook](this.control, "mousewheel", this._elementScroll);
-            this[hook](this.control, "DOMMouseScroll", this._elementScroll);
+           // this[hook](this.control, "mousewheel", this._elementScroll);
+           // this[hook](this.control, "DOMMouseScroll", this._elementScroll);
         },
         _bindMouseEvents: function (hook) {
-            this[hook]($(document), "mousemove", this._handleMove);
-            this[hook]($(document), "mouseup", this._handleUp);
-            this[hook]($(document), "mouseleave", this._handleUp);
+          //  this[hook]($(document), "mousemove", this._handleMove);
+          //  this[hook]($(document), "mouseup", this._handleUp);
+          //  this[hook]($(document), "mouseleave", this._handleUp);
 			//alert("name:"+this.innerContainer);
 			// this[hook](this.innerContainer, "mousemove", this._handleMove);
           //  this[hook](this.innerContainer, "mouseup", this._handleUp);
@@ -571,13 +571,13 @@
           // this[hook](this.innerContainer, "touchstart", this._elementDown);
 		   
             // *** for Touch support *** //
-            this[hook]($(document), "touchmove", this._handleMove);
-            this[hook]($(document), "touchend", this._handleUp);
-            this[hook]($(document), "touchcancel", this._handleUp);
+           // this[hook]($(document), "touchmove", this._handleMove);
+           // this[hook]($(document), "touchend", this._handleUp);
+          //  this[hook]($(document), "touchcancel", this._handleUp);
         },
         _bindKeyboardEvents: function (hook) {
-            this[hook]($(document), "keydown", this._handleKeyDown);
-            this[hook]($(document), "keyup", this._handleKeyUp);
+         //   this[hook]($(document), "keydown", this._handleKeyDown);
+          //  this[hook]($(document), "keyup", this._handleKeyUp);
 			
 		//	 this[hook](this.innerContainer, "keydown", this._handleKeyDown);
         //    this[hook](this.innerContainer, "keyup", this._handleKeyUp);
