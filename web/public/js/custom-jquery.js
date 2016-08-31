@@ -2794,9 +2794,33 @@ function getCandidateDetails(courseCode, userId){
     });
 }
 $('body').on('click', '.mobileUnitInfo', function(){
-   
+    var courseCode = $(this).attr("data-courseCode");
+    var unitCode = $(this).attr("data-unitCode");
+    var userId = $(this).attr("data-userId");
+    getUnitDetailsInfo(courseCode, unitCode, userId);
+    $('.portfolio-container').hide();
+    $('.candidate-details').hide();
+    $('ul.nav').addClass('hide');      
 });
-
+function getUnitDetailsInfo(courseCode, unitCode, userId){
+    $('#removeUnitInfo').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
+    $.ajax({
+        type: "POST",
+        url: base_url + 'courseunitDetails/' + courseCode +'/'+ unitCode +'/'+ userId +'',
+        cache: false,
+        success: function(result) {
+            $(".unitInfo-details").html(result);
+        }
+    });
+}
+$('body').on('click', '.btn-back', function(){
+    $('.unitInfo-details').hide();
+    $('.portfolio-container').hide();
+    $('.candidate-details').show();
+})
+$('#closeMyModal').click(function(){
+   location.reload();
+});
 /*Facilitator Update in Manager Portfolio */
 function updateFacilitator(courseCode , userId, listId)
 {
@@ -2911,17 +2935,9 @@ function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
            // setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
         }
         });
-     
     }
-    
-
 }
-$(".btn-back").click(function(){
-    window.location.href = base_url + "applicants";
-})
-$('#closeMyModal').click(function(){
-   location.reload();
-});
+
 //Mobile Version Change Password
 function checkCurrentRolePassword(){
     mypassword = $('#current_password').val();
