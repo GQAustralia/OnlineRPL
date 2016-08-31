@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL FAQ{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/faq.css') }}" />
+{% endblock %}
+{% block body %}
+    <div class="body_section faq_page container">
+		<div class="header_bar">
+			<span>FAQs</span>
+		</div>
+		<div class="panel-group" id="accordion">
+                         {% if  faq %}
+                          {% for key, list in faq %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<span>{{list.question}}</span>
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#f_collapse_{{list.id}}">
+						  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+						</a>
+					</div>
+				</div>
+				<div id="f_collapse_{{list.id}}" class="panel-collapse collapse">
+					<div class="panel-body">
+						{{list.answer}}
+					</div>
+				</div>
+			</div>
+                  {% endfor %}
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}   
+{% endblock %}

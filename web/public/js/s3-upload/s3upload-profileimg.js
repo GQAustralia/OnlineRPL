@@ -1,20 +1,20 @@
-var s3upload = null;
-    var s3uploads = [];
-    var insertIds = [];
-    function pause(k) {
-        s3uploads[k].pause();
+var s3uploadPi = null;
+    var s3uploadsPi = [];
+    var insertIdsPi = [];
+    function pausePi(k) {
+        s3uploadsPi[k].pause();
     }
 
-    function resume(k) {
-        s3uploads[k].resume();
+    function resumePi(k) {
+        s3uploadsPi[k].resume();
     }
 
-    function cancel(k) {
+    function cancelPi(k) {
         var conf = window.confirm('Are you sure?');
         if(conf){
             //var l = s3uploads[k].otherInfo.fileNum;
-            s3uploads[k].cancel();
-            s3uploads[k] = null;
+            s3uploadsPi[k].cancel();
+            s3uploadsPi[k] = null;
 //            console.log(typeof insertIds[l]);
 //            if(typeof insertIds[l] != 'undefined') {
 //                console.log('Inserted Id',insertIds[l]);
@@ -41,9 +41,9 @@ var s3upload = null;
 //            }
         }
     }
-    function filesSelectedToUpload(evt){
+    function filesSelectedToUploadPi(evt){
       
-        processSchema(evt)
+        processSchemaPi(evt)
     }
 
     function profileImageUpload() {
@@ -54,12 +54,12 @@ var s3upload = null;
             return;
         }
         
-        processSchema(null);
+        processSchemaPi(null);
         var file = $('#userprofile_userImage')[0].files[0];
 
     }
     
-    function formatBytes(bytes,decimals) {
+    function formatBytesPi(bytes,decimals) {
        if(bytes == 0) return '0 Byte';
        var k = 1000; // or 1024 for binary
        var dm = decimals + 1 || 2;
@@ -68,7 +68,7 @@ var s3upload = null;
        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }    
 
-    var processSchema = function(reqevt) {
+    var processSchemaPi = function(reqevt) {
 
         var promises = [];
 
@@ -86,25 +86,25 @@ var s3upload = null;
         var yy = today.getFullYear().toString().substr(2,2); 
         var curDate = dd+'/'+mm+'/'+yy;
         
-        var k = s3uploads.length;
+        var k = s3uploadsPi.length;
         //jQuery.each(jQuery('#file')[0].files, function(i, file) {
         for (var i = 0, file; file = files[i]; i++) {
 		
-         var calFileSize = formatBytes(file.size, 0);
+         var calFileSize = formatBytesPi(file.size, 0);
        // jQuery.each(files[0].files, function(i, file) {
             //var btn = '<button onclick="cancel('+k+')">Cancel</button>';
-            var progressBar = '<div  id="progress-bars" > <img class="loader" src="' + base_url + 'public/images/loading.gif">\n\
+            var progressBar = '<div  id="progress-barsPi" > <img class="loader" src="' + base_url + 'public/images/loading.gif">\n\
  \n\
 </div>';
-            $("#progress-bars").append(progressBar);
-            $("#fileListContainer").show().removeClass('hide');
-            var userId=$('#userVal').val();;
+            $("#progress-barsPi").append(progressBar);
+            $("#fileListContainerPi").show().removeClass('hide');
+            var userId=$('#userVal').val() || 'default';
            
             var def = new $.Deferred();
 
-            s3uploads[k] = new S3MultiUpload(file, {user: 'user', pass: 'pass',fileNum: k,userId:userId});
+            s3uploadsPi[k] = new S3MultiUpload(file, {user: 'user', pass: 'pass',fileNum: k,userId:userId,userDirectory:'user-'+userId});
 
-            s3uploads[k].onServerError = function(command, jqXHR, textStatus, errorThrown) {
+            s3uploadsPi[k].onServerError = function(command, jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status === 403) {
                     alert("Sorry you are not allowed to upload");
                 } else {
@@ -112,17 +112,17 @@ var s3upload = null;
                 }
             };
 
-            s3uploads[k].onS3UploadError = function(xhr) {
-                s3uploads[k].waitRetry();
+            s3uploadsPi[k].onS3UploadError = function(xhr) {
+                s3uploadsPi[k].waitRetry();
                 alert("Upload is failing, we will retry in " + s3uploads[k].RETRY_WAIT_SEC + " seconds");
             };
 
-            s3uploads[k].onProgressChanged = function(uploadingSize, uploadedSize, totalSize, fileNum) {
+            s3uploadsPi[k].onProgressChanged = function(uploadingSize, uploadedSize, totalSize, fileNum) {
                 $('#summed_progress_'+fileNum).attr('value', uploadedSize + uploadingSize);
                 // $('#summed_progress').attr('max', totalSize);
             };
 
-            s3uploads[k].onUploadCompleted = function(data,obj) {
+            s3uploadsPi[k].onUploadCompleted = function(data,obj) {
                var userId = $('#userVal').val();
                var userType = $('#hdn-type').val();
                 var datas = {};
@@ -161,7 +161,7 @@ var s3upload = null;
 
             };
 
-            s3uploads[k].start();
+            s3uploadsPi[k].start();
             k++;
             promises.push(def);
         }//);

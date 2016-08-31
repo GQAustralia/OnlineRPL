@@ -217,16 +217,16 @@ class UserController extends Controller
         }
         
     
-    /**
+      /**
      * Function to verify correct password
      * @param object $request
      * return string
      */
     public function checkMyPasswordAction(Request $request)
     {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {            
             $mypassword = $request->get("mypassword");
-            $user = $this->get('UserService')->getCurrentUser();
+            $user = $this->get('security.context')->getToken()->getUser();            
             $curDbPassword = $user->getPassword();
              if (password_verify($mypassword, $curDbPassword)) {
                 $status = 'success';
@@ -238,6 +238,7 @@ class UserController extends Controller
         }
         exit;
     }
+
 
     /**
      * Function to upload resume

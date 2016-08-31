@@ -12,7 +12,7 @@
 				{% set userRole = app.security.getToken().getUser().getRoles() %}
                                 {% set userId = app.security.getToken().getUser().getId() %}
 				<div class="title_bar hidden-sm hidden-md hidden-lg">
-					<span><i class="material-icons arrow_back">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon">clear</i></span>
+					<span><i class="material-icons arrow_back" data-dismiss="modal">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon" data-dismiss="modal">clear</i></span>
 				</div>
                              {% set userdata = app.security.getToken().getUser() %}
                                     {% if (roles[0]=='ROLE_FACILITATOR') %}
@@ -31,7 +31,7 @@
                                 <!-- Profile Form -->
                                 <div class="header_block clearfix" id='user_profile_form_div'>
                                     	<div class="profile_section">
-                                            <div id='ajax-gq-profile-page-img'><img src="{% if userdata.getUserImage() !="" %}{{ asset('public/uploads/'~userdata.getUserImage())}} {% else %} {{ asset('public/images/userprofile.png')}} {% endif %}" alt="profile_pic" id='user_profile_image' class="profile_image"/><input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
+                                            <div id='ajax-gq-profile-page-img'><img src="{% if userdata.getUserImage() !="" %}{{ amazon_link~userdata.getUserImage()}} {% else %} {{ asset('public/images/userprofile.png')}} {% endif %}" alt="profile_pic" id='user_profile_image' class="profile_image"/><input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
                                                 <div class="content">
 							<h5 class="name"><strong>{% if ('ROLE_RTO' in roles) %}{{userdata.getContactName()}} {% else %} {{userdata.getFirstName()}}  {% endif %} </strong></h5>
 							<span class="field">
@@ -42,18 +42,24 @@
                                         </div>
                                         
 					<div class="count">
-						{% if ('ROLE_RTO' not in roles) %}
-						<span class="number portfolio-current"></span>
+                                               {% if ('ROLE_RTO' not in roles) %}
+                                            {% set pendingApplicantsCount = user_service.getPendingApplicantsCount(userId, userRole, '0') %}
+						<span class="number"> {{pendingApplicantsCount}}</span>
 						<span class="title">Active Portfolios</span>
                                                 {% else %}
-                                                {% set noofQualifications = user_service.getNoofQualifications('ROLE_RTO',userId)%}
+                                                {% set noofQualifications = user_service.getNoofQualifications(userId)%}
                                                 <span class="number">{{noofQualifications}}</span>
 						<span class="title">Issued <br/> Qualifications</span>
                                                 {% endif %}
 					</div>
                                        <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
 				</div>
-                                <div class="row" id="profile_suc_msg2"></div>
+                                <div class="panel-group" id="fileListContainerPi">
+                                    <div class="panel-copy fileListContainer" id="progress-barsPi">
+
+                                    </div>
+                                </div>
+                                <div class="row" id="profile_suc_msg2" style="display:none"></div>
                                 <div class="gq-change-address-warning" id="change_address_error">
                                     {% for flashMessage in app.session.flashbag.get('errornotice') %}
                                     <div class="gq-id-address-error-text" style="dispaly:none">
@@ -95,7 +101,7 @@
                                                <div class="form-group">
 							<label>Password</label>
 							<input type="text" value="........" readonly >
-							<span><i class="material-icons lock" onclick="changePassowordDiv('1')">lock</i></span>
+							<span class="change_link" id="change_link"><i class="material-icons lock">lock</i></span>
 						</div>
                                                 
 						
@@ -125,7 +131,8 @@
                                             <div class="form-group">
 							<label>Password</label>
 							<input type="text" value="........" readonly >
-							<span><i class="material-icons lock" onclick="changePassowordDiv('1')">lock</i></span>
+							<span class="change_link" id="change_link"><i class="material-icons lock" >lock</i></span>
+                                                         
 						</div>
 					</div>
                                         {% endif %}
@@ -243,62 +250,82 @@
 				</div>
                                     </div>
                                  {% endif%}
-                                {#end#}
-                                <div class="gq-change-pwd-warning" id="pwd_error">
-                                        {% for flashMessage in app.session.flashbag.get('errornotice') %}
-                                        <div class="gq-id-pwd-error-text" style="display:none">
-                                            <h2>{{ flashMessage }}</h2>
-                                        </div>
-                                       {% endfor %}
-                                    </div>
-                              <!-- Chaneg password form --->
-                              <form class="form-inline change_pwd_form" id='change_password_form' style="display:none">
-					<div class="form-group">
-						<label for="email">Current Password</label>
-                                                <div class="input_section">
-                                                    <input type="password" id="password_oldpassword" name='password_oldpassword' value="" />
-                                                    <span class="error_message" id="password_oldpassword_error_span"></span>
-                                                </div>
-					</div>
-					<div class="form-group">
-						<label for="pwd">New Password</label>
-                                                <div class="input_section">
-                                                    <input type="password" id='password_newpassword' name='password_newpassword' value="" />
-                                                    <span class="error_message" id="password_newpassword_error_span"></span>
-                                                </div>
-					</div>
-					<div class="form-group">
-						<label for="pwd">Confirm Password</label>
-                                                <div class="input_section">
-                                                    <input type="password" id="password_confirmnewpassword" name='password_confirmnewpassword' value="" />
-                                                    <span class="error_message" id="password_confirmnewpassword_error_span"></span>
-                                                </div>
-					</div>
-					<div class="btn_section clearfix">
-						<input type="submit" class="btn change_pwd_btn" value="Change Password" id='password_save' />
-						<input type="button" class="btn" value="Cancel" onclick="changePassowordDiv('0')"/>
-					</div>
-				</form>
-                              
+                                {#end#}                              
+<div class="section change_pwd_section mobile_version hidden-xs currentpassword">
+        <div class="heading_bar clearfix">
+                <span>
+                        Change Password
+                        <a href="javascript:void(0)">
+                                <i class="material-icons clear_pswd_div_others">clear</i>
+                        </a>
+                </span>
+        </div>
+        <div class="content">
+            <p>Please enter your current password</p><div id="pwd_error"></div>
+                <input type="password" placeholder="Password" id="current_password"/>
+                <a href="javascript:void(0)">Forgot password?</a>
+        </div>
+        <button class="button btn" onclick="checkCurrentOthersPassword()">NEXT</button>
+</div>
+<!--SECTION -->
+<!--SECTION -->
+<div class="section change_pwd_section mobile_version hidden-xs chngpwddiv">
+        <div class="heading_bar clearfix">
+                <span>
+                        Change Password
+                        <a href="javascript:void(0)">
+                                <i class="material-icons clear_pswd_div_others">clear</i>
+                        </a>
+                </span>
+        </div>
+     <form class="form-inline change_pwd_form" id='change_password_form'> 
+        <div class="content">
+                <p>Thanks now enter a new secure password that is 8 - 16 characters and contains both letters and numbers</p><div id="mbl_pwd_error"></div>
+               
+                 <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
+                <input type="hidden" id='password_hdnoldpassword' name='password_hdnoldpassword' class="form-control" value="" maxlength="30"/>
+                 
+		<div class="pwd_field">
+                <input type="password" id='password_newpassword' name='password_newpassword' class="form-control" value=""  maxlength="30"/>
+                 
+                <i class="material-icons">done</i>
+		</div>
+		<div class="pwd_field">
+                 <input type="password" id="password_confirmnewpassword" name='password_confirmnewpassword' class="form-control" value=""  maxlength="30"/>
+                       
+                <i class="material-icons">done</i>
+		</div>
+        </div>
+            <div class="btn_section clearfix">
+                    <input type="submit" class="button btn btn_red chngpwdvalOthers" value="SUBMIT" id='password_save_666' />
+                    
+            </div>
+    </form>
+</div>
+<!--SECTION -->
+             <!--SECTION -->
+<div class="section change_pwd_section mobile_version hidden-xs pwdsucc">
+         <div class="heading_bar clearfix">
+                <span>
+                        Change Password
+                        <a href="javascript:void(0)">
+                                <i class="material-icons clear_pswd_div_others">clear</i>
+                        </a>
+                </span>
+        </div>
+        <div class="content">
+                <span>
+                        <img src="{{ asset('public/images/COMPLETE.png') }}" alt="complete"/>
+                </span>
+                <p>Your password has been successfully changed.</p>
+        </div>
+</div>
+<!--SECTION -->                 
 			</div>
 		</div>
 	</div>
 </div>
 <div class="modal fade confirm_popup" id="deletefile" role="dialog">
-    
-        {#<div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="modal-title" id="myModalLabel">Do you want to delete selected file?<span class="close"><i class="material-icons" id="fclose"  data-dismiss="modal" aria-label="Close">clear</i></span></div>
-                    <div class="btn_section">
-                        <button class="btn btn_red deleteIdFiles">OK</button>
-                        <button class="btn" id="fclose-cancel" data-dismiss="modal">CANCEL</button>
-                         <span class="loading-icon" id="ajax-loading-delete-assessor-file" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
-                    </div>
-                </div>
-            </div>
-        </div>#}
     <div class="modal-dialog">
   <!-- Modal content-->
   <div class="modal-content">

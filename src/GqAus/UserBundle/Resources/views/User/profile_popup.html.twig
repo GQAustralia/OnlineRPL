@@ -55,8 +55,8 @@
 					</div>
                                        <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
 				</div>
-                                                        <div class="panel-group" id="fileListContainer">
-                                                            <div class="panel-copy fileListContainer" id="progress-bars">
+                                                        <div class="panel-group" id="fileListContainerPi">
+                                                            <div class="panel-copy fileListContainer" id="progress-barsPi">
                                                                 
                                                             </div>
                                                         </div>
@@ -78,7 +78,7 @@
                                                         <span><i class="material-icons">mode_edit</i></span>
                                                         <input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
                                                         <input type="hidden" value="0" id='hdn-type' name='hdn-type'/>
-                                                        <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% else %}applicant{% endif %}">
+                                                        <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% elseif ('ROLE_MANAGER' in userRole) %}manager{% elseif ('ROLE_SUPERADMIN' in userRole) %}superadmin{% else %}applicant{% endif %}">
 						</div>
 						<div class="form-group">
 							<label>{% if ('ROLE_RTO' in roles) %} Provider Code {% else %} Last Name {% endif %}</label>
@@ -96,6 +96,12 @@
                                         <div class="section number_group clearfix">
 						<div class="form-group">
 							<label>Phone</label>
+                                                        {% set contactPhone = userdata.getPhone() %}
+                                                        {% set firstSeg = contactPhone|slice(0, 4) %}
+                                                        {% set secondSeg = contactPhone|slice(4, 3) %}
+                                                        {% set thirdSeg = contactPhone|slice(7, 3) %}
+
+                                                        {% set formattedString = firstSeg ~ '-' ~ secondSeg ~ '-' ~ thirdSeg %}
 							<input type="text" value="{{userdata.getPhone()}}" id='userprofile_phone' name='phone' readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
@@ -112,14 +118,19 @@
 					<div class="section number_group clearfix">
 						<div class="form-group">
 							<label>Contact Person Phone</label>
+                                                        {% set contactPhone = userdata.getContactPhone() %}
+                                                        {% set firstSeg = contactPhone|slice(0, 4) %}
+                                                        {% set secondSeg = contactPhone|slice(4, 3) %}
+                                                        {% set thirdSeg = contactPhone|slice(7, 3) %}
 
-							<input type="text" value="{{userdata.getContactPhone()}}" id='userprofile_contactphone' name="contactphone" name='phone' readonly>
+                                                        {% set formattedString = firstSeg ~ '-' ~ secondSeg ~ '-' ~ thirdSeg %}
+							<input type="text" value="{{ userdata.getContactPhone()}}" id='userprofile_contactphone' name="contactphone" name='phone' readonly>
 
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
                                                 <div class="form-group">
 							<label>Contact Person Name</label>
-
+                                                        
 							<input type="text" value="{{userdata.getContactName()}}" id="userprofile_contactname" name="contactname" readonly>
 
                                                         <span><i class="material-icons">mode_edit</i></span>

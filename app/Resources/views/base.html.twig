@@ -150,7 +150,7 @@
                         {% else %}
                         
                             <a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">
-                                <img class="profile-img" src="{{ asset('public/uploads/') }}{{userImage}}" alt="profile">
+                                <img class="profile-img" src="{{amazon_link~userImage}}" alt="profile">
                                 <label class="profile-tag">{{userName}}</label>
                             </a>
                         {% endif %}
@@ -164,7 +164,11 @@
     </main>
      {% block outofbody %}{% endblock %}
         <!-- Profile Modal Starts -->
+        {% if is_mobile() %}        
+        {% include 'GqAusUserBundle:User/mobile:profile_popup.html.twig' %}
+        {% else %}
          {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
+        {% endif %}
          {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
         <!-- Profile Modal Ends -->
 	    <!-- jQuery first, then Bootstrap JS. -->          

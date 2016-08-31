@@ -507,6 +507,10 @@ class CoursesService
             $userUnitObj->setElectiveStatus($status);
             if($status == '0') {
                 $userUnitObj->setIssubmitted(0);
+                $userUnitObj->setFacilitatorstatus(0);
+                $userUnitObj->setAssessorstatus(0);
+                $userUnitObj->setRtostatus(0);
+                
             }
         }
         $this->em->flush();

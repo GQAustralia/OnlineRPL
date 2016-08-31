@@ -1375,10 +1375,13 @@ function validateAddress()
 {    
     var userrole = $("#hdn-userrole").val();
     var useremail = $("#userprofile_email").val();
+    $("#change_address_error").hide();
+    $("#profile_suc_msg2").hide();
     var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
     country = /^[a-zA-Z\s]+$/;
     postcode = /^[a-zA-Z0-9\s]+$/;
+    phone = /^\(?(\d{4})\)?[- ]?(\d{3})[- ]?(\d{3})$/;
     if ($("#userprofile_firstname").val() == "") {
         if(userrole=='rtouser')
             showMyTabs("Please enter College Name");
@@ -1407,6 +1410,22 @@ function validateAddress()
             return false;
         }
     }
+    if ($("#userprofile_phone").val() == "") {
+        showMyTabs("Please enter Phone");
+        $("#userprofile_phone").focus();
+        return false;
+    }
+    if ($("#userprofile_phone").val() != "" && $("#userprofile_phone").val().length < 12) {        
+            showMyTabs("Phone number must be XXXX-XXX-XXX format");
+            $("#userprofile_phone").focus();
+            return false;
+    }
+    if ($("#userprofile_phone").val() != "" && $("#userprofile_phone").val().length > 12) {        
+            showMyTabs("Phone number must be XXXX-XXX-XXX format");
+            $("#userprofile_phone").focus();
+            return false;
+    }
+    
     if(userrole=='applicant') {
     if ($("#userprofile_universalStudentIdentifier").val() == "") {
         showMyTabs("Please enter USI");
@@ -1497,20 +1516,22 @@ function validateAddress()
             showMyTabs("Please enter Contact Person Name");
             $("#userprofile_contactname").focus();
             return false;
-        }
+        }        
         if ($("#userprofile_contactphone").val() == "") {
-            showMyTabs("Please enter Contact Person Phone Number");
+        showMyTabs("Please enter Phone");
+        $("#userprofile_contactphone").focus();
+        return false;
+    }
+    if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length < 12) {        
+            showMyTabs("Phone number must be XXXX-XXX-XXX format");
             $("#userprofile_contactphone").focus();
             return false;
-        }
-        if ($("#userprofile_contactphone").val() != "") {
-            if(checkPhonenumber($("#userprofile_contactphone").val()) == 0) {
-                showMyTabs("Please enter valid Contact Person Phone Number");
-                $("#userprofile_contactphone").val("");
-                $("#userprofile_contactphone").focus();
-                return false;
-            }
-        }
+    }
+    if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length > 12) {        
+            showMyTabs("Phone number must be XXXX-XXX-XXX format");
+            $("#userprofile_contactphone").focus();
+            return false;
+    }
         
     }
     
@@ -2327,7 +2348,7 @@ $('#change_password_form').on('submit', function(e) {
             cache: false,
             data: form_data,
             success: function(result) {
-                $("#profile_suc_msg2").show();
+               
                 $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Password updated successfully!</h2></div>');
                 //$('#change_password_form').hide();
                // $('#user_profile_form').show();
@@ -2811,11 +2832,12 @@ function updateRto(courseCode , userId, listId)
        return false;
 }
 if( $('.view-message').length > 0){   
-    $('header').addClass('hide');
+    $('header,.mobi-profile').addClass('hide');
+    
     }
 if($('.mobile_new_message_section').length > 0){   
-    $('header').addClass('hide');
-}
+    $('header,.mobi-profile').addClass('hide');
+    }
 function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
 {
     var selfAssNotes = $('#selfassnote').val();  
@@ -3064,11 +3086,13 @@ function checkCurrentRolePassword(){
 });
 $('.clear_pswd_div').click(function()
 {
-    $("#idfiles").removeClass("hidden-xs");
+            $("#idfiles").removeClass("hidden-xs");
             $(".profileinfo").removeClass("hidden-xs");
             $(".currentpassword").addClass("hidden-xs");
             $(".chngpwddiv").addClass("hidden-xs");
             $(".pwdsucc").addClass("hidden-xs");
+            $(".header-border").removeClass("hidden-xs");
+            $(".mobi-profile").removeClass("hidden-xs");
 });
 
 /** Disabling first space on key enter while adding messages **/
@@ -3147,3 +3171,141 @@ function convertToCheck(courseCode)
                         $(this).removeClass('edit-show');
                  });
 }
+//Mobile Version Change Password
+function checkCurrentOthersPassword(){
+    mypassword = $('#current_password').val();
+    $("#hdn_pwd_check").val("0");
+    $("#profile_suc_msg2").hide();
+    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
+    var enddiv = '</h2></div>';
+    var mypassword = mypassword;
+    $("#pwd_error").html('');
+    $("#pwd_error").show();
+    $(".chngpwddiv").addClass("hidden-xs");
+    //$("#pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
+    if(mypassword!="") {        
+        $.ajax({
+            type: "POST",
+            url: "checkMyPassword",
+            cache: false,
+            data: {mypassword: mypassword},
+            success: function(response) {               
+                result = JSON.parse(response); 
+                $('#change_pwd_error').show();              
+                if (result.status == "fail") {
+                    $("#hdn_pwd_check").val("0");
+                    $("#pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);
+                    $("#current_password").val('');
+                    $("#current_password").focus();
+                    
+                    return false;
+                }
+                else if (result.status == "success") {
+                val = $("#current_password").val;
+                $("#password_oldpassword").val=val;
+                $("#idfiles").addClass("hidden-xs");
+                $("#user_profile_form_div").hide();
+                $(".currentpassword").addClass("hidden-xs");
+                $(".chngpwddiv").removeClass("hidden-xs");
+                }
+            }
+        });
+    }
+    else
+    {
+        $("#pwd_error").html(startdiv + 'Please enter current password' + enddiv).delay(3000).fadeOut(100);
+    }
+}
+$("#change_link").click(function(){
+    $("#user_profile_form_div").hide();
+    $(".title_bar").hide();
+    $("#profile_suc_msg2").hide();
+    $("#change_address_error").hide();
+    $("#ajax-profile-error").hide();
+    $("#user_profile_form").hide();
+    $(".currentpassword").removeClass("hidden-xs");
+});
+
+$(".chngpwdvalOthers").click(function(){ 
+ $('#mbl_pwd_error').html('');
+ $("#profile_suc_msg2").hide();
+ var curpwd = $("#password_hdnoldpassword").val(); 
+ var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );        
+ var newpwd = $("#password_newpassword").val();
+ var newconfirmpwd = $("#password_confirmnewpassword").val();
+ if (newpwd == "") {
+ $('#mbl_pwd_error').html("Please enter New Password");
+ passwordShowMsg("Please enter New Password", "password_newpassword");
+ return false;
+ }
+ if (newpwd != "") {
+     if (newpwd.length < 8) {
+         $('#mbl_pwd_error').html("New Password must be minimum of 8 characters");
+         passwordShowMsg("New Password must be minimum of 8 characters", "password_newpassword");
+         return false;
+     }
+ }
+ if (newconfirmpwd == "") {
+     $('#mbl_pwd_error').html("Please enter Confirm Password");
+     passwordShowMsg("Please enter Confirm Password", "password_confirmnewpassword");
+     return false;
+ }
+ if (newconfirmpwd != "" && displayConfirmPwd != 'none') {
+
+     if (newconfirmpwd.length < 8) {
+         $('#mbl_pwd_error').html("New Confirm Password must be minimum of 8 characters");
+         passwordShowMsg("New Confirm Password must be minimum of 8 characters", "password_confirmnewpassword");
+         return false;
+     }
+ }
+ if (newpwd != "" && newconfirmpwd != "") {
+     if (curpwd == newpwd) {
+         $('#mbl_pwd_error').html("Current Password and New Password must be different");
+         passwordShowMsg("Current Password and New Password must be different", "password_newpassword");
+         $("#password_confirmnewpassword").val('');
+         return false;
+     }
+     if (newpwd != newconfirmpwd)
+     {
+          $('#mbl_pwd_error').html("New Password and Confirm Password does not match");
+         passwordShowMsg("New Password and Confirm Password does not match", "password_confirmnewpassword");
+         return false;
+     }       
+     $("#profile_suc_msg2").hide();
+  $.ajax({
+     type: "POST",
+     url: base_url+"updatepasswordAjax",
+     cache: false,
+     data: {password_newpassword:newpwd},
+     success: function(result) {
+      $("#user_profile_form_div").hide();
+    $(".title_bar").hide();
+    $("#profile_suc_msg2").hide();
+    $("#change_address_error").hide();
+    $("#ajax-profile-error").hide();
+    $("#user_profile_form").hide();
+    $(".currentpassword").addClass("hidden-xs");    
+     $(".chngpwddiv").addClass("hidden-xs");
+     $(".pwdsucc").removeClass("hidden-xs");
+
+     }
+});
+
+ }     
+
+});
+$('.clear_pswd_div_others').click(function()
+{ 
+            $("#user_profile_form_div").show();
+            $("#profile2").modal('show');
+            $(".title_bar").show();           
+            $("#change_address_error").show();
+            $("#ajax-profile-error").show();
+            $("#user_profile_form").show();
+            $(".currentpassword").addClass("hidden-xs");
+            $(".chngpwddiv").addClass("hidden-xs");
+            $(".pwdsucc").addClass("hidden-xs");
+            $(".header-border").removeClass("hidden-xs");
+            $(".mobi-profile").removeClass("hidden-xs");
+            $("#profile_suc_msg2").hide();
+});
