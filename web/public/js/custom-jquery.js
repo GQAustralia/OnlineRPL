@@ -2757,6 +2757,42 @@ $('body').on('click', '.closeDivTag', function(){
     $('.portfolio-container').addClass('show');
     window.location.href = base_url + "applicants";
 });
+$('body').on('click', '#mobileFiles', function(){
+    var courseCode = $(this).attr("data-courseCode");
+    var userId = $(this).attr("data-userId");
+    getFilesDetails(courseCode, userId);
+    $('.portfolio-container').hide();
+    $('ul.nav').addClass('hide');
+});
+function getFilesDetails(courseCode, userId){
+    $('#removeCandidate').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
+    $.ajax({
+        type: "POST",
+        url: base_url + 'rolewiseFiles/' + courseCode +'/'+ userId +'',
+        cache: false,
+        success: function(result) {
+            $(".candidate-details").html(result);
+        }
+    });
+}
+$('body').on('click', '#mobileCanProfile', function(){
+    var courseCode = $(this).attr("data-courseCode");
+    var userId = $(this).attr("data-userId");
+    getCandidateDetails(courseCode, userId);
+    $('.portfolio-container').hide();
+    $('ul.nav').addClass('hide');   
+});
+function getCandidateDetails(courseCode, userId){
+    $('#removeCandidate').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
+    $.ajax({
+        type: "POST",
+        url: base_url + 'candidateProfile/' + courseCode +'/'+ userId +'',
+        cache: false,
+        success: function(result) {
+            $(".candidate-details").html(result);
+        }
+    });
+}
 $('body').on('click', '.mobileUnitInfo', function(){
    
 });
