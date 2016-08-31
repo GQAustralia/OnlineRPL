@@ -7,7 +7,10 @@
 {% block body %}
 <div class="body_section message_section">
     <div class="">		
-        
+        {% set currentPath = app.request.uri %}
+        {% set parameters = currentPath|split('?') %}
+        {% set userRole = app.security.getToken().getUser().getRoles() %}
+        {% set userId = app.security.getToken().getUser().getId() %} 
     
     <!-- FOR MOBILE -->
     <div class="">        
@@ -20,38 +23,57 @@
             <div class="" id="newMsg"> 
                     <ul class="mail_secion">
                         {% for key, message in messages %}
-                            <li class="{% if message.read == 1 %} disable {% endif %} clearfix" id="msg-{{message.id}}">
+                            <li class="{% if message.read == 1 or message.sent.id == userId %} disable {% endif %} clearfix" id="msg-{{message.id}}">
                             <span class="chat_pic">
-                                    <img src="{{ asset('public/uploads/') }}{{ message.sent.userImage }}" alt="chat_pic"/>
+                                    {% if ('ROLE_APPLICANT' in userRole) %}
+                                    <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                    {% else %}
+                                    {% if  message.sent.userImage is defined and message.sent.userImage!=''%}
+                                    {% set userimg = message.sent.userImage %}
+                                    {% else %}
+                                    {% set userimg = 'PROFILE.png' %}
+                                    {% endif %}
+                                        {% if message.sent.userImage is defined and message.sent.userImage != "" %}
+                                        <img src="{{ amazon_link~message.sent.userImage }}" alt="chat_pic"/>
+                                        {% else %}
+                                        <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                        {% endif %}
+                                    {% endif %}
                             </span>
                             <span class="chat_content">
                                 <span class="chat_name">
-                                    {% if message.sent.id == curuser and  message.replymid=="0"%}                                                    
+                                     {% if message.sent.id is defined and message.sent.id == curuser and  message.replymid=="0"%}                                                    
                                     <strong>You</strong>
                                     <span class="arrow"></span>
                                     <strong>{{message.inbox.firstname}}</strong>
-                                    {% else %}
+                                    {% elseif message.sent.id is defined %}
                                             {{message.sent.firstname}}
                                     {% endif %}
                                 </span>
                                     <span class="chat_content">
                                             <strong> 
-                                                {% if message.replymid is defined and message.replymid != 0 and curuser == message.sent.id%}                                       
-                                                <span class="reply"></span>
-                                                {% endif %}
-                                                <a href="{{ base_url }}messages/{{message.id}}">
-                                                {% if message.subject|length > 10 %}
-                                                    {{ message.subject|raw[:10] ~ '-' }}
-                                                {% else %}
-                                                    {{ message.subject|raw ~ '-' }}   
-                                                {% endif %}
-                                                </a> 
+                                                {% if message.replymid is defined and message.replymid != 0 %}                                       
+                                                            <span class="reply"></span>
+                                                            {% endif %}
+                                                            
+                                                            {% if parameters[1] is defined %}
+                                                             <a href="{{ base_url }}messages/{{message.id}}?{{parameters[1]}}">
+                                                            {%else%}
+                                                             <a href="{{ base_url }}messages/{{message.id}}">
+                                                            {%endif%}
+                                                            
+                                                            {% if message.subject|length > 10 %}
+                                                                {{ message.subject|raw[:10] ~ ' -' }}
+                                                            {% else %}
+                                                                {{ message.subject|raw ~  ' -' }}   
+                                                            {% endif %}
+                                                            </a> 
                                             </strong>
-                                             {% if message.message|length > 20 %}
-                                            {{ message.message|raw[:20] ~ '...' }}
-                                        {% else %}
-                                            {{ message.message|raw }}   
-                                        {% endif %}
+                                            {% if message.message|length > 20 %}
+                                                {{ message.message|raw[:20] ~ '...' }}
+                                            {% else %}
+                                                {{ message.message|raw }}   
+                                            {% endif %}
                                     </span>
                             </span>
                                     <span class="date_time">{{ message.created | date("d/m/y") }}</span>
@@ -61,14 +83,42 @@
                     <div class="floater_add_icon" title="Add New Message">
                              <a href="{{ base_url }}messages/compose" onclick=""><i class="material-icons add">add</i> </a>
                     </div>
+                <div>
+                    {# display navigation for pages - paginator_navigator #}
+                    {% if messages|length > 0 and paginator.getTotalPages() > 1 %}                    
+                        {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                    {% endif %}
+                </div>
             </div>
                 {% endif %}
             {% endif %}
+      
+{% else %}
+         <div class="">
+            <div class="left">
+                <ul class="mail_secion message">
+                    <li><strong>{{no_messages}}</strong></li>
+                </ul>
+                <div class="floater_add_icon" title="Add New Message">
+                        <a href="{{ base_url }}messages/compose">
+                                <i class="material-icons add">add</i>
+                        </a>
+                </div>
+            </div>
+         </div>
         {% endif %}
-
     {% if msgID is defined %}
         <div class="mail_compose_section view-message">
-                <div class="title_bar">WELCOME!
+            
+            {% set userSubject = '' %}
+            {%set i = 0%}
+            {% for message in replymsgarr %}  
+            {% if i == 0 %} {% set userSubject = message.message.subject %}{% endif %}
+            {% if userSubject|length > 15 %}
+                      {% set userSubject = userSubject|raw[:15] %}{% endif %}                                        
+            {%set i = i+1 %}
+            {% endfor %}
+                <div class="title_bar">{{ userSubject }}
                         <span><a href="{{ base_url }}messages"><i class="material-icons arrow_back">arrow_back</i></a></span>
                 </div>
 
@@ -77,7 +127,21 @@
                         <div class="chat_box {% if message.from == " from me" %}from {% else %} to {% endif %} ">
                                 <div class="person_profile clearfix">
                                         <span class="chat_pic">
-                                                <img src="{{ asset('public/uploads/') }}{{ message.userImage }}" alt="chat_pic"/>
+                                                {% if ('ROLE_APPLICANT' in userRole) %}
+                                            <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                            {% else %}
+                                            {% if  message.userImage is defined and message.userImage!=''%}
+                                            {% set userimg = message.userImage %}
+                                            {% else %}
+                                            {% set userimg = 'PROFILE.png' %}
+                                            {% endif %}
+                                                {% if message.userImage != "" %}
+                                                <img src="{{ amazon_link~message.userImage }}" alt="chat_pic"/>
+                                                {% else %}
+                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                                {% endif %}
+                                            {% endif %}
+                                            
                                         </span>
                                         <span class="chat_name"><strong>{% if message.from == " from me" %} You {% else %} {{message.fromUserName}} {% endif %}</strong></span>
                                         <span class="date_time">{{ message.created | date('h:i A') }}</span>
@@ -137,19 +201,11 @@
     {% for flashMessage in app.session.flashbag.get('msgnotice') %}
     <div class="row" id="profile_suc_msg">
     <div class="gq-id-files-upload-success-text">
-      <span><!--<img src="{{ asset('public/images/tick.png') }}">-->
+      <span>
         <i class="material-icons">done</i>{{ flashMessage }}</span>
     </div>
     </div>
-    {% endfor %}
-   {# <div class="col-xs-push-4 col-xs-4" id="change_pwd_error">
-    {% for flashMessage in app.session.flashbag.get('errornotice') %}
-    <div class="gq-well well gq-id-files-upload-success-text">
-        <span class="login-warning-icon" aria-hidden="true"></span>
-        <div class="login-warning-text" id="flash-msg">{{ flashMessage }}</div>
-    </div>
-    {% endfor %}
-    </div>#}
+    {% endfor %}   
     </div>
     
     {% if msgType is defined and msgType=="new" %}

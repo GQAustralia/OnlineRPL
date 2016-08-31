@@ -236,8 +236,7 @@
     {% for flashMessage in app.session.flashbag.get('msgnotice') %}
     <div class="row" id="profile_suc_msg">
     <div class="gq-id-files-upload-success-text">
-      <span style="width:100%;"><!--<img src="{{ asset('public/images/tick.png') }}">-->
-        <!--<i class="material-icons">done</i>-->{{ flashMessage }}</span>
+      <span style="width:100%;">{{ flashMessage }}</span>
     </div>
     </div>
     {% endfor %}
