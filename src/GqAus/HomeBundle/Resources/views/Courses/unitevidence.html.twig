@@ -41,7 +41,7 @@
                         {% endif %}   
                          {% set currUnitStatus = courses_service.getUnitStatus(userId, unitCode, courseCode)%}
                         {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, unitCode, courseCode, userRole[0]) %}
-                        {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{% endif %}
+                        {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.issubmitted is defined%}{%if currUnitStatus.issubmitted == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
                         <p>
                             <span class="tag-edu"><a href="/qualifications">Qualification</a></span>
                             <span class="tag-id">Unit {{ unitCode }}</span>
