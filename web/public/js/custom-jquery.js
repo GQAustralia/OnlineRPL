@@ -333,7 +333,7 @@ if($('#frmSelectEvidence').length)
             $('#gq-dashboard-tabs-success').show();
             if (responseText){            
                 $('#sp_'+responseText).show();
-                $('#gq-dashboard-tabs-success').html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><h2><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2></div>');
+                $('#gq-dashboard-tabs-success').html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><h2>Existing Evidence uploaded successfully!</h2></div>');
             }
             setTimeout(function(){jQuery("#evd_close").trigger('click');},3000);
         },
@@ -1818,7 +1818,7 @@ function sumitFormEvidence() {
             $('#gq-dashboard-tabs-success').show();
             if (responseText){            
                 $('#sp_'+responseText).show();
-                $('#gq-dashboard-tabs-success').html('<h2 style="text-align: center; width: 100%; font-size: 14px; color: green; padding: 10px;"><img src="' + base_url + 'public/images/tick.png">Existing Evidence uploaded successfully!</h2>');
+                $('#gq-dashboard-tabs-success').html('<h2 style="text-align: center; width: 100%; font-size: 14px; color: green; padding: 10px;">Existing Evidence uploaded successfully!</h2>');
             }
             //setTimeout(function(){jQuery("#evd_close").trigger('click');},3000); 
         }

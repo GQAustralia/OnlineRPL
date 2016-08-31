@@ -5,14 +5,14 @@
 {% endblock %}
 {% block body %}
 {% set roles = app.security.getToken().getUser().getRoles() %}
-{# {{ dump(roles) }} #}
+{% set currentUserId =  app.security.getToken().getUser().getId() %}
     <div class="body_section dashboard">
         <div class="container">
                 <div>
                     <div class="profile_section hidden-xs">
                         <div class="">
                             {% if app.security.getToken().getUser().getUserImage() %}
-                                <img src="{{ asset('public/uploads/') }}{{ app.security.getToken().getUser().getUserImage() }}" alt="profile_pic" data-toggle="modal" data-target="#profile2" />
+                                <img src="{{amazon_link~'user-'~currentUserId~'/'~app.security.getToken().getUser().getUserImage() }}" alt="profile_pic" data-toggle="modal" data-target="#profile2" />
                             {% else %}
                                 <img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="profile_pic" alt="profile_pic" data-toggle="modal" data-target="#profile2" />
                             {% endif %}
