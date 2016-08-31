@@ -29,11 +29,7 @@
                         <span class="right"><strong>{% if currentIdPoints < "100" %} {{requiredpoints}} POINTS REQUIRED <a href="{{ app.request.baseUrl }}/faq" target="_blank"><i class="material-icons">info</i></a>{% else %} {{currentIdPoints}} POINTS COMPLETED <i class="material-icons">done</i>{% endif %}</strong></span>
                 </div>
             {% if currentIdPoints < "100" %}
-             <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data">                 
-                <div class="add_section" role="tabpanel">
-                        {{ form_widget(filesForm.browse, {'attr': {'class': 'hidden uploadFile1'}}) }}
-                        <span class="button" id="idfileUpload-mobile"><i class="material-icons">add</i></span><strong>Add ID</strong>
-                </div>
+             <form name = "Id_files" id="Id_files"  method = "POST" action="idfileupload" enctype="multipart/form-data"> 
                   <select class="selectpicker" id="userfiles_type" name="userfiles[type]">
                     <option value="">Select document type</option>
                     {% if documentTypes %}
@@ -42,6 +38,11 @@
                      {% endfor %}
                     {% endif %}
             </select>
+                <div class="add_section" role="tabpanel">
+                        {{ form_widget(filesForm.browse, {'attr': {'class': 'hidden uploadFile1'}}) }}
+                        <span class="button" id="idfileUpload-mobile"><i class="material-icons">add</i></span><strong>Add ID</strong>
+                </div>
+                 
                  <div class="panel-group hide" id="fileListContainer">
                         <div class="panel clearfix">
                                 <div class="panel-body">
@@ -164,7 +165,7 @@
                 
        
         <div class="link_section clearfix profileinfo">
-                <a href="javascript:void(0)" class="faq_link">
+                <a href="{{ app.request.baseUrl }}/faq" target="_blank" class="faq_link">                    
                         <span><i class="material-icons">help</i></span>FAQs
                 </a>
                 {{ form_widget(form.save, {'attr': {'class': 'btn update_btn disable'}}) }}
