@@ -146,8 +146,8 @@
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <button id="approveno" data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button">No</button>
                                     </div>
-                                    <input type="hidden" id="course-name" name="course-name" value="{{courseInfo.name}}">
-                                    <input type="hidden" id="course-code" name="course-code" value="{{courseInfo.id}}">
+                                    <input type="hidden" id="course-name" name="course-name" value="{% if courseDetails.courseName is defined %}{{courseDetails.courseName}}{% endif %}">
+                                    <input type="hidden" id="course-code" name="course-code" value="{{courseCode}}">
                                     <input type="hidden" id="userid" name="userid" value="{{userId}}">
                                     <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
                                     <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
@@ -175,8 +175,8 @@
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <button id="disapproveyes" data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button">Send</button>
                                     </div>
-                                     <input type="hidden" id="course-name" name="course-name" value="{{courseInfo.name}}">
-                                    <input type="hidden" id="course-code" name="course-code" value="{{courseInfo.id}}">
+                                     <input type="hidden" id="course-name" name="course-name" value="{% if courseDetails.courseName is defined %}{{courseDetails.courseName}}{% endif %}">
+                                    <input type="hidden" id="course-code" name="course-code" value="{{courseCode}}">
                                     <input type="hidden" id="userid" name="userid" value="{{userId}}">
                                     <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
                                     <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
