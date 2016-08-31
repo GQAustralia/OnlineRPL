@@ -78,7 +78,7 @@
                                                         <span><i class="material-icons">mode_edit</i></span>
                                                         <input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
                                                         <input type="hidden" value="0" id='hdn-type' name='hdn-type'/>
-                                                        <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% else %}applicant{% endif %}">
+                                                        <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% elseif ('ROLE_MANAGER' in userRole) %}manager{% elseif ('ROLE_SUPERADMIN' in userRole) %}superadmin{% else %}applicant{% endif %}">
 						</div>
 						<div class="form-group">
 							<label>{% if ('ROLE_RTO' in roles) %} Provider Code {% else %} Last Name {% endif %}</label>

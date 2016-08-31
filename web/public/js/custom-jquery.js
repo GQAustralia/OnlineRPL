@@ -3085,11 +3085,13 @@ function checkCurrentRolePassword(){
 });
 $('.clear_pswd_div').click(function()
 {
-    $("#idfiles").removeClass("hidden-xs");
+            $("#idfiles").removeClass("hidden-xs");
             $(".profileinfo").removeClass("hidden-xs");
             $(".currentpassword").addClass("hidden-xs");
             $(".chngpwddiv").addClass("hidden-xs");
             $(".pwdsucc").addClass("hidden-xs");
+            $(".header-border").removeClass("hidden-xs");
+            $(".mobi-profile").removeClass("hidden-xs");
 });
 
 /** Disabling first space on key enter while adding messages **/
