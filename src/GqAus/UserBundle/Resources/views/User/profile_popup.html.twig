@@ -74,7 +74,7 @@
 				<div class="section name_group clearfix">
 						<div class="form-group">
 							<label>{% if ('ROLE_RTO' in roles) %} College Name {% else %} First Name {% endif %} </label>                                                        
-							<input type="text" value="{{userdata.getFirstName()}}" id='userprofile_firstname' name='first_name' readonly>                                                        
+							<input type="text" value="{{userdata.getFirstName()}}" id='userprofile_firstname' name='first_name' onkeyup="checkspace(this);" readonly>                                                        
                                                         <span><i class="material-icons">mode_edit</i></span>
                                                         <input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
                                                         <input type="hidden" value="0" id='hdn-type' name='hdn-type'/>
@@ -82,7 +82,7 @@
 						</div>
 						<div class="form-group">
 							<label>{% if ('ROLE_RTO' in roles) %} Provider Code {% else %} Last Name {% endif %}</label>
-							<input type="text" value="{{userdata.getLastName()}}" id='userprofile_lastname' name='last_name' readonly>
+							<input type="text" value="{{userdata.getLastName()}}" id='userprofile_lastname' name='last_name' onkeyup="checkspace(this);" readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 					</div>
@@ -95,14 +95,8 @@
                                         {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) or ('ROLE_SUPERADMIN' in roles) or ('ROLE_MANAGER' in roles)) %}
                                         <div class="section number_group clearfix">
 						<div class="form-group">
-							<label>Phone</label>
-                                                        {% set contactPhone = userdata.getPhone() %}
-                                                        {% set firstSeg = contactPhone|slice(0, 4) %}
-                                                        {% set secondSeg = contactPhone|slice(4, 3) %}
-                                                        {% set thirdSeg = contactPhone|slice(7, 3) %}
-
-                                                        {% set formattedString = firstSeg ~ '-' ~ secondSeg ~ '-' ~ thirdSeg %}
-							<input type="text" value="{{userdata.getPhone()}}" id='userprofile_phone' name='phone' readonly>
+							<label>Phone</label>                                                        
+							<input type="text" value="{{userdata.getPhone()}}" id='userprofile_phone' name='phone' onkeyup="checkspace(this);"  readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
                                                <div class="form-group">
@@ -124,14 +118,14 @@
                                                         {% set thirdSeg = contactPhone|slice(7, 3) %}
 
                                                         {% set formattedString = firstSeg ~ '-' ~ secondSeg ~ '-' ~ thirdSeg %}
-							<input type="text" value="{{ userdata.getContactPhone()}}" id='userprofile_contactphone' name="contactphone" name='phone' readonly>
+							<input type="text" value="{{ userdata.getContactPhone()}}" id='userprofile_contactphone' name="contactphone" onkeyup="checkspace(this);" name='phone' readonly>
 
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
                                                 <div class="form-group">
 							<label>Contact Person Name</label>
                                                         
-							<input type="text" value="{{userdata.getContactName()}}" id="userprofile_contactname" name="contactname" readonly>
+							<input type="text" value="{{userdata.getContactName()}}" id="userprofile_contactname" name="contactname" onkeyup="checkspace(this);" readonly>
 
                                                         <span><i class="material-icons">mode_edit</i></span>
 							
@@ -152,7 +146,7 @@
                                         <div class="section">
 						<div class="form-group">
 							<label>Street Name</label>
-							<input type="text" value="{{userdata.getAddress().getAddress()}}" id='userprofile_address_area' name='street_name' readonly>
+							<input type="text" value="{{userdata.getAddress().getAddress()}}" id='userprofile_address_area' onkeyup="checkspace(this);" name='street_name' readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 						
@@ -160,7 +154,7 @@
                                         <div class="section">
                                             <div class="form-group">
 							<label>Street Number</label>
-							<input type="text" value="{{userdata.getAddress().getArea()}}" id='userprofile_address_address' name="street_number" readonly>
+							<input type="text" value="{{userdata.getAddress().getArea()}}" id='userprofile_address_address' onkeyup="checkspace(this);" name="street_number" readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
                                         </div>
@@ -168,12 +162,12 @@
                                         <div class="section name_group clearfix">
 						<div class="form-group">
 							<label>Suburb</label>
-							<input type="text" value="{{userdata.getAddress().getSuburb()}}" id='userprofile_address_suburb' name='suburb' readonly>
+							<input type="text" value="{{userdata.getAddress().getSuburb()}}" id='userprofile_address_suburb' onkeyup="checkspace(this);"  name='suburb' readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
                                             <div class="form-group">
 							<label>PostCode</label>
-							<input type="text" value="{{userdata.getAddress().getPincode()}}" id='userprofile_address_pincode' name='postcode' readonly>
+							<input type="text" value="{{userdata.getAddress().getPincode()}}" id='userprofile_address_pincode' onkeyup="checkspace(this);" name='postcode' readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 						
@@ -182,12 +176,12 @@
                                         <div class="section name_group clearfix">
 						<div class="form-group">
 							<label>City</label>
-							<input type="text" value="{{userdata.getAddress().getCity()}}" id="userprofile_address_city" name="city" readonly>
+							<input type="text" value="{{userdata.getAddress().getCity()}}" id="userprofile_address_city" onkeyup="checkspace(this);" name="city" readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 						<div class="form-group">
 							<label>State</label>
-							<input type="text" value="{{userdata.getAddress().getState()}}" id="userprofile_address_state" name="state" readonly>
+							<input type="text" value="{{userdata.getAddress().getState()}}" id="userprofile_address_state" onkeyup="checkspace(this);" name="state" readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 					</div>
@@ -195,7 +189,7 @@
                                         <div class="section">
 						<div class="form-group">
 							<label>Country</label>
-							<input type="text" value="{{userdata.getAddress().getCountry()}}" id="userprofile_address_country" name="country" readonly>
+							<input type="text" value="{{userdata.getAddress().getCountry()}}" id="userprofile_address_country" onkeyup="checkspace(this);" name="country" readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 					</div>
@@ -277,21 +271,21 @@
 					<div class="form-group">
 						<label for="email">Current Password</label>
                                                 <div class="input_section">
-                                                    <input type="password" id="password_oldpassword" name='password_oldpassword' class="form-control" value="" />
+                                                    <input type="password" id="password_oldpassword" name='password_oldpassword' onkeyup="checkspace(this);" class="form-control" value="" />
                                                     <span class="error_message" id="password_oldpassword_error_span"></span>
                                                 </div>
 					</div>
 					<div class="form-group">
 						<label for="pwd">New Password</label>
                                                 <div class="input_section">
-                                                    <input type="password" id='password_newpassword' name='password_newpassword' class="form-control" value="" />
+                                                    <input type="password" id='password_newpassword' name='password_newpassword' onkeyup="checkspace(this);" class="form-control" value="" />
                                                     <span class="error_message" id="password_newpassword_error_span"></span>
                                                 </div>
 					</div>
 					<div class="form-group">
 						<label for="pwd">Confirm Password</label>
                                                 <div class="input_section">
-                                                    <input type="password" id="password_confirmnewpassword" name='password_confirmnewpassword' class="form-control" value="" />
+                                                    <input type="password" id="password_confirmnewpassword" name='password_confirmnewpassword' onkeyup="checkspace(this);" class="form-control" value="" />
                                                     <span class="error_message" id="password_confirmnewpassword_error_span"></span>
                                                 </div>
 					</div>

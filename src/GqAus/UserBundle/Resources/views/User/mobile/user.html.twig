@@ -80,13 +80,13 @@
                         <div class="section">
                                 <div class="form-group clearfix">
                                         <label>First Name</label>
-                                        {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
+                                        {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30','onkeyup':'checkspace(this)'} }) }}
                                 </div>
                         </div>
                         <div class="section">
                                 <div class="form-group clearfix">
                                         <label>Last Name</label>
-                                        {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
+                                        {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30','onkeyup':'checkspace(this)'} }) }}
                                 </div>
                         </div>
                         <div class="section">
@@ -104,7 +104,7 @@
                         <div class="section">
                                 <div class="form-group clearfix">
                                         <label>Mobile</label>
-                                        {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
+                                        {{ form_widget(form.phone,{ 'attr': {'maxlength': '20','onkeyup':'checkspace(this)'} }) }}
                                 </div>
                         </div>
                         <div class="section">
@@ -117,7 +117,7 @@
                         <div class="section">
                         <div class="form-group clearfix">
                                 <label>USI</label>
-                                {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
+                                {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30','onkeyup':'checkspace(this)'} }) }}
                         </div>
                         </div>
                         <div class="title_bar clearfix">
@@ -126,39 +126,39 @@
                         <div class="section">
                                 <div class="form-group clearfix">
                                         <label>Street Number</label>
-                                        {{ form_widget(form.address.address,{ 'attr': {'maxlength': '30'} }) }}
+                                        {{ form_widget(form.address.address,{ 'attr': {'maxlength': '30','onkeyup':'checkspace(this)'} }) }}
                                 </div>
                         </div>
                         <div class="section">
                                 <div class="form-group clearfix">
                                         <label>Street Name</label>
-                                        {{ form_widget(form.address.area,{ 'attr': {'maxlength': '30'} }) }}
+                                        {{ form_widget(form.address.area,{ 'attr': {'maxlength': '30','onkeyup':'checkspace(this)'} }) }}
                                 </div>
                         </div>
                         <div class="section">
                                 <div class="form-group clearfix">
                                         <label>Suburb</label>
-                                        {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30'} }) }}
+                                        {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30','onkeyup':'checkspace(this)'} }) }}
                                 </div>
                         </div>
                         <div class="section half clearfix">
                                 <div class="form-group clearfix">
                                         <label>City</label>
-                                        {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30'} }) }}
+                                        {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30','onkeyup':'checkspace(this)'} }) }}
                                 </div>
                                 <div class="form-group">
                                         <label>Postcode</label>
-                                        {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '8'} }) }}
+                                        {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '8','onkeyup':'checkspace(this)'} }) }}
                                 </div>
                         </div>
                         <div class="section half clearfix">
                                 <div class="form-group">
                                         <label>State</label>
-                                        {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30'} }) }}
+                                        {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30','onkeyup':'checkspace(this)'} }) }}
                                 </div>
                                 <div class="form-group">
                                         <label>Country</label>
-                                        {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30'} }) }}
+                                        {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30','onkeyup':'checkspace(this)'} }) }}
                                 </div>
                         </div>
                 
@@ -211,11 +211,11 @@
                  <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
                 {{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30','class': 'hidden'} }) }}
 				<div class="pwd_field">
-                {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30','class': '','placeholder':'New Password'} }) }}
+                {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30','class': '','placeholder':'New Password','onkeyup':'checkspace(this)'} }) }}
                 <i class="material-icons">done</i>
 				</div>
 				<div class="pwd_field">
-                {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30','class': '','placeholder':'Confirm Password'} }) }}
+                {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30','class': '','placeholder':'Confirm Password','onkeyup':'checkspace(this)'} }) }}
                 <i class="material-icons">done</i>
 				</div>
         </div>
