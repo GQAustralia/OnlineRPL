@@ -1,4 +1,4 @@
-toUserImage<?php
+<?php
 
 namespace GqAus\UserBundle\Controller;
 

@@ -432,7 +432,7 @@ $("#userprofile_userImage").change(function() {
     var fileName = $(this).val();
     var Extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
     if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
-        $("#ajax-loading-icon").show();
+        
         var file_data = $('#userprofile_userImage').prop('files')[0];
         var form_data = new FormData();
         form_data.append('file', file_data);
