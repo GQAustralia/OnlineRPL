@@ -203,15 +203,17 @@
                                                             <td>
                                                                 {% if evd[0].content %} 
                                                                     <div class="block">
-                                                                        <div class="file_info">
-                                                                            <span class="icon">
-                                                                                <i class="material-icons">description</i>
-                                                                            </span>
-                                                                            <span class="file-discription">
-                                                                                {{ evd[0].content|slice(0,35) }}{% if evd[0].content|length > 35 %}...{% endif %}
-                                                                                <br> ADDED {{ evd[0].created|date("d/m/y") }}
-                                                                            </span>
-									</div>
+                                                                        <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
+                                                                            <div class="file_info">
+                                                                                <span class="icon">
+                                                                                    <i class="material-icons">description</i>
+                                                                                </span>
+                                                                                <span class="file-discription">
+                                                                                    {{ evd[0].content|slice(0,35) }}{% if evd[0].content|length > 35 %}...{% endif %}
+                                                                                    <br> ADDED {{ evd[0].created|date("d/m/y") }}
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
                                                                         <div class="link_section">
                                                                             {% for lKey, linkedVal in evd %}
                                                                                 {% if(linkedVal.unit) %}
