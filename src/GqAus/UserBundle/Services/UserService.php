@@ -2158,8 +2158,8 @@ class UserService
                     $userCoursesObj->setAssessorstatus(0);
                     $userCoursesObj->setRtostatus(0);
                     $userCoursesObj->setFacilitatorread(0);
-                    $userCoursesObj->getFacilitatorread(0);
                     $userCoursesObj->setAssessorread(0);
+                    $userCoursesObj->setRtoread(0);
                     $targetDate = date('Y-m-d H:m:s', strtotime('+90 days'));
                     $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : $targetDate);
                     $this->em->persist($userCoursesObj);
