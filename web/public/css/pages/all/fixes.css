@@ -40,6 +40,15 @@
 }
 
 /* In header */
+.mobi-profile{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 0;
+}
+.mobi-profile ul{
+	padding: 10px;
+}
 .mobi-profile ul li.profile-tag .profile-img{
 	height: 30px;
 }
@@ -51,4 +60,11 @@
     display: inline-block;
     vertical-align: sub;
 }
-
+@media (max-width: 767px){
+	.main-container{
+		position: relative;
+	}
+	.body_section{
+		overflow-y: auto;
+	}
+}

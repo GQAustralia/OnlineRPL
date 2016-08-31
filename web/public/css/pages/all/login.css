@@ -3,7 +3,7 @@
 .gq-id-files-upload-error-text h2{color:#FF0000; font-size:13px;}
 .gq-id-files-upload-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;}
 .gq-id-files-upload-success-text {padding-top:12px; text-align:center;}
-.gq-id-files-upload-success-text h2{color:#FF0000; font-size:13px;}
+.gq-id-files-upload-success-text h2{color:lightgreen; font-size:13px;text-transform: capitalize;}
 .gq-id-files-upload-success-text img {margin-right:4px; padding-bottom:4px;width:auto !important;}
-.gq-id-files-upload-success-text span{width:19px; height:13px; background-repeat:no-repeat; backgrounc-positoin:center center; float:left; margin-right:12px;}
+.gq-id-files-upload-success-text span{width:19px; height:13px; background-repeat:no-repeat; background-position:center center; float:left; margin-right:12px;}
 .gq-change-profile-warning {width:60%; margin:0 auto; position:relative;}
