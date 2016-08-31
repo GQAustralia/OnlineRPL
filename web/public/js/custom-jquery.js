@@ -2734,12 +2734,12 @@ $('body').on('click', '.existing-evidence-filter', function(){
             $('.file_info_block .type-'+thisValue).addClass('open').removeClass('hide');
         }
 });
-$('body').on('click', '.userprofile', function(){
-        var courseCode = $(this).attr("data-courseCode");
-        var userId = $(this).attr("data-userId");
-        getApplicantDetails(courseCode, userId);
-        $('.portfolio-container').hide();
-        $('ul.nav').addClass('hide');
+$('body').on('click', '.userprofile,#mobileQualification', function(){
+    var courseCode = $(this).attr("data-courseCode");
+    var userId = $(this).attr("data-userId");
+    getApplicantDetails(courseCode, userId);
+    $('.portfolio-container').hide();
+    $('ul.nav').addClass('hide');
 });
 function getApplicantDetails(courseCode, userId){
     $('body .candidate-details').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
