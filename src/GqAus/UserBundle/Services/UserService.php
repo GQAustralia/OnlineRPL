@@ -884,10 +884,10 @@ class UserService
             $userType = 'rto';
             $userStatus = 'rtostatus';
         } elseif (in_array('ROLE_MANAGER', $userRole)) {
-            $userType = 'manager';
+            $userType = 'facilitator';
             $userStatus = 'facilitatorstatus';
         } elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
-            $userType = 'superadmin';
+            $userType = 'facilitator';
             $userStatus = 'facilitatorstatus';
         }
         $fields = 'partial c.{id, courseCode, courseName, courseStatus, assessorstatus, facilitatorstatus, rtostatus,'
