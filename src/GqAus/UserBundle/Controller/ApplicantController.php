@@ -551,14 +551,46 @@ class ApplicantController extends Controller
      * Function to Update Facilitator in Manager Portfolio
      */    
     public function updateFacilitatorAction(Request $request)
-    {
+    {   
         $listId = $this->getRequest()->get('listId');        
-        $facilitator = $this->getRequest()->get('facilitator');
+        $facilitator = $this->getRequest()->get('facilitator');      
         $updateFacVal = $this->get('UserService')->updateQualificationFacilitator($listId,$facilitator);
         if($updateFacVal)
         {
+            $userService = $this->get('UserService');
             $status = 'true';
             $message = 'updated successfully';
+            
+            $fromUserVal =$this->get('security.context')->getToken()->getUser()->getId();
+            $fromUser= $userService->getUserInfo($fromUserVal);
+            $courseCode = $this->getRequest()->get('courseCode'); 
+            
+            $facuserId = $this->getRequest()->get('facilitator');
+            $facUser = $userService->getUserInfo($facuserId);
+            $facname = $facUser->getUsername();
+            //Send Message to  User
+            $userId = $this->getRequest()->get('userId');
+            $userInfo = $userService->getUserInfo($userId);
+            $username = $userInfo->getUsername();
+            $conSearch = array('#toUserName#', '#facname#', '#coursecode#');
+            $conReplace = array($username, $facname, $courseCode);
+            $userSubject = $this->container->getParameter('mail_portfolio_assign_applicant_sub');            
+            $userMessage = str_replace($conSearch, $conReplace,
+                $this->container->getParameter('mail_portfolio_assign_applicant_con'));           
+            $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
+            $userMessageSend = $userService->saveMessageData($fromUser,$userInfo,$userMsgdata);
+            
+            
+            $facSubject = $this->container->getParameter('mail_portfolio_assign_facilitator_sub'); 
+            $facSearch = array('#toUserName#', '#facname#', '#coursecode#');
+            $facReplace = array($username, $facname, $courseCode);                     
+            $facMessage = str_replace($facSearch, $facReplace,
+                $this->container->getParameter('mail_portfolio_assign_facilitator_con')); 
+                       
+            $facMsgdata = array('subject' => $facSubject, 'message' => $facMessage, 'unitId' => '0', 'replymid' => '0');
+           $facMessageSend = $userService->saveMessageData($fromUser,$facUser,$facMsgdata);
+          //  $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
+            //                $mailBody, $curuser->getEmail(), $curuser->getUsername());
         }
         else
         {

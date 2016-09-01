@@ -2822,15 +2822,18 @@ $('#closeMyModal').click(function(){
    location.reload();
 });
 /*Facilitator Update in Manager Portfolio */
-function updateFacilitator(courseCode , userId, listId)
-{
+function updateFacilitator(courseCode , userId, listId,userEmail)
+{   
+    
     facVal = $('#'+listId).val();
+    if(facVal != 0)
+    {
     $("#profile_suc_msg2_"+listId).hide();
         $.ajax({
             type: "POST",
             url: "updateFacilitator",
             cache: false,
-            data: {listId:listId,facilitator:facVal},
+            data: {listId:listId,facilitator:facVal,userEmail:userEmail,userId:userId,courseCode:courseCode},
             success: function(result) {
                 var res = jQuery.parseJSON(result);
                 if(res.status=='true')
@@ -2843,6 +2846,12 @@ function updateFacilitator(courseCode , userId, listId)
        });
        
        return false;
+   }
+   else
+   {
+       return false;
+   }
+   
 }
 /*Assessor Update in Manager Portfolio */
 function updateAssessor(courseCode , userId, listId)
