@@ -1565,62 +1565,7 @@ function passwordShowMsg(errorMsg,msgId)
         $("#"+msgId).val('');
     $("#"+msgId).focus();
 }
-$("#password_save").click(function()
-{
-    var displayOldPwd = $("#password_oldpassword").parent().css( "display" );
-    var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );    
-    var curpwd = $("#password_oldpassword").val();
-    var newpwd = $("#password_newpassword").val();
-    var newconfirmpwd = $("#password_confirmnewpassword").val();
-    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
-    var enddiv = '</h2></div>';
-    var hdnpwdchk = $("#hdn_pwd_check").val();
-    
-    if (curpwd == "" && displayOldPwd != 'none') {
-        passwordShowMsg("Please enter Current Password", "password_oldpassword");
-        return false;
-    }
-    if (newpwd == "") {
-        passwordShowMsg("Please enter New Password", "password_newpassword");
-        return false;
-    }
-    if (newpwd != "") {
-        if (newpwd.length < 6) {
-            passwordShowMsg("New Password must be minimum of 6 characters", "password_newpassword");
-            return false;
-        }
-    }
-    if (newconfirmpwd == "" && displayConfirmPwd != 'none') {
-        passwordShowMsg("Please enter Confirm Password", "password_confirmnewpassword");
-        return false;
-    }
-    if (newconfirmpwd != "" && displayConfirmPwd != 'none') {
-        if (newconfirmpwd.length < 6) {
-            passwordShowMsg("New Confirm Password must be minimum of 6 characters", "password_confirmnewpassword");
-            return false;
-        }
-    }
-    if (newpwd != "" && newconfirmpwd != "" && displayOldPwd != 'none') {
-        if (curpwd == newpwd) {
-            passwordShowMsg("Current Password and New Password must be different", "password_newpassword");
-            $("#password_confirmnewpassword").val('');
-            return false;
-        }
-        if (newpwd != newconfirmpwd)
-        {
-            passwordShowMsg("New Password and Confirm Password does not match", "password_confirmnewpassword");
-            return false;
-        }
-    }
-    if (curpwd != "" && newpwd != "" && newconfirmpwd != "") {
-          pswd_validation = checkCurrentPassword($("#password_oldpassword").val());
-        if(pswd_validation=='fail')
-        {
-            passwordShowMsg("Current password does not match", "password_oldpassword");
-            return false;
-        }
-    }
-});
+
 $("#password_newpassword,#password_confirmnewpassword").keyup(function() {
     checkspace(this);
 });
@@ -3083,13 +3028,9 @@ function checkCurrentRolePassword(){
             }
        });
          
-        }      
-        
-
+        } 
     });
-	
-	
-	$("#password_save").click(function()
+$("#password_save").click(function()
 {
     var displayOldPwd = $("#password_oldpassword").parent().css( "display" );
     var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );
@@ -3108,13 +3049,33 @@ function checkCurrentRolePassword(){
         passwordShowMsg("Please enter Current Password", "password_oldpassword");
         return false;
     }
+    if (curpwd != "") {
+          pswd_validation = checkCurrentPassword($("#password_oldpassword").val());
+        if(pswd_validation=='fail')
+        {
+            passwordShowMsg("Current password does not match", "password_oldpassword");
+            return false;
+        }
+    }
     if (newpwd == "") {
         passwordShowMsg("Please enter New Password", "password_newpassword");
         return false;
     }
     if (newpwd != "") {
-        if (newpwd.length < 6) {
-            passwordShowMsg("New Password must be minimum of 6 characters", "password_newpassword");
+        if (newpwd.length < 8) {
+            passwordShowMsg("New Password must be minimum of 8 characters", "new-password");
+            return false;
+        }
+    }
+    if (newpwd != "") {
+        if (newpwd.length > 16 ) {
+            passwordShowMsg("New Password must be maximum of 16 characters", "new-password");
+            return false;
+        }
+    }
+    if (newpwd != "") {
+        if (!(/\d/.test(newpwd) && /[a-zA-Z]/.test(newpwd))) {    // Password should contain atleast one letter and one number
+            passwordShowMsg("Password should contain atleast one letter and one digit", "new-password");
             return false;
         }
     }
@@ -3122,9 +3083,21 @@ function checkCurrentRolePassword(){
         passwordShowMsg("Please enter Confirm Password", "password_confirmnewpassword");
         return false;
     }
-    if (newconfirmpwd != "" && displayConfirmPwd != 'none') {
-        if (newconfirmpwd.length < 6) {
-            passwordShowMsg("New Confirm Password must be minimum of 6 characters", "password_confirmnewpassword");
+    if (newconfirmpwd != "") {
+        if (newpwd.length < 8) {
+            passwordShowMsg("New Password must be minimum of 8 characters", "new-password");
+            return false;
+        }
+    }
+    if (newconfirmpwd != "") {
+        if (newpwd.length > 16 ) {
+            passwordShowMsg("New Password must be maximum of 16 characters", "new-password");
+            return false;
+        }
+    }
+    if (newconfirmpwd != "") {
+        if (!(/\d/.test(newpwd) && /[a-zA-Z]/.test(newpwd))) {    // Password should contain atleast one letter and one number
+            passwordShowMsg("Password should contain atleast one letter and one digit", "new-password");
             return false;
         }
     }
@@ -3140,12 +3113,7 @@ function checkCurrentRolePassword(){
             return false;
         }
     }
-    if (curpwd != "" && newpwd != "" && newconfirmpwd != "") {
-        if (hdnpwdchk == 0) {
-            checkCurrentPassword($("#password_oldpassword").val());
-            return false;
-        }
-    }
+    
 });
 $('.clear_pswd_div').click(function()
 {
