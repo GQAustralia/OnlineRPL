@@ -22,7 +22,7 @@
                 </div>
                 <div id="err_msg"></div>
                 <div class="row">
-                        {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
+                        {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) or ('ROLE_MANAGER' in roles) %}
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">                              
                                 {% include 'GqAusHomeBundle:Default:todolist.html.twig' %}
                             </div>
@@ -34,7 +34,7 @@
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             {% endif %}                                
                                     {% include 'GqAusHomeBundle:Default:dashboard-portfolio.html.twig' %}
-                                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
+                                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) or ('ROLE_MANAGER' in roles) %}
                                     {% include 'GqAusHomeBundle:Default:dashboard-evidences.html.twig' %}
                                 {% endif %}
                             </div>
