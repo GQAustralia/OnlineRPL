@@ -398,12 +398,12 @@ class UserService
             $results['assessorfirstName'] = !empty($assessor) ? $assessor->getFirstname() : '';
             $results['assessorlastName'] = !empty($assessor) ? $assessor->getLastname() : '';
             $results['assessorName'] = !empty($assessor) ? $assessor->getUsername() : '';
-            $results['assessorImage'] = !empty($assessor) ? $this->userImage($assessor->getUserImage()) : '';
+            $results['assessorImage'] = !empty($assessor) ? $this->userImage($assessor->getUserImage(),$assessor->getId()) : '';
             $results['assessorEmail'] =  !empty($assessor) ? $assessor->getEmail() : '';
             $results['assessorPhone'] =  !empty($assessor) ? $assessor->getPhone() : '';
             
             $rto = $this->getUserInfo($otheruser->getRto());
-			$results['assessorImage'] = !empty($assessor) ? $this->userImage($assessor->getUserImage()) : '';
+            $results['assessorImage'] = !empty($assessor) ? $this->userImage($assessor->getUserImage(),$assessor->getId()) : '';
 			
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
             $results['rtoCeoName'] = !empty($rto) ? $rto->getCeoname() : '';
@@ -414,7 +414,7 @@ class UserService
             $results['facilitatorfirstName'] = !empty($facilitator) ? $facilitator->getFirstname() : '';
             $results['facilitatorlastName'] = !empty($facilitator) ? $facilitator->getLastname() : '';
             $results['facilitatorName'] = !empty($facilitator) ? $facilitator->getUsername() : '';
-            $results['facilitatorImage'] = !empty($facilitator) ? $this->userImage($facilitator->getUserImage()) : '';
+            $results['facilitatorImage'] = !empty($facilitator) ? $this->userImage($facilitator->getUserImage(),$facilitator->getId()) : '';
             $results['facilitatorEmail'] =  !empty($facilitator) ? $facilitator->getEmail() : '';
             $results['facilitatorPhone'] =  !empty($facilitator) ? $facilitator->getPhone() : '';
             $results['facilitatorId'] = !empty($facilitator) ? $facilitator->getId() : '';
@@ -1877,14 +1877,16 @@ class UserService
      * @param string $image
      * return string
      */
-    public function userImage($image)
+    public function userImage($image,$userId = '')
     {
         //$path = $this->container->getParameter('applicationUrl');
         //$userImage = $path . 'public/uploads/' . $image;
         //$path = $this->container->getParameter('applicationUrl');
         $path = $this->container->getParameter('amazon_s3_base_url');
         //$userImage = $path . 'public/uploads/' . $image;
-        $userImage = $path . $image;
+        $userImage = $path;
+        if($userId) $userImage .= 'user-'.$userId.'/';
+        $userImage .=$image;
         if (empty($image)) {
             //$userImage = $path . 'public/images/profielicon.png';
             $userImage = $this->container->getParameter('applicationUrl') . 'public/images/profielicon.png';
