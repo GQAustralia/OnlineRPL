@@ -362,14 +362,12 @@ $(".todo-list").on('click', '.todomodalClass', function(){
     reminderid = $(this).attr('id');
 });
 $("#todo-cancel").click(function() {
-   
     $("#todoclose").trigger("click");
 });
 /* dashboard update todo list functionality starts */
-$(".updateTodo").click(function() {
+$("body").on('click', '.updateTodo', function() {
     $(this).prop('disabled', true);
     var rmid = reminderid;
-
     flag = "1";
     var completedItem = 1;
     var percentage = '';
@@ -397,13 +395,6 @@ $(".updateTodo").click(function() {
             }
         }
     });
-    var todoType = $('#'+reminderid).attr('data-todotype');
-    var todoTypeId = $('#'+reminderid).attr('data-todotypeid');
-    console.log('todoType :: '+todoType);
-    console.log('data-todotypeid :: '+todoTypeId);
-    
-    
-
 });
 $('.cancelTodo').click(function(){
     $('#'+reminderid).prop('checked', false);
@@ -3151,11 +3142,11 @@ $('body').on('click', '.reminder-view', function(){
         $.ajax({
             type: "POST",
             url: base_url + "changeReminderViewStatus",
-            cache: false,
             data: {reminderId: remId },
             success: function(result) {
                 currentElement.find('.content').removeClass('bold');
                 console.log(result);
+                //return false;
             }
         });
     }
