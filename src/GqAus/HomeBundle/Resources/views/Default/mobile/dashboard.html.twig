@@ -8,17 +8,17 @@
     <div class="body_section dashboard">
         <div>
             <div id="err_msg"></div>
-            <div class="row">
+            <div class="">
                 {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">                              
+                    <div class="">                              
                         {% include 'GqAusHomeBundle:Default:mobile/todolist.html.twig' %}
                     </div>
                 {% endif %}                    
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="">
                         {% include 'GqAusHomeBundle:Default:mobile/dashboard-messages.html.twig' %}
                     {% if ('ROLE_RTO' in roles) %}
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="">
                     {% endif %}                                
                             {% include 'GqAusHomeBundle:Default:mobile/dashboard-portfolio.html.twig' %}
                         {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}

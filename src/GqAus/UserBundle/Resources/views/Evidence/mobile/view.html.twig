@@ -11,8 +11,6 @@
 {% set roles = app.security.getToken().getUser().getRoles() %}
         <div class="body_section facilitator">
                 {#<div class="container">#}
-                        <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
                                         <div class="evidence_block">
                                                 <div class="title_bar clearfix">
                                                     <span class="title">EVIDENCE <strong>(<span id="evidence-total" class="evidence-total"  style="padding: 0px;"></span> TO REVIEW)</strong></span>
@@ -106,22 +104,22 @@
                                                     <ul class="clearfix sorting">
                                                         <li style="width:23%;">
                                                             <span class="sort_section ftype" data-orderby="type">
-                                                                <i class="material-icons">arrow_upward</i><strong>File Type</strong>
+                                                                <i class="material-icons">arrow_upward</i>File Type
                                                             </span>
                                                         </li>
                                                         <li style="width:28%;">
                                                             <span class="sort_section fname" data-orderby="name">
-                                                                <i class="material-icons">arrow_upward</i><strong class="file_name">File Name</strong>
+                                                                <i class="material-icons">arrow_upward</i>File Name
                                                             </span>
                                                         </li>
                                                         <li style="width:21%;">
                                                             <span class="sort_section fsize" data-orderby="size">
-                                                                <i class="material-icons">arrow_upward</i><strong>File Size</strong>
+                                                                <i class="material-icons">arrow_upward</i>File Size
                                                             </span>
                                                         </li>
                                                         <li style="width:28%;">
-                                                            <span class="sort_section fdate" data-orderby="date">
-                                                                <i class="material-icons">arrow_downward</i><strong>Date Added</strong>
+                                                            <span class="sort_section fdate bold" data-orderby="date">
+                                                                <i class="material-icons">arrow_downward</i>Date Added
                                                             </span>
                                                         </li>
                                                     </ul>
@@ -239,8 +237,6 @@
                                                 {% endif %}
                                             </div>
                                         </div>
-                                </div>
-                        </div>
                 {#</div>#}
 {% endblock %}
 {% block javascripts %}

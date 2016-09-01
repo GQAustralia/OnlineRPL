@@ -2584,7 +2584,9 @@ $('.sort_section').click(function(){
     var sortbyclass = $(this).attr('data-orderby')
     var currentArrow = $('.f'+sortbyclass+' i').html();
     $('.sorting li span i').css('visibility','hidden');
-    $('.sorting li span.f'+sortbyclass+' i').css('visibility','visible');
+    $('.sorting li span').removeClass('bold');
+    $('.sorting li span.f'+sortbyclass).addClass('bold');
+    $('.sorting li span.f'+sortbyclass+' i').css('visibility','visible').addClass('bold');
     newArrow = (currentArrow == 'arrow_downward') ? 'arrow_upward' : 'arrow_downward';
     $('.f'+sortbyclass+' i').html(newArrow);
     $('.sortby'+sortbyclass).trigger("click");
