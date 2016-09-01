@@ -146,7 +146,7 @@
 				   <div class="panel-body">
 					   <ul>
 						   {% for eKey, eList in eightyPercEvd %}
-								{% if ('ROLE_FACILITATOR' in roles) %}
+								{% if ('ROLE_FACILITATOR' in roles or 'ROLE_MANAGER' in roles) %}
 									{% set setUserId = eList.facilitator.id %}
 								{% elseif ('ROLE_ASSESSOR' in roles) %}
 									{% set setUserId = eList.assessor.id %}

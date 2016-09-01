@@ -3331,3 +3331,29 @@ $('.clear_pswd_div_others').click(function()
             $(".mobi-profile").removeClass("hidden-xs");
             $("#profile_suc_msg2").hide();
 });
+function addNewUserbyRole(roletype)
+{
+    $.ajax({
+        type: "GET",
+        url: base_url + "addUser/"+roletype,
+        cache: false,
+        data: {roletype:roletype},
+        success: function(result) { 
+            $(".add-user-byrole").html(result);
+            $('#roleprofile2').modal('show');
+        }
+    });
+}
+function editUserbyRole(roletype)
+{
+    $.ajax({
+        type: "GET",
+        url: base_url + "editUser/"+roletype,
+        cache: false,
+        data: {roletype:roletype},
+        success: function(result) { 
+            $(".add-user-byrole").html(result);
+            $('#roleprofile2').modal('show');
+        }
+    });
+}
