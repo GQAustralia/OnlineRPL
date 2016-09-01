@@ -14,12 +14,10 @@
         <link rel="stylesheet" href="{{ asset('public/css/bootstrap-reboot.css') }}">              
         <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/jquery-ui-timepicker-addon.css') }}">
-        <link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate_profile.css') }}"> 
         <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}"> 
 	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     {% endblock %}
     {% block stylesheets %}{% endblock %}     
-        <link rel="stylesheet" href="{{ asset('public/css/pages/all/fixes.css') }}"> 
         <script type="text/javascript">
             var base_url = "{{ base_url }}";
             var amazon_link = "{{ amazon_link }}";
@@ -62,11 +60,22 @@
 
                 <nav>
                     <ul class="nav">
+                            {% set muser = app.session.get('muser') %}
+                            {% set suser = app.session.get('suser') %}
+                            {% if ( muser and (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) or ('ROLE_RTO' in roles))) %} 
+                                <li class="pull-left gq-assessor-title-download gq-back-user">
+                                    <a href="{{ app.request.baseUrl }}/userLogin/{{muser}}"><span class="gq-assessor-title-back-icon"></span>&nbsp;Switch to My Profile</a> &nbsp;|&nbsp; 
+                                </li>
+                            {% elseif ( suser and ('ROLE_MANAGER' in roles) ) %}
+                                <li class="pull-left gq-assessor-title-download gq-back-user">
+                                    <a href="{{ app.request.baseUrl }}/userLogin/{{suser}}"><span class="gq-assessor-title-back-icon"></span>&nbsp;Switch to My Profile</a> &nbsp;|&nbsp;
+                                </li>
+                            {% endif %} 
+                        
                             {% if ('ROLE_APPLICANT' not in roles)  %}
                             <li>
-
                             <a class="{% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}" href="{{ app.request.baseUrl }}/dashboard">
-                            <i class="material-icons">assessment</i>
+                            <i class="material-icons">school</i>
                             <span>Dashboard</span>
                             </a>
                             </li>
@@ -83,10 +92,10 @@
                                 <li>
                                 <svg height="35" width="35" id="portfolioCount" class="hide">
                                 <circle cx="23" cy="12" r="12" fill="red"/>
-                                <text text-anchor="middle" x="23" y="16" fill="#fff" class="portfolio-current"></text>
+                                <text text-anchor="middle" x="24" y="16" fill="#fff" class="portfolio-current"></text>
                                 </svg>                                
                                 <a class="{% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}" href="{{ app.request.baseUrl }}/applicants">
-                                <i class="material-icons">account_circle</i>
+                                <i class="material-icons">message</i>
                                 <span>portfolios</span>                        
                                 </a>
                                 </li>
@@ -95,7 +104,7 @@
                                 <li>
                                 <svg height="35" width="35"  id="messageCount" class="hide">
                                 <circle cx="23" cy="12" r="12" fill="red"/>
-                                <text id="unread-count" text-anchor="middle" x="23" y="16" fill="#fff"></text>
+                                <text id="unread-count" text-anchor="middle" x="24" y="16" fill="#fff"></text>
                                 </svg>  
                                 <a class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}" href="{{ app.request.baseUrl }}/messages">
                                 <i class="material-icons">message</i>
@@ -129,12 +138,12 @@
                         </li>
                     </ul>
                 </nav>
-                
             </section>
         </header>    
         {% endblock %}
         <!-- Dashboard page starts here -->
         {% block body %}{% endblock %}
+
          <div class="mobi-profile hidden-sm hidden-md hidden-lg">
                 <ul class="clearfix">
                     <li class="profile-tag">
@@ -160,10 +169,11 @@
                     </li>
                 </ul>
             </div>
+
         <!-- Dashboard page ends here -->
     </main>
-     {% block outofbody %}{% endblock %}
         <!-- Profile Modal Starts -->
+
         {% if ('ROLE_APPLICANT' not in roles)  %}
             {% if is_mobile() %}        
             {% include 'GqAusUserBundle:User/mobile:profile_popup.html.twig' %}
@@ -171,7 +181,7 @@
              {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
             {% endif %}
         {% endif %}
-        
+
          {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
         <!-- Profile Modal Ends -->
 	    <!-- jQuery first, then Bootstrap JS. -->          
@@ -203,9 +213,9 @@
                     }
                     $("#changePassword").addClass("hidden");
                 }
-               
-		$(".gq-id-files-upload-success-text");
-		$(".gq-id-pwd-error-text");
+                
+		$(".gq-id-files-upload-success-text").delay(5000).fadeOut(100);
+		$(".gq-id-pwd-error-text").delay(5000).fadeOut(100);
 	 });
 	</script>
 </body>
