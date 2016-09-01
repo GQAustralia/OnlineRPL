@@ -36,6 +36,8 @@ ALTER TABLE `reminder` ADD `reminder_view_status` ENUM('0','1') NOT NULL DEFAULT
 -- transcoder job id
 ALTER TABLE `evidence` ADD `job_id` VARCHAR(100) NOT NULL AFTER `course_code`;
 
+ALTER TABLE `evidence` CHANGE `job_id` `job_id` VARCHAR(100) NULL DEFAULT NULL;
+
 -- facilitator has read the applicant
 ALTER TABLE `user_courses`  ADD `f_read` TINYINT(1) NOT NULL DEFAULT '0'  AFTER `rto_status`;
 
