@@ -1263,20 +1263,24 @@ class UserService
                      }
                      $evidences = $this->getPendingApplicantEvidences($user);
                  }
-                 $evidencesCount = (isset($evidences)) ? count($evidences) : 0;
+                 				 $evidencesCount = (isset($evidences)) ? count($evidences) : 0;
                  $newEvidenceStartDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') - $this->container->getParameter('new_evidence_time_span'), date('Y')));
                  $newEvidences = '';
+                 $totalEvidences = array();
                  if($evidencesCount > 0) {
                      foreach($evidences as $evidenceFile){
                          if($evidenceFile->getType() != 'text'){
                              $dateOfTheFile = date('Y-m-d', strtotime($evidenceFile->getCreated()));
                              if(strtotime($newEvidenceStartDate) <= strtotime($dateOfTheFile)){
                                  $newEvidences[] = $evidenceFile;
+                                 $totalEvidences[$evidenceFile->getPath()] = $evidenceFile->getName();
                              }
-                         }
+                        } else {
+                                $totalEvidences[$evidenceFile->getContent()] = $evidenceFile->getContent();
+                        }
                      }
                  }
-                $usersDashboardInfo['evidencesCount'] = $evidencesCount;
+                $usersDashboardInfo['evidencesCount'] = count($totalEvidences);
                 $usersDashboardInfo['newEvidences'] = $newEvidences;
             }
 
