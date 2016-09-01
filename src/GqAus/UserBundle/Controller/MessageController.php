@@ -99,6 +99,7 @@ class MessageController extends Controller
                     $replymsgarr[$i]['created'] = $created;                    
                     $i++;
                 }
+                $result['toUserVal']=$toUser->getId();
                 $result['msgID'] = $mid;
                 $result['replymsgarr'] = $replymsgarr;                
                 if($replyId == "")
@@ -326,10 +327,13 @@ class MessageController extends Controller
                         $replace = array($sentuser->getUsername(),
                             $this->container->getParameter('applicationUrl'), $curuser->getUsername());
                         $mailBody = str_replace($search, $replace, $this->container->getParameter('mail_notification_con'));
-
+                        // dump($sentuser->getEmail(),$mailSubject,$mailBody,$sentuser->getRole());exit;
                         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-                        //$userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
-                       //     $mailBody, $curuser->getEmail(), $curuser->getUsername());
+                        if($sentuser->getRole() == '5')
+                        {
+                            $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
+                            $mailBody, $curuser->getEmail(), $curuser->getUsername());
+                        }
 
                         $userService->saveMessageData($sentuser, $curuser, $msgdata);
 
