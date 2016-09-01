@@ -65,7 +65,8 @@
         
         {% if courseInfo.courseInfo.Units.Elective is defined and courseInfo.courseInfo.Units.Elective%}
         {% set totalCheckedCount = courses_service.getElectiveCheckedValues(userId,courseCode) %} 
-        {% if totalCheckedCount > 0 %}
+        {% set getIssubmitStatus = courses_service.getOneUnitStatus(userId, courseCode)%} 
+        {% if totalCheckedCount > 0 or getIssubmitStatus > 1%}
         {% set newuserblock = 1 %} 
         {% endif %}
         {% if courseInfo.courseInfo.Units.Elective.validation is defined and  courseInfo.courseInfo.Units.Elective.validation%} 
@@ -106,9 +107,9 @@
             </p>
             <div class="progres-content">
                 <div class="activ-middle">
-                    {% set carr = counter|slice(0,2)  %}
+                   
                     <div id="slider{{counterArr}}" class="round-progress rslider"></div>
-                    <div class="evidence-status">{% if carr > 99 %}Evidence Submitted{% else %}Awaiting Evidences{% endif %}</div>
+                    <div class="evidence-status">{% if counter|slice(0,3) == 100 %}Evidence Submitted{% elseif counter|slice(0,2) > 0 %}Awaiting Evidences{% endif %}</div>
                 </div>
                 <p class="day-progress clearfix">
                     <span class="start-day">0<br/>Days</span>
