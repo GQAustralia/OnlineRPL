@@ -159,6 +159,7 @@
                                                             <td>
                                                                 {% if evd[0].name %} 
                                                                     <div class="block">
+                                                                        <p class="name"><strong>{{ evd[0].user.firstName }} {{ evd[0].user.lastName }}</strong></p>
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
                                                                                 <span class="icon">
@@ -186,6 +187,7 @@
                                                                             {% endfor %}
                                                                         </div>
                                                                     </div>
+                                                                    <div id="text{{evd[0].id}}"style="display:none;width:400px;height:auto;overflow:auto;">{% if evd[0].content is defined %}{{evd[0].content}}{%endif%}</div>
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
@@ -204,8 +206,8 @@
                                                                         <p class="name"><strong>{{ evd[0].user.firstName }} {{ evd[0].user.lastName }}</strong></p>
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
-                                                                                <span class="icon">
-                                                                                    <i class="material-icons">description</i>
+                                                                                <span data-evidenceid="{{ evd[0].id }}"class="icon fac_view_evidence">
+                                                                                    <a href="#text{{evd[0].id}}"class="fancybox"id="btnForm"><i class="material-icons">description</i></a>
                                                                                 </span>
                                                                                 <span class="file-discription">
                                                                                     {{ evd[0].content|slice(0,35) }}{% if evd[0].content|length > 35 %}...{% endif %}
