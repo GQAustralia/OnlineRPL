@@ -718,12 +718,13 @@ class UserService
      */
     public function getUserApplicantsByRoleDateRange($userId, $userRole, $rangeCase = null, $dateRangeStart = null, $dateRangeEnd = null, $debug = null){
         
-        $userCheckField = (in_array('ROLE_FACILITATOR', $userRole)) ? 'facilitator' : 'assessor';
+        $userCheckField = (in_array('ROLE_FACILITATOR', $userRole)) ? 'facilitator' : '';
         $fields = 'partial u.{id, courseCode, courseName, courseStatus, rtoDate, rtostatus, facilitatorstatus}';
         $query  = $this->em->getRepository('GqAusUserBundle:UserCourses')
             ->createQueryBuilder('u')
-            ->select($fields)            
-            ->where(sprintf('u.%s = :%s ', $userCheckField, $userCheckField))->setParameter($userCheckField, $userId);
+            ->select($fields);
+            if($userCheckField != '')
+                $query->where(sprintf('u.%s = :%s ', $userCheckField, $userCheckField))->setParameter($userCheckField, $userId);
 
         if (in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_RTO', $userRole)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
@@ -737,7 +738,7 @@ class UserService
             }
 
             $query->andWhere('u.courseStatus IN (:courseStatus)')->setParameter('courseStatus', $courseStatus);            
-        } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
+        } elseif (in_array('ROLE_FACILITATOR', $userRole) || in_array('ROLE_MANAGER', $userRole)) {
             $query->andWhere(sprintf('u.courseStatus <> 0 '));
         }
 
@@ -762,7 +763,6 @@ class UserService
         return $applicantList;
     }
 
-    
 
     /**
      * Function to get pending applicants for facilitator by date range
@@ -870,7 +870,7 @@ class UserService
      * return array
      */
     public function getUserApplicantsListReports($userId, $userRole, $status, $page, $searchName = null, 
-        $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null)
+        $searchQualification = null, $startDate = null, $endDate = null, $searchTime = null, $module = null)
     {
         $nameCondition = null;
         $qualCondition = null;
@@ -890,6 +890,16 @@ class UserService
             $userType = 'facilitator';
             $userStatus = 'facilitatorstatus';
         }
+        $dashBoradManger = false;
+        if($module == 'dashboard')
+        {
+            if(in_array('ROLE_MANAGER', $userRole)){
+                $userType = 'facilitator';
+                $userStatus = 'facilitatorstatus';
+                $dashBoradManger = true;
+            }
+        }
+
         $fields = 'partial c.{id, courseCode, courseName, courseStatus, assessorstatus, facilitatorstatus, rtostatus,'
             . ' assessorDate, facilitatorDate, rtoDate}, partial u.{id, firstName, lastName}';
         if ($status == 3) {
@@ -913,8 +923,9 @@ class UserService
                 $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                         ->createQueryBuilder('c')
                         ->select($fields)
-                        ->join('c.user', 'u')
-                        ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
+                        ->join('c.user', 'u');
+                        if(!$dashBoradManger)
+                            $res->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
                 if ($status == 2) {
                     $res->andWhere("c.courseStatus = '15'");
                 } else if ($status == 1) {
@@ -1071,23 +1082,16 @@ class UserService
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
             $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
             $qb->andWhere('u.courseStatus != 0');
-
-            $getCourseStatus = $qb->getQuery()->getResult();
         }
         elseif (in_array('ROLE_MANAGER', $userRole)) {
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
-            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
-            $qb->andWhere('u.courseStatus != 0');
-
-            $getCourseStatus = $qb->getQuery()->getResult();
+            $qb->where('u.courseStatus != 0');
         }
         elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
-            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
-            $qb->andWhere('u.courseStatus != 0');
-
-            $getCourseStatus = $qb->getQuery()->getResult();
+            $qb->where('u.courseStatus != 0');
         }
+        $getCourseStatus = $qb->getQuery()->getResult();
         return $getCourseStatus;
     }
     /**
@@ -1186,6 +1190,45 @@ class UserService
         $rtoLessDayList = $query->getQuery()->getResult();
         return $rtoLessDayList;
     }
+    
+    /**
+     * Function to get total user count
+     * return array
+     */
+    public function getTotalActiveUsers()
+    {
+        $parameters['status'] = '1';
+        $totalUsers = $this->em->getRepository('GqAusUserBundle:User')->findBy($parameters);
+        return $totalUsers;
+    }
+
+    /**
+     * Function to get total files count
+     * return array
+     */
+    public function getTotalFiles()
+    {
+        $totalFiles = $this->em->getRepository('GqAusUserBundle:Evidence')->findAll();
+        return $totalFiles;
+    }    
+    /**
+     * Function to get superadmin dashboard info
+     * @param object $user
+     * return array
+     */
+    public function getSuperAdminDashboardInfo($user)
+    {
+        $userId = $user->getId();
+        $userRole = $user->getRoles();
+        $pendingApplicants = $this->getPendingApplicants($userId, $user->getRoles(), '0');
+        $totalUsers = $this->getTotalActiveUsers();
+        $totalFiles = $this->getTotalFiles();
+        $dashboardInfo = array();
+        $dashboardInfo['totalPortfolios'] = count($pendingApplicants);
+        $dashboardInfo['totalUsers'] = count($totalUsers);
+        $dashboardInfo['totalFiles'] = count($totalFiles);
+        return $dashboardInfo;
+    }
 
     /**
      * Function to get user dashboard info
@@ -1216,8 +1259,8 @@ class UserService
                  $percentage = 100;
              }
 
-            $dateRange['newApplicantList'] = $this->getUserApplicantsListReports($user->getId(), $user->getRoles(), $status='3', $page=0, $searchName = '', 
-                    $searchQualification = '', $startDate = date('Y-m-d'), $endDate = date('Y-m-d'), $searchTime = null);
+            $dateRange['newApplicantList'] = $this->getUserApplicantsListReports($user->getId(), $user->getRoles(), $status='1', $page=0, $searchName = '', 
+                    $searchQualification = '', $startDate = date('Y-m-d'), $endDate = date('Y-m-d'), $searchTime = null, $module = 'dashboard');
             
            if(is_array($unReadMessages)){
                 foreach($unReadMessages as $key => $messages){
@@ -1239,15 +1282,16 @@ class UserService
                 'todoRemindersCount' => $todoRemindersCount,
                 'completedRemindersCount' => $todoCompletedRemindersCount,
                 'totalRemindersCount' => $totalRemindersCount);
-
             if (in_array('ROLE_FACILITATOR', $userRole)){
                 $assesorApplicants = $this->getFacilitatorApplicantsWithAssesorByDateRange($userId);
                 $usersDashboardInfo['applicantsWithAssesor'] = $assesorApplicants;
+            }    
+            if (in_array('ROLE_FACILITATOR', $userRole) || in_array('ROLE_MANAGER', $userRole)){
                 $dateRangeRecordsCount = $this->getFacilitatorPortfolioCounts($userId, $userRole);
                 $usersDashboardInfo['dateRangeRecords'] = $dateRangeRecordsCount;
             }
-           
-            if (in_array('ROLE_FACILITATOR', $userRole) || in_array('ROLE_ASSESSOR', $userRole)) {
+
+            if (in_array('ROLE_FACILITATOR', $userRole) || in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_MANAGER', $userRole)) {
                 $rtoApplicants = $this->getUserApplicantsWithRtoByDateRange($user);
                 $usersDashboardInfo['applicantsWithRto'] = $rtoApplicants;
                 $eightyDaysOlderApplicantList = $this->getUserApplicantsByRoleDateRange($userId, $userRole, '2', '80', '', true);
@@ -1814,7 +1858,9 @@ class UserService
         $touserInfo = $this->getRequestUser($touser);       
         $fromuserRole = $fromuserInfo->getRole(); 
         $touserRole = $touserInfo->getRole(); 
-        if(($fromuserRole == 1 || $fromuserRole == 3 || $fromuserRole == 4) && $touserRole!='2'&& $touserRole!='5')
+
+        $fromUserRoles = array('1','3','4');
+        if( in_array($fromuserRole, $fromUserRoles) && $touserRole!='2' && $touserRole!='5')
         {
             $response = 0;
         }       
@@ -1835,6 +1881,13 @@ class UserService
             $query->andWhere($nameCondition);       
         }
         else if ($userRole == 'ROLE_FACILITATOR') {
+            $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";
+            $query->andWhere($nameCondition);            
+        }
+        else if ($userRole == 'ROLE_MANAGER') {
             $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
                     . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
             $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "

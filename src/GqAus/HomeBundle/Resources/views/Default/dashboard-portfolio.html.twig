@@ -5,7 +5,7 @@
                 <a href="{{ app.request.baseUrl }}/applicants" title="View All Portfolios"> PORTFOLIOS <strong>({{ pendingPortfolios }})</strong></a>
         </span>
     </div>
-    {% if ('ROLE_FACILITATOR' in roles) %}	
+    {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_MANAGER' in roles) %}
         {% if pendingApplicantsCount > 0 %}
             <ul class="count_list clearfix">
                 <li class="active">
@@ -39,10 +39,10 @@
                     <span><strong>&gt;90</strong></span>
                 </li>
             </ul>
-        {% endif %}
+        {% endif %}  
     {% endif %}
     <div class="panel-group" id="accordion3">
-        {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)) %}
+        {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)  or ('ROLE_MANAGER' in roles)) %}
 			{% if newApplicantList|length > 0 %}
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -57,7 +57,7 @@
 						<div class="panel-body">
 							<ul>
 								{% for key, list in newApplicantList %}
-										{% if ('ROLE_FACILITATOR' in roles) %}
+										{% if ('ROLE_FACILITATOR' in roles or 'ROLE_MANAGER' in roles) %}
 											{% set setUserId = list.facilitator.id %}
 										{% elseif ('ROLE_ASSESSOR' in roles) %}
 											{% set setUserId = list.assessor.id %}
@@ -102,7 +102,7 @@
 					<div class="panel-body">
 						<ul>
 							{% for dKey, dList in eightyDaysApplicantList %}
-								{% if ('ROLE_FACILITATOR' in roles) %}
+								{% if ('ROLE_FACILITATOR' in roles) or ('ROLE_MANAGER' in roles)  %}
 									{% set setUserId = dList.facilitator.id %}
 								{% elseif ('ROLE_ASSESSOR' in roles) %}
 									{% set setUserId = dList.assessor.id %}

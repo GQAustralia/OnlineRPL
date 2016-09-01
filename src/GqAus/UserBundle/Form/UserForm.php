@@ -29,6 +29,7 @@ class UserForm extends AbstractType
         $builder->add('gender', 'choice', array('choices' => array('male' => 'Male', 'female' => 'Female'), 'multiple' => false,
             'expanded' => true, 'required' => true));
         $builder->add('phone', 'text', array('required' => false));
+        $builder->add('applicantStatus', 'hidden');
         $builder->add('ceoname', 'text', array('required' => false));
         $builder->add('ceoemail', 'text', array('required' => false));
         $builder->add('ceophone', 'text', array('required' => false));
@@ -37,11 +38,12 @@ class UserForm extends AbstractType
         $builder->add('contactname', 'text', array('required' => false));
         $builder->add('contactemail', 'text', array('required' => false));
         $builder->add('contactphone', 'text', array('required' => false));
-        $builder->add('userImage', 'file', array('required' => false, 'data_class' => null));
+        $builder->add('userImage', 'file', array('required' => false, 'data_class' => null, 'attr' => array('class' => 'userprofile_userImage')));
         $builder->add('newpassword', 'password', array('required' => false, 'attr' => array('autocomplete' => 'off')));
         $builder->add('crmId', 'text', array('required' => false));
         $builder->add('address', new AddressForm(), array('label' => false));
-        $builder->add('save', 'submit');
+        $builder->add('save', 'submit', array('attr' => array('class' => 'submit_btn', 'onclick' => 'return validateAddress()')));
+        //$builder->add('save', 'submit', array('attr' => array('class' => 'submit_btn')));
     }
 
 }
