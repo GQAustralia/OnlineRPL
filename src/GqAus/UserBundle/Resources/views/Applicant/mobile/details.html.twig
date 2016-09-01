@@ -254,10 +254,11 @@
                                         <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
                                             <div class="btn">
                                                 <div class="dropdown keep-open">
-                                                    <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>To do list</a></span>
+                                                    <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>ToDo list</a></span>
                                                     <div class="dropdown-menu">
                                                         <div class="data_section">
                                                             <textarea rows="3" placeholder="Notes" id="note-msg" name="note-msg"></textarea>
+                                                            <div class="date_section clearfix"><input type="text"  id="remindDate"   autocomplete="off" class="date_field form-control"/></div>
                                                             <input type="hidden" name="courseId" id="courseId" value="{% if coursePrimaryId >0 %}{{coursePrimaryId}}{% endif %}">
                                                             <div class="date_section clearfix note-msg-inner"></div>
                                                         </div>

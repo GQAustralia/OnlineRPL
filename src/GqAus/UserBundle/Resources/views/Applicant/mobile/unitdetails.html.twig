@@ -76,7 +76,7 @@
                                             <div class="dropdown-menu">
                                                 <div class="data_section">
                                                     <textarea rows="3" placeholder="Notes" id="todolist-msg" name="todolist-msg"></textarea>
-                                                    <div class="date_section clearfix"><input type="text"  id="remindDate"  class="date_field form-control"/></div>
+                                                    <div class="date_section clearfix"><input type="text"  id="remindDate" autocomplete="off" class="date_field form-control"/></div>
                                                 </div>
                                                 <button type="button" class="btn_red setToDoList"  listid="{% if coursePrimaryId >0 %}{{coursePrimaryId}}{% endif %}" usercourseid="{% if coursePrimaryId >0 %}{{coursePrimaryId}}{% endif %}">SET</button>
                                             </div>
