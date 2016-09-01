@@ -50,6 +50,7 @@
             </div>
            {# <div class="qualification-success-msg" id="gq-dashboard-tabs-success-assess"></div>
             <div class="qualification-er-msg " id="gq-dashboard-tabs-error-assess"></div>#}
+            {% set showUpload = (approvalText == 'Satisfactory') ? 'hide' : ((approvalText == 'Competent') ? 'hide' : (approvalText == 'Approved') ? 'hide' : 'show') %}
             <div id="evidence_msg"></div>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
@@ -61,18 +62,20 @@
                                     <span class="pull-right evdcount" data-evdcount="{{evidenceCount}}"><strong> {{ evidenceCount }} Evidence Files Linked</strong></span>
                                 </h4>
                             </div>
-                            <div class="panel-body" style="border-bottom:1px solid #d8d8d8">
-                                <div class="gqa-btn-group">
-                                    <div class="row no-gutter">
-                                        <div class="col-md-12 col-lg-12">
-                                            <div class="btn-add btn" data-toggle="modal" data-target="#add-evidence">
-                                                <i class="material-icons add-evidence-btn">add</i>
-                                                <a href="#">Add Evidence</a>
+                            {% if (showUpload == 'show')%}
+                                <div class="panel-body" style="border-bottom:1px solid #d8d8d8">
+                                    <div class="gqa-btn-group">
+                                        <div class="row no-gutter">
+                                            <div class="col-md-12 col-lg-12">
+                                                <div class="btn-add btn" data-toggle="modal" data-target="#add-evidence">
+                                                    <i class="material-icons add-evidence-btn">add</i>
+                                                    <a href="#">Add Evidence</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                             {% if(evidences|length > 0 ) %}
                             <div class="panel-body">
                                 <div class="panel-copy" id="linkedEvidences">
@@ -103,7 +106,9 @@
                                                             {{ evidence.content|slice(0,20) }}<br/>ADDED {{evidence.created|date("d/m/y")}}
                                                         {% endif %}
                                                     </span>
-                                                    <span class="clear" data-toggle="modal" data-target="#confirm_popup"><a href="#"><i fileid="{{  evidence.id }}" filetype="{{  evidence.type }}"  class="material-icons viewModalClass">clear</i></a></span>
+                                                    {% if (showUpload == 'show')%}
+                                                        <span class="clear" data-toggle="modal" data-target="#confirm_popup"><a href="#"><i fileid="{{  evidence.id }}" filetype="{{  evidence.type }}"  class="material-icons viewModalClass">clear</i></a></span>
+                                                    {% endif %}
                                                 </div>
                                         {% endif %}
 					<div id="{{evidence.unit}}{{inc}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evidence.content is defined %}{{evidence.content}}{%endif%}</div>
