@@ -169,9 +169,9 @@ class UserController extends Controller
     {
         $form = $this->createForm(new IdFilesForm(), array());
         if ($request->isMethod('POST')) {
-//            $form->bind($request);
-//            $data = $form->getData();
-            $result = $this->get('gq_aus_user.file_uploader')->uploadIdFiles($request->request);
+            $form->bind($request);
+            $data = $form->getData();
+            $result = $this->get('gq_aus_user.file_uploader')->uploadIdFiles($data);
             if ($result) {
                 echo $result;
             }
@@ -187,7 +187,7 @@ class UserController extends Controller
         $IdFileId = $this->getRequest()->get('fid');
         $IdFileType = $this->getRequest()->get('ftype');
         $fileName = $this->get('UserService')->deleteIdFiles($IdFileId, $IdFileType);
-        //$this->get('gq_aus_user.file_uploader')->delete($fileName);
+        $this->get('gq_aus_user.file_uploader')->delete($fileName);
         exit;
     }
 
@@ -463,8 +463,14 @@ class UserController extends Controller
         $page = $this->get('request')->query->get('page', 1);
         $sessionUser = $this->get('security.context')->getToken()->getUser();
         $users = $this->get('UserService')->manageUsers($sessionUser->getId(),
-            $sessionUser->getRoleName(), '', '', $page = null);
+        $sessionUser->getRoleName(), '', '', $page = null);
         $users['pageRequest'] = 'submit';
+        $userroles = array();
+        $qualificationStatus = array();
+        $userroles = $this->get('UserService')->getUserByRole();
+        $qualificationStatus = $this->get('UserService')->getQualificationStatus();
+        $users['users'] = $userroles;
+        $users['qualificationStatus'] = $qualificationStatus;
         return $this->render('GqAusUserBundle:User:manageusers.html.twig', $users);
     }
 
@@ -481,7 +487,7 @@ class UserController extends Controller
         if ($page == "") {
             $page = 1;
         }
-        $results = $this->get('UserService')->manageUsers($sessionUser->getId(), $sessionUser->getRoleName(),
+        $results = $this->get('UserService')->manageUsers($sessionUser->getId(), $sessionUser->getRoleName(), 
             $searchName, $searchType, $page);
         $results['pageRequest'] = 'ajax';
         echo $this->renderView('GqAusUserBundle:User:usersList.html.twig', $results);
@@ -514,7 +520,7 @@ class UserController extends Controller
         }
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
         $userRole = $user->getRoleName();
-
+        //$userProfileForm->remove('userImage');
         if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' ||
             $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
             $userProfileForm->remove('dateOfBirth');
@@ -535,16 +541,18 @@ class UserController extends Controller
         if ($userRole != 'ROLE_FACILITATOR') {
             $userProfileForm->remove('crmId');
         }
-
         $resetForm = $this->createForm(new ChangePasswordForm(), array());
         $image = $user->getUserImage();
+
         if ($request->isMethod('POST')) {
             $userProfileForm->handleRequest($request);
+            //var_dump($userProfileForm->isValid()); exit;
             if ($userProfileForm->isValid()) {
                 $userService->savePersonalProfile($user, $image);
                 $request->getSession()->getFlashBag()->add(
                     'notice', 'Profile updated successfully!'
                 );
+                return $this->redirect('/manageusers');
             }
 
             $resetForm->handleRequest($request);
@@ -561,9 +569,11 @@ class UserController extends Controller
                 $request->getSession()->getFlashBag()->add(
                     'notice', 'Password updated successfully!'
                 );
+                return $this->redirect('/manageusers');
             }
         }
         $userImage = $userService->userImage($user->getUserImage());
+        //echo "3 hello"; exit;
         $tab = '';
         $httpRef = $this->get('request')->server->get('HTTP_REFERER');
         if (!empty($httpRef)) {
@@ -629,6 +639,8 @@ class UserController extends Controller
         }
         if ($request->isMethod('POST')) {
             $userProfileForm->handleRequest($request);
+            //echo count($userProfileForm->getErrors()); exit;
+            //var_dump($userProfileForm->isValid()); exit;
             if ($userProfileForm->isValid()) {
                 $image = $request->get('hdn-img');
                 $this->get('UserService')->addPersonalProfile($userRole, $request->get('userprofile'), $image);
@@ -644,8 +656,8 @@ class UserController extends Controller
             $httpRef = basename($httpRef);
             $tab = $this->getRequest()->get('tab');
         }
-
-        return $this->render('GqAusUserBundle:User:addprofile.html.twig', array(
+        
+        return $this->render('GqAusUserBundle:User:add_user_byrole.html.twig', array(
                 'form' => $userProfileForm->createView(),
                 'userImage' => '',
                 'tab' => $tab,
