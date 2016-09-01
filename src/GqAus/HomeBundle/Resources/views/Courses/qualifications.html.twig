@@ -15,12 +15,13 @@
     {% set counter = '' %}
     {% set counterArr = 0 %}
     <div class="hidden-xs body_section">
-{% for key, courses in userCourses %}         
+{% for key, courses in userCourses %}       
     {% set userRole = app.security.getToken().getUser().getRoles() %}
     {% set userId = app.security.getToken().getUser().getId() %} 
     {% set userId = app.security.getToken().getUser().getId() %} 
     {% set flagCurrent = '1' %}
-    {% set courseCode = courses.getCourseCode()%}   
+    {% set courseCode = courses.getCourseCode()%}
+        {% set courseId = courses.getId() %} 
     {% set courseInfo = courses_service.getUserCoursesInfo(courseCode)%}       
 {% if courseInfo.courseInfo == "No records found" %}
 {% elseif courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
@@ -131,24 +132,25 @@
                 <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSR </span>for this qualification</p>
         </div>
         <div class="review_profile-pic">
-                <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~courses.Facilitator.userImage}}{% endif %}"></a>                               
+                <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
         </div>
     </div>
-{% set notes = user_service.getNotesFromUserAndCourseApplicant(courseCode, userId) %}
-{% set notesFromCourse = user_service.getNotesFromCourseIdOnly(courseCode, userRole[0]) %}       
+{% if courses.facilitator is defined and courses.facilitator != null or courses.assessor is defined and courses.assessor != null %}       
+{% set notes = user_service.getNotesFromUserAndCourseApplicant(courseId) %}
     {% if notes|length > 0 %}
         <div class="row">
             <div class="col-lg-12">
                 <div class="comments">
                     <div class="panel-group">
                         <div class="panel-heading">
-                            <h4 class="panel-title">Notes <span class="count">({{notes|length + notesFromCourse|length}})</span></h4>
+                            <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
                         </div>
                         {% for note in notes %} 
-                            {% set notecrted = (note.type =='f') ? facilitatorName : assessorName  %}
-                            {% set notecrtedImg = (note.type =='f') ? facilitatorImage : assessorImage%}
+                        {% set notUserId = (note.type == 'f') ? courses.Facilitator.id : courses.assessor.id %}
+                            {% set notecrted = (note.type =='f') ? courses.facilitator.firstName : courses.assessor.firstName %}
+                            {% set notecrtedImg = (note.type =='f') ? courses.Facilitator.userImage : courses.assessor.userImage%}
                             <div class="panel-content">
-                                <img src="{% if notecrtedImg %} {{ notecrtedImg }} {% endif %}" class="profile-img">
+                                <img src="{% if notecrtedImg %} {{ amazon_link~'user-'~notUserId~'/'~notecrtedImg }} {% endif %}" class="profile-img">
                                 <span><strong>{{notecrted}}</strong></span>
                                 <span class="date-time">
                                     <span class="date">{{ note.created|date('m/d/y')}}</span>
@@ -157,27 +159,13 @@
                                 </span>
                                 <p>{{note.note}}</p>
                             </div>
-                        {% endfor %}
-                        {% for note in notesFromCourse%}
-                            {% set notecrtd = (note.type =='f') ? facilitatorName : assessorName  %}
-                            {% set notecrtdImg = (note.type =='f') ? facilitatorImage : assessorImage%}
-                            <div class="panel-content">
-                                <img src="{% if notecrtdImg %} {{ notecrtdImg }} {% endif %}" class="profile-img">
-                                <span><strong>{{notecrtd}}</strong></span>
-                                <span class="date-time">
-                                    <span class="date">{{ note.created|date('m/d/y')}}</span>
-                                    <span class="date"> - </span>
-                                    <span class="time">{{ note.created|date('H:i')}}</span>
-                                </span>
-                                <p>{% if note.note is defined %}{{note.note}}{%endif%}</p>
-                            </div>
-                        {% endfor %}                        
+                        {% endfor %}     
                     </div>
                 </div>
             </div>
         </div>
     {% endif %}
-
+{% endif %}
     <div class="hidden-xs faq_link">
          <i class="material-icons help">help</i>
             <a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow">
