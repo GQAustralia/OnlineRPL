@@ -1,4 +1,3 @@
-
 {% set userRole = app.security.getToken().getUser().getRoles() %}
 <!-- accordion starts here -->
 
@@ -6,10 +5,12 @@
 {% for key, list in applicantList %}
 {% set id = list.id %}
 {% set ccode = list.courseCode%}
-    <tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %} %}">
+{% if (status == 0) %} 
+<tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %} %}">
+      
         <td colspan="2" class="col-xs-12 col-sm-12 col-md-12">
             <div class="portfolio-data-row">                                                
-                <div class="firstName"><a class='userprofile ' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}'>{{list.user.firstName}} {{list.user.lastName}}</a></div>
+                <div><a class='userprofile firstName' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}'>{{list.user.firstName}} {{list.user.lastName}}</a></div>
     {% set currUser = app.security.getToken().getUser().getId() %}      
     {% set toDoApplicantCount = user_service.getCheckTodoApplicant( currUser , list.id ) %} 
     {% set userId = list.user.id %}
@@ -26,22 +27,17 @@
                    </div>
           {% else %}
                 {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %} 
-                <div class="">
-                        <div>
-                           <div ></div>
-                       </div>                        
-                       <div class="">{{courseStatus}}</div>
-                </div>
-                <div class="qualification-copy"><span>{{list.courseCode}} {{list.courseName}}</span></div>
+                
+                <div class="qualification-copy qualification"><span>{{list.courseCode}} {{list.courseName}}</span></div>
             </div>
-        </td>
-    </tr>
-    {% endfor %}
-          
-    {% else %}
+            </td>
+              
+</tr> 
+{% endif %}  
+{% endfor %}
+{% else %}
     <tr>
-        <td {% if ('ROLE_RTO' in userRole) %} colspan="2" {% elseif (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} colspan="4" {% else %} colspan="6" {% endif %}>
-            {{no_applicants}}gbfdgdfg</td>
+        <td colspan="6">
+            {{no_applicants}}</td>
     </tr>
-    {% endif %}
-                    
+{% endif %}

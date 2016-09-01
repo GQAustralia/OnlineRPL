@@ -171,3 +171,15 @@ parameters:
                                     All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
                                     Qualification and portfolio has been submitted to #role#.<br/><br/>
                                     Regards, <br/>#fromUserName#
+    mail_portfolio_assign_applicant_sub: "Assigned Facilitator for your qualification - OnlineRPL" 
+    mail_portfolio_assign_applicant_con: >
+                                    Dear #toUserName#, <br/> 
+                                    Welcome to OnlineRPL.#facname# is assigned as your Facilitator for qualification #coursecode#.<br/><br/>
+                                    Regards, <br/>OnlineRPL       
+                                    
+    mail_portfolio_assign_facilitator_sub: "Assigned as Facilitator - OnlineRPL" 
+    mail_portfolio_assign_facilitator_con: >
+                                    Dear #facname#, <br/> 
+                                    Welcome to OnlineRPL.You are the facilitator of #toUserName# for qualification #coursecode#.<br/><br/>
+                                    Regards, <br/>OnlineRPL                                           
+                                    

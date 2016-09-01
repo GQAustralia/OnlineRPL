@@ -552,12 +552,12 @@ class UserService
             $userStatus = 'rtostatus';
         } elseif (in_array('ROLE_MANAGER', $userRole)) {
             $userType = 'manager';
-            $userStatus = 'facilitatorstatus';
+            $userStatus = '';
         } elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
             $userType = 'superadmin';
-            $userStatus = 'facilitatorstatus';
+            $userStatus = '';
         }
-        $fields = 'partial c.{id, courseCode, courseName, courseStatus,targetDate,facilitatorDate,assessorDate,rtoDate,facilitatorread,assessorread,rtoread}, partial u.{id, firstName, lastName}';
+        $fields = 'partial c.{id, courseCode, courseName, courseStatus,targetDate,facilitatorDate,assessorDate,rtoDate,facilitatorread,assessorread,rtoread}, partial u.{id, firstName, lastName,email}';
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
             ->createQueryBuilder('c')
             ->select($fields)
@@ -594,8 +594,8 @@ class UserService
                 $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))
                     ->setParameter('courseStatus', '0'); //approved
             } else {
-                $res->andWhere(sprintf('c.%s != :%s', 'courseStatus', 'courseStatus'))
-                    ->setParameter('courseStatus', '0');
+                 $avals = array('1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15');
+                $res->andWhere('c.courseStatus IN (:ids)')->setParameter('ids', $avals);
             }
         }
 
@@ -636,7 +636,7 @@ class UserService
         if (!empty($filterByStatus)) {
             $res->andWhere('c.courseStatus = :filterByStatus')->setParameter('filterByStatus', $filterByStatus);
         }
-
+       
         $res->orderBy('c.id', 'DESC');
         
         /* Pagination */
@@ -1628,7 +1628,7 @@ class UserService
      * @param array $msgdata
      */
     public function saveMessageData($sentuser, $curuser, $msgdata)
-    {
+    {        
         $msgObj = new Message();
         $msgObj->setInbox($sentuser);
         $msgObj->setSent($curuser);
@@ -1639,7 +1639,7 @@ class UserService
         $msgObj->setToStatus(0);
         $msgObj->setReply(0);
         $msgObj->setunitID($msgdata['unitId']);
-		$msgObj->setreplymid($msgdata['replymid']);
+	$msgObj->setreplymid($msgdata['replymid']);
         $this->em->persist($msgObj);
         $this->em->flush();
     }
@@ -1810,7 +1810,7 @@ class UserService
         $touserInfo = $this->getRequestUser($touser);       
         $fromuserRole = $fromuserInfo->getRole(); 
         $touserRole = $touserInfo->getRole(); 
-        if(($fromuserRole == 1 || $fromuserRole == 3 || $fromuserRole == 4) && $touserRole!='2')
+        if(($fromuserRole == 1 || $fromuserRole == 3 || $fromuserRole == 4) && $touserRole!='2'&& $touserRole!='5')
         {
             $response = 0;
         }       
@@ -3844,21 +3844,10 @@ class UserService
      * return Array
      * 
      */
-    public function getNotesFromUserAndCourseApplicant($courseId, $userId){
+    public function getNotesFromUserAndCourseApplicant($courseId){
         
-        $connection = $this->em->getConnection();
-        $statement = $connection->prepare('SELECT n.note,uc.user_id,n.created FROM note as n, user_course_units as uc WHERE uc.course_code = :courseCode AND uc.id = n.unit_id and uc.user_id = :userId');
-        $statement->bindValue('courseCode', $courseId);
-        $statement->bindValue('userId', $userId);        
-        $statement->execute();
-        $allRcrds = $statement->fetchAll();
-        for($i=0; $i<count($allRcrds); $i++){
-            $user = $this->getUserInfo($allRcrds[$i]['user_id']);
-            $allRcrds[$i]['userImage'] = !empty($user) ? $this->userImage($user->getUserImage()) : '';
-            $allRcrds[$i]['userName'] = !empty($user) ? $user->getUsername() : '';
-        }
-        return $allRcrds;
-
+        $courseNotesObj = $this->em->getRepository('GqAusUserBundle:Note')->findBy(array('courseId' => $courseId));
+        return $courseNotesObj;
     }   
     /**
      * Function to update the read status for facilitator & assessor & RTO 

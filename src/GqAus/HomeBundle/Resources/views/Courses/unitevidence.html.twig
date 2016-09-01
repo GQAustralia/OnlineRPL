@@ -11,8 +11,7 @@
     {% set userRole = app.security.getToken().getUser().getRoles() %}
 {#    {% set unitFacStatus = unitStatus.facilitatorstatus %}
     {% set unitAssStatus = unitStatus.assessorstatus %}
-    {% set unitRtostatus = unitStatus.rtostatus %}#}
-    
+    {% set unitRtostatus = unitStatus.rtostatus %}#}    
     <!-- Large Screens HTML -->
     <div class="hidden-xs body_section">
         <div class="presentation-section">
@@ -20,7 +19,6 @@
                 <div class="row">
                     <div class="col-sm-12 col-lg-11">
                         <p>
-                            
                             <span>{% if courseDetails.courseName is defined %}{{courseDetails.courseName}}{% endif %}</span>
                             <span>{% if courseCode is defined %}{{courseCode}}{% endif %}</span>
                         </p>

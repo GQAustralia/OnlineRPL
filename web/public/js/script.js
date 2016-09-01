@@ -69,6 +69,12 @@ $(document).ready(function(){
 	if(window_Wt > 320 && window_Ht < 767){
 		$('.main_container,.step_list').css("height",window_Ht);
 		$('.body_section,.portfolio-container').css("height",mobile_view_Ht);
+		$(".change_link").click(function(){
+			$(".body_section.candidate_profile").css("height",window_Ht);
+		});
+		$(".clear_pswd_div").click(function(){
+			$(".body_section.candidate_profile").css("height",mobile_view_Ht);
+		});
 	}
 	
 	$('.collapse').on('shown.bs.collapse', function(){
@@ -248,7 +254,7 @@ $(document).ready(function(){
     });
 
 });
-$(window).resize(function(){
+$(window).resize(function(){    
 	var window_Ht = $(window).height();
 	var window_Wt = $(window).width();
 	var header_Ht = $("header").height();
@@ -260,8 +266,14 @@ $(window).resize(function(){
 	$(".message_section .mobile_version,.mobile_version .mail_secion,.mobile_version .new_message_section").css("height",mobile_view_Ht);
 	
 	if(window_Wt > 320 && window_Ht < 767){
-		$('.main_container').css("height",window_Ht);
+		$('.main_container,.step_list').css("height",window_Ht);
 		$('.body_section,.portfolio-container').css("height",mobile_view_Ht);
+		$(".change_link").click(function(){
+			$(".body_section.candidate_profile").css("height",window_Ht);
+		});
+		$(".clear_pswd_div").click(function(){
+			$(".body_section.candidate_profile").css("height",mobile_view_Ht);
+		});
 	}
 
 	var newTitle_Ht = $(".mobile_version .new_message_section .title_bar").height();
