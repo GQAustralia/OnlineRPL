@@ -30,7 +30,7 @@
     <div class="presentation-section">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 col-lg-11">
+                <div class="col-md-12 col-lg-11">
                     <p>
                         <span> {{ courses.getCourseName() }}</span>
                          
@@ -138,7 +138,7 @@
 {% set notesFromCourse = user_service.getNotesFromCourseIdOnly(courseCode, userRole[0]) %}       
     {% if notes|length > 0 %}
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12 col-lg-12">
                 <div class="comments">
                     <div class="panel-group">
                         <div class="panel-heading">
@@ -186,7 +186,7 @@
             </a>
     </div>
     </div>                
-    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7"> 
+    <div class="col-md-7 col-lg-7">
     <div class="accordion panel-group">
     {% set i = 1 %}           
     {% set coreUnitsCount = courses_service.getCoreElectiveUnitsCount(userId,courseCode,'core') %}    
