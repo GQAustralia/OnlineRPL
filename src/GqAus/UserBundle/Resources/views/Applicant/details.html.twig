@@ -385,7 +385,7 @@
                     {% endif %}
                     {% if ('ROLE_ASSESSOR' in userRole) %}
                         <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
-                           <div class="btn"><i class="material-icons">call</i><a href="#">Request CC</a></div>
+                           <div class="btn"><a {%if courseStatus != '10' %}href="javascript:void(0);" id="request-cc" data-courseStatus="10" class=''{%endif%}><i class="material-icons">call</i>Request CC</a></div>
                        </div>
                     {% endif %}
                         </div>

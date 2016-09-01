@@ -2209,7 +2209,7 @@ function split(val) {
 function extractLast(term) {
     return split(term).pop();
 }
-$("#submittoassessor").click(function(){
+$("#submittoassessor,#request-cc").click(function(){
 	var userId = $("#csUserId").val();
 	var courseCode = $("#csCourseCode").val();
 	var courseStatus = $(this).data("coursestatus");

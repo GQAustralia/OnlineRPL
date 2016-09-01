@@ -610,7 +610,7 @@ class EvidenceService
                 $evType ='photo';
                 break;
             case 2:
-                $evType ='gq-id-files-content-pdf-icon';
+                $evType ='description';
                 break;
             default:
                 $evType ='photo';
