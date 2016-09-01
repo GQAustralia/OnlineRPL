@@ -1082,16 +1082,18 @@ class UserService
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
             $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
             $qb->andWhere('u.courseStatus != 0');
+            $getCourseStatus = $qb->getQuery()->getResult();
         }
         elseif (in_array('ROLE_MANAGER', $userRole)) {
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
             $qb->where('u.courseStatus != 0');
+            $getCourseStatus = $qb->getQuery()->getResult();
         }
         elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
             $qb->where('u.courseStatus != 0');
+            $getCourseStatus = $qb->getQuery()->getResult();
         }
-        $getCourseStatus = $qb->getQuery()->getResult();
         return $getCourseStatus;
     }
     /**
