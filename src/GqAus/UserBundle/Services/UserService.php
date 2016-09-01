@@ -3562,6 +3562,7 @@ class UserService
     {
         switch ($userRole) {
             case 'ROLE_FACILITATOR':
+            case 'ROLE_MANAGER':
                 $colLg = '4';
                 break;
             case 'ROLE_ASSESSOR':
@@ -3569,9 +3570,6 @@ class UserService
                 break;
             case 'ROLE_RTO':
                 $colLg = '12';
-                break;
-            case 'ROLE_MANAGER':
-                $colLg = '4';
                 break;
             default :
                 $colLg = '12';

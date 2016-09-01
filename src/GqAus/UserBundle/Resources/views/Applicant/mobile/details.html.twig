@@ -231,7 +231,9 @@
                                 <div class="gqa-btn-group border-dark no-margin">
                                     <div class="row no-gutter">
                                         <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
-                                            <div class="btn border-right"><a href="javascript:void(0)" data-toggle="modal" data-target="#message_popup"><i class="material-icons">message</i>Message</div>
+                                            <div class="btn border-right">
+                                                <a href="javascript:void(0)" data-toggle="modal" data-target="#message_popup"><i class="material-icons">message</i>Message</a>
+                                            </div>
                                         </div>
                                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
                                         <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
