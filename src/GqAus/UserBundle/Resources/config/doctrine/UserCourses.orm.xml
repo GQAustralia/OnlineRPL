@@ -33,5 +33,8 @@
             <join-column name="rto" referenced-column-name="id" />
         </many-to-one>
         <one-to-many field="reminder" target-entity="GqAus\UserBundle\Entity\Reminder" mapped-by="course" />
+        
+        <one-to-many field="files" target-entity="GqAus\UserBundle\Entity\UserCourse\File" mapped-by="course" />
+        
     </entity>
 </doctrine-mapping>

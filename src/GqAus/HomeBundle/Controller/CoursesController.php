@@ -23,6 +23,7 @@ class CoursesController extends Controller
         $results = $courseService->getCoursesInfo($id);
         $courseService->updateQualificationUnits($user->getId(), $id, $results);
         $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
+        
         $results['electiveUnits'] = $getUnits['courseUnits'];
         $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
         $results['evidences'] = $user->getEvidences();
@@ -32,6 +33,7 @@ class CoursesController extends Controller
         $assessmentForm = $this->createForm(new AssessmentForm(), array());
         $results['assessmentForm'] = $assessmentForm->createView();
         $results['statusList'] = $this->get('UserService')->getQualificationStatus();
+        
         return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', $results);
     }
 
@@ -44,14 +46,18 @@ class CoursesController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $statusList = $this->get('UserService')->getQualificationStatus();       
         $userCourses = $user->getCourses();
+        
         if(!empty($userCourses))
         {
+            $courseService = $this->get('CoursesService');
+            $rtoService = $this->get('RtoService');
             foreach($userCourses as $coursearr){
                 $id = $coursearr->getCourseCode();
-                $courseService = $this->get('CoursesService');
+                
                 $results = $courseService->getCoursesInfo($id);
                 $courseService->updateQualificationUnits($user->getId(), $id, $results);
                 $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
+                
                 $results['electiveUnits'] = $getUnits['courseUnits'];
                 $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
                 $results['evidences'] = $user->getEvidences();
@@ -62,8 +68,9 @@ class CoursesController extends Controller
                 $results['assessmentForm'] = $assessmentForm->createView();
             } 
         }
-        else
+        else{
             $results = '';
+        }
         return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', 
             array('userCourses' => $user->getCourses(),
                 'courseConditionStatus' => $user->getCourseConditionStatus(),

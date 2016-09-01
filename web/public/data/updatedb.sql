@@ -54,3 +54,6 @@ ALTER TABLE `user_ids` ADD `status` INT(2) NULL AFTER `size`;
 
 ALTER TABLE `other_files`  ADD `isdeleted` INT(2) NULL  AFTER `created`;
 
+
+CREATE TABLE `user_course_file` ( `id` INT(11) NOT NULL AUTO_INCREMENT ,  `usercourse_id` INT(11) NOT NULL ,  `type` VARCHAR(50) NOT NULL ,  `path` TEXT NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+

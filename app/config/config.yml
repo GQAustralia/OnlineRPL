@@ -39,6 +39,8 @@ twig:
         user_service: "@UserService"
         evidence_service: "@EvidenceService"
         courses_service: "@CoursesService"
+        rto_service: "@RtoService"
+        course_file_service: "@CourseFileService"
         tokbox_key: "%tokbox_key%"
         rto_workspan: "%rto_workspan%"
         fec_workspan: "%fec_workspan%"
