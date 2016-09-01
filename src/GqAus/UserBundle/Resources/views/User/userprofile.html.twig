@@ -1,128 +1,492 @@
-{% extends 'base.html.twig' %}
-{% block title %}GQ - RPL Edit User{% endblock %}
 {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css') }}">
 <link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
-<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
-<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
-
-{% endblock %}
-{% block body %}
-<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
-    <div class="row">
-        <div class="col-xs-12">
-            <h1 class="gq-dashboard-title">Edit User</h1>
-        </div>        
-
-    </div>
-    <div class="row">
-        <div class="col-xs-push-3 col-xs-6">
-            <div class="row">
-                <div class="gq-profile-page-img" id="ajax-gq-profile-page-img" style="background-image: url(&quot;{{ userImage }}&quot;);"></div>
-            </div>    
-        </div>
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="gq-edit-photo-btn">
-                    <span class="btn-grey">{{ form_widget(form.userImage) }}</span>
-                    <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
-                </div>
-                <div class="ajax-profile-error" id="ajax-profile-error"></div>
-            </div>
-        </div>
-        <div class="col-xs-12">
-            {% for flashMessage in app.session.flashbag.get('notice') %}
-            <div class="row" id="profile_suc_msg">
-                <div class="gq-id-files-upload-success-text">
-                    <h2><img src="{{ asset('public/images/tick.png') }}">
-                    {{ flashMessage }}</h2>
-                </div>
-            </div>
-            {% endfor %}
-            
-            <div class="gq-change-profile-warning" id="change_pwd_error">
-                {% for flashMessage in app.session.flashbag.get('errornotice') %}
-                <div class="gq-id-files-upload-error-text">
-                    <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
-                </div>
-               {% endfor %}
-            </div>
-            
-            <div class="row" id="profile_suc_msg2"></div>
-        </div>        
-        
-        <div class="col-xs-12">
-            <div class="gq-dashboard-tabs">
-                <!-- Tabs start here -->
-                <div class="gq-dashboard-tabs-header gq-profile-tabs-header wid60p" id="gq-profile-tabs-headerid">
-                    <ul class="nav nav-pills nav-justified" role="tablist" id="myTab">
-                        <li id="personel-gq-tab" role="presentation" {% if tab == 'id-fields' %} {% else %} class="active" {% endif %} ><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal</a></li>
-                        <li id="address-gq-tab" role="presentation"><a href="#address" aria-controls="address" role="tab" data-toggle="tab">Address</a></li>
-                    </ul>
-                </div>
-                <!-- Tabs end start here -->
-                <!-- Content for respective tabs above will be in this section -->
-                <form name='userprofile' id='userprofile' method='POST' enctype="multipart/form-data" />
-                <div class="tab-content">                    
-                    <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% else %}other{% endif %}">
-                    <input type='hidden' id='hdn-userId' name='hdn-userId' value="{{userId}}">
-                    <input type='hidden' id='hdn-type' name='hdn-type' value="1">
-                    {% include 'GqAusUserBundle:User:user.html.twig' %}
-                    
-                    <!-- Change Password Start --> 
-                    
-                    <div role="tabpanel" class="tab-pane" id="change-pwd-form">
-                        {{ form_start(changepwdForm) }}
-                        <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
-                        <div class="gq-form-personal wid60p">
-                            <div class="gq-form-row" style="display:none;">
-                                <label for="gq-last-name">Current Password</label>
-                                    {{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30'} }) }}
-                            </div>
-                            <div class="gq-form-row">
-                                <label for="gq-last-name">New Password</label>
-                                    {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30'} }) }}
-                            </div>
-                            <div class="gq-form-row" style="display:none;">
-                                <label for="gq-last-name">Confirm Password</label>
-                                    {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30'} }) }}
-                            </div>
-
-                            <div class="gq-form-botton">
-                                    {{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'btn btn-default'}}) }}
-                            </div>
-                            <div class="gq-form-botton">
-                                <a href="#personal" aria-controls="personal" role="tab" data-toggle="tab" id="emptypwdform" class="btn-grey">Cancel</a>
+{#<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>#}
+{% endblock %}  
+<!-- Modal -->
+<div class="modal fade profile_popup" id="roleprofile2" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="title_bar hidden-sm hidden-md hidden-lg">
+                    <span><i class="material-icons arrow_back">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon">clear</i></span>
+                </div>   
+                {% if (userRole=='ROLE_FACILITATOR') %}
+                    {% set role = 'Facilitator' %}
+                {% elseif(userRole=='ROLE_RTO') %}
+                    {% set role = 'RTO' %}
+                {% elseif(userRole=='ROLE_ASSESSOR') %}
+                    {% set role = 'Assessor' %}                    
+                {% elseif(userRole=='ROLE_APPLICANT') %}
+                    {% set role = '' %}
+                {% elseif(userRole=='ROLE_MANAGER') %}
+                    {% set role = 'Manager' %}
+                {% elseif(userRole=='ROLE_SUPERADMIN') %}
+                    {% set role = 'SuperAdmin' %}
+                {% endif %}
+                <!-- Profile Form -->
+                <div class="header_block clearfix" id='user_profile_form_div'>
+                    <div class="profile_section">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="gq-edit-photo-btn">
+                                    <span class="btn-grey">{{ form_widget(form.userImage) }}</span>
+                                    <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
+                                </div>
+                                <div class="ajax-profile-error" id="ajax-profile-error"></div>
                             </div>
                         </div>
+                        <div id='ajax-gq-profile-page-img'>
+                            <img src="{{ userImage }}" alt="" id='user_profile_image' class="profile_image"/>
+                            <input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
+                        <div class="content">
+                            <h5 class="name"><strong>Edit User</strong></h5>
+                            <span class="field">{{role}}</span>
+                            {#<span class="title uploadTrigger"><input type="file" ></span>#}
+                        </div>
+                    </div>
+
+                    <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
+                </div>
+                <div class="row" id="profile_suc_msg2"></div>
+                <div class="gq-change-address-warning" id="change_address_error">
+                    {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                    <div class="gq-id-address-error-text" style="dispaly:none">
+                        <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="ajax-profile-error" id="ajax-profile-error"></div>
+                
+                <form class="form adduser_profile_form" id='user_profile_form' action="{{ app.request.baseUrl }}/editUser/{{userId}}" method="post">
+                    <div class="form_fields">
+                        <div class="section name_group clearfix">
+                            <div class="form-group">
+                                <label>{% if ('ROLE_RTO' in userRole) %} College Name {% else %} First Name {% endif %} </label>                                                        
+                                {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
+                                <input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
+                                <input type="hidden" value="0" id='hdn-type' name='hdn-type'/>
+                                <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% else %}applicant{% endif %}">
+                            </div>
+                            <div class="form-group">
+                                <label>{% if ('ROLE_RTO' in userRole) %} Provider Code {% else %} Last Name {% endif %}</label>
+                                {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="form-group">
+                                <label>Email</label>
+                                {{ form_widget(form.email) }}
+                            </div>
+                        </div>
+                        {% if ('ROLE_APPLICANT' in userRole) %}
+                        <div class="section">
+                            <div class="form-group">
+                                <label class="pull-left" for="gq-personal-pwd">Gender</label>
+                                {{ form_widget(form.gender) }}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="section name_group clearfix">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Phone</label>
+                                {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
+                            </div>
+                            {#<div class="form-group">
+                                <label for="gq-personal-pwd">Password</label>
+                                {{ form_widget(form.newpassword,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>#}
+                        </div>
+
+                       {% if ('ROLE_APPLICANT' in userRole) %}                       
+                        <div class="section name_group clearfix">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Date Of Birth</label>
+                                {{ form_widget(form.dateOfBirth, { 'attr':{'readonly':'readonly'} }) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">USI</label>
+                                <a href="http://www.usi.gov.au/create-your-USI/Pages/default.aspx" target="_blank">Don’t have one?<br/>Click here to create one</a>
+                                {{ form_widget(form.universalStudentIdentifier,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+                        {% endif %} 
+
+                       {% if ('ROLE_RTO' in userRole) %}
+                        <div class="section name_group clearfix">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Contact Person Name</label>
+                                {{ form_widget(form.contactname,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Contact Person Phone</label>
+                                {{ form_widget(form.contactphone,{ 'attr': {'maxlength': '20'} }) }}
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="section">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Contact Person Email</label>
+                                {{ form_widget(form.contactemail,{ 'attr': {'maxlength': '50'} }) }}
+                            </div>
+                        </div>
+                        
+                        <div class="section name_group clearfix">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">CEO Name</label>
+                                {{ form_widget(form.ceoname,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">CEO Phone</label>
+                                {{ form_widget(form.ceophone,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+                        
+                        <div class="section">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">CEO Email</label>
+                                {{ form_widget(form.ceoemail) }}
+                            </div>
+                         </div>
+                        
+                        {% endif %}
+
+                        {% if ('ROLE_FACILITATOR' in userRole) %}
+                        <div class="section">
+                            <div class="form-group">
+                                <label for="gq-last-name">CRM ID</label>
+                                {{ form_widget(form.crmId,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- Address info-->
+                        <div class="section name_group clearfix">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Street Number</label>
+                                {{ form_widget(form.address.address,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Street Name</label>
+                                {{ form_widget(form.address.area,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+                        <div class="section name_group clearfix">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Suburb</label>
+                                {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">City</label>
+                                {{ form_widget(form.address.city,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+
+                        <div class="section name_group clearfix">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">State</label>
+                                {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Country</label>
+                                {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Postcode</label>
+                                {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+                        {#<div class="section">
+                            <div class="form-group">
+                                <label for="gq-personal-pwd">Profile Image</label>
+                                {{ form_widget(form.userImage) }}
+                            </div>
+                        </div>#}
+                        <!-- Address info-->
+                    </div>
+                    <div class="change-pwd-link-section">
+                        <a id="change-pwd-link" href="javascript:void(0);"><label>Change Password</label></a>
+                    </div>
+                    {#<button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default" onclick="return validateAddress();">Save</button>#}
+                    {{ form_end(form) }}
+
+                    <!-- Change Password Start --> 
+                    
+                    <div class="changepassword" style="display:none;">
+                        <form class="form" name="password" method="post" action="{{ app.request.baseUrl }}/editUser/{{userId}}">
+                        <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
+                        <div class="section" style="display:none;">
+                            <div class="form-group">
+                                <label for="gq-last-name">Current Password</label>
+                                {{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+                        <div class="section" style="display:block;">
+                            <div class="form-group">
+                                <label for="gq-last-name">New Password</label>
+                                {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+                        <div class="section" style="display:none;">
+                            <div class="form-group">
+                                <label for="gq-last-name">Confirm Password</label>
+                                {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30'} }) }}
+                            </div>
+                        </div>
+                        {{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'submit_btn'}}) }}
                         {{ form_end(changepwdForm) }}
+                        <button class="btn cancel-change-password">Cancel</button>
                     </div>
                     
                     <!-- Change Password End -->
-                </div>
-                <!--End of content for respective tabs above will be in this section -->
+                    
+                    
+                    
+                    <div class="gq-change-pwd-warning" id="pwd_error">
+                        {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                        <div class="gq-id-pwd-error-text" style="display:none">
+                            <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                        </div>
+                        {% endfor %}
+                    </div>
             </div>
         </div>
     </div>
 </div>
-</div>
 
-{% endblock %}
-{#{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}#}
-{% block javascripts %}
-<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('.fancybox').fancybox();
-        //$("#userprofile_dateOfBirth").datepicker();
-        $("#userprofile_dateOfBirth").datepicker({
-        dateFormat: 'dd/mm/yy',
-        maxDate: '0',
-        yearRange: '-100:+0',
-        changeMonth: true,
-        changeYear: true
+    $(document).ready(function(){
+        $("#change-pwd-link").click(function(){
+            $(".adduser_profile_form").hide();
+            $(".changepassword").show();
+        });
+        $(".cancel-change-password").click(function(){
+            $(".adduser_profile_form").show();
+            $(".changepassword").hide();
+        });
+        
+        $(".userprofile_userImage").change(function() {
+            var userId = $('#hdn-userId').val();
+            var userType = $('#hdn-type').val();
+            var fileName = $(this).val();
+            var Extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+            //console.log(userType+"fff"+fileName);
+            if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+                $("#ajax-loading-icon").show();
+                var file_data = $('#userprofile_userImage').prop('files')[0];
+                var form_data = new FormData();
+                form_data.append('file', file_data);
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "uploadProfilePic/"+userId,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    success: function(result) {
+                        if (result != "error")
+                        {
+                             $('#user_profile_image').attr('src',upload_path+result);                    
+                            $("#profile_suc_msg2").show();
+                            $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
+                            $("#ajax-profile-error").hide();
+                            $("#ajax-gq-profile-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
+                            if (userType == 0) {
+                                $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
+                            }
+                            if (userType == 2) {
+                                $('#hdn-img').val(result);
+                            }
+                            $("#ajax-loading-icon").hide();
+                        }
+                        else
+                        {
+                            $("#ajax-profile-error").show();
+                            $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error in uploading</h2></div>').delay(3000).fadeOut(100);
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $("#ajax-profile-error").show();
+                $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please upload valid image</h2></div>').delay(3000).fadeOut(100);
+                //alert("Please upload valid image");
+                return false;
+            }
         });
     });
+    
+    /*validate new address*/
+    function validateAddress()
+    {
+        var userrole = $("#hdn-userrole").val();
+        var useremail = $("#userprofile_email").val();
+        var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
+        regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
+        if ($("#userprofile_firstname").val() == "") {
+            if(userrole=='rtouser')
+                showMyTabs("Please enter College Name");
+            else
+                showMyTabs("Please enter First Name");
+            $("#userprofile_firstname").focus();
+            return false;
+        }
+        if ($("#userprofile_lastname").val() == "") {
+            if(userrole=='rtouser')
+                showMyTabs("Please enter Provider Code");
+            else
+                showMyTabs("Please enter Last Name");
+            $("#userprofile_lastname").focus();
+            return false;
+        }
+        if ($("#userprofile_email").val() == "") {
+            showMyTabs("Please enter Email");
+            $("#userprofile_email").focus();
+            return false;
+        }
+        if ($("#userprofile_email").val() != "") {
+            if (useremail.search(regexp) == -1) {
+                showMyTabs("Please enter valid Email");
+                $("#userprofile_email").focus();
+                return false;
+            }
+        }
+        if (userType == 2) {
+            var count = checkEmailExist($("#userprofile_email").val());
+            if (count > 0) {
+                showMyTabs("This Email already exist!");
+                $("#userprofile_email").focus();
+                return false;
+            }
+        }
+
+        if ($("#userprofile_phone").val() == "") {
+            showMyTabs("Please enter Phone Number");
+            $("#userprofile_phone").focus();
+            return false;
+        }
+        if ($("#userprofile_phone").val() != "") {
+            if(checkPhonenumber($("#userprofile_phone").val()) == 0) {
+                showMyTabs("Please enter valid Phone Number");
+                $("#userprofile_phone").val("");
+                $("#userprofile_phone").focus();
+                return false;
+            }
+        }
+        // if add user
+        if (userType == 2) {
+            var newpwd = $("#userprofile_newpassword").val();
+            if (newpwd == "") {
+                showMyTabs("Please enter Password");
+                $("#userprofile_newpassword").focus();
+                return false;
+            }
+            if (newpwd != "") {
+                if (newpwd.length < 6) {
+                    showMyTabs("Password must be minimum of 6 characters");
+                    $("#userprofile_newpassword").focus();
+                    return false;
+                }
+            }
+            if (userrole == 'facilitatoruser') {
+                var crmId = ($.trim($("#userprofile_crmId").val()));
+                if (crmId == "") {
+                    showMyTabs("Please enter CRM ID");
+                    $("#userprofile_crmId").focus();
+                    return false;
+                }
+            }
+        }
+
+        if ($("#userprofile_dateOfBirth").val() == "") {
+            showMyTabs("Please enter Date Of Birth");
+            $("#userprofile_dateOfBirth").focus();
+            return false;
+        }
+        if ($("#userprofile_universalStudentIdentifier").val() == "") {
+            showMyTabs("Please enter USI");
+            $("#userprofile_universalStudentIdentifier").focus();
+            return false;
+        } else {
+            var USI = $("#userprofile_universalStudentIdentifier").val();
+            if(USI.length != 10) {
+                showMyTabs("Please enter 10 characters USI");
+               return false;
+            } else if (USI.match(/[^a-zA-Z0-9 ]/g)) {
+               showMyTabs("Please enter only ALPHA Numeric USI");
+               return false;
+            }
+        }
+
+        if ($("#userprofile_address_address").val() == "") {
+            $("#change_pwd_error").show();
+            $("#change_pwd_error").html(startMsg + "Please enter Address" + endMsg).delay(3000).fadeOut(100);
+            $('#address-gq-tab').tab('show');
+            $('#personal').removeClass('active');
+            $('#address').addClass('active');
+            $("#userprofile_address_address").focus();
+            return false;
+        }
+        if(userrole=='rtouser') {
+            if ($("#userprofile_contactname").val() == "") {
+                showMyTabs("Please enter Contact Person Name");
+                $("#userprofile_contactname").focus();
+                return false;
+            }
+            if ($("#userprofile_contactphone").val() == "") {
+                showMyTabs("Please enter Contact Person Phone Number");
+                $("#userprofile_contactphone").focus();
+                return false;
+            }
+            if ($("#userprofile_contactphone").val() != "") {
+                if(checkPhonenumber($("#userprofile_contactphone").val()) == 0) {
+                    showMyTabs("Please enter valid Contact Person Phone Number");
+                    $("#userprofile_contactphone").val("");
+                    $("#userprofile_contactphone").focus();
+                    return false;
+                }
+            }
+            if ($("#userprofile_contactemail").val() == "") {
+                showMyTabs("Please enter Contact Person Email");
+                $("#userprofile_contactemail").focus();
+                return false;
+            }
+            if ($("#userprofile_contactemail").val() != "") {
+                if ($("#userprofile_contactemail").val().search(regexp) == -1) {
+                    showMyTabs("Please enter valid Contact Person Email");
+                    $("#userprofile_contactemail").val("");
+                    $("#userprofile_contactemail").focus();
+                    return false;
+                }
+            }
+
+            if ($("#userprofile_ceoemail").val() != "") {
+                if ($("#userprofile_ceoemail").val().search(regexp) == -1) {
+                    showMyTabs("Please enter valid CEO Email");
+                    $("#userprofile_ceoemail").focus();
+                    return false;
+                }
+            }
+
+            if ($("#userprofile_ceophone").val() != "") {
+                if(checkPhonenumber($("#userprofile_ceophone").val()) == 0) {
+                    showMyTabs("Please enter valid CEO Phone Number");
+                    $("#userprofile_ceophone").val("");
+                    $("#userprofile_ceophone").focus();
+                    return false;
+                }
+            }
+        }
+
+    }
+
+    /*validate new address*/
+    
+    
 </script>
-{% endblock %}
