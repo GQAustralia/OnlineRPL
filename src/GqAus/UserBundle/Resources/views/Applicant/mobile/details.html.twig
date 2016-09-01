@@ -339,6 +339,15 @@
                             </div>
                         {%endif%}
                     {%endif%}
+                    {% if ('ROLE_ASSESSOR' in userRole and courseStatus =='11') %}
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                            <form name="startConversation" method="post" action="{{ base_url }}startConversation">    
+                                <input type="hidden" value="{% if courseInfo.id %}{{courseInfo.id}}{% endif %}" name="courseCode">
+                                <input type="hidden" value="{% if userId is defined %}{{userId}}{% endif %}" name="applicantId">
+                                <div class="btn competency-call"><a href="javascript:document.startConversation.submit();"><i class="material-icons">call</i>Start Competency Call</a></div>                                    
+                            </form>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

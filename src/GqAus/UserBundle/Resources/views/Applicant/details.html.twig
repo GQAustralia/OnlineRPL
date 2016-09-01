@@ -170,12 +170,12 @@
                                     </div>
                                 </div>
                             {% endif %}
-                            {% if ('ROLE_ASSESSOR' in userRole) %}
+                            {% if ('ROLE_ASSESSOR' in userRole and courseStatus =='11') %}
                                 <div class="col-md-12 col-lg-12">
                                     <form name="startConversation" method="post" action="{{ base_url }}startConversation">    
                                         <input type="hidden" value="{% if courseInfo.id %}{{courseInfo.id}}{% endif %}" name="courseCode">
                                         <input type="hidden" value="{% if userId is defined %}{{userId}}{% endif %}" name="applicantId">
-                                        <div class="btn competency-call"><i class="material-icons">call</i><a href="javascript:document.startConversation.submit();">Start Competency Call</a></div>                                    
+                                        <div class="btn competency-call"><a href="javascript:document.startConversation.submit();"><i class="material-icons">call</i>Start Competency Call</a></div>                                    
                                     </form>
                                 </div>
                             {% endif %}
