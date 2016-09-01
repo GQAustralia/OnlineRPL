@@ -30,7 +30,7 @@
     {% set rtoProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : rtoName %}
     {% set rtoVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
  <!-- Small Screens HTML -->
-    <div class="hidden-md hidden-lg body_section">
+    <div class="body_section">
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
@@ -46,7 +46,7 @@
         <div class="container">
             <div class="row no-gutter">
                 {% if ('ROLE_ASSESSOR' in userRole) %}
-                <div class="col-lg-11">
+                <div class="col-xs-11 col-sm-11">
                     <div class="gqa-btn-group">
                         <div class="btn btn-download border-dark">
                             <i class="material-icons">file_download</i>
@@ -55,9 +55,9 @@
                     </div>
                 </div>
                 {% endif %}
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-sm-12">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="col-xs-12 col-sm-12">
                             <div class="progres_bar_section">
                                 <div class="progres-content">
                                     <p class="title">Evidence submitted - {{evidenceCompleteness}} Complete</p>
