@@ -14,10 +14,12 @@
         <link rel="stylesheet" href="{{ asset('public/css/bootstrap-reboot.css') }}">              
         <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}">
         <link rel="stylesheet" href="{{ asset('public/css/jquery-ui-timepicker-addon.css') }}">
-        <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}"> 
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}">
+         
 	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     {% endblock %}
-    {% block stylesheets %}{% endblock %}     
+    {% block stylesheets %}{% endblock %}  
+           <link rel="stylesheet" href="{{ asset('public/css/pages/all/fixes.css') }}">
         <script type="text/javascript">
             var base_url = "{{ base_url }}";
             var amazon_link = "{{ amazon_link }}";
@@ -151,7 +153,6 @@
                         {% set userImage = app.security.getToken().getUser().getUserImage()%}
                         
                          {% if ('ROLE_APPLICANT' in roles)  %}
-                        
                             <a href="{{ app.request.baseUrl }}/userprofile">
                                 <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="profile">
                                 <label class="profile-tag">{{userName}}</label>
@@ -184,7 +185,8 @@
 
          {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
         <!-- Profile Modal Ends -->
-	    <!-- jQuery first, then Bootstrap JS. -->          
+	    <!-- jQuery first, then Bootstrap JS. -->     
+         
         <script src="{{ asset('public/js/jquery.min.js') }}"></script>
         <script src="{{ asset('public/js/jquery-1.10.2.js') }}"></script>
         <script src="{{ asset('public/js/jquery-ui.js')}}"></script>   
