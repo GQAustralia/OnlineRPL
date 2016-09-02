@@ -1374,6 +1374,16 @@ function validateAddress()
     country = /^[a-zA-Z\s]+$/;
     postcode = /^[a-zA-Z0-9\s]+$/;
     phone = /^\(?([0-9]{4})\)?[-]?([0-9]{3})[-]?([0-9]{3})$/;
+    
+    $('#userprofile').find('input').each(function(index){
+	  	if($(this).attr('isChanged')!=undefined && $(this).attr('isChanged')=="1"){
+			$(this).prev().removeAttr('style');
+		}
+	 	if($(this).attr('isChanged')!=undefined){
+			$(this).removeAttr('isChanged')
+		}
+    });
+    
     if ($("#userprofile_firstname").val() == "") {
         if(userrole=='rtouser')
             showMyTabs("Please enter College Name");
@@ -1420,7 +1430,7 @@ function validateAddress()
      if ($("#userprofile_phone").val() != "") {
         if ($("#userprofile_phone").val().search(phone) == -1) {
             showMyTabs("Please enter valid Phone number");
-            $("#userprofile_email").focus();
+            $("#userprofile_phone").focus();
             return false;
         }
     }
