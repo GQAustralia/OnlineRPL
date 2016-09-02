@@ -2227,8 +2227,8 @@ class UserService
             $message = 'Please enter course name!';
         } else {
             $courseExist = $this->checkUserCourseExist($courseData['courseCode'], $user->getId());
-            $facilitatorRoleUser = $this->getCrmUserId($courseData['crmId']);
-            if (!empty($facilitatorRoleUser)) {
+            $ManagerRoleUser = $this->getManager($courseData['managerId']);
+            if (!empty($ManagerRoleUser)) {
                 if ($courseExist <= 0) {
                     $userCoursesObj = new UserCourses();
                     $userCoursesObj->setUser($user);
@@ -2237,7 +2237,7 @@ class UserService
                     $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : 1);
                     $userCoursesObj->setZohoId('');
                     $userCoursesObj->setCreatedOn(date('Y-m-d H:m:s'));
-                    $userCoursesObj->setFacilitator($courseData['managerId']);
+                    $userCoursesObj->setManager($courseData['managerId']);
                     $userCoursesObj->setFacilitatorstatus(0);
                     $userCoursesObj->setAssessorstatus(0);
                     $userCoursesObj->setRtostatus(0);
@@ -2254,7 +2254,7 @@ class UserService
                     $message = 'Qualification: ' . $courseData['courseCode'] . ' for this user already exist!';
                 }
             } else {
-                $message = 'Invalid facilitator CRM Id!';
+                $message = 'Invalid Manager Id!';
             }
         }
         return compact('message', 'emailFlag');
@@ -2998,13 +2998,20 @@ class UserService
     }
 
     /**
-     * Function to get CRM User id By Role
-     * @param int $crmId
+     * Function to get Manager id By Role
+     * @param int $managerId
      * retrun array
      */
-    public function getCrmUserId($crmId)
+    public function getManager($managerId)
     {
-        return $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('crmId' => trim($crmId), 'status' => 1));
+    	$connection = $this->em->getConnection();
+    	$statement = $connection->prepare('SELECT * FROM user  WHERE id = :userId AND status = :status and role_type = :roleType');
+    	$statement->bindValue('userId', $managerId);
+    	$statement->bindValue('roleType', '5');
+    	$statement->bindValue('status', '1');
+    	$statement->execute();
+    	$allRcrds = $statement->fetchAll();
+    	return $allRcrds;
     }
 
     /**

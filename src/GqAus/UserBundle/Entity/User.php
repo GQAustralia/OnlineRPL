@@ -171,6 +171,18 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->id;
     }
+    
+    /**
+     * Get id
+     *
+     * @return string
+     */
+    public function setId($id)
+    {
+    	$this->id = $id;
+    	
+    	return $this;
+    }
 
     /**
      * Set address
