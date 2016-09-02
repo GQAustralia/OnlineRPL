@@ -39,7 +39,7 @@
 	opacity: 1;
 }
 
-/* In header */
+/* In header 
 .mobi-profile{
 	position: absolute;
 	bottom: 0;
@@ -59,7 +59,7 @@
     color: #fff;
     display: inline-block;
     vertical-align: sub;
-}
+}*/
 @media (max-width: 767px){
 	.main-container{
 		position: relative;
