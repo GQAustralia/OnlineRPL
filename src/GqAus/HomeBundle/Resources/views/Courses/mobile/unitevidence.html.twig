@@ -64,7 +64,7 @@
                                     <span class="pull-right evdcount" data-evdcount="{{evidenceCount}}"><strong> {{ evidenceCount }} Evidence Files Linked</strong></span>
                                 </h4>
                             </div>
-                            {% if (showUpload == 'show')%}
+                            {% if (showUpload == 'show' or approvalText =='0')%}
                                 <div class="panel-body" style="border-bottom:1px solid #d8d8d8">
                                     <div class="gqa-btn-group">
                                         <div class="row no-gutter">
