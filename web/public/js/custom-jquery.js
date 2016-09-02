@@ -2170,6 +2170,10 @@ $("#submittoassessor,#request-cc").click(function(){
 				if(result.type == 'Error' ) {
 					$("#status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
 				} else if (result.type == 'Success') {
+                    if(courseStatus == '2'){ 
+                        $( "#submittoassessor").hide( "slow"); 
+                        $(this).hide(); 
+                    }
 					$("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
 				}   
 				if(result.code == '1'){
