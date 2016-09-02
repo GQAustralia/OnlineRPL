@@ -85,6 +85,7 @@ class MessageController extends Controller
                     $replymsgarr[$i]['fromUserImage'] = $fromUser->getUserImage();
                     $replymsgarr[$i]['toUserImage'] = $toUser->getUserImage();
                     $replymsgarr[$i]['toUserId'] = $toUser->getId();
+                    $replymsgarr[$i]['fromUserId'] = $fromUser->getId();
                     $replymsgarr[$i]['fromUserName'] = $fromUser->getUserName();               
                     if($replymsgarr[$i]['fromUserImage'] == "" || $replymsgarr[$i]['toUserImage'] == "")
                     {

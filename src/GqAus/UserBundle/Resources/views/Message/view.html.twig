@@ -14,6 +14,8 @@
         {% set parameters = currentPath|split('?') %}
         {% set userRole = app.security.getToken().getUser().getRoles() %}
         {% set userId = app.security.getToken().getUser().getId() %} 
+        {% set curruserImage = app.security.getToken().getUser().getUserImage() %} 
+       
         {% if messages%}
             {% if messages|length > 0 %}
                 <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
@@ -23,20 +25,17 @@
                                 <li class="{% if message.read == 1 or message.sent.id == userId %} disable {% endif %} clearfix" id="msg-{{message.id}}">
                                     
                                         <span class="chat_pic">
-                                            {% if ('ROLE_APPLICANT' in userRole) %}
-                                            <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
-                                            {% else %}
                                             {% if  message.sent.userImage is defined and message.sent.userImage!=''%}
-                                            {% set userimg = message.sent.userImage %}
+                                            {% set userimg = amazon_link~'user-'~message.sent.id~'/'~message.sent.userImage %}
                                             {% else %}
-                                            {% set userimg = 'PROFILE.png' %}
+                                            {% set userimg = 'public/images/PROFILE.png' %}
                                             {% endif %}
                                                 {% if message.sent.userImage is defined and message.sent.userImage != "" %}
-                                                <img src="{{ amazon_link~'user-'~message.sent.id~'/'~message.sent.userImage }}" alt="chat_pic"/>
+                                                <img src="{{ userimg }}" alt="chat_pic"/>
                                                 {% else %}
-                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                                <img class="profile-img" src="{{ asset(userimg) }}" alt="chat_pic"/>
                                                 {% endif %}
-                                            {% endif %}
+                                           
                                         </span>
                                         <span class="chat_content">
                                             <span class="chat_name">
@@ -124,24 +123,23 @@
                         <span><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
                 </div>
                 <div class="chat_room">
-                    {% for message in replymsgarr %}                    
+                    {% for message in replymsgarr %}   
+                  
                         <div class="chat_box {% if message.from == " from me" %}from {% else %} to {% endif %} ">
                             <div class="person_profile clearfix">
                                     <span class="chat_pic">
-                                                {% if ('ROLE_APPLICANT' in userRole) %}
-                                            <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
-                                            {% else %}
+                                                
                                             {% if  message.userImage is defined and message.userImage!=''%}
-                                            {% set userimg = message.userImage %}
+                                            {% set userimg = amazon_link~'user-'~message.fromUserId~'/'~message.userImage %}
                                             {% else %}
-                                            {% set userimg = 'PROFILE.png' %}
+                                            {% set userimg = 'public/images/PROFILE.png' %}
                                             {% endif %}
                                                 {% if message.userImage != "" %}
-                                                <img src="{{ amazon_link~'user-'~message.toUserId~'/'~message.userImage }}" alt="chat_pic"/>
+                                                <img src="{{ userimg }}" alt="chat_pic"/>
                                                 {% else %}
-                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                                <img class="profile-img" src="{{ asset(userimg) }}" alt="chat_pic"/>
                                                 {% endif %}
-                                            {% endif %}
+                                           
                                             
                                     </span>
                                     <span class="chat_name">
@@ -162,20 +160,18 @@
                         <div class="chat_box to">
                                 <div class="person_profile">
                                         <span class="chat_pic">                                           
-                                           {% if ('ROLE_APPLICANT' in userRole) %}
-                                            <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                           
+                                            {% if  curruserImage is defined and curruserImage!=''%}
+                                            {% set userimg = amazon_link~'user-'~userId~'/'~curruserImage %}
                                             {% else %}
-                                            {% if  toUserImage is defined and toUserImage!=''%}
-                                            {% set userimg = toUserImage %}
-                                            {% else %}
-                                            {% set userimg = 'PROFILE.png' %}
+                                            {% set userimg = 'public/images/PROFILE.png' %}
                                             {% endif %}
-                                                {% if toUserImage != "" %}
-                                                <img src="{{amazon_link~'user-'~toUserVal~'/'~toUserImage }}" alt="chat_pic"/>
+                                                {% if curruserImage != "" %}
+                                                <img src="{{userimg }}" alt="chat_pic"/>
                                                 {% else %}
-                                                <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+                                                <img class="profile-img" src="{{ asset(userimg) }}" alt="chat_pic"/>
                                                 {% endif %}
-                                            {% endif %}
+                                            
                                         </span>
                                         <span class="chat_name"><strong>
                                             {% if user is defined and user != '' %}
