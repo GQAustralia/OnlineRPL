@@ -2123,7 +2123,6 @@ class UserService
         $data['email'] = $request->get('email');
         $data['newpassword'] = $request->get('password');
         $data['phone'] = $request->get('phone');
-        $data['dateofbirth'] = $request->get('dateofbirth');
         $data['gender'] = $request->get('gender');
         $data['studentId'] = $request->get('studentId');
         $data['userImage'] = $request->get('userimage');
@@ -2138,7 +2137,7 @@ class UserService
         $data['status'] = $request->get('status');                
         $data['address']['address'] = $request->get('address');
         $data['address']['pincode'] = $request->get('pincode');
-        $data['newpassword'] = isset($data['newpassword']) ? $data['newpassword'] : $uniqid;
+        $data['newpassword'] = $uniqid;
         $mailerInfo = array();
         $message = '';
         $emailFlag = '';
@@ -2166,7 +2165,7 @@ class UserService
             $courseData['courseName'] = $request->get('courseName');
             $courseData['courseStatus'] = $request->get('coursestatus');
             $courseData['targetDate'] = $request->get('targetdate');
-            $courseData['crmId'] = $request->get('facilitatorCrmId');
+            $courseData['managerId'] = $request->get('managerId');
             $courseData['zohoId'] = $request->get('zohoId');
             if (!empty($courseData['courseCode']) || !empty($courseData['courseName'])) {
                 $res = $this->addUserCourse($courseData, $user);
@@ -2220,8 +2219,8 @@ class UserService
     public function addUserCourse($courseData, $user)
     {
         $emailFlag = '';
-        if (empty($courseData['crmId'])) {
-            $message = 'Facilitator CRM ID cannot be empty!';
+    if (empty($courseData['managerId'])) {
+            $message = 'Manager ID cannot be empty!';
         } elseif (empty($courseData['courseCode'])) {
             $message = 'Please enter course code!';
         } elseif (empty($courseData['courseName'])) {
@@ -2236,9 +2235,9 @@ class UserService
                     $userCoursesObj->setCourseCode(isset($courseData['courseCode']) ? $courseData['courseCode'] : '');
                     $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
                     $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : 1);
-                    $userCoursesObj->setZohoId(isset($courseData['zohoId']) ? $courseData['zohoId'] : '');
+                    $userCoursesObj->setZohoId('');
                     $userCoursesObj->setCreatedOn(date('Y-m-d H:m:s'));
-                    $userCoursesObj->setFacilitator(isset($facilitatorRoleUser) ? $facilitatorRoleUser : '');
+                    $userCoursesObj->setFacilitator($courseData['managerId']);
                     $userCoursesObj->setFacilitatorstatus(0);
                     $userCoursesObj->setAssessorstatus(0);
                     $userCoursesObj->setRtostatus(0);
