@@ -98,6 +98,7 @@ var s3uploadPi = null;
 </div>';
             $("#progress-barsPi").append(progressBar);
             $("#fileListContainerPi").show().removeClass('hide');
+            
             var userId=$('#userVal').val() || 'default';
            
             var def = new $.Deferred();
@@ -153,6 +154,7 @@ var s3uploadPi = null;
                         $('#hdn-img').val(result);
                     }
                     $("#ajax-loading-icon").hide();
+                    $("#progress-barsPi").hide();
                     $("#fileListContainer").hide();
                     }
                 }); 
