@@ -30,3 +30,4 @@ parameters:
     tokbox_key: ~
     tokbox_secret_key: ~
     rto_workspan: 14  #This indicates the 2 weeks (14 days) for RTO finish once it is for them to start the work.
+    aws_queue_name: CRMInboundMessage
