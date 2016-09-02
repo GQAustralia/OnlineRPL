@@ -95,7 +95,7 @@
       
 {% else %}
          <div class="">
-            <div class="left">
+            <div class="left" id="noMessages">
                 <ul class="mail_secion message">
                     <li><strong>{{no_messages}}</strong></li>
                 </ul>
@@ -185,18 +185,7 @@
                
         </div>
     {% endif %}
-    {% if messages %}
-        {% if messages|length > 0 %}
-        {% else %}
-            <div class="gq-msg-row-bg">
-                <div class="col-xs-12">
-                    <span class="msg-checkmark-icon">
-                        <center>No Messages found</center>
-                    </span>
-                </div>
-            </div>
-        {% endif %}
-    {% endif %}
+    
     <div class="">
     {% for flashMessage in app.session.flashbag.get('msgnotice') %}
     <div class="row" id="profile_suc_msg">

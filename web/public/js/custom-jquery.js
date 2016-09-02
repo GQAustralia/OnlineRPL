@@ -2850,7 +2850,8 @@ if( $('.view-message').length > 0){
     
     }
 if($('.mobile_new_message_section').length > 0){   
-    $('header,.mobi-profile').addClass('hide');
+    $('header,.mobi-profile,#noMessages').addClass('hide');
+    
     }
 function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
 {
