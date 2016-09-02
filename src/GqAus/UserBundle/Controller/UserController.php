@@ -167,11 +167,12 @@ class UserController extends Controller
      */
     public function addIdFileAction(Request $request)
     {
+       
         $form = $this->createForm(new IdFilesForm(), array());
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {           
             $form->bind($request);
             $data = $form->getData();
-            $result = $this->get('gq_aus_user.file_uploader')->uploadIdFiles($data);
+            $result = $this->get('gq_aus_user.file_uploader')->uploadIdFiles($request);
             if ($result) {
                 echo $result;
             }

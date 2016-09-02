@@ -210,7 +210,12 @@
                  {{ form_end(composemsgForm) }}
                 {% else %}
                     <div class="btn_section">
-                        <form name="reply" action="{{ base_url }}messages/compose" method="post">
+                        {% set pagequery = '' %} 
+                        {% set queryParams = app.request.query.all %}
+                        {% if queryParams is not empty %}
+                            {% set pagequery = '?page='~queryParams['page'] %} 
+                        {% endif %}
+                        <form name="reply" action="{{ base_url }}messages/compose{{pagequery}}" method="post">
                        <input type="hidden" id="reply_id" name="reply_id" value="{{msgID}}"/>
                            <input type="Submit" class="button reply_link" value="REPLY"/>
                        </form>
