@@ -2084,9 +2084,11 @@ class UserService
         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
         if (!empty($courseUnitsObj)) {
             foreach($courseUnitsObj as $courseUnitObj){
-                $courseUnitObj->setRtostatus($status);
-                $this->em->persist($courseUnitObj);
-                $this->em->flush();
+                if($courseUnitObj->getAssessorstatus() == '1'){
+                    $courseUnitObj->setRtostatus($status);
+                    $this->em->persist($courseUnitObj);
+                    $this->em->flush();
+                }
             }
             if (!empty($courseObj)) {
                 $courseObj->setRtostatus($status);
