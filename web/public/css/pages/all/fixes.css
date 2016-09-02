@@ -41,7 +41,7 @@
 
 /* In header 
 .mobi-profile{
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	width: 100%;
 	padding: 0;
@@ -59,7 +59,11 @@
     color: #fff;
     display: inline-block;
     vertical-align: sub;
-}*/
+
+}
+*/
+
+
 @media (max-width: 767px){
 	.main-container{
 		position: relative;
@@ -67,4 +71,8 @@
 	.body_section{
 		overflow-y: auto;
 	}
+}
+.content{
+	word-wrap: break-word;
+	word-break: break-all;
 }
