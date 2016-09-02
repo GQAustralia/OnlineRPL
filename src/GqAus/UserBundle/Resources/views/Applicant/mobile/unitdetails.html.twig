@@ -46,7 +46,9 @@
                             <div class="panel-heading"><h4 class="panel-title"><span>Evidence</span><span class="pull-right"><strong>{{ evidenceCount }} Evidence Files Received</strong></span></h4></div>
                             <div class="panel-body">
                                 <div class="panel-copy">
+                                    {%set inc = 0 %}
                                     {% for evidence in evidences %}
+                                        {%set inc = inc+1 %}
                                         {% if evidence.unit == unitCode %}
                                             {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                             {% set output = eviType|split('&&') %}
