@@ -42,6 +42,7 @@
             <div class="file_block">
        <ul class="Id_files">
             {% if userIdFiles is not null and userIdFiles is not empty %}
+             {% set fileSts = 0%}
             {% for item in userIdFiles %}
             {% if item.type.id == 1 %}
             {% set doc_type = 'photo' %}
@@ -51,6 +52,9 @@
                  {% set doc_type = 'photo' %}
             {% endif %}
             {% set filesize = evidence_service.fileSize(item.size) %}
+            {% set fileStatus = item.status %}
+            {% if fileStatus != 1 %}
+            {% set fileSts = 1%}
             <li>
                     <div class="title_bar clearfix">
                             <span class="content">{{ item.type.type }}</span>
@@ -67,9 +71,13 @@
                                  <i class="material-icons">clear</i><div class="gq-del-evidence"></div></a>
                     </div>
             </li>
-            {% endfor %}
             {% else %}
+             {% set fileSts = 0%}
+			{% endif %}
+            {% endfor %}
+            {% if fileSts == 0 %}
                 <center id="idfiles_no_files">{{no_id_files}}</center>                        
+            {% endif %}                        
             {% endif %}
          </ul>
             </div>
