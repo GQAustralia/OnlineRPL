@@ -41,7 +41,7 @@ class transcodePDO{
         return $output;
     }
     function updateRPL($job_id){
-        return $this->httpGet('http://local.gqademo.com/updateSthreeJobId/'.$an['jobId']);
+        return $this->httpGet(ONLINE_RPL_APP_URL.'updateSthreeJobId/'.$job_id);
     }
 }
 
