@@ -42,6 +42,7 @@ class ProfileForm extends AbstractType
         $builder->add('crmId', 'text', array('required' => false));
         $builder->add('address', new AddressForm(), array('label' => false));
         //$builder->add('save', 'submit', array('attr' => array('class' => 'submit_btn', 'onclick' => 'return validateAddress()')));
+        //$builder->add('save', 'submit',array('label' => 'UPDATE','attr' =>array('class' => 'btn update_btn disable', 'onclick' => 'return validateAddress()')));
         //$builder->add('save', 'submit', array('attr' => array('class' => 'submit_btn')));
     }
 
