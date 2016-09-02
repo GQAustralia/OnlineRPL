@@ -33,6 +33,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="edu-tag">
+                    	<input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
                         {% set inloop = 0 %}
                         {% set approvalStatus = user_service.getUnitStatusByRoleWise( userId, userRole[0], unitCode, courseCode ) %}
                         {% if ('ROLE_ASSESSOR' in userRole and approvalStatus =='0') %} 
