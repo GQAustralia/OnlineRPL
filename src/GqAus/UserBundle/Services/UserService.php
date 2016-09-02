@@ -1642,7 +1642,12 @@ class UserService
 		$msgObj->setreplymid($msgdata['replymid']);
         $this->em->persist($msgObj);
         $this->em->flush();
+        
+        //@todo trigger SQS
+        
+        
     }
+    
 
     /**
      * Function to get sent messages
@@ -1870,6 +1875,13 @@ class UserService
         $sent = $this->getUserInfo($fromUserId);
         $msgInfo = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId, 'replymid' => '');
         $this->saveMessageData($inbox, $sent, $msgInfo);
+        
+        //@todo send message to queue
+        $sqsMessage['type'] = "Message";
+        $sqsService = $this->get('SQSService');
+        $sqsService->sendInBoundMessage(json_decode($sqsMessage));
+        
+        
     }
 
     /**
@@ -2983,6 +2995,7 @@ class UserService
         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
             ->findOneBy(array('courseCode' => $courseCode,
             'user' => $applicantId));
+        
         if (!empty($courseObj)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
                 $asrReturnData = $this->assessorStatusChange($courseObj, $courseStatus);
@@ -3335,6 +3348,15 @@ class UserService
         $response = array();
         $fieldsString = array('authtoken' => '7e32feeb048bdb5c679968c201833920', 'scope' => 'crmapi', 'id' => $zohoId,
             'xmlData' => '<Potentials><row no="1"><FL val="Portfolio Stage">' . $updatedStatus . '</FL></row></Potentials>');
+        
+        // push to the queue
+        $sqsMessage = $fieldsString;
+        $sqsMessage['type'] = "StatusChange";
+                
+        $sqsService = $this->get('SQSService');
+        $sqsService->sendInBoundMessage(json_decode($sqsMessage));
+        
+        // continue with the CRM
         $request = $this->guzzleService->post('https://crm.zoho.com/crm/private/xml/Potentials/updateRecords', '', $fieldsString);
         $response = $request->send();
         $result = $response->xml();
