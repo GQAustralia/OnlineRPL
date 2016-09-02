@@ -177,10 +177,12 @@
         <!-- Profile Modal Starts -->
 
         {% if ('ROLE_APPLICANT' not in roles)  %}
-            {% if is_mobile() %}        
-            {% include 'GqAusUserBundle:User/mobile:profile_popup.html.twig' %}
-            {% else %}
-             {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
+             {% if is_mobile() and  not is_tablet() %}   
+               {% include 'GqAusUserBundle:User/mobile:profile_popup.html.twig' %}
+            {% elseif is_tablet() %}
+                {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
+           {% else %}                
+                 {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
             {% endif %}
         {% endif %}
 
