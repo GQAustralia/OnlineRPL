@@ -578,8 +578,8 @@ class ApplicantController extends Controller
             $userMessage = str_replace($conSearch, $conReplace,
                 $this->container->getParameter('mail_portfolio_assign_applicant_con'));           
             $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
-            $userMessageSend = $userService->saveMessageData($fromUser,$userInfo,$userMsgdata);
-            
+            $userMessageSend = $userService->saveMessageData($userInfo,$fromUser,$userMsgdata);
+           
             
             $facSubject = $this->container->getParameter('mail_portfolio_assign_facilitator_sub'); 
             $facSearch = array('#toUserName#', '#facname#', '#coursecode#');
@@ -587,8 +587,8 @@ class ApplicantController extends Controller
             $facMessage = str_replace($facSearch, $facReplace,
                 $this->container->getParameter('mail_portfolio_assign_facilitator_con')); 
                        
-            $facMsgdata = array('subject' => $facSubject, 'message' => $facMessage, 'unitId' => '0', 'replymid' => '0');
-           $facMessageSend = $userService->saveMessageData($fromUser,$facUser,$facMsgdata);
+           $facMsgdata = array('subject' => $facSubject, 'message' => $facMessage, 'unitId' => '0', 'replymid' => '0');
+           $facMessageSend = $userService->saveMessageData($facUser,$fromUser,$facMsgdata);
           //  $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
             //                $mailBody, $curuser->getEmail(), $curuser->getUsername());
         }

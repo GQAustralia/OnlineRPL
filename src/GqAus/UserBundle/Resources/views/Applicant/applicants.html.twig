@@ -6,7 +6,7 @@
 
 {% set id = list.id %}
 {% set ccode = list.courseCode%}
-    <tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %} %}">
+    <tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %}">
         <td class="col-md-2 col-lg-2"><a class="firstName" href="applicantDetails/{{ccode}}/{{list.user.id}}" target="_blank">{{list.user.firstName}} {{list.user.lastName}}</a></td>        
         <td class="col-md-3 col-lg-3 qualification">{{ccode}} {{list.courseName}}</td>
         {% if (status == 0) %}
@@ -34,7 +34,7 @@
         {% set output = remaingDays|split('&&') %}
         <td class="col-md-2 col-lg-2 daysleft">
             <div class="progress">
-              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{% if output[1] >0 %}{{ output[1] }}{%else%} 0 {% endif %}%"></div>
+              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{% if output[1] >0 %}{{ output[1] }}{%else%} 0 {% endif %}"></div>
             </div>   
             <input type="hidden" value="{{status}}" id="filterByStatus">
             <div class="progress-copy">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%} </div>
@@ -48,9 +48,12 @@
          </td>
          {% endif %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-        <td><div class="dropdown keep-open" id="div_{{list.id}}">
-                    <span {% if toDoApplicantCount == 0 %}class="dropdown-toggle " data-toggle="dropdown"{% endif %} id="{{list.id}}">{% if toDoApplicantCount == 0 %}<i class="material-icons">playlist_add </i>{% else %} <i class="material-icons" style="color:#ccc;">playlist_add_check{%endif%}</i></span>
-                    <div class="dropdown-menu">
+         {% set remStatus = user_service.checkReminderExists(currUser, list.id, 'portfolio') %}        
+        <td>
+            <span class="clearfix {{ remStatus.playlistIconClass }}">
+            <div class="dropdown keep-open" id="div_{{list.id}}">
+                    <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+                    <div class="dropdown-menu {{ remStatus.calendarClass }}">
                             <textarea rows="3" placeholder="Notes" class="notes-area" id="notes_{{list.id}}"></textarea>
                             <div class="date_section clearfix">
                                     <input type="text" class="date_field form-control" id="remindDate_{{list.id}}" />
@@ -58,7 +61,9 @@
                             </div>
                             <button type="button" class="btn_red setData" userCourseId="{{list.id}}" listId="{{list.id}}" remindertypeid="{{list.id}}" remindertype="portfolio">SAVE</button>
                     </div>
-            </div></td>
+            </div>
+          <span>  
+        </td>
         {% endif %}
         {% if ('ROLE_MANAGER' in userRole) %}
          <td>

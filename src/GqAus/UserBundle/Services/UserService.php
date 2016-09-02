@@ -1921,10 +1921,13 @@ class UserService
      */
     public function setReadViewStatus($mid)
     {
-        $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($mid);
-        $msgObj->setRead('1');
-        $this->em->persist($msgObj);
-        $this->em->flush();
+        $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($mid);        
+        if($msgObj->getInbox()->getid() ==  $this->getCurrentUser()->getid())
+        {
+            $msgObj->setRead('1');
+            $this->em->persist($msgObj);
+            $this->em->flush();
+        }
     }
 
     /**
