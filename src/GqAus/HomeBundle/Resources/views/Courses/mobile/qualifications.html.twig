@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{{ asset('public/css/pages/candidate/round-progress.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/candidate/roundslider.css') }}"> 
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
 {% endblock %}
 {% block body %}
 <!-- Larg Screens HTML --> 
@@ -81,7 +82,7 @@
                   <div class="col-xs-12 col-sm-12">
                       <div class="info-box">
                           <div class="info-copy">
-                          <a href="{{ app.request.baseUrl }}/faq"><i class="material-icons info">info</i></a>
+                          <a href="{{ app.request.baseUrl }}/faq" target="_blank"><i class="material-icons info">info</i></a>
                           <p>For this qualification you need to show you're experienced in a total of {{requiredUnits}} units.</p>
                           <strong>Start by choosing your <span class="text-uppercase">Elective Units.</span></strong>
                           </div>
@@ -135,37 +136,7 @@
                 <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
         </div>
     </div>
-{% if courses.facilitator is defined and courses.facilitator != null or courses.assessor is defined and courses.assessor != null %}       
-{% set notes = user_service.getNotesFromUserAndCourseApplicant(courseId) %}
-    {% if notes|length > 0 %}
-        <div class="row">
-            <div class="col-xs-12 col-sm-12">
-                <div class="comments">
-                    <div class="panel-group">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
-                        </div>
-                        {% for note in notes %} 
-                        {% set notUserId = (note.type == 'f') ? courses.Facilitator.id : courses.assessor.id %}
-                            {% set notecrted = (note.type =='f') ? courses.facilitator.firstName : courses.assessor.firstName %}
-                            {% set notecrtedImg = (note.type =='f') ? courses.Facilitator.userImage : courses.assessor.userImage%}
-                            <div class="panel-content">
-                                <img src="{% if notecrtedImg %} {{ amazon_link~'user-'~notUserId~'/'~notecrtedImg }} {% endif %}" class="profile-img">
-                                <span><strong>{{notecrted}}</strong></span>
-                                <span class="date-time">
-                                    <span class="date">{{ note.created|date('m/d/y')}}</span>
-                                    <span class="date"> - </span>
-                                    <span class="time">{{ note.created|date('H:i')}}</span>
-                                </span>
-                                <p>{{note.note}}</p>
-                            </div>
-                        {% endfor %}     
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-{% endif %}
+
     <div class="hidden-xs faq_link">
          <i class="material-icons help">help</i>
             <a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow">
@@ -346,6 +317,45 @@
     </div>
     </div>
     </div>
+        <div class="review">
+        <div class="review_content">
+                <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSR </span>for this qualification</p>
+        </div>
+        <div class="review_profile-pic">
+                <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
+        </div>
+    </div>
+        {% if courses.facilitator is defined and courses.facilitator != null or courses.assessor is defined and courses.assessor != null %}       
+{% set notes = user_service.getNotesFromUserAndCourseApplicant(courseId) %}
+    {% if notes|length > 0 %}
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="comments">
+                    <div class="panel-group">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
+                        </div>
+                        {% for note in notes %} 
+                        {% set notUserId = (note.type == 'f') ? courses.Facilitator.id : courses.assessor.id %}
+                            {% set notecrted = (note.type =='f') ? courses.facilitator.firstName : courses.assessor.firstName %}
+                            {% set notecrtedImg = (note.type =='f') ? courses.Facilitator.userImage : courses.assessor.userImage%}
+                            <div class="panel-content">
+                                <img src="{% if notecrtedImg %} {{ amazon_link~'user-'~notUserId~'/'~notecrtedImg }} {% endif %}" class="profile-img">
+                                <span><strong>{{notecrted}}</strong></span>
+                                <span class="date-time">
+                                    <span class="date">{{ note.created|date('m/d/y')}}</span>
+                                    <span class="date"> - </span>
+                                    <span class="time">{{ note.created|date('H:i')}}</span>
+                                </span>
+                                <p>{{note.note}}</p>
+                            </div>
+                        {% endfor %}     
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
      {% endif %}
     {% endif %}
     </div>

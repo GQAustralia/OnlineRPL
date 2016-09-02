@@ -5,11 +5,11 @@
             <div class="modal-body">
                 <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
                 <div class="title_bar hidden-sm hidden-md hidden-lg">
-                    <span><i class="material-icons arrow_back">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon">clear</i></span>
+                    <span data-dismiss="modal"><i class="material-icons arrow_back">arrow_back</i></span>Facilitator Profile<span data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
                 </div>
                 <div class="header_block clearfix">
                     <div class="profile_section">
-                        <img class="profile_image no_upload" alt="profile_pic" src="{{amazon_link~'user-'~userId~'/'~courses.Facilitator.userImage}}">
+                        <img class="profile_image no_upload" alt="profile_pic" src="{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}">
                         <input type="file" class="hidden browse_btn">
                         <div class="content">
                             
