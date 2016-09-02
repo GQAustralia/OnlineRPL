@@ -22,7 +22,10 @@
         <field name="zohoId" type="string" column="zoho_id" nullable="true"/>
         <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User" inversed-by="courses">
             <join-column name="user_id" referenced-column-name="id" />
-        </many-to-one>       
+        </many-to-one>  
+        <many-to-one field="manager" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="manager" referenced-column-name="id" />
+        </many-to-one>      
         <many-to-one field="facilitator" target-entity="GqAus\UserBundle\Entity\User">
             <join-column name="facilitator" referenced-column-name="id" />
         </many-to-one>       

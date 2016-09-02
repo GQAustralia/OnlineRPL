@@ -56,3 +56,4 @@ ALTER TABLE `user_ids` ADD `status` INT(2) NULL AFTER `size`;
 
 ALTER TABLE `other_files`  ADD `isdeleted` INT(2) NULL  AFTER `created`;
 
+ALTER TABLE `user_courses` ADD `manager` INT(2) NULL AFTER `created_on`;

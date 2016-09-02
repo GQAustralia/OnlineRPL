@@ -169,7 +169,10 @@ class UserCourses
     {
         return $this->createdOn;
     }
-
+    /**
+         * @var integer
+         */
+    private $manager;
     /**
      * @var integer
      */
@@ -197,7 +200,28 @@ class UserCourses
     {
         $this->status = new \Doctrine\Common\Collections\ArrayCollection();
     }
+    /**
+     * Set manager
+     *
+     * @param integer $manager
+     * @return UserCourses
+     */
+    public function setManager($manager)
+    {
+        $this->manager = $manager;
 
+        return $this;
+    }
+
+    /**
+     * Get manager
+     *
+     * @return integer 
+     */
+    public function getManager()
+    {
+        return $this->manager;
+    }
     /**
      * Set facilitator
      *
