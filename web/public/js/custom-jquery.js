@@ -1372,7 +1372,7 @@ function validateAddress()
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
     country = /^[a-zA-Z\s]+$/;
     postcode = /^[a-zA-Z0-9\s]+$/;
-    phone = /^\(?(\d{4})\)?[- ]?(\d{3})[- ]?(\d{3})$/;
+    phone = /^\(?([0-9]{4})\)?[-]?([0-9]{3})[-]?([0-9]{3})$/;
     if ($("#userprofile_firstname").val() == "") {
         if(userrole=='rtouser')
             showMyTabs("Please enter College Name");
@@ -1402,7 +1402,7 @@ function validateAddress()
         }
     }
     if ($("#userprofile_phone").val() == "") {
-        showMyTabs("Please enter Phone");
+        showMyTabs("Please enter Phone number");
         $("#userprofile_phone").focus();
         return false;
     }
@@ -1415,6 +1415,13 @@ function validateAddress()
             showMyTabs("Phone number must be XXXX-XXX-XXX format");
             $("#userprofile_phone").focus();
             return false;
+    }
+     if ($("#userprofile_phone").val() != "") {
+        if ($("#userprofile_phone").val().search(phone) == -1) {
+            showMyTabs("Please enter valid Phone number");
+            $("#userprofile_email").focus();
+            return false;
+        }
     }
     
     if(userrole=='applicant') {
