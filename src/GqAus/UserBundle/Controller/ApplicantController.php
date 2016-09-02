@@ -296,7 +296,7 @@ class ApplicantController extends Controller
                         $zip->addEmptyDir($unitCode);
                     }
                     $nfname = $unitCode . '/' . $evidence->getName();
-                    $fname = $this->container->getParameter('amazon_s3_base_url') . $evidence->getPath();
+                    $fname = $this->container->getParameter('amazon_s3_base_url') .'user-'.$uid.'/'. $evidence->getPath();
                     $zip->addFromString($nfname, file_get_contents($fname));
                 }
             }
