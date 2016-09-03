@@ -57,11 +57,13 @@
 						<div class="panel-body">
 							<ul>
 								{% for key, list in newApplicantList %}
-										{% if ('ROLE_FACILITATOR' in roles or 'ROLE_MANAGER' in roles) %}
+									    {% if ('ROLE_MANAGER' in roles) %}
+									    	{% set setUserId = list.manager %}
+									    {% elseif ('ROLE_FACILITATOR' in roles and list.facilitator.id != null) %}
 											{% set setUserId = list.facilitator.id %}
-										{% elseif ('ROLE_ASSESSOR' in roles) %}
+										{% elseif ('ROLE_ASSESSOR' in roles and list.assessor.id != null) %}
 											{% set setUserId = list.assessor.id %}
-										{% else %}
+										{% elseif ('ROLE_RTO' in roles and list.rto.id != null) %}
 											{% set setUserId = list.rto.id %}
 										{% endif %}
 										
