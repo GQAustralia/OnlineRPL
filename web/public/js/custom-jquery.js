@@ -2786,7 +2786,7 @@ $('#closeMyModal').click(function(){
 function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 {   
     
-    facVal = $('#'+listId).val();
+    facVal = $('#fac_'+listId).val();
     if(facVal != 0)
     {
     $("#profile_suc_msg2_"+listId).hide();
@@ -2817,7 +2817,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 /*Assessor Update in Manager Portfolio */
 function updateAssessor(courseCode , userId, listId)
 {
-    assVal = $('#'+listId).val();
+    var assVal = $('#ass_'+listId).val();
     $("#profile_suc_msg3_"+listId).hide();
         $.ajax({
             type: "POST",
@@ -2840,7 +2840,7 @@ function updateAssessor(courseCode , userId, listId)
 /*Assessor Update in Manager Portfolio */
 function updateRto(courseCode , userId, listId)
 {
-    rtoVal = $('#'+listId).val();
+    rtoVal = $('#rto_'+listId).val();
     $("#profile_suc_msg4_"+listId).hide();
         $.ajax({
             type: "POST",

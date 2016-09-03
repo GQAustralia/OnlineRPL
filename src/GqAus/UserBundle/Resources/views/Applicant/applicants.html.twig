@@ -84,7 +84,7 @@
                                 <div id='profile_suc_msg2_{{id}}'></div>
                                     <form class="form">
                                         {% if courseFacilitator %}
-                                        <select class="form-control" id="{{id}}">
+                                        <select class="form-control" id="fac_{{id}}">
                                                     <option value="0">Select</option>
                                             {% for key,faclist in courseFacilitator%}
                                                     <option value="{{faclist.id}}" {% if list.facilitator is defined and list.facilitator != null and list.facilitator.id!=0 and list.facilitator.id == faclist.id %} selected {% endif %}>{{faclist.firstname}} {{faclist.lastname}}</option>
@@ -116,7 +116,7 @@
                                 <div id='profile_suc_msg3_{{id}}'></div>
                                     <form class="form">
                                         {% if courseAssessor %}
-                                        <select class="form-control" id="{{id}}">
+                                        <select class="form-control" id="ass_{{id}}">
                                                     <option value="0">Select</option>
                                             {% for key,faclist in courseAssessor%}
                                                     <option value="{{faclist.id}}" {% if list.assessor is defined and list.assessor != null and list.assessor.id!=0 and list.assessor.id == faclist.id %} selected {% endif %}>{{faclist.firstname}} {{faclist.lastname}}</option>
@@ -147,7 +147,7 @@
                                 <div id='profile_suc_msg4_{{id}}'></div>
                                     <form class="form">
                                         {% if courseRto %}
-                                        <select class="form-control" id="fac-{{id}}" >
+                                        <select class="form-control" id="rto_{{id}}" >
                                                     <option value="0">Select</option>
                                             {% for key,faclist in courseRto%}
                                                     <option value="{{faclist.id}}" {% if list.rto is defined and list.rto != null and list.rto.id!=0 and list.rto.id == faclist.id %} selected {% endif %}>{{faclist.firstname}} {{faclist.lastname}}</option>
