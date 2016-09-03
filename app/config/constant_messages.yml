@@ -5,9 +5,7 @@ parameters:
     mail_account_creation_con: >
                                  Dear #firstName# #lastName#,<br/><br/> 
                                  Account has been created for GQ Australia! <br/>
-                                 <a href='#applicationUrl#login'>Click Here</a> to login, Below are the account details.  <br/><br/> 
-                                 Email: #email#<br/> 
-                                 Password: #password# <br/><br/><br/> 
+                                 We will provide login credentials shortly <br/>
                                  Regards,<br/>%default_from_username%
     mail_add_course_sub: "Qualification: #courseCode# - #courseName# has been added" 
     mail_add_course_con: >
@@ -171,15 +169,21 @@ parameters:
                                     All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
                                     Qualification and portfolio has been submitted to #role#.<br/><br/>
                                     Regards, <br/>#fromUserName#
-    mail_portfolio_assign_applicant_sub: "Assigned Facilitator for your qualification - OnlineRPL" 
+    mail_portfolio_assign_applicant_sub: "Welcome - OnlineRPL" 
     mail_portfolio_assign_applicant_con: >
-                                    Dear #toUserName#, <br/> 
-                                    Welcome to OnlineRPL.#facname# is assigned as your Facilitator for qualification #coursecode#.<br/><br/>
-                                    Regards, <br/>OnlineRPL       
+                                 Dear #toUserName#,<br/><br/>                                 
+                                 Account has been created for GQ Australia and Qualification : #coursecode# - #coursename# has been added. <br/> 
+                                 #facname# is assigned as your Facilitator for you qualification . <br/><br/>
+                                 <a href='#applicationUrl#login'>Click Here</a> to login, Below are the account details.  <br/><br/> 
+                                 
+                                 Email: #userEmail#<br/> 
+                                 Password: #userPassWord# <br/><br/><br/> 
+                                 
+                                 Regards,<br/>OnlineRPL         
                                     
     mail_portfolio_assign_facilitator_sub: "Assigned as Facilitator - OnlineRPL" 
     mail_portfolio_assign_facilitator_con: >
                                     Dear #facname#, <br/> 
-                                    Welcome to OnlineRPL.You are the facilitator of #toUserName# for qualification #coursecode#.<br/><br/>
+                                    You are the facilitator of #toUserName# for qualification #coursecode#.<br/><br/>
                                     Regards, <br/>OnlineRPL                                           
                                     

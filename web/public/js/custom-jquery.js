@@ -2783,7 +2783,7 @@ $('#closeMyModal').click(function(){
    location.reload();
 });
 /*Facilitator Update in Manager Portfolio */
-function updateFacilitator(courseCode , userId, listId,userEmail)
+function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 {   
     
     facVal = $('#'+listId).val();
@@ -2794,7 +2794,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail)
             type: "POST",
             url: "updateFacilitator",
             cache: false,
-            data: {listId:listId,facilitator:facVal,userEmail:userEmail,userId:userId,courseCode:courseCode},
+            data: {listId:listId,facilitator:facVal,userEmail:userEmail,userId:userId,courseCode:courseCode,courseName:courseName},
             success: function(result) {
                 var res = jQuery.parseJSON(result);
                 if(res.status=='true')

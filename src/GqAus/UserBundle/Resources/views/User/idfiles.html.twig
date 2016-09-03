@@ -41,8 +41,9 @@
             
             <div class="file_block">
        <ul class="Id_files">
-            {% if userIdFiles is not null and userIdFiles is not empty %}
-            {% set fileSts = 0%}
+	    {% set fileSts = 0%}
+            {% if userIdFiles is defined %}
+           
             {% for item in userIdFiles %}
             {% if item.type.id == 1 %}
             {% set doc_type = 'photo' %}
@@ -75,7 +76,8 @@
              {% set fileSts = 0%}
 			{% endif %}
             {% endfor %}
-            {% if fileSts == 0 %}
+			
+            {% if fileSts == 0 or userIdFiles is not defined %}
                 <center id="idfiles_no_files">{{no_id_files}}</center>                        
             {% endif %}                        
             {% endif %}

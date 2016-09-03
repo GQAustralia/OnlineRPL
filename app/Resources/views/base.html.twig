@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!DOCTYPE svg PUBLIC “-//W3C//DTD SVG 1.1//EN” “http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd”>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -97,14 +98,14 @@
                                 <text text-anchor="middle" x="24" y="16" fill="#fff" class="portfolio-current"></text>
                                 </svg>                                
                                 <a class="{% if app.request.attributes.get('_route') == 'applicants' %} active {% endif %}" href="{{ app.request.baseUrl }}/applicants">
-                                <i class="material-icons">message</i>
+                                <i class="material-icons">account_circle</i>
                                 <span>portfolios</span>                        
                                 </a>
                                 </li>
                             {% endif %}
                             {% if ('ROLE_SUPERADMIN' not in roles) %}  
                                 <li>
-                                <svg height="35" width="35"  id="messageCount" class="hide">
+                                <svg height="35" width="35"  id="messageCount" class="hide" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="23" cy="12" r="12" fill="red"/>
                                 <text id="unread-count" text-anchor="middle" x="24" y="16" fill="#fff"></text>
                                 </svg>  

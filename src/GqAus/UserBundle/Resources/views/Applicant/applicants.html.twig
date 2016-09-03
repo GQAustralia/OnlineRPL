@@ -6,6 +6,7 @@
 
 {% set id = list.id %}
 {% set ccode = list.courseCode%}
+{% set cname = list.courseName %}
     <tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %}">
         <td class="col-md-2 col-lg-2"><a class="firstName" href="applicantDetails/{{ccode}}/{{list.user.id}}" target="_blank">{{list.user.firstName}} {{list.user.lastName}}</a></td>        
         <td class="col-md-3 col-lg-3 qualification">{{ccode}} {{list.courseName}}</td>
@@ -91,7 +92,7 @@
                                             </select>
                                         {% endif %}
                                         {% set valId = list.id %}
-                                           <button class="btn btn_red" onclick="return updateFacilitator('{{ccode}}',{{list.user.id}},{{valId}},'{{list.user.email}}');">UPDATE</button>
+                                           <button class="btn btn_red" onclick="return updateFacilitator('{{ccode}}',{{list.user.id}},{{valId}},'{{list.user.email}}','{{cname}}');">UPDATE</button>
                                     </form>
                             </div>
                     </div>

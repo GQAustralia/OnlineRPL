@@ -554,7 +554,7 @@ class ApplicantController extends Controller
     {   
         $listId = $this->getRequest()->get('listId');        
         $facilitator = $this->getRequest()->get('facilitator');      
-        $updateFacVal = $this->get('UserService')->updateQualificationFacilitator($listId,$facilitator);
+        $updateFacVal = $this->get('UserService')->updateQualificationFacilitator($listId,$facilitator);        
         if($updateFacVal)
         {
             $userService = $this->get('UserService');
@@ -564,6 +564,7 @@ class ApplicantController extends Controller
             $fromUserVal =$this->get('security.context')->getToken()->getUser()->getId();
             $fromUser= $userService->getUserInfo($fromUserVal);
             $courseCode = $this->getRequest()->get('courseCode'); 
+            $courseName = $this->getRequest()->get('courseName'); 
             
             $facuserId = $this->getRequest()->get('facilitator');
             $facUser = $userService->getUserInfo($facuserId);
@@ -572,14 +573,34 @@ class ApplicantController extends Controller
             $userId = $this->getRequest()->get('userId');
             $userInfo = $userService->getUserInfo($userId);
             $username = $userInfo->getUsername();
-            $conSearch = array('#toUserName#', '#facname#', '#coursecode#');
-            $conReplace = array($username, $facname, $courseCode);
+            $uniqid = uniqid();
+            $userEmail = $userInfo->getEmail();
+            $userPassWord = $uniqid;
+            
+            $newpassword = $userPassWord;
+
+            // User object            
+            $user = $userService->getUserInfo($userId);
+            $password = password_hash($newpassword, PASSWORD_BCRYPT);
+            $user->getFirstName();
+            $user->getLastName();
+            $user->getPhone();
+            $user->setPassword($password);
+            $image = '';
+
+            //Saving to profile
+            $userService->savePersonalProfile($user, $image);
+            
+            $conSearch = array('#toUserName#', '#facname#', '#coursecode#', '#coursename#','#applicationUrl#','#userEmail#','#userPassWord#');
+            $conReplace = array($username, $facname, $courseCode, $courseName,$this->container->getParameter('applicationUrl'),$userEmail,$userPassWord);
             $userSubject = $this->container->getParameter('mail_portfolio_assign_applicant_sub');            
             $userMessage = str_replace($conSearch, $conReplace,
                 $this->container->getParameter('mail_portfolio_assign_applicant_con'));           
             $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
             $userMessageSend = $userService->saveMessageData($userInfo,$fromUser,$userMsgdata);
-           
+            $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
+                            $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
+            
             
             $facSubject = $this->container->getParameter('mail_portfolio_assign_facilitator_sub'); 
             $facSearch = array('#toUserName#', '#facname#', '#coursecode#');
@@ -589,8 +610,8 @@ class ApplicantController extends Controller
                        
            $facMsgdata = array('subject' => $facSubject, 'message' => $facMessage, 'unitId' => '0', 'replymid' => '0');
            $facMessageSend = $userService->saveMessageData($facUser,$fromUser,$facMsgdata);
-          //  $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
-            //                $mailBody, $curuser->getEmail(), $curuser->getUsername());
+           $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
+                            $facMessage, $fromUser->getEmail(), $fromUser->getUsername());
         }
         else
         {
