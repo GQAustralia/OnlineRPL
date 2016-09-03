@@ -27,7 +27,7 @@
                 </div>
                {% endfor %}
             </div>
-            <div class="row" id="profile_suc_msg2"></div>
+            <div id="profile_suc_msg2"></div>
         </div>
         {% set userRole = app.security.getToken().getUser().getRoles() %}
         {% set userId = app.security.getToken().getUser().getId() %}

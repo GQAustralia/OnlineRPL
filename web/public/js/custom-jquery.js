@@ -357,8 +357,7 @@ $("#download_assessor_profile").click(function() {
     window.open(base_url + "downloadAssessorProfile/" + userId);
 });
 
-$(".todo-list").on('click', '.todomodalClass', function(){
-    alert("ddd");
+$(".todo-list").on('click', '.todomodalClass', function(){    
     $('#confirm_popup').find('.updateTodo').prop('disabled', false);
     reminderid = $(this).attr('id');
 });
@@ -1343,7 +1342,7 @@ $('.checkform-changed').click(function() {
 });
 
 
-$("#userprofile_save").click(function() {
+$("#userprofile_save").click(function() {    
     return validateAddress();
 });
 function showMyTabs(msg)
@@ -2245,7 +2244,7 @@ function searchUsersFromCourse(id, facVal, accVal, rtoVal, curuserId) {
 /* Profile Update (from popup) -*/
 $('#user_profile_form').on('submit', function(e) {
      if(validateAddress()){  
-        e.preventDefault();
+      //  e.preventDefault();
         form_data = $(this).serialize(); //Serializing the form data
            $.ajax({
                 type: "POST",
@@ -2602,7 +2601,7 @@ function newPasswordUpdate()
         }
     }
     if (newpwd != "") {
-        if (!(/\d/.test(newpwd) && /[a-zA-Z]/.test(newpwd))) {    // Password should contain atleast one letter and one number
+        if (!(/[0-9]/.test(newpwd) && /[a-zA-Z]/.test(newpwd))) {    // Password should contain atleast one letter and one number
             passwordShowerrorMsg("Password should contain atleast one letter and one digit", "new-password");
             return false;
         }
