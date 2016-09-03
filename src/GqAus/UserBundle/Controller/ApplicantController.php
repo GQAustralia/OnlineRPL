@@ -576,32 +576,34 @@ class ApplicantController extends Controller
             $uniqid = uniqid();
             $userEmail = $userInfo->getEmail();
             $userPassWord = $uniqid;
-            
-            $newpassword = $userPassWord;
+            $userApplicantStatus = $userInfo->getApplicantStatus();
+            if($userApplicantStatus == 1 )
+            {
+                $newpassword = $userPassWord;
 
-            // User object            
-            $user = $userService->getUserInfo($userId);
-            $password = password_hash($newpassword, PASSWORD_BCRYPT);
-            $user->getFirstName();
-            $user->getLastName();
-            $user->getPhone();
-            $user->setPassword($password);
-            $image = '';
+                // User object            
+                $user = $userService->getUserInfo($userId);
+                $password = password_hash($newpassword, PASSWORD_BCRYPT);
+                $user->getFirstName();
+                $user->getLastName();
+                $user->getPhone();
+                $user->setPassword($password);
+                $image = '';
 
-            //Saving to profile
-            $userService->savePersonalProfile($user, $image);
+                //Saving to profile
+                $userService->savePersonalProfile($user, $image);
+
+                $conSearch = array('#toUserName#', '#facname#', '#coursecode#', '#coursename#','#applicationUrl#','#userEmail#','#userPassWord#');
+                $conReplace = array($username, $facname, $courseCode, $courseName,$this->container->getParameter('applicationUrl'),$userEmail,$userPassWord);
+                $userSubject = $this->container->getParameter('mail_portfolio_assign_applicant_sub');            
+                $userMessage = str_replace($conSearch, $conReplace,
+                    $this->container->getParameter('mail_portfolio_assign_applicant_con'));           
+                $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
+                $userMessageSend = $userService->saveMessageData($userInfo,$fromUser,$userMsgdata);
+                $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
+                                $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
             
-            $conSearch = array('#toUserName#', '#facname#', '#coursecode#', '#coursename#','#applicationUrl#','#userEmail#','#userPassWord#');
-            $conReplace = array($username, $facname, $courseCode, $courseName,$this->container->getParameter('applicationUrl'),$userEmail,$userPassWord);
-            $userSubject = $this->container->getParameter('mail_portfolio_assign_applicant_sub');            
-            $userMessage = str_replace($conSearch, $conReplace,
-                $this->container->getParameter('mail_portfolio_assign_applicant_con'));           
-            $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
-            $userMessageSend = $userService->saveMessageData($userInfo,$fromUser,$userMsgdata);
-            $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
-                            $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
-            
-            
+            }
             $facSubject = $this->container->getParameter('mail_portfolio_assign_facilitator_sub'); 
             $facSearch = array('#toUserName#', '#facname#', '#coursecode#');
             $facReplace = array($username, $facname, $courseCode);                     
