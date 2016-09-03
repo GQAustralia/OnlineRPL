@@ -1946,9 +1946,9 @@ class UserService
         $this->saveMessageData($inbox, $sent, $msgInfo);
         
         //@todo send message to queue
-        $sqsMessage['type'] = "Message";
+        /*$sqsMessage['type'] = "Message";
         $sqsService = $this->get('SQSService');
-        $sqsService->sendInBoundMessage(json_decode($sqsMessage));
+        $sqsService->sendInBoundMessage(json_decode($sqsMessage));*/
         
         
     }

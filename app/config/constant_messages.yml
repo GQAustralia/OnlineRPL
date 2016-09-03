@@ -17,9 +17,7 @@ parameters:
     mail_add_user_course_con: >
                                 Dear #firstName# #lastName#,<br/><br/> 
                                 Account has been created for GQ Australia and Qualification : #courseCode# - #courseName# has been added. 
-                                <br/><a href='#applicationUrl#login'>Click Here</a> to login, Below are the account details.  
-                                <br/><br/> Email: #email#<br/> 
-                                Password: #password# <br/><br/><br/> 
+                                  We will provide login credentials shortly <br/>
                                 Regards,<br/>%default_from_username%
     mail_notification_sub: "New message from OnlineRPL - #messageSubject#" 
     mail_notification_con: >
