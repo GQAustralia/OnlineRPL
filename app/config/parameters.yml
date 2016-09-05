@@ -3,29 +3,31 @@ parameters:
     database_driver: pdo_mysql
     database_host: 127.0.0.1
     database_port: null
-    database_name: gqrpl3
+    database_name: onlinerpl_db
     database_user: root
     database_password: null
-    mailer_transport: smtp
-    mailer_host: smtp.gmail.com
-    mailer_user: rpl@gqaustralia.com.au
-    mailer_password: Sienna99@
-    mailer_encryption: tls
-    mailer_port: 587
-    mailer_auth_mode: login
+    mailer_transport: null
+    mailer_host: null
+    mailer_user: null
+    mailer_password: null
+    mailer_encryption: null
+    mailer_port: null
+    mailer_auth_mode: null
     locale: en
     secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
-    applicationUrl: "http://local.gqrpl.com/"
+    applicationUrl: 'http://onlinerpl.local/'
     amazon_aws_key: AKIAJXKS7MGMDP6Y3MAA
     amazon_aws_secret_key: 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
-    amazon_s3_base_url: https://s3-ap-southeast-2.amazonaws.com/onlinerplevidences/
+    amazon_s3_base_url: 'https://s3-ap-southeast-2.amazonaws.com/onlinerplevidences/'
     amazon_s3_bucket_name: onlinerplevidences
-    apiUrl: "http://api.gqaus.com.au/web/app_dev.php/api/v1/"
+    apiUrl: 'http://api.gqaus.com.au/web/app_dev.php/api/v1/'
     apiAuthUsername: stgaccess
     apiAuthPassword: u9FGDU8K
-    maxFileSize: 3115870208
-    fromEmailAddress: rpl@gqaustralia.com.au
+    maxFileSize: '3115870208'
+    fromEmailAddress: rpl@gqaustralia.edu.au
     pagination_limit_page: 10
     filefield.load_form_template: false
     tokbox_key: 45642692
     tokbox_secret_key: 03af7e40569a102af23f06c8880d9b43dcf34aa2
+    rto_workspan: 14
+    aws_queue_name: CRMInboundMessage
