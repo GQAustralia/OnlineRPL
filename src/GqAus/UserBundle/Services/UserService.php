@@ -1939,6 +1939,7 @@ class UserService
      */
     public function setReadViewStatus($mid)
     {
+        
         $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($mid);        
         if($msgObj->getInbox()->getid() ==  $this->getCurrentUser()->getid())
         {
@@ -3912,14 +3913,25 @@ class UserService
      * @param type $courseCode
      * @param type $facilitator*
      */
-    public function getQualificationFacilitator($userId,$courseCode)
+    public function getQualificationFacilitator($userId,$courseCode,$facilitator)
     {
-       // dump($user->getId());exit;
        // $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('u' => $user->getId(), 'courseCode' => $courseCode));
-        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,'user' => $userId->getId(),'facilitator' => ''));
+       // $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,'user' => $userId->getId(),'facilitator'=>'!="'));
         
-        $result = !empty($courseUnitObj) ? count($courseUnitObj) : 0;       
-        return count($courseUnitObj);
+       // $result = !empty($courseUnitObj) ? count($courseUnitObj) : 0;       
+       // return count($courseUnitObj);
+        
+        $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                ->createQueryBuilder('u')
+                ->select()
+                ->where('u.courseCode = :courseCode')->setParameter('courseCode', $courseCode)
+                ->andWhere('u.user = :user')->setParameter('user', $userId->getId())
+                ->andWhere(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $facilitator);
+                
+            $facList = $res->getQuery()->getResult();
+            $result = count($facList);
+            return $result;
+            
        
     }
      /**

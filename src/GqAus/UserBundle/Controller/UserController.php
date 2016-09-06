@@ -12,6 +12,7 @@ use GqAus\UserBundle\Form\ResumeForm;
 use GqAus\UserBundle\Form\QualificationForm;
 use GqAus\UserBundle\Form\ReferenceForm;
 use GqAus\UserBundle\Form\MatrixForm;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserController extends Controller
 {
@@ -816,6 +817,41 @@ class UserController extends Controller
          $image = $user->getUserImage();
          $userService->savePersonalProfile($user, $image);
         exit;
+    }
+    function validateUserAction()
+    {
+        
+        $userId = $this->getRequest()->get('userId');
+        $token = $this->getRequest()->get('loginToken');
+        $userService = $this->get('UserService');
+        $user = $userService->getUserInfo($userId);
+      
+        if($user->getLoginToken() == $token && $user->getApplicantStatus() == 1) 
+        {
+            
+            $providerKey = 'secured_area';
+            $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
+           $role = $user->getRoles();
+            $session = $request->getSession();
+            $session->set('user_id', $user->getId());
+              return $this->render('GqAusUserBundle:User:newUserCheck.html.twig');
+             
+        }
+       
+        exit;
+//        $loginToken = $this->getRequest()->get('loginToken');
+//        $userId = $this->getRequest()->get('userId');
+//        $userService = $this->get('UserService');
+//         $user = $userService->getUserInfo($userId);
+//         $providerKey = 'secured_area';
+//       $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
+//       dump($user->getApplicantStatus);exit;
+//        return $this->render('GqAusUserBundle:User:newUserCheck.html.twig');
+    //$this->container->get('security.context')->setToken($token);
+//
+//    $url = $this->generateUrl('index');
+//
+//    return $this->redirect($url);
     }
 
 }

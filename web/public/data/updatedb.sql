@@ -60,3 +60,5 @@ ALTER TABLE `user_courses` ADD `manager` INT(2) NULL AFTER `created_on`;
 
 ALTER TABLE `user_courses` CHANGE `manager` `manager` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `user_courses` CHANGE `facilitator` `facilitator` INT(11) NULL DEFAULT NULL;
+
+ALTER TABLE `user` ADD `login_token` VARCHAR(200) NULL AFTER `applicantStatus`;

@@ -560,7 +560,7 @@ class ApplicantController extends Controller
         $userInfo = $userService->getUserInfo($userId);
          $courseCode = $this->getRequest()->get('courseCode'); 
         $courseName = $this->getRequest()->get('courseName'); 
-        $facVal = $userService->getQualificationFacilitator($userInfo,$courseCode);
+        $facVal = $userService->getQualificationFacilitator($userInfo,$courseCode,$facilitator);
         
         $updateFacVal = $this->get('UserService')->updateQualificationFacilitator($listId,$facilitator); 
         if($updateFacVal)
@@ -568,11 +568,7 @@ class ApplicantController extends Controller
             
             $status = 'true';
             $message = 'updated successfully';
-            
-        }
-        
-        if($facVal)
-        {
+           
             $fromUserVal =$this->get('security.context')->getToken()->getUser()->getId();
             $fromUser= $userService->getUserInfo($fromUserVal);
             
@@ -594,8 +590,9 @@ class ApplicantController extends Controller
             $decrypted_num = base64_decode($encrypted_num);                
             if($userApplicantStatus == 1 && $facVal == 0)
             {
+                
                 $newpassword = $userPassWord;
-
+                 $token = uniqid();
                 // User object            
                 $user = $userService->getUserInfo($userId);
                 $password = password_hash($newpassword, PASSWORD_BCRYPT);
@@ -604,7 +601,9 @@ class ApplicantController extends Controller
                 $user->getPhone();
                 //$user->setPassword('');
                 $user->setPassword($password);
+                $user->setLoginToken($token);             
                 $image = '';
+               
 
                 //Saving to profile
                 $userService->savePersonalProfile($user, $image);
@@ -616,13 +615,11 @@ class ApplicantController extends Controller
                     $this->container->getParameter('mail_portfolio_assign_applicant_con'));           
                 $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
                 $userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
-                $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
-                                $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
+               // $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
+                                //$userMessage, $fromUser->getEmail(), $fromUser->getUsername());
             
             }
                 else{
-                   
-
                     // User object            
                     $user = $userService->getUserInfo($userId);
                     $conSearch = array('#toUserName#', '#facname#', '#coursecode#', '#coursename#','#applicationUrl#','#userEmail#','#userAuth#');
@@ -632,8 +629,8 @@ class ApplicantController extends Controller
                         $this->container->getParameter('mail_portfolio_assign_applicantqua_con'));           
                     $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
                     $userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
-                    $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
-                                    $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
+                   // $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
+                                   // $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
                 }
                 $facSubject = $this->container->getParameter('mail_portfolio_assign_facilitator_sub'); 
                 $facSearch = array('#toUserName#', '#facname#', '#coursecode#');
@@ -643,8 +640,8 @@ class ApplicantController extends Controller
 
                $facMsgdata = array('subject' => $facSubject, 'message' => $facMessage, 'unitId' => '0', 'replymid' => '0');
                $facMessageSend = $userService->saveMessageData($facUser,$fromUser,$facMsgdata);
-               $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
-                                $facMessage, $fromUser->getEmail(), $fromUser->getUsername());
+              // $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
+                                //$facMessage, $fromUser->getEmail(), $fromUser->getUsername());
           }
         else
         {

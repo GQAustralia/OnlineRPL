@@ -280,3 +280,6 @@ changeReminderViewStatus:
 changeEvidenceViewStaus:
     path:     /changeEvidenceViewStaus
     defaults: { _controller: GqAusUserBundle:Evidence:changeEvidenceViewStaus }
+validateUser:
+    path:     /validateUser/{userId}/{loginToken}
+    defaults: { _controller: GqAusUserBundle:User:validateUser }
