@@ -22,9 +22,9 @@
 		border-bottom: 1px solid;
 		border-top: 1px solid;
 	}
-	.portfolio-container .portfolio-filter .status a{
+	/*.portfolio-container .portfolio-filter .status a{
 		padding: 18px 0;
-	}
+	}*/
 	.portfolio-container .portfolio-filter .status a{
 		color: #999;
 	}
@@ -76,3 +76,13 @@
 	word-wrap: break-word;
 	word-break: break-all;
 }
+
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .portfolio-container .portfolio-filter .gq-dashboard-tabs-header{
+        width: 28.2%;
+    }
+}
+*|html[xmlns*=""] .portfolio-container .portfolio-filter .gq-dashboard-tabs-header{
+        width: 28.2%;
+    }
