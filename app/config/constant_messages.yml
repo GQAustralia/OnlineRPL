@@ -80,7 +80,8 @@ parameters:
     msg_appove_evdience_fac_con: >
                                       Dear #toUserName#, <br/><br/> 
                                       Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
-                                      Provided evidences for above unit are satisfactory.<br/><br/>
+                                      Provided evidences for above unit are satisfactory.<br/>
+                                      Please check <a href='#applicationUrl#messages'>here</a><br/><br/>
                                       Regards, <br/>#fromUserName#
     mail_appove_evdience_fac_sub: "Evidences approved for - #courseCode# : #courseName# - Unit : #unitName#" 
     mail_appove_evdience_fac_con: >
