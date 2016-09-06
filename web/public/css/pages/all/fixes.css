@@ -22,9 +22,9 @@
 		border-bottom: 1px solid;
 		border-top: 1px solid;
 	}
-	.portfolio-container .portfolio-filter .status a{
+	/*.portfolio-container .portfolio-filter .status a{
 		padding: 18px 0;
-	}
+	}*/
 	.portfolio-container .portfolio-filter .status a{
 		color: #999;
 	}
@@ -75,4 +75,8 @@
 .content{
 	word-wrap: break-word;
 	word-break: break-all;
+}
+
+.message_popup .input_section label.subject {
+    width: auto;
 }
