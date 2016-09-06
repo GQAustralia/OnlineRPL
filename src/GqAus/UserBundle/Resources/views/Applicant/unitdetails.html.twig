@@ -111,26 +111,26 @@
                             </div>
                         {% if ('ROLE_FACILITATOR' in userRole or 'ROLE_MANAGER' in userRole) and actUnitStatus =='1' %}
                             {% if unitFacStatus == '0' or unitFacStatus == '2' %}
-            <div class="col-md-{% if unitFacStatus == '0' %}6{%else%}12{%endif%} col-lg-{% if unitFacStatus == '0' %}6{%else%}12{%endif%}"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory">Satisfactory</button></div>
-                                {% if unitFacStatus == '0' %}
+            <div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory">Satisfactory</button></div>
+                                {#% if unitFacStatus == '0' %#}
             <div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#not-satisfactory">Not yet Satisfactory</button></div>
-                                {% endif %}
+                                {#% endif %#}
                             {% endif %}
                         {% endif %}
                         {% if ('ROLE_ASSESSOR' in userRole and actUnitStatus =='1') %}
                             {% if (unitAssStatus == '0' or unitAssStatus == '2') and unitFacStatus == '1' %}
-            <div class="col-md-{% if unitAssStatus == '0' %}6{%else%}12{%endif%} col-lg-{% if unitAssStatus == '0' %}6{%else%}12{%endif%}"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
-                                {% if unitAssStatus == '0' %}
+            <div class="col-md-6 col-lg-6"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
+                                {#% if unitAssStatus == '0' %#}
             <div class="col-md-6 col-lg-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
-                                {% endif %}
+                                {#% endif %#}
                             {% endif %}
                         {% endif %}
                         {% if ('ROLE_RTO' in userRole and actUnitStatus =='1') %}
                             {% if (unitRtostatus == '0' or unitRtostatus == '2') and unitAssStatus == '1' %}
-            <div class="col-md-{% if unitRtostatus == '0' %}6{%else%}12{%endif%} col-lg-{% if unitRtostatus == '0' %}6{%else%}12{%endif%}"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button" >Competent</button></div>
-                        {% if unitRtostatus == '0' %}
+            <div class="col-md-6 col-lg-6"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button" >Competent</button></div>
+                        {#% if unitRtostatus == '0' %#}
             <div class="col-md-6 col-lg-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
-                        {% endif %}
+                        {#% endif %#}
                             {% endif %}
                         {% endif %}
                         </div>
