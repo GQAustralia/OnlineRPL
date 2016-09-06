@@ -49,6 +49,11 @@ class UserService
      * @var Object
      */
     private $guzzleService;
+    
+    /**
+     * @var Object
+     */
+    private $coursesService;
 
     /**
      * Constructor
@@ -56,8 +61,9 @@ class UserService
      * @param object $container
      * @param object $mailer
      * @param object $guzzleService
+     * @param object $coursesService
      */
-    public function __construct($em, $container, $mailer, $guzzleService)
+    public function __construct($em, $container, $mailer, $guzzleService, $coursesService)
     {
         $this->em = $em;
         $session = $container->get('session');
@@ -67,6 +73,7 @@ class UserService
         $this->mailer = $mailer;
         $this->container = $container;
         $this->guzzleService = $guzzleService;
+        $this->coursesService = $coursesService;
     }
 
     /**
@@ -2266,6 +2273,10 @@ class UserService
                     $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : $targetDate);
                     $this->em->persist($userCoursesObj);
                     $this->em->flush();
+                    
+                    $results = $this->coursesService->getCoursesInfo($courseData['courseCode']);
+                    $this->coursesService->updateQualificationUnits($user->getId(), $courseData['courseCode'], $results);
+                    
                     $message = 'Qualification: ' . $courseData['courseCode'] . ' for this user added successfully!';
                     $emailFlag = 'Q';
                 } else {
