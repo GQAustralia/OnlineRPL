@@ -84,19 +84,19 @@ $("#disapproveyes").click(function () {
         $('#msg-body').css("border","1px solid red");
         return false;
     }
-    var subject = "Evidenced are Not sufficient for the unit "+ unitName +"";    
-	$.ajax({
-        type: "POST",
-        url: base_url + "sendMsgtoApplicant",
-        data: { unitId: unitId, userId: userId, toUser: toUserId, subject: subject, message: msgBody},
-        success:function(result) {
-        }
-    });
+//    var subject = "Evidenced are Not sufficient for the unit "+ unitName +"";    
+//	$.ajax({
+//        type: "POST",
+//        url: base_url + "sendMsgtoApplicant",
+//        data: { unitId: unitId, userId: userId, toUser: toUserId, subject: subject, message: msgBody},
+//        success:function(result) {
+//        }
+//    });
 
     $.ajax({
         type: "POST",
         url: base_url + "setUserUnitEvidencesStatus",
-        data: { unit: newunit, userId: userId, userRole: userRole, status: '2', courseName: courseName, unitName: unitName, courseCode: courseCode },
+        data: { unit: newunit, userId: userId, userRole: userRole, status: '2', courseName: courseName, unitName: unitName, courseCode: courseCode, msgBody: msgBody },
         success:function(result) {
             var newresult = result.split("&&");
             if (newresult[0] == '2') {

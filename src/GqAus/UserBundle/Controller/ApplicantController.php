@@ -87,6 +87,7 @@ class ApplicantController extends Controller
         $result['courseName'] = $this->getRequest()->get('courseName');
         $result['courseCode'] = $this->getRequest()->get('courseCode');
         $result['unitName'] = $this->getRequest()->get('unitName');
+        $result['msgBody'] = $this->getRequest()->get('msgBody');
         $userUnitEvStatus = $this->get('UserService')->updateApplicantEvidences($result);
         echo $userUnitEvStatus.= "&&" . $this->get('UserService')
             ->updateCourseRTOStatus($userId, $result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
