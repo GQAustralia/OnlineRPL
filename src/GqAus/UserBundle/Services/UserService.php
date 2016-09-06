@@ -514,6 +514,7 @@ class UserService
             $this->em->flush();
             $userName = $courseObj->getUser()->getUsername();
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
+            $faccomments = $result['msgBody'];
 
             // finding and replacing the variables from message templates
             $subSearch = array('#courseCode#', '#courseName#', '#unitName#');
@@ -522,8 +523,8 @@ class UserService
             $facMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_disappove_evdience_fac_sub'));
 
             // finding and replacing the variables from message templates
-            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#fromUserName#', '#applicationUrl#');
-            $msgReplace = array($userName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $facilitatorName, $this->container->getParameter('applicationUrl'));
+            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#fromUserName#', '#applicationUrl#', '#faccomments#');
+            $msgReplace = array($userName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $facilitatorName, $this->container->getParameter('applicationUrl'), $faccomments);
             $facMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_fac_con'));
             $facMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_fac_con'));
             if ($result['userRole'] == 'ROLE_ASSESSOR') {
