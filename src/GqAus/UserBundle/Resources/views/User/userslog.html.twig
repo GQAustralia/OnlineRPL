@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Manage Profiles{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('public/css/timepicker.css') }}" />
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}"> 
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate.css') }}"> 
+{% endblock %}
+{% block body %}
+
+<!-- FOR DESKTOP -->
+<section class="portfolio-container logs hidden-xs">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-lg-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading clearfix">
+                            <h4 class="panel-title">
+                                <span><strong>Logs</strong></span>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-inline portfolio-filter">
+            <div class="row">
+                <div class="col-xs-12 col-lg-3">
+                    <input name="logdate" type="text" placeholder="Date & Time" class="form-control search_box log_date_field" id="logdate">
+                </div>
+                <div class="col-xs-12 col-lg-3">
+                    <input type="text" placeholder="Search" class="form-control search_box" id="searchName">
+                </div>
+                <div class="col-xs-12 col-lg-3">
+                    <label for="">Role</label>
+                    <select name="userType" id="userType" class="form-control">
+                        <option value="">All</option>
+                        <option value="2">Facilitator</option>
+                        <option value="3">Assessor</option>
+                        <option value="4">Rto</option>
+                        <option value="5">Manager</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-lg-2">
+                    <label for="">Action</label>                    
+                    <select class="form-control" id="filterByAction">
+                        <option value="">All</option>
+                        {% if(log_list|length > 0) %}
+                            {% for akey, act in log_list %}
+                            <option value="{{ akey }}">{{ act.action }}</option>
+                            {% endfor %}
+                         {% endif %}
+                    </select>
+                </div>
+                <div class="col-xs-12 col-lg-1">
+                    <button class="btn btn_red" id="searchUserLogFilter">Filter</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="ajaxHtml" style="display:none;">
+                    <img src="{{ asset('public/images')}}/loading.gif" class="img"/>
+                </div>
+                <div class="portfolio-data-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="col-lg-3">User</th>
+                                <th class="col-lg-3">Action</th>
+                                <th class="col-lg-2">Date & Time</th>
+                                <th class="col-lg-4">Message</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" id="currentList">
+                            {% include 'GqAusUserBundle:User:loglist.html.twig' %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- FOR DESKTOP -->
+
+
+<!-- Modal -->
+<div class="modal fade facilitator_popup" id="facilitator_popup" role="dialog">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <span class="modal-title">Facilitator List</span>
+                </div>
+                <div class="modal-body">
+                    <form class="form">
+                        <select class="form-control">
+                            <option>Select</option>
+                            <option>Facilitator 1</option>
+                            <option>Facilitator 2</option>
+                            <option>Facilitator 3</option>
+                        </select>
+                        <button class="btn btn_red">UPDATE</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% if pageRequest == 'ajax' %}
+    {% block javascripts %}
+    <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+    <script src="{{ asset('public/js/timepicker.js') }}"></script>    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var dateTime = new Date();
+            var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
+            var timeZoneDT = new Date(utc + (3600000*+10));
+            $(".datepic").datetimepicker({
+             dateFormat: "dd/mm/yy",
+             timeFormat: "hh:mm tt",
+             minDate : timeZoneDT,
+             minDateTime : timeZoneDT
+            });
+        });
+    </script>
+    {% endblock %}
+{% endif %}
+    
