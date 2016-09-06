@@ -459,8 +459,9 @@ class UserService
 
         if ($result['status'] == '1') {
             $evidenceStatus = 'Approved';
-			
-			// finding and replacing the variables from message templates
+	    $userName = $courseObj->getUser()->getUsername();
+            $facilitatorName = $courseObj->getFacilitator()->getUsername();
+            // finding and replacing the variables from message templates
             $subSearch = array('#courseCode#', '#courseName#', '#unitName#');
             $subReplace = array($result['courseCode'], $result['courseName'], $result['unitName']);
             $facMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_appove_evdience_fac_sub'));
@@ -474,7 +475,7 @@ class UserService
 			
 			
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-		    $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
+            $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
 			
@@ -4031,5 +4032,16 @@ class UserService
                 break;
         }
         return $unitStatus;
+    }
+    /**
+     * Function to get the applicant is logged or not based on the course unitd from the units table
+     * @param type $courseCode
+     * return integer
+     */
+    public function getCourseUnitsByCourseCode($userId, $courseCode)
+    {
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId,'courseCode' => $courseCode));
+        $totalNoCourseUnits = count($courseUnitObj);
+        return $totalNoCourseUnits;
     }
 }
