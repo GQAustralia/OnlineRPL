@@ -6,9 +6,7 @@ parameters:
                                  Dear #firstName# #lastName#,<br/><br/> 
                                  Welcome to Online RPL. It is great to have you here. We're looking forward to helping you achieve your qualification. <br /><br />
                                  As part of the process, there's some administration we need to complete to get you on the way. You may login to Online RPL to start your jouney.
-                                 <a href='#applicationUrl#login'><strong>Click here</strong></a> to login and use below credentials.  <br/><br/> 
-                                 Email: #email#<br/> 
-                                 Password: #password# <br/><br/><br/> 
+                                
                                  Regards,<br/>%default_from_username%
     mail_add_course_sub: "Qualification: #courseCode# - #courseName# has been added" 
     mail_add_course_con: >
@@ -22,9 +20,7 @@ parameters:
                                 Dear #firstName# #lastName#,<br/><br/> 
                                 Welcome to Online RPL. It is great to have you here. We're looking forward to helping you achieve your  #courseCode# - #courseName#. <br /><br />
                                 As part of the process, there's some administration we need to complete to get you on the way.  You may login to Online RPL to start your jouney.
-                                <br/><a href='#applicationUrl#login'>Click Here</a> to login and use below credentials,   
-                                <br/><br/> Email: #email#<br/> 
-                                Password: #password# <br/><br/><br/> 
+                                <br/><br/> 
                                 Regards,<br/>%default_from_username%
     mail_notification_sub: "New message from OnlineRPL - #messageSubject#" 
     mail_notification_con: >
@@ -191,8 +187,9 @@ parameters:
                                     Regards, <br/>#fromUserName#
     mail_portfolio_assign_applicant_sub: "Welcome - OnlineRPL" 
     mail_portfolio_assign_applicant_con: >
-                                 Dear #toUserName#,<br/><br/>                                 
-                                 Account has been created for GQ Australia and Qualification : #coursecode# - #coursename# has been added. <br/> 
+                                 Dear #toUserName#,<br/><br/>
+                                 Welcome to Online RPL. It is great to have you here. We're looking forward to helping you achieve your qualification. <br /><br />
+                                 As part of the process, there's some administration we need to complete to get you on the way. You may login to Online RPL to start your jouney.
                                  #facname# is assigned as your Facilitator for you qualification . <br/><br/>
                                  <a href='#applicationUrl#login'>Click Here</a> to login, Below are the account details.  <br/><br/>                       
                                  Email: #userEmail#<br/> 
