@@ -201,4 +201,10 @@ parameters:
     mail_portfolio_assign_facilitator_con: >
                                     Dear #facname#, <br/> 
                                     You are the facilitator of #toUserName# for qualification #coursecode#.<br/><br/>
-                                    Regards, <br/>OnlineRPL                                           
+                                    Regards, <br/>OnlineRPL 
+    mail_portfolio_assign_applicantqua_sub: "Welcome - OnlineRPL" 
+    mail_portfolio_assign_applicantqua_con: >
+                                   Dear #toUserName#,<br/><br/>                                 
+                                    #facname# is assigned as your Facilitator for you qualification . <br/><br/>
+                                   Regards,<br/>OnlineRPL                             
+                                    
