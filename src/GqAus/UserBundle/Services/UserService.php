@@ -468,8 +468,8 @@ class UserService
             $facMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_appove_evdience_fac_sub'));
 
             // finding and replacing the variables from message templates
-            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#fromUserName#');
-            $msgReplace = array($userName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $facilitatorName);
+            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#fromUserName#', '#applicationUrl#');
+            $msgReplace = array($userName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $facilitatorName, $this->container->getParameter('applicationUrl'));
             $facMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_appove_evdience_fac_con'));
             $facMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_appove_evdience_fac_con'));
 			
