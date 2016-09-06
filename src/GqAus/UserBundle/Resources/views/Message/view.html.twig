@@ -15,7 +15,7 @@
         {% set userRole = app.security.getToken().getUser().getRoles() %}
         {% set userId = app.security.getToken().getUser().getId() %} 
         {% set curruserImage = app.security.getToken().getUser().getUserImage() %} 
-       
+      
         {% if messages%}
             {% if messages|length > 0 %}
                 <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
@@ -120,7 +120,7 @@
             {% endfor %}
         <div class="mail_compose_section hidden-xs">
                 <div class="title_bar">  {{ userSubject }}
-                        <span><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
+                        <span><a href="{{currentPath}}"><i class="material-icons close">close</i></a></span>
                 </div>
                 <div class="chat_room">
                     {% for message in replymsgarr %}   

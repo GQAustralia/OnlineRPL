@@ -553,32 +553,48 @@ class ApplicantController extends Controller
     public function updateFacilitatorAction(Request $request)
     {   
         $listId = $this->getRequest()->get('listId');        
-        $facilitator = $this->getRequest()->get('facilitator');      
-        $updateFacVal = $this->get('UserService')->updateQualificationFacilitator($listId,$facilitator);        
+        $facilitator = $this->getRequest()->get('facilitator'); 
+        
+         $userService = $this->get('UserService');
+         $userId = $this->getRequest()->get('userId');
+        $userInfo = $userService->getUserInfo($userId);
+         $courseCode = $this->getRequest()->get('courseCode'); 
+        $courseName = $this->getRequest()->get('courseName'); 
+        $facVal = $userService->getQualificationFacilitator($userInfo,$courseCode);
+        
+        $updateFacVal = $this->get('UserService')->updateQualificationFacilitator($listId,$facilitator); 
         if($updateFacVal)
         {
-            $userService = $this->get('UserService');
+            
             $status = 'true';
             $message = 'updated successfully';
             
+        }
+        
+        if($facVal == 0)
+        {
             $fromUserVal =$this->get('security.context')->getToken()->getUser()->getId();
             $fromUser= $userService->getUserInfo($fromUserVal);
-            $courseCode = $this->getRequest()->get('courseCode'); 
-            $courseName = $this->getRequest()->get('courseName'); 
+            
             
             $facuserId = $this->getRequest()->get('facilitator');
             $facUser = $userService->getUserInfo($facuserId);
             $facname = $facUser->getUsername();
             //Send Message to  User
-            $userId = $this->getRequest()->get('userId');
+            
             $userInfo = $userService->getUserInfo($userId);
             $username = $userInfo->getUsername();
+            $applicantId =  $userInfo->getId();
             $uniqid = uniqid();
             $userEmail = $userInfo->getEmail();
             $userPassWord = $uniqid;
             $userApplicantStatus = $userInfo->getApplicantStatus();
-            if($userApplicantStatus == 1 )
+            $original_num = $userId;
+            $encrypted_num = base64_encode($original_num);
+            $decrypted_num = base64_decode($encrypted_num);                
+            if($userApplicantStatus == 1 && $facVal == 0)
             {
+                
                 $newpassword = $userPassWord;
 
                 // User object            
@@ -587,19 +603,20 @@ class ApplicantController extends Controller
                 $user->getFirstName();
                 $user->getLastName();
                 $user->getPhone();
+                //$user->setPassword('');
                 $user->setPassword($password);
                 $image = '';
 
                 //Saving to profile
                 $userService->savePersonalProfile($user, $image);
 
-                $conSearch = array('#toUserName#', '#facname#', '#coursecode#', '#coursename#','#applicationUrl#','#userEmail#','#userPassWord#');
-                $conReplace = array($username, $facname, $courseCode, $courseName,$this->container->getParameter('applicationUrl'),$userEmail,$userPassWord);
+                $conSearch = array('#toUserName#', '#facname#', '#coursecode#', '#coursename#','#applicationUrl#','#userEmail#','#userAuth#');
+                $conReplace = array($username, $facname, $courseCode, $courseName,$this->container->getParameter('applicationUrl'),$userEmail,$encrypted_num);
                 $userSubject = $this->container->getParameter('mail_portfolio_assign_applicant_sub');            
                 $userMessage = str_replace($conSearch, $conReplace,
                     $this->container->getParameter('mail_portfolio_assign_applicant_con'));           
                 $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
-                $userMessageSend = $userService->saveMessageData($userInfo,$fromUser,$userMsgdata);
+                $userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
                 $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
                                 $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
             
