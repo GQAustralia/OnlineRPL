@@ -45,7 +45,7 @@
                                      {% if message.sent.id is defined and message.sent.id == curuser and  message.replymid=="0"%}                                                    
                                     <strong>You</strong>
                                     <span class="arrow"></span>
-                                    <strong>{{message.inbox.firstname}}</strong>
+                                    <strong>{{message.sent.firstname}}</strong>
                                     {% elseif message.sent.id is defined %}
                                             {{message.sent.firstname}}
                                     {% endif %}
