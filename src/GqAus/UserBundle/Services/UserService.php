@@ -2118,7 +2118,7 @@ class UserService
             }
             $response['type'] = 'Success';
             $response['code'] = 1;
-            $response['msg'] = 'All Units are approved.';
+            $response['msg'] = 'All Units are Competent.';
         }
         else{
             $response['type'] = 'Error';
@@ -3714,7 +3714,7 @@ class UserService
                 case 'ROLE_RTO' :
                     $approvalStatus = $userCourseUnits->getRtostatus();
                     if($approvalStatus != 0)
-                        $approvalStatus = ($approvalStatus == 1) ? 'Approved' : 'Not Yet Approved';  
+                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
                     else {
                             $approvalStatus = $userCourseUnits->getAssessorstatus();
                             if($approvalStatus != 0){
@@ -3746,7 +3746,7 @@ class UserService
                     $approvalStatus = $userCourseUnits->getRtostatus();
                  
                     if($approvalStatus != 0){
-                        $approvalStatus = ($approvalStatus == 1) ? 'Approved' : 'Not Yet Approved';
+                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';
                         }
                     else {
                         $approvalStatus = $userCourseUnits->getAssessorstatus();
@@ -4039,7 +4039,7 @@ class UserService
                 $unitStatus ='COMPETENT';
                 break;
             case 'ROLE_RTO':
-                $unitStatus ='APPROVED';
+                $unitStatus ='COMPETENT';
                 break;
             default:
                 $unitStatus ='';

@@ -181,7 +181,7 @@
                             {% endif %}
                             {% if ('ROLE_RTO' in userRole) and (statusOfAssUnitsCount == totalReqUnits) and (courseStatus == '15') and (totalReqUnits > statusOfRtoUnitsCount) %}
                                     <div class="col-md-12 col-lg-12">
-                                        <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-all-units-from-rto" class="btn btn-danger approve-for-certification-btn">Approved</button>
+                                        <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-all-units-from-rto" class="btn btn-danger approve-for-certification-btn">Competent</button>
                                     </div>
                             {% endif %}
                         </div>
