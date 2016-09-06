@@ -762,6 +762,7 @@ class CoursesService
         $totalNoOfUnits = count($courseUnitObj);
         if($totalNoOfUnits > 0){
             $eviPercentage = ($totalNoOfUnits / (($reqNoUnits['core']) + ($reqNoUnits['elective']))) * 100;
+            $eviPercentage = ($eviPercentage > 100) ? '100' : $eviPercentage;
         }
         return round($eviPercentage) . '%';
     }
