@@ -27,15 +27,17 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="portfolio-filter">
                             <div class="row no-gutter">
-                                <div class="col-xs-12 col-sm-12 col-md-12">                                    
-                                    <ul role="tablist" id="myTab" class="clearfix">
-                                            <li role="presentation" id="applicantPending" class="status active">
-                                                    <a href="#current" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>
-                                            </li>
-                                            <li role="presentation" id="applicantCompleted" class="status in-active">
-                                                    <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">COMPLETED</a>
-                                            </li>
-                                    </ul>
+                                <div class="col-xs-12 col-sm-12">                                    
+                                    <div class="gq-dashboard-tabs-header wid20p">
+										<ul role="tablist" id="myTab" >
+											<li role="presentation" id="applicantPending" class="col-xs-6 col-sm-6 status active">
+												<a href="#current" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>
+											</li>
+											<li role="presentation" id="applicantCompleted" class="col-xs-6 col-sm-6 status in-active">
+												<a href="#completed" aria-controls="completed" role="tab" data-toggle="tab" >COMPLETED</a>
+											</li>
+										</ul>
+									</div>
                                </div>
                             </div>   
                             <div class="row">
@@ -50,35 +52,35 @@
                    
                     {% else %}
                        <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-inline portfolio-filter">
-                                    <div class="row">
-                                            <div class="col-xs-12">
-                                                    <input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box">                                    
-                                            </div>
-                                            <div class="col-xs-12">
-                                                    <label for="">Filter By</label>
-                                                   <select name="filterByUser" id="filterByUser" class="form-control">
-                                                        <option value="">Assessor/Facilitator</option>
-                                                    {% for key, user in users %}
-                                                        <option value="{{user.id}}">{% if user.roletype == 2 %} Facilitator {% else %} Assessor {% endif %} : {{user.username}}</option>
-                                                    {% endfor %}
-                                                    </select>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                    <label for="">Qualification Status</label>
-                                                    <select name="filterByStatus" id="filterByStatus" class="form-control">
-                                                        <option value="">Qualification Status</option>
-                                                        {% for key, status in qualificationStatus %}
-                                                            <option value="{{key}}">{{status["status"]}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <button id="searchFilter" class="btn btn_red ">Filter</button>
-                                            </div>
-                                    </div>
-                            </div>
-                            </div>    
+							<div class="form-inline portfolio-filter">
+								<div class="row">
+									<div class="col-xs-12">
+										<input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box">                                    
+									</div>
+									<div class="col-xs-12">
+										<label for="">Filter By</label>
+									   <select name="filterByUser" id="filterByUser" class="form-control">
+											<option value="">Assessor/Facilitator</option>
+										{% for key, user in users %}
+											<option value="{{user.id}}">{% if user.roletype == 2 %} Facilitator {% else %} Assessor {% endif %} : {{user.username}}</option>
+										{% endfor %}
+										</select>
+									</div>
+									<div class="col-xs-12">
+											<label for="">Qualification Status</label>
+											<select name="filterByStatus" id="filterByStatus" class="form-control">
+												<option value="">Qualification Status</option>
+												{% for key, status in qualificationStatus %}
+													<option value="{{key}}">{{status["status"]}}</option>
+												{% endfor %}
+											</select>
+									</div>
+									<div class="col-xs-12">
+										<button id="searchFilter" class="btn btn_red ">Filter</button>
+									</div>
+								</div>
+							</div>
+						</div>    
                              
                     {% endif %}
                    

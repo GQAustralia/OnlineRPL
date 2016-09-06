@@ -892,13 +892,13 @@ function onloadCount()
         url: base_url + "unread",
         cache: false,
         success: function(result) {
-            if (result > 0) {                
-                $("#unread-count").html(result);
-                $(".inbox-cnt").html("(" + result + ")");
+            if (result > 0) {
+                $("#unread-count").text(result);
+                $(".inbox-cnt").text("(" + result + ")");
 				$("#messageCount").attr('class', '');
             } else {
                 $("#unread-count").css("display","none");
-                $(".inbox-cnt").html("");
+                $(".inbox-cnt").text("");
 				$("#messageCount").attr('class', 'hide');
             }
         }
