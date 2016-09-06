@@ -9,11 +9,14 @@
                 </div>
                 <div class="header_block clearfix">
                     <div class="profile_section">
+                    	{% if courses.Facilitator.id is defined %}
                         <img class="profile_image no_upload" alt="profile_pic" src="{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}">
+                        {% endif %}
                         <input type="file" class="hidden browse_btn">
                         <div class="content">
-                            
+                            {% if courses.facilitator.firstName is defined %}
                                 <h5 class="name"><strong>{{courses.facilitator.firstName}} {{courses.facilitator.lastName}}</strong></h5>
+                             {% endif %}
                                 <span class="field"> Facilitator</span>
                         </div>
                     </div>
@@ -25,14 +28,23 @@
                 </div>
                 <div class="form">
                         <div class="section name_group clearfix">
+                        {% if courses.facilitator.firstName is defined %}
                                 <div class="form-group"><label>First Name</label><input type="text" readonly="" value="{{courses.facilitator.firstName}}"></div>
+                         {% endif %}
+                                
+                         {% if courses.facilitator.lastName is defined %}
                                 <div class="form-group"><label>Last Name</label><input type="text" readonly="" value="{{courses.facilitator.lastName}}"></div>
+                         {% endif %}
                         </div>
                         <div class="section">
+                        {% if courses.facilitator.Email is defined %}
                                 <div class="form-group"><label>Email</label><input type="email" readonly="" value="{{courses.facilitator.Email}}"></div>
+                         {% endif %}
                         </div>
                         <div class="section number_group clearfix">
+                        {% if courses.facilitator.Phone is defined %}
                                 <div class="form-group"><label>Mobile</label><input type="text" readonly="" value="{{courses.facilitator.Phone}}"></div>
+                         {% endif %}
                         </div>
                 </div>
             </div>
