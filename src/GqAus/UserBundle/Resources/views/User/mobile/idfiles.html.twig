@@ -54,6 +54,7 @@
             {% endif %}
             {% set filesize = evidence_service.fileSize(item.size) %}
             {% set fileStatus = item.status %}
+           {{dump(fileStatus)}}
             {% if fileStatus != 1 %}
             {% set fileSts = 1%}
             <li>
