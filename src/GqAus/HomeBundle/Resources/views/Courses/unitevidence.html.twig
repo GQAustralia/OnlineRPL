@@ -17,7 +17,7 @@
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-11">
+                    <div class="col-md-12 col-lg-11">
                         <p>
                             <span>{% if courseDetails.courseName is defined %}{{courseDetails.courseName}}{% endif %}</span>
                             <span>{% if courseCode is defined %}{{courseCode}}{% endif %}</span>
@@ -29,7 +29,7 @@
         <div class="status-message" id="status-message" style="display:none;"></div>
         <div class="container">    
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-md-12 col-lg-12">
                     <div class="edu-tag">
                     	<input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
                         {% set inloop = 0 %}
@@ -54,7 +54,7 @@
             {% set showUpload = (approvalText == 'Satisfactory') ? 'hide' : ((approvalText == 'Competent') ? 'hide' : (approvalText == 'Approved') ? 'hide' : ((approvalText == 'Submitted') ? 'hide': 'show')) %}
             <div id="evidence_msg"></div>
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-5">
                     <div class="panel-group">
                         <div class="panel clearfix">
                             <div class="panel-heading">
@@ -175,7 +175,7 @@
                         </div>                   
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-7">
+                <div class="col-md-6 col-lg-6">
                     <div class="accordion panel-group" id="accordion1">
                         <div class="panel panel-default">
                             <div class="panel-heading clearfix">

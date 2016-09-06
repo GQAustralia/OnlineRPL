@@ -18,7 +18,7 @@
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-11">
+                    <div class="col-xs-12 col-sm-11">
                         <p>
                             
                             <span>{% if courseDetails.courseName is defined %}{{courseDetails.courseName}}{% endif %}</span>
@@ -31,7 +31,7 @@
         <div class="status-message" id="status-message" style="display:none;"></div>
         <div class="container">    
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-xs-12 col-sm-12">
                     <div class="edu-tag">
                     	<input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
                         {% set inloop = 0 %}
@@ -55,8 +55,8 @@
             <div class="qualification-er-msg " id="gq-dashboard-tabs-error-assess"></div>#}
             {% set showUpload = (approvalText == 'Satisfactory') ? 'hide1' : ((approvalText == 'Competent') ? 'hide' : (approvalText == 'Approved') ? 'hide' : 'show') %}            
             <div id="evidence_msg"></div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+            <div class="row no-gutter">
+                <div class="col-xs-12 col-sm-12">
                     <div class="panel-group">
                         <div class="panel clearfix">
                             <div class="panel-heading">
@@ -69,7 +69,7 @@
                                 <div class="panel-body" style="border-bottom:1px solid #d8d8d8">
                                     <div class="gqa-btn-group">
                                         <div class="row no-gutter">
-                                            <div class="col-md-12 col-lg-12">
+                                            <div class="col-xs-12 col-sm-12">
                                                 <div class="btn-add btn" data-toggle="modal" data-target="#add-evidence">
                                                     <i class="material-icons add-evidence-btn">add</i>
                                                     <a href="#">Add Evidence</a>
@@ -120,7 +120,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 col-lg-12">
+                        <div class="col-xs-12 col-sm-12">
                             <div class="panel-group self-assessment">
                                 <div class="panel">
                                     <div class="panel-heading">
@@ -147,9 +147,9 @@
                     </div>
                     <div class="gqa-btn-group">
                         <div class="row no-gutter">
-                            <div class="col-md-12 col-lg-12">
+                            <div class="col-xs-12 col-sm-12">
                                 <div class="row no-gutter">
-                                    <div class="col-md-12 col-lg-12">
+                                    <div class="col-xs-12 col-sm-12">
 
                                        {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseCode) %}
 
@@ -175,7 +175,7 @@
                         </div>                   
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-7">
+                <div class="col-xs-12 col-sm-12">
                     <div class="accordion panel-group" id="accordion1">
                         <div class="panel panel-default">
                             <div class="panel-heading clearfix">
@@ -259,10 +259,10 @@
                         <div class="form-group form-group-lg gqa-btn-group" id="applicantEStatus" userRole="{{userRole.0}}">
                             <div class="form">
                                 <div class="row no-gutter">
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="col-xs-6 col-sm-6">
                                         <button id="approveyes" data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right" type="button">Yes</button>
                                     </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="col-xs-6 col-sm-6">
                                         <button id="approveno" data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button">No</button>
                                     </div>
                                     <input type="hidden" id="course-name" name="course-name" value="{% if courseDetails.courseName is defined %}{{courseDetails.courseName}}{% endif %}">
@@ -287,10 +287,10 @@
                         <div class="form-group form-group-lg gqa-btn-group">
                             <form class="form" action="#">
                                 <div class="row no-gutter">
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="col-xs-6 col-sm-6">
                                         <button id="disapproveno" data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right" type="button">Cancel</button>
                                     </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="col-xs-6 col-sm-6">
                                         <button id="disapproveyes" data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button">Send</button>
                                     </div>
                                      <input type="hidden" id="course-name" name="course-name" value="{% if courseDetails.courseName is defined %}{{courseDetails.courseName}}{% endif %}">
@@ -321,7 +321,7 @@
                     <div class="modal-footer">
                         <div class="gqa-btn-group btn-file-save">
                                 <div class="row no-gutter">
-                                    <div class="col-md-12 col-lg-12">
+                                    <div class="col-xs-12 col-sm-12">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
                                     </div>
                                 </div>
@@ -343,7 +343,7 @@
                     <div class="modal-footer">
                         <div class="gqa-btn-group btn-file-save">
                                 <div class="row no-gutter">
-                                    <div class="col-md-12 col-lg-12">
+                                    <div class="col-xs-12 col-sm-12">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
                                     </div>
                                 </div>
@@ -365,7 +365,7 @@
                     <div class="modal-footer">
                         <div class="gqa-btn-group btn-file-save">
                                 <div class="row no-gutter">
-                                    <div class="col-md-12 col-lg-12">
+                                    <div class="col-xs-12 col-sm-12">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="javascript:location.reload()">OK</button>
                                     </div>
                                 </div>
@@ -387,10 +387,10 @@
                     <div class="modal-footer">
                         <div class="gqa-btn-group btn-file-save">
                             <div class="row no-gutter">
-                                <div class="col-md-6 col-lg-6">
+                                <div class="col-xs-6 col-sm-6">
                                     <button type="button" class="btn btn-danger border-right deleteEvidence">OK</button>
                                 </div>
-                                <div class="col-md-6 col-lg-6">
+                                <div class="col-xs-6 col-sm-6">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
                                 </div>
                             </div>
@@ -401,7 +401,7 @@
         </div>
    </div>
     <!-- Larg Screens HTML -->
-{% include 'GqAusHomeBundle:Courses:addevidencestounitmodal.html.twig' %}
+{% include 'GqAusHomeBundle:Courses:mobile/addevidencestounitmodal.html.twig' %}
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
