@@ -280,3 +280,9 @@ changeReminderViewStatus:
 changeEvidenceViewStaus:
     path:     /changeEvidenceViewStaus
     defaults: { _controller: GqAusUserBundle:Evidence:changeEvidenceViewStaus }
+userslog:
+    path:     /userslog
+    defaults: { _controller: GqAusUserBundle:User:userslog }
+searchLogList:
+    path:     /searchLogList
+    defaults: { _controller: GqAusUserBundle:User:searchLogList }    

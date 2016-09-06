@@ -4,8 +4,54 @@ parameters:
     ass_workspan: 90   #This indicates the 1 week (7 days) for Assessor finish once it is for them to start the work.
     rto_workspan: 90  #This indicates the 2 weeks (14 days) for RTO finish once it is for them to start the work.
     maximum_upload_size: '3.0'
-    header_class_pages: ['gq_aus_home_homepage', 'messages', 'evidences', 'files','user_homepage','faq','applicants']
+    header_class_pages: ['gq_aus_home_homepage', 'messages', 'evidences', 'files','user_homepage','faq','applicants','manageusers']
     new_message_time_span: 5
     new_evidence_time_span: 5
     todo_content_length: 55
     evidence_completeness: 80
+    log_list:
+            1:
+                action: "Messge Sent"
+                message: "Sent message to"
+            2:
+                action: "ID File Added"
+                message: "ID File Added by Message"
+            3: 
+                action: "ID File Deleted"
+                message: "ID File Deleted by Message"
+            4: 
+                action: "Assessor Matrix File Upload"
+                message: "Assessor Matrix File Uploaded Message"
+            5:
+                action: "File Added"
+                message: "File Added Message"
+            6:
+                action: "File Deleted"
+                message: "File Deleted Message"
+            7:
+                action: "Evidence Added"
+                message: "Evidence Added Message"
+            8: 
+                action: "Evidence deleted"
+                message: "Evidence deleted Message"
+            9:
+                action: "Course Status Changed"
+                message: "Course Status Changed from"
+            10:
+                action: "Evidences Satisfactory"
+                message: "Evidences Satisfactory Message"
+            11: 
+                action: "Evidences Not Satisfactory"
+                message: "Evidences Not Satisfactory Message"
+            12: 
+                action: "Competent"
+                message: "Competent Message"
+            13:
+                action: "Not Yet Competent"
+                message: "Not Yet Competent Message"
+            14:
+                action: "Request CC"
+                message: "Request CC Message"
+            15:
+                action: "Competency Conversation"
+                message: "Competency Conversation Message"	

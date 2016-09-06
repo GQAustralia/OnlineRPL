@@ -3382,3 +3382,36 @@ function editUserbyRole(roletype)
         }
     });
 }
+
+/*Log List*/
+$("body").on("click", ".gq-ajax-log-pagination", function() {   
+    pagenum = $(this).attr("page"); 
+    loadDataIcon('currentList');
+    loadUserLogReports('currentList',pagenum);
+});
+$("#searchUserLogFilter").click(function() { 
+    pagenum = 1;    
+    loadDataIcon('currentList');
+    loadUserLogReports('currentList',pagenum);
+});
+function loadUserLogReports(divContent)
+{
+    filterByDate = $('#logdate').val();
+    searchName = $('#searchName').val();
+    filterByRole = $('#userType').val();
+    filterByAction = $('#filterByAction').val();
+    console.log(filterByAction+"--"+searchName+"--"+filterByRole);
+    $.ajax({
+        type: "POST",
+        url: base_url + "searchLogList",
+        cache: false,
+        data: {filterByDate:filterByDate, pagenum:pagenum, searchName:searchName, filterByRole:filterByRole, filterByAction:filterByAction},
+        success: function(result) {
+            $("#current").show();
+            $("#filter-by-all").hide();
+            $('#' + divContent).html(result);
+        }
+    });
+    
+}
+/*Log list*/

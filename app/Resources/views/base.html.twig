@@ -125,6 +125,15 @@
                                             <a class="{% if app.request.attributes.get('_route') == 'files' %} active {% endif %}" href="{{ app.request.baseUrl }}/files"><i class="material-icons">cloud_upload </i><span> Files </span></a>
                                     </li>
                             {% endif %}
+                            {% if ('ROLE_MANAGER' in roles)  %}
+                                    <li>
+                                            <a class="{% if app.request.attributes.get('_route') == 'manageusers' %} active {% endif %}" href="{{ app.request.baseUrl }}/manageusers"><i class="material-icons">group</i><span>Manage Users</span></a>
+                                    </li>
+                                    <li>
+                                            <a class="{% if app.request.attributes.get('_route') == 'userslog' %} active {% endif %}" href="{{ app.request.baseUrl }}/userslog"><i class="material-icons">face</i><span>Logs</span></a>
+                                    </li>
+                            {% endif %}
+                                    
                             <li class="profile">
                                 <a href="#">
                                         <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="profile" />

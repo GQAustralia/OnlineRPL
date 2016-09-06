@@ -818,4 +818,35 @@ class UserController extends Controller
         exit;
     }
 
+    /*
+     * User Logs List
+     */
+    function userslogAction()
+    {
+        $page = $this->get('request')->query->get('page', 1);
+        $userLog = $this->get('UserService')->getUsersLog($page = null);
+        $userLog['pageRequest'] = 'submit';
+        return $this->render('GqAusUserBundle:User:userslog.html.twig', $userLog);
+    }
+    
+    /**
+     * Function search users list
+     * return string
+     */
+    public function searchLogListAction()
+    {
+        $filterByDate = $this->getRequest()->get('filterByDate');
+        $searchName = $this->getRequest()->get('searchName');
+        $filterByRole = $this->getRequest()->get('filterByRole');        
+        $filterByAction = $this->getRequest()->get('filterByAction');
+        
+        $page = $this->getRequest()->get('pagenum');
+        if ($page == "") {
+            $page = 1;
+        }
+        $userLog = $this->get('UserService')->getUsersLog($page, $filterByDate, $searchName, $filterByRole, $filterByAction);
+        $userLog['pageRequest'] = 'ajax';
+        echo $this->render('GqAusUserBundle:User:loglist.html.twig', $userLog);
+        exit;
+    }
 }

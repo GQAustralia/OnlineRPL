@@ -4058,4 +4058,47 @@ class UserService
         $totalNoCourseUnits = count($courseUnitObj);
         return $totalNoCourseUnits;
     }
+
+    /**
+     * function to get all User logs
+     * return array
+     */
+    public function getUsersLog($page = null, $filterByDate = null, $searchName = null, $filterByRole = null, $filterByAction = null)
+    {
+        if ($page <= 0) {
+            $page = 1;
+        }
+        $res = $this->em->getRepository('GqAusUserBundle:Log')
+            ->createQueryBuilder('l')
+            ->select('l');
+        $res->join('l.user', 'u','WITH','l.user = u.id');
+        $res->where('1=1');
+        if (!empty($filterByDate)) {            
+            $logdatetime = explode(" ",$filterByDate);
+            $logdate = explode("/",$logdatetime[0]);
+            list($d, $m, $y) = $logdate;
+            $filterByDate = $y."-".$m."-".$d;
+            $res->andWhere("l.logDateTime LIKE '%" . $filterByDate . "%'");
+        }
+        if (!empty($searchName)) {
+            $nameCondition = "u.firstName LIKE '%" . $searchName . "%' OR u.lastName LIKE '%" . $searchName . "%'";
+            $res->where($nameCondition);
+        }
+        if (!empty($filterByRole)) {
+            $logRole = "logRole";
+            $res->andWhere(sprintf('l.%s = :%s', $logRole, $logRole))->setParameter($logRole, $filterByRole);
+        }
+        if (!empty($filterByAction)) {
+            $action = "logAction";
+            $res->andWhere(sprintf('l.%s = :%s', $action, $action))->setParameter($action, $filterByAction);
+        }
+        $res->orderBy('l.id', 'DESC');
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
+        /* Pagination */
+        
+        $logres = $res->getQuery()->getResult();
+        return array('userLog' => $logres, 'paginator' => $paginator, 'page' => $page);
+    }
+
 }

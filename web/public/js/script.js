@@ -233,6 +233,15 @@ $(document).ready(function(){
             minDate: 'today'
 		});
     });
+	
+	$('.log_date_field').each(function(){
+        $(this).datetimepicker({
+            controlType: 'select',
+            oneLine: true,
+            timeFormat: 'hh:mm tt',
+            dateFormat: 'dd/mm/yy'
+        });
+    });
 
     $("#ui-datepicker-div").click(function (event) {
             event.stopPropagation();
