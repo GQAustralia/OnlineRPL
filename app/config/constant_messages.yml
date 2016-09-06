@@ -70,6 +70,19 @@ parameters:
                                        Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
                                        Evidences are not yet competetent for user #userName#.<br/><br/>
                                        Regards, <br/>#fromUserName#
+    msg_appove_evdience_fac_sub: "Evidences approved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    msg_appove_evdience_fac_con: >
+                                      Dear #toUserName#, <br/><br/> 
+                                      Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
+                                      Provided evidences for above unit are satisfactory.<br/><br/>
+                                      Regards, <br/>#fromUserName#
+    mail_appove_evdience_fac_sub: "Evidences approved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    mail_appove_evdience_fac_con: >
+                                       Dear #toUserName#, <br/><br/> 
+                                       Qualification : #courseCode# - #courseName#<br/> 
+                                       Unit : #unitId# #unitName# <br/>
+                                       Provided evidences for above unit are satisfactory.<br/><br/>
+                                       Regards, <br/>#fromUserName#
     msg_disappove_evdience_fac_sub: "Evidences disapproved for - #courseCode# : #courseName# - Unit : #unitName#" 
     msg_disappove_evdience_fac_con: >
                                       Dear #toUserName#, <br/><br/> 

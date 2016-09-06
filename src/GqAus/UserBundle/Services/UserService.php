@@ -459,6 +459,25 @@ class UserService
 
         if ($result['status'] == '1') {
             $evidenceStatus = 'Approved';
+			
+			// finding and replacing the variables from message templates
+            $subSearch = array('#courseCode#', '#courseName#', '#unitName#');
+            $subReplace = array($result['courseCode'], $result['courseName'], $result['unitName']);
+            $facMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_appove_evdience_fac_sub'));
+            $facMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_appove_evdience_fac_sub'));
+
+            // finding and replacing the variables from message templates
+            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#fromUserName#');
+            $msgReplace = array($userName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $facilitatorName);
+            $facMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_appove_evdience_fac_con'));
+            $facMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_appove_evdience_fac_con'));
+			
+			
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+		    $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
+            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
+			
         } else if ($result['status'] == '2') {
             $resetStatus = 0;
             switch ($result['userRole']) {
