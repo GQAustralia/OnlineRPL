@@ -1,25 +1,28 @@
 # constants for email message contents
 parameters:
-    default_from_username: "OnlineRPL"
-    mail_account_creation_sub: "Get Qualified Australia: Online RPL - Welcome" 
+    default_from_username: "Online RPL"
+    mail_account_creation_sub: "Get Qualified Australia: Welcome to Online RPL" 
     mail_account_creation_con: >
                                  Dear #firstName# #lastName#,<br/><br/> 
-                                 Account has been created for GQ Australia! <br/>
-                                 <a href='#applicationUrl#login'>Click Here</a> to login, Below are the account details.  <br/><br/> 
+                                 Welcome to Online RPL. It is great to have you here. We're looking forward to helping you achieve your qualification. <br /><br />
+                                 As part of the process, there's some administration we need to complete to get you on the way. You may login to Online RPL to start your jouney.
+                                 <a href='#applicationUrl#login'><strong>Click here</strong></a> to login and use below credentials.  <br/><br/> 
                                  Email: #email#<br/> 
                                  Password: #password# <br/><br/><br/> 
                                  Regards,<br/>%default_from_username%
     mail_add_course_sub: "Qualification: #courseCode# - #courseName# has been added" 
     mail_add_course_con: >
                            Dear #firstName# #lastName#,<br/><br/> 
-                           Qualification : #courseCode# - #courseName# has been added. <br/>
-                           <a href='#applicationUrl#login'>Click Here</a> to login.<br/><br/> 
+                           A new qualification has been added to your account. The details are as below<br />
+                           Qualification : #courseCode# - #courseName# <br/><br />
+                           For more details <a href='#applicationUrl#login'>Click here</a> to login.<br/><br/> 
                            Regards,<br/>OnlineRPL
-    mail_add_user_course_sub: "Get Qualified Australia: Online RPL - Welcome" 
+    mail_add_user_course_sub: "Get Qualified Australia: Welcome to Online RPL" 
     mail_add_user_course_con: >
                                 Dear #firstName# #lastName#,<br/><br/> 
-                                Account has been created for GQ Australia and Qualification : #courseCode# - #courseName# has been added. 
-                                <br/><a href='#applicationUrl#login'>Click Here</a> to login, Below are the account details.  
+                                Welcome to Online RPL. It is great to have you here. We're looking forward to helping you achieve your  #courseCode# - #courseName#. <br /><br />
+                                As part of the process, there's some administration we need to complete to get you on the way.  You may login to Online RPL to start your jouney.
+                                <br/><a href='#applicationUrl#login'>Click Here</a> to login and use below credentials,   
                                 <br/><br/> Email: #email#<br/> 
                                 Password: #password# <br/><br/><br/> 
                                 Regards,<br/>%default_from_username%
@@ -40,58 +43,57 @@ parameters:
     msg_add_evidence_sub: "Evidence added to - #courseCode# : #courseName#" 
     msg_add_evidence_con: >
                             Dear #toUserName#, <br/> 
-                            Evidence has been added to the Qualification : #courseCode# : #courseName# for unit : #unitId#. <br/> 
+                            A new evidence has been added to the Qualification : #courseCode# : #courseName# for unit : #unitId#. <br/> <br/>
                             Please check and review the evidence.<br/><br/>
                             Regards, <br/>#fromUserName#
     mail_add_evidence_sub: "Evidence added to - #courseCode# #courseName#" 
     mail_add_evidence_con: >
                              Dear #toUserName#, <br/> 
-                             Evidence has been added to the Qualification : #courseCode# : #courseName# for unit : #unitId#. <br/> 
+                             A new evidence has been added to the Qualification : #courseCode# : #courseName# for unit : #unitId#. <br/> 
                              Please check and review the evidence.<br/><br/>
                              Regards, <br/>#fromUserName#
     msg_add_notes_sub: "Notes added for course : #courseCode# : #courseName# - Unit : #unitCode#" 
     msg_add_notes_con: >
                          Dear #toUserName#, <br/><br/>
-                         Notes added for unit #unitCode#. <br/> 
+                         A new note has been added to the unit #unitCode#. <br/> 
                          Notes : #unitNotes# <br/><br/>
                          Regards, <br/>#fromUserName#
     mail_add_notes_sub: "Notes added for course : #courseCode# : #courseName# - Unit : #unitCode#" 
     mail_add_notes_con: >
                           Dear #toUserName#, <br/><br/>
-                          Notes added for unit #unitCode# <br/> 
+                          A new note has been added for unit #unitCode# <br/> 
                           Notes : #unitNotes# <br/><br/>
                           Regards, <br/>#fromUserName#
-    msg_disappove_evdience_asr_sub: "Evidences disapproved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    msg_disappove_evdience_asr_sub: "Not Yet Competent for - #courseCode# : #courseName# - Unit : #unitName#" 
     msg_disappove_evdience_asr_con: >
                                     Dear #toUserName#, <br/><br/> 
-                                    Qualification : #courseCode# - #courseName#<br/> 
-                                    Unit : #unitId# #unitName# <br/>
-                                    Evidences are not yet competetent for user #userName#.<br/><br/>
+                                    You're deemed NOT YET COMPETENT for the the unit #unitId# #unitName# under #courseCode# - #courseName#.
+                                    Candidate details: #userName#.<br/><br/>
                                     Regards, <br/>#fromUserName#
-    mail_disappove_evdience_asr_sub: "Evidences disapproved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    mail_disappove_evdience_asr_sub: "Not Yet Competent for - #courseCode# : #courseName# - Unit : #unitName#" 
     mail_disappove_evdience_asr_con: >
                                        Dear #toUserName#, <br/><br/> 
-                                       Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
-                                       Evidences are not yet competetent for user #userName#.<br/><br/>
+                                       You're deemed NOT YET COMPETENT for the the unit #unitId# #unitName# under #courseCode# - #courseName#.<br />
+                                       Please login back to Online RPL for more detials.
                                        Regards, <br/>#fromUserName#
-    msg_disappove_evdience_fac_sub: "Evidences disapproved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    msg_disappove_evdience_fac_sub: "Not Satisfactory - #courseCode# : #courseName# - Unit : #unitName#" 
     msg_disappove_evdience_fac_con: >
                                       Dear #toUserName#, <br/><br/> 
                                       Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
-                                      Provided evidences for above unit are not yet competetent please add more evidences and get back to us.<br/><br/>
+                                      Provided evidences for above unit are Not Satisfactory yet. Please add more evidences and get back to us.<br/><br/>
                                       Regards, <br/>#fromUserName#
-    mail_disappove_evdience_fac_sub: "Evidences disapproved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    mail_disappove_evdience_fac_sub: "Not Satisfactory for - #courseCode# : #courseName# - Unit : #unitName#" 
     mail_disappove_evdience_fac_con: >
                                        Dear #toUserName#, <br/><br/> 
                                        Qualification : #courseCode# - #courseName#<br/> 
                                        Unit : #unitId# #unitName# <br/>
-                                       Provided evidences for above unit are not yet competetent please add more evidences and get back to us.<br/><br/>
+                                       Provided evidences for above unit are Not Satisfactory yet. Please add more evidences and get back to us.<br/><br/>
                                        Regards, <br/>#fromUserName#
     msg_conversation_invitation_sub: "Competency conversation invitation for - #courseCode# : #courseName#" 
     msg_conversation_invitation_con: >
                                        Dear #toUserName#, <br/> 
                                        Please <a href='#applicationUrl#login'>login</a> 
-                                       to your GQ-RPL account and use this URL #applicationUrl#applicant/#roomId# to join the competency conversation. <br/> 
+                                       to your Online RPL account and use this URL #applicationUrl#applicant/#roomId# to join the competency conversation. <br/> 
                                        Awaiting for your response.<br/><br/>
                                        Regards, <br/>#fromUserName#
     mail_conversation_invitation_sub: "Competency conversation invitation for - #courseCode# #courseName#" 
@@ -162,12 +164,12 @@ parameters:
     msg_portfolio_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
     msg_portfolio_assessor_submitted_con: >
                                    Dear #toUserName#, <br/> 
-                                   All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
-                                   Qualification and portfolio has been submitted to #role#.<br/><br/>
+                                   You're deemed competent enough for the Qualification : #courseCode# : #courseName#. <br/> 
+                                   Please login back to Online RPL to see the progress.<br/><br/>
                                    Regards, <br/>#fromUserName#
     mail_portfolio_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
     mail_portfolio_assessor_submitted_con: >
                                     Dear #toUserName#, <br/> 
-                                    All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
-                                    Qualification and portfolio has been submitted to #role#.<br/><br/>
+                                    You're deemed competent enough for the Qualification : #courseCode# : #courseName#. <br/> 
+                                    Please login back to Online RPL to see the progress.<br/><br/>
                                     Regards, <br/>#fromUserName#
