@@ -8,10 +8,11 @@
 {% if (status == 0) %} 
 <tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %} %}">
       
-        <td colspan="2" class="col-xs-12 col-sm-12 col-md-12">
+        <td colspan="2" class="col-xs-12 col-sm-12">
             <div class="portfolio-data-row">                                                
-
-                <div class="firstName name"><a class='userprofile ' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}'>{{list.user.firstName}} {{list.user.lastName}}</a></div>
+                <div class="firstName name">
+                    <a href="javascript:void(0);" class='userprofile' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}'>{{list.user.firstName}} {{list.user.lastName}}</a>
+                </div>
 
     {% set currUser = app.security.getToken().getUser().getId() %}      
     {% set toDoApplicantCount = user_service.getCheckTodoApplicant( currUser , list.id ) %} 
