@@ -17,11 +17,30 @@
     {% set mobile = app.security.getToken().getUser().getPhone() %}
     {% set coreUnitCount = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'core') %} 
     {% set electiveUnits = user_service.getCourseCountStatusByRoleWise(userId, userRole[0], courseInfo.id, 'elective') %} 
-    {% set totalReqUnits = courses_service.getReqUnitsForCourseByCourseId(courseInfo.id)%}
+    {% set totalReqAllUnits = courses_service.getReqUnitsForCourseByCourseId(courseInfo.id)%}
+    {% set totalReqUnits = totalReqAllUnits.core + totalReqAllUnits.elective %}
     {% set reqElectUnits = totalReqUnits-(coreUnitCount['noOfNotRvdrcrds'] + coreUnitCount['noOfRvdRcrds']) %}
-    {% set statusOfFacUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'facilitatorstatus') %} 
-    {% set statusOfAssUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'assessorstatus') %} 
-    {% set statusOfRtoUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'rtostatus') %} 
+    <!-- Facilitator Units count starts here -->
+    {% set statusOfFacCoreUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'facilitatorstatus', 'core') %} 
+    {% set statusOfFacElecUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'facilitatorstatus', 'elective') %} 
+    {% if reqElectUnits <= statusOfFacElecUnitsCount %}{% set statusOfFacElecUnitsCount = reqElectUnits %} {%endif%}
+    {% set statusOfFacUnitsCount = statusOfFacCoreUnitsCount + statusOfFacElecUnitsCount %} 
+    <!-- Facilitator Units count ends here -->
+    
+    <!-- Assessor  Units count starts here -->
+    {% set statusOfAssCoreUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'assessorstatus', 'core') %} 
+    {% set statusOfAssElecUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'assessorstatus', 'elective') %} 
+    {% if reqElectUnits <= statusOfAssElecUnitsCount %}{% set statusOfAssElecUnitsCount = reqElectUnits %} {%endif%}
+    {% set statusOfAssUnitsCount =statusOfAssCoreUnitsCount + statusOfAssElecUnitsCount %} 
+    <!-- Assessor  Units count ends here -->
+    
+    <!-- RTO  Units count starts here -->
+    {% set statusOfRtoCoreUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'rtostatus', 'core') %} 
+    {% set statusOfRtoElecUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseInfo.id, 'rtostatus', 'elective') %} 
+    {% if reqElectUnits <= statusOfRtoElecUnitsCount %}{% set statusOfRtoElecUnitsCount = reqElectUnits %} {%endif%}
+    {% set statusOfRtoUnitsCount = statusOfRtoCoreUnitsCount + statusOfRtoElecUnitsCount %} 
+    <!-- RTO  Units count ends here -->
+    
     {% set getIssubmitStatus = courses_service.getOneUnitStatus(userId, courseInfo.id)%}
     {% set readStatus = user_service.updateReadStatus(courseInfo.id, userId, userRole[0])%}
     {% set facProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : facilitatorName %}
@@ -148,7 +167,7 @@
                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
                         <div class="gqa-btn-group">
                             <div class="row no-gutter">     
-                                 {% if (facilitatorstatus != '1' and currentIdPoints >= '100' and statusOfFacUnitsCount == totalReqUnits ) %}
+                                 {% if (facilitatorstatus != '1' and currentIdPoints >= '100' and statusOfFacUnitsCount >= totalReqUnits ) %}
                                     <div class="col-md-12 col-lg-12">
                                         <div class="row no-gutter">
                                             <div class="col-md-12 col-lg-12">
@@ -223,9 +242,9 @@
                                 {% if (statusId == '5' or statusId == '6' or statusId == '7') and getIssubmitStatus == '0'  %}{{ "disabled" }}{%endif%}
                                 {% if (statusId == '10') and getIssubmitStatus == '0'  %}{{ "disabled" }}{%endif%}
                                 {% if (statusId == '12' and courseStatus != '11' and getIssubmitStatus == '0')  %}{{ "disabled" }}{%endif%}
-                                {% if (statusId == '9') and getIssubmitStatus != totalReqUnits  %}{{ "disabled" }}{%endif%}
-                                {% if (statusId == '2') and (currentIdPoints < '100' or statusOfFacUnitsCount != totalReqUnits)  %}{{"disabled"}}{%endif%}
-                                {% if (statusId == '15' or statusId == '3') and (statusOfAssUnitsCount != totalReqUnits)  %}{{"disabled"}}{%endif%}
+                                {% if (statusId == '9') and getIssubmitStatus < totalReqUnits  %}{{ "disabled" }}{%endif%}
+                                {% if (statusId == '2') and (currentIdPoints < '100' or statusOfFacUnitsCount < totalReqUnits)  %}{{"disabled"}}{%endif%}
+                                {% if (statusId == '15' or statusId == '3') and (statusOfAssUnitsCount < totalReqUnits)  %}{{"disabled"}}{%endif%}
                                 {% if (statusId == '11') and (courseStatus != '10')  %}{{"disabled"}}{%endif%}
                             >{{statusData['status']}}</option>
                                                        {% endif %}

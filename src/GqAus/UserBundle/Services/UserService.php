@@ -3658,7 +3658,7 @@ class UserService
         $noOfNotRvdrcrds = 0;
         $noOfRvdRcrds = 0;
         foreach($allRcrds as $key=>$value){
-            if($value[$field] == '0'){
+            if($value[$field] == '0' || $value[$field] == '2' ){
                 $noOfNotRvdrcrds++;
             }
             else{
@@ -3714,11 +3714,11 @@ class UserService
                 case 'ROLE_RTO' :
                     $approvalStatus = $userCourseUnits->getRtostatus();
                     if($approvalStatus != 0)
-                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
+                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Satisfactory';  
                     else {
                             $approvalStatus = $userCourseUnits->getAssessorstatus();
                             if($approvalStatus != 0){
-                                $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
+                                $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Satisfactory';  
                             }
                             else{
                                 $approvalStatus = $userCourseUnits->getFacilitatorstatus();
@@ -3731,7 +3731,7 @@ class UserService
                 case 'ROLE_ASSESSOR' :
                     $approvalStatus = $userCourseUnits->getAssessorstatus();
                     if($approvalStatus != 0){
-                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
+                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Satisfactory';  
                     }
                     else{
                         $approvalStatus = $userCourseUnits->getFacilitatorstatus();
@@ -3746,13 +3746,13 @@ class UserService
                     $approvalStatus = $userCourseUnits->getRtostatus();
                  
                     if($approvalStatus != 0){
-                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';
+                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Satisfactory';
                         }
                     else {
                         $approvalStatus = $userCourseUnits->getAssessorstatus();
                          
                             if($approvalStatus != 0){
-                                $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Competent';  
+                                $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Satisfactory';  
                             }
                             else{
                              $approvalStatus = $userCourseUnits->getFacilitatorstatus();
@@ -3964,9 +3964,9 @@ class UserService
      * @param type $roleStatus
      * @return integer
      */
-    public function getTheStatusOfUnitsUnderCourse($userId, $courseCode, $roleStatus)
+    public function getTheStatusOfUnitsUnderCourse($userId, $courseCode, $roleStatus, $type ='')
     {
-        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, $roleStatus => '1'));
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, $roleStatus => '1', 'type' => $type));
         $result = !empty($courseUnitObj) ? count($courseUnitObj) : 0;
         return $result;
     }

@@ -319,11 +319,10 @@ class CoursesService
             $qualificationUnits = $this->xml2array($result);
         }       
         if(!empty($qualificationUnits['package'])){
-            $coreUnitsCount = count($qualificationUnits['package']['Units']['Core']['unit']);
-            $elecUnitsCount = $qualificationUnits['package']['Units']['Elective']['validation']['requirement'];
-            $totalReqUnits = $coreUnitsCount+$elecUnitsCount;
+            $unitsCount['core'] = count($qualificationUnits['package']['Units']['Core']['unit']);
+            $unitsCount['elective'] = $qualificationUnits['package']['Units']['Elective']['validation']['requirement'];
         }
-        return $totalReqUnits;
+        return $unitsCount;
     }
 
     /**
@@ -762,7 +761,7 @@ class CoursesService
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'issubmitted' => '1' ));
         $totalNoOfUnits = count($courseUnitObj);
         if($totalNoOfUnits > 0){
-            $eviPercentage = ($totalNoOfUnits / $reqNoUnits) * 100;
+            $eviPercentage = ($totalNoOfUnits / (($reqNoUnits['core']) + ($reqNoUnits['elective']))) * 100;
         }
         return round($eviPercentage) . '%';
     }
