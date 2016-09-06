@@ -568,11 +568,7 @@ class ApplicantController extends Controller
             
             $status = 'true';
             $message = 'updated successfully';
-            
-        }
-        
-        if($facVal)
-        {
+       
             $fromUserVal =$this->get('security.context')->getToken()->getUser()->getId();
             $fromUser= $userService->getUserInfo($fromUserVal);
             
