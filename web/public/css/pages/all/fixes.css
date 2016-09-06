@@ -83,6 +83,20 @@
         width: 28.2%;
     }
 }
-*|html[xmlns*=""] .portfolio-container .portfolio-filter .gq-dashboard-tabs-header{
-        width: 28.2%;
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ /* Safari 5+ ONLY */
+    ::i-block-chrome, .portfolio-container .portfolio-filter .gq-dashboard-tabs-header {
+        width: auto;
     }
+    ::i-block-chrome, .portfolio-container .portfolio-filter ul {
+        width: auto;
+        float: right;
+        margin: 0;
+        margin-right: 10px;
+    }
+    ::i-block-chrome, .portfolio-container .portfolio-filter .status a {
+        padding: 8px 20px;
+    }
+    
+}
+
