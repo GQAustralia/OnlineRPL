@@ -324,8 +324,7 @@ if($('#frmSelectEvidence').length)
 {
     $("#frmSelectEvidence").ajaxForm({
         beforeSubmit: function() {
-            $('#file_save').hide();
-            $('.uploadevidence_loader').show();
+            alert('testst');
         },
         success: function(responseText) {
             $('.gq-dashboard-tabs').hide();
@@ -407,8 +406,9 @@ function validateExisting()
     var efile = $(".check_evidence:checkbox:checked").length;
     if (efile <= 0 || efile == '' || typeof efile === 'undefined') {
         //alert('Please select atleast one Existing Evidence!');
+        $('#gq-dashboard-tabs-success').hide();
         $('#gq-dashboard-tabs-error').show();
-        $('#gq-dashboard-tabs-error').html('<h2><img src="' + base_url + 'public/images/login-error-icon.png">Please select atleast one Existing Evidence!</h2>');
+        $('#gq-dashboard-tabs-error').html('<h2 style="text-align: center; width: 100%; font-size: 14px; color: red; padding: 10px;">Please select atleast one Existing Evidence!</h2>');
 
         return false;
     } else {
@@ -1770,14 +1770,15 @@ function sumitFormEvidence() {
         success: function(responseText) {
             $('.gq-dashboard-tabs').hide();
             $('.uploadevidence_loader').hide();
+            $('#gq-dashboard-tabs-error').hide();
             $('#gq-dashboard-tabs-success').show();
             if (responseText){            
                 $('#sp_'+responseText).show();
                 $('#gq-dashboard-tabs-success').html('<h2 style="text-align: center; width: 100%; font-size: 14px; color: green; padding: 10px;">Existing Evidence uploaded successfully!</h2>');
+                $('#frmSelectEvidence input[type=checkbox]').attr('checked', false);
             }
-            //setTimeout(function(){jQuery("#evd_close").trigger('click');},3000); 
         }
-    });   
+    });
 }
 $(".fromBottomAssessment").click(function() {
     unit = $(this).attr("unitid");

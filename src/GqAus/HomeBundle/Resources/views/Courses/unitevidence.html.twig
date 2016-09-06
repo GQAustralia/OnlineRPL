@@ -51,7 +51,7 @@
             </div>
            {# <div class="qualification-success-msg" id="gq-dashboard-tabs-success-assess"></div>
             <div class="qualification-er-msg " id="gq-dashboard-tabs-error-assess"></div>#}
-            {% set showUpload = (approvalText == 'Satisfactory') ? 'hide' : ((approvalText == 'Competent') ? 'hide' : (approvalText == 'Approved') ? 'hide' : 'show') %}
+            {% set showUpload = (approvalText == 'Satisfactory') ? 'hide' : ((approvalText == 'Competent') ? 'hide' : (approvalText == 'Approved') ? 'hide' : ((approvalText == 'Submitted') ? 'hide': 'show')) %}
             <div id="evidence_msg"></div>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
