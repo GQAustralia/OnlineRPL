@@ -233,7 +233,7 @@
                     <div class="btn_section">
                       <a class="checkform-changed button cancel_link hidden-xs" data-toggle="modal" data-target="" >
                           <button class="btn btn-grey" name="compose[discard]" id="compose_discard" type="reset">CANCEL</button></a>
-                     {{ form_widget(composeformMobile.save,{ 'label': 'Send' , 'attr': {'class': 'button send_link'}}) }}	                        </div>
+                     {{ form_widget(composeformMobile.save,{ 'label': 'Send' , 'attr': {'class': 'button send_link','onclick':'validateNewMessage();'}}) }}	                        </div>
                      {{ form_end(composeformMobile) }}
                      </form>
             </div>
@@ -248,5 +248,27 @@
  
 {% block javascripts %}       
     <script src="{{ asset('public/js/jquery.form.js') }}"></script>
-    <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>         
+    <script src="{{ asset('public/js/custom-form-elements.js') }}"></script> 
+    <script>
+        function validateNewMessage(){
+          var toUserName = $("#compose_toUserName").val();
+          var subject = $("#compose_subject").val();
+          var message = $("#compose_message").val();
+          if(toUserName == "")
+          {
+              alert("Please enter to address");
+              return false;
+          }
+          if(subject == "")
+          {
+              alert("Please enter subject");
+              return false;
+          }
+          if(message == "")
+          {
+              alert("Please enter message");
+              return false;
+          }
+        }
+    </script>
 {% endblock %}
