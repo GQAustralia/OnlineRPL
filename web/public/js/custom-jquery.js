@@ -2704,7 +2704,7 @@ $('body').on('click', '.userprofile,#mobileQualification', function(){
     $('ul.nav').addClass('hide');
 });
 function getApplicantDetails(courseCode, userId){
-    $('body .candidate-details').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
+    $('#removeCandidate').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
     $.ajax({
         type: "POST",
         url: base_url + 'applicantDetails/' + courseCode +'/'+ userId +'',

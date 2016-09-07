@@ -117,13 +117,17 @@
                     {% if userIdFiles is not null and userIdFiles is not empty %}
                        {% for evidence in userIdFiles %}
                         {% set doc_type = evidence_service.getEvidenceTypeByEvidenceId(evidence.type.id)%}
-                            <li>
-                                <div class="title_bar clearfix"><span class="content">{{ evidence.type.type }}</span><span class="number">{{ evidence.type.points }}</span></div>
-                                <div class="file_info">
-                                    <span class="icon"><a href = "{{ amazon_link~evidence.path }}" class="fancybox fancybox.iframe"><i class="material-icons">{{doc_type}}</i></a></span>
-                                    <span class="file-discription">{{evidence.name}} <br>10KB | ADDED {{evidence.created|date("d/m/y") }}</span>
-                                </div>
-                            </li>
+                        {% set filesize = evidence_service.fileSize(evidence.size) %}
+                            {% set fileStatus = evidence.status %}
+                                {% if fileStatus != 1 %}
+                                    <li>
+                                        <div class="title_bar clearfix"><span class="content">{{ evidence.type.type }}</span><span class="number">{{ evidence.type.points }}</span></div>
+                                        <div class="file_info">
+                                            <span class="icon"><a href = "{{ amazon_link~evidence.path }}" class="fancybox fancybox.iframe"><i class="material-icons">{{doc_type}}</i></a></span>
+                                            <span class="file-discription">{{evidence.name}} <br>{{filesize}} | ADDED {{evidence.created|date("d/m/y") }}</span>
+                                        </div>
+                                    </li>
+                             {%endif%}
                         {% endfor %}
                     {% else %}
                         <center id="idfiles_no_files">{{no_id_files}}</center>                        
