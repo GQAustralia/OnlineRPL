@@ -29,7 +29,8 @@ $(".viewModalClass").click(function () {
     }
 });
 
-$("#approveyes").click(function () {
+$("body").on('click', '#approveyes', function() {
+    $(this).prop('disabled', true);
     var newunit = $('#unit-code').val();
     var userId = $('#userid').val();
     var userRole = $('#applicantEStatus').attr('userRole');
@@ -69,7 +70,8 @@ $(".modal-body span.close").click(function(){
     $('#assProfile').modal('hide');
 });
 
-$("#disapproveyes").click(function () {
+$("body").on('click', '#disapproveyes', function() {
+    $(this).prop('disabled', true);
     var newunit = $('#unit-code').val();
     var userId = $('#userid').val();
     var toUserId = $('#fromuser-id').val();
