@@ -2786,7 +2786,8 @@ $('#closeMyModal').click(function(){
 /*Facilitator Update in Manager Portfolio */
 function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 {   
-    
+    var facBtn = $('.update_fac_btn');
+    facBtn.attr('disabled', true);
     facVal = $('#fac_'+listId).val();
     if(facVal != 0)
     {
@@ -2802,11 +2803,13 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
                 {
                     $("#profile_suc_msg2_"+listId).show();
                      $("#profile_suc_msg2_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>'+res.message+'</h2></div>');
+                     facBtn.attr('disabled', false);
                 }
-                
+            },
+            error: function(){
+                facBtn.attr('disabled', false);
             }
        });
-       
        return false;
    }
    else

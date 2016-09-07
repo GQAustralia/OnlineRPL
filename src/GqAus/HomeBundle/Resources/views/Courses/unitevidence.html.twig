@@ -51,8 +51,11 @@
             </div>
            {# <div class="qualification-success-msg" id="gq-dashboard-tabs-success-assess"></div>
             <div class="qualification-er-msg " id="gq-dashboard-tabs-error-assess"></div>#}
+            
+            {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseCode) %}
+            
             {% if( approvalText != '0') %}
-                {% set showUpload = (approvalText == 'Satisfactory') ? 'hide 1' : ((approvalText == 'Competent') ? 'hide 2' : (approvalText == 'Approved') ? 'hide 3' : ((approvalText == 'Submitted') ? 'hide 3': 'show 4')) %}
+                {% set showUpload = (approvalText == 'Satisfactory') ? 'hide' : ((approvalText == 'Competent') ? 'hide' : (approvalText == 'Approved') ? 'hide' : ((approvalText == 'Submitted') ? 'hide': 'show')) %}
             {% else %}
                 {% set showUpload = 'show' %}
             {% endif %}

@@ -19,7 +19,7 @@ parameters:
     mail_add_user_course_con: >
                                 Dear #firstName# #lastName#,<br/><br/> 
                                 Welcome to Online RPL. It is great to have you here. We're looking forward to helping you achieve your  #courseCode# - #courseName#. <br /><br />
-                                As part of the process, there's some administration we need to complete to get you on the way.  You may login to Online RPL to start your jouney.
+                                As part of the process, there's some administration we need to complete to get you on the way. 
                                 <br/><br/> 
                                 Regards,<br/>%default_from_username%
     mail_notification_sub: "New message from OnlineRPL - #messageSubject#" 
@@ -207,5 +207,6 @@ parameters:
     mail_portfolio_assign_applicantqua_con: >
                                    Dear #toUserName#,<br/><br/>                                 
                                     #facname# is assigned as your Facilitator for you qualification . <br/><br/>
+                                     You may <a href='#applicationUrl#login'>login</a> to Online RPL to start your jouney.<br/><br/>
                                    Regards,<br/>OnlineRPL                             
                                     
