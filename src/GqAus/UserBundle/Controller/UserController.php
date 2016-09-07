@@ -41,6 +41,11 @@ class UserController extends Controller
             $userProfileForm->remove('contactname');
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');
+            
+            if ($userRole == 'ROLE_APPLICANT') {
+                $userProfileForm->remove('userImage');
+            } 
+        
         }
 
         if ($userRole != 'ROLE_RTO') {
@@ -52,7 +57,7 @@ class UserController extends Controller
         if ($userRole != 'ROLE_FACILITATOR') {
             $userProfileForm->remove('crmId');
         }
-        
+       
         $currentIdPoints = $userService->getIdPoints($user);
         $userProfilePercentage = $userService->getUserProfilePercentage($user);
         $documentTypes = $userService->getDocumentTypes();
@@ -521,6 +526,7 @@ class UserController extends Controller
         }
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
         $userRole = $user->getRoleName();
+        $userProfileForm->remove('gender');
         //$userProfileForm->remove('userImage');
         if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' ||
             $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
@@ -539,13 +545,16 @@ class UserController extends Controller
             $userProfileForm->remove('ceoemail');
             $userProfileForm->remove('ceophone');
         }
-        if ($userRole != 'ROLE_FACILITATOR') {
-            $userProfileForm->remove('crmId');
-        }
+//        if ($userRole != 'ROLE_FACILITATOR') {
+//            $userProfileForm->remove('crmId');
+//        }
+        $userProfileForm->remove('crmId');
+        $userProfileForm->remove('userImage');
         $resetForm = $this->createForm(new ChangePasswordForm(), array());
         $image = $user->getUserImage();
-
+        $userEmail = $user->getEmail(); 
         if ($request->isMethod('POST')) {
+//            echo "hello"; exit;
             $userProfileForm->handleRequest($request);
             //var_dump($userProfileForm->isValid()); exit;
             if ($userProfileForm->isValid()) {
@@ -573,7 +582,8 @@ class UserController extends Controller
                 return $this->redirect('/manageusers');
             }
         }
-        $userImage = $userService->userImage($user->getUserImage());
+        $userImage = $user->getUserImage();
+
         //echo "3 hello"; exit;
         $tab = '';
         $httpRef = $this->get('request')->server->get('HTTP_REFERER');
@@ -588,6 +598,7 @@ class UserController extends Controller
                 'changepwdForm' => $resetForm->createView(),
                 'tab' => $tab,
                 'userId' => $uId,
+                'userEmail' => $userEmail,
                 'userRole' => $userRole
         ));
     }
@@ -635,13 +646,13 @@ class UserController extends Controller
             $userProfileForm->remove('ceoemail');
             $userProfileForm->remove('ceophone');
         }
-        if ($userRole != 'ROLE_FACILITATOR') {
+        /*if ($userRole != 'ROLE_FACILITATOR') {
             $userProfileForm->remove('crmId');
-        }
+        }*/
+        $userProfileForm->remove('userImage');
+        $userProfileForm->remove('crmId');
         if ($request->isMethod('POST')) {
-            $userProfileForm->handleRequest($request);
-            //echo count($userProfileForm->getErrors()); exit;
-            //var_dump($userProfileForm->isValid()); exit;
+            $userProfileForm->handleRequest($request); 
             if ($userProfileForm->isValid()) {
                 $image = $request->get('hdn-img');
                 $this->get('UserService')->addPersonalProfile($userRole, $request->get('userprofile'), $image);

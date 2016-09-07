@@ -61,9 +61,9 @@
                                         <select name="userType" id="userType" class="styled">
                                             <option value="">All</option>
                                             <option value="2">Facilitator</option>
+                                            {% if ('ROLE_SUPERADMIN' in userRole) %}
                                             <option value="3">Assessor</option>
                                             <option value="4">Rto</option>
-                                            {% if ('ROLE_SUPERADMIN' in userRole) %}
                                                 <option value="5">Manager</option>
                                             {% endif %}
                                         </select>

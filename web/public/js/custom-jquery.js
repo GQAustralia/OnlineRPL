@@ -418,6 +418,7 @@ function validateExisting()
 }
 
 $("#userprofile_userImage").change(function() {
+    $("#ajax-loading-icon").show();
     var userId = $('#hdn-userId').val();
     var userType = $('#hdn-type').val();
     var fileName = $(this).val();
@@ -834,6 +835,9 @@ $(".setData").click(function() {
 
         if(todayMonth < 10)
             todayMonth = '0'+todayMonth;
+        
+        if(todayDay < 10)
+            todayDay = '0'+todayDay;
 
         if(todayDay < 10)
             todayDay = '0'+todayDay;
@@ -856,7 +860,6 @@ $(".setData").click(function() {
             cache: false,
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate, listId: listId, reminderTypeId: reminderTypeId, reminderType:reminderType},
             success: function(result) {
-
                 var res = $.parseJSON(result);
                 $('#err_msg').show();           
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
@@ -1367,8 +1370,10 @@ function checkPhonenumber(inputtxt)
 }  
 function validateAddress()
 {    
+  
     var userrole = $("#hdn-userrole").val();
     var useremail = $("#userprofile_email").val();
+    
     $("#change_address_error").hide();
    // $("#profile_suc_msg2").hide();
     var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
@@ -1414,6 +1419,15 @@ function validateAddress()
             return false;
         }
     }
+    if (userType == 2 || (userType == 1 && ($("#hdn-email").val() != useremail)) ) {
+        var count = checkEmailExist($("#userprofile_email").val());
+        if (count > 0) {
+            showMyTabs("This Email already exist!");
+            $("#userprofile_email").focus();
+            return false;
+        }
+    }
+   
     if ($("#userprofile_phone").val() == "") {
         showMyTabs("Please enter Phone number");
         $("#userprofile_phone").focus();
@@ -2281,6 +2295,9 @@ function changePassowordDiv(type)
         $('#user_profile_form_div').hide();
         $('#matrixfileDiv').hide();
         $(".profile_popup").addClass("change_pwd");
+        if($('#user_profile_form_manager'))
+            $('#user_profile_form_manager').hide();
+        $('#user_profile_form').hide();
         
     }
     else
@@ -2292,6 +2309,8 @@ function changePassowordDiv(type)
          $("#password_confirmnewpassword").val('');
          $('#change_password_form').hide();        
          $('#user_profile_form').show();
+         if($('#user_profile_form_manager'))
+            $('#user_profile_form_manager').show();
          $('#user_profile_form_div').show();
          $('#matrixfileDiv').show();
          $(".profile_popup").removeClass("change_pwd");
@@ -3427,7 +3446,6 @@ function loadUserLogReports(divContent)
     
 }
 
-
 $(window).load(function() {
   setTimeout(function(){
    if($('.selected-doctype').length > 0){
@@ -3438,4 +3456,15 @@ $(window).load(function() {
     }
 },300);
 });
+
+//Mangeuser Edit 
+ $("#change-pwd-link").click(function(){
+    $(".adduser_profile_form").hide();
+    $(".changepassword").show();
+});
+$(".cancel-change-password").click(function(){
+    $(".adduser_profile_form").show();
+    $(".changepassword").hide();
+});
+
 /*Log list*/

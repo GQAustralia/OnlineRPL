@@ -51,7 +51,6 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="gq-edit-photo-btn">
-                                <span class="btn-grey">{{ form_widget(form.userImage) }}</span>
                                 <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
                             </div>
                             <div class="ajax-profile-error" id="ajax-profile-error"></div>
@@ -80,16 +79,17 @@
                 <div class="ajax-profile-error" id="ajax-profile-error"></div>
 
 
-                <form class="form" id='user_profile_form' action="{{ app.request.baseUrl }}/addUser/{{roleid}}" method="post">
+                <form class="form" id='user_profile_form_manager' action="{{ app.request.baseUrl }}/addUser/{{roleid}}" method="post">
                     <div class="form_fields">
                         <div class="section name_group clearfix">
                             <div class="form-group">
                                 <label>{% if ('ROLE_RTO' in userRole) %} College Name {% else %} First Name {% endif %} </label>                                                        
                                 {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
                                 <input type="hidden" value="0" id='hdn-userId_add' name='hdn-userId'/>
+                                {#<input type="hidden" id="userprofile_crmId" name="userprofile[crmId]">#}
                                 <input type='hidden' id='hdn-type' name='hdn-type' value="2"><!-- 0: edit profile, 1: edit user, 2: add user -->
                                 <input type="hidden" id="hdn-img" name="hdn-img" value="">
-                                <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% else %}applicant{% endif %}">
+                                 <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% elseif ('ROLE_MANAGER' in userRole) %}manager{% elseif ('ROLE_SUPERADMIN' in userRole) %}superadmin{% else %}applicant{% endif %}">
                             </div>
                             <div class="form-group">
                                 <label>{% if ('ROLE_RTO' in userRole) %} Provider Code {% else %} Last Name {% endif %}</label>
@@ -173,17 +173,8 @@
                                 {{ form_widget(form.ceoemail) }}
                             </div>
                          </div>
-                        
                         {% endif %}
 
-                        {% if ('ROLE_FACILITATOR' in userRole) %}
-                        <div class="section">
-                            <div class="form-group">
-                                <label for="gq-last-name">CRM ID</label>
-                                {{ form_widget(form.crmId,{ 'attr': {'maxlength': '30'} }) }}
-                            </div>
-                        </div>
-                        {% endif %}
                         <!-- Address info-->
                         <div class="section name_group clearfix">
                             <div class="form-group">
@@ -231,7 +222,8 @@
                         </div>#}
                         <!-- Address info-->
                     </div>
-                    {#<button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default" onclick="return validateAddress();">Save</button>#}
+                   {# <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn submit_btn" onclick="return validateAddress();">SAVE</button>
+                    </form>#}
                     {{ form_end(form) }}
                     <div class="gq-change-pwd-warning" id="pwd_error">
                         {% for flashMessage in app.session.flashbag.get('errornotice') %}
@@ -244,222 +236,12 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".userprofile_userImage").change(function() {
-            var userId = $('#hdn-userId').val();
-            var userType = $('#hdn-type').val();
-            var fileName = $(this).val();
-            var Extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
-            //console.log(userType+"fff"+fileName);
-            if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
-                $("#ajax-loading-icon").show();
-                var file_data = $('#userprofile_userImage').prop('files')[0];
-                var form_data = new FormData();
-                form_data.append('file', file_data);
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "uploadProfilePic/"+userId,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: form_data,
-                    success: function(result) {
-                        if (result != "error")
-                        {
-                             $('#user_profile_image').attr('src',upload_path+result);                    
-                            $("#profile_suc_msg2").show();
-                            $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
-                            $("#ajax-profile-error").hide();
-                            $("#ajax-gq-profile-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
-                            if (userType == 0) {
-                                $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
-                            }
-                            if (userType == 2) {
-                                $('#hdn-img').val(result);
-                            }
-                            $("#ajax-loading-icon").hide();
-                        }
-                        else
-                        {
-                            $("#ajax-profile-error").show();
-                            $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error in uploading</h2></div>').delay(3000).fadeOut(100);
-                        }
-                    }
-                });
-            }
-            else
-            {
-                $("#ajax-profile-error").show();
-                $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please upload valid image</h2></div>').delay(3000).fadeOut(100);
-                //alert("Please upload valid image");
-                return false;
-            }
-        });
-    });
-    /*validate new address*/
-    function validateAddress()
-    {
-        var userrole = $("#hdn-userrole").val();
-        var useremail = $("#userprofile_email").val();
-        var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
-        regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
-        if ($("#userprofile_firstname").val() == "") {
-            if(userrole=='rtouser')
-                showMyTabs("Please enter College Name");
-            else
-                showMyTabs("Please enter First Name");
-            $("#userprofile_firstname").focus();
-            return false;
-        }
-        if ($("#userprofile_lastname").val() == "") {
-            if(userrole=='rtouser')
-                showMyTabs("Please enter Provider Code");
-            else
-                showMyTabs("Please enter Last Name");
-            $("#userprofile_lastname").focus();
-            return false;
-        }
-        if ($("#userprofile_email").val() == "") {
-            showMyTabs("Please enter Email");
-            $("#userprofile_email").focus();
-            return false;
-        }
-        if ($("#userprofile_email").val() != "") {
-            if (useremail.search(regexp) == -1) {
-                showMyTabs("Please enter valid Email");
-                $("#userprofile_email").focus();
-                return false;
-            }
-        }
-        if (userType == 2) {
-            var count = checkEmailExist($("#userprofile_email").val());
-            if (count > 0) {
-                showMyTabs("This Email already exist!");
-                $("#userprofile_email").focus();
-                return false;
-            }
-        }
-
-        if ($("#userprofile_phone").val() == "") {
-            showMyTabs("Please enter Phone Number");
-            $("#userprofile_phone").focus();
-            return false;
-        }
-        if ($("#userprofile_phone").val() != "") {
-            if(checkPhonenumber($("#userprofile_phone").val()) == 0) {
-                showMyTabs("Please enter valid Phone Number");
-                $("#userprofile_phone").val("");
-                $("#userprofile_phone").focus();
-                return false;
-            }
-        }
-        // if add user
-        if (userType == 2) {
-            var newpwd = $("#userprofile_newpassword").val();
-            if (newpwd == "") {
-                showMyTabs("Please enter Password");
-                $("#userprofile_newpassword").focus();
-                return false;
-            }
-            if (newpwd != "") {
-                if (newpwd.length < 6) {
-                    showMyTabs("Password must be minimum of 6 characters");
-                    $("#userprofile_newpassword").focus();
-                    return false;
-                }
-            }
-            if (userrole == 'facilitatoruser') {
-                var crmId = ($.trim($("#userprofile_crmId").val()));
-                if (crmId == "") {
-                    showMyTabs("Please enter CRM ID");
-                    $("#userprofile_crmId").focus();
-                    return false;
-                }
-            }
-        }
-
-        if ($("#userprofile_dateOfBirth").val() == "") {
-            showMyTabs("Please enter Date Of Birth");
-            $("#userprofile_dateOfBirth").focus();
-            return false;
-        }
-        if ($("#userprofile_universalStudentIdentifier").val() == "") {
-            showMyTabs("Please enter USI");
-            $("#userprofile_universalStudentIdentifier").focus();
-            return false;
-        } else {
-            var USI = $("#userprofile_universalStudentIdentifier").val();
-            if(USI.length != 10) {
-                showMyTabs("Please enter 10 characters USI");
-               return false;
-            } else if (USI.match(/[^a-zA-Z0-9 ]/g)) {
-               showMyTabs("Please enter only ALPHA Numeric USI");
-               return false;
-            }
-        }
-
-        if ($("#userprofile_address_address").val() == "") {
-            $("#change_pwd_error").show();
-            $("#change_pwd_error").html(startMsg + "Please enter Address" + endMsg).delay(3000).fadeOut(100);
-            $('#address-gq-tab').tab('show');
-            $('#personal').removeClass('active');
-            $('#address').addClass('active');
-            $("#userprofile_address_address").focus();
-            return false;
-        }
-        if(userrole=='rtouser') {
-            if ($("#userprofile_contactname").val() == "") {
-                showMyTabs("Please enter Contact Person Name");
-                $("#userprofile_contactname").focus();
-                return false;
-            }
-            if ($("#userprofile_contactphone").val() == "") {
-                showMyTabs("Please enter Contact Person Phone Number");
-                $("#userprofile_contactphone").focus();
-                return false;
-            }
-            if ($("#userprofile_contactphone").val() != "") {
-                if(checkPhonenumber($("#userprofile_contactphone").val()) == 0) {
-                    showMyTabs("Please enter valid Contact Person Phone Number");
-                    $("#userprofile_contactphone").val("");
-                    $("#userprofile_contactphone").focus();
-                    return false;
-                }
-            }
-            if ($("#userprofile_contactemail").val() == "") {
-                showMyTabs("Please enter Contact Person Email");
-                $("#userprofile_contactemail").focus();
-                return false;
-            }
-            if ($("#userprofile_contactemail").val() != "") {
-                if ($("#userprofile_contactemail").val().search(regexp) == -1) {
-                    showMyTabs("Please enter valid Contact Person Email");
-                    $("#userprofile_contactemail").val("");
-                    $("#userprofile_contactemail").focus();
-                    return false;
-                }
-            }
-
-            if ($("#userprofile_ceoemail").val() != "") {
-                if ($("#userprofile_ceoemail").val().search(regexp) == -1) {
-                    showMyTabs("Please enter valid CEO Email");
-                    $("#userprofile_ceoemail").focus();
-                    return false;
-                }
-            }
-
-            if ($("#userprofile_ceophone").val() != "") {
-                if(checkPhonenumber($("#userprofile_ceophone").val()) == 0) {
-                    showMyTabs("Please enter valid CEO Phone Number");
-                    $("#userprofile_ceophone").val("");
-                    $("#userprofile_ceophone").focus();
-                    return false;
-                }
-            }
-        }
-
-    }
-
-    /*validate new address*/
+{% block javascripts %}
+<script type="text/javascript"> var amazon_link = "{{ amazon_link }}";
+var base_url = "{{ base_url }}";
 </script>
+<script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+<script src="{{ asset('public/js/script.js') }}"></script>
+<script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+<script src="{{ asset('public/js/s3-upload/s3upload-profileimg.js') }}"></script>
+ {% endblock %}
