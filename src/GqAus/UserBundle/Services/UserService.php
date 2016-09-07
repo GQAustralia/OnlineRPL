@@ -16,6 +16,7 @@ use GqAus\UserBundle\Entity\Reminder;
 use GqAus\UserBundle\Entity\Message;
 use GqAus\UserBundle\Entity\Evidence\Text;
 use GqAus\UserBundle\Entity\Faq;
+use GqAus\UserBundle\Entity\Log;
 
 class UserService
 {
@@ -302,6 +303,9 @@ class UserService
             $userIds->setStatus('1');
             $this->em->persist($userIds);
             $this->em->flush();
+            $logType = $this->getlogType('3');
+            $message = $fileName.' - '.$logType['message'];
+            $this->createUserLog('3', $message);			
            // return $fileName;
         }
     }
@@ -1722,15 +1726,16 @@ class UserService
         $msgObj->setToStatus(0);
         $msgObj->setReply(0);
         $msgObj->setunitID($msgdata['unitId']);
-	$msgObj->setreplymid($msgdata['replymid']);
+		$msgObj->setreplymid($msgdata['replymid']);
         $this->em->persist($msgObj);
-        $this->em->flush();
-        
+        /* Create Log for message */
+        $logType = $this->getlogType('1');
+        $messge = $curuser->getUsername()." ".$logType['message']." ".$sentuser->getUsername();
+        $this->createUserLog('1', $messge);		
+        $this->em->flush();        
         //@todo trigger SQS
-        
-        
     }
-    
+
 
     /**
      * Function to get sent messages
@@ -3366,6 +3371,10 @@ class UserService
                 break;
         }
         if (count($response) > 0) {
+            /*Create Log for message*/
+            $logType = $this->getlogType('9');
+            $message = $courseName.' '.$logType['message'].' "'.$courseCurrentStatus.'" to "'.$courseChangeStatus.'" - error occurred '.$response['msg'];
+            $this->createUserLog('9', $message); 		
             return $response;
         }
         $this->em->persist($courseObj);
@@ -3402,6 +3411,10 @@ class UserService
         $response['type'] = 'Success';
         $response['code'] = 1;
         $response['msg'] = 'Status updated successfully.';
+        /*Create Log for message*/
+        $logType = $this->getlogType('9');
+        $message = $courseName.' '.$logType['message'].' "'.$courseCurrentStatus.'" to "'.$courseChangeStatus.'"';
+        $this->createUserLog('9', $message);		
         return $response;
     }
 
@@ -4106,5 +4119,43 @@ class UserService
         $logres = $res->getQuery()->getResult();
         return array('userLog' => $logres, 'paginator' => $paginator, 'page' => $page);
     }
+	
+    /** 
+     * Create user log
+     * @param: $action action did by user
+     * @param: $messge message to be logged
+     */
+    public function createUserLog($action, $messge) {
+        $nowtime = date('Y-m-d h:i:s');
+        $user = $this->getCurrentUser()->getID();
+        $userRole = $this->getCurrentUser()->getRoles();
+        $role = $userRole[0];
+        $roles = array("ROLE_APPLICANT" => "1", "ROLE_FACILITATOR" => "2", "ROLE_ASSESSOR" => "3", "ROLE_RTO" => "4", "ROLE_MANAGER" => "5", "ROLE_SUPERADMIN" => "6");
+        $roleid = $roles[$role];
+        $request = $this->container->get('request');
+        $basepath = $request->get('_route');
+        $page = $this->container->getParameter('applicationUrl').''.$basepath;
+        $logObj = new Log();
+        $logObj->setlogUserId($user);
+        $logObj->setlogAction($action);
+        $logObj->setlogpagename($page);
+        $logObj->setlogDateTime($nowtime);
+        $logObj->setlogMessage($messge);
+        $logObj->setlogRole($roleid);
+        $this->em->persist($logObj);
+        $this->em->flush();
+    }
+    /** 
+     * Get activity list type
+     * @param: $type activity type
+     */
+    public function getLogType($type) {
+        $logType = array();
+        if($type){
+            $logList = $this->container->getParameter('log_list');
+            $logType = $logList[$type];
+        }
+        return $logType;
+    }	
 
 }
