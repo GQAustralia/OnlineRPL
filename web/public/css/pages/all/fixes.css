@@ -100,3 +100,7 @@
     
 }
 
+.main_container .body_section.candidate_profile .panel-group .panel .panel-body .panel-copy .file-info span.file-discription{
+	word-wrap: break-word;
+	word-break: break-all;
+}
