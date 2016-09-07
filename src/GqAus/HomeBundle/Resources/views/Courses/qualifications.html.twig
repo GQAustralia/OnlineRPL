@@ -80,7 +80,7 @@
 {% endif %}
        {% if newuserblock == 0 %}
                 <div class="row">
-                  <div class="col-lg-12">
+                  <div class="col-md-12 col-lg-12">
                       <div class="info-box">
                           <div class="info-copy">
                           <a href="{{ app.request.baseUrl }}/faq" target="_blank"><i class="material-icons info">info</i></a>
@@ -179,7 +179,7 @@
             </a>
     </div>
     </div>                
-    <div class="col-md-7 col-lg-7">
+    <div class="col-md-7 col-lg-7 flex-fix-q">
     <div class="accordion panel-group">
     {% set i = 1 %}           
     {% set coreUnitsCount = courses_service.getCoreElectiveUnitsCount(userId,courseCode,'core') %}    
@@ -385,10 +385,10 @@
                         <div class="form-group form-group-lg gqa-btn-group">
                             <div class="form">
                                 <div class="row no-gutter">
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="col-md-6 col-lg-6">
                                         <button data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right changeUnitStatus" type="button">OK</button>
                                     </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="col-md-6 col-lg-6">
                                         <button data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button" onclick="return cancelCheckbox();">CANCEL</button>
                                     </div>
                                 </div>
