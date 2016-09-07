@@ -839,8 +839,6 @@ $(".setData").click(function() {
         if(todayDay < 10)
             todayDay = '0'+todayDay;
 
-        if(todayDay < 10)
-            todayDay = '0'+todayDay;
 
         var todayDateText =  todayYear + "-" + todayMonth + "-" + todayDay;
         var selectedDate = remindDate.split('/');
