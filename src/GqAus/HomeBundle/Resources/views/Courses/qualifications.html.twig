@@ -67,7 +67,7 @@
         {% if courseInfo.courseInfo.Units.Elective is defined and courseInfo.courseInfo.Units.Elective%}
         {% set totalCheckedCount = courses_service.getElectiveCheckedValues(userId,courseCode) %} 
         {% set getIssubmitStatus = courses_service.getOneUnitStatus(userId, courseCode)%} 
-        {% if totalCheckedCount > 0 or getIssubmitStatus > 1%}
+        {% if getIssubmitStatus >= 1%}
         {% set newuserblock = 1 %} 
         {% endif %}
         {% if courseInfo.courseInfo.Units.Elective.validation is defined and  courseInfo.courseInfo.Units.Elective.validation%} 
