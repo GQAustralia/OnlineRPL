@@ -69,7 +69,7 @@
 										
 										{% set remStatus = user_service.checkReminderExists(setUserId, list.id, 'portfolio') %}
 										<li class="clearfix {{ remStatus.playlistIconClass }}">
-											<span class="content"><strong><a href="{{ app.request.baseUrl }}/applicantDetails/{{ list.courseCode }}/{{ list.user.id }}" title="View Portfolio">{{list.user.firstName}} {{list.user.lastName}}</a></strong> - {{list.courseName}}</span>
+											<span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/applicantDetails/{{ list.courseCode }}/{{ list.user.id }}" title="View Portfolio">{{list.user.firstName}} {{list.user.lastName}}</a></strong> - {{list.courseName}}</span>
 											<div class="dropdown keep-open">
 												<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
 												<div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -113,7 +113,7 @@
 								{% endif %}							
 							{% set remStatus = user_service.checkReminderExists(setUserId, dList.id, '') %}
 								<li class="clearfix {{ remStatus.playlistIconClass }}">
-									<span class="content"><strong><a href="{{ app.request.baseUrl }}/applicantDetails/{{ dList.courseCode }}/{{ dList.user.id }}" title="View Portfolio">{{dList.user.firstName}} {{dList.user.lastName}}</a></strong> - {{dList.courseName}}</span>
+									<span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/applicantDetails/{{ dList.courseCode }}/{{ dList.user.id }}" title="View Portfolio">{{dList.user.firstName}} {{dList.user.lastName}}</a></strong> - {{dList.courseName}}</span>
 									<div class="dropdown keep-open">
 										<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
 										<div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -157,7 +157,7 @@
 								{% endif %}							   
 						   {% set remStatus = user_service.checkReminderExists(setUserId, eList.id, '') %}
 							   <li class="clearfix {{ remStatus.playlistIconClass }}">
-								   <span class="content"><strong><a href="{{ app.request.baseUrl }}/applicantDetails/{{ eList.courseCode }}/{{ eList.user.id }}" title="View Portfolio">{{eList.user.firstName}} {{eList.user.lastName}}</a></strong> - {{eList.courseName}}</span>
+								   <span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/applicantDetails/{{ eList.courseCode }}/{{ eList.user.id }}" title="View Portfolio">{{eList.user.firstName}} {{eList.user.lastName}}</a></strong> - {{eList.courseName}}</span>
 								   <div class="dropdown keep-open">
 									   <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
 										<div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -203,7 +203,7 @@
                         {% endif %}
                         {% set remStatus = user_service.checkReminderExists(setUserId, assList.id, '') %}
                             <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                <span class="content"><strong><a href="{{ app.request.baseUrl }}/applicantDetails/{{ assList.courseCode }}/{{ assList.user.id }}" title="View Portfolio">{{assList.user.firstName}} {{assList.user.lastName}}</a></strong> - {{assList.courseName}}</span>
+                                <span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/applicantDetails/{{ assList.courseCode }}/{{ assList.user.id }}" title="View Portfolio">{{assList.user.firstName}} {{assList.user.lastName}}</a></strong> - {{assList.courseName}}</span>
                                 <div class="dropdown keep-open">
                                     <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                     <div class="dropdown-menu">
@@ -249,7 +249,7 @@
 								{% endif %}								
 							{% set remStatus = user_service.checkReminderExists(setUserId, rtoList.id, '') %}
 								<li class="clearfix {{ remStatus.playlistIconClass }}">
-									<span class="content"><strong><a href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoList.courseCode }}/{{ rtoList.user.id }}" title="View Portfolio">{{rtoList.user.firstName}} {{rtoList.user.lastName}}</a></strong> - {{rtoList.courseName}}</span>
+									<span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoList.courseCode }}/{{ rtoList.user.id }}" title="View Portfolio">{{rtoList.user.firstName}} {{rtoList.user.lastName}}</a></strong> - {{rtoList.courseName}}</span>
 									<div class="dropdown keep-open">
 										<span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
 										<div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -287,7 +287,7 @@
 						<ul>
 							{% for key, rtoAprvList in rtoApproval %}
 									<li class="clearfix">
-										<span class="content"><strong><a href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoAprvList.courseCode }}/{{ rtoAprvList.user.id }}" title="View Portfolio">{{rtoAprvList.user.firstName}} {{rtoAprvList.user.lastName}}</a></strong> - {{rtoAprvList.courseName}}</span>
+										<span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoAprvList.courseCode }}/{{ rtoAprvList.user.id }}" title="View Portfolio">{{rtoAprvList.user.firstName}} {{rtoAprvList.user.lastName}}</a></strong> - {{rtoAprvList.courseName}}</span>
 									</li>
 							{% endfor %}
 						</ul>
@@ -311,7 +311,7 @@
 						<ul>
 							{% for key, rtoFourList in rtoFourDaysList %}
 								<li class="clearfix">
-									<span class="content"><strong><a href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoFourList.courseCode }}/{{ rtoFourList.user.id }}" title="View Portfolio">{{rtoFourList.user.firstName}} {{rtoFourList.user.lastName}}</a></strong> - {{rtoFourList.courseName}}</span>
+									<span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoFourList.courseCode }}/{{ rtoFourList.user.id }}" title="View Portfolio">{{rtoFourList.user.firstName}} {{rtoFourList.user.lastName}}</a></strong> - {{rtoFourList.courseName}}</span>
 								</li>
 							{% endfor %}
 						</ul>
@@ -335,7 +335,7 @@
 						<ul>
 							{% for key, rtoProgressList in rtoProgressList %}
 								<li class="clearfix">
-									<span class="content"><strong><a href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoProgressList.courseCode }}/{{ rtoProgressList.user.id }}" title="View Portfolio">{{rtoProgressList.user.firstName}} {{rtoProgressList.user.lastName}}</a></strong> - {{rtoProgressList.courseName}}</span>
+									<span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoProgressList.courseCode }}/{{ rtoProgressList.user.id }}" title="View Portfolio">{{rtoProgressList.user.firstName}} {{rtoProgressList.user.lastName}}</a></strong> - {{rtoProgressList.courseName}}</span>
 								</li>
 							{% endfor %}
 						</ul>
