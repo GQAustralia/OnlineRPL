@@ -106,6 +106,9 @@ class EvidenceService
                         $fileObj->setCourse($data['hid_course']);
                     $this->em->persist($fileObj);
                     $this->em->flush();
+
+                    $logType = $this->userService->getlogType('7');
+                    $this->userService->createUserLog('7', $logType['message']);
                     if(isset($data['hid_unit']) && isset($data['hid_course'])) // Uploading evidence by candidate then update course units
                         $this->updateCourseUnits($this->userId, $data['hid_unit'], $data['hid_course']);
                     $i++;
@@ -351,6 +354,10 @@ class EvidenceService
             $fileName = $evidenceObj->getPath();
             $this->em->remove($evidenceObj);
             $this->em->flush();
+			
+            $logType = $this->userService->getlogType('8');
+            $this->userService->createUserLog('8', $logType['message']);
+			
             return $fileName;
         }
     }

@@ -37,6 +37,7 @@ class FileUploader
         $this->repository = $em->getRepository('GqAusUserBundle:User');
         $this->currentUser = $userService->getCurrentUser();
         $this->container = $container;
+		$this->userService = $userService;
     }
 
     /**
@@ -116,8 +117,12 @@ class FileUploader
                 'date' => $now->format('d/m/Y'),
                 'size' => $size
             );
+            $logType = $this->userService->getlogType('2');
+            $this->userService->createUserLog('2', $logType['message']);			
             return json_encode($result);
         //}
+        $logType = $this->userService->getlogType('2');
+        $this->userService->createUserLog('2', $logType['message']);		
         return $fileNames;
     }
     public function uploadImgFiles($data)
@@ -146,6 +151,8 @@ class FileUploader
     {   
         $adapter = $this->filesystem->getAdapter();
         $adapter->delete($fileName);
+		$logType = $this->userService->getlogType('4');
+		$this->userService->createUserLog('4', $logType['message']);		
     }
 
     /**
