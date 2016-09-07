@@ -20,6 +20,14 @@
         </div>
        {% endfor %}
     </div>
+    <div class="" id="idfiles_msg"></div>
+     <div class="gq-change-file-warning" id="change_file_error">
+        {% for flashMessage in app.session.flashbag.get('errornotice') %}
+        <div class="gq-id-file-error-text" style="dispaly:none">
+            <h2>{{ flashMessage }}</h2>
+        </div>
+       {% endfor %}
+    </div>
     <div class="row" id="profile_suc_msg2"></div>
         <div class="info_block" id="idfiles">
                 <div class="title_bar clearfix">
@@ -82,7 +90,7 @@
                                  {{item.name}} <br>{{filesize}} | ADDED {{item.created|date("d/m/y") }}
                          </span>
                          <a class="modalClass viewModalClass clear" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
-                                 <i class="material-icons">clear</i><div class="gq-del-evidence"></div></a>
+                                 <i class="material-icons">clear</i><span class="gq-del-evidence"></span></a>
                     </div>
             </li>
             {% else %}
