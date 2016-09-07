@@ -84,8 +84,8 @@ $(function() {
         var userId = $("#csUserId").val();
         var courseCode = $("#csCourseCode").val();
         var courseStatus = $("#courseStatus").val();
-		$("#status-message").show();
-        $("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/loading.gif"></div>');
+		$("body #status-message").show();
+        $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/loading.gif"></div>');
         if (courseStatus !== "") {
             $.ajax({
                 type: "POST",
@@ -94,9 +94,9 @@ $(function() {
                 success: function(responseText) {
                     var result = jQuery.parseJSON(responseText);
                     if(result.type == 'Error' ) {
-                        $("#status-message").html('<div class="gq-id-files-upload-error-text"><h2>'+ result.msg+'</h2></div>');
+                        $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2>'+ result.msg+'</h2></div>');
                     } else if (result.type == 'Success') {
-                        $("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
+                        $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
                     }   
                     if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
@@ -112,7 +112,7 @@ $(function() {
                 }
             });
       } else {
-          $("#status-message").html('<strong> Please select status</strong>');
+          $("body #status-message").html('<strong> Please select status</strong>');
       }
     });
 });
@@ -1636,8 +1636,8 @@ $("#approve-for-rto").click(function() {
 $("#approve-all-units-from-rto").click(function(){
     var courseCode = $(this).attr("courseCode");
     var applicantId = $(this).attr("applicantId");
-    $("#status-message").show();
-    $("#status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
+    $("body #status-message").show();
+    $("body #status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
     $.ajax({
         type: "POST",
         url: base_url + "approveAllUnitsFromRTO",
@@ -1646,11 +1646,11 @@ $("#approve-all-units-from-rto").click(function(){
         success: function(responseText) {
             var result = jQuery.parseJSON(responseText);
             if(result.type == 'Error' ) {
-                    $("#status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
+                    $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
             } else if (result.type == 'Success') {
                     $( "#approve-all-units-from-rto").hide( "slow");
                     $(this).hide();
-                    $("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
+                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
             } 
         }
     });
@@ -2172,8 +2172,8 @@ $("#submittoassessor,#request-cc").click(function(){
 	var userId = $("#csUserId").val();
 	var courseCode = $("#csCourseCode").val();
 	var courseStatus = $(this).data("coursestatus");
-	$("#status-message").show();
-	$("#status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
+	$("body #status-message").show();
+	$("body #status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
 	if (courseStatus !== "") {
 		$.ajax({
 			type: "POST",
@@ -2182,13 +2182,13 @@ $("#submittoassessor,#request-cc").click(function(){
 			success: function(responseText) {
 				var result = jQuery.parseJSON(responseText);
 				if(result.type == 'Error' ) {
-					$("#status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
+					$("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
 				} else if (result.type == 'Success') {
                     if(courseStatus == '2'){ 
                         $( "#submittoassessor").hide( "slow"); 
                         $(this).hide(); 
                     }
-					$("#status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
+					$("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
 				}   
 				if(result.code == '1'){
 				  $("#currentCourseStatus").val(courseStatus);  
@@ -2204,7 +2204,7 @@ $("#submittoassessor,#request-cc").click(function(){
 			}
 		});
   } else {
-	  $("#status-message").html('<div class="gq-id-files-upload-error-text"><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</div>');
+	  $("body #status-message").html('<div class="gq-id-files-upload-error-text"><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</div>');
 
   }
 });
@@ -2321,7 +2321,7 @@ $('#change_password_form').on('submit', function(e) {
        });
 });
 $(document).ready(function(){
-    $(".filter_tab").click(function(){
+    $('body').on('click', '.filter_tab', function(){
         var checkBoxSection = $(".check_box_section");
         if(checkBoxSection.hasClass('hide'))
             checkBoxSection.removeClass('hide').addClass('open');
@@ -2330,7 +2330,7 @@ $(document).ready(function(){
     });
 });
 $(document).ready(function(){
-    $(".sort_tab").click(function(){
+    $('body').on('click', '.sort_tab', function(){
         var checkBoxSection = $(".check_box_section");
         var titlesBlockSection = $(".titles_block_mobile");
 //        if(checkBoxSection.hasClass('open'))
@@ -2343,12 +2343,12 @@ $(document).ready(function(){
     });
 });
 
-if($('#evidencefiles').length>0) {
+if($('body #evidencefiles').length > 0) {
         $('.evidences-empty').hide();
 	$.extend( $.fn.dataTable.defaults, {
             ordering:  true
         });
-	var oTable = $('#evidencefiles').DataTable({
+	var oTable = $('body #evidencefiles').DataTable({
 			"pagingType": "simple",
                         "order": []
 		});
@@ -2451,12 +2451,12 @@ if($('#evidencefiles').length>0) {
 /* CAND*/
 
 
-if($('#evidence').length>0) {
+if($('body #evidence').length>0) {
 
 	$.extend( $.fn.dataTable.defaults, {
             ordering:  true
         });
-	var oTable = $('#evidence').DataTable({
+	var oTable = $('body #evidence').DataTable({
 			"pagingType": "simple",
                         "order": []
 		});
@@ -2543,7 +2543,13 @@ $('#evidence-filter').on('click','input[type="checkbox"]',function(){
 $('.namesearch').keyup(function(){
     oTable.search($(this).val()).draw();
 });
-$('.sort_section').click(function(){
+$('body').on('keyup', '.namesearch', function(){
+    oTable.search($(this).val()).draw();
+});
+$('body').on('click','input[type="checkbox"]',function(){
+    oTable.search($('.namesearch').val()).draw();
+});
+$('body').on('click', '.sort_section', function(){
     var sortbyclass = $(this).attr('data-orderby')
     var currentArrow = $('.f'+sortbyclass+' i').html();
     $('.sorting li span i').css('visibility','hidden');

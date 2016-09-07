@@ -123,8 +123,8 @@ $("#courseUnitNote").click(function(){
             url: base_url + "addNotes",
             data: { noteMsg: noteMsg, courseId: courseId, noteType: noteType},
             success:function(result) {
-                $("#status-message").css("display", "block");
-                $(".status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Note Added successfully</h2></div>');
+                $("body #status-message").css("display", "block");
+                $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Note Added successfully</h2></div>');
             }
         });
     }
@@ -152,8 +152,8 @@ $(".setToDoList").click(function() {
             cache: false,
             data: {message: todoMsg, userCourseId: userCourseId, remindDate: remindDate, listId: listId},
             success: function(result) {
-                $("#status-message").css("display", "block");
-                $(".status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Reminder Added successfully</h2></div>');
+                $("body #status-message").css("display", "block");
+                $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Reminder Added successfully</h2></div>');
             }
         });
     }
@@ -181,8 +181,8 @@ $(".msgForCourse").click(function(){
             data: { unitId: unitId, userId: userId, subject: subject, message: msgBody},
             success:function(result) {
                 $('#message_popup').modal('hide');
-                $("#status-message").css("display", "block");
-                $(".status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Sent message successfully</h2></div>');
+                $("body #status-message").css("display", "block");
+                $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Sent message successfully</h2></div>');
                 
             }
         });
