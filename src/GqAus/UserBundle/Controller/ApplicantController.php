@@ -561,9 +561,10 @@ class ApplicantController extends Controller
         $userInfo = $userService->getUserInfo($userId);
          $courseCode = $this->getRequest()->get('courseCode'); 
         $courseName = $this->getRequest()->get('courseName'); 
-        $facVal = $userService->getQualificationFacilitator($userInfo,$courseCode);
+        $facVal = $userService->getQualificationFacilitator($userInfo,$courseCode,$facilitator);
         
         $updateFacVal = $this->get('UserService')->updateQualificationFacilitator($listId,$facilitator); 
+        
         if($updateFacVal)
         {
             

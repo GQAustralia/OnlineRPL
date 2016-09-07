@@ -3924,15 +3924,10 @@ class UserService
      * @param type $courseCode
      * @param type $facilitator*
      */
-    public function getQualificationFacilitator($userId,$courseCode)
+    public function getQualificationFacilitator($userId,$courseCode,$facilitator)
     {
-       // dump($user->getId());exit;
-       // $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('u' => $user->getId(), 'courseCode' => $courseCode));
-        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,'user' => $userId->getId(),'facilitator' => ''));
-        
-        $result = !empty($courseUnitObj) ? count($courseUnitObj) : 0;       
-        return count($courseUnitObj);
-       
+        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId, 'courseCode' => $courseCode, 'facilitator' => $facilitator));        
+        return (count($courseUnitObj));
     }
      /**
      * Function to Update Assessor
