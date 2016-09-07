@@ -194,7 +194,7 @@ parameters:
                                  Welcome to Online RPL. It is great to have you here. We're looking forward to helping you achieve your qualification. <br /><br />
                                  As part of the process, there's some administration we need to complete to get you on the way. You may login to Online RPL to start your jouney.
                                  #facname# is assigned as your Facilitator for you qualification . <br/><br/>
-                                 <br/><a href='#applicationUrl#login'>Click here</a> to login.<br/><br/>, Below are the account details.  <br/><br/>                       
+                                 <br/><a href='#applicationUrl#login'>Click here</a> to login.Below are the account details.  <br/><br/>                       
                                  Email: #userEmail#<br/> 
                                  Password: #userPassWord# <br/><br/><br/> 
                                  Regards,<br/>OnlineRPL         
