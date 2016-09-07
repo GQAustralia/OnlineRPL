@@ -108,7 +108,7 @@ $("body").on('click', '#disapproveyes', function() {
         }
     });
 });
-$("#courseUnitNote").click(function(){
+$("body #courseUnitNote").click(function(){
     var noteMsg = $('#note-msg').val();
     var courseId = $('#courseId').val();
     var noteType = $('#noteType').val();
@@ -130,7 +130,7 @@ $("#courseUnitNote").click(function(){
     }
 })
 
-$(".setToDoList").click(function() {
+$("body .setToDoList").click(function() {
     userCourseId = $(this).attr("userCourseId");
     listId = $(this).attr("listId");
     var remindDate = $('#remindDate').val();
@@ -158,7 +158,7 @@ $(".setToDoList").click(function() {
         });
     }
 });
-$(".msgForCourse").click(function(){
+$("body .msgForCourse").click(function(){
     var to = $('#advanced-demo').val();
     var unitId = 0;
     var subject = $('#msgSubject').val();
