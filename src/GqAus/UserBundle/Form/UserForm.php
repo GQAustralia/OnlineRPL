@@ -23,6 +23,7 @@ class UserForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('id', 'hidden');
+        $builder->add('crmId', 'hidden');
         $builder->add('firstname', 'text', array('required' => false));
         $builder->add('lastname', 'text', array('required' => false));
         $builder->add('email', 'text', array('required' => false));

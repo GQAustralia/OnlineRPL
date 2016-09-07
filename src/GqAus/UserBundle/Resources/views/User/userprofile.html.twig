@@ -30,23 +30,21 @@
                     <div class="profile_section">
                         <div class="col-xs-12">
                             <div class="row">
-                                <div class="gq-edit-photo-btn">
-                                    <span class="btn-grey">{{ form_widget(form.userImage) }}</span>
-                                    <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
-                                </div>
+                                
                                 <div class="ajax-profile-error" id="ajax-profile-error"></div>
                             </div>
                         </div>
-                        <div id='ajax-gq-profile-page-img'>
-                            <img src="{{ userImage }}" alt="" id='user_profile_image' class="profile_image"/>
-                            <input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
+                        
+                        <div id='ajax-gq-profile-page-img'><img src="{% if userImage !="" %}{{amazon_link~'user-'~userId~'/'~userImage}} {% else %} {{ asset('public/images/userprofile.png')}} {% endif %}" alt="profile_pic" id='user_profile_image' class="profile_image"/><input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
+                       
+                        <input type="hidden" name="userVal" id="userVal" value="{{userId}}">
                         <div class="content">
                             <h5 class="name"><strong>Edit User</strong></h5>
                             <span class="field">{{role}}</span>
                             {#<span class="title uploadTrigger"><input type="file" ></span>#}
                         </div>
                     </div>
-
+                         <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
                     <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
                 </div>
 
@@ -60,14 +58,14 @@
                 </div>
                 <div class="ajax-profile-error" id="ajax-profile-error"></div>
                 
-                <form class="form adduser_profile_form" id='user_profile_form' action="{{ app.request.baseUrl }}/editUser/{{userId}}" method="post">
+                <form class="form adduser_profile_form" id='user_profile_form_manager' action="{{ app.request.baseUrl }}/editUser/{{userId}}" method="post">
                     <div class="form_fields">
                         <div class="section name_group clearfix">
                             <div class="form-group">
                                 <label>{% if ('ROLE_RTO' in userRole) %} College Name {% else %} First Name {% endif %} </label>                                                        
                                 {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
                                 <input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
-                                <input type="hidden" value="0" id='hdn-type' name='hdn-type'/>
+                                <input type='hidden' id='hdn-type' name='hdn-type' value="1"><!-- 0: edit profile, 1: edit user, 2: add user -->
                                 <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% else %}applicant{% endif %}">
                             </div>
                             <div class="form-group">
@@ -75,12 +73,19 @@
                                 {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
                             </div>
                         </div>
-                        <div class="section">
+                        <div class="section name_group clearfix">
+                            <input type="hidden" value="{{userEmail}}" id='hdn-email' name='hdn-email'/>
                             <div class="form-group">
                                 <label>Email</label>
                                 {{ form_widget(form.email) }}
                             </div>
+                             <div class="form-group">
+                                <label>Password</label>
+                                <input type="text" value="........" readonly >
+                                <span><i class="material-icons lock" onclick="changePassowordDiv('1')">lock</i></span>
+                            </div>
                         </div>
+                        
                         {% if ('ROLE_APPLICANT' in userRole) %}
                         <div class="section">
                             <div class="form-group">
@@ -155,14 +160,6 @@
                         
                         {% endif %}
 
-                        {% if ('ROLE_FACILITATOR' in userRole) %}
-                        <div class="section">
-                            <div class="form-group">
-                                <label for="gq-last-name">CRM ID</label>
-                                {{ form_widget(form.crmId,{ 'attr': {'maxlength': '30'} }) }}
-                            </div>
-                        </div>
-                        {% endif %}
                         <!-- Address info-->
                         <div class="section name_group clearfix">
                             <div class="form-group">
@@ -210,284 +207,60 @@
                         </div>#}
                         <!-- Address info-->
                     </div>
-                    <div class="change-pwd-link-section">
-                        <a id="change-pwd-link" href="javascript:void(0);"><label>Change Password</label></a>
-                    </div>
-                    {#<button type="submit" id="userprofile_save" name="userprofile[save]" class="btn btn-default" onclick="return validateAddress();">Save</button>#}
+                  {#  <button type="submit" id="userprofile_save" name="userprofile[save]" class="submit_btn" onclick="return validateAddress();">UPDATE</button>
+                    </form>#}
                     {{ form_end(form) }}
-
                     <!-- Change Password Start --> 
                     
-                    <div class="changepassword" style="display:none;">
-                        <form class="form" name="password" method="post" action="{{ app.request.baseUrl }}/editUser/{{userId}}">
-                        <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
-                        <div class="section" style="display:none;">
-                            <div class="form-group">
-                                <label for="gq-last-name">Current Password</label>
-                                {{ form_widget(changepwdForm.oldpassword,{ 'attr': {'maxlength': '30'} }) }}
-                            </div>
-                        </div>
-                        <div class="section" style="display:block;">
-                            <div class="form-group">
-                                <label for="gq-last-name">New Password</label>
-                                {{ form_widget(changepwdForm.newpassword,{ 'attr': {'maxlength': '30'} }) }}
-                            </div>
-                        </div>
-                        <div class="section" style="display:none;">
-                            <div class="form-group">
-                                <label for="gq-last-name">Confirm Password</label>
-                                {{ form_widget(changepwdForm.confirmnewpassword,{ 'attr': {'maxlength': '30'} }) }}
-                            </div>
-                        </div>
-                        {{ form_widget(changepwdForm.save,{ 'label': 'Change Password' , 'attr': {'class': 'submit_btn'}}) }}
-                        {{ form_end(changepwdForm) }}
-                        <button class="btn cancel-change-password">Cancel</button>
-                    </div>
-                    
-                    <!-- Change Password End -->
-                    
-                    
-                    
                     <div class="gq-change-pwd-warning" id="pwd_error">
-                        {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                                        {% for flashMessage in app.session.flashbag.get('errornotice') %}
                         <div class="gq-id-pwd-error-text" style="display:none">
-                            <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                            <h2>{{ flashMessage }}</h2>
                         </div>
-                        {% endfor %}
+                                       {% endfor %}
                     </div>
+                    <!-- Chaneg password form --->
+                    <form class="form-inline change_pwd_form" id='change_password_form' style="display:none">
+                        <button type="button" class="close"  onclick="changePassowordDiv('0')">&times;</button>
+                        <div class="form-group">
+                            <label for="email">Current Password</label>
+                            <div class="input_section">
+                                <input type="password" id="password_oldpassword" name='password_oldpassword' onkeyup="checkspace(this);" class="form-control" value="" />
+                                <span class="error_message" id="password_oldpassword_error_span"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Change New Password</label>
+                            <div class="input_section">
+                                <input type="password" id='password_newpassword' name='password_newpassword' onkeyup="checkspace(this);" class="form-control" value="" />
+                                <span class="error_message" id="password_newpassword_error_span"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Confirm New Password</label>
+                            <div class="input_section">
+                                <input type="password" id="password_confirmnewpassword" name='password_confirmnewpassword' onkeyup="checkspace(this);" class="form-control" value="" />
+                                <span class="error_message" id="password_confirmnewpassword_error_span"></span>
+                            </div>
+                        </div>
+                        <div class="btn_section clearfix">
+                            <input type="submit" class="btn change_pwd_btn" value="SUBMIT" id='password_save' />
+                            <input type="button" class="btn" value="CANCEL" onclick="changePassowordDiv('0')"/>
+                        </div>
+                    </form>
+
+                    <!-- Change Password End -->
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#change-pwd-link").click(function(){
-            $(".adduser_profile_form").hide();
-            $(".changepassword").show();
-        });
-        $(".cancel-change-password").click(function(){
-            $(".adduser_profile_form").show();
-            $(".changepassword").hide();
-        });
-        
-        $(".userprofile_userImage").change(function() {
-            var userId = $('#hdn-userId').val();
-            var userType = $('#hdn-type').val();
-            var fileName = $(this).val();
-            var Extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
-            //console.log(userType+"fff"+fileName);
-            if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
-                $("#ajax-loading-icon").show();
-                var file_data = $('#userprofile_userImage').prop('files')[0];
-                var form_data = new FormData();
-                form_data.append('file', file_data);
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "uploadProfilePic/"+userId,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: form_data,
-                    success: function(result) {
-                        if (result != "error")
-                        {
-                             $('#user_profile_image').attr('src',upload_path+result);                    
-                            $("#profile_suc_msg2").show();
-                            $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile Image updated successfully!</h2></div>').delay(3000).fadeOut(100);
-                            $("#ajax-profile-error").hide();
-                            $("#ajax-gq-profile-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
-                            if (userType == 0) {
-                                $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + base_url + "public/uploads/" + result + "')");
-                            }
-                            if (userType == 2) {
-                                $('#hdn-img').val(result);
-                            }
-                            $("#ajax-loading-icon").hide();
-                        }
-                        else
-                        {
-                            $("#ajax-profile-error").show();
-                            $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error in uploading</h2></div>').delay(3000).fadeOut(100);
-                        }
-                    }
-                });
-            }
-            else
-            {
-                $("#ajax-profile-error").show();
-                $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Please upload valid image</h2></div>').delay(3000).fadeOut(100);
-                //alert("Please upload valid image");
-                return false;
-            }
-        });
-    });
-    
-    /*validate new address*/
-    function validateAddress()
-    {
-        var userrole = $("#hdn-userrole").val();
-        var useremail = $("#userprofile_email").val();
-        var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
-        regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
-        if ($("#userprofile_firstname").val() == "") {
-            if(userrole=='rtouser')
-                showMyTabs("Please enter College Name");
-            else
-                showMyTabs("Please enter First Name");
-            $("#userprofile_firstname").focus();
-            return false;
-        }
-        if ($("#userprofile_lastname").val() == "") {
-            if(userrole=='rtouser')
-                showMyTabs("Please enter Provider Code");
-            else
-                showMyTabs("Please enter Last Name");
-            $("#userprofile_lastname").focus();
-            return false;
-        }
-        if ($("#userprofile_email").val() == "") {
-            showMyTabs("Please enter Email");
-            $("#userprofile_email").focus();
-            return false;
-        }
-        if ($("#userprofile_email").val() != "") {
-            if (useremail.search(regexp) == -1) {
-                showMyTabs("Please enter valid Email");
-                $("#userprofile_email").focus();
-                return false;
-            }
-        }
-        if (userType == 2) {
-            var count = checkEmailExist($("#userprofile_email").val());
-            if (count > 0) {
-                showMyTabs("This Email already exist!");
-                $("#userprofile_email").focus();
-                return false;
-            }
-        }
-
-        if ($("#userprofile_phone").val() == "") {
-            showMyTabs("Please enter Phone Number");
-            $("#userprofile_phone").focus();
-            return false;
-        }
-        if ($("#userprofile_phone").val() != "") {
-            if(checkPhonenumber($("#userprofile_phone").val()) == 0) {
-                showMyTabs("Please enter valid Phone Number");
-                $("#userprofile_phone").val("");
-                $("#userprofile_phone").focus();
-                return false;
-            }
-        }
-        // if add user
-        if (userType == 2) {
-            var newpwd = $("#userprofile_newpassword").val();
-            if (newpwd == "") {
-                showMyTabs("Please enter Password");
-                $("#userprofile_newpassword").focus();
-                return false;
-            }
-            if (newpwd != "") {
-                if (newpwd.length < 6) {
-                    showMyTabs("Password must be minimum of 6 characters");
-                    $("#userprofile_newpassword").focus();
-                    return false;
-                }
-            }
-            if (userrole == 'facilitatoruser') {
-                var crmId = ($.trim($("#userprofile_crmId").val()));
-                if (crmId == "") {
-                    showMyTabs("Please enter CRM ID");
-                    $("#userprofile_crmId").focus();
-                    return false;
-                }
-            }
-        }
-
-        if ($("#userprofile_dateOfBirth").val() == "") {
-            showMyTabs("Please enter Date Of Birth");
-            $("#userprofile_dateOfBirth").focus();
-            return false;
-        }
-        if ($("#userprofile_universalStudentIdentifier").val() == "") {
-            showMyTabs("Please enter USI");
-            $("#userprofile_universalStudentIdentifier").focus();
-            return false;
-        } else {
-            var USI = $("#userprofile_universalStudentIdentifier").val();
-            if(USI.length != 10) {
-                showMyTabs("Please enter 10 characters USI");
-               return false;
-            } else if (USI.match(/[^a-zA-Z0-9 ]/g)) {
-               showMyTabs("Please enter only ALPHA Numeric USI");
-               return false;
-            }
-        }
-
-        if ($("#userprofile_address_address").val() == "") {
-            $("#change_pwd_error").show();
-            $("#change_pwd_error").html(startMsg + "Please enter Address" + endMsg).delay(3000).fadeOut(100);
-            $('#address-gq-tab').tab('show');
-            $('#personal').removeClass('active');
-            $('#address').addClass('active');
-            $("#userprofile_address_address").focus();
-            return false;
-        }
-        if(userrole=='rtouser') {
-            if ($("#userprofile_contactname").val() == "") {
-                showMyTabs("Please enter Contact Person Name");
-                $("#userprofile_contactname").focus();
-                return false;
-            }
-            if ($("#userprofile_contactphone").val() == "") {
-                showMyTabs("Please enter Contact Person Phone Number");
-                $("#userprofile_contactphone").focus();
-                return false;
-            }
-            if ($("#userprofile_contactphone").val() != "") {
-                if(checkPhonenumber($("#userprofile_contactphone").val()) == 0) {
-                    showMyTabs("Please enter valid Contact Person Phone Number");
-                    $("#userprofile_contactphone").val("");
-                    $("#userprofile_contactphone").focus();
-                    return false;
-                }
-            }
-            if ($("#userprofile_contactemail").val() == "") {
-                showMyTabs("Please enter Contact Person Email");
-                $("#userprofile_contactemail").focus();
-                return false;
-            }
-            if ($("#userprofile_contactemail").val() != "") {
-                if ($("#userprofile_contactemail").val().search(regexp) == -1) {
-                    showMyTabs("Please enter valid Contact Person Email");
-                    $("#userprofile_contactemail").val("");
-                    $("#userprofile_contactemail").focus();
-                    return false;
-                }
-            }
-
-            if ($("#userprofile_ceoemail").val() != "") {
-                if ($("#userprofile_ceoemail").val().search(regexp) == -1) {
-                    showMyTabs("Please enter valid CEO Email");
-                    $("#userprofile_ceoemail").focus();
-                    return false;
-                }
-            }
-
-            if ($("#userprofile_ceophone").val() != "") {
-                if(checkPhonenumber($("#userprofile_ceophone").val()) == 0) {
-                    showMyTabs("Please enter valid CEO Phone Number");
-                    $("#userprofile_ceophone").val("");
-                    $("#userprofile_ceophone").focus();
-                    return false;
-                }
-            }
-        }
-
-    }
-
-    /*validate new address*/
-    
-    
+{% block javascripts %}
+<script type="text/javascript"> var amazon_link = "{{ amazon_link }}";
+var base_url = "{{ base_url }}";
 </script>
+<script src="{{ asset('public/js/custom-jquery.js') }}"></script>
+<script src="{{ asset('public/js/script.js') }}"></script>
+<script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+<script src="{{ asset('public/js/s3-upload/s3upload-profileimg.js') }}"></script>
+ {% endblock %}
