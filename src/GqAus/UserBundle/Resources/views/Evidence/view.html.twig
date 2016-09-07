@@ -162,7 +162,7 @@
                                                                             <a href="{{ amazon_link }}{{  evd[0].path }}"
                                                                                 {% if output[1] is defined %}
                                                                                 {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}"{% else %}target="_blank"{% endif %}
-                                                                                {%endif%}><span data-evidenceid="{{ evd[0].id }}"class="icon fac_view_evidence"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
+                                                                                {%endif%}><span data-evidenceid="{{ evd[0].id }}" class="icon fac_view_evidence"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
                                                                             </a>
                                                                             <span class="file_name">
                                                                                 {{ evd[0].name }}
@@ -202,7 +202,7 @@
                                                             <td class="hide sortdateby">{{ evd[0].created|date("Ymd") }}</td>
                                                             <td>
                                                                 {% if evd[0].content %} 
-                                                                    <div class="block">
+                                                                    <div class="block {{ facilitatorViewStatus }}">
                                                                          <p class="name"><strong>{{ evd[0].user.firstName }} {{ evd[0].user.lastName }}</strong></p>
                                                                         <div class="file_info ">
                                                                             <span data-evidenceid="{{ evd[0].id }}"class="icon fac_view_evidence"><a href="#text{{evd[0].id}}"class="fancybox"id="btnForm">

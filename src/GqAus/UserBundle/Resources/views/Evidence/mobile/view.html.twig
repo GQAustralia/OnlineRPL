@@ -143,6 +143,7 @@
                                                     {% set checkPath = (evd[0].type !='text') ? evd[0].path : evd[0].content %} 
                                                     {% set mappedContent =  (checkPath in evdMapping.mappedToMultipleUnit) ? 'mapped2': ((checkPath in evdMapping.mappedToOneUnit) ? 'mapped1' : 'mapped0') %}
                                                     {% set mappedCourse = (evd[0].course) ?  evd[0].course : 'nonmapped' %}
+                                                    {% set facilitatorViewStatus = (evd[0].facilitatorViewStatus == 1 ) ? 'disable' : ''  %}
                                                     {% if evd[0].type !='text' %}
                                                         {% set eviType = evidence_service.getEvidenceShowType(evd[0].type) %}
                                                         {% set evdByteSize = evidence_service.convertSizetoBytes(evd[0].size) %}
@@ -158,11 +159,11 @@
                                                             <td class="hide">{{ evd[0].created|date("Ymd") }}</td>
                                                             <td>
                                                                 {% if evd[0].name %} 
-                                                                    <div class="block">
+                                                                    <div class="block {{ facilitatorViewStatus }}">
                                                                         <p class="name"><strong>{{ evd[0].user.firstName }} {{ evd[0].user.lastName }}</strong></p>
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
-                                                                                <span class="icon">
+                                                                                <span  data-evidenceid="{{ evd[0].id }}" class="icon fac_view_evidence">
                                                                                     <a href="{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"
                                                                                     {% if output[1] is defined %}
                                                                                     {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
@@ -202,7 +203,7 @@
                                                             <td class="hide sortdateby">{{ evd[0].created|date("Ymd") }}</td>
                                                             <td>
                                                                 {% if evd[0].content %} 
-                                                                    <div class="block">
+                                                                    <div class="block {{ facilitatorViewStatus }}">
                                                                         <p class="name"><strong>{{ evd[0].user.firstName }} {{ evd[0].user.lastName }}</strong></p>
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
