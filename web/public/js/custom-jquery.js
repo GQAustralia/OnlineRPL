@@ -3420,4 +3420,16 @@ function loadUserLogReports(divContent)
     });
     
 }
+
+
+$(window).load(function() {
+  setTimeout(function(){
+   if($('.selected-doctype').length > 0){
+        $('.selected-doctype').each(function(){
+            var eleName="#doc-type-"+$(this).attr('id');
+            $(eleName).parent().parent().addClass('disabled');
+        }); 
+    }
+},300);
+});
 /*Log list*/
