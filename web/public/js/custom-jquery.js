@@ -835,6 +835,9 @@ $(".setData").click(function() {
         if(todayMonth < 10)
             todayMonth = '0'+todayMonth;
 
+        if(todayDay < 10)
+            todayDay = '0'+todayDay;
+
         var todayDateText =  todayYear + "-" + todayMonth + "-" + todayDay;
         var selectedDate = remindDate.split('/');
         var selectedYear = selectedDate['2'].substring(0, selectedDate['2'].indexOf(' '));
