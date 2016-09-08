@@ -52,7 +52,7 @@
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
          {% set remStatus = user_service.checkReminderExists(currUser, list.id, 'portfolio') %}   
         
-        <td class="{{ remStatus.playlistIconClass }}">            
+        <td class="{{ remStatus.portfolioIconClass }} portfolioIcon">            
             <span class="clearfix">
             <div class="dropdown keep-open" id="div_{{list.id}}">
                     <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>

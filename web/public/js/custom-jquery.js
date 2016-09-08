@@ -3477,5 +3477,9 @@ $(".cancel-change-password").click(function(){
     $(".adduser_profile_form").show();
     $(".changepassword").hide();
 });
-
+function profileModal()
+{
+    $('#profile2').modal('hide'); 
+    $('#profile_suc_msg2').hide();
+}
 /*Log list*/
