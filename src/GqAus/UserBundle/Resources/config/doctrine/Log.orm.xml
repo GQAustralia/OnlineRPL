@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="GqAus\UserBundle\Entity\Log" table="log">
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="logUserId" type="integer" column="user_id" nullable="false"/>   
+        <field name="logAction" type="integer" column="action" nullable="false"/>   
+        <field name="logpagename" type="string" column="page_name" nullable="false"/>   
+        <field name="logDateTime" type="string" column="date_time" nullable="false"/>   
+        <field name="logMessage" type="string" column="message" nullable="false"/>   
+        <field name="logRole" type="integer" column="role" nullable="false"/> 
+        <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="user_id" joined-column-name="id" />
+        </many-to-one>      
+    </entity>
+</doctrine-mapping>
