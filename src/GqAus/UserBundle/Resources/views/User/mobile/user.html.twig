@@ -42,7 +42,7 @@
                     <option value="">Select document type</option>
                     {% if documentTypes %}
                     {% for key, docs in documentTypes %}
-                    <option  value="{{docs.id}}" data-content='<span class="content" doc-type="{{docs.type}}" id="doc-type">{{docs.type}}</span><span class="number">{{docs.points}}</span>'></option>
+                    <option  value="{{docs.id}}" data-content='<span class="content" doc-type="{{docs.type}}" id="doc-type">{{docs.type}}</span><span class="number" id="doc-type-{{docs.id}}">{{docs.points}}</span>'></option>
                      {% endfor %}
                     {% endif %}
             </select>

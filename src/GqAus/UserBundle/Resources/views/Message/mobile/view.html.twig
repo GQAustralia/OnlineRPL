@@ -17,6 +17,16 @@
               
             <div class="hidden-sm hidden-md hidden-lg">
             <div class="mobile_version">
+                <div class="">
+    {% for flashMessage in app.session.flashbag.get('msgnotice') %}
+    <div class="" id="profile_suc_msg">
+    <div class="gq-id-files-upload-success-text">
+      <span>
+        {{ flashMessage }}</span>
+    </div>
+    </div>
+    {% endfor %}   
+    </div>
        {% if messages %}
         {% if messages|length > 0 %}  
                 {% if msgType is defined and msgType=="" %}
@@ -186,16 +196,7 @@
         </div>
     {% endif %}
     
-    <div class="">
-    {% for flashMessage in app.session.flashbag.get('msgnotice') %}
-    <div class="row" id="profile_suc_msg">
-    <div class="gq-id-files-upload-success-text">
-      <span>
-        <i class="material-icons">done</i>{{ flashMessage }}</span>
-    </div>
-    </div>
-    {% endfor %}   
-    </div>
+    
     
     {% if msgType is defined and msgType=="new" %}
         <div class="new_message_section mobile_new_message_section">
