@@ -86,7 +86,7 @@ $("body").on('click', '#disapproveyes', function() {
         $('#msg-body').css("border","1px solid red");
         return false;
     }
-    $(this).prop('disabled', true);
+        $(this).prop('disabled', true);
 //    var subject = "Evidenced are Not sufficient for the unit "+ unitName +"";    
 //	$.ajax({
 //        type: "POST",

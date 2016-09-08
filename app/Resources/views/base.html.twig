@@ -189,8 +189,9 @@
                             </a>
                         {% else %}
                         {% set userId = app.security.getToken().getUser().getId() %}
+                        {% set userImg = user_service.userImage(userImage,userId) %}
                             <a data-toggle="modal" data-target="#profile2" href="javascript:void(0)">
-                                <img class="profile-img" src="{{amazon_link~'user-'~userId~'/'~userImage}}" alt="profile">
+                                <img class="profile-img" src="{{userImg}}" alt="profile">
                                 <label class="profile-tag">{{userName}}</label>
                             </a>
                         {% endif %}

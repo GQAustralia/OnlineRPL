@@ -2346,6 +2346,7 @@ $(document).ready(function(){
         else
             checkBoxSection.removeClass('open').addClass('hide');
     });
+    
 });
 $(document).ready(function(){
     $('body').on('click', '.sort_tab', function(){
@@ -2361,6 +2362,17 @@ $(document).ready(function(){
     });
 });
 
+function queryParameters () {
+    var result = {};
+    var params = window.location.search.split(/\?|\&/);
+    params.forEach( function(it) {
+        if (it) {
+            var param = it.split("=");
+            result[param[0]] = param[1];
+        }
+    });
+    return result;
+}
 if($('body #evidencefiles').length > 0) {
         $('.evidences-empty').hide();
 	$.extend( $.fn.dataTable.defaults, {
@@ -2732,6 +2744,7 @@ $('body').on('click', '.userprofile,#mobileQualification', function(){
 });
 function getApplicantDetails(courseCode, userId){
     $('#removeCandidate').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
+    $('.candidate-details').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
     $.ajax({
         type: "POST",
         url: base_url + 'applicantDetails/' + courseCode +'/'+ userId +'',
@@ -2755,6 +2768,7 @@ $('body').on('click', '#mobileFiles', function(){
 });
 function getFilesDetails(courseCode, userId){
     $('#removeCandidate').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
+    $('.candidate-details').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
     $.ajax({
         type: "POST",
         url: base_url + 'rolewiseFiles/' + courseCode +'/'+ userId +'',
@@ -2773,6 +2787,7 @@ $('body').on('click', '#mobileCanProfile', function(){
 });
 function getCandidateDetails(courseCode, userId){
     $('#removeCandidate').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
+    $('.candidate-details').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
     $.ajax({
         type: "POST",
         url: base_url + 'candidateProfile/' + courseCode +'/'+ userId +'',
@@ -2793,6 +2808,7 @@ $('body').on('click', '.mobileUnitInfo', function(){
 });
 function getUnitDetailsInfo(courseCode, unitCode, userId){
     $('#removeUnitInfo').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
+    $('.unitInfo-details').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
     $.ajax({
         type: "POST",
         url: base_url + 'courseunitDetails/' + courseCode +'/'+ unitCode +'/'+ userId +'',
@@ -2802,6 +2818,36 @@ function getUnitDetailsInfo(courseCode, unitCode, userId){
         }
     });
 }
+$('body').on('click', '#mobileQualForReload', function(){
+    var courseCode = $(this).attr("data-courseCode");
+    var userId = $(this).attr("data-userId");
+    window.location.href = base_url + "applicants?page=Params&ccode="+courseCode+"&uid="+userId+"";
+});
+function getReload(courseCode, userId){
+    getApplicantDetails(courseCode, userId);
+    $('.portfolio-container').hide();
+    $('ul.nav').addClass('hide');
+}
+
+$('body').on('click', '#mobileCanForReload', function(){
+    var courseCode = $(this).attr("data-courseCode");
+    var userId = $(this).attr("data-userId");
+    window.location.href = base_url + "applicants?page=candidate&ccode="+courseCode+"&uid="+userId+"";
+});
+function getReloadForCanProfile(courseCode, userId){
+    getCandidateDetails(courseCode, userId);
+    $('.portfolio-container').hide();
+    $('ul.nav').addClass('hide');  
+}
+$(window).load(function(){
+    var Params = queryParameters();
+    if (Params.page=='Params') {
+        setTimeout(getReload(queryParameters().ccode, queryParameters().uid),10000);
+    }  
+    if (Params.page=='candidate') {
+        setTimeout(getReloadForCanProfile(queryParameters().ccode, queryParameters().uid),10000);
+    }  
+})
 $('body').on('click', '.btn-back', function(){
     $('.unitInfo-details').hide();
     $('.portfolio-container').hide();
