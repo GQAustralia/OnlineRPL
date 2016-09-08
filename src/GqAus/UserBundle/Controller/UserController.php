@@ -172,7 +172,7 @@ class UserController extends Controller
      */
     public function addIdFileAction(Request $request)
     {
-       
+    
         $form = $this->createForm(new IdFilesForm(), array());
         if ($request->isMethod('POST')) {           
             $form->bind($request);

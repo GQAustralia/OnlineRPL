@@ -304,7 +304,7 @@ class UserService
             $this->em->persist($userIds);
             $this->em->flush();
             $logType = $this->getlogType('3');
-            $message = $fileName.' - '.$logType['message'];
+            $message = $logType['message'];
             $this->createUserLog('3', $message);			
            // return $fileName;
         }
