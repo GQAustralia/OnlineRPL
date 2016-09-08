@@ -2564,7 +2564,7 @@ $('.namesearch').keyup(function(){
 $('body').on('keyup', '.namesearch', function(){
     oTable.search($(this).val()).draw();
 });
-$('body').on('click','input[type="checkbox"]',function(){
+$('#evidence-filter').on('click','input[type="checkbox"]',function(){
     oTable.search($('.namesearch').val()).draw();
 });
 $('body').on('click', '.sort_section', function(){
