@@ -206,11 +206,12 @@
                 <a href="{{ app.request.baseUrl }}/faq" target="_blank" class="faq_link">                    
                         <span><i class="material-icons">help</i></span>FAQs
                 </a>
+            {{ form_end(form) }}
                {# {{ form_widget(form.save, {'attr': {'class': 'btn update_btn disable'}}) }}#}
-             <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn update_btn disable" onclick="return validateAddress();">UPDATE</button>
+             {#<button type="submit" id="userprofile_save" name="userprofile[save]" class="btn update_btn disable" onclick="return validateAddress();">UPDATE</button>#}
                 
         </div>
-       {{ form_end(form) }}
+       
                   </div>
 </div>
 <!--SECTION -->			

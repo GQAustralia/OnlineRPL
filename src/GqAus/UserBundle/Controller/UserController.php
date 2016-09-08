@@ -754,18 +754,22 @@ class UserController extends Controller
         $user->setContactName($contactname);
         $user->setContactPhone($contactphone);
         $image = $user->getUserImage();
-        
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoleName();
         // User Address object
-        $userAddress = $user->getAddress();
-        $userAddress->setPincode($postcode);
-        $userAddress->setCity($city);
-        $userAddress->setState($state);
-        $userAddress->setCountry($country);
-        $userAddress->setSuburb($suburb);
-        $userAddress->setAddress($street_name);
-        $userAddress->setArea($street_number);
-        $user->setAddress($userAddress);
-        
+        if($userRole != 'ROLE_FACILITATOR')
+        {
+            
+            $userAddress = $user->getAddress();
+
+            $userAddress->setPincode($postcode);
+            $userAddress->setCity($city);
+            $userAddress->setState($state);
+            $userAddress->setCountry($country);
+            $userAddress->setSuburb($suburb);
+            $userAddress->setAddress($street_name);
+            $userAddress->setArea($street_number);
+            $user->setAddress($userAddress);
+        }
         //Saving to profile
         $success = $userService->savePersonalProfile($user, $image);
         if(!$success)
