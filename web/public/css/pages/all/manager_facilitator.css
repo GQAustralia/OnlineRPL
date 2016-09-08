@@ -1,1 +1,398 @@
-.portfolio-container{margin-top:20px}.portfolio-container .panel-group{margin:0}.portfolio-container .panel-group .panel-heading{border-radius:0;background-color:#333;text-transform:uppercase;box-shadow:0 1px 1px rgba(0,0,0,0.05)}.portfolio-container .panel-group .panel-heading .panel-title{color:#fff}.portfolio-container .panel-group .panel-heading .panel-title .count{font-weight:900}.portfolio-container .panel-group .panel{border:0;border-radius:0;box-shadow:0 0 0 transparent}.portfolio-container .portfolio-filter{border:1px solid #4a4a4a;padding:10px 15px}.portfolio-container .portfolio-filter .search_box{border:1px solid #ccc;box-shadow:none;border-radius:0;padding:0 12px}.portfolio-container .portfolio-filter select{border-radius:0;width:100%;box-shadow:none;border:1px solid #ccc;padding:0 10px}.portfolio-container .portfolio-filter label{font-weight:normal}.portfolio-container .portfolio-filter .btn_red{background-color:#E01010;color:#fff;border-radius:0;border:1px solid #E01010;width:100%;float:right;margin-top:15px;font-size:15px;padding:4px 10px}.portfolio-container .add_new_user{margin-bottom:18px}.portfolio-container .add_new_user a{color:#4a4a4a;font-size:14px}.portfolio-container .add_new_user a:hover,.portfolio-container .add_new_user a:focus{text-decoration:none}.portfolio-container .add_new_user a span{padding-right:10px}.portfolio-container .add_new_user a i{vertical-align:middle}.portfolio-container .portfolio-data-table .table{margin:0;table-layout:fixed}.portfolio-container .portfolio-data-table .table thead{border:1px solid #4a4a4a}.portfolio-container .portfolio-data-table .table tbody{border:1px solid #d8d8d8}.portfolio-container .portfolio-data-table .table tbody tr{border:1px solid #d8d8d8}.portfolio-container .portfolio-data-table .table tbody tr:first-child,.portfolio-container .portfolio-data-table .table tbody tr:last-child{border-top:0}.portfolio-container .portfolio-data-table .table th{font-size:16px;font-weight:normal;text-transform:uppercase;border:0}.portfolio-container .portfolio-data-table .table th.sort-by:before{content:"\E5DB";font-family:'Material Icons';vertical-align:middle}.portfolio-container .portfolio-data-table .table td{font-size:14px;border:0}.portfolio-container .portfolio-data-table .table td a{color:#333}.portfolio-container .portfolio-data-table .table td a:focus{text-decoration:none}.portfolio-container .portfolio-data-table .table td i.material-icons{text-align:center;display:block}.portfolio-container .portfolio-data-table .table td ul{margin:0 auto;display:block;text-align:center}.portfolio-container .portfolio-data-table .table td ul li{display:inline-block}.portfolio-container .portfolio-data-table .table td ul li .login_btn{background:#E01010;border:0;border-radius:0;color:#fff;font-size:12px;vertical-align:super}.portfolio-container .portfolio-data-table .dropdown{float:none}.portfolio-container .portfolio-data-table .dropdown .dropdown-menu{width:220px}.portfolio-container .dropdown{float:right}.portfolio-container .dropdown .dropdown-toggle{cursor:pointer;display:block}.portfolio-container .dropdown .dropdown-toggle::after{content:none}.portfolio-container .dropdown .dropdown-toggle .add_icon{float:right;padding-left:7px}.portfolio-container .dropdown .dropdown-toggle .add_icon i{vertical-align:top}.portfolio-container .dropdown .dropdown-menu{border:1px solid #d8d8d8;border-radius:0px;font-size:13px;left:auto;padding:0;right:0;box-shadow:none;text-align:left;width:160px}.portfolio-container .dropdown .dropdown-menu li{border-bottom:1px solid #d8d8d8}.portfolio-container .dropdown .dropdown-menu li a{padding:5px 10px}.portfolio-container .dropdown .dropdown-menu li a::before{content:"\E3C9";font-family:"Material Icons";font-size:20px;color:#d8d8d8;vertical-align:middle;padding-right:10px}.portfolio-container .dropdown .data_section{padding:15px}.portfolio-container .dropdown textarea{border:1px solid #d8d8d8;border-radius:3px;padding:5px;color:#4a4a4a;resize:none;width:100%}.portfolio-container .dropdown textarea:focus,.portfolio-container .dropdown textarea:active{outline:none}.portfolio-container .dropdown .date_field{border:1px solid #d8d8d8;border-radius:2px;box-shadow:none;padding-right:35px;width:100%;color:#4a4a4a;font-size:13px;background-image:url("../../../images/calendar_icon.png");background-repeat:no-repeat;background-position:right 7px center;background-size:20xp 20px;margin-top:10px}.portfolio-container .dropdown .btn_red{background:#E01010;color:#fff;width:100%;border:1px solid #E01010;padding:8px;font-size:14px}.portfolio-container.mobile-version .portfolio-data-table .table td a{width:50%;display:inline-block;float:left}.portfolio-container.mobile-version .portfolio-data-table .table td a.name{color:#4a4a4a;font-weight:bold}.portfolio-container.mobile-version .portfolio-data-table .table td .status_content{width:50%;display:inline-block;float:left}.portfolio-container.mobile-version .portfolio-data-table .table td .qualification_content{color:#999}.no-gutter>[class*='col-lg-2']{padding-right:0;padding-left:0}.no-gutter>[class*='col-']{padding-right:0;padding-left:0}.table>tbody>tr>td,.table>tbody>tr>th,.table>tfoot>tr>td,.table>tfoot>tr>th,.table>thead>tr>td,.table>thead>tr>th{vertical-align:middle}.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current{display:none}.ui-datepicker{padding:0;border:1px solid #d8d8d8;border-radius:0;font-family:"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px}.ui-datepicker .ui-datepicker-header{background:#333;color:#fff;border-radius:0}.ui-datepicker .ui-datepicker-close{border-radius:0}.ui-datepicker .ui-widget-header .ui-icon{background-image:none}.ui-datepicker .ui-widget-header .ui-state-hover{background:transparent;border:0}.ui-datepicker .ui-datepicker-prev{width:auto}.ui-datepicker .ui-datepicker-prev::before{font-family:"Material Icons";font-size:19px;display:block;vertical-align:middle;content:"\E314";color:#fff}.ui-datepicker .ui-datepicker-prev:hover{font-size:19px}.ui-datepicker .ui-datepicker-next{width:auto}.ui-datepicker .ui-datepicker-next::before{font-family:"Material Icons";font-size:19px;display:block;vertical-align:middle;content:"\E315";color:#fff}.ui-datepicker .ui-datepicker-next:hover{font-size:19px}.vertical-alignment-helper{display:table;height:100%;width:100%}.vertical-align-center{display:table-cell;vertical-align:middle}.modal-content{width:inherit;height:inherit;margin:0 auto}.confirm_popup .modal-dialog{width:100%}.confirm_popup .modal-content{border-radius:0}.confirm_popup .modal-content .modal-header{background:#4a4a4a;padding:10px 15px;color:#fff}.confirm_popup .close{opacity:1;font-size:30px;font-weight:normal;color:#fff}.confirm_popup .btn_section{margin:10px auto 0;text-align:center}.confirm_popup .btn_section .btn{border-radius:0}.confirm_popup .btn_section .btn.btn_red{border:1px solid #E01010;background-color:#E01010;color:#fff;margin-right:10px}@media screen and (min-width: 568px){.confirm_popup .modal-dialog{width:450px}}@media screen and (min-width: 768px){.portfolio-container .portfolio-data-table{margin-top:20px}.portfolio-container .portfolio-data-table .progress{width:55%}.portfolio-container .portfolio-data-table .progress-copy{width:auto}.portfolio-container .portfolio-data-table .progress-copy.un-reviewed{color:#E01010}.portfolio-container .portfolio-filter{border:1px solid #4a4a4a;padding:10px 15px}.portfolio-container .portfolio-filter select{border-radius:0;width:65%;box-shadow:none}.portfolio-container .portfolio-filter .btn_red{margin-top:0}.portfolio-container .portfolio-filter.mobile-version{display:none}.portfolio-container .portfolio-data-table .table thead th:last-child{text-align:center}}
+.main_container .portfolio-container {}.main_container .portfolio-container .panel-group {
+    margin: 0
+}
+.main_container .portfolio-container .panel-group .panel-heading {
+    border-radius: 0;
+    background-color: #333;
+    text-transform: uppercase;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05)
+}
+.main_container .portfolio-container .panel-group .panel-heading .panel-title {
+    color: #fff
+}
+.main_container .portfolio-container .panel-group .panel-heading .panel-title .count {
+    font-weight: 900
+}
+.main_container .portfolio-container .panel-group .panel {
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 0 0 transparent
+}
+.main_container .portfolio-container .portfolio-filter {
+    border: 1px solid #4a4a4a;
+    padding: 10px 15px
+}
+.main_container .portfolio-container .portfolio-filter .search_box {
+    border: 1px solid #ccc;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0 12px;
+    width: 100%
+}
+.main_container .portfolio-container .portfolio-filter select {
+    border-radius: 0;
+    width: 100%;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    padding: 0 10px
+}
+.main_container .portfolio-container .portfolio-filter label {
+    font-weight: normal
+}
+.main_container .portfolio-container .portfolio-filter .btn_red {
+    background-color: #E01010;
+    color: #fff;
+    border-radius: 0;
+    border: 1px solid #E01010;
+    width: 100%;
+    float: right;
+    margin-top: 15px;
+    font-size: 15px;
+    padding: 5px 10px
+}
+.main_container .portfolio-container .add_new_user {
+    margin-bottom: 18px
+}
+.main_container .portfolio-container .add_new_user a {
+    color: #4a4a4a;
+    font-size: 14px
+}
+.main_container .portfolio-container .add_new_user a:hover,
+.main_container .portfolio-container .add_new_user a:focus {
+    text-decoration: none
+}
+.main_container .portfolio-container .add_new_user a span {
+    padding-right: 10px
+}
+.main_container .portfolio-container .add_new_user a i {
+    vertical-align: middle
+}
+.main_container .portfolio-container .portfolio-data-table .table {
+    margin: 0;
+    table-layout: fixed
+}
+.main_container .portfolio-container .portfolio-data-table .table thead {
+    border: 1px solid #4a4a4a
+}
+.main_container .portfolio-container .portfolio-data-table .table tbody {
+    border: 1px solid #d8d8d8
+}
+.main_container .portfolio-container .portfolio-data-table .table tbody tr {
+    border: 1px solid #d8d8d8
+}
+.main_container .portfolio-container .portfolio-data-table .table tbody tr:first-child,
+.main_container .portfolio-container .portfolio-data-table .table tbody tr:last-child {
+    border-top: 0
+}
+.main_container .portfolio-container .portfolio-data-table .table th {
+    font-size: 16px;
+    font-weight: normal;
+    text-transform: uppercase;
+    border: 0
+}
+.main_container .portfolio-container .portfolio-data-table .table th.sort-by:before {
+    content: "\E5DB";
+    font-family: 'Material Icons';
+    vertical-align: middle
+}
+.main_container .portfolio-container .portfolio-data-table .table td {
+    font-size: 14px;
+    border: 0
+}
+.main_container .portfolio-container .portfolio-data-table .table td a {
+    color: #333
+}
+.main_container .portfolio-container .portfolio-data-table .table td a:focus {
+    text-decoration: none
+}
+.main_container .portfolio-container .portfolio-data-table .table td i.material-icons {
+    text-align: center;
+    display: block
+}
+.main_container .portfolio-container .portfolio-data-table .table td ul {
+    margin: 0 auto;
+    display: block;
+    text-align: center
+}
+.main_container .portfolio-container .portfolio-data-table .table td ul li {
+    display: inline-block
+}
+.main_container .portfolio-container .portfolio-data-table .table td ul li .login_btn {
+    background: #E01010;
+    border: 0;
+    border-radius: 0;
+    color: #fff;
+    font-size: 12px;
+    vertical-align: super
+}
+.main_container .portfolio-container .portfolio-data-table .dropdown {
+    float: none
+}
+.main_container .portfolio-container .portfolio-data-table .dropdown .dropdown-menu {
+    width: 220px
+}
+.main_container .portfolio-container .dropdown {
+    float: right
+}
+.main_container .portfolio-container .dropdown .dropdown-toggle {
+    cursor: pointer;
+    display: block
+}
+.main_container .portfolio-container .dropdown .dropdown-toggle::after {
+    content: none
+}
+.main_container .portfolio-container .dropdown .dropdown-toggle .add_icon {
+    float: right;
+    padding-left: 7px
+}
+.main_container .portfolio-container .dropdown .dropdown-toggle .add_icon i {
+    vertical-align: top
+}
+.main_container .portfolio-container .dropdown .dropdown-menu {
+    border: 1px solid #d8d8d8;
+    border-radius: 0px;
+    font-size: 13px;
+    left: auto;
+    padding: 0;
+    right: 0;
+    box-shadow: none;
+    text-align: left;
+    width: 160px
+}
+.main_container .portfolio-container .dropdown .dropdown-menu li {
+    border-bottom: 1px solid #d8d8d8;
+    width: 100%
+}
+.main_container .portfolio-container .dropdown .dropdown-menu li a {
+    padding: 5px 10px
+}
+.main_container .portfolio-container .dropdown .dropdown-menu li a::before {
+    content: "\E3C9";
+    font-family: "Material Icons";
+    font-size: 20px;
+    color: #d8d8d8;
+    vertical-align: middle;
+    padding-right: 10px
+}
+.main_container .portfolio-container .dropdown .data_section {
+    padding: 15px
+}
+.main_container .portfolio-container .dropdown textarea {
+    border: 1px solid #d8d8d8;
+    border-radius: 3px;
+    padding: 5px;
+    color: #4a4a4a;
+    resize: none;
+    width: 100%;
+    margin: 0
+}
+.main_container .portfolio-container .dropdown textarea:focus,
+.main_container .portfolio-container .dropdown textarea:active {
+    outline: none
+}
+.main_container .dropdown .date_section {
+    padding: 0
+}
+.main_container .portfolio-container .dropdown .date_field {
+    border: 1px solid #d8d8d8;
+    border-radius: 2px;
+    box-shadow: none;
+    padding-right: 35px;
+    width: 100%;
+    color: #4a4a4a;
+    font-size: 13px;
+    background-image: url("../../../images/calendar_icon.png");
+    background-repeat: no-repeat;
+    background-position: right 7px center;
+    background-size: 20xp 20px;
+    margin: 10px 0 0
+}
+.main_container .portfolio-container .dropdown .btn_red {
+    background: #E01010;
+    color: #fff;
+    width: 100%;
+    border: 1px solid #E01010;
+    padding: 8px;
+    font-size: 14px;
+    margin: 0
+}
+.main_container .portfolio-container.mobile-version .portfolio-data-table .table td a {
+    width: 50%;
+    display: inline-block;
+    float: left
+}
+.main_container .portfolio-container.mobile-version .portfolio-data-table .table td a.name {
+    color: #4a4a4a;
+    font-weight: bold
+}
+.main_container .portfolio-container.mobile-version .portfolio-data-table .table td .status_content {
+    width: 50%;
+    display: inline-block;
+    float: left
+}
+.main_container .portfolio-container.mobile-version .portfolio-data-table .table td .qualification_content {
+    color: #999
+}
+.no-gutter>[class*='col-lg-2'] {
+    padding-right: 0;
+    padding-left: 0
+}
+.no-gutter>[class*='col-'] {
+    padding-right: 0;
+    padding-left: 0
+}
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    vertical-align: middle
+}
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+    display: none
+}
+.ui-datepicker {
+    padding: 0;
+    border: 1px solid #d8d8d8;
+    border-radius: 0;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px
+}
+.ui-datepicker .ui-datepicker-header {
+    background: #333;
+    color: #fff;
+    border-radius: 0
+}
+.ui-datepicker .ui-datepicker-close {
+    border-radius: 0
+}
+.ui-datepicker .ui-widget-header .ui-icon {
+    background-image: none
+}
+.ui-datepicker .ui-widget-header .ui-state-hover {
+    background: transparent;
+    border: 0
+}
+.ui-datepicker .ui-datepicker-prev {
+    width: auto
+}
+.ui-datepicker .ui-datepicker-prev::before {
+    font-family: "Material Icons";
+    font-size: 19px;
+    display: block;
+    vertical-align: middle;
+    content: "\E314";
+    color: #fff
+}
+.ui-datepicker .ui-datepicker-prev:hover {
+    font-size: 19px
+}
+.ui-datepicker .ui-datepicker-next {
+    width: auto
+}
+.ui-datepicker .ui-datepicker-next::before {
+    font-family: "Material Icons";
+    font-size: 19px;
+    display: block;
+    vertical-align: middle;
+    content: "\E315";
+    color: #fff
+}
+.ui-datepicker .ui-datepicker-next:hover {
+    font-size: 19px
+}
+.modal {
+    text-align: center;
+    padding: 0 !important
+}
+.modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px
+}
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle
+}
+.confirm_popup .modal-dialog {
+    width: 100%
+}
+.confirm_popup .modal-content {
+    border-radius: 0
+}
+.confirm_popup .modal-content .modal-header {
+    color: #4a4a4a
+}
+.confirm_popup .modal-content .modal-header .modal-title {
+    padding-bottom: 0
+}
+.confirm_popup .close {
+    opacity: 1;
+    font-size: 30px;
+    font-weight: normal;
+    color: #4a4a4a
+}
+.confirm_popup .modal-content .modal-body {
+    padding: 0
+}
+.confirm_popup .btn_section {
+    margin: 10px auto 0;
+    text-align: center
+}
+#confirm_popup .btn_section .btn {
+    border-radius: 0;
+    width: 50%;
+    float: left;
+    background-color: #E01010;
+    color: #fff
+}
+.confirm_popup .btn_section .btn.btn_red {
+    border-right: 1px solid #fff;
+}
+@media screen and (min-width: 568px) {
+    .confirm_popup .modal-dialog {
+        width: 450px
+    }
+}
+@media screen and (min-width: 768px) {
+    .main_container .portfolio-container {}.main_container .portfolio-container .portfolio-data-table {
+        margin-top: 20px
+    }
+    .main_container .portfolio-container .portfolio-data-table .progress {
+        width: 55%
+    }
+    .main_container .portfolio-container .portfolio-data-table .progress-copy {
+        width: auto
+    }
+    .main_container .portfolio-container .portfolio-data-table .progress-copy.un-reviewed {
+        color: #E01010
+    }
+    .main_container .portfolio-container .portfolio-filter {
+        border: 1px solid #4a4a4a;
+        padding: 10px 15px
+    }
+    .main_container .portfolio-container .portfolio-filter select {
+        border-radius: 0;
+        width: 65%;
+        box-shadow: none
+    }
+    .main_container .portfolio-container .portfolio-filter .btn_red {
+        margin-top: 0
+    }
+    .main_container .portfolio-container .portfolio-filter.mobile-version {
+        display: none
+    }
+    .main_container .portfolio-container .portfolio-data-table .table thead th:last-child {
+        text-align: center
+    }
+}
+
+#roleprofile2 .modal-body .changepassword .form .section{border:0;padding: 0 0 20px;}
+#roleprofile2 .modal-body .changepassword .form .section label{width:49%;}
+#roleprofile2 .modal-body .changepassword .form .section input[type="password"]{width:50%;height:40px;border:1px solid #d8d8d8;}
+#roleprofile2 .modal-body .changepassword .submit_btn{width:50%;margin:0;border-right:1px solid #fff;}
+#roleprofile2 .modal-body .changepassword .btn{width:50%;float:left;border-radius:0;padding:10px;font-size:15px;text-transform:uppercase;background:#e01010;color:#fff;}

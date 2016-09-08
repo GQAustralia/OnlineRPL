@@ -37,9 +37,8 @@
                             <ul class="dropdown-menu">
                                 <li><a href="javascript:void(0)" onclick="addNewUserbyRole('2');">Facilitator</a></li>
                                 {% if ('ROLE_SUPERADMIN' in userRole) %}
-                                    <li class="divider"></li>
-                                    <li><a href="javascript:void(0)" onclick="addNewUserbyRole('3');">Assessor</a></li><li class="divider"></li>
-                                    <li><a href="javascript:void(0)" onclick="addNewUserbyRole('4');">Rto</a></li><li class="divider"></li>
+                                    <li><a href="javascript:void(0)" onclick="addNewUserbyRole('3');">Assessor</a></li>
+                                    <li><a href="javascript:void(0)" onclick="addNewUserbyRole('4');">Rto</a></li>
                                     <li><a href="javascript:void(0)" onclick="addNewUserbyRole('5');">Manager</a></li>
                                 {% endif %}
                             </ul>

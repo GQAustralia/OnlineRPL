@@ -48,37 +48,32 @@
                 {% endif %}  
                 <!-- Profile Form -->
                 <div class="header_block clearfix" id='user_profile_form_div'>
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <div class="gq-edit-photo-btn">
-                                <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="gq-edit-photo-btn">
+                                    <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
+                                </div>
+                                <div class="ajax-profile-error" id="ajax-profile-error"></div>
                             </div>
-                            <div class="ajax-profile-error" id="ajax-profile-error"></div>
                         </div>
-                    </div>
-                    <div class="profile_section">
-                        <div id='ajax-gq-profile-page-img'>
-                            <img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png')}}" alt="" id='user_profile_image' class="profile_image"/>
-                        <div class="content">
-                            <h5 class="name"><strong>Add User</strong></h5>
-                            <span class="field">{{role}}</span>
-                            {#<span class="title uploadTrigger"><input type="file" ></span>#}
+                        <div class="profile_section">
+                            <div id='ajax-gq-profile-page-img'>
+                                    <h5 class="name"><strong>Add User</strong></h5>
+                                    <span class="field">{{role}}</span>
+                                    {#<span class="title uploadTrigger"><input type="file" ></span>#}
+                            </div>
+                            <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
                         </div>
-                    </div>
-
-                    <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
+                        <div class="row" id="profile_suc_msg2"></div>
+                        <div class="gq-change-address-warning" id="change_address_error">
+                            {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                            <div class="gq-id-address-error-text" style="dispaly:none">
+                                <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    <div class="ajax-profile-error" id="ajax-profile-error"></div>
                 </div>
-                <div class="row" id="profile_suc_msg2"></div>
-                <div class="gq-change-address-warning" id="change_address_error">
-                    {% for flashMessage in app.session.flashbag.get('errornotice') %}
-                    <div class="gq-id-address-error-text" style="dispaly:none">
-                        <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="ajax-profile-error" id="ajax-profile-error"></div>
-
-
                 <form class="form" id='user_profile_form_manager' action="{{ app.request.baseUrl }}/addUser/{{roleid}}" method="post">
                     <div class="form_fields">
                         <div class="section name_group clearfix">
