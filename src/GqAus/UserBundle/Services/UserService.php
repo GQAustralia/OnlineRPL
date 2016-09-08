@@ -2002,7 +2002,7 @@ class UserService
         $userImage .=$image;
         if (empty($image)) {
             //$userImage = $path . 'public/images/profielicon.png';
-            $userImage = $this->container->getParameter('applicationUrl') . 'public/images/profielicon.png';
+            $userImage = $this->container->getParameter('applicationUrl') . 'public/images/userprofile.png';
         }
         return $userImage;
     }
@@ -4159,5 +4159,37 @@ class UserService
         }
         return $logType;
     }	
+    
+    /* Display usernames in New message Role wise Authentication
+     * @param: $userRole
+     */
+        public function checkUsernamesbyRoles($options = array(),$userRole) {        
+        $query = $this->em->getRepository('GqAusUserBundle:User')
+            ->createQueryBuilder('u')
+            ->select( "CONCAT( CONCAT(u.firstName, ' '), u.lastName)" );
+        $nameCondition = "";
+        if ($userRole == 'ROLE_APPLICANT' || $userRole == 'ROLE_ASSESSOR' ||$userRole == 'ROLE_RTO' ) {            
+            $query->where('(u instance of GqAusUserBundle:Facilitator)');
+            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";
+            $query->andWhere($nameCondition);       
+        }
+        else if ($userRole == 'ROLE_FACILITATOR') {
+            $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
+            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";
+            $query->andWhere($nameCondition);            
+        }
+        else if ($userRole == 'ROLE_MANAGER') {
+            $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
+            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";
+            $query->andWhere($nameCondition);            
+        }
+            $getMessages = $query->getQuery()->getResult(); 
+            $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getMessages)));
+            sort($getMessages);
+            //echo "<pre>"; dump($getMessages); 
+            return $getMessages;
+        }
 
 }

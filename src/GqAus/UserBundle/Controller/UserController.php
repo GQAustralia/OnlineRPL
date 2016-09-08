@@ -864,4 +864,18 @@ class UserController extends Controller
         echo $this->render('GqAusUserBundle:User:loglist.html.twig', $userLog);
         exit;
     }
+    
+    /**
+     * Function to username exist
+     * return integer
+     */
+    function checkUserNameExistAction()
+    { 
+        $username = $this->getRequest()->get('username'); 
+        $messageService = $this->get('UserService');
+        $userrole = $messageService->getCurrentUser()->getRoles();
+        $rows = $messageService->checkUsernamesbyRoles(array('keyword' => $username),$userrole[0]);         
+        echo count($rows);
+        exit;
+    }
 }
