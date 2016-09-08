@@ -3529,36 +3529,15 @@ function profileModal()
     $('#profile2').modal('hide'); 
     $('#profile_suc_msg2').hide();
 }
-function validateNewMessage()
+function userExistMsg(errorMsg,msgId)
 {
-    var toMessage = $("#compose_toUserName").val();
-    var sublect = $("#compose_subject").val();
-    var composeMsg = $("#compose_message").val();
-    
-    if(toMessage == "")
-    {
-        alert("please enter to value");
-        return false;
-    }
-    else
-    {
-        var count = checkUserNameExist($("#compose_toUserName").val());
-        if (count == 0) {
-            showMyTabs("User not exists!");
-            $("#compose_toUserName").focus();
-            return false;
-        }
-    }
-    if(sublect == "")
-    {
-        alert("please enter sublect");
-        return false;
-    }
-    if(composeMsg == "")
-    {
-        alert("please enter composeMsg");
-        return false;
-    }
+    var startdiv = '<div class="gq-well gq-id-files-upload-success-text"><span>';
+    var enddiv = '</span></div>';
+    $("#change_pwd_error").show();
+    $("#change_pwd_error").html(startdiv + errorMsg + enddiv);
+    if($("#"+msgId).val() != "")
+        $("#"+msgId).val('');
+    $("#"+msgId).focus();
 }
 /* function to check email already exist */
 function checkUserNameExist(username) {
@@ -3574,4 +3553,35 @@ function checkUserNameExist(username) {
     });
     return count;
 }
+function validateNewMessage(toMessage,sublect,composeMsg)
+{    
+//    var toMessage = $("#compose_toUserName").val();
+//    var sublect = $("#compose_subject").val();
+//    var composeMsg = $("#compose_message").val();
+    
+    if(toMessage == "")
+    {
+        userExistMsg("please enter to user name", "compose_toUserName");
+        return false;
+    }
+    else
+    {        
+        var count = checkUserNameExist(toMessage);
+        if (count == 0) {
+            userExistMsg("User not exists, Please select valid User name!","compose_toUserName");            
+            return false;
+        }
+    }
+    if(sublect == "")
+    {
+        userExistMsg("please enter sublect","compose_subject");
+        return false;
+    }
+    if(composeMsg == "")
+    {
+        userExistMsg("please enter Message","compose_message");
+        return false;
+    }
+}
+
 /*Log list*/

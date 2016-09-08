@@ -247,7 +247,7 @@
     {% endfor %}
         <div class="" id="change_pwd_error" style="display:none">
         {% for flashMessage in app.session.flashbag.get('errornotice') %}
-        <div class="gq-well well gq-id-files-upload-success-text">
+        <div class="gq-well gq-id-files-upload-success-text">
             <span class="login-warning-icon"></span>
             <div class="login-warning-text" id="flash-msg">{{ flashMessage }}</div>
         </div>
@@ -290,7 +290,7 @@
                     <div class="btn_section">
                       <a class="checkform-changed button cancel_link hidden-xs" data-toggle="modal" data-target="" >
                           <button class="btn btn-grey" name="compose[discard]" id="compose_discard" type="reset">CANCEL</button></a>
-                     {{ form_widget(composemsgForm.save,{ 'label': 'SEND' , 'attr': {'class': 'button send_link','onclick':'validateNewMessage();'}}) }}	                        </div>
+                     {{ form_widget(composemsgForm.save,{ 'label': 'SEND' , 'attr': {'class': 'button send_link','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}}) }}	                        </div>
                      {{ form_end(composemsgForm) }}
                      </form>
             </div>
