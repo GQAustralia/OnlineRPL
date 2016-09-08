@@ -75,7 +75,7 @@
                                                                     {% set iconType = (evd.type == 'image') ? 'photo' : ((evd.type == 'audio') ? 'mic' : (evd.type == 'video') ? 'video' : '') %}
                                                             {% if evd.name %}
                                                                     <div class="block type-{{ evd.type}}" style="margin-bottom: 10px;">
-                                                                         <div class="file_info hidden-xs">
+                                                                         <div class="file_info">
                                                                                 <span class="icon"><i class="material-icons">{{ iconType }}</i></span>
                                                                                 <span class="file_name">
                                                                                     {{ evd.name }}
@@ -90,32 +90,18 @@
                                                                                     <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
                                                                                 </span>
                                                                             </div>
-                                                                            <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
-                                                                                <div class="file_info">
-                                                                                    <span class="icon">
-                                                                                        <i class="material-icons">description</i>
-                                                                                    </span>
-                                                                                    <span class="file-discription">
-                                                                                        {{ evd.name }} <br> {{ evd.size }} | Added {{ evd.created|date("d/m/y") }}
-                                                                                    </span>
-                                                                                    <span class="checkbox_outer">
-                                                                                        <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div>
                                                                     </div>
                                                             {% endif %}
                                                     {% else %}
                                                         {% if evd.content %} 
                                                             <div class="block type-{{ evd.type}}" style="margin-bottom: 10px;">
-                                                                <div class="file_info hidden-xs">
+                                                                <div class="file_info">
                                                                         <span class="icon">
                                                                                 <i class="material-icons">description</i>
                                                                         </span>
                                                                         <span class="file_name">
                                                                                 {{ evd.content|slice(0, 40) }}{% if(evd.content|length > 40) %}...{% endif %}
                                                                         </span>
-                                                                        <span class="file_size"></span>
                                                                         <span class="clear">
                                                                                 ADDED {{ evd.created|date("d/m/y") }}
                                                                         </span>
