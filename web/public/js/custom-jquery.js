@@ -283,7 +283,7 @@ $(".deleteIdFiles").click(function() {
             $("#idfiles_msg").show();
             $('#idfiles_' + fid).hide();
             $("#fclose").trigger("click");
-            $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>File deleted successfully!</h2></div>');
+            $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>File deleted successfully!</span></div>');
             if(url == 'deleteIdFiles')
                     window.location.href = base_url+'userprofile';
              else 
@@ -1374,6 +1374,7 @@ function validateAddress()
     var useremail = $("#userprofile_email").val();
     
     $("#change_address_error").hide();
+    $("#profile_suc_msg2").hide();
    // $("#profile_suc_msg2").hide();
     var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
@@ -2262,6 +2263,8 @@ function searchUsersFromCourse(id, facVal, accVal, rtoVal, curuserId) {
 /* Profile Update (from popup) -*/
 $('#user_profile_form').on('submit', function(e) {
      if(validateAddress()){  
+         $("#profile_suc_msg2").hide();
+         $("#change_address_error").hide();
       //  e.preventDefault();
         form_data = $(this).serialize(); //Serializing the form data
            $.ajax({
@@ -2270,9 +2273,15 @@ $('#user_profile_form').on('submit', function(e) {
                 cache: false,
                 data: form_data,
                 success: function(result) {
+                    $("#change_address_error").hide();
                     $("#profile_suc_msg2").show();
-                        $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile updated successfully!</h2></div>');
-                }
+                        $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Profile updated successfully!</span></div>');
+                },
+            error: function(){
+                $("#change_address_error").show();
+                    $("#profile_suc_msg2").hide();
+            }
+                
             });
         }
        
