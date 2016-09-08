@@ -53,7 +53,11 @@
             </div>
            {# <div class="qualification-success-msg" id="gq-dashboard-tabs-success-assess"></div>
             <div class="qualification-er-msg " id="gq-dashboard-tabs-error-assess"></div>#}
-            {% set showUpload = (approvalText == 'Satisfactory') ? 'hide1' : ((approvalText == 'Competent') ? 'hide' : (approvalText == 'Approved') ? 'hide' : 'show') %}            
+            {% if( approvalText != '0') %}
+                {% set showUpload = (approvalText == 'Satisfactory') ? 'hide' : ((approvalText == 'Competent') ? 'hide' : (approvalText == 'Approved') ? 'hide' : ((approvalText == 'Submitted') ? 'hide': 'show')) %}
+            {% else %}
+                {% set showUpload = 'show' %}
+            {% endif %}
             <div id="evidence_msg"></div>
             <div class="row no-gutter">
                 <div class="col-xs-12 col-sm-12">
@@ -109,7 +113,9 @@
                                                             {{ evidence.content|slice(0,20) }}<br/>ADDED {{evidence.created|date("d/m/y")}}
                                                         {% endif %}
                                                     </span>
-                                                    <span class="clear" data-toggle="modal" data-target="#confirm_popup"><a href="#"><i fileid="{{  evidence.id }}" filetype="{{  evidence.type }}"  class="material-icons viewModalClass">clear</i></a></span>
+                                                    {% if (showUpload == 'show')%}
+                                                        <span class="clear" data-toggle="modal" data-target="#confirm_popup"><a href="#"><i fileid="{{  evidence.id }}" filetype="{{  evidence.type }}"  class="material-icons viewModalClass">clear</i></a></span>
+                                                    {% endif %}
                                                 </div>
                                         {% endif %}
 					<div id="{{evidence.unit}}{{inc}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evidence.content is defined %}{{evidence.content}}{%endif%}</div>

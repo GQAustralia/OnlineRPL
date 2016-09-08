@@ -95,9 +95,10 @@
                                                 {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                                 {% set output = eviType|split('&&') %}
                                                 <div class="file-info">
+                                                    
                                                     <span class="icon">
                                                         {% if(evidence.type != 'text') %}
-                                                        <a href="{% if evidence.type != 'recording' %}{{ amazon_link }}{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
+                                                        <a href="{% if evidence.type != 'recording' %}{{ amazon_link }}user-{{userId}}/{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
                                                             {% if output[1] is defined %}
                                                             {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
                                                             {%endif%}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i>
