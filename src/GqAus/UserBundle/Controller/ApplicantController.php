@@ -569,7 +569,8 @@ class ApplicantController extends Controller
         {
             
             $status = 'true';
-            $message = 'updated successfully';
+            $message = $this->container->getParameter('fac_update_succ');
+            
        
             $fromUserVal =$this->get('security.context')->getToken()->getUser()->getId();
             $fromUser= $userService->getUserInfo($fromUserVal);
@@ -664,7 +665,7 @@ class ApplicantController extends Controller
         if($updateAssVal)
         {
             $status = 'true';
-            $message = 'updated successfully';
+            $message = $this->container->getParameter('ass_update_succ');
         }
         else
         {
@@ -686,7 +687,7 @@ class ApplicantController extends Controller
         if($updateRtoVal)
         {
             $status = 'true';
-            $message = 'updated successfully';
+            $message = $this->container->getParameter('rto_update_succ');
         }
         else
         {

@@ -7,6 +7,10 @@ parameters:
     curr_pwd               : "Current Password is not correct!"
     no_match_pwd           : "New Password and Confirm Password does not match"
     profile_update         : "Profile updated successfully!"
+    fac_update_succ        : "Facilitator assigned successfully!"
+    ass_update_succ        : "Assessor assigned successfully!"
+    rto_update_succ        : "RTO assigned successfully!"
+    err_update             : "Error while updating.."
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
