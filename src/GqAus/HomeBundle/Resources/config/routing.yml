@@ -31,4 +31,7 @@ unauthorized:
 submitUnitForReview:
     path:     /submitUnitForReview
     defaults:  { _controller: GqAusHomeBundle:Courses:submitUnitForReview }
+unreadEvidenceCount:
+    path:    /unreadEvidenceCount
+    defaults: { _controller: GqAusHomeBundle:Default:unreadEvidenceCount }
     

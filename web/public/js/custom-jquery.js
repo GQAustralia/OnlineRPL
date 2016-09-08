@@ -2600,6 +2600,7 @@ $('body').on('click', '.fac_view_evidence', function(){
         data: {evidenceId: evdId},
         success: function(result) {
             evidenceItem.addClass('disable');
+            onloadEvidenceCount();
         }
     });
 });
@@ -3574,3 +3575,24 @@ function checkUserNameExist(username) {
     return count;
 }
 /*Log list*/
+/*Portfolio Current Count in Menu*/
+function onloadEvidenceCount()
+{    
+    $.ajax({
+        url: base_url + "unreadEvidenceCount",
+        cache: false,
+        success: function(result) {         
+            if (result >= 0) {    
+                if(result==0)
+                {
+                    $('#evidenceCount').css("display","none");
+                }
+                $(".evidence-current").html(result);
+				$("#evidenceCount").attr('class', '');	
+//                    if(window.parent.opener) window.parent.opener.location.reload();
+            } else {                
+                $(".evidence-current").css("display","none");
+            }
+        }
+    });
+}

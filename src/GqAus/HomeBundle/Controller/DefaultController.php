@@ -68,4 +68,15 @@ class DefaultController extends Controller
         return $this->render('GqAusHomeBundle:Default:unauthorized.html.twig');
     }
 
+    /**
+     * function to get un read evidences count
+     */
+    public function unreadEvidenceCountAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $evidenceCount = $this->get('UserService')->getUnreadEviencesCount($user);
+        echo $evidenceCount;
+        exit;
+    }
+
 }

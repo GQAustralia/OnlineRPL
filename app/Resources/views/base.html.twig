@@ -132,6 +132,11 @@
                             {% endif %}
                             {% if ('ROLE_FACILITATOR' in roles)  %}
                                     <li>
+                                    <svg class="hide" id="evidenceCount" height="25" width="25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px"
+                                         viewBox="0 0 25 25" style="enable-background:new 0 0 25 25;" xml:space="preserve">
+                                        <circle style="fill:#DF1F26;" cx="12.5" cy="12.5" r="12.5"/>
+                                        <text text-anchor="middle" x="9" y="0" transform="matrix(1 0 0 1 3.266 16.022)" style="fill:#FFFFFF;" class="evidence-current"></text>
+                                    </svg>
                                         <a class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}" href="{{ app.request.baseUrl }}/evidences"><i class="material-icons">cloud_upload </i><span> Evidences </span></a>
                                     </li>
                             {% endif %}
@@ -233,6 +238,7 @@
      {% block javascripts %}{% endblock %}
     <script> onloadCount();</script>
     <script> onloadPortfolioCount();</script>
+    <script> onloadEvidenceCount();</script>
 	<script>
 	 $(document).ready(function(){
               var page = '{{page}}';
