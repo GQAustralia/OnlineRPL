@@ -15,12 +15,10 @@ input:focus,button:focus,.button:focus{outline:0}.btn.dropdown-toggle.btn-defaul
 .gq-change-profile-warning {width:60%; margin:0 auto; position:relative;}
 .gq-change-address-warning {width:60%; margin:0 auto; position:relative;}
 .gq-change-pwd-warning {width:60%; margin:0 auto; position:relative;}
-.gq-id-files-upload-success-text {padding-top:12px; text-align:center;width: 100%;}
-.gq-id-files-upload-success-text h2{color:#86b332; font-size:15px;text-align: center;}
-.gq-id-files-upload-success-text img {margin-right:4px; padding-bottom:4px;width:auto !important;}
-.gq-id-files-upload-success-text span{width:19px; height:13px; background-repeat:no-repeat; backgrounc-positoin:center center; float:left; margin-right:12px;}
-.gq-id-files-upload-text, .gq-id-files-upload-success-text {padding-bottom:20px;}
-.gq-id-files-upload-success-text{color: green;}
+.message_section .gq-id-files-upload-success-text {text-align:center;width: 100%;}
+.message_section .gq-id-files-upload-success-text span{width:100%; height:auto;background:#fff;}
+.gq-id-files-upload-text {padding-bottom:20px;}
+.message_section .gq-id-files-upload-success-text{color: green;}
 .gq-id-files-upload-wait-text {padding-top:12px; text-align:center;}
 .gq-id-files-upload-wait-text h2{font-size:13px;}
 .ajax-profile-error {color:#e01010; text-align:center; font-size:14px;}
