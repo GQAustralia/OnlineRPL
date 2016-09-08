@@ -80,11 +80,11 @@ $(function() {
     });
     
     // to send the notifications and mail when the status is changed
-    $("#courseStatus").change(function(){
+    $("body").on("change", "#courseStatus", function() {
         var userId = $("#csUserId").val();
         var courseCode = $("#csCourseCode").val();
         var courseStatus = $("#courseStatus").val();
-		$("body #status-message").show();
+        $("body #status-message").show();
         $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/loading.gif"></div>');
         if (courseStatus !== "") {
             $.ajax({
@@ -1766,6 +1766,7 @@ $("#select_existing_evidence").click(function() {
         data: {userId: userId},
         success: function(result) {
             $('#select-from').html(result);
+            centerModals(modEle);
             //Custom.init();
         }
     });
