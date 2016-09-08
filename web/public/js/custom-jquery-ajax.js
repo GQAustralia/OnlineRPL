@@ -72,12 +72,11 @@ $(".modal-body span.close").click(function(){
 });
 
 $("body").on('click', '#disapproveyes', function() {
-    $(this).prop('disabled', true);
     var newunit = $('#unit-code').val();
     var userId = $('#userid').val();
     var toUserId = $('#fromuser-id').val();
     var userRole = $('#applicantEStatus').attr('userRole');
-	var courseName = $('#course-name').val();
+    var courseName = $('#course-name').val();
     var unitName = $('#unit-name').val();
     var unitId = $('#unit-id').val();
     var courseCode = $('#course-code').val();
@@ -87,6 +86,7 @@ $("body").on('click', '#disapproveyes', function() {
         $('#msg-body').css("border","1px solid red");
         return false;
     }
+    $(this).prop('disabled', true);
 //    var subject = "Evidenced are Not sufficient for the unit "+ unitName +"";    
 //	$.ajax({
 //        type: "POST",
