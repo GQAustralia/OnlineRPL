@@ -199,27 +199,5 @@ class Log
     {
         return $this->logRole;
     }
-    
-//    /**
-//     * Set logUserId
-//     *
-//     * @param string logUserId
-//     * @return logUserId
-//     */
-//    public function setlogUserId($logUserId)
-//    {
-//        $this->logUserId = $logUserId;
-//        return $this;
-//    }
-//
-//    /**
-//     * Get logUserId
-//     *
-//     * @return string 
-//     */
-//    public function getlogUserId()
-//    {
-//        return $this->logUserId;
-//    }
 
 }
