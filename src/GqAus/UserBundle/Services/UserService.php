@@ -2001,7 +2001,7 @@ class UserService
         $userImage .=$image;
         if (empty($image)) {
             //$userImage = $path . 'public/images/profielicon.png';
-            $userImage = $this->container->getParameter('applicationUrl') . 'public/images/profielicon.png';
+            $userImage = $this->container->getParameter('applicationUrl') . 'public/images/userprofile.png';
         }
         return $userImage;
     }
