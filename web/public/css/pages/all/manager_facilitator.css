@@ -353,6 +353,13 @@
 .confirm_popup .btn_section .btn.btn_red {
     border-right: 1px solid #fff;
 }
+.profile_popup .modal-body .form .update_btn{
+	background-color: #E01010;
+    color: #fff;
+    border-radius: 0;
+    margin-top: 20px;
+    width: 100%;
+}
 @media screen and (min-width: 568px) {
     .confirm_popup .modal-dialog {
         width: 450px
