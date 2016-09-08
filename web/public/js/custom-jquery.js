@@ -80,11 +80,11 @@ $(function() {
     });
     
     // to send the notifications and mail when the status is changed
-    $("#courseStatus").change(function(){
+    $("body").on("change", "#courseStatus", function() {
         var userId = $("#csUserId").val();
         var courseCode = $("#csCourseCode").val();
         var courseStatus = $("#courseStatus").val();
-		$("body #status-message").show();
+        $("body #status-message").show();
         $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/loading.gif"></div>');
         if (courseStatus !== "") {
             $.ajax({
@@ -1766,6 +1766,7 @@ $("#select_existing_evidence").click(function() {
         data: {userId: userId},
         success: function(result) {
             $('#select-from').html(result);
+            centerModals(modEle);
             //Custom.init();
         }
     });
@@ -3529,36 +3530,15 @@ function profileModal()
     $('#profile2').modal('hide'); 
     $('#profile_suc_msg2').hide();
 }
-function validateNewMessage()
+function userExistMsg(errorMsg,msgId)
 {
-    var toMessage = $("#compose_toUserName").val();
-    var sublect = $("#compose_subject").val();
-    var composeMsg = $("#compose_message").val();
-    
-    if(toMessage == "")
-    {
-        alert("please enter to value");
-        return false;
-    }
-    else
-    {
-        var count = checkUserNameExist($("#compose_toUserName").val());
-        if (count == 0) {
-            showMyTabs("User not exists!");
-            $("#compose_toUserName").focus();
-            return false;
-        }
-    }
-    if(sublect == "")
-    {
-        alert("please enter sublect");
-        return false;
-    }
-    if(composeMsg == "")
-    {
-        alert("please enter composeMsg");
-        return false;
-    }
+    var startdiv = '<div class="gq-well gq-id-files-upload-success-text"><span>';
+    var enddiv = '</span></div>';
+    $("#change_pwd_error").show();
+    $("#change_pwd_error").html(startdiv + errorMsg + enddiv);
+    if($("#"+msgId).val() != "")
+        $("#"+msgId).val('');
+    $("#"+msgId).focus();
 }
 /* function to check email already exist */
 function checkUserNameExist(username) {
@@ -3574,8 +3554,53 @@ function checkUserNameExist(username) {
     });
     return count;
 }
+function validateNewMessage(toMessage,sublect,composeMsg)
+{    
+//    var toMessage = $("#compose_toUserName").val();
+//    var sublect = $("#compose_subject").val();
+//    var composeMsg = $("#compose_message").val();
+    
+    if(toMessage == "")
+    {
+        userExistMsg("please enter to user name", "compose_toUserName");
+        return false;
+    }
+    else
+    {        
+        var count = checkUserNameExist(toMessage);
+        if (count == 0) {
+            userExistMsg("User not exists, Please select valid User name!","compose_toUserName");            
+            return false;
+        }
+    }
+    if(sublect == "")
+    {
+        userExistMsg("please enter sublect","compose_subject");
+        return false;
+    }
+    if(composeMsg == "")
+    {
+        userExistMsg("please enter Message","compose_message");
+        return false;
+    }
+}
+
+/* function to check email already exist */
+function checkUserNameExist(username) {
+    var count = '';
+    $.ajax({
+        type: "POST",
+        url: base_url + "checkUserNameExist",
+        async: false,
+        data: {username: username},
+        success: function(result) {           
+           count = result;
+        }
+    });
+    return count;
+}
 /*Log list*/
-/*Portfolio Current Count in Menu*/
+/*Evidence Count in Menu*/
 function onloadEvidenceCount()
 {    
     $.ajax({

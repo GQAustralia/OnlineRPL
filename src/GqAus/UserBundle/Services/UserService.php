@@ -3238,9 +3238,12 @@ class UserService
     {
         $response = array();
         $toEmail = $toId = $roleMessageBody = $roleMailBody = '';
-
+        
         // get status list
         $statusList = $this->getQualificationStatus();
+        $courseName = $courseObj->getCourseName();
+        $courseCurrentStatus = $statusList[$courseObj->getCourseStatus()]['status'];
+        $courseChangeStatus = $statusList[$courseStatus]['status'];
 
         // finding and replacing the variables from message templates
         $subSearch = array('#courseCode#', '#courseName#');

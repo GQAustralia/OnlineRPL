@@ -150,6 +150,8 @@ var s3upload = null;
             k++;
             promises.push(def);
         }//);
+	
+		centerModals(modEle);
 
         return $.when.apply(undefined, promises).promise();
    }

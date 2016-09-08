@@ -27,6 +27,14 @@
     </div>
     {% endfor %}   
     </div>
+      <div class="" id="change_pwd_error" style="display:none">
+        {% for flashMessage in app.session.flashbag.get('errornotice') %}
+        <div class="gq-well gq-id-files-upload-success-text">
+            <span class="login-warning-icon"></span>
+            <div class="login-warning-text" id="flash-msg">{{ flashMessage }}</div>
+        </div>
+        {% endfor %}
+        </div>
        {% if messages %}
         {% if messages|length > 0 %}  
                 {% if msgType is defined and msgType=="" %}
@@ -91,7 +99,7 @@
                         {% endfor %}
                     </ul>
                     <div class="floater_add_icon" title="Add New Message">
-                             <a href="{{ base_url }}messages/compose" onclick=""><i class="material-icons add">add</i> </a>
+                             <a href="{{ base_url }}messages/compose" ><i class="material-icons add">add</i> </a>
                     </div>
                 <div>
                     {# display navigation for pages - paginator_navigator #}
@@ -234,7 +242,7 @@
                     <div class="btn_section">
                       <a class="checkform-changed button cancel_link hidden-xs" data-toggle="modal" data-target="" >
                           <button class="btn btn-grey" name="compose[discard]" id="compose_discard" type="reset">CANCEL</button></a>
-                     {{ form_widget(composeformMobile.save,{ 'label': 'Send' , 'attr': {'class': 'button send_link','onclick':'validateNewMessage();'}}) }}	                        </div>
+                     {{ form_widget(composeformMobile.save,{ 'label': 'Send' , 'attr': {'class': 'button send_link','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}}) }}	                        </div>
                      {{ form_end(composeformMobile) }}
                      </form>
             </div>
@@ -250,26 +258,5 @@
 {% block javascripts %}       
     <script src="{{ asset('public/js/jquery.form.js') }}"></script>
     <script src="{{ asset('public/js/custom-form-elements.js') }}"></script> 
-    <script>
-        function validateNewMessage(){
-          var toUserName = $("#compose_toUserName").val();
-          var subject = $("#compose_subject").val();
-          var message = $("#compose_message").val();
-          if(toUserName == "")
-          {
-              alert("Please enter to address");
-              return false;
-          }
-          if(subject == "")
-          {
-              alert("Please enter subject");
-              return false;
-          }
-          if(message == "")
-          {
-              alert("Please enter message");
-              return false;
-          }
-        }
-    </script>
+    
 {% endblock %}
