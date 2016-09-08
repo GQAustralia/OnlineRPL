@@ -1453,10 +1453,11 @@ class UserService
         $remindersCount = count($checkReminder);
         if($remindersCount > 0) {
             $result = array('playlistIcon' => 'playlist_add_check',
-                            'playlistIconClass' => 'disable', 
+                            'playlistIconClass' => 'disable',
+                            'portfolioIconClass' => 'disabled',
                             'calendarClass' => 'hide');
         } else {
-            $result = array('playlistIcon' => 'playlist_add', 'playlistIconClass' => '', 'calendarClass' => '');
+            $result = array('playlistIcon' => 'playlist_add', 'playlistIconClass' => '', 'portfolioIconClass' => '', 'calendarClass' => '');
         }
         $result['parameters'] = $parameters;
         return $result;

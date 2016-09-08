@@ -774,6 +774,7 @@ $(".setData").click(function() {
         var courseId = $('#course_' + listId).val();
         note = $('#notes_' + listId).val();
         remindDate = $('#remindDate_'+listId).val();
+		reminderDateId = '#remindDate_'+listId;
     }
     if (courseId != '' && typeof courseId !== 'undefined') {
         userCourseId = courseId;
