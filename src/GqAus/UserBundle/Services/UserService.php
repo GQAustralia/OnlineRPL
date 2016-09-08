@@ -4127,7 +4127,7 @@ class UserService
      */
     public function createUserLog($action, $messge) {
         $nowtime = date('Y-m-d h:i:s');
-        $user = $this->getCurrentUser()->getID();
+        $user = $this->getCurrentUser();
         $userRole = $this->getCurrentUser()->getRoles();
         $role = $userRole[0];
         $roles = array("ROLE_APPLICANT" => "1", "ROLE_FACILITATOR" => "2", "ROLE_ASSESSOR" => "3", "ROLE_RTO" => "4", "ROLE_MANAGER" => "5", "ROLE_SUPERADMIN" => "6");
@@ -4136,7 +4136,8 @@ class UserService
         $basepath = $request->get('_route');
         $page = $this->container->getParameter('applicationUrl').''.$basepath;
         $logObj = new Log();
-        $logObj->setlogUserId($user);
+
+        $logObj->setUser($user);
         $logObj->setlogAction($action);
         $logObj->setlogpagename($page);
         $logObj->setlogDateTime($nowtime);

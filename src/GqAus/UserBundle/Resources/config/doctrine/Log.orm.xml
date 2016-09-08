@@ -4,14 +4,17 @@
         <id name="id" type="integer" column="id">
             <generator strategy="IDENTITY"/>
         </id>
-        <field name="logUserId" type="integer" column="user_id" nullable="false"/>   
+<!--        <field name="logUserId" type="integer" column="user_id" nullable="false"/>  -->
         <field name="logAction" type="integer" column="action" nullable="false"/>   
         <field name="logpagename" type="string" column="page_name" nullable="false"/>   
         <field name="logDateTime" type="string" column="date_time" nullable="false"/>   
         <field name="logMessage" type="string" column="message" nullable="false"/>   
         <field name="logRole" type="integer" column="role" nullable="false"/> 
-        <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User">
-            <join-column name="user_id" joined-column-name="id" />
-        </many-to-one>      
+<!--        <many-to-one field="logUserId" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>   -->
+         <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User">
+            <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>
     </entity>
 </doctrine-mapping>
