@@ -16,7 +16,7 @@ input:focus,button:focus,.button:focus{outline:0}.btn.dropdown-toggle.btn-defaul
 .gq-change-address-warning {width:60%; margin:0 auto; position:relative;}
 .gq-change-pwd-warning {width:60%; margin:0 auto; position:relative;}
 .gq-id-files-upload-success-text {text-align:center;width: 100%;}
-.gq-id-files-upload-success-text span{width:100%; height:auto;background:#fff;}
+.gq-id-files-upload-success-text span{width:100%; height:auto;background:#fff;float:none;}
 .gq-id-files-upload-text {padding-bottom:20px;}
 .gq-id-files-upload-success-text{color: green;}
 .gq-id-files-upload-wait-text {padding-top:12px; text-align:center;}
