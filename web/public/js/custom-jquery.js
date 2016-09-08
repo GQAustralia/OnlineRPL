@@ -2847,6 +2847,8 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 /*Assessor Update in Manager Portfolio */
 function updateAssessor(courseCode , userId, listId)
 {
+    var facBtn = $('.update_ass_btn');
+    facBtn.attr('disabled', true);
     var assVal = $('#ass_'+listId).val();
     $("#profile_suc_msg3_"+listId).hide();
         $.ajax({
@@ -2860,8 +2862,12 @@ function updateAssessor(courseCode , userId, listId)
                 {
                     $("#profile_suc_msg3_"+listId).show();
                      $("#profile_suc_msg3_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>'+res.message+'</h2></div>');
+                      facBtn.attr('disabled', false);
                 }
                 
+            },
+            error: function(){
+                facBtn.attr('disabled', false);
             }
        });
        
@@ -2870,6 +2876,8 @@ function updateAssessor(courseCode , userId, listId)
 /*Assessor Update in Manager Portfolio */
 function updateRto(courseCode , userId, listId)
 {
+    var facBtn = $('.update_rto_btn');
+    facBtn.attr('disabled', true);
     rtoVal = $('#rto_'+listId).val();
     $("#profile_suc_msg4_"+listId).hide();
         $.ajax({
@@ -2884,8 +2892,12 @@ function updateRto(courseCode , userId, listId)
                    
                     $("#profile_suc_msg4_"+listId).show();
                      $("#profile_suc_msg4_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>'+res.message+'</h2></div>');
+                     facBtn.attr('disabled', false);
                 }
                 
+            },
+            error: function(){
+                facBtn.attr('disabled', false);
             }
        });
        

@@ -50,9 +50,10 @@
          </td>
          {% endif %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
-         {% set remStatus = user_service.checkReminderExists(currUser, list.id, 'portfolio') %}        
-        <td>
-            <span class="clearfix {{ remStatus.playlistIconClass }}">
+         {% set remStatus = user_service.checkReminderExists(currUser, list.id, 'portfolio') %}   
+        
+        <td class="{{ remStatus.playlistIconClass }}">            
+            <span class="clearfix">
             <div class="dropdown keep-open" id="div_{{list.id}}">
                     <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                     <div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -124,7 +125,7 @@
                                                    {% endfor %}
                                             </select>
                                         {% endif %}
-                                            <button class="btn btn_red" onclick="return updateAssessor('{{ccode}}',{{list.user.id}},{{id}});">UPDATE</button>
+                                            <button class="btn btn_red update_ass_btn" onclick="return updateAssessor('{{ccode}}',{{list.user.id}},{{id}});">UPDATE</button>
                                     </form>
                             </div>
                     </div>
@@ -155,7 +156,7 @@
                                                    {% endfor %}
                                             </select>
                                         {% endif %}
-                                            <button class="btn btn_red" onclick="return updateRto('{{ccode}}',{{list.user.id}},{{id}});">UPDATE</button>
+                                            <button class="btn btn_red update_rto_btn" onclick="return updateRto('{{ccode}}',{{list.user.id}},{{id}});">UPDATE</button>
                                     </form>
                             </div>
                     </div>

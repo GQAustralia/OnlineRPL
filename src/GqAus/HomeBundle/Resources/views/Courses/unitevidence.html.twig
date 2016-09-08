@@ -139,13 +139,13 @@
                                         {% set evdText = courses_service.getsubmitUnitForReview(userId,courseCode,unitCode) %}  
                                             {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,unitCode) %}
                                         {% set selfAsseNote = '' %} 
-                                        {% for key , test  in evdText %}
+                                        {% for key , test  in evdText %}                                         
                                         {% if test.content  is defined %}
                                        {% set selfAsseNote = test.content %} 
                                          {% endif %}
                                         {% endfor%}
                                             
-                                            <textarea id="selfassnote" name="selfassnote" >{{selfAsseNote}}</textarea>    
+                                            <textarea id="selfassnote" name="selfassnote" >{% if approvalText == "Not Yet Satisfactory" or  approvalText == "" %} {% else %}{{selfAsseNote}} {% endif %}</textarea>    
                                              <span class="char-count" id = "myWordCount"></span>                                             
                                         </div>
                                 </div>                                        
@@ -422,7 +422,12 @@
             $('#myWordCount').text(orig_words+"/50");
             $('#selfassnote').on('keyup', function(){
                 // count words by whitespace
-                var words = $(this).val().split(' ').length;
+                var words = $('#selfassnote').val();
+                words = words.replace(/(^\s*)|(\s*$)/gi,"");//exclude  start and end white-space
+                words = words.replace(/[ ]{2,}/gi," ");//2 or more space to 1
+                words = words.replace(/\n /,"\n"); // exclude newline with a start spacing
+                words = words.split(' ').length;
+    
                 $('#myWordCount').text(words+"/50");
             });
         });
