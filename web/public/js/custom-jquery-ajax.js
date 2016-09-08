@@ -42,6 +42,7 @@ $("body").on('click', '#approveyes', function() {
         url: base_url + "setUserUnitEvidencesStatus",
         data: { unit: newunit, userId: userId, userRole: userRole, status: '1', courseName: courseName, unitName: unitName, courseCode: courseCode },
         success:function(result) {
+            $(this).prop('disabled', false);
             var newresult = result.split("&&");
             if (newresult[0] == '1') {
 			    $('#satisfactory-myModal').modal('hide');
@@ -100,6 +101,7 @@ $("body").on('click', '#disapproveyes', function() {
         url: base_url + "setUserUnitEvidencesStatus",
         data: { unit: newunit, userId: userId, userRole: userRole, status: '2', courseName: courseName, unitName: unitName, courseCode: courseCode, msgBody: msgBody },
         success:function(result) {
+            $(this).prop('disabled', false);
             var newresult = result.split("&&");
             if (newresult[0] == '2') {
                 $('#non-satisfactory').modal('hide');
