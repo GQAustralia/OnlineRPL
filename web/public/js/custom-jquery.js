@@ -3482,4 +3482,49 @@ function profileModal()
     $('#profile2').modal('hide'); 
     $('#profile_suc_msg2').hide();
 }
+function validateNewMessage()
+{
+    var toMessage = $("#compose_toUserName").val();
+    var sublect = $("#compose_subject").val();
+    var composeMsg = $("#compose_message").val();
+    
+    if(toMessage == "")
+    {
+        alert("please enter to value");
+        return false;
+    }
+    else
+    {
+        var count = checkUserNameExist($("#compose_toUserName").val());
+        if (count == 0) {
+            showMyTabs("User not exists!");
+            $("#compose_toUserName").focus();
+            return false;
+        }
+    }
+    if(sublect == "")
+    {
+        alert("please enter sublect");
+        return false;
+    }
+    if(composeMsg == "")
+    {
+        alert("please enter composeMsg");
+        return false;
+    }
+}
+/* function to check email already exist */
+function checkUserNameExist(username) {
+    var count = '';
+    $.ajax({
+        type: "POST",
+        url: base_url + "checkUserNameExist",
+        async: false,
+        data: {username: username},
+        success: function(result) {           
+           count = result;
+        }
+    });
+    return count;
+}
 /*Log list*/

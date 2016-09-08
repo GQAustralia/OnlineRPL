@@ -286,3 +286,6 @@ userslog:
 searchLogList:
     path:     /searchLogList
     defaults: { _controller: GqAusUserBundle:User:searchLogList }    
+checkUserNameExist:
+    path:     /checkUserNameExist
+    defaults: { _controller: GqAusUserBundle:User:checkUserNameExist }
