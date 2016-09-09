@@ -96,7 +96,7 @@ $(function() {
                     if(result.type == 'Error' ) {
                         $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2>'+ result.msg+'</h2></div>');
                     } else if (result.type == 'Success') {
-                        $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
+                        $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</span></div>'); 
                     }   
                     if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
@@ -255,7 +255,7 @@ $(".deleteEvidence").click(function() {
             $('#evd_' + fid).hide();
             $("#qclose").trigger("click");
             $('#confirm_popup').modal('hide');            
-            $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + '/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
+            $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + '/public/images/tick.png">Evidence File deleted successfully!</span></div>');
             $('.deleteevidence_loader').hide();
             setTimeout(function(){ location.reload(); }, 2000);
               var table = $('#evidence').DataTable();
@@ -332,7 +332,7 @@ if($('#frmSelectEvidence').length)
             $('#gq-dashboard-tabs-success').show();
             if (responseText){            
                 $('#sp_'+responseText).show();
-                $('#gq-dashboard-tabs-success').html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><h2>Existing Evidence uploaded successfully!</h2></div>');
+                $('#gq-dashboard-tabs-success').html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Existing Evidence uploaded successfully!</span></div>');
             }
             setTimeout(function(){jQuery("#evd_close").trigger('click');},3000);
         },
@@ -521,7 +521,7 @@ if($('#Id_files').length)
                 var result = jQuery.parseJSON(responseText);
                 var name = result.name.split('.');
                 var ftype = result.type.split('.'); 
-                $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>File added successfully!</h2></div>');
+                $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>File added successfully!</span></div>');
                 window.location.href = base_url+'userprofile';
             }
         },
@@ -861,7 +861,7 @@ $(".setData").click(function() {
             success: function(result) {
                 var res = $.parseJSON(result);
                 $('#err_msg').show();           
-                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Reminder added succesfully!</h2></div>').delay(3000).fadeOut(100);
+                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Reminder added succesfully!</span></div>').delay(3000).fadeOut(100);
                 if(newTodoItemElement && addToToDo) {
                     newTodoItem = newTodoItemElement.replace(/reminderId/g, res.reminderId);
                     flyToElement(newTodoItemContent, $('.todo-list'),stPos);
@@ -1621,7 +1621,7 @@ $("#approve-for-certification, #approve-for-certification-ajax").click(function(
         success: function(result) {
             $("#approve_loader_fac_ajax").hide();
             $('#approve_sectionajax').show();
-            $("#approve_sectionajax").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png">Certificate issued successfully!</h2></div>');
+            $("#approve_sectionajax").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + 'public/images/tick.png">Certificate issued successfully!</span></div>');
             $("#approve_section-status").show();
             $("#status_arc").show();
             $("#courseStatusCodeName").html('<img src="' + base_url + 'public/images/status.png">Certificate Received By GQ');
@@ -1642,7 +1642,7 @@ $("#approve-for-rto").click(function() {
             $("#approve_section_fac_ajax").show();
             $("#approve_loader_fac_ajax").hide();
             $('#approve_section').show();
-            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Portfolio submited to RTO!</h2></div>');
+            $("#approve_section").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Portfolio submited to RTO!</span></div>');
             $("#status_ar").show();
         }
     });
@@ -1664,7 +1664,7 @@ $("#approve-all-units-from-rto").click(function(){
             } else if (result.type == 'Success') {
                     $( "#approve-all-units-from-rto").hide( "slow");
                     $(this).hide();
-                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
+                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</span></div>'); 
             } 
         }
     });
@@ -2046,7 +2046,7 @@ if($('#frmAddNotes').length)
             $('#notes-loading').addClass('hide');
             if (responseText == "success") {
                 $('#notes-success-msg').show();
-                $("#notes-success-msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/tick.png">Notes added successfully!</h2></div>');
+                $("#notes-success-msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/tick.png"><span>Notes added successfully!</span></div>');
             } else {
                 $('#notes-error-msg').show();
                $("#notes-error-msg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error saving notes!</h2></div>');
@@ -2137,9 +2137,9 @@ $(".deleteUser").click(function() {
         success: function(result) {
             $("#uclose").trigger("click");
             if (result == 0) {
-                 $("#err_msg").html('<div class="gq-id-files-upload-error-text" style="display: block;"><h2><img src="' + base_url + '/public/images/login-error-icon.png">This User cannot be deleted!</h2></div>');
+                 $("#err_msg").html('<div class="gq-id-files-upload-error-text" style="display: block;"><span><img src="' + base_url + '/public/images/login-error-icon.png">This User cannot be deleted!</span></div>');
             } else {
-                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + '/public/images/tick.png">User deleted successfully!</h2></div>');
+                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + '/public/images/tick.png">User deleted successfully!</span></div>');
                 $("#searchUserFilter").trigger("click");
             }
             $('.deleteuser_loader').hide();
@@ -2203,7 +2203,7 @@ $("body #submittoassessor,body #request-cc").click(function(){
                         $( "#submittoassessor").hide( "slow"); 
                         $(this).hide(); 
                     }
-					$("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</h2></div>'); 
+					$("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</span></div>'); 
 				}   
 				if(result.code == '1'){
 				  $("#currentCourseStatus").val(courseStatus);  
@@ -2340,7 +2340,7 @@ $('#change_password_form').on('submit', function(e) {
             data: form_data,
             success: function(result) {
                
-                $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Password updated successfully!</h2></div>');
+                $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Password updated successfully!</span></div>');
                 //$('#change_password_form').hide();
                // $('#user_profile_form').show();
                // $('#user_profile_form_div').show();
@@ -2713,7 +2713,7 @@ $('#updatePassword').on('submit', function(e) {
                 data: form_data,
                 success: function(result) {
                     $("#profile_suc_msg3").show();
-                    $("#profile_suc_msg3").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile updated successfully!</h2></div>');                    
+                    $("#profile_suc_msg3").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Profile updated successfully!</span></div>');                    
                    window.location.href = base_url+'userprofile';
                   
                 }
@@ -3571,7 +3571,7 @@ function validateNewMessage(toMessage,sublect,composeMsg)
     
     if(toMessage == "")
     {
-        userExistMsg("please enter to user name", "compose_toUserName");
+        userExistMsg("Please enter to user name", "compose_toUserName");
         return false;
     }
     else
@@ -3584,12 +3584,12 @@ function validateNewMessage(toMessage,sublect,composeMsg)
     }
     if(sublect == "")
     {
-        userExistMsg("please enter sublect","compose_subject");
+        userExistMsg("Please enter subject","compose_subject");
         return false;
     }
     if(composeMsg == "")
     {
-        userExistMsg("please enter Message","compose_message");
+        userExistMsg("Please enter Message","compose_message");
         return false;
     }
 }
