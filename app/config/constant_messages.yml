@@ -77,7 +77,7 @@ parameters:
                                       Dear #toUserName#, <br/><br/> 
                                       Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
                                       Provided evidences for above unit are satisfactory.<br/>
-                                      Please check <a href='#applicationUrl#messages'>here</a><br/><br/>
+                                      <a href='#applicationUrl#login'>Click here</a> to login to Online RPL <br/><br/>
                                       Regards, <br/>#fromUserName#
     mail_appove_evdience_fac_sub: "Evidences approved for - #courseCode# : #courseName# - Unit : #unitName#" 
     mail_appove_evdience_fac_con: >
@@ -85,7 +85,7 @@ parameters:
                                        Qualification : #courseCode# - #courseName#<br/> 
                                        Unit : #unitId# #unitName# <br/>
                                        Provided evidences for above unit are satisfactory.<br/>
-                                       Please check <a href='#applicationUrl#messages'>here</a><br/><br/>
+                                       <a href='#applicationUrl#login'>Click here</a> to login to Online RPL <br/><br/>
                                        Regards, <br/>#fromUserName#
     msg_disappove_evdience_fac_sub: "Not Satisfactory - #courseCode# : #courseName# - Unit : #unitName#" 
     msg_disappove_evdience_fac_con: >
@@ -93,7 +93,7 @@ parameters:
                                       Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
                                       Provided evidences for above unit are Not Satisfactory yet. Please add more evidences and get back to us.<br/>
                                       Comments : #faccomments# <br/>
-                                      Please check <a href='#applicationUrl#messages'>here</a><br/><br/>
+                                      <a href='#applicationUrl#login'>Click here</a> to login to Online RPL <br/><br/>
                                       Regards, <br/>#fromUserName#
     mail_disappove_evdience_fac_sub: "Not Satisfactory for - #courseCode# : #courseName# - Unit : #unitName#" 
     mail_disappove_evdience_fac_con: >
@@ -102,7 +102,7 @@ parameters:
                                        Unit : #unitId# #unitName# <br/>
                                        Provided evidences for above unit are Not Satisfactory yet. Please add more evidences and get back to us.<br/>
                                        Comments : #faccomments# <br/>
-                                       Please check <a href='#applicationUrl#messages'>here</a><br/><br/> 
+                                       <a href='#applicationUrl#login'>Click here</a> to login to Online RPL <br/><br/>
                                        Regards, <br/>#fromUserName#
     msg_conversation_invitation_sub: "Competency conversation invitation for - #courseCode# : #courseName#" 
     msg_conversation_invitation_con: >
