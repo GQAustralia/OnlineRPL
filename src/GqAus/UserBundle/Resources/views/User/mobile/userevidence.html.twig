@@ -79,7 +79,7 @@
                                                     {% if evd.type !='text' %}
                                                                     {% set iconType = (evd.type == 'image') ? 'photo' : ((evd.type == 'audio') ? 'mic' : (evd.type == 'video') ? 'videocam' : '') %}
                                                             {% if evd.name %}
-                                                                    <div class="block type-{{ evd.type}}" style="margin-bottom: 10px;">
+                                                                    <div class="block type-{{ evd.type}}">
                                                                             <div class="files_mobile_version">
                                                                                 <div class="file_info">
                                                                                     <span class="icon">
@@ -98,21 +98,22 @@
                                                     {% else %}
                                                         {% if evd.content %} 
                                                             <div class="block type-{{ evd.type}}">
-                                                                <div class="file_info">
-                                                                        <span class="icon">
-                                                                                <i class="material-icons">description</i>
-                                                                        </span>
-                                                                        <span class="file_name">
-                                                                                {{ evd.content|slice(0, 30) }}{% if(evd.content|length > 40) %}...{% endif %}
-                                                                        </span>
-                                                                        <span class="file_size"></span>
-                                                                        <span class="clear">
-                                                                                ADDED {{ evd.created|date("d/m/y")|slice(0, 40) }}{% if(evd.content|length > 40) %}...{% endif %}
-                                                                        </span>
-                                                                        <span class="checkbox_outer">
-                                                                                <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
-                                                                        </span>                                                                                                                    
-                                                                </div>
+																<div class="files_mobile_version">
+																	<div class="file_info">
+																			<span class="icon">
+																					<i class="material-icons">description</i>
+																			</span>
+																			<span class="file-discription">
+																					{{ evd.content|slice(0, 30) }} {% if(evd.content|length > 40) %}...{% endif %}<br>
+																				<span class="clear">
+																					ADDED {{ evd.created|date("d/m/y")|slice(0, 40) }}{% if(evd.content|length > 40) %}...{% endif %}
+																				</span>
+																			</span>
+																			<span class="checkbox_outer">
+																					<input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
+																			</span>                                                                                                                    
+																	</div>
+																</div>
                                                             </div>
                                                         {% endif %}
                                                     {% endif %}
