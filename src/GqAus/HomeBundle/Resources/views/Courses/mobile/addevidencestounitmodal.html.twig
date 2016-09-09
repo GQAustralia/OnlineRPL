@@ -21,7 +21,7 @@
                                                 <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
                                                 <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file or Drag and Drop</div>
                                             </div>                                        
-                                            <span class="caution">Maximum file size is 3.0Gb per upload</span>
+                                            <span class="caution">Maximum file size is {{ maximum_upload_size }} Gb per upload</span>
                                         </div>
                                         <div class="panel-group hide" id="fileListContainer">
                                             <div class="panel clearfix">
