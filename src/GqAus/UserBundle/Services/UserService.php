@@ -3773,30 +3773,27 @@ class UserService
                     break;
               case 'ROLE_APPLICANT' :
                     $approvalStatus = $userCourseUnits->getRtostatus();
-                    $inLoop = 0;
                     if($approvalStatus != 0){
-                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : $inLoop++;
+                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : '2';
                         }
                     else {
                         $approvalStatus = $userCourseUnits->getAssessorstatus();
                          
                             if($approvalStatus != 0){
-                                $approvalStatus = ($approvalStatus == 1) ? 'Competent' : $inLoop++;  
+                                $approvalStatus = ($approvalStatus == 1) ? 'Competent' : '2';  
                             }
                             else{
                              $approvalStatus = $userCourseUnits->getFacilitatorstatus();
                                 if($approvalStatus != 0){
-                                    $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : $inLoop++;  
+                                    $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : '2';  
                                 }
                             }
                     }
-                    $approvalStatus = $userCourseUnits->getIssubmitted();
-                    if($inLoop > 0 ){
-                        $approvalStatus = ($approvalStatus == 1) ? 'Submitted' : 'Not Yet Satisfactory';
-                     }
-                     else{
-                         $approvalStatus = ($approvalStatus == 1) ? 'Submitted' : '';
-                     }
+                    $unitStatus = $userCourseUnits->getIssubmitted();
+                    if($approvalStatus == '2')
+                        $approvalStatus = ($unitStatus == 1) ? 'Submitted' : 'Not Yet Satisfactory';
+                     elseif(is_int($approvalStatus))
+                         $approvalStatus = ($unitStatus == 1) ? 'Submitted' : '';
                 break;   
                 default :
                     $approvalStatus = 0;
