@@ -612,6 +612,7 @@ class UserController extends Controller
     {
         $roleType = $request->get("roleType");
         $userProfileForm = $this->createForm(new UserForm());
+        $fromUser = $this->get('security.context')->getToken()->getUser();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoleName();
         switch ($roleType) {
             case 2:
@@ -659,6 +660,20 @@ class UserController extends Controller
                 $request->getSession()->getFlashBag()->add(
                     'notice', 'Profile added successfully!'
                 );
+                
+                $userInfo = $request->get('userprofile');
+                $username = $userInfo['firstname'].' '.$userInfo['lastname'];
+                $userEmail = $userInfo['email'];
+                $userPassWord = $userInfo['newpassword'];
+                $conSearch = array('#toUserName#', '#applicationUrl#','#userEmail#','#userPassWord#');
+                $conReplace = array($username, $this->container->getParameter('applicationUrl'),$userEmail,$userPassWord);
+                $userSubject = $this->container->getParameter('mail_user_creation_sub');
+                $userMessage = str_replace($conSearch, $conReplace,
+                    $this->container->getParameter('mail_user_creation_con'));
+                $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
+                
+                $this->get('UserService')->sendExternalEmail($userEmail, $userSubject, $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
+                
                 return $this->redirect('/manageusers');
             }
         }
