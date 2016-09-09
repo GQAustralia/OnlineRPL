@@ -180,7 +180,7 @@
                                                                                 {% set unitType = '' %}
                                                                                 {% set unitType = user_service.getUserCourseUnitType(evd[0].user.id,linkedVal.course,linkedVal.unit) %}
                                                                                     <span class="content">
-                                                                                        <a target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ linkedVal.course }}/{{ linkedVal.unit}}/{{ evd[0].user.id }}">
+                                                                                        <a target="_blank" href="{{ app.request.baseUrl }}/courseUnitMobDetails/{{ linkedVal.course }}/{{ linkedVal.unit}}/{{ evd[0].user.id }}">
                                                                                             <i class="material-icons">insert_link</i>Linked to {{ linkedVal.unit }} ({{ unitType }} unit)
                                                                                         </a>
                                                                                     </span>
@@ -222,7 +222,7 @@
                                                                                 {% set unitType = '' %}
                                                                                 {% set unitType = user_service.getUserCourseUnitType(evd[0].user.id,linkedVal.course,linkedVal.unit) %}
                                                                                 <span class="content">
-                                                                                    <a target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ evd[0].course }}/{{ evd[0].unit}}/{{ evd[0].user.id }}">
+                                                                                    <a target="_blank" href="{{ app.request.baseUrl }}/courseUnitMobDetails/{{ evd[0].course }}/{{ evd[0].unit}}/{{ evd[0].user.id }}">
                                                                                         <i class="material-icons">insert_link</i>Linked to {{ evd[0].unit }} (core unit)
                                                                                     </a>
                                                                                 </span>

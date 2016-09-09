@@ -501,8 +501,57 @@ class ApplicantController extends Controller
             return $this->render('GqAusUserBundle:Default:error.html.twig');
         }
     }
-    
-     /**
+    /**
+     * Function to get applicant details page
+     * @param string $qcode
+     * @param int $uid
+     * @param object $request
+     * return string
+     */
+    public function courseUnitMobDetailsAction($qcode,$unitcode, $uid, Request $request)
+    {
+        $userService = $this->get('UserService');
+        $coursesService = $this->get('CoursesService');
+        $evidenceService = $this->get('EvidenceService');
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $user = $userService->getUserInfo($uid);
+        
+        $results = $coursesService->getUnitInfo($unitcode);
+          
+        if (!empty($user) && isset($results['unitInfo']['code'])) {
+            $applicantInfo = $userService->getApplicantInfo($user, $qcode);
+            
+            $role = $this->get('security.context')->getToken()->getUser()->getRoles();
+            if ($role[0] == Facilitator::ROLE_NAME || $role[0] == Manager::ROLE_NAME) {
+                $results['rtos'] = $userService->getUsers(Rto::ROLE);
+                $results['assessors'] = $userService->getUsers(Assessor::ROLE);
+                if ($role[0] == Superadmin::ROLE_NAME || $role[0] == Manager::ROLE_NAME) {
+                    $results['facilitators'] = $userService->getUsers(Facilitator::ROLE);
+                }
+            }
+            $results['courseDetails'] = $coursesService->getCourseDetails($qcode, $uid);
+            $results['courseCode'] = $qcode;
+            $results['unitCode'] = $results['unitInfo']['code'];
+            $results['unitName'] =$results['unitInfo']['title'];
+            $results['evidenceGuide'] = $results['unitInfo']['evidence_guide'];
+            $results['skillsKnowledge'] = $results['unitInfo']['skills_and_knowledge'];
+            $results['elements'] = $results['unitInfo']['elements'];
+            $results['unitStatus'] = $coursesService->getUnitStatus($uid, $unitcode,$qcode);
+            $results['evidences'] = $evidenceService->getUserUnitEvidences($uid, $unitcode);
+            $results['evidenceCount'] = count($evidenceService->getUserUnitEvidences($uid, $unitcode));
+            $results['selfAssessmentText'] = $evidenceService->getSelfAssessmentFromUnit($uid, $qcode, $unitcode);
+          
+            if ($userRole[0] == "ROLE_APPLICANT")
+                return $this->render('GqAusHomeBundle:Courses:unitevidence.html.twig', array_merge($results, $applicantInfo));
+            else
+                return $this->render('GqAusUserBundle:Applicant:courseunitdetails.html.twig', array_merge($results, $applicantInfo));
+        } else {
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+        }
+    }
+
+    /**
      * Function to pendingApplicant count     
      * return int
      */

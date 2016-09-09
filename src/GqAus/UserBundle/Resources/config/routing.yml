@@ -40,6 +40,9 @@ applicantDetails:
 courseunitDetails:
     path:     /courseunitDetails/{qcode}/{unitcode}/{uid}
     defaults: { _controller: GqAusUserBundle:Applicant:courseunitDetails }
+courseUnitMobDetails:
+    path:     /courseUnitMobDetails/{qcode}/{unitcode}/{uid}
+    defaults: { _controller: GqAusUserBundle:Applicant:courseUnitMobDetails }
 getUnitEvidences:
     path:     /getUnitEvidences
     defaults:  { _controller: GqAusUserBundle:Qualification:getUnitEvidences }
