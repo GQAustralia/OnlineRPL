@@ -870,7 +870,7 @@ class UserService
                  ->where('1=1');
         if (!empty($searchName)) {
             $nameCondition .= "u.firstName LIKE '%" . $searchName . "%' OR u.lastName LIKE '%" . $searchName . "%'";
-            $res->Where($nameCondition);
+            $res->andWhere($nameCondition);
         }
         if (!empty($searchAge)) {
             if($searchAge == '1'){
@@ -889,14 +889,10 @@ class UserService
             $ageCondition .= "c.createdOn BETWEEN '".$initialDate."' AND '".$finalDate."'";
             $res->andWhere($ageCondition);
         }
-        if (!empty($searchRoleId) && is_int($searchRoleId)) {
-            $roleCondition = "c.facilitator = $searchRoleId ";
-            $res->andWhere($roleCondition);
+        if (!empty($searchRoleId)) {
+            $res->andWhere('c.facilitator = :facilitatorId')->setParameter('facilitatorId', $searchRoleId);
         }
-        $res->orderBy('c.id', 'DESC');
-        $query = $res->getQuery();
-        
-        
+        $res->orderBy('c.id', 'DESC');        
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         if($page){
