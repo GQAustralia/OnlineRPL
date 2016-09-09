@@ -19,7 +19,7 @@ twig:
         no_messages        : "No Messages Found"
         no_applicants      : "No Applicants Found"
         no_id_files        : "No Id files found"
-        delete_evidence_confirm: "Are you want to delete the evidence?"
+        delete_evidence_confirm: "Do you want to delete?"
         usi_link           : "Don't have one? Click here to create one"
         todo_status_change : "Do you want to change the status?"
         no_evidences_found : "No Evidences Found"
