@@ -113,11 +113,14 @@
             {%set i = 0%}
             {% for message in replymsgarr %}  
             {% if i == 0 %} {% set userSubject = message.message.subject %}{% endif %}
-            {% if userSubject|length > 15 %}
-                      {% set userSubject = userSubject|raw[:15] %}{% endif %}                                        
+            {% if userSubject|length > 30 %}
+                      {% set userSubject = userSubject|raw[:30] %}{% endif %}                                        
             {%set i = i+1 %}
             {% endfor %}
         <div class="mail_compose_section hidden-xs">
+            {#{% set userSubArr = userSubject|split(' ', 3) %}
+            
+            {% set newuserSubject = userSubArr[0]~' '~userSubArr[1] %}#}
                 <div class="title_bar">  {{ userSubject }}
                     
                         <span>{% if parameters[1] is defined %}
