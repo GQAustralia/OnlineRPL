@@ -2109,7 +2109,7 @@ $("#searchUserFilter").click(function() {
 });
 function loadUsersList(divContent)
 {
-    searchName = $('#search-box').val();
+    searchName = ($('#search-box').length > 0) ? $('#search-box').val() : $('#searchName').val();
     userType = $('#userType').val();
     $.ajax({
         type: "POST",
