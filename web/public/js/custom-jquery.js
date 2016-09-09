@@ -255,7 +255,7 @@ $(".deleteEvidence").click(function() {
             $('#evd_' + fid).hide();
             $("#qclose").trigger("click");
             $('#confirm_popup').modal('hide');            
-            $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + '/public/images/tick.png">Evidence File deleted successfully!</span></div>');
+            $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Evidence File deleted successfully!</span></div>');
             $('.deleteevidence_loader').hide();
             setTimeout(function(){ location.reload(); }, 2000);
               var table = $('#evidence').DataTable();
