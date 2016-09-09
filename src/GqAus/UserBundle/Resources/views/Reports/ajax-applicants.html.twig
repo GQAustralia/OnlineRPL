@@ -18,15 +18,9 @@
             {% set courseCode = list.courseCode %}
             {% endif %}
             {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}   
+            {%set courseStatus = user_service.getQualificationStatus()%}
                <!-- Assessor Status -->
-               <td>
-                   {% if (list.assessorstatus == 1) %} Approved <span class="gq-sub-title">on {{list.assessorDate|date("d/m/Y")}}</span>
-                   {% elseif list.courseStatus == 15 or list.courseStatus == 16 or list.courseStatus == 0 %}{{list.facilitatorDate|date("d/m/Y")}}
-                   {% elseif list.courseStatus == 15 or list.courseStatus == 0%} Submitted Portfolio <span class="gq-sub-title">on {{list.facilitatorDate|date("d/m/Y")}}</span> 
-                   {% elseif (list.courseStatus == 16 or list.courseStatus == 0) %} Issued <span class="gq-sub-title">on {{list.rtoDate|date("d/m/Y")}}</span>
-                   {% elseif (list.rtostatus == 1) %} Issued <span class="gq-sub-title">on {{list.rtoDate|date("d/m/Y")}}</span>
-                   {% else %} Pending {% endif %}
-               </td>
+               <td>{{courseStatus[list.courseStatus]['status']}}</td>
             {% endif %}
         </tr>
     {% endfor %}
