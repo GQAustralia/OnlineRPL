@@ -23,7 +23,7 @@
                         {% for key, newEvd  in newEvidences %}
                         {% set remStatus = user_service.checkReminderExists(currentUserId, newEvd.id, reminderType) %}
                             <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                <span class="content"><strong><a href="{{ app.request.baseUrl }}/courseunitDetails/{{newEvd.course}}/{{newEvd.unit}}/{{newEvd.user.id}}" title="View Evidence">{{ newEvd.user.firstName }} {{ newEvd.user.lastName }}</a></strong> - {{newEvd.name}} </span>
+                                <span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{newEvd.course}}/{{newEvd.unit}}/{{newEvd.user.id}}" title="View Evidence">{{ newEvd.user.firstName }} {{ newEvd.user.lastName }}</a></strong> - {{newEvd.name}} </span>
                                 <div class="dropdown keep-open">
                                      <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                      <div class="dropdown-menu {{ remStatus.calendarClass }}">
