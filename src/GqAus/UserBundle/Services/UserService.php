@@ -866,20 +866,36 @@ class UserService
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                  ->createQueryBuilder('c')
                  ->select($fields)
-                 ->join('c.user', 'u','WITH','c.user = u.id');
+                 ->join('c.user', 'u','WITH','c.user = u.id')
+                 ->where('1=1');
         if (!empty($searchName)) {
             $nameCondition .= "u.firstName LIKE '%" . $searchName . "%' OR u.lastName LIKE '%" . $searchName . "%'";
-            $res->where($nameCondition);
+            $res->Where($nameCondition);
         }
         if (!empty($searchAge)) {
-            $ageCondition = "DATE_SUB(CURRENT_DATE(),u.dateOfBirth,'month') > 12";
+            if($searchAge == '1'){
+                $initialDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 30, date('Y')));
+                $finalDate = date('Y-m-d H:i:s');
+            }elseif($searchAge == '2'){
+                $initialDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 60, date('Y')));
+                $finalDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 31, date('Y')));;
+            }elseif($searchAge == '3'){
+                $initialDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 90, date('Y')));
+                $finalDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 61, date('Y')));;
+            }elseif($searchAge == '4'){
+                $initialDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 91, date('Y')));
+                $finalDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 31, date('Y')-100));;
+            }
+            $ageCondition .= "c.createdOn BETWEEN '".$initialDate."' AND '".$finalDate."'";
             $res->andWhere($ageCondition);
         }
-        if (!empty($searchRoleId)) {
+        if (!empty($searchRoleId) && is_int($searchRoleId)) {
             $roleCondition = "c.facilitator = $searchRoleId ";
             $res->andWhere($roleCondition);
         }
         $res->orderBy('c.id', 'DESC');
+        $query = $res->getQuery();
+        
         
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
