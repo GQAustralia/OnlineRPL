@@ -71,6 +71,7 @@
         {% if ('ROLE_MANAGER' in userRole) %}
          <td>
              <a href="javascript:void(0)" data-toggle="modal" data-target="#update_popup_{{id}}"><i class="material-icons">control_point</i></a>
+             {% if list.facilitator is defined and list.facilitator != null and list.facilitator.id!=0 %} <span class="check"><i class="material-icons">check</i></span> {% endif %}
              <!-- Modal -->
         {% set courseFacilitator = user_service.getFacilitaorInfo('ROLE_FACILITATOR') %}
         
@@ -79,7 +80,7 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                             <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <button type="button" class="close" onclick="return assignfacvalidate();">&times;</button>
                                     <h5 class="modal-title">Select Facilitator</h5>
                             </div>
                             <div class="modal-body">
@@ -103,6 +104,7 @@
          </td>
          <td>
              <a href="javascript:void(0)" data-toggle="modal" data-target="#update_assessor_{{id}}"><i class="material-icons">control_point</i></a>
+             {% if list.assessor is defined and list.assessor != null and list.assessor.id!=0  %} <span class="check"><i class="material-icons">check</i></span> {% endif %}
              <!-- Modal -->
         {% set courseAssessor = user_service.getAssessorInfo('ROLE_ASSESSOR') %}
         
@@ -111,7 +113,7 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                             <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <button type="button" class="close" onclick="return assignfacvalidate();">&times;</button>
                                     <h5 class="modal-title">Select Assessor</h5>
                             </div>
                             <div class="modal-body">
@@ -134,6 +136,7 @@
          </td>
          <td>
              <a href="javascript:void(0)" data-toggle="modal" data-target="#update_rto_{{id}}"><i class="material-icons">control_point</i></a>
+             {% if list.rto is defined and list.rto != null and list.rto.id!=0 %}<span class="check"><i class="material-icons">check</i></span>{% endif %}
              <!-- Modal -->
         {% set courseRto = user_service.getRtoInfo('ROLE_RTO') %}
         
@@ -142,7 +145,7 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                             <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <button type="button" class="close" onclick="return assignfacvalidate();">&times;</button>
                                     <h5 class="modal-title">Select Rto</h5>
                             </div>
                             <div class="modal-body">

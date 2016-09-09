@@ -19,7 +19,6 @@ input:focus,button:focus,.button:focus{outline:0}.btn.dropdown-toggle.btn-defaul
 .gq-id-files-upload-success-text span{width:100%; height:auto;float:none;}
 .gq-id-files-upload-text {padding-bottom:20px;}
 .gq-id-files-upload-success-text{color: green;}
-.message_section .gq-id-files-upload-success-text{color: lightgreen;}
 .gq-id-files-upload-wait-text {padding-top:12px; text-align:center;}
 .gq-id-files-upload-wait-text h2{font-size:13px;}
 .ajax-profile-error {color:#e01010; text-align:center; font-size:14px;}
@@ -36,6 +35,9 @@ change_file_error {width: 100%;margin-bottom:10px;}
 .gq-id-pwd-error-text1 img {width:auto !important; margin-right:4px; padding-bottom:4px;}
 .gq-change-pwd-warning1 {width:60%; margin:0 auto; position:relative;}
 #pwd_error1 {width: 100%;margin-bottom:10px;}
+@media screen and (max-width: 767px){
+	.message_section .gq-id-files-upload-success-text{color: lightgreen;}
+}
 @media screen and (min-width: 320px){
 	#userprofile_gender input ~ label {width: 80px;}
 }

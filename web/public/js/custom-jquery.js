@@ -3630,3 +3630,7 @@ function onloadEvidenceCount()
         }
     });
 }
+function assignfacvalidate()
+{
+    location.reload();
+}
