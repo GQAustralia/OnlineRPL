@@ -3541,8 +3541,8 @@ function profileModal()
 }
 function userExistMsg(errorMsg,msgId)
 {
-    var startdiv = '<div class="gq-well gq-id-files-upload-success-text"><span>';
-    var enddiv = '</span></div>';
+    var startdiv = '<div class="gq-well gq-id-file-error-text"><h2>';
+    var enddiv = '</h2></div>';
     $("#change_pwd_error").show();
     $("#change_pwd_error").html(startdiv + errorMsg + enddiv);
     if($("#"+msgId).val() != "")
