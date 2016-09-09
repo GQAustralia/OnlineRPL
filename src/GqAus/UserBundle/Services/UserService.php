@@ -3135,6 +3135,12 @@ class UserService
      */
     public function assessorStatusChange($courseObj, $courseStatus)
     {
+        
+        $statusList = $this->getQualificationStatus();
+        $courseName = $courseObj->getCourseName();
+        $courseCurrentStatus = $statusList[$courseObj->getCourseStatus()]['status'];
+        $courseChangeStatus = $statusList[$courseStatus]['status'];
+        
         $response = array();
         // if the assessor approves the qualification by updating the status
         if ($courseStatus == 3) {
@@ -3154,7 +3160,7 @@ class UserService
         $this->em->persist($courseObj);
         $this->em->flush();
         // get status list
-        $statusList = $this->getQualificationStatus();
+        
 
         // finding and replacing the variables from message templates
         $subSearch = array('#courseCode#', '#courseName#');
@@ -3225,6 +3231,10 @@ class UserService
         $response['type'] = 'Success';
         $response['code'] = 1;
         $response['msg'] = 'Status updated successfully.';
+        
+        $logType = $this->getlogType('9');
+        $message = $courseName.' '.$logType['message'].' "'.$courseCurrentStatus.'" to "'.$courseChangeStatus.'" - error occurred '.$response['msg'];
+        $this->createUserLog('9', $message);         
         return $response;
     }
 
