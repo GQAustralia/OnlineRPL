@@ -76,7 +76,10 @@
 	word-wrap: break-word;
 	word-break: break-all;
 }
-
+.step_list .content{
+	word-wrap: initial;
+	word-break: initial;
+}
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     .portfolio-container .portfolio-filter .gq-dashboard-tabs-header{
