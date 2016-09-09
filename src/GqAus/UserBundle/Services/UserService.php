@@ -127,7 +127,8 @@ class UserService
     public function forgotPasswordRequest($email)
     {
         $message = '';
-        $user = $this->repository->findOneBy(array('email' => $email));
+        $user = $this->repository->findOneBy(array('email' => $email,'applicantStatus' => 0, 'status' => 1));
+        
         if (!empty($user)) {
             $token = uniqid();
             $nowtime = date('Y-m-d h:i:s');
