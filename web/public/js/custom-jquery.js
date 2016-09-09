@@ -2753,6 +2753,21 @@ $('body').on('click', '.userprofile,#mobileQualification', function(){
     $('.portfolio-container').hide();
     $('ul.nav').addClass('hide');
 });
+function addDTPickerBehaviour(){
+ $('.date_field').each(function(){
+        $(this).datetimepicker({
+            controlType: 'select',
+            oneLine: true,
+            timeFormat: 'hh:mm tt',
+            dateFormat: 'dd/mm/yy',
+            minDate: 'today'
+        });
+        $("#ui-datepicker-div").click(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        });
+    });
+}
 function getApplicantDetails(courseCode, userId){
     $('#removeCandidate').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
     $('.candidate-details').html('<div class="notes-loading-icon"><img src="' + base_url + 'public/images/loading.gif" /></div>');
@@ -2762,6 +2777,7 @@ function getApplicantDetails(courseCode, userId){
         cache: false,
         success: function(result) {
             $(".candidate-details").html(result);
+            addDTPickerBehaviour();
         }
     });
 }

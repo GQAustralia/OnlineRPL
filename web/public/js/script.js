@@ -245,6 +245,7 @@ $(document).ready(function(){
     });
 
     $("#ui-datepicker-div").click(function (event) {
+            event.preventDefault();
             event.stopPropagation();
     });
     $(".profile_popup .form-group span").click(function(){
