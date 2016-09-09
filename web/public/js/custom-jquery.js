@@ -3621,7 +3621,7 @@ function onloadEvidenceCount()
                 {
                     $('#evidenceCount').css("display","none");
                 }
-                $(".evidence-current").html(result);
+                $(".evidence-current").text(result);
 				$("#evidenceCount").attr('class', '');	
 //                    if(window.parent.opener) window.parent.opener.location.reload();
             } else {                
