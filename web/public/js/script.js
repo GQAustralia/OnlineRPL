@@ -376,3 +376,4 @@ $(modalVerticalCenterClass).on('show.bs.modal', function(e) {
     centerModals($(this));
 });
 $(window).on('resize', centerModals);
+$('#myModal').modal({backdrop: 'static', keyboard: false,show:false});
