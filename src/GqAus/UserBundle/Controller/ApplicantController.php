@@ -614,7 +614,7 @@ class ApplicantController extends Controller
                 $userMessage = str_replace($conSearch, $conReplace,
                     $this->container->getParameter('mail_portfolio_assign_applicant_con'));           
                 $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
-                $userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
+                //$userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
                 $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
                                 $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
             
@@ -630,7 +630,7 @@ class ApplicantController extends Controller
                     $userMessage = str_replace($conSearch, $conReplace,
                         $this->container->getParameter('mail_portfolio_assign_applicantqua_con'));           
                     $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
-                    $userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
+                   // $userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
                     $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
                                     $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
                 }
@@ -641,7 +641,7 @@ class ApplicantController extends Controller
                     $this->container->getParameter('mail_portfolio_assign_facilitator_con')); 
 
                $facMsgdata = array('subject' => $facSubject, 'message' => $facMessage, 'unitId' => '0', 'replymid' => '0');
-               $facMessageSend = $userService->saveMessageData($facUser,$fromUser,$facMsgdata);
+               //$facMessageSend = $userService->saveMessageData($facUser,$fromUser,$facMsgdata);
                $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
                                 $facMessage, $fromUser->getEmail(), $fromUser->getUsername());
           }
