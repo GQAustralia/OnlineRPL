@@ -138,13 +138,7 @@
         </div>
     </div>
  {% endif %}
-    <div class="faq_link">
-         <i class="material-icons help">help</i>
-            <a href="{{ app.request.baseUrl }}/faq" target="_blank">
-                   
-                    <span>FAQs</span>
-            </a>
-    </div>
+    
     </div>                
     <div class="col-xs-12 col-sm-12">
     <div class="accordion panel-group">
@@ -362,12 +356,20 @@
     {% endif %}
 {% endif %}
      {% endif %}
+        <div class="faq_link">
+         <i class="material-icons help">help</i>
+            <a href="{{ app.request.baseUrl }}/faq" target="_blank">
+                   
+                    <span>FAQs</span>
+            </a>
+    </div>
     {% endif %}
     </div>
     </div>
 </div>
 </div>
-     {% include 'GqAusHomeBundle:Courses:facProfilePopups.html.twig' %}                  
+     {% include 'GqAusHomeBundle:Courses:facProfilePopups.html.twig' %} 
+
 {#{% endif %}#}
     </div>
  
