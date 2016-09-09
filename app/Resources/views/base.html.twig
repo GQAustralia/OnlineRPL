@@ -221,8 +221,15 @@
                  {% include 'GqAusUserBundle:User:profile_popup.html.twig' %}
             {% endif %}
         {% endif %}
-
-         {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
+        
+        {% if is_mobile() and  not is_tablet() %} 
+           {% include 'GqAusUserBundle:User/mobile:newuserlogincheck.html.twig' %}
+        {% elseif is_tablet() %}
+            {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
+        {% else %}     
+             {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
+        {% endif %}
+         
         <!-- Profile Modal Ends -->
 	    <!-- jQuery first, then Bootstrap JS. -->     
          
