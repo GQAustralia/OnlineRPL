@@ -921,7 +921,7 @@ function onloadPortfolioCount()
                 {
                     $('#portfolioCount').css("display","none");
                 }
-                $(".portfolio-current").html(result);
+                $(".portfolio-current").text(result);
 				$("#portfolioCount").attr('class', '');	
 //                    if(window.parent.opener) window.parent.opener.location.reload();
             } else {                
