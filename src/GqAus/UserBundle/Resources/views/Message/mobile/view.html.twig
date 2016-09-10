@@ -80,7 +80,7 @@
                                                              <a href="{{ base_url }}messages/{{message.id}}">
                                                             {%endif%}
                                                             
-                                                             {% if message.subject|length > 20 %}
+                                                             {% if message.subject|length > 15 %}
                                                                  {% set msgSubVal = message.subject|split(' ', 3) %}
                                                                  {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1]~' '~msgSubVal[2] %}
                                                                  {{ msgSubValarr |raw ~ ' -'}}
@@ -91,7 +91,7 @@
                                                             {% endif %}
                                                             </a> 
                                             </strong>
-                                                        {% if message.message|length > 20 %}
+                                                        {% if message.message|length > 15 %}
                                                             {% set msgVal = message.message|split(' ', 4) %}
                                                             {% set msgarr = msgVal[0]~' '~msgVal[1]~' '~msgVal[2] %}
                                                             {{ msgarr ~ '...' |raw}}
