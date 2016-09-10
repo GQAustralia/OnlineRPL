@@ -1,4 +1,7 @@
-.main_container .portfolio-container {}.main_container .portfolio-container .panel-group {
+.main_container .portfolio-container {
+	
+}
+.main_container .portfolio-container .panel-group {
     margin: 0
 }
 .main_container .portfolio-container .panel-group .panel-heading {
@@ -364,9 +367,15 @@
     .confirm_popup .modal-dialog {
         width: 450px
     }
+	#roleprofile2 .modal-body .header_block .profile_section{
+		float: none;
+	}
 }
 @media screen and (min-width: 768px) {
-    .main_container .portfolio-container {}.main_container .portfolio-container .portfolio-data-table {
+    .main_container .portfolio-container {
+		padding-top: 20px;
+	}
+	.main_container .portfolio-container .portfolio-data-table {
         margin-top: 20px
     }
     .main_container .portfolio-container .portfolio-data-table .progress {

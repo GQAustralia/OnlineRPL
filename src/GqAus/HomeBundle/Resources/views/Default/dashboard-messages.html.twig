@@ -26,9 +26,9 @@
                                          <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                          <div class="dropdown-menu {{ remStatus.calendarClass }}">
                                              <div class="data_section">
-                                                 <textarea rows="3" placeholder="Notes" id="appMsg_notes_{{appliMsg.id}}"></textarea>
+                                                 <textarea rows="3" placeholder="Notes" id="appMsg_notes_{{appliMsg.id}}" onfocus="fousOnNote({{newEvd.id}})"></textarea>
                                                  <div class="date_section clearfix">
-                                                         <input type="text" class="date_field form-control" id="appMsg_remindDate_{{appliMsg.id}}">
+                                                         <input type="text" class="date_field form-control" id="appMsg_remindDate_{{appliMsg.id}}" onfocus="fousOnDate({{newEvd.id}})">
                                                  </div>
                                              </div>
                                              <button type="button" class="btn_red setData" userCourseId="" prefix="appMsg" listId="{{appliMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{appliMsg.id}}">Save</button>
@@ -64,9 +64,9 @@
                                                 {% endif %}
                                                  <div class="dropdown-menu {{ remStatus.calendarClass }}">
                                                     <div class="data_section">
-                                                        <textarea rows="3" placeholder="Notes" id="facMsg_notes_{{faciMsg.id}}"></textarea>
+                                                        <textarea rows="3" placeholder="Notes" id="facMsg_notes_{{faciMsg.id}}" onfocus="fousOnNote({{newEvd.id}})"></textarea>
                                                         <div class="date_section clearfix">
-                                                           <input type="text" class="date_field form-control" id="facMsg_remindDate_{{faciMsg.id}}">
+                                                           <input type="text" class="date_field form-control" id="facMsg_remindDate_{{faciMsg.id}}" onfocus="fousOnDate({{newEvd.id}})">
                                                         </div>
                                                     </div>                                                                                   
                                                     <button type="button" class="btn_red setData" userCourseId="" prefix="facMsg"  listId="{{faciMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{faciMsg.id}}">Save</button>
@@ -100,9 +100,9 @@
                                             <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                             <div class="dropdown-menu {{ remStatus.calendarClass }}">
                                                 <div class="data_section">
-                                                    <textarea rows="3" placeholder="Notes" id="assMsg_notes_{{ascMsg.id}}"></textarea>
+                                                    <textarea rows="3" placeholder="Notes" id="assMsg_notes_{{ascMsg.id}}" onfocus="fousOnNote({{newEvd.id}})"></textarea>
                                                     <div class="date_section clearfix">
-                                                       <input type="text" class="date_field form-control" id="assMsg_remindDate_{{ascMsg.id}}">
+                                                       <input type="text" class="date_field form-control" id="assMsg_remindDate_{{ascMsg.id}}" onfocus="fousOnDate({{newEvd.id}})">
                                                     </div>
                                                 </div>
                                                 <button type="button" class="btn_red setData" userCourseId="" prefix="assMsg" listId="{{ascMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{ascMsg.id}}">Save</button>
@@ -136,9 +136,9 @@
                                         <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                         <div class="dropdown-menu {{ remStatus.calendarClass }}">
                                             <div class="data_section">
-                                                <textarea rows="3" placeholder="Notes" id="rtoMsg_notes_{{rtosMsg.id}}"></textarea>
+                                                <textarea rows="3" placeholder="Notes" id="rtoMsg_notes_{{rtosMsg.id}}" onfocus="fousOnNote({{newEvd.id}})"></textarea>
                                                 <div class="date_section clearfix">
-                                                        <input type="text" class="date_field form-control" id="rtoMsg_remindDate_{{rtosMsg.id}}">
+                                                        <input type="text" class="date_field form-control" id="rtoMsg_remindDate_{{rtosMsg.id}}" onfocus="fousOnDate({{newEvd.id}})">
                                                 </div>
                                             </div>                                                                                     
                                             <button type="button" class="btn_red setData" userCourseId="" prefix="rtoMsg" listId="{{rtosMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{rtosMsg.id}}">Save</button>

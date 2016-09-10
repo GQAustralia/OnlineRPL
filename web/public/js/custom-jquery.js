@@ -1913,7 +1913,12 @@ $("#userfiles_browse").click(function(evt) {
     }
     $("#idfiletype_image").html("");
 });
-
+$( '#userfiles_type' ).change( function( e ) { 
+	if($('#change_file_error').html()){
+		$('#change_file_error').hide();
+	}
+	
+});
 $( '#userfiles_browse' ).change( function( e ) {  
      if($("#userfiles_type").val()!="") {        
         if ($("#userfiles_browse").val().length > 0) {  
@@ -3649,4 +3654,10 @@ function onloadEvidenceCount()
 function assignfacvalidate()
 {
     location.reload();
+}
+function fousOnNote(reqId){
+	$("#ui-datepicker-div").hide();
+}
+function fousOnDate(){
+	$("#ui-datepicker-div").show();
 }

@@ -111,3 +111,7 @@
 .main_container .body_section.candidate_profile .panel-group .panel .panel-body .panel-copy .file-info span{
 	padding: 0 2px;
 }
+
+.message_popup .input_section label.subject{
+	width: 60px;
+}
