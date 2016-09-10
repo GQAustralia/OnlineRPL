@@ -1,0 +1,40 @@
+
+{% block title %}GQ - OnlineRPL{% endblock %}
+{% block head %} 
+        <link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('public/css/bootstrap-flex.css') }}" />
+        <link rel="stylesheet" href="{{ asset('public/css/bootstrap-grid.css') }}" />
+        <link rel="stylesheet" href="{{ asset('public/css/bootstrap-reboot.css') }}">              
+        <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/css/jquery-ui-timepicker-addon.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/header.css') }}">
+         
+	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    {% endblock %}
+{% block body %} 
+      {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
+{% endblock %}
+{% block javascripts %}
+        <script src="{{ asset('public/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('public/js/jquery-1.10.2.js') }}"></script>
+        <script src="{{ asset('public/js/jquery-ui.js')}}"></script>   
+        <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js')}}"></script>
+        <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+         <script src="{{ asset('public/js/jquery.form.js') }}"></script>
+        <script src="{{ asset('public/js/script.js') }}"></script>
+        <script src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>		
+        <script src="{{ asset('public/js/custom-jquery.js') }}"></script> 
+<script>
+	 $(document).ready(function(){ 
+             $("#onboard2").addClass("hidden");
+             $('#newUserupdatePassword').modal({backdrop: 'static', keyboard: false,show:true});
+	 });
+	</script>{# empty Twig template #}
+         <script type="text/javascript">
+            var base_url = "{{ base_url }}";
+            var amazon_link = "{{ amazon_link }}";
+            var upload_path = "{{ asset('public/uploads/')}}";
+            
+        </script> 
+        
+ {% endblock %}
