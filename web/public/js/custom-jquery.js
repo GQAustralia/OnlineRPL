@@ -2940,7 +2940,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 {   
     var facBtn = $('.update_fac_btn');
     facBtn.attr('disabled', true);
-    facVal = $('#fac_'+listId).val();
+    facVal = $('#fac_'+listId).val();  
     if(facVal != 0)
     {
     $("#profile_suc_msg2_"+listId).hide();
@@ -2977,6 +2977,8 @@ function updateAssessor(courseCode , userId, listId)
     facBtn.attr('disabled', true);
     var assVal = $('#ass_'+listId).val();
     $("#profile_suc_msg3_"+listId).hide();
+    if(assVal != 0)
+    {
         $.ajax({
             type: "POST",
             url: "updateAssessor",
@@ -2998,6 +3000,11 @@ function updateAssessor(courseCode , userId, listId)
        });
        
        return false;
+   }
+   else
+   {
+       return false;
+   }
 }
 /*Assessor Update in Manager Portfolio */
 function updateRto(courseCode , userId, listId)
@@ -3005,6 +3012,8 @@ function updateRto(courseCode , userId, listId)
     var facBtn = $('.update_rto_btn');
     facBtn.attr('disabled', true);
     rtoVal = $('#rto_'+listId).val();
+    if(rtoVal != 0)
+    {
     $("#profile_suc_msg4_"+listId).hide();
         $.ajax({
             type: "POST",
@@ -3028,6 +3037,11 @@ function updateRto(courseCode , userId, listId)
        });
        
        return false;
+       }
+   else
+   {
+       return false;
+   }
 }
 if( $('.view-message').length > 0){   
     $('header,.mobi-profile').addClass('hide');
