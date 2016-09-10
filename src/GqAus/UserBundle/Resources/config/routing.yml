@@ -247,6 +247,9 @@ updateprofileAjax:
 updateNewPasswordAjax:
     path:     /updateNewPasswordAjax
     defaults: { _controller: GqAusUserBundle:User:updateNewPasswordAjax }
+updateNewUserPasswordAjax:
+    path:     /updateNewUserPasswordAjax
+    defaults: { _controller: GqAusUserBundle:User:updateNewUserPasswordAjax }
 updateNewUserAjax:
     path:     /updateNewUserAjax
     defaults: { _controller: GqAusUserBundle:User:updateNewUserAjax }
@@ -281,5 +284,5 @@ changeEvidenceViewStaus:
     path:     /changeEvidenceViewStaus
     defaults: { _controller: GqAusUserBundle:Evidence:changeEvidenceViewStaus }
 validateUser:
-    path:     /validateUser/{userId}/{loginToken}
+    path:     /validateUser/{loginToken}
     defaults: { _controller: GqAusUserBundle:User:validateUser }

@@ -193,7 +193,7 @@ parameters:
                                  Dear #toUserName#,<br/><br/>                                 
                                  Account has been created for GQ Australia and Qualification : #coursecode# - #coursename# has been added. <br/> 
                                  #facname# is assigned as your Facilitator for you qualification . <br/><br/>
-                                 <a href='#applicationUrl#login'>Click Here</a> to login, Below are the account details.  <br/><br/>                       
+                                 <a href='#applicationUrl#validateUser/#token'>Click Here</a> to login, Below are the account details.  <br/><br/>                       
                                  Email: #userEmail#<br/> 
                                  Password: #userPassWord# <br/><br/><br/> 
                                  Regards,<br/>OnlineRPL         

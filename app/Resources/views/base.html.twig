@@ -187,7 +187,7 @@
             {% endif %}
         {% endif %}
 
-         {% include 'GqAusUserBundle:User:newuserlogincheck.html.twig' %}
+         
         <!-- Profile Modal Ends -->
 	    <!-- jQuery first, then Bootstrap JS. -->     
          
@@ -203,26 +203,6 @@
      {% block javascripts %}{% endblock %}
     <script> onloadCount();</script>
     <script> onloadPortfolioCount();</script>
-	<script>
-	 $(document).ready(function(){
-              var page = '{{page}}';
-                if({{applicantStatus}} == 1)
-                {                 
-                   $("#onboard2").addClass("hidden");
-                   $('#changePassword').modal({backdrop: 'static', keyboard: false,show:true});
-                }
-                if({{applicantStatus}} == 2)
-                {   
-                    if(page != 'faq')
-                    {
-                        $('#onboard2').modal({backdrop: 'static', keyboard: false,show:true});
-                    }
-                    $("#changePassword").addClass("hidden");
-                }
-                
-		$(".gq-id-files-upload-success-text").delay(5000).fadeOut(100);
-		$(".gq-id-pwd-error-text").delay(5000).fadeOut(100);
-	 });
-	</script>
+	
 </body>
 </html>

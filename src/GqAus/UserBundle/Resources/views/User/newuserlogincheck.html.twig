@@ -1,22 +1,24 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/candidate_profile.css') }}"> 
 {% endblock %}   
-
+{% set currentPath = app.request.uri %}
+        {% set parameters = currentPath|split('/') %}
 <!-- Modal -->
-	<div class="modal fade center_popup transparent_popup" id="changePassword" role="dialog" >
+	<div class="modal fade center_popup transparent_popup" id="newUserupdatePassword" role="dialog" >
 		<div class="modal-dialog">
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-body">
+                                    {% if userid > 0 %}
 					<div class="login">
 						<div class="gqa_logo">
 							<img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" alt="logo"/>
 						</div>
                                             {% set applicant = app.security.getToken().getUser() %}
-						<h2 class="welcome_msg">Welcome {{applicant.getFirstName()}}.</h2>
+						<h2 class="welcome_msg">Welcome {{user.getFirstName}}.</h2>
 						<div class="user_content">
 							<p>Your username to log in here is:</p>
-							<p>{{applicant.getEmail()}}</p>
+							<p>{{user.getEmail}}</p>
 						</div>
 						<div class="pwd_content">
 							<p>To log in, create a secure password.</p>
@@ -32,7 +34,8 @@
                                        {% endfor %}
                                     </div>
                                                
-						<form class="form" name="updatePassword"  id="updatePassword">
+						<form class="form" name="newUserupdatePassword"  id="newUserupdatePassword">
+                                                    <input type="hidden" id="hdn_login_token" name="hdn_login_token" value="{{parameters|last}}">
 							<div class="form-group">
 								<input type="password" name="new-password" autocomplete="off" id="new-password" class="form-control" placeholder="New Password" onchange='chnageMaterialIcon(1)'>
 								<span><i class="material-icons" id='new_pswd_icon' style='display:none'>done</i></span>
@@ -46,6 +49,9 @@
 							</div>
 						</form>
 					</div>
+                                    {% else %}
+                                        <div>Invalid User</div>
+                                    {% endif %}
 				</div>
 			</div>
 		</div>

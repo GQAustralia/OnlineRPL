@@ -4070,4 +4070,32 @@ class UserService
         $totalNoCourseUnits = count($courseUnitObj);
         return $totalNoCourseUnits;
     }
+    
+    public function updateNewUserPassword($newpassword,$logintoken)
+    {
+        $userinfo = $this->getUserLoginToken($logintoken);
+        $user = $this->repository->findOneBy(array('id' => $userinfo[0]->getId()));
+        if (!empty($user)) { 
+            $password = password_hash($newpassword, PASSWORD_BCRYPT);        
+            $user->setPassword($password);
+            $user->setPasswordToken($newpassword);
+            $user->setTokenStatus('1');
+            $user->setApplicantStatus('2');
+            $this->em->persist($user);
+            $this->em->flush();
+            return $user->getId();
+        }
+        else {
+            return '0';
+        }
+    }
+    /**
+     * Function to get user details
+     * @param int $logintoken
+     * return array
+     */
+    public function getUserLoginToken($logintoken)
+    {
+        return $this->em->getRepository('GqAusUserBundle:user')->findBy(array('loginToken' => $logintoken));
+    }
 }

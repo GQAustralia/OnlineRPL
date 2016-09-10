@@ -23,7 +23,7 @@ class UserController extends Controller
      * return string
      */
         public function profileAction(Request $request)
-    {
+    { 
         $session = $request->getSession();
         $sessionUser = $this->get('security.context')->getToken()->getUser();
         $session->set('user_id', $sessionUser->getId());
@@ -818,26 +818,34 @@ class UserController extends Controller
          $userService->savePersonalProfile($user, $image);
         exit;
     }
-    function validateUserAction()
-    {
-        
-        $userId = $this->getRequest()->get('userId');
-        $token = $this->getRequest()->get('loginToken');
+     function updateNewUserPasswordAjaxAction(){  
+        $newpassword = $_POST['pwd']; 
+        $logintoken = $_POST['tokenid'];
         $userService = $this->get('UserService');
-        $user = $userService->getUserInfo($userId);
-      
-        if($user->getLoginToken() == $token && $user->getApplicantStatus() == 1) 
-        {
-            
-            $providerKey = 'secured_area';
-            $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
-           $role = $user->getRoles();
+        $userInfo = $userService->updateNewUserPassword($newpassword, $logintoken); 
+        if($userInfo > 0) { 
+            $request = $this->getRequest();
             $session = $request->getSession();
-            $session->set('user_id', $user->getId());
-              return $this->render('GqAusUserBundle:User:newUserCheck.html.twig');
-             
+            $session->set('user_id', $userInfo);
+            echo $userInfo;
         }
-       
+        else {
+            echo '0';
+        }
+        exit;
+    }
+    function validateUserAction()
+    {                
+        $token = $this->getRequest()->get('loginToken'); 
+        $userService = $this->get('UserService');
+        $userinfo = $userService->getUserLoginToken($token); 
+        $userid = 0; $user = '';
+        if (!empty($userinfo)) {                                  
+              $userid = $userinfo[0]->getId();     
+              $user = $userService->getUserInfo($userid);
+        }
+        return $this->render('GqAusUserBundle:User:newUserCheck.html.twig', array(
+                'userid' => $userid, 'user' => $user));
         exit;
 //        $loginToken = $this->getRequest()->get('loginToken');
 //        $userId = $this->getRequest()->get('userId');

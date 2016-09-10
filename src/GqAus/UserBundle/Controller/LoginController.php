@@ -13,9 +13,9 @@ class LoginController extends Controller
      * return string
      */
     public function indexAction()
-    {
+    { 
         $request = $this->getRequest();
-        $session = $request->getSession();
+        $session = $request->getSession(); 
         $user = $this->get('security.context')->getToken()->getUser();
         if (is_object($user) && count($user) > 0) {            
             $role = $user->getRoles();

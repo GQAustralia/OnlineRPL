@@ -592,7 +592,7 @@ class ApplicantController extends Controller
             {
                 
                 $newpassword = $userPassWord;
-                 $token = uniqid();
+                 $token = uniqid(); 
                 // User object            
                 $user = $userService->getUserInfo($userId);
                 $password = password_hash($newpassword, PASSWORD_BCRYPT);
@@ -600,7 +600,7 @@ class ApplicantController extends Controller
                 $user->getLastName();
                 $user->getPhone();
                 //$user->setPassword('');
-                $user->setPassword($password);
+                //$user->setPassword($password);
                 $user->setLoginToken($token);             
                 $image = '';
                
@@ -608,8 +608,8 @@ class ApplicantController extends Controller
                 //Saving to profile
                 $userService->savePersonalProfile($user, $image);
 
-                $conSearch = array('#toUserName#', '#facname#', '#coursecode#', '#coursename#','#applicationUrl#','#userEmail#','#userPassWord#');
-                $conReplace = array($username, $facname, $courseCode, $courseName,$this->container->getParameter('applicationUrl'),$userEmail,$userPassWord);
+                $conSearch = array('#toUserName#', '#facname#', '#coursecode#', '#coursename#','#applicationUrl#','#userEmail#','#token#');
+                $conReplace = array($username, $facname, $courseCode, $courseName,$this->container->getParameter('applicationUrl'),$userEmail,$token);
                 $userSubject = $this->container->getParameter('mail_portfolio_assign_applicant_sub');            
                 $userMessage = str_replace($conSearch, $conReplace,
                     $this->container->getParameter('mail_portfolio_assign_applicant_con'));           
