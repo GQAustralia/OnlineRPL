@@ -71,6 +71,9 @@
     text-transform: uppercase;
     border: 0
 }
+.main_container .portfolio-container .portfolio-data-table .table th.sort{
+	cursor: pointer;
+}
 .main_container .portfolio-container .portfolio-data-table .table th.sort-by:before {
     content: "\E5DB";
     font-family: 'Material Icons';
