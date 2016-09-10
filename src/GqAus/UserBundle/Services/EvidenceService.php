@@ -739,7 +739,7 @@ class EvidenceService
 	return $byteSize;
     }
     /**
-     * 
+     * Function to get if the evidence is submitted or not  
      * @param type $evdId
      */
     public function getEvidenceIsSubmittedOrNot($evdId)
