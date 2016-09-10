@@ -162,16 +162,16 @@
                                        {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseCode) %}
 
                                         {% if unitType.type == "core" and unitType.issubmitted != 1%}
-                                                <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">Submit this unit for review</button>
+                                                <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>
                                        {% endif %} 
                                         {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus!=0 and unitType.type=='elective' and unitType.issubmitted != 1 %}                                        
-                                            <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">Submit this unit for review</button>
+                                            <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>
 
                                        {#{% set unitType = courses_service.getUnitStatus(userId, unitCode,courseInfo.id) %}
                                         {% if unitType.type=="core" %}
-                                                <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>
+                                                <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>
                                        {% endif %} {% if electiveUnits[0] is defined and selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0 and unitType.type='elective'%}                                        
-                                            <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">Submit this unit for review</button>#}
+                                            <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>#}
 
                                         {% endif %}
                                         
