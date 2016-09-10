@@ -2941,6 +2941,11 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
     var facBtn = $('.update_fac_btn');
     facBtn.attr('disabled', true);
     facVal = $('#fac_'+listId).val();  
+	if(facVal == 0)
+	{
+		$("#profile_suc_msg2_"+listId).hide();		
+        $("#pwd_error_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Facilitator</h2></div>');
+	}
     if(facVal != 0)
     {
     $("#profile_suc_msg2_"+listId).hide();
@@ -2953,6 +2958,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
                 var res = jQuery.parseJSON(result);
                 if(res.status=='true')
                 {
+					$("#pwd_error_"+listId).hide();
                     $("#profile_suc_msg2_"+listId).show();
                      $("#profile_suc_msg2_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>'+res.message+'</span></div>');
                      facBtn.attr('disabled', false);
@@ -2977,6 +2983,12 @@ function updateAssessor(courseCode , userId, listId)
     facBtn.attr('disabled', true);
     var assVal = $('#ass_'+listId).val();
     $("#profile_suc_msg3_"+listId).hide();
+	if(assVal == 0)
+	{
+		$("#profile_suc_msg3_"+listId).hide();		
+        $("#pwd_error2_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Assessor</h2></div>');
+	}
+    
     if(assVal != 0)
     {
         $.ajax({
@@ -2988,6 +3000,7 @@ function updateAssessor(courseCode , userId, listId)
                 var res = jQuery.parseJSON(result);
                 if(res.status=='true')
                 {
+                    $("#pwd_error2_"+listId).hide();
                     $("#profile_suc_msg3_"+listId).show();
                      $("#profile_suc_msg3_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>'+res.message+'</span></div>');
                       facBtn.attr('disabled', false);
@@ -3012,6 +3025,11 @@ function updateRto(courseCode , userId, listId)
     var facBtn = $('.update_rto_btn');
     facBtn.attr('disabled', true);
     rtoVal = $('#rto_'+listId).val();
+	if(rtoVal == 0)
+	{
+		$("#profile_suc_msg4_"+listId).hide();		
+        $("#pwd_error3_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Assessor</h2></div>');
+	}
     if(rtoVal != 0)
     {
     $("#profile_suc_msg4_"+listId).hide();
@@ -3025,6 +3043,7 @@ function updateRto(courseCode , userId, listId)
                 if(res.status=='true')
                 {
                    
+                    $("#pwd_error3_"+listId).hide();
                     $("#profile_suc_msg4_"+listId).show();
                      $("#profile_suc_msg4_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>'+res.message+'</span></div>');
                      facBtn.attr('disabled', false);
