@@ -20,12 +20,12 @@
     {% endif %}
     </div>
     {% if currentPage == 1 %}
-        <a href=""><div class="gq-pagination-prev-icon"></div></a>
+        <a class="disabled"><div class="gq-pagination-prev-icon disabled" ></div></a>
     {% else %}
         <a href="{{ currentPath }}?page={{ currentPage - 1 }}"><div class="gq-pagination-prev-icon"></div></a>
     {% endif %}
     {% if currentPage == totalPages %}
-        <a href=""><div class="gq-pagination-next-icon"></div></a>
+        <a class="disabled"><div class="gq-pagination-next-icon disabled" ></div></a>
     {% else %}
         <a href="{{ currentPath }}?page={{ currentPage + 1 }}"><div class="gq-pagination-next-icon"></div></a>
     {% endif %}

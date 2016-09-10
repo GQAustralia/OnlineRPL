@@ -60,7 +60,7 @@
                                                             
                                                             {% if message.subject|length > 15 %}
                                                                  {% set msgSubVal = message.subject|split(' ', 3) %}
-                                                                 {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1]~' '~msgSubVal[2] %}
+                                                                 {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
                                                                  {{ msgSubValarr |raw ~ ' -'}}
                                                             {% else %}
                                                                 {% set msgSubVal = message.subject|split(' ', 3) %}
