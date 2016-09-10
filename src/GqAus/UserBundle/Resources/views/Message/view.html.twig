@@ -58,18 +58,26 @@
                                                              <a href="{{ base_url }}messages/{{message.id}}">
                                                             {%endif%}
                                                             
-                                                            {% if message.subject|length > 10 %}
-                                                                {{ message.subject|raw[:10] ~ ' -' }}
+                                                            {% if message.subject|length > 20 %}
+                                                                 {% set msgSubVal = message.subject|split(' ', 3) %}
+                                                                 {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1]~' '~msgSubVal[2] %}
+                                                                 {{ msgSubValarr |raw ~ ' -'}}
                                                             {% else %}
-                                                                {{ message.subject|raw ~  ' -' }}   
+                                                                {% set msgSubVal = message.subject|split(' ', 3) %}
+                                                                 {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
+                                                                 {{ msgSubValarr |raw ~ ' -'}} 
                                                             {% endif %}
                                                             </a> 
                                                         </strong>
                                                         {% if message.message|length > 20 %}
-                                                            {{ message.message|raw[:20] ~ '...' }}
+                                                            {% set msgVal = message.message|split(' ', 4) %}
+                                                            {% set msgarr = msgVal[0]~' '~msgVal[1]~' '~msgVal[2] %}
+                                                            {{ msgarr ~ '...' |raw}}
                                                         {% else %}
-                                                            {{ message.message|raw }}   
-                                                        {% endif %}
+                                                            {% set msgVal = message.message|split(' ', 4) %}
+                                                            {% set msgarr = msgVal[0]~' '~msgVal[1] %}
+                                                            {{ msgarr ~ '...' |raw}}
+                                                       {% endif %}
                                                 </span>
                                         </span>
                                         <span class="date_time">{{ message.created | date("d/m/y") }}</span>
@@ -118,10 +126,10 @@
             {%set i = i+1 %}
             {% endfor %}
         <div class="mail_compose_section hidden-xs">
-            {#{% set userSubArr = userSubject|split(' ', 3) %}
+            {% set userSubArr = userSubject|split(' ', 4) %}
             
-            {% set newuserSubject = userSubArr[0]~' '~userSubArr[1] %}#}
-                <div class="title_bar">  {{ userSubject }}
+            {% set newuserSubject = userSubArr[0]~' '~userSubArr[1]~' '~userSubArr[2] %}
+                <div class="title_bar">  {{ newuserSubject }}
                     
                         <span>{% if parameters[1] is defined %}
                     <a href="{{ base_url }}messages?{{parameters[1]}}">
@@ -154,7 +162,7 @@
                                                     {% if message.from == "from me" %} You {% else %} {{message.fromUserName}} {% endif %}
                                             </strong>
                                     </span>
-                                    <span class="date_time">{{ message.created | date('h:i A') }}</span>
+                                    <span class="date_time">{{ message.created | date("d/m/y") }}</span>
                             </div>
                             <p class="chat_content">
                                    {{message.content|raw}}
