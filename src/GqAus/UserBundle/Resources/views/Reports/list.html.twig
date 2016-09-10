@@ -33,7 +33,7 @@
                             <label for="">Facilitator</label>
                                 {% if facilitators %}
                                     <select class="form-control" id="searchRoleId" name="searchRoleId">
-                                        <option>Select</option>
+                                        <option value=''>Select</option>
                                         {% for key,faclist in facilitators%}
                                             <option value="{{faclist.id}}">{{faclist.firstname}} {{faclist.lastname}}</option>
                                         {% endfor %}
