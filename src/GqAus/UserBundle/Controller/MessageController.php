@@ -154,9 +154,10 @@ class MessageController extends Controller
             if($newmid == "usernamesbyRoles") {
                 $messageService = $this->get('UserService');
                 $userrole = $messageService->getCurrentUser()->getRoles();
+                $msgUserId = $messageService->getCurrentUser()->getId();
                 $term = strtolower($_GET["term"]);
                 $results = array();
-                $rows = $messageService->getUsernamesbyRoles(array('keyword' => $term),$userrole[0]);               
+                $rows = $messageService->getUsernamesbyRoles(array('keyword' => $term),$userrole[0],$msgUserId);               
                 $json_array = array();                
                 if (is_array($rows))
                 {
