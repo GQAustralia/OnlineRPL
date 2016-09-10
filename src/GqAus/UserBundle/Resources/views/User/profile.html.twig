@@ -31,6 +31,7 @@
         </div>
         {% set userRole = app.security.getToken().getUser().getRoles() %}
         {% set userId = app.security.getToken().getUser().getId() %}
+        {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
         <!-- DESKTOP VERSION -->
        
             {% include 'GqAusUserBundle:User:user.html.twig' %}
@@ -40,12 +41,54 @@
         </div>
     </div>
 </div>
+<div class="modal fade center_popup transparent_popup" id="onboard2" role="dialog">
+    <div class="modal-dialog vertical-align-center">
+            <!-- Modal content-->
+            <div class="modal-content">
+                    <div class="modal-body">
+                            <div class="step_list">
+                                <form class="form" name="save_userdata"  id="save_userdata">
+                                    <h2>Let's get you started!</h2>
 
+                                    <ul>
+                                            <li>
+                                                    <span class="title"><strong>Step 1:</strong></span>
+                                                    <p class="content">Check and complete your details and 100 points of ID</p>
+                                            </li>
+                                            <li>
+                                                    <span class="title"><strong>Step 2:</strong></span>
+                                                    <p class="content">Choose elective units for your course</p>
+                                            </li>
+                                            <li>
+                                                    <span class="title"><strong>Step 3:</strong></span>
+                                                    <p class="content">Start uploading your files as evidence of your skills & knowledge</p>
+                                            </li>
+                                            <li>
+                                                    <p class="content">For more info at any time, check the Frequently Asked Questions</p>
+                                            </li>
+                                    </ul>
+                                    <div class="btn_section clearfix">
+                                            <a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow" class="faq_btn">
+                                                    <span><i class="material-icons">info</i></span>
+                                            FAQs</a>
+                                            <a href="javascript:void(0)" class="active" onclick="saveUserPassword()">Ok, got it</a>
+                                    </div>
+                                    </form>
+                            </div>
+                    </div>
+            </div>
+    </div>
+</div>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
 
-    $(document).ready(function(){
+    $(document).ready(function(){ 
+    if({{applicantStatus}} == '2')
+    {
+        $("#onboard2").removeClass("hidden");
+        $('#onboard2').modal({backdrop: 'static', keyboard: false,show:true}); 
+    }
   $(".form_block input[type='text']").on('focusin', function(){
    $(this).data('val', $(this).val());
    $(this).prev().css("color","red");

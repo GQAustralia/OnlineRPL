@@ -253,6 +253,9 @@ updateNewUserPasswordAjax:
 updateNewUserAjax:
     path:     /updateNewUserAjax
     defaults: { _controller: GqAusUserBundle:User:updateNewUserAjax }
+updateNewUserAjaxStatus:
+    path:     /updateNewUserAjaxStatus
+    defaults: { _controller: GqAusUserBundle:User:updateNewUserAjaxStatus }
 updatepasswordAjax:
     path:     /updatepasswordAjax
     defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax } 

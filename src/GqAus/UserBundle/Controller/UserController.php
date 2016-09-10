@@ -823,17 +823,22 @@ class UserController extends Controller
         $logintoken = $_POST['tokenid'];
         $userService = $this->get('UserService');
         $userInfo = $userService->updateNewUserPassword($newpassword, $logintoken); 
-        if($userInfo > 0) { 
-            $request = $this->getRequest();
-            $session = $request->getSession();
-            $session->set('user_id', $userInfo);
-            echo $userInfo;
+        if($userInfo > 0) {
+            $user = $userService->getUserInfo($userInfo);
+            echo $userInfo."@".$user->getApplicantStatus();
         }
         else {
             echo '0';
         }
         exit;
     }
+    function updateNewUserAjaxStatusAction(){  
+        $logintoken = $_POST['tokenid'];        
+        $userService = $this->get('UserService');
+        $userInfo = $userService->updateNewUserPasswordStatus($logintoken);
+        exit;
+    }
+    
     function validateUserAction()
     {                
         $token = $this->getRequest()->get('loginToken'); 
@@ -845,7 +850,7 @@ class UserController extends Controller
               $user = $userService->getUserInfo($userid);
         }
         return $this->render('GqAusUserBundle:User:newUserCheck.html.twig', array(
-                'userid' => $userid, 'user' => $user));
+                'userid' => $userid, 'user' => $user, 'applicantStatus' => $user->getApplicantStatus()));
         exit;
 //        $loginToken = $this->getRequest()->get('loginToken');
 //        $userId = $this->getRequest()->get('userId');

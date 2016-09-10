@@ -4089,6 +4089,22 @@ class UserService
             return '0';
         }
     }
+    
+     public function updateNewUserPasswordStatus($logintoken)
+    {
+        $userinfo = $this->getUserLoginToken($logintoken);
+        $user = $this->repository->findOneBy(array('id' => $userinfo[0]->getId()));
+        if (!empty($user)) { 
+            $user->setApplicantStatus('0');
+            $this->em->persist($user);
+            $this->em->flush();
+            return $user->getId();
+        }
+        else {
+            return '0';
+        }
+    }
+    
     /**
      * Function to get user details
      * @param int $logintoken
