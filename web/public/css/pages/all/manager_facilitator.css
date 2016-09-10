@@ -1,5 +1,5 @@
 .main_container .portfolio-container {
-	
+	overflow: initial;
 }
 .main_container .portfolio-container .panel-group {
     margin: 0

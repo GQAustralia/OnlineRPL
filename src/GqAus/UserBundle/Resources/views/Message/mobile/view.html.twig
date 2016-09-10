@@ -86,7 +86,7 @@
                                                                  {{ msgSubValarr |raw ~ ' -'}}
                                                             {% else %}
                                                                 {% set msgSubVal = message.subject|split(' ', 3) %}
-                                                                 {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
+                                                                 {% set msgSubValarr = msgSubVal[0] %}
                                                                  {{ msgSubValarr |raw ~ ' -'}} 
                                                             {% endif %}
                                                             </a> 
@@ -97,7 +97,7 @@
                                                             {{ msgarr ~ '...' |raw}}
                                                         {% else %}
                                                             {% set msgVal = message.message|split(' ', 4) %}
-                                                            {% set msgarr = msgVal[0]~' '~msgVal[1] %}
+                                                            {% set msgarr = msgVal[0] %}
                                                             {{ msgarr ~ '...' |raw}}
                                                        {% endif %}
                                     </span>

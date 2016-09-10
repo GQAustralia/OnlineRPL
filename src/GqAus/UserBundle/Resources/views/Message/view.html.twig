@@ -64,18 +64,18 @@
                                                                  {{ msgSubValarr |raw ~ ' -'}}
                                                             {% else %}
                                                                 {% set msgSubVal = message.subject|split(' ', 3) %}
-                                                                 {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
+                                                                 {% set msgSubValarr = msgSubVal[0] %}
                                                                  {{ msgSubValarr |raw ~ ' -'}} 
                                                             {% endif %}
                                                             </a> 
                                                         </strong>
                                                         {% if message.message|length > 20 %}
                                                             {% set msgVal = message.message|split(' ', 4) %}
-                                                            {% set msgarr = msgVal[0]~' '~msgVal[1]~' '~msgVal[2] %}
+                                                            {% set msgarr = msgVal[0]%}
                                                             {{ msgarr ~ '...' |raw}}
                                                         {% else %}
                                                             {% set msgVal = message.message|split(' ', 4) %}
-                                                            {% set msgarr = msgVal[0]~' '~msgVal[1] %}
+                                                            {% set msgarr = msgVal[0] %}
                                                             {{ msgarr ~ '...' |raw}}
                                                        {% endif %}
                                                 </span>
@@ -128,7 +128,7 @@
         <div class="mail_compose_section hidden-xs">
             {% set userSubArr = userSubject|split(' ', 4) %}
             
-            {% set newuserSubject = userSubArr[0]~' '~userSubArr[1]~' '~userSubArr[2] %}
+            {% set newuserSubject = userSubArr[0]%}
                 <div class="title_bar">  {{ newuserSubject }}
                     
                         <span>{% if parameters[1] is defined %}
@@ -325,7 +325,7 @@
          var msgTypeVal=$('#compose_message').attr('msgType');
          if(msgTypeVal!='undefined' && msgTypeVal==='reply'){
           $('.chat_room').animate({
-           scrollTop: 1000
+           scrollTop: 4000
           });
          }
         }
