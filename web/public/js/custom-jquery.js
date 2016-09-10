@@ -629,36 +629,8 @@ if($('#referenceUpload').length)
 }
 if($('#matrixUpload').length) 
 {
-    $("#matrixUpload").ajaxForm({
-        beforeSubmit: function() {
-            $('#matrix_load').show();
-        },
-        success: function(responseText, statusText, xhr, $form) {
-            $('#resume_msg').css("display", "block");
-            $('#matrix_load').prev().html('');
-            $('#matrix_load').hide();
-            if (responseText) {
-                var result = jQuery.parseJSON(responseText);
-                var name = result.name.split('.');
-                var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
-                                <a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
-                                    <div class="gq-del-evidence"></div></a>\n\
-                                <div class="tooltip-home top">\n\
-                                    <div class="tooltip-arrow"></div>\n\
-                                    <span class="">Delete ID File</span>\n\
-                                </div>\n\
-                            </span>\n\
-                            <a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-                if ($('#matrix_no_files').html() === 'No trainer matrix found') {
-                    $('.matrix_files').html(html);
-                } else {
-                    $('.matrix_files').append(html);
-                }
-                $('#resume_msg').css("display", "block");
-            }
-        },
-        resetForm: true
-    });
+	alert("ddd");
+	assessorTrainerMatrixUpload();
 }
 function checkspace(text)
 {

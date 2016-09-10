@@ -162,29 +162,8 @@ class FileUploader
      */
     public function resume($data)
     {
-        try {
-            $fileNames = $this->uploadToAWS($data['browse']);
-            $otherFiles = new OtherFiles();
-            $otherFiles->setAssessor($this->currentUser);
-            $otherFiles->setType($data['type']);
-            $otherFiles->setName($fileNames['orginal_name']);
-            $otherFiles->setPath($fileNames['aws_file_name']);
-            $otherFiles->setSize($fileNames['file_size']);
-            $this->em->persist($otherFiles);
-            $this->em->flush();
-            $now = new DateTime('now');
-            $result = array(
-                'id' => $otherFiles->getId(),
-                'name' => $fileNames['orginal_name'],
-                'path' => $fileNames['aws_file_name'],
-                'type' => $otherFiles->getType(),
-                'date' => $now->format('d/m/Y'),
-                'size' => $fileNames['file_size']
-            );
-            return json_encode($result);
-        } catch (Exception $e) {
-            return null;
-        }
+		$fileNames = $data['browse'];
+			dump($fileNames['originalName']);exit;
        
     }
 
