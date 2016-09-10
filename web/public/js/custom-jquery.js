@@ -3592,7 +3592,7 @@ function validateNewMessage(toMessage,sublect,composeMsg)
     
     if(toMessage == "")
     {
-        userExistMsg("Please enter to user name", "compose_toUserName");
+        userExistMsg("Please enter recipient name", "compose_toUserName");
         return false;
     }
     else
