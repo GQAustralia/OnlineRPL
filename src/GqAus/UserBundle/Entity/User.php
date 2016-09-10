@@ -80,6 +80,10 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @var string
      */
     private $applicantStatus;
+     /**
+     * @var string
+     */
+    private $loginToken;
 
     /**
      * Constructor
@@ -1120,5 +1124,26 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->applicantStatus;
     }
+     /**
+     * Set LoginToken
+     *
+     * @param string $token
+     * @return token
+     */
+    public function setLoginToken($loginToken)
+    {
+        $this->loginToken = $loginToken;
 
+        return $this;
+    }
+
+    /**
+     * Get ApplicantStatus
+     *
+     * @return string 
+     */
+    public function getLoginToken()
+    {
+        return $this->loginToken;
+    }
 }

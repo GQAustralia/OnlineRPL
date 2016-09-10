@@ -1966,6 +1966,7 @@ class UserService
      */
     public function setReadViewStatus($mid)
     {
+        
         $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($mid);        
         if($msgObj->getInbox()->getid() ==  $this->getCurrentUser()->getid())
         {
@@ -3962,8 +3963,23 @@ class UserService
      */
     public function getQualificationFacilitator($userId,$courseCode,$facilitator)
     {
-        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('user' => $userId, 'courseCode' => $courseCode, 'facilitator' => $facilitator));        
-        return (count($courseUnitObj));
+
+       // $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('u' => $user->getId(), 'courseCode' => $courseCode));
+       // $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode,'user' => $userId->getId(),'facilitator'=>'!="'));
+        
+       // $result = !empty($courseUnitObj) ? count($courseUnitObj) : 0;       
+       // return count($courseUnitObj);
+        
+        $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                ->createQueryBuilder('u')
+                ->select()
+                ->where('u.courseCode = :courseCode')->setParameter('courseCode', $courseCode)
+                ->andWhere('u.user = :user')->setParameter('user', $userId->getId())
+                ->andWhere(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $facilitator);
+                
+            $facList = $res->getQuery()->getResult();
+            $result = count($facList);
+            return $result;
     }
      /**
      * Function to Update Assessor
@@ -4102,6 +4118,7 @@ class UserService
         return $totalNoCourseUnits;
     }
 
+
     /**
      * function to get all User logs
      * return array
@@ -4239,4 +4256,50 @@ class UserService
                 $evidences = $qb->getQuery()->getResult();
                 return count($evidences);
         }
+
+    
+    public function updateNewUserPassword($newpassword,$logintoken)
+    {
+        $userinfo = $this->getUserLoginToken($logintoken);
+        $user = $this->repository->findOneBy(array('id' => $userinfo[0]->getId()));
+        if (!empty($user)) { 
+            $password = password_hash($newpassword, PASSWORD_BCRYPT);        
+            $user->setPassword($password);
+            $user->setPasswordToken($newpassword);
+            $user->setTokenStatus('1');
+            $user->setApplicantStatus('2');
+            $this->em->persist($user);
+            $this->em->flush();
+            return $user->getId();
+        }
+        else {
+            return '0';
+        }
+    }
+    
+     public function updateNewUserPasswordStatus($logintoken)
+    {
+        $userinfo = $this->getUserLoginToken($logintoken);
+        $user = $this->repository->findOneBy(array('id' => $userinfo[0]->getId()));
+        if (!empty($user)) { 
+            $user->setApplicantStatus('0');
+            $this->em->persist($user);
+            $this->em->flush();
+            return $user->getId();
+        }
+        else {
+            return '0';
+        }
+    }
+    
+    /**
+     * Function to get user details
+     * @param int $logintoken
+     * return array
+     */
+    public function getUserLoginToken($logintoken)
+    {
+        return $this->em->getRepository('GqAusUserBundle:user')->findBy(array('loginToken' => $logintoken));
+    }
+
 }

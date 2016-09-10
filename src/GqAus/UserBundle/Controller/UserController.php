@@ -12,6 +12,7 @@ use GqAus\UserBundle\Form\ResumeForm;
 use GqAus\UserBundle\Form\QualificationForm;
 use GqAus\UserBundle\Form\ReferenceForm;
 use GqAus\UserBundle\Form\MatrixForm;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserController extends Controller
 {
@@ -22,7 +23,7 @@ class UserController extends Controller
      * return string
      */
         public function profileAction(Request $request)
-    {
+    { 
         $session = $request->getSession();
         $sessionUser = $this->get('security.context')->getToken()->getUser();
         $session->set('user_id', $sessionUser->getId());
@@ -846,6 +847,54 @@ class UserController extends Controller
          $image = $user->getUserImage();
          $userService->savePersonalProfile($user, $image);
         exit;
+    }
+     function updateNewUserPasswordAjaxAction(){  
+        $newpassword = $_POST['pwd']; 
+        $logintoken = $_POST['tokenid'];
+        $userService = $this->get('UserService');
+        $userInfo = $userService->updateNewUserPassword($newpassword, $logintoken); 
+        if($userInfo > 0) {
+            $user = $userService->getUserInfo($userInfo);
+            echo $userInfo."@".$user->getApplicantStatus();
+        }
+        else {
+            echo '0';
+        }
+        exit;
+    }
+    function updateNewUserAjaxStatusAction(){  
+        $logintoken = $_POST['tokenid'];        
+        $userService = $this->get('UserService');
+        $userInfo = $userService->updateNewUserPasswordStatus($logintoken);
+        exit;
+    }
+    
+    function validateUserAction()
+    {                
+        $token = $this->getRequest()->get('loginToken'); 
+        $userService = $this->get('UserService');
+        $userinfo = $userService->getUserLoginToken($token); 
+        $userid = 0; $user = '';
+        if (!empty($userinfo)) {                                  
+              $userid = $userinfo[0]->getId();     
+              $user = $userService->getUserInfo($userid);
+        }
+        return $this->render('GqAusUserBundle:User:newUserCheck.html.twig', array(
+                'userid' => $userid, 'user' => $user, 'applicantStatus' => $user->getApplicantStatus()));
+        exit;
+//        $loginToken = $this->getRequest()->get('loginToken');
+//        $userId = $this->getRequest()->get('userId');
+//        $userService = $this->get('UserService');
+//         $user = $userService->getUserInfo($userId);
+//         $providerKey = 'secured_area';
+//       $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
+//       dump($user->getApplicantStatus);exit;
+//        return $this->render('GqAusUserBundle:User:newUserCheck.html.twig');
+    //$this->container->get('security.context')->setToken($token);
+//
+//    $url = $this->generateUrl('index');
+//
+//    return $this->redirect($url);
     }
 
     /*

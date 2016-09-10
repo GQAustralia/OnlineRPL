@@ -2707,7 +2707,7 @@ function chnageMaterialIcon()
 }
 
 /* Password Update (from New User) -*/
-$('#updatePassword').on('submit', function(e) {
+$('#updatePassword').on('submit', function(e) {   
      if(newPasswordUpdate() && checkConfirmPassword()){  
         e.preventDefault();
         form_data = $(this).serialize(); //Serializing the form data
@@ -2727,6 +2727,38 @@ $('#updatePassword').on('submit', function(e) {
        
    return false;
 });
+/* Password Update (from New User) -*/
+$('#newUserupdatePassword').on('submit', function(e) {
+     if(newPasswordUpdate() && checkConfirmPassword()){ 
+        e.preventDefault();
+        form_data = $(this).serialize(); //Serializing the form data
+           $.ajax({
+                type: "POST",
+                url: base_url+"updateNewUserPasswordAjax",
+                cache: false,
+                data: {pwd:$('#new-password').val(),tokenid:$('#hdn_login_token').val()},
+                success: function(result) { 
+                    if(result == 0) {
+                        $("#profile_suc_msg3").show();
+                        $("#profile_suc_msg3").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Invalid User!</h2></div>');                         
+                    } else  {
+                        $("#profile_suc_msg3").show();
+                        $("#profile_suc_msg3").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Password updated successfully!</h2></div>'); 
+                        var data = result.split('@'); 
+                        if(data[1] == 2)
+                        {          
+                            $("#onboard2").removeClass("hidden");
+                            $('#onboard2').modal({backdrop: 'static', keyboard: false,show:true});                            
+                            $("#newUserupdatePassword").addClass("hidden");
+                        }
+                    }
+                  
+                }
+            });
+        }
+       
+   return false;
+});
 function saveUserPassword(){       
            $.ajax({
                 type: "POST",
@@ -2734,6 +2766,21 @@ function saveUserPassword(){
                 cache: false,                
                 success: function(result) {
                    window.location.href = base_url+'userprofile';
+                }
+            });
+      
+       
+   return false;
+}
+
+function saveNewUserPassword(){       
+           $.ajax({
+                type: "POST",
+                url: base_url+"updateNewUserAjaxStatus",
+                cache: false,
+                data: {tokenid:$('#hdn_login_token').val()},
+                success: function(result) {
+                   window.location.href = base_url+'login';
                 }
             });
       
