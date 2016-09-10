@@ -738,4 +738,25 @@ class EvidenceService
 	}
 	return $byteSize;
     }
+    /**
+     * 
+     * @param type $evdId
+     */
+    public function getEvidenceIsSubmittedOrNot($evdId)
+    {
+         $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->find($evdId);
+         $isSubmitted = 0;
+         if(!empty($evdObj)){
+             $userId = $evdObj->getUser()->getId();
+             $unitId = $evdObj->getUnit();
+             $courseCode = $evdObj->getCourse();
+             if(!empty($userId) && !empty($unitId) && !empty($courseCode)){
+                 $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $userId, 'unitId' => $unitId, 'courseCode' => $courseCode));
+                 if(!empty($courseUnitObj)){
+                    $isSubmitted =  $courseUnitObj->getIssubmitted();
+                }  
+             }
+         }
+         return $isSubmitted;
+    }
 }

@@ -352,7 +352,8 @@
                                                                                 </span>
                                                                                 <span class="clear">
                                                                                     {% if('ROLE_APPLICANT' in roles) %}
-                                                                                    <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
+                                                                                        {% set evdIsSubmitted = evidence_service.getEvidenceIsSubmittedOrNot(evd[0].id)%}
+                                                                                        {% if evdIsSubmitted != '1'%}<i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>{%endif%}
                                                                                     {% endif %}
                                                                                 </span>
                                                                             </div>
@@ -395,7 +396,8 @@
                                                                                 </span>
                                                                                 <span class="clear">
                                                                                     {% if('ROLE_APPLICANT' in roles) %}
-                                                                                    <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
+                                                                                        {% set evdIsSubmitted = evidence_service.getEvidenceIsSubmittedOrNot(evd[0].id)%}
+                                                                                        {% if evdIsSubmitted != '1'%}<i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>{% endif %}
                                                                                     {% endif %}
                                                                                 </span>                                                                                
                                                                             </div>
