@@ -250,9 +250,15 @@ updateprofileAjax:
 updateNewPasswordAjax:
     path:     /updateNewPasswordAjax
     defaults: { _controller: GqAusUserBundle:User:updateNewPasswordAjax }
+updateNewUserPasswordAjax:
+    path:     /updateNewUserPasswordAjax
+    defaults: { _controller: GqAusUserBundle:User:updateNewUserPasswordAjax }
 updateNewUserAjax:
     path:     /updateNewUserAjax
     defaults: { _controller: GqAusUserBundle:User:updateNewUserAjax }
+updateNewUserAjaxStatus:
+    path:     /updateNewUserAjaxStatus
+    defaults: { _controller: GqAusUserBundle:User:updateNewUserAjaxStatus }
 updatepasswordAjax:
     path:     /updatepasswordAjax
     defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax } 
@@ -292,3 +298,7 @@ searchLogList:
 checkUserNameExist:
     path:     /checkUserNameExist
     defaults: { _controller: GqAusUserBundle:User:checkUserNameExist }
+validateUser:
+    path:     /validateUser/{loginToken}
+    defaults: { _controller: GqAusUserBundle:User:validateUser }
+
