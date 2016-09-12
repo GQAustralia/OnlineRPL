@@ -216,12 +216,19 @@
 </div>
 <!--SECTION -->			
 <!--SECTION -->
-<div class="section change_pwd_section mobile_version currentpassword">
-        
+<div class="section change_pwd_section mobile_version currentpassword hidden-xs">
+		<div class="heading_bar clearfix">
+                <span>
+                        Change Password
+                        <a href="javascript:void(0)">
+                                <i class="material-icons clear_pswd_div">clear</i>
+                        </a>
+                </span>
+        </div>
+
         <div class="content">
             <p>Please enter your current password</p><div id="pwd_error"></div>
                 <input type="password" placeholder="Password" id="current_password"/>
-                <a href="javascript:void(0)">Forgot password?</a>
         </div>
         <button class="button btn" onclick="checkCurrentRolePassword()">NEXT</button>
 </div>
@@ -230,7 +237,15 @@
 
 <!--SECTION -->
 <div class="section change_pwd_section mobile_version hidden-xs chngpwddiv">
-        
+             <div class="heading_bar clearfix">
+                <span>
+                        Change Password
+                        <a href="javascript:void(0)">
+                                <i class="material-icons clear_pswd_div">clear</i>
+                        </a>
+                </span>
+        </div>
+
      {{ form_start(changepwdForm, {'attr': {'class': 'form-inline'}}) }} 
         <div class="content">
                 <p>Thanks now enter a new secure password that is 8 - 16 characters and contains both letters and numbers</p><div id="mbl_pwd_error"></div>
@@ -254,7 +269,15 @@
 
 <!--SECTION -->
 <div class="section change_pwd_section mobile_version hidden-xs pwdsucc">
-         
+                  <div class="heading_bar clearfix">
+                <span>
+                        Change Password
+                        <a href="javascript:void(0)">
+                                <i class="material-icons clear_pswd_div">clear</i>
+                        </a>
+                </span>
+        </div>
+
         <div class="content">
                 <span>
                         <img src="{{ asset('public/images/COMPLETE.png') }}" alt="complete"/>
