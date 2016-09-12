@@ -107,7 +107,7 @@
                                                             {% set msgVal = message.message|split(' ', 4) %}
                                                              {% if msgVal[1] is defined %}
                                                                 {% set msgarr = msgVal[0]%}
-                                                             {% else if msgVal[1] is defined and msgVal[2] is defined%}
+                                                             {% elseif msgVal[1] is defined and msgVal[2] is defined%}
                                                                 {% set msgarr = msgVal[0]~' '~msgVal[1] %}
                                                              {% else %}
                                                                  {% set msgarr = msgVal[0] %}
@@ -117,7 +117,7 @@
                                                             {% set msgVal = message.message|split(' ', 4) %}
                                                             {% if msgVal[1] is defined %}
                                                                 {% set msgarr = msgVal[0]%}
-                                                             {% else if msgVal[1] is defined and msgVal[2] is defined%}
+                                                             {% elseif msgVal[1] is defined and msgVal[2] is defined%}
                                                                 {% set msgarr = msgVal[0]~' '~msgVal[1] %}
                                                              {% else %}
                                                                  {% set msgarr = msgVal[0] %}
