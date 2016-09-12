@@ -98,7 +98,7 @@
                 </strong>
                 {% else %}
                 <strong>
-                    {{courses.facilitator.firstName}} is reviewing <br/>your evidence
+                    {% if courses.facilitator is defined and courses.facilitator!= null %} {{courses.facilitator.firstName}} is reviewing <br/>your evidence  {% endif %}
                 </strong>
                     
                 {% endif %}
