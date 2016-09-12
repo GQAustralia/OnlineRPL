@@ -2,108 +2,196 @@
 {% block title %}GQ - RPL Manage Profiles{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('public/css/timepicker.css') }}" />
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">  
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_facilitator.css') }}">
 {% endblock %}
 {% block body %}
 
 {% set userRole = app.security.getToken().getUser().getRoles() %}
-<div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
-    <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-            <h1 class="gq-dashboard-title">Manage Profiles</h1>
-            <h6 class="gq-dashboard-title-desc"></h6>
-        </div>
-    </div>
-    
-    <div class="pull-right">
-        <!-- <div class="user-status-msg"><h6 class="gq-assessor-title-download text-right">af</h6></div> -->
-        <div class="user-status-msg gq-addnewuser"><a href ="javascript:void(0)"> Add New User </a>
-        <div class="user-status-select">
-            <div class="btn-group">
-                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="gq-add-icon"></span></a>
-              <!-- <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <span class="gq-down-icon"></span>
-              </button> -->
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ app.request.baseUrl }}/addUser/2"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Facilitator</a></li>
-                <li class="divider"></li>
-                <li><a href="{{ app.request.baseUrl }}/addUser/3"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Assessor</a></li><li class="divider"></li>
-                <li><a href="{{ app.request.baseUrl }}/addUser/4"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Rto</a></li>
-                {% if ('ROLE_SUPERADMIN' in userRole) %}
-                    <li class="divider"></li>
-                    <li><a href="{{ app.request.baseUrl }}/addUser/5"><span><img src="{{ asset('public/images/header-edit-icon.png') }}" /></span>Manager</a></li>
-                {% endif %}
-              </ul>
-            </div>
-        </div>
-        </div>
-    </div>
-    
-    <div id="err_msg"></div>
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 colxs-12">
-            <div class="col-xs-12"> <!-- class "gq-dashboard-bg-img3" added for background image -->
-                <div class="gq-dashboard-courses-detail-wrap">
-                    <div class="gq-dashboard-tabs margin-top15">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-5 col-sm-5 col-xs-12 gq-app-aearch-grid">
-                                    <div class="gq-applicant-filter-wrap text-right">
-                                        <label>Filter by: </label>
-                                        <input name="searchName" id="searchName" type="text" value="" placeholder="Name"/>
-                                        <!--<span id="searchFilter" class="gq-search-icon"></span>-->
-                                        <div class="gq-filter-clear wid100p visible-xs"></div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-5 col-xs-12">
-                                    <div class="gq-applicant-filter-wrap-select-remaining text-right">User Type</div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
-                                    <div class="gq-applicant-filter-wrap-select">
-                                        <select name="userType" id="userType" class="styled">
-                                            <option value="">All</option>
-                                            <option value="2">Facilitator</option>
-                                            {% if ('ROLE_SUPERADMIN' in userRole) %}
-                                            <option value="3">Assessor</option>
-                                            <option value="4">Rto</option>
-                                                <option value="5">Manager</option>
-                                            {% endif %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12 no-padding">
-                                    <button id="searchUserFilter" class="btn eye-btn gq-reports-filter-btn">Filter</button>
-                                </div>
-                            </div>
-                        <div class="tab-content">
-                            <div id="ajaxHtml" style="display:none" tdcolspan="4" tdrtocolspan="3" >
-                                <img src="{{ asset('public/images')}}/loading.gif" />
-                            </div>
-                            <div role="tabpanel" >
-                                <div class="table-responsive gq-applicant-list-table margin-top15">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th width="25%"><span class="">Name</span></th>
-                                                <th width="25%"><span>Type</span></th>
-                                                <th width="10%"><span>Notes/Reminders</span></th>
-                                                <th width="40%"><span></span></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="row" id="currentList">
-                                            {% include 'GqAusUserBundle:User:usersList.html.twig' %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+
+<!-- FOR DESKTOP -->
+<section class="body_section portfolio-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-lg-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading clearfix">
+                            <h4 class="panel-title">
+                                <span><strong>Manage Users</strong></span>
+                            </h4>
                         </div>
                     </div>
                 </div>
-                <span class="flip-icon"></span>
+            </div>
+        </div>
+        <div class="form-inline portfolio-filter" role="form">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="add_new_user clearfix">
+                        <div class="dropdown keep-open">
+                            <span class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="add_icon"><i class="material-icons">add_circle</i></span>
+                                <a href="javascript:void(0);">Add New User</a>
+                            </span>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)" onclick="addNewUserbyRole('2');">Facilitator</a></li>
+                                {% if ('ROLE_SUPERADMIN' in userRole) %}
+                                    <li><a href="javascript:void(0)" onclick="addNewUserbyRole('3');">Assessor</a></li>
+                                    <li><a href="javascript:void(0)" onclick="addNewUserbyRole('4');">Rto</a></li>
+                                    <li><a href="javascript:void(0)" onclick="addNewUserbyRole('5');">Manager</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="err_msg"></div>
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="row" id="profile_suc_msg">
+                <div class="gq-id-files-upload-success-text">
+                    <h2>
+                    {{ flashMessage }}</h2>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-xs-12 col-lg-3">
+                    <input name="searchName" id="searchName" type="text" value="" placeholder="Name" class="form-control search_box"/>
+                    {#<input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box-user">#}
+                </div>
+                <div class="col-xs-12 col-lg-3">
+                    <label for="">Filter By</label>
+                    {#<select name="filterByUser" id="filterByUser" class="form-control">
+                         <option value="">Assessor/Facilitator</option>
+                     {% for key, user in users %}
+                         <option value="{{user.id}}">{% if user.roletype == 2 %} Facilitator {% else %} Assessor {% endif %} : {{user.username}}</option>
+                     {% endfor %}
+                     </select>#}
+                    <select name="userType" id="userType" class="form-control">
+                        <option value="">All</option>
+                        <option value="2">Facilitator</option>
+                        <option value="3">Assessor</option>
+                        <option value="4">Rto</option>
+                        {% if ('ROLE_SUPERADMIN' in userRole) %}
+                        <option value="5">Manager</option>
+                        {% endif %}
+                    </select>
+                </div>
+                {#<div class="col-xs-12 col-lg-5">                   
+                    <label for="">Qualification Status</label>
+                    <select name="filterByStatus" id="filterByStatus" class="form-control">
+                        <option value="">Qualification Status</option>
+                        {% for key, status in qualificationStatus %}
+                            <option value="{{key}}">{{status["status"]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>#}
+                <div class="col-xs-12 col-lg-1">
+                    <button id="searchUserFilter" class="btn btn_red gq-reports-filter-btn">Filter</button>
+                </div>
+            </div>
+      </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="portfolio-data-table">
+                    <div id="ajaxHtml" style="display:none" tdcolspan="4" tdrtocolspan="3" >
+                        <img src="{{ asset('public/images')}}/loading.gif" />
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th style="text-align: center;">Notes/Reminders</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody id="currentList">
+                            {% include 'GqAusUserBundle:User:usersList.html.twig' %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- FOR DESKTOP -->
+
+<!-- Modal -->
+<div class="modal fade confirm_popup" id="confirm_popup" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="modal-title">Do you want to delete selected profile?</div>
+            </div>
+            <div class="modal-body">
+                <form class="btn_section">
+                    {#<button class="btn btn_red">OK</button>#}
+                    <a class="btn btn_red deleteUser margin-left15">OK</a>
+                    <button class="btn" data-dismiss="modal">CANCEL</button>
+                    <span class="loading-icon deleteuser_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade profile_popup" id="profile1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="title_bar hidden-sm hidden-md hidden-lg">
+                    Your Profile<span><a href="javascript:void(0);"><i class="material-icons clear_icon">clear</i></a></span>
+                </div>
+                <img src="../images/UPLOAD_PROFILE_PHOTO.png" alt="profile_pic"/>
+                <span class="title">Upload your profile photo</span>
+                <form class="form">
+                    <div class="section name_group clearfix">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" value="William" readonly>
+                            <span><i class="material-icons">mode_edit</i></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" value="John" readonly>
+                            <span><i class="material-icons">mode_edit</i></span>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" value="william.john@gqaustralia.com.au" readonly>
+                            <span><i class="material-icons">mode_edit</i></span>
+                        </div>
+                    </div>
+                    <div class="section number_group clearfix">
+                        <div class="form-group">
+                            <label>Mobile</label>
+                            <input type="text" value="0444 123 456" readonly>
+                            <span><i class="material-icons">mode_edit</i></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="text" value="........" readonly>
+                            <span><i class="material-icons">lock</i></span>
+                        </div>
+                    </div>
+                </form>
+                <button type="submit" class="submit_btn">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="add-user-byrole"></div>
+
+{#<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog gq-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -117,22 +205,22 @@
             </div>
         </div>
     </div>
-</div>
+</div>#}
 
 {% endblock %}
 
 {% block javascripts %}
- <script src="{{ asset('public/js/timepicker.js') }}"></script>    
+<script src="{{ asset('public/js/timepicker.js') }}"></script>    
 <script type="text/javascript">
     $(document).ready(function() {
         var dateTime = new Date();
         var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
-        var timeZoneDT = new Date(utc + (3600000*+10));
+        var timeZoneDT = new Date(utc + (3600000 * +10));
         $(".datepic").datetimepicker({
-         dateFormat: "dd/mm/yy",
-         timeFormat: "hh:mm tt",
-         minDate : timeZoneDT,
-         minDateTime : timeZoneDT
+            dateFormat: "dd/mm/yy",
+            timeFormat: "hh:mm tt",
+            minDate: timeZoneDT,
+            minDateTime: timeZoneDT
         });
     });
 </script>
