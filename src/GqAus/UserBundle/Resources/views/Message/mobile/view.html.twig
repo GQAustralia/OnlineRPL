@@ -82,23 +82,23 @@
                                                             
                                                               {% if message.subject|length > 15 %}
                                                                  {% set msgSubVal = message.subject|split(' ', 3) %}
-                                                                 {% if msgSubVal[1] is defined %}
-                                                                    {% set msgSubValarr = msgSubVal[0] %}
-                                                                 {% else if msgSubVal[1] is defined and msgSubVal[2] is defined%}
-                                                                    {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
-                                                                 {% else %}
-                                                                     {% set msgSubValarr = msgSubVal[0] %}
-                                                                 {% endif %}
+                                                                    {% if msgSubVal[1] is defined %}
+                                                                       {% set msgSubValarr = msgSubVal[0] %}
+                                                                    {% elseif msgSubVal[2] is defined%}
+                                                                       {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
+                                                                    {% else %}
+                                                                        {% set msgSubValarr = msgSubVal[0] %}
+                                                                    {% endif %}
                                                                  {{ msgSubValarr |raw ~ ' -'}}
                                                             {% else %}
                                                                 {% set msgSubVal = message.subject|split(' ', 3) %}
-                                                                 {% if msgSubVal[1] is defined %}
-                                                                    {% set msgSubValarr = msgSubVal[0] %}
-                                                                 {% else if msgSubVal[1] is defined and msgSubVal[2] is defined%}
-                                                                    {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
-                                                                 {% else %}
-                                                                     {% set msgSubValarr = msgSubVal[0] %}
-                                                                 {% endif %}
+                                                                    {% if msgSubVal[1] is defined %}
+                                                                       {% set msgSubValarr = msgSubVal[0] %}
+                                                                    {% elseif msgSubVal[1] is defined and msgSubVal[2] is defined%}
+                                                                       {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
+                                                                    {% else %}
+                                                                        {% set msgSubValarr = msgSubVal[0] %}
+                                                                    {% endif %}
                                                                  {{ msgSubValarr |raw ~ ' -'}} 
                                                             {% endif %}
                                                             </a> 
@@ -168,9 +168,25 @@
                       {% set userSubject = userSubject|raw[:30] %}{% endif %}                                        
             {%set i = i+1 %}
             {% endfor %}
-             {% set userSubArr = userSubject|split(' ', 4) %}
-            
-            {% set newuserSubject = userSubArr[0]~' '~userSubArr[1]~' '~userSubArr[2] %}
+             {% if userSubject|length > 15 %}
+                {% set userSubArr = userSubject|split(' ', 4) %}
+                {% if userSubArr[1] is defined %}
+                    {% set newuserSubject = userSubArr[0]%}
+                 {% elseif userSubArr[1] is defined and userSubArr[2] is defined%}
+                    {% set newuserSubject = userSubArr[0]~' '~userSubArr[1] %}
+                 {% else %}
+                     {% set newuserSubject = userSubArr[0] %}
+                 {% endif %}
+            {% else %}
+                {% set userSubArr = userSubject|split(' ', 4) %}
+                {% if userSubArr[1] is defined %}
+                    {% set newuserSubject = userSubArr[0]%}
+                 {% elseif userSubArr[1] is defined and userSubArr[2] is defined%}
+                    {% set newuserSubject = userSubArr[0]~' '~userSubArr[1] %}
+                 {% else %}
+                     {% set newuserSubject = userSubArr[0] %}
+                 {% endif %}
+            {% endif %} 
                 <div class="title_bar">  {{ newuserSubject }}               
                         <span><a href="{{ base_url }}messages"><i class="material-icons arrow_back">arrow_back</i></a></span>
                 </div>
