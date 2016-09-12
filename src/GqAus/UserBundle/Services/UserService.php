@@ -1124,7 +1124,7 @@ class UserService
                 $result = array($userType => $userId, $userStatus => $applicantStatus, $userViewStatus => 0, 'courseStatus' => array(2, 10, 11, 12, 13, 14));
             } elseif (in_array('ROLE_RTO', $userRole)) {
                 $userType = 'rto';
-                $userStatus = 'assesorstatus';
+                $userStatus = 'assessorstatus';
                 $userViewStatus = 'rtoread';
                 $result = array($userType => $userId, $userStatus => $applicantStatus, $userViewStatus => 0, 'courseStatus' => '15');
             }
