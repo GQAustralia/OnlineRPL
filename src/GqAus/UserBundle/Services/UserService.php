@@ -2455,7 +2455,7 @@ class UserService
      */
     public function getTodoReminders($userId)
     {
-        $todayTime = \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 00:00:00") );
+        $todayTime = \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59") );
         $fields = 'partial r.{id, completed, message, date, course, reminderType, reminderTypeId, reminderViewStatus}, partial u.{id, firstName, lastName}';
         $query = $this->em->getRepository('GqAusUserBundle:Reminder')
             ->createQueryBuilder('r')
@@ -2465,6 +2465,7 @@ class UserService
             ->andWhere('r.date <= :todayTime')->setParameter('todayTime', $todayTime)
             ->addOrderBy('r.date', 'DESC');
         $getReminders = $query->getQuery()->getResult();
+
         return $getReminders;
     }
     
