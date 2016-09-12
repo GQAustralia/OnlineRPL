@@ -938,7 +938,7 @@ class UserController extends Controller
         $username = $this->getRequest()->get('username'); 
         $messageService = $this->get('UserService');
         $userrole = $messageService->getCurrentUser()->getRoles();
-        $userId = $messageService->getCurrentUser()->getRoles();
+        $userId = $messageService->getCurrentUser()->getId();
         $rows = $messageService->checkUsernamesbyRoles(array('keyword' => $username),$userrole[0],$userId);        
         echo count($rows);
         exit;
