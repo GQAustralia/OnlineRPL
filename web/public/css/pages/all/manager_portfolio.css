@@ -91,6 +91,7 @@
     float: left;
     font-size: 15px;
     width: 50%;
+	word-wrap: break-word;
 }
 .main_container .portfolio-container .portfolio-data-table.mobile-portfolio-data-table .portfolio-data-row .progress-container .progress {
     width: 70%;
