@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Applicant Lists{% endblock %}
+{% block stylesheets %} <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css')}}"> {% endblock %}
+{% block body %}
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+    <section class="portfolio-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-lg-12">
+                    <div class="panel-group">
+                        <div class="panel">
+                            <div class="panel-heading clearfix"><h4 class="panel-title"><span><strong>Reports</strong></span></h4></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-inline portfolio-filter" role="form">
+                <div class="row">
+                        <div class="col-xs-12 col-lg-4">
+                            <label for="">Search</label>
+                            <input name="searchName" id="searchName" type="text" placeholder="Applicant Name" class="form-control search_box">
+                        </div>
+                        <div class="col-xs-12 col-lg-3">
+                            <label for="">Days</label>
+                            <select class="form-control" id="searchAge" name="searchAge">
+                                    <option value="1">0 - 30</option>
+                                    <option value="2">31 - 60</option>
+                                    <option value="3">61 - 90</option>
+                                    <option value="4"> &gt;90 </option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-lg-3">
+                            <label for="">Facilitator</label>
+                                {% if facilitators %}
+                                    <select class="form-control" id="searchRoleId" name="searchRoleId">
+                                        <option value=''>Select</option>
+                                        {% for key,faclist in facilitators%}
+                                            <option value="{{faclist.id}}">{{faclist.firstname}} {{faclist.lastname}}</option>
+                                        {% endfor %}
+                                    </select>
+                                 {% endif %}
+                        </div>
+                        <div class="col-xs-12 col-lg-2">
+                            <button type="" class="btn btn_red"  id="searchFilterReports">Filter</button>
+                        </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="ajaxHtml" style="display:none"><img src="{{ asset('public/images')}}/loading.gif" /></div>
+                <div class="col-lg-12">
+                    <div class="portfolio-data-table">
+                        <table class="table">
+                            {% include 'GqAusUserBundle:Reports:applicantsFilters.html.twig' %}
+                            <tbody id="currentList">
+                            {% include 'GqAusUserBundle:Reports:applicants.html.twig' %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+<!-- accordion starts here -->
+{% if applicantList %}
+    {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+    <tr>
+        <td class="gq-pagination-area" {% if ('ROLE_FACILITATOR' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %}>
+            {{ include('GqAusUserBundle:Paginator:ajax_rep_paginator_navigator.html.twig', {'paginator' : paginator}) }}
+        </td>
+    </tr>
+    {% endif %}
+    {% for key, list in applicantList %}
+        <tr>
+            <td>{{list.user.firstName}} {{list.user.lastName}}</td>
+            <td>{{list.courseCode}} {{list.courseName}}</td>
+            <td>
+                <a href="applicantDetails/{{list.courseCode}}/{{list.user.id}}" class="gq-ev-view-icon">
+                    <button class="btn eye-btn fromBottom pull-right" data-toggle="modal" data-target="#edivenceModal" data-direction="bottom"><span class="hidden-xs"></span>VIEW</button>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="5" class="gq-tabs-no-content-text margin-top15">No Applicants Found</td>
+    </tr>
+{% endif %}
+<!-- accordion ends here -->
+
+
+
+
+{% if pageRequest == 'ajax' %}
+    {% block javascripts %}
+<script type="text/javascript">
+    //$(".datepic").datepicker();
+    $(".setNotes").click(function() {
+        id = $(this).attr("id");
+        var c = $('#div_' + id).hasClass("open");
+        if (c == false) {
+            $('#div_' + id).addClass('open');
+        } else {
+            $('#div_' + id).removeClass('open');
+        }
+    });
+</script>
+    {% endblock %}
+{% endif %}

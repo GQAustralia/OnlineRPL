@@ -1,0 +1,22 @@
+{% if userLog %}
+    {% if userLog|length > 0 and paginator.getTotalPages() > 1 %}
+        <tr>
+            <td class="gq-pagination-area" colspan="4">
+                {# display navigation for pages - paginator_navigator #}        
+                {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
+            </td>
+        </tr>
+    {% endif %}
+    {% for key, list in userLog %}
+    <tr>
+        <td><a href="javascript:void(0)">{{list.user.firstName}} {{list.user.lastName}}</a></td>
+        <td>{{log_list[list.logAction]["action"]}}</td>
+        <td>{{list.logDateTime|date("d/m/y h:i")}}</td>
+        <td>{{list.logMessage}}</td>
+    </tr>
+    {% endfor %}
+{% else %}
+        <tr>
+            <td colspan="12" align="center">No Log Found</td>
+        </tr>
+{% endif %}
