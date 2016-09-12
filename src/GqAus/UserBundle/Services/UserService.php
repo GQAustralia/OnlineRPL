@@ -1132,6 +1132,7 @@ class UserService
         } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
             $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
+            $qb->andWhere(sprintf('u.%s = :%s', 'facilitatorread', 'fread'))->setParameter('fread', '0');
             $qb->andWhere('u.courseStatus != 0');
             $getCourseStatus = $qb->getQuery()->getResult();
         }
@@ -1330,8 +1331,6 @@ class UserService
                 'unReadMessagesCount' => $unReadMessagesCount,
                 'pendingApplicantsCount' => count($pendingApplicants),
                 'pendingApplicants' => $pendingApplicants,
-
-                'newApplicantList' => $pendingApplicants,
                 'percentage' => $percentage,
                 'todoReminders' => $todoReminders,
                 'completedReminders' => $todoCompletedReminders,

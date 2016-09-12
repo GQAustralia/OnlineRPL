@@ -43,11 +43,11 @@
     {% endif %}
     <div class="panel-group" id="accordion3">
         {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)) %}
-			{% if newApplicantList|length > 0 %}
+			{% if pendingApplicants|length > 0 %}
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="panel-title">
-							<span>{{newApplicantList|length}} new</span>
+							<span>{{pendingApplicants|length}} new</span>
 							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#p_collapse1">
 							  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
 							</a>
@@ -56,7 +56,7 @@
 					<div id="p_collapse1" class="panel-collapse collapse">
 						<div class="panel-body">
 							<ul>
-								{% for key, list in newApplicantList %}
+								{% for key, list in pendingApplicants %}
 										{% if ('ROLE_MANAGER' in roles) %}
                                                                                     {% set setUserId = list.manager %}
                                                                                 {% elseif ('ROLE_FACILITATOR' in roles and list.facilitator.id != null) %}
