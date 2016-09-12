@@ -365,6 +365,19 @@
                 <div class="col-xs-12 col-sm-12">
                     <div class="gqa-btn-group">
                         <div class="row no-gutter">
+                            {% if ('ROLE_FACILITATOR' in userRole or 'ROLE_MANAGER' in userRole) and (facilitatorstatus != '1' and currentIdPoints >= '100' and statusOfFacUnitsCount >= totalReqUnits ) %}
+                                <div class="col-xs-12 col-sm-12">
+                                    <button type="button" id="submittoassessor"  class="btn btn-danger" data-courseStatus="2">Submit to Assessor</button>                                
+                                </div>
+                            {% endif %}
+                             {% if ('ROLE_RTO' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="btn btn-download border-dark">
+                                        <i class="material-icons">file_download</i>
+                                        <a href ="javascript:void(0)" id="download_profile" userid="{{userId}}" course_code="{{courseInfo.id}}">Download complete Portfolio</a>
+                                    </div>
+                                </div>
+                            {% endif %}
                             {% if ('ROLE_ASSESSOR' in userRole and courseStatus =='11') %}
                                 <div class="col-xs-12 col-sm-12">
                                     <form name="startConversation" method="post" action="{{ base_url }}startConversation">    
@@ -376,7 +389,7 @@
                             {% endif %}
                             {% if ('ROLE_RTO' in userRole) and (statusOfAssUnitsCount == totalReqUnits) and (courseStatus == '15') and (totalReqUnits > statusOfRtoUnitsCount) %}
                                 <div class="col-xs-12 col-sm-12">
-                                    <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-all-units-from-rto" class="btn btn-danger approve-for-certification-btn">Approved</button>
+                                    <button type="submit" courseCode = "{{courseInfo.id}}" applicantId="{{userId}}" id="approve-all-units-from-rto" class="btn btn-danger approve-for-certification-btn">Competent</button>
                                 </div>
                             {% endif %}
                         </div>

@@ -339,8 +339,7 @@ if($('#frmSelectEvidence').length)
         resetForm: true
     });
 }
-
-$("#download_profile").click(function() {
+$("body").on('click', '#download_profile', function() {
     userId = $(this).attr("userid");
     courseCode = $(this).attr("course_code");
     window.open(base_url + "downloadFiles/" + courseCode + "/" + userId);
