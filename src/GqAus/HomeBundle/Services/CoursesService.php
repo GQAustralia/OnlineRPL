@@ -497,6 +497,7 @@ class CoursesService
                 ->find($userId);
             $reposObj->setUnitId($unitId);
             $reposObj->setCourseCode($courseCode);
+            $reposObj->setStatus(1);
             $reposObj->setElectiveStatus(1);
             $reposObj->setUser($userObj);
             $this->em->persist($reposObj);
@@ -505,6 +506,7 @@ class CoursesService
             $status = ($status == 1) ? '0' : '1';
             $userUnitObj->setElectiveStatus($status);
             if($status == '0') {
+                $userUnitObj->setStatus(0);
                 $userUnitObj->setIssubmitted(0);
                 $userUnitObj->setFacilitatorstatus(0);
                 $userUnitObj->setAssessorstatus(0);
