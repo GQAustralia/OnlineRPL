@@ -28,7 +28,7 @@
                                              <div class="data_section">
                                                  <textarea rows="3" placeholder="Notes" id="appMsg_notes_{{appliMsg.id}}" onfocus="fousOnNote({{appliMsg.id}})"></textarea>
                                                  <div class="date_section clearfix">
-                                                         <input type="text" class="date_field form-control" id="appMsg_remindDate_{{appliMsg.id}}" onfocus="fousOnDate({{appliMsg.id}})">
+                                                         <input type="text" class="date_field form-control" id="appMsg_remindDate_{{appliMsg.id}}" onfocus="fousOnDate({{appliMsg.id}})" readonly />
                                                  </div>
                                              </div>
                                              <button type="button" class="btn_red setData" userCourseId="" prefix="appMsg" listId="{{appliMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{appliMsg.id}}">Save</button>
