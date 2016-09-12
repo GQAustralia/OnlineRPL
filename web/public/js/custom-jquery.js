@@ -850,7 +850,7 @@ $(".setData").click(function() {
         }
     }
 
-    var completedItem = 0;    
+    var completedItem = 0;
     if (remindDate != '') {
         $.ajax({
             type: "POST",
@@ -858,10 +858,12 @@ $(".setData").click(function() {
             cache: false,
             data: {message: note, userCourseId: userCourseId, remindDate: remindDate, listId: listId, reminderTypeId: reminderTypeId, reminderType:reminderType},
             success: function(result) {
+                $('.progres_bar_sec').removeClass('hide');
                 var res = $.parseJSON(result);
                 $('#err_msg').show();           
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Reminder added succesfully!</span></div>').delay(3000).fadeOut(100);
                 if(newTodoItemElement && addToToDo) {
+                   
                     newTodoItem = newTodoItemElement.replace(/reminderId/g, res.reminderId);
                     flyToElement(newTodoItemContent, $('.todo-list'),stPos);
                     setTimeout(function(){$('.todo-list').append(newTodoItem);},1000);

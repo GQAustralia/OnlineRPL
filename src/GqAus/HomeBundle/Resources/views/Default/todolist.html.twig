@@ -12,14 +12,13 @@
             </div>
             <div id="collapse1" class="panel-collapse collapse in">
                 <div class="panel-body">
-                    <div class="progres_bar_sec">
+                    <div class="progres_bar_sec {% if todoReminders|length <= 0 and completedReminders|length <= 0 %}hide{% endif %}">
                         <p class="title">To Do Today - <span class="todo-percent"> {{ percentage|number_format(0) }}</span>% Complete</p>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" data-citem="{{ completedRemindersCount }}" data-titem="{{ totalRemindersCount }}" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:{{percentage|number_format(0)}}%">
                               <span class="sr-only">30% Complete</span>
                             </div>
                         </div>
-                            {#{{ dump(todoReminders) }}#}
                     </div>
                     <ul  class="todo-list">
                         {% if todoReminders|length > 0 %}
