@@ -214,7 +214,7 @@
 		
         
     </h4>       
-        
+        {% set statusOfFacElecUnitsCount = '' %}
         {% if totalCheckedCount >= electiveUnitCountRequired%}
         {% set statusOfFacElecUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseCode, 'facilitatorstatus', 'elective') %}
                 <div class="course-edit show"  id="course-btn-container-{{courseCode}}">

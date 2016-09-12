@@ -262,7 +262,7 @@
 		
         
     </h4>       
-        
+        {% set statusOfFacElecUnitsCount = '' %}
         {% if totalCheckedCount >= electiveUnitCountRequired%}
         {% set statusOfFacElecUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseCode, 'facilitatorstatus', 'elective') %}
         
