@@ -6,102 +6,7 @@
     {% include 'GqAusUserBundle:Applicant/includes:navmenu.html.twig' %}
 {% endblock %}    
 {% block body %}
-    <div class="body_section candidate_profile">
-        <div class="form_block profileinfo">
-            <div class="title_bar clearfix">
-                    <span class="left">CANDIDATE DETAILS</span>
-                    <span class="right"><strong>{{userProfilePercentage}} COMPLETED</strong>{% if userProfilePercentage == "100%" %}<i class="material-icons">done</i>{% endif %}</span>
-            </div>
-            <form>
-                <div class="section">
-                    <div class="form-group clearfix">
-                            <label>First Name</label>
-                            <input type="text" value="{%if user.firstName is defined %}{{user.firstName}}{%endif%}" readonly="true"/>
-                    </div>
-                </div>
-                <div class="section">
-                    <div class="form-group clearfix">
-                            <label>Last Name</label>
-                            <input type="text" value="{%if user.lastName is defined %}{{user.lastName}}{%endif%}" readonly="true"/>
-                    </div>
-                </div>
-                <div class="section">
-                    <div class="form-group clearfix gender_section">
-                        <label>Gender</label>
-                        <div id="userprofile_gender">
-                            <input type="radio" disabled name="optradio" {% if(user.gender =='male')%}checked{% endif %}>
-                            <label for="userprofile_gender_0" class="required">Male</label>
-                            <input type="radio" disabled name="optradio" {% if(user.gender =='female')%}checked{% endif %}>
-                            <label for="userprofile_gender_0" class="required">Female</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="section">
-                        <div class="form-group clearfix">
-                            <label>Email</label>
-                            <input type="email" value="{%if user.email is defined %}{{user.email}}{%endif%}" readonly="true"/>
-                        </div>
-                </div>
-                <div class="section">
-                        <div class="form-group clearfix">
-                                <label>Mobile</label>
-                                <input type="text" value="{%if user.phone is defined %}{{user.phone}}{%endif%}" readonly="true"/>
-                        </div>
-                </div>
-                <div class="section">
-                        <div class="form-group clearfix">
-                                <label>USI</label>
-                                <input type="text" value="{%if user.universalStudentIdentifier is defined %}{{user.universalStudentIdentifier}}{%endif%}" readonly="true"/>
-                        </div>
-                </div>
-                <div class="title_bar clearfix">
-                        <span class="left">ADDRESS</span>
-                </div>
-                <div class="section">
-                        <div class="form-group clearfix">
-                                <label>Street Number</label>
-                                <input type="text" value="{%if user.address.address is defined %}{{user.address.address}}{%endif%}" readonly="true"/>
-                        </div>
-                </div>
-                <div class="section">
-                        <div class="form-group clearfix">
-                                <label>Street Name</label>
-                                <input type="text" value="{%if user.address.area is defined %}{{user.address.area}}{%endif%}" readonly="true"/>
-                        </div>
-                </div>
-                <div class="section">
-                        <div class="form-group clearfix">
-                                <label>Suburb</label>
-                                <input type="text" value="{%if user.address.suburb is defined %}{{user.address.suburb}}{%endif%}" readonly="true"/>
-                        </div>
-                </div>
-                <div class="section half clearfix">
-                        <div class="form-group clearfix">
-                                <label>City</label>
-                                <input type="text" value="{%if user.address.city is defined %}{{user.address.city}}{%endif%}" readonly="true"/>
-                        </div>
-                        <div class="form-group">
-                                <label>Postcode</label>
-                                <input type="text" value="{%if user.address.pincode is defined %}{{user.address.pincode}}{%endif%}" readonly="true"/>
-                        </div>
-                </div>
-                <div class="section half clearfix">
-                        <div class="form-group">
-                                <label>State</label>
-                                <input type="text" value="{%if user.address.state is defined %}{{user.address.state}}{%endif%}" readonly="true"/>
-                        </div>
-                        <div class="form-group">
-                                <label>Country</label>
-                                <input type="text" value="{%if user.address.country is defined %}{{user.address.country}}{%endif%}" readonly="true"/>
-                        </div>
-                </div>
-            </form>
-        </div>
-        <div class="link_section clearfix profileinfo">
-            <a href="/faq" class="faq_link">
-	   <span><i class="material-icons">help</i></span>FAQs
-	  </a>
-        </div>  
+    <div class="body_section candidate_profile mobile_version_block">
         <div class="">
             <div class="info_block">
                 <div class="title_bar clearfix">
@@ -115,6 +20,7 @@
                 <div class="file_block">
                     <ul class="Id_files">
                     {% if userIdFiles is not null and userIdFiles is not empty %}
+                       {% set inLoop = 0%}
                        {% for evidence in userIdFiles %}
                         {% set doc_type = evidence_service.getEvidenceTypeByEvidenceId(evidence.type.id)%}
                         {% set filesize = evidence_service.fileSize(evidence.size) %}
@@ -127,8 +33,11 @@
                                             <span class="file-discription">{{evidence.name}} <br>{{filesize}} | ADDED {{evidence.created|date("d/m/y") }}</span>
                                         </div>
                                     </li>
-                             {%endif%}
+                                {%else%}
+                                    {% set inLoop = inLoop+1 %}
+                                {%endif%}
                         {% endfor %}
+                        {% if inLoop >='1'%}<center id="idfiles_no_files">{{no_id_files}}</center>{% endif %}
                     {% else %}
                         <center id="idfiles_no_files">{{no_id_files}}</center>                        
                     {% endif %}
@@ -136,6 +45,101 @@
                 </div>
         </div>
     </div>
+    <div class="form_block profileinfo">
+        <div class="title_bar clearfix">
+                <span class="left">CANDIDATE DETAILS</span>
+                <span class="right"><strong>{{userProfilePercentage}} COMPLETED</strong>{% if userProfilePercentage == "100%" %}<i class="material-icons">done</i>{% endif %}</span>
+        </div>
+        <form>
+            <div class="section">
+                <div class="form-group clearfix">
+                        <label>First Name</label>
+                        <input type="text" value="{%if user.firstName is defined %}{{user.firstName}}{%endif%}" readonly="true"/>
+                </div>
+            </div>
+            <div class="section">
+                <div class="form-group clearfix">
+                        <label>Last Name</label>
+                        <input type="text" value="{%if user.lastName is defined %}{{user.lastName}}{%endif%}" readonly="true"/>
+                </div>
+            </div>
+            <div class="section">
+                <div class="form-group clearfix gender_section">
+                    <label>Gender</label>
+                    <div id="userprofile_gender">
+                        <input type="radio" disabled name="optradio" {% if(user.gender =='male')%}checked{% endif %}>
+                        <label for="userprofile_gender_0" class="required">Male</label>
+                        <input type="radio" disabled name="optradio" {% if(user.gender =='female')%}checked{% endif %}>
+                        <label for="userprofile_gender_0" class="required">Female</label>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                    <div class="form-group clearfix">
+                        <label>Email</label>
+                        <input type="email" value="{%if user.email is defined %}{{user.email}}{%endif%}" readonly="true"/>
+                    </div>
+            </div>
+            <div class="section">
+                    <div class="form-group clearfix">
+                            <label>Mobile</label>
+                            <input type="text" value="{%if user.phone is defined %}{{user.phone}}{%endif%}" readonly="true"/>
+                    </div>
+            </div>
+            <div class="section">
+                    <div class="form-group clearfix">
+                            <label>USI</label>
+                            <input type="text" value="{%if user.universalStudentIdentifier is defined %}{{user.universalStudentIdentifier}}{%endif%}" readonly="true"/>
+                    </div>
+            </div>
+            <div class="title_bar clearfix">
+                    <span class="left">ADDRESS</span>
+            </div>
+            <div class="section">
+                    <div class="form-group clearfix">
+                            <label>Street Number</label>
+                            <input type="text" value="{%if user.address.address is defined %}{{user.address.address}}{%endif%}" readonly="true"/>
+                    </div>
+            </div>
+            <div class="section">
+                    <div class="form-group clearfix">
+                            <label>Street Name</label>
+                            <input type="text" value="{%if user.address.area is defined %}{{user.address.area}}{%endif%}" readonly="true"/>
+                    </div>
+            </div>
+            <div class="section">
+                    <div class="form-group clearfix">
+                            <label>Suburb</label>
+                            <input type="text" value="{%if user.address.suburb is defined %}{{user.address.suburb}}{%endif%}" readonly="true"/>
+                    </div>
+            </div>
+            <div class="section half clearfix">
+                    <div class="form-group clearfix">
+                            <label>City</label>
+                            <input type="text" value="{%if user.address.city is defined %}{{user.address.city}}{%endif%}" readonly="true"/>
+                    </div>
+                    <div class="form-group">
+                            <label>Postcode</label>
+                            <input type="text" value="{%if user.address.pincode is defined %}{{user.address.pincode}}{%endif%}" readonly="true"/>
+                    </div>
+            </div>
+            <div class="section half clearfix">
+                    <div class="form-group">
+                            <label>State</label>
+                            <input type="text" value="{%if user.address.state is defined %}{{user.address.state}}{%endif%}" readonly="true"/>
+                    </div>
+                    <div class="form-group">
+                            <label>Country</label>
+                            <input type="text" value="{%if user.address.country is defined %}{{user.address.country}}{%endif%}" readonly="true"/>
+                    </div>
+            </div>
+        </form>
+    </div>
+    <div class="link_section clearfix profileinfo">
+        <a href="/faq" class="faq_link">
+       <span><i class="material-icons">help</i></span>FAQs
+      </a>
+    </div>  
 </div>
     <script type="text/javascript" src="/public/js/jquery.fancybox.js?v=2.1.5"></script>
     <script type="text/javascript">
