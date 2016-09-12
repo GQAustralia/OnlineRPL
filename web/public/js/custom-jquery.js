@@ -2470,7 +2470,7 @@ if($('body #evidencefiles').length > 0) {
 /* CAND*/
 
 
-if($('body #evidence').length>0) {
+if($('#evidence').length>0) {
 
 	$.extend( $.fn.dataTable.defaults, {
             ordering:  true
@@ -2554,6 +2554,13 @@ if($('body #evidence').length>0) {
 		  return false;
 		}
 	);
+}
+
+if($('#evidence').length>0) {
+    $('document').ready(function(){
+        $('.fdate').trigger('click');
+        $('.fdate').trigger('click');
+    });
 }
 
 $('#evidence-filter').on('click','input[type="checkbox"]',function(){
