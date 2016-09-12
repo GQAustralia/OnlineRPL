@@ -20,12 +20,13 @@
                 <div class="file_block">
                     <ul class="Id_files">
                     {% if userIdFiles is not null and userIdFiles is not empty %}
-                       {% set inLoop = 0%}
+                       {% set inLoop, inFiles = 0 , 0%}
                        {% for evidence in userIdFiles %}
                         {% set doc_type = evidence_service.getEvidenceTypeByEvidenceId(evidence.type.id)%}
                         {% set filesize = evidence_service.fileSize(evidence.size) %}
                             {% set fileStatus = evidence.status %}
                                 {% if fileStatus != 1 %}
+                                    {% set inFiles = inFiles+1 %}
                                     <li>
                                         <div class="title_bar clearfix"><span class="content">{{ evidence.type.type }}</span><span class="number">{{ evidence.type.points }}</span></div>
                                         <div class="file_info">
@@ -37,7 +38,7 @@
                                     {% set inLoop = inLoop+1 %}
                                 {%endif%}
                         {% endfor %}
-                        {% if inLoop >='1'%}<center id="idfiles_no_files">{{no_id_files}}</center>{% endif %}
+                        {% if inLoop>=1 and inFiles == 0 %}<center id="idfiles_no_files">{{no_id_files}}</center>{% endif %}
                     {% else %}
                         <center id="idfiles_no_files">{{no_id_files}}</center>                        
                     {% endif %}
