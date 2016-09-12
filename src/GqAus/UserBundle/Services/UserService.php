@@ -4228,32 +4228,58 @@ class UserService
     /* Display usernames in New message Role wise Authentication
      * @param: $userRole
      */
-        public function checkUsernamesbyRoles($options = array(),$userRole) {        
+        public function checkUsernamesbyRoles($options = array(),$userRole,$msgUserId) {        
         $query = $this->em->getRepository('GqAusUserBundle:User')
             ->createQueryBuilder('u')
-            ->select( "CONCAT( CONCAT(u.firstName, ' '), u.lastName)" );
+            ->select( "CONCAT( CONCAT(u.firstName, ' '), u.lastName)" )
+            ->innerJoin('GqAusUserBundle:UserCourses', 'uc');
         $nameCondition = "";
-        if ($userRole == 'ROLE_APPLICANT' || $userRole == 'ROLE_ASSESSOR' ||$userRole == 'ROLE_RTO' ) {            
+        $usercondition = "";
+        if ($userRole == 'ROLE_APPLICANT') {            
             $query->where('(u instance of GqAusUserBundle:Facilitator)');
-            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";
-            $query->andWhere($nameCondition);       
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";           
+            $query->andWhere($nameCondition);
+            $query->andWhere('uc.facilitator = u.id');
+            $query->andWhere('uc.user = :userId')->setParameter('userId', $msgUserId);
+        }
+        else if ($userRole == 'ROLE_ASSESSOR' ) {            
+            $query->where('(u instance of GqAusUserBundle:Facilitator)');
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";           
+            $query->andWhere($nameCondition);
+            $query->andWhere('uc.facilitator = u.id');
+            $query->andWhere('uc.assessor = :assessorId')->setParameter('assessorId', $msgUserId);
+        }
+        else if ($userRole == 'ROLE_RTO' ) {            
+            $query->where('(u instance of GqAusUserBundle:Facilitator)');
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";           
+            $query->andWhere($nameCondition);
+            $query->andWhere('uc.facilitator = u.id');
+            $query->andWhere('uc.rto = :rtoId')->setParameter('rtoId', $msgUserId);
         }
         else if ($userRole == 'ROLE_FACILITATOR') {
             $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
                     . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
-            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";
-            $query->andWhere($nameCondition);            
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";            
+            $query->andWhere($nameCondition);
+            $query->andWhere('uc.user = u.id OR uc.assessor = u.id or uc.rto = u.id');
+            $query->andWhere('uc.facilitator = :facilitatorId')->setParameter('facilitatorId', $msgUserId);
         }
         else if ($userRole == 'ROLE_MANAGER') {
             $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
                     . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
-            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";
             $query->andWhere($nameCondition);            
         }
+        
             $getMessages = $query->getQuery()->getResult(); 
             $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getMessages)));
             sort($getMessages);
-            //echo "<pre>"; dump($getMessages); 
+            //echo "<pre>"; dump($getMessages); exit;
             return $getMessages;
         }
 
