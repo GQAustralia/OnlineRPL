@@ -115,3 +115,25 @@
 .message_popup .input_section label.subject{
 	width: 60px;
 }
+
+/* success and error messages */
+.gq-id-files-upload-success-text {
+    width: 100%;
+    text-align: center;
+}
+.gq-id-files-upload-success-text span {
+	color:green; 
+	font-size:15px;
+	text-align: center;
+	float: none;
+}
+.gq-id-file-error-text {
+    text-align: center;
+}
+.gq-id-file-error-text h2 {
+    color: #e01010;
+    font-size: 13px;
+}
+#err_msg{
+	width: 100%;
+}
