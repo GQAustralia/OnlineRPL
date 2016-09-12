@@ -1119,13 +1119,14 @@ class UserService
         if (in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_RTO', $userRole)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
                 $userType = 'assessor';
-                $userStatus = 'assessorstatus';
-                $result = array($userType => $userId, $userStatus => $applicantStatus,
-                    'courseStatus' => array(2, 10, 11, 12, 13, 14));
+                $userStatus = 'facilitatorstatus';
+                $userViewStatus = 'assessorread';
+                $result = array($userType => $userId, $userStatus => $applicantStatus, $userViewStatus => 0, 'courseStatus' => array(2, 10, 11, 12, 13, 14));
             } elseif (in_array('ROLE_RTO', $userRole)) {
                 $userType = 'rto';
-                $userStatus = 'rtostatus';
-                $result = array($userType => $userId, $userStatus => $applicantStatus, 'courseStatus' => '15');
+                $userStatus = 'assesorstatus';
+                $userViewStatus = 'rtoread';
+                $result = array($userType => $userId, $userStatus => $applicantStatus, $userViewStatus => 0, 'courseStatus' => '15');
             }
             $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy($result);
         } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
@@ -1144,6 +1145,8 @@ class UserService
             $qb->where('u.courseStatus != 0');
             $getCourseStatus = $qb->getQuery()->getResult();
         }
+        
+
         return $getCourseStatus;
     }
     /**
@@ -1292,7 +1295,8 @@ class UserService
             $userId = $user->getId();
             $userRole = $user->getRoles();
 
-            $pendingApplicants = $this->getPendingApplicants($userId, $user->getRoles(), '0');
+            $pendingApplicants = $this->getPendingApplicants($userId, $user->getRoles(), '1');
+
             $unReadMessagesCount = $this->getUnreadMessagesCount($userId);
             $unReadMessages = $this->getUnreadMessages($userId);
             //$todaysReminders = $this->getTodaysReminders($user->getId());
@@ -1311,8 +1315,6 @@ class UserService
                  $percentage = 100;
              }
 
-            $dateRange['newApplicantList'] = $this->getUserApplicantsListReports($user->getId(), $user->getRoles(), $status='1', $page=0, $searchName = '', 
-                    $searchQualification = '', $startDate = date('Y-m-d'), $endDate = date('Y-m-d'), $searchTime = null, $module = 'dashboard');
             
            if(is_array($unReadMessages)){
                 foreach($unReadMessages as $key => $messages){
@@ -1321,13 +1323,15 @@ class UserService
                     $results[$classNameSpace][] = $messages;
                 }
            }
+           
+           //dump($pendingApplicants); exit;
             
            $usersDashboardInfo = array('todaysReminders' => $todaysReminders,
                 'unReadMessagesCount' => $unReadMessagesCount,
                 'pendingApplicantsCount' => count($pendingApplicants),
                 'pendingApplicants' => $pendingApplicants,
 
-                'newApplicantList' => $dateRange['newApplicantList']['applicantList'],
+                'newApplicantList' => $pendingApplicants,
                 'percentage' => $percentage,
                 'todoReminders' => $todoReminders,
                 'completedReminders' => $todoCompletedReminders,
