@@ -1,4 +1,7 @@
-.main_container .portfolio-container {}.main_container .portfolio-container .panel-group {
+.main_container .portfolio-container {
+	overflow-x: hidden
+}
+.main_container .portfolio-container .panel-group {
     margin: 0
 }
 .main_container .portfolio-container .panel-group .panel-heading {
@@ -19,13 +22,13 @@
     box-shadow: 0 0 0 transparent
 }
 .main_container .portfolio-container .portfolio-filter {
-    padding: 10px 15px
+    padding: 10px 0
 }
 .main_container .portfolio-container .portfolio-filter .search_box {
     border: 1px solid #ccc;
     box-shadow: none;
     border-radius: 0;
-    padding: 0 12px;
+    padding: 0 7px;
     width: 100%
 }
 .main_container .portfolio-container .portfolio-filter select {
@@ -33,7 +36,7 @@
     width: 100%;
     box-shadow: none;
     border: 1px solid #ccc;
-    padding: 0 10px
+    padding: 0 5px
 }
 .main_container .portfolio-container .portfolio-filter label {
     font-weight: normal
@@ -53,7 +56,8 @@
     margin: 0
 }
 .main_container .portfolio-container .portfolio-data-table .table thead {
-    border: 1px solid #4a4a4a
+    border: 1px solid #4a4a4a;
+	border-left:0;
 }
 .main_container .portfolio-container .portfolio-data-table .table tbody {
     border: 1px solid #d8d8d8
@@ -83,14 +87,40 @@
     font-size: 14px;
     border: 0;
 }
+.main_container .portfolio-container .portfolio-data-table.mobile-portfolio-data-table .portfolio-data-row .name {
+    float: left;
+    font-size: 15px;
+    width: 50%;
+}
+.main_container .portfolio-container .portfolio-data-table.mobile-portfolio-data-table .portfolio-data-row .progress-container .progress {
+    width: 70%;
+	float: left;
+}
+.main_container .portfolio-container .portfolio-data-table.mobile-portfolio-data-table .portfolio-data-row .progress-container .progress-copy {
+    width: auto;
+	padding-left: 5px;
+	float: left
+}
+.main_container .portfolio-container .portfolio-data-table.mobile-portfolio-data-table .portfolio-data-row .progress-container {
+    float: left;
+    width: 50%;
+}
+.main_container .portfolio-container .portfolio-data-table.mobile-portfolio-data-table .portfolio-data-row .qualification{
+	float: left;
+	width: 100%
+}
 .main_container .portfolio-container .portfolio-data-table .table td:nth-child(n+4){
 	text-align: center;	
+	position: relative;
 }
 .main_container .portfolio-container .portfolio-data-table .table td a {
     color: #333
 }
 .main_container .portfolio-container .portfolio-data-table .table td a:focus {
     text-decoration: none
+}
+.main_container .portfolio-container .portfolio-data-table .table td span.check{
+	position: absolute;
 }
 .main_container .portfolio-container .portfolio-data-table .table td span.check i{
 	color: green;
@@ -243,13 +273,20 @@
     margin-top: 20px;
     width: 100%
 }
+.main_container .portfolio-container .portfolio-filter label{
+	padding: 0 8px;
+}
 @media screen and (min-width: 768px) {
     .main_container .portfolio-container {
         padding-top: 20px
     }
     .main_container .portfolio-container .portfolio-filter {
-        border: 1px solid #4a4a4a
+        border: 1px solid #4a4a4a;
+		padding: 10px 15px
     }
+	.main_container .portfolio-container .portfolio-filter label{
+		padding: 0;
+	}
     .main_container .portfolio-container .portfolio-data-table {
         padding-top: 20px
     }
@@ -262,6 +299,9 @@
     .main_container .portfolio-container .portfolio-data-table .progress-copy.un-reviewed {
         color: #E01010
     }
+	.main_container .portfolio-container .portfolio-data-table .table thead {
+		border: 1px solid #4a4a4a
+	}
     .main_container .portfolio-container .portfolio-filter {
         padding: 10px 15px
     }
