@@ -627,11 +627,12 @@ if($('#referenceUpload').length)
         resetForm: true
     });
 }
-if($('#matrixUpload').length) 
-{
-	alert("ddd");
-	assessorTrainerMatrixUpload();
-}
+$("#matrix_browse").change(function() {
+    if($('#matrixUpload').length) 
+    {
+            assessorTrainerMatrixUpload();
+    }
+});
 function checkspace(text)
 {
     var str = text.value;

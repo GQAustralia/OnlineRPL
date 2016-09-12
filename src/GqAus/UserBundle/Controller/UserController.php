@@ -258,7 +258,7 @@ class UserController extends Controller
         if ($request->isMethod('POST')) {
             $form->bind($request);
             $data = $form->getData();
-            $result = $this->get('gq_aus_user.file_uploader')->resume($data);
+            $result = $this->get('gq_aus_user.file_uploader')->resume($request->request);
             if ($result) {
                 echo $result;
             }
@@ -310,11 +310,11 @@ class UserController extends Controller
      * return string
      */
     public function matrixAction(Request $request)
-    {
+    {        
         $proImg = $request->files->get('matrix');
         $data = array('browse' => $proImg['browse'],'type' => 'matrix');
         if ($request->isMethod('POST')) {    
-            $result = $this->get('gq_aus_user.file_uploader')->resume($data);            
+            $result = $this->get('gq_aus_user.file_uploader')->resume($request->request);            
             if ($result) {
                 echo $result;
             }

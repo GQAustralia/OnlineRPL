@@ -126,7 +126,7 @@ class FileUploader
         return $fileNames;
     }
     public function uploadImgFiles($data)
-    {
+    {       
         $fileInfo = $data->get('fileInfo');
         $fileName = $data->get('fileName');
         $otherInfo= $data->get('otherInfo');
@@ -162,8 +162,30 @@ class FileUploader
      */
     public function resume($data)
     {
-		$fileNames = $data['browse'];
-			dump($fileNames['originalName']);exit;
+      
+          $fileInfo = $data->get('fileInfo');
+        $fileName = $data->get('fileName');
+        $type = 'matrix';
+        $otherInfo= $data->get('otherInfo');
+           // $fileNames = $data['browse'];
+            $otherFiles = new OtherFiles();
+            $otherFiles->setAssessor($this->currentUser);
+            $otherFiles->setType($type);
+            $otherFiles->setName($fileInfo['name']);
+            $otherFiles->setPath($fileName);
+            $otherFiles->setSize($fileInfo['size']);            
+            $this->em->persist($otherFiles);
+            $this->em->flush();
+            $now = new DateTime('now');
+            $result = array(
+                'id' => $otherFiles->getId(),
+                'name' => $fileInfo['name'],
+                'path' => $fileName,
+                'type' => $otherFiles->getType(),
+                'date' => $now->format('d/m/Y')
+            );
+            return json_encode($result);
+        
        
     }
 

@@ -184,7 +184,9 @@
          <div class="mobi-profile hidden-sm hidden-md hidden-lg">
                 <ul class="clearfix">
                     <li class="profile-tag">
-                        {% set userName = app.security.getToken().getUser().getFirstName()%}
+                        {% set userFName = app.security.getToken().getUser().getFirstName()%}
+                        {% set userLName = app.security.getToken().getUser().getLastName()%}
+                        {% set userName = userFName~' '~userLName %}
                         {% set userImage = app.security.getToken().getUser().getUserImage()%}
                         
                          {% if ('ROLE_APPLICANT' in roles)  %}
@@ -228,6 +230,7 @@
         <script src="{{ asset('public/js/jquery.min.js') }}"></script>
         <script src="{{ asset('public/js/jquery-1.10.2.js') }}"></script>
         <script src="{{ asset('public/js/jquery-ui.js')}}"></script>   
+        <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
         <script src="{{ asset('public/js/jquery-ui-timepicker-addon.js')}}"></script>
         <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
          <script src="{{ asset('public/js/jquery.form.js') }}"></script>
@@ -237,6 +240,12 @@
      {% block javascripts %}{% endblock %}
     <script> onloadCount();</script>
     <script> onloadPortfolioCount();</script>
+    
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+    });
+</script>
 
 </body>
 </html>

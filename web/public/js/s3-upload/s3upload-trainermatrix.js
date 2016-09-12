@@ -23,6 +23,7 @@ var s3uploadTm = null;
     }
 
     function assessorTrainerMatrixUpload() { 
+       
         if (!(window.File && window.FileReader && window.FileList && window.Blob && window.Blob.prototype.slice)) {
             alert("Sorry! You are using an older or unsupported browser. Please update your browser");
             return;
@@ -43,11 +44,9 @@ var s3uploadTm = null;
     }    
 
     var processSchemaTm = function(reqevt) {
-
         var promises = [];
-
         var files;
-        
+
         if(reqevt != null){
          files=reqevt.dataTransfer.files;   
         }else{
@@ -105,43 +104,30 @@ var s3uploadTm = null;
                 datas.fileInfo = obj.fileInfo;
                 datas.otherInfo = obj.otherInfo;
                 var l = datas.otherInfo.fileNum;
-                
-                if($('#matrixUpload').length) 
-					{
-						$("#matrixUpload").ajaxForm({
-							beforeSubmit: function() {
-								$('#matrix_load').show();
-							},
-							success: function(responseText, statusText, xhr, $form) {
-								console.log(responseText);
-								
-								$('#resume_msg').css("display", "block");
-								$('#matrix_load').prev().html('');
-								$('#matrix_load').hide();
-								if (responseText) {
-									var result = jQuery.parseJSON(responseText);
-									var name = result.name.split('.');
-									var html = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="idfiles_' + result.id + '"><div class="gq-dashboard-courses-detail"><span class="gq-dashboard-points-icon">\n\
-													<a class="modalClass viewModalClass" data-toggle="modal" data-target="#myModal" otherfiles="others" fileid="' + result.id + '" filetype="' + result.type + '">\n\
-														<div class="gq-del-evidence"></div></a>\n\
-													<div class="tooltip-home top">\n\
-														<div class="tooltip-arrow"></div>\n\
-														<span class="">Delete ID File</span>\n\
-													</div>\n\
-												</span>\n\
-												<a href = "' + amazon_link + result.path + '" class="fancybox fancybox.iframe"><div class="gq-id-files-content-icon-wrap gq-id-files-content-doc-icon"></div></a><div class="gq-id-files-content-row-wrap"><div class="gq-id-files-content-row"><label>Title</label><span>' + name[0] + '</span></div><div class="gq-id-files-content-row"><label>Added on</label><span>' + result.date + '</span></div></div></div></div>';
-									if ($('#matrix_no_files').html() === 'No trainer matrix found') {
-										$('.matrix_files').html(html);
-									} else {
-										$('.matrix_files').append(html);
-									}
-									$('#resume_msg').css("display", "block");
-								}
-							},
-							resetForm: true
-						});
-					}
-					def.resolve('success');
+               var date= new Date();
+               var todayDate =   ("0" + date.getDate().toString()).substr(-2) + "/" + ("0" + (date.getMonth() + 1).toString()).substr(-2) + "/" + (date.getFullYear().toString()).substr(2);
+               var fsize = bytesToSize(datas.fileInfo['size'])
+                    $.ajax({
+                    type: "POST",
+                    url: base_url + "matrixupload",
+                    data: datas,
+                    dataType:'json',
+                    success: function(res) {                       
+                       // $('#userProfile').html('<div class="modal-title" id="myModalLabel">Uploaded Successfully</div><div class="btn_section"><button class="btn btn_red" onclick="javascript:location.reload();">OK</button></div>');
+                       // $('#myModal').modal('show');
+                       $("#resume_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>File Uploaded successfully!</span></div>');
+                       
+                       var html = ' <div class="file_info">\n\
+                                        <span class="icon"><i class="material-icons">description</i></span>\n\
+                                        <span class="file-discription">'+ datas.fileInfo['name']+'<br> '+ fsize +' | ADDED '+todayDate+' </span>\n\
+                                        </div>';
+                        
+                        $("#fileListContainerTm").hide();
+                        
+                        $("#trainerMatrix_block").append(html);
+                    }
+                }); 
+		def.resolve('success');
                 console.log("Congratz, upload is complete now");
 
             };
@@ -153,5 +139,11 @@ var s3uploadTm = null;
 
         return $.when.apply(undefined, promises).promise();
    }
+   function bytesToSize(bytes) {
+   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+   if (bytes == 0) return '0 Byte';
+   var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+};
     
    

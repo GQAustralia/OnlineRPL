@@ -1,8 +1,10 @@
- {% block stylesheets %}
+  {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css') }}">
     <link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
-<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
+<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>   
 {% endblock %}  
+ 
 <!-- Modal -->
 <div class="modal fade profile_popup" id="profile2" role="dialog">
 	<div class="modal-dialog">
@@ -32,8 +34,9 @@
                                 <div class="header_block clearfix" id='user_profile_form_div'>
                                     	<div class="profile_section">
                                             <div id='ajax-gq-profile-page-img'><img src="{% if userdata.getUserImage() !="" %}{{ amazon_link~'user-'~userId~'/'~userdata.getUserImage()}} {% else %} {{ asset('public/images/userprofile.png')}} {% endif %}" alt="profile_pic" id='user_profile_image' class="profile_image"/><input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
+                                            <input type="hidden" name="userVal" id="userVal" value="{{userId}}">
                                                 <div class="content">
-							<h5 class="name"><strong>{% if ('ROLE_RTO' in roles) %}{{userdata.getContactName()}} {% else %} {{userdata.getFirstName()}}  {% endif %} </strong></h5>
+							<h5 class="name"><strong>{% if ('ROLE_RTO' in roles) %}{{userdata.getContactName()}} {% else %} {{userdata.getFirstName()~' '~userdata.getLastName()}}  {% endif %} </strong></h5>
 							<span class="field">
                                                             {{role}}
                                                         </span>
@@ -197,24 +200,27 @@
                                 {% if (roles[0]=='ROLE_ASSESSOR') %}
                                {% set matrixFiles = user_service.fetchOtherFiles(userId, 'matrix') %}
                                
-                                <div class="gq-id-files-upload-success-text "  style="display: none;" id="resume_msg">
-                                                <h2> Files uploaded successfully</h2>
-                                </div>
+                                <div  id="resume_msg"> </div>
+                                 <div class="panel-group hide" id="fileListContainerTm">
+                                    <div class="panel clearfix">
+                                            <div class="panel-body">
+                                    <div class="panel-copy fileListContainer" id="progress-barsTm"></div>
+                                </div></div></div>
                                 <div id="idfiletype_image"></div>
                                 <div class="loading-icon" style="display: none;" id="matrix_load"><img src="{{ asset('public/images')}}/loading.gif" /></div>
                                 <div id="matrixfileDiv">
 				<div class="btn_section clearfix">
 					<div class="add_trainer">
-                                            <form name="matrix" id="matrixUpload" method="post" action="matrixupload" enctype="multipart/form-data">
+                                            
                                           
-                                                <input type="file" id="matrix_browse" name="matrix[browse]">
+                                                <input type="file" onChange="assessorTrainerMatrixUpload()" id="matrix_browse" name="matrix[browse]">
                                                 <input type="hidden" id="matrix" name="matrix" value="matrix">
                                                 <a href="javascript:void(0)" id="uploadTrigger">
                                                         <span><i class="material-icons">add</i></span>
                                                         <span class="hidden-xs">Add Trainer Matrix Files</span>
                                                         <span class="hidden-sm hidden-md hidden-lg">Add Files</span>
                                                 </a>
-                                                </form>
+                                                
 					</div>
                                         
 					<a href="#"  id="download_matrix">
@@ -224,13 +230,16 @@
 				</div>
                         
 				<div>
-					<div class="file_info_block">
+					<div class="file_info_block" id="trainerMatrix_block">
                                             {% if matrixFiles %}
                                             {% for item in matrixFiles %}
                                             {% set filesize = evidence_service.fileSize(item.size) %}
+                                            {% set eviType = evidence_service.getEvidenceShowType('image') %}
+                                            {% set output = eviType|split('&&') %}                                            
+						{% if item.isdeleted != 1 %}
 						<div class="file_info">
-							<span class="icon">
-								<i class="material-icons">description</i>
+							<span class="icon"><a href = "{{ amazon_link~item.path }}"  class="fancybox"> 
+								<i class="material-icons">description</i> </a>
 							</span>
 							<span class="file-discription">
 							{{ item.name}} <br>{{filesize}} | ADDED {{item.created|date("d/m/y") }}
@@ -241,6 +250,7 @@
 							</a>
                                                         </span>
 						</div> 
+						{% endif %}
                                              {% endfor %}
                                                 {% else %}
                                                 <center id="matrix_no_files">No Trainer Matrix found</center>                        
@@ -332,3 +342,12 @@
 
 
 
+{% block javascripts %}
+<script type="text/javascript"> var amazon_link = "{{ amazon_link }}";
+var base_url = "{{ base_url }}";
+</script>
+<script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+<script src="{{ asset('public/js/s3-upload/s3upload-profileimg.js') }}"></script>
+<script src="{{ asset('public/js/s3-upload/s3upload-trainermatrix.js') }}"></script>
+
+ {% endblock %}
