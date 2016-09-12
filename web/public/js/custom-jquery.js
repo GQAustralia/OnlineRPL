@@ -2187,9 +2187,9 @@ function split(val) {
 function extractLast(term) {
     return split(term).pop();
 }
-$("body #submittoassessor,body #request-cc").click(function(){
-	var userId = $("#csUserId").val();
-	var courseCode = $("#csCourseCode").val();
+$("body").on("click", "#submittoassessor,#request-cc", function(){
+	var userId = $("body #csUserId").val();
+	var courseCode = $("body #csCourseCode").val();
 	var courseStatus = $(this).data("coursestatus");
 	$("body #status-message").show();
 	$("body #status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
@@ -2203,14 +2203,14 @@ $("body #submittoassessor,body #request-cc").click(function(){
 				if(result.type == 'Error' ) {
 					$("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
 				} else if (result.type == 'Success') {
-                    if(courseStatus == '2'){ 
-                        $( "#submittoassessor").hide( "slow"); 
-                        $(this).hide(); 
-                    }
-					$("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</span></div>'); 
+                                    if(courseStatus == '2'){ 
+                                        $( "body #submittoassessor").hide( "slow"); 
+                                        $(this).hide(); 
+                                    }
+                                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</span></div>'); 
 				}   
 				if(result.code == '1'){
-				  $("#currentCourseStatus").val(courseStatus);  
+				  $("body #currentCourseStatus").val(courseStatus);  
 				} else if(result.code != '5') {
                                     if ( $('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').length > 0 ) {  
                                             $("#courseStatus").val($("#currentCourseStatus").val());
