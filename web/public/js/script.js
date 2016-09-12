@@ -377,4 +377,4 @@ $(modalVerticalCenterClass).on('show.bs.modal', function(e) {
     centerModals($(this));
 });
 $(window).on('resize', centerModals);
-$('#myModal,#profile2').modal({backdrop: 'static', keyboard: false,show:false});
+$('#myModal,#profile2,#confirm_popup').modal({backdrop: 'static', keyboard: false,show:false});
