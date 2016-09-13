@@ -1,17 +1,9 @@
-{% if applicantList %}
-    {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
-        <tr>
-            <td class="gq-pagination-area" colspan="4">
-                {# display navigation for pages - paginator_navigator #}        
-                {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
-            </td>
-        </tr>
-    {% endif %}
+{% if applicantList %}    
 
     {% for key, list in applicantList %}
-        <tr>
-            <td width="20%"><span class="">{{list.firstName}} {{list.lastName}}</span></td>
-            <td width="20%">{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% elseif list.getRole() == '4' %}  Rto {% else %} Manager {% endif %}</td>
+        {#<tr>
+            <td><span class="">{{list.firstName}} {{list.lastName}}</span></td>
+            <td>{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% elseif list.getRole() == '4' %}  Rto {% else %} Manager {% endif %}</td>
             <td width="10%">
                 {% if (list.getRole() != '5') and (list.getRole() != '4') %}
                 <div class="gq-acc-row-title gq-assessor-list-dropdown-wrap" id="div_{{list.id}}">
@@ -45,11 +37,61 @@
                     <button id="{{list.id}}" class="btn eye-btn gq-reports-filter-btn loginUser"><img src = "{{asset('public/images/arrow_login.png') }}" /> LOGIN</button>
                 </div>
             </span></td>
+        </tr>#}
+        <tr>
+            <td><span class="">{{list.firstName}} {{list.lastName}}</span></td>
+            <td>{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% elseif list.getRole() == '4' %}  Rto {% else %} Manager {% endif %}</td>
+            <td>
+                {% if (list.getRole() != '5') and (list.getRole() != '4') %}
+                <div class="dropdown keep-open">
+                    <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons edit">note_add</i></span>
+                    <div class="dropdown-menu">
+                        <div class="data_section">
+                            <textarea rows="3" placeholder="Notes" id="notes_{{list.id}}"></textarea>
+                            <div class="date_section clearfix">
+                                <input type="text" class="date_field form-control" id="remindDate_{{list.id}}"/>
+                            </div>
+                        </div>
+                        <button type="button" class="btn_red setData" userCourseId="" listId="{{list.id}}">Send</button>
+                    </div>
+                </div>
+                {% endif %}
+            </td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="javascript:void(0);" onclick="editUserbyRole('{{list.id}}');">
+                            <i class="material-icons">edit</i>
+                        </a>
+                    </li>
+                    {#<li>
+                        <a href="javascript:void(0);" data-toggle="modal" data-target="#confirm_popup">
+                            <i class="material-icons">clear</i>
+                        </a>
+                    </li>#}
+                    <li>
+                        <a href="javascript:void(0);" class="modalClass delUser" data-toggle="modal" data-target="#confirm_popup" id="{{list.id}}" userRole = "{{list.getRole()}}">
+                            <i class="material-icons">clear</i>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="{{list.id}}" class="btn login_btn eye-btn gq-reports-filter-btn loginUser" href="javascript:void(0);">LOGIN</a>
+                    </li>
+                </ul>
+            </td>
         </tr>
         {% endfor %}
+        {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+        <tr>
+            <td class="gq-pagination-area" colspan="4">
+                {# display navigation for pages - paginator_navigator #}        
+                {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
+            </td>
+        </tr>
+    {% endif %}
 {% else %}
         <tr>
-            <td colspan="12" align="center">No Profiles Found</td>
+            <td colspan="4" align="center">No Profiles Found</td>
         </tr>
 {% endif %}
 
