@@ -26,8 +26,35 @@
             </div>
         </div>
         <div class="form-inline portfolio-filter" role="form">
+            <div id="err_msg"></div>
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="row" id="profile_suc_msg">
+                <div class="gq-id-files-upload-success-text">
+                    <h2>
+                    {{ flashMessage }}</h2>
+                </div>
+            </div>
+            {% endfor %}
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-xs-12 col-lg-3">
+                    <input name="searchName" id="searchName" type="text" value="" placeholder="Name" class="form-control search_box"/>
+                </div>
+                <div class="col-xs-12 col-lg-4">
+                    <label for="">Filter By</label>
+                    <select name="userType" id="userType" class="form-control">
+                        <option value="">All</option>
+                        <option value="2">Facilitator</option>
+                        <option value="3">Assessor</option>
+                        <option value="4">Rto</option>
+                        {% if ('ROLE_SUPERADMIN' in userRole) %}
+                        <option value="5">Manager</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="col-xs-12 col-lg-2">
+                    <button id="searchUserFilter" class="btn btn_red gq-reports-filter-btn">Filter</button>
+                </div>
+				<div class="col-xs-12 col-lg-3">
                     <div class="add_new_user clearfix">
                         <div class="dropdown keep-open">
                             <span class="dropdown-toggle" data-toggle="dropdown">
@@ -44,51 +71,6 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div id="err_msg"></div>
-            {% for flashMessage in app.session.flashbag.get('notice') %}
-            <div class="row" id="profile_suc_msg">
-                <div class="gq-id-files-upload-success-text">
-                    <h2>
-                    {{ flashMessage }}</h2>
-                </div>
-            </div>
-            {% endfor %}
-            <div class="row">
-                <div class="col-xs-12 col-lg-3">
-                    <input name="searchName" id="searchName" type="text" value="" placeholder="Name" class="form-control search_box"/>
-                    {#<input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box-user">#}
-                </div>
-                <div class="col-xs-12 col-lg-3">
-                    <label for="">Filter By</label>
-                    {#<select name="filterByUser" id="filterByUser" class="form-control">
-                         <option value="">Assessor/Facilitator</option>
-                     {% for key, user in users %}
-                         <option value="{{user.id}}">{% if user.roletype == 2 %} Facilitator {% else %} Assessor {% endif %} : {{user.username}}</option>
-                     {% endfor %}
-                     </select>#}
-                    <select name="userType" id="userType" class="form-control">
-                        <option value="">All</option>
-                        <option value="2">Facilitator</option>
-                        <option value="3">Assessor</option>
-                        <option value="4">Rto</option>
-                        {% if ('ROLE_SUPERADMIN' in userRole) %}
-                        <option value="5">Manager</option>
-                        {% endif %}
-                    </select>
-                </div>
-                {#<div class="col-xs-12 col-lg-5">                   
-                    <label for="">Qualification Status</label>
-                    <select name="filterByStatus" id="filterByStatus" class="form-control">
-                        <option value="">Qualification Status</option>
-                        {% for key, status in qualificationStatus %}
-                            <option value="{{key}}">{{status["status"]}}</option>
-                        {% endfor %}
-                    </select>
-                </div>#}
-                <div class="col-xs-12 col-lg-1">
-                    <button id="searchUserFilter" class="btn btn_red gq-reports-filter-btn">Filter</button>
                 </div>
             </div>
       </div>
@@ -130,7 +112,6 @@
             </div>
             <div class="modal-body">
                 <form class="btn_section">
-                    {#<button class="btn btn_red">OK</button>#}
                     <a class="btn btn_red deleteUser margin-left15">OK</a>
                     <button class="btn" data-dismiss="modal">CANCEL</button>
                     <span class="loading-icon deleteuser_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
@@ -191,21 +172,6 @@
 </div>
 <div class="add-user-byrole"></div>
 
-{#<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog gq-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" id="uclose" class="close" data-dismiss="modal" aria-label="Close"></button>
-                <h4 class="modal-title" id="myModalLabel">Do you want to delete selected profile ?</h4>
-            </div>
-            <div class="modal-footer">                
-                <a class="btn btn-white" id="qclose-cancel">Cancel</a>
-                <a class="btn btn-white deleteUser margin-left15">Ok</a>
-                <span class="loading-icon deleteuser_loader" style="display:none;"><img src="{{ asset('public/images/loading.gif') }}" /></span>
-            </div>
-        </div>
-    </div>
-</div>#}
 
 {% endblock %}
 

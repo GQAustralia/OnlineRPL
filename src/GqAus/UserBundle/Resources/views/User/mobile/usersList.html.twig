@@ -1,43 +1,6 @@
 {% if applicantList %}    
 
     {% for key, list in applicantList %}
-        {#<tr>
-            <td><span class="">{{list.firstName}} {{list.lastName}}</span></td>
-            <td>{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% elseif list.getRole() == '4' %}  Rto {% else %} Manager {% endif %}</td>
-            <td width="10%">
-                {% if (list.getRole() != '5') and (list.getRole() != '4') %}
-                <div class="gq-acc-row-title gq-assessor-list-dropdown-wrap" id="div_{{list.id}}">
-                    <div class="gq-add-notes-icon-wrap setNotes text-center" id="{{list.id}}">
-                        <img src = "{{asset('public/images/applicant-list-add-notes-icon.png') }}" />
-                    </div>
-                    <div class="gq-assessor-list-dropdown">
-                        <div class="caret-top"></div>
-                        <div class="gq-applicant-list-notes-box">
-                            <textarea class="notes-area" placeholder="Notes" id="notes_{{list.id}}"></textarea>
-                        </div>
-                        {{ userAssignedQualifications(list.id, list.getRole())|raw }}
-                        <div class="gq-applicant-list-due-date">
-                            <div class="col-xs-8 no-padding">
-                                <input type="text" class="datepic date-area" id="remindDate_{{list.id}}" placeholder="Due Date" /></div>
-                            <div class="col-xs-4 no-padding"><a class="pull-right"><img src="{{ asset('public/images/applicant-lists-grey-date-icon.png') }}" id="{{list.id}}" class="date-icon" /></a></div>
-                        </div>
-                        <div class="gq-applicant-list-notes-box">
-                            <button class="btn btn-red setData" userCourseId="" listId="{{list.id}}" >SET</button>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-            </td>
-            <td width="40%"><span class="">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding text-center">
-                    <div class="gq-add-notes-icon-wrap icons"><a href="{{ app.request.baseUrl }}/editUser/{{list.id}}"><img src = "{{asset('public/images/user-edit.png') }}" /></a></div>
-                    <div class="gq-add-notes-icon-wrap icons">
-                    <a class="modalClass delUser" data-toggle="modal" data-target="#myModal" id="{{list.id}}" userRole = "{{list.getRole()}}">
-                    <img src = "{{asset('public/images/cross.png') }}" /></a></div>
-                    <button id="{{list.id}}" class="btn eye-btn gq-reports-filter-btn loginUser"><img src = "{{asset('public/images/arrow_login.png') }}" /> LOGIN</button>
-                </div>
-            </span></td>
-        </tr>#}
         <tr>
             <td><span class="">{{list.firstName}} {{list.lastName}}</span></td>
             <td>{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% elseif list.getRole() == '4' %}  Rto {% else %} Manager {% endif %}</td>
@@ -64,18 +27,13 @@
                             <i class="material-icons">edit</i>
                         </a>
                     </li>
-                    {#<li>
-                        <a href="javascript:void(0);" data-toggle="modal" data-target="#confirm_popup">
-                            <i class="material-icons">clear</i>
-                        </a>
-                    </li>#}
                     <li>
                         <a href="javascript:void(0);" class="modalClass delUser" data-toggle="modal" data-target="#confirm_popup" id="{{list.id}}" userRole = "{{list.getRole()}}">
                             <i class="material-icons">clear</i>
                         </a>
                     </li>
                     <li>
-                        <a id="{{list.id}}" class="btn login_btn eye-btn gq-reports-filter-btn loginUser" href="javascript:void(0);">LOGIN</a>
+                        <a id="{{list.id}}" class="eye-btn gq-reports-filter-btn loginUser" href="javascript:void(0);"><i class="material-icons">account_circle</i></a>
                     </li>
                 </ul>
             </td>
@@ -83,8 +41,7 @@
         {% endfor %}
         {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
         <tr>
-            <td class="gq-pagination-area" colspan="4">
-                {# display navigation for pages - paginator_navigator #}        
+            <td class="gq-pagination-area" colspan="4">       
                 {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
             </td>
         </tr>
