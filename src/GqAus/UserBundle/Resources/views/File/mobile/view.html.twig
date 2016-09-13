@@ -325,7 +325,7 @@
                                                     {% set mappedCourse = (evd[0].course) ?  evd[0].course : 'nonmapped' %}
                                                     {% if evd[0].type !='text' %}
                                                         {% set eviType = evidence_service.getEvidenceShowType(evd[0].type) %}
-                                                        {#{% set evdByteSize = evidence_service.convertSizetoBytes(evd[0].size) %}#}
+                                                        {% set evdByteSize = evidence_service.convertSizetoBytes(evd[0].size) %}
                                                         {% set output = eviType|split('&&') %}
 
                                                         {% if evd[0].name %}
@@ -334,7 +334,7 @@
                                                             <td class="hide">{{ evd[0].type }}</td>
                                                             <td class="hide">{{mappedContent}}</td>
                                                             <td class="hide">{{ evd[0].name }}</td>
-                                                            <td class="hide">{{ evd[0].size }}</td>
+                                                            <td class="hide">{{ evdByteSize }}</td>
                                                             <td class="hide">{{ evd[0].created|date("d/m/y") }}</td>
                                                             <td>
                                                                 {% if evd[0].name %} 
