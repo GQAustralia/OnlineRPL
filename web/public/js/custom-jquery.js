@@ -2810,7 +2810,7 @@ function getApplicantDetails(courseCode, userId){
         url: base_url + 'applicantDetails/' + courseCode +'/'+ userId +'',
         cache: false,
         success: function(result) {
-            $(".candidate-details").html(result);
+            $(".candidate-details").html(result).addClass('padding-bottom');
             addDTPickerBehaviour();
         }
     });
@@ -2835,7 +2835,7 @@ function getFilesDetails(courseCode, userId){
         url: base_url + 'rolewiseFiles/' + courseCode +'/'+ userId +'',
         cache: false,
         success: function(result) {
-            $(".candidate-details").html(result);
+            $(".candidate-details").html(result).addClass('padding-bottom');
         }
     });
 }
@@ -2854,7 +2854,7 @@ function getCandidateDetails(courseCode, userId){
         url: base_url + 'candidateProfile/' + courseCode +'/'+ userId +'',
         cache: false,
         success: function(result) {
-            $(".candidate-details").html(result);
+            $(".candidate-details").html(result).addClass('padding-bottom');
         }
     });
 }
@@ -2875,7 +2875,7 @@ function getUnitDetailsInfo(courseCode, unitCode, userId){
         url: base_url + 'courseunitDetails/' + courseCode +'/'+ unitCode +'/'+ userId +'',
         cache: false,
         success: function(result) {
-            $(".unitInfo-details").html(result);
+            $(".unitInfo-details").html(result).addClass('padding-bottom');
         }
     });
 }
