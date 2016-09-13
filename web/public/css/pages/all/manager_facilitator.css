@@ -1,5 +1,4 @@
 .main_container .portfolio-container {
-	overflow: initial;
 }
 .main_container .portfolio-container .panel-group {
     margin: 0
@@ -363,12 +362,22 @@
     margin-top: 20px;
     width: 100%;
 }
+.main_container .portfolio-container .portfolio-filter{
+	padding: 10px 0;
+	border: 0;
+}
+.main_container .portfolio-container .portfolio-filter label{
+	padding: 0 12px;
+}
 @media screen and (min-width: 568px) {
     .confirm_popup .modal-dialog {
         width: 450px
     }
 	#roleprofile2 .modal-body .header_block .profile_section{
 		float: none;
+	}
+	.main_container .portfolio-container .portfolio-filter label{
+		padding: 0;
 	}
 }
 @media screen and (min-width: 768px) {
@@ -378,6 +387,10 @@
 	.main_container .portfolio-container .portfolio-data-table {
         margin-top: 20px
     }
+	.main_container .portfolio-container .portfolio-filter{
+		padding: 10px 0;
+		border: 1px solid #4a4a4a;
+	}
     .main_container .portfolio-container .portfolio-data-table .progress {
         width: 55%
     }

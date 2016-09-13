@@ -27,7 +27,7 @@ input:focus,button:focus,.button:focus{outline:0}.btn.dropdown-toggle.btn-defaul
 #change_pwd_error {width: 100%;margin-bottom:10px;}
 change_file_error {width: 100%;margin-bottom:10px;}
 #pwd_error {width: 100%;margin-bottom:10px;}
-#change_address_error {width: 100%;margin-bottom:10px;}
+#change_address_error {width: 100%;}
 #userprofile_gender {display: inline-block;}
 #userprofile_gender input {  width: 20px; margin-top: 0;vertical-align: sub; height: 17px;}
 .gq-id-pwd-error-text1 {padding-top:12px; text-align:center;}

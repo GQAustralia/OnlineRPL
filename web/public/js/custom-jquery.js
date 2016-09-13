@@ -3451,6 +3451,8 @@ $("#change_link").click(function(){
     $("#ajax-profile-error").hide();
     $("#user_profile_form").hide();
     $(".currentpassword").removeClass("hidden-xs");
+    $("#fileListContainerPi").hide();
+    $("#matrixfileDiv").hide();
 });
 
 $(".chngpwdvalOthers").click(function(){ 
@@ -3535,6 +3537,8 @@ $('.clear_pswd_div_others').click(function()
             $(".header-border").removeClass("hidden-xs");
             $(".mobi-profile").removeClass("hidden-xs");
             $("#profile_suc_msg2").hide();
+			$("#fileListContainerPi").hide();
+			$("#matrixfileDiv").show();
 });
 function addNewUserbyRole(roletype)
 {
