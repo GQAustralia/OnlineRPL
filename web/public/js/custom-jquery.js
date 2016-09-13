@@ -675,7 +675,7 @@ function checkCurrentPassword(mypassword)
     }
 }
 $(".notes-area").keypress(function() {
-    $(this).css("border","none");
+    //$(this).css("border","none");
 });
 $(".date-area").change(function() {
     $(this).css("border","none");
