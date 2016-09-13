@@ -3343,10 +3343,10 @@ class UserService
                     $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#','#applicationUrl#');
                     $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(),$courseObj->getCourseName(), 'Assessor', $courseObj->getFacilitator()->getUsername(),$this->container->getParameter('applicationUrl'));
                     $roleMsgReplace = array($courseObj->getAssessor()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername(),$this->container->getParameter('applicationUrl'));
-                    $roleMessageBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('msg_portfolio_assessor_submitted_con'));
-                    $roleMailBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('mail_portfolio_assessor_submitted_con'));
-                    $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_fac_assessor_submitted_con'));
-                    $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_fac_assessor_submitted_con'));
+                    $roleMessageBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('msg_portfolio_fac_assessor_submitted_con'));
+                    $roleMailBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('mail_portfolio_fac_assessor_submitted_con'));
+                    $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_assessor_submitted_con'));
+                    $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_assessor_submitted_con'));
                 }
                 break;
             case 11:
