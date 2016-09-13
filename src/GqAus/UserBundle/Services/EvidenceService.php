@@ -506,9 +506,9 @@ class EvidenceService
 
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
             // finding and replacing the variables from message templates
-            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#fromUserName#');
+            $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#fromUserName#','#applicationUrl#');
             $msgReplace = array($facilitatorName, $courseObj->getCourseCode(), $courseObj->getCourseName(), 
-                $courseUnitObj->getUnitId(), $userInfo->getUsername());
+                $courseUnitObj->getUnitId(), $userInfo->getUsername(), $this->container->getParameter('applicationUrl'));
             $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_evidence_con'));
             $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
 
@@ -524,7 +524,7 @@ class EvidenceService
             if (!empty($cAssessor)) {
                 $assessorName = $courseObj->getAssessor()->getUsername();
                 $msgReplace = array($assessorName, $courseObj->getCourseCode(), $courseObj->getCourseName(),
-                    $courseUnitObj->getUnitId(), $courseObj->getFacilitator()->getUsername());
+                    $courseUnitObj->getUnitId(), $courseObj->getFacilitator()->getUsername(), $this->container->getParameter('applicationUrl'));
                 $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_evidence_con'));
                 $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
 

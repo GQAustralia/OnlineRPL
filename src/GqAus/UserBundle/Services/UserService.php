@@ -535,8 +535,8 @@ class UserService
             if ($result['userRole'] == 'ROLE_ASSESSOR') {
                 $asrMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_disappove_evdience_asr_sub'));
                 $asrMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_disappove_evdience_asr_sub'));
-                $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#userName#', '#fromUserName#');
-                $msgReplace = array($facilitatorName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $userName, $result['currentUserName']);
+                $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#userName#', '#fromUserName#','#applicationUrl#');
+                $msgReplace = array($facilitatorName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $userName, $result['currentUserName'], $this->container->getParameter('applicationUrl'));
                 $asrMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_asr_con'));
                 $asrMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_asr_con'));
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
@@ -3208,11 +3208,11 @@ class UserService
         $subSearch = array('#courseCode#', '#courseName#');
         $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName());
 
-        $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#status#', '#fromUserName#');
+        $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#status#', '#fromUserName#','#applicationUrl#');
         $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(),
-            $courseObj->getCourseName(), $statusList[$courseStatus]['status'], $courseObj->getAssessor()->getUsername());
+            $courseObj->getCourseName(), $statusList[$courseStatus]['status'], $courseObj->getAssessor()->getUsername(),$this->container->getParameter('applicationUrl'));
         $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(),
-            $courseObj->getCourseName(), $statusList[$courseStatus]['status'], $courseObj->getFacilitator()->getUsername());
+            $courseObj->getCourseName(), $statusList[$courseStatus]['status'], $courseObj->getFacilitator()->getUsername(),$this->container->getParameter('applicationUrl'));
 
         if ($courseStatus == 3) {
             $messageSubject = str_replace($subSearch, $subReplace,
@@ -3337,11 +3337,11 @@ class UserService
                         $this->container->getParameter('msg_portfolio_assessor_submitted_sub'));
                     $mailSubject = str_replace($subSearch, $subReplace,
                         $this->container->getParameter('mail_portfolio_assessor_submitted_sub'));
-                    $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#');
+                    $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#','#applicationUrl#');
                     $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(),
-                        $courseObj->getCourseName(), 'Assessor', $courseObj->getFacilitator()->getUsername());
+                        $courseObj->getCourseName(), 'Assessor', $courseObj->getFacilitator()->getUsername(),$this->container->getParameter('applicationUrl'));
                     $roleMsgReplace = array($courseObj->getAssessor()->getUsername(), $courseObj->getCourseCode(),
-                        $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername());
+                        $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername(),$this->container->getParameter('applicationUrl'));
                     $roleMessageBody = str_replace($msgSearch, $roleMsgReplace,
                         $this->container->getParameter('msg_portfolio_assessor_submitted_con'));
                     $roleMailBody = str_replace($msgSearch, $roleMsgReplace,
@@ -4240,14 +4240,16 @@ class UserService
         $usercondition = "";
         if ($userRole == 'ROLE_APPLICANT') {            
             $query->where('(u instance of GqAusUserBundle:Facilitator)');
-            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";         
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";           
             $query->andWhere($nameCondition);
             $query->andWhere('uc.facilitator = u.id');
             $query->andWhere('uc.user = :userId')->setParameter('userId', $msgUserId);
         }
         else if ($userRole == 'ROLE_ASSESSOR' ) {            
             $query->where('(u instance of GqAusUserBundle:Facilitator)');
-            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";           
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";           
             $query->andWhere($nameCondition);
             $query->andWhere('uc.facilitator = u.id');
             $query->andWhere('uc.assessor = :assessorId')->setParameter('assessorId', $msgUserId);
@@ -4263,7 +4265,8 @@ class UserService
         else if ($userRole == 'ROLE_FACILITATOR') {
             $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
                     . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
-            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";            
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";            
             $query->andWhere($nameCondition);
             $query->andWhere('uc.user = u.id OR uc.assessor = u.id or uc.rto = u.id');
             $query->andWhere('uc.facilitator = :facilitatorId')->setParameter('facilitatorId', $msgUserId);
@@ -4271,7 +4274,8 @@ class UserService
         else if ($userRole == 'ROLE_MANAGER') {
             $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
                     . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
-            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";
+            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
+                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";
             $query->andWhere($nameCondition);            
         }
         
