@@ -593,6 +593,7 @@ class UserService
             ->createQueryBuilder('c')
             ->select($fields)
             ->join('c.user', 'u');
+                
 
         if ($userType != 'superadmin' && $userType != 'manager') {
             $res->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
@@ -1113,41 +1114,42 @@ class UserService
      * @param int $applicantStatus
      * return integer
      */
-    public function getPendingApplicants($userId, $userRole, $applicantStatus)
+   public function getPendingApplicants($userId, $userRole, $applicantStatus)
     {
         $getCourseStatus = array();
         if (in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_RTO', $userRole)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
                 $userType = 'assessor';
-                $userStatus = 'facilitatorstatus';
-                $userViewStatus = 'assessorread';
-                $result = array($userType => $userId, $userStatus => $applicantStatus, $userViewStatus => 0, 'courseStatus' => array(2, 10, 11, 12, 13, 14));
+                $userStatus = 'assessorstatus';
+                $result = array($userType => $userId, $userStatus => $applicantStatus,
+                    'courseStatus' => array(2, 10, 11, 12, 13, 14));
             } elseif (in_array('ROLE_RTO', $userRole)) {
                 $userType = 'rto';
-                $userStatus = 'assessorstatus';
-                $userViewStatus = 'rtoread';
-                $result = array($userType => $userId, $userStatus => $applicantStatus, $userViewStatus => 0, 'courseStatus' => '15');
+                $userStatus = 'rtostatus';
+                $result = array($userType => $userId, $userStatus => $applicantStatus, 'courseStatus' => '15');
             }
             $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy($result);
         } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
             $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
-            $qb->andWhere(sprintf('u.%s = :%s', 'facilitatorread', 'fread'))->setParameter('fread', '0');
             $qb->andWhere('u.courseStatus != 0');
+
             $getCourseStatus = $qb->getQuery()->getResult();
         }
         elseif (in_array('ROLE_MANAGER', $userRole)) {
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
-            $qb->where('u.courseStatus != 0');
+            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
+            $qb->andWhere('u.courseStatus != 0');
+
             $getCourseStatus = $qb->getQuery()->getResult();
         }
         elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
-            $qb->where('u.courseStatus != 0');
+            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
+            $qb->andWhere('u.courseStatus != 0');
+
             $getCourseStatus = $qb->getQuery()->getResult();
         }
-        
-
         return $getCourseStatus;
     }
     /**
