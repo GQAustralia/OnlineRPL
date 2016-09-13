@@ -3147,6 +3147,7 @@ function checkCurrentRolePassword(){
         $(".currentpassword").removeClass("hidden-xs");
         $(".header-border").addClass("hidden-xs");
         $(".mobi-profile").addClass("hidden-xs");
+		$("#change_file_error").hide();
     });
     $(".currpwdnext").click(function(){ 
          var curpwd = $("#password_hdnoldpassword").val(); 
