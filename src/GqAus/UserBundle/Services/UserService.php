@@ -683,7 +683,7 @@ class UserService
         $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
         /* Pagination */
         $applicantList = $res->getQuery()->getResult();
-        dump($applicantList);
+        
        //dump($applicantList);exit;
         for($i=0;$i<count($applicantList);$i++)
         {
