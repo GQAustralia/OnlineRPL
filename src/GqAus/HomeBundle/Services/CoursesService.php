@@ -760,8 +760,15 @@ class CoursesService
     public function getEvidenceByCourse($userId, $courseCode){
         $reqNoUnits = $this->getReqUnitsForCourseByCourseId($courseCode);
         $eviPercentage = 0;
-        $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'issubmitted' => '1' ));
-        $totalNoOfUnits = count($courseUnitObj);
+        $totalElecOfUnits = 0;
+        $totalCoreOfUnits = 0;
+        $courseCoreUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'core', 'issubmitted' => '1' ));
+        $courseElecUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'elective', 'issubmitted' => '1' ));
+        $totalCoreOfUnits = count($courseCoreUnitObj);
+        $totalElecOfUnits = count($courseElecUnitObj);
+        if($totalElecOfUnits > $reqNoUnits['elective'])
+            $totalElecOfUnits = $reqNoUnits['elective'];
+        $totalNoOfUnits = $totalCoreOfUnits + $totalElecOfUnits;
         if($totalNoOfUnits > 0){
             $eviPercentage = ($totalNoOfUnits / (($reqNoUnits['core']) + ($reqNoUnits['elective']))) * 100;
             $eviPercentage = ($eviPercentage > 100) ? '100' : $eviPercentage;
