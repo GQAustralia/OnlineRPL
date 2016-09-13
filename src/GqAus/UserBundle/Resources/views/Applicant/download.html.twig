@@ -127,11 +127,18 @@
                 <tr><td height="5"></td></tr>
             
                     {% if userIdFiles %}
+                    {% set inLoop, inFiles = 0 , 0%}
                     {% for item in userIdFiles %}
-                        <tr>
-                            <td style="border:1px solid #e7ecee;padding:10px;width:96%;"><a href="{{ base_url }}viewIdFile/{{ item.id }}"  style="color:#5e5e5e;text-decoration:none;" target="_new">{{ item.type.type }}</a></td>
-                        </tr>
+                        {% if item.status != 1 %}
+                            {% set inFiles = inFiles+1 %}
+                            <tr>
+                                <td style="border:1px solid #e7ecee;padding:10px;width:96%;"><a href="{{ base_url }}viewIdFile/{{ item.id }}"  style="color:#5e5e5e;text-decoration:none;" target="_new">{{ item.type.type }}</a></td>
+                            </tr>
+                        {%else%}
+                            {% set inLoop = inLoop+1 %}
+                        {% endif %}   
                     {% endfor %}
+                        {% if inLoop>=1 and inFiles == 0 %} <tr><td><center id="idfiles_no_files">No Id files found</center></td></tr>{% endif %}
                     {% else %}
                     <tr>    
                     <td><center id="idfiles_no_files">No Id files found</center></td>
