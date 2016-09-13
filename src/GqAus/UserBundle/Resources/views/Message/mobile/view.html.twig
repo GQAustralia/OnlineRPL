@@ -165,8 +165,8 @@
             {%set i = 0%}
             {% for message in replymsgarr %}  
             {% if i == 0 %} {% set userSubject = message.message.subject %}{% endif %}
-            {% if userSubject|length > 30 %}
-                      {% set userSubject = userSubject|raw[:30] %}{% endif %}                                        
+           {# {% if userSubject|length > 30 %}
+                      {% set userSubject123 = userSubject|raw[:30] %}{% endif %}   #}                                     
             {%set i = i+1 %}
             {% endfor %}
              {% if userSubject|length > 15 %}
@@ -189,7 +189,7 @@
                      {% set newuserSubject = userSubArr[0] %}
                  {% endif %}
             {% endif %} 
-                <div class="title_bar">  {{ newuserSubject }}               
+                <div class="title_bar">  {{ userSubject }}               
                         <span><a href="{{ base_url }}messages"><i class="material-icons arrow_back">arrow_back</i></a></span>
                 </div>
 
