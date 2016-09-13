@@ -1,24 +1,37 @@
 {% set roles = app.security.getToken().getUser().getRoles() %}
+{% set formattedPercentage = percentage|number_format(0) %}
 <div class="to_do_list">
     <div class="panel-group" id="accordion1">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="panel-title clearfix">
                     <span>TO DO LIST</span>
-					<div class="to_do_right">
-						<span class="todo_status">NICE WORK<i class="material-icons">thumb_up</i></span>
-						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-						  <i class="material-icons keyboard_arrow_down hidden-lg">keyboard_arrow_down</i>
-						</a>
-					</div>
+                    <div class="to_do_right">
+                            {% set thumbIconTxt = 'thumb_up' %}
+                            {% if (formattedPercentage >= '90' and formattedPercentage < '100') %}
+                                {% set viewContent =  'ALMOST DONE' %}    
+                            {% elseif (formattedPercentage >= '100' ) %}
+                                {% set viewContent =  'NICE WORK' %}
+                            {% else %}
+                                {% set viewContent =  '' %}
+                                {% set thumbIconTxt =  '' %}
+                            {% endif %}
+                            <span class="todo_status">
+                                <span class="status-txt">{{ viewContent }}</span>
+                                <i class="material-icons thumb-txt">{{ thumbIconTxt }}</i>
+                            </span>
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                              <i class="material-icons keyboard_arrow_down hidden-lg">keyboard_arrow_down</i>
+                            </a>
+                    </div>
                 </div>
             </div>
             <div id="collapse1" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div class="progres_bar_sec {% if todoReminders|length <= 0 and completedReminders|length <= 0 %}hide{% endif %}">
-                        <p class="title">To Do Today - <span class="todo-percent"> {{ percentage|number_format(0) }}</span>% Complete</p>
+                        <p class="title">To Do Today - <span class="todo-percent"> {{ formattedPercentage }}</span>% Complete</p>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" data-citem="{{ completedRemindersCount }}" data-titem="{{ totalRemindersCount }}" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:{{percentage|number_format(0)}}%">
+                            <div class="progress-bar" role="progressbar" data-citem="{{ completedRemindersCount }}" data-titem="{{ totalRemindersCount }}" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:{{formattedPercentage}}%">
                               <span class="sr-only">30% Complete</span>
                             </div>
                         </div>

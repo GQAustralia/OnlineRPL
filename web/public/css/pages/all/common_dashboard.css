@@ -9,3 +9,6 @@
 		flex: 0 0 47%;
 	}
 }
+.panel-group .panel .panel-heading .panel-title .todo_status span{
+    float: left;
+}

@@ -2,8 +2,17 @@
 {% if ('ROLE_FACILITATOR' in roles) %}
 <div class="accordian_block">
     <div class="title_bar clearfix">
-        <span class="title"><a href="{{ app.request.baseUrl }}/evidences" title="View Pending Evidences">EVIDENCES - <strong>({{ evidencesCount }} TO REVIEW)</a></strong></span>
-        {# <span class="add_btn">ADD<i class="material-icons add_icon">add</i></span> #}
+        <span class="title">
+            <a href="{{ app.request.baseUrl }}/evidences" title="View Pending Evidences">
+                EVIDENCES - 
+                <strong>
+                    ({{ evidencesCount }} TO REVIEW)
+                </strong>
+                {% if(evidencesCount != 0) %}
+                    - NICE WORK! <i class="material-icons cloud_upload" style="color: red; font-size: 19px;">thumb_up</i>
+                {% endif %}                
+            </a>
+        </span>
     </div>
 	{% if (newEvidences|length) > 0 %}
     <div class="panel-group" id="accordion4">

@@ -370,6 +370,10 @@ $("body").on('click', '.updateTodo', function() {
     var completedItem = 1;
     var percentage = '';
     var currentTodoItem = $('#'+rmid).parent().parent();
+    var statusTxt = $('.status-txt');
+    var thumbTxt = $('.thumb-txt');
+    var viewContent = '';
+    var thumbTxtContent = 'thumb_up';
 
     $.ajax({
         type: "POST",
@@ -390,6 +394,22 @@ $("body").on('click', '.updateTodo', function() {
                     $('.todo-list li.emptyPendingTodo').removeClass('hide');
                 $('.progress-bar').css('width', percentage+"%").attr('data-citem', completedItem);
                 $('.todo-percent').html(Math.ceil(percentage));
+                console.log('Percentage :: '+Math.ceil(percentage));
+
+                if (Math.ceil(percentage) >= '90' && Math.ceil(percentage) < '100')
+                {
+                    viewContent =  'ALMOST DONE';
+                } else if(Math.ceil(percentage) >= '100') {
+                    viewContent =  'NICE WORK';
+                } else {
+                    viewContent =  '';
+                    thumbTxtContent =  '';
+                }
+
+                if(statusTxt.text().trim().length == '0' || statusTxt.text().trim() != viewContent )
+                    statusTxt.html(viewContent);
+                    thumbTxt.html(thumbTxtContent);
+
                 $('#err_msg').show();
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Moved to completed today successfully</span></div>').delay(3000).fadeOut(100);
             }
