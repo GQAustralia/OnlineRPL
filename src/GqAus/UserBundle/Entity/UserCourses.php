@@ -40,6 +40,8 @@ class UserCourses
      */
     private $user;
 
+    
+    private $files;
     /**
      * Set courseCode
      *
@@ -647,6 +649,11 @@ class UserCourses
     public function getZohoId()
     {
         return $this->zohoId;
+    }
+    
+    public function getFiles()
+    {
+        return $this->files;
     }
 
 }

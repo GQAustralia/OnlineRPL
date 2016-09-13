@@ -14,6 +14,9 @@ services:
     UserService:
         class: GqAus\UserBundle\Services\UserService
         arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService', '@CoursesService']
+    CourseFileService:
+        class: GqAus\UserBundle\Services\UserCourse\FileService
+        arguments: [@doctrine.orm.entity_manager]
     gq_aus_user.amazon_s3:
         class: %gq_aus_user.amazon_s3.class%
         arguments: [{ key: '%gq_aus_user.amazon_s3.aws_key%', secret: '%gq_aus_user.amazon_s3.aws_secret_key%', region: 'us-west-2', version: 'latest', scheme: 'http' }]

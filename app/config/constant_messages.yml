@@ -79,8 +79,7 @@ parameters:
     msg_appove_evdience_fac_con: >
                                       Dear #toUserName#, <br/><br/> 
                                       Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
-                                      Provided evidences for above unit are satisfactory.<br/>
-                                      <a href='#applicationUrl#messages'>Click here</a> to login to Online RPL <br/><br/>
+                                      Provided evidences for above unit are satisfactory.<br/><br/>
                                       Regards, <br/>#fromUserName#
     mail_appove_evdience_fac_sub: "Evidences approved for - #courseCode# : #courseName# - Unit : #unitName#" 
     mail_appove_evdience_fac_con: >
@@ -93,8 +92,7 @@ parameters:
                                       Dear #toUserName#, <br/><br/> 
                                       Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
                                       Provided evidences for above unit are Not Satisfactory yet. Please add more evidences and get back to us.<br/>
-                                      Comments : #faccomments# <br/>
-                                      <a href='#applicationUrl#messages'>Click here</a> to login to Online RPL <br/><br/>
+                                      Comments : #faccomments# <br/><br/>
                                       Regards, <br/>#fromUserName#
     mail_disappove_evdience_fac_sub: "Not Satisfactory for - #courseCode# : #courseName# - Unit : #unitName#" 
     mail_disappove_evdience_fac_con: >
@@ -177,8 +175,7 @@ parameters:
     msg_portfolio_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
     msg_portfolio_assessor_submitted_con: >
                                    Dear #toUserName#, <br/> 
-                                   You're deemed competent enough for the Qualification : #courseCode# : #courseName#. <br/> 
-                                   Please login back to Online RPL to see the progress.<br/><br/>
+                                   You're deemed competent enough for the Qualification : #courseCode# : #courseName#. <br/><br/>
                                    Regards, <br/>#fromUserName#
     mail_portfolio_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
     mail_portfolio_assessor_submitted_con: >
