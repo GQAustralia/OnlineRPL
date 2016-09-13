@@ -15,7 +15,7 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
      
  <!-- Larg Screens HTML Start -->        
-<section class="portfolio-container">
+<section class="portfolio-container currentnew" id="currentnew">
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-lg-12">
@@ -32,8 +32,10 @@
             {% if ('ROLE_MANAGER' not in userRole[0]) and ('ROLE_SUPERADMIN' not in userRole[0]) %}
             <div class="col-md-12 col-lg-12">
                 <div class="portfolio-filter clearfix">
-                    <div class="filter gq-app-search-grid">                                       
-                        <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/>                                      
+                    <div class="filter gq-app-search-grid"> 
+                        <input type="text" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
+                        {#<input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/> #}    
+                                                         
                     </div>
                     <div class="gq-dashboard-tabs-header wid20p">
                         <ul role="tablist" id="myTab">
@@ -53,7 +55,7 @@
                 <div class="form-inline portfolio-filter">
                     <div class="row">
                         <div class="col-md-6 col-lg-3">
-                                <input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box">                                    
+                                <input type="text" placeholder="Search" class="form-control search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state">                                    
                         </div>
                         <div class="col-md-6 col-lg-3">
                                 <label for="">Filter By</label>
@@ -88,10 +90,8 @@
                             <img src="{{ asset('public/images')}}/loading.gif" class="img"/>
                 </div>
                 <div class="container tab-pane active" role="tabpanel" id="current">
-                    <input class="search" placeholder="Search" />
-                    <button class="sort" data-sort="firstName,lastName,phone,email,qualification,status">
-                      Sort by name
-                    </button>
+                    {#<input class="search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state" />#}
+                    
                     <div class="portfolio-data-table">                                
                         <table class="table" id="myTable">
                           {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
@@ -144,9 +144,11 @@
    <script type="text/javascript" src="{{ asset('public/js/list.min.js') }}"></script>
    <script type="text/javascript">
        var options = {
-        valueNames: [ 'firstName','qualification', 'evidence','daysleft','status','email']
+        valueNames: [ 'firstName','qualification', 'evidence','daysleft','status','email','address','suburb','pincode','state','phone']
         };
-        var currentList = new List('current', options);
+        var currentList = new List('currentnew', options);
                        
    </script>
 {% endblock %}
+   
+    

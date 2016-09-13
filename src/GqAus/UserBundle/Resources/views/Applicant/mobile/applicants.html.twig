@@ -10,6 +10,13 @@
 <tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %} %}">
       
         <td colspan="2" class="col-xs-12 col-sm-12">
+            <span class="email hide">{{list.user.email}}</span>
+        <span class="address hide">{{list.user.address.address}}</span>
+        <span class="suburb hide">{{list.user.address.suburb}}</span>
+        <span class="pincode hide">{{list.user.address.pincode}}</span>
+        <span class="state hide">{{list.user.address.state}}</span>
+        <span class="status hide">{{list.courseStatus}}</span>
+        <span class="phone hide">{{list.user.phone}}</span>
             <div class="portfolio-data-row">                                                
                 <div class="firstName name">
                     <a href="javascript:void(0);" {%if applicantLogged > 0%}class='userprofile' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}' {%endif%}>{{list.user.firstName}} {{list.user.lastName}}</a>
@@ -44,4 +51,16 @@
         <td colspan="6">
             {{no_applicants}}</td>
     </tr>
-{% endif %}
+    
+        {% endif %}
+    {% if (status == 1) and (paginator.count > 1)%}
+    <tr>
+        <td colspan="6" class="gq-pagination-area">
+            {# display navigation for pages - paginator_navigator #}        
+          {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+        </td>
+    </tr>
+    {% endif %}
+    
+
+

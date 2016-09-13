@@ -570,7 +570,6 @@ class UserService
         if ($page <= 0 ) {
             $page = 1;
         }
-
         $nameCondition = null;
         if (in_array('ROLE_ASSESSOR', $userRole)) {
             $userType = 'assessor';
@@ -591,8 +590,9 @@ class UserService
         $fields = 'partial c.{id, courseCode, courseName, courseStatus,targetDate,facilitatorDate,assessorDate,rtoDate,facilitatorread,assessorread,rtoread}, partial u.{id, firstName, lastName,email}';
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
             ->createQueryBuilder('c')
-            ->select($fields)
-            ->join('c.user', 'u');
+            ->select()
+            ->innerJoin('c.user', 'u')
+             ->innerJoin('c.user', 'a');
                 
 
         if ($userType != 'superadmin' && $userType != 'manager') {
@@ -683,6 +683,7 @@ class UserService
         $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
         /* Pagination */
         $applicantList = $res->getQuery()->getResult();
+        dump($applicantList);
        //dump($applicantList);exit;
         for($i=0;$i<count($applicantList);$i++)
         {
