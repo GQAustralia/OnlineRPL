@@ -170,9 +170,9 @@
                      {% set newuserSubject = userSubArr[0] %}
                  {% endif %}
             {% endif %} 
-                <div class="title_bar">  {{ userSubject }}
+                <div class="title_bar">  <span class="subject-copy">{{ userSubject }}</span>
                     
-                        <span>{% if parameters[1] is defined %}
+                        <span class="clear">{% if parameters[1] is defined %}
                     <a href="{{ base_url }}messages?{{parameters[1]}}">
                    {%else%}
                     <a href="{{ base_url }}messages">
@@ -313,8 +313,8 @@
     </div>
     {% if msgType is defined and msgType=="new" %}
         <div class="new_message_section">
-            <div class="title_bar">NEW MESSAGE
-                    <span><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
+            <div class="title_bar"><span class="subject-copy">NEW MESSAGE</span>
+                    <span class="clear"><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
             </div>
             <div class="new_msg_section">
                 <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composemsgForm) }}>

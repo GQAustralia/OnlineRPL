@@ -159,3 +159,18 @@
 	color: green;
 	font-size: 16px;
 }
+
+.main_container .body_section.message_section .title_bar {
+    text-align: left !important;
+	position: relative;
+}
+.main_container .body_section.message_section .title_bar  span.clear{
+	position: absolute;
+    right: 0;
+    padding: 5px;
+    top: 0;
+}
+.main_container .body_section.message_section .title_bar  span.subject-copy{
+    display: inline-block;
+    padding-right: 25px;
+}
