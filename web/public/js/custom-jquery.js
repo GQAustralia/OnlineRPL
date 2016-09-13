@@ -1407,23 +1407,22 @@ function validateAddress()
         $("#userprofile_phone").focus();
         return false;
     }
-    if ($("#userprofile_phone").val() != "" && $("#userprofile_phone").val().length < 12) {        
-            showMyTabs("Phone number must be XXXX-XXX-XXX format");
-            $("#userprofile_phone").focus();
-            return false;
-    }
-    if ($("#userprofile_phone").val() != "" && $("#userprofile_phone").val().length > 12) {        
-            showMyTabs("Phone number must be XXXX-XXX-XXX format");
-            $("#userprofile_phone").focus();
-            return false;
-    }
+    if(userrole!='rtouser') {
      if ($("#userprofile_phone").val() != "") {
-        if ($("#userprofile_phone").val().search(phone) == -1) {
-            showMyTabs("Please enter valid Phone number");
-            $("#userprofile_phone").focus();
-            return false;
-        }
+         var uphone = $("#userprofile_phone").val();
+         alert("fffmmm9");
+            if (uphone.length < 12) {        
+                showMyTabs("Phone number must be XXXX-XXX-XXX format");
+                $("#userprofile_phone").focus();
+                return false;
+        }   alert("fffmmm10");
+            if (uphone.length > 12) {        
+                    showMyTabs("Phone number must be XXXX-XXX-XXX format");
+                    $("#userprofile_phone").focus();
+                    return false;
+            }
     }
+}
     
     if(userrole=='applicant') {
     if ($("#userprofile_universalStudentIdentifier").val() == "") {
