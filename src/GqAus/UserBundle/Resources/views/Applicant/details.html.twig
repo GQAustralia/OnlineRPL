@@ -430,7 +430,7 @@
                                 {% if 'ROLE_FACILITATOR' in userRole or 'ROLE_MANAGER' in userRole %}
                                     <input type="text" onkeyup="searchUsersFromCourse('#advanced-demo','{{facilitatorId}}','{{assessorId}}','{{rtoId}}','{{userId}}');" value="{{ toName }}" placeholder="" required="required"  name="advanced-demo"  id="advanced-demo" class="ui-autocomplete-input" autocomplete="off" >
                                 {% else %}
-                                    <input type="text" name="advanced-demo" id="advanced-demo" value="{{ toName }}">
+                                    <input type="text" name="advanced-demo" id="advanced-demo" readonly="true" value="{{ toName }}">
                                 {% endif %}
                             </div>
                             <div class="input_section">

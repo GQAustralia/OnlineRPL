@@ -173,6 +173,16 @@ $("body .msgForCourse").click(function(){
         $('#advanced-demo').css("border","1px solid red");
         return false;
     }
+    else{
+        var count = checkUserNameExistOrNot(to);
+        if (count == 0) {
+            $('#advanced-demo').css("border", "1px solid red");
+            return false;
+        }
+        else{
+            $('#advanced-demo').css("border", "0px");
+        }
+    }
     if (msgBody === '') {
         $('#msgBody').focus();
         $('#msgBody').css("border","1px solid red");
@@ -187,8 +197,21 @@ $("body .msgForCourse").click(function(){
                 $('#message_popup').modal('hide');
                 $("body #status-message").css("display", "block");
                 $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Sent message successfully</h2></div>');
-                
             }
         });
     }
 })
+/* function to check email already exist */
+function checkUserNameExistOrNot(username) {
+    var count = '';
+    $.ajax({
+        type: "POST",
+        url: base_url + "checkUserNameExistOrNot",
+        async: false,
+        data: {username: username},
+        success: function(result) {           
+           count = result;
+        }
+    });
+    return count;
+}
