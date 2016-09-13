@@ -390,6 +390,8 @@ $("body").on('click', '.updateTodo', function() {
                     $('.todo-list li.emptyPendingTodo').removeClass('hide');
                 $('.progress-bar').css('width', percentage+"%").attr('data-citem', completedItem);
                 $('.todo-percent').html(Math.ceil(percentage));
+                $('#err_msg').show();
+                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Moved to completed today successfully</span></div>').delay(3000).fadeOut(100);
             }
         }
     });
