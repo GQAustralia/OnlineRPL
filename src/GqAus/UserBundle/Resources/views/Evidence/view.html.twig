@@ -144,7 +144,10 @@
                                                     {% set facilitatorViewStatus = (evd[0].facilitatorViewStatus == 1 ) ? 'disable' : ''  %}
                                                     {% if evd[0].type !='text' %}
                                                         {% set eviType = evidence_service.getEvidenceShowType(evd[0].type) %}
-                                                        {% set byteSize = evidence_service.convertSizetoBytes(evd[0].size) %}
+                                                        {% set byteSize = 0 %}
+                                                        {% if(if evd[0].type !='recording') %}
+                                                            {% set byteSize = evidence_service.convertSizetoBytes(evd[0].size) %}
+                                                        {% endif %}
                                                         {% set output = eviType|split('&&') %}
                                                         {% if evd[0].name %}
                                                         <tr id="{{ evd[0].id }}"class="{{ evd[0].type }} {{ mappedContent }}">

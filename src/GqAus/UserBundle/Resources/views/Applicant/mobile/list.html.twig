@@ -12,7 +12,7 @@
 {% block body %}
 
 {% set userRole = app.security.getToken().getUser().getRoles() %}
-<section class="portfolio-container">
+<section class="portfolio-container currentnew" id="currentnew">
             <div class="container-fluid">
                 <div class="row no-gutter">
                     <div class="col-xs-12 col-sm-12">
@@ -46,7 +46,8 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12">
                                     <div  class="filter">
-                                        <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/> 
+                                     {#   <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search" /> #}
+                                        <input type="text" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
                                     </div>
                                 </div>                                    
                             </div>
@@ -102,14 +103,16 @@
                                      {% include 'GqAusUserBundle:Applicant/mobile:applicants.html.twig' %}
                                     
                                 </tbody>
+                               {% if paginator.count > 1%}
                                 <tfooter>
-                                <tr>
-                                    <td colspan="6" class="gq-pagination-area">
-                                        {# display navigation for pages - paginator_navigator #}        
-                                      {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
-                                    </td>
-                                </tr>
-                            </tfooter>
+                                    <tr>
+                                        <td colspan="6" class="gq-pagination-area">
+                                            {# display navigation for pages - paginator_navigator #}        
+                                          {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                                        </td>
+                                    </tr>
+                                </tfooter>
+                          {% endif %}
                             </table>
                         </div>
                     </div>
@@ -146,12 +149,10 @@
   <script type="text/javascript" src="{{ asset('public/js/list.min.js') }}"></script>
    <script type="text/javascript">
        var options = {
-        valueNames: [ 'firstName','daysleft']
+        valueNames: [ 'firstName','qualification', 'evidence','daysleft','status','email','address','suburb','pincode','state','phone']
         };
-        var currentList = new List('current', options);
-            var optionstatus = {
-                valueNames: [ 'firstName','daysleft']
-            };           
+        var currentList = new List('currentnew', options);
+                       
    </script>
   
 {% endblock %}
