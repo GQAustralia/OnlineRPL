@@ -65,3 +65,13 @@ ALTER TABLE `user` ADD `login_token` VARCHAR(200) NULL AFTER `applicantStatus`;
 
 CREATE TABLE `user_course_file` ( `id` INT(11) NOT NULL AUTO_INCREMENT ,  `usercourse_id` INT(11) NOT NULL ,  `type` VARCHAR(50) NOT NULL ,  `path` TEXT NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
 
+
+CREATE TABLE IF NOT EXISTS `log` (
+  `id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `action` int(10) NOT NULL,
+  `page_name` varchar(200) NOT NULL,
+  `date_time` datetime NOT NULL,
+  `message` text NOT NULL,
+  `role` int(11) NOT NULL COMMENT '1. Applicant 2. Facilitator 3. Assessor 4. RTO 5. Manager 6. Super Admin'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
