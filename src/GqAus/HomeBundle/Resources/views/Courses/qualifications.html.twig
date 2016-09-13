@@ -146,7 +146,7 @@
         </div>
     </div>
     {% endif %}
-        {% if courses.rto.lastName != "" %}
+        {% if courses.rto.lastName is defined and courses.rto.lastName != "" %}
             {% set enrollment_form = rto_service.findRTOEnrollmentForm(courses.rto.lastName) %}
             {% set uploaded_enrollment_form = course_file_service.getFile(courses.id) %}
             
@@ -184,9 +184,9 @@
                             </form>
                             {% endif %}
                         
-        {% endif %}
         
-        {% if uploaded_enrollment_form %}
+        
+        {% if uploaded_enrollment_form is defined %}
                 <div class="panel-content">
                             <div class="file_info">
                                 <span class="icon"><a href="{{uploaded_enrollment_form.path}}" class="fancybox fancybox.iframe"> 
@@ -202,8 +202,8 @@
                    </div>
                         </div>
                 </div>
-            </div>         
-     
+                     
+     {% endif %}
 {% if courses.facilitator is defined and courses.facilitator != null or courses.assessor is defined and courses.assessor != null %}       
 {% set notes = user_service.getNotesFromUserAndCourseApplicant(courseId) %}    
     {% if notes|length > 0 %}
@@ -235,28 +235,19 @@
         </div>
     {% endif %}
 {% endif %}
-<<<<<<< HEAD
-    <div class="hidden-xs faq_link">
-         <i class="material-icons help">help</i>
-            <a href="{{ app.request.baseUrl }}/faq" target="_blank">
-                   
-                    <span>FAQs</span>
-            </a>
-=======
-<div class="row">
-    <div class="col-md-12 col-lg-12">                
-        <div class="hidden-xs faq_link">
-             <i class="material-icons help">help</i>
-                <a href="{{ app.request.baseUrl }}/faq" target="_blank">
 
-                        <span>FAQs</span>
-                </a>
-        </div>
->>>>>>> feature/ashok-13-09-2016
-    </div>
-</div>   
-           
-       </div>
+		<div class="row">
+		    <div class="col-md-12 col-lg-12">                
+		        <div class="hidden-xs faq_link">
+		             <i class="material-icons help">help</i>
+		                <a href="{{ app.request.baseUrl }}/faq" target="_blank">
+		
+		                        <span>FAQs</span>
+		                </a>
+		        </div>
+		    </div>
+		</div>   
+  </div>         
     <div class="col-md-7 col-lg-7">
     <div class="accordion panel-group">
     {% set i = 1 %}           
