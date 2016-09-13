@@ -593,6 +593,7 @@ class UserService
             ->createQueryBuilder('c')
             ->select($fields)
             ->join('c.user', 'u');
+            
 
         if ($userType != 'superadmin' && $userType != 'manager') {
             $res->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
@@ -646,7 +647,8 @@ class UserService
                     . "OR u.email LIKE '%" . $searchNamearr[$i] . "%'"
                     . "OR u.phone LIKE '%" . $searchNamearr[$i] . "%'"
                     . "OR c.courseName LIKE '%" . $searchNamearr[$i] . "%'"
-                    . "OR c.courseCode LIKE '%" . $searchNamearr[$i] . "%'";
+                    . "OR c.courseCode LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR a.address LIKE '%" . $searchNamearr[$i] . "%'";
                 else
                     $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
                     . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'"
@@ -654,7 +656,8 @@ class UserService
                     . "OR u.phone LIKE '%" . $searchNamearr[$i] . "%'"
                     . "OR c.course_name LIKE '%" . $searchNamearr[$i] . "%'"
                     . "OR c.courseName LIKE '%" . $searchNamearr[$i] . "%'"
-                    . "OR c.courseCode LIKE '%" . $searchNamearr[$i] . "%'";
+                    . "OR c.courseCode LIKE '%" . $searchNamearr[$i] . "%'"
+                    . "OR a.address LIKE '%" . $searchNamearr[$i] . "%'";
             }
             $res->andWhere($nameCondition);
         }

@@ -419,7 +419,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('.fancybox').fancybox();
-             var orig_words = $('#selfassnote').val().split(' ').length;             
+             var orig_words = $('#selfassnote').val().split('').length;             
             $('#myWordCount').text(orig_words+"/50");
             $('#selfassnote').on('keyup', function(){
                 // count words by whitespace
