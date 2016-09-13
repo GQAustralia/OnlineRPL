@@ -144,7 +144,7 @@ var s3uploadPi = null;
 
                        $('#user_profile_image').attr('src',amazon_link+'user-'+userId+'/'+obj.uploadedName);                    
                     $("#profile_suc_msg2").show();
-                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile Image updated successfully!</h2></div>');
+                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Profile Image updated successfully!</span></div>');
                     $("#ajax-profile-error").hide();
                     $("#ajax-gq-profile-page-img").css("background-image", "url('" + amazon_link+'user-'+userId+'/'+obj.uploadedName + "')");
                     if (userType == 0) {
