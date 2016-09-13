@@ -8,6 +8,15 @@ services:
     CoursesService:
         class: GqAus\HomeBundle\Services\CoursesService
         arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService']
+    RtoService:
+        class: GqAus\HomeBundle\Services\RtoService
+        arguments: [@doctrine.orm.entity_manager, @service_container, @ApiService]
+    ApiService:
+        class: GqAus\HomeBundle\Services\ApiService
+        arguments: [@service_container, '@GuzzleService', @XMLService]    
+    XMLService:
+        class: GqAus\HomeBundle\Services\XMLService
+        arguments: []    
     GuzzleService:
         class: %guzzle.http_client.class%
         arguments: []

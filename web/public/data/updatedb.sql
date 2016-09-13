@@ -62,3 +62,6 @@ ALTER TABLE `user_courses` CHANGE `manager` `manager` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `user_courses` CHANGE `facilitator` `facilitator` INT(11) NULL DEFAULT NULL;
 
 ALTER TABLE `user` ADD `login_token` VARCHAR(200) NULL AFTER `applicantStatus`;
+
+CREATE TABLE `user_course_file` ( `id` INT(11) NOT NULL AUTO_INCREMENT ,  `usercourse_id` INT(11) NOT NULL ,  `type` VARCHAR(50) NOT NULL ,  `path` TEXT NOT NULL ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
+
