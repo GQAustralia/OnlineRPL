@@ -15,6 +15,7 @@ input:focus{outline:0}.modal{text-align:center;padding:0 !important}.modal:befor
 .gq-change-pwd-warning {width:60%; margin:0 auto; position:relative;}
 #mbl_pwd_error{color:red;}
 #fileListContainerTm.panel-group .panel{border: 0;box-shadow: none;}
+#ajax-gq-profile-page-img{background-image: none !important;}
 
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 	.profile_popup .modal-body .header_block .profile_section{
