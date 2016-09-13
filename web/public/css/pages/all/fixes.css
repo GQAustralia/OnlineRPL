@@ -137,3 +137,25 @@
 #err_msg{
 	width: 100%;
 }
+
+/* add evidence popup styles*/
+.panel-body .panel-copy .file-info .file-discription {
+    width: 59%;
+	word-wrap: break-word;
+    word-break: break-all;
+}
+.panel-body .panel-copy .file-info .file-progress {
+    width: 24%;
+}
+.panel-body .panel-copy .file-info .clear{
+	width: 9%;
+}
+.panel-body .panel-copy .file-info span.completed {
+	display: inline;
+	padding: 5px 0;
+	float: left;
+}
+.panel-body .panel-copy .file-info span.completed i{
+	color: green;
+	font-size: 16px;
+}
