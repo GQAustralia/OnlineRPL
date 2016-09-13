@@ -16,7 +16,7 @@ parameters:
                            Qualification : #courseCode# - #courseName# <br/><br />
                            For more details <a href='#applicationUrl#login'>Click here</a> to login.<br/><br/> 
                            Regards,<br/>OnlineRPL
-    mail_add_user_course_sub: "Get Qualified Australia: Welcome to Online RPL" 
+    mail_add_user_course_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_add_user_course_con: >
                                  Dear #firstName#,<br/><br/> 
                                  Thanks for enrolling with Get Qualified Australia and welcome to Online RPL! We're looking forward to helping you achieve your #courseName#. <br /><br />
@@ -24,7 +24,7 @@ parameters:
                                  As soon as they have been assigned to you, you will receive your custom login details for our Online RPL platform. This will make the process of uploading your evidence that much easier.<br /><br />
                                  We'll be in touch soon.<br /><br/>
                                  Regards,<br/>%default_from_username%
-    mail_notification_sub: "New message from OnlineRPL - #messageSubject#" 
+    mail_notification_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_notification_con: >
                              Hi #toUserName#, <br/><br/> 
                              You have received one new message in Online RPL.<br/><br/>
@@ -45,7 +45,7 @@ parameters:
                             A new evidence has been added to the Qualification : #courseCode# : #courseName# for unit : #unitId#. <br/> <br/>
                             Please check and review the evidence.<br/><br/>
                             Regards, <br/>#fromUserName#
-    mail_add_evidence_sub: "Evidence added to - #courseCode# #courseName#" 
+    mail_add_evidence_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_add_evidence_con: >
                             Hi #toUserName#, <br/><br /> 
                             We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
@@ -57,7 +57,7 @@ parameters:
                          A new note has been added to the unit #unitCode#. <br/> 
                          Notes : #unitNotes# <br/><br/>
                          Regards, <br/>#fromUserName#
-    mail_add_notes_sub: "Notes added for course : #courseCode# : #courseName# - Unit : #unitCode#" 
+    mail_add_notes_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_add_notes_con: >
                           Dear #toUserName#, <br/><br/>
                           A new note has been added for unit #unitCode# <br/> 
@@ -69,7 +69,7 @@ parameters:
                                     You're deemed NOT YET COMPETENT for the the unit #unitId# #unitName# under #courseCode# - #courseName#.
                                     Candidate details: #userName#.<br/><br/>
                                     Regards, <br/>#fromUserName#
-    mail_disappove_evdience_asr_sub: "Not Yet Competent for - #courseCode# : #courseName# - Unit : #unitName#" 
+    mail_disappove_evdience_asr_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_disappove_evdience_asr_con: >
                                        Hi #toUserName#, <br/><br/> 
                                        We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
@@ -81,7 +81,7 @@ parameters:
                                       Qualification : #courseCode# - #courseName#<br/> Unit : #unitId# #unitName# <br/>
                                       Provided evidences for above unit are satisfactory.<br/><br/>
                                       Regards, <br/>#fromUserName#
-    mail_appove_evdience_fac_sub: "Evidences approved for - #courseCode# : #courseName# - Unit : #unitName#" 
+    mail_appove_evdience_fac_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_appove_evdience_fac_con: >
                                        Hi #toUserName#, <br/><br/> 
                                        We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
@@ -94,7 +94,7 @@ parameters:
                                       Provided evidences for above unit are Not Satisfactory yet. Please add more evidences and get back to us.<br/>
                                       Comments : #faccomments# <br/><br/>
                                       Regards, <br/>#fromUserName#
-    mail_disappove_evdience_fac_sub: "Not Satisfactory for - #courseCode# : #courseName# - Unit : #unitName#" 
+    mail_disappove_evdience_fac_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_disappove_evdience_fac_con: >
                                        Hi #toUserName#, <br/><br/> 
                                        We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
@@ -107,7 +107,7 @@ parameters:
                                        to your Online RPL account and use this URL #applicationUrl#applicant/#roomId# to join the competency conversation. <br/> 
                                        Awaiting for your response.<br/><br/>
                                        Regards, <br/>#fromUserName#
-    mail_conversation_invitation_sub: "Competency conversation invitation for - #courseCode# #courseName#" 
+    mail_conversation_invitation_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_conversation_invitation_con: >
                                         Dear #toUserName#, <br/> 
                                         Please <a href='#applicationUrl#login'>login</a>
@@ -120,7 +120,7 @@ parameters:
                                      All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
                                      Validated all the evidences in the qualification.<br/><br/>
                                      Regards, <br/>#fromUserName#
-    mail_rto_issue_certificate_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
+    mail_rto_issue_certificate_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_rto_issue_certificate_con: >
                                       Dear #toUserName#, <br/> 
                                       All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
@@ -132,7 +132,7 @@ parameters:
                                   All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
                                   Validated all the evidences in the qualification.<br/><br/>
                                   Regards, <br/>#fromUserName#
-    mail_asr_approve_course_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
+    mail_asr_approve_course_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_asr_approve_course_con: >
                                    Hi #toUserName#, <br/> 
                                    We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
@@ -143,7 +143,7 @@ parameters:
                                 Dear #toUserName#, <br/> 
                                 Portfolio Status of : #courseCode# : #courseName# has been updated to #status#.<br/><br/>
                                 Regards, <br/>#fromUserName#
-    mail_portfolio_update_sub: "Portfolio Update : #courseCode# #courseName#" 
+    mail_portfolio_update_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_portfolio_update_con: >
                                  Dear #toUserName#, <br/> 
                                  Portfolio Status of : #courseCode# : #courseName# has been updated to #status#.<br/><br/>
@@ -154,7 +154,7 @@ parameters:
                                    All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
                                    Validated all the evidences in the qualification and portfolio has been submitted to #role#.<br/><br/>
                                    Regards, <br/>#fromUserName#
-    mail_portfolio_submitted_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
+    mail_portfolio_submitted_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_portfolio_submitted_con: >
                                     Dear #toUserName#, <br/> 
                                     All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
@@ -166,7 +166,7 @@ parameters:
                                  All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
                                  Validated all the evidences in the qualification and issued the certificate.<br/><br/>
                                  Regards, <br/>#fromUserName#
-    mail_issue_certificate_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
+    mail_issue_certificate_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_issue_certificate_con: >
                                   Dear #toUserName#, <br/> 
                                   All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
@@ -177,7 +177,7 @@ parameters:
                                    Dear #toUserName#, <br/> 
                                    You're deemed competent enough for the Qualification : #courseCode# : #courseName#. <br/><br/>
                                    Regards, <br/>#fromUserName#
-    mail_portfolio_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
+    mail_portfolio_assessor_submitted_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_portfolio_assessor_submitted_con: >
                                     Hi #toUserName#, <br/> 
                                     We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
@@ -189,7 +189,7 @@ parameters:
                                    All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
                                    Validated all the evidences in the qualification and portfolio has been submitted to #role#.<br/><br/>
                                    Regards, <br/>#fromUserName#
-    mail_portfolio_fac_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
+    mail_portfolio_fac_assessor_submitted_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_portfolio_fac_assessor_submitted_con: >
                                    Hi #toUserName#, <br/> 
                                    All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
