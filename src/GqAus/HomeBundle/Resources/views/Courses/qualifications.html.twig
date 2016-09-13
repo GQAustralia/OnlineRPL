@@ -150,7 +150,7 @@
             {% set enrollment_form = rto_service.findRTOEnrollmentForm(courses.rto.lastName) %}
             {% set uploaded_enrollment_form = course_file_service.getFile(courses.id) %}
             
-            <div class="row">
+            <div class="row" style="display:none">
                 <div class="col-lg-12">
                         <div class="comments">
                         <div class="panel-group">
@@ -186,8 +186,8 @@
                         
         
         
-        {% if uploaded_enrollment_form is defined %}
-                <div class="panel-content">
+        {% if uploaded_enrollment_form.path is defined %}
+                <div class="panel-content" style="display:none">
                             <div class="file_info">
                                 <span class="icon"><a href="{{uploaded_enrollment_form.path}}" class="fancybox fancybox.iframe"> 
                                         <p> <i class="material-icons">photo</i> Download Completed Form</p>
@@ -202,6 +202,7 @@
                    </div>
                         </div>
                 </div>
+    </div>
                      
      {% endif %}
 {% if courses.facilitator is defined and courses.facilitator != null or courses.assessor is defined and courses.assessor != null %}       
