@@ -2482,23 +2482,23 @@ class UserService
      * @param string $type
      * return array content
      */
-    public function getRemindeTypeContent($typeId, $type, $reminderNote = "")
+    public function getReminderTypeContent($typeId, $type, $reminderNote = "")
     {
         switch ($type) {
             case 'portfolio':
                     $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourses');
                     $typeContent = $reposObj->findOneBy(array('id' => $typeId));
-                    $content = $this->formatReminderTypeContent($typeContent, $type, $reminderNote = "");
+                    $content = $this->formatReminderTypeContent($typeContent, $type, $reminderNote);
                 break;
             case 'message':
                     $reposObj = $this->em->getRepository('GqAusUserBundle:Message');
                     $typeContent = $reposObj->findOneBy(array('id' => $typeId));
-                    $content = $this->formatReminderTypeContent($typeContent, $type, $reminderNote = "");
+                    $content = $this->formatReminderTypeContent($typeContent, $type, $reminderNote);
                 break;
             case 'evidence':
                     $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
                     $typeContent = $reposObj->findOneBy(array('id' => $typeId));
-                    $content = $this->formatReminderTypeContent($typeContent, $type, $reminderNote = "");
+                    $content = $this->formatReminderTypeContent($typeContent, $type, $reminderNote);
                 break;
         }
         return $content;

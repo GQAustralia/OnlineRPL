@@ -47,7 +47,8 @@
                                 {#{{ dump(rTypeContent) }}#}
                                 <li class="list_item clearfix">                                    
                                     {% if (todoList.reminderType == 'portfolio' or todoList.reminderType == 'message' or todoList.reminderType == 'evidence') %}
-                                        {% set rTypeContent = user_service.getRemindeTypeContent(todoList.reminderTypeId, todoList.reminderType, todoList.message) %}
+                                        {% set rTypeContent = user_service.getReminderTypeContent(todoList.reminderTypeId, todoList.reminderType, todoList.message) %}
+                                        
                                         <a class="reminder-view" data-reminderId="{{todoList.id}}" data-status="{{todoList.reminderViewStatus}}" href="{{ rTypeContent.link }}" title="{{ rTypeContent.fulltext }}">
                                             <span class="list_icon">
                                                     <i class="material-icons message">{{todoIcon}}</i>
@@ -88,7 +89,7 @@
                                     <li class="list_item clearfix disable">
                                         
                                     {% if (todoCompleteList.reminderType == 'portfolio' or todoCompleteList.reminderType == 'message' or todoCompleteList.reminderType == 'evidence') %}
-                                        {% set rTypeContent = user_service.getRemindeTypeContent(todoCompleteList.reminderTypeId, todoCompleteList.reminderType, todoCompleteList.message) %}
+                                        {% set rTypeContent = user_service.getReminderTypeContent(todoCompleteList.reminderTypeId, todoCompleteList.reminderType, todoCompleteList.message) %}
                                         <a href="{{ rTypeContent.link }}" title="{{ rTypeContent.fulltext }}">
                                             <span class="list_icon">
                                                     <i class="material-icons message">{{todoCompletedIcon}}</i>
