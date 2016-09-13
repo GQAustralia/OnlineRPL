@@ -88,22 +88,27 @@
                             <img src="{{ asset('public/images')}}/loading.gif" class="img"/>
                 </div>
                 <div class="container tab-pane active" role="tabpanel" id="current">
+                    <input class="search" placeholder="Search" />
+                    <button class="sort" data-sort="firstName,lastName,phone,email,qualification,status">
+                      Sort by name
+                    </button>
                     <div class="portfolio-data-table">                                
                         <table class="table" id="myTable">
                           {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
                             <tbody class="list" id="currentList">
                                 {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                
                              </tbody>
-                            
-                            <tfooter>
-                                <tr>
-                                    <td colspan="6" class="gq-pagination-area">
-                                        {# display navigation for pages - paginator_navigator #}        
-                                      {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
-                                    </td>
-                                </tr>
-                            </tfooter>
-                         
+                            {% if paginator.count > 1%}
+                                <tfooter>
+                                    <tr>
+                                        <td colspan="6" class="gq-pagination-area">
+                                            {# display navigation for pages - paginator_navigator #}        
+                                          {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                                        </td>
+                                    </tr>
+                                </tfooter>
+                          {% endif %}
                         </table>
                     </div>
                 </div>
@@ -120,7 +125,7 @@
                             <tbody class="list" id="completedList">                                
                                 {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
                             </tbody>  
-                          
+                         
                         </table>
                     </div>
                 </div>
@@ -139,11 +144,9 @@
    <script type="text/javascript" src="{{ asset('public/js/list.min.js') }}"></script>
    <script type="text/javascript">
        var options = {
-        valueNames: [ 'firstName','qualification', 'evidence','daysleft','status']
+        valueNames: [ 'firstName','qualification', 'evidence','daysleft','status','email']
         };
         var currentList = new List('current', options);
-            var optionstatus = {
-                valueNames: [ 'firstName','qualification', 'evidence','daysleft','status']
-            };           
+                       
    </script>
 {% endblock %}
