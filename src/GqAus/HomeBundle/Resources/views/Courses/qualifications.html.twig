@@ -9,13 +9,14 @@
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
 {% endblock %}
 {% block body %}
+<div class="hidden-xs body_section">
 <!-- Larg Screens HTML --> 
 {% if userCourses is empty%}
     <div>No Courses Available</div>
 {% else %}
     {% set counter = '' %}
     {% set counterArr = 0 %}
-    <div class="hidden-xs body_section">
+    
 {% for key, courses in userCourses %}       
     {% set userRole = app.security.getToken().getUser().getRoles() %}
     {% set userId = app.security.getToken().getUser().getId() %} 
@@ -57,82 +58,90 @@
    <div class="col-md-5 col-lg-4">
         {% set newuserblock = 0 %} 
         {% set requiredUnits = 0 %}
-         {% set totalCheckedCount = 0 %} 
+        {% set totalCheckedCount = 0 %} 
      {% if courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
-      {% if courseInfo.courseInfo.Units.Core.unit is defined and  courseInfo.courseInfo.Units.Core.unit %}
-         {% set coreUnitCount = courseInfo.courseInfo.Units.Core.unit|length %}
-         {% set unitsData = courseInfo.courseInfo.Units.Core.unit %}
+         {% if courseInfo.courseInfo.Units.Core.unit is defined and  courseInfo.courseInfo.Units.Core.unit %}
+             {% set coreUnitCount = courseInfo.courseInfo.Units.Core.unit|length %}
+             {% set unitsData = courseInfo.courseInfo.Units.Core.unit %}
         
-        {% if courseInfo.courseInfo.Units.Elective is defined and courseInfo.courseInfo.Units.Elective%}
-        {% set totalCheckedCount = courses_service.getElectiveCheckedValues(userId,courseCode) %} 
-        {% set getIssubmitStatus = courses_service.getOneUnitStatus(userId, courseCode)%} 
-        {% if getIssubmitStatus >= 1%}
-        {% set newuserblock = 1 %} 
-        {% endif %}
-        {% if courseInfo.courseInfo.Units.Elective.validation is defined and  courseInfo.courseInfo.Units.Elective.validation%} 
-           {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}  
-           {% set requiredUnits = coreUnitCount+electiveUnitCountRequired %}
+             {% if courseInfo.courseInfo.Units.Elective is defined and courseInfo.courseInfo.Units.Elective%}
+                {% set totalCheckedCount = courses_service.getElectiveCheckedValues(userId,courseCode) %} 
+                {% set getIssubmitStatus = courses_service.getOneUnitStatus(userId, courseCode)%} 
+                {% if getIssubmitStatus >= 1%}
+                    {% set newuserblock = 1 %} 
+             {% endif %}
+             {% if courseInfo.courseInfo.Units.Elective.validation is defined and  courseInfo.courseInfo.Units.Elective.validation%} 
+                {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}  
+                {% set requiredUnits = coreUnitCount+electiveUnitCountRequired %}
            
+             {% endif %}
         {% endif %}
-        {% endif %}
-         {% endif %}
+    {% endif %}
 {% endif %}
-       {% if newuserblock == 0 %}
-                <div class="row">
-                  <div class="col-md-12 col-lg-12">
-                      <div class="info-copy" style="border:1px solid #d8d8d8; padding: 10px;">
-                      <a href="{{ app.request.baseUrl }}/faq" target="_blank" style="width: 100%; display: inline-block; text-align: center;"><i class="material-icons">error_outline</i></a>
-                      <p>For this qualification you need to show you're experienced in a total of {{requiredUnits}} units.</p>
-                      <strong>Start by choosing your <span class="text-uppercase">Elective Units.</span></strong>
-                      </div>
-                  </div>
-               </div>
-        {% elseif newuserblock == 1 %}
-            <div class="progres_bar_section">
-            <p class="text-center">
-                 {% set unitType = courses_service.getOneUnitStatus(userId, courseCode) %}
-                 {% if unitType == 0 %}
-                <strong>
-                    Welcome to your new qualification,<br/>
-                    let's go
-                </strong>
-                {% else %}
-                <strong>
-                   {% if courses.facilitator is defined and courses.facilitator!= null %} {{courses.facilitator.firstName}} is reviewing <br/>your evidence  {% endif %}
-                </strong>
-                    
-                {% endif %}
-            </p>
-            <div class="progres-content">
-                <div class="activ-middle">
-                   
-                    <div id="slider{{counterArr}}" class="round-progress rslider"></div>
-                    <div class="evidence-status">{% if counter|slice(0,3) == 100 %}Evidence Submitted{% elseif counter|slice(0,2) > 0 %}Awaiting Evidences{% endif %}</div>
-                </div>
-                <p class="day-progress clearfix">
-                    <span class="start-day">0<br/>Days</span>
-                    <span class="end-day">90<br/>Days</span>
-                </p>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="90" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
+       <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="info-box">
+                    {% if newuserblock == 0 %}
+                        <div class="info-copy">
+                          <a href="{{ app.request.baseUrl }}/faq" target="_blank" style="width: 100%; display: inline-block; text-align: center;"><i class="material-icons">error_outline</i></a>
+                          <p>For this qualification you need to show you're experienced in a total of {{requiredUnits}} units.</p>
+                          <strong>Start by choosing your <span class="text-uppercase">Elective Units.</span></strong>
+                        </div>
+                    {% elseif newuserblock == 1 %}
+                       
+                            <p class="text-center">
+                            {% set unitType = courses_service.getOneUnitStatus(userId, courseCode) %}
+                            {% if unitType == 0 %}
+                                <strong>
+                                    Welcome to your new qualification,<br/>
+                                    let's go
+                                </strong>
+                             </p>
+                    {% else %}
+                        <div class="progres_bar_section">
+                            <p class="text-center">
+                                <strong>
+                                   {% if courses.facilitator is defined and courses.facilitator!= null %} {{courses.facilitator.firstName}} is reviewing <br/>your evidence  {% endif %}
+                                </strong>
+                             </p>
+                    {% endif %}
+           
+                <div class="progres-content">
+                    <div class="activ-middle">
 
-                      <span class="sr-only">{{output[0]}} Complete</span>
+                        <div id="slider{{counterArr}}" class="round-progress rslider"></div>
+                        <div class="evidence-status">{% if counter|slice(0,3) == 100 %}Evidence Submitted{% elseif counter|slice(0,2) > 0 %}Awaiting Evidences{% endif %}</div>
                     </div>
+                    <p class="day-progress clearfix">
+                        <span class="start-day">0<br/>Days</span>
+                        <span class="end-day">90<br/>Days</span>
+                    </p>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="90" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
+
+                          <span class="sr-only">{{output[0]}} Complete</span>
+                        </div>
+                    </div>
+                    <p class="text-center">{%if (output[1] == 1) %}Today is your first day{% else %} You have <strong class="text-danger">{{output[0]}} Days remaining </strong> to submit your <br/> evidence files {% endif %}</p>
+
                 </div>
-                <p class="text-center">{%if (output[1] == 1) %}Today is your first day{% else %} You have <strong class="text-danger">{{output[0]}} Days remaining </strong> to submit your <br/> evidence files {% endif %}</p>
-                     
-            </div>
             </div>
         {% endif %}
-   
+   </div>
+</div>
+</div>
     {% if courses.facilitator.firstName is defined %}
-    <div class="hidden-xs review">
-    
-        <div class="review_content">
-                <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSR </span>for this qualification</p>
-        </div>
-        <div class="review_profile-pic">
-                <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="hidden-xs review">
+
+                <div class="review_content">
+                        <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSR </span>for this qualification</p>
+                </div>
+                <div class="review_profile-pic">
+                        <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
+                </div>
+            </div>
         </div>
     </div>
     {% endif %}
@@ -167,15 +176,20 @@
         </div>
     {% endif %}
 {% endif %}
-    <div class="hidden-xs faq_link">
-         <i class="material-icons help">help</i>
-            <a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow">
-                   
-                    <span>FAQs</span>
-            </a>
+<div class="row">
+    <div class="col-md-12 col-lg-12">                
+        <div class="hidden-xs faq_link">
+             <i class="material-icons help">help</i>
+                <a href="{{ app.request.baseUrl }}/faq" target="_blank">
+
+                        <span>FAQs</span>
+                </a>
+        </div>
     </div>
-    </div>                
-    <div class="col-md-7 col-lg-7 flex-fix-q">
+</div>   
+           
+       </div>
+    <div class="col-md-7 col-lg-7">
     <div class="accordion panel-group">
     {% set i = 1 %}           
     {% set coreUnitsCount = courses_service.getCoreElectiveUnitsCount(userId,courseCode,'core') %}    
@@ -357,19 +371,15 @@
 </div>
 </div>
      {% include 'GqAusHomeBundle:Courses:facProfilePopups.html.twig' %}                  
-{#{% endif %}#}
-    </div>
- 
-    {#{% endif %}
-    {% endif %}#}
-{#{% endif %}#}
+</div>
+
  {% set counterArr = counterArr+1 %}
 {% endif %}
 
 {% endfor %}
     <input type="hidden" id="courseCount" name="courseCount" value="{{counter}}">
-    </div>
 {% endif %}
+    </div>
 
   
     <!-- Larg Screens HTML End -->
