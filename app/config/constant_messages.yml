@@ -183,6 +183,18 @@ parameters:
                                     We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
                                     <a href='#applicationUrl#messages'>Click here</a> to login to Online RPL account.<br/><br/>
                                     Regards, <br/>#fromUserName#
+    msg_portfolio_fac_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
+    msg_portfolio_fac_assessor_submitted_con: >
+                                   Hi #toUserName#, <br/> 
+                                   All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                   Validated all the evidences in the qualification and portfolio has been submitted to #role#.<br/><br/>
+                                   Regards, <br/>#fromUserName#
+    mail_portfolio_fac_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
+    mail_portfolio_fac_assessor_submitted_con: >
+                                   Hi #toUserName#, <br/> 
+                                   All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
+                                   Validated all the evidences in the qualification and portfolio has been submitted to #role#.<br/><br/>
+                                   Regards, <br/>#fromUserName#                               
     mail_portfolio_assign_applicant_sub: "Welcome - OnlineRPL" 
     mail_portfolio_assign_applicant_con: >
                                  Dear #toUserName#,<br/><br/>      
