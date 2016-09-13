@@ -139,27 +139,6 @@
 }
 
 /* add evidence popup styles*/
-#upload-evidence .panel-body .panel-copy .file-info .file-discription {
-    width: 59%;
-	word-wrap: break-word;
-    word-break: break-all;
-}
-#upload-evidence .panel-body .panel-copy .file-info .file-progress {
-    width: 24%;
-}
-#upload-evidence .panel-body .panel-copy .file-info .clear{
-	width: 9%;
-}
-#upload-evidence .panel-body .panel-copy .file-info span.completed {
-	display: inline;
-	padding: 5px 0;
-	float: left;
-}
-#upload-evidence .panel-body .panel-copy .file-info span.completed i{
-	color: green;
-	font-size: 16px;
-}
-
 .main_container .body_section.message_section .title_bar {
     text-align: left !important;
 	position: relative;
