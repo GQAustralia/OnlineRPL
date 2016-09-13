@@ -42,11 +42,6 @@
                                 
                             </tr>
                             <tr>
-                                <td style="border:1px solid #e7ecee;padding:10px; border-top:none;font-weight:bold;">Date Of Birth</td>
-                                <td style="border-bottom:1px solid #e7ecee;border-right:1px solid #e7ecee;padding:10px;">{{user.dateOfBirth}}</td>
-                                
-                            </tr>
-                            <tr>
                                 <td style="border:1px solid #e7ecee;padding:10px; border-top:none;font-weight:bold;">USI</td>
                                 <td style="border-bottom:1px solid #e7ecee;border-right:1px solid #e7ecee;padding:10px;">{{user.universalStudentIdentifier}}</td>
                                 
@@ -138,10 +133,10 @@
                             {% set inLoop = inLoop+1 %}
                         {% endif %}   
                     {% endfor %}
-                        {% if inLoop>=1 and inFiles == 0 %} <tr><td><center id="idfiles_no_files">No Id files found</center></td></tr>{% endif %}
+                        {% if inLoop>=1 and inFiles == 0 %} <tr><td><span id="idfiles_no_files">No Id files found</span></td></tr>{% endif %}
                     {% else %}
                     <tr>    
-                    <td><center id="idfiles_no_files">No Id files found</center></td>
+                    <td><span id="idfiles_no_files">No Id files found</span></td>
                     </tr>
                    {% endif %}                    
                 <tr><td height="20"></td></tr>
