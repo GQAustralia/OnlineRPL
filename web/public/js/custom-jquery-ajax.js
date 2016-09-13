@@ -135,6 +135,8 @@ $("body #courseUnitNote").click(function(){
 $("body .setToDoList").click(function() {
     userCourseId = $(this).attr("userCourseId");
     listId = $(this).attr("listId");
+    reminderTypeId = $(this).attr("reminderTypeId");
+    reminderType = $(this).attr("reminderType");    
     var remindDate = $('#remindDate').val();
     var todoMsg = $('#todolist-msg').val();
     if (todoMsg === '') {
@@ -152,7 +154,7 @@ $("body .setToDoList").click(function() {
             type: "POST",
             url: base_url + "addReminder",
             cache: false,
-            data: {message: todoMsg, userCourseId: userCourseId, remindDate: remindDate, listId: listId},
+            data: {message: todoMsg, userCourseId: userCourseId, remindDate: remindDate, listId: listId, reminderTypeId: reminderTypeId, reminderType:reminderType},
             success: function(result) {
                 $("body #status-message").css("display", "block");
                 $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Reminder Added successfully</h2></div>');
