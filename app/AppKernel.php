@@ -29,7 +29,7 @@ class AppKernel extends Kernel
             new EightPoints\Bundle\GuzzleBundle\GuzzleBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
-            new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
+            new Ensepar\Html2pdfBundle\EnseparHtml2pdfBundle(),
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
         );
 

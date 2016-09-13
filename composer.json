@@ -28,7 +28,7 @@
         "aws/aws-sdk-php": "3.15.*",
         "knplabs/knp-snappy-bundle":            "dev-master",
         "opentok/opentok": "2.2.x",
-        "whiteoctober/tcpdf-bundle": "dev-master",
+        "ensepar/html2pdf-bundle" : "dev-master",
         "suncat/mobile-detect-bundle" : "~1.0"
     },
     "require-dev": {
