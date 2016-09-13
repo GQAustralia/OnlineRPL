@@ -2919,15 +2919,18 @@ $('#closeMyModal').click(function(){
 function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 {   
     var facBtn = $('.update_fac_btn');
-    facBtn.attr('disabled', true);
+    //
     facVal = $('#fac_'+listId).val();  
 	if(facVal == 0)
 	{
-		$("#profile_suc_msg2_"+listId).hide();		
+            $("#pwd_error_"+listId).show();
+	$("#profile_suc_msg2_"+listId).hide();		
         $("#pwd_error_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Facilitator</h2></div>');
 	}
     if(facVal != 0)
     {
+    facBtn.attr('disabled', true);
+    $("#pwd_error_"+listId).hide();
     $("#profile_suc_msg2_"+listId).hide();
         $.ajax({
             type: "POST",
@@ -2938,7 +2941,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
                 var res = jQuery.parseJSON(result);
                 if(res.status=='true')
                 {
-					$("#pwd_error_"+listId).hide();
+		    $("#pwd_error_"+listId).hide();
                     $("#profile_suc_msg2_"+listId).show();
                      $("#profile_suc_msg2_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>'+res.message+'</span></div>');
                      facBtn.attr('disabled', false);
@@ -2960,17 +2963,21 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 function updateAssessor(courseCode , userId, listId)
 {
     var facBtn = $('.update_ass_btn');
-    facBtn.attr('disabled', true);
+    
     var assVal = $('#ass_'+listId).val();
     $("#profile_suc_msg3_"+listId).hide();
 	if(assVal == 0)
 	{
-		$("#profile_suc_msg3_"+listId).hide();		
+        $("#pwd_error2_"+listId).show();
+	$("#profile_suc_msg3_"+listId).hide();		
         $("#pwd_error2_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Assessor</h2></div>');
 	}
     
     if(assVal != 0)
     {
+        facBtn.attr('disabled', true);
+        $("#pwd_error2_"+listId).hide();
+        $("#profile_suc_msg3_"+listId).hide();
         $.ajax({
             type: "POST",
             url: "updateAssessor",
@@ -3002,17 +3009,19 @@ function updateAssessor(courseCode , userId, listId)
 /*Assessor Update in Manager Portfolio */
 function updateRto(courseCode , userId, listId)
 {
-    var facBtn = $('.update_rto_btn');
-    facBtn.attr('disabled', true);
+    var facBtn = $('.update_rto_btn');    
     rtoVal = $('#rto_'+listId).val();
 	if(rtoVal == 0)
 	{
+                $("#pwd_error3_"+listId).show();
 		$("#profile_suc_msg4_"+listId).hide();		
-        $("#pwd_error3_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Assessor</h2></div>');
+                $("#pwd_error3_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Assessor</h2></div>');
 	}
     if(rtoVal != 0)
     {
-    $("#profile_suc_msg4_"+listId).hide();
+        facBtn.attr('disabled', true);
+        $("#pwd_error3_"+listId).hide();
+        $("#profile_suc_msg4_"+listId).hide();
         $.ajax({
             type: "POST",
             url: "updateRto",
