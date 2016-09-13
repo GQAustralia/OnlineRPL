@@ -3,10 +3,11 @@ parameters:
     default_from_username: "Online RPL"
     mail_account_creation_sub: "Get Qualified Australia: Welcome to Online RPL" 
     mail_account_creation_con: >
-                                 Dear #firstName# #lastName#,<br/><br/> 
-                                 Welcome to Online RPL. It is great to have you here. We're looking forward to helping you achieve your qualification. <br /><br />
-                                 As part of the process, there's some administration we need to complete to get you on the way. <br /><br />
-                                
+                                 Dear #firstName#,<br/><br/> 
+                                 Thanks for enrolling with Get Qualified Australia and welcome to Online RPL! We're looking forward to helping you achieve your #courseName#. <br />
+                                 A Customer Service Agent will be assigned to you shortly to help kick-start the process and answer and questions you might have.<br />
+                                 As soon as they have been assigned to you, you will receive your custom login details for our Online RPL platform. This will make the process of uploading your evidence that much easier.<br />
+                                 We'll be in touch soon.<br /><br/>
                                  Regards,<br/>%default_from_username%
     mail_add_course_sub: "Qualification: #courseCode# - #courseName# has been added" 
     mail_add_course_con: >
@@ -17,15 +18,17 @@ parameters:
                            Regards,<br/>OnlineRPL
     mail_add_user_course_sub: "Get Qualified Australia: Welcome to Online RPL" 
     mail_add_user_course_con: >
-                                Dear #firstName# #lastName#,<br/><br/> 
-                                Welcome to Online RPL. It is great to have you here. We're looking forward to helping you achieve your  #courseCode# - #courseName#. <br /><br />
-                                As part of the process, there's some administration we need to complete to get you on the way. 
-                                <br/><br/> 
-                                Regards,<br/>%default_from_username%
+                                 Dear #firstName#,<br/><br/> 
+                                 Thanks for enrolling with Get Qualified Australia and welcome to Online RPL! We're looking forward to helping you achieve your #courseName#. <br />
+                                 A Customer Service Agent will be assigned to you shortly to help kick-start the process and answer and questions you might have.<br />
+                                 As soon as they have been assigned to you, you will receive your custom login details for our Online RPL platform. This will make the process of uploading your evidence that much easier.<br />
+                                 We'll be in touch soon.<br /><br/>
+                                 Regards,<br/>%default_from_username%
     mail_notification_sub: "New message from OnlineRPL - #messageSubject#" 
     mail_notification_con: >
-                             Dear #toUserName#, <br/><br/> 
-                             You have received a new message. Please <a href='#applicationUrl#login'>login</a> to read.<br/><br/>
+                             Hi #toUserName#, <br/><br/> 
+                             You have received one new message in Online RPL.<br/><br/>
+                             <a href='#applicationUrl#login'>Click here</a> to login to your Online RPL account.<br/><br/>
                              Regards, <br/>#fromUserName# 
     mail_forgot_password_sub: "Request for Password Reset" 
     mail_forgot_password_con: >
@@ -44,10 +47,10 @@ parameters:
                             Regards, <br/>#fromUserName#
     mail_add_evidence_sub: "Evidence added to - #courseCode# #courseName#" 
     mail_add_evidence_con: >
-                             Dear #toUserName#, <br/> 
-                             A new evidence has been added to the Qualification : #courseCode# : #courseName# for unit : #unitId#. <br/> 
-                             Please check and review the evidence.<br/><br/>
-                             Regards, <br/>#fromUserName#
+                            Hi #toUserName#, <br/> 
+                            We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
+                            <a href='#applicationUrl#messages'>Click here</a> to login to your Online RPL account.<br /><br/>
+                            Regards, <br/>#fromUserName#
     msg_add_notes_sub: "Notes added for course : #courseCode# : #courseName# - Unit : #unitCode#" 
     msg_add_notes_con: >
                          Dear #toUserName#, <br/><br/>
@@ -68,9 +71,9 @@ parameters:
                                     Regards, <br/>#fromUserName#
     mail_disappove_evdience_asr_sub: "Not Yet Competent for - #courseCode# : #courseName# - Unit : #unitName#" 
     mail_disappove_evdience_asr_con: >
-                                       Dear #toUserName#, <br/><br/> 
-                                       You're deemed NOT YET COMPETENT for the the unit #unitId# #unitName# under #courseCode# - #courseName#.<br />
-                                       Please login back to Online RPL for more detials.
+                                       Hi #toUserName#, <br/><br/> 
+                                       We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
+                                       <a href='#applicationUrl#messages'>Click here</a> to login to your Online RPL account.<br /><br/>
                                        Regards, <br/>#fromUserName#
     msg_appove_evdience_fac_sub: "Evidences approved for - #courseCode# : #courseName# - Unit : #unitName#" 
     msg_appove_evdience_fac_con: >
@@ -81,11 +84,9 @@ parameters:
                                       Regards, <br/>#fromUserName#
     mail_appove_evdience_fac_sub: "Evidences approved for - #courseCode# : #courseName# - Unit : #unitName#" 
     mail_appove_evdience_fac_con: >
-                                       Dear #toUserName#, <br/><br/> 
-                                       Qualification : #courseCode# - #courseName#<br/> 
-                                       Unit : #unitId# #unitName# <br/>
-                                       Provided evidences for above unit are satisfactory.<br/>
-                                       <a href='#applicationUrl#messages'>Click here</a> to login to Online RPL <br/><br/>
+                                       Hi #toUserName#, <br/><br/> 
+                                       We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
+                                       <a href='#applicationUrl#messages'>Click here</a> to login to Online RPL account.<br/><br/>
                                        Regards, <br/>#fromUserName#
     msg_disappove_evdience_fac_sub: "Not Satisfactory - #courseCode# : #courseName# - Unit : #unitName#" 
     msg_disappove_evdience_fac_con: >
@@ -97,12 +98,9 @@ parameters:
                                       Regards, <br/>#fromUserName#
     mail_disappove_evdience_fac_sub: "Not Satisfactory for - #courseCode# : #courseName# - Unit : #unitName#" 
     mail_disappove_evdience_fac_con: >
-                                       Dear #toUserName#, <br/><br/> 
-                                       Qualification : #courseCode# - #courseName#<br/> 
-                                       Unit : #unitId# #unitName# <br/>
-                                       Provided evidences for above unit are Not Satisfactory yet. Please add more evidences and get back to us.<br/>
-                                       Comments : #faccomments# <br/>
-                                       <a href='#applicationUrl#messages'>Click here</a> to login to Online RPL <br/><br/>
+                                       Hi #toUserName#, <br/><br/> 
+                                       We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
+                                       <a href='#applicationUrl#messages'>Click here</a> to login to Online RPL account.<br/><br/>
                                        Regards, <br/>#fromUserName#
     msg_conversation_invitation_sub: "Competency conversation invitation for - #courseCode# : #courseName#" 
     msg_conversation_invitation_con: >
@@ -138,9 +136,9 @@ parameters:
                                   Regards, <br/>#fromUserName#
     mail_asr_approve_course_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
     mail_asr_approve_course_con: >
-                                   Dear #toUserName#, <br/> 
-                                   All the evidences for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
-                                   Validated all the evidences in the qualification.<br/><br/>
+                                   Hi #toUserName#, <br/> 
+                                   We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
+                                   <a href='#applicationUrl#messages'>Click here</a> to login to Online RPL account.<br/><br/>
                                    Regards, <br/>#fromUserName#
     msg_portfolio_update_sub: "Portfolio Update : #courseCode# : #courseName#" 
     msg_portfolio_update_con: >
@@ -184,18 +182,19 @@ parameters:
                                    Regards, <br/>#fromUserName#
     mail_portfolio_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# #courseName#" 
     mail_portfolio_assessor_submitted_con: >
-                                    Dear #toUserName#, <br/> 
-                                    You're deemed competent enough for the Qualification : #courseCode# : #courseName#. <br/> 
-                                    Please login back to Online RPL to see the progress.<br/><br/>
+                                    Hi #toUserName#, <br/> 
+                                    We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
+                                    <a href='#applicationUrl#messages'>Click here</a> to login to Online RPL account.<br/><br/>
                                     Regards, <br/>#fromUserName#
     mail_portfolio_assign_applicant_sub: "Welcome - OnlineRPL" 
     mail_portfolio_assign_applicant_con: >
-                                 Dear #toUserName#,<br/><br/>
-                                 Welcome to Online RPL. It is great to have you here. We're looking forward to helping you achieve your qualification. <br /><br />
-                                 As part of the process, there's some administration we need to complete to get you on the way. You may login to Online RPL to start your jouney.
-                                 #facname# is assigned as your Facilitator for you qualification . <br/><br/>                                
-                                 <a href='#applicationUrl#validateUser/#token#'>Click Here</a> to login.  <br/><br/>
-                                 Regards,<br/>OnlineRPL         
+                                 Dear #toUserName#,<br/><br/>      
+                                   You're one step closer! <br/>
+                                   #facname# has been assigned as your Customer Service Agent and will be here to guide you throughout the RPL Process. <br/>
+                                   You'll now also be able to start using Online RPL using your login details below.<br/>
+                                   <a href='#applicationUrl#validateUser/#token#'>Click Here</a> to log in to your account and begin your journey. <br/>
+                                   If you have any queries or are unable to login in, please call our Sydney office on 133 775.<br/><br/>
+                                    Regards,<br/>OnlineRPL  
     mail_portfolio_assign_facilitator_sub: "Assigned as Facilitator - OnlineRPL" 
     mail_portfolio_assign_facilitator_con: >
                                     Dear #facname#, <br/> 
