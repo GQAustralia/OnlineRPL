@@ -1410,12 +1410,12 @@ function validateAddress()
     if(userrole!='rtouser') {
      if ($("#userprofile_phone").val() != "") {
          var uphone = $("#userprofile_phone").val();
-         alert("fffmmm9");
+         
             if (uphone.length < 12) {        
                 showMyTabs("Phone number must be XXXX-XXX-XXX format");
                 $("#userprofile_phone").focus();
                 return false;
-        }   alert("fffmmm10");
+        }   
             if (uphone.length > 12) {        
                     showMyTabs("Phone number must be XXXX-XXX-XXX format");
                     $("#userprofile_phone").focus();
@@ -3655,14 +3655,14 @@ function validateNewMessage(toMessage,sublect,composeMsg)
         userExistMsg("Please enter recipient name", "compose_toUserName");
         return false;
     }
-//    else
-//    {        
-//        var count = checkUserNameExist(toMessage);       
-//        if (count == 0) {
-//            userExistMsg("User not exists, Please select valid User name!","compose_toUserName");            
-//            return false;
-//        }
-//    }
+    else
+    {        
+        var count = checkUserNameExist(toMessage);       
+        if (count == 0) {
+            userExistMsg("User not exists, Please select valid User name!","compose_toUserName");            
+            return false;
+        }
+    }
     if(sublect == "")
     {
         userExistMsg("Please enter subject","compose_subject");
