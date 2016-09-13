@@ -943,4 +943,25 @@ class UserController extends Controller
         echo count($rows);
         exit;
     }
+    /**
+     * Function to get userName is exists or not
+     * return integer
+     */
+    function checkUserNameExistOrNotAction(){
+        $username = $this->getRequest()->get('username'); 
+        $nameCondition="";
+        $query = $this->getDoctrine()->getRepository('GqAusUserBundle:User')
+                ->createQueryBuilder('u')
+                ->select('u');
+        $searchIn = $query->expr()->concat('u.firstName', $query->expr()->concat($query->expr()->literal(' '), 'u.lastName'));
+        $nameCondition .= $searchIn."='".$username."'" ;
+        $query->Where($nameCondition);
+        $user = $query->getQuery()->getResult(); 
+        if ($user) 
+            $touser = $user[0]->getId();
+        else
+            $touser = 0;
+        echo $touser;
+        exit;
+    }
 }

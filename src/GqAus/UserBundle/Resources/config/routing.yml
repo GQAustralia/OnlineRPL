@@ -298,6 +298,9 @@ searchLogList:
 checkUserNameExist:
     path:     /checkUserNameExist
     defaults: { _controller: GqAusUserBundle:User:checkUserNameExist }
+checkUserNameExistOrNot:
+    path:     /checkUserNameExistOrNot
+    defaults: { _controller: GqAusUserBundle:User:checkUserNameExistOrNot }
 validateUser:
     path:     /validateUser/{loginToken}
     defaults: { _controller: GqAusUserBundle:User:validateUser }
