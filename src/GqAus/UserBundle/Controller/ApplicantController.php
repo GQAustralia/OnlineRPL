@@ -245,12 +245,12 @@ class ApplicantController extends Controller
             $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
             $fileTemp = '/temp_' . time() . '.pdf';
             $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' .str_replace(' ', '-', $results['courseInfo']['name']) . '_' . time() . '.pdf';
-            /* $html2pdf = $this->get('html2pdf_factory')->create('P', 'A4', 'en', true, 'UTF-8', array(10, 15, 10, 15));
-            $html2pdf->setDefaultFont('OpenSans'); */
-            $html2pdf = $this->get('white_october.tcpdf')->create();
+            $html2pdf = $this->get('html2pdf_factory')->create('P', 'A4', 'en', true, 'UTF-8', array(10, 15, 10, 15));
+            //$html2pdf->setDefaultFont('OpenSans');
+           /*  $html2pdf = $this->get('white_october.tcpdf')->create();
             $html2pdf->SetFont('helvetica', '', 10, '', true);
             $html2pdf->startPageGroup();
-            $html2pdf->AddPage();
+            $html2pdf->AddPage(); */
             $vuehtml = $this->getRequest()->get('vuehtml');
             $html2pdf->writeHTML($content, isset($vuehtml));
             $html2pdf->Output($fileTemp, 'F');
