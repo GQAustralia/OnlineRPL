@@ -4240,24 +4240,21 @@ class UserService
         $usercondition = "";
         if ($userRole == 'ROLE_APPLICANT') {            
             $query->where('(u instance of GqAusUserBundle:Facilitator)');
-            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
-                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";           
+            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";
             $query->andWhere($nameCondition);
             $query->andWhere('uc.facilitator = u.id');
             $query->andWhere('uc.user = :userId')->setParameter('userId', $msgUserId);
         }
         else if ($userRole == 'ROLE_ASSESSOR' ) {            
             $query->where('(u instance of GqAusUserBundle:Facilitator)');
-            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
-                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";           
+            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";          
             $query->andWhere($nameCondition);
             $query->andWhere('uc.facilitator = u.id');
             $query->andWhere('uc.assessor = :assessorId')->setParameter('assessorId', $msgUserId);
         }
         else if ($userRole == 'ROLE_RTO' ) {            
             $query->where('(u instance of GqAusUserBundle:Facilitator)');
-            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
-                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";           
+            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";       
             $query->andWhere($nameCondition);
             $query->andWhere('uc.facilitator = u.id');
             $query->andWhere('uc.rto = :rtoId')->setParameter('rtoId', $msgUserId);
@@ -4274,8 +4271,7 @@ class UserService
         else if ($userRole == 'ROLE_MANAGER') {
             $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
                     . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
-            $nameCondition .= "u.firstName LIKE '%" . $options['keyword'] . "%' "
-                        . "OR u.lastName LIKE '%" . $options['keyword'] . "%'";
+            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";
             $query->andWhere($nameCondition);            
         }
         
