@@ -1399,6 +1399,7 @@ class UserService
            $usersDashboardInfo['assMsg'] = (isset($results) && isset($results['Assessor'])) ? $results['Assessor'] : '';
            $usersDashboardInfo['rtoMsg'] = (isset($results) && isset($results['Rto'])) ? $results['Rto'] : '';
            $usersDashboardInfo['appMsg'] = (isset($results) && isset($results['Applicant'])) ? $results['Applicant'] : '';
+           $usersDashboardInfo['mngMsg'] = (isset($results) && isset($results['Manager'])) ? $results['Manager'] : '';
            $usersDashboardInfo['eightyPercEvd'] = (isset($evidenceComp) && isset($evidenceComp['eightyPercEvd'])) ? $evidenceComp['eightyPercEvd'] : '';
 
            return $usersDashboardInfo;

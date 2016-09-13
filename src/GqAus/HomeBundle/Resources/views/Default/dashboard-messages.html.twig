@@ -151,5 +151,41 @@
                 </div>
         </div>
         {% endif %}
+        {% if mngMsg %}
+        <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <span>{{mngMsg|length}} new from Manager</span>
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#m_collapse4">
+                          <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+                        </a>
+                    </div>
+                </div>
+                <div id="m_collapse4" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul>
+                            {% for key, mngMsg in mngMsg %}
+                                {% set remStatus = user_service.checkReminderExists(mngMsg.inbox.id, mngMsg.id, reminderType) %}                                    
+                                <li class="clearfix {{ remStatus.playlistIconClass }}">
+                                    <span class="content"><strong><a href="{{ app.request.baseUrl }}/messages/{{ mngMsg.id }}" title="View Message">{{ mngMsg.sent.firstName}} {{ mngMsg.sent.lastName}}</a></strong> - {{mngMsg.subject}} </span>
+                                    <div class="dropdown keep-open">
+                                        <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
+                                        <div class="dropdown-menu {{ remStatus.calendarClass }}">
+                                            <div class="data_section">
+                                                <textarea rows="3" placeholder="Notes" id="rtoMsg_notes_{{mngMsg.id}}" onfocus="fousOnNote({{mngMsg.id}})"></textarea>
+                                                <div class="date_section clearfix">
+                                                        <input type="text" class="date_field form-control" id="mngMsg_remindDate_{{mngMsg.id}}" onfocus="fousOnDate({{mngMsg.id}})">
+                                                </div>
+                                            </div>                                                                                     
+                                            <button type="button" class="btn_red setData" userCourseId="" prefix="mngMsg" listId="{{mngMsg.id}}" reminderType="{{reminderType}}" reminderTypeId="{{mngMsg.id}}">Save</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+        </div>
+        {% endif %}        
     </div>
 </div>
