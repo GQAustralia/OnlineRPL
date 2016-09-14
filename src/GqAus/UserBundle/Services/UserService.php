@@ -3318,8 +3318,7 @@ class UserService
             $this->container->getParameter('msg_portfolio_update_con'));
         $aplMailBody = str_replace($msgSearch, $aplMsgReplace,
             $this->container->getParameter('mail_portfolio_update_con'));
-
-        $courseObj->setCourseStatus($courseStatus);
+       
         switch ($courseStatus) {
             case 2:
                 // checking whether the assessor is assigned or not
@@ -3424,16 +3423,15 @@ class UserService
                 }
                 break;
         }
-		if($response['type'] === 'Error')
-			return $response;
 		
-        if (count($response) > 0) {
+        if (count($response)>0) {
             /*Create Log for message*/
             $logType = $this->getlogType('9');
             $message = $courseName.' '.$logType['message'].' "'.$courseCurrentStatus.'" to "'.$courseChangeStatus.'" - error occurred '.$response['msg'];
             $this->createUserLog('9', $message); 		
             return $response;
         }
+		$courseObj->setCourseStatus($courseStatus);
         $this->em->persist($courseObj);
         $this->em->flush();
 
