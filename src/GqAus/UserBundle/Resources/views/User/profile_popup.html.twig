@@ -267,7 +267,9 @@
                                 
                               <!-- Chaneg password form --->
                               <form class="form-inline change_pwd_form" id='change_password_form' style="display:none">
-                                  <button type="button" class="close"  onclick="changePassowordDiv('0')">&times;</button>
+								  <div class="close_btn">
+									<button type="button" class="close"  onclick="changePassowordDiv('0')">&times;</button>
+								  </div>
 								  <div class="gq-change-pwd-warning" id="pwd_error">
                                         {% for flashMessage in app.session.flashbag.get('errornotice') %}
                                         <div class="gq-id-pwd-error-text" style="display:none">
