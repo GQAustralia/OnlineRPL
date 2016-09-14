@@ -1,12 +1,16 @@
-{% extends 'base.html.twig' %}
+{% set userId = 0%}
+{% set userVal = app.security.getToken().getUser() %} 
+{% set userId = (userVal is defined and userVal.id is defined)? app.security.getToken().getUser().getId(): 0 %}
+{% extends userId == 0 ? 'faqbase.html.twig' : 'base.html.twig' %}
+
 {% block title %}GQ - RPL FAQ{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('public/css/pages/all/faq.css') }}" />
 {% endblock %}
 {% block body %}
-    <div class="body_section faq_page container">
+        <div class="body_section faq_page container">
 		<div class="header_bar">
-			<span>FAQs</span>
+			<span>FAQs </span>
 		</div>
 		<div class="panel-group" id="accordion">
                          {% if  faq %}
@@ -30,7 +34,4 @@
 			{% endif %}
 		</div>
 	</div>
-{% endblock %}
-
-{% block javascripts %}   
 {% endblock %}
