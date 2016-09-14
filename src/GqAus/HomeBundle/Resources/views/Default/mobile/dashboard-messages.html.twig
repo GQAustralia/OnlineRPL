@@ -5,10 +5,10 @@
             <a href="{{ app.request.baseUrl }}/messages" title="View Pending Evidences">
                 MESSAGES - 
                 <strong>{{unReadMessagesCount}} UNREAD</strong>
-                {% if(unReadMessagesCount == 0) %}
-                     SUPER STAR!! <i class="material-icons">thumb_up thumb_up</i>
-                {% endif %}                
             </a>
+			{% if(unReadMessagesCount == 0) %}
+				 SUPER STAR!! <i class="material-icons">thumb_up thumb_up</i>
+			{% endif %}
         </span>
         <span class="add_btn"><a href="{{ app.request.baseUrl }}/messages/compose" title="Add New Message"> <i class="material-icons add_icon">add</i>NEW</a></span>
     </div>

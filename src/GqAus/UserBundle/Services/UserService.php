@@ -1366,19 +1366,16 @@ class UserService
                      }
                      $evidences = $this->getPendingApplicantEvidences($user);
                  }
-                 				 $evidencesCount = (isset($evidences)) ? count($evidences) : 0;
-                 $newEvidenceStartDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') - $this->container->getParameter('new_evidence_time_span'), date('Y')));
-                 $newEvidences = '';
-                 $totalEvidences = array();
+                 $evidencesCount = (isset($evidences)) ? count($evidences) : 0;
+                 //$newEvidenceStartDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') - $this->container->getParameter('new_evidence_time_span'), date('Y')));
+                 $newEvidences = $totalEvidences = array();
                  if($evidencesCount > 0) {
                      foreach($evidences as $evidenceFile){
-                         if($evidenceFile->getType() != 'text'){
-                             $dateOfTheFile = date('Y-m-d', strtotime($evidenceFile->getCreated()));
-                             if(strtotime($newEvidenceStartDate) <= strtotime($dateOfTheFile)){
-                                 $newEvidences[] = $evidenceFile;
-                                 $totalEvidences[$evidenceFile->getPath()] = $evidenceFile->getName();
-                             }
-                        } else {
+                         if($evidenceFile->getType() != 'text') {
+                             if($evidenceFile->getFacilitatorViewStatus() != '1')
+                                $newEvidences[] = $evidenceFile;
+                                $totalEvidences[$evidenceFile->getPath()] = $evidenceFile->getName();
+                         } else {
                                 $totalEvidences[$evidenceFile->getContent()] = $evidenceFile->getContent();
                         }
                      }
@@ -3320,8 +3317,7 @@ class UserService
             $this->container->getParameter('msg_portfolio_update_con'));
         $aplMailBody = str_replace($msgSearch, $aplMsgReplace,
             $this->container->getParameter('mail_portfolio_update_con'));
-
-        $courseObj->setCourseStatus($courseStatus);
+       
         switch ($courseStatus) {
             case 2:
                 // checking whether the assessor is assigned or not
@@ -3426,16 +3422,15 @@ class UserService
                 }
                 break;
         }
-		if($response['type'] === 'Error')
-			return $response;
 		
-        if (count($response) > 0) {
+        if (count($response)>0) {
             /*Create Log for message*/
             $logType = $this->getlogType('9');
             $message = $courseName.' '.$logType['message'].' "'.$courseCurrentStatus.'" to "'.$courseChangeStatus.'" - error occurred '.$response['msg'];
             $this->createUserLog('9', $message); 		
             return $response;
         }
+		$courseObj->setCourseStatus($courseStatus);
         $this->em->persist($courseObj);
         $this->em->flush();
 

@@ -19,7 +19,6 @@
         {% set textCount = textCount + 1 %}
     {% endif %}
 {% endfor %}
-{% if evidences|length > 0 %}
     <div class="row">
         <div class="col-xs-12 col-sm-12">
             <div class="evidence_block">
@@ -98,22 +97,22 @@
                                                     {% else %}
                                                         {% if evd.content %} 
                                                             <div class="block type-{{ evd.type}}">
-																<div class="files_mobile_version">
-																	<div class="file_info">
-																			<span class="icon">
-																					<i class="material-icons">description</i>
-																			</span>
-																			<span class="file-discription">
-																					{{ evd.content|slice(0, 30) }} {% if(evd.content|length > 40) %}...{% endif %}<br>
-																				<span class="clear">
-																					ADDED {{ evd.created|date("d/m/y")|slice(0, 40) }}{% if(evd.content|length > 40) %}...{% endif %}
-																				</span>
-																			</span>
-																			<span class="checkbox_outer">
-																					<input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
-																			</span>                                                                                                                    
-																	</div>
-																</div>
+                                                                <div class="files_mobile_version">
+                                                                    <div class="file_info">
+                                                                        <span class="icon">
+                                                                            <i class="material-icons">description</i>
+                                                                        </span>
+                                                                        <span class="file-discription">
+                                                                            {{ evd.content|slice(0, 30) }} {% if(evd.content|length > 40) %}...{% endif %}<br>
+                                                                            <span class="clear">
+                                                                                    ADDED {{ evd.created|date("d/m/y")|slice(0, 40) }}{% if(evd.content|length > 40) %}...{% endif %}
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="checkbox_outer">
+                                                                            <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
+                                                                        </span>                                                                                                                    
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         {% endif %}
                                                     {% endif %}
@@ -124,21 +123,22 @@
                                     {# <input type="submit" class="btn btn-red pull-right" value="Save">    #}
                                 </div>
                             </div>
-                        </div>                                                                                                
-                        <div class="gqa-btn-group btn-file-save">
-                            <div class="row no-gutter">
-                                <div class="col-xs-12 col-sm-12">
-                                    <input type="submit" class="btn save-exstevd-btn btn-danger" value="Save" />
+                        </div>
+                        {% if evidences|length > 0%}
+                            <div class="gqa-btn-group btn-file-save">
+                                <div class="row no-gutter">
+                                    <div class="col-xs-12 col-sm-12">
+                                        <input type="submit" class="btn save-exstevd-btn btn-danger" value="Save" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endif %}
                     </form>
                 </div>                                            
             </div>
         </div>
     </div>
 </div>
-{% endif %}
 {% block javascripts %}
     <script src="{{ asset('public/js/jquery.mCustomScrollbar.js') }}"></script>
     <script>
