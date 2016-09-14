@@ -58,7 +58,7 @@ class NotesService
             $notesObj->setCreated($dateObj);
             $this->em->persist($notesObj);
             $this->em->flush();
-            if ($data['session_user_role'] === 'ROLE_ASSESSOR') {
+            if (($data['session_user_role'] === 'ROLE_ASSESSOR') && (!empty($note_unit_id))) {
                 $this->sendNotificationToFacilitator($data);
             }
             return "success";
