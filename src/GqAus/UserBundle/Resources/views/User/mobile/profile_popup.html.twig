@@ -110,7 +110,7 @@
 						
 					</div> 
                                         {% endif %}
-                                        {% if ('ROLE_RTO' in roles)  or ('ROLE_ASSESSOR' in roles) or ('ROLE_MANAGER' in roles) or ('ROLE_SUPERADMIN' in roles)%}
+                                        {% if ('ROLE_RTO' in roles)  or ('ROLE_ASSESSOR' in roles) %}
 					<div class="section number_group clearfix">
 						<div class="form-group">
 							<label>Contact Person Phone</label>
@@ -139,12 +139,12 @@
 						</div>
 					</div>
                                         {% endif %}
-                                         {% if ('ROLE_RTO' in roles) or ('ROLE_ASSESSOR' in roles)%}
+                                         {% if ('ROLE_RTO' in roles) or ('ROLE_ASSESSOR' in roles) or ('ROLE_MANAGER' in roles) or ('ROLE_SUPERADMIN' in roles)%}
                                         <!-- Address -->
                                         <div class="section">
 						<div class="form-group">
 							<label>Street Name</label>
-							<input type="text" value="{{userdata.getAddress().getAddress()}}" id='userprofile_address_area' onkeyup="checkspace(this);" name='street_name' readonly>
+							<input type="text" value="{% if userdata.getAddress().getAddress() is defined  %}{{userdata.getAddress().getAddress()}} {% endif %}" id='userprofile_address_area' onkeyup="checkspace(this);" name='street_name' readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 						
@@ -152,7 +152,7 @@
                                         <div class="section">
                                             <div class="form-group">
 							<label>Street Number</label>
-							<input type="text" value="{{userdata.getAddress().getArea()}}" id='userprofile_address_address' onkeyup="checkspace(this);" name="street_number" readonly>
+							<input type="text" value="{% if userdata.getAddress().getArea() is defined  %} {{userdata.getAddress().getArea()}} {% endif %}" id='userprofile_address_address' onkeyup="checkspace(this);" name="street_number" readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
                                         </div>
@@ -160,12 +160,12 @@
                                         <div class="section name_group clearfix">
 						<div class="form-group">
 							<label>Suburb</label>
-							<input type="text" value="{{userdata.getAddress().getSuburb()}}" id='userprofile_address_suburb' onkeyup="checkspace(this);" name='suburb' readonly>
+							<input type="text" value="{% if userdata.getAddress().getSuburb() is defined  %}{{userdata.getAddress().getSuburb()}} {% endif %}" id='userprofile_address_suburb' onkeyup="checkspace(this);"  name='suburb' readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
                                             <div class="form-group">
 							<label>PostCode</label>
-							<input type="text" value="{{userdata.getAddress().getPincode()}}" id='userprofile_address_pincode' onkeyup="checkspace(this);" name='postcode' readonly>
+							<input type="text" value="{% if userdata.getAddress().getPincode() is defined  %} {{userdata.getAddress().getPincode()}} {% endif %}" id='userprofile_address_pincode' onkeyup="checkspace(this);" name='postcode' readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 						
@@ -174,12 +174,12 @@
                                         <div class="section name_group clearfix">
 						<div class="form-group">
 							<label>City</label>
-							<input type="text" value="{{userdata.getAddress().getCity()}}" id="userprofile_address_city" onkeyup="checkspace(this);" name="city" readonly>
+							<input type="text" value="{% if userdata.getAddress().getCity() is defined  %} {{userdata.getAddress().getCity()}} {% endif %}" id="userprofile_address_city" onkeyup="checkspace(this);" name="city" readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 						<div class="form-group">
 							<label>State</label>
-							<input type="text" value="{{userdata.getAddress().getState()}}" id="userprofile_address_state" onkeyup="checkspace(this);" name="state" readonly>
+							<input type="text" value="{% if userdata.getAddress().getState() is defined  %} {{userdata.getAddress().getState()}} {% endif %}" id="userprofile_address_state" onkeyup="checkspace(this);" name="state" readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 					</div>
@@ -187,7 +187,7 @@
                                         <div class="section">
 						<div class="form-group">
 							<label>Country</label>
-							<input type="text" value="{{userdata.getAddress().getCountry()}}" id="userprofile_address_country" onkeyup="checkspace(this);" name="country" readonly>
+							<input type="text" value="{% if userdata.getAddress().getCountry() is defined  %} {{userdata.getAddress().getCountry()}} {% endif %}" id="userprofile_address_country" onkeyup="checkspace(this);" name="country" readonly>
 							<span><i class="material-icons">mode_edit</i></span>
 						</div>
 					</div>
