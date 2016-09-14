@@ -46,14 +46,14 @@ var s3upload = null;
         processSchema(evt)
     }
 
-    function upload() {
+    function upload(selection) {
 
         if (!(window.File && window.FileReader && window.FileList && window.Blob && window.Blob.prototype.slice)) {
             alert("Sorry! You are using an older or unsupported browser. Please update your browser");
             return;
         }
 
-        processSchema(null);
+        processSchema(null, selection);
         var file = $('#file')[0].files[0];
 
     }
@@ -67,7 +67,7 @@ var s3upload = null;
        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }    
 
-    var processSchema = function(reqevt) {
+    var processSchema = function(reqevt, selection) {
 
         var promises = [];
 
@@ -75,9 +75,11 @@ var s3upload = null;
         
         if(reqevt != null){
          files=reqevt.dataTransfer.files;   
-        }else{
+        }else if(selection == 'add_file'){
             files = $('#file')[0].files; 
-        }
+        }else if(selection == 'take_photo'){
+			files = $('#take_photo_btn')[0].files;
+		}
 
         var today = new Date();
         var dd = today.getDate(); 
