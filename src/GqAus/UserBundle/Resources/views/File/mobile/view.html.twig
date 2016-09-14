@@ -124,14 +124,14 @@
                                         </div>
                                         <div class="clearfix">
                                             <div class="take_photo" id="take_photo">
-                                                <input type="file" id="take_photo_btn"  onchange="upload('take_photo')" accept=".xlsx, text/plain, .csv .xls, image/*, video/*, audio/* .doc, .docx, .ppt, .pptx, .txt, .pdf">
+                                                <input type="file" id="take_photo_btn"  onchange="upload('take_photo')" accept="image/*" capture="camera">
                                                 <span>
                                                     <i class="material-icons">camera_alt</i>Take a photo
                                                 </span>
                                             </div>
                                             <div id="dragandrophandler">
                                                 <div class="upload_btn">
-                                                    <input type="file" multiple="multiple" id="file" accept=".xlsx, text/plain, .csv .xls, image/*, video/*, audio/* .doc, .docx, .ppt, .pptx, .txt, .pdf" onchange="upload('add_file')" class="hidden">
+                                                    <input type="file" multiple="multiple" id="file" onchange="upload('add_file')" class="hidden">
                                                     <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file</div>
                                                 </div>
                                             </div>
