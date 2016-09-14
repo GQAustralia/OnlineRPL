@@ -47,11 +47,11 @@
                                         </div>
                                         
 					<div class="count">
-                                               {% if ('ROLE_RTO' not in roles) %}
+                                               {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR'  in roles) %}
                                             {% set pendingApplicantsCount = user_service.getPendingApplicantsCount(userId, userRole, '0') %}
 						<span class="number"> {{pendingApplicantsCount}}</span>
 						<span class="title">Active Portfolios</span>
-                                                {% else %}
+                                                {% elseif ('ROLE_RTO' in roles) %}
                                                 {% set noofQualifications = user_service.getNoofQualifications(userId)%}
                                                 <span class="number">{{noofQualifications}}</span>
 						<span class="title">Issued <br/> Qualifications</span>
@@ -145,7 +145,7 @@
 						</div>
 					</div>
                                         {% endif %}
-                                         {% if ('ROLE_RTO' in roles) or ('ROLE_ASSESSOR' in roles)%}
+                                         {% if ('ROLE_RTO' in roles) or ('ROLE_ASSESSOR' in roles) or ('ROLE_MANAGER' in roles) or ('ROLE_SUPERADMIN' in roles) %}
                                         <!-- Address -->
                                         <div class="section">
 						<div class="form-group">
