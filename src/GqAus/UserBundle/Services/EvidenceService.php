@@ -727,14 +727,16 @@ class EvidenceService
                     $byteSize = $fileSize * (1024 * 1024);
                     break;
             case 'GB':
-                    $byteSize = $fileSize * 1024;
+                    $byteSize = $fileSize * ((1024 * 1024) * 10);
                     break;
             case 'TB':
-                    $byteSize = $fileSize * 1024;
+                    $byteSize = $fileSize * ((1024 * 1024) * 100);
                     break;
             case 'PB':
-                    $byteSize = $fileSize * 1024;
+                    $byteSize = $fileSize * ((1024 * 1024) * 1000);
                     break;
+            default:
+                    $byteSize = '0';
 	}
 	return $byteSize;
     }
