@@ -8,10 +8,10 @@
                 <strong>
                     ({{ evidencesCount }} TO REVIEW)
                 </strong>
-                {% if(evidencesCount == 0) %}
-                    - NICE WORK! <i class="material-icons">thumb_up</i>
-                {% endif %}
             </a>
+			{% if(evidencesCount == 0) %}
+				- NICE WORK! <i class="material-icons">thumb_up</i>
+			{% endif %}
         </span>
     </div>
 	{% if (newEvidences|length) > 0 %}
