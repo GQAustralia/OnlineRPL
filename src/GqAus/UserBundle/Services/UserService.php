@@ -1896,7 +1896,7 @@ class UserService
                 ->select('m')
                 ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $mid);
         }
-         $query->addOrderBy('m.id', 'DESC');
+      
         $getMessages = $query->getQuery()->getResult(); 
         return $getMessages; 
     }
