@@ -19,7 +19,7 @@
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-11">
+                    <div class="col-md-12 col-lg-11">
                         <p>
                             <span>{% if courseDetails.courseName is defined %}{{courseDetails.courseName}}{% endif %}</span>
                             <span>{% if courseCode is defined %}{{courseCode}}{% endif %}</span>
@@ -31,7 +31,7 @@
         <div class="status-message" id="status-message" style="display:none;"></div>
         <div class="container">    
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-md-12 col-lg-12">
                     <div class="edu-tag">
                         {% set currUnitStatus = courses_service.getUnitStatus(userId, unitCode, courseCode)%}
                         {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, unitCode, courseCode, userRole[0]) %}
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-12 nopadding col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-4">
                     <div class="panel-group">
                         <div class="panel clearfix">
                             <div class="panel-heading">
@@ -99,43 +99,45 @@
                             </div>
                         </div>
                     </div>
+					<div class="row">
+						<div class="col-md-12 col-lg-12">
+							<div class="panel-group">
+								<div class="panel clearfix">
+									<div class="panel-heading clearfix"><h4 class="panel-title"><span>Self Assessment Notes</span></h4></div>
+									<div class="panel-body"><span class="if-no-assessment">{% if selfAssessmentText|length > 0 %}{{selfAssessmentText.0.content}}{%else%}Not yet received for this Unit {% endif %}</span></div>
+								</div>                                        
+							</div>
+						</div>
+					</div>
                     <div class="gqa-btn-group">
-                        <div class="row no-gutter">
-                            <div class="col-md-12 col-lg-12">
-                                <div class="panel-group">
-                                    <div class="panel clearfix">
-                                        <div class="panel-heading clearfix"><h4 class="panel-title"><span>Self Assessment Notes</span></h4></div>
-                                        <div class="panel-body"><span class="if-no-assessment">{% if selfAssessmentText|length > 0 %}{{selfAssessmentText.0.content}}{%else%}Not yet received for this Unit {% endif %}</span></div>
-                                    </div>                                        
-                                </div>
-                            </div>
-                        {% if ('ROLE_FACILITATOR' in userRole or 'ROLE_MANAGER' in userRole) and actUnitStatus =='1' %}
-                            {% if unitFacStatus == '0' or unitFacStatus == '2' %}
-            <div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory">Satisfactory</button></div>
-                                {#% if unitFacStatus == '0' %#}
-            <div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#not-satisfactory">Not yet Satisfactory</button></div>
-                                {#% endif %#}
-                            {% endif %}
-                        {% endif %}
-                        {% if ('ROLE_ASSESSOR' in userRole and actUnitStatus =='1') %}
-                            {% if (unitAssStatus == '0' or unitAssStatus == '2') and unitFacStatus == '1' %}
-            <div class="col-md-6 col-lg-6"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
-                                {#% if unitAssStatus == '0' %#}
-            <div class="col-md-6 col-lg-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
-                                {#% endif %#}
-                            {% endif %}
-                        {% endif %}
-                        {% if ('ROLE_RTO' in userRole and actUnitStatus =='1') %}
-                            {% if (unitRtostatus == '0' or unitRtostatus == '2') and unitAssStatus == '1' %}
-            <div class="col-md-6 col-lg-6"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
-                        {#% if unitRtostatus == '0' %#}
-            <div class="col-md-6 col-lg-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
-                        {#% endif %#}
-                            {% endif %}
-                        {% endif %}
-                        </div>
-                    </div>
-                </div>
+						<div class="row no-gutter">
+							{% if ('ROLE_FACILITATOR' in userRole or 'ROLE_MANAGER' in userRole) and actUnitStatus =='1' %}
+								{% if unitFacStatus == '0' or unitFacStatus == '2' %}
+							<div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory">Satisfactory</button></div>
+								{#% if unitFacStatus == '0' %#}
+							<div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#not-satisfactory">Not yet Satisfactory</button></div>
+									{#% endif %#}
+								{% endif %}
+							{% endif %}
+							{% if ('ROLE_ASSESSOR' in userRole and actUnitStatus =='1') %}
+								{% if (unitAssStatus == '0' or unitAssStatus == '2') and unitFacStatus == '1' %}
+							<div class="col-md-6 col-lg-6"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
+									{#% if unitAssStatus == '0' %#}
+							<div class="col-md-6 col-lg-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
+									{#% endif %#}
+								{% endif %}
+							{% endif %}
+							{% if ('ROLE_RTO' in userRole and actUnitStatus =='1') %}
+								{% if (unitRtostatus == '0' or unitRtostatus == '2') and unitAssStatus == '1' %}
+							<div class="col-md-6 col-lg-6"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
+							{#% if unitRtostatus == '0' %#}
+							<div class="col-md-6 col-lg-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
+							{#% endif %#}
+								{% endif %}
+							{% endif %}
+						</div>
+					</div>
+				</div>
                 <div class="col-md-6 col-lg-7">
                     <div class="accordion panel-group" id="accordion1">
                         <div class="panel panel-default">
