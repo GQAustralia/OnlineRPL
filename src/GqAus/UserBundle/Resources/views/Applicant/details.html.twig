@@ -70,8 +70,7 @@
                 <div class="col-md-12 col-lg-11">
                     <div class="gqa-btn-group">
                         <div class="btn btn-download border-dark">
-                            <i class="material-icons">file_download</i>
-                            <a download="" href="#">Download Assessment Kit for this qualification</a>
+                            <a download="" href="#"><i class="material-icons">file_download</i>Download Assessment Kit for this qualification</a>
                         </div>                    
                     </div>
                 </div>
@@ -170,7 +169,7 @@
                     {% endif %}
                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
                         <div class="gqa-btn-group">
-                            <div class="row no-gutter">     
+                            <div class="row">     
                                  {% if (facilitatorstatus != '1' and currentIdPoints >= '100' and statusOfFacUnitsCount >= totalReqUnits ) %}
                                     <div class="col-md-12 col-lg-12">
                                         <div class="row no-gutter">
@@ -184,12 +183,11 @@
                         </div>
                     {% endif %}
                     <div class="gqa-btn-group">
-                        <div class="row no-gutter">
+                        <div class="row">
                             {% if ('ROLE_RTO' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                                 <div class="col-md-12 col-lg-12">
                                     <div class="btn btn-download border-dark">
-                                        <i class="material-icons">file_download</i>
-                                        <a href ="javascript:void(0)" id="download_profile" userid="{{userId}}" course_code="{{courseInfo.id}}">Download complete Portfolio</a>
+                                        <a href ="javascript:void(0)" id="download_profile" userid="{{userId}}" course_code="{{courseInfo.id}}"><i class="material-icons">file_download</i>Download complete Portfolio</a>
                                     </div>
                                 </div>
                             {% endif %}
@@ -391,7 +389,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
-                                    <div class="btn">
+                                    <div class="btn border-right">
                                         <div class="dropdown keep-open">
                                             <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>ToDo list</a></span>
                                             <div class="arrow" style="left: 50%;"></div>
@@ -408,7 +406,7 @@
                     {% endif %}
                     {% if ('ROLE_ASSESSOR' in userRole) %}
                         <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
-                           <div class="btn"><a {%if courseStatus != '10' %}href="javascript:void(0);" id="request-cc" data-courseStatus="10" {%else%} class='disabled' {%endif%}><i class="material-icons">call</i>Request CC</a></div>
+                           <div class="btn"><a {%if courseStatus != '10' %}href="javascript:void(0);" id="request-cc" data-courseStatus="10" {%else%} class='disabled' {%endif%}><i class="material-icons">call</i>CC</a></div>
                        </div>
                     {% endif %}
                         </div>
