@@ -2121,6 +2121,12 @@ $(".loginUser").click(function(){
     $(location).attr('href', 'userLogin/' + this.id);
 });
 
+$(".searchUserNameFilter").on('keypress', function(){
+    pagenum = 1;
+    loadDataIcon('currentList');
+    loadUsersList('currentList',pagenum);
+});
+
 $("#searchUserFilter").click(function() {
     pagenum = 1;
     loadDataIcon('currentList');
