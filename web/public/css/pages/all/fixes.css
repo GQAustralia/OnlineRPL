@@ -137,3 +137,20 @@
 #err_msg{
 	width: 100%;
 }
+
+/* File Que upload in Files tab */
+/* only in mobile portrait view */
+
+.main_container .body_section .file_upload_block .panel-body .panel-copy .file-info .file-discription {
+    padding: 5px 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+    width: 40%;
+}
+.main_container .body_section .file_upload_block .panel-body .panel-copy .file-info .file-progress {
+    width: 30%;
+    padding-right: 10px;
+}
+.main_container .body_section .file_upload_block .panel-body .panel-copy .file-info .file-progress progress {
+    width: 100%;
+}
