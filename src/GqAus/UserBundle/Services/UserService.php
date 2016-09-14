@@ -3424,6 +3424,9 @@ class UserService
                 }
                 break;
         }
+		if($response['type'] === 'Error')
+			return $response;
+		
         if (count($response) > 0) {
             /*Create Log for message*/
             $logType = $this->getlogType('9');
