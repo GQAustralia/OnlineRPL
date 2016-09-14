@@ -453,6 +453,7 @@ $("#userprofile_userImage").change(function() {
     }
     else
     {
+		$("#profile_suc_msg2").hide();
         $("#ajax-profile-error").show();
         $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2>Please upload valid image</h2></div>');
         //alert("Please upload valid image");
@@ -880,7 +881,7 @@ $(".setData").click(function() {
                     {
                         viewContent =  'ALMOST DONE';
                     } else if(Math.ceil(percentage) >= '100') {
-                        viewContent =  'NICE WORK';
+                        viewContent =  'NICE WORK!';
                     } else {
                         viewContent =  '';
                         thumbTxtContent =  '';
@@ -2292,6 +2293,7 @@ $('#user_profile_form').on('submit', function(e) {
                 data: form_data,
                 success: function(result) {
                     $("#change_address_error").hide();
+					$("#ajax-profile-error").hide();
                     $("#profile_suc_msg2").show();
                         $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Profile updated successfully!</span></div>');
                 },
@@ -3056,7 +3058,7 @@ function updateRto(courseCode , userId, listId)
 	{
                 $("#pwd_error3_"+listId).show();
 		$("#profile_suc_msg4_"+listId).hide();		
-                $("#pwd_error3_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Assessor</h2></div>');
+                $("#pwd_error3_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select RTO</h2></div>');
 	}
     if(rtoVal != 0)
     {

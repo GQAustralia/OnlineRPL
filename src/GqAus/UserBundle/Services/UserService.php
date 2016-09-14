@@ -1117,6 +1117,7 @@ class UserService
      */
    public function getPendingApplicants($userId, $userRole, $applicantStatus)
     {
+       
         $getCourseStatus = array();
         if (in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_RTO', $userRole)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
@@ -1139,7 +1140,7 @@ class UserService
         }
         elseif (in_array('ROLE_MANAGER', $userRole)) {
             $qb = $this->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
-            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
+            $qb->where(sprintf('u.%s = :%s', 'manager', 'manager'))->setParameter('manager', $userId);
             $qb->andWhere('u.courseStatus != 0');
 
             $getCourseStatus = $qb->getQuery()->getResult();
@@ -1894,7 +1895,8 @@ class UserService
                 ->createQueryBuilder('m')
                 ->select('m')
                 ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $mid);
-        }        
+        }
+         $query->addOrderBy('m.id', 'DESC');
         $getMessages = $query->getQuery()->getResult(); 
         return $getMessages; 
     }
