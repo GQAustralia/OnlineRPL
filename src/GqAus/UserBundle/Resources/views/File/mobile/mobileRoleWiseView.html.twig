@@ -156,7 +156,7 @@
                                             </div>
                                             <div id="dragandrophandler">
                                                 <div class="upload_btn">
-                                                    <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
+                                                    <input type="file" multiple="multiple" id="file" accept=".xlsx, text/plain, .csv .xls, image/*, video/*, audio/* .doc, .docx, .ppt, .pptx, .txt, .pdf" onchange="upload()" class="hidden">
                                                     <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file</div>
                                                 </div>
                                             </div>
@@ -350,7 +350,10 @@
                                                     {% set mappedCourse = (evd[0].course) ?  evd[0].course : 'nonmapped' %}
                                                     {% if evd[0].type !='text' %}
                                                         {% set eviType = evidence_service.getEvidenceShowType(evd[0].type) %}
-                                                        {#{% set evdByteSize = evidence_service.convertSizetoBytes(evd[0].size) %}#}
+                                                        {% set byteSize = 0 %}
+                                                        {% if evd[0].type !='recording' %}
+                                                            {% set evdByteSize = evidence_service.convertSizetoBytes(evd[0].size) %}
+                                                        {% endif %}
                                                         {% set output = eviType|split('&&') %}
 
                                                         {% if evd[0].name %}
@@ -359,7 +362,7 @@
                                                             <td class="hide">{{ evd[0].type }}</td>
                                                             <td class="hide">{{mappedContent}}</td>
                                                             <td class="hide">{{ evd[0].name }}</td>
-                                                            <td class="hide">{{ evd[0].size }}</td>
+                                                            <td class="hide">{{ evdByteSize }}</td>
                                                             <td class="hide">{{ evd[0].created|date("d/m/y") }}</td>
                                                             <td>
                                                                 {% if evd[0].name %} 
@@ -377,7 +380,8 @@
                                                                                 </span>
                                                                                 <span class="clear">
                                                                                     {% if('ROLE_APPLICANT' in roles) %}
-                                                                                    <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
+                                                                                        {% set evdIsSubmitted = evidence_service.getEvidenceIsSubmittedOrNot(evd[0].id)%}
+                                                                                        {% if evdIsSubmitted != '1'%}<i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>{%endif%}
                                                                                     {% endif %}
                                                                                 </span>
                                                                             </div>
@@ -420,7 +424,8 @@
                                                                                 </span>
                                                                                 <span class="clear">
                                                                                     {% if('ROLE_APPLICANT' in roles) %}
-                                                                                    <i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>
+                                                                                        {% set evdIsSubmitted = evidence_service.getEvidenceIsSubmittedOrNot(evd[0].id)%}
+                                                                                        {% if evdIsSubmitted != '1'%}<i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>{% endif %}
                                                                                     {% endif %}
                                                                                 </span>                                                                                
                                                                             </div>
@@ -472,9 +477,8 @@
                 </div>
             </div>
         </div>
-<div class='candidate-details'><div id='removeCandidate'></div></div>         
-<div class='unitInfo-details'><div id='removeUnitInfo'></div></div>     
-
+{% endblock %}
+{% block javascripts %}
     <script type="text/javascript" src="{{ asset('public/js/jquery.form.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/s3-upload/s3upload.js') }}"></script>
