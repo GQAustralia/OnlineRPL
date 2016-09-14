@@ -3617,18 +3617,24 @@ class UserService
                   endif;
                   break;
             case 'ROLE_RTO':
-            case 'ROLE_MANAGER':
-            case 'ROLE_SUPERADMIN':
-                  $field = $rtoWorkSpan;
-                  if($facStatus == 1):
+                 $field = $rtoWorkSpan;
+                  if($assStatus == 1):
                     $diff = abs(strtotime($currentDate) - strtotime($assDate));
                     $days = floor(($diff)/ (60*60*24));
                     $days = floor($rtoWorkSpan-$days);
                   else:
                       $days=0;
                   endif;
+                  break;
+            case 'ROLE_MANAGER':
+            case 'ROLE_SUPERADMIN':
+                  $diff = abs(strtotime($targetDate) - strtotime($currentDate));
+                  $days = floor(($diff)/ (60*60*24));
+                  $field = $fecWorkSpan;
                   break;           
         }
+//        echo $days."/".$field;
+//        exit;
         if($days > 0 )
             $graph = round(($days*100)/($field));
         else
@@ -4355,6 +4361,30 @@ class UserService
     public function getUserLoginToken($logintoken)
     {
         return $this->em->getRepository('GqAusUserBundle:user')->findBy(array('loginToken' => $logintoken));
+    }
+    /**
+     * Function to get the workpan based on the role
+     * @param type $userRole
+     * @return type
+     */
+    public function getRoleWiseWorkSpan($userRole)
+    {
+        $workSpan = 0;
+        switch ($userRole) {
+            case 'ROLE_FACILITATOR':
+                $workSpan = $this->container->getParameter('fec_workspan');
+                break;
+            case 'ROLE_ASSESSOR':
+                $workSpan = $this->container->getParameter('ass_workspan');
+                break;
+            case 'ROLE_RTO':
+                $workSpan = $this->container->getParameter('rto_workspan');
+                break;
+            default:
+                $workSpan = $this->container->getParameter('fec_workspan');
+                break;
+        }
+        return $workSpan;
     }
 
 }

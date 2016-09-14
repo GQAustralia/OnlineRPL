@@ -1,8 +1,8 @@
 # constants for rolewise work span contents
 parameters:
     fec_workspan: 90   #This indicates the 1 week (7 days) for Fecilitator finish once it is for them to start the work.
-    ass_workspan: 90   #This indicates the 1 week (7 days) for Assessor finish once it is for them to start the work.
-    rto_workspan: 90  #This indicates the 2 weeks (14 days) for RTO finish once it is for them to start the work.
+    ass_workspan: 21   #This indicates the 1 week (7 days) for Assessor finish once it is for them to start the work.
+    rto_workspan: 14  #This indicates the 2 weeks (14 days) for RTO finish once it is for them to start the work.
     maximum_upload_size: '3.0'
     header_class_pages: ['gq_aus_home_homepage', 'messages', 'evidences', 'files','user_homepage','faq','applicants','manageusers','userslog','reports']
     new_message_time_span: 5

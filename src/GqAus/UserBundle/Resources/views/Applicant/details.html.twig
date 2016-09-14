@@ -87,10 +87,12 @@
                         </div>
                         {% set remaining = user_service.getDaysRemainingFromRole(userId,courseInfo.id, userRole[0]) %}
                         {% set output = remaining|split('&&') %}
+                        {% set workSpan = user_service.getRoleWiseWorkSpan(userRole[0])%}
+                        {% set remaingVal = (100/workSpan)*(workSpan-output[0])%}
                         <div class="progres-content">
                             <p class="title">Days remaining - {%if output[0] >0%}{{output[0]}}{%else%} 0 {% endif %}days</p>
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{%if (output[0] > 0) %}{{90-output[0]}}{%else%}0{%endif%}%">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{%if (remaingVal > 0) %}{{remaingVal}}{%else%}0{%endif%}%">
                                   <span class="sr-only">{%if(evidenceCompleteness > 0) %}{{evidenceCompleteness}}{%else%}0{%endif%}% Complete</span>
                                 </div>
                             </div>                        
