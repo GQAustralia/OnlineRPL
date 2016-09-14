@@ -242,7 +242,7 @@
         <div role="dialog" id="not-satisfactory" class="modal fade" style="display: none;">
             <div class="modal-dialog"><!-- Modal content-->
                <div class="modal-content not-satisfactory-modal-content">
-                    <div class="modal-body"><p><strong>Add a Message</strong><br>Please let {{userName}} know why this unit is <br>{% if ('ROLE_FACILITATOR' in userRole) %}NOT YET SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}NOT YET COMPETENT{% elseif('ROLE_ASSESSOR' in userRole)%}NOT YET COMPETENT{% endif %}</p>
+                    <div class="modal-body"><p><strong>Add a Message</strong><br>Please let {{userName}} know why this unit is <br>{% if ('ROLE_FACILITATOR' in userRole) %}NOT YET SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}NOT YET COMPETENT{% elseif('ROLE_RTO' in userRole)%}NOT YET COMPETENT{% endif %}</p>
                         <p><textarea name="msg-body" id="msg-body" cols="30" rows="4"></textarea></p>
                     </div>
                     <div class="modal-footer">
