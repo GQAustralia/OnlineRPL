@@ -18,7 +18,7 @@
                                             <div class="upload_btn">
                                                 <input type="hidden" name="file[hid_course]" id="hid_course" value="{{ courseCode }}">
                                                 <input type="hidden" name="file[hid_unit]" id="hid_unit" value="{{ unitCode }}">                                             
-                                                <input type="file" multiple="multiple" id="file" onchange="upload()" class="hidden">
+                                                <input type="file" multiple="multiple" id="file" onchange="upload('add_file')" class="hidden">
                                                 <div class="button" id="add_file_txt"><i class="material-icons">add</i> Add a file or Drag and Drop</div>
                                             </div>                                        
                                             <span class="caution">Maximum file size is {{ maximum_upload_size }} Gb per upload</span>
