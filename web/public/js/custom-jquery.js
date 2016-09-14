@@ -2914,6 +2914,7 @@ function getUnitDetailsInfo(courseCode, unitCode, userId){
         cache: false,
         success: function(result) {
             $(".unitInfo-details").html(result).addClass('padding-bottom');
+            addDTPickerBehaviour();
         }
     });
 }

@@ -87,7 +87,9 @@
                                                                  {% elseif msgSubVal[2] is defined and  msgSubVal[3] is not defined %}
                                                                     {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
                                                                  {% elseif msgSubVal[3] is defined%}
-                                                                    {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1]~' '~msgSubVal[2] %}                                                                
+                                                                    {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1]~' '~msgSubVal[2] %}  
+                                                                 {% else %}
+                                                                     {% set msgSubValarr = msgSubVal[0] %}
                                                                  {% endif %}
                                                                  {{ msgSubValarr |raw ~ ' -'}}
                                                             {% else %}
