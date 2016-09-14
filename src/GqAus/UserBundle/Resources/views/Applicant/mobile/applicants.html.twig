@@ -6,10 +6,11 @@
 {% set id = list.id %}
 {% set ccode = list.courseCode%}
 {% set applicantLogged = user_service.getCourseUnitsByCourseCode(list.user.id,ccode)%}
-{% if (status == 0) %} 
+
 <tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %} %}">
       
         <td colspan="2" class="col-xs-12 col-sm-12">
+           
             <span class="email hide">{{list.user.email}}</span>
         <span class="address hide">{{list.user.address.address}}</span>
         <span class="suburb hide">{{list.user.address.suburb}}</span>
@@ -30,13 +31,14 @@
         {% set remaingDays = user_service.getDaysRemainingFromRole(userId, list.courseCode, userRole[0]) %}
         {% set output = remaingDays|split('&&') %}
         {% set remaingVal = 90 - output[0] %}
+                 {% if (status == 0) %} 
                    <div class="progress-container ">                                                
                        <div class="progress">
                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{% if remaingVal >0 %}{{ remaingVal }}{%else%} 0 {% endif %}" aria-valuemin="0" aria-valuemax="90" style="width:{% if remaingVal >0 %}{{ remaingVal }}{%else%} 0 {% endif %}%"></div>
                        </div>                        
                        <div class="progress-copy daysleft">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%}</div>
                    </div>
-      
+                {% endif %}
                 {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %} 
                 
                 <div class="qualification-copy qualification"><span>{{list.courseCode}} {{list.courseName}}</span></div>
@@ -44,7 +46,7 @@
             </td>
               
 </tr> 
-{% endif %}  
+
 {% endfor %}
 {% else %}
     <tr>
