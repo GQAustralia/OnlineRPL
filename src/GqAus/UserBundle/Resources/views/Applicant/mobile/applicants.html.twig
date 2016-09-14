@@ -30,11 +30,12 @@
     {% set courseCode = list.courseCode %}
         {% set remaingDays = user_service.getDaysRemainingFromRole(userId, list.courseCode, userRole[0]) %}
         {% set output = remaingDays|split('&&') %}
-        {% set remaingVal = 90 - output[0] %}
+         {% set workSpan = user_service.getRoleWiseWorkSpan(userRole[0])%}
+        {% set remaingVal = (100/workSpan)*(workSpan-output[0])%}
                  {% if (status == 0) %} 
                    <div class="progress-container ">                                                
                        <div class="progress">
-                           <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{% if remaingVal >0 %}{{ remaingVal }}{%else%} 0 {% endif %}" aria-valuemin="0" aria-valuemax="90" style="width:{% if remaingVal >0 %}{{ remaingVal }}{%else%} 0 {% endif %}%"></div>
+                           <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{% if remaingVal > 0 %}{{ remaingVal }}{%else%} 0 {% endif %}%"></div>
                        </div>                        
                        <div class="progress-copy daysleft">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%}</div>
                    </div>
