@@ -1371,13 +1371,16 @@ class UserService
                  $newEvidences = $totalEvidences = array();
                  if($evidencesCount > 0) {
                      foreach($evidences as $evidenceFile){
-                         if($evidenceFile->getType() != 'text') {
-                             if($evidenceFile->getFacilitatorViewStatus() != '1')
-                                $newEvidences[] = $evidenceFile;
-                                $totalEvidences[$evidenceFile->getPath()] = $evidenceFile->getName();
-                         } else {
-                                $totalEvidences[$evidenceFile->getContent()] = $evidenceFile->getContent();
-                        }
+                         if($evidenceFile->getFacilitatorViewStatus() != '1')
+                         {
+                            if($evidenceFile->getType() != 'text') {
+                                   $newEvidences[$evidenceFile->getPath()] = $evidenceFile;
+                                   $totalEvidences[$evidenceFile->getPath()] = $evidenceFile->getName();
+
+                            } else {
+                                   $totalEvidences[$evidenceFile->getContent()] = $evidenceFile->getContent();
+                            }
+                         }
                      }
                  }
                 $usersDashboardInfo['evidencesCount'] = count($totalEvidences);
@@ -4287,22 +4290,19 @@ class UserService
          */
         public function getUnreadEviencesCount($user)
         {
-            $userId = $user->getId();     
-            $qb = $this->em->createQueryBuilder()
-                ->select('evd')
-                ->from('GqAusUserBundle:UserCourses', 'uc')
-                ->leftJoin('GqAusUserBundle:Evidence','evd','WITH','uc.user=evd.user and evd.course = uc.courseCode')
-                ->leftJoin('GqAusUserBundle:UserCourseUnits', 'ucu','WITH','evd.user = ucu.user and evd.course = ucu.courseCode and evd.unit = ucu.unitId')
-                ->where('uc.facilitator = :facilitator')
-                ->andWhere('uc.courseStatus <> 0')
-                ->andWhere('ucu.facilitatorstatus = 0')
-                ->andWhere('evd.jobId =:empty')
-                ->andWhere('evd.facilitatorViewStatus =:fcvStatus')
-                ->setParameter('facilitator', $userId)
-                ->setParameter('empty', '')
-                ->setParameter('fcvStatus', '0');
-                $evidences = $qb->getQuery()->getResult();
-                return count($evidences);
+            $evidences = $this->getPendingApplicantEvidences($user);
+            $totalEvidences = array();
+            if(count($evidences) > 0){
+                foreach($evidences as $evidenceFile){
+                    if($evidenceFile->getFacilitatorViewStatus() != '1'){
+                       if($evidenceFile->getType() != 'text')
+                            $totalEvidences[$evidenceFile->getPath()] = $evidenceFile->getName();
+                        else 
+                            $totalEvidences[$evidenceFile->getContent()] = $evidenceFile->getContent();
+                    }
+                }
+            }
+            return count($totalEvidences);
         }
 
     
