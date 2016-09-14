@@ -67,7 +67,7 @@ $(document).ready(function(){
 	$(".mobile_version,.login_page").css("height",window_Ht);
 	$(".message_section .mobile_version,.mobile_version .mail_secion,.mobile_version .new_message_section").css("height",mobile_view_Ht);
 	
-	if(window_Wt > 320 && window_Ht < 767){
+	if(window_Wt >= 320 && window_Ht < 767){
 		$('.main_container,.step_list').css("height",window_Ht);
 		$('.body_section,.portfolio-container').css("height",mobile_view_Ht);
 		$(".change_link").click(function(){
@@ -276,7 +276,7 @@ $(window).resize(function(){
 	$(".mobile_version,.login_page").css("height",window_Ht);
 	$(".message_section .mobile_version,.mobile_version .mail_secion,.mobile_version .new_message_section").css("height",mobile_view_Ht);
 	
-	if(window_Wt > 320 && window_Ht < 767){
+	if(window_Wt >= 320 && window_Ht < 767){
 		$('.main_container,.step_list').css("height",window_Ht);
 		$('.body_section,.portfolio-container').css("height",mobile_view_Ht);
 		$(".change_link").click(function(){

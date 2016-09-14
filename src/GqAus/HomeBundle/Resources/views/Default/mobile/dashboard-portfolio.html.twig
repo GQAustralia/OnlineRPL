@@ -9,19 +9,19 @@
 		{% if pendingApplicantsCount > 0 %}
         <ul class="count_list clearfix">
             <li class="active">
-                <strong>{{ dateRangeRecords.thirtyDaysApplicantsCount }} {% if dateRangeRecords.thirtyDaysApplicantsCount == 0 %} <i class="material-icons cloud_upload" style="color: red; font-size: 19px;">thumb_up</i> {% endif %}</strong>
+                <strong>{{ dateRangeRecords.thirtyDaysApplicantsCount }} {% if dateRangeRecords.thirtyDaysApplicantsCount == 0 %} <i class="material-icons">thumb_up</i> {% endif %}</strong>
                 <span class="average_count" style="height: {{ dateRangeRecords.thirtyDayApplicantsPercent }}px;"></span>
             </li>
             <li>
-                <strong>{{ dateRangeRecords.sixtyDaysApplicantsCount }} {% if dateRangeRecords.sixtyDaysApplicantsCount == 0 %} <i class="material-icons cloud_upload" style="color: red; font-size: 19px;">thumb_up</i> {% endif %}</strong>
+                <strong>{{ dateRangeRecords.sixtyDaysApplicantsCount }} {% if dateRangeRecords.sixtyDaysApplicantsCount == 0 %} <i class="material-icons">thumb_up</i> {% endif %}</strong>
                 <span class="high_count" style="height: {{ dateRangeRecords.sixtyDaysApplicantsPercent }}px;"></span>
             </li>
             <li>
-                <strong>{{ dateRangeRecords.ninetyDaysApplicantsCount }} {% if dateRangeRecords.ninetyDaysApplicantsCount == 0 %} <i class="material-icons cloud_upload" style="color: red; font-size: 19px;">thumb_up</i> {% endif %}</strong>
+                <strong>{{ dateRangeRecords.ninetyDaysApplicantsCount }} {% if dateRangeRecords.ninetyDaysApplicantsCount == 0 %} <i class="material-icons">thumb_up</i> {% endif %}</strong>
                 <span class="low_count" style="height: {{ dateRangeRecords.ninetyDaysApplicantsPercent }}px;"></span>
             </li>
             <li>
-                <strong>{{ dateRangeRecords.ninetyDaysPlusRecordsCount }} {% if dateRangeRecords.ninetyDaysPlusRecordsCount == 0 %} <i class="material-icons cloud_upload" style="color: red; font-size: 19px;">thumb_up</i> {% endif %}</strong>
+                <strong>{{ dateRangeRecords.ninetyDaysPlusRecordsCount }} {% if dateRangeRecords.ninetyDaysPlusRecordsCount == 0 %} <i class="material-icons">thumb_up</i> {% endif %}</strong>
                 <span class="very_low_count" style="height: {{ dateRangeRecords.ninetyDaysPlusRecordsPercent }}px;"></span>
             </li>
         </ul>
