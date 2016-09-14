@@ -10,7 +10,7 @@
                 <div class="header_block clearfix">
                     <div class="profile_section">
                     	{% if courses.Facilitator.id is defined %}
-                        <img class="profile_image no_upload" alt="profile_pic" src="{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}">
+                        <img class="no_upload" alt="profile_pic" src="{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}">
                         {% endif %}
                         <input type="file" class="hidden browse_btn">
                         <div class="content">
