@@ -33,14 +33,15 @@
             <div class="col-md-12 col-lg-12">
                 <div class="portfolio-filter clearfix">
                     <div class="filter gq-app-search-grid"> 
-                        <input type="text" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
-                        {#<input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/> #}    
+                        <input type="text" value="" id="search-current" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
+                        <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search" style="display: none;"/>     
                                                          
                     </div>
                     <div class="gq-dashboard-tabs-header wid20p">
                         <ul role="tablist" id="myTab">
-                            <li role="presentation" id="applicantPending" class="status active">
-                                <a href="#current" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>
+                            <li role="presentation" id="applicantPending11" class="status active">
+                                {#<a href="#current" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>#}
+                                <a href="/applicants">CURRENT</a>
                             </li>
                             <li role="presentation" id="applicantCompleted" class="status">
                                 <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab" >COMPLETED</a>
@@ -119,8 +120,8 @@
                                {#<input type="text" placeholder="Search" class="search_box search sort"  data-sort="firstName,qualification">#}
                             <thead>
                                 <tr>
-                                    <th style="width:20%" class="sort" data-sort="firstName"><span class="">NAME</span></th>
-                                    <th class="sort" data-sort="qualification"><span class="">QUALIFICATION</span></th> 
+                                    <th style="width:20%"><span class="">NAME</span></th>
+                                    <th><span class="">QUALIFICATION</span></th> 
                                 </tr>
                             </thead>
                             <tbody class="list" id="completedList">                                
@@ -144,14 +145,15 @@
 {% block javascripts %} 
    <script type="text/javascript" src="{{ asset('public/js/list.min.js') }}"></script>
    <script type="text/javascript">
-       var options = {
+       options = {
         valueNames: [ 'firstName','qualification', 'evidence','daysleft','status','email','address','suburb','pincode','state','phone']
         };
-        var currentList = new List('currentnew', options);
-         var Completedoptions = {
+        currentList = new List('currentnew', options);
+        currentList.reIndex();
+        {# var Completedoptions = {
         valueNames: [ 'firstName','qualification']
         };
-        var completedList = new List('completed', Completedoptions);
+        var completedList = new List('completed', Completedoptions);#}
                        
    </script>
 {% endblock %}
