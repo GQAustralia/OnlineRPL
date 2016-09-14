@@ -166,7 +166,7 @@
                                                                         <p class="name"><strong>{{ evd[0].user.firstName }} {{ evd[0].user.lastName }}</strong></p>
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
-                                                                                <span  data-evidenceid="{{ evd[0].id }}" class="icon fac_view_evidence">
+                                                                                <span  data-evidenceid="{% for evdId in evd %}{{ evdId.id }}{% if not loop.last %},{% endif %}{% endfor %}" class="icon fac_view_evidence">
                                                                                     <a href="{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"
                                                                                     {% if output[1] is defined %}
                                                                                     {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
@@ -210,7 +210,7 @@
                                                                         <p class="name"><strong>{{ evd[0].user.firstName }} {{ evd[0].user.lastName }}</strong></p>
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
-                                                                                <span data-evidenceid="{{ evd[0].id }}"class="icon fac_view_evidence">
+                                                                                <span data-evidenceid="{% for evdId in evd %}{{ evdId.id }}{% if not loop.last %},{% endif %}{% endfor %}"class="icon fac_view_evidence">
                                                                                     <a href="#text{{evd[0].id}}"class="fancybox"id="btnForm"><i class="material-icons">description</i></a>
                                                                                 </span>
                                                                                 <span class="file-discription">
