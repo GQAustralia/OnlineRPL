@@ -3192,9 +3192,21 @@ class UserService
         $response = array();
         // if the assessor approves the qualification by updating the status
         if ($courseStatus == 3) {
+            $courseCode = $courseObj->getCourseCode();
+            $userId = $courseObj->getUser()->getId();
             // checking whether the all units of this qualification has been approved or not
-            $unitsApproval = $this->checkAllUnitsApprovalByRole($courseObj, 'assessorstatus');
-            if ($unitsApproval == 0) { // if any unit pending approvals or any disapproved unit
+//            $unitsApproval = $this->checkAllUnitsApprovalByRole($courseObj, 'assessorstatus');
+             $coreUnitCount = $this->getCourseCountStatusByRoleWise($userId, 'ROLE_ASSESSOR', $courseCode, 'core');
+             $electiveUnits = $this->getCourseCountStatusByRoleWise($userId, 'ROLE_ASSESSOR', $courseCode, 'elective');
+             $totalReqAllUnits = $this->coursesService->getReqUnitsForCourseByCourseId($courseCode);
+             $totalReqUnits = $totalReqAllUnits['core']+ $totalReqAllUnits['elective'];
+             $reqElectUnits = $totalReqUnits-($coreUnitCount['noOfNotRvdrcrds'] + $coreUnitCount['noOfRvdRcrds']);
+             $statusOfAssCoreUnitsCount = $this->getTheStatusOfUnitsUnderCourse($userId, $courseCode, 'assessorstatus', 'core');
+             $statusOfAssElecUnitsCount = $this->getTheStatusOfUnitsUnderCourse($userId, $courseCode, 'assessorstatus', 'elective');
+            if($reqElectUnits <= $statusOfAssElecUnitsCount)
+                $statusOfAssElecUnitsCount = $reqElectUnits;
+            $statusOfAssUnitsCount = $statusOfAssCoreUnitsCount + $statusOfAssElecUnitsCount;
+            if ($totalReqUnits > $statusOfAssUnitsCount) { // if any unit pending approvals or any disapproved unit
                 $response['type'] = 'Error';
                 $response['code'] = 2;
                 $response['msg'] = 'Please approve all the units before approving the qualification.';
