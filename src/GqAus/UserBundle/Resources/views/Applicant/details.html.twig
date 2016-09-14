@@ -65,7 +65,7 @@
         </div>
         <div class="status-message" id="status-message" style="display:none;"></div>
         <div class="container">
-            <div class="row">
+		<div class="row">
                 {% if ('ROLE_ASSESSOR' in userRole) %}
                 <div class="col-md-12 col-lg-11">
                     <div class="gqa-btn-group">
@@ -76,27 +76,31 @@
                     </div>
                 </div>
                 {% endif %}
-                <div class="col-md-6 col-lg-4">
-                    <div class="progres_bar_section">
-                        <div class="progres-content">
-                            <p class="title">Evidence Submitted - {{evidenceCompleteness}} Complete </p>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{evidenceCompleteness}}" aria-valuemin="0" aria-valuemax="100" style="width:{{evidenceCompleteness}}">
-                                  <span class="sr-only">{{evidenceCompleteness}} Complete</span>
-                                </div>
-                            </div>                        
-                        </div>
-                        {% set remaining = user_service.getDaysRemainingFromRole(userId,courseInfo.id, userRole[0]) %}
-                        {% set output = remaining|split('&&') %}
-                        <div class="progres-content">
-                            <p class="title">Days remaining - {%if output[0] >0%}{{output[0]}}{%else%} 0 {% endif %}days</p>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
-                                  <span class="sr-only">{%if(output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}% Complete</span>
-                                </div>
-                            </div>                        
-                        </div>
-                    </div>
+                <div class="col-md-5 col-lg-4">
+					<div class="row">
+						<div class="col-md-12 col-lg-12">
+							<div class="progres_bar_section">
+								<div class="progres-content">
+									<p class="title">Evidence Submitted - {{evidenceCompleteness}} Complete </p>
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" aria-valuenow="{{evidenceCompleteness}}" aria-valuemin="0" aria-valuemax="100" style="width:{{evidenceCompleteness}}">
+										  <span class="sr-only">{{evidenceCompleteness}} Complete</span>
+										</div>
+									</div>                        
+								</div>
+								{% set remaining = user_service.getDaysRemainingFromRole(userId,courseInfo.id, userRole[0]) %}
+								{% set output = remaining|split('&&') %}
+								<div class="progres-content">
+									<p class="title">Days remaining - {%if output[0] >0%}{{output[0]}}{%else%} 0 {% endif %}days</p>
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
+										  <span class="sr-only">{%if(output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}% Complete</span>
+										</div>
+									</div>                        
+								</div>
+							</div>
+						</div>
+					</div>
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
                             <div class="review-container">
@@ -206,7 +210,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-7 flex-fix">
+                <div class="col-md-7 col-lg-7 flex-fix">
                     <div class="accordion panel-group" id="accordion1">
                         <input type="hidden" name="csCourseCode" id="csCourseCode" readonly="true" value="{{courseInfo.id}}" />
                         <input type="hidden" name="csUserId" id="csUserId" readonly="true" value="{{userId}}" />
@@ -387,7 +391,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
-                                    <div class="btn border-right">
+                                    <div class="btn">
                                         <div class="dropdown keep-open">
                                             <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>ToDo list</a></span>
                                             <div class="arrow" style="left: 50%;"></div>

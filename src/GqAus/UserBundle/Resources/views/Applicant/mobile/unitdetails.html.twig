@@ -44,7 +44,7 @@
                     <div class="panel-group">
                         <div class="panel clearfix">
                             <div class="panel-heading"><h4 class="panel-title"><span>Evidence</span><span class="pull-right"><strong>{{ evidenceCount }} Evidence Files Received</strong></span></h4></div>
-                            <div class="edu-tag">
+                            <div class="edu-tag tag-offset">
                                 {% set currUnitStatus = courses_service.getUnitStatus(userId, unitCode, courseCode)%}
                                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, unitCode, courseCode, userRole[0]) %}
                                 {% if approvalText|length > 0 and approvalText != '0' %} <p><span class="tag status in-progress"> {{approvalText}}</span></p>{%else%}{%if currUnitStatus.issubmitted is defined%}{%if currUnitStatus.issubmitted == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{%endif%}{% endif %}
