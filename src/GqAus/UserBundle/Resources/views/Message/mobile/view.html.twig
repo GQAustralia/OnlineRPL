@@ -207,7 +207,7 @@
                                             {% set userimg = 'PROFILE.png' %}
                                             {% endif %}
                                                 {% if message.userImage != "" %}
-                                                <img src="{{ amazon_link~'user-'~message.toUserId~'/'~message.userImage }}" alt="chat_pic"/>
+                                                <img src="{{ amazon_link~'user-'~message.fromUserId~'/'~message.userImage }}" alt="chat_pic"/>
                                                 {% else %}
                                                 <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
                                                 {% endif %}

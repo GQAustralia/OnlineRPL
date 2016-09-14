@@ -116,9 +116,10 @@
                 <div role="tabpanel" class="container tab-pane" id="completed">
                     <div class="portfolio-data-table">
                         <table class="table">
+                               {#<input type="text" placeholder="Search" class="search_box search sort"  data-sort="firstName,qualification">#}
                             <thead>
                                 <tr>
-                                    <th style="width:20%" class="sort" data-sort="name"><span class="">NAME</span></th>
+                                    <th style="width:20%" class="sort" data-sort="firstName"><span class="">NAME</span></th>
                                     <th class="sort" data-sort="qualification"><span class="">QUALIFICATION</span></th> 
                                 </tr>
                             </thead>
@@ -147,6 +148,10 @@
         valueNames: [ 'firstName','qualification', 'evidence','daysleft','status','email','address','suburb','pincode','state','phone']
         };
         var currentList = new List('currentnew', options);
+         var Completedoptions = {
+        valueNames: [ 'firstName','qualification']
+        };
+        var completedList = new List('completed', Completedoptions);
                        
    </script>
 {% endblock %}
