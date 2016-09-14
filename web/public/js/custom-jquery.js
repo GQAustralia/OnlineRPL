@@ -1117,6 +1117,10 @@ function loadDataIcon(listdiv)
 
 
 $("#applicantPending").click(function() {
+    $("#search-current").focus();
+    $("#searchName").val("");
+    $("#searchName").hide();
+    $("#search-current").show();
     $('#filterByStatus').val('0');
     pagenum = 1;   
     loadDataIcon('currentList');
@@ -1126,9 +1130,13 @@ $("#applicantPending").click(function() {
    // $("#remainingweekDiv").show();
     loadApplicantList('currentList',pagenum);
      $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
+     
 });
 
 $("#applicantCompleted").click(function() {
+    $("#search-current").val("");
+    $("#searchName").show();
+    $("#search-current").hide();
     $('#filterByStatus').val('0');
     pagenum = 1;
     loadDataIcon('completedList');

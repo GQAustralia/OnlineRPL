@@ -653,7 +653,6 @@ class UserService
                     . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'"
                     . "OR u.email LIKE '%" . $searchNamearr[$i] . "%'"
                     . "OR u.phone LIKE '%" . $searchNamearr[$i] . "%'"
-                    . "OR c.course_name LIKE '%" . $searchNamearr[$i] . "%'"
                     . "OR c.courseName LIKE '%" . $searchNamearr[$i] . "%'"
                     . "OR c.courseCode LIKE '%" . $searchNamearr[$i] . "%'";
             }
