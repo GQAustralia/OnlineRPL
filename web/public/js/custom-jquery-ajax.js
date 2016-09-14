@@ -132,21 +132,22 @@ $("body #courseUnitNote").click(function(){
     }
 })
 
-$("body .setToDoList").click(function() {
+//$("body .setToDoList").click(function() {
+$("body").on('click', '.setToDoList,.setTodoMobileUnit', function() {
     userCourseId = $(this).attr("userCourseId");
     listId = $(this).attr("listId");
     reminderTypeId = $(this).attr("reminderTypeId");
     reminderType = $(this).attr("reminderType");    
-    var remindDate = $('#remindDate').val();
-    var todoMsg = $('#todolist-msg').val();
+    var remindDate = $('body .unitInfo-details #remindDate').val();
+    var todoMsg = $('body .unitInfo-details #todolist-msg').val();
     if (todoMsg === '') {
-        $('#todolist-msg').focus();
-        $('#todolist-msg').css("border","1px solid red");
+        $('body .unitInfo-details #todolist-msg').focus();
+        $('body .unitInfo-details #todolist-msg').css("border","1px solid red");
         return false;
     }
     if (remindDate === '') {
-        $('#remindDate').focus();
-        $('#remindDate').css("border","1px solid red");
+        $('body .unitInfo-details #remindDate').focus();
+        $('body .unitInfo-details #remindDate').css("border","1px solid red");
         return false;
     }
     if (remindDate != '') {
