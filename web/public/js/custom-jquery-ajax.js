@@ -131,8 +131,7 @@ $("body #courseUnitNote").click(function(){
         });
     }
 })
-
-$("body .setToDoList").click(function() {
+$("body").on('click', '.setToDoList', function() {
     userCourseId = $(this).attr("userCourseId");
     listId = $(this).attr("listId");
     reminderTypeId = $(this).attr("reminderTypeId");
@@ -158,6 +157,36 @@ $("body .setToDoList").click(function() {
             success: function(result) {
                 $("body #status-message").css("display", "block");
                 $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Reminder Added successfully</h2></div>');
+            }
+        });
+    }
+});
+$("body").on('click', '.setTodoMobileUnit', function() {
+    userCourseId = $(this).attr("userCourseId");
+    listId = $(this).attr("listId");
+    reminderTypeId = $(this).attr("reminderTypeId");
+    reminderType = $(this).attr("reminderType");    
+    var remindDate = $('body .unitInfo-details #remindDate').val();
+    var todoMsg = $('body .unitInfo-details #todolist-msg').val();
+    if (todoMsg === '') {
+        $('body .unitInfo-details #todolist-msg').focus();
+        $('body .unitInfo-details #todolist-msg').css("border","1px solid red");
+        return false;
+    }
+    if (remindDate === '') {
+        $('body .unitInfo-details #remindDate').focus();
+        $('body .unitInfo-details #remindDate').css("border","1px solid red");
+        return false;
+    }
+    if (remindDate != '') {
+        $.ajax({
+            type: "POST",
+            url: base_url + "addReminder",
+            cache: false,
+            data: {message: todoMsg, userCourseId: userCourseId, remindDate: remindDate, listId: listId, reminderTypeId: reminderTypeId, reminderType:reminderType},
+            success: function(result) {
+                $("body .unitInfo-details #status-message").css("display", "block");
+                $("body .unitInfo-details .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Reminder Added successfully</h2></div>');
             }
         });
     }
