@@ -1121,13 +1121,10 @@ class UserService
         if (in_array('ROLE_ASSESSOR', $userRole) || in_array('ROLE_RTO', $userRole)) {
             if (in_array('ROLE_ASSESSOR', $userRole)) {
                 $userType = 'assessor';
-                $userStatus = 'assessorstatus';
-                $result = array($userType => $userId, $userStatus => $applicantStatus,
-                    'courseStatus' => array(2, 10, 11, 12, 13, 14));
+                $result = array($userType => $userId, 'courseStatus' => array(2, 10, 11, 12, 13, 14));
             } elseif (in_array('ROLE_RTO', $userRole)) {
                 $userType = 'rto';
-                $userStatus = 'rtostatus';
-                $result = array($userType => $userId, $userStatus => $applicantStatus, 'courseStatus' => '15');
+                $result = array($userType => $userId, 'courseStatus' => '15');
             }
             $getCourseStatus = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy($result);
         } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
@@ -1221,7 +1218,7 @@ class UserService
             ->select($fields)         
             ->where(sprintf('u.%s = :%s ', 'rto', 'rto'))->setParameter('rto', $userId)
             ->andWhere('u.courseStatus IN (:courseStatus)')->setParameter('courseStatus', $courseStatus)
-            ->andWhere('u.facilitatorstatus = 1 AND u.assessorstatus = 1');
+            ->andWhere('u.facilitatorstatus = 1 AND u.assessorstatus = 1 AND u.rtoread = 0');
             $getApplicants = $query->getQuery()->getResult();
         return $getApplicants;
     }
@@ -1299,7 +1296,7 @@ class UserService
             $userId = $user->getId();
             $userRole = $user->getRoles();
 
-            $pendingApplicants = $this->getPendingApplicants($userId, $user->getRoles(), '1');
+            $pendingApplicants = $this->getUnreadApplicants($userId, $user->getRoles(), '0');
 
             $unReadMessagesCount = $this->getUnreadMessagesCount($userId);
             $unReadMessages = $this->getUnreadMessages($userId);
@@ -1390,7 +1387,7 @@ class UserService
                 $appReadyForApproval = $this->getApplicantsReadyForRtoApproval($userId);
                 $fourDayLeftApplicants = $this->getLessDayApplicantsByRto($userId);
                 $progressProfiles = $this->getUserApplicantsListReports($userId, $userRole, '3', 0);
-                $rtoProgressAssesments = $progressProfiles['applicantList'];
+                $rtoProgressAssesments = $progressProfiles['applicantList'] = '';
                 $usersDashboardInfo['rtoApproval'] = (isset($appReadyForApproval) && !empty($appReadyForApproval)) ? $appReadyForApproval : '';
                 $usersDashboardInfo['rtoFourDaysList'] = (isset($fourDayLeftApplicants) && !empty($fourDayLeftApplicants)) ? $fourDayLeftApplicants : '';
                 $usersDashboardInfo['rtoProgressList'] = (isset($rtoProgressAssesments) && !empty($rtoProgressAssesments)) ? $rtoProgressAssesments : '';
