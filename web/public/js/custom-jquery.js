@@ -3056,7 +3056,7 @@ function updateRto(courseCode , userId, listId)
 	{
                 $("#pwd_error3_"+listId).show();
 		$("#profile_suc_msg4_"+listId).hide();		
-                $("#pwd_error3_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Assessor</h2></div>');
+                $("#pwd_error3_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select RTO</h2></div>');
 	}
     if(rtoVal != 0)
     {
