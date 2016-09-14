@@ -700,12 +700,18 @@ class EvidenceService
      */
     public function updateEvidenceViewStaus($id)
     {
-        $remObj = $this->em->getRepository('GqAusUserBundle:Evidence')->find($id);
-        $remObj->setFacilitatorViewStatus('1');
-        $this->em->persist($remObj);
-        $this->em->flush();
+        $evidenceIds = array();
+        $evidenceIds = explode(',', $id);
+        if(!empty($evidenceIds) && is_array($evidenceIds)){
+            foreach($evidenceIds as $idVal){
+                $remObj = $this->em->getRepository('GqAusUserBundle:Evidence')->find($idVal);
+                $remObj->setFacilitatorViewStatus('1');
+                $this->em->persist($remObj);
+                $this->em->flush();
+            }
+        }
     }
-    
+
     /**
      * Function to convert file size to bytes
      * @param string $size
