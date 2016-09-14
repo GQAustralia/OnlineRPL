@@ -417,15 +417,21 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('.fancybox').fancybox();
-             var orig_words = $('#selfassnote').val().split(' ').length;  
+            var orig_words = $('#selfassnote').val();
+                orig_words = orig_words.replace(/(^\s*)|(\s*$)/gi,"");//exclude  start and end white-space
+                orig_words = orig_words.replace(/[ ]{2,}/gi," ");//2 or more space to 1
+                orig_words = orig_words.replace(/\n /,"\n"); // exclude newline with a start spacing
+                orig_words = orig_words.split(' ').length;
+                       
             $('#myWordCount').text(orig_words+"/50");
             $('#selfassnote').on('keyup', function(){
                 // count words by whitespace
-               var words = $('#selfassnote').val();
+                var words = $('#selfassnote').val();
                 words = words.replace(/(^\s*)|(\s*$)/gi,"");//exclude  start and end white-space
                 words = words.replace(/[ ]{2,}/gi," ");//2 or more space to 1
                 words = words.replace(/\n /,"\n"); // exclude newline with a start spacing
                 words = words.split(' ').length;
+    
                 $('#myWordCount').text(words+"/50");
             });
         });
