@@ -8,7 +8,7 @@
         <th class="sort" data-sort="evidence"><span class="">Evidence</span></th>        
          {% endif %}
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole)  or ('ROLE_RTO' in userRole)%}
-        <th class="sort asc" data-sort="daysleft"><span class="">DAYS LEFT</span></th>
+        <th class="sort desc" data-sort="daysleft"><span class="">DAYS LEFT</span></th>
         {% endif %}
         {% if ('ROLE_RTO' not in userRole) %}
         <th class="sort" data-sort="status"><span class=""> Status </span></th>        
