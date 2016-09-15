@@ -50,7 +50,7 @@
     {% set rtoProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : rtoName %}
     {% set rtoVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
  <!-- Small Screens HTML -->
-    <div class="body_section">
+    <div class="body_section qualification">
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
@@ -70,8 +70,7 @@
                 <div class="col-xs-12 col-sm-12">
                     <div class="gqa-btn-group">
                         <div class="btn btn-download border-dark">
-                            <i class="material-icons">file_download</i>
-                            <a download="" href="#">Download Assessment Kit for this qualification</a>
+                            <a download="" href="#"><i class="material-icons">file_download</i>Download Assessment Kit for this qualification</a>
                         </div>                    
                     </div>
                 </div>
@@ -249,15 +248,15 @@
                         {% endif %}
                     {% endif %}
                     {% set colsLng = user_service.separateTabsBasedOnroleWise(userRole[0]) %}
-                                <div class="gqa-btn-group border-dark no-margin">
+                                <div class="gqa-btn-group border-dark">
                                     <div class="row no-gutter">
-                                        <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
+                                        <div class="col-xs-{{colsLng}} col-sm-{{colsLng}}">
                                             <div class="btn border-right">
                                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#message_popup"><i class="material-icons">message</i>Message</a>
                                             </div>
                                         </div>
                                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
-                                        <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
+                                        <div class="col-xs-{{colsLng}} col-sm-{{colsLng}}">
                                             <div class="btn border-right">
                                                 <div class="dropdown keep-open">
                                                     <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">create</i>Note</a></span>
@@ -273,7 +272,7 @@
                                                 </div> 
                                             </div>
                                         </div>
-                                        <div class="col-xs-{{colsLng}} col-sm-{{colsLng}} col-md-{{colsLng}}">
+                                        <div class="col-xs-{{colsLng}} col-sm-{{colsLng}}">
                                             <div class="btn border-right">
                                                 <div class="dropdown keep-open">
                                                     <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>ToDo</a></span>
@@ -291,8 +290,11 @@
                                         </div>
                                     {% endif %}
                                     {% if ('ROLE_ASSESSOR' in userRole) %}
-                                        <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
-                                           <div class="btn"><a {%if courseStatus != '10' %}href="javascript:void(0);" id="request-cc" data-courseStatus="10"{%else%} class='disabled' {%endif%}><i class="material-icons">call</i>CC</a></div>
+                                        <div class="col-xs-{{colsLng}} col-sm-{{colsLng}}">
+                                           <div class="btn">
+											   <a {%if courseStatus != '10' %}href="javascript:void(0);" id="request-cc" data-courseStatus="10"{%else%} class='disabled' {%endif%}>
+											   <i class="material-icons">call</i>CC</a>
+										   </div>
                                        </div>
                                     {% endif %}
                                     </div>
@@ -373,8 +375,7 @@
                              {% if ('ROLE_RTO' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="btn btn-download border-dark">
-                                        <i class="material-icons">file_download</i>
-                                        <a href ="javascript:void(0)" id="download_profile" userid="{{userId}}" course_code="{{courseInfo.id}}">Download complete Portfolio</a>
+                                        <a href ="javascript:void(0)" id="download_profile" userid="{{userId}}" course_code="{{courseInfo.id}}"><i class="material-icons">file_download</i>Download complete Portfolio</a>
                                     </div>
                                 </div>
                             {% endif %}
