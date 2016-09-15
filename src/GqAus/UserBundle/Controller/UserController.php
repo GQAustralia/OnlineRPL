@@ -2,6 +2,7 @@
 
 namespace GqAus\UserBundle\Controller;
 
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use GqAus\UserBundle\Form\ProfileForm;
@@ -12,7 +13,7 @@ use GqAus\UserBundle\Form\ResumeForm;
 use GqAus\UserBundle\Form\QualificationForm;
 use GqAus\UserBundle\Form\ReferenceForm;
 use GqAus\UserBundle\Form\MatrixForm;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use GqAus\UserBundle\Entity\User;
 
 class UserController extends Controller
 {
@@ -22,8 +23,9 @@ class UserController extends Controller
      * @param object $request
      * return string
      */
-        public function profileAction(Request $request)
+    public function profileAction(Request $request)
     { 
+          
         $session = $request->getSession();
         $sessionUser = $this->get('security.context')->getToken()->getUser();
         $session->set('user_id', $sessionUser->getId());
@@ -878,10 +880,17 @@ class UserController extends Controller
         if (!empty($userinfo)) {                                  
               $userid = $userinfo[0]->getId();     
               $user = $userService->getUserInfo($userid);
+//              $tokenval = new UsernamePasswordToken($user, null, 'main', array('ROLE_APPLICANT'));
+//              $this->get('security.token_storage')->setToken($tokenval);
+//              $this->get('session')->set('_security_main', serialize($tokenval));
+               
         }
+       
         return $this->render('GqAusUserBundle:User:newUserCheck.html.twig', array(
                 'userid' => $userid, 'user' => $user, 'applicantStatus' => $user->getApplicantStatus()));
         exit;
+       
+        
 //        $loginToken = $this->getRequest()->get('loginToken');
 //        $userId = $this->getRequest()->get('userId');
 //        $userService = $this->get('UserService');

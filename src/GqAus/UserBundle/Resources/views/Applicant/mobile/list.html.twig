@@ -34,7 +34,7 @@
                                     <div class="gq-dashboard-tabs-header wid20p">
                                             <ul role="tablist" id="myTab" class="clearfix">
                                                     <li role="presentation" id="applicantPending" class="col-xs-6 col-sm-6 status active">
-                                                            <a href="#current" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>
+                                                            <a href="/applicants" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>
                                                     </li>
                                                     <li role="presentation" id="applicantCompleted" class="col-xs-6 col-sm-6 status">
                                                             <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab" >COMPLETED</a>
@@ -47,7 +47,8 @@
                                 <div class="col-xs-12 col-sm-12">
                                     <div  class="filter">
                                      {#   <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search" /> #}
-                                        <input type="text" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
+                                       <input type="text" value="" id="search-current" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
+                        <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search" style="display: none;"/>  
                                     </div>
                                 </div>                                    
                             </div>
@@ -154,10 +155,10 @@
         };
         var currentList = new List('currentnew', options);
         
-         var Completedoptions = {
+        {# var Completedoptions = {
         valueNames: [ 'firstName','qualification']
         };
-        var completedList = new List('completed', Completedoptions);
+        var completedList = new List('completed', Completedoptions);#}
                        
    </script>
   

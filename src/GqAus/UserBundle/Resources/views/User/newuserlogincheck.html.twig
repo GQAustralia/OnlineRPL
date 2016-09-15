@@ -84,12 +84,18 @@
 								<p class="content">For more info at any time, check the Frequently Asked Questions</p>
 							</li>
 						</ul>
+                                                
 						<div class="btn_section clearfix">
 							<a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow" class="faq_btn">
 								<span><i class="material-icons">info</i></span>
 							FAQs</a>
-							<a href="javascript:void(0)" class="active" onclick="saveNewUserPassword()">Ok, got it</a>
+							<a href="javascript:void(0)" id="ok_got_it" class="active" onclick="saveNewUserPassword()">Ok, got it</a>
 						</div>
+                                                </form>
+                                                <form style="display: none" class="form" action="{{ path('login_check') }}" name="frmLogin" id="frmLogin" method="post">
+                                                    <input style="display: none" type="email" name = '_username' autocomplete="off"  class="form-control email" id="InputEmail1" placeholder="Email" value="{{user.getEmail}}"/>
+                                                    <input style="display: none" type="password" name='_password' autocomplete="off"  class="form-control password" id="InputPassword1" placeholder="Password" />
+                                                    <input id="login_btn_new" type="submit" class="login_btn" value="LOGIN" style="display: none"/>
                                                 </form>
 					</div>
 				</div>
