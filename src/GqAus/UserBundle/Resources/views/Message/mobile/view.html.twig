@@ -42,94 +42,95 @@
                     <ul class="mail_secion">
                         {% for key, message in messages %}
                             <li class="{% if message.read == 1 or message.sent.id == userId %} disable {% endif %} clearfix" id="msg-{{message.id}}">
-                            <span class="chat_pic">
-                                    {% if ('ROLE_APPLICANT' in userRole) %}
-                                    <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
-                                    {% else %}
-                                    {% if  message.sent.userImage is defined and message.sent.userImage!=''%}
-                                    {% set userimg = message.sent.userImage %}
-                                    {% else %}
-                                    {% set userimg = 'PROFILE.png' %}
-                                    {% endif %}
-                                        {% if message.sent.userImage is defined and message.sent.userImage != "" %}
-                                        <img src="{{ amazon_link~'user-'~message.sent.id~'/'~message.sent.userImage }}" alt="chat_pic"/>
-                                        {% else %}
-                                        <img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
-                                        {% endif %}
-                                    {% endif %}
-                            </span>
-                            <span class="chat_content">
-                                <span class="chat_name">
-                                     {% if message.sent.id is defined and message.sent.id == curuser and  message.replymid=="0"%}                                                    
-                                    <strong>You</strong>
-                                    <span class="arrow"></span>
-                                    <strong>{{message.sent.firstname}}</strong>
-                                    {% elseif message.sent.id is defined %}
-                                            {{message.sent.firstname}}
-                                    {% endif %}
-                                </span>
-                                    <span class="chat_content">
-                                            <strong> 
-                                                {% if message.replymid is defined and message.replymid != 0 %}                                       
-                                                            <span class="reply"></span>
-                                                            {% endif %}
-                                                            
-                                                            {% if parameters[1] is defined %}
-                                                             <a href="{{ base_url }}messages/{{message.id}}?{{parameters[1]}}">
-                                                            {%else%}
-                                                             <a href="{{ base_url }}messages/{{message.id}}">
-                                                            {%endif%}
-                                                            
-                                                              {% if message.subject|length > 15 %}                                                                  
-                                                                 {% set msgSubVal = message.subject|split(' ', 4) %}                                                                 
-                                                                 {% if msgSubVal[1] is defined and  msgSubVal[2] is not defined and  msgSubVal[3] is not defined %}
-                                                                    {% set msgSubValarr = msgSubVal[0] %}
-                                                                 {% elseif msgSubVal[2] is defined and  msgSubVal[3] is not defined %}
-                                                                    {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
-                                                                 {% elseif msgSubVal[3] is defined%}
-                                                                    {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1]~' '~msgSubVal[2] %}  
-                                                                 {% else %}
-                                                                     {% set msgSubValarr = msgSubVal[0] %}
-                                                                 {% endif %}
-                                                                 {{ msgSubValarr |raw ~ ' -'}}
-                                                            {% else %}
-                                                              
-                                                                {% set msgSubVal = message.subject|split(' ', 3) %}
-                                                                 {% if msgSubVal[1] is defined and  msgSubVal[2] is not defined and  msgSubVal[3] is not defined %}
-                                                                    {% set msgSubValarr = msgSubVal[0] %}
-                                                                 {% elseif msgSubVal[1] is defined and msgSubVal[2] is defined and  msgSubVal[3] is not defined %}
-                                                                    {% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
-                                                                 {% else %}
-                                                                     {% set msgSubValarr = msgSubVal[0] %}
-                                                                 {% endif %}
-                                                                 {{ msgSubValarr |raw ~ ' -'}} 
-                                                            {% endif %}
-                                                            </a> 
-                                            </strong>
-                                                      {% if message.message|length > 15 %}
-                                                            {% set msgVal = message.message|split(' ', 4) %}
-                                                             {% if msgVal[1] is defined %}
-                                                                {% set msgarr = msgVal[0]%}
-                                                             {% elseif msgVal[1] is defined and msgVal[2] is defined%}
-                                                                {% set msgarr = msgVal[0]~' '~msgVal[1] %}
-                                                             {% else %}
-                                                                 {% set msgarr = msgVal[0] %}
-                                                             {% endif %}
-                                                            {{ msgarr ~ '...' |raw}}
-                                                        {% else %}
-                                                            {% set msgVal = message.message|split(' ', 4) %}
-                                                            {% if msgVal[1] is defined %}
-                                                                {% set msgarr = msgVal[0]%}
-                                                             {% elseif msgVal[1] is defined and msgVal[2] is defined%}
-                                                                {% set msgarr = msgVal[0]~' '~msgVal[1] %}
-                                                             {% else %}
-                                                                 {% set msgarr = msgVal[0] %}
-                                                             {% endif %}
-                                                            {{ msgarr ~ '...' |raw}}
-                                                       {% endif %}
-                                    </span>
-                            </span>
+								{% if parameters[1] is defined %}
+								 <a href="{{ base_url }}messages/{{message.id}}?{{parameters[1]}}">
+								{%else%}
+								 <a href="{{ base_url }}messages/{{message.id}}">
+								{%endif%}
+								<span class="chat_pic">
+										{% if ('ROLE_APPLICANT' in userRole) %}
+										<img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+										{% else %}
+										{% if  message.sent.userImage is defined and message.sent.userImage!=''%}
+										{% set userimg = message.sent.userImage %}
+										{% else %}
+										{% set userimg = 'PROFILE.png' %}
+										{% endif %}
+											{% if message.sent.userImage is defined and message.sent.userImage != "" %}
+											<img src="{{ amazon_link~'user-'~message.sent.id~'/'~message.sent.userImage }}" alt="chat_pic"/>
+											{% else %}
+											<img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="chat_pic"/>
+											{% endif %}
+										{% endif %}
+								</span>
+								<span class="chat_content">
+									<span class="chat_name">
+										 {% if message.sent.id is defined and message.sent.id == curuser and  message.replymid=="0"%}                                                    
+										<strong>You</strong>
+										<span class="arrow"></span>
+										<strong>{{message.sent.firstname}}</strong>
+										{% elseif message.sent.id is defined %}
+												{{message.sent.firstname}}
+										{% endif %}
+									</span>
+										<span class="chat_content">
+												<strong> 
+													{% if message.replymid is defined and message.replymid != 0 %}                                       
+																<span class="reply"></span>
+																{% endif %}
+																
+																
+																
+																  {% if message.subject|length > 15 %}                                                                  
+																	 {% set msgSubVal = message.subject|split(' ', 4) %}                                                                 
+																	 {% if msgSubVal[1] is defined and  msgSubVal[2] is not defined and  msgSubVal[3] is not defined %}
+																		{% set msgSubValarr = msgSubVal[0] %}
+																	 {% elseif msgSubVal[2] is defined and  msgSubVal[3] is not defined %}
+																		{% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
+																	 {% elseif msgSubVal[3] is defined%}
+																		{% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1]~' '~msgSubVal[2] %}  
+																	 {% else %}
+																		 {% set msgSubValarr = msgSubVal[0] %}
+																	 {% endif %}
+																	 {{ msgSubValarr |raw ~ ' -'}}
+																{% else %}
+																  
+																	{% set msgSubVal = message.subject|split(' ', 3) %}
+																	 {% if msgSubVal[1] is defined and  msgSubVal[2] is not defined and  msgSubVal[3] is not defined %}
+																		{% set msgSubValarr = msgSubVal[0] %}
+																	 {% elseif msgSubVal[1] is defined and msgSubVal[2] is defined and  msgSubVal[3] is not defined %}
+																		{% set msgSubValarr = msgSubVal[0]~' '~msgSubVal[1] %}
+																	 {% else %}
+																		 {% set msgSubValarr = msgSubVal[0] %}
+																	 {% endif %}
+																	 {{ msgSubValarr |raw ~ ' -'}} 
+																{% endif %}
+												</strong>
+														  {% if message.message|length > 15 %}
+																{% set msgVal = message.message|split(' ', 4) %}
+																 {% if msgVal[1] is defined %}
+																	{% set msgarr = msgVal[0]%}
+																 {% elseif msgVal[1] is defined and msgVal[2] is defined%}
+																	{% set msgarr = msgVal[0]~' '~msgVal[1] %}
+																 {% else %}
+																	 {% set msgarr = msgVal[0] %}
+																 {% endif %}
+																{{ msgarr ~ '...' |raw}}
+															{% else %}
+																{% set msgVal = message.message|split(' ', 4) %}
+																{% if msgVal[1] is defined %}
+																	{% set msgarr = msgVal[0]%}
+																 {% elseif msgVal[1] is defined and msgVal[2] is defined%}
+																	{% set msgarr = msgVal[0]~' '~msgVal[1] %}
+																 {% else %}
+																	 {% set msgarr = msgVal[0] %}
+																 {% endif %}
+																{{ msgarr ~ '...' |raw}}
+														   {% endif %}
+										</span>
+								</span>
                                     <span class="date_time">{{ message.created | date("d/m/y") }}</span>
+								</a>
                             </li>
                         {% endfor %}
                     </ul>

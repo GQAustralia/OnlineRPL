@@ -22,7 +22,11 @@
                         <ul class="mail_secion">
                             {% for key, message in messages %}
                                 <li class="{% if message.read == 1 or message.sent.id == userId %} disable {% endif %} clearfix" id="msg-{{message.id}}">
-                                    
+                                    {% if parameters[1] is defined %}
+									 <a href="{{ base_url }}messages/{{message.id}}?{{parameters[1]}}" class="clearfix">
+									{%else%}
+									 <a href="{{ base_url }}messages/{{message.id}}" class="clearfix">
+									{%endif%} 
                                         <span class="chat_pic">
                                             {% if  message.sent.userImage is defined and message.sent.userImage!=''%}
                                             {% set userimg = amazon_link~'user-'~message.sent.id~'/'~message.sent.userImage %}
@@ -52,11 +56,7 @@
                                                             <span class="reply"></span>
                                                             {% endif %}
                                                             
-                                                            {% if parameters[1] is defined %}
-                                                             <a href="{{ base_url }}messages/{{message.id}}?{{parameters[1]}}">
-                                                            {%else%}
-                                                             <a href="{{ base_url }}messages/{{message.id}}">
-                                                            {%endif%}
+                                                            
                                                            
                                                             {% if message.subject|length > 15 %}                                                                  
                                                                  {% set msgSubVal = message.subject|split(' ', 4) %}                                                                 
@@ -82,7 +82,7 @@
                                                                  {% endif %}
                                                                  {{ msgSubValarr |raw ~ ' -'}} 
                                                             {% endif %}
-                                                            </a> 
+                                                            
                                                         </strong>
                                                         {% if message.message|length > 15 %}
                                                             {% set msgVal = message.message|split(' ', 4) %}
@@ -108,6 +108,7 @@
                                                 </span>
                                         </span>
                                         <span class="date_time">{{ message.created | date("d/m/y") }}</span>
+									</a>
                                 </li>
 
                             {% endfor %}
