@@ -613,27 +613,36 @@ class UserService
         if ($status != 2 && $userType == "assessor") {
            // $res->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
             if ($status == 0) {
-                $avals = array('2', '10', '11', '12', '13', '14');
-                $res->andWhere('c.courseStatus IN (:ids)')->setParameter('ids', $avals);
+                //$avals = array('2', '10', '11', '12', '13', '14');
+                $res->andWhere(sprintf('c.%s = :%s', 'facilitatorstatus', 'facilitatorstatus'))->setParameter('facilitatorstatus', '1');
+                $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '0');
+                //$res->andWhere('c.courseStatus IN (:ids)')->setParameter('ids', $avals);
             }
             else
             {
-                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
+                //$valsAssessor = array('0','15','16');
+                $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
+                //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', $valsAssessor);
             }
         }
 
         if ($status != 2 && $userType == 'rto') {
             //$res->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
             if ($status == 1) {
-                  $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');              
+                  //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
+                $res->andWhere(sprintf('c.%s = :%s', 'facilitatorstatus', 'facilitatorstatus'))->setParameter('facilitatorstatus', '1');
+                $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
+                $res->andWhere(sprintf('c.%s = :%s', 'rtostatus', 'rtostatus'))->setParameter('rtostatus', '0');
             }
             else if ($status == 0){
-                 $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '15');
+                 //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '15');
+                $res->andWhere(sprintf('c.%s = :%s', 'rtostatus', 'rtostatus'))->setParameter('rtostatus', '1');
             }
         }
         if ($userType == 'facilitator') {            
             if ($status == 1) {
-                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
+                $avalFac = array('0', '16');
+                $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', $avalFac);
             } else {
                 $avals = array('1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15');
                 $res->andWhere('c.courseStatus IN (:ids)')->setParameter('ids', $avals);
