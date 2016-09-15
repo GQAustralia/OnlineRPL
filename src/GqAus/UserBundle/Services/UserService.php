@@ -3836,7 +3836,10 @@ class UserService
                     break;
                 case 'ROLE_FACILITATOR' :
                     $approvalStatus = $userCourseUnits->getFacilitatorstatus();
-                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
+                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : '2';  
+                    $unitStatus = $userCourseUnits->getIssubmitted();
+                    if($approvalStatus == '2')
+                        $approvalStatus = ($unitStatus == 1) ? '' : 'Not Yet Satisfactory';
                     break;
               case 'ROLE_APPLICANT' :
                     $approvalStatus = $userCourseUnits->getRtostatus();
