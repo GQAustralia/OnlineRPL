@@ -1399,7 +1399,7 @@ class UserService
                 $appReadyForApproval = $this->getApplicantsReadyForRtoApproval($userId);
                 $fourDayLeftApplicants = $this->getLessDayApplicantsByRto($userId);
                 $progressProfiles = $this->getUserApplicantsListReports($userId, $userRole, '3', 0);
-                $rtoProgressAssesments = $progressProfiles['applicantList'] = '';
+                $rtoProgressAssesments = $progressProfiles['applicantList'];
                 $usersDashboardInfo['rtoApproval'] = (isset($appReadyForApproval) && !empty($appReadyForApproval)) ? $appReadyForApproval : '';
                 $usersDashboardInfo['rtoFourDaysList'] = (isset($fourDayLeftApplicants) && !empty($fourDayLeftApplicants)) ? $fourDayLeftApplicants : '';
                 $usersDashboardInfo['rtoProgressList'] = (isset($rtoProgressAssesments) && !empty($rtoProgressAssesments)) ? $rtoProgressAssesments : '';
