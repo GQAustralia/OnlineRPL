@@ -502,15 +502,15 @@ class UserService
                     $courseUnitObj->setFacilitatorstatus($result['status']);
                     $courseUnitObj->setIssubmitted($resetStatus);
                     $courseObj->setCourseStatus('7');
-                    $courseObj->setFacilitatorstatus($resetStatus);
+//                    $courseObj->setFacilitatorstatus($resetStatus);
                     break;
                 case 'ROLE_RTO':
                     $courseUnitObj->setAssessorstatus($result['status']);
                     $courseUnitObj->setFacilitatorstatus($result['status']);
                     $courseUnitObj->setIssubmitted($resetStatus);
                     $courseObj->setCourseStatus('7');
-                    $courseObj->setFacilitatorstatus($resetStatus);
-                    $courseObj->setAssessorstatus($resetStatus);
+//                    $courseObj->setFacilitatorstatus($resetStatus);
+//                    $courseObj->setAssessorstatus($resetStatus);
                     break; 
             }
             $this->em->persist($courseUnitObj);
