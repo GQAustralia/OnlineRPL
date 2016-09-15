@@ -53,11 +53,11 @@
     padding: 5px 10px
 }
 .main_container .portfolio-container .portfolio-data-table .table {
-    margin: 0
+    margin: 0;
+	table-layout: fixed;
 }
 .main_container .portfolio-container .portfolio-data-table .table thead {
     border: 1px solid #4a4a4a;
-	border-left:0;
 }
 .main_container .portfolio-container .portfolio-data-table .table tbody {
     border: 1px solid #d8d8d8
@@ -118,7 +118,8 @@
 	text-align: left;
 }
 .main_container .portfolio-container .portfolio-data-table .table td a {
-    color: #333
+    color: #333;
+	word-wrap: break-word;
 }
 .main_container .portfolio-container .portfolio-data-table .table td a:focus {
     text-decoration: none
