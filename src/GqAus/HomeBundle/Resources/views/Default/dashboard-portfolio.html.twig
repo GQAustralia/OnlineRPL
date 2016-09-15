@@ -335,7 +335,7 @@
 						<ul>
 							{% for key, rtoProgressList in rtoProgressList %}
 								<li class="clearfix">
-									<span class="content"><strong><a href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoProgressList.courseCode }}/{{ rtoProgressList.user.id }}" title="View Portfolio">{{rtoProgressList.user.firstName}} {{rtoProgressList.user.lastName}}</a></strong> - {{rtoProgressList.courseName}}</span>
+									<span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoProgressList.courseCode }}/{{ rtoProgressList.user.id }}" title="View Portfolio">{{rtoProgressList.user.firstName}} {{rtoProgressList.user.lastName}}</a></strong> - {{rtoProgressList.courseName}}</span>
 								</li>
 							{% endfor %}
 						</ul>
