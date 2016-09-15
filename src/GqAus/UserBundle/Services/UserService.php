@@ -496,19 +496,19 @@ class UserService
             switch ($result['userRole']) {
                case 'ROLE_FACILITATOR':
                     $courseUnitObj->setIssubmitted($resetStatus);
-                    $courseObj->setCourseStatus('1');
+                    $courseObj->setCourseStatus('5');
                     break;
                 case 'ROLE_ASSESSOR':
                     $courseUnitObj->setFacilitatorstatus($result['status']);
                     $courseUnitObj->setIssubmitted($resetStatus);
-                    $courseObj->setCourseStatus('1');
+                    $courseObj->setCourseStatus('5');
                     $courseObj->setFacilitatorstatus($resetStatus);
                     break;
                 case 'ROLE_RTO':
                     $courseUnitObj->setAssessorstatus($result['status']);
                     $courseUnitObj->setFacilitatorstatus($result['status']);
                     $courseUnitObj->setIssubmitted($resetStatus);
-                    $courseObj->setCourseStatus('1');
+                    $courseObj->setCourseStatus('5');
                     $courseObj->setFacilitatorstatus($resetStatus);
                     $courseObj->setAssessorstatus($resetStatus);
                     break; 
