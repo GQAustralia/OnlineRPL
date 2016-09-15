@@ -544,6 +544,18 @@ class UserService
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
                 $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $asrMessageSubject, $asrMessageBody, $courseUnitObj->getId());
             }
+            if ($result['userRole'] == 'ROLE_RTO') {
+                $rtoMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_disappove_evdience_rto_sub'));
+                $rtoMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_disappove_evdience_rto_sub'));
+                $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#unitId#', '#unitName#', '#userName#', '#fromUserName#','#applicationUrl#');
+                $msgReplace = array($facilitatorName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $userName, $result['currentUserName'], $this->container->getParameter('applicationUrl'));
+                $rtoMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_rto_con'));
+                $rtoMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_rto_con'));
+                /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+                $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $rtoMailSubject, $rtoMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername()); 
+                /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $rtoMessageSubject, $rtoMessageBody, $courseUnitObj->getId());
+            }
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
