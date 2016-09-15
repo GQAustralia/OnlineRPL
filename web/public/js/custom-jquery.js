@@ -1132,6 +1132,12 @@ $("#applicantPending").click(function() {
      $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
      
 });
+  $("#search-current").keyup(function () {
+      if($('#search-current').val() != "")
+        $('.gq-pagination-area').hide();
+      else
+        $('.gq-pagination-area').show(); 
+  });
 
 $("#applicantCompleted").click(function() {
     $("#search-current").val("");
@@ -2984,6 +2990,7 @@ $('#closeMyModal').click(function(){
 function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 {   
     var facBtn = $('.update_fac_btn');
+    facBtn.text("Saving..");
     //
     facVal = $('#fac_'+listId).val();  
 	if(facVal == 0)
@@ -3010,6 +3017,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
                     $("#profile_suc_msg2_"+listId).show();
                      $("#profile_suc_msg2_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>'+res.message+'</span></div>');
                      facBtn.attr('disabled', false);
+                     facBtn.text("UPDATE");
                 }
             },
             error: function(){
@@ -3028,7 +3036,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 function updateAssessor(courseCode , userId, listId)
 {
     var facBtn = $('.update_ass_btn');
-    
+    facBtn.text("Saving..");
     var assVal = $('#ass_'+listId).val();
     $("#profile_suc_msg3_"+listId).hide();
 	if(assVal == 0)
@@ -3056,6 +3064,7 @@ function updateAssessor(courseCode , userId, listId)
                     $("#profile_suc_msg3_"+listId).show();
                      $("#profile_suc_msg3_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>'+res.message+'</span></div>');
                       facBtn.attr('disabled', false);
+                      facBtn.text("UPDATE");
                 }
                 
             },
@@ -3075,6 +3084,7 @@ function updateAssessor(courseCode , userId, listId)
 function updateRto(courseCode , userId, listId)
 {
     var facBtn = $('.update_rto_btn');    
+    facBtn.text("Saving..");
     rtoVal = $('#rto_'+listId).val();
 	if(rtoVal == 0)
 	{
@@ -3101,6 +3111,7 @@ function updateRto(courseCode , userId, listId)
                     $("#profile_suc_msg4_"+listId).show();
                      $("#profile_suc_msg4_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>'+res.message+'</span></div>');
                      facBtn.attr('disabled', false);
+                     facBtn.text("UPDATE");
                 }
                 
             },
@@ -3761,6 +3772,7 @@ function validateNewMessage(toMessage,sublect,composeMsg)
         userExistMsg("Please enter Message","compose_message");
         return false;
     }
+    
 }
 
 /* function to check email already exist */
