@@ -120,7 +120,8 @@
 .main_container .portfolio-container .portfolio-data-table .table td ul {
     margin: 0 auto;
     display: block;
-    text-align: right
+    text-align: right;
+	float: right
 }
 .main_container .portfolio-container .portfolio-data-table .table td ul li {
     float: left
