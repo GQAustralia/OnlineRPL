@@ -945,3 +945,7 @@ table.dataTable td {
 	font-size:0px;
 	text-indent: -1000px;
 }
+.dataTables_wrapper .dataTables_paginate .paginate_button.next.disabled,
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous.disabled{
+        opacity: 0.5;
+}
