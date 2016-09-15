@@ -1404,6 +1404,8 @@ function validateAddress()
     
     $("#change_address_error").hide();
     $("#profile_suc_msg2").hide();
+    $("#profile_suc_msg").hide();
+   
    // $("#profile_suc_msg2").hide();
     var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
@@ -1471,10 +1473,12 @@ function validateAddress()
                 $("#userprofile_phone").focus();
                 return false;
         }   
-            if (uphone.length > 12) {        
+            if ((uphone.length >= 12) && (uphone.search(phone) == -1 ) ) {
+                    
                     showMyTabs("Phone number must be XXXX-XXX-XXX format");
                     $("#userprofile_phone").focus();
                     return false;
+                
             }
     }
 }
@@ -1580,7 +1584,7 @@ function validateAddress()
             $("#userprofile_contactphone").focus();
             return false;
     }
-    if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length > 12) {        
+    if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length >= 12 &&  ($("#userprofile_contactphone").val().search(phone) == -1 )) {        
             showMyTabs("Phone number must be XXXX-XXX-XXX format");
             $("#userprofile_contactphone").focus();
             return false;
