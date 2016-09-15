@@ -90,3 +90,8 @@
 			</div>
 		</div>
 	</div>
+<form style="display: none" class="form" action="{{ path('login_check') }}" name="frmLogin" id="frmLogin" method="post">
+    <input style="display: none" type="email" name = '_username' autocomplete="off"  class="form-control email" id="InputEmail1" placeholder="Email" value="{{user.getEmail}}"/>
+    <input style="display: none" type="password" name='_password' autocomplete="off"  class="form-control password" id="InputPassword1" placeholder="Password" />
+    <input id="login_btn_new" type="submit" class="login_btn" value="LOGIN" style="display: none"/>
+</form>

@@ -2782,7 +2782,8 @@ $('#newUserupdatePassword').on('submit', function(e) {
                         $("#profile_suc_msg3").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Password updated successfully!</h2></div>'); 
                         var data = result.split('@'); 
                         if(data[1] == 2)
-                        {          
+                        {  
+                            $("#InputPassword1").val($('#new-password').val());
                             $("#onboard2").removeClass("hidden");
                             $('#onboard2').modal({backdrop: 'static', keyboard: false,show:true});                            
                             $("#newUserupdatePassword").addClass("hidden");
@@ -2809,19 +2810,26 @@ function saveUserPassword(){
    return false;
 }
 
-function saveNewUserPassword(){       
-           $.ajax({
-                type: "POST",
-                url: base_url+"updateNewUserAjaxStatus",
-                cache: false,
-                data: {tokenid:$('#hdn_login_token').val()},
-                success: function(result) {
-                   window.location.href = base_url+'login';
-                }
-            });
-      
-       
-   return false;
+
+//$("#ok_got_it").click(function() {
+//    saveNewUserPassword();
+//    $('#frmLogin').submit();
+//});
+
+function saveNewUserPassword() {
+    
+    $.ajax({
+        type: "POST",
+        url: base_url + "updateNewUserAjaxStatus",
+        cache: false,
+        data: {tokenid: $('#hdn_login_token').val()},
+        success: function(result) {
+          $('#frmLogin').submit();
+        }
+    });
+
+
+    return false;
 }
 
 $('body').on('click', '.existing-evidence-filter', function(){
