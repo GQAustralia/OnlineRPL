@@ -3442,9 +3442,18 @@ function cancelCheckbox()
         }
      
 }
-function setUnitId(id)
-{
+function setUnitId(courseCode,id,ElectiveCount,RequiredCount)
+{    
     $('#unitcheckval').val(id);
+   var ckbox = $('#span_'+$('#unitcheckval').val());
+   var count = $('input[name="chk-val-'+courseCode+'[]"]:checked').length;
+    if((ckbox.is(':checked')) && (count > RequiredCount))
+    {
+        $("#validate-info").modal('show');
+    }
+    else{
+        $("#myModal").modal('show');
+    }
 }
 
 function convertToEdit(courseCode)
