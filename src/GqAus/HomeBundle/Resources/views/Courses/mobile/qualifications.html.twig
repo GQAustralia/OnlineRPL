@@ -15,7 +15,7 @@
 {% else %}
     {% set counter = '' %}
     {% set counterArr = 0 %}
-    <div class="body_section">
+<div class="body_section qualification">
 {% for key, courses in userCourses %}       
     {% set userRole = app.security.getToken().getUser().getRoles() %}
     {% set userId = app.security.getToken().getUser().getId() %}     
