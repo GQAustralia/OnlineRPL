@@ -115,25 +115,25 @@
 						<div class="row no-gutter">
 							{% if ('ROLE_FACILITATOR' in userRole or 'ROLE_MANAGER' in userRole) and actUnitStatus =='1' %}
 								{% if unitFacStatus == '0' or unitFacStatus == '2' %}
-							<div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory">Satisfactory</button></div>
+							<div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-dismiss="modal" data-target="#satisfactory">Satisfactory</button></div>
 								{#% if unitFacStatus == '0' %#}
-							<div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-target="#not-satisfactory">Not yet Satisfactory</button></div>
+							<div class="col-md-6 col-lg-6"><button type="button" class="btn btn-danger border-right" data-toggle="modal" data-dismiss="modal" data-target="#not-satisfactory">Not yet Satisfactory</button></div>
 									{#% endif %#}
 								{% endif %}
 							{% endif %}
 							{% if ('ROLE_ASSESSOR' in userRole and actUnitStatus =='1') %}
 								{% if (unitAssStatus == '0' or unitAssStatus == '2') and unitFacStatus == '1' %}
-							<div class="col-md-6 col-lg-6"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
+							<div class="col-md-6 col-lg-6"><button class="btn btn-danger border-right" data-toggle="modal" data-dismiss="modal" data-target="#satisfactory" type="button">Competent</button></div>
 									{#% if unitAssStatus == '0' %#}
-							<div class="col-md-6 col-lg-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
+							<div class="col-md-6 col-lg-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-dismiss="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
 									{#% endif %#}
 								{% endif %}
 							{% endif %}
 							{% if ('ROLE_RTO' in userRole and actUnitStatus =='1') %}
 								{% if (unitRtostatus == '0' or unitRtostatus == '2') and unitAssStatus == '1' %}
-							<div class="col-md-6 col-lg-6"><button class="btn btn-danger border-right" data-toggle="modal" data-target="#satisfactory" type="button">Competent</button></div>
+							<div class="col-md-6 col-lg-6"><button class="btn btn-danger border-right" data-toggle="modal" data-dismiss="modal" data-target="#satisfactory" type="button">Competent</button></div>
 							{#% if unitRtostatus == '0' %#}
-							<div class="col-md-6 col-lg-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
+							<div class="col-md-6 col-lg-6"><button class="btn btn-danger" type="button" data-toggle="modal" data-dismiss="modal" data-target="#not-satisfactory">Not yet Competent</button></div>
 							{#% endif %#}
 								{% endif %}
 							{% endif %}
@@ -216,7 +216,7 @@
         </div>
     </div>
     <div class="modal-pop">
-        <div role="dialog" id="satisfactory" class="modal fade" style="display: none;">
+        <div role="dialog" id="satisfactory" data-backdrop="static" data-keyboard="false" class="modal fade" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content satisfactory-modal-content">
                     <div class="modal-body"><p><strong>Done!</strong><br>This unit is  {% if ('ROLE_FACILITATOR' in userRole or 'ROLE_MANAGER' in userRole) %}SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}COMPETENT{% elseif('ROLE_RTO' in userRole)%}COMPETENT{% endif %}.<br/>Do you want to send {{userName}} a message about this?</p></div>
@@ -243,7 +243,7 @@
                 </div>
             </div>
         </div>
-        <div role="dialog" id="not-satisfactory" class="modal fade" style="display: none;">
+        <div role="dialog" id="not-satisfactory" data-backdrop="static" data-keyboard="false" class="modal fade" style="display: none;">
             <div class="modal-dialog"><!-- Modal content-->
                <div class="modal-content not-satisfactory-modal-content">
                     <div class="modal-body"><p><strong>Add a Message</strong><br>Please let {{userName}} know why this unit is <br>{% if ('ROLE_FACILITATOR' in userRole) %}NOT YET SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}NOT YET COMPETENT{% elseif('ROLE_RTO' in userRole)%}NOT YET COMPETENT{% endif %}</p>

@@ -137,7 +137,7 @@
         </div>
     </div><!-- Small Screens HTML End -->
     <div class="modal-pop">
-        <div role="dialog" id="satisfactory" class="modal fade" style="display: none;">
+        <div role="dialog" id="satisfactory"  data-backdrop="static" data-keyboard="false" class="modal fade" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content satisfactory-modal-content">
                     <div class="modal-body"><p><strong>Done!</strong><br>This unit is  {% if ('ROLE_FACILITATOR' in userRole) %}SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}COMPETENT{% elseif('ROLE_RTO' in userRole)%}COMPETENT{% endif %}.<br/>Do you want to send {{userName}} a message about this?</p></div>
@@ -164,7 +164,7 @@
                 </div>
             </div>
         </div>
-        <div role="dialog" id="not-satisfactory" class="modal fade" style="display: none;">
+        <div role="dialog" id="not-satisfactory"  data-backdrop="static" data-keyboard="false" class="modal fade" style="display: none;">
             <div class="modal-dialog"><!-- Modal content-->
                <div class="modal-content not-satisfactory-modal-content">
                     <div class="modal-body"><p><strong>Add a Message</strong><br>Please let {{userName}} know why this unit is <br>{% if ('ROLE_FACILITATOR' in userRole) %}NOT YET SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}NOT YET COMPETENT{% elseif('ROLE_RTO' in userRole)%}NOT YET COMPETENT{% endif %}</p>
