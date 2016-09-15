@@ -74,6 +74,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
                         <div class="gqa-btn-group border-dark">
                             <div class="row no-margin">
                                 <div class="col-xs-12 col-sm-12">
@@ -93,6 +94,7 @@
                                 </div>
                             </div>
                         </div>
+                        {%endif%}
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12">
