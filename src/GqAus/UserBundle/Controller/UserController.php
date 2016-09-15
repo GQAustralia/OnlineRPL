@@ -430,7 +430,14 @@ class UserController extends Controller
         } else {
             $user = $this->get('security.context')->getToken()->getUser();
         }
-        $results['evidences'] = $user->getEvidences();
+        $evidences = $user->getEvidences();
+        /* if(!empty($evidences) && is_array($evidences)){ */
+            foreach($evidences as $key => $evidence){
+                $evdPath = (method_exists($evidence,'getName')) ?  $evidence->getPath() : $evidence->getContent();
+                $uniqueEvidences[$evdPath][] = $evidence;
+            }
+        /* } */
+        $results['evidences'] = $uniqueEvidences;
         echo $this->renderView('GqAusUserBundle:User:userevidence.html.twig', $results);
         exit;
     }
