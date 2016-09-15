@@ -76,7 +76,7 @@
                                     {% if evidences|length > 0%}
                                             {% for eKey, evd in evidences %}
                                                     {% if evd[0].type !='text' %}
-                                                                    {% set iconType = (evd[0].type == 'image') ? 'photo' : ((evd[0].type == 'audio') ? 'mic' : (evd[0].type == 'video') ? 'videocam' : '') %}
+                                                                    {% set iconType = (evd[0].type == 'image') ? 'photo' : ((evd[0].type == 'audio') ? 'mic' : (evd[0].type == 'video') ? 'videocam' : 'description') %}
                                                             {% if evd[0].name %}
                                                                     <div class="block type-{{ evd[0].type}}">
                                                                             <div class="files_mobile_version">
