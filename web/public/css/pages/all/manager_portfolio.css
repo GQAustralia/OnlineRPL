@@ -114,6 +114,9 @@
 	text-align: center;	
 	position: relative;
 }
+.main_container .portfolio-container .portfolio-data-table .table td.status{
+	text-align: left;
+}
 .main_container .portfolio-container .portfolio-data-table .table td a {
     color: #333
 }

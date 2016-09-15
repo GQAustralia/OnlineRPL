@@ -120,6 +120,7 @@
 .gq-id-files-upload-success-text {
     width: 100%;
     text-align: center;
+	padding-top: 0;
 }
 .gq-id-files-upload-success-text span {
 	color:green; 
@@ -133,6 +134,7 @@
 .gq-id-file-error-text h2,.gq-id-files-upload-error-text h2 {
     color: #e01010;
     font-size: 13px;
+	text-align: center;
 }
 #err_msg{
 	width: 100%;

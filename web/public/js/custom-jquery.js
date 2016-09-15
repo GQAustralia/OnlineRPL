@@ -2170,9 +2170,9 @@ $(".deleteUser").click(function() {
         success: function(result) {
             $("#uclose").trigger("click");
             if (result == 0) {
-                 $("#err_msg").html('<div class="gq-id-files-upload-error-text" style="display: block;"><span><img src="' + base_url + '/public/images/login-error-icon.png">This User cannot be deleted!</span></div>');
+                 $("#err_msg").html('<div class="gq-id-files-upload-error-text" style="display: block;"><h2>This User cannot be deleted!</h2></div>');
             } else {
-                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + '/public/images/tick.png">User deleted successfully!</span></div>');
+                $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>User deleted successfully!</span></div>');
                 $("#searchUserFilter").trigger("click");
             }
             $('.deleteuser_loader').hide();

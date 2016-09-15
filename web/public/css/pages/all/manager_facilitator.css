@@ -412,12 +412,7 @@
     }
     .main_container .portfolio-container .portfolio-filter select {
         border-radius: 0;
-        width: 65%;
         box-shadow: none;
-		margin-left: 15px;
-    }
-    .main_container .portfolio-container .portfolio-filter .btn_red {
-        margin-top: 0
     }
     .main_container .portfolio-container .portfolio-filter.mobile-version {
         display: none
@@ -429,6 +424,15 @@
 		display: inline-block;
 		float: none;
 		margin-left: 10px;
+	}
+}
+@media screen and (min-width: 1024px) {
+	.main_container .portfolio-container .portfolio-filter select {
+        width: 65%;
+		margin-left: 15px;
+    }
+	.main_container .portfolio-container .portfolio-filter .btn_red{
+		margin-top: 0;
 	}
 }
 
