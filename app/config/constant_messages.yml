@@ -223,3 +223,16 @@ parameters:
                                  Email: #userEmail#<br/> 
                                  Password: #userPassWord# <br/><br/><br/> 
                                  Regards,<br/>OnlineRPL
+    msg_disappove_evdience_rto_sub: "Not Yet Competent for - #courseCode# : #courseName# - Unit : #unitName#" 
+    msg_disappove_evdience_rto_con: >
+                                    Dear #toUserName#, <br/><br/> 
+                                    You're deemed NOT YET COMPETENT for the the unit #unitId# #unitName# under #courseCode# - #courseName#.
+                                    Candidate details: #userName#.<br/><br/>
+                                    Regards, <br/>#fromUserName#
+    mail_disappove_evdience_rto_sub: "Get Qualified Australia - Online RPL:  Notification" 
+    mail_disappove_evdience_rto_con: >
+                                       Hi #toUserName#, <br/><br/> 
+                                       We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
+                                       <a href='#applicationUrl#messages'>Click here</a> to login to your Online RPL account.<br /><br/>
+                                       Regards, <br/>#fromUserName#
+

@@ -339,10 +339,9 @@
         {% set statusOfFacElecUnitsCount = '' %}
         {% if totalCheckedCount >= electiveUnitCountRequired%}
         {% set statusOfFacElecUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseCode, 'facilitatorstatus', 'elective') %}
-        
-                <div class="course-edit show"  id="course-btn-container-{{courseCode}}">
+                        <div class="course-edit show"  id="course-btn-container-{{courseCode}}">
                         <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show'>
-                            {% if statusOfFacElecUnitsCount != electiveUnitCountRequired %} <i class="material-icons edit">edit</i> {% endif %}</a>
+                            {% if statusOfFacElecUnitsCount >= electiveUnitCountRequired %} {% else %}<i class="material-icons edit">edit</i> {% endif %}</a>
                         <button type="button" class="btn user-show" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
                 </div>
 
@@ -350,7 +349,7 @@
                 
                 <div class="course-edit hide" id="course-btn-container-{{courseCode}}">
                         <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show'>
-                             {% if statusOfFacElecUnitsCount != electiveUnitCountRequired %} <i class="material-icons edit">edit</i> {% endif %}</a>
+                             {% if statusOfFacElecUnitsCount >= electiveUnitCountRequired %}{% else %} <i class="material-icons edit">edit</i> {% endif %}</a>
                         <button type="button" class="btn user-show" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
                 </div>
         {% endif %}
@@ -393,8 +392,8 @@
               
             </div>
              {% if totalCheckedCount >= electiveUnitCountRequired%}
-                <div class="checkbox_outer modalClass checkmark-icon hide"  data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
-                    <input {% if approvalText == "Satisfactory" or approvalText == "Competent" %} disabled="disabled" {% else %} {% endif %} name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{units.id}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
+                <div class="checkbox_outer modalClass checkmark-icon hide"  data-toggle="modal" data-target="" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
+                    <input {% if approvalText == "Satisfactory" or approvalText == "Competent" %} disabled="disabled" {% else %} {% endif %} name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{courseCode}}','{{units.id}}','{{totalCheckedCount}}','{{electiveUnitCountRequired}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
                      
             </div>
             <div class="user-redirect-arrow">
@@ -403,8 +402,8 @@
                 </a>
             </div>
             {% else %}
-                    <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="#myModal" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
-                    <input {% if approvalText == "Satisfactory" or approvalText == "Competent" %} disabled="disabled" {% else %} {% endif %}  name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{units.id}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
+                    <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
+                    <input {% if approvalText == "Satisfactory" or approvalText == "Competent" %} disabled="disabled" {% else %} {% endif %}  name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{courseCode}}','{{units.id}}','{{totalCheckedCount}}','{{electiveUnitCountRequired}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
                      
             </div>
             <div class="user-redirect-arrow hide">
@@ -467,7 +466,28 @@
             </div>
         </div>
 
-    
+      <div class="modal fade" id="validate-info" role="dialog" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-sm modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>
+                        <!--button type="button" class="close" data-dismiss="modal">&times;</button-->
+                          You have reache Your Required Elective Units.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="gqa-btn-group btn-file-save">
+                                <div class="row no-gutter">
+                                    <div class="col-xs-12 col-md-12 col-md-12 col-lg-12">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="return cancelCheckbox();">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}
     
 {% block javascripts %}
