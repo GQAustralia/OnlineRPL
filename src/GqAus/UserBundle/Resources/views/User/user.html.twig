@@ -112,17 +112,18 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                                 <div class="modal-header">
-                                     <button type="button" class="close" onclick="return passwordCancel();">&times;</button>
-                                     <!--<div class="modal-title">Change Password</div>-->
+                                     <div class="modal-title">
+										<button type="button" class="close" onclick="return passwordCancel();">&times;</button>
+										<div class="gq-change-pwd-warning" id="pwd_error">
+											{% for flashMessage in app.session.flashbag.get('errornotice') %}
+											<div class="gq-id-pwd-error-text" style="display:none">
+												<h2>{{ flashMessage }}</h2>
+											</div>
+										   {% endfor %}
+										</div>
+									 </div>
                                 </div>
                                 <div class="modal-body" id="change-pwd-form">
-                                     <div class="gq-change-pwd-warning" id="pwd_error">
-                                        {% for flashMessage in app.session.flashbag.get('errornotice') %}
-                                        <div class="gq-id-pwd-error-text" style="display:none">
-                                            <h2>{{ flashMessage }}</h2>
-                                        </div>
-                                       {% endfor %}
-                                    </div>
                                     {{ form_start(changepwdForm, {'attr': {'class': 'form-inline'}}) }} 
                                      <input type="hidden" name="hdn_pwd_check" id="hdn_pwd_check" value="0">
                                                 <div class="form-group">
