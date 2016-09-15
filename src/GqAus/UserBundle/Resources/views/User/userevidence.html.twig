@@ -3,16 +3,17 @@
 {% set imageCount = 0 %}
 {% set fileCount = 0 %}
 {% set textCount = 0 %}
+
 {% for eKey, evd in evidences %}
-    {% if (evd.type == 'video') %}
+    {% if (evd[0].type == 'video') %}
         {% set videoCount = videoCount + 1 %}
-    {% elseif (evd.type == 'audio') %}
+    {% elseif (evd[0].type == 'audio') %}
         {% set audioCount = audioCount + 1 %}
-    {% elseif (evd.type == 'image') %}
+    {% elseif (evd[0].type == 'image') %}
         {% set imageCount = imageCount + 1 %}
-    {% elseif (evd.type == 'file') %}
+    {% elseif (evd[0].type == 'file') %}
         {% set fileCount = fileCount + 1 %}
-    {% elseif (evd.type == 'text') %}
+    {% elseif (evd[0].type == 'text') %}
         {% set textCount = textCount + 1 %}
     {% endif %}
 {% endfor %}
@@ -71,43 +72,43 @@
                                     <input type="hidden" name="select_hid_unit" id="select_hid_unit" value="">
                                     {% if evidences|length > 0%}
                                             {% for eKey, evd in evidences %}
-                                                    {% if evd.type !='text' %}
-                                                                    {% set iconType = (evd.type == 'image') ? 'photo' : ((evd.type == 'audio') ? 'mic' : (evd.type == 'video') ? 'videocam' : '') %}
-                                                            {% if evd.name %}
-                                                                    <div class="block type-{{ evd.type}}" style="margin-bottom: 10px;">
+                                                    {% if evd[0].type !='text' %}
+                                                                    {% set iconType = (evd[0].type == 'image') ? 'photo' : ((evd[0].type == 'audio') ? 'mic' : (evd[0].type == 'video') ? 'videocam' : '') %}
+                                                            {% if evd[0].name %}
+                                                                    <div class="block type-{{ evd[0].type}}" style="margin-bottom: 10px;">
                                                                          <div class="file_info">
                                                                                 <span class="icon"><i class="material-icons">{{ iconType }}</i></span>
                                                                                 <span class="file_name">
-                                                                                    {{ evd.name }}
+                                                                                    {{ evd[0].name }}
                                                                                 </span>
                                                                                 <span class="file_size">
-                                                                                    {{ evd.size }}
+                                                                                    {{ evd[0].size }}
                                                                                 </span>
                                                                                 <span class="clear">
-                                                                                    ADDED {{ evd.created|date("d/m/y") }}
+                                                                                    ADDED {{ evd[0].created|date("d/m/y") }}
                                                                                 </span>
                                                                                 <span class="checkbox_outer">
-                                                                                    <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
+                                                                                    <input class="check_evidence" type="checkbox" value="{{ evd[0].id }}" name="evidence-file[{{evd[0].type}}][]"><span></span>
                                                                                 </span>
                                                                             </div>
                                                                     </div>
                                                             {% endif %}
                                                     {% else %}
-                                                        {% if evd.content %} 
-                                                            <div class="block type-{{ evd.type}}" style="margin-bottom: 10px;">
+                                                        {% if evd[0].content %} 
+                                                            <div class="block type-{{ evd[0].type}}" style="margin-bottom: 10px;">
                                                                 <div class="file_info">
                                                                         <span class="icon">
                                                                                 <i class="material-icons">description</i>
                                                                         </span>
                                                                         <span class="file_name">
-                                                                                {{ evd.content|slice(0, 40) }}{% if(evd.content|length > 40) %}...{% endif %}
+                                                                                {{ evd[0].content|slice(0, 40) }}{% if(evd[0].content|length > 40) %}...{% endif %}
                                                                         </span>
                                                                         <span class="file_size"></span>
                                                                         <span class="clear">
-                                                                                ADDED {{ evd.created|date("d/m/y") }}
+                                                                                ADDED {{ evd[0].created|date("d/m/y") }}
                                                                         </span>
                                                                         <span class="checkbox_outer">
-                                                                                <input class="check_evidence" type="checkbox" value="{{ evd.id }}" name="evidence-file[{{evd.type}}][]"><span></span>
+                                                                                <input class="check_evidence" type="checkbox" value="{{ evd[0].id }}" name="evidence-file[{{evd[0].type}}][]"><span></span>
                                                                         </span>                                                                                                                    
                                                                 </div>
                                                             </div>
