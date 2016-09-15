@@ -39,7 +39,7 @@
                         <span> {{ courses.getCourseName() }}</span>
                          
                         <span>{{ courses.getCourseCode() }}                            
-                           {% if courses|length > 1 %}
+                           {% if userCourses|length > 1  and loop.index > 1 %}
                             <a href="#" data-toggle="collapse" data-target="#collapse-{{courseCode}}">
                                     <i class="material-icons">expand_less</i>
                             </a>  
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-<div class="container candidate collapse in"  id="collapse-{{courseCode}}">
+<div class="container candidate collapse {% if loop.index == 1 %}in {% endif %}"  id="collapse-{{courseCode}}">
 <div class="row">                
     {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}    
     {% set output = remaining|split('&&') %}
