@@ -9,6 +9,8 @@ parameters:
     new_evidence_time_span: 5
     todo_content_length: 55
     evidence_completeness: 80
+    ms_docs: ['doc', 'docx', 'xls', 'xlsx']
+    ms_docs_view_url: "http://docs.google.com/gview?url="
     log_list:
             1:
                 action: "Messge Sent"

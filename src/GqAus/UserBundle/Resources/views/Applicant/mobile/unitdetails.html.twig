@@ -58,8 +58,9 @@
                                         {% if evidence.unit == unitCode %}
                                             {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                             {% set output = eviType|split('&&') %}
+                                            {% set msDocStatus = evidence_service.getFileExtensionType(evidence.name) %}
                                                 <div class="file-info">
-                                                    <span data-evidenceid="{{ evidence.id }}" class="icon {% if 'ROLE_FACILITATOR' in userRole %}fac_view_evidence {% endif %}"><a {% if evidence.type != 'text' %} href="{% if evidence.type == 'recording' %}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%else%}{{amazon_link~'user-'~userId~'/'~evidence.path}}{%endif%}" 
+                                                    <span data-evidenceid="{{ evidence.id }}" class="icon {% if 'ROLE_FACILITATOR' in userRole %}fac_view_evidence {% endif %}"><a {% if evidence.type != 'text' %} href="{% if msDocStatus %}{{ms_docs_view_url}}{% endif %}{% if evidence.type == 'recording' %}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%else%}{{amazon_link~'user-'~userId~'/'~evidence.path}}{%endif%}" 
                                                     {% if output[1] is defined %}
                                                             {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
                                                     {%endif%}{%else%}href="#{{evidence.unit}}{{inc}}" class="fancybox" id="btnForm"{%endif%}>

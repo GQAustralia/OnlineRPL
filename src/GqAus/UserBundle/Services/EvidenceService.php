@@ -767,4 +767,22 @@ class EvidenceService
          }
          return $isSubmitted;
     }
+
+    /**
+     * Function to get file extension type
+     * @param string $fileName
+     * return bool true or false
+     */
+    public function getFileExtensionType($fileName)
+    {
+        $fileExt = explode('.', $fileName);
+        $fileExtIndex = (count($fileExt)-1);
+        $fileExtType = $fileExt[$fileExtIndex];
+        $msDocExtensions = $this->container->getParameter('ms_docs');
+        if(in_array($fileExtType, $msDocExtensions))
+            $msDocStatus = true;
+        else
+            $msDocStatus = false;
+	return $msDocStatus;
+    }
 }

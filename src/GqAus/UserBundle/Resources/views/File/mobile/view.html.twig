@@ -330,7 +330,7 @@
                                                             {% set evdByteSize = evidence_service.convertSizetoBytes(evd[0].size) %}
                                                         {% endif %}
                                                         {% set output = eviType|split('&&') %}
-
+                                                        {% set msDocStatus = evidence_service.getFileExtensionType(evd[0].name) %}
                                                         {% if evd[0].name %}
                                                         <tr id="{{ evd[0].id }}" class="{{ evd[0].type }} {{ mappedContent }}">
                                                             <td class="hide">{{ mappedCourse }}</td>
@@ -345,7 +345,7 @@
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
                                                                                 <span class="icon">
-                                                                                    <a href="{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"
+                                                                                    <a href="{% if msDocStatus %}{{ms_docs_view_url}}{% endif %}{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"
                                                                                     {% if output[1] is defined %}
                                                                                     {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
                                                                                     {%endif%}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a>
