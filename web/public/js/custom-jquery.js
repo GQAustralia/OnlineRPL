@@ -2253,6 +2253,10 @@ $("body").on("click", "#submittoassessor,#request-cc", function(){
                                     if(courseStatus == '10'){ 
                                         $("body #courseStatus").val(courseStatus);  
                                     }
+                                    if(courseStatus == '12'){ 
+                                        $("body .competency-call").hide( "slow"); 
+                                        $("body #courseStatus").val(courseStatus);  
+                                    }
                                     $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>'); 
 				}   
 				if(result.code == '1'){
