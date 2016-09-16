@@ -72,6 +72,12 @@
                                     <input type="hidden" name="select_hid_unit" id="select_hid_unit" value="">
                                     {% if evidences|length > 0%}
                                             {% for eKey, evd in evidences %}
+                                                    {% set alreadyAttached = '0' %}
+                                                    {% for evdUnit in evd %}
+                                                        {% if unitCode == evdUnit.unit %}
+                                                            {% set alreadyAttached = '1' %}
+                                                        {% endif %}
+                                                    {% endfor %}                                    
                                                     {% if evd[0].type !='text' %}
                                                                     {% set iconType = (evd[0].type == 'image') ? 'photo' : ((evd[0].type == 'audio') ? 'mic' : (evd[0].type == 'video') ? 'videocam' : 'description') %}
                                                             {% if evd[0].name %}
@@ -87,8 +93,12 @@
                                                                                 <span class="clear">
                                                                                     ADDED {{ evd[0].created|date("d/m/y") }}
                                                                                 </span>
-                                                                                <span class="checkbox_outer">
-                                                                                    <input class="check_evidence" type="checkbox" value="{{ evd[0].id }}" name="evidence-file[{{evd[0].type}}][]"><span></span>
+                                                                                <span class="checkbox_outer completed">
+                                                                                    {% if alreadyAttached == '0'%}
+                                                                                        <input class="check_evidence" type="checkbox" value="{{ evd[0].id }}" name="evidence-file[{{evd[0].type}}][]"><span></span>
+                                                                                    {% else %}
+                                                                                        <i class="material-icons">done</i>
+                                                                                    {% endif %}
                                                                                 </span>
                                                                             </div>
                                                                     </div>
@@ -108,7 +118,11 @@
                                                                                 ADDED {{ evd[0].created|date("d/m/y") }}
                                                                         </span>
                                                                         <span class="checkbox_outer">
+                                                                            {% if alreadyAttached == '0'%}
                                                                                 <input class="check_evidence" type="checkbox" value="{{ evd[0].id }}" name="evidence-file[{{evd[0].type}}][]"><span></span>
+                                                                            {% else %}
+                                                                                <i class="material-icons">done</i>
+                                                                            {% endif %}                                                                                
                                                                         </span>                                                                                                                    
                                                                 </div>
                                                             </div>

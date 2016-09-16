@@ -1795,11 +1795,12 @@ $("#gq-name-cancel, #gq-rtoname-cancel").click(function() {
 
 $("#select_existing_evidence").click(function() {
    userId = $(this).attr("userid");
+   unitCode = $('#unit-code').val();
    $('#select-from-evidence-tab').html('<div class="row" style="height:380px;"><div id="userEvidencesDiv" style="display: block;" class="load-icon-tr"><img src="' + base_url + '/public/images/loading.gif"></div></div>');            
    $.ajax({
         type: "POST",
         url: base_url + "getUserEvidences",
-        data: {userId: userId},
+        data: {userId: userId, unit: unitCode},
         success: function(result) {
             $('#select-from').html(result);
             centerModals(modEle);
@@ -1828,7 +1829,7 @@ function sumitFormEvidence() {
             if (responseText){            
                 $('#sp_'+responseText).show();
                 $('#gq-dashboard-tabs-success').html('<h2 style="text-align: center; width: 100%; font-size: 14px; color: green; padding: 10px;">Existing Evidence uploaded successfully!</h2>');
-                $('#frmSelectEvidence input[type=checkbox]').attr('checked', false);
+                $('#frmSelectEvidence').find('input:checked').parent().html('<i class="material-icons">done</i>');
             }
         }
     });
