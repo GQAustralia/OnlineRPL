@@ -58,7 +58,9 @@
                                         {% if evidence.unit == unitCode %}
                                             {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                             {% set output = eviType|split('&&') %}
-                                            {% set msDocStatus = evidence_service.getFileExtensionType(evidence.name) %}
+                                            {% if evidence.type != 'text' %}
+                                                {% set msDocStatus = evidence_service.getFileExtensionType(evidence.name) %}
+                                            {%endif%}
                                                 <div class="file-info">
                                                     <span data-evidenceid="{{ evidence.id }}" class="icon {% if 'ROLE_FACILITATOR' in userRole %}fac_view_evidence {% endif %}"><a {% if evidence.type != 'text' %} href="{% if msDocStatus %}{{ms_docs_view_url}}{% endif %}{% if evidence.type == 'recording' %}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%else%}{{amazon_link~'user-'~userId~'/'~evidence.path}}{%endif%}" 
                                                     {% if output[1] is defined %}
