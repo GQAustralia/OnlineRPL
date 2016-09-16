@@ -242,7 +242,7 @@
                     </span>
 
                 {% if user is defined and user != '' %}
-                            {{ form_widget(composeformMobile.message, {value  : '' }, {'attr': {'placeholder': 'Enter Message'} }) }}
+                            {{ form_widget(composeformMobile.message, {'attr': {'placeholder': 'Enter Message'} },{value  : '' }) }}
                         {% endif %}
                 {{ form_widget(composeformMobile.save,{ 'label': ' ' , 'attr': {'class': 'button send_link active'}}) }}
                  {{ form_end(composeformMobile) }}

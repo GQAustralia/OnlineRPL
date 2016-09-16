@@ -3144,7 +3144,7 @@ function updateRto(courseCode , userId, listId)
 }
 if( $('.view-message').length > 0){   
     $('header,.mobi-profile').addClass('hide');
-    
+    $('#compose_message').focus();
     }
 if($('.mobile_new_message_section').length > 0){   
     $('header,.mobi-profile,#noMessages').addClass('hide');
