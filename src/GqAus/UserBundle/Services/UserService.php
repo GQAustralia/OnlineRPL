@@ -2183,7 +2183,7 @@ class UserService
         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
         if (!empty($courseUnitsObj)) {
             foreach($courseUnitsObj as $courseUnitObj){
-                if($courseUnitObj->getAssessorstatus() == '1'){
+                if($courseUnitObj->getAssessorstatus() == '1' && $courseUnitObj->getFacilitatorstatus() == '1'){
                     $courseUnitObj->setRtostatus($status);
                     $this->em->persist($courseUnitObj);
                     $this->em->flush();
@@ -2193,6 +2193,34 @@ class UserService
                 $courseObj->setRtostatus($status);
                 $this->em->persist($courseObj);
                 $this->em->flush();
+                
+                // finding and replacing the variables from message templates
+                $subSearch = array('#courseCode#', '#courseName#');
+                $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName());
+                $facMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_appove_evdience_rto_facilitator_sub'));
+                $facMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_appove_evdience_rto_facilitator_sub'));
+
+                // finding and replacing the variables from message templates
+                $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#userName#', '#fromUserName#');
+                $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getUser()->getUsername(), $courseObj->getRto()->getUsername());
+                $canMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getUser()->getUsername(), $courseObj->getRto()->getUsername());
+
+                $facMessageBody = str_replace($msgSearch, $facMsgReplace,$this->container->getParameter('msg_appove_evdience_rto_facilitator_con'));
+                $facMailBody = str_replace($msgSearch, $facMsgReplace,$this->container->getParameter('mail_appove_evdience_rto_facilitator_con'));
+                
+                /* Send mails to applicant*/
+                $canMessageBody = str_replace($msgSearch, $canMsgReplace,$this->container->getParameter('msg_appove_evdience_rto_candidate_con'));
+                $canMailBody = str_replace($msgSearch, $canMsgReplace,$this->container->getParameter('mail_appove_evdience_rto_candidate_con'));
+               
+                /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+                $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
+                /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $facMessageBody);
+                
+                /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+                $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
+                /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+                $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $canMessageBody);
             }
             $response['type'] = 'Success';
             $response['code'] = 1;
