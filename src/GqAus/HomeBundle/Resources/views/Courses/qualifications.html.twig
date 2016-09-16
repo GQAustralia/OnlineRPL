@@ -36,7 +36,7 @@
             <div class="row">
                 <div class="col-md-12 col-lg-11">
                     <p>
-                        <span> {{ courses.getCourseName() }}</span>
+                        <span> {{ courses.getCourseName() }}{% if courses.getRtoDate()  != null %} -  <strong>Awarded {{ courses.getRtoDate()|date("d M Y") }}</strong>{% endif %}</span>
                          
                         <span>{{ courses.getCourseCode() }}                            
                            {% if userCourses|length > 1  and loop.index > 1 %}

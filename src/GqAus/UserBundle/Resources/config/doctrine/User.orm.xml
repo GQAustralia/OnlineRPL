@@ -21,11 +21,18 @@
             <discriminator-mapping value="6" class="GqAus\UserBundle\Entity\Superadmin" />
         </discriminator-map>
        
-        <one-to-many field="courses" target-entity="GqAus\UserBundle\Entity\UserCourses" mapped-by="user" />
+        <one-to-many field="courses" target-entity="GqAus\UserBundle\Entity\UserCourses" mapped-by="user">
+        	<order-by>
+                <order-by-field name="id" direction="DESC" />
+            </order-by>
+        </one-to-many>
 <!--        <one-to-one field="address" target-entity="GqAus\UserBundle\Entity\UserAddress" inversed-by="user">
             <join-columns>
                 <join-column name="address" referenced-column-name="id"/>
             </join-columns>
+            <order-by>
+                <order-by-field name="id" direction="DESC" />
+            </order-by>
         </one-to-one>-->
         <one-to-one field="address" target-entity="GqAus\UserBundle\Entity\UserAddress" mapped-by="user" />
         <field name="userImage" type="string" column="user_img" length="255" nullable="true"/>
