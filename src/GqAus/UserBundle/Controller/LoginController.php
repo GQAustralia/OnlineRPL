@@ -4,6 +4,7 @@ namespace GqAus\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class LoginController extends Controller
 {
@@ -15,10 +16,11 @@ class LoginController extends Controller
     public function indexAction()
     { 
         $request = $this->getRequest();
+        $request->getSession()->invalidate();
         $session = $request->getSession(); 
         $user = $this->get('security.context')->getToken()->getUser();
-        if (is_object($user) && count($user) > 0) {            
-            $role = $user->getRoles();
+        if (is_object($user) && count($user) > 0) {      
+            $role = $user->getRoles();   
             $session = $request->getSession();
             $session->set('user_id', $user->getId());
             if($role[0] == "ROLE_APPLICANT")
@@ -56,6 +58,12 @@ class LoginController extends Controller
      */
     public function logoutAction()
     {
+    	$request = $this->getRequest();
+    	$session = $request->getSession();
+    	$request->getSession()->invalidate();
+    	// get the login error if there is one
+    	$error = $session->get(SecurityContextInterface::AUTHENTICATION_ERROR);
+    	$session->remove(SecurityContextInterface::AUTHENTICATION_ERROR);
         $this->container->get('security.context')->setToken(NULL);
         $this->get('session')->set('muser', NULL);
         $this->get('session')->set('suser', NULL);

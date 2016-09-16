@@ -384,9 +384,17 @@ $(window).on('resize', centerModals);
 $('#myModal,#profile2,#confirm_popup').modal({backdrop: 'static', keyboard: false,show:false});
 
 /* show the current input when focus for mobile */
-$('#userprofile').on('focusin', 'input[type="text"]', function(event) {
+/* $('#userprofile').on('focusin', 'input[type="text"]', function(event) {
 	if(navigator.userAgent.indexOf('Android') > -1){
 		var scroll = $(this).offset();
 		window.scrollTo(0, scroll);
 	}
+}); */
+$(document).ready(function () {
+    $("#userprofile input[type='text']").focus(function (e) {
+        e.preventDefault();
+        $('html, body').animate({
+            scrollTop: $("input[type='text']").offset().top
+        }, 2000);
+	});
 });
