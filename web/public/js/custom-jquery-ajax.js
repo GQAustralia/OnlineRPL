@@ -23,7 +23,7 @@ $(".viewModalClass").click(function () {
             data: { fid: fid, ftype: ftype },
             success:function(result) {
                 $('#evd_'+fid).hide();
-                $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="../../web/public/images/tick.png">Evidence File deleted successfully!</h2></div>');
+                $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Evidence File deleted successfully!</h2></div>');
             }
         });
     }
@@ -126,7 +126,7 @@ $("body #courseUnitNote").click(function(){
             data: { noteMsg: noteMsg, courseId: courseId, noteType: noteType},
             success:function(result) {
                 $("body #status-message").css("display", "block");
-                $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Note Added successfully</h2></div>');
+                $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2> Note Added successfully</h2></div>');
             }
         });
     }
@@ -156,7 +156,7 @@ $("body").on('click', '.setToDoList', function() {
             data: {message: todoMsg, userCourseId: userCourseId, remindDate: remindDate, listId: listId, reminderTypeId: reminderTypeId, reminderType:reminderType},
             success: function(result) {
                 $("body #status-message").css("display", "block");
-                $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Reminder Added successfully</h2></div>');
+                $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2> Reminder Added successfully</h2></div>');
             }
         });
     }
@@ -225,7 +225,7 @@ $("body .msgForCourse").click(function(){
             success:function(result) {
                 $('#message_popup').modal('hide');
                 $("body #status-message").css("display", "block");
-                $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Sent message successfully</h2></div>');
+                $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2> Sent message successfully</h2></div>');
             }
         });
     }

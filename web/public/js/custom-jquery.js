@@ -96,7 +96,7 @@ $(function() {
                     if(result.type == 'Error' ) {
                         $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2>'+ result.msg+'</h2></div>');
                     } else if (result.type == 'Success') {
-                        $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</span></div>'); 
+                        $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>'); 
                     }   
                     if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
@@ -313,7 +313,7 @@ if($('#frmAddEvidence').length)
             } else {
                 $('#gq-dashboard-tabs-success').show();
                 $('#sp_'+responseText).show();
-                $('#gq-dashboard-tabs-success').html('<h2><img src="' + base_url + 'public/images/tick.png">Evidence uploaded successfully!</h2>');
+                $('#gq-dashboard-tabs-success').html('<h2> Evidence uploaded successfully!</h2>');
             }
             setTimeout(function(){jQuery("#evd_close").trigger('click');},3000);
         },
@@ -1653,7 +1653,7 @@ $("#approve-for-certification, #approve-for-certification-ajax").click(function(
         success: function(result) {
             $("#approve_loader_fac_ajax").hide();
             $('#approve_sectionajax').show();
-            $("#approve_sectionajax").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + 'public/images/tick.png">Certificate issued successfully!</span></div>');
+            $("#approve_sectionajax").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> Certificate issued successfully!</span></div>');
             $("#approve_section-status").show();
             $("#status_arc").show();
             $("#courseStatusCodeName").html('<img src="' + base_url + 'public/images/status.png">Certificate Received By GQ');
@@ -1696,7 +1696,7 @@ $("#approve-all-units-from-rto").click(function(){
             } else if (result.type == 'Success') {
                     $( "#approve-all-units-from-rto").hide( "slow");
                     $(this).hide();
-                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</span></div>'); 
+                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>'); 
             } 
         }
     });
@@ -1857,7 +1857,7 @@ if($('#frmAddEvidenceAssessment').length)
             if (rec[0] == '0') {
                 $('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not added!</h2>');
             } else if (rec[0] == '1') {
-                $('#gq-dashboard-tabs-success-assess').html('<h2><img src="' + base_url + 'public/images/tick.png">Assessment added successfully!</h2>');
+                $('#gq-dashboard-tabs-success-assess').html('<h2> Assessment added successfully!</h2>');
                 $('#sp_'+rec[1]).show();
             }
             setTimeout(function(){jQuery("#evd_close_assess").trigger('click');},3000);
@@ -2083,10 +2083,10 @@ if($('#frmAddNotes').length)
             $('#notes-loading').addClass('hide');
             if (responseText == "success") {
                 $('#notes-success-msg').show();
-                $("#notes-success-msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><img src="' + base_url + 'public/images/tick.png"><span>Notes added successfully!</span></div>');
+                $("#notes-success-msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Notes added successfully!</span></div>');
             } else {
                 $('#notes-error-msg').show();
-               $("#notes-error-msg").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png">Error saving notes!</h2></div>');
+               $("#notes-error-msg").html('<div class="gq-id-files-upload-error-text"><h2> Error saving notes!</h2></div>');
             }
         },
         resetForm: true
@@ -2246,7 +2246,7 @@ $("body").on("click", "#submittoassessor,#request-cc", function(){
                                         $( "body #submittoassessor").hide( "slow"); 
                                         $(this).hide(); 
                                     }
-                                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span><img src="' + base_url + 'public/images/tick.png"> '+ result.msg+'</span></div>'); 
+                                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>'); 
 				}   
 				if(result.code == '1'){
 				  $("body #currentCourseStatus").val(courseStatus);  
