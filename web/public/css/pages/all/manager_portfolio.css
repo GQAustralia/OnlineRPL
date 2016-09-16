@@ -288,6 +288,9 @@
 .main_container .portfolio-container.logs .portfolio-filter .search_box{
 	margin-bottom: 15px;
 }
+#filterByStatus option{
+	border-right: 1px solid #999;
+}
 @media screen and (min-width: 768px) {
     .main_container .portfolio-container {
         padding-top: 20px
