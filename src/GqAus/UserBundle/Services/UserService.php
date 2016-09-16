@@ -628,13 +628,13 @@ class UserService
 
         if ($status != 2 && $userType == 'rto') {
             //$res->andWhere(sprintf('c.%s = :%s', $userStatus, $userStatus))->setParameter($userStatus, $status);
-            if ($status == 1) {
+            if ($status == 0) {
                   //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '0');
                 $res->andWhere(sprintf('c.%s = :%s', 'facilitatorstatus', 'facilitatorstatus'))->setParameter('facilitatorstatus', '1');
                 $res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
                 $res->andWhere(sprintf('c.%s = :%s', 'rtostatus', 'rtostatus'))->setParameter('rtostatus', '0');
             }
-            else if ($status == 0){
+            else if ($status == 1){
                  //$res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))->setParameter('courseStatus', '15');
                 $res->andWhere(sprintf('c.%s = :%s', 'rtostatus', 'rtostatus'))->setParameter('rtostatus', '1');
             }
