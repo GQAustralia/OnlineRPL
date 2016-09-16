@@ -12,7 +12,11 @@ use Aws\Sns\MessageValidator\Message;
 use Aws\Sns\MessageValidator\MessageValidator;
 use Guzzle\Http\Client;
 $postBody = file_get_contents('php://input');
-
+$message = Message::fromRawPostData();
+if ($message->get('Type') === 'SubscriptionConfirmation') {
+	// Send a request to the SubscribeURL to complete subscription
+	(new Client)->get($message->get('SubscribeURL'))->send();
+}
 // JSON decode the body to an array of message data
 //$pdoObject->insertTest($postBody);
 //$message = json_decode($postBody, true);
