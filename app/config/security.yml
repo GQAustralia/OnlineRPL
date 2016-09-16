@@ -6,12 +6,12 @@ security:
             anonymous: ~
             form_login: ~
             logout:
-               path:   _demo_logout
-               target: _demo
+               path:   _logout
+               target: _login
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/forgotpassword, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/dashboard, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/qualificationDetails/.*, roles: ROLE_APPLICANT }
         - { path: ^/qualifications, roles: ROLE_APPLICANT }
         - { path: ^/evidences, roles: [ROLE_APPLICANT, ROLE_FACILITATOR] } 
@@ -38,6 +38,7 @@ security:
         - { path: ^/managemanagers, roles: [ROLE_SUPERADMIN] }
         - { path: ^/addUser/.*, roles: [ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/editUser/.*, roles: [ROLE_MANAGER, ROLE_SUPERADMIN] }
+        - { path: ^/courseunitDetails/.*, roles: IS_AUTHENTICATED_FULLY }
     access_denied_url: /unauthorized
     providers:
         main:
