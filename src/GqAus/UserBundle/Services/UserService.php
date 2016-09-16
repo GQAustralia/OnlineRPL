@@ -3386,11 +3386,13 @@ class UserService
                     $response['type'] = 'Error';
                     $response['code'] = 6;
                     $response['msg'] = 'Please assign assessor!';
-                } else if ($courseObj->getAssessorstatus() == 1) {
-                    $response['type'] = 'Error';
-                    $response['code'] = 8;
-                    $response['msg'] = 'Assessor has already approved the qualification.';
-                } else {
+                } 
+//                else if ($courseObj->getAssessorstatus() == 1) {
+//                    $response['type'] = 'Error';
+//                    $response['code'] = 8;
+//                    $response['msg'] = 'Assessor has already approved the qualification.';
+//                } 
+                else {
                     $courseObj->setFacilitatorstatus('1');
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
                     $toEmail = $courseObj->getAssessor()->getEmail();
@@ -3412,18 +3414,18 @@ class UserService
                 // checking whether the assessor is assigned or not
                 $cAssessor = $courseObj->getAssessor();
                 if (!empty($cAssessor)) {
-                    if ($courseObj->getAssessorstatus() == 1) {
-                        $response['type'] = 'Error';
-                        $response['code'] = 8;
-                        $response['msg'] = 'Assessor has already approved the qualification.';
-                    } else {
+//                    if ($courseObj->getAssessorstatus() == 1) {
+//                        $response['type'] = 'Error';
+//                        $response['code'] = 8;
+//                        $response['msg'] = 'Assessor has already approved the qualification.';
+//                    } else {
                          $toEmail = $courseObj->getAssessor()->getEmail();
                          $toId = $courseObj->getAssessor()->getId();
                          $roleMessageBody = str_replace($msgSearch, $aplMsgReplace,
                          $this->container->getParameter('msg_portfolio_update_con'));
                          $roleMailBody = str_replace($msgSearch, $aplMsgReplace,
                          $this->container->getParameter('mail_portfolio_update_con'));
-                    }
+//                    }
                 } else {
                     $response['type'] = 'Error';
                     $response['code'] = 6;
