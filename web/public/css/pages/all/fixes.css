@@ -118,9 +118,11 @@
 
 /* success and error messages */
 .gq-id-files-upload-success-text {
-    width: 100%;
+    background-color: #fff;
+    padding: 25px 0;
     text-align: center;
-	padding-top: 0;
+    width: 100%;
+    
 }
 .gq-id-files-upload-success-text span {
 	color:green; 
