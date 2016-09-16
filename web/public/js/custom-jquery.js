@@ -100,6 +100,9 @@ $(function() {
                     }   
                     if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
+                       if(courseStatus == '2'){ 
+                            $( "body #submittoassessor").hide( "slow"); 
+                        }
                     } else if(result.code != '5') {
                           if ( $('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').length > 0 ) {  
                               $("#courseStatus").val($("#currentCourseStatus").val());
@@ -2245,6 +2248,7 @@ $("body").on("click", "#submittoassessor,#request-cc", function(){
                                     if(courseStatus == '2'){ 
                                         $( "body #submittoassessor").hide( "slow"); 
                                         $(this).hide(); 
+                                        $("body #courseStatus").val(courseStatus);  
                                     }
                                     $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>'); 
 				}   
