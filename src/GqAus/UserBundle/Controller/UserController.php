@@ -427,6 +427,7 @@ class UserController extends Controller
     public function getUserEvidencesAction()
     {
         $userId = $this->getRequest()->get('userId');
+        $unitCode = $this->getRequest()->get('unit');
         if (!empty($userId)) {
             $user = $this->get('UserService')->getUserInfo($userId);
         } else {
@@ -440,6 +441,7 @@ class UserController extends Controller
             }
         /* } */
         $results['evidences'] = $uniqueEvidences;
+        $results['unitCode'] = $unitCode;
         echo $this->renderView('GqAusUserBundle:User:userevidence.html.twig', $results);
         exit;
     }
