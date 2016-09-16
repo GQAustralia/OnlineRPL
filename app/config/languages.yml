@@ -23,3 +23,4 @@ twig:
         usi_link           : "Don't have one? Click here to create one"
         todo_status_change : "Do you want to change the status?"
         no_evidences_found : "No Evidences Found"
+        still_processing : "Still Processing"

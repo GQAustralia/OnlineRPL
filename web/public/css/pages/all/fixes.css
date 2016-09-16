@@ -156,3 +156,4 @@
 .main_container .body_section .file_upload_block .panel-body .panel-copy .file-info .file-progress progress {
     width: 100%;
 }
+#linkedEvidences.panel-copy .file-info.disable{opacity:0.5;}

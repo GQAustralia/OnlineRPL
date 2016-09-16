@@ -90,17 +90,16 @@
                                     {% for evidence in evidences %}
 					{%set inc = inc+1 %}
                                         {% if evidence.unit == unitCode %}
-
                                                 {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                                 {% set output = eviType|split('&&') %}
-                                                <div class="file-info">
+                                                <div class="file-info {% if evidence.jobId != '' %}disable{% endif %}">
                                                     <span class="icon">
                                                         {% if(evidence.type != 'text') %}
                                                         {% set msDocStatus = evidence_service.getFileExtensionType(evidence.name) %}
-                                                        <a href="{% if msDocStatus %}{{ms_docs_view_url}}{% endif %}{% if evidence.type != 'recording' %}{{ amazon_link }}{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
+                                                        <a {% if evidence.jobId == '' %} href="{% if msDocStatus %}{{ms_docs_view_url}}{% endif %}{% if evidence.type != 'recording' %}{{ amazon_link }}{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
                                                             {% if output[1] is defined %}
                                                             {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
-                                                            {%endif%}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i>
+                                                            {%endif%}{% endif %}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i>
                                                         </a>
                                                         {% else %}
                                                             <a href="#{{evidence.unit}}{{inc}}" class="fancybox" id="btnForm"> <i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a>
@@ -114,8 +113,10 @@
                                                             {{ evidence.content|slice(0,20) }}<br/>ADDED {{evidence.created|date("d/m/y")}}
                                                         {% endif %}
                                                     </span>
-                                                    {% if (showUpload == 'show')%}
+                                                    {% if (showUpload == 'show' and evidence.jobId == '' )%}
                                                         <span class="clear" data-toggle="modal" data-target="#confirm_popup"><a href="#"><i fileid="{{  evidence.id }}" filetype="{{  evidence.type }}"  class="material-icons viewModalClass">clear</i></a></span>
+                                                    {% else %}
+                                                        <span class="clear"><i class="material-icons viewModalClass">slow_motion_video</i></span>
                                                     {% endif %}
                                                 </div>
                                         {% endif %}

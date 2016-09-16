@@ -341,11 +341,11 @@
                                                             <td class="hide">{{ evd[0].created|date("d/m/y") }}</td>
                                                             <td>
                                                                 {% if evd[0].name %} 
-                                                                    <div class="block">
+                                                                    <div class="block {% if evd[0].jobId != '' %}disable" title="{{still_processing}}{% endif %}">
                                                                         <div class="files_mobile_version hidden-sm hidden-md hidden-lg">
                                                                             <div class="file_info">
                                                                                 <span class="icon">
-                                                                                    <a href="{% if msDocStatus %}{{ms_docs_view_url}}{% endif %}{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"
+                                                                                    <a {% if evd[0].jobId == '' %}href=" {% if msDocStatus %}{{ms_docs_view_url}}{% endif %}{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"{% endif %}
                                                                                     {% if output[1] is defined %}
                                                                                     {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
                                                                                     {%endif%}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a>
@@ -356,7 +356,13 @@
                                                                                 <span class="clear">
                                                                                     {% if('ROLE_APPLICANT' in roles) %}
                                                                                         {% set evdIsSubmitted = evidence_service.getEvidenceIsSubmittedOrNot(evd[0].id)%}
-                                                                                        {% if evdIsSubmitted != '1'%}<i class="material-icons viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i>{%endif%}
+                                                                                        {% if(evdIsSubmitted !='1')%} 
+                                                                                            {% if evd[0].jobId == '' %}
+                                                                                                <i class="material-icons  viewModalClass" data-toggle="modal" data-target="#confirm_popup" fileid="{{ evd[0].id }}" filetype="{{ evd[0].type }}">clear</i> 
+                                                                                            {% else %}
+                                                                                                <i class="material-icons">slow_motion_video</i>
+                                                                                            {% endif %}
+                                                                                        {% endif %}
                                                                                     {% endif %}
                                                                                 </span>
                                                                             </div>
