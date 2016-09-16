@@ -168,7 +168,7 @@
                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
                         <div class="gqa-btn-group">
                             <div class="row no-gutter">     
-                                 {% if (facilitatorstatus != '1' and currentIdPoints >= '100' and statusOfFacUnitsCount >= totalReqUnits ) %}
+                                 {% if (currentIdPoints >= '100' and statusOfFacUnitsCount >= totalReqUnits ) %}
                                     <div class="col-md-12 col-lg-12">
                                         <div class="row no-gutter">
                                             <div class="col-md-12 col-lg-12">
