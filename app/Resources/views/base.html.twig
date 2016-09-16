@@ -137,7 +137,7 @@
                                         <circle style="fill:#DF1F26;" cx="12.5" cy="12.5" r="12.5"/>
                                         <text text-anchor="middle" x="9" y="0" transform="matrix(1 0 0 1 3.266 16.022)" style="fill:#FFFFFF;" class="evidence-current"></text>
                                     </svg>
-                                        <a class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}" href="{{ app.request.baseUrl }}/evidences"><i class="material-icons">cloud_upload </i><span> Evidences </span></a>
+                                        <a class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}" href="{{ app.request.baseUrl }}/evidences"><i class="material-icons">cloud_upload </i><span> Evidence </span></a>
                                     </li>
                             {% endif %}
                             {% if ('ROLE_APPLICANT' in roles)  %}
