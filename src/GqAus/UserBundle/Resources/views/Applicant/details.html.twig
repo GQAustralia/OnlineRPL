@@ -246,6 +246,7 @@
                                 {% if (statusId == '2') and (currentIdPoints < '100' or statusOfFacUnitsCount < totalReqUnits)  %}{{"disabled"}}{%endif%}
                                 {% if (statusId == '15' or statusId == '3') and (statusOfAssUnitsCount < totalReqUnits)  %}{{"disabled"}}{%endif%}
                                 {% if (statusId == '11') and (courseStatus != '10')  %}{{"disabled"}}{%endif%}
+                                {% if (statusId == '16') and (statusOfRtoUnitsCount < totalReqUnits)  %}{{"disabled"}}{%endif%}
                             >{{statusData['status']}}</option>
                                                        {% endif %}
                                                     {% endfor %}
