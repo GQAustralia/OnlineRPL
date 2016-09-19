@@ -371,9 +371,11 @@
                     <div class="gqa-btn-group">
                         <div class="row no-gutter">
                             {% if ('ROLE_FACILITATOR' in userRole or 'ROLE_MANAGER' in userRole) and (currentIdPoints >= '100' and statusOfFacUnitsCount >= totalReqUnits ) %}
-                                <div class="col-xs-12 col-sm-12">
-                                    <button type="button" id="submittoassessor"  class="btn btn-danger" data-courseStatus="2">Submit to Assessor</button>                                
-                                </div>
+                                {% if (facilitatorstatus != '1') or (facilitatorstatus == '1' and (courseStatus == '7' or courseStatus == '14'))%}
+                                    <div class="col-xs-12 col-sm-12">
+                                        <button type="button" id="submittoassessor"  class="btn btn-danger" data-courseStatus="2">Submit to Assessor</button>                                
+                                    </div>
+                                {% endif %}
                             {% endif %}
                              {% if ('ROLE_RTO' in userRole) or ('ROLE_ASSESSOR' in userRole) %}
                                 <div class="col-xs-12 col-sm-12">
