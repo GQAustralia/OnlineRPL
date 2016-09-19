@@ -501,16 +501,13 @@ class UserService
                 case 'ROLE_ASSESSOR':
                     $courseUnitObj->setFacilitatorstatus($result['status']);
                     $courseUnitObj->setIssubmitted($resetStatus);
-                    $courseObj->setCourseStatus('7');
-//                    $courseObj->setFacilitatorstatus($resetStatus);
+                    $courseObj->setCourseStatus('14');
                     break;
                 case 'ROLE_RTO':
                     $courseUnitObj->setAssessorstatus($result['status']);
                     $courseUnitObj->setFacilitatorstatus($result['status']);
                     $courseUnitObj->setIssubmitted($resetStatus);
-                    $courseObj->setCourseStatus('7');
-//                    $courseObj->setFacilitatorstatus($resetStatus);
-//                    $courseObj->setAssessorstatus($resetStatus);
+                    $courseObj->setCourseStatus('15');
                     break; 
             }
             $this->em->persist($courseUnitObj);
@@ -3495,7 +3492,7 @@ class UserService
             $this->createUserLog('9', $message); 		
             return $response;
         }
-		$courseObj->setCourseStatus($courseStatus);
+        $courseObj->setCourseStatus($courseStatus);
         $this->em->persist($courseObj);
         $this->em->flush();
         if ($toEmail != '' && $toId != '' && $roleMessageBody != '' && $roleMailBody != '') {
