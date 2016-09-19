@@ -33,8 +33,9 @@
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="gq-dashboard-tabs-header wid20p">
                                             <ul role="tablist" id="myTab" class="clearfix">
-                                                    <li role="presentation" id="applicantPending" class="col-xs-6 col-sm-6 status active">
-                                                            <a href="/applicants" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>
+                                                    <li role="presentation" id="applicantPending11" class="col-xs-6 col-sm-6 status active">
+                                                          {#  <a href="/applicants" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>#}
+                                                         <a href="/applicants">CURRENT</a>
                                                     </li>
                                                     <li role="presentation" id="applicantCompleted" class="col-xs-6 col-sm-6 status">
                                                             <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab" >COMPLETED</a>
@@ -57,35 +58,35 @@
                    
                     {% else %}
                        <div class="col-xs-12 col-sm-12">
-							<div class="form-inline portfolio-filter">
-								<div class="row">
-									<div class="col-xs-12">
-										<input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box">                                    
-									</div>
-									<div class="col-xs-12">
-										<label for="">Filter By</label>
-									   <select name="filterByUser" id="filterByUser" class="form-control">
-											<option value="">Assessor/Facilitator</option>
-										{% for key, user in users %}
-											<option value="{{user.id}}">{% if user.roletype == 2 %} Facilitator {% else %} Assessor {% endif %} : {{user.username}}</option>
-										{% endfor %}
-										</select>
-									</div>
-									<div class="col-xs-12">
-											<label for="">Select Status</label>
-											<select name="filterByStatus" id="filterByStatus" class="form-control">
-												<option value="">Qualification Status</option>
-												{% for key, status in qualificationStatus %}
-													<option value="{{key}}">{{status["status"]}}</option>
-												{% endfor %}
-											</select>
-									</div>
-									<div class="col-xs-12">
-										<button id="searchFilter" class="btn btn_red ">Filter</button>
-									</div>
-								</div>
-							</div>
-						</div>    
+                                <div class="form-inline portfolio-filter">
+                                        <div class="row">
+                                                <div class="col-xs-12">
+                                                        <input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box">                                    
+                                                </div>
+                                                <div class="col-xs-12">
+                                                        <label for="">Filter By</label>
+                                                   <select name="filterByUser" id="filterByUser" class="form-control">
+                                                                <option value="">Assessor/Facilitator</option>
+                                                        {% for key, user in users %}
+                                                                <option value="{{user.id}}">{% if user.roletype == 2 %} Facilitator {% else %} Assessor {% endif %} : {{user.username}}</option>
+                                                        {% endfor %}
+                                                        </select>
+                                                </div>
+                                                <div class="col-xs-12">
+                                                                <label for="">Select Status</label>
+                                                                <select name="filterByStatus" id="filterByStatus" class="form-control">
+                                                                        <option value="">Qualification Status</option>
+                                                                        {% for key, status in qualificationStatus %}
+                                                                                <option value="{{key}}">{{status["status"]}}</option>
+                                                                        {% endfor %}
+                                                                </select>
+                                                </div>
+                                                <div class="col-xs-12">
+                                                        <button id="searchFilter" class="btn btn_red ">Filter</button>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>    
                              
                     {% endif %}
                    
