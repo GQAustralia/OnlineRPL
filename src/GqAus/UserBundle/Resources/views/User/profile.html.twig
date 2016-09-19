@@ -132,8 +132,12 @@
   }
  
   var gender_val = $(".form_block input[type='radio']:checked").val();
- 
-  $(".form_block input[type='radio']").on('focusin', function(){
+ var genderId=null;
+ var changeFired=false;
+  $(".form_block input[type='radio']").on('change', function(){
+  changeFired=true;
+  //alert($(this).attr('id')); 
+  genderId= '#'+$(this).attr('id');
    $(this).next().css("color","red");
    $(".update_btn").css("background","red");
    current_val = $(this).val();
@@ -145,6 +149,26 @@
    }
   
   });
+  
+$("body").on("click",function(evt){
+ 
+//	alert(evt.target);
+	
+	current_val = $(genderId).val();
+	//alert($(evt.target).attr('type'));
+	if(changeFired && $(evt.target).attr('type')!="radio" && gender_val == current_val){
+	  $(genderId).attr('isChanged',"0");
+    $('#userprofile_gender_0').attr('isChanged',"0");
+    $('#userprofile_gender_1').attr('isChanged',"0");
+    $("input[type='radio']").next().removeAttr('style');
+	changeFired=false;
+	if($(evt.target).attr('type')==undefined){
+    checkChangeStatus();
+	}
+ }
+ 	
+ });
+ 
  
   $(".form_block input[type='radio']").on('blur', function(){
    current_val = $(this).val();
@@ -162,6 +186,7 @@
    }
    
   });
+
  
  
   $(".form_block .pwd input[type='text']").focus(function(){       
