@@ -2201,9 +2201,9 @@ class UserService
                 $facMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_appove_evdience_rto_facilitator_sub'));
 
                 // finding and replacing the variables from message templates
-                $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#userName#', '#fromUserName#');
-                $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getUser()->getUsername(), $courseObj->getRto()->getUsername());
-                $canMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getUser()->getUsername(), $courseObj->getRto()->getUsername());
+                $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#userName#', '#fromUserName#', '#applicationUrl#');
+                $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getUser()->getUsername(), $courseObj->getRto()->getUsername(), $this->container->getParameter('applicationUrl'));
+                $canMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getUser()->getUsername(), $courseObj->getRto()->getUsername(), $this->container->getParameter('applicationUrl'));
 
                 $facMessageBody = str_replace($msgSearch, $facMsgReplace,$this->container->getParameter('msg_appove_evdience_rto_facilitator_con'));
                 $facMailBody = str_replace($msgSearch, $facMsgReplace,$this->container->getParameter('mail_appove_evdience_rto_facilitator_con'));
@@ -3401,9 +3401,9 @@ class UserService
                         $this->container->getParameter('msg_portfolio_assessor_submitted_sub'));
                     $mailSubject = str_replace($subSearch, $subReplace,
                         $this->container->getParameter('mail_portfolio_assessor_submitted_sub'));
-                    $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#','#applicationUrl#');
-                    $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(),$courseObj->getCourseName(), 'Assessor', $courseObj->getFacilitator()->getUsername(),$this->container->getParameter('applicationUrl'));
-                    $roleMsgReplace = array($courseObj->getAssessor()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername(),$this->container->getParameter('applicationUrl'));
+                    $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#', '#applicationUrl#');
+                    $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(),$courseObj->getCourseName(), 'Assessor', $courseObj->getFacilitator()->getUsername(), $this->container->getParameter('applicationUrl'));
+                    $roleMsgReplace = array($courseObj->getAssessor()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername(), $this->container->getParameter('applicationUrl'));
                     $roleMessageBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('msg_portfolio_fac_assessor_submitted_con'));
                     $roleMailBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('mail_portfolio_fac_assessor_submitted_con'));
                     $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_assessor_submitted_con'));
@@ -3454,9 +3454,9 @@ class UserService
                     $toId = $courseObj->getRto()->getId();
                     $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_portfolio_submitted_sub'));
                     $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_portfolio_submitted_sub'));
-                    $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#');
-                    $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'RTO', $courseObj->getFacilitator()->getUsername());
-                    $roleMsgReplace = array($courseObj->getRto()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername());
+                    $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#', '#applicationUrl#');
+                    $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'RTO', $courseObj->getFacilitator()->getUsername(), $this->container->getParameter('applicationUrl'));
+                    $roleMsgReplace = array($courseObj->getRto()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername(), $this->container->getParameter('applicationUrl'));
                     $roleMessageBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('msg_portfolio_submitted_con'));
                     $roleMailBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('mail_portfolio_submitted_con'));
                     $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_submitted_con'));
