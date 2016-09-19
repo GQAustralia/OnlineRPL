@@ -163,10 +163,11 @@
                                                                     <div class="block {{ facilitatorViewStatus }}">
                                                                         <p class="name"><strong>{{ evd[0].user.firstName }} {{ evd[0].user.lastName }}</strong></p>
                                                                         <div class="file_info ">
-                                                                            <a href="{% if msDocStatus %}{{ms_docs_view_url}}{% endif %}{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"
+                                                                            <a href="{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"
+                                                                                {% if (not msDocStatus) %}
                                                                                 {% if output[1] is defined %}
                                                                                 {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}"{% else %}target="_blank"{% endif %}
-                                                                                {%endif%}><span data-evidenceid="{% for evdId in evd %}{{ evdId.id }}{% if not loop.last %},{% endif %}{% endfor %}" class="icon fac_view_evidence"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
+                                                                                {%endif%}{%endif%}><span data-evidenceid="{% for evdId in evd %}{{ evdId.id }}{% if not loop.last %},{% endif %}{% endfor %}" class="icon fac_view_evidence"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
                                                                             </a>
                                                                             <span class="file_name">
                                                                                 {{ evd[0].name }}

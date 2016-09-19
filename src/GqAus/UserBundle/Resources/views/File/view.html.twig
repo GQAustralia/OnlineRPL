@@ -301,10 +301,11 @@
                                                                 {% if evd[0].name %} 
                                                                     <div class="block {% if evd[0].jobId != '' %}disable" title="{{still_processing}}{% endif %}">
                                                                         <div class="file_info">
-                                                                            <a {% if evd[0].jobId == '' %}href=" {% if msDocStatus %}{{ms_docs_view_url}}{% endif %}{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"{% endif %}
+                                                                            <a {% if evd[0].jobId == '' %} href="{{ amazon_link }}user-{{evd[0].user.id}}/{{ evd[0].path }}"{% endif %}
+                                                                                {% if (not msDocStatus) %}
                                                                                 {% if output[1] is defined %}
                                                                                 {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
-                                                                                {%endif%}><span class="icon"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
+                                                                                {%endif%}{%endif%}><span class="icon"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
                                                                             </a>
                                                                             <span class="file_name">
                                                                                 {{ evd[0].name }}

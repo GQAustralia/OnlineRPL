@@ -96,10 +96,11 @@
                                                     <span class="icon">
                                                         {% if(evidence.type != 'text') %}
                                                         {% set msDocStatus = evidence_service.getFileExtensionType(evidence.name) %}
-                                                        <a {% if evidence.jobId == '' %} href="{% if msDocStatus %}{{ms_docs_view_url}}{% endif %}{% if evidence.type != 'recording' %}{{ amazon_link }}{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
+                                                        <a {% if evidence.jobId == '' %} href="{{  evidence.path }}{%else%}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%endif%}" 
+                                                            {% if (not msDocStatus) %}
                                                             {% if output[1] is defined %}
                                                             {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
-                                                            {%endif%}{% endif %}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i>
+                                                            {%endif%}{% endif %}{% endif %}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i>
                                                         </a>
                                                         {% else %}
                                                             <a href="#{{evidence.unit}}{{inc}}" class="fancybox" id="btnForm"> <i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a>
