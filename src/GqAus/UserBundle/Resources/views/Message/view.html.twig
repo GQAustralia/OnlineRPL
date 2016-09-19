@@ -55,9 +55,6 @@
                                                             {% if message.replymid is defined and message.replymid != 0 %}                                       
                                                             <span class="reply"></span>
                                                             {% endif %}
-                                                            
-                                                            
-                                                           
                                                             {% if message.subject|length > 15 %}                                                                  
                                                                  {% set msgSubVal = message.subject|split(' ', 4) %}                                                                 
                                                                  {% if msgSubVal[1] is defined and  msgSubVal[2] is not defined and  msgSubVal[3] is not defined %}
@@ -114,7 +111,7 @@
                             {% endfor %}
                         </ul>
                     <div class="floater_add_icon" title="Add New Message">
-                            <a href="{{ base_url }}messages/compose">
+                            <a href="{{ base_url }}messages/compose{% if parameters[1] is defined %}?{{parameters[1]}}{% endif %}">
                                     <i class="material-icons add">add</i>
                             </a>
                     </div>
@@ -135,7 +132,7 @@
                     <li><strong>{{no_messages}}</strong></li>
                 </ul>
                 <div class="floater_add_icon" title="Add New Message">
-                        <a href="{{ base_url }}messages/compose">
+                        <a href="{{ base_url }}messages/compose{% if parameters[1] is defined %}?{{parameters[1]}}{% endif %}">
                                 <i class="material-icons add">add</i>
                         </a>
                 </div>
@@ -279,7 +276,7 @@
                        <input type="hidden" id="reply_id" name="reply_id" value="{{msgID}}"/>
                            <input type="Submit" class="button reply_link" value="REPLY"/>
                        </form>
-                           <a href="{{ base_url }}messages/compose" >NEW MESSAGE   <i class="material-icons add">add</i> </a>                                                          
+                           <a href="{{ base_url }}messages/compose{% if parameters[1] is defined %}?{{parameters[1]}}{% endif %}" >NEW MESSAGE   <i class="material-icons add">add</i> </a>                                                          
                     </div>
                     {% endif %}
                 {% endif %}
@@ -317,7 +314,7 @@
     {% if msgType is defined and msgType=="new" %}
         <div class="new_message_section">
             <div class="title_bar"><span class="subject-copy">NEW MESSAGE</span>
-                    <span class="clear"><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
+                    <span class="clear"><a href="{{ base_url }}messages{% if parameters[1] is defined %}?{{parameters[1]}}{% endif %}"><i class="material-icons close">close</i></a></span>
             </div>
             <div class="new_msg_section">
                 <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composemsgForm) }}>
