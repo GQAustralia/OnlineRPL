@@ -135,7 +135,7 @@
                         {% endfor %}
                     </ul>
                     <div class="floater_add_icon" title="Add New Message">
-                             <a href="{{ base_url }}messages/compose" ><i class="material-icons add">add</i> </a>
+                             <a href="{{ base_url }}messages/compose{% if parameters[1] is defined %}?{{parameters[1]}}{% endif %}" ><i class="material-icons add">add</i> </a>
                     </div>
                 <div>
                     {# display navigation for pages - paginator_navigator #}
@@ -154,7 +154,7 @@
                     <li><strong>{{no_messages}}</strong></li>
                 </ul>
                 <div class="floater_add_icon" title="Add New Message">
-                        <a href="{{ base_url }}messages/compose">
+                        <a href="{{ base_url }}messages/compose{% if parameters[1] is defined %}?{{parameters[1]}}{% endif %}">
                                 <i class="material-icons add">add</i>
                         </a>
                 </div>
@@ -248,7 +248,7 @@
                  {{ form_end(composeformMobile) }}
                
                 {% else %}
-                   <form name="reply" action="{{ base_url }}messages/compose" method="post">
+                   <form name="reply" action="{{ base_url }}messages/compose{% if parameters[1] is defined %}?{{parameters[1]}}{% endif %}" method="post">
                           <input type="hidden" id="reply_id" name="reply_id" value="{{msgID}}"/>
                       <input type="submit" class="button reply_link" value="REPLY"/>
                           </form>
