@@ -1682,7 +1682,7 @@ $("#approve-for-rto").click(function() {
         }
     });
 });
-$("#approve-all-units-from-rto").click(function(){
+$("body").on('click', '#approve-all-units-from-rto', function() {
     var courseCode = $(this).attr("courseCode");
     var applicantId = $(this).attr("applicantId");
     $("body #status-message").show();
@@ -1695,11 +1695,11 @@ $("#approve-all-units-from-rto").click(function(){
         success: function(responseText) {
             var result = jQuery.parseJSON(responseText);
             if(result.type == 'Error' ) {
-                    $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
+                $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2> '+ result.msg+'</h2></div>');   
             } else if (result.type == 'Success') {
-                    $( "#approve-all-units-from-rto").hide( "slow");
-                    $(this).hide();
-                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>'); 
+                $( "#approve-all-units-from-rto").hide( "slow");
+                $(this).hide();
+                $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>'); 
             } 
         }
     });
