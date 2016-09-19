@@ -490,6 +490,39 @@ class UserService
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
+            if($result['userRole'] == 'ROLE_RTO'){
+                $userId = $result['userId'];
+                $courseCode = $result['courseCode'];
+                $coreUnitCount = $this->getCourseCountStatusByRoleWise($userId, 'ROLE_RTO', $courseCode, 'core');
+                $electiveUnits = $this->getCourseCountStatusByRoleWise($userId, 'ROLE_RTO', $courseCode, 'elective');
+                $totalReqAllUnits = $this->coursesService->getReqUnitsForCourseByCourseId($courseCode);
+                $totalReqUnits = $totalReqAllUnits['core'] + $totalReqAllUnits['elective'];
+                $reqElectUnits = $totalReqUnits-($coreUnitCount['noOfNotRvdrcrds'] + $coreUnitCount['noOfRvdRcrds']);
+                $statusOfRtoCoreUnitsCount = $this->getTheStatusOfUnitsUnderCourse($userId, $courseCode, 'rtostatus', 'core');
+                $statusOfRtoElecUnitsCount = $this->getTheStatusOfUnitsUnderCourse($userId, $courseCode, 'rtostatus', 'elective');
+                if ($reqElectUnits <= $statusOfRtoElecUnitsCount)  $statusOfRtoElecUnitsCount = $reqElectUnits;
+                $statusOfRtoUnitsCount = $statusOfRtoCoreUnitsCount + $statusOfRtoElecUnitsCount;
+                if($statusOfRtoUnitsCount == $totalReqUnits){
+                    // finding and replacing the variables from message templates
+                    $subSearch = array('#courseCode#', '#courseName#');
+                    $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName());
+                    $facMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_appove_evdience_rto_facilitator_sub'));
+                    $facMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_appove_evdience_rto_facilitator_sub'));
+
+                    // finding and replacing the variables from message templates
+                    $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#userName#', '#fromUserName#', '#applicationUrl#');
+                    $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getUser()->getUsername(), $courseObj->getRto()->getUsername(), $this->container->getParameter('applicationUrl'));
+                    $canMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getUser()->getUsername(), $courseObj->getRto()->getUsername(), $this->container->getParameter('applicationUrl'));
+
+                    /* Send mails to applicant*/
+                    $canMessageBody = str_replace($msgSearch, $canMsgReplace,$this->container->getParameter('msg_appove_evdience_rto_candidate_con'));
+                    $canMailBody = str_replace($msgSearch, $canMsgReplace,$this->container->getParameter('mail_appove_evdience_rto_candidate_con'));
+                    /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+                    $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
+                    /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+                    $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $canMessageBody);
+                }
+            }
 			
         } else if ($result['status'] == '2') {
             $resetStatus = 0;
