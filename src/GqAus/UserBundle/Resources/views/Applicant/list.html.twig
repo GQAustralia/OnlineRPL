@@ -103,17 +103,17 @@
                             {% if paginator.count > 1%}
                                 <tfooter>
                                     <tr>
-										{% if ('ROLE_SUPERADMIN' in userRole)%}
-											<td colspan="3" class="gq-pagination-area">
-												{# display navigation for pages - paginator_navigator #}        
-												{{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
-											</td>
-										{% else %}
-											<td colspan="6" class="gq-pagination-area">
-												{# display navigation for pages - paginator_navigator #}        
-											  {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
-											</td>
-										{% endif %}
+                                {% if ('ROLE_SUPERADMIN' in userRole)%}
+                                        <td colspan="3" class="gq-pagination-area">
+                                                {# display navigation for pages - paginator_navigator #}        
+                                                {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                                        </td>
+                                {% else %}
+                                        <td colspan="6" class="gq-pagination-area">
+                                                {# display navigation for pages - paginator_navigator #}        
+                                          {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                                        </td>
+                                {% endif %}
                                     </tr>
                                 </tfooter>
                           {% endif %}
@@ -156,6 +156,9 @@
         valueNames: [ 'firstName','qualification', 'evidence','daysleft','status','email','address','suburb','pincode','state','phone']
         };
         currentList = new List('currentnew', options);
+        currentList.sort("daysleft", {
+    order: "desc"
+})
         //currentList.reIndex();
         {# var Completedoptions = {
         valueNames: [ 'firstName','qualification']
