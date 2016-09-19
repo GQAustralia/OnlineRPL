@@ -19,7 +19,7 @@ security:
         - { path: ^/applicantDetails/.*, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/applicants, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/reminder, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR] }
-        - { path: ^/messages, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/messages/*, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/compose, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/sent, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/trash, roles: IS_AUTHENTICATED_FULLY }
@@ -39,6 +39,7 @@ security:
         - { path: ^/addUser/.*, roles: [ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/editUser/.*, roles: [ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/courseunitDetails/.*, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/files/.*, roles: IS_AUTHENTICATED_FULLY }
     access_denied_url: /unauthorized
     providers:
         main:
