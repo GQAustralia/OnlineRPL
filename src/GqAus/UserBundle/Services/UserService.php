@@ -576,6 +576,7 @@ class UserService
     public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, 
         $searchTime = null, $filterByUser = null, $filterByStatus = null)
     {
+      
         if ($page <= 0 ) {
             $page = 1;
         }
@@ -692,12 +693,12 @@ class UserService
                 ->setParameter('filterByUser', $filterByUser);
         }
 
-        if (!empty($filterByStatus)) {
-            $res->andWhere('c.courseStatus = :filterByStatus')->setParameter('filterByStatus', $filterByStatus);
+        if ($filterByStatus >= 0 && $filterByStatus!="") {
+            $res->andWhere('c.courseStatus = :filterByStatus')->setParameter('filterByStatus', $filterByStatus);          
         }
        
        // $res->orderBy('c.id', 'DESC');
-        
+               
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));

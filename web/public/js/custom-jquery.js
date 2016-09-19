@@ -1136,13 +1136,35 @@ $("#applicantPending").click(function() {
      $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
      
 });
-  $("#search-current").keyup(function () {
-      if($('#search-current').val() != "")
-        $('.gq-pagination-area').hide();
-      else
-        $('.gq-pagination-area').show(); 
-  });
-
+$("#search-current").keyup(function() {
+  setTimeout(function(){   if ($('#search-current').val() != "")
+    {
+        if ($("#currentList tr:visible").length == 0)
+        {
+           var noRecordsContent = '<tr><td colspan="6">No Applicants Found</td></tr>';       
+         
+             $('#currentList').append(noRecordsContent);
+               console.log('adding elelemnts set time',noRecordsContent);
+        
+         
+           console.log('adding elelemnts ',noRecordsContent);
+          // $('#emptyResult').html(noRecordsContent);
+          // $('#emptyResult').css("display","block");
+          // $('#emptyResult').show();
+        }
+        else
+            $('#emptyResult').hide();
+            $('.gq-pagination-area').hide();
+    }
+    else
+        $('.gq-pagination-area').show(); },300);
+});
+//$('.ui-listview-filter').bind('keyup', function(){
+//alert("dddd");
+////    var count = $('#myList li').size() - $('#myList li.ui-screen-hidden').size();
+////    $('#count').text(count);
+//    
+//    });
 $("#applicantCompleted").click(function() {
     $("#search-current").val("");
     $("#searchName").show();
