@@ -37,6 +37,7 @@ $("body").on('click', '#approveyes', function() {
     var courseName = $('#course-name').val();
     var unitName = $('#unit-name').val();
     var courseCode = $('#course-code').val();
+    var deviceMode = $('#device-mode').val();
     $.ajax({
         type: "POST",
         url: base_url + "setUserUnitEvidencesStatus",
@@ -46,7 +47,11 @@ $("body").on('click', '#approveyes', function() {
             var newresult = result.split("&&");
             if (newresult[0] == '1') {
                 $('#satisfactory-myModal').modal('hide');
-                location.reload();
+                if(deviceMode === 'mobileMode'){
+                    window.location.href = base_url + "applicants?page=Params&ccode="+courseCode+"&uid="+userId+"";
+                }else{
+                    location.reload();
+                }
             }
             if (newresult[1] == '1') {
             }
@@ -81,6 +86,7 @@ $("body").on('click', '#disapproveyes', function() {
     var unitId = $('#unit-id').val();
     var courseCode = $('#course-code').val();
     var msgBody = $('#msg-body').val();
+    var deviceMode = $('#device-mode').val();    
     if (msgBody === '') {
         $('#msg-body').focus();
         $('#msg-body').css("border","1px solid red");
@@ -96,7 +102,11 @@ $("body").on('click', '#disapproveyes', function() {
             var newresult = result.split("&&");
             if (newresult[0] == '2') {
                 $('#non-satisfactory').modal('hide');
-                location.reload();
+                if(deviceMode === 'mobileMode'){
+                    window.location.href = base_url + "applicants?page=Params&ccode="+courseCode+"&uid="+userId+"";
+                }else{
+                    location.reload();
+                }
             }
         }
     });
