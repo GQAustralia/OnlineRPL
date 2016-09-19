@@ -2253,6 +2253,7 @@ $("body").on("click", "#submittoassessor,#request-cc", function(){
                                     }
                                     if(courseStatus == '10'){ 
                                         $("body #courseStatus").val(courseStatus);  
+                                        $("body #request-cc").prop("disabled", true ).addClass("disabled");
                                     }
                                     if(courseStatus == '12'){ 
                                         $("body .competency-call").hide( "slow"); 
