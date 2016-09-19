@@ -31,6 +31,7 @@ $(".viewModalClass").click(function () {
 
 $("body").on('click', '#approveyes', function() {
     $(this).prop('disabled', true);
+    $('#approveno').prop('disabled', true);
     var newunit = $('#unit-code').val();
     var userId = $('#userid').val();
     var userRole = $('#applicantEStatus').attr('userRole');
@@ -93,6 +94,7 @@ $("body").on('click', '#disapproveyes', function() {
         return false;
     }
     $(this).prop('disabled', true);
+    $('#disapproveno').prop('disabled', true);
     $.ajax({
         type: "POST",
         url: base_url + "setUserUnitEvidencesStatus",

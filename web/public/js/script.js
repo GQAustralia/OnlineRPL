@@ -126,6 +126,14 @@ $(document).ready(function(){
 		$(".mobile_version .chat_room").css("height",chat_Ht);
 	}
 	
+	var title_Ht = $(".mail_compose_section .title_bar").height();
+	var btnSection_Ht = $(".mail_compose_section .btn_section").height();
+	var mail_box_Ht = $(".mail_compose_section").height();
+	var chat_Ht = mail_box_Ht -(title_Ht+btnSection_Ht+18);
+	if(window_Ht > 767){
+		$(".mail_compose_section .chat_room").css("height",chat_Ht);
+	}
+	
 	/*$(".form_block input[type='text']").focus(function(){
 		$(this).prev().css("color","red");
 		$(".update_btn").css("background","red");
