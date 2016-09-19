@@ -3760,21 +3760,20 @@ function checkUserNameExist(username) {
     });
     return count;
 }
+
 function validateNewMessage(toMessage,sublect,composeMsg)
 {    
-//    var toMessage = $("#compose_toUserName").val();
-//    var sublect = $("#compose_subject").val();
-//    var composeMsg = $("#compose_message").val();
-    
     if(toMessage == "")
     {
-        userExistMsg("Please enter recipient name", "compose_toUserName");
+       
+        userExistMsg("Please enter Firstname and Lastname", "compose_toUserName");
         return false;
     }
     else
     {        
-        var count = checkUserNameExist(toMessage);       
+        var count = checkUserNameExist(toMessage);    
         if (count == 0) {
+             window.scrollBy(0,  200);
             userExistMsg("User not exists, Please select valid User name!","compose_toUserName");            
             return false;
         }
@@ -3789,6 +3788,10 @@ function validateNewMessage(toMessage,sublect,composeMsg)
         userExistMsg("Please enter Message","compose_message");
         return false;
     }
+  
+}
+function formSubmitAction(){    
+    document.getElementById('compose_save').disabled=true;
     
 }
 
