@@ -169,13 +169,15 @@
                         <div class="gqa-btn-group">
                             <div class="row no-gutter">     
                                  {% if (currentIdPoints >= '100' and statusOfFacUnitsCount >= totalReqUnits ) %}
-                                    <div class="col-md-12 col-lg-12">
-                                        <div class="row no-gutter">
-                                            <div class="col-md-12 col-lg-12">
-                                                <button type="button" id="submittoassessor"  class="btn btn-danger" data-courseStatus="2">Submit to Assessor</button>                                
+                                    {% if (facilitatorstatus != '1') or (facilitatorstatus == '1' and (courseStatus == '7' or courseStatus == '14'))%}
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="row no-gutter">
+                                                <div class="col-md-12 col-lg-12">
+                                                    <button type="button" id="submittoassessor"  class="btn btn-danger" data-courseStatus="2">Submit to Assessor</button>                                
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% endif %}
                                 {% endif %}
                             </div>                    
                         </div>

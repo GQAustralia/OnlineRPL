@@ -179,10 +179,20 @@ parameters:
                                    Regards, <br/>#fromUserName#
     mail_portfolio_assessor_submitted_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_portfolio_assessor_submitted_con: >
-                                    Hi #toUserName#, <br/> 
-                                    We thought you'd like to know that there is an update on your qualification which may require your attention.<br /><br/>
-                                    <a href='#applicationUrl#messages'>Click here</a> to login to Online RPL account.<br/><br/>
+                                    Hi #toUserName#, <br/> <br/>
+                                    Good news.<br /><br/>
+                                    Your porfolio with Get Qualified Australia is progressing.<br /><br/>
+                                    The portfolio is currently Submitted to Assessor for assessment.<br /><br/>
+                                    <a href='#applicationUrl#messages'>Click here</a> to login to your Online RPL account.<br/><br/>
                                     Regards, <br/>#fromUserName#
+    mail_portfolio_rto_submitted_sub: "Get Qualified Australia - Online RPL:  Notification" 
+    mail_portfolio_rto_submitted_con: >
+                                    Hi #toUserName#, <br/><br/> 
+                                    Good news.<br /><br/>
+                                    Your porfolio with Get Qualified Australia is progressing. <br /><br />
+                                    The portfolio is currently Submitted to RTO for obtaining the qualification.<br /><br />
+                                    <a href='#applicationUrl#messages'>Click here</a> to login to your Online RPL account.<br/><br/>
+                                    Regards, <br/>#fromUserName#   
     msg_portfolio_fac_assessor_submitted_sub: "All evidences are enough competent in - #courseCode# : #courseName#" 
     msg_portfolio_fac_assessor_submitted_con: >
                                    Hi #toUserName#, <br/> 
@@ -253,10 +263,11 @@ parameters:
                                       Qualification : #courseCode# - #courseName#.<br/> 
                                       Provided evidences for above course are competent<br/><br/>
                                       Regards, <br/>#fromUserName#
-    mail_appove_evdience_rto_candidate_sub: "All Evidences are competent for - #courseCode# : #courseName#" 
+    mail_appove_evdience_rto_candidate_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_appove_evdience_rto_candidate_con: >
                                        Hi #toUserName#, <br/><br/> 
-                                       Qualification : #courseCode# - #courseName#.<br/> 
-                                       Provided evidences for above course are competent.<br/><br/>
+                                       Congratulations, we're happy to inform you that you have been deemed competant for #courseName# by RTO.<br/><br/> 
+                                       Your facilitator will be in touch with you shortly. <br /><br />
+                                       <a href='#applicationUrl#messages'>Click here</a> to login to your Online RPL account.<br /><br/>
                                        Regards, <br/>#fromUserName#
 
