@@ -160,6 +160,7 @@
                                     <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
                                     <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
                                     <input type="hidden" id="unit-id" name="unit-id" value="{{unitStatus.id}}"> 
+                                    <input type="hidden" id="device-mode" name="device-mode" value="{%if is_mobile()%}mobileMode{%else%}{%endif%}"> 
                                 </div>
                             </div>
                         </div>          
@@ -190,6 +191,7 @@
                                     <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
                                     <input type="hidden" id="unit-id" name="unit-id" value="{{unitStatus.id}}"> 
                                     <input type="hidden" id="fromuser-id" name="fromuser-id" value="{{facilitatorId}}">
+                                    <input type="hidden" id="device-mode" name="device-mode" value="{%if is_mobile()%}mobileMode{%else%}{%endif%}"> 
                                 </div>
                             </form>
                         </div>          
