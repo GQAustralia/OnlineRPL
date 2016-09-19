@@ -56,6 +56,9 @@
     margin: 0;
 	table-layout: fixed;
 }
+.main_container .portfolio-container.reports .portfolio-data-table .table{
+	table-layout: initial;
+}
 .main_container .portfolio-container .portfolio-data-table .table thead {
     border: 1px solid #4a4a4a;
 }
