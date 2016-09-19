@@ -231,7 +231,7 @@
                 <div class="btn_section">
                     
                     {% if msgType is defined and msgType=="reply" %}                 
-                 <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composeformMobile) }}>
+                 <form onsubmit="formSubmitAction()" action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composeformMobile) }}>
                     <input type="hidden" id="replymid" name="replymid" value="{{ replymid }}"/>
                     <span class="hidden">
                                     {% if user is defined and user != '' %}
@@ -244,7 +244,7 @@
                 {% if user is defined and user != '' %}
                             {{ form_widget(composeformMobile.message, {'attr': {'placeholder': 'Enter Message'} },{value  : '' }) }}
                         {% endif %}
-                {{ form_widget(composeformMobile.save,{ 'label': ' ' , 'attr': {'class': 'button send_link active'}}) }}
+                {{ form_widget(composeformMobile.save,{ 'label': ' ' , 'attr': {'class': 'button send_link active','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}}) }}
                  {{ form_end(composeformMobile) }}
                
                 {% else %}
@@ -268,7 +268,7 @@
                     <span><a href="{{ base_url }}messages"><i class="material-icons close">close</i></a></span>
             </div>
             <div class="new_msg_section ">
-                <form action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composeformMobile) }}>
+                <form onsubmit="formSubmitAction()" action="{{ path('saveMessage') }}" method="post" {{ form_enctype(composeformMobile) }}>
                     <div class="input_section">
                     <label>To:</label>
                     <input type="hidden" id="replymid" name="replymid" value="{{ replymid }}"/>
