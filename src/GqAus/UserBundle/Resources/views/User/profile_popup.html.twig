@@ -6,12 +6,13 @@
    
 {% endblock %}  
 <!-- Modal -->
-<div class="modal fade profile_popup" id="profile2" role="dialog">
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+<div class="modal fade profile_popup {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} adminPopup {% endif %}" id="profile2" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-body">
-				{% set userRole = app.security.getToken().getUser().getRoles() %}
+				
                                 {% set userId = app.security.getToken().getUser().getId() %}
 				<div class="title_bar hidden-sm hidden-md hidden-lg">
 					<span><i class="material-icons arrow_back">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon">clear</i></span>
