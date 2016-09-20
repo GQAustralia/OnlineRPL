@@ -4,14 +4,13 @@
     <link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
 <script src="{{ asset('public/js/custom-form-elements.js') }}"></script>   
 {% endblock %}  
- 
+ {% set userRole = app.security.getToken().getUser().getRoles() %}
 <!-- Modal -->
 <div class="modal fade profile_popup {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} adminPopup {% endif %}" id="profile2" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-body">
-				{% set userRole = app.security.getToken().getUser().getRoles() %}
                                 {% set userId = app.security.getToken().getUser().getId() %}
 				<div class="title_bar hidden-sm hidden-md hidden-lg">
 					<span><i class="material-icons arrow_back" data-dismiss="modal">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon" onclick="profileModal();">clear</i></span>
@@ -231,12 +230,14 @@
                                         <div class="" id="idfiles_msg"></div>
 				<div>
 					<div class="file_info_block" id="trainerMatrix_block">
+                                            {% set matrixVal = 0 %}
                                             {% if matrixFiles %}
                                             {% for item in matrixFiles %}
                                             {% set filesize = evidence_service.fileSize(item.size) %}
                                             {% set eviType = evidence_service.getEvidenceShowType('image') %}
                                             {% set output = eviType|split('&&') %}                                            
 						{% if item.isdeleted != 1 %}
+                                                     {% set matrixVal = 1%}
 						<div class="file_info">
 							<span class="icon"><a href = "{{ amazon_link~item.path }}"  class="fancybox"> 
 								<i class="material-icons">description</i> </a>
