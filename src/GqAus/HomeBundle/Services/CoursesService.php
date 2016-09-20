@@ -518,6 +518,23 @@ class CoursesService
         $this->em->clear();
         return $status;
     }
+    /**
+     * Function to get the selected elective units from the candidate to loggedin users in the elective units section 
+     * @param type $userId
+     * @param type $courseCode
+     * @return type
+     */
+    public function getSelectedElectiveUnits($userId, $courseCode){
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'electiveStatus' => '1'));
+        $courseUnits = array();
+        if (!empty($userCourseUnits)) {
+            foreach ($userCourseUnits as $units) {
+                $courseUnits[trim($units->getUnitId())] = trim($units->getUnitId());
+            }
+        }
+        return $courseUnits;
+    }
 
     /**
      * Function to get elective units
@@ -528,9 +545,7 @@ class CoursesService
     public function getElectiveUnits($userId, $courseCode)
     {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
-        $userCourseUnits = $reposObj->findBy(array('user' => $userId,
-            'courseCode' => $courseCode,
-            'status' => '1'));
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'status' => '1'));
         $courseUnits = array();
         if (!empty($userCourseUnits)) {
             foreach ($userCourseUnits as $units) {

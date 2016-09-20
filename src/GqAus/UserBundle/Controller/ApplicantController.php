@@ -39,7 +39,7 @@ class ApplicantController extends Controller
                     $results['facilitators'] = $userService->getUsers(Facilitator::ROLE);
                 }
             }
-            $results['electiveUnits'] = $coursesService->getElectiveUnits($uid, $qcode);
+            $results['electiveUnitsSelected'] = $coursesService->getSelectedElectiveUnits($uid, $qcode);
             $results['courseCode'] = $qcode;
             // for getting the status list dropdown
             $results['statusList'] = array();
@@ -54,10 +54,9 @@ class ApplicantController extends Controller
                     $results['notes'] = $userService->getNotesFromUserAndCourse($qcode, $uid, $roleType);
                     $results['notesFromCourse'] = $userService->getNotesFromCourseIdOnly($applicantInfo['coursePrimaryId'], $roleType);
             }
-            $electiveUnitArr = $results['electiveUnits'];
-            $results['coreUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'core');
-            $results['electiveUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'elective', $electiveUnitArr);
-            //$results['evidenceCompleteness'] = $userService->getEvidenceCompleteness($uid, $qcode);
+            $electiveUnitArr = $results['electiveUnitsSelected'];
+//            $results['coreUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'core');
+//            $results['electiveUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'elective', $electiveUnitArr);
             $results['evidenceCompleteness'] = $coursesService->getEvidenceByCourse($uid, $qcode);
             $results['facApplicantsCount'] = $this->get('UserService')->getPendingApplicantsCount($applicantInfo['facilitatorId'], array('ROLE_FACILITATOR'), '0');
             $results['assApplicantsCount'] = $this->get('UserService')->getPendingApplicantsCount($applicantInfo['assessorId'], array('ROLE_ASSESSOR'), '0');
