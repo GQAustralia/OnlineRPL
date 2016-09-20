@@ -198,7 +198,7 @@
                                     <div class="panel-heading clearfix">
                                         {% set electiveUnitsRvd =  ((reqElectUnits-electiveUnits['noOfRvdRcrds']) > 0) ? (reqElectUnits-electiveUnits['noOfRvdRcrds'])~' to be reviewed' : user_service.getRoleStatus(userRole[0]) %}
                                         <h4 class="panel-title">
-                                            <span>{{electiveUnits['noOfNotRvdrcrds'] + electiveUnits['noOfRvdRcrds']}} ELECTIVE UNITS {% if electiveUnitsRvd is not empty%}- <strong>{{electiveUnitsRvd}}{%endif%}</strong></span>
+                                            <span>{{reqElectUnits}} ELECTIVE UNITS {% if electiveUnitsRvd is not empty%}- <strong>{{electiveUnitsRvd}}{%endif%}</strong></span>
                                             <a class="btn-accordion collapsed" data-toggle="collapse" data-parent="#accordion" href="#xs-collapseThree">
                                                 <i class="material-icons down">keyboard_arrow_down</i>
                                             </a>
@@ -217,7 +217,7 @@
                                                     {% for key, units in unitsData %}
                                                         {% if units.type == 'elective' %}
                                                             {% set unitId = units.id %}
-                                                            {% if unitId|trim in electiveUnits|keys %} 
+                                                            {% if unitId|trim in electiveUnitsSelected|keys %} 
                                                                 {% set flagElective = '1' %}
                                                                 <div class="panel panel-default">
                                                                     <div class="panel-heading no-background">
