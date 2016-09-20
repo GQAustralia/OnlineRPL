@@ -2474,19 +2474,9 @@ if($('body #evidencefiles').length > 0) {
 	var oTable = $('body #evidencefiles').DataTable({
 			"pagingType": "simple",
                         "order": []
-		});
-                
-        rowsCount = oTable.rows().count();
-        imageCount = oTable.rows('.image').count();
-        audioCount = oTable.rows('.audio').count();
-        videoCount = oTable.rows('.video').count();
-        textCount = oTable.rows('.text').count();
-        fileCount = oTable.rows('.file').count();
-        unmappedCount = oTable.rows('.mapped0').count();
-        mapped1Count = oTable.rows('.mapped1').count();
-        mapped2Count = oTable.rows('.mapped2').count();
-        console.log(rowsCount);
-        $('#evidence-total').html(rowsCount);
+                    });
+                    
+         setFacetingFilterCount(oTable, 'default');                    
 
 	$.fn.dataTableExt.afnFiltering.push(
 	  function(oSettings, aData, iDataIndex) {
@@ -2553,18 +2543,8 @@ if($('body #evidencefiles').length > 0) {
 		}
 		if(searchMatches>0 && (matches > 0 || keywords.length==0) && (checkedLength > 0)) return true;
 		  return false;
-		}
-		
+		}		
 	);
-
-        $('.image-count').html(imageCount);
-        $('.audio-count').html(audioCount);
-        $('.video-count').html(videoCount);
-        $('.text-count').html(textCount);
-        $('.file-count').html(fileCount);
-        $('.unmapped-unit').html(unmappedCount);
-        $('.mapped-one').html(mapped1Count);
-        $('.mapped-two').html(mapped2Count);
 
 } else {
     $('#evidence-total, .image-count, .audio-count, .video-count, .text-count, .file-count, .unmapped-unit, .mapped-one, .mapped-two').html('0');
@@ -2584,24 +2564,7 @@ if($('#evidence').length>0) {
                         "order": []
 		});
 
-        rowsCount = oTable.rows().count();
-        imageCount = oTable.rows('.image').count();
-        audioCount = oTable.rows('.audio').count();
-        videoCount = oTable.rows('.video').count();
-        textCount = oTable.rows('.text').count();
-        fileCount = oTable.rows('.file').count();
-        unmappedCount = oTable.rows('.mapped0').count();
-        mapped1Count = oTable.rows('.mapped1').count();
-        mapped2Count = oTable.rows('.mapped2').count();
-        $('#evidence-total').html(rowsCount);
-        $('.image-count').html(imageCount);
-        $('.audio-count').html(audioCount);
-        $('.video-count').html(videoCount);
-        $('.text-count').html(textCount);
-        $('.file-count').html(fileCount);
-        $('.unmapped-unit').html(unmappedCount);
-        $('.mapped-one').html(mapped1Count);
-        $('.mapped-two').html(mapped2Count);
+        setFacetingFilterCount(oTable, 'default');
 
 	$.fn.dataTableExt.afnFiltering.push(
 	  function(oSettings, aData, iDataIndex) {
@@ -2667,18 +2630,48 @@ if($('#evidence').length>0) {
     });
 }
 
-$('#evidence-filter').on('click','input[type="checkbox"]',function(){
-    oTable.search($('.namesearch').val()).draw();
-});
-$('.namesearch').keyup(function(){
-    oTable.search($(this).val()).draw();
-});
 $('body').on('keyup', '.namesearch', function(){
     oTable.search($(this).val()).draw();
+    setFacetingFilterCount(oTable, 'filter');
 });
 $('#evidence-filter').on('click','input[type="checkbox"]',function(){
     oTable.search($('.namesearch').val()).draw();
+    setFacetingFilterCount(oTable, 'filter');    
 });
+
+function setFacetingFilterCount (oTable, filter){
+        if(filter == 'default'){
+            rowsCount = oTable.rows().count();
+            imageCount = oTable.rows('.image').count();
+            audioCount = oTable.rows('.audio').count();
+            videoCount = oTable.rows('.video').count();
+            textCount = oTable.rows('.text').count();
+            fileCount = oTable.rows('.file').count();
+            unmappedCount = oTable.rows('.mapped0').count();
+            mapped1Count = oTable.rows('.mapped1').count();
+            mapped2Count = oTable.rows('.mapped2').count();
+        } else {
+            imageCount =  oTable.rows('.image', { filter : 'applied'} ).nodes().length;
+            audioCount =  oTable.rows('.audio', { filter : 'applied'} ).nodes().length;
+            videoCount =  oTable.rows('.video', { filter : 'applied'} ).nodes().length;
+            textCount =  oTable.rows('.text', { filter : 'applied'} ).nodes().length;
+            fileCount =  oTable.rows('.file', { filter : 'applied'} ).nodes().length;
+            unmappedCount =  oTable.rows('.mapped0', { filter : 'applied'} ).nodes().length;
+            mapped1Count =  oTable.rows('.mapped1', { filter : 'applied'} ).nodes().length;
+            mapped2Count =  oTable.rows('.mapped2', { filter : 'applied'} ).nodes().length;
+        }
+        $('#evidence-total').html(rowsCount);
+        $('.image-count').html(imageCount);
+        $('.audio-count').html(audioCount);
+        $('.video-count').html(videoCount);
+        $('.text-count').html(textCount);
+        $('.file-count').html(fileCount);
+        $('.unmapped-unit').html(unmappedCount);
+        $('.mapped-one').html(mapped1Count);
+        $('.mapped-two').html(mapped2Count);
+}
+
+
 $('body').on('click', '.sort_section', function(){
     var sortbyclass = $(this).attr('data-orderby')
     var currentArrow = $('.f'+sortbyclass+' i').html();
