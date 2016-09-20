@@ -3939,28 +3939,74 @@ class UserService
                         $approvalStatus = ($unitStatus == 1) ? '' : 'Not Yet Satisfactory';
                     break;
               case 'ROLE_APPLICANT' :
-                    $approvalStatus = $userCourseUnits->getRtostatus();
-                    if($approvalStatus != 0){
+                    $rtoApprovalStatus = $userCourseUnits->getRtostatus();
+                    if($approvalStatus != 0){ //1,2
                         $approvalStatus = ($approvalStatus == 1) ? 'Competent' : '2';
+                        if($approvalStatus =='2') //2
+                            $approvalStatus = $userCourseUnits->getAssessorstatus();
+                            if($approvalStatus != 0){ //1,2
+                                $approvalStatus = ($approvalStatus == 1) ? 'Competent' : '2';
+                                if($approvalStatus =='2') {
+                                    $approvalStatus = $userCourseUnits->getFacilitatorstatus();
+                                     if($approvalStatus != 0){ //1,2
+                                        $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : '2'; 
+                                        if($approvalStatus =='2') {
+                                            $unitStatus = $userCourseUnits->getIssubmitted();
+                                             $approvalStatus = ($unitStatus == 1) ? 'Submitted' : 'Not Yet Satisfactory';
+                                        }
+                                    }
+                                    else{
+                                        $unitStatus = $userCourseUnits->getIssubmitted();
+                                        $approvalStatus = ($unitStatus == 1) ? 'Submitted' : '';
+                                    }
+                                }
+                            }
+                            else {
+                                $approvalStatus = $userCourseUnits->getFacilitatorstatus();
+                                if($approvalStatus != 0){ //1,2
+                                    $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : '2';  
+                                }
+                                else{
+                                    $unitStatus = $userCourseUnits->getIssubmitted();
+                                    $approvalStatus = ($unitStatus == 1) ? 'Submitted' : '';
+                                }
+                            }
                         }
-                    else {
-                        $approvalStatus = $userCourseUnits->getAssessorstatus();
-                         
+                        else { // 0
+                            $approvalStatus = $userCourseUnits->getAssessorstatus();
                             if($approvalStatus != 0){
-                                $approvalStatus = ($approvalStatus == 1) ? 'Competent' : '2';  
+                                    $approvalStatus = ($approvalStatus == 1) ? 'Competent' : '2';  
+                                    if($approvalStatus =='2') {
+                                        $approvalStatus = $userCourseUnits->getFacilitatorstatus();
+                                        if($approvalStatus != 0){
+                                            $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : '2';  
+                                             if($approvalStatus =='2') {
+                                                $unitStatus = $userCourseUnits->getIssubmitted();
+                                                $approvalStatus = ($unitStatus == 1) ? 'Submitted' : 'Not Yet Satisfactory';
+                                             }
+                                        }
+                                        else{
+                                            $unitStatus = $userCourseUnits->getIssubmitted();
+                                            $approvalStatus = ($unitStatus == 1) ? 'Submitted' : '';
+                                        }
+                                     }
                             }
                             else{
                              $approvalStatus = $userCourseUnits->getFacilitatorstatus();
                                 if($approvalStatus != 0){
                                     $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : '2';  
+                                     if($approvalStatus =='2') {
+                                        $unitStatus = $userCourseUnits->getIssubmitted();
+                                        $approvalStatus = ($unitStatus == 1) ? 'Submitted' : 'Not Yet Satisfactory';
+                                     }
                                 }
+                                else{
+                                    $unitStatus = $userCourseUnits->getIssubmitted();
+                                    $approvalStatus = ($unitStatus == 1) ? 'Submitted' : '';
+                                }
+                                
                             }
-                    }
-                    $unitStatus = $userCourseUnits->getIssubmitted();
-                    if($approvalStatus == '2')
-                        $approvalStatus = ($unitStatus == 1) ? 'Submitted' : 'Not Yet Satisfactory';
-                     elseif(is_int($approvalStatus))
-                         $approvalStatus = ($unitStatus == 1) ? 'Submitted' : '';
+                        }
                 break;   
                 default :
                     $approvalStatus = 0;
