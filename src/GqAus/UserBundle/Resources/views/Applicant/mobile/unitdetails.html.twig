@@ -51,7 +51,7 @@
                                 {% if approvalText|length > 0 and approvalText != '0' %} <p><span class="tag status in-progress"> {{approvalText}}</span></p>{%else%}{%if currUnitStatus.issubmitted is defined%}{%if currUnitStatus.issubmitted == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{%endif%}{% endif %}
                             </div>
                             <div class="panel-body">
-                                <div class="panel-copy">
+                                <div class="panel-copy" id="linkedEvidences">
                                     {%set inc = 0 %}
                                     {% for evidence in evidences %}
                                         {%set inc = inc+1 %}
@@ -61,18 +61,22 @@
                                             {% if evidence.type != 'text' %}
                                                 {% set msDocStatus = evidence_service.getFileExtensionType(evidence.name) %}
                                             {%endif%}
-                                                <div class="file-info">
-                                                    <span data-evidenceid="{{ evidence.id }}" class="icon {% if 'ROLE_FACILITATOR' in userRole %}fac_view_evidence {% endif %}"><a {% if evidence.type != 'text' %} href=" {% if evidence.type == 'recording' %}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%else%}{{amazon_link~'user-'~userId~'/'~evidence.path}}{%endif%}" 
+                                                <div class="file-info {% if evidence.jobId != '' %}disable" title="{{ still_processing }}{% endif %}">
+                                                    <span data-evidenceid="{{ evidence.id }}" class="icon {% if 'ROLE_FACILITATOR' in userRole %}fac_view_evidence {% endif %}">
+                                                        <a  {% if evidence.jobId == '' %} {% if evidence.type != 'text' %} href=" {% if evidence.type == 'recording' %}{{ amazon_link~tokbox_key }}/{{ evidence.path }}/archive.mp4{%else%}{{amazon_link~'user-'~userId~'/'~evidence.path}}{%endif%}" 
                                                     {% if output[1] is defined %}
                                                         {% if (not msDocStatus) %}
                                                             {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}
                                                         {% endif %}
-                                                    {%endif%}{%else%}href="#{{evidence.unit}}{{inc}}" class="fancybox" id="btnForm"{%endif%}>
+                                                    {%endif%}{%else%}href="#{{evidence.unit}}{{inc}}" class="fancybox" id="btnForm"{%endif%}{% endif %}>
                                                     <i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a></span>
                                                     <span class="file-discription">
                                                             {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{% if evidence.content is defined %}{{evidence.content|slice(0,20)}}{%endif%}{%endif%}
                                                        <br/>{% if evidence.size is defined %}{{evidence.size}} {% if evidence.type != 'recording' and evidence.type != 'text'%} |{%endif%} {%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}
-                                                   </span>   
+                                                   </span>
+                                                    {% if evidence.jobId != '' %}
+                                                        <span class="clear"><i class="material-icons viewModalClass">slow_motion_video</i></span>
+                                                   {% endif %}                                                    
                                                 </div>
                                         {% endif %}
                                     {% endfor %}
