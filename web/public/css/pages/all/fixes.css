@@ -159,7 +159,9 @@
     width: 100%;
 }
 #linkedEvidences.panel-copy .file-info.disable{opacity:0.5;}
-#frmSelectEvidence span.completed{
+#frmSelectEvidence span.completed,
+#frmSelectEvidence span.completed i
+{
     display: inline;
     color: green;
 }
