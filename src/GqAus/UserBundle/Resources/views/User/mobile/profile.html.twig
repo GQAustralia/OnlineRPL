@@ -52,7 +52,7 @@
   $(".form_block input[type='text']").on('focusin', function(){
    $(this).data('val', $(this).val());
    $(this).prev().css("color","red");
-   $(".update_btn").css("background","red");
+   $(".update_btn").css("background","red").removeAttr('disabled');
   });
   
   $(".form_block input[type='text']").blur(function(){
@@ -67,7 +67,7 @@
     
     $(this).attr('isChanged',"1");
     
-    $(".update_btn").css("background","red");
+    $(".update_btn").css("background","red").removeAttr('disabled');
    }else{
     $(this).attr('isChanged',"0");
     $(this).prev().removeAttr('style');
@@ -82,7 +82,7 @@
    $('#userprofile').find('input').each(function(index){
      if($(this).attr('isChanged')=="1"){
       change=true;
-      $(".update_btn").css("background","red");
+      $(".update_btn").css("background","red").removeAttr('disabled');
       return false;
      }
     });
@@ -99,7 +99,7 @@
   //alert($(this).attr('id')); 
   genderId= '#'+$(this).attr('id');
   // $(this).next().css("color","red");
-   $(".update_btn").css("background","red");
+   $(".update_btn").css("background","red").removeAttr('disabled');
    current_val = $(this).val();
    if(gender_val != current_val){
     $(this).attr('isChanged',"1");
@@ -138,7 +138,7 @@ $("body").on("click",function(evt){
    if(gender_val != current_val){
     $(this).attr('isChanged',"1");
     $(this).next().css("color","red");
-    $(".update_btn").css("background","red");
+    $(".update_btn").css("background","red").removeAttr('disabled');
    }else{
     $(this).attr('isChanged',"0");
     $('#userprofile_gender_0').attr('isChanged',"0");
