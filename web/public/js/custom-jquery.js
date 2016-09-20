@@ -291,9 +291,12 @@ $(".deleteIdFiles").click(function() {
             if(url == 'deleteIdFiles')
                     window.location.href = base_url+'userprofile';
              else 
-                    {
+               {
                         window.location.reload(false);
-                        $("#profile2").load(location.href + " #profile2>*", "");
+                        //$("#profile2").load(location.href + " #profile2>*", "");
+                        $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>File deleted successfully!</span></div>');
+                        $('#profile2').modal('show');  
+                        
                 }
        } 
     });

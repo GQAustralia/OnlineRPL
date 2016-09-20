@@ -228,7 +228,7 @@
 
 					</a>
 				</div>
-                        
+                                        <div class="" id="idfiles_msg"></div>
 				<div>
 					<div class="file_info_block" id="trainerMatrix_block">
                                             {% if matrixFiles %}
@@ -252,8 +252,9 @@
 						</div> 
 						{% endif %}
                                              {% endfor %}
-                                                {% else %}
-                                                <center id="matrix_no_files">No Trainer Matrix found</center>                        
+                                                 {% if matrixVal == 0 or matrixFiles is not defined %}
+                                                <center id="matrix_no_files">No Trainer Matrix found</center>    
+                                                {% endif %}                        
                                                 {% endif %}
 					</div>
                                     

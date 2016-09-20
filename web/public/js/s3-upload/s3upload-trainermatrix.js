@@ -123,6 +123,7 @@ var s3uploadTm = null;
                                         </div>';
                         
                         $("#fileListContainerTm").hide();
+                        $("#matrix_no_files").hide();
                         
                         $("#trainerMatrix_block").append(html);
                     }

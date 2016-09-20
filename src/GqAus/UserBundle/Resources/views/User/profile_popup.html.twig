@@ -231,15 +231,17 @@
                                             <span>Download Trainer Matrix.pdf</span>
 					</a>
 				</div>
-                        
+                                    <div class="" id="idfiles_msg"></div>
 				<div>
 					<div class="file_info_block" id="trainerMatrix_block">
+                                              {% set matrixVal = 0 %}
                                             {% if matrixFiles %}
                                             {% for item in matrixFiles %}
                                             {% set filesize = evidence_service.fileSize(item.size) %}
                                             {% set eviType = evidence_service.getEvidenceShowType('image') %}
                                             {% set output = eviType|split('&&') %}                                            
 						{% if item.isdeleted != 1 %}
+                                                    {% set matrixVal = 1%}
 						<div class="file_info">
 							<span class="icon"><a href = "{{ amazon_link~item.path }}"  class="fancybox"> 
 								<i class="material-icons">description</i> </a>
@@ -253,11 +255,14 @@
 							</a>
                                                         </span>
 						</div> 
+                                                                
+                                               
 						{% endif %}
                                              {% endfor %}
-                                                {% else %}
-                                                <center id="matrix_no_files">No Trainer Matrix found</center>                        
-                                                {% endif %}
+                                             {% if matrixVal == 0 or matrixFiles is not defined %}
+                                                <center id="matrix_no_files">No Trainer Matrix found</center>    
+                                                {% endif %} 
+                                                {% endif %} 
 					</div>
                                     
 				</div>

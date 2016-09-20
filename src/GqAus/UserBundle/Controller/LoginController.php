@@ -16,7 +16,7 @@ class LoginController extends Controller
     public function indexAction()
     { 
         $request = $this->getRequest();
-        $request->getSession()->invalidate();
+        //$request->getSession()->invalidate();
         $session = $request->getSession(); 
         $user = $this->get('security.context')->getToken()->getUser();
         if (is_object($user) && count($user) > 0) {      
