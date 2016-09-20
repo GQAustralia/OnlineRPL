@@ -223,7 +223,7 @@
                                 <img src="{% if notecrtedImg %} {{ amazon_link~'user-'~notUserId~'/'~notecrtedImg }} {% endif %}" class="profile-img">
                                 <span><strong>{{notecrted}}</strong></span>
                                 <span class="date-time">
-                                    <span class="date">{{ note.created|date('m/d/y')}}</span>
+                                    <span class="date">{{ note.created|date('d/m/y')}}</span>
                                     <span class="date"> - </span>
                                     <span class="time">{{ note.created|date('H:i')}}</span>
                                 </span>
