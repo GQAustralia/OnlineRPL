@@ -41,12 +41,12 @@
         {% set output = remaingDays|split('&&') %}
         {% set workSpan = user_service.getRoleWiseWorkSpan(userRole[0])%}
         {% set remaingVal = (100/workSpan)*(workSpan-output[0])%}
-        <td class="col-md-2 col-lg-2 daysleft">
+        <td class="col-md-2 col-lg-2 ">
             <div class="progress">
               <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{% if remaingVal > 0 %}{{ remaingVal }}{%else%} 0 {% endif %}%"></div>
             </div>   
             <input type="hidden" value="{{status}}" id="filterByStatus">
-            <div class="progress-copy">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%} </div>
+            <div class="progress-copy daysleft">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%} </div>
         </td>
       {% endif %}
         {% endif %}
@@ -188,7 +188,7 @@
         <td colspan="6">
             {{no_applicants}}</td>
     </tr>
-    
+  
         {% endif %}
     {% if (status == 1) and (paginator.count > 1)%}
     <tr>
@@ -198,7 +198,3 @@
         </td>
     </tr>
     {% endif %}
-    
-   
-    
-

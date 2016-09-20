@@ -2,7 +2,7 @@
     <tr>
         <th class="col-xs-8 col-sm-8 sort" data-sort="firstName">Name</th>
         {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or('ROLE_RTO' in userRole) %}
-            <th class="col-xs-4 col-sm-4 sort desc" data-sort="daysleft">Days Left</th>
+            <th class="col-xs-4 col-sm-4 sort asc" data-sort="daysleft">Days Left</th>
         {% else %}
                 <th class="col-xs-4 col-sm-4 sort" data-sort="status">Status</th>
         {% endif %}

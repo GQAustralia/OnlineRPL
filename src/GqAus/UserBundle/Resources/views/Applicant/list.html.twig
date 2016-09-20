@@ -98,10 +98,10 @@
                           {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
                             <tbody class="list" id="currentList">
                                 {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
-                                
                              </tbody>
                             {% if paginator.count > 1%}
                                 <tfooter>
+                                  
                                     <tr>
                                 {% if ('ROLE_SUPERADMIN' in userRole)%}
                                         <td colspan="3" class="gq-pagination-area">
@@ -156,9 +156,7 @@
         valueNames: [ 'firstName','qualification', 'evidence','daysleft','status','email','address','suburb','pincode','state','phone']
         };
         currentList = new List('currentnew', options);
-        currentList.sort("daysleft", {
-    order: "desc"
-})
+       
         //currentList.reIndex();
         {# var Completedoptions = {
         valueNames: [ 'firstName','qualification']
