@@ -121,6 +121,9 @@
 	float: left;
 	width: 100%
 }
+.main_container .portfolio-container.logs .portfolio-data-table .table td:nth-child(n+4){
+	text-align: left;
+}
 .main_container .portfolio-container .portfolio-data-table .table td:nth-child(n+4){
 	text-align: center;	
 	position: relative;
