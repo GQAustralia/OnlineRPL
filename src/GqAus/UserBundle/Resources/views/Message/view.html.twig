@@ -208,11 +208,11 @@
                                     </span>
                                     <span class="chat_name">
                                             <strong>
-                                                    {% if message.from == "from me" %} You {% else %} {{message.fromUserName}} {% endif %}
+                                                    {% if message.from == " from me" %} You {% else %} {{message.fromUserName}} {% endif %}
                                             </strong>
-                                    </span>
-                                    {% set checkDate =  "now"|date("m/d/Y") %}
-                                   {% if "now"|date("m/d/Y") > message.created|date("d/m/y") %}
+                                        </span>
+                                    {% set checkDate =  "now"|date("d/m/Y") %}
+                                   {% if "now"|date("d/m/y") > message.created|date("d/m/y") %}
                                          <span class="date_time">{{ message.created | date("d/m/y") }}</span>
                                    {% else %} 
                                         <span class="date_time">{{ message.created | date("h:i") }}</span>                                        
