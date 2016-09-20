@@ -1,13 +1,6 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
 <!-- accordion starts here -->
 {% if applicantList %}
-    {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
-    <tr>
-        <td class="gq-pagination-area" {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %}>
-            {{ include('GqAusUserBundle:Paginator:ajax_rep_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
-        </td>
-    </tr>
-    {% endif %}
     {% for key, list in applicantList %}
         <tr>
             <td><a target="_blank" href="{{base_url}}applicantDetails/{{list.courseCode}}/{{list.user.id}}">{{list.user.userName}}</a></td>
@@ -24,9 +17,16 @@
             {% endif %}
         </tr>
     {% endfor %}
+	{% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
+    <tr>
+        <td class="gq-pagination-area" {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} colspan="3" {% else %} colspan="5" {% endif %}>
+            {{ include('GqAusUserBundle:Paginator:ajax_rep_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
+        </td>
+    </tr>
+    {% endif %}
 {% else %}
     <tr>
-        <td {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %} class="gq-tabs-no-content-text margin-top15">
+        <td {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} colspan="3" {% else %} colspan="5" {% endif %} class="gq-tabs-no-content-text margin-top15">
             No Applicants Found</td>
     </tr>
 {% endif %}
