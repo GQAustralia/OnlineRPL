@@ -688,7 +688,7 @@ class UserService
                 $res->andWhere(sprintf('c.%s = :%s', 'courseStatus', 'courseStatus'))
                     ->setParameter('courseStatus', '0'); //approved
             } else {
-                 $avals = array('1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15','16');
+                 $avals = array('0','1', '2', '3', '4', '5', '6','7','8','9','10','11','12','13','14','15','16');
                 $res->andWhere('c.courseStatus IN (:ids)')->setParameter('ids', $avals);
             }
         }

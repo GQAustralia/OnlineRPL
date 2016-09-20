@@ -6,7 +6,7 @@
 {% endblock %}  
  
 <!-- Modal -->
-<div class="modal fade profile_popup" id="profile2" role="dialog">
+<div class="modal fade profile_popup {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} adminPopup {% endif %}" id="profile2" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
 		<div class="modal-content">
