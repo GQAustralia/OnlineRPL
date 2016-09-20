@@ -2422,7 +2422,9 @@ $('#change_password_form').on('submit', function(e) {
             cache: false,
             data: form_data,
             success: function(result) {
-               
+               $('#current_password').val('');
+                $('#password_newpassword').val('');
+      $('#password_confirmnewpassword').val('');
                 $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Password updated successfully!</span></div>');
                 //$('#change_password_form').hide();
                // $('#user_profile_form').show();
@@ -3254,6 +3256,7 @@ function checkCurrentRolePassword(){
     }
 }
    $(".change_link ").click(function(){
+       $('#pwd_error').hide();
         $("#idfiles").addClass("hidden-xs");
         $(".profileinfo").addClass("hidden-xs");
         $(".currentpassword").removeClass("hidden-xs");
@@ -3337,6 +3340,9 @@ function checkCurrentRolePassword(){
             cache: false,
             data: {password_newpassword:newpwd},
             success: function(result) {
+                $('#current_password').val('');
+                 $('#password_newpassword').val('');
+      $('#password_confirmnewpassword').val('');
               $("#idfiles").addClass("hidden-xs");
             $(".profileinfo").addClass("hidden-xs");
             $(".currentpassword").addClass("hidden-xs");
@@ -3575,6 +3581,7 @@ function checkCurrentOthersPassword(){
     }
 }
 $("#change_link").click(function(){
+    $('#pwd_error').hide();
     $("#user_profile_form_div").hide();
     $(".title_bar").hide();
     $("#profile_suc_msg2").hide();
@@ -3587,7 +3594,7 @@ $("#change_link").click(function(){
 });
 
 $(".chngpwdvalOthers").click(function(){ 
- $('#mbl_pwd_error').html('');
+ $('#mbl_pwd_error').html(''); 
  $("#profile_suc_msg2").hide();
  var curpwd = $("#password_hdnoldpassword").val(); 
  var displayConfirmPwd = $("#password_confirmnewpassword").parent().css( "display" );        
@@ -3604,6 +3611,11 @@ $(".chngpwdvalOthers").click(function(){
          passwordShowMsg("New Password must be minimum of 8 characters", "password_newpassword");
          return false;
      }
+     if (!(/[0-9]/.test(newpwd) && /[a-zA-Z]/.test(newpwd))) {    // Password should contain atleast one letter and one number
+          $('#mbl_pwd_error').html("Password should contain atleast one letter and one digit");
+            passwordShowMsg("Password should contain atleast one letter and one digit", "password_newpassword");
+            return false;
+        }
  }
  if (newconfirmpwd == "") {
      $('#mbl_pwd_error').html("Please enter Confirm Password");
@@ -3638,6 +3650,9 @@ $(".chngpwdvalOthers").click(function(){
      cache: false,
      data: {password_newpassword:newpwd},
      success: function(result) {
+      $('#current_password').val('');
+      $('#password_newpassword').val('');
+      $('#password_confirmnewpassword').val('');
       $("#user_profile_form_div").hide();
     $(".title_bar").hide();
     $("#profile_suc_msg2").hide();
