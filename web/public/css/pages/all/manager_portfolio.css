@@ -29,7 +29,15 @@
     box-shadow: none;
     border-radius: 0;
     padding: 0 7px;
-    width: 100%
+    width: 100%;
+	background-image: url('../../../images/search_icon.png');
+	background-repeat: no-repeat;
+	background-position: 5px center;
+    padding-left: 30px;
+}
+.main_container .portfolio-container .portfolio-filter .search_box.log_date_field{
+	background-image: none;
+	padding-left: 7px;
 }
 .main_container .portfolio-container .portfolio-filter select {
     border-radius: 0;
