@@ -105,11 +105,24 @@ class UserService
      * @param object $user
      * @param string $image
      */
-    public function savePersonalProfile($user, $image)
-    {
+    public function savePersonalProfile($user, $image, $userRole='')
+    {       
+       
         if (!empty($image)) {
             $user->setUserImage($image);
         }
+        
+        if ($userRole != 'ROLE_RTO') {
+           $setPhone = str_replace(' ', '', $user->getPhone()); 
+           
+            $user->setPhone($setPhone);
+        }
+        else
+        {
+            $setPhone = str_replace(' ', '', $user->getContactPhone());
+            $user->setContactPhone($setPhone);
+        }
+       // dump($user);exit;
         try{
         $this->em->persist($user);
         $this->em->flush();

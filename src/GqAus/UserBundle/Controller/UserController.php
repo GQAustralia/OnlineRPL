@@ -32,6 +32,7 @@ class UserController extends Controller
         $userService = $this->get('UserService');
         $user = $userService->getCurrentUser();
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
+        
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoleName();
         if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' ||
             $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
@@ -44,6 +45,7 @@ class UserController extends Controller
             $userProfileForm->remove('contactname');
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');
+            
             
             if ($userRole == 'ROLE_APPLICANT') {
                 $userProfileForm->remove('userImage');
@@ -60,6 +62,7 @@ class UserController extends Controller
         if ($userRole != 'ROLE_FACILITATOR') {
             $userProfileForm->remove('crmId');
         }
+      
        
         $currentIdPoints = $userService->getIdPoints($user);
         $userProfilePercentage = $userService->getUserProfilePercentage($user);
@@ -74,7 +77,7 @@ class UserController extends Controller
         if ($request->isMethod('POST')) {            
             $userProfileForm->handleRequest($request);
             if ($userProfileForm->isValid()) {                 
-                $userService->savePersonalProfile($user, $image);
+                $userService->savePersonalProfile($user, $image,$userRole);
                 $request->getSession()->getFlashBag()->add(
                     'notice', $this->container->getParameter('profile_update')
                 );
@@ -798,7 +801,7 @@ class UserController extends Controller
             $user->setAddress($userAddress);
         }
         //Saving to profile
-        $success = $userService->savePersonalProfile($user, $image);
+        $success = $userService->savePersonalProfile($user, $image, $userRole);
         if(!$success)
         {
             $status = 'false';

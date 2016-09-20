@@ -1440,8 +1440,8 @@ function validateAddress()
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
     country = /^[a-zA-Z\s]+$/;
     postcode = /^[a-zA-Z0-9\s]+$/;
-    phone = /^\(?([0-9]{4})\)?[-]?([0-9]{3})[-]?([0-9]{3})$/;
-    
+    //phone = /^\(?([0-9]{4})\)?[-]?([0-9]{3})[-]?([0-9]{3})$/;
+    phone =/^[ 0-9]*$/;
     $('#userprofile').find('input').each(function(index){
 	  	if($(this).attr('isChanged')!=undefined && $(this).attr('isChanged')=="1"){
 			$(this).prev().removeAttr('style');
@@ -1495,16 +1495,16 @@ function validateAddress()
     }
     if(userrole!='rtouser') {
      if ($("#userprofile_phone").val() != "") {
-         var uphone = $("#userprofile_phone").val();
-         
-            if (uphone.length < 12) {        
-                showMyTabs("Phone number must be XXXX-XXX-XXX format");
+         var uphoneVal = $("#userprofile_phone").val();
+          var uphone = uphoneVal.replace(/\s/g, "");        
+             if (uphone.length < 10) {        
+                showMyTabs("Please enter valid phone number 456");
                 $("#userprofile_phone").focus();
                 return false;
         }   
-            if ((uphone.length >= 12) && (uphone.search(phone) == -1 ) ) {
+            if ((uphone.length >= 12) || (uphone.search(phone) == -1 ) ) {
                     
-                    showMyTabs("Phone number must be XXXX-XXX-XXX format");
+                    showMyTabs("Please enter valid phone number 565");
                     $("#userprofile_phone").focus();
                     return false;
                 
@@ -1608,13 +1608,13 @@ function validateAddress()
         $("#userprofile_contactphone").focus();
         return false;
     }
-    if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length < 12) {        
-            showMyTabs("Phone number must be XXXX-XXX-XXX format");
+    if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length < 10) {        
+            showMyTabs("Please enter valid phone number");
             $("#userprofile_contactphone").focus();
             return false;
     }
     if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length >= 12 &&  ($("#userprofile_contactphone").val().search(phone) == -1 )) {        
-            showMyTabs("Phone number must be XXXX-XXX-XXX format");
+            showMyTabs("Please enter valid phone number");
             $("#userprofile_contactphone").focus();
             return false;
     }
