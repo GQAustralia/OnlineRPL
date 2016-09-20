@@ -216,18 +216,18 @@ $("body .msgForCourse").click(function(){
         }
     }
     if (msgBody === '') {
-        $('#msgBody').focus();
+        $('body #msgBody').focus();
         return false;
     }
     if (to != '' && msgBody != '') {
-        $('#msgSend').prop('disabled', true);
+        $('body #msgSend').prop('disabled', true);
         $.ajax({
             type: "POST",
             url: base_url + "sendMsgtoApplicant",
             data: { unitId: unitId, userId: userId, subject: subject, message: msgBody},
             success:function(result) {
-                $('#msgBody').val('');
-                $('#msgSend').prop('disabled', false);
+                $('body #msgBody').val('');
+                $('body #msgSend').prop('disabled', false);
                 $('#message_popup').modal('hide');
                 $("body #status-message").css("display", "block");
                 $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2> Sent message successfully</h2></div>');
