@@ -1018,15 +1018,16 @@ class UserService
                 $dashBoradManger = true;
             }
         }
-
         $fields = 'partial c.{id, courseCode, courseName, courseStatus, assessorstatus, facilitatorstatus, rtostatus,'
             . ' assessorDate, facilitatorDate, rtoDate}, partial u.{id, firstName, lastName}';
         if ($status == 3) {
             $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                     ->createQueryBuilder('c')
                     ->select($fields)
-                    ->join('c.user', 'u')
-                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
+                    ->join('c.facilitator', 'u')
+                    ->where('1=1');
+//                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
+            
             if ($userType == 'rto') {
                 $res->andWhere("c.courseStatus = '0' OR c.courseStatus = '15' OR c.courseStatus = '16'");
             }
@@ -1102,7 +1103,7 @@ class UserService
         /* Pagination */
         $page = ($page) ? $page : '0';
         $applicantList = $res->getQuery()->getResult();
-
+        
         return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
     }
     
