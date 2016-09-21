@@ -92,7 +92,7 @@
                                         {% if evidence.unit == unitCode %}
                                                 {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                                 {% set output = eviType|split('&&') %}
-                                                <div class="file-info {% if evidence.jobId != '' %}disable{% endif %}">
+                                                <div id="fileId{{ evidence.id }}" class="file-info {% if evidence.jobId != '' %}disable{% endif %}">
                                                     <span class="icon">
                                                         {% if(evidence.type != 'text') %}
                                                         {% set msDocStatus = evidence_service.getFileExtensionType(evidence.name) %}
