@@ -15,6 +15,7 @@
 {% else %}
     {% set counter = '' %}
     {% set counterArr = 0 %}
+    {% set awaitngVal = '' %}
 <div class="body_section qualification">
 {% for key, courses in userCourses %}       
     {% set userRole = app.security.getToken().getUser().getRoles() %}
@@ -26,7 +27,8 @@
 {% if courseInfo.courseInfo == "No records found" %}
 {% elseif courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
 {% set evidenceCompleteness = courses_service.getEvidenceByCourse(userId, courseCode) %}
-{% set counter = counter~evidenceCompleteness~',' %}      
+{% set counter = counter~evidenceCompleteness~',' %} 
+{% set awaitngVal = counter|split(',') %} 
 <div class="data-collapse">
     <div class="presentation-section">
         <div class="container">
@@ -107,7 +109,7 @@
                 <div class="activ-middle">
                    
                     <div id="slider{{counterArr}}" class="round-progress rslider"></div>
-                    <div class="evidence-status">{% if counter|slice(0,3) == 100 %}Evidence Submitted{% elseif counter|slice(0,2) > 0 %}Awaiting Evidences{% endif %}</div>
+                    <div class="evidence-status">{% if awaitngVal[counterArr]|slice(0,3) == 100 %}Evidence Submitted{% elseif awaitngVal[counterArr]|slice(0,2) > 0 %}Awaiting Evidences{% endif %}</div>
                 </div>
                 <p class="day-progress clearfix">
                     <span class="start-day">0<br/>Days</span>
