@@ -1364,8 +1364,9 @@ class UserService
             $userId = $user->getId();
             $userRole = $user->getRoles();
 
-            $pendingApplicants = $this->getUnreadApplicants($userId, $user->getRoles(), '0');
-
+            $unreadApplicants = $this->getUnreadApplicants($userId, $user->getRoles(), '0');
+            $pendingApplicants = $this->getPendingApplicants($userId, $user->getRoles(), '0');
+            
             $unReadMessagesCount = $this->getUnreadMessagesCount($userId);
             $unReadMessages = $this->getUnreadMessages($userId);
             //$todaysReminders = $this->getTodaysReminders($user->getId());
@@ -1397,8 +1398,10 @@ class UserService
             
            $usersDashboardInfo = array('todaysReminders' => $todaysReminders,
                 'unReadMessagesCount' => $unReadMessagesCount,
+                'pendingApplicants' => $pendingApplicants,               
                 'pendingApplicantsCount' => count($pendingApplicants),
-                'pendingApplicants' => $pendingApplicants,
+                'unreadApplicants' => $unreadApplicants,
+                'unreadApplicantsCount' => count($unreadApplicants),
                 'percentage' => $percentage,
                 'todoReminders' => $todoReminders,
                 'completedReminders' => $todoCompletedReminders,

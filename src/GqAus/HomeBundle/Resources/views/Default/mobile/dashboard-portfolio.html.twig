@@ -1,8 +1,8 @@
-{% set pendingPortfolios = (pendingApplicantsCount > 0) ? pendingApplicantsCount : 0 %}
+{% set unreadPortfolios = (unreadApplicantsCount > 0) ? unreadApplicantsCount : 0 %}
 <div class="accordian_block">
     <div class="title_bar clearfix">
         <span class="title">
-                <a href="{{ app.request.baseUrl }}/applicants" title="View All Portfolios"> PORTFOLIOS <strong>({{ pendingPortfolios }})</strong></a>
+                <a href="{{ app.request.baseUrl }}/applicants" title="View All Portfolios"> PORTFOLIOS <strong>({{ unreadPortfolios }})</strong></a>
         </span>
     </div>
     {% if ('ROLE_FACILITATOR' in roles) %}	
@@ -43,11 +43,11 @@
     {% endif %}
     <div class="panel-group" id="accordion3">
         {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)) %}
-			{% if pendingApplicants|length > 0 %}
+			{% if unreadApplicants|length > 0 %}
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="panel-title">
-							<span>{{pendingApplicants|length}} new</span>
+							<span>{{unreadApplicants|length}} new</span>
 							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#p_collapse1">
 							  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
 							</a>
@@ -56,7 +56,7 @@
 					<div id="p_collapse1" class="panel-collapse collapse">
 						<div class="panel-body">
 							<ul>
-								{% for key, list in pendingApplicants %}
+								{% for key, list in unreadApplicants %}
 										{% if ('ROLE_MANAGER' in roles) %}
                                                                                     {% set setUserId = list.manager %}
                                                                                 {% elseif ('ROLE_FACILITATOR' in roles and list.facilitator.id != null) %}
