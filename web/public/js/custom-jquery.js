@@ -1148,7 +1148,7 @@ $("#applicantPending").click(function() {
      $("#ajaxHtml img").css({'display':'table','margin':'0 auto'})
      
 });
-$("#search-current").keyup(function() {
+$("#search-current").keyup(function(event) {
   setTimeout(function(){   if ($('#search-current').val() != "")
     {
         if ($("#currentList tr:visible").length == 0)
@@ -1157,16 +1157,17 @@ $("#search-current").keyup(function() {
          
              $('#currentList').append(noRecordsContent);
                console.log('adding elelemnts set time',noRecordsContent);
-        
-         
            console.log('adding elelemnts ',noRecordsContent);
-          // $('#emptyResult').html(noRecordsContent);
-          // $('#emptyResult').css("display","block");
-          // $('#emptyResult').show();
+          $('#search-current').blur();
         }
         else
             $('#emptyResult').hide();
             $('.gq-pagination-area').hide();
+             var key = event.which;
+            if(key == 13)  // 
+            {
+            $('#search-current').blur();
+        }
     }
     else
         $('.gq-pagination-area').show(); },300);
