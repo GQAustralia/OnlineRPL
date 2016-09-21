@@ -121,17 +121,17 @@ $(document).ready(function(){
 	
 	var title_Ht = $(".mobile_version .mail_compose_section .title_bar").height();
 	var btnSection_Ht = $(".mobile_version .mail_compose_section .btn_section").height();
-	var chat_Ht = window_Ht -(title_Ht+btnSection_Ht+40);
+	var chat_Ht = window_Ht -(title_Ht+btnSection_Ht+18);
 	if(window_Wt < 767 && window_Ht >= 320){
 		$(".mobile_version .chat_room").css("height",chat_Ht);
 	}
 	
-	var title_Ht = $(".mail_compose_section .title_bar").height();
-	var btnSection_Ht = $(".mail_compose_section .btn_section").height();
-	var mail_box_Ht = $(".mail_compose_section").height();
-	var chat_Ht = mail_box_Ht -(title_Ht+btnSection_Ht+18);
+	var title_Ht1 = $(".mail_compose_section .title_bar").height();
+	var btnSection_Ht1 = $(".mail_compose_section .btn_section").height();
+	var mail_box_Ht1 = $(".mail_compose_section").height();
+	var chat_Ht1 = mail_box_Ht1 -(title_Ht1+btnSection_Ht1+18);
 	if(window_Ht > 767){
-		$(".mail_compose_section .chat_room").css("height",chat_Ht);
+		$(".mail_compose_section .chat_room").css("height",chat_Ht1);
 	}
 	
 	/*$(".form_block input[type='text']").focus(function(){
@@ -330,7 +330,7 @@ $(window).resize(function(){
 	
 	var title_Ht = $(".mobile_version .mail_compose_section .title_bar").height();
 	var btnSection_Ht = $(".mobile_version .mail_compose_section .btn_section").height();
-	var chat_Ht = window_Ht -(title_Ht+btnSection_Ht+40);
+	var chat_Ht = window_Ht -(title_Ht+btnSection_Ht+18);
 	if(window_Wt < 767 && window_Ht >= 320){
 		$(".mobile_version .chat_room").css("height",chat_Ht);
 	}
