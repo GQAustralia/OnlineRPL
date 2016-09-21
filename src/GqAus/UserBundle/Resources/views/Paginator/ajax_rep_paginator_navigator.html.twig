@@ -4,6 +4,11 @@
 {% set currentPage = paginator.getCurrentPage() %}
 {% set totalPages = paginator.getTotalPages() %}
 {% set count = paginator.getCount() %}
+{% set pagename = app.request.get('_route') %}
+
+{% if(pagename == 'searchApplicantsListReports') %}
+    {% set pagename = "reports" %}
+{% endif%}
 <div class="gq-msg-top-pagination pull-right">
     <div class="gq-msg-pagination-txt">
     {% if currentPage == totalPages %}
@@ -13,12 +18,13 @@
     {% endif %}
     </div>
     {% if currentPage == 1 %}
+        <a class="disabled"><div class="gq-pagination-prev-icon disabled" ></div></a>
     {% else %}
-        <a href="javascript:void(0)" class="gq-ajax-pagination" page="{{ currentPage - 1 }}"><div class="gq-pagination-prev-icon"></div></a>
+        <a href="{{ currentPath }}?page={{ currentPage - 1 }}"><div class="gq-pagination-prev-icon"></div></a>
     {% endif %}
     {% if currentPage == totalPages %}
+        <a class="disabled"><div class="gq-pagination-next-icon disabled" ></div></a>
     {% else %}
-        <a href="javascript:void(0)" page="{{ currentPage + 1 }}" class="gq-ajax-pagination"><div class="gq-pagination-next-icon"></div></a>
-        
+        <a href="{{ currentPath }}?page={{ currentPage + 1 }}"><div class="gq-pagination-next-icon"></div></a>
     {% endif %}
 </div>
