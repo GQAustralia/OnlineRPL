@@ -1,3 +1,5 @@
+{% set userId = app.security.getToken().getUser().getId() %} 
+{% set getcourses = user_service.getApplicantCourses(userId) %} 
 {% if ('ROLE_APPLICANT' in userRole) %}
 <div class="hidden-xs col-sm-12 col-md-12 col-lg-6 idfiles_info">   
     <div class="" id="idfiles_msg"></div>
@@ -41,7 +43,7 @@
             
             <div class="file_block">
        <ul class="Id_files">
-	    {% set fileSts = 0%}
+	    {% set fileSts = 0 %}
             {% if userIdFiles is defined %}
            
             {% for item in userIdFiles %}
@@ -55,7 +57,7 @@
             {% set filesize = evidence_service.fileSize(item.size) %}
             {% set fileStatus = item.status %}
             {% if fileStatus != 1 %}
-            {% set fileSts = 1%}
+            {% set fileSts = 1 %}
             <li>
                     <div class="title_bar clearfix">
                             <span class="content selected-doctype" id="{{item.type.id}}">{{ item.type.type }}</span>
@@ -68,15 +70,17 @@
                          <span class="file-discription">
                                  {{item.name}} <br>{{filesize}} | ADDED {{item.created|date("d/m/y") }}
                          </span>
-                         <a class="modalClass viewModalClass clear" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
-                                 <i class="material-icons">clear</i><div class="gq-del-evidence"></div></a>
+                        {% if getcourses is defined and getcourses > 0 %}
+                                <a class="modalClass viewModalClass clear" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
+                                            <i class="material-icons">clear</i><div class="gq-del-evidence"></div></a>
+                        {% endif %}
                     </div>
             </li>
             {% else %}
-             {% set fileSts = 0%}
+            
 			{% endif %}
             {% endfor %}
-			
+		
             {% if fileSts == 0 or userIdFiles is not defined %}
                 <center id="idfiles_no_files">{{no_id_files}}</center>                        
             {% endif %}                        

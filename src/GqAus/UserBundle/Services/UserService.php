@@ -4532,5 +4532,20 @@ class UserService
         }
         return $workSpan;
     }
+    public function getApplicantCourses($userId)
+    {
+    
+        $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+            ->createQueryBuilder('c')
+            ->select()
+            ->innerJoin('c.user', 'u');
+             
+        $res->where(sprintf('c.%s = :%s','user', 'user'))->setParameter('user', $userId); 
+         $avals = array('0', '16');               
+                $res->andWhere('c.courseStatus NOT IN (:ids)')->setParameter('ids', $avals);
+         $courseVal = $res->getQuery()->getResult();
+         
+           return count($courseVal);
+    }
 
 }

@@ -1,3 +1,5 @@
+{% set userId = app.security.getToken().getUser().getId() %} 
+{% set getcourses = user_service.getApplicantCourses(userId) %} 
 {% if ('ROLE_APPLICANT' in userRole) %}
 <div class="hidden-xs col-sm-12 col-md-12 col-lg-6">   
     <div class="" id="idfiles_msg"></div>
@@ -69,12 +71,14 @@
                          <span class="file-discription">
                                  {{item.name}} <br>{{filesize}} | ADDED {{item.created|date("d/m/y") }}
                          </span>
-                         <a class="modalClass viewModalClass clear" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
-                                 <i class="material-icons">clear</i><div class="gq-del-evidence"></div></a>
+                        {% if getcourses is defined and getcourses > 0 %}
+                            <a class="modalClass viewModalClass clear" data-toggle="modal" data-target="#myModal" fileid="{{item.id}}" filetype="{{item.type.type}}">
+                                    <i class="material-icons">clear</i><div class="gq-del-evidence"></div></a>
+                        {% endif %}
                     </div>
             </li>
             {% else %}
-             {% set fileSts = 0%}
+             
 			{% endif %}
             {% endfor %}
 			
