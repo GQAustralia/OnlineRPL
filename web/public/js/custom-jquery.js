@@ -95,8 +95,10 @@ $(function() {
                     var result = jQuery.parseJSON(responseText);
                     if(result.type == 'Error' ) {
                         $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2>'+ result.msg+'</h2></div>');
+						window.scrollTo(0, 0);
                     } else if (result.type == 'Success') {
                         $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>'); 
+						window.scrollTo(0, 0);
                     }   
                     if(result.code == '1'){
                       $("#currentCourseStatus").val(courseStatus);  
@@ -116,6 +118,7 @@ $(function() {
             });
       } else {
           $("body #status-message").html('<strong> Please select status</strong>');
+		  window.scrollTo(0, 0);
       }
     });
 });
@@ -1750,7 +1753,8 @@ $("body").on('click', '#approve-all-units-from-rto', function() {
         success: function(responseText) {
             var result = jQuery.parseJSON(responseText);
             if(result.type == 'Error' ) {
-                $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2> '+ result.msg+'</h2></div>');   
+                $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2> '+ result.msg+'</h2></div>');
+				window.scrollTo(0, 0);
             } else if (result.type == 'Success') {
                 $( "#approve-all-units-from-rto").hide( "slow");
                 $(this).hide();
@@ -2301,6 +2305,7 @@ $("body").on("click", "#submittoassessor,#request-cc", function(){
 				var result = jQuery.parseJSON(responseText);
 				if(result.type == 'Error' ) {
 					$("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
+					window.scrollTo(0, 0);
 				} else if (result.type == 'Success') {
                                     if(courseStatus == '2'){ 
                                         $( "body #submittoassessor").hide( "slow"); 

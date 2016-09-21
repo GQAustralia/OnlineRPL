@@ -192,6 +192,7 @@ $("body").on('click', '.setTodoMobileUnit', function() {
             success: function(result) {
                 $("body .unitInfo-details #status-message").css("display", "block");
                 $("body .unitInfo-details .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2><img src="' + base_url + 'public/images/tick.png"> Reminder Added successfully</h2></div>');
+				window.scrollTo(0, 0);
             }
         });
     }
@@ -233,6 +234,7 @@ $("body .msgForCourse").click(function(){
                 $('#message_popup').modal('hide');
                 $("body #status-message").css("display", "block");
                 $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2> Sent message successfully</h2></div>');
+				window.scrollTo(0, 0);
             }
         });
     }
