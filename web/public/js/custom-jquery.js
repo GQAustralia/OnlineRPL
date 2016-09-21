@@ -1460,6 +1460,7 @@ function validateAddress()
         else
             showMyTabs("Please enter First Name");
         $("#userprofile_firstname").focus();
+		$('.body_section').scrollTop(0);
         return false;
     }
     if ($("#userprofile_lastname").val() == "") {
@@ -1468,17 +1469,20 @@ function validateAddress()
         else
             showMyTabs("Please enter Last Name");
         $("#userprofile_lastname").focus();
+		$('.body_section').scrollTop(0);
         return false;
     }
     if ($("#userprofile_email").val() == "") {
         showMyTabs("Please enter Email");
         $("#userprofile_email").focus();
+		$('.body_section').scrollTop(0);
         return false;
     }
     if ($("#userprofile_email").val() != "") {
         if (useremail.search(regexp) == -1) {
             showMyTabs("Please enter valid Email");
             $("#userprofile_email").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
     }
@@ -1487,6 +1491,7 @@ function validateAddress()
         if (count > 0) {
             showMyTabs("This Email already exist!");
             $("#userprofile_email").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
     }
@@ -1494,6 +1499,7 @@ function validateAddress()
     if ($("#userprofile_phone").val() == "") {
         showMyTabs("Please enter Phone number");
         $("#userprofile_phone").focus();
+		$('.body_section').scrollTop(0);
         return false;
     }
     if(userrole!='rtouser') {
@@ -1503,12 +1509,14 @@ function validateAddress()
              if (uphone.length < 10) {        
                 showMyTabs("Please enter valid phone number 456");
                 $("#userprofile_phone").focus();
+				$('.body_section').scrollTop(0);
                 return false;
         }   
             if ((uphone.length >= 12) || (uphone.search(phone) == -1 ) ) {
                     
                     showMyTabs("Please enter valid phone number 565");
                     $("#userprofile_phone").focus();
+					$('.body_section').scrollTop(0);
                     return false;
                 
             }
@@ -1536,21 +1544,25 @@ function validateAddress()
         $("#change_address_error").show();       
         showMyTabs("Please enter address");        
         $("#userprofile_address_address").focus();
+		$('.body_section').scrollTop(0);
         return false;
     } 
     if ($("#userprofile_address_area").val() == "") {
             showMyTabs("Please enter Street Name");
             $("#userprofile_address_area").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
         if ($("#userprofile_address_suburb").val() == "") {
             showMyTabs("Please enter Suburb");
             $("#userprofile_address_suburb").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
         if ($("#userprofile_address_city").val() == "") {
             showMyTabs("Please enter City");
             $("#userprofile_address_city").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
     else { 
@@ -1558,12 +1570,14 @@ function validateAddress()
             $("#userprofile_address_city").val('');
             showMyTabs("Please enter alphabets  only");             
             $("#userprofile_address_city").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
     }
    if ($("#userprofile_address_state").val() == "") {
             showMyTabs("Please enter State");
             $("#userprofile_address_state").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
     else { 
@@ -1571,12 +1585,14 @@ function validateAddress()
             $("#userprofile_address_state").val('');
             showMyTabs("Please enter alphabets  only");             
             $("#userprofile_address_state").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
     }
     if ($("#userprofile_address_pincode").val() == "") {
             showMyTabs("Please enter Postcode");
             $("#userprofile_address_pincode").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
     else { 
@@ -1584,18 +1600,21 @@ function validateAddress()
             $("#userprofile_address_pincode").val('');
             showMyTabs("Please enter alphabets and numbers only");             
             $("#userprofile_address_pincode").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
     }
      if ($("#userprofile_address_country").val() == "") {
             showMyTabs("Please enter Country");
             $("#userprofile_address_country").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }else { 
         if ($("#userprofile_address_country").val().search(country) == -1) {
             $("#userprofile_address_country").val('');
             showMyTabs("Please enter alphabets only");             
             $("#userprofile_address_country").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }
     }
@@ -1604,21 +1623,25 @@ function validateAddress()
         if ($("#userprofile_contactname").val() == "") {
             showMyTabs("Please enter Contact Person Name");
             $("#userprofile_contactname").focus();
+			$('.body_section').scrollTop(0);
             return false;
         }        
         if ($("#userprofile_contactphone").val() == "") {
         showMyTabs("Please enter Phone");
         $("#userprofile_contactphone").focus();
+		$('.body_section').scrollTop(0);
         return false;
     }
     if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length < 10) {        
             showMyTabs("Please enter valid phone number");
             $("#userprofile_contactphone").focus();
+			$('.body_section').scrollTop(0);
             return false;
     }
     if ($("#userprofile_contactphone").val() != "" && $("#userprofile_contactphone").val().length >= 12 &&  ($("#userprofile_contactphone").val().search(phone) == -1 )) {        
             showMyTabs("Please enter valid phone number");
             $("#userprofile_contactphone").focus();
+			$('.body_section').scrollTop(0);
             return false;
     }
         
@@ -2364,10 +2387,12 @@ $('#user_profile_form').on('submit', function(e) {
 		    $("#ajax-profile-error").hide();
                     $("#profile_suc_msg2").show();
                         $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Profile updated successfully!</span></div>');
+						$('.body_section').scrollTop(0);
                 },
             error: function(){
                 $("#change_address_error").show();
                     $("#profile_suc_msg2").hide();
+					$('.body_section').scrollTop(0);
             }
                 
             });
