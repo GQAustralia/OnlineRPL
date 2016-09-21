@@ -1171,12 +1171,12 @@ $("#search-current").keyup(function() {
     else
         $('.gq-pagination-area').show(); },300);
 });
-//$('.ui-listview-filter').bind('keyup', function(){
-//alert("dddd");
-////    var count = $('#myList li').size() - $('#myList li.ui-screen-hidden').size();
-////    $('#count').text(count);
-//    
-//    });
+$("#searchName").keyup(function() {
+    if ($('#searchName').val() != "")
+        $('.gq-pagination-area').hide();
+    else
+         $('.gq-pagination-area').show();
+});
 $("#applicantCompleted").click(function() {
     $("#search-current").val("");
     $("#searchName").show();

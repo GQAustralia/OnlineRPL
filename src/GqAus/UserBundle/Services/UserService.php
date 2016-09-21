@@ -664,7 +664,7 @@ class UserService
             }
             else
             {
-                $valsAssessor = array('0','15','16');
+                $valsAssessor = array('0','3','15','16');
                 //$res->andWhere(sprintf('c.%s = :%s', 'assessorstatus', 'assessorstatus'))->setParameter('assessorstatus', '1');
                 $res->andWhere('c.courseStatus IN (:ids)')->setParameter('ids', $valsAssessor);
             }
