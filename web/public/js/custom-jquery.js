@@ -2354,9 +2354,10 @@ $('#user_profile_form').on('submit', function(e) {
                 url: base_url+"updateprofileAjax",
                 cache: false,
                 data: form_data,
-                success: function(result) {
+                success: function(result) {                   
+                    $('#userprofile_firstname').css('cursor','not-allowed');
                     $("#change_address_error").hide();
-					$("#ajax-profile-error").hide();
+		    $("#ajax-profile-error").hide();
                     $("#profile_suc_msg2").show();
                         $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Profile updated successfully!</span></div>');
                 },
