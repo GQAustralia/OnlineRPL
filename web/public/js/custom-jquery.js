@@ -261,6 +261,7 @@ $(".deleteEvidence").click(function() {
             $("#evidence_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Evidence File deleted successfully!</span></div>');
             $('.deleteevidence_loader').hide();
             $('#evidencefiles tr#'+fid).hide();
+			$('.body_section').scrollTop(0);
             setTimeout(function(){ location.reload(); }, 2000);
               var table = $('#evidence').DataTable();
               table.row('#tr'+fid).remove().draw(false);
@@ -418,6 +419,7 @@ $("body").on('click', '.updateTodo', function() {
 
                 $('#err_msg').show();
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Moved to completed today successfully</span></div>').delay(3000).fadeOut(100);
+				$('.body_section').scrollTop(0);
             }
         }
     });
@@ -869,6 +871,7 @@ $(".setData").click(function() {
                 var res = $.parseJSON(result);
                 $('#err_msg').show();           
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Reminder added succesfully!</span></div>').delay(3000).fadeOut(100);
+				$('.body_section').scrollTop(0);
                 if(newTodoItemElement && addToToDo) {
                    
                     newTodoItem = newTodoItemElement.replace(/reminderId/g, res.reminderId);
@@ -2285,7 +2288,8 @@ $("body").on("click", "#submittoassessor,#request-cc", function(){
                                         $("body .competency-call").hide( "slow"); 
                                         $("body #courseStatus").val(courseStatus);  
                                     }
-                                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>'); 
+                                    $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>');
+									$('.body_section').scrollTop(0);
 				}   
 				if(result.code == '1'){
 				  $("body #currentCourseStatus").val(courseStatus);  
@@ -3780,6 +3784,7 @@ function userExistMsg(errorMsg,msgId)
     if($("#"+msgId).val() != "")
         $("#"+msgId).val('');
     $("#"+msgId).focus();
+	$('.body_section').scrollTop(0);
 }
 /* function to check email already exist */
 function checkUserNameExist(username) {
