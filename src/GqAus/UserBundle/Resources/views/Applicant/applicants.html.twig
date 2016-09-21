@@ -198,3 +198,12 @@
         </td>
     </tr>
     {% endif %}
+    {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}
+                <tr>
+                   <td {% if ('ROLE_SUPERADMIN' in userRole) %}colspan="3" {% else %}colspan="6" {% endif %}class="gq-pagination-area">
+                       {# display navigation for pages - paginator_navigator #}        
+                     {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                   </td>
+               </tr>
+     {% else %}
+    {% endif %}
