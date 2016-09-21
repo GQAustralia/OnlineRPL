@@ -17,7 +17,7 @@
 {% else %}
     {% set counter = '' %}
     {% set counterArr = 0 %}
-    {% set awaitngVal = '' %} 
+    {% set awaitngVal = '' %}
     
 {% for key, courses in userCourses %}       
     {% set userRole = app.security.getToken().getUser().getRoles() %}
@@ -81,6 +81,7 @@
         {% endif %}
     {% endif %}
 {% endif %}
+{% if courses.courseStatus is defined and courses.courseStatus != 0 %}       
        <div class="row">
             <div class="col-md-12 col-lg-12">
                 <div class="info-box">
@@ -133,6 +134,7 @@
    </div>
 </div>
 </div>
+{% endif %}
     {% if courses.facilitator.firstName is defined %}
     <div class="row">
         <div class="col-md-12 col-lg-12">
