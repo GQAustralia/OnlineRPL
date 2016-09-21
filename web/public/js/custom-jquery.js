@@ -1282,6 +1282,8 @@ filterByStatus = $('#filterByStatus').val();
         cache: false,
         data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
         success: function(result) { 
+            $("#searchName").blur();
+            $("#search-current").blur();
            $("#filter-by-name").hide();
             $("#filter-by-week").hide();
             $("#app-pending-approve").hide();
