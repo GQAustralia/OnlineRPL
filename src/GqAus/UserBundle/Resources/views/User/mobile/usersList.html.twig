@@ -41,7 +41,7 @@
         {% endfor %}
         {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
         <tr>
-            <td class="gq-pagination-area" colspan="3">       
+            <td class="gq-pagination-area" colspan="4">       
                 {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}  
             </td>
         </tr>

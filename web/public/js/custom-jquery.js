@@ -1754,7 +1754,8 @@ $("body").on('click', '#approve-all-units-from-rto', function() {
             } else if (result.type == 'Success') {
                 $( "#approve-all-units-from-rto").hide( "slow");
                 $(this).hide();
-                $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>'); 
+                $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>');
+				window.scrollTo(0, 0);
             } 
         }
     });
@@ -2390,12 +2391,12 @@ $('#user_profile_form').on('submit', function(e) {
 		    $("#ajax-profile-error").hide();
                     $("#profile_suc_msg2").show();
                         $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Profile updated successfully!</span></div>');
-						$('.body_section').scrollTop(0);
+						$('.body_section,.profile_popup').scrollTop(0);
                 },
             error: function(){
                 $("#change_address_error").show();
                     $("#profile_suc_msg2").hide();
-					$('.body_section').scrollTop(0);
+					$('.body_section,.profile_popup').scrollTop(0);
             }
                 
             });
