@@ -130,6 +130,7 @@ $("body #courseUnitNote").click(function(){
             success:function(result) {
                 $("body #status-message").css("display", "block");
                 $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2> Note Added successfully</h2></div>');
+				window.scrollTo(0, 0);
             }
         });
     }
@@ -160,6 +161,7 @@ $("body").on('click', '.setToDoList', function() {
             success: function(result) {
                 $("body #status-message").css("display", "block");
                 $("body .status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2> Reminder Added successfully</h2></div>');
+				window.scrollTo(0, 0);
             }
         });
     }
