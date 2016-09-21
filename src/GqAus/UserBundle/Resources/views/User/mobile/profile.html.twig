@@ -87,7 +87,7 @@
      }
     });
     if(!change){
-     $(".update_btn").css("background","#eee");
+     $(".update_btn").css("background","#eee").attr('disabled','disabled');
     }
   }
  
@@ -153,11 +153,11 @@ $("body").on("click",function(evt){
  
   $(".form_block .pwd input[type='text']").focus(function(){       
    $(this).prev().css("color","#999");
-   $(".update_btn").css("background","#eee");
+   $(".update_btn").css("background","#eee").attr('disabled','disabled');
   });
   $(".form_block .pwd input[type='text']").blur(function(){
    $(this).prev().css("color","#999");
-   $(".update_btn").css("background","#eee");
+   $(".update_btn").css("background","#eee").attr('disabled','disabled');
   });
     });
  
