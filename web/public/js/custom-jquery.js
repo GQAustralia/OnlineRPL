@@ -1507,14 +1507,14 @@ function validateAddress()
          var uphoneVal = $("#userprofile_phone").val();
           var uphone = uphoneVal.replace(/\s/g, "");        
              if (uphone.length < 10) {        
-                showMyTabs("Please enter valid phone number 456");
+                showMyTabs("Please enter valid phone number");
                 $("#userprofile_phone").focus();
 				$('.body_section').scrollTop(0);
                 return false;
         }   
             if ((uphone.length >= 12) || (uphone.search(phone) == -1 ) ) {
                     
-                    showMyTabs("Please enter valid phone number 565");
+                    showMyTabs("Please enter valid phone number");
                     $("#userprofile_phone").focus();
 					$('.body_section').scrollTop(0);
                     return false;
