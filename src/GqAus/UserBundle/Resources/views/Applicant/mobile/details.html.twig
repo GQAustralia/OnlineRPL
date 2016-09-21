@@ -295,7 +295,7 @@
                                     {% if ('ROLE_ASSESSOR' in userRole) %}
                                         <div class="col-xs-{{colsLng}} col-sm-{{colsLng}}">
                                            <div class="btn">
-											   <a {%if courseStatus != '10' %}href="javascript:void(0);" id="request-cc" data-courseStatus="10"{%else%} class='disabled' {%endif%}>
+											   <a {%if (courseStatus == '2' or courseStatus =='13' or courseStatus == '14' )%}href="javascript:void(0);" id="request-cc" data-courseStatus="10"{%else%} class='disabled' {%endif%}>
 											   <i class="material-icons">call</i>CC</a>
 										   </div>
                                        </div>
