@@ -7,7 +7,7 @@
 {% set ccode = list.courseCode%}
 {% set applicantLogged = user_service.getCourseUnitsByCourseCode(list.user.id,ccode)%}
 
-<tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %} %}">
+<tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %} ">
       {% if (status == 0) %} 
         <td colspan="2" class="col-xs-12 col-sm-12">
            
@@ -48,7 +48,7 @@
             </td>
             {% endif %}
             {% if (status == 1) %} 
-             <td colspan="2" >
+                <td colspan="2" >
                  {{list.user.firstName}} {{list.user.lastName}}
                  </td>
                 <td colspan='2'>
