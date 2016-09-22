@@ -263,6 +263,9 @@
 .add-evidence .panel-group {
     margin-bottom: 0;
 }
+.add-evidence .file_upload_block {
+	overflow-x: hidden;
+}
 .add-evidence .file_upload_block .panel-group .panel {
     border: 1px solid #d8d8d8;
     border-bottom: 0;
@@ -340,7 +343,7 @@
     margin-left: 5px;
 }
 .add-evidence .check_box_section .section ul li span:first-child{
-	width: 98px;
+	width: 85px;
 	text-align: left;
 }
 .add-evidence .check_box_section .checkbox_outer {
@@ -448,11 +451,10 @@
 }
 .add-evidence .block{
 	margin-bottom: 10px;
-	display: table;
 }
 .add-evidence .block .files_mobile_version{
-	width: 90%;
-	display: table-cell;
+	width: 100%;
+	display: table;
 }
 .add-evidence .block .check_box_section{
 	width: 5%;
@@ -466,11 +468,11 @@
 .add-evidence .files_mobile_version .file_info {
     display: table;
     width: 100%;
-	border: 1px solid #d8d8d8;
-	border-left: 0;
+	border: 0;
 }
 .add-evidence  .files_mobile_version .file_info span {
     display: table-cell;
+	margin-left: 4px;
 }
 .add-evidence .files_mobile_version .file_info span.icon {
     width: 30px;
@@ -489,6 +491,8 @@
     word-break: break-word;
 	font-size: 13px;
 	text-align: left;
+	border: 1px solid #d8d8d8;
+	width: 88%;
 }
 .add-evidence .file_info span.clear {
     width: 7%;
@@ -519,4 +523,7 @@
     float: left;
     color: green;
     font-size: 16px;
+}
+.add-evidence .checkbox_outer input[type="checkbox"]+span {
+    top: -35px;
 }

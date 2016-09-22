@@ -69,7 +69,7 @@ $(document).ready(function(){
 	$(".message_section .mobile_version,.mobile_version .mail_secion,.mobile_version .new_message_section").css("height",mobile_view_Ht);
 	
 	if(window_Wt >= 320 && window_Ht < 767){
-		$('.main_container,.step_list').css("height",window_Ht);
+		$('.main_container .step_list').css("height",window_Ht);
 		$('.body_section,.portfolio-container').css("height",mobile_view_Ht);
 		$('.candidate-details .body_section').css("height",mobile_view_Ht1);
 		$(".change_link").click(function(){
@@ -99,6 +99,17 @@ $(document).ready(function(){
 	
 	if(window_Ht < 768){
 		$(".add-evidence .modal-body").css("height",window_Ht);
+	}
+	
+	if(window_Wt < 767 && window_Ht > 480){
+		$(".transparent_popup .modal-dialog .modal-body").css("height",window_Ht);
+		$(".modal.transparent_popup .modal-dialog .modal-content .login .form .submit_btn").css("position","absolute");
+		$("#newUserupdatePassword .modal-dialog .modal-body").css("padding-top","100px");
+	}
+	
+	if(window_Wt < 767 && window_Ht > 375){
+		$("#onboard2 .modal-dialog .modal-body").css("height",window_Ht);
+		$(".modal.transparent_popup .modal-dialog .step_list .btn_section").css("position","absolute");
 	}
 	
 	/*if(window_Wt < 767 && window_Ht > 370){
