@@ -209,8 +209,7 @@ parameters:
     mail_portfolio_assign_applicant_con: >
                                  Dear #toUserName#,<br/><br/>      
                                    You're one step closer! <br/><br />
-                                   #facname# has been assigned as your Customer Service Agent and will be here to guide you throughout the RPL Process. <br/><br />
-                                   You'll now also be able to start using Online RPL using your login details below.<br/><br />
+                                   #facname# has been assigned as your Customer Service Agent and will be here to guide you throughout the RPL Process. <br/><br />                                   
                                    <a href='#applicationUrl#validateUser/#token#'>Click Here</a> to log in to your account and begin your journey. <br/><br />
                                    If you have any queries or are unable to login in, please call our Sydney office on 133 775.<br/><br/>
                                     Regards,<br/>OnlineRPL  
