@@ -1856,7 +1856,7 @@ $("#gq-name-cancel, #gq-rtoname-cancel").click(function() {
     $(this).parent().parent().prev(".setUsers").trigger("click");
 });
 
-$("#select_existing_evidence").click(function() {
+$(".select_existing_evidence").click(function() {
    userId = $(this).attr("userid");
    unitCode = $('#unit-code').val();
    $('#select-from-evidence-tab').html('<div class="row" style="height:380px;"><div id="userEvidencesDiv" style="display: block;" class="load-icon-tr"><img src="' + base_url + '/public/images/loading.gif"></div></div>');            
