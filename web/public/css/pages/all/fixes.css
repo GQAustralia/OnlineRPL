@@ -527,3 +527,11 @@
 .add-evidence .checkbox_outer input[type="checkbox"]+span {
     top: -35px;
 }
+/* Loader Fix */
+
+.notes-loading-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0px 0px -50px;
+}
