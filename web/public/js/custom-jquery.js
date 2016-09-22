@@ -3774,7 +3774,7 @@ $("#searchUserLogFilter").click(function() {
     loadDataIcon('currentList');
     loadUserLogReports('currentList',pagenum);
 });
-function loadUserLogReports(divContent)
+function loadUserLogReports(divContent,pagenum)
 {
     filterByDate = $('#logdate').val();
     searchName = $('#searchName').val();

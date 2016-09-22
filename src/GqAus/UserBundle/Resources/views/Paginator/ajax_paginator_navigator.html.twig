@@ -5,10 +5,12 @@
 {% set totalPages = paginator.getTotalPages() %}
 {% set count = paginator.getCount() %}
 {% set pagename = app.request.get('_route') %}
-{% if(pagename == 'searchApplicantsListReports') %}
+{% if(pagename == 'searchApplicantsListReports')  %}
     {% set classname = "gq-ajax-pagination" %}
 {% elseif((pagename == 'manageusers') or (pagename == 'searchUsersList')) %}
     {% set classname = "gq-ajax-users-pagination" %}
+{% elseif((pagename == 'searchLogList') or (pagename == 'userslog')) %}
+    {% set classname="gq-ajax-log-pagination" %}
 {% else %}
     {% set classname = "gq-ajax-app-pagination" %}
 {% endif%}
