@@ -1302,7 +1302,7 @@ function loadApplicantListReports(divContent, pagenum)
         type: "POST",
         url: base_url + "searchApplicantsListReports",
         cache: false,
-        data: {pagenum:'', searchName: searchName, searchAge: searchAge, searchRoleId: searchRoleId},
+        data: {pagenum:pagenum, searchName: searchName, searchAge: searchAge, searchRoleId: searchRoleId},
         success: function(result) { 
             $("#current").show();
             $("#filter-by-all").hide();
