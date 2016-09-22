@@ -186,7 +186,7 @@ class EvidenceService
         $evidenceId = $fileObj->getId();
         $fileNumber = $otherInfo['fileNum'];
         if((isset($otherInfo['hid_unit']) && !empty($otherInfo['hid_unit'])) && (isset($otherInfo['hid_course']) && !empty($otherInfo['hid_unit']))) // Uploading evidence by candidate then update course units
-            $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course']);
+            $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course'],'', false);
 
         if (!empty($otherInfo['self_assessment'])) {
             $textObj = new Text();
@@ -196,7 +196,7 @@ class EvidenceService
             $textObj->setUser($this->currentUser);
             $this->em->persist($textObj);
             $this->em->flush();
-            $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course']);
+            $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course'],'', false);
         }
         return json_encode(['evidenceId'=>$evidenceId, 'fileNumber' => $fileNumber, 'evdType' => $type]);
         return ($seterror == 'no') ? $otherInfo['hid_unit'] : $seterror;
@@ -306,7 +306,7 @@ class EvidenceService
                             $newObj->setFacilitatorViewStatus('0');
                             $this->em->persist($newObj);
                             $this->em->flush();
-                            $this->updateCourseUnits($this->userId, $unitId, $courseCode);
+                            $this->updateCourseUnits($this->userId, $unitId, $courseCode,'',false);
                         }
                     }//foreach
                 }//if
@@ -470,7 +470,7 @@ class EvidenceService
      * @param string $unitId
      * @param string $courseCode
      */
-    public function updateCourseUnits($userId, $unitId, $courseCode,$submit_review=null)
+    public function updateCourseUnits($userId, $unitId, $courseCode,$submit_review=null,$evd=null)
     {
         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')
             ->findOneBy(array('user' => $userId, 'unitId' => $unitId, 'courseCode' => $courseCode));
@@ -483,20 +483,21 @@ class EvidenceService
           $this->em->flush();  
         }
         else if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
+            if($evd)
+            {
+                $courseUnitObj->setFacilitatorstatus(0);
+                $courseUnitObj->setAssessorstatus(0);
+                $courseUnitObj->setRtostatus(0);
+                $this->em->persist($courseUnitObj);
+                $this->em->flush();
 
-            $courseUnitObj->setFacilitatorstatus(0);
-            $courseUnitObj->setAssessorstatus(0);
-            $courseUnitObj->setRtostatus(0);
-            $this->em->persist($courseUnitObj);
-            $this->em->flush();
-
-            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
-                ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
-            $courseObj->setFacilitatorstatus(0);
-            $courseObj->setAssessorstatus(0);
-            $this->em->persist($courseObj);
-            $this->em->flush();
-
+                $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
+                $courseObj->setFacilitatorstatus(0);
+                $courseObj->setAssessorstatus(0);
+                $this->em->persist($courseObj);
+                $this->em->flush();
+             }
             $userInfo = $this->userService->getUserInfo($userId);
 
             // finding and replacing the variables from message templates
