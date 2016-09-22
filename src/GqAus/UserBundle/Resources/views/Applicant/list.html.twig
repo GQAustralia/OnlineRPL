@@ -87,62 +87,64 @@
         {% endif %}
 
 			<div id="err_msg"></div>
-            <div class="tab-content">
-                <div id="ajaxHtml" style="display:none;" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
-                            <img src="{{ asset('public/images')}}/loading.gif" class="img"/>
-                </div>
-                <div class="container tab-pane active" role="tabpanel" id="current">
-                    {#<input class="search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state" />#}
-                    
-                    <div class="portfolio-data-table">                                
-                        <table class="table" id="myTable">
-                          {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
-                            <tbody class="list" id="currentList">
-                                {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
-                             </tbody>
-            
-                            {% if paginator.count > 1%}
-                                <tfooter>
-                                  
-                                    <tr>
-                                {#{% if ('ROLE_SUPERADMIN' in userRole)%}
-                                        <td colspan="3" class="gq-pagination-area">
-                                                {# display navigation for pages - paginator_navigator #}        
-                                                {#{{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
-                                        </td>
-                                {% else %}#}
-                                 {% if ('ROLE_MANAGER' in userRole[0]) or ('ROLE_SUPERADMIN' in userRole[0]) %}
-                                        {% else %}
-                                        <td colspan="6" class="gq-pagination-area">
-                                                {# display navigation for pages - paginator_navigator #}        
-                                          {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
-                                        </td>
-                                {% endif %}
-                                    </tr>
-                                </tfooter>
-                          {% endif %}
-                        </table>
-                    </div>
-                </div>
-                
-                <div role="tabpanel" class="container tab-pane" id="completed">
-                    <div class="portfolio-data-table">
-                        <table class="table">
-                               {#<input type="text" placeholder="Search" class="search_box search sort"  data-sort="firstName,qualification">#}
-                            <thead>
-                                <tr>
-                                    <th style="width:20%"><span class="">NAME</span></th>
-                                    <th><span class="">QUALIFICATION</span></th> 
-                                </tr>
-                            </thead>
-                            <tbody class="list" id="completedList">                                
-                                {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
-                            </tbody>  
-                         
-                        </table>
-                    </div>
-                </div>
-            </div>
+			<div class="col-lg-12">
+				<div class="tab-content">
+					<div id="ajaxHtml" style="display:none;" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+								<img src="{{ asset('public/images')}}/loading.gif" class="img"/>
+					</div>
+					<div class="tab-pane active" role="tabpanel" id="current">
+						{#<input class="search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state" />#}
+						
+						<div class="portfolio-data-table">                                
+							<table class="table" id="myTable">
+							  {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+								<tbody class="list" id="currentList">
+									{% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+								 </tbody>
+				
+								{% if paginator.count > 1%}
+									<tfooter>
+									  
+										<tr>
+									{#{% if ('ROLE_SUPERADMIN' in userRole)%}
+											<td colspan="3" class="gq-pagination-area">
+													{# display navigation for pages - paginator_navigator #}        
+													{#{{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+											</td>
+									{% else %}#}
+									 {% if ('ROLE_MANAGER' in userRole[0]) or ('ROLE_SUPERADMIN' in userRole[0]) %}
+											{% else %}
+											<td colspan="6" class="gq-pagination-area">
+													{# display navigation for pages - paginator_navigator #}        
+											  {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+											</td>
+									{% endif %}
+										</tr>
+									</tfooter>
+							  {% endif %}
+							</table>
+						</div>
+					</div>
+					
+					<div role="tabpanel" class="container tab-pane" id="completed">
+						<div class="portfolio-data-table">
+							<table class="table">
+								   {#<input type="text" placeholder="Search" class="search_box search sort"  data-sort="firstName,qualification">#}
+								<thead>
+									<tr>
+										<th style="width:20%"><span class="">NAME</span></th>
+										<th><span class="">QUALIFICATION</span></th> 
+									</tr>
+								</thead>
+								<tbody class="list" id="completedList">                                
+									{% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+								</tbody>  
+							 
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div> 			
     </div>
   

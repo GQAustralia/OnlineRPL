@@ -450,6 +450,10 @@ and(-webkit-min-device-pixel-ratio:0) { @media
 }
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	
+}
+
 #roleprofile2 .modal-body .changepassword .form .section{border:0;padding: 0 0 20px;}
 #roleprofile2 .modal-body .changepassword .form .section label{width:49%;}
 #roleprofile2 .modal-body .changepassword .form .section input[type="password"]{width:50%;height:40px;border:1px solid #d8d8d8;}
