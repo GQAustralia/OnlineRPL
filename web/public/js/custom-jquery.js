@@ -2481,7 +2481,7 @@ $(document).ready(function(){
     
 });
 $(document).ready(function(){
-    $('body').on('click', '.sort_tab', function(){
+    $('body').on('click touchstart', '.sort_tab', function(){
         var checkBoxSection = $(".check_box_section");
         var titlesBlockSection = $(".titles_block_mobile");
 //        if(checkBoxSection.hasClass('open'))
