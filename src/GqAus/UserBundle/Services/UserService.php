@@ -516,6 +516,10 @@ class UserService
                 if ($reqElectUnits <= $statusOfRtoElecUnitsCount)  $statusOfRtoElecUnitsCount = $reqElectUnits;
                 $statusOfRtoUnitsCount = $statusOfRtoCoreUnitsCount + $statusOfRtoElecUnitsCount;
                 if($statusOfRtoUnitsCount == $totalReqUnits){
+                    $courseObj->setRtoDate(date('Y-m-d H:i:s'));
+                    $courseObj->setRtostatus($result['status']);
+                    $this->em->persist($courseObj);
+                    $this->em->flush();
                     // finding and replacing the variables from message templates
                     $subSearch = array('#courseCode#', '#courseName#');
                     $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName());
@@ -2241,6 +2245,7 @@ class UserService
                 }
             }
             if (!empty($courseObj)) {
+                $courseObj->setRtoDate(date('Y-m-d H:i:s'));
                 $courseObj->setRtostatus($status);
                 $this->em->persist($courseObj);
                 $this->em->flush();
