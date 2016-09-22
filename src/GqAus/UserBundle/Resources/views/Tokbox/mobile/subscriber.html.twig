@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block title %}GQ - RPL Applicant conversation{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/competency-call.css')}}">
+{% endblock %}
+{% block navmenu %}{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="competency-call-container clearfix">
+                <div class="dialer-pad clearfix">
+                    <p class="call-status">Calling...</p>
+                    <p class="call-to"><strong>Assessor</strong></p>
+                    <div class="profile-img">
+                        <img src="{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}" />
+                    </div>
+                    <div class="ctrl-section">&nbsp;</div>
+                </div>
+                <div class="video-container clearfix">
+                    <div class="gq-video-others" id="subscriberContainer"></div>
+                    <div class="gq-video-ours" id="publisherContainer"></div>
+                </div>
+                <footer>
+                    <div class="dialer-pad clearfix">
+                        <div class="ctrl-section">
+                            <button type="button" class="btn player-btn icon icon-mute" id="btn-mute"><i class="material-icons">mic_off</i><label>Mute</label></button>
+                            <button type="button" class="btn player-btn icon icon-video" id="btn-video"><i class="material-icons">videocam</i><label>Video</label></button>
+                        </div>
+                    </div>                            
+                </footer>
+            </div>
+        </div>                
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script src="http://static.opentok.com/webrtc/v2.2/js/opentok.js"></script>
+<script type="text/javascript">
+    var apiKey = '{{ apiKey }}';
+    var sessionId = '{{ sessionId }}';
+    var token = '{{ token }}';
+    property = {width: "100%", height: "100%", insertMode: "append"},
+    publisher = OT.initPublisher("publisherContainer", property),
+    session = OT.initSession(apiKey, sessionId);
+    session.on("streamCreated", function(event) {
+        session.subscribe(event.stream, 'subscriberContainer', property);
+    });
+    session.connect(token, function(err) {
+        if (!err) {
+            session.publish(publisher);
+        }
+    });
+</script>
+{% endblock %}
