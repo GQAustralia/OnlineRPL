@@ -8,7 +8,7 @@
     <section class="container">
         <div class="info-header">
             <div class="unit-info">
-                <a href="#"><i class="material-icons btn-back">arrow_back</i></a>
+                <a href="javascript:void(0);"><i class="material-icons btn-back" data-courseCode="{{courseCode}}" data-userId="{{userId}}">arrow_back</i></a>
                 <strong class="title">Unit info</strong>
             </div>            
         </div>
@@ -27,8 +27,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-11">
-                        <p><span>{% if unitName is defined %}{{unitName}}{% endif %}</span>
-                           <span>{% if unitCode is defined %}{{unitCode}}{% endif %}</span></p>
+                        <p><span>{% if unitName is defined %}{{unitName}}{% endif %}</span><br/><span>{% if unitCode is defined %}{{unitCode}}{% endif %}</span></p>
                     </div>
                 </div>
             </div>
@@ -37,10 +36,75 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12">
-                    <p class="mobi-info"><i class="material-icons">info</i>Information about this unit</p>
+                    <p class="mobi-info mobileUnitInfoElements"><i class="material-icons">info</i>Information about this unit</p>
                 </div>
             </div>
             <div class="row no-gutter">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="accordion panel-group" id="accordion1" style="display:none;">
+                        <div class="panel panel-default">
+                            <div id="collapseTwo" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="accordion panel-group" id="nested">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <div class="panle_body_content">
+                                                        <p><strong>Elements and Performance Criteria</strong></p>
+                                                    </div>
+                                                    <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse"><i class="material-icons">expand_more</i></a>
+                                                </div>
+                                            </div>
+                                            <div class="panel-collapse collapse" id="nested-collapseSeven" style="" aria-expanded="true">
+                                                <div class="panel-body">
+                                                    <div class="panel-copy">
+                                                        <div class="unit-element-details">{%if elements|length > 0%}{{elements|raw}}{% endif %}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <div class="panle_body_content">
+                                                        <p><strong>Required Skills &amp; Knowledge</strong></p>
+                                                    </div>
+                                                    <a href="#nested-collapseEight" data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse">
+                                                        <i class="material-icons">expand_more</i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="panel-collapse collapse" id="nested-collapseEight">
+                                                <div class="panel-body">
+                                                    <div class="panel-copy">
+                                                        <div class="unit-element-details">{%if skillsKnowledge|length > 0%}{{skillsKnowledge|raw}}{% endif %}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <div class="panle_body_content">
+                                                        <p><strong>Evidence Guide &amp; Range Statement</strong></p>
+                                                    </div>
+                                                    <a href="#nested-collapseNine" data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse"><i class="material-icons">expand_more</i></a>
+                                                </div>
+                                            </div>
+                                            <div class="panel-collapse collapse" id="nested-collapseNine">
+                                                <div class="panel-body">
+                                                    <div class="panel-copy">
+                                                        <div class="unit-element-details">{%if evidenceGuide|length > 0%}{{evidenceGuide|raw}}{% endif %}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-xs-12 col-sm-12">
                     <div class="panel-group">
                         <div class="panel clearfix">

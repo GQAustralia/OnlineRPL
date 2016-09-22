@@ -96,12 +96,9 @@ $(document).ready(function(){
 		$("#profile1 .modal-body").css("height",window_Ht);
 		$("#profile1 .submit_btn").css("position","absolute");
 	}
-	var file_upload_block_Ht = $(".file_upload_block").height();
-	console.log(file_upload_block_Ht);
-	var uploaded_files_list_Ht = window_Ht - 258;
+	
 	if(window_Ht < 768){
 		$(".add-evidence .modal-body").css("height",window_Ht);
-		$(".add-evidence .uploaded_files_list").css("height",uploaded_files_list_Ht);
 	}
 	
 	/*if(window_Wt < 767 && window_Ht > 370){

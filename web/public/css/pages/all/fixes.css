@@ -181,6 +181,7 @@
 }
 .add-evidence .modal-dialog .modal-body{
 	padding: 0;
+	overflow-y: auto;
 }
 .add-evidence .file_upload_block .title_bar {
     background-color: #E01010;
@@ -337,6 +338,10 @@
     font-size: 13px;
     float: left;
     margin-left: 5px;
+}
+.add-evidence .check_box_section .section ul li span:first-child{
+	width: 98px;
+	text-align: left;
 }
 .add-evidence .check_box_section .checkbox_outer {
     display: table-cell;

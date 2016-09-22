@@ -1757,12 +1757,12 @@ $("body").on('click', '#approve-all-units-from-rto', function() {
             var result = jQuery.parseJSON(responseText);
             if(result.type == 'Error' ) {
                 $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2> '+ result.msg+'</h2></div>');
-				window.scrollTo(0, 0);
+                window.scrollTo(0, 0);
             } else if (result.type == 'Success') {
                 $( "#approve-all-units-from-rto").hide( "slow");
                 $(this).hide();
                 $("body #status-message").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span> '+ result.msg+'</span></div>');
-				window.scrollTo(0, 0);
+                window.scrollTo(0, 0);
             } 
         }
     });
@@ -3028,6 +3028,11 @@ function getUnitDetailsInfo(courseCode, unitCode, userId){
         }
     });
 }
+$('body').on('click', 'p.mobileUnitInfoElements', function(){
+    $(this).parents('.container').find('#accordion1').slideToggle();
+    return false;
+});
+
 $('body').on('click', '#mobileQualForReload', function(){
     var courseCode = $(this).attr("data-courseCode");
     var userId = $(this).attr("data-userId");
@@ -3061,7 +3066,10 @@ $(window).load(function(){
 $('body').on('click', '.btn-back', function(){
     $('.unitInfo-details').hide();
     $('.portfolio-container').hide();
-    $('.candidate-details').show();
+    var courseCode = $(this).attr("data-courseCode");
+    var userId = $(this).attr("data-userId");
+    window.location.href = base_url + "applicants?page=Params&ccode="+courseCode+"&uid="+userId+"";
+//    $('.candidate-details').show();
 })
 $('#closeMyModal').click(function(){
    location.reload();
@@ -3766,7 +3774,7 @@ $("#searchUserLogFilter").click(function() {
     loadDataIcon('currentList');
     loadUserLogReports('currentList',pagenum);
 });
-function loadUserLogReports(divContent)
+function loadUserLogReports(divContent,pagenum)
 {
     filterByDate = $('#logdate').val();
     searchName = $('#searchName').val();
