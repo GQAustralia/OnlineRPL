@@ -165,3 +165,353 @@
     display: inline;
     color: green;
 }
+
+
+/* add evidence popup styles for mobile */
+.add-evidence.modal:before{
+	content: none;
+}
+.add-evidence .modal-dialog{
+	width: 100%;
+	margin: 0;
+}
+.add-evidence .modal-dialog  .modal-content{
+	margin-top: 0 !important;
+	border: 0;
+}
+.add-evidence .modal-dialog .modal-body{
+	padding: 0;
+}
+.add-evidence .file_upload_block .title_bar {
+    background-color: #E01010;
+    color: #fff;
+    font-size: 16px;
+}
+.add-evidence .file_upload_block .title_bar span{
+	display: inline-block;
+	padding: 10px 15px;
+}
+.add-evidence .file_upload_block .title_bar span.title {
+	width: 68%;
+    text-align: center;
+    float: left;
+}
+.add-evidence .file_upload_block .title_bar span.title i{
+	vertical-align: top;
+    float: left;
+}
+.add-evidence .file_upload_block .title_bar span.done{
+	width: 30%;
+    text-align: center;
+    border-left: 1px solid #fff;
+    float: left;
+}
+.add-evidence .file_upload_block .take_photo {
+    display: inline-block;
+    float: left;
+    line-height: 60px;
+    text-align: center;
+    width: 50%;
+    border-right: 1px solid #d8d8d8;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.add-evidence .file_upload_block #take_photo_btn {
+    opacity: 0;
+    width: 100%;
+}
+.add-evidence .file_upload_block .take_photo span {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.add-evidence .file_upload_block .take_photo span i {
+    vertical-align: middle;
+    padding-right: 10px;
+}
+.add-evidence .file_upload_block .upload_btn {
+    float: left;
+    position: relative;
+    width: 50%;
+    background: #fff;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.add-evidence .file_upload_block .upload_btn #add_file_txt i {
+    vertical-align: middle;
+}
+.add-evidence .file_upload_block .file_size_limit {
+    border-top: 1px solid #d8d8d8;
+    padding: 3px 0;
+    font-size: 13px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #F2F2F2;
+}
+.add-evidence .panel-group {
+    margin-bottom: 0;
+}
+.add-evidence .file_upload_block .panel-group .panel {
+    border: 1px solid #d8d8d8;
+    border-bottom: 0;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+}
+.add-evidence .file_upload_block .panel-group .panel .panel-body {
+    background: #f2f2f2 none repeat scroll 0 0;
+    font-size: 13px;
+    padding: 0;
+}
+.add-evidence .file_upload_block .panel-body .panel-copy {
+    padding: 10px;
+}
+.add-evidence .file_upload_block .panel-body .panel-copy .file-info:last-child {
+    margin-bottom: 0;
+}
+
+.add-evidence .file_upload_block .panel-body .panel-copy .file-info {
+    border: 1px solid #d8d8d8;
+    display: table;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+.add-evidence .file_upload_block .panel-body .panel-copy .file-info span {
+    display: table-cell;
+    vertical-align: middle;
+}
+.add-evidence .file_upload_block .panel-body .panel-copy .file-info .icon {
+    background-color: #4a4a4a;
+    color: #fff;
+    padding: 5px 10px;
+    width: 8%;
+}
+.add-evidence .file_upload_block .panel-body .panel-copy .file-info .material-icons {
+    vertical-align: middle;
+}
+.add-evidence .file_upload_block .panel-body .panel-copy .file-info .file-discription {
+    padding: 5px 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+    width: 40%;
+}
+.add-evidence .file_upload_block .panel-body .panel-copy .file-info .file-progress {
+    width: 30%;
+    padding-right: 10px;
+}
+.add-evidence .file_upload_block .panel-body .panel-copy .file-info .file-progress progress{
+	width: 90px;
+}
+.add-evidence .check_box_section .title_bar {
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+}
+.add-evidence .check_box_section .title_bar span {
+    padding: 8px;
+    font-size: 14px;
+}
+.add-evidence .check_box_section .title_bar span.title {
+    width: 100%;
+	text-align: left;
+}
+.add-evidence .check_box_section .section ul {
+    margin: 0;
+}
+.add-evidence .check_box_section .section ul li {
+    float: left;
+    padding: 10px 3px;
+}
+.add-evidence .check_box_section .section ul li span {
+    font-size: 13px;
+    float: left;
+    margin-left: 5px;
+}
+.add-evidence .check_box_section .checkbox_outer {
+    display: table-cell;
+    height: 25px;
+    margin-right: 5px;
+    position: relative;
+    top: auto;
+    vertical-align: middle;
+    width: 25px;
+    z-index: 10;
+}
+.add-evidence .check_box_section .checkbox_outer input[type=checkbox] {
+    opacity: 0;
+    height: 25px;
+    width: 25px;
+    position: relative;
+    z-index: 10;
+}
+.add-evidence .check_box_section .checkbox_outer input[type="checkbox"]+span {
+    top: 0px;
+}
+.add-evidence .check_box_section.checkbox_outer input[type="checkbox"]:checked+span::before {
+    font-family: "Material Icons";
+    font-size: 15px;
+    vertical-align: middle;
+    content: "\E876";
+    font-weight: normal;
+}
+.add-evidence .check_box_section .checkbox_outer input[type="checkbox"]:checked+span::before, .add-evidence .check_box_section .checkbox_outer input[type="checkbox"]+span:checked+span::before {
+    height: 20px;
+    width: 20px;
+    line-height: 15px;
+}
+.add-evidence .check_box_section .checkbox_outer input[type='checkbox']:checked+span:before {
+    color: #fff;
+    content: "\2713";
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+    border: 2px solid #4a4a4a;
+    font-weight: bold;
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    border-radius: 3px;
+    background-color: #4a4a4a;
+}
+.add-evidence .check_box_section .checkbox_outer input[type="checkbox"]:checked+span::before {
+    font-family: "Material Icons";
+    font-size: 15px;
+    vertical-align: middle;
+    content: "\E876";
+    font-weight: normal;
+}
+.add-evidence .check_box_section .checkbox_outer input[type="checkbox"]:checked+span::before, .add-evidence .check_box_section .checkbox_outer input[type="checkbox"]+span:checked+span::before {
+    height: 20px;
+    width: 20px;
+    line-height: 15px;
+}
+.add-evidence .check_box_section .checkbox_outer input[type='checkbox']:checked+span:before {
+    color: #fff;
+    content: "\2713";
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+    border: 2px solid #4a4a4a;
+    font-weight: bold;
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    border-radius: 3px;
+    background-color: #4a4a4a;
+}
+.add-evidence .check_box_section  .checkbox_outer input[type="checkbox"]+span {
+    top: 5px;
+}
+.add-evidence .check_box_section  .checkbox_outer input[type="checkbox"], .add-evidence .check_box_section  .checkbox_outer input[type="checkbox"]+span {
+    height: 20px;
+    width: 20px;
+}
+.add-evidence .check_box_section  .checkbox_outer input[type='checkbox']+span {
+    background-color: transparent;
+    border: 2px solid #4a4a4a;
+    content: "";
+    display: inline-block;
+    height: 25px;
+    left: 0;
+    margin-right: 10px;
+    position: absolute;
+    top: 0px;
+    width: 25px;
+    border-radius: 3px;
+    display: inline-block;
+}
+.add-evidence .uploaded_files_list{
+	overflow-y: auto;
+	padding: 10px;
+}
+.add-evidence .block{
+	margin-bottom: 10px;
+	display: table;
+}
+.add-evidence .block .files_mobile_version{
+	width: 90%;
+	display: table-cell;
+}
+.add-evidence .block .check_box_section{
+	width: 5%;
+	display: table-cell;
+	vertical-align: top;
+	padding-left: 10px;
+}
+.add-evidence .file_upload_block .check_box_section .section{
+	border-bottom: 1px solid #4a4a4a;
+}
+.add-evidence .files_mobile_version .file_info {
+    display: table;
+    width: 100%;
+	border: 1px solid #d8d8d8;
+	border-left: 0;
+}
+.add-evidence  .files_mobile_version .file_info span {
+    display: table-cell;
+}
+.add-evidence .files_mobile_version .file_info span.icon {
+    width: 30px;
+    vertical-align: middle;
+	background-color: #4a4a4a;
+    padding: 13px 10px;
+}
+.add-evidence .file_info span.icon i {
+    color: #fff;
+    vertical-align: middle;
+    font-size: 30px;
+}
+.add-evidence .files_mobile_version .file_info span.file-discription {
+    vertical-align: middle;
+    padding: 0 10px;
+    word-break: break-word;
+	font-size: 13px;
+	text-align: left;
+}
+.add-evidence .file_info span.clear {
+    width: 7%;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 10px;
+	font-size: 13px;
+}
+.add-evidence .link_section .content {
+    border: 1px solid #d8d8d8;
+    border-top: 0;
+    background: #F2F2F2;
+    padding: 3px 12px;
+    font-size: 13px;
+    display: block;
+	text-align: left;
+}
+.add-evidence .link_section .content a {
+    color: #4a4a4a;
+}
+.add-evidence .link_section .content i {
+    vertical-align: middle;
+    padding-right: 10px;
+}
+.add-evidence .fileListContainer span.completed {
+    display: inline;
+    padding: 5px 0;
+    float: left;
+    color: green;
+    font-size: 16px;
+}
