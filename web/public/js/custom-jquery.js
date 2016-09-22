@@ -3926,9 +3926,9 @@ function fousOnNote(reqId){
 function fousOnDate(){
 	$("#ui-datepicker-div").show();
 }
-$('body').on('mouseup','#evidencefiles_previous', function() {
+$('body').on('mouseup, touchend','#evidencefiles_previous', function() {
     $('html, body').animate({scrollTop : 0},400);
 });
-$('body').on('mouseup','#evidencefiles_next', function() {
+$('body').on('mouseup, touchend','#evidencefiles_next', function() {
     $('html, body').animate({scrollTop : 0},400);
 });
