@@ -14,15 +14,15 @@
     {% set unitRtostatus = unitStatus.rtostatus %}#}
     
     <!-- Large Screens HTML -->
-    <div class="body_section qualification">
+    <div class="body_section qualification mobi_unit_detail">
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-11">
                         <p>
                             
-                            <span>{% if courseDetails.courseName is defined %}{{courseDetails.courseName}}{% endif %}</span>
-                            <span>{% if courseCode is defined %}{{courseCode}}{% endif %}</span>
+                            <span>{% if courseDetails.courseName is defined %}{{ unitCode }}{% endif %}</span><br/>
+                            <span>{% if courseCode is defined %}{{unitName|raw}}{% endif %}</span>
                         </p>
                     </div>
                 </div>
@@ -43,11 +43,7 @@
                         {% set currUnitStatus = courses_service.getUnitStatus(userId, unitCode, courseCode)%}
                         {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, unitCode, courseCode, userRole[0]) %}
                         {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}
-                        <p>
-                            <span class="tag-edu"><a href="/qualifications">Qualification</a></span>
-                            <span class="tag-id">Unit {{ unitCode }}</span>
-                            <span class="tag-copy">{{unitName|raw}}</span>                        
-                        </p>
+                         <p class="mobi-info mobileUnitInfoElements"><i class="material-icons">info</i>Information about this unit</p>
                     </div>
                 </div>
             </div>
@@ -58,8 +54,75 @@
             {% else %}
                 {% set showUpload = 'show' %}
             {% endif %}
+            
+            
             <div id="evidence_msg"></div>
             <div class="row no-gutter">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="accordion panel-group" id="accordion1" style="display:none;">
+                        <div class="panel panel-default">
+                            <div id="collapseTwo" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="accordion panel-group" id="nested">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <div class="panle_body_content">
+                                                        <p><strong>Elements and Performance Criteria</strong></p>
+                                                    </div>
+                                                    <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse"><i class="material-icons">expand_more</i></a>
+                                                </div>
+                                            </div>
+                                            <div class="panel-collapse collapse" id="nested-collapseSeven" style="" aria-expanded="true">
+                                                <div class="panel-body">
+                                                    <div class="panel-copy">
+                                                        <div class="unit-element-details">{%if elements|length > 0%}{{elements|raw}}{% endif %}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <div class="panle_body_content">
+                                                        <p><strong>Required Skills &amp; Knowledge</strong></p>
+                                                    </div>
+                                                    <a href="#nested-collapseEight" data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse">
+                                                        <i class="material-icons">expand_more</i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="panel-collapse collapse" id="nested-collapseEight">
+                                                <div class="panel-body">
+                                                    <div class="panel-copy">
+                                                        <div class="unit-element-details">{%if skillsKnowledge|length > 0%}{{skillsKnowledge|raw}}{% endif %}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <div class="panle_body_content">
+                                                        <p><strong>Evidence Guide &amp; Range Statement</strong></p>
+                                                    </div>
+                                                    <a href="#nested-collapseNine" data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse"><i class="material-icons">expand_more</i></a>
+                                                </div>
+                                            </div>
+                                            <div class="panel-collapse collapse" id="nested-collapseNine">
+                                                <div class="panel-body">
+                                                    <div class="panel-copy">
+                                                        <div class="unit-element-details">{%if evidenceGuide|length > 0%}{{evidenceGuide|raw}}{% endif %}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-xs-12 col-sm-12">
                     <div class="panel-group">
                         <div class="panel clearfix">
@@ -189,108 +252,7 @@
                         </div>                   
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12">
-                    <div class="accordion panel-group" id="accordion1">
-                        <div class="panel panel-default">
-                            <div class="panel-heading clearfix">
-                                <h4 class="panel-title"><span>About this unit</span></h4>
-                            </div>
-                            <div id="collapseTwo" class="panel-collapse collapse in">
-                                <div class="panel-body">
-                                    <div class="accordion panel-group" id="nested">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <div class="panel-title">
-                                                    <div class="panle_body_content">
-                                                        <p><strong>Elements and Performance Criteria</strong></p>
-                                                    </div>
-    <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse" aria-expanded="false" class="collapsed">
-                                                        <i class="material-icons">expand_less</i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="panel-collapse collapse in" id="nested-collapseSeven" style="" aria-expanded="true">
-                                                <div class="panel-body">
-                                                    <div class="panel-copy">
-                                                        <div class="unit-element-details">{%if elements|length > 0%}{{elements|raw}}{% endif %}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <div class="panel-title">
-                                                    <div class="panle_body_content">
-                                                        <p><strong>Required Skills &amp; Knowledge</strong></p>
-                                                    </div>
-                                                    <a href="#nested-collapseEight" data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse">
-                                                        <i class="material-icons">expand_more</i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="panel-collapse collapse" id="nested-collapseEight">
-                                                <div class="panel-body">
-                                                    <div class="panel-copy">
-                                                        <div class="unit-element-details">{%if skillsKnowledge|length > 0%}{{skillsKnowledge|raw}}{% endif %}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <div class="panel-title">
-                                                    <div class="panle_body_content">
-                                                        <p><strong>Evidence Guide &amp; Range Statement</strong></p>
-                                                    </div>
-                                                    <a href="#nested-collapseNine" data-collapse="child" data-parent="#nested,#nested-collapseEight,#nested-collapseNine" data-toggle="collapse">
-                                                        <i class="material-icons">expand_more</i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="panel-collapse collapse" id="nested-collapseNine">
-                                                <div class="panel-body">
-                                                    <div class="panel-copy">
-                                                        <div class="unit-element-details">{%if evidenceGuide|length > 0%}{{evidenceGuide|raw}}{% endif %}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal-pop">
-        <div role="dialog" id="satisfactory" class="modal fade" style="display: none;">
-            <div class="modal-dialog">
-                <div class="modal-content satisfactory-modal-content">
-                    <div class="modal-body"><p><strong>Done!</strong><br>This unit is  {% if ('ROLE_FACILITATOR' in userRole) %}SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}COMPETENT{% endif %}.<br/>Do you want to send {{userName}} a message about this?</p></div>
-                    <div class="modal-footer">
-                        <div class="form-group form-group-lg gqa-btn-group" id="applicantEStatus" userRole="{{userRole.0}}">
-                            <div class="form">
-                                <div class="row no-gutter">
-                                    <div class="col-xs-6 col-sm-6">
-                                        <button id="approveyes" data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right" type="button">Yes</button>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6">
-                                        <button id="approveno" data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button">No</button>
-                                    </div>
-                                    <input type="hidden" id="course-name" name="course-name" value="{% if courseDetails.courseName is defined %}{{courseDetails.courseName}}{% endif %}">
-                                    <input type="hidden" id="course-code" name="course-code" value="{{courseCode}}">
-                                    <input type="hidden" id="userid" name="userid" value="{{userId}}">
-                                    <input type="hidden" id="unit-name" name="unit-name" value="{{unitName}}">
-                                    <input type="hidden" id="unit-code" name="unit-code" value="{{unitCode}}">
-                                </div>
-                            </div>
-                        </div>          
-                    </div>
-                </div>
-            </div>
-        </div>
+                
         <div role="dialog" id="not-satisfactory" class="modal fade" style="display: none;">
             <div class="modal-dialog"><!-- Modal content-->
                <div class="modal-content not-satisfactory-modal-content">

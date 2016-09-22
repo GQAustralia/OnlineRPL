@@ -1172,11 +1172,16 @@ $("#search-current").keyup(function(event) {
     else
         $('.gq-pagination-area').show(); },300);
 });
-$("#searchName").keyup(function() {
+$("#searchName").keyup(function(event) {
     if ($('#searchName').val() != "")
         $('.gq-pagination-area').hide();
     else
          $('.gq-pagination-area').show();
+      var key = event.which;
+            if(key == 13)  // 
+            {
+            $('#searchName').blur();
+        }
 });
 $("#applicantCompleted").click(function() {
     $("#search-current").val("");
@@ -1282,9 +1287,7 @@ filterByStatus = $('#filterByStatus').val();
         url: base_url + "searchApplicantsList",
         cache: false,
         data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
-        success: function(result) { 
-            $("#searchName").blur();
-            $("#search-current").blur();
+        success: function(result) {                       
            $("#filter-by-name").hide();
             $("#filter-by-week").hide();
             $("#app-pending-approve").hide();
@@ -3219,6 +3222,16 @@ if( $('.view-message').length > 0){
     $('header,.mobi-profile').addClass('hide');
     $('#compose_message').focus();
     }
+if($('.mobi_unit_detail').length > 0)
+{
+    var unitDetail =  $('#unit-code').val();
+    $('.mobi-profile').addClass('hide');
+    $('nav').hide();
+    $('.info-header').toggleClass('show hide');
+    $('.portfolio').hide();
+    $('.unit-info').html('<div class="unit-info"><a href="/qualifications"><i class="material-icons btn-back">arrow_back</i></a><strong class="title">Unit '+unitDetail+'</strong></div>');
+    
+}
 if($('.mobile_new_message_section').length > 0){   
     $('header,.mobi-profile,#noMessages').addClass('hide');
     
