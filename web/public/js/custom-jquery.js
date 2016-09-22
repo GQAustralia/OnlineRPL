@@ -266,16 +266,8 @@ $(".deleteEvidence").click(function() {
             $('#evidencefiles tr#'+fid).hide();
             $('#fileId'+fid).hide();
 			$('.body_section').scrollTop(0);
-            setTimeout(function(){ location.reload(); }, 2000);
-              var table = $('#evidence').DataTable();
-              table.row('#tr'+fid).remove().draw(false);
-              
-
-//            $('#evidence tr#'+fid).remove();
-//            evidenceCount = $('#evidence-total').attr('total');
-//            evidenceCount = evidenceCount - 1;
-//            $('#evidence-total').html(evidenceCount).attr('total', evidenceCount);
-           
+            oTable.row('#'+fid).remove().draw();            
+            setFacetingFilterCount(oTable, 'filter');    
         }
     });
 });
@@ -2698,6 +2690,7 @@ function setFacetingFilterCount (oTable, filter){
             mapped1Count = oTable.rows('.mapped1').count();
             mapped2Count = oTable.rows('.mapped2').count();
         } else {
+            rowsCount = oTable.rows().count();
             imageCount =  oTable.rows('.image', { filter : 'applied'} ).nodes().length;
             audioCount =  oTable.rows('.audio', { filter : 'applied'} ).nodes().length;
             videoCount =  oTable.rows('.video', { filter : 'applied'} ).nodes().length;
