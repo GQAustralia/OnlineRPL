@@ -319,11 +319,11 @@
 				</div>
 			</div>
 			{% endif %}
-			{% if rtoProgressList|length > 0 %}
+			{% if pendingApplicants|length > 0 %}
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<div class="panel-title">
-						<span>{{rtoProgressList|length}} assessment in progress</span>
+						<span>{{pendingApplicants|length}} assessment in progress</span>
 						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#p_collapse3">
 						  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
 						</a>
@@ -333,7 +333,7 @@
 				<div id="p_collapse3" class="panel-collapse collapse">
 					<div class="panel-body">
 						<ul>
-							{% for key, rtoProgressList in rtoProgressList %}
+							{% for key, rtoProgressList in pendingApplicants %}
 								<li class="clearfix">
 									<span class="content"><strong><a target="_blank" href="{{ app.request.baseUrl }}/applicantDetails/{{ rtoProgressList.courseCode }}/{{ rtoProgressList.user.id }}" title="View Portfolio">{{rtoProgressList.user.firstName}} {{rtoProgressList.user.lastName}}</a></strong> - {{rtoProgressList.courseName}}</span>
 								</li>
