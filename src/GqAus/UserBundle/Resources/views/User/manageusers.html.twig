@@ -10,7 +10,7 @@
 {% set userRole = app.security.getToken().getUser().getRoles() %}
 
 <!-- FOR DESKTOP -->
-<section class="body_section portfolio-container hidden-xs">
+<section class="body_section portfolio-container manage_user">
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-lg-12">
@@ -35,7 +35,9 @@
                 </div>
             </div>
             {% endfor %}
+			
             <div class="row">
+			<div class="col-lg-12">
 				<div class="col-sm-12 hidden-md hidden-lg">
                     <div class="add_new_user clearfix">
                         <div class="dropdown keep-open">
@@ -91,6 +93,7 @@
                     </div>
                 </div>
             </div>
+			</div>
       </div>
         <div class="row">
             <div class="col-lg-12">

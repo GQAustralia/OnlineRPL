@@ -24,7 +24,7 @@
 .main_container .portfolio-container .portfolio-filter {
     padding: 10px 0
 }
-.main_container .portfolio-container .portfolio-filter .search_box {
+.main_container .portfolio-container .portfolio-filter .search_box,.main_container .portfolio-container .portfolio-filter .search-box {
     border: 1px solid #ccc;
     box-shadow: none;
     border-radius: 0;
@@ -34,6 +34,7 @@
 	background-repeat: no-repeat;
 	background-position: 5px center;
     padding-left: 30px;
+	height: 32px;
 }
 .main_container .portfolio-container .portfolio-filter .search_box.log_date_field{
 	background-image: none;
@@ -72,6 +73,9 @@
 }
 .main_container .portfolio-container .portfolio-data-table .table tbody {
     border: 1px solid #d8d8d8
+}
+.main_container .portfolio-container .portfolio-data-table .table tbody+tbody {
+    border-top: 2px solid #d8d8d8;
 }
 .main_container .portfolio-container .portfolio-data-table .table tbody tr {
     border: 1px solid #d8d8d8
@@ -140,6 +144,7 @@
 }
 .main_container .portfolio-container .portfolio-data-table .table td span.check{
 	position: absolute;
+	vertical-align: middle;
 }
 .main_container .portfolio-container .portfolio-data-table .table td span.check i{
 	color: green;
@@ -148,6 +153,7 @@
 .main_container .portfolio-container .portfolio-data-table .table td i.material-icons {
     text-align: center;
     display: inline-block;
+	vertical-align: middle;
 }
 .main_container .portfolio-container.mobile-version .portfolio-data-table .table td a {
     width: 50%;
@@ -382,7 +388,26 @@ and(-webkit-min-device-pixel-ratio:0) { @media
 	}
 }
 }
-
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .currentnew .col-lg-5{
+		flex: 0 0 30%;
+	}
+	.main_container .portfolio-container .portfolio-data-table .table td:nth-child(n+4){
+		vertical-align: top;
+	}
+	.main_container .portfolio-container.logs .portfolio-filter,.main_container .portfolio-container.reports .portfolio-filter{
+		width: 102.7%;
+	}
+	.reports .col-lg-2 {
+		flex: 0 0 10%;
+	}
+	.reports .col-lg-4 {
+		flex: 0 0 29%;
+	}
+	.logs .col-lg-3 {
+		flex: 0 0 20%;
+	}
+}
 .gq-pagination-next-icon, .gq-pagination-prev-icon {float:left;border:1px solid #e9e9e9; width:32px; height:32px; background-color:#ffffff; background-repeat:no-repeat; background-position:center center;}
 .gq-pagination-next-icon:hover, .gq-pagination-next-icon:focus, .gq-pagination-prev-icon:hover, .gq-pagination-prev-icon:focus {background-color:#fefefe; cursor:pointer;}
 .gq-pagination-prev-icon{margin-right:-1px; background-image:url('../../../images/prev-msg.png');}
