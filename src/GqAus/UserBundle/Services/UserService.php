@@ -939,8 +939,10 @@ class UserService
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                  ->createQueryBuilder('c')
                  ->select($fields)
-                 ->join('c.user', 'u','WITH','c.user = u.id')
+                 ->join('c.facilitator', 'u')
                  ->where('1=1');
+//                 ->join('c.user', 'u','WITH','c.user = u.id')
+//                 ->where('1=1');
         if (!empty($searchName)) {
             $nameCondition .= "u.firstName LIKE '%" . $searchName . "%' OR u.lastName LIKE '%" . $searchName . "%'";
             $res->andWhere($nameCondition);
