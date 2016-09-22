@@ -290,8 +290,8 @@ class ApplicantController extends Controller
                         $zip->addEmptyDir($unitCode);
                     }
                     $nfname = $unitCode . '/' . $evidence->getName();
-                    $fname = $this->container->getParameter('amazon_s3_base_url') .'user-'.$uid.'/'. $evidence->getPath();
-                    $zip->addFromString($nfname, file_get_contents($fname));
+                    $fname = 'user-'.$uid.'/'.$evidence->getPath();
+                    $zip->addFromString($nfname, $this->downloadfrmAWS($fname));
                 }
             }
             $zip->close();
@@ -746,4 +746,28 @@ class ApplicantController extends Controller
         echo json_encode($response);
         exit;
     }
+    /**
+     * function to store documents types in AWS S3.
+     * @param object $file
+     *  return array
+     */
+    public function downloadfrmAWS($file)
+    {
+        $aws = \Aws\S3\S3Client::factory(array(
+            'credentials' => array(
+                'key'    => $this->container->getParameter('amazon_aws_key'),
+                'secret' => $this->container->getParameter('amazon_aws_secret_key'),
+            ),
+            'region' => 'ap-southeast-2',
+            'scheme' => 'http',
+            'version' => 'latest'
+        ));
+        $aws->registerStreamWrapper();
+        $result = $aws->getObject(array(
+            'Bucket' => $this->container->getParameter('amazon_s3_bucket_name'),
+            'Key' => $file
+        ));
+        
+        return $result['Body'];
+   }
 }
