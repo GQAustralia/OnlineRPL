@@ -171,7 +171,7 @@ $("body").on('click', '.setTodoMobileUnit', function() {
     listId = $(this).attr("listId");
     reminderTypeId = $(this).attr("reminderTypeId");
     reminderType = $(this).attr("reminderType");    
-    var remindDate = $('body .unitInfo-details #remindDate').val();
+    var remindDate = $('body .unitInfo-details #remindDate_baba').val();
     var todoMsg = $('body .unitInfo-details #todolist-msg').val();
     if (todoMsg === '') {
         $('body .unitInfo-details #todolist-msg').focus();
@@ -179,8 +179,8 @@ $("body").on('click', '.setTodoMobileUnit', function() {
         return false;
     }
     if (remindDate === '') {
-        $('body .unitInfo-details #remindDate').focus();
-        $('body .unitInfo-details #remindDate').css("border","1px solid red");
+        $('body .unitInfo-details #remindDate_baba').focus();
+        $('body .unitInfo-details #remindDate_baba').css("border","1px solid red");
         return false;
     }
     if (remindDate != '') {
