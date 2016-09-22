@@ -3028,6 +3028,11 @@ function getUnitDetailsInfo(courseCode, unitCode, userId){
         }
     });
 }
+$('body').on('click', 'p.mobileUnitInfoElements', function(){
+    $(this).parents('.container').find('#accordion1').slideToggle();
+    return false;
+});
+
 $('body').on('click', '#mobileQualForReload', function(){
     var courseCode = $(this).attr("data-courseCode");
     var userId = $(this).attr("data-userId");
@@ -3061,7 +3066,10 @@ $(window).load(function(){
 $('body').on('click', '.btn-back', function(){
     $('.unitInfo-details').hide();
     $('.portfolio-container').hide();
-    $('.candidate-details').show();
+    var courseCode = $(this).attr("data-courseCode");
+    var userId = $(this).attr("data-userId");
+    window.location.href = base_url + "applicants?page=Params&ccode="+courseCode+"&uid="+userId+"";
+//    $('.candidate-details').show();
 })
 $('#closeMyModal').click(function(){
    location.reload();
