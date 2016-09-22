@@ -436,6 +436,7 @@ class UserController extends Controller
         } else {
             $user = $this->get('security.context')->getToken()->getUser();
         }
+        $uniqueEvidences = array();
         $evidences = $user->getEvidences();
         /* if(!empty($evidences) && is_array($evidences)){ */
             foreach($evidences as $key => $evidence){
