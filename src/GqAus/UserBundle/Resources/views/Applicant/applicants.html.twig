@@ -194,16 +194,18 @@
     <tr>
         <td colspan="6" class="gq-pagination-area">
             {# display navigation for pages - paginator_navigator #}        
-          {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+          {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}
         </td>
     </tr>
     {% endif %}
     {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}
+          {% if paginator.count > 1 %}
                 <tr>
                    <td {% if ('ROLE_SUPERADMIN' in userRole) %}colspan="3" {% else %}colspan="6" {% endif %}class="gq-pagination-area">
                        {# display navigation for pages - paginator_navigator #}        
                      {{ include('GqAusUserBundle:Paginator:ajax_paginator_navigator.html.twig', {'paginator' : paginator}) }}
                    </td>
                </tr>
+         {% endif %}
      {% else %}
     {% endif %}
