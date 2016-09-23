@@ -77,13 +77,7 @@
                                             <a class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}" href="{{ app.request.baseUrl }}/messages"><i class="material-icons">message</i><span>Messages</span></a>
                                         </li>
                                     {% endif %}
-                                    {% if(not is_mobile()) %}
-                                        {% if ( muser and (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) or ('ROLE_RTO' in roles))) %} 
-                                            <li class="pull-left gq-assessor-title-download gq-back-user"><a href="{{ app.request.baseUrl }}/userLogin/{{muser}}"><i class="material-icons">cached</i><span class="gq-assessor-title-back-icon">Switch Profile</span></a> </li>
-                                        {% elseif ( suser and ('ROLE_MANAGER' in roles) ) %}
-                                            <li class="pull-left gq-assessor-title-download gq-back-user"><a href="{{ app.request.baseUrl }}/userLogin/{{suser}}"><i class="material-icons">cached</i><span class="gq-assessor-title-back-icon">Switch Profile</span></a> </li>
-                                        {% endif %}
-                                    {% endif %} 
+                                     
                                     {% if ('ROLE_FACILITATOR' in roles)  %}
                                         <li>
                                             <svg class="hide" id="evidenceCount" height="25" width="25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px"
@@ -102,13 +96,20 @@
                                             <li><a class="{% if app.request.attributes.get('_route') == 'manageusers' %} active {% endif %}" href="{{ app.request.baseUrl }}/manageusers"><i class="material-icons">group</i><span>Manage Users </span></a></li>
                                         {% endif %}
                                     {% endif %}
+                                    {% if(not is_mobile()) %}
+                                        {% if ( muser and (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) or ('ROLE_RTO' in roles))) %} 
+                                            <li class="pull-left gq-assessor-title-download gq-back-user"><a href="{{ app.request.baseUrl }}/userLogin/{{muser}}"><i class="material-icons">cached</i><span class="gq-assessor-title-back-icon">Switch Profile</span></a> </li>
+                                        {% elseif ( suser and ('ROLE_MANAGER' in roles) ) %}
+                                            <li class="pull-left gq-assessor-title-download gq-back-user"><a href="{{ app.request.baseUrl }}/userLogin/{{suser}}"><i class="material-icons">cached</i><span class="gq-assessor-title-back-icon">Switch Profile</span></a> </li>
+                                        {% endif %}
+                                    {% endif %}
                                     
                                       {% if ('ROLE_MANAGER' in roles or 'ROLE_SUPERADMIN' in roles) and (is_mobile())  %}
                                     <li class="hamburger-menu">
                                         <a href="javascript:void(0);"><i class="material-icons">menu</i></a>
                                     </li>
                                     {%endif%}
-                                    {%if not is_mobile()%}
+                                    {%if not is_mobile() %}
                                         <li class="profile">
                                             <a href="#"><img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="profile" /><i class="material-icons">expand_more</i></a>
                                             <ul class="hide">
