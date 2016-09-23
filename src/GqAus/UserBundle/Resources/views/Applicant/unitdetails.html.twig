@@ -71,7 +71,7 @@
                                                     {% if output[1] is defined %}
                                                     {% if (not msDocStatus) %}
                                                     {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %}target="_blank"{% endif %}{% endif %}
-                                                    {%endif%}{%else%}href="#{{evidence.unit}}{{inc}}" class="fancybox" id="btnForm"{%endif%}}{%endif%}>
+                                                    {%endif%}{%else%}href="#{{evidence.unit}}{{inc}}" class="fancybox" id="btnForm"{%endif%}{%endif%}>
                                                     <i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a></span>
                                                     <span class="file-discription">
                                                             {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{% if evidence.content is defined %}{{evidence.content|slice(0,20)}}{%endif%}{%endif%}
