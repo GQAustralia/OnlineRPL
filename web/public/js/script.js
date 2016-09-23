@@ -16,6 +16,11 @@ $(document).ready(function(){
             }
         });
 
+        /* header for manager Roles */
+	$(".hamburger-menu").on("click", function(){
+            $(".manager-nav").toggleClass("show hide");
+        });
+        
         function addEventForDoc(reqEle){
             $(document).on("mouseup", function(evt){
                 if(menuEle==null)
