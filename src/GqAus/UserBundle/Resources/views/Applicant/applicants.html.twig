@@ -185,7 +185,7 @@
     
 {% else %}
     <tr>
-        <td colspan="6">
+        <td {% if ('ROLE_SUPERADMIN' in userRole) %} colspan="3" {% else %} colspan="6" {% endif %}>
             {{no_applicants}}</td>
     </tr>
   
