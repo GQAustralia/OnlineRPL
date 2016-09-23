@@ -90,19 +90,26 @@ var s3upload = null;
         var k = s3uploads.length;
         //jQuery.each(jQuery('#file')[0].files, function(i, file) {
         for (var i = 0, file; file = files[i]; i++) {
-		
-         var calFileSize = formatBytes(file.size, 0);
+
+            var fext = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.xls|\.xlsx|\.csv|\.mp3|\.mp4|\.wmv|\.avi|\.mov|\.swf|\.flv|\.ods|\.mkv|\.wmv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz)$/i;
+            var calFileSize = formatBytes(file.size, 0);
        // jQuery.each(files[0].files, function(i, file) {
             //var btn = '<button onclick="cancel('+k+')">Cancel</button>';
-            var progressBar = '<div class="file-info" id="progressbar-'+k+'" data-index="0"> <span class="icon"><i class="material-icons">description</i></span><span class="file-discription">'+file.name+'<br>'+calFileSize+'| <br/> ADDED '+curDate+'</span><span class="file-progress"><progress id="summed_progress_'+k+'" class="prgbar" value="0" max="100"></progress></span> <span class="progress-status"><span id="upstatsymbol'+k+'" class="clear hide"><span class="completed"><i id="upload_tick'+k+'" class="material-icons">done</i></span><a href="#" onclick="cancel('+k+')"><i id="upload_id'+k+'" class="material-icons">clear</i></a></span></span></div>';
+           var progressLine = '';
+           progressLine = (fext.exec(file.name)) ? '<span class="file-progress"><progress id="summed_progress_'+k+'" class="prgbar" value="0" max="100"></progress></span>' : '<span>unsupported file format</span>';
+        
+            var progressBar = '<div class="file-info" id="progressbar-'+k+'" data-index="0"> <span class="icon"><i class="material-icons">description</i></span><span class="file-discription">'+file.name+'<br>'+calFileSize+'| <br/> ADDED '+curDate+'</span>'+progressLine+'<span class="progress-status"><span id="upstatsymbol'+k+'" class="clear hide"><span class="completed"><i id="upload_tick'+k+'" class="material-icons">done</i></span><a href="#" onclick="cancel('+k+')"><i id="upload_id'+k+'" class="material-icons">clear</i></a></span></span></div>';
             $("#progress-bars").append(progressBar);
             $("#fileListContainer").show().removeClass('hide');
         
-           var unitId = $('#hid_unit').val() || '';
+            var unitId = $('#hid_unit').val() || '';
             var courseCode = $('#hid_course').val() || '';
 			var userId = $('#hdn-userId').val() || 'default';
             var def = new $.Deferred();
-
+            
+            if(fext.exec(file.name))
+            {
+            
             s3uploads[k] = new S3MultiUpload(file, {user: 'user', pass: 'pass',fileNum: k,hid_unit: unitId,hid_course: courseCode,userDirectory:'user-'+userId});
 
             s3uploads[k].onServerError = function(command, jqXHR, textStatus, errorThrown) {
@@ -152,6 +159,8 @@ var s3upload = null;
             s3uploads[k].start();
             k++;
             promises.push(def);
+        } 
+            
         }//);
 	
 		centerModals(modEle);
