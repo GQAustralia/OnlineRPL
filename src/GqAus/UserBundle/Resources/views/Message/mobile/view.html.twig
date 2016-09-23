@@ -61,14 +61,14 @@
 								</span>
 								<span class="chat_content">
 									<span class="chat_name">
-										 {% if message.sent.id is defined and message.sent.id == curuser and  message.replymid=="0"%}                                                    
-										<strong>You</strong>
-										<span class="arrow"></span>
-										<strong>{{message.sent.firstname}}</strong>
-										{% elseif message.sent.id is defined %}
-												{{message.sent.firstname}}
-										{% endif %}
-									</span>
+										  {% if message.sent.id is defined and message.sent.id == curuser and  message.replymid=="0"%}                                                    
+                                                    <strong>You</strong>
+                                                    <span class="arrow"></span>
+                                                    <strong>{{message.inbox.firstname}}</strong>
+                                                    {% elseif message.sent.id is defined %}
+                                                            {{message.sent.firstname}}
+                                                    {% endif %}
+  									</span>
 										<span class="chat_content">
                                         <strong> 
                                                             {% if message.replymid is defined and message.replymid != 0 %}                                       
