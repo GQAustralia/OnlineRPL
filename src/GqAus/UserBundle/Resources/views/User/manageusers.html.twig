@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-lg-3">
-                    <input name="searchName" id="searchName" type="text" value="" placeholder="Search" class="form-control search_box searchUserNameFilter"/>
+                    <input name="searchNameUser" id="searchNameUser" type="text" value="" placeholder="Search" class="form-control search_box searchUserNameFilter"/>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-lg-4">
                     <label for="">Filter By</label>
@@ -194,21 +194,4 @@
 <div class="add-user-byrole"></div>
 
 
-{% endblock %}
-
-{% block javascripts %}
-<script src="{{ asset('public/js/timepicker.js') }}"></script>    
-<script type="text/javascript">
-    $(document).ready(function() {
-        var dateTime = new Date();
-        var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
-        var timeZoneDT = new Date(utc + (3600000 * +10));
-        $(".datepic").datetimepicker({
-            dateFormat: "dd/mm/yy",
-            timeFormat: "hh:mm tt",
-            minDate: timeZoneDT,
-            minDateTime: timeZoneDT
-        });
-    });
-</script>
 {% endblock %}

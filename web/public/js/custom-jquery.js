@@ -2201,10 +2201,15 @@ $(".loginUser").click(function(){
     $(location).attr('href', 'userLogin/' + this.id);
 });
 
-$(".searchUserNameFilter").on('keypress', function(){
+$("#searchNameUser").keyup(function() {
     pagenum = 1;
     loadDataIcon('currentList');
     loadUsersList('currentList',pagenum);
+	//var key = event.which;
+      //      if(key == 13)  // 
+        //    {
+          //  $('#searchNameUser').blur();
+        //}
 });
 
 $("#searchUserFilter").click(function() {
@@ -2214,7 +2219,7 @@ $("#searchUserFilter").click(function() {
 });
 function loadUsersList(divContent)
 {
-    searchName = ($('#search-box').length > 0) ? $('#search-box').val() : $('#searchName').val();
+    searchName = $('#searchNameUser').val();
     userType = $('#userType').val();
     $.ajax({
         type: "POST",

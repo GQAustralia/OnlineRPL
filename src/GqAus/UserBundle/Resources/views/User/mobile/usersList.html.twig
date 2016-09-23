@@ -39,6 +39,14 @@
             </td>
         </tr>
         {% endfor %}
+		
+{% else %}
+        <tr>
+            <td colspan="3" align="center">No Profiles Found</td>
+        </tr>
+{% endif %}
+
+{% if applicantList %}    
         {% if applicantList|length > 0 and paginator.getTotalPages() > 1 %}
         <tr>
             <td class="gq-pagination-area" colspan="4">       
@@ -46,28 +54,4 @@
             </td>
         </tr>
     {% endif %}
-{% else %}
-        <tr>
-            <td colspan="3" align="center">No Profiles Found</td>
-        </tr>
-{% endif %}
-
-{% if pageRequest == 'ajax' %}
-    {% block javascripts %}
-    <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
-    <script src="{{ asset('public/js/timepicker.js') }}"></script>    
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var dateTime = new Date();
-            var utc = dateTime.getTime() + (dateTime.getTimezoneOffset() * 60000);
-            var timeZoneDT = new Date(utc + (3600000*+10));
-            $(".datepic").datetimepicker({
-             dateFormat: "dd/mm/yy",
-             timeFormat: "hh:mm tt",
-             minDate : timeZoneDT,
-             minDateTime : timeZoneDT
-            });
-        });
-    </script>
-    {% endblock %}
-{% endif %}
+    {% endif %}
