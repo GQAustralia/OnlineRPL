@@ -1267,7 +1267,7 @@ $(".search-box-mobile").keypress(function () {
     }
     //}
 });
-function loadApplicantList(divContent,pagenum)
+function loadApplicantList(divContent)
 {
     
     searchName = $('#searchName').val();
@@ -3079,7 +3079,7 @@ $('#closeMyModal').click(function(){
 function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 {   
     var facBtn = $('.update_fac_btn');
-    facBtn.text("Saving..");
+    
     //
     facVal = $('#fac_'+listId).val();  
 	if(facVal == 0)
@@ -3090,6 +3090,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 	}
     if(facVal != 0)
     {
+		facBtn.text("Saving..");
     facBtn.attr('disabled', true);
     $("#pwd_error_"+listId).hide();
     $("#profile_suc_msg2_"+listId).hide();
@@ -3125,7 +3126,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 function updateAssessor(courseCode , userId, listId)
 {
     var facBtn = $('.update_ass_btn');
-    facBtn.text("Saving..");
+   
     var assVal = $('#ass_'+listId).val();
     $("#profile_suc_msg3_"+listId).hide();
 	if(assVal == 0)
@@ -3137,6 +3138,7 @@ function updateAssessor(courseCode , userId, listId)
     
     if(assVal != 0)
     {
+		 facBtn.text("Saving..");
         facBtn.attr('disabled', true);
         $("#pwd_error2_"+listId).hide();
         $("#profile_suc_msg3_"+listId).hide();
@@ -3173,7 +3175,7 @@ function updateAssessor(courseCode , userId, listId)
 function updateRto(courseCode , userId, listId)
 {
     var facBtn = $('.update_rto_btn');    
-    facBtn.text("Saving..");
+   
     rtoVal = $('#rto_'+listId).val();
 	if(rtoVal == 0)
 	{
@@ -3183,6 +3185,7 @@ function updateRto(courseCode , userId, listId)
 	}
     if(rtoVal != 0)
     {
+		 facBtn.text("Saving..");
         facBtn.attr('disabled', true);
         $("#pwd_error3_"+listId).hide();
         $("#profile_suc_msg4_"+listId).hide();

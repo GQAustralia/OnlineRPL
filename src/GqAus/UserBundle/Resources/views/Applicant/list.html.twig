@@ -89,7 +89,7 @@
 			<div id="err_msg"></div>
 			<div class="col-lg-12">
 				<div class="tab-content">
-					<div id="ajaxHtml" style="display:none;" {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} tdcolspan="4" tdrtocolspan="4" {% else %} tdcolspan="6" tdrtocolspan="3" {% endif %}>
+					<div id="ajaxHtml" style="display:none;" {% if ('ROLE_SUPERADMIN' in userRole) %} tdcolspan="3" tdrtocolspan="3" {% else %} tdcolspan="6" tdrtocolspan="6" {% endif %}>
 								<img src="{{ asset('public/images')}}/loading.gif" class="img"/>
 					</div>
 					<div class="tab-pane active" role="tabpanel" id="current">
@@ -114,10 +114,12 @@
 									{% else %}#}
 									 {% if ('ROLE_MANAGER' in userRole[0]) or ('ROLE_SUPERADMIN' in userRole[0]) %}
 											{% else %}
+									{% if applicantList is defined %}
 											<td colspan="6" class="gq-pagination-area">
 													{# display navigation for pages - paginator_navigator #}        
 											  {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
 											</td>
+									{% endif %}
 									{% endif %}
 										</tr>
 									</tfooter>

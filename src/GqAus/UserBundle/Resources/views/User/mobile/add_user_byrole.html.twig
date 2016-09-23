@@ -1,4 +1,20 @@
-{% block stylesheets %}
+ {% block stylesheets %}
+<style>
+    .gq-profile-page-img {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    text-align: center;
+    border: 2px solid #e7ecee;
+    border-radius: 50%;
+    background-color: #ffffff;
+    margin: 10px auto;
+    overflow: hidden;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+</style>
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css') }}">
 <link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
 {#<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>#}
@@ -11,81 +27,76 @@
             <div class="modal-body">
                 <div class="title_bar hidden-sm hidden-md hidden-lg">
                     <span><i class="material-icons arrow_back" data-dismiss="modal">arrow_back</i></span>Your Profile<span><i class="material-icons clear_icon" data-dismiss="modal">clear</i></span>
-                </div>   
+                </div>        
+                {% set userdata = app.security.getToken().getUser() %}
                 {% if (userRole=='ROLE_FACILITATOR') %}
                     {% set role = 'Facilitator' %}
+                    {% set roleid = 2 %}
                 {% elseif(userRole=='ROLE_RTO') %}
                     {% set role = 'RTO' %}
+                    {% set roleid = 4 %}
                 {% elseif(userRole=='ROLE_ASSESSOR') %}
-                    {% set role = 'Assessor' %}                    
+                    {% set role = 'Assessor' %}
+                    {% set roleid = 3 %}
                 {% elseif(userRole=='ROLE_APPLICANT') %}
                     {% set role = '' %}
                 {% elseif(userRole=='ROLE_MANAGER') %}
                     {% set role = 'Manager' %}
+                    {% set roleid = 5 %}
                 {% elseif(userRole=='ROLE_SUPERADMIN') %}
                     {% set role = 'SuperAdmin' %}
-                {% endif %}
+                {% endif %}  
                 <!-- Profile Form -->
                 <div class="header_block clearfix" id='user_profile_form_div'>
-                    <div class="profile_section">
                         <div class="col-xs-12">
                             <div class="row">
-                                
+                                <div class="gq-edit-photo-btn">
+                                    <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
+                                </div>
                                 <div class="ajax-profile-error" id="ajax-profile-error"></div>
                             </div>
                         </div>
-                        
-                        <div id='ajax-gq-profile-page-img'><img src="{% if userImage !="" %}{{amazon_link~'user-'~userId~'/'~userImage}} {% else %} {{ asset('public/images/userprofile.png')}} {% endif %}" alt="profile_pic" id='user_profile_image' class="profile_image"/><input type="file" id="userprofile_userImage" name="userprofile" class="hidden browse_btn"></div>
-                       
-                        <input type="hidden" name="userVal" id="userVal" value="{{userId}}">
-                        <div class="content">
-                            <h5 class="name"><strong>Edit User</strong></h5>
-                            <span class="field">{{role}}</span>
-                            {#<span class="title uploadTrigger"><input type="file" ></span>#}
+                        <div class="profile_section">
+                            <div id='ajax-gq-profile-page-img'>
+                                    <h5 class="name"><strong>Add User</strong></h5>
+                                    <span class="field">{{role}}</span>
+                                    {#<span class="title uploadTrigger"><input type="file" ></span>#}
+                            </div>
+                            <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
                         </div>
-                    </div>
-                         <span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span>
-                    <span class="close" data-dismiss="modal"><i class="material-icons clear_icon">clear</i></span>
+                        <div class="row" id="profile_suc_msg2"></div>
+                        <div class="gq-change-address-warning" id="change_address_error">
+                            {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                            <div class="gq-id-address-error-text" style="dispaly:none">
+                                <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    <div class="ajax-profile-error" id="ajax-profile-error"></div>
                 </div>
-
-                <div class="row" id="profile_suc_msg2"></div>
-                <div class="gq-change-address-warning" id="change_address_error">
-                    {% for flashMessage in app.session.flashbag.get('errornotice') %}
-                    <div class="gq-id-address-error-text" style="dispaly:none">
-                        <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="ajax-profile-error" id="ajax-profile-error"></div>
-                
-                <form class="form adduser_profile_form" id='user_profile_form_manager' action="{{ app.request.baseUrl }}/editUser/{{userId}}" method="post">
+                <form class="form" id='user_profile_form_manager' action="{{ app.request.baseUrl }}/addUser/{{roleid}}" method="post">
                     <div class="form_fields">
                         <div class="section name_group clearfix">
                             <div class="form-group">
                                 <label>{% if ('ROLE_RTO' in userRole) %} College Name {% else %} First Name {% endif %} </label>                                                        
                                 {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
-                                <input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
-                                <input type='hidden' id='hdn-type' name='hdn-type' value="1"><!-- 0: edit profile, 1: edit user, 2: add user -->
-                                <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% else %}applicant{% endif %}">
+                                <input type="hidden" value="0" id='hdn-userId_add' name='hdn-userId'/>
+                                {#<input type="hidden" id="userprofile_crmId" name="userprofile[crmId]">#}
+                                <input type='hidden' id='hdn-type' name='hdn-type' value="2"><!-- 0: edit profile, 1: edit user, 2: add user -->
+                                <input type="hidden" id="hdn-img" name="hdn-img" value="">
+                                 <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% elseif ('ROLE_MANAGER' in userRole) %}manager{% elseif ('ROLE_SUPERADMIN' in userRole) %}superadmin{% else %}applicant{% endif %}">
                             </div>
                             <div class="form-group">
                                 <label>{% if ('ROLE_RTO' in userRole) %} Provider Code {% else %} Last Name {% endif %}</label>
                                 {{ form_widget(form.lastname,{ 'attr': {'maxlength': '30'} }) }}
                             </div>
                         </div>
-                        <div class="section name_group clearfix">
-                            <input type="hidden" value="{{userEmail}}" id='hdn-email' name='hdn-email'/>
+                        <div class="section">
                             <div class="form-group">
                                 <label>Email</label>
                                 {{ form_widget(form.email) }}
                             </div>
-                             <div class="form-group">
-                                <label>Password</label>
-                                <input type="text" value="........" readonly >
-                                <span><i class="material-icons lock" onclick="changePassowordDiv('1')">lock</i></span>
-                            </div>
                         </div>
-                        
                         {% if ('ROLE_APPLICANT' in userRole) %}
                         <div class="section">
                             <div class="form-group">
@@ -100,10 +111,10 @@
                                 <label for="gq-personal-pwd">Phone</label>
                                 {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
                             </div>
-                            {#<div class="form-group">
+                            <div class="form-group">
                                 <label for="gq-personal-pwd">Password</label>
                                 {{ form_widget(form.newpassword,{ 'attr': {'maxlength': '30'} }) }}
-                            </div>#}
+                            </div>
                         </div>
 
                        {% if ('ROLE_APPLICANT' in userRole) %}                       
@@ -157,7 +168,6 @@
                                 {{ form_widget(form.ceoemail) }}
                             </div>
                          </div>
-                        
                         {% endif %}
 
                         <!-- Address info-->
@@ -207,54 +217,20 @@
                         </div>#}
                         <!-- Address info-->
                     </div>
-                  {#  <button type="submit" id="userprofile_save" name="userprofile[save]" class="submit_btn" onclick="return validateAddress();">UPDATE</button>
+                   {# <button type="submit" id="userprofile_save" name="userprofile[save]" class="btn submit_btn" onclick="return validateAddress();">SAVE</button>
                     </form>#}
                     {{ form_end(form) }}
-                    <!-- Change Password Start --> 
-                    
                     <div class="gq-change-pwd-warning" id="pwd_error">
-                                        {% for flashMessage in app.session.flashbag.get('errornotice') %}
+                        {% for flashMessage in app.session.flashbag.get('errornotice') %}
                         <div class="gq-id-pwd-error-text" style="display:none">
-                            <h2>{{ flashMessage }}</h2>
+                            <h2><img src="{{ asset('public/images/login-error-icon.png') }}">{{ flashMessage }}</h2>
                         </div>
-                                       {% endfor %}
+                        {% endfor %}
                     </div>
-                    <!-- Chaneg password form --->
-                    <form class="form-inline change_pwd_form" id='change_password_form' style="display:none">
-                        <button type="button" class="close"  onclick="changePassowordDiv('0')">&times;</button>
-                        <div class="form-group">
-                            <label for="email">Current Password</label>
-                            <div class="input_section">
-                                <input type="password" id="password_oldpassword" name='password_oldpassword' onkeyup="checkspace(this);" class="form-control" value="" />
-                                <span class="error_message" id="password_oldpassword_error_span"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="pwd">Change New Password</label>
-                            <div class="input_section">
-                                <input type="password" id='password_newpassword' name='password_newpassword' onkeyup="checkspace(this);" class="form-control" value="" />
-                                <span class="error_message" id="password_newpassword_error_span"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="pwd">Confirm New Password</label>
-                            <div class="input_section">
-                                <input type="password" id="password_confirmnewpassword" name='password_confirmnewpassword' onkeyup="checkspace(this);" class="form-control" value="" />
-                                <span class="error_message" id="password_confirmnewpassword_error_span"></span>
-                            </div>
-                        </div>
-                        <div class="btn_section clearfix">
-                            <input type="submit" class="btn change_pwd_btn" value="SUBMIT" id='password_save' />
-                            <input type="button" class="btn" value="CANCEL" onclick="changePassowordDiv('0')"/>
-                        </div>
-                    </form>
-
-                    <!-- Change Password End -->
             </div>
         </div>
     </div>
 </div>
-
 {% block javascripts %}
 <script type="text/javascript"> var amazon_link = "{{ amazon_link }}";
 var base_url = "{{ base_url }}";
