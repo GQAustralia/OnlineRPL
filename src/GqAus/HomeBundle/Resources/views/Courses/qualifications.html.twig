@@ -81,6 +81,60 @@
         {% endif %}
     {% endif %}
 {% endif %}
+{% if courses.courseStatus is defined and courses.courseStatus != 0 %}       
+       <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="info-box">
+                    {% if newuserblock == 0 %}
+                        <div class="info-copy">
+                          <a href="{{ app.request.baseUrl }}/faq" target="_blank" style="width: 100%; display: inline-block; text-align: center;"><i class="material-icons">error_outline</i></a>
+                          <p>For this qualification you need to show you're experienced in a total of {{requiredUnits}} units.</p>
+                          <strong>Start by choosing your <span class="text-uppercase">Elective Units.</span></strong>
+                        </div>
+                    {% elseif newuserblock == 1 %}
+                       
+                            <p class="text-center">
+                            {% set unitType = courses_service.getOneUnitStatus(userId, courseCode) %}
+                            {% if unitType == 0 %}
+                                <strong>
+                                    Welcome to your new qualification,<br/>
+                                    let's go
+                                </strong>
+                             </p>
+                    {% else %}
+                        <div class="progres_bar_section">
+                            <p class="text-center">
+                                <strong>
+                                   {% if courses.facilitator is defined and courses.facilitator!= null %} {{courses.facilitator.firstName}} is reviewing <br/>your evidence  {% endif %}
+                                </strong>
+                             </p>
+                    {% endif %}
+           
+                <div class="progres-content">
+                    <div class="activ-middle">
+
+                        <div id="slider{{counterArr}}" class="round-progress rslider"></div>
+                        <div class="evidence-status">{% if awaitngVal[counterArr]|slice(0,3) == 100 %}Evidence Submitted{% elseif awaitngVal[counterArr]|slice(0,2) > 0 %}Awaiting Evidences{% endif %}</div>
+                    </div>
+                    <p class="day-progress clearfix">
+                        <span class="start-day">0<br/>Days</span>
+                        <span class="end-day">90<br/>Days</span>
+                    </p>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="90" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
+
+                          <span class="sr-only">{{output[0]}} Complete</span>
+                        </div>
+                    </div>
+                    <p class="text-center">{%if (output[1] == 1) %}Today is your first day{% else %} You have <strong class="text-danger">{{output[0]}} Days remaining </strong> to submit your <br/> evidence files {% endif %}</p>
+
+                </div>
+            </div>
+        {% endif %}
+   </div>
+</div>
+</div>
+{% endif %}
     {% if courses.facilitator.firstName is defined %}
     <div class="row">
         <div class="col-md-12 col-lg-12">
@@ -96,65 +150,6 @@
         </div>
     </div>
     {% endif %}
-        {% if courses.rto.lastName is defined and courses.rto.lastName != "" %}
-            {% set enrollment_form = rto_service.findRTOEnrollmentForm(courses.rto.lastName) %}
-            {% set uploaded_enrollment_form = course_file_service.getFile(courses.id) %}
-            
-            <div class="row" style="display:none">
-                <div class="col-lg-12">
-                        <div class="comments">
-                        <div class="panel-group">
-                            <div class="panel-heading">
-                                 <span class="left">ENROLLMENT FORM</span> <span class="right">
-                                        <a href="{{enrollment_form}}" target="_blank">
-                                            <i class="material-icons">file_download</i>
-                                        </a></span>
-                                </h4>
-                            </div>
-                           {% if uploaded_enrollment_form == "" %}                 
-                                            
-                            <form name="Id_files" id="Id_files" method="POST" action="idfileupload" enctype="multipart/form-data">                 
-          
-                            <div class="panel-content">
-                                <div class="add_section " role="tabpanel">
-                                    <input type="file" id="userfiles_browse" name="userfiles[browse]" class="hidden uploadFile">
-                                    <span class="button uploadTrigger" id="idfileUpload"><i class="material-icons">add</i></span><strong>Add ID</strong>
-                                </div>
-                            </div>
-                                
-                            <div class="panel-group hide" id="fileListContainer">
-                                <div class="panel clearfix">
-                                        <div class="panel-body">
-                                            <div class="panel-copy fileListContainer" id="progress-bars"></div>
-                                </div></div>
-
-                            </div>
-                             <div id="idfiletype_image"></div>
-                            <div class="loading-icon" style="display: none;" id="ID_load"><img src="/public/images/loading.gif"></div> 
-                            </form>
-                            {% endif %}
-                        
-        
-        
-        {% if uploaded_enrollment_form.path is defined %}
-                <div class="panel-content" style="display:none">
-                            <div class="file_info">
-                                <span class="icon"><a href="{{uploaded_enrollment_form.path}}" class="fancybox fancybox.iframe"> 
-                                        <p> <i class="material-icons">photo</i> Download Completed Form</p>
-                                 </a></span>
-                                 <span class="file-discription">
-                                        
-                                 </span>
-                            </div>
-                             
-                </div>
-        {% endif%}
-                   </div>
-                        </div>
-                </div>
-    </div>
-                     
-     {% endif %}
 {% if courses.facilitator is defined and courses.facilitator != null or courses.assessor is defined and courses.assessor != null %}       
 {% set notes = user_service.getNotesFromUserAndCourseApplicant(courseId) %}    
     {% if notes|length > 0 %}
