@@ -8,6 +8,9 @@
     .col-lg-6 {
 		flex: 0 0 47%;
 	}
+	.confirm_popup .col-lg-6 {
+		flex: 0 0 50%;
+	}
 }
 .panel-group .panel .panel-heading .panel-title .todo_status span{
     float: left;
