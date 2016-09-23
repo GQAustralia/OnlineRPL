@@ -81,60 +81,6 @@
         {% endif %}
     {% endif %}
 {% endif %}
-{% if courses.courseStatus is defined and courses.courseStatus != 0 %}       
-       <div class="row">
-            <div class="col-md-12 col-lg-12">
-                <div class="info-box">
-                    {% if newuserblock == 0 %}
-                        <div class="info-copy">
-                          <a href="{{ app.request.baseUrl }}/faq" target="_blank" style="width: 100%; display: inline-block; text-align: center;"><i class="material-icons">error_outline</i></a>
-                          <p>For this qualification you need to show you're experienced in a total of {{requiredUnits}} units.</p>
-                          <strong>Start by choosing your <span class="text-uppercase">Elective Units.</span></strong>
-                        </div>
-                    {% elseif newuserblock == 1 %}
-                       
-                            <p class="text-center">
-                            {% set unitType = courses_service.getOneUnitStatus(userId, courseCode) %}
-                            {% if unitType == 0 %}
-                                <strong>
-                                    Welcome to your new qualification,<br/>
-                                    let's go
-                                </strong>
-                             </p>
-                    {% else %}
-                        <div class="progres_bar_section">
-                            <p class="text-center">
-                                <strong>
-                                   {% if courses.facilitator is defined and courses.facilitator!= null %} {{courses.facilitator.firstName}} is reviewing <br/>your evidence  {% endif %}
-                                </strong>
-                             </p>
-                    {% endif %}
-           
-                <div class="progres-content">
-                    <div class="activ-middle">
-
-                        <div id="slider{{counterArr}}" class="round-progress rslider"></div>
-                        <div class="evidence-status">{% if awaitngVal[counterArr]|slice(0,3) == 100 %}Evidence Submitted{% elseif awaitngVal[counterArr]|slice(0,2) > 0 %}Awaiting Evidences{% endif %}</div>
-                    </div>
-                    <p class="day-progress clearfix">
-                        <span class="start-day">0<br/>Days</span>
-                        <span class="end-day">90<br/>Days</span>
-                    </p>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="90" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
-
-                          <span class="sr-only">{{output[0]}} Complete</span>
-                        </div>
-                    </div>
-                    <p class="text-center">{%if (output[1] == 1) %}Today is your first day{% else %} You have <strong class="text-danger">{{output[0]}} Days remaining </strong> to submit your <br/> evidence files {% endif %}</p>
-
-                </div>
-            </div>
-        {% endif %}
-   </div>
-</div>
-</div>
-{% endif %}
     {% if courses.facilitator.firstName is defined %}
     <div class="row">
         <div class="col-md-12 col-lg-12">

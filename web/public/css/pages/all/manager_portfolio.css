@@ -308,6 +308,9 @@
 .main_container .portfolio-container.logs .portfolio-filter .search_box{
 	margin-bottom: 15px;
 }
+#logdate{
+	background: #fff;
+}
 #filterByStatus option{
 	border-right: 1px solid #999;
 }

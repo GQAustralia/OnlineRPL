@@ -16,6 +16,11 @@ $(document).ready(function(){
             }
         });
 
+        /* header for manager Roles */
+	$(".hamburger-menu").on("click", function(){
+            $(".manager-nav").toggleClass("show hide");
+        });
+        
         function addEventForDoc(reqEle){
             $(document).on("mouseup", function(evt){
                 if(menuEle==null)
@@ -104,7 +109,7 @@ $(document).ready(function(){
 	if(window_Wt < 767 && window_Ht > 480){
 		$(".transparent_popup .modal-dialog .modal-body").css("height",window_Ht);
 		$(".modal.transparent_popup .modal-dialog .modal-content .login .form .submit_btn").css("position","absolute");
-		$("#newUserupdatePassword .modal-dialog .modal-body").css("padding-top","100px");
+		$("#newUserupdatePassword .modal-dialog .modal-body").css("padding-top","40px");
 	}
 	
 	if(window_Wt < 767 && window_Ht > 375){
