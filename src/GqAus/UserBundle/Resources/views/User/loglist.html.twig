@@ -9,9 +9,7 @@
     {% endfor %}
 {% else %}
         <tr>
-            <td colspan="" align="center">No Log Found</td>
-			<td></td>
-			<td></td>
+            <td colspan="4">No Log Found</td>
         </tr>
 {% endif %}
 {% if userLog|length > 0 and paginator.getTotalPages() > 1 %}

@@ -26,7 +26,7 @@
     {% endif %}
 {% else %}
     <tr>
-        <td {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %} class="gq-tabs-no-content-text margin-top15">
+        <td {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} colspan="3" {% else %} colspan="5" {% endif %} class="gq-tabs-no-content-text margin-top15">
             No Applicants Found</td>
     </tr>
 {% endif %}
