@@ -1267,7 +1267,7 @@ $(".search-box-mobile").keypress(function () {
     }
     //}
 });
-function loadApplicantList(divContent,pagenum)
+function loadApplicantList(divContent)
 {
     
     searchName = $('#searchName').val();
