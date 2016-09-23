@@ -3,7 +3,7 @@
 {% if applicantList %}
     {% for key, list in applicantList %}
         <tr>
-            <td><a target="_blank" href="{{base_url}}applicantDetails/{{list.courseCode}}/{{list.user.id}}">{{list.user.userName}}</a></td>
+            <td>{{list.user.userName}}</td>
             <td>{{list.courseCode}} {{list.courseName}}</td>
             {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}             
             {% set userId = list.user.id %}
@@ -26,7 +26,7 @@
     {% endif %}
 {% else %}
     <tr>
-        <td {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} colspan="3" {% else %} colspan="5" {% endif %} class="gq-tabs-no-content-text margin-top15">
+        <td {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %} colspan="6" {% else %} colspan="5" {% endif %} class="gq-tabs-no-content-text margin-top15">
             No Applicants Found</td>
     </tr>
 {% endif %}
