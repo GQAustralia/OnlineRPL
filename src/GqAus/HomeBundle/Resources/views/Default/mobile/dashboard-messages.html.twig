@@ -6,8 +6,10 @@
                 MESSAGES - 
                 <strong>{{unReadMessagesCount}} UNREAD</strong>
             </a>
-			{% if(unReadMessagesCount == 0) %}
-				 SUPER STAR!! <i class="material-icons">thumb_up thumb_up</i>
+			{% if(unReadMessagesCount == 1) %}
+                                - ALMOST DONE! <i class="material-icons">thumb_up</i>
+			{% elseif(unReadMessagesCount == 0) %}
+				- SUPER STAR!! <i class="material-icons">thumb_up thumb_up</i>
 			{% endif %}
         </span>
         <span class="add_btn"><a href="{{ app.request.baseUrl }}/messages/compose" title="Add New Message"> <i class="material-icons add_icon">add</i>NEW</a></span>
