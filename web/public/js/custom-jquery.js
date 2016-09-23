@@ -3937,9 +3937,21 @@ function fousOnNote(reqId){
 function fousOnDate(){
 	$("#ui-datepicker-div").show();
 }
-$('body').on('mouseup, touchend','#evidencefiles_previous', function() {
-    $('html, body').animate({scrollTop : 0},400);
+$('body').on('mouseup','#evidencefiles_previous', function() {
+    moveToTop()
 });
-$('body').on('mouseup, touchend','#evidencefiles_next', function() {
-    $('html, body').animate({scrollTop : 0},400);
+$('body').on('mouseup','#evidencefiles_next', function() {
+    moveToTop()
 });
+$('body').on('touchend','#evidencefiles_previous', function() {
+    mobileMoveToTop();
+});
+$('body').on('touchend','#evidencefiles_next', function() {
+    mobileMoveToTop();
+});
+function moveToTop(){
+    $('html, body').animate({scrollTop : 0}, "5000");
+}
+function mobileMoveToTop(){
+    $('.body_section').animate({scrollTop : 0}, "5000");
+}
