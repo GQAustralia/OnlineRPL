@@ -109,7 +109,7 @@ $(document).ready(function(){
 	if(window_Wt < 767 && window_Ht > 480){
 		$(".transparent_popup .modal-dialog .modal-body").css("height",window_Ht);
 		$(".modal.transparent_popup .modal-dialog .modal-content .login .form .submit_btn").css("position","absolute");
-		$("#newUserupdatePassword .modal-dialog .modal-body").css("padding-top","40px");
+		$("#newUserupdatePassword .modal-dialog .modal-body").css("padding-top","20px");
 	}
 	
 	if(window_Wt < 767 && window_Ht > 375){
