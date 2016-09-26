@@ -535,9 +535,9 @@ class UserService
                     $canMessageBody = str_replace($msgSearch, $canMsgReplace,$this->container->getParameter('msg_appove_evdience_rto_candidate_con'));
                     $canMailBody = str_replace($msgSearch, $canMsgReplace,$this->container->getParameter('mail_appove_evdience_rto_candidate_con'));
                     /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-                    $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
+                    $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
                     /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-                    $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $canMessageBody);
+                    $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $canMessageBody);
                 }
             }
             
@@ -607,7 +607,7 @@ class UserService
                 $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $rtoMessageSubject, $rtoMessageBody, $courseUnitObj->getId());
             }
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-               $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
+            $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
             
@@ -2294,9 +2294,9 @@ class UserService
                 $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $facMessageBody);
                 
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-                $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
+                $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-                $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $canMessageBody);
+                $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $canMessageBody);
             }
             $response['type'] = 'Success';
             $response['code'] = 1;
