@@ -3517,7 +3517,7 @@ $('.clear_pswd_div').click(function()
 });
 
 /** Disabling first space on key enter while adding messages **/
-$('body').on('keydown', '#compose_message', function(e) {
+$('body').on('keydown', '#compose_message , #compose_subject', function(e) {
     console.log(this.value);
     if (e.which === 32 &&  e.target.selectionStart === 0) {
       return false;
