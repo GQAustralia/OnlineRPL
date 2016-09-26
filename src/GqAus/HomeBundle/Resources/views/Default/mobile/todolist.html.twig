@@ -51,16 +51,20 @@
                                     {% if (todoList.reminderType == 'portfolio' or todoList.reminderType == 'message' or todoList.reminderType == 'evidence') %}
                                         {% set rTypeContent = user_service.getReminderTypeContent(todoList.reminderTypeId, todoList.reminderType, todoList.message) %}
                                         {%if (todoList.reminderType == 'message')%}<a class="reminder-view" data-reminderId="{{todoList.id}}" data-status="{{todoList.reminderViewStatus}}" href="{{ rTypeContent.link }}" title="{{ rTypeContent.fulltext }}">{%endif%}
+										<a class="clearfix">
                                             <span class="list_icon">
                                                     <i class="material-icons message">{{todoIcon}}</i>
                                             </span>
                                             <span class="content {% if(todoList.reminderViewStatus == '0' ) %} bold {% endif %}">
                                                 {{ rTypeContent.text }}
                                             </span>
+										</a>
                                         {%if (todoList.reminderType == 'message')%}</a>{%endif%}
                                     {% else %}
+									<a class="clearfix">
                                         <span class="list_icon"><i class="material-icons message">{{todoIcon}}</i></span>
                                         <span class="content bold" title="{{ todoList.message }}">{{ todoList.message }}</span>
+									</a>
                                     {% endif %}
                                    {% if daycount > 2 %}
                                         <span class="days_count {{counterClass}}">{{daycount}}d{% if daycount > 6 %}!{% endif %}</span>
@@ -100,10 +104,12 @@
                                             </span>
                                         </a>
                                     {% else %}
+									<a class="clearfix">
                                         <span class="list_icon">
                                                 <i class="material-icons message">{{ todoCompletedIcon }}</i>
                                         </span>
                                         <span class="content" title="{{ todoCompleteList.message }}">{{ todoCompleteList.message }}</span>
+									</a>
                                     {% endif %}
                                         <div class="checkbox_outer">
                                                 <input type="checkbox" id="{{ todoCompleteList.id }}" checked disabled="disabled" /><span></span>
