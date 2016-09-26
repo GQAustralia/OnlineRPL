@@ -15,7 +15,6 @@
                     <div class="profile-img">
                         <img src="{%if applicantDetails.userImage is defined%}{{ base_url }}public/uploads/{{applicantDetails.userImage}}{%else%}{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}{%endif%}" />
                     </div>
-                    <div>{{ base_url }}applicant/{{ roomId}}</div>
                     <div class="ctrl-section">
                         <button type="button" class="btn player-btn icon icon-play" id="btn-play"><i class="material-icons">pause</i><label>Pause</label></button>
                         <button type="button" class="btn player-btn icon icon-record" id="btn-record"><i class="material-icons">fiber_manual_record</i><label>Record</label></button>
