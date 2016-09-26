@@ -293,6 +293,17 @@ $(document).ready(function(){
     $("#take_photo span").click(function(){
         $("#take_photo_btn").click();
     });
+	
+	var _originalSize = $(window).width() + $(window).height()
+	$(window).resize(function(){
+		if($(window).width() + $(window).height() != _originalSize){
+			//console.log("keyboard show up");
+			$(".main_container .mobile_version_block .section.change_pwd_section .content,.main_container .mobile_version_block .section.change_pwd_section .btn").css("position","static"); 
+		}else{
+			//console.log("keyboard closed");
+			$(".main_container .mobile_version_block .section.change_pwd_section .content,.main_container .mobile_version_block .section.change_pwd_section .btn").css("position","absolute"); 
+		}
+	});
 
 });
 $(window).resize(function(){    

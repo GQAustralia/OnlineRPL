@@ -1,5 +1,5 @@
     {% set userId = app.security.getToken().getUser().getId() %} 
-<div class="modal fade profile_popup" id="facProfile" role="dialog">
+<div class="modal fade profile_popup" id="facProfile{{courseCode}}" role="dialog">
     <div class="modal-dialog"><!-- Modal content-->
         <div class="modal-content">
             <div class="modal-body">

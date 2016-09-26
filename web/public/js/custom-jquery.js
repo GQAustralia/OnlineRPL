@@ -273,19 +273,21 @@ $(".deleteEvidence").click(function() {
 });
 
 $(".deleteIdFiles").click(function() {
-    var fid = fileid;
+    var fid = fileid;    
     var ftype = filetype;
     var url = (otherfiles) ? "deleteOtherFiles" : "deleteIdFiles";
-    $("#ajax-loading-delete-assessor-file").show();
+    $("#ajax-loading-delete-assessor-file").show();    
     $.ajax({
         type: "POST",
         url: base_url + url,
         data: {fid: fid, ftype: ftype},
         success: function(result) {
+            $("#del_"+fid).hide();
             $("#ajax-loading-delete-assessor-file").hide();
             $("#idfiles_msg").show();
             $('#idfiles_' + fid).hide();
             $("#fclose").trigger("click");
+            
             $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>File deleted successfully!</span></div>');
             if(url == 'deleteIdFiles')
                     window.location.href = base_url+'userprofile';
@@ -3515,7 +3517,7 @@ $('.clear_pswd_div').click(function()
 });
 
 /** Disabling first space on key enter while adding messages **/
-$('body').on('keydown', '#compose_message', function(e) {
+$('body').on('keydown', '#compose_message , #compose_subject', function(e) {
     console.log(this.value);
     if (e.which === 32 &&  e.target.selectionStart === 0) {
       return false;

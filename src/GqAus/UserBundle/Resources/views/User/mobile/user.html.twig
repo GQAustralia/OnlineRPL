@@ -79,7 +79,7 @@
           
             {% if fileStatus != 1 %}
             {% set fileSts = 1%}
-            <li>
+            <li id="del_{{item.id}}">
                     <div class="title_bar clearfix">
                             <span class="content">{{ item.type.type }}</span>
                             <span class="number">{{ item.type.points }}</span>
