@@ -190,7 +190,7 @@
                     {% for message in replymsgarr %}   
                   
                         <div class="chat_box {% if message.from == " from me" %}from {% else %} to {% endif %} ">
-                            <div class="person_profile clearfix">
+                            <div class="person_profile clearfix 123">
                                     <span class="chat_pic">
                                                 
                                             {% if  message.userImage is defined and message.userImage!=''%}
@@ -219,7 +219,7 @@
                                    {% endif %}
                             </div>
                             <p class="chat_content">
-                                   {{message.content|raw}}
+                                   {{message.content}}
                             </p>
                         </div>
                      {% endfor %}
@@ -258,7 +258,7 @@
                                        {# <span class="date_time">{{ 'now' | date('h:i A') }}</span>#}
                                 </div>
                                {% if user is defined and user != '' %}
-                                       {{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message','msgType':'reply','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}},{value  : '' }) }}
+                                       {{ form_widget(composemsgForm.message|raw, {'attr': {'placeholder': 'Enter Message','msgType':'reply','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}},{value  : '' }) }}
                                 {% endif %}
                         </div>
                       {% endif %}   
