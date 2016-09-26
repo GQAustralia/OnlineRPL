@@ -465,6 +465,7 @@ class EvidenceService
         $recordingObj->setSize('');
         $recordingObj->setUnit($unitCode);
         $recordingObj->setCourse($courseCode);
+        $recordingObj->setFacilitatorViewStatus('0');
         $recordingObj->setUser($user);
         $this->em->persist($recordingObj);
         $this->em->flush();
