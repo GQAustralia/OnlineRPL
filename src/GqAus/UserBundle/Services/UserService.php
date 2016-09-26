@@ -540,6 +540,9 @@ class UserService
                     $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $canMessageBody);
                 }
             }
+            
+            $logType = $this->getlogType('10');
+            $this->createUserLog('10', $logType['message']);
 			
         } else if ($result['status'] == '2') {
             $resetStatus = 0;
@@ -607,6 +610,10 @@ class UserService
                $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
+            
+            $logType = $this->getlogType('11');
+            $this->createUserLog('11', $logType['message']);
+            
         }
         return $result['status'];
     }
@@ -1341,7 +1348,18 @@ class UserService
     {
         $totalFiles = $this->em->getRepository('GqAusUserBundle:Evidence')->findAll();
         return $totalFiles;
-    }    
+    }
+
+    /**
+     * Function to get total files count
+     * return array
+     */
+    public function getTotalApplicants()
+    {
+        return $this->em->getRepository('GqAusUserBundle:UserCourses')->findAll();
+    }
+    
+    
     /**
      * Function to get superadmin dashboard info
      * @param object $user
@@ -1351,11 +1369,11 @@ class UserService
     {
         $userId = $user->getId();
         $userRole = $user->getRoles();
-        $pendingApplicants = $this->getPendingApplicants($userId, $user->getRoles(), '0');
+        $totalPortfolios = $this->getTotalApplicants($userId, $user->getRoles(), '0');
         $totalUsers = $this->getTotalActiveUsers();
         $totalFiles = $this->getTotalFiles();
         $dashboardInfo = array();
-        $dashboardInfo['totalPortfolios'] = count($pendingApplicants);
+        $dashboardInfo['totalPortfolios'] = count($totalPortfolios);
         $dashboardInfo['totalUsers'] = count($totalUsers);
         $dashboardInfo['totalFiles'] = count($totalFiles);
         return $dashboardInfo;
