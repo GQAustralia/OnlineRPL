@@ -273,7 +273,7 @@
                         <a class="checkform-changed button cancel_link hidden-xs"  href="{{ base_url }}messages/{{msgID}}?{{parameters[1]}}">
                                      CANCEL</a>
                     {%else%}
-                        <a class="checkform-changed button cancel_link hidden-xs"  href="{{ base_url }}messages/{{msgID}}">
+                        <a class="checkform-changed button cancel_link hidden-xs"  href="{{ base_url }}messages/{{msgID}}">CANCEL</a>
                        {%endif%} 
                    
                                 {{ form_widget(composemsgForm.save,{ 'label': 'SEND' , 'attr': {'class': 'button send_link','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}}) }} 
