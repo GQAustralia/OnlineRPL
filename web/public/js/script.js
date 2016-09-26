@@ -298,10 +298,10 @@ $(document).ready(function(){
 	$(window).resize(function(){
 		if($(window).width() + $(window).height() != _originalSize){
 			//console.log("keyboard show up");
-			$(".main_container .mobile_version_block .section.change_pwd_section .content,.main_container .mobile_version_block .section.change_pwd_section .btn,.profile_popup .modal-body .section .content input,.profile_popup .modal-body .section .btn").css("position","static"); 
+			$(".main_container .mobile_version_block .section.change_pwd_section .content,.main_container .mobile_version_block .section.change_pwd_section .btn").css("position","static"); 
 		}else{
 			//console.log("keyboard closed");
-			$(".main_container .mobile_version_block .section.change_pwd_section .content,.main_container .mobile_version_block .section.change_pwd_section .btn,.profile_popup .modal-body .section .content input,.profile_popup .modal-body .section .btn").css("position","absolute"); 
+			$(".main_container .mobile_version_block .section.change_pwd_section .content,.main_container .mobile_version_block .section.change_pwd_section .btn").css("position","absolute"); 
 		}
 	});
 
