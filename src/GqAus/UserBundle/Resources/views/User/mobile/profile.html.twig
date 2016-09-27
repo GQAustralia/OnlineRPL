@@ -161,6 +161,7 @@ $("body").on("click",function(evt){
   });
     });
  
+
 </script>
 <script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
 <script src="{{ asset('public/js/jquery.form.js') }}"></script>
@@ -168,6 +169,18 @@ $("body").on("click",function(evt){
 <script type="text/javascript">
     $(document).ready(function() {
         $('.fancybox').fancybox();
+		$("#userprofile input[type='text']").focus(function (e) {
+			e.preventDefault();
+			console.log('hi i am focus in ------',this.id);
+			if(this.id=='userprofile_phone'){
+				$('.body_section').scrollTop(400);
+			}else{
+				$('.body_section').scrollTop(600);
+			}
+		   /* $('html, body').animate({
+				scrollTop: $("input[type='text']").offset().top
+			}, 2000);*/
+		});
     });
 </script>
 {% endblock %}

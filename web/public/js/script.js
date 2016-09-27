@@ -429,11 +429,3 @@ $('#myModal,#profile2,#confirm_popup').modal({backdrop: 'static', keyboard: fals
 		window.scrollTo(0, scroll);
 	}
 }); */
-$(document).ready(function () {
-    $("#userprofile input[type='text']").focus(function (e) {
-        e.preventDefault();
-        $('html, body').animate({
-            scrollTop: $("input[type='text']").offset().top
-        }, 2000);
-	});
-});
