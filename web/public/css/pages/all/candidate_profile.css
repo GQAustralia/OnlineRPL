@@ -79,7 +79,7 @@ input:focus,button:focus,.button:focus{outline:0}.btn.dropdown-toggle.btn-defaul
 	}
 }
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    .col-lg-6 {
+    .candidate_profile .col-lg-6 {
 		flex: 0 0 47%;
 	}
 	.btn_section .col-lg-6{
