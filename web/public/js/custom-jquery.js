@@ -2217,7 +2217,7 @@ $("body").on("click", ".openViewIcon", function(){
     }
 });
 
-$(".loginUser").click(function(){
+$('body').on('click', '.loginUser', function(){
     $(location).attr('href', 'userLogin/' + this.id);
 });
 
