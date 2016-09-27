@@ -3113,7 +3113,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 	}
     if(facVal != 0)
     {
-		facBtn.text("Saving..");
+     facBtn.text("Saving..");
     facBtn.attr('disabled', true);
     $("#pwd_error_"+listId).hide();
     $("#profile_suc_msg2_"+listId).hide();
@@ -3126,6 +3126,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
                 var res = jQuery.parseJSON(result);
                 if(res.status=='true')
                 {
+                    $('#fac_is_update').val('1');
 		    $("#pwd_error_"+listId).hide();
                     $("#profile_suc_msg2_"+listId).show();
                      $("#profile_suc_msg2_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>'+res.message+'</span></div>');
@@ -3174,6 +3175,7 @@ function updateAssessor(courseCode , userId, listId)
                 var res = jQuery.parseJSON(result);
                 if(res.status=='true')
                 {
+                    $('#ass_is_update').val('1');
                     $("#pwd_error2_"+listId).hide();
                     $("#profile_suc_msg3_"+listId).show();
                      $("#profile_suc_msg3_"+listId).html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>'+res.message+'</span></div>');
@@ -3198,7 +3200,7 @@ function updateAssessor(courseCode , userId, listId)
 function updateRto(courseCode , userId, listId)
 {
     var facBtn = $('.update_rto_btn');    
-   
+    
     rtoVal = $('#rto_'+listId).val();
 	if(rtoVal == 0)
 	{
@@ -3208,7 +3210,7 @@ function updateRto(courseCode , userId, listId)
 	}
     if(rtoVal != 0)
     {
-		 facBtn.text("Saving..");
+	facBtn.text("Saving..");
         facBtn.attr('disabled', true);
         $("#pwd_error3_"+listId).hide();
         $("#profile_suc_msg4_"+listId).hide();
@@ -3219,6 +3221,7 @@ function updateRto(courseCode , userId, listId)
             data: {listId:listId,rto:rtoVal},
             success: function(result) {
                 var res = jQuery.parseJSON(result);
+                $('#rto_is_update').val('1');
                 if(res.status=='true')
                 {
                    
@@ -3969,9 +3972,26 @@ function onloadEvidenceCount()
         }
     });
 }
-function assignfacvalidate()
+function assignfacvalidate(val,val2)
 {
-    location.reload();
+    if(val == 0)
+        $('#update_popup_'+val2).modal('hide');
+    else
+        location.reload();
+}
+function assignassvalidate(val,val2)
+{
+    if(val == 0)
+        $('#update_assessor_'+val2).modal('hide');
+    else
+        location.reload();
+}
+function assignrtovalidate(val,val2)
+{   
+    if(val == 0)
+        $('#update_rto_'+val2).modal('hide');
+    else
+        location.reload();
 }
 function fousOnNote(reqId){
 	$("#ui-datepicker-div").hide();
