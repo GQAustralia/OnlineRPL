@@ -946,10 +946,8 @@ class UserService
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                  ->createQueryBuilder('c')
                  ->select($fields)
-                 ->join('c.facilitator', 'u')
+                 ->join('c.user', 'u')
                  ->where('1=1');
-//                 ->join('c.user', 'u','WITH','c.user = u.id')
-//                 ->where('1=1');
         if (!empty($searchName)) {
             $nameCondition .= "u.firstName LIKE '%" . $searchName . "%' OR u.lastName LIKE '%" . $searchName . "%'";
             $res->andWhere($nameCondition);
@@ -974,7 +972,7 @@ class UserService
         if (!empty($searchRoleId)) {
             $res->andWhere('c.facilitator = :facilitatorId')->setParameter('facilitatorId', $searchRoleId);
         }
-        $res->orderBy('c.id', 'DESC');        
+        $res->orderBy('c.id', 'DESC');      
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         if($page){
@@ -1037,7 +1035,7 @@ class UserService
             $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
                     ->createQueryBuilder('c')
                     ->select($fields)
-                    ->join('c.facilitator', 'u')
+                    ->join('c.user', 'u')
                     ->where('1=1');
 //                    ->where(sprintf('c.%s = :%s', $userType, $userType))->setParameter($userType, $userId);
             
