@@ -30,9 +30,11 @@ class UserController extends Controller
         $sessionUser = $this->get('security.context')->getToken()->getUser();
         $session->set('user_id', $sessionUser->getId());
         $userService = $this->get('UserService');
-        $user = $userService->getCurrentUser();
+        $user = $userService->getCurrentUser(); 
+        $user->setContactPhone(null);
+        $user->setCeophone(null);
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
-        
+      
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoleName();
         if ($userRole == 'ROLE_ASSESSOR' || $userRole == 'ROLE_FACILITATOR' || $userRole == 'ROLE_RTO' ||
             $userRole == 'ROLE_MANAGER' || $userRole == 'ROLE_SUPERADMIN') {
@@ -45,10 +47,12 @@ class UserController extends Controller
             $userProfileForm->remove('contactname');
             $userProfileForm->remove('contactemail');
             $userProfileForm->remove('contactphone');
+           
             
             
             if ($userRole == 'ROLE_APPLICANT') {
                 $userProfileForm->remove('userImage');
+                
             } 
         
         }
@@ -56,7 +60,7 @@ class UserController extends Controller
         if ($userRole != 'ROLE_RTO') {
             $userProfileForm->remove('ceoname');
             $userProfileForm->remove('ceoemail');
-            $userProfileForm->remove('ceophone');
+            $userProfileForm->remove('ceophone');            
         }
 
         if ($userRole != 'ROLE_FACILITATOR') {
@@ -78,6 +82,8 @@ class UserController extends Controller
             $userProfileForm->handleRequest($request);
             if ($userProfileForm->isValid()) {                 
                 $userService->savePersonalProfile($user, $image,$userRole);
+                $userProfileForm->setContactPhone(null);
+                 $userProfileForm->setCeophone(null);
                 $request->getSession()->getFlashBag()->add(
                     'notice', $this->container->getParameter('profile_update')
                 );

@@ -106,7 +106,7 @@ class UserService
      * @param string $image
      */
     public function savePersonalProfile($user, $image, $userRole='')
-    {       
+    {      
        
         if (!empty($image)) {
             $user->setUserImage($image);
@@ -117,7 +117,7 @@ class UserService
            
             $user->setPhone($setPhone);
         }
-        else
+        else 
         {
             $setPhone = str_replace(' ', '', $user->getContactPhone());
             $user->setContactPhone($setPhone);
@@ -433,7 +433,7 @@ class UserService
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
             $results['rtoCeoName'] = !empty($rto) ? $rto->getCeoname() : '';
             $results['rtoCeoEmail'] = !empty($rto) ? $rto->getCeoemail() : '';
-            $results['rtoCeoPhone'] = !empty($rto) ? $rto->getCeophone() : '';
+            $results['rtoCeoPhone'] = !empty($rto) ? $rto->getCeophone() : null;
 
             $facilitator = $this->getUserInfo($otheruser->getFacilitator());
             $results['facilitatorfirstName'] = !empty($facilitator) ? $facilitator->getFirstname() : '';
@@ -2329,8 +2329,12 @@ class UserService
         $data['tokenStatus'] = $request->get('tokenstatus');
         $data['courseConditionStatus'] = $request->get('courseconditionstatus');
         $data['ceoname'] = $request->get('ceoname');
-        $data['ceoemail'] = $request->get('ceoemail');
-        $data['ceophone'] = $request->get('ceophone');
+        $data['ceoemail'] = $request->get('ceoemail');        
+       // $data['ceophone'] = $request->get('ceophone');
+        if($request->get('ceophone') != "")
+            $data['ceophone'] = $request->get('ceophone');
+        else
+            $data['ceophone'] = null;
         $data['createdby'] = $request->get('createdby');
         $data['status'] = $request->get('status');                
         $data['address']['address'] = $request->get('address');
@@ -3154,13 +3158,13 @@ class UserService
         $userObj->setUniversalStudentIdentifier(isset($data['studentId']) ? $data['studentId'] : '');
         $userObj->setCeoname(isset($data['ceoname']) ? $data['ceoname'] : '');
         $userObj->setCeoemail(isset($data['ceoemail']) ? $data['ceoemail'] : '');
-        $userObj->setCeophone(isset($data['ceophone']) ? $data['ceophone'] : '');
+        $userObj->setCeophone(isset($data['ceophone']) ? $data['ceophone'] : null);
         $userObj->setCreatedby(isset($data['createdby']) ? $data['createdby'] : '');
         $userObj->setStatus(isset($data['status']) ? $data['status'] : '1');
         $userObj->setCrmId(isset($data['crmId']) ? trim($data['crmId']) : '');
         $userObj->setContactName(isset($data['contactname']) ? $data['contactname'] : '');
         $userObj->setContactEmail(isset($data['contactemail']) ? $data['contactemail'] : '');
-        $userObj->setContactPhone(isset($data['contactphone']) ? $data['contactphone'] : '');
+        $userObj->setContactPhone(isset($data['contactphone']) ? $data['contactphone'] : null);
         $this->em->persist($userObj);
         $this->em->flush();
         $userId = $userObj->getId();
