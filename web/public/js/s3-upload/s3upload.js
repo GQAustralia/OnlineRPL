@@ -33,7 +33,7 @@ var s3upload = null;
                     }
                 });
             }
-            $('#progressbar-'+k).remove();
+            $('#upsuccessprogressbar-'+k).remove();
             
             console.log('child length :: '+$("#progress-bars .file-info").length);
             if($(".file-info").length == 0) {
@@ -99,7 +99,7 @@ var s3upload = null;
            progressLine = (fext.exec(file.name)) ? '<span class="file-progress"><progress id="summed_progress_'+k+'" class="prgbar" value="0" max="100"></progress></span>' : '<span>unsupported file format</span>';
            progressSucessCls = (fext.exec(file.name)) ? 'upsuccess':'upfailed';
         
-            var progressBar = '<div class="file-info" id="progressbar-'+k+'" class="'+progressSucessCls+''+k+'" data-index="0"> <span class="icon"><i class="material-icons">description</i></span><span class="file-discription">'+file.name+'<br>'+calFileSize+'| <br/> ADDED '+curDate+'</span>'+progressLine+'<span class="progress-status"><span id="'+progressSucessCls+'upstatsymbol'+k+'" class="clear hide"><span class="completed"><i id="upload_tick'+k+'" class="material-icons">done</i></span><a href="#" onclick="cancel('+k+')"><i id="upload_id'+k+'" class="material-icons">clear</i></a></span></span></div>';
+            var progressBar = '<div class="file-info" id="'+progressSucessCls+'progressbar-'+k+'" class="'+progressSucessCls+''+k+'" data-index="0"> <span class="icon"><i class="material-icons">description</i></span><span class="file-discription">'+file.name+'<br>'+calFileSize+'| <br/> ADDED '+curDate+'</span>'+progressLine+'<span class="progress-status"><span id="'+progressSucessCls+'upstatsymbol'+k+'" class="clear hide"><span class="completed"><i id="upload_tick'+k+'" class="material-icons">done</i></span><a href="#" onclick="cancel('+k+')"><i id="upload_id'+k+'" class="material-icons">clear</i></a></span></span></div>';
             $("#progress-bars").append(progressBar);
             $("#fileListContainer").show().removeClass('hide');
         
