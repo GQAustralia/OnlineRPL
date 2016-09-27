@@ -28,7 +28,7 @@ class ProfileForm extends AbstractType
         $builder->add('email', 'text', array('required' => false));
         $builder->add('gender', 'choice', array('choices' => array('male' => 'Male', 'female' => 'Female'), 'multiple' => false,
             'expanded' => true, 'required' => true));
-        $builder->add('phone', 'text', array('required' => false));
+        $builder->add('phone', 'integer', array('required' => false));
         $builder->add('ceoname', 'text', array('required' => false));
         $builder->add('ceoemail', 'text', array('required' => false));
         $builder->add('ceophone', 'text', array('required' => false));
