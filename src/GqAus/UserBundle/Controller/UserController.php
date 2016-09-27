@@ -546,6 +546,11 @@ class UserController extends Controller
         if (!empty($uId)) {
             $user = $userService->getUser($uId);
         }
+        $user->setContactPhone(null);
+        $user->setCeophone(null);
+        $userPhone = str_replace('-', '', $user->getPhone());
+        $user->setPhone($userPhone);
+
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
         $userRole = $user->getRoleName();
         $userProfileForm->remove('gender');
