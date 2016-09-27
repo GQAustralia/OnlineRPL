@@ -81,11 +81,6 @@
 	word-break: initial;
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    .portfolio-container .portfolio-filter .gq-dashboard-tabs-header{
-        width: 28.2%;
-    }
-}
 @media screen and (-webkit-min-device-pixel-ratio:0) {
  /* Safari 5+ ONLY */
     ::i-block-chrome, .portfolio-container .portfolio-filter .gq-dashboard-tabs-header {
@@ -543,6 +538,8 @@
 .add-evidence  .files_mobile_version .file_info span.checkbox_outer.completed{
 	display: table-cell !important;
 }
+
+
 /* Loader Fix */
 
 .notes-loading-icon {
