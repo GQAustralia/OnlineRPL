@@ -83,9 +83,7 @@ class UserController extends Controller
         if ($request->isMethod('POST')) {            
             $userProfileForm->handleRequest($request);
             if ($userProfileForm->isValid()) {                 
-                $userService->savePersonalProfile($user, $image,$userRole);
-                $userProfileForm->setContactPhone(null);
-                 $userProfileForm->setCeophone(null);
+                $userService->savePersonalProfile($user, $image,$userRole);                
                 $request->getSession()->getFlashBag()->add(
                     'notice', $this->container->getParameter('profile_update')
                 );
