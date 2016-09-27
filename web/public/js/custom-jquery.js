@@ -170,11 +170,14 @@ $(".changeUnitStatus").click(function() {
                 
             } 
             if( count >= countElectiveUnits)
-            {                
-		$("#course-btn-container-"+courseCode).removeClass('course-edit show').addClass('course-edit show');
-				
+            {              
+                
+		$("#course-btn-container-"+courseCode).removeClass('course-edit hide').addClass('course-edit show');
+			$('#btn-done-'+courseCode).removeClass('show').addClass('hide');
                 $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse').addClass("panel-collapse collapse in");
-               
+               $('#edit_'+courseCode).css("margin-right","10px");
+               $("#course_toggle_"+courseCode).removeClass('show').addClass('hide');
+               $("#toggle_edit_"+courseCode).removeClass('show').addClass('hide');
                 
                  $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').each(function(){
                         $(this).removeClass('hide');
@@ -192,9 +195,18 @@ $(".changeUnitStatus").click(function() {
                  $("#spanremain").html('');
             }
             else
-            {
+            {    $("#course_toggle_"+courseCode).removeClass('hide');
+                 $("#toggle_edit_"+courseCode).removeClass('hide');
+                 
+                   $("#course_toggle_"+courseCode).addClass('show');
+                 $("#toggle_edit_"+courseCode).css('display','inline !important')
+                 
+                 $("#course_toggle_"+courseCode).show();
+                 $("#toggle_edit_"+courseCode).show();
                  $("#course-btn-container-"+courseCode).removeClass('course-edit show').addClass('course-edit hide');
-				 
+                 
+                 
+		//$('btn-done-'+courseCode).hide();		 
                 $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse in').addClass("panel-collapse collapse in");
                 $("#strip_"+courseCode).removeAttr("style");
                
@@ -3576,8 +3588,15 @@ function setUnitId(courseCode,id,ElectiveCount,RequiredCount)
 }
 
 function convertToEdit(courseCode)
-{
-    
+{                
+                 $("#btn-done-"+courseCode).removeClass('hide');
+                 $("#btn-done-"+courseCode).addClass('show');
+                 $("#btn-done-"+courseCode).show();
+                  $('#edit_'+courseCode).removeClass('show');
+                   $('#edit_'+courseCode).addClass('hide');
+                
+                  $('#edit_'+courseCode).hide();
+                
       $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').each(function(){
                         $(this).removeClass('edit-show');
                         $(this).addClass('hide');
@@ -3587,9 +3606,18 @@ function convertToEdit(courseCode)
                       $(this).addClass('edit-show');
                         $(this).removeClass('hide');
                  });
+                 
+                 
+                
 }
 function convertToCheck(courseCode)
 {
+                 $("#btn-done-"+courseCode).removeClass('show');
+                 $("#btn-done-"+courseCode).addClass('hide');
+                 $("#btn-done-"+courseCode).hide();
+                 $('#edit_'+courseCode).removeClass('hide');
+                 $('#edit_'+courseCode).addClass('show');                
+                 $('#edit_'+courseCode).show();
     
       $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').each(function(){
                         $(this).removeClass('hide');
