@@ -89,20 +89,31 @@ var s3upload = null;
         
         var k = s3uploads.length;
         //jQuery.each(jQuery('#file')[0].files, function(i, file) {
+        var uploadact = 0;
         for (var i = 0, file; file = files[i]; i++) {
 
             var fext = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.xls|\.xlsx|\.csv|\.mp3|\.mp4|\.wmv|\.avi|\.mov|\.swf|\.flv|\.ods|\.mkv|\.wmv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz)$/i;
             var calFileSize = formatBytes(file.size, 0);
-       // jQuery.each(files[0].files, function(i, file) {
+            // jQuery.each(files[0].files, function(i, file) {
             //var btn = '<button onclick="cancel('+k+')">Cancel</button>';
-           var progressLine = ''; var progressSucessCls = '';
-           progressLine = (fext.exec(file.name)) ? '<span class="file-progress"><progress id="summed_progress_'+k+'" class="prgbar" value="0" max="100"></progress></span>' : '<span>unsupported file format</span>';
-           progressSucessCls = (fext.exec(file.name)) ? 'upsuccess':'upfailed';
-        
+            var progressLine = ''; var progressSucessCls = '';
+           
+            if(fext.exec(file.name)){
+                progressLine = '<span class="file-progress"><progress id="summed_progress_'+k+'" class="prgbar" value="0" max="100"></progress></span>';
+                progressSucessCls = 'upsuccess';
+                uploadact = 1;
+            } else {
+                progressLine = '<span>unsupported file format</span>';
+                progressSucessCls = 'upfailed';
+            }
+
             var progressBar = '<div class="file-info" id="'+progressSucessCls+'progressbar-'+k+'" class="'+progressSucessCls+''+k+'" data-index="0"> <span class="icon"><i class="material-icons">description</i></span><span class="file-discription">'+file.name+'<br>'+calFileSize+'| <br/> ADDED '+curDate+'</span>'+progressLine+'<span class="progress-status"><span id="'+progressSucessCls+'upstatsymbol'+k+'" class="clear hide"><span class="completed"><i id="upload_tick'+k+'" class="material-icons">done</i></span><a href="#" onclick="cancel('+k+')"><i id="upload_id'+k+'" class="material-icons">clear</i></a></span></span></div>';
             $("#progress-bars").append(progressBar);
             $("#fileListContainer").show().removeClass('hide');
-        
+            
+            if($("#uploadaction").length > 0)
+                $('#uploadaction').val(uploadact);
+
             var unitId = $('#hid_unit').val() || '';
             var courseCode = $('#hid_course').val() || '';
 			var userId = $('#hdn-userId').val() || 'default';

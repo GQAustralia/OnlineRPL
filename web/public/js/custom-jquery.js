@@ -1908,6 +1908,7 @@ function sumitFormEvidence() {
                 $('#sp_'+responseText).show();
                 $('#gq-dashboard-tabs-success').html('<h2 style="text-align: center; width: 100%; font-size: 14px; color: green; padding: 10px;">Existing Evidence uploaded successfully!</h2>');
                 $('#frmSelectEvidence').find('input:checked').parent().html('<i class="material-icons">done</i>');
+                $('#uploadaction').val(1);
             }
         }
     });
@@ -3093,7 +3094,9 @@ $('body').on('click', '.btn-back', function(){
 //    $('.candidate-details').show();
 })
 $('#closeMyModal').click(function(){
-   location.reload();
+    var uploadactval = $('#uploadaction').val();
+    if(uploadactval != 'undefined' && uploadactval > 0)
+        location.reload();       
 });
 /*Facilitator Update in Manager Portfolio */
 function updateFacilitator(courseCode , userId, listId,userEmail,courseName)

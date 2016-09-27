@@ -17,6 +17,7 @@
                                     <div class="col-md-12 col-lg-12">
                                         <div class="info-box">
                                             <div class="upload_btn">
+                                                <input type="hidden" name="uploadaction" id="uploadaction" value="0">
                                                 <input type="hidden" name="file[hid_course]" id="hid_course" value="{{ courseCode }}">
                                                 <input type="hidden" name="file[hid_unit]" id="hid_unit" value="{{ unitCode }}">                                             
                                                 <input type="file" multiple="multiple" id="file" onchange="upload('add_file')" class="hidden">
