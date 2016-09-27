@@ -79,7 +79,7 @@
           
             {% if fileStatus != 1 %}
             {% set fileSts = 1%}
-            <li>
+            <li id="del_{{item.id}}">
                     <div class="title_bar clearfix">
                             <span class="content">{{ item.type.type }}</span>
                             <span class="number">{{ item.type.points }}</span>
@@ -149,8 +149,8 @@
                         <div class="section">
                                 <div class="form-group clearfix password_field pwd">
                                         <label>Password</label>
-                                        <input type="text" value="........"/>
-                                        <a href="javascript:void(0)" class="change_link">Change?<i class="material-icons">lock</i></a>
+                                        <input type="text" value="........" readonly/>
+                                        <a href="javascript:void(0)" class="change_link" >Change?<i class="material-icons">lock</i></a>
                                 </div>
                         </div>
                         <div class="section">

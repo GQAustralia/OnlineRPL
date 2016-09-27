@@ -349,7 +349,7 @@
              {% endif %}
              {% if courses.facilitator.userImage is defined %}
             <div class="review_profile-pic">
-                    <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
+                    <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile{{courseCode}}" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
             </div>
             {% endif %}
         </div>

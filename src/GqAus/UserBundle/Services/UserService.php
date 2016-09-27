@@ -535,11 +535,14 @@ class UserService
                     $canMessageBody = str_replace($msgSearch, $canMsgReplace,$this->container->getParameter('msg_appove_evdience_rto_candidate_con'));
                     $canMailBody = str_replace($msgSearch, $canMsgReplace,$this->container->getParameter('mail_appove_evdience_rto_candidate_con'));
                     /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-                    $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
+                    $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
                     /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-                    $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $canMessageBody);
+                    $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $canMessageBody);
                 }
             }
+            
+            $logType = $this->getlogType('10');
+            $this->createUserLog('10', $logType['message']);
 			
         } else if ($result['status'] == '2') {
             $resetStatus = 0;
@@ -604,9 +607,13 @@ class UserService
                 $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $rtoMessageSubject, $rtoMessageBody, $courseUnitObj->getId());
             }
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-               $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
+            $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
+            
+            $logType = $this->getlogType('11');
+            $this->createUserLog('11', $logType['message']);
+            
         }
         return $result['status'];
     }
@@ -1341,7 +1348,18 @@ class UserService
     {
         $totalFiles = $this->em->getRepository('GqAusUserBundle:Evidence')->findAll();
         return $totalFiles;
-    }    
+    }
+
+    /**
+     * Function to get total files count
+     * return array
+     */
+    public function getTotalApplicants()
+    {
+        return $this->em->getRepository('GqAusUserBundle:UserCourses')->findAll();
+    }
+    
+    
     /**
      * Function to get superadmin dashboard info
      * @param object $user
@@ -1351,11 +1369,11 @@ class UserService
     {
         $userId = $user->getId();
         $userRole = $user->getRoles();
-        $pendingApplicants = $this->getPendingApplicants($userId, $user->getRoles(), '0');
+        $totalPortfolios = $this->getTotalApplicants($userId, $user->getRoles(), '0');
         $totalUsers = $this->getTotalActiveUsers();
         $totalFiles = $this->getTotalFiles();
         $dashboardInfo = array();
-        $dashboardInfo['totalPortfolios'] = count($pendingApplicants);
+        $dashboardInfo['totalPortfolios'] = count($totalPortfolios);
         $dashboardInfo['totalUsers'] = count($totalUsers);
         $dashboardInfo['totalFiles'] = count($totalFiles);
         return $dashboardInfo;
@@ -2276,9 +2294,9 @@ class UserService
                 $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $facMessageBody);
                 
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-                $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
+                $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-                $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $canMessageBody);
+                $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $canMessageBody);
             }
             $response['type'] = 'Success';
             $response['code'] = 1;

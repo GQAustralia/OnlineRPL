@@ -190,7 +190,7 @@
                     {% for message in replymsgarr %}   
                   
                         <div class="chat_box {% if message.from == " from me" %}from {% else %} to {% endif %} ">
-                            <div class="person_profile clearfix">
+                            <div class="person_profile clearfix 123">
                                     <span class="chat_pic">
                                                 
                                             {% if  message.userImage is defined and message.userImage!=''%}
@@ -219,7 +219,7 @@
                                    {% endif %}
                             </div>
                             <p class="chat_content">
-                                   {{message.content|raw}}
+                                   {{message.content}}
                             </p>
                         </div>
                      {% endfor %}
@@ -258,7 +258,7 @@
                                        {# <span class="date_time">{{ 'now' | date('h:i A') }}</span>#}
                                 </div>
                                {% if user is defined and user != '' %}
-                                       {{ form_widget(composemsgForm.message, {'attr': {'placeholder': 'Enter Message','msgType':'reply','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}},{value  : '' }) }}
+                                       {{ form_widget(composemsgForm.message|raw, {'attr': {'placeholder': 'Enter Message','msgType':'reply','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}},{value  : '' }) }}
                                 {% endif %}
                         </div>
                       {% endif %}   
@@ -269,8 +269,13 @@
                     </div>
                 {% elseif msgType is defined and msgType=="reply" %}
                 <div class="btn_section">
-                        <a class="checkform-changed button cancel_link hidden-xs"  href="{{ base_url }}messages/{{msgID}}">
+                     {% if parameters[1] is defined %}
+                        <a class="checkform-changed button cancel_link hidden-xs"  href="{{ base_url }}messages/{{msgID}}?{{parameters[1]}}">
                                      CANCEL</a>
+                    {%else%}
+                        <a class="checkform-changed button cancel_link hidden-xs"  href="{{ base_url }}messages/{{msgID}}">CANCEL</a>
+                       {%endif%} 
+                   
                                 {{ form_widget(composemsgForm.save,{ 'label': 'SEND' , 'attr': {'class': 'button send_link','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}}) }} 
                 </div>
                  {{ form_end(composemsgForm) }}
@@ -347,8 +352,8 @@
                     <div class="textarea-clone"></div>  
                     </div>
                     <div class="btn_section">
-                      <a class="checkform-changed button cancel_link hidden-xs" data-toggle="modal" data-target="" >
-                          <button class="btn btn-grey" name="compose[discard]" id="compose_discard" type="reset">CANCEL</button></a>
+                      <a class="checkform-changed button cancel_link hidden-xs" data-toggle="modal" href="{{ base_url }}messages{% if parameters[1] is defined %}?{{parameters[1]}}{% endif %}">
+                          CANCEL</a>
                      {{ form_widget(composemsgForm.save,{ 'label': 'SEND' , 'attr': {'class': 'button send_link','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}}) }}	                        </div>
                      {{ form_end(composemsgForm) }}
                      </form>

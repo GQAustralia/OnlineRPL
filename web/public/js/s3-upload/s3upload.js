@@ -33,7 +33,7 @@ var s3upload = null;
                     }
                 });
             }
-            $('#progressbar-'+k).remove();
+            $('#upsuccessprogressbar-'+k).remove();
             
             console.log('child length :: '+$("#progress-bars .file-info").length);
             if($(".file-info").length == 0) {
@@ -95,10 +95,11 @@ var s3upload = null;
             var calFileSize = formatBytes(file.size, 0);
        // jQuery.each(files[0].files, function(i, file) {
             //var btn = '<button onclick="cancel('+k+')">Cancel</button>';
-           var progressLine = '';
+           var progressLine = ''; var progressSucessCls = '';
            progressLine = (fext.exec(file.name)) ? '<span class="file-progress"><progress id="summed_progress_'+k+'" class="prgbar" value="0" max="100"></progress></span>' : '<span>unsupported file format</span>';
+           progressSucessCls = (fext.exec(file.name)) ? 'upsuccess':'upfailed';
         
-            var progressBar = '<div class="file-info" id="progressbar-'+k+'" data-index="0"> <span class="icon"><i class="material-icons">description</i></span><span class="file-discription">'+file.name+'<br>'+calFileSize+'| <br/> ADDED '+curDate+'</span>'+progressLine+'<span class="progress-status"><span id="upstatsymbol'+k+'" class="clear hide"><span class="completed"><i id="upload_tick'+k+'" class="material-icons">done</i></span><a href="#" onclick="cancel('+k+')"><i id="upload_id'+k+'" class="material-icons">clear</i></a></span></span></div>';
+            var progressBar = '<div class="file-info" id="'+progressSucessCls+'progressbar-'+k+'" class="'+progressSucessCls+''+k+'" data-index="0"> <span class="icon"><i class="material-icons">description</i></span><span class="file-discription">'+file.name+'<br>'+calFileSize+'| <br/> ADDED '+curDate+'</span>'+progressLine+'<span class="progress-status"><span id="'+progressSucessCls+'upstatsymbol'+k+'" class="clear hide"><span class="completed"><i id="upload_tick'+k+'" class="material-icons">done</i></span><a href="#" onclick="cancel('+k+')"><i id="upload_id'+k+'" class="material-icons">clear</i></a></span></span></div>';
             $("#progress-bars").append(progressBar);
             $("#fileListContainer").show().removeClass('hide');
         
@@ -146,7 +147,7 @@ var s3upload = null;
                     success: function(res) {
                         if (res.evidenceId){
                             $('#upload_id'+res.fileNumber).attr('data-upId', res.evidenceId).attr('data-evdtype', res.evdType);
-                            $('#upstatsymbol'+res.fileNumber).removeClass('hide');
+                            $('#upsuccessupstatsymbol'+res.fileNumber).removeClass('hide');
                             insertIds[l] = res.evidenceId;
                         }
                     }

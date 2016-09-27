@@ -259,6 +259,11 @@
 <script type="text/javascript"> var amazon_link = "{{ amazon_link }}";
 var base_url = "{{ base_url }}";
 </script>
+<script type="text/javascript">
+          $(document).ready(function() {
+            $("#userprofile_save").removeAttr('disabled');
+          });
+      </script>
 <script src="{{ asset('public/js/custom-jquery.js') }}"></script>
 <script src="{{ asset('public/js/script.js') }}"></script>
 <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>

@@ -273,19 +273,21 @@ $(".deleteEvidence").click(function() {
 });
 
 $(".deleteIdFiles").click(function() {
-    var fid = fileid;
+    var fid = fileid;    
     var ftype = filetype;
     var url = (otherfiles) ? "deleteOtherFiles" : "deleteIdFiles";
-    $("#ajax-loading-delete-assessor-file").show();
+    $("#ajax-loading-delete-assessor-file").show();    
     $.ajax({
         type: "POST",
         url: base_url + url,
         data: {fid: fid, ftype: ftype},
         success: function(result) {
+            $("#del_"+fid).hide();
             $("#ajax-loading-delete-assessor-file").hide();
             $("#idfiles_msg").show();
             $('#idfiles_' + fid).hide();
             $("#fclose").trigger("click");
+            
             $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>File deleted successfully!</span></div>');
             if(url == 'deleteIdFiles')
                     window.location.href = base_url+'userprofile';
@@ -330,7 +332,7 @@ if($('#frmSelectEvidence').length)
 {
     $("#frmSelectEvidence").ajaxForm({
         beforeSubmit: function() {
-            alert('testst');
+           
         },
         success: function(responseText) {
             $('.gq-dashboard-tabs').hide();
@@ -1148,8 +1150,8 @@ $("#search-current").keyup(function(event) {
            var noRecordsContent = '<tr><td colspan="6">No Applicants Found</td></tr>';       
          
              $('#currentList').append(noRecordsContent);
-               console.log('adding elelemnts set time',noRecordsContent);
-           console.log('adding elelemnts ',noRecordsContent);
+              // console.log('adding elelemnts set time',noRecordsContent);
+         //  console.log('adding elelemnts ',noRecordsContent);
           $('#search-current').blur();
         }
         else
@@ -3515,8 +3517,8 @@ $('.clear_pswd_div').click(function()
 });
 
 /** Disabling first space on key enter while adding messages **/
-$('body').on('keydown', '#compose_message', function(e) {
-    console.log(this.value);
+$('body').on('keydown', '#compose_message , #compose_subject', function(e) {
+    //console.log(this.value);
     if (e.which === 32 &&  e.target.selectionStart === 0) {
       return false;
     }  
@@ -3542,7 +3544,7 @@ $('body').on('click', '.reminder-view', function(){
             data: {reminderId: remId },
             success: function(result) {
                 currentElement.find('.content').removeClass('bold');
-                console.log(result);
+                //console.log(result);
                 //return false;
             }
         });
@@ -3794,7 +3796,7 @@ function loadUserLogReports(divContent,pagenum)
     searchName = $('#searchName').val();
     filterByRole = $('#userType').val();
     filterByAction = $('#filterByAction').val();
-    console.log(filterByAction+"--"+searchName+"--"+filterByRole);
+    //console.log(filterByAction+"--"+searchName+"--"+filterByRole);
     $.ajax({
         type: "POST",
         url: base_url + "searchLogList",

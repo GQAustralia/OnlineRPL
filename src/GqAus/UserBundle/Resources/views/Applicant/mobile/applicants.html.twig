@@ -78,7 +78,7 @@
    
     {% if ('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole) %}
      
-        {% if paginator.count > 1 %}
+        {% if paginator.count >= 1 %}
                 <tr>
                    <td {% if ('ROLE_SUPERADMIN' in userRole) %}colspan="2" {% else %}colspan="2" {% endif %}class="gq-pagination-area">
                        {# display navigation for pages - paginator_navigator #}        

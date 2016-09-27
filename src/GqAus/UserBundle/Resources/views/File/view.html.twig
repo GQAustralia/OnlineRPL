@@ -110,7 +110,6 @@
 {% block body %}
 {% set userId = app.security.getToken().getUser().getId() %}
 {% set roles = app.security.getToken().getUser().getRoles() %}
-{#dump() #}
     <div class="body_section">
         <div class="body_section">
                 <div class="container">
@@ -142,7 +141,7 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7" id="file_view_block">
                                         <div class="evidence_block">
                                                 <div class="title_bar clearfix">
-                                                    <span class="title">YOUR EVIDENCE FILES <strong>(<span id="evidence-total" class="evidence-total" style="padding: 0px;"></span>)</strong></span>
+                                                    <span class="title">{% if('ROLE_APPLICANT' in roles) %}YOUR{%else%}CANDIDATE{%endif%} EVIDENCE FILES <strong>(<span id="evidence-total" class="evidence-total" style="padding: 0px;"></span>)</strong></span>
                                                     <span class="info_btn">
                                                         <a href="{{ app.request.baseUrl }}/faq" target="_blank"><i style="color: #ffffff;" class="material-icons info_icon">info</i></a>
                                                     </span>

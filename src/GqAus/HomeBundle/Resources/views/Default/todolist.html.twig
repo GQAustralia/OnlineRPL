@@ -58,8 +58,10 @@
                                             </span>
                                         </a>
                                     {% else %}
-                                        <span class="list_icon"><i class="material-icons message">{{todoIcon}}</i></span>
-                                        <span class="content bold" title="{{ todoList.message }}">{{ todoList.message }}</span>
+										<a class="clearfix"> 
+											<span class="list_icon"><i class="material-icons message">{{todoIcon}}</i></span>
+											<span class="content bold" title="{{ todoList.message }}">{{ todoList.message }}</span>
+										</a>	
                                     {% endif %}
                                    {% if daycount > 2 %}
                                         <span class="days_count {{counterClass}}">{{daycount}}d{% if daycount > 6 %}!{% endif %}</span>
@@ -99,10 +101,12 @@
                                             </span>
                                         </a>
                                     {% else %}
+									<a class="clearfix">
                                         <span class="list_icon">
                                                 <i class="material-icons message">{{ todoCompletedIcon }}</i>
                                         </span>
                                         <span class="content" title="{{ todoCompleteList.message }}">{{ todoCompleteList.message }}</span>
+									</a>
                                     {% endif %}
                                         <div class="checkbox_outer">
                                                 <input type="checkbox" id="{{ todoCompleteList.id }}" checked disabled="disabled" /><span></span>

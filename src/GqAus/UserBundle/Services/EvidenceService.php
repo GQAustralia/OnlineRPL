@@ -221,8 +221,14 @@ class EvidenceService
             $this->em->persist($textObj);
             $this->em->flush();
             $this->updateCourseUnits($this->userId, $data['hid_unit_assess'], $data['hid_course_assess'],'1');
+            
+            $logType = $this->userService->getlogType('10');
+            $this->userService->createUserLog('10', $logType['message']);
+
             return "1&&" . $data['hid_unit_assess'];
         } else
+            $logType = $this->userService->getlogType('11');
+            $this->userService->createUserLog('11', $logType['message']);
             return "0&&" . $data['hid_unit_assess'];
     }
 
@@ -459,6 +465,7 @@ class EvidenceService
         $recordingObj->setSize('');
         $recordingObj->setUnit($unitCode);
         $recordingObj->setCourse($courseCode);
+        $recordingObj->setFacilitatorViewStatus('0');
         $recordingObj->setUser($user);
         $this->em->persist($recordingObj);
         $this->em->flush();

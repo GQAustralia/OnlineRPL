@@ -15,7 +15,6 @@
                     <div class="profile-img">
                         <img src="{%if applicantDetails.userImage is defined%}{{ base_url }}public/uploads/{{applicantDetails.userImage}}{%else%}{{ asset('public/images/UPLOAD_PROFILE_PHOTO.png') }}{%endif%}" />
                     </div>
-                    <div>{{ base_url }}applicant/{{ roomId}}</div>
                     <div class="ctrl-section">
                         <button type="button" class="btn player-btn icon icon-play" id="btn-play"><i class="material-icons">pause</i><label>Pause</label></button>
                         <button type="button" class="btn player-btn icon icon-record" id="btn-record"><i class="material-icons">fiber_manual_record</i><label>Record</label></button>
@@ -30,8 +29,8 @@
                     <div class="dialer-pad clearfix">
                         <div class="ctrl-section">
                             <button type="button" class="btn player-btn icon icon-mute" id="btn-mute"><i class="material-icons">mic_off</i><label>Mute</label></button>
-                            <button type="button" class="btn player-btn icon icon-endcall" id="btn-endcall"><i class="material-icons">call_end</i><label>End Call</label></button>
                             <button type="button" class="btn player-btn icon icon-video" id="btn-video"><i class="material-icons">videocam</i><label>Video</label></button>
+                            <button type="button" class="btn player-btn icon icon-endcall" id="btn-endcall"><i class="material-icons">call_end</i><label>End Call</label></button>
                         </div>
                     </div>                            
                 </footer>
