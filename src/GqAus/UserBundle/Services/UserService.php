@@ -3495,10 +3495,10 @@ class UserService
 //                        $response['code'] = 8;
 //                        $response['msg'] = 'Assessor has already approved the qualification.';
 //                    } else {
-						$msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#status#', '#fromUserName#');
-						$aplMsgReplace = array($courseObj->getAssessor()->getUsername(),$courseObj->getCourseCode(), $courseObj->getCourseName(),$statusList[$courseStatus]['status'], $courseObj->getFacilitator()->getUsername());
-						$aplMessageBody = str_replace($msgSearch, $aplMsgReplace,$this->container->getParameter('msg_portfolio_update_con'));
-						$aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
+                         $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#status#', '#fromUserName#');
+                         $aplMsgReplace = array($courseObj->getAssessor()->getUsername(),$courseObj->getCourseCode(), $courseObj->getCourseName(),$statusList[$courseStatus]['status'], $courseObj->getFacilitator()->getUsername());
+                         $aplMessageBody = str_replace($msgSearch, $aplMsgReplace,$this->container->getParameter('msg_portfolio_update_con'));
+                         $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
 
                          $toEmail = $courseObj->getAssessor()->getEmail();
                          $toId = $courseObj->getAssessor()->getId();
