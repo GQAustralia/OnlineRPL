@@ -219,7 +219,8 @@
                                    {% endif %}
                             </div>
                             <p class="chat_content">
-                                   {{message.content}}
+                                   {% if '<script>' in message.content %}{{message.content}} 
+                                    {% else %} {{message.content|raw}}  {% endif %}
                             </p>
                         </div>
                      {% endfor %}
