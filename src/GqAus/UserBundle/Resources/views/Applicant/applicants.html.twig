@@ -81,17 +81,17 @@
              {% if list.facilitator is defined and list.facilitator != null and list.facilitator.id!=0 %} <span class="check"><i class="material-icons">check</i></span> {% endif %}
              <!-- Modal -->
         {% set courseFacilitator = user_service.getFacilitaorInfo('ROLE_FACILITATOR') %}
-        
+         <input type="hidden" name="fac_is_update" id="fac_is_update" value='0'>
        <div class="modal fade update_popup" id="update_popup_{{id}}" role="dialog">
             <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
                             <div class="modal-header">
-                                    <button type="button" class="close" onclick="return assignfacvalidate();">&times;</button>
+                                    <button type="button" class="close" onclick="return assignfacvalidate($('#fac_is_update').val(),{{id}});">&times;</button>
                                     <h5 class="modal-title">Select Facilitator</h5>
                             </div>
                             <div class="modal-body">
-								<div id='pwd_error_{{id}}'></div>
+				<div id='pwd_error_{{id}}'></div>
                                 <div id='profile_suc_msg2_{{id}}'></div>
                                     <form class="form">
                                         {% if courseFacilitator %}
@@ -115,13 +115,13 @@
              {% if list.assessor is defined and list.assessor != null and list.assessor.id!=0  %} <span class="check"><i class="material-icons">check</i></span> {% endif %}
              <!-- Modal -->
         {% set courseAssessor = user_service.getAssessorInfo('ROLE_ASSESSOR') %}
-        
+        <input type="hidden" name="ass_is_update" id="ass_is_update" value='0'>
        <div class="modal fade update_popup" id="update_assessor_{{id}}" role="dialog">
             <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
                             <div class="modal-header">
-                                    <button type="button" class="close" onclick="return assignfacvalidate();">&times;</button>
+                                    <button type="button" class="close" onclick="return assignassvalidate($('#ass_is_update').val(),{{id}});">&times;</button>
                                     <h5 class="modal-title">Select Assessor</h5>
                             </div>
                             <div class="modal-body">
@@ -148,17 +148,17 @@
              {% if list.rto is defined and list.rto != null and list.rto.id!=0 %}<span class="check"><i class="material-icons">check</i></span>{% endif %}
              <!-- Modal -->
         {% set courseRto = user_service.getRtoInfo('ROLE_RTO') %}
-        
+        <input type="hidden" name="rto_is_update" id="rto_is_update" value='0'>
        <div class="modal fade update_popup" id="update_rto_{{id}}" role="dialog">
             <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
                             <div class="modal-header">
-                                    <button type="button" class="close" onclick="return assignfacvalidate();">&times;</button>
+                                    <button type="button" class="close" onclick="return assignrtovalidate($('#rto_is_update').val(),{{id}});">&times;</button>
                                     <h5 class="modal-title">Select RTO</h5>
                             </div>
                             <div class="modal-body">
-								<div id='pwd_error3_{{id}}'></div>
+				<div id='pwd_error3_{{id}}'></div>
                                 <div id='profile_suc_msg4_{{id}}'></div>
                                     <form class="form">
                                         {% if courseRto %}
