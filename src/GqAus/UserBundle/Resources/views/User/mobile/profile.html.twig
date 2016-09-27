@@ -49,13 +49,13 @@
         $("#onboard2").removeClass("hidden");
         $('#onboard2').modal({backdrop: 'static', keyboard: false,show:true}); 
     }
-  $(".form_block input[type='text']").on('focusin', function(){
+  $(".form_block input[type='text'],.form_block input[type='number']").on('focusin', function(){
    $(this).data('val', $(this).val());
    $(this).prev().css("color","red");
    $(".update_btn").css("background","red").removeAttr('disabled');
   });
   
-  $(".form_block input[type='text']").blur(function(){
+  $(".form_block input[type='text'],.form_block input[type='number']").blur(function(){
    
    var prev = $(this).data('val');
    var current = $(this).val();

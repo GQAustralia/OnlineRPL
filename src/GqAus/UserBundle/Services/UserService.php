@@ -113,6 +113,7 @@ class UserService
         }
         
         if ($userRole != 'ROLE_RTO') {
+            
            $setPhone = str_replace(' ', '', $user->getPhone()); 
            
             $user->setPhone($setPhone);

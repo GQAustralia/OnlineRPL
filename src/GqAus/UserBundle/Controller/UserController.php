@@ -33,6 +33,8 @@ class UserController extends Controller
         $user = $userService->getCurrentUser(); 
         $user->setContactPhone(null);
         $user->setCeophone(null);
+        $userPhone = str_replace('-', '', $user->getPhone());
+        $user->setPhone($userPhone);
         $userProfileForm = $this->createForm(new ProfileForm(), $user);
       
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoleName();
