@@ -1237,6 +1237,12 @@ $("body").on("click", ".gq-ajax-pagination", function() {
     loadApplicantListReports('currentList',pagenum);
 });
 
+$("#searchNameForReports").keyup(function() {
+    pagenum = 1;
+    loadDataIcon('currentList');
+    loadApplicantListReports('currentList',pagenum);
+});
+
 $("#searchFilterReports").click(function() { 
     pagenum = 1;    
     loadDataIcon('currentList');
@@ -1304,7 +1310,7 @@ filterByStatus = $('#filterByStatus').val();
 
 function loadApplicantListReports(divContent, pagenum)
 {
-    searchName = $('#searchName').val();
+    searchName = $('#searchNameForReports').val();
     searchAge = $('#searchAge').val();
     searchRoleId = $('#searchRoleId').val();
     $.ajax({
