@@ -2,7 +2,7 @@
 {% block title %}GQ - RPL Qualification{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/qualification.css') }}">
-    <link rel="stylesheet" href="{{ asset('/public/css/pages/all/candidate_profile.css') }}"> 
+<link rel="stylesheet" href="{{ asset('/public/css/pages/all/candidate_profile.css') }}"> 
 <link rel="stylesheet" href="{{ asset('public/css/pages/candidate/round-progress.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/candidate/roundslider.css') }}"> 
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
@@ -10,14 +10,14 @@
 {% endblock %}
 {% block body %}
 <div class="hidden-xs body_section">
-<!-- Larg Screens HTML --> 
+    <!-- Larg Screens HTML --> 
 {% if userCourses is empty%}
     <div>No Courses Available</div>
 {% else %}
     {% set counter = '' %}
     {% set counterArr = 0 %}
     {% set awaitngVal = '' %}
-    
+
 {% for key, courses in userCourses %}       
     {% set userRole = app.security.getToken().getUser().getRoles() %}
     {% set userId = app.security.getToken().getUser().getId() %} 
@@ -31,33 +31,33 @@
 {% set evidenceCompleteness = courses_service.getEvidenceByCourse(userId, courseCode) %}
 {% set counter = counter~evidenceCompleteness~',' %}
 {% set awaitngVal = counter|split(',') %} 
-<div class="data-collapse">
-    <div class="presentation-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-lg-11">
-                    <p>
-                        <span> {{ courses.getCourseName() }}{% if courses.getRtoDate()  != null %} -  <strong>Awarded {{ courses.getRtoDate()|date("d M Y") }}</strong>{% endif %}</span>
-                         
-                        <span>{{ courses.getCourseCode() }}                            
+    <div class="data-collapse">
+        <div class="presentation-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-lg-11">
+                        <p>
+                            <span> {{ courses.getCourseName() }}{% if courses.getRtoDate()  != null %} -  <strong>Awarded {{ courses.getRtoDate()|date("d M Y") }}</strong>{% endif %}</span>
+
+                            <span>{{ courses.getCourseCode() }}                            
                            {% if userCourses|length > 1  and loop.index > 1 %}
-                            <a href="#" data-toggle="collapse" data-target="#collapse-{{courseCode}}">
+                                <a href="javascript:void(0);" data-toggle="collapse" data-target="#collapse-{{courseCode}}">
                                     <i class="material-icons">expand_less</i>
-                            </a>  
+                                </a>  
                             {% endif %}
-                        </span>
-                        
-                    </p>
+                            </span>
+
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-<div class="container candidate collapse {% if loop.index == 1 %}in {% endif %}"  id="collapse-{{courseCode}}">
-<div class="row">                
+        <div class="container candidate collapse {% if loop.index == 1 %}in {% endif %}"  id="collapse-{{courseCode}}">
+            <div class="row">                
     {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}    
     {% set output = remaining|split('&&') %}
-    
-   <div class="col-md-5 col-lg-4">
+
+                <div class="col-md-5 col-lg-4">
         {% set newuserblock = 0 %} 
         {% set requiredUnits = 0 %}
         {% set totalCheckedCount = 0 %} 
@@ -65,7 +65,7 @@
          {% if courseInfo.courseInfo.Units.Core.unit is defined and  courseInfo.courseInfo.Units.Core.unit %}
              {% set coreUnitCount = courseInfo.courseInfo.Units.Core.unit|length %}
              {% set unitsData = courseInfo.courseInfo.Units.Core.unit %}
-        
+
              {% if courseInfo.courseInfo.Units.Elective is defined and courseInfo.courseInfo.Units.Elective%}
                 {% set totalCheckedCount = courses_service.getElectiveCheckedValues(userId,courseCode) %} 
                 {% set getIssubmitStatus = courses_service.getOneUnitStatus(userId, courseCode)%} 
@@ -75,187 +75,186 @@
              {% if courseInfo.courseInfo.Units.Elective.validation is defined and  courseInfo.courseInfo.Units.Elective.validation%} 
                 {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}  
                 {% set requiredUnits = coreUnitCount+electiveUnitCountRequired %}
-           
+
              {% endif %}
         {% endif %}
     {% endif %}
 {% endif %}
 {% if courses.courseStatus is defined and courses.courseStatus != 0 %}       
-       <div class="row">
-            <div class="col-md-12 col-lg-12">
-                <div class="info-box">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="info-box">
                     {% if newuserblock == 0 %}
-                        <div class="info-copy">
-                          <a href="{{ app.request.baseUrl }}/faq" target="_blank" style="width: 100%; display: inline-block; text-align: center;"><i class="material-icons">error_outline</i></a>
-                          <p>For this qualification you need to show you're experienced in a total of {{requiredUnits}} units.</p>
-                          <strong>Start by choosing your <span class="text-uppercase">Elective Units.</span></strong>
-                        </div>
+                                <div class="info-copy">
+                                    <a href="{{ app.request.baseUrl }}/faq" target="_blank" style="width: 100%; display: inline-block; text-align: center;"><i class="material-icons">error_outline</i></a>
+                                    <p>For this qualification you need to show you're experienced in a total of {{requiredUnits}} units.</p>
+                                    <strong>Start by choosing your <span class="text-uppercase">Elective Units.</span></strong>
+                                </div>
                     {% elseif newuserblock == 1 %}
-                       
-                            <p class="text-center">
+
+                                <p class="text-center">
                             {% set unitType = courses_service.getOneUnitStatus(userId, courseCode) %}
                             {% if unitType == 0 %}
-                                <strong>
-                                    Welcome to your new qualification,<br/>
-                                    let's go
-                                </strong>
-                             </p>
+                                    <strong>
+                                        Welcome to your new qualification,<br/>
+                                        let's go
+                                    </strong>
+                                </p>
                     {% else %}
-                        <div class="progres_bar_section">
-                            <p class="text-center">
-                                <strong>
+                                <div class="progres_bar_section">
+                                    <p class="text-center">
+                                        <strong>
                                    {% if courses.facilitator is defined and courses.facilitator!= null %} {{courses.facilitator.firstName}} is reviewing <br/>your evidence  {% endif %}
-                                </strong>
-                             </p>
+                                        </strong>
+                                    </p>
                     {% endif %}
-           
-                <div class="progres-content">
-                    <div class="activ-middle">
 
-                        <div id="slider{{counterArr}}" class="round-progress rslider"></div>
-                        <div class="evidence-status">{% if awaitngVal[counterArr]|slice(0,3) == 100 %}Evidence Submitted{% elseif awaitngVal[counterArr]|slice(0,2) > 0 %}Awaiting Evidences{% endif %}</div>
-                    </div>
-                    <p class="day-progress clearfix">
-                        <span class="start-day">0<br/>Days</span>
-                        <span class="end-day">90<br/>Days</span>
-                    </p>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="90" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
+                                    <div class="progres-content">
+                                        <div class="activ-middle">
 
-                          <span class="sr-only">{{output[0]}} Complete</span>
+                                            <div id="slider{{counterArr}}" class="round-progress rslider"></div>
+                                            <div class="evidence-status">{% if awaitngVal[counterArr]|slice(0,3) == 100 %}Evidence Submitted{% elseif awaitngVal[counterArr]|slice(0,2) > 0 %}Awaiting Evidences{% endif %}</div>
+                                        </div>
+                                        <p class="day-progress clearfix">
+                                            <span class="start-day">0<br/>Days</span>
+                                            <span class="end-day">90<br/>Days</span>
+                                        </p>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="90" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
+
+                                                <span class="sr-only">{{output[0]}} Complete</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-center">{%if (output[1] == 1) %}Today is your first day{% else %} You have <strong class="text-danger">{{output[0]}} Days remaining </strong> to submit your evidence files {% endif %}</p>
+                                    </div>
+                                </div>
+        {% endif %}
+                            </div>
                         </div>
                     </div>
-                    <p class="text-center">{%if (output[1] == 1) %}Today is your first day{% else %} You have <strong class="text-danger">{{output[0]}} Days remaining </strong> to submit your <br/> evidence files {% endif %}</p>
-
-                </div>
-            </div>
-        {% endif %}
-   </div>
-</div>
-</div>
 {% endif %}
     {% if courses.facilitator.firstName is defined %}
-    <div class="row">
-        <div class="col-md-12 col-lg-12">
-            <div class="hidden-xs review">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="hidden-xs review">
 
-                <div class="review_content">
-                        <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSR </span>for this qualification</p>
-                </div>
-                <div class="review_profile-pic">
-                        <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile{{courseCode}}" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
-                </div>
-            </div>
-        </div>
-    </div>
+                                <div class="review_content">
+                                    <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSR </span>for this qualification</p>
+                                </div>
+                                <div class="review_profile-pic">
+                                    <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile{{courseCode}}" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
+                                </div>
+                            </div>
+                        </div>
+                    </div>
     {% endif %}
 {% if courses.facilitator is defined and courses.facilitator != null or courses.assessor is defined and courses.assessor != null %}       
 {% set notes = user_service.getNotesFromUserAndCourseApplicant(courseId) %}    
     {% if notes|length > 0 %}
-        <div class="row">
-            <div class="col-md-12 col-lg-12">
-                <div class="comments">
-                    <div class="panel-group">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
-                        </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="comments">
+                                <div class="panel-group">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
+                                    </div>
                         {% for note in notes %} 
                         {% set notUserId = (note.type == 'f') ? courses.Facilitator.id : courses.assessor.id %}
                             {% set notecrted = (note.type =='f') ? courses.facilitator.firstName : courses.assessor.firstName %}
                             {% set notecrtedImg = (note.type =='f') ? courses.Facilitator.userImage : courses.assessor.userImage%}
-                            <div class="panel-content">
-                                <img src="{% if notecrtedImg %} {{ amazon_link~'user-'~notUserId~'/'~notecrtedImg }} {% endif %}" class="profile-img">
-                                <span><strong>{{notecrted}}</strong></span>
-                                <span class="date-time">
-                                    <span class="date">{{ note.created|date('d/m/y')}}</span>
-                                    <span class="date"> - </span>
-                                    <span class="time">{{ note.created|date('H:i')}}</span>
-                                </span>
-                                <p>{{note.note}}</p>
-                            </div>
+                                    <div class="panel-content">
+                                        <img src="{% if notecrtedImg %} {{ amazon_link~'user-'~notUserId~'/'~notecrtedImg }} {% endif %}" class="profile-img">
+                                        <span><strong>{{notecrted}}</strong></span>
+                                        <span class="date-time">
+                                            <span class="date">{{ note.created|date('d/m/y')}}</span>
+                                            <span class="date"> - </span>
+                                            <span class="time">{{ note.created|date('H:i')}}</span>
+                                        </span>
+                                        <p>{{note.note}}</p>
+                                    </div>
                         {% endfor %}     
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
     {% endif %}
 {% endif %}
 
-		<div class="row">
-		    <div class="col-md-12 col-lg-12">                
-		        <div class="hidden-xs faq_link">
-		             <i class="material-icons help">help</i>
-		                <a href="{{ app.request.baseUrl }}/faq" target="_blank">
-		
-		                        <span>FAQs</span>
-		                </a>
-		        </div>
-		    </div>
-		</div>   
-  </div>         
-    <div class="col-md-7 col-lg-7 flex-fix-q">
-    <div class="accordion panel-group">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">                
+                            <div class="hidden-xs faq_link">
+                                <i class="material-icons help">help</i>
+                                <a href="{{ app.request.baseUrl }}/faq" target="_blank">
+
+                                    <span>FAQs</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>   
+                </div>         
+                <div class="col-md-7 col-lg-7 flex-fix-q">
+                    <div class="accordion panel-group">
     {% set i = 1 %}           
     {% set coreUnitsCount = courses_service.getCoreElectiveUnitsCount(userId,courseCode,'core') %}    
     {% set coreSubmitted = courses_service.getSubmittedCoreStatus(userId,courseCode,'core') %}
     {% set coreRemaining = coreUnitsCount - coreSubmitted %}
-    <div class="panel panel-default">
-       <div class="panel-heading clearfix">
-           <h4 class="panel-title">
-           <span>{{coreUnitsCount}} CORE UNITS {% if coreSubmitted >= 1 and coreRemaining < coreUnitsCount and coreRemaining > 0 %} - <strong>{{coreRemaining}} REMAINING </strong> {% endif %}</span>
-           <a class="btn-accordion collapsed" data-toggle="collapse" data-parent="#accordion" data-collapse="parent" href="#collapseTwo-{{courseCode}}">
-                   <i class="material-icons">expand_more</i>
-           </a>
-           </h4>
-           
-       </div>
-       <div id="collapseTwo-{{courseCode}}" class="panel-collapse collapse">
-           <div class="panel-body">
-               <div class="accordion panel-group" id="nested">
-                    
+                        <div class="panel panel-default">
+                            <div class="panel-heading clearfix">
+                                <h4 class="panel-title">
+                                    <span>{{coreUnitsCount}} CORE UNITS {% if coreSubmitted >= 1 and coreRemaining < coreUnitsCount and coreRemaining > 0 %} - <strong>{{coreRemaining}} REMAINING </strong> {% endif %}</span>
+                                    <a class="btn-accordion collapsed" data-toggle="collapse" data-parent="#accordion" data-collapse="parent" href="#collapseTwo-{{courseCode}}">
+                                        <i class="material-icons">expand_more</i>
+                                    </a>
+                                </h4>
+
+                            </div>
+                            <div id="collapseTwo-{{courseCode}}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="accordion panel-group" id="nested">
+
                   {% if courseInfo.courseInfo.Units.Core is defined and courseInfo.courseInfo.Units.Core %} 
                     {% if courseInfo.courseInfo.Units.Core.unit is defined and  courseInfo.courseInfo.Units.Core.unit %}
-                  
+
                    {% set coreUnitCount = courseInfo.courseInfo.Units.Core.unit|length %}
-                   
-                  
+
+
                     {% set unitsData = courseInfo.courseInfo.Units.Core.unit %}    
-                   
+
                    {% for key, units in unitsData %}  
-                   <div class="panel panel-default">
-                       <div class="panel-heading">
-                               <div class="panel-title">
-                                       <div class="panle_body_content">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <div class="panle_body_content">
                  {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}               
                 {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
-                                               <p> <span class="tag-id">{{units.id}}</span> </p>
-                                               <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
-                                       </div>
-                                       <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
-                                               <i class="material-icons">chevron_right</i>
-                                       </a>
-                               </div>
-                       </div>
-                       <div id="nested-collapseSeven" class="panel-collapse collapse">
-                              
-                       </div>
-                   </div>
+                                                        <p> <span class="tag-id">{{units.id}}</span> </p>
+                                                        <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
+                                                    </div>
+                                                    <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
+                                                        <i class="material-icons">chevron_right</i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div id="nested-collapseSeven" class="panel-collapse collapse">
+
+                                            </div>
+                                        </div>
                    {% endfor %} 
                     {% endif %}
                     {% endif %}
-                  
-               </div>
-           </div>
-       </div>
-    </div>
-        
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
         {% if courseInfo.courseInfo.Units.Elective is defined and courseInfo.courseInfo.Units.Elective%}
-          
+
             {% set   electiveUnitsCount = courses_service.getCoreElectiveUnitsCount(userId,courseCode,'elective') %}
-        
+
         {% if courseInfo.courseInfo.Units.Elective.validation is defined and  courseInfo.courseInfo.Units.Elective.validation%}    
-   
+
             {% if courseInfo.courseInfo.Units.Elective.validation.type is defined %}
                 {% if courseInfo.courseInfo.Units.Elective.validation.requirement is defined and courseInfo.courseInfo.Units.Elective.validation.requirement %}
                     {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}      
@@ -264,123 +263,123 @@
             {% set electiveRemaining = electiveUnitCountRequired - totalCheckedCount %}
                 {% endif %}
             {% endif %}                  
-        <input type="hidden" name="chkboxCount" id="chkboxCount" value="{{electiveUnitCountRequired}}">
-           
-    <div class="panel panel-default">
-    <div class="panel-heading"  id='strip_{{courseCode}}' {% if totalCheckedCount >= electiveUnitCountRequired%} style="background-color:#E01010" {% else %}{% endif %}>
-    <h4 class="panel-title">
-        <span>{{electiveUnitsCount}} ELECTIVE UNITS  <span id="spanremain"> {%if electiveRemaining>0 %}{% if electiveRemaining < electiveUnitCountRequired %} <strong> - {{electiveRemaining}} REMAINING </strong> {% elseif totalCheckedCount == 0 %} - Choose {{electiveUnitCountRequired}} {% else %} {% endif %}{% endif %}</span></span>
-		
+                        <input type="hidden" name="chkboxCount" id="chkboxCount" value="{{electiveUnitCountRequired}}">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading"  id='strip_{{courseCode}}' {% if totalCheckedCount >= electiveUnitCountRequired%} style="background-color:#E01010" {% else %}{% endif %}>
+                                <h4 class="panel-title">
+                                    <span>{{electiveUnitsCount}} ELECTIVE UNITS  <span id="spanremain"> {%if electiveRemaining>0 %}{% if electiveRemaining < electiveUnitCountRequired %} <strong> - {{electiveRemaining}} REMAINING </strong> {% elseif totalCheckedCount == 0 %} - Choose {{electiveUnitCountRequired}} {% else %} {% endif %}{% endif %}</span></span>
+
 	{% if totalCheckedCount >= electiveUnitCountRequired%}
         {% set statusOfFacElecUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseCode, 'facilitatorstatus', 'elective') %}
-                    <a aria-expanded="false" data-toggle="collapse" id="toggle_edit_{{courseCode}}" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}" data-collapse="parent" class="edit-course hide"><i class="material-icons edit">edit</i></a>
+{#                                    <a aria-expanded="false" data-toggle="collapse" id="toggle_edit_{{courseCode}}" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}" data-collapse="parent" class="edit-course hide"><i class="material-icons edit">edit</i></a>#}
 
-                   <a aria-expanded="false" id="course_toggle_{{courseCode}}" class="btn-accordion collapsed hide" data-toggle="collapse" data-parent="#nested"  data-collapse="parent" href="#nested-collapseSTR-{{courseCode}}">
-                       <i class="material-icons">expand_more</i>
-                   </a>
-                        <div class="course-edit show"  id="course-btn-container-{{courseCode}}">
-                            
-                        <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show edit' style="margin-right:10px;">
+                                    <a aria-expanded="false" id="course_toggle_{{courseCode}}" class="btn-accordion collapsed hide" data-toggle="collapse" data-parent="#nested"  data-collapse="parent" href="#nested-collapseSTR-{{courseCode}}">
+                                        <i class="material-icons">expand_more</i>
+                                    </a>
+                                    <div class="course-edit show"  id="course-btn-container-{{courseCode}}">
+
+                                        <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show edit' style="margin-right:10px;">
                             {% if statusOfFacElecUnitsCount >= electiveUnitCountRequired %} {% else %}<i class="material-icons">edit</i> {% endif %}</a>
-                        <button type="button" class="btn user-show hide" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
-                </div>
+                                        <button type="button" class="btn user-show hide" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
+                                    </div>
 
         {% else %}          
-              
-          <div class="course-edit hide"  id="course-btn-container-{{courseCode}}">
-                            
-                        <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show edit'>
-                            {% if statusOfFacElecUnitsCount is defined and statusOfFacElecUnitsCount >= electiveUnitCountRequired %} {% else %}<i class="material-icons">edit</i> {% endif %}</a>
-                        <button type="button" class="btn user-show hide" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
-                </div>
-                <a aria-expanded="false" data-toggle="collapse" id="toggle_edit_{{courseCode}}" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}" data-collapse="parent" class="edit-course "><i class="material-icons edit">edit</i></a>
 
-                 <a aria-expanded="false" id="course_toggle_{{courseCode}}" class="btn-accordion collapsed " data-toggle="collapse" data-parent="#nested"  data-collapse="parent" href="#nested-collapseSTR-{{courseCode}}">
-                     <i class="material-icons">expand_more</i>
-                 </a>
-         
+                                    <div class="course-edit hide"  id="course-btn-container-{{courseCode}}">
+
+                                        <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show edit'>
+                            {% if statusOfFacElecUnitsCount is defined and statusOfFacElecUnitsCount >= electiveUnitCountRequired %} {% else %}<i class="material-icons">edit</i> {% endif %}</a>
+                                        <button type="button" class="btn user-show hide" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
+                                    </div>
+{#                                    <a aria-expanded="false" data-toggle="collapse" id="toggle_edit_{{courseCode}}" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}" data-collapse="parent" class="edit-course "><i class="material-icons edit">edit</i></a>#}
+
+                                    <a aria-expanded="false" id="course_toggle_{{courseCode}}" class="btn-accordion collapsed " data-toggle="collapse" data-parent="#nested"  data-collapse="parent" href="#nested-collapseSTR-{{courseCode}}">
+                                        <i class="material-icons">expand_more</i>
+                                    </a>
+
         {% endif %}	
-        
-    </h4>       
-       
-    </div>
-    <div aria-expanded="false" id="nested-collapseSTR-{{courseCode}}" class="panel-collapse collapse {% if totalCheckedCount >= electiveUnitCountRequired %} in {% endif %}">
-    <div class="panel-body">
-         
+
+                                </h4>       
+
+                            </div>
+                            <div aria-expanded="false" id="nested-collapseSTR-{{courseCode}}" class="panel-collapse collapse {% if totalCheckedCount >= electiveUnitCountRequired %} in {% endif %}">
+                                <div class="panel-body">
+
 
         {% if courseInfo.courseInfo.Units.Elective.groups is defined and courseInfo.courseInfo.Units.Elective.groups %}
         {% if courseInfo.courseInfo.Units.Elective.groups.group is defined and courseInfo.courseInfo.Units.Elective.groups.group %}
             {% set unitsData = courseInfo.courseInfo.Units.Elective.groups.group.unit %}
-        
+
         {% for key, units in unitsData %}   
          {% set electiveUnitId = units.id %}       
-       
+
     {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,electiveUnitId) %}  
-        
-    <div class="select">
+
+                                    <div class="select">
 
         {% if unitsData %}
-              
+
                 {% set groupIdArray = '' %}
                 {% set groupSelectCount = 0 %}
-       
+
                 {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,units.id) %} 
                 {% set electiveStatus = 1 %}
         {% if electiveStatus==1 %}
-           
+
                 {% set newuserblock = 1 %} 
             {% endif %}
-        <div class="panle_body_content unit-selection border-bottom clearfix">
-            <i class="material-icons info">info</i>
-            <div class="tag-copy">
+                                        <div class="panle_body_content unit-selection border-bottom clearfix">
+                                            <i class="material-icons info">info</i>
+                                            <div class="tag-copy">
                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}                
-               
+
                 {% if approvalText|length > 0 and approvalText != '0' %}<p id="sub_{{units.id}}"> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
-                <p> <span class="tag-id">{{units.id}}</span> </p>
-                <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
-              
-            </div>
+                                                <p> <span class="tag-id">{{units.id}}</span> </p>
+                                                <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
+
+                                            </div>
              {% if totalCheckedCount >= electiveUnitCountRequired%}
-                <div class="checkbox_outer modalClass checkmark-icon hide"  data-toggle="modal" data-target="" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
-                    <input {% if approvalText == "Satisfactory" or approvalText == "Competent" %} disabled="disabled" {% else %} {% endif %} name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{courseCode}}','{{units.id}}','{{totalCheckedCount}}','{{electiveUnitCountRequired}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
-                     
-            </div>
-            <div class="user-redirect-arrow">
-                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
-					<i class="material-icons">chevron_right</i>
-                </a>
-            </div>
+                                            <div class="checkbox_outer modalClass checkmark-icon hide"  data-toggle="modal" data-target="" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
+                                                <input {% if approvalText == "Satisfactory" or approvalText == "Competent" %} disabled="disabled" {% else %} {% endif %} name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{courseCode}}', '{{units.id}}', '{{totalCheckedCount}}', '{{electiveUnitCountRequired}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
+
+                                            </div>
+                                            <div class="user-redirect-arrow">
+                                                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
+                                                    <i class="material-icons">chevron_right</i>
+                                                </a>
+                                            </div>
             {% else %}
-                    <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
-                    <input {% if approvalText == "Satisfactory" or approvalText == "Competent" %} disabled="disabled" {% else %} {% endif %}  name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{courseCode}}','{{units.id}}','{{totalCheckedCount}}','{{electiveUnitCountRequired}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
-                     
-            </div>
-            <div class="user-redirect-arrow hide">
-                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
-				<i class="material-icons">chevron_right</i>
-                 </a>
-            </div>
+                                            <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
+                                                <input {% if approvalText == "Satisfactory" or approvalText == "Competent" %} disabled="disabled" {% else %} {% endif %}  name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{courseCode}}', '{{units.id}}', '{{totalCheckedCount}}', '{{electiveUnitCountRequired}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
+
+                                            </div>
+                                            <div class="user-redirect-arrow hide">
+                                                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
+                                                    <i class="material-icons">chevron_right</i>
+                                                </a>
+                                            </div>
             {% endif %}
-            
-        </div>
+
+                                        </div>
        {# {% endfor %}#}
           {% endif %}
-    </div>
+                                    </div>
          {% endfor %} 
         {% endif %}
         {% endif %}
-    </div>
-    </div>
-    </div>
+                                </div>
+                            </div>
+                        </div>
      {% endif %}
     {% endif %}
-    </div>
-    </div>
-</div>
-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
      {% include 'GqAusHomeBundle:Courses:facProfilePopups.html.twig' %}                  
-</div>
+    </div>
 
  {% set counterArr = counterArr+1 %}
 {% endif %}
@@ -388,84 +387,84 @@
 {% endfor %}
     <input type="hidden" id="courseCount" name="courseCount" value="{{counter}}">
 {% endif %}
+</div>
+
+
+<!-- Larg Screens HTML End -->
+<input type="hidden" id="unitcheckval" name="unitcheckval" value="">
+<div class="modal-pop">
+    <div role="dialog" id="myModal" class="modal fade" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body"><p>Are you sure to update this elective unit ?</p></div>
+                <div class="modal-footer">
+                    <div class="form-group form-group-lg gqa-btn-group">
+                        <div class="form">
+                            <div class="row no-gutter">
+                                <div class="col-md-6 col-lg-6">
+                                    <button data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right changeUnitStatus" type="button">OK</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <button data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button" onclick="return cancelCheckbox();">CANCEL</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>          
+                </div>
+            </div>
+        </div>
     </div>
 
-  
-    <!-- Larg Screens HTML End -->
-    <input type="hidden" id="unitcheckval" name="unitcheckval" value="">
-    <div class="modal-pop">
-        <div role="dialog" id="myModal" class="modal fade" style="display: none;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body"><p>Are you sure to update this elective unit ?</p></div>
-                    <div class="modal-footer">
-                        <div class="form-group form-group-lg gqa-btn-group">
-                            <div class="form">
-                                <div class="row no-gutter">
-                                    <div class="col-md-6 col-lg-6">
-                                        <button data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right changeUnitStatus" type="button">OK</button>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6">
-                                        <button data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button" onclick="return cancelCheckbox();">CANCEL</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>          
-                    </div>
-                </div>
-            </div>
-        </div>
-
-      <div class="modal fade" id="validate-info" role="dialog" data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog modal-sm modal-lg">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <p>
+    <div class="modal fade" id="validate-info" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>
                         <!--button type="button" class="close" data-dismiss="modal">&times;</button-->
-                          You Have Reached Required Elective Units.
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="gqa-btn-group btn-file-save">
-                                <div class="row no-gutter">
-                                    <div class="col-xs-12 col-md-12 col-md-12 col-lg-12">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="return cancelCheckbox();">OK</button>
-                                    </div>
-                                </div>
+                        You Have Reached Required Elective Units.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <div class="gqa-btn-group btn-file-save">
+                        <div class="row no-gutter">
+                            <div class="col-xs-12 col-md-12 col-md-12 col-lg-12">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="return cancelCheckbox();">OK</button>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}
-    
+
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('public/js/roundslider.js') }}"></script>
-<script>
-        $(function () {           
-           function getTheSliderValues(){
-               var valuesStr=$('#courseCount').val();
-               var perValuesArr=valuesStr.split(",");
-               perValuesArr.pop();
-               for(var i=0;i<perValuesArr.length;i++){
-                   var obj=new Object();
-                    obj.sliderType= "min-range";
-                    obj.value=perValuesArr[i];
-                    obj.min=0;
-                    obj.max=100;
-                    obj.startAngle= 90;
-                    obj.circleShape="half-top";
-                    obj.radius=80;
-                    obj.handleSize=0;
-                    obj.width=20;
-                    obj.editableTooltip=false;
-                    $("#slider"+i).roundSlider(obj);
-               }
-                
-           }
-           getTheSliderValues();         
+    <script type="text/javascript" src="{{ asset('public/js/roundslider.js') }}"></script>
+    <script>
+        $(function() {
+            function getTheSliderValues() {
+                var valuesStr = $('#courseCount').val();
+                var perValuesArr = valuesStr.split(",");
+                perValuesArr.pop();
+                for (var i = 0; i < perValuesArr.length; i++) {
+                    var obj = new Object();
+                    obj.sliderType = "min-range";
+                    obj.value = perValuesArr[i];
+                    obj.min = 0;
+                    obj.max = 100;
+                    obj.startAngle = 90;
+                    obj.circleShape = "half-top";
+                    obj.radius = 80;
+                    obj.handleSize = 0;
+                    obj.width = 20;
+                    obj.editableTooltip = false;
+                    $("#slider" + i).roundSlider(obj);
+                }
+
+            }
+            getTheSliderValues();
         });
     </script>
-   
+
 {% endblock %}
