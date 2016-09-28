@@ -3698,6 +3698,7 @@ $("#change_link").click(function(){
     $(".currentpassword").removeClass("hidden-xs");
     $("#fileListContainerPi").hide();
     $("#matrixfileDiv").hide();
+    $("#current_password").val('');
 });
 
 $(".chngpwdvalOthers").click(function(){ 
