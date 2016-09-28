@@ -2468,6 +2468,7 @@ function changePassowordDiv(type)
         if($('#user_profile_form_manager'))
             $('#user_profile_form_manager').hide();
         $('#user_profile_form').hide();
+        $('#change_address_error').hide();
         
     }
     else
@@ -2484,6 +2485,7 @@ function changePassowordDiv(type)
          $('#user_profile_form_div').show();
          $('#matrixfileDiv').show();
          $(".profile_popup").removeClass("change_pwd");
+		 $('#change_address_error').show();
         
     }
 }
@@ -2500,6 +2502,7 @@ $('#change_password_form').on('submit', function(e) {
             cache: false,
             data: form_data,
             success: function(result) {
+			$("#pwd_error").hide();
                $('#current_password').val('');
                 $('#password_newpassword').val('');
       $('#password_confirmnewpassword').val('');
