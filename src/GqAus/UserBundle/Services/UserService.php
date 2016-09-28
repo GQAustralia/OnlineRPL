@@ -3464,21 +3464,14 @@ class UserService
                     $response['type'] = 'Error';
                     $response['code'] = 6;
                     $response['msg'] = 'Please assign assessor!';
-                } 
-//                else if ($courseObj->getAssessorstatus() == 1) {
-//                    $response['type'] = 'Error';
-//                    $response['code'] = 8;
-//                    $response['msg'] = 'Assessor has already approved the qualification.';
-//                } 
+                }
                 else {
                     $courseObj->setFacilitatorstatus('1');
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
                     $toEmail = $courseObj->getAssessor()->getEmail();
                     $toId = $courseObj->getAssessor()->getId();
-                    $messageSubject = str_replace($subSearch, $subReplace,
-                        $this->container->getParameter('msg_portfolio_assessor_submitted_sub'));
-                    $mailSubject = str_replace($subSearch, $subReplace,
-                        $this->container->getParameter('mail_portfolio_assessor_submitted_sub'));
+                    $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_portfolio_assessor_submitted_sub'));
+                    $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_portfolio_assessor_submitted_sub'));
                     $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#', '#applicationUrl#');
                     $aplMsgReplace = array($courseObj->getUser()->getUsername(), $courseObj->getCourseCode(),$courseObj->getCourseName(), 'Assessor', $courseObj->getFacilitator()->getUsername(), $this->container->getParameter('applicationUrl'));
                     $roleMsgReplace = array($courseObj->getAssessor()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername(), $this->container->getParameter('applicationUrl'));
@@ -3492,23 +3485,13 @@ class UserService
                 // checking whether the assessor is assigned or not
                 $cAssessor = $courseObj->getAssessor();
                 if (!empty($cAssessor)) {
-//                    if ($courseObj->getAssessorstatus() == 1) {
-//                        $response['type'] = 'Error';
-//                        $response['code'] = 8;
-//                        $response['msg'] = 'Assessor has already approved the qualification.';
-//                    } else {
-                         $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#status#', '#fromUserName#');
-                         $aplMsgReplace = array($courseObj->getAssessor()->getUsername(),$courseObj->getCourseCode(), $courseObj->getCourseName(),$statusList[$courseStatus]['status'], $courseObj->getFacilitator()->getUsername());
-                         $aplMessageBody = str_replace($msgSearch, $aplMsgReplace,$this->container->getParameter('msg_portfolio_update_con'));
-                         $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
-
                          $toEmail = $courseObj->getAssessor()->getEmail();
                          $toId = $courseObj->getAssessor()->getId();
-                         $roleMessageBody = str_replace($msgSearch, $aplMsgReplace,
-                         $this->container->getParameter('msg_portfolio_update_con'));
-                         $roleMailBody = str_replace($msgSearch, $aplMsgReplace,
-                         $this->container->getParameter('mail_portfolio_update_con'));
-//                    }
+                        
+                        $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#', '#applicationUrl#');
+                        $roleMsgReplace = array($courseObj->getAssessor()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername(), $this->container->getParameter('applicationUrl'));
+                        $roleMessageBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('msg_portfolio_update_con'));
+                        $roleMailBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
                 } else {
                     $response['type'] = 'Error';
                     $response['code'] = 6;
@@ -3581,20 +3564,16 @@ class UserService
         if ($toEmail != '' && $toId != '' && $roleMessageBody != '' && $roleMailBody != '') {
             // send the external mail and internal message to facilitator
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-             $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(),
-                $courseObj->getFacilitator()->getUsername()); 
+             $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->sendMessagesInbox($toId, $courseObj->getFacilitator()->getId(), $messageSubject, $roleMessageBody, '');
         }
-
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-         $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody,
-            $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
+         $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-        $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(),
-            $messageSubject, $aplMessageBody, '');
+        $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '');
 
         // update the zoho api status
         //$zohoId = '696292000010172044';
