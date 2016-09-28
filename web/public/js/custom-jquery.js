@@ -301,6 +301,7 @@ $(".deleteIdFiles").click(function() {
             $("#fclose").trigger("click");
             
             $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>File deleted successfully!</span></div>');
+			$("#profile_suc_msg2").hide();
             if(url == 'deleteIdFiles')
                     window.location.href = base_url+'userprofile';
              else 
@@ -774,6 +775,7 @@ $(".setUsers").click(function() {
 
 
 $(".setData").click(function() {
+	$("#profile_suc_msg").hide();
     userCourseId = $(this).attr("userCourseId");
     reminderTypeId = $(this).attr("reminderTypeId");
     reminderType = $(this).attr("reminderType");
