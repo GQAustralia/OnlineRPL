@@ -812,6 +812,15 @@ $(".setData").click(function() {
         } else {
             $('#note_notes_note').css("border","1px solid #d8d8d8");
         }
+        if(!isNaN(listId)){
+            if ($('#notes_' + listId).val() == '') {
+                $('#notes_' + listId).focus();
+                $('#notes_' + listId).css("border","1px solid red");
+                return false;
+            } else {
+                $('#notes_' + listId).css("border","1px solid #d8d8d8");
+            }
+        }
     }
 
     if (remindDate === '') {
