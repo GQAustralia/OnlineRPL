@@ -3666,17 +3666,18 @@ function checkCurrentOthersPassword(){
                     $("#hdn_pwd_check").val("0");
                     $("#pwd_error").html(startdiv + 'Current Password is not correct' + enddiv).delay(3000).fadeOut(100);
                     $("#current_password").val('');
-                    $("#current_password").focus();
-                    
+                    $("#current_password").focus();                    
                     return false;
                 }
                 else if (result.status == "success") {
-                val = $("#current_password").val;
-                $("#password_oldpassword").val=val;
-                $("#idfiles").addClass("hidden-xs");
-                $("#user_profile_form_div").hide();
-                $(".currentpassword").addClass("hidden-xs");
-                $(".chngpwddiv").removeClass("hidden-xs");
+                    val = $("#current_password").val;
+                    $("#password_oldpassword").val=val;
+                    $("#idfiles").addClass("hidden-xs");
+                    $("#user_profile_form_div").hide();
+                    $(".currentpassword").addClass("hidden-xs");
+                    $(".chngpwddiv").removeClass("hidden-xs");
+                    $('#password_newpassword').val('');
+                    $('#password_confirmnewpassword').val('');
                 }
             }
         });
