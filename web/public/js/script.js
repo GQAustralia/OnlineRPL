@@ -1,23 +1,15 @@
 var modEle;
 $(document).ready(function(){
 
+    var uA = navigator.userAgent;
     
-    /*
-    var ua = window.navigator.userAgent;
-        
-        console.log(ua);
-    Firefox
-    Chrome
-    Safari
-        if (ua.indexOf('MSIE ') > 0) {
-             var selectArrowH=tml='<span class="select-drop-arrow"><i class="material-icons arrow">arrow_drop_down</i></span>';
-            $("#selectOptionBox").append(selectArrowH);
-        }*/
-    if (navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/)) || $.browser.msie == 1)
-        {
-          var selectArrowH=tml='<span class="select-drop-arrow"><i class="material-icons arrow">arrow_drop_down</i></span>';
-         $("#selectOptionBox").append(selectArrowH);
-        }
+    if((uA.indexOf('Trident') != -1 && uA.indexOf('rv:11') != -1) || uA.indexOf('MSIE ')>0) {
+        var selectArrowH=tml='<span class="select-drop-arrow"><i class="material-icons arrow">arrow_drop_down</i></span>';
+        $("#selectOptionBox").append(selectArrowH);
+    }
+
+    
+    
     
     /* header menu js starts*/
     var menuEle=null;
