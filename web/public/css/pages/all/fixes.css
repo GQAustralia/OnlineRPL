@@ -552,3 +552,6 @@
     padding: 0px;
     line-height: 140px;
 }
+.material-icons.done-icon{
+    color: green;
+}

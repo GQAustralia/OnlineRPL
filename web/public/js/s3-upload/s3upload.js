@@ -92,7 +92,7 @@ var s3upload = null;
         var uploadact = 0;
         for (var i = 0, file; file = files[i]; i++) {
 
-            var fext = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.xls|\.xlsx|\.csv|\.mp3|\.mp4|\.wmv|\.avi|\.mov|\.swf|\.flv|\.ods|\.mkv|\.wmv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz)$/i;
+            var fext = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.xls|\.xlsx|\.doc|\.docx|\.csv|\.mp3|\.mp4|\.wmv|\.avi|\.mov|\.swf|\.flv|\.ods|\.mkv|\.wmv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz)$/i;
             var calFileSize = formatBytes(file.size, 0);
             // jQuery.each(files[0].files, function(i, file) {
             //var btn = '<button onclick="cancel('+k+')">Cancel</button>';
