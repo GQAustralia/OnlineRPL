@@ -2262,6 +2262,7 @@ $(".delUser").click(function() {
 
 $(".deleteUser").click(function() {
    $('.deleteuser_loader').show();
+   $("#profile_suc_msg").hide();
    $("#err_msg").show();
     $.ajax({
         type: "POST",
