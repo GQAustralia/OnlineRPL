@@ -2485,7 +2485,6 @@ function changePassowordDiv(type)
          $('#user_profile_form_div').show();
          $('#matrixfileDiv').show();
          $(".profile_popup").removeClass("change_pwd");
-		 $('#change_address_error').show();
         
     }
 }
