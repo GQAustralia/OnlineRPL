@@ -38,7 +38,7 @@ class MessageController extends Controller
         /*View Message Code -- msgcode*/
         if(isset($mid) && $mid!="")
         {
-            if($mid != 'compose'){
+            if($mid != 'compose' || $mid != 'usernamesbyRoles'){
                 $checkStatus = $messageService->getMessagesAccessPage($loggedinUserId, $mid);
                 if($checkStatus == 0)
                     return $this->render('GqAusUserBundle:Default:error.html.twig');
