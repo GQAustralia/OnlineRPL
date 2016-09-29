@@ -852,9 +852,9 @@ $(".setData").click(function() {
         else 
             contentSub = itemContent;
 
-        newTodoItemContent = '<li class="list_item clearfix todoContent"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></li>';
+        newTodoItemContent = '<li class="list_item clearfix todoContent"><a class="clearfix"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></li></a>';
         if(todoIcon == 'edit')
-            newTodoItemElement = '<li class="list_item clearfix todoContent"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span><div class="checkbox_outer"><input data-todotype="'+reminderType+'" data-todotypeid="reminderId" type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
+            newTodoItemElement = '<li class="list_item clearfix todoContent"><a class="clearfix"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></a><div class="checkbox_outer"><input data-todotype="'+reminderType+'" data-todotypeid="reminderId" type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
         else 
             newTodoItemElement = '<li class="list_item clearfix todoContent"><a data-reminderid="reminderId" data-status="0" title="'+itemContent+'" href="'+itemLink+'"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></a><div class="checkbox_outer"><input data-todotype="'+reminderType+'" data-todotypeid="reminderId" type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
 
