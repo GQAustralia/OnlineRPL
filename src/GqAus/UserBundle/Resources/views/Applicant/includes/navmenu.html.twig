@@ -15,6 +15,7 @@
                 <li><a {% if app.request.attributes.get('_route') == 'files' or app.request.attributes.get('_route') == 'mobileRoleWiseFiles'%}class="active"{% endif %}{%if is_mobile() and not is_tablet()%}href="{{ app.request.baseUrl }}/rolewiseFiles/{{courseCode}}/{{applicantId}}"{%else%}href="{{ app.request.baseUrl }}/files/{{courseCode}}/{{applicantId}}"{%endif%}><i class="material-icons">cloud_upload</i><span>Files</span></a></li>
                 <li><a {% if app.request.attributes.get('_route') == 'candidateProfile'%} class="active" {% endif %} {%if is_mobile()%} id="mobileCanProfile" href="javascript:void(0);" data-courseCode="{{courseCode}}" data-userId="{{applicantId}}" {%else%} href="{{ app.request.baseUrl }}/candidateProfile/{{courseCode}}/{{applicantId}}" {%endif%}><i class="material-icons">account_circle</i><span>Profile</span></a>
             </li>
+            {%if not is_mobile() %}
             <li class="profile">
                 <a href="#"><img class="profile-img" src="{{ asset('public/images/PROFILE.png')}}" alt="profile" /><i class="material-icons">expand_more</i></a>
                 <ul class="hide">
@@ -22,6 +23,7 @@
                     <li><a href="/logout">Log out</a></li>
                 </ul>
             </li>
+            {%endif%}
         </ul>          
         </nav>
     </section>
