@@ -4570,7 +4570,10 @@ class UserService
      * @param type $role
      */
     public function getHaveAccessPage($loggedInUser, $applicantId='', $courseCode='', $userRole){
-        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
+//        if($userRole[0] === 'ROLE_APPLICANT')
+//            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));    
+//        else
+            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
         if (!empty($courseObj)) { 
             switch ($userRole[0]) {
                 case 'ROLE_FACILITATOR' :
@@ -4583,10 +4586,10 @@ class UserService
                     $columnVal = $courseObj->getRto()->getId();
                     break;
                 case 'ROLE_APPLICANT' :
-                    $columnVal = $courseObj->getId();
+                    $columnVal = $courseObj->getUser()->getId();
                     break;
                 default :
-                    $columnVal = $courseObj->getId();
+                    $columnVal = $courseObj->getUser()->getId();;
             }
             if($columnVal == $loggedInUser)
                 return true;
