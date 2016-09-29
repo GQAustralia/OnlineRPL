@@ -1,14 +1,14 @@
 var modEle;
 $(document).ready(function(){
 
-    var uA = navigator.userAgent;
+    /* script for IE custom select option icon */
+    
+    /*var uA = navigator.userAgent;
     
     if((uA.indexOf('Trident') != -1 && uA.indexOf('rv:11') != -1) || uA.indexOf('MSIE ')>0) {
-        var selectArrowH=tml='<span class="select-drop-arrow"><i class="material-icons arrow">arrow_drop_down</i></span>';
+        var selectArrowH=tml='<i class="material-icons select-option-arrow">arrow_drop_down</i>';
         $("#selectOptionBox").append(selectArrowH);
-    }
-
-    
+    }*/
     
     
     /* header menu js starts*/
