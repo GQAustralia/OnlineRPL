@@ -201,7 +201,7 @@ $("body .msgForCourse").click(function(){
     var to = $('#advanced-demo').val();
     var unitId = 0;
     var subject = $('#msgSubject').val();
-    var msgBody = $('#msgBody').val();
+    var msgBody = $.trim($('#msgBody').val());
     var userId =  $('#UserId').val();
     if (to === '') {
         $('#advanced-demo').focus();
@@ -220,6 +220,7 @@ $("body .msgForCourse").click(function(){
     }
     if (msgBody === '') {
         $('body #msgBody').focus();
+        $('body #msgBody').css("border","1px solid red");        
         return false;
     }
     if (to != '' && msgBody != '') {
@@ -230,6 +231,7 @@ $("body .msgForCourse").click(function(){
             data: { unitId: unitId, userId: userId, subject: subject, message: msgBody},
             success:function(result) {
                 $('body #msgBody').val('');
+                $('body #msgBody').css("border","0px solid white");    
                 $('body #msgSend').prop('disabled', false);
                 $('#message_popup').modal('hide');
                 $("body #status-message").css("display", "block");
