@@ -1183,8 +1183,8 @@ $("#search-current").keyup(function(event) {
         else
             $('#emptyResult').hide();
             $('.gq-pagination-area').hide();
-            var keyCode = (window.event) ? event.which : event.keyCode;
-            if(keyCode == 13)  // 
+            var key = event.keyCode || event.which;
+            if(key == 13)  //  // 
             {
             $('#search-current').blur();
         }
@@ -1198,8 +1198,8 @@ $("#searchName").keyup(function(event) {
     else
          $('.gq-pagination-area').show();
       
-           var keyCode = (window.event) ? event.which : event.keyCode;
-            if(keyCode == 13)  // 
+           var key = event.keyCode || event.which;
+            if(key == 13)  //  // 
             {  //            
             $('#searchName').blur();
         }
