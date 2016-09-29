@@ -163,6 +163,7 @@ class EvidenceService
                 break;
             case 'text':
                 $fileObj = new File();
+                $type = 'file';
                 break;
             case 'application':
                 $fileObj = new File();
