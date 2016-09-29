@@ -4570,10 +4570,7 @@ class UserService
      * @param type $role
      */
     public function getHaveAccessPage($loggedInUser, $applicantId='', $courseCode='', $userRole){
-//        if($userRole[0] === 'ROLE_APPLICANT')
-//            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));    
-//        else
-            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
         if (!empty($courseObj)) { 
             switch ($userRole[0]) {
                 case 'ROLE_FACILITATOR' :
@@ -4589,7 +4586,7 @@ class UserService
                     $columnVal = $courseObj->getUser()->getId();
                     break;
                 default :
-                    $columnVal = $courseObj->getUser()->getId();;
+                    $columnVal = $courseObj->getUser()->getId();
             }
             if($columnVal == $loggedInUser)
                 return true;
@@ -4598,5 +4595,23 @@ class UserService
         }
         else
             return false;
+    }
+    /**
+     * Function to check whether the logged in user have access or not
+     * @param type $loggedInUser
+     * @param type $relationAppId
+     * @param type $role
+     */
+    public function getMessagesAccessPage($loggedInUser, $messageId){
+        $query = $this->em->getRepository('GqAusUserBundle:Message')
+            ->createQueryBuilder('m')
+            ->select('m')
+            ->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $loggedInUser)            
+            ->orWhere(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $loggedInUser)
+            ->andWhere(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $messageId);
+        $getMessages = $query->getQuery()->getResult();         
+        
+        return count($getMessages);
+       
     }
 }

@@ -19,6 +19,8 @@ class MessageController extends Controller
     {
         
         $messageService = $this->get('UserService');
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $userid = $messageService->getCurrentUser()->getId();        
         $page = $this->get('request')->query->get('page', 1);
         $result = $messageService->getMyInboxMessages($userid, $page);      
@@ -36,6 +38,11 @@ class MessageController extends Controller
         /*View Message Code -- msgcode*/
         if(isset($mid) && $mid!="")
         {
+            if($mid != 'compose'){
+                $checkStatus = $messageService->getMessagesAccessPage($loggedinUserId, $mid);
+                if($checkStatus == 0)
+                    return $this->render('GqAusUserBundle:Default:error.html.twig');
+            }
             
             $messageService = $this->get('UserService');
             $unreadcount = $messageService->getUnreadMessagesCount($userid);
@@ -112,6 +119,9 @@ class MessageController extends Controller
                 $replyId = $this->getRequest()->get('reply_id');
                 //if replyid is there 
                 if ($replyId) {
+//                    $checkStatus = $messageService->getMessagesAccessPage($loggedinUserId, $mid);
+//                    if($checkStatus == 0)
+//                        return $this->render('GqAusUserBundle:Default:error.html.twig');
                     $message = $messageService->getMessage($replyId);
                     $newDateCreated = date('d/m/Y', strtotime($message->getCreated()));
                     $repSub = "Re: " . $message->getSubject();
