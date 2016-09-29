@@ -135,16 +135,15 @@
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
                             <div class="hidden-xs review">
-
-                                <div class="review_content">
-                                    <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSR </span>for this qualification</p>
-                                </div>
-                                <div class="review_profile-pic">
-                                    <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile{{courseCode}}" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="review_content">
+                        <p>{{courses.facilitator.firstName}} is your <span class="text-uppercase"> CSA </span>for this qualification</p>
+                </div>
+                <div class="review_profile-pic">
+                        <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile{{courseCode}}" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
+                </div>
+            </div>
+        </div>
+    </div>
     {% endif %}
 {% if courses.facilitator is defined and courses.facilitator != null or courses.assessor is defined and courses.assessor != null %}       
 {% set notes = user_service.getNotesFromUserAndCourseApplicant(courseId) %}    

@@ -19,7 +19,7 @@
 				</div>
                              {% set userdata = app.security.getToken().getUser() %}
                                     {% if (roles[0]=='ROLE_FACILITATOR') %}
-                                        {% set role = 'Facilitator' %}
+                                        {% set role = 'Customer Service Agent' %}
                                     {% elseif(roles[0]=='ROLE_RTO') %}
                                         {% set role = 'RTO -'~userdata.getLastname()~" "~userdata.getFirstName() %}
                                     {% elseif(roles[0]=='ROLE_ASSESSOR') %}
