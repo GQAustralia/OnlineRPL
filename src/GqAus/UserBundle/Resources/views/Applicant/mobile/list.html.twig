@@ -91,7 +91,7 @@
                     {% endif %}
                    
                     <div id="err_msg"></div>
-                    <div id="ajaxHtml" tdcolspan="2" style="display:none;">
+                    <div id="ajaxHtml" tdcolspan="2" tdrtocolspan="2" style="display:none;">
                             <img src="{{ asset('public/images')}}/loading.gif" class="img"/>
                     </div>
                     
@@ -130,8 +130,8 @@
                         <table class="table" >
                             <thead>
                                 <tr>
-                                    <th colspan='2' width="50%"><span class="">NAME</span></th>
-                                    <th colspan='2' width="50%"><span class="">Qualification</span></th> 
+                                    <th class="col-xs-6"><span class="">NAME</span></th>
+                                    <th class="col-xs-6"><span class="">Qualification</span></th> 
                                 </tr>
                             </thead>
                             <tbody class="list" id="completedList">                             
