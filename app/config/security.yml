@@ -17,6 +17,8 @@ security:
         - { path: ^/evidences, roles: [ROLE_FACILITATOR] } 
         - { path: ^/userprofile, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/applicantDetails/.*, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
+        - { path: ^/courseunitDetails/.*, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
+        - { path: ^/courseUnitMobDetails/.*, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/applicants, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/reminder, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR] }
         - { path: ^/messages/*, roles: IS_AUTHENTICATED_FULLY }
@@ -25,10 +27,9 @@ security:
         - { path: ^/trash, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/view, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/viewUserIdFiles, roles: ROLE_FACILITATOR }
-        - { path: ^/reports, roles: [ROLE_MANAGER, ROLE_SUPERADMIN] }
+        - { path: ^/reports, roles: [ROLE_SUPERADMIN] }
         - { path: ^/downloadFiles, roles: [ROLE_ASSESSOR, ROLE_RTO] }
         - { path: ^/zipFiles, roles: [ROLE_ASSESSOR, ROLE_RTO] }
-        - { path: ^/startConversation, roles: ROLE_ASSESSOR }
         - { path: ^/startConversation, roles: ROLE_ASSESSOR }
         - { path: ^/startArchive, roles: ROLE_ASSESSOR }
         - { path: ^/stopArchive, roles: ROLE_ASSESSOR }
