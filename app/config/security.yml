@@ -40,6 +40,7 @@ security:
         - { path: ^/editUser/.*, roles: [ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/courseunitDetails/.*, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/files/.*, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/userslog, roles: [ROLE_SUPERADMIN] }
     access_denied_url: /unauthorized
     providers:
         main:
