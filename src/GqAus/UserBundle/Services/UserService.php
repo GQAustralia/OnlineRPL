@@ -4563,5 +4563,37 @@ class UserService
          
            return count($courseVal);
     }
-
+    /**
+     * Function to check whether the logged in user have access or not
+     * @param type $loggedInUser
+     * @param type $relationAppId
+     * @param type $role
+     */
+    public function getHaveAccessPage($loggedInUser, $applicantId='', $courseCode='', $userRole){
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
+        if (!empty($courseObj)) { 
+            switch ($userRole[0]) {
+                case 'ROLE_FACILITATOR' :
+                    $columnVal = $courseObj->getFacilitator()->getId();
+                    break;
+                case 'ROLE_ASSESSOR' :
+                    $columnVal = $courseObj->getAssessor()->getId();
+                    break;
+                case 'ROLE_RTO' :
+                    $columnVal = $courseObj->getRto()->getId();
+                    break;
+                case 'ROLE_APPLICANT' :
+                    $columnVal = $courseObj->getId();
+                    break;
+                default :
+                    $columnVal = $courseObj->getId();
+            }
+            if($columnVal == $loggedInUser)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
 }

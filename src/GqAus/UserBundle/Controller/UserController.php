@@ -749,6 +749,13 @@ class UserController extends Controller
         $userId =  $request->get('userId');
         $courseCode = $request->get('courseCode');
         $userService = $this->get('UserService');
+        
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $checkStatus = $userService->getHaveAccessPage($loggedinUserId, $userId, $courseCode, $userRole);
+        if(!$checkStatus)
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+        
         $user = $userService->getUserInfo($userId);
         if(empty($user->getPhone())){
             $user->setPhone(null);
