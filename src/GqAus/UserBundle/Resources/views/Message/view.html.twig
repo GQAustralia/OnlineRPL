@@ -259,7 +259,7 @@
                                        {# <span class="date_time">{{ 'now' | date('h:i A') }}</span>#}
                                 </div>
                                {% if user is defined and user != '' %}
-                                       {{ form_widget(composemsgForm.message|raw, {'attr': {'placeholder': 'Enter Message','msgType':'reply','onclick':'return validateNewMessage($("#compose_toUserName").val(),$("#compose_subject").val(),$("#compose_message").val());'}},{value  : '' }) }}
+                                       {{ form_widget(composemsgForm.message|raw, {'attr': {'placeholder': 'Enter Message','msgType':'reply'}},{value  : '' }) }}
                                 {% endif %}
                         </div>
                       {% endif %}   
