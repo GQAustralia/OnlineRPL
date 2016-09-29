@@ -3996,22 +3996,27 @@ function assignfacvalidate(val,val2)
 {
     if(val == 0)
         $('#update_popup_'+val2).modal('hide');
-    else
-        location.reload();
+    //else
+       // location.reload();
+          $('#fac_tick_'+val2).removeClass('hide').addClass('check'); 
 }
 function assignassvalidate(val,val2)
 {
     if(val == 0)
         $('#update_assessor_'+val2).modal('hide');
-    else
-        location.reload();
+        $('#ass_tick_'+val2).removeClass('hide').addClass('check'); 
+//    else
+//        location.reload();
 }
 function assignrtovalidate(val,val2)
 {   
     if(val == 0)
-        $('#update_rto_'+val2).modal('hide');
-    else
-        location.reload();
+        $('#update_rto_'+val2).modal('hide');        
+    else{        
+        $('#rto_tick_'+val2).removeClass('hide').addClass('check');
+        $('#update_rto_'+val2).modal('hide'); 
+        
+    }
 }
 function fousOnNote(reqId){
 	$("#ui-datepicker-div").hide();
