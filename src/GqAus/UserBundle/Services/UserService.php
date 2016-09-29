@@ -2984,12 +2984,14 @@ class UserService
     {
         $connection = $this->em->getConnection();
         $statement = $connection->prepare("SELECT id, first_name as firstname, last_name as lastname, "
-            . "role_type as roletype, CONCAT(first_name, ' ', last_name) as username FROM user WHERE"
-            . " (role_type = :frole OR role_type = :arole) ORDER BY role_type");
+            . "role_type as roletype,status, CONCAT(first_name, ' ', last_name) as username FROM user WHERE"
+            ." status = 1"
+            . " AND (role_type = :frole OR role_type = :arole) ORDER BY role_type ");
         $statement->bindValue('frole', Facilitator::ROLE);
         $statement->bindValue('arole', Assessor::ROLE);
         $statement->execute();
         $users = $statement->fetchAll();
+       
         return $users;
     }
 
