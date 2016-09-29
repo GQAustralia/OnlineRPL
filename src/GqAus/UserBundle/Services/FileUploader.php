@@ -37,7 +37,7 @@ class FileUploader
         $this->repository = $em->getRepository('GqAusUserBundle:User');
         $this->currentUser = $userService->getCurrentUser();
         $this->container = $container;
-		$this->userService = $userService;
+        $this->userService = $userService;
     }
 
     /**
@@ -162,8 +162,7 @@ class FileUploader
      */
     public function resume($data)
     {
-      
-          $fileInfo = $data->get('fileInfo');
+        $fileInfo = $data->get('fileInfo');
         $fileName = $data->get('fileName');
         $type = 'matrix';
         $otherInfo= $data->get('otherInfo');
@@ -184,9 +183,11 @@ class FileUploader
                 'type' => $otherFiles->getType(),
                 'date' => $now->format('d/m/Y')
             );
-            return json_encode($result);
-        
-       
+
+            $logType = $this->userService->getlogType('4');
+            $this->userService->createUserLog('4', $logType['message']);
+
+            return json_encode($result);       
     }
 
     /**

@@ -1724,6 +1724,8 @@ class UserService
             $fileId->setIsdeleted('1');
             $this->em->flush();
             //return $fileName;
+            $logType = $this->getlogType('16');
+            $this->createUserLog('16', $logType['message']);
         }
     }
 
