@@ -38,18 +38,18 @@ class MessageController extends Controller
         /*View Message Code -- msgcode*/
         if(isset($mid) && $mid!="")
         {
-            if($mid != 'compose' || $mid != 'usernamesbyRoles'){
-                $checkStatus = $messageService->getMessagesAccessPage($loggedinUserId, $mid);
-                if($checkStatus == 0)
-                    return $this->render('GqAusUserBundle:Default:error.html.twig');
-            }
-            
             $messageService = $this->get('UserService');
             $unreadcount = $messageService->getUnreadMessagesCount($userid);
             // getting the last route to check whether it is coming from inbox or sent ot tash
             //look for the referer route
             //For reply mails thread
             $replyId = $this->getRequest()->get('reply_id');
+            if($mid != 'compose' && $mid != 'usernamesbyRoles'){
+                
+                $checkStatus = $messageService->getMessagesAccessPage($loggedinUserId, $mid);
+                if($checkStatus == 0)
+                    return $this->render('GqAusUserBundle:Default:error.html.twig');
+            }
             if(($mid !="compose" && $mid !="usernamesbyRoles")  ||  $replyId != "") {
                if($replyId != "") {
                     $newmid = $mid;
@@ -119,9 +119,7 @@ class MessageController extends Controller
                 $replyId = $this->getRequest()->get('reply_id');
                 //if replyid is there 
                 if ($replyId) {
-//                    $checkStatus = $messageService->getMessagesAccessPage($loggedinUserId, $mid);
-//                    if($checkStatus == 0)
-//                        return $this->render('GqAusUserBundle:Default:error.html.twig');
+
                     $message = $messageService->getMessage($replyId);
                     $newDateCreated = date('d/m/Y', strtotime($message->getCreated()));
                     $repSub = "Re: " . $message->getSubject();
