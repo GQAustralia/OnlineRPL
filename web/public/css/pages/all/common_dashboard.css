@@ -11,6 +11,10 @@
 	.confirm_popup .col-lg-6 {
 		flex: 0 0 50%;
 	}
+	.main_container .body_section .to_do_list .panel-group .panel .panel-body .progres_bar_sec .progress .progress-bar{
+		border-top-right-radius: 13px;
+		border-bottom-right-radius: 34px;
+	}
 }
 .panel-group .panel .panel-heading .panel-title .todo_status span{
     float: left;
