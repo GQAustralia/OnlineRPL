@@ -32,6 +32,12 @@ class FileController extends Controller
             $userName = $toViewUser->getFirstName()." ".$toViewUser->getLastName();
             $courseCode = $request->get('courseCode');
             $userId = $toViewUser->getId();
+            
+            $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+            $checkStatus = $evidenceService->userService->getHaveAccessPage($loggedinUserId, $userId, $courseCode, $userRole);
+            if(!$checkStatus)
+                return $this->render('GqAusUserBundle:Default:error.html.twig');
+            
             //$evidences = array();
         }
         $formattedEvd = $evidenceService->formatEvidencesListToDisplay($evidences);
@@ -62,6 +68,10 @@ class FileController extends Controller
             $courseCode = $request->get('courseCode');
             $userId = $toViewUser->getId();
             //$evidences = array();
+            $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+            $checkStatus = $evidenceService->userService->getHaveAccessPage($loggedinUserId, $userId, $courseCode, $userRole);
+            if(!$checkStatus)
+                return $this->render('GqAusUserBundle:Default:error.html.twig');
         }
         $formattedEvd = $evidenceService->formatEvidencesListToDisplay($evidences);
         return $this->render('GqAusUserBundle:File:mobileRoleWiseView.html.twig', array('evidences' => $formattedEvd['formattedEvidences'], 'evdMapping' => $formattedEvd['evdMapping'], 'courses' => $userCourses,'userName' => $userName,'courseCode' => $courseCode,'userId' => $userId));

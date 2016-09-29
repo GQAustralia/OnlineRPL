@@ -28,7 +28,13 @@ class ApplicantController extends Controller
         $coursesService = $this->get('CoursesService');
         $user = $userService->getUserInfo($uid);
         $results = $coursesService->getCoursesInfo($qcode);
-       
+     
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $checkStatus = $userService->getHaveAccessPage($loggedinUserId, $uid, $qcode, $userRole);
+        if(!$checkStatus)
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+        
         if (!empty($user) && isset($results['courseInfo']['id']) && isset($results['courseInfo']['Units'])) {
             $applicantInfo = $userService->getApplicantInfo($user, $qcode);
             $role = $this->get('security.context')->getToken()->getUser()->getRoles();
@@ -206,6 +212,11 @@ class ApplicantController extends Controller
     {
         error_reporting(0);
         $user = $this->get('UserService')->getUserInfo($uid);
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $checkStatus = $this->get('UserService')->getHaveAccessPage($loggedinUserId, $uid, $qcode, $userRole);
+        if(!$checkStatus)
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
         $evidenceObj = $this->get('EvidenceService');
         $results = $this->get('CoursesService')->getCoursesInfo($qcode);
         $courseEvidences = $evidenceObj->getUserCourseEvidences($uid, $qcode);
@@ -274,6 +285,12 @@ class ApplicantController extends Controller
     {
         error_reporting(0);
         $user = $this->get('UserService')->getUserInfo($uid);
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $checkStatus = $this->get('UserService')->getHaveAccessPage($loggedinUserId, $uid, $qcode, $userRole);
+        if(!$checkStatus)
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+        
         $fileUploderService = $this->get('gq_aus_user.file_uploader');
         $evidenceObj = $this->get('EvidenceService');
         $evidences = $evidenceObj->getUserCourseEvidences($uid, $qcode);
@@ -457,8 +474,12 @@ class ApplicantController extends Controller
         $userService = $this->get('UserService');
         $coursesService = $this->get('CoursesService');
         $evidenceService = $this->get('EvidenceService');
-        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $checkStatus = $userService->getHaveAccessPage($loggedinUserId, $uid, $qcode, $userRole);
+        if(!$checkStatus)
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+        
         $user = $userService->getUserInfo($uid);
         
         $results = $coursesService->getUnitInfo($unitcode);
@@ -506,8 +527,12 @@ class ApplicantController extends Controller
         $userService = $this->get('UserService');
         $coursesService = $this->get('CoursesService');
         $evidenceService = $this->get('EvidenceService');
-        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $checkStatus = $userService->getHaveAccessPage($loggedinUserId, $uid, $qcode, $userRole);
+        if(!$checkStatus)
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+        
         $user = $userService->getUserInfo($uid);
         
         $results = $coursesService->getUnitInfo($unitcode);
