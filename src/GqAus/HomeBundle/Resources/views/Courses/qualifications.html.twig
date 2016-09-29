@@ -199,7 +199,8 @@
                         <div class="panel panel-default">
                             <div class="panel-heading clearfix">
                                 <h4 class="panel-title">
-                                    <span>{{coreUnitsCount}} CORE UNITS {% if coreSubmitted >= 1 and coreRemaining < coreUnitsCount and coreRemaining > 0 %} - <strong>{{coreRemaining}} REMAINING </strong> {% endif %}</span>
+                                    <span>{{coreUnitsCount}} CORE UNITS {% if coreSubmitted >= 1 and coreRemaining < coreUnitsCount and coreRemaining > 0 %} - <strong>{{coreRemaining}} REMAINING </strong>
+                                        {% endif %}</span>
                                     <a class="btn-accordion collapsed" data-toggle="collapse" data-parent="#accordion" data-collapse="parent" href="#collapseTwo-{{courseCode}}">
                                         <i class="material-icons">expand_more</i>
                                     </a>
@@ -225,13 +226,14 @@
                                                     <div class="panle_body_content">
                  {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}               
-                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
+                {% if approvalText|length > 0 and approvalText != '0' %}
+                                                        <p> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
+                                                        <a class="qualification-cta" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}"></a>
                                                         <p> <span class="tag-id">{{units.id}}</span> </p>
-                                                        <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
+                                                        <p>{{units.name}}</p>
                                                     </div>
-                                                    <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
-                                                        <i class="material-icons">chevron_right</i>
-                                                    </a>
+                                                    <div class="user-redirect-arrow"><span><i class="material-icons">chevron_right</i></span></div>
+                                                    <!--span><i class="material-icons">chevron_right</i></span-->
                                                 </div>
                                             </div>
                                             <div id="nested-collapseSeven" class="panel-collapse collapse">
@@ -328,6 +330,7 @@
                 {% set newuserblock = 1 %} 
             {% endif %}
                                         <div class="panle_body_content unit-selection border-bottom clearfix">
+                                            <a class="qualification-cta" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}"></a>
                                             <i class="material-icons info">info</i>
                                             <div class="tag-copy">
                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
@@ -335,7 +338,7 @@
 
                 {% if approvalText|length > 0 and approvalText != '0' %}<p id="sub_{{units.id}}"> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
                                                 <p> <span class="tag-id">{{units.id}}</span> </p>
-                                                <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>                                        
+                                                <p>{{units.name}}</p>                                      
 
                                             </div>
              {% if totalCheckedCount >= electiveUnitCountRequired%}
@@ -344,9 +347,7 @@
 
                                             </div>
                                             <div class="user-redirect-arrow">
-                                                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
-                                                    <i class="material-icons">chevron_right</i>
-                                                </a>
+                                                <span><i class="material-icons">chevron_right</i></span>
                                             </div>
             {% else %}
                                             <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
@@ -354,9 +355,9 @@
 
                                             </div>
                                             <div class="user-redirect-arrow hide">
-                                                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
+                                                <span>
                                                     <i class="material-icons">chevron_right</i>
-                                                </a>
+                                                </span>
                                             </div>
             {% endif %}
 
