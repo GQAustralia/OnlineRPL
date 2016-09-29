@@ -131,18 +131,17 @@ var s3uploadPi = null;
                 datas.fileInfo = obj.fileInfo;
                 datas.otherInfo = obj.otherInfo;
                 var l = datas.otherInfo.fileNum;
+                
                 $.ajax({
                     type: "POST",
                     url: base_url + "uploadProfilePic/"+userId,
                     data: datas,
                     dataType:'json',
-                    success: function(res) {                       
-                       // $('#userProfile').html('<div class="modal-title" id="myModalLabel">Uploaded Successfully</div><div class="btn_section"><button class="btn btn_red" onclick="javascript:location.reload();">OK</button></div>');
-                       // $('#myModal').modal('show');
-//                       $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><h2>Profile Image Uploaded successfully!</h2></div>');
-//                       location.reload();
-								$("#ajax-profile-error").hide();
-                       $('#user_profile_image').attr('src',amazon_link+'user-'+userId+'/'+obj.uploadedName);                    
+                    success: function(res) {
+                    $('#resume_msg').hide();
+                    $('#change_address_error').hide();
+		    $("#ajax-profile-error").hide();
+                    $('#user_profile_image').attr('src',amazon_link+'user-'+userId+'/'+obj.uploadedName);                    
                     $("#profile_suc_msg2").show();
                     $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>Profile Image updated successfully!</span></div>');
                     $("#ajax-profile-error").hide();

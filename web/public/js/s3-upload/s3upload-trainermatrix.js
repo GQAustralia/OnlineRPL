@@ -103,7 +103,7 @@ var s3uploadTm = null;
                 datas.fileName = obj.uploadedName;
                 datas.fileInfo = obj.fileInfo;
                 datas.otherInfo = obj.otherInfo;
-                var l = datas.otherInfo.fileNum;
+                var l = datas.otherInfo.fileNum;                          
                var date= new Date();
                var todayDate =   ("0" + date.getDate().toString()).substr(-2) + "/" + ("0" + (date.getMonth() + 1).toString()).substr(-2) + "/" + (date.getFullYear().toString()).substr(2);
                var fsize = bytesToSize(datas.fileInfo['size'])
@@ -115,6 +115,9 @@ var s3uploadTm = null;
                     success: function(res) {                       
                        // $('#userProfile').html('<div class="modal-title" id="myModalLabel">Uploaded Successfully</div><div class="btn_section"><button class="btn btn_red" onclick="javascript:location.reload();">OK</button></div>');
                        // $('#myModal').modal('show');
+                       $('#profile_suc_msg2').hide();                
+                       $('#change_address_error').hide();      
+                      $("#resume_msg").show();      
                        $("#resume_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>File Uploaded successfully!</span></div>');
                        
                        var html = ' <div class="file_info">\n\

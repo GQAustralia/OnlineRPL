@@ -1475,9 +1475,8 @@ function validateAddress()
     
     $("#change_address_error").hide();
     $("#profile_suc_msg2").hide();
-    $("#profile_suc_msg").hide();
-   
-   // $("#profile_suc_msg2").hide();
+    $("#profile_suc_msg").hide();   
+   // $("#resume_msg").hide();
     var userType = $("#hdn-type").val(); //0: edit profile, 1: edit user, 2: add user
     regexp = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
     country = /^[a-zA-Z\s]+$/;
