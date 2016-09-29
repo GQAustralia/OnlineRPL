@@ -3487,9 +3487,8 @@ class UserService
                 if (!empty($cAssessor)) {
                          $toEmail = $courseObj->getAssessor()->getEmail();
                          $toId = $courseObj->getAssessor()->getId();
-                        
-                        $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#', '#applicationUrl#');
-                        $roleMsgReplace = array($courseObj->getAssessor()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername(), $this->container->getParameter('applicationUrl'));
+                        $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#role#', '#fromUserName#', '#applicationUrl#', '#status#');
+                        $roleMsgReplace = array($courseObj->getAssessor()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), 'you', $courseObj->getFacilitator()->getUsername(), $this->container->getParameter('applicationUrl'), $statusList[$courseStatus]['status']);
                         $roleMessageBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('msg_portfolio_update_con'));
                         $roleMailBody = str_replace($msgSearch, $roleMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
                 } else {
