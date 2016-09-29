@@ -17,7 +17,7 @@ security:
         - { path: ^/evidences, roles: [ROLE_FACILITATOR] } 
         - { path: ^/userprofile, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/applicantDetails/.*, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
-        - { path: ^/courseunitDetails/.*, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
+        - { path: ^/courseunitDetails/.*, roles: [ROLE_APPLICANT,ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/courseUnitMobDetails/.*, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/applicants, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR, ROLE_RTO, ROLE_MANAGER, ROLE_SUPERADMIN] }
         - { path: ^/reminder, roles: [ROLE_FACILITATOR, ROLE_ASSESSOR] }
