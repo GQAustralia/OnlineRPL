@@ -1,5 +1,5 @@
     {% set userId = app.security.getToken().getUser().getId() %} 
-<div class="modal fade profile_popup" id="facProfile{{courseCode}}" role="dialog">
+<div class="modal fade profile_popup qua_fac_popup" id="facProfile{{courseCode}}" role="dialog">
     <div class="modal-dialog"><!-- Modal content-->
         <div class="modal-content">
             <div class="modal-body">
@@ -17,7 +17,7 @@
                              {% if courses.facilitator.firstName is defined %}
                                 <h5 class="name"><strong>{{courses.facilitator.firstName}} {{courses.facilitator.lastName}}</strong></h5>
                                {% endif %}
-                                <span class="field"> Facilitator</span>
+                                <span class="field"> Customer Service Agent </span>
                         </div>
                     </div>
                     {#<div class="count">
