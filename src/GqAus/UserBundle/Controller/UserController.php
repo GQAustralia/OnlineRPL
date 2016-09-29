@@ -750,7 +750,12 @@ class UserController extends Controller
         $courseCode = $request->get('courseCode');
         $userService = $this->get('UserService');
         $user = $userService->getUserInfo($userId);
-        if(empty($user->getPhone()))  $user->setPhone(null);
+        if(empty($user->getPhone())){
+            $user->setPhone(null);
+        }else{
+            $userPhone = str_replace('-', '', $user->getPhone());
+            $user->setPhone($userPhone);
+        }
         if(empty($user->getContactPhone()))  $user->setContactPhone(null);
         if(empty($user->getCeophone()))  $user->setCeophone(null);
         $currentIdPoints = $userService->getIdPoints($user);
