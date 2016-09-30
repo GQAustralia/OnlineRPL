@@ -3995,17 +3995,22 @@ function assignfacvalidate(val,val2)
 {
     if(val == 0)
         $('#update_popup_'+val2).modal('hide');
-    //else
-       // location.reload();
-          $('#fac_tick_'+val2).removeClass('hide').addClass('check'); 
+    else
+    {
+        $('#fac_tick_'+val2).removeClass('hide').addClass('check'); 
+        $('#update_popup_'+val2).modal('hide');
+    }
 }
 function assignassvalidate(val,val2)
 {
     if(val == 0)
         $('#update_assessor_'+val2).modal('hide');
-        $('#ass_tick_'+val2).removeClass('hide').addClass('check'); 
-//    else
-//        location.reload();
+         
+    else
+    {
+        $('#ass_tick_'+val2).removeClass('hide').addClass('check');
+        $('#update_assessor_'+val2).modal('hide');
+    }
 }
 function assignrtovalidate(val,val2)
 {   
