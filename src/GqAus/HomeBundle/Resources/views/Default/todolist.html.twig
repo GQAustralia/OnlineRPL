@@ -58,10 +58,10 @@
                                             </span>
                                         </a>
                                     {% else %}
-										<a class="clearfix"> 
-											<span class="list_icon"><i class="material-icons message">{{todoIcon}}</i></span>
-											<span class="content bold" title="{{ todoList.message }}">{{ todoList.message }}</span>
-										</a>	
+                                            <a class="clearfix tool_tip" title="{{ todoList.message }}">
+                                                <span class="list_icon"><i class="material-icons message">{{todoIcon}}</i></span>
+                                                <span class="content bold">{{ todoList.message }}</span>
+                                            </a>
                                     {% endif %}
                                    {% if daycount > 2 %}
                                         <span class="days_count {{counterClass}}">{{daycount}}d{% if daycount > 6 %}!{% endif %}</span>
