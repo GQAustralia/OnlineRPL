@@ -4550,6 +4550,9 @@ class UserService
         }
         return $workSpan;
     }
+    /*
+     * 
+     */
     public function getApplicantCourses($userId)
     {
     
@@ -4588,7 +4591,7 @@ class UserService
                     $columnVal = $courseObj->getUser()->getId();
                     break;
                 default :
-                    $columnVal = $courseObj->getUser()->getId();
+                    $columnVal = $loggedInUser;
             }
             if($columnVal == $loggedInUser)
                 return true;
