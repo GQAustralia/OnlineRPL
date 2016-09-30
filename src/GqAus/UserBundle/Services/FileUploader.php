@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use GqAus\UserBundle\Entity\UserIds;
 use GqAus\UserBundle\Entity\OtherFiles;
 use Gaufrette\Filesystem;
+use GqAus\UserBundle\Entity\UserCourse\File;
 use \DateTime;
 
 class FileUploader
@@ -124,6 +125,42 @@ class FileUploader
         $logType = $this->userService->getlogType('2');
         $this->userService->createUserLog('2', $logType['message']);		
         return $fileNames;
+    }
+    /**
+     * function to save enrollment form.
+     * @param array $data
+     *  return array
+     */
+    public function uploadEnrollmentForm($data)
+    {   
+        $fileInfo = $data->get('fileInfo');
+        $fileName = $data->get('fileName');
+        $otherInfo= $data->get('otherInfo');
+        $size = $fileInfo['size'];
+        $mimeType = $fileInfo['type'];
+        $otherInfo = $data->get('otherInfo');        
+       // $size = $this->fileSize($size);
+        $pos = strpos($mimeType, '/');
+        $type = substr($mimeType, 0, $pos); 
+        $typeForm = 'EnrollmentForm';         
+        $userEnrollForms = $this->em->getRepository('GqAusUserBundle:UserCourse\File');
+        $userCourse = $this->em->getRepository('GqAusUserBundle:UserCourses');
+        $courseID = $userCourse->findOneBy(array('courseCode' => $otherInfo['userCourseId'],'user' => $otherInfo['userId']));  //dump($courseID);  exit;   
+        $userEnrollForms->setCourse($courseID);
+        $userEnrollForms->setType('EnrollmentForm');
+        $userEnrollForms->setPath($fileName);
+                    
+        $this->em->persist($userEnrollForms);
+        $this->em->flush();
+        $now = new DateTime('now');
+        $result = array(
+            'id' =>   $userEnrollForms->getId(),
+            'usercourse_id' => '36',          
+            'type' => $typeForm,
+            'path' => $fileName           
+        );
+        return json_encode($result);
+       
     }
     public function uploadImgFiles($data)
     {       

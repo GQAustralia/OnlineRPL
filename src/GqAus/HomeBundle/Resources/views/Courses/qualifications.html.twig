@@ -17,13 +17,13 @@
         {% set counter = '' %}
         {% set counterArr = 0 %}
         {% set awaitngVal = '' %}
-        {% for key, courses in userCourses %}       
+        {% for key, courses in userCourses %}            
             {% set userRole = app.security.getToken().getUser().getRoles() %}
             {% set userId = app.security.getToken().getUser().getId() %} 
             {% set userId = app.security.getToken().getUser().getId() %} 
             {% set flagCurrent = '1' %}
             {% set courseCode = courses.getCourseCode()%}
-            {% set courseId = courses.getId() %} 
+            {% set courseId = courses.getId() %}
             {% set courseInfo = courses_service.getUserCoursesInfo(courseCode)%}       
             {% if courseInfo.courseInfo == "No records found" %}
             {% elseif courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
@@ -126,10 +126,12 @@
                                                         <span class="right"><a href="{{enrollment_form}}" target="_blank"><i class="material-icons">file_download</i></a></span>
                                                     </div>
                                                    {% if uploaded_enrollment_form == "" %}                                     
-                                                        <form name="Id_files" id="Id_files" method="POST" action="idfileupload" enctype="multipart/form-data">                 
+                                                        <form name="enroll_files" id="enroll_files" method="POST" enctype="multipart/form-data"> 
+                                                            <input type="hidden" name="course_id" id="course_id" value="{{courseCode}}">
+                                                            <input type="hidden" name="user_id" id="user_id" value="{{userId}}">
                                                             <div class="panel-content">
                                                                 <div class="add_section " role="tabpanel">
-                                                                    <input type="file" id="userfiles_browse" name="userfiles[browse]" class="hidden uploadFile">
+                                                                    <input type="file" id="user_enroll_browse" name="user_enroll_browse" class="hidden uploadFile">
                                                                     <span class="button uploadTrigger" id="idfileUpload"><i class="material-icons">add</i></span><strong>Add ID</strong>
                                                                 </div>
                                                             </div>
@@ -395,8 +397,8 @@
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('public/js/roundslider.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/js/s3-upload/s3upload.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/js/s3-upload/s3upload-profileid.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/s3-upload/s3enrollupload.js') }}"></script>
+    
     <script>
         $(function() {
             function getTheSliderValues() {

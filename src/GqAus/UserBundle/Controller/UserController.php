@@ -196,7 +196,21 @@ class UserController extends Controller
             exit;
         }
     }
-
+ /**
+     * Function to add UserEnrollment Form
+     * @param object $request
+     * return string
+     */
+    public function addEnrollmentFormAction(Request $request)
+    {
+        if ($request->isMethod('POST')) {            
+            $result = $this->get('gq_aus_user.file_uploader')->uploadEnrollmentForm($request);
+            if ($result) {
+                echo $result;
+            }
+            exit;
+        }
+    }
     /**
      * Function to delete Id files
      */

@@ -1,11 +1,11 @@
 <?php
 
 namespace GqAus\UserBundle\Entity\UserCourse;
-
+use Doctrine\ORM\Mapping as ORM;
 /**
  * File
  */
-class File
+class File 
 {
 
 
@@ -53,7 +53,18 @@ class File
     {
         return $this->path;
     }
-    
+    /**
+     * Set type
+     *
+     * @param \GqAus\UserBundle\Entity\UserCourses $course
+     * @return UserCourses
+     */
+    public function setCourse(\GqAus\UserBundle\Entity\UserCourses $course = null)
+    {
+        $this->course = $course;
+
+        return $this;
+    }
     /**
      * 
      * @return \GqAus\UserBundle\Entity\UserCourses
@@ -62,7 +73,15 @@ class File
     {
         return $this->course;
     }
-
+     /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
     /**
      * Set type
      *
