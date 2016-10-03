@@ -251,6 +251,7 @@
                         {% endif %}
                     {% endif %}
                     {% set colsLng = user_service.separateTabsBasedOnroleWise(userRole[0]) %}
+                    {% if ('ROLE_SUPERADMIN' not in userRole)%}
                                 <div class="gqa-btn-group border-dark">
                                     <div class="row no-gutter flex-fix">
                                         <div class="col-xs-{{colsLng}} col-sm-{{colsLng}}">
@@ -295,13 +296,14 @@
                                     {% if ('ROLE_ASSESSOR' in userRole) %}
                                         <div class="col-xs-{{colsLng}} col-sm-{{colsLng}}">
                                            <div class="btn">
-											   <a {%if (courseStatus == '2' or courseStatus =='13' or courseStatus == '14' )%}href="javascript:void(0);" id="request-cc" data-courseStatus="10"{%else%} class='disabled' {%endif%}>
-											   <i class="material-icons">call</i>CC</a>
-										   </div>
+                                                <a {%if (courseStatus == '2' or courseStatus =='13' or courseStatus == '14' )%}href="javascript:void(0);" id="request-cc" data-courseStatus="10"{%else%} class='disabled' {%endif%}>
+                                                <i class="material-icons">call</i>CC</a>
+                                           </div>
                                        </div>
                                     {% endif %}
                                     </div>
                                 </div>
+                            {% endif %}
                             </div>
                         </div>
                     </div>
