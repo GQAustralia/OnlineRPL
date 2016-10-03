@@ -369,7 +369,11 @@ $("body").on('click', '#download_profile', function() {
     window.open(base_url + "downloadFiles/" + courseCode + "/" + userId);
     window.open(base_url + "zipFiles/" + courseCode + "/" + userId);
 });
-
+$("body").on('click', '#signoff_sheet', function() {
+    userId = $(this).attr("userid");
+    courseCode = $(this).attr("course_code");
+    window.open(base_url + "signOffSheet/" + courseCode + "/" + userId);
+});
 $("#download_matrix").click(function() {
     window.open(base_url + "downloadMatrix");
 });

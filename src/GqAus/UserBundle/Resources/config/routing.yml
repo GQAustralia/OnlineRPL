@@ -304,4 +304,6 @@ checkUserNameExistOrNot:
 validateUser:
     path:     /validateUser/{loginToken}
     defaults: { _controller: GqAusUserBundle:User:validateUser }
-
+signOffSheet:
+    path:     /signOffSheet/{courseCode}/{userId}
+    defaults: { _controller: GqAusUserBundle:Applicant:signOffSheet }

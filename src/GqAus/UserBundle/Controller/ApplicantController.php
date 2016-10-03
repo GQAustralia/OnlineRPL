@@ -331,6 +331,45 @@ class ApplicantController extends Controller
             exit;
         }
     }
+    /**
+     * Function to get the 
+     * @param type $userId
+     * @param type $courseCode
+     */
+    public function signOffSheetAction($courseCode, $userId)
+    {
+        error_reporting(0);
+        $user = $this->get('UserService')->getUserInfo($userId);
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $checkStatus = $this->get('UserService')->getHaveAccessPage($loggedinUserId, $userId, $courseCode, $userRole);
+        if(!$checkStatus)
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+        $results = $this->get('CoursesService')->getCoursesInfo($courseCode);
+        if (!empty($user) && isset($results['courseInfo']['id'])) {
+            $results['user'] = $user;
+            $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $courseCode);
+            $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($userId, $courseCode);
+            $results['projectPath'] = $this->get('kernel')->getRootDir() . '/../';
+            $content = $this->renderView('GqAusUserBundle:Applicant:signOffSheet.html.twig', array_merge($results, $applicantInfo));
+            $fileTemp = $this->get('kernel')->getRootDir() . '/logs/temp_' . time() . '.pdf';
+            $outputFileName = str_replace(" ", "-", $user->getUserName()) . '_' .str_replace(' ', '-', $results['courseInfo']['name']) . '_' . time() . '.pdf';
+            $html2pdf = $this->get('html2pdf_factory')->create('P', 'A4', 'en', true, 'UTF-8', array(10, 15, 10, 15));
+            $vuehtml = $this->getRequest()->get('vuehtml');
+            $html2pdf->writeHTML($content, isset($vuehtml));
+            $html2pdf->Output($fileTemp, 'F');
+            $response = new Response( );
+            $response->headers->set("Content-type", 'application/pdf');
+            $response->headers->set("Content-Disposition", "attachment; filename=$outputFileName");
+            $response->send();
+            $response->setContent(readfile("$fileTemp"));
+            unlink($fileTemp);
+            return $response;
+        } else {
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+        }
+        
+    }
 
     /**
      * Function to view evidence
