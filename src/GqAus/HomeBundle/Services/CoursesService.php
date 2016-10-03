@@ -540,12 +540,13 @@ class CoursesService
      * Function to get elective units
      * @param int $userId
      * @param string $courseCode
+     * @param string $type
      * return array
      */
-    public function getElectiveUnits($userId, $courseCode)
+    public function getElectiveUnits($userId, $courseCode, $type='elective')
     {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
-        $userCourseUnits = $reposObj->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'status' => '1'));
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'status' => '1', 'type' => $type));
         $courseUnits = array();
         if (!empty($userCourseUnits)) {
             foreach ($userCourseUnits as $units) {

@@ -254,7 +254,7 @@ class ApplicantController extends Controller
             $results['user'] = $user;
             $results['userIdFiles'] = $user->getIdfiles();
             $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $qcode);
-            $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode);
+            $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($uid, $qcode, 'elective');
             $results['projectPath'] = $this->get('kernel')->getRootDir() . '/../';
             $content = $this->renderView('GqAusUserBundle:Applicant:download.html.twig', array_merge($results, $applicantInfo));
             $fileTemp = $this->get('kernel')->getRootDir() . '/logs/temp_' . time() . '.pdf';
@@ -349,7 +349,9 @@ class ApplicantController extends Controller
         if (!empty($user) && isset($results['courseInfo']['id'])) {
             $results['user'] = $user;
             $applicantInfo = $this->get('UserService')->getApplicantInfo($user, $courseCode);
-            $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($userId, $courseCode);
+            $results['electiveUnits'] = $this->get('CoursesService')->getElectiveUnits($userId, $courseCode, 'elective');
+            $results['coreUnits'] = $this->get('CoursesService')->getElectiveUnits($userId, $courseCode ,'core');
+            $results['courseDetails'] = $this->get('CoursesService')->getCourseDetails($courseCode, $userId);
             $results['projectPath'] = $this->get('kernel')->getRootDir() . '/../';
             $content = $this->renderView('GqAusUserBundle:Applicant:signOffSheet.html.twig', array_merge($results, $applicantInfo));
             $fileTemp = $this->get('kernel')->getRootDir() . '/logs/temp_' . time() . '.pdf';

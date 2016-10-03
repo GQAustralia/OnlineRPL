@@ -39,16 +39,40 @@
             </tr>
         </table>
         <p style="margin-top:3px;">I have assessed and deem the above named student to be competent in the units listed below.</p>
-        <p style="margin-bottom:3px;"><strong>Required units 8 = 2 Core + 6 Electives</strong></p>
+        <p style="margin-bottom:3px;"><strong>Required units {{coreUnits|length + electiveUnits|length}} = {{coreUnits|length}} Core + {{electiveUnits|length}} Elective</strong></p>
         <table cellpadding="4" cellspacing="0" border="0" width="100%">
+            <tr style="background-color:#F8E555;border:2px solid #000;">
+                    <th style="width: 16%;padding:10px 5px;">Unit Code</th>
+                    <th style="width: 70%;padding:10px 5px;">Unit Title</th>
+                    <th style="width: 10%;padding:10px 5px;">Result</th>
+            </tr>  
                 {% if courseInfo %}
                     {% if courseInfo.Units %}
                         {% if courseInfo.Units.Unit %}
-                            <tr style="background-color:#F8E555;border:2px solid #000;">
-								<th style="width: 40%;padding:10px 5px;">Unit Code</th>
-								<th style="width: 50%;padding:10px 5px;">Unit Title</th>
-								<th style="width: 10%;padding:10px 5px;">Result</th>
-							</tr>  
+                            {% set flagCore = '0' %}
+                            {% for key, eUnits in courseInfo.Units.Unit %}
+                                {% if eUnits.type == 'core' %}
+                                    {% set unitId = eUnits.id %}
+                                    {% if unitId|trim in coreUnits|keys %} 
+                                        {% set flagCore = '1' %}
+                                        <tr>
+                                            <td style="padding:10px 5px;">{{eUnits.id}}</td>
+                                            <td style="padding:10px 5px;">{% spaceless %}{{eUnits.name|trim}}{% endspaceless %}</td>
+                                            <td style="padding:10px 5px;">RPL</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if flagCore == '0' %}
+                                    <tr><td style="padding:10px;border:1px solid #e7ecee;width:96%;" colspan='3'>No Core Units found</td></tr>
+                            {% endif %}       
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if courseInfo %}
+                    {% if courseInfo.Units %}
+                        {% if courseInfo.Units.Unit %}
+                            <tr><td colspan="3" style="padding:10px 5px;font-weight:bold;">Elective Units</td></tr>    
                             {% set flagElective = '0' %}
                             {% for key, eUnits in courseInfo.Units.Unit %}
                                 {% if eUnits.type == 'elective' %}
@@ -64,7 +88,7 @@
                                 {% endif %}
                             {% endfor %}
                             {% if flagElective == '0' %}
-                                    <tr><td style="padding:10px;border:1px solid #e7ecee;width:100%;text-align:center;">No Elective Units found</td></tr>
+                                    <tr><td style="padding:10px;border:1px solid #e7ecee;width:100%;text-align:center;" colspan='3'>No Elective Units found</td></tr>
                             {% endif %}       
                         {% endif %}
                     {% endif %}
@@ -72,10 +96,18 @@
         </table>
         <p style="text-align: center;"><em><strong>Legend: </strong>C- Competent, CT- Credit Transfer, RPL- Recognition of Prior Learning</em></p>
         <br/><br/>
-        <table>
+        <table cellpadding="4" cellspacing="0" border="0" width="100%">
             <tr><td style="border-bottom: 1px solid #000;">Assessor Feedback:</td></tr>
+        </table>    
+        <br/>
+        <table cellpadding="4" cellspacing="0" border="0" width="100%">
             <tr><td style="border-bottom: 1px solid #000;">Assessor Signature:</td></tr>
-            <tr><td style="border-bottom: 1px solid #000;">Date Assessed:</td></tr>
         </table>
+        <br/>
+        {% if courseDetails.assessorDate is defined and courseDetails.assessorDate is not null%}
+        <table cellpadding="4" cellspacing="0" border="0" width="100%">
+            <tr><td style="border-bottom: 1px solid #000;">Date Assessed:{{ courseDetails.assessorDate|date("m/d/Y") }}</td></tr>
+        </table>
+        {%endif%}
     </div>
 </page>
