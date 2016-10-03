@@ -5,8 +5,8 @@ namespace GqAus\UserBundle\Services;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use GqAus\UserBundle\Entity\UserIds;
 use GqAus\UserBundle\Entity\OtherFiles;
+use GqAus\UserBundle\Entity\CourseFile;
 use Gaufrette\Filesystem;
-use GqAus\UserBundle\Entity\UserCourse\File;
 use \DateTime;
 
 class FileUploader
@@ -143,10 +143,10 @@ class FileUploader
         $pos = strpos($mimeType, '/');
         $type = substr($mimeType, 0, $pos); 
         $typeForm = 'EnrollmentForm';         
-        $userEnrollForms = $this->em->getRepository('GqAusUserBundle:UserCourse\File');
+        $userEnrollForms = new CourseFile();
         $userCourse = $this->em->getRepository('GqAusUserBundle:UserCourses');
         $courseID = $userCourse->findOneBy(array('courseCode' => $otherInfo['userCourseId'],'user' => $otherInfo['userId']));  //dump($courseID);  exit;   
-        $userEnrollForms->setCourse($courseID);
+        $userEnrollForms->setCourseVal($courseID);
         $userEnrollForms->setType('EnrollmentForm');
         $userEnrollForms->setPath($fileName);
                     

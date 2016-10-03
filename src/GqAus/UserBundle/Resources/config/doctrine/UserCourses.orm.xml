@@ -35,7 +35,7 @@
         </many-to-one>
         <one-to-many field="reminder" target-entity="GqAus\UserBundle\Entity\Reminder" mapped-by="course" />
         
-        <one-to-many field="files" target-entity="GqAus\UserBundle\Entity\UserCourse\File" mapped-by="course" />
+        <one-to-many field="files" target-entity="GqAus\UserBundle\Entity\CourseFile" mapped-by="courseVal" />
         
     </entity>
 </doctrine-mapping>
