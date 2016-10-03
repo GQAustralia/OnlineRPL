@@ -1,0 +1,80 @@
+<page backtop="40mm" style="padding:0;color:#5e5e5e;font-size:12px;">
+    <page_header>
+          <table class="page_header">
+                <tr>
+                    <td style="width: 100%; text-align: left">
+                        <img src="{{ projectPath }}web/public/images/logo.png" alt="GQ Australia" />
+                    </td>
+                </tr>
+            </table>
+    </page_header>   
+      <div>
+        <table cellpadding="4" cellspacing="0" border="0" width="100%">
+            <tr><td style="font-size:18px;">Personal Details</td></tr>
+            <tr><td height="5"></td></tr>
+            <tr><td style="width:96%;">
+                    {% if user %}
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                        <tr>
+                            <td style="border:1px solid #e7ecee;padding:10px;font-weight:bold;width:20%;">Student Name</td>
+                            <td style="border:1px solid #e7ecee;padding:10px; border-left:none;width:80%;">{{userName}}</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #e7ecee;padding:10px; border-top:none;font-weight:bold;">Qualification Code</td>
+                            <td style="border-bottom:1px solid #e7ecee;border-right:1px solid #e7ecee;padding:10px;">{{courseInfo.id}}</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #e7ecee;padding:10px; border-top:none;font-weight:bold;">Qualification Name</td>
+                            <td style="border-bottom:1px solid #e7ecee;border-right:1px solid #e7ecee;padding:10px;">{{courseInfo.name}}</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #e7ecee;padding:10px; border-top:none;font-weight:bold;">Specialisation</td>
+                            <td style="border-bottom:1px solid #e7ecee;border-right:1px solid #e7ecee;padding:10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #e7ecee;padding:10px; border-top:none;font-weight:bold;">Assessor Name</td>
+                            <td style="border-bottom:1px solid #e7ecee;border-right:1px solid #e7ecee;padding:10px;">{{assessorName}}</td>
+                        </tr>
+                    </table>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr><td height="20"></td></tr>
+        </table>
+        <p style="margin-top:3px;">I have assessed and deem the above named student to be competent in the units listed below.</p>
+        <p style="margin-bottom:3px;"><strong>Required units 8 = 2 Core + 6 Electives</strong></p>
+        <table cellpadding="4" cellspacing="0" border="0" width="100%">
+                {% if courseInfo %}
+                    {% if courseInfo.Units %}
+                        {% if courseInfo.Units.Unit %}
+                            <tr><td style="font-size:16px;width:96%;padding:6px;">Elective Units</td></tr>    
+                            {% set flagElective = '0' %}
+                            {% for key, eUnits in courseInfo.Units.Unit %}
+                                {% if eUnits.type == 'elective' %}
+                                    {% set unitId = eUnits.id %}
+                                    {% if unitId|trim in electiveUnits|keys %} 
+                                        {% set flagElective = '1' %}
+                                        <tr>
+                                            <td style="font-size:14px;width:20%;padding:6px;">{{eUnits.id}}</td>
+                                            <td style="font-size:14px;width:66%;padding:6px;">{% spaceless %}{{eUnits.name|trim}}{% endspaceless %}</td>
+                                            <td style="font-size:14px;width:10%;padding:6px;">RPL</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if flagElective == '0' %}
+                                    <tr><td style="padding:10px;border:1px solid #e7ecee;width:96%;">No Elective Units found</td></tr>
+                            {% endif %}       
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+        </table>
+        <p style="text-align: center;"><em><strong>Legend: </strong>C- Competent, CT- Credit Transfer, RPL- Recognition of Prior Learning</em></p>
+        <br/><br/>
+        <table>
+            <tr><td>Assessor Feedback:</td></tr>
+            <tr><td>Assessor Signature:</td></tr>
+            <tr><td>Date Assessed:</td></tr>
+        </table>
+    </div>
+</page>
