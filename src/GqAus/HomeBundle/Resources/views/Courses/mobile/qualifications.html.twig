@@ -268,7 +268,7 @@
                 {% set newuserblock = 1 %} 
             {% endif %}
         <div class="panle_body_content unit-selection border-bottom clearfix">
-            <a class="qualification-cta" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}">{{units.name}}</a>
+            <a class="qualification-cta" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}"></a>
             <i class="material-icons info">info</i>
             <div class="tag-copy">
                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
