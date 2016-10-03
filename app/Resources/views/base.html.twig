@@ -108,7 +108,7 @@
                                 {%if not is_mobile() %}
                                     <li class="profile">
                                         <a href="#"><img class="profile-img" src="{{ asset('public/images/PROFILE.png') }}" alt="profile" /><i class="material-icons">expand_more</i></a>
-                                        <ul class="hide">
+                                        <ul class="hide {% if ('ROLE_SUPERADMIN' in roles  and not is_mobile())%}admin-profile{%endif%}">
                                             {% if ('ROLE_SUPERADMIN' in roles  and not is_mobile())  %}
                                                 <li><a class="{% if app.request.attributes.get('_route') == 'userslog' %} active {% endif %}" href="{{ app.request.baseUrl }}/userslog"><!--i class="material-icons">book</i--><span>Logs</span></a></li>
                                                 <li><a class="{% if app.request.attributes.get('_route') == 'reports' %} active {% endif %}" href="{{ app.request.baseUrl }}/reports"><!--i class="material-icons">assignment</i--><span>Reports</span></a></li>
