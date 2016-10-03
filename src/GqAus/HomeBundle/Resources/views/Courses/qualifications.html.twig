@@ -120,11 +120,11 @@
                                     {% set uploaded_enrollment_form = course_file_service.getFile(courses.id) %}
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div class="comments">
+                                            <div class="comments download-enroll">
                                                 <div class="panel-group">
                                                     <div class="panel-heading">
-                                                        <span class="left">ENROLLMENT FORM</span> 
-                                                        <span class="right"><a href="{{enrollment_form}}" target="_blank"><i class="material-icons">file_download</i></a></span>
+                                                        <span>ENROLLMENT FORM</span> 
+                                                        <a class="pull-right" href="{{enrollment_form}}" target="_blank"><i class="material-icons enroll">file_download</i></a>
                                                     </div>
                                                    {% if uploaded_enrollment_form == "" %}                                     
                                                         <form name="enroll_files" id="enroll_files" method="POST" enctype="multipart/form-data"> 
@@ -149,11 +149,10 @@
                                                         </form>
                                                    {% endif %}
                                                    {% if uploaded_enrollment_form.path is defined %}
-                                                        <div class="panel-content">
-                                                            <div class="file_info">
-                                                                <span class="icon"><a href="{{amazon_link~uploaded_enrollment_form.path}}" class="fancybox fancybox.iframe"><p> <i class="material-icons">photo</i> Download Completed Form</p></a></span>
-                                                                <span class="file-discription"></span>
-                                                            </div>
+                                                        <div class="btn-download">
+                                                            <a class="download-cta"href="{{amazon_link~uploaded_enrollment_form.path}}" download>
+                                                                Download Completed Form <i class="material-icons">photo</i>
+                                                            </a>
                                                         </div>
                                                    {% endif%}
                                                 </div>
