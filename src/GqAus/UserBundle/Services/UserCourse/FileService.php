@@ -2,6 +2,8 @@
 
 namespace GqAus\UserBundle\Services\UserCourse;
 
+use Doctrine\ORM\EntityManager;
+
 class FileService
 {
 
@@ -32,8 +34,8 @@ class FileService
     public function getFile($courseId, $type = "EnrollmentForm" )
     {
         
-        $fileEm = $this->em->getRepository('GqAusUserBundle:UserCourse\File');
-        $file = $fileEm->findOneBy(array('course' => $courseId, 'type' => $type) );
+        $fileEm = $this->em->getRepository('GqAusUserBundle:CourseFile');
+        $file = $fileEm->findOneBy(array('courseVal' => $courseId, 'type' => $type) );
         if ($file) {
             return $file;
         } else {

@@ -13,6 +13,9 @@ resetPassword:
 id_file_upload:
     path:     /idfileupload
     defaults: { _controller: GqAusUserBundle:User:addIdFile }
+addEnrollmentForm:
+    path:     /addEnrollmentForm
+    defaults: { _controller: GqAusUserBundle:User:addEnrollmentForm }
 add_evidence:
     path:     /addEvidences
     defaults: { _controller: GqAusUserBundle:Evidence:add }

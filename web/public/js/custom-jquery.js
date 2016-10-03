@@ -2077,7 +2077,28 @@ $( '#userfiles_browse' ).change( function( e ) {
 //    e.preventDefault();
 //    return false;
 } );
-
+$( '#user_enroll_browse' ).change( function( e ) {  
+             
+        if ($("#user_enroll_browse").val().length > 0) {  
+           
+            var extension = $("#user_enroll_browse").val().substring($("#user_enroll_browse").val().lastIndexOf('.')+1);
+            var allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'rtf', 'odt', 'PDF'];
+            if (allowedExtensions.indexOf(extension) === -1) 
+            {
+              $('#change_file_error').show();
+              $('#change_file_error').html('<div class="gq-id-file-error-text"><h2>Invalid File Format !</h2></div>');  
+            } else {
+                userEnrollmentUpload();
+                //$('#Id_files').submit();
+            }
+        } else {
+            $('#change_file_error').show();
+            $('#change_file_error').html('<div class="gq-id-file-error-text"><h2>Please Select file to upload!</h2></div>');
+        }
+    
+    e.preventDefault();
+    return false;
+} );
 // for validating the upload resume file
 $( '#resume_save' ).click( function( e ) {
     validateFileUpload($("#resume_browse").val(), 'resumeUpload');

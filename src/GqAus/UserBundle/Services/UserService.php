@@ -18,6 +18,7 @@ use GqAus\UserBundle\Entity\Evidence\Text;
 use GqAus\UserBundle\Entity\Faq;
 use GqAus\UserBundle\Entity\Log;
 
+
 class UserService
 {
 

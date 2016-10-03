@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="GqAus\UserBundle\Entity\UserCourse\File" table="user_course_file">
+    <entity name="GqAus\UserBundle\Entity\CourseFile" table="user_course_file">
   
         <id name="id" type="integer" column="id">
             <generator strategy="IDENTITY"/>
@@ -8,7 +8,7 @@
         <field name="type" type="string" column="type" nullable="false"/>
         <field name="path" type="text" column="path" nullable="false"/>
                 
-        <many-to-one field="course" target-entity="GqAus\UserBundle\Entity\UserCourses" inversed-by="files">
+        <many-to-one field="courseVal" target-entity="GqAus\UserBundle\Entity\UserCourses" inversed-by="files">
             <join-column name="usercourse_id" referenced-column-name="id" />
         </many-to-one>       
         
