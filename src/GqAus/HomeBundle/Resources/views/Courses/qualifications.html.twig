@@ -196,7 +196,7 @@
                                                             <div class="panel-content">
                                                                 <div class="add_section " role="tabpanel">
                                                                     <input type="file" id="user_enroll_browse" name="user_enroll_browse" class="hidden uploadFile">
-                                                                    <span class="button uploadTrigger" id="idfileUpload"><i class="material-icons">add</i></span><strong>Add Enroll</strong>
+                                                                    <span class="button uploadTrigger text-bold" id="idfileUpload"><i class="material-icons">add</i> Add ENROLLMENT FORM</span>
                                                                 </div>
                                                             </div>
                                                             
@@ -211,6 +211,7 @@
                                                             <div class="loading-icon" style="display: none;" id="ID_load"><img src="/public/images/loading.gif"></div> 
                                                         </form>
                                                    {% endif %}
+                                                    
                                                    {% if uploaded_enrollment_form.path is defined %}
                                                         <div class="btn-download">
                                                             <a class="download-cta"href="{{amazon_link~uploaded_enrollment_form.path}}" download>
@@ -285,10 +286,9 @@
                  {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}               
                 {% if approvalText|length > 0 and approvalText != '0' %}
-                                                        <p> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
                                                         <a class="qualification-cta" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}"></a>
-                                                        <p> <span class="tag-id">{{units.id}}</span> </p>
-                                                        <p>{{units.name}}</p>
+                                                        <p> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}
+                                                        <p><span class="tag-id">{{units.id}} - </span> <span class="tag-description">{{units.name}}</span></p>
                                                     </div>
                                                     <div class="user-redirect-arrow"><span><i class="material-icons">chevron_right</i></span></div>
                                                     <!--span><i class="material-icons">chevron_right</i></span-->
@@ -395,8 +395,7 @@
                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}                
 
                 {% if approvalText|length > 0 and approvalText != '0' %}<p id="sub_{{units.id}}"> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
-                                                <p> <span class="tag-id">{{units.id}}</span> </p>
-                                                <p>{{units.name}}</p>                                      
+                                                <p> <span class="tag-id">{{units.id}} - </span> <span>{{units.name}}</span></p>
 
                                             </div>
              {% if totalCheckedCount >= electiveUnitCountRequired%}
