@@ -408,6 +408,18 @@
                                     </div>                     
                                 {% endif %}
                                 <!-- Enrollment form ended -->
+                {% set myArray = ['3','15','16','0']%}
+                {% if courses.courseStatus in myArray %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="comments">
+                                <div class="panel-group">
+                                    <div class="panel-heading"><a href ="javascript:void(0)" id="signoff_sheet" userid="{{userId}}" course_code="{{courseCode}}" style='color:#FFF;'>SIGN OFF SHEET</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {%endif%}
         <div class="faq_link">
          <i class="material-icons help">help</i>
             <a href="{{ app.request.baseUrl }}/faq" target="_blank"><span>FAQs</span></a>
