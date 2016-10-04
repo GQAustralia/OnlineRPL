@@ -21,7 +21,7 @@ a:focus,textarea,input{outline:0 none}.main_container{position:relative}.main_co
 	}
 }
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    .col-lg-6 {
+    .message_section .col-lg-6 {
 		flex: 0 0 47%;
 	}
 }
