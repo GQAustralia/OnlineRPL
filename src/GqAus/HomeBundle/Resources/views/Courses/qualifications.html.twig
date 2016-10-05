@@ -286,7 +286,7 @@
                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}               
                 {% if approvalText|length > 0 and approvalText != '0' %}
                                                         <p> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
-                                                        <a class="qualification-cta" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}"></a>
+                                                        <a class="qualification-cta" target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}"></a>
                                                         <p> <span class="tag-id">{{units.id}}</span> </p>
                                                         <p>{{units.name}}</p>
                                                     </div>
@@ -388,7 +388,7 @@
                 {% set newuserblock = 1 %} 
             {% endif %}
                                         <div class="panle_body_content unit-selection border-bottom clearfix">
-                                            <a class="qualification-cta" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}"></a>
+                                            <a class="qualification-cta"  target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}"></a>
                                             <i class="material-icons info">info</i>
                                             <div class="tag-copy">
                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}

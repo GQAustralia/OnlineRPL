@@ -166,9 +166,9 @@
                  {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}               
                 {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}
-                                            <a class="qualification-cta" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}"></a>
+                                            <a class="qualification-cta" target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}"></a>
                                                <p> <span class="tag-id">{{units.id}}</span> </p>
-                                               <p><a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
+                                               <p><a target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">{{units.name}}</a></p>
                                        </div>
                                        <span><i class="material-icons">chevron_right</i></span>
                                </div>
@@ -268,7 +268,7 @@
                 {% set newuserblock = 1 %} 
             {% endif %}
         <div class="panle_body_content unit-selection border-bottom clearfix">
-            <a class="qualification-cta" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}"></a>
+            <a class="qualification-cta" target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}"></a>
             <i class="material-icons info">info</i>
             <div class="tag-copy">
                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
@@ -284,7 +284,7 @@
                      
             </div>
             <div class="user-redirect-arrow">
-                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
+                <a target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
 					<i class="material-icons">chevron_right</i>
                 </a>
             </div>
@@ -294,7 +294,7 @@
                      
             </div>
             <div class="user-redirect-arrow hide">
-                <a href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
+                <a target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}">
 				<i class="material-icons">chevron_right</i>
                  </a>
             </div>
@@ -444,29 +444,29 @@
 {% endif %}
 
   
-    <input type="hidden" id="unitcheckval" name="unitcheckval" value="">
-    <div class="modal-pop">
-        <div role="dialog" id="myModal" class="modal fade" style="display: none;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body"><p>Are you sure to update this elective unit?</p></div>
-                    <div class="modal-footer">
-                        <div class="form-group form-group-lg gqa-btn-group">
-                            <div class="form">
-                                <div class="row no-gutter">
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <button data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right changeUnitStatus" type="button">OK</button>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <button data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button" onclick="return cancelCheckbox();">CANCEL</button>
-                                    </div>
+<input type="hidden" id="unitcheckval" name="unitcheckval" value="">
+<div class="modal-pop">
+    <div role="dialog" id="myModal" class="modal fade" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body"><p>Are you sure you want to select this elective unit?</p></div>
+                <div class="modal-footer">
+                    <div class="form-group form-group-lg gqa-btn-group">
+                        <div class="form">
+                            <div class="row no-gutter">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <button data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right changeUnitStatus" type="button">OK</button>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <button data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button" onclick="return cancelCheckbox();">CANCEL</button>
                                 </div>
                             </div>
-                        </div>          
-                    </div>
+                        </div>
+                    </div>          
                 </div>
             </div>
         </div>
+    </div>
  <div class="modal fade" id="validate-info" role="dialog" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog modal-sm modal-lg">
                 <!-- Modal content-->
