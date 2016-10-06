@@ -20,7 +20,7 @@ parameters:
     mail_add_user_course_con: >
                                  Dear #firstName#,<br/><br/> 
                                  Thanks for enrolling with Get Qualified Australia and welcome to Online RPL! We're looking forward to helping you achieve your #courseName#. <br /><br />
-                                 A Customer Service Agent will be assigned to you shortly to help kick-start the process and answer and questions you might have.<br /><br />
+                                 A Customer Service Agent will be assigned to you shortly to help kick-start the process and answer any questions you might have.<br /><br />
                                  As soon as they have been assigned to you, you will receive your custom login details for our Online RPL platform. This will make the process of uploading your evidence that much easier.<br /><br />
                                  We'll be in touch soon.<br /><br/>
                                  Regards,<br/>%default_from_username%
