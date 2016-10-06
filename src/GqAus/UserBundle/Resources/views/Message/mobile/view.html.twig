@@ -6,7 +6,8 @@
 {% endblock %}
 {% block body %}
 <div class="body_section message_section">
-    <div class="">		
+    <div class="">	
+        {% set userCoursesCount = '' %}
         {% set currentPath = app.request.uri %}
         {% set parameters = currentPath|split('?') %}
         {% set userRole = app.security.getToken().getUser().getRoles() %}
@@ -277,8 +278,20 @@
                     {{ form_widget(composeformMobile.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                     {{ form_widget(composeformMobile.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                     {% else %}
-                    {{ form_widget(composeformMobile.toUserName, {'attr': {'placeholder': '','onKeyUp':'searchUsernames(".mobto")','class':'mobto'} }) }}
-                    {{ form_widget(composeformMobile.to, {'attr': {'placeholder': ''} }) }}
+                        {% if 'ROLE_APPLICANT' in userRole %}
+                            {% set userCoursesCount = user_service.getUserCoursesCount(userId) %} 
+                            {% if userCoursesCount > 1 %}
+                                {{ form_widget(composemsgForm.toUserName, {'attr': {'placeholder': '','onKeyUp':'searchUsernames("#compose_toUserName")'} }) }}
+                                {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
+                            {% else %}
+                                {% set userCourseFacilitator = user_service.getFacilitatorForUser(userId)%}
+                                {{ form_widget(composemsgForm.toUserName, {value : userCourseFacilitator }, {'attr': {'placeholder': ''} }) }}
+                                {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
+                            {% endif %}
+                        {% else %}
+                            {{ form_widget(composemsgForm.toUserName, {'attr': {'placeholder': '','onKeyUp':'searchUsernames("#compose_toUserName")'} }) }}
+                            {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
+                        {% endif %}
                     {% endif %}
                     </div>
                     <div class="input_section">

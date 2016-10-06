@@ -2196,7 +2196,7 @@ class UserService
     public function rtoApproveCertification($courseCode, $applicantId)
     {
         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
-            ->findOneBy(array('courseCode' => $courseCode, 'user' => $applicantId));
+            ->findOneBy(array('coursecCode' => $courseCode, 'user' => $applicantId));
         if (!empty($courseObj)) {
             $courseObj->setCourseStatus('16');
             $courseObj->setRtostatus('1');
@@ -4619,5 +4619,52 @@ class UserService
         
         return count($getMessages);
        
+    }
+    
+    /**
+     * Function to check no of courses for login User      
+     * @param type $userId
+     * @return type
+     */
+    
+    public function getUserCoursesCount($userId)
+    {
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('user' => $userId));
+        return count($courseObj);
+    }
+    /**
+     * Function to check no of courses for login User  with info
+     * @param type $userId
+     * @return int
+     */
+    public function getFacilitatorForUser($userId)
+    {
+        $courseObjs = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('user' => $userId));
+        $objectCount = count($courseObjs);
+        if($objectCount ==  1)
+        {          
+//            $facName = '';
+//            $j = 0;
+//            for($i = 0; $i<$objectCount; $i++){
+//                if($j == 0)
+//                {   
+//                    $facName .= $courseObjs[$i]->getFacilitator()->getUsername();
+//                }
+//                else
+//                {
+//                    if($facName == $courseObjs[$i]->getFacilitator()->getUsername())
+//                       $facName = $courseObjs[$i]->getFacilitator()->getUsername();  
+//                    else
+//                        return '';
+//                }
+//                $j++;
+//            }
+//            return $facName;
+//        }          
+//        else
+//        {
+            return $courseObjs[0]->getFacilitator()->getUsername();
+        }
+        
     }
 }

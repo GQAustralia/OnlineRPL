@@ -10,11 +10,13 @@
         <!-- FOR DESKTOP -->
     <div class="row">
         <!-- getting current path -->
+        {% set userCoursesCount = '' %}
         {% set currentPath = app.request.uri %}
         {% set parameters = currentPath|split('?') %}
         {% set userRole = app.security.getToken().getUser().getRoles() %}
         {% set userId = app.security.getToken().getUser().getId() %} 
-        {% set curruserImage = app.security.getToken().getUser().getUserImage() %}        
+        {% set curruserImage = app.security.getToken().getUser().getUserImage() %}  
+        
         {% if messages%}
             {% if messages|length > 0 %}
                 <div class="hidden-xs col-sm-6 col-md-6 col-lg-6">
@@ -333,8 +335,20 @@
                     {{ form_widget(composemsgForm.toUserName, {value  : userName}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                     {{ form_widget(composemsgForm.to, {value  : user}, {'attr': {'placeholder': '', 'readonly': 'true'} }) }}
                     {% else %}
-                    {{ form_widget(composemsgForm.toUserName, {'attr': {'placeholder': '','onKeyUp':'searchUsernames("#compose_toUserName")'} }) }}
-                    {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
+                        {% if 'ROLE_APPLICANT' in userRole %}
+                            {% set userCoursesCount = user_service.getUserCoursesCount(userId) %} 
+                            {% if userCoursesCount > 1 %}
+                                {{ form_widget(composemsgForm.toUserName, {'attr': {'placeholder': '','onKeyUp':'searchUsernames("#compose_toUserName")'} }) }}
+                                {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
+                            {% else %}
+                                {% set userCourseFacilitator = user_service.getFacilitatorForUser(userId)%}
+                                {{ form_widget(composemsgForm.toUserName, {value : userCourseFacilitator }, {'attr': {'placeholder': ''} }) }}
+                                {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
+                            {% endif %}
+                        {% else %}
+                            {{ form_widget(composemsgForm.toUserName, {'attr': {'placeholder': '','onKeyUp':'searchUsernames("#compose_toUserName")'} }) }}
+                            {{ form_widget(composemsgForm.to, {'attr': {'placeholder': ''} }) }}
+                        {% endif %}
                     {% endif %}
                     </div>
                     <div class="input_section">
