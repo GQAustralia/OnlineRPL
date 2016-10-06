@@ -187,7 +187,9 @@
                                                 <div class="panel-group">
                                                     <div class="panel-heading">
                                                         <span>ENROLLMENT FORM</span> 
+                                                        {% if uploaded_enrollment_form == "" %} 
                                                         <a class="pull-right" href="{{enrollment_form}}" target="_blank"><i class="material-icons enroll">file_download</i></a>
+                                                        {% endif %}
                                                     </div>
                                                    {% if uploaded_enrollment_form == "" %}                                     
                                                         <form name="enroll_files" id="enroll_files" method="POST" enctype="multipart/form-data"> 
@@ -519,6 +521,8 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('public/js/roundslider.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/js/s3-upload/s3enrollupload.js') }}"></script>
     <script>
         $(function() {
             function getTheSliderValues() {
