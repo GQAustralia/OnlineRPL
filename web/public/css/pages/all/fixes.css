@@ -128,10 +128,12 @@
 .gq-id-file-error-text {
     text-align: center;
 }
-.gq-id-file-error-text h2,.gq-id-files-upload-error-text h2 {
+.gq-id-file-error-text h2
+.gq-id-files-upload-error-text h2 {
     color: #e01010;
     font-size: 13px;
 	text-align: center;
+	margin-bottom:0;
 }
 #err_msg{
 	width: 100%;
