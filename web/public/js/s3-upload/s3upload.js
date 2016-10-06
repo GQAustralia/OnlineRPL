@@ -92,7 +92,7 @@ var s3upload = null;
         var uploadact = 0;
         for (var i = 0, file; file = files[i]; i++) {
 
-            var fext = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.xls|\.xlsx|\.doc|\.docx|\.csv|\.mp3|\.mp4|\.wmv|\.avi|\.mov|\.swf|\.flv|\.ods|\.mkv|\.wmv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz)$/i;
+            var fext = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.csv|\.mp3|\.mp4|\.wmv|\.avi|\.mov|\.swf|\.flv|\.ods|\.mkv|\.wmv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz|\.docx|\.xlsx|\.one|\.pub|\.pptx|\.doc|\.docx|\.vsdx|\.accdb|\.mdb|\.rpmsg|\.mso|\.xlsb|\.xls|\.xlsx|\.oft|\.asd|\.mpp|\.thmx|\.xlsm|\.snp|\.obi|\.pst|\.ost|\.olm|\.xsn|\.vsd|\.laccdb|\.dotx|\.docm|\.ppt|\.dot|\.accdr|\.xlam|\.mde|\.wbk|\.onepkg|\.pptm|\.xltx|\.xla|\.pip|\.accde|\.ppsm|\.ppsx|\.vss|\.slk|\.crtx|\.xlt|\.svd|\.xlb|\.xlm|\.xlw|\.grv|\.potx|\.xar|\.iaf|\.mpd|\.pa|\.pps|\.ops|\.dotm|\.pot|\.oab|\.acl|\.mdt|\.mpt|\.xltm|\.xl|\.ade|\.vst|\.ppam|\.xsf|\.accdt|\.mda|\.accdc|\.mdw|\.xll|\.mat|\.vdx|\.sldx|\.mar|\.ppa|\.accda|\.maf|\.puz|\.vsx|\.mam|\.prf|\.potm|\.wll|\.xlc|\.vtx|\.accdp|\.sldm|\.accdu|\.maq|\.xslb|\.h1q|\.cnv|\.maw)$/i;
             var calFileSize = formatBytes(file.size, 0);
             // jQuery.each(files[0].files, function(i, file) {
             //var btn = '<button onclick="cancel('+k+')">Cancel</button>';

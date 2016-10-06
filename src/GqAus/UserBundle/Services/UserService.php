@@ -1506,7 +1506,8 @@ class UserService
      */
     public function getPendingApplicantEvidences($user)
     {
-        $userId = $user->getId();     
+        $userId = $user->getId();
+        $fstatus = array(0,2);
         $qb = $this->em->createQueryBuilder()
             ->select('evd')
             ->from('GqAusUserBundle:UserCourses', 'uc')
@@ -1514,7 +1515,7 @@ class UserService
             ->leftJoin('GqAusUserBundle:UserCourseUnits', 'ucu','WITH','evd.user = ucu.user and evd.course = ucu.courseCode and evd.unit = ucu.unitId')
             ->where('uc.facilitator = :facilitator')
             ->andWhere('uc.courseStatus <> 0')
-            ->andWhere('ucu.facilitatorstatus = 0')
+            ->andWhere('ucu.facilitatorstatus IN (:fstatus)')->setParameter('fstatus', $fstatus)
             ->andWhere('evd.jobId =:empty')
             ->setParameter('facilitator', $userId)
             ->setParameter('empty', '');
