@@ -3636,8 +3636,12 @@ function setUnitId(courseCode,id,ElectiveCount,RequiredCount)
     {
         $("#validate-info").modal('show');
     }
-    else{
+    else if((ckbox.is(':checked')))
+    {
         $("#myModal").modal('show');
+    }
+    else{
+        $("#myModal_uncheck").modal('show');
     }
 }
 

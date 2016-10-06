@@ -453,7 +453,7 @@
     <div role="dialog" id="myModal" class="modal fade" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-body"><p>Are you sure to update this elective unit ?</p></div>
+                <div class="modal-body"><p>Are you sure you want to select this elective unit?</p></div>
                 <div class="modal-footer">
                     <div class="form-group form-group-lg gqa-btn-group">
                         <div class="form">
@@ -463,6 +463,27 @@
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <button data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button" onclick="return cancelCheckbox();">CANCEL</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>          
+                </div>
+            </div>
+        </div>
+    </div>
+    <div role="dialog" id="myModal_uncheck" class="modal fade" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body"><p>Are you sure you want to un-select this elective unit?</p></div>
+                <div class="modal-footer">
+                    <div class="form-group form-group-lg gqa-btn-group">
+                        <div class="form">
+                            <div class="row no-gutter">
+                                <div class="col-md-6 col-lg-6">
+                                    <button data-target="#myModal_uncheck" data-toggle="modal" class="btn btn-danger border-right changeUnitStatus" type="button">OK</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <button data-target="#myModal_uncheck" data-toggle="modal" class="btn btn-danger" type="button" onclick="return cancelCheckbox();">CANCEL</button>
                                 </div>
                             </div>
                         </div>
