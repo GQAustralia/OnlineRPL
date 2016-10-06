@@ -139,7 +139,7 @@ var s3upload = null;
                     success: function(res) {                       
                        // $('#userProfile').html('<div class="modal-title" id="myModalLabel">Uploaded Successfully</div><div class="btn_section"><button class="btn btn_red" onclick="javascript:location.reload();">OK</button></div>');
                        // $('#myModal').modal('show');
-                       $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>File Uploaded successfully!</span></div>');
+                       $("#idfiles_msg").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>File Uploaded successfully!</span></div>');
                        location.reload();
                     }
                 }); 

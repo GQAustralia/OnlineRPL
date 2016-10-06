@@ -118,7 +118,7 @@ var s3uploadTm = null;
                        $('#profile_suc_msg2').hide();                
                        $('#change_address_error').hide();      
                       $("#resume_msg").show();      
-                       $("#resume_msg").html('<div class="gq-id-files-upload-success-text" style="display: block;"><span>File Uploaded successfully!</span></div>');
+                       $("#resume_msg").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>File Uploaded successfully!</span></div>');
                        
                        var html = ' <div class="file_info">\n\
                                         <span class="icon"><i class="material-icons">description</i></span>\n\

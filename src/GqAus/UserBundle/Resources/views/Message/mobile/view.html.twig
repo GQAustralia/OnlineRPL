@@ -21,7 +21,7 @@
                 <div class="">
     {% for flashMessage in app.session.flashbag.get('msgnotice') %}
     <div class="" id="profile_suc_msg">
-    <div class="gq-id-files-upload-success-text">
+    <div class="gq-id-files-upload-success-text alert alert-success">
       <span>
         {{ flashMessage }}</span>
     </div>
@@ -30,7 +30,7 @@
     </div>
       <div class="" id="change_pwd_error" style="display:none">
         {% for flashMessage in app.session.flashbag.get('errornotice') %}
-        <div class="gq-well gq-id-file-error-text">
+        <div class="gq-well gq-id-file-error-text alert alert-danger">
             <span class="login-warning-icon"></span>
             <div class="login-warning-text" id="flash-msg">{{ flashMessage }}</div>
         </div>
