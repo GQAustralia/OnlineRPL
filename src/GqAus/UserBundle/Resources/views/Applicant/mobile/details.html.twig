@@ -63,8 +63,12 @@
                 </div>
             </div>
         </div>
-        <div class="status-message" id="status-message" style="display:none;"></div>
         <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="status-message" id="status-message" style="display:none;"></div>                    
+                </div>            
+            </div>
             <div class="row no-gutter">
                 {% if ('ROLE_ASSESSOR' in userRole) %}
                 <div class="col-xs-12 col-sm-12 hide">
@@ -369,6 +373,15 @@
                         {%endif%}
                     {%endif%}
                 </div>
+            <div class="col-xs-12 col-sm-12">
+                <div class="comments download-enroll">
+                    <div class="panel-group">
+                        <div class="btn-download">
+                            <a class="download-cta" href="" download>Download Completed Form <i class="material-icons">photo</i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 <div class="col-xs-12 col-sm-12">
                     <div class="gqa-btn-group">
                         <div class="row no-gutter">

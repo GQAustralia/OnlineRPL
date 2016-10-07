@@ -63,8 +63,12 @@
                 </div>
             </div>
         </div>
-        <div class="status-message" id="status-message" style="display:none;"></div>
         <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-11">
+                    <div class="status-message" id="status-message" style="display:none;"></div>                    
+                </div>            
+            </div>
             <div class="row">
                 {% if ('ROLE_ASSESSOR' in userRole) %}
                 <div class="col-md-12 col-lg-11 hide">
