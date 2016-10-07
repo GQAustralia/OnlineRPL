@@ -92,7 +92,7 @@
                                 {% endif %}
                                 {% if ('ROLE_MANAGER' in roles or 'ROLE_SUPERADMIN' in roles) %}
                                     {% if not is_mobile() %}   
-                                        <li><a class="{% if app.request.attributes.get('_route') == 'manageusers' %} active {% endif %}" href="{{ app.request.baseUrl }}/manageusers"><i class="material-icons">group</i><span>Manage Users</span></a></li>
+                                        <li><a class="{% if app.request.attributes.get('_route') == 'manageusers' %} active {% endif %}" href="{{ app.request.baseUrl }}/manageusers"><!--i class="material-icons">group</i--><span>Manage Users</span></a></li>
                                     {% endif %}
                                 {% endif %}
                                 {% if(not is_mobile()) %}
@@ -124,7 +124,7 @@
                             {% if ('ROLE_MANAGER' in roles or 'ROLE_SUPERADMIN' in roles) and (is_mobile())  %}
                                 <nav class="manager-nav hide">
                                     <ul>
-                                        {% if ('ROLE_MANAGER' in roles or 'ROLE_SUPERADMIN' in roles ) %}<li><a href="{{ app.request.baseUrl }}/manageusers"><i class="material-icons">group</i><span>Manage Users</span></a></li>{%endif%}
+                                        {% if ('ROLE_MANAGER' in roles or 'ROLE_SUPERADMIN' in roles ) %}<li><a href="{{ app.request.baseUrl }}/manageusers"><!--i class="material-icons">group</i--><span>Manage Users</span></a></li>{%endif%}
                                         {% if ('ROLE_SUPERADMIN' in roles) %}<li><a href="{{ app.request.baseUrl }}/userslog"><span>Logs</span></a></li><li><a href="{{ app.request.baseUrl }}/reports"><span>Reports</span></a></li>{%endif%}
                                     </ul>
                                 </nav>
