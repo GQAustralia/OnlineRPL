@@ -49,7 +49,7 @@
             {% endif %}
             {% if (status == 1) %} 
                 <td class="col-xs-6">
-                 {{list.user.firstName}} {{list.user.lastName}}
+                 <a href="javascript:void(0);" {%if applicantLogged > 0%}class='userprofile' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}' {%endif%}>{{list.user.firstName}} {{list.user.lastName}}</a>
                  </td>
                 <td class="col-xs-6">
                    
