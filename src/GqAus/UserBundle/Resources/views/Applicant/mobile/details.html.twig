@@ -373,15 +373,23 @@
                         {%endif%}
                     {%endif%}
                 </div>
-            <div class="col-xs-12 col-sm-12">
-                <div class="comments download-enroll">
-                    <div class="panel-group">
-                        <div class="btn-download">
-                            <a class="download-cta" href="" download>Download Completed Form <i class="material-icons">photo</i></a>
+               {% if ('ROLE_RTO' in userRole) %}
+                        {% if lastName is defined and lastName != "" %}
+                            {% set enrollment_form = rto_service.findRTOEnrollmentForm(lastName) %}
+                            {% set uploaded_enrollment_form = course_file_service.getFile(courseInfo.id) %}
+                            {% if uploaded_enrollment_form.path is defined %} 
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="comments download-enroll">
+                                <div class="panel-group">
+                                    <div class="btn-download">
+                                        <a class="download-cta" href="{{amazon_link~uploaded_enrollment_form.path}}" download>Download Completed Form <i class="material-icons">photo</i></a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                        {%endif%}
+                    {%endif%}
+                {%endif%}
                 <div class="col-xs-12 col-sm-12">
                     <div class="gqa-btn-group">
                         <div class="row no-gutter">
