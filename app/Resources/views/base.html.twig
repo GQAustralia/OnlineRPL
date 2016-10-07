@@ -55,7 +55,7 @@
                                 {% if ('ROLE_APPLICANT' not in roles)  %}
                                     <li><a class="{% if app.request.attributes.get('_route') == 'gq_aus_home_homepage' %} active {% endif %}" href="{{ app.request.baseUrl }}/dashboard"><i class="material-icons">assessment</i><span>Dashboard</span></a></li>
                                 {% else %}
-                                    <li><a class="{% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' %} active {% endif %}" href="{{ app.request.baseUrl }}/qualifications"><i class="material-icons">school</i><span>Qualification</span></a></li>
+                                    <li><a class="{% if app.request.attributes.get('_route') == 'qualifications' or app.request.attributes.get('_route') == 'qualificationDetails' or app.request.attributes.get('_route') == 'courseunitDetails' %} active {% endif %}" href="{{ app.request.baseUrl }}/qualifications"><i class="material-icons">school</i><span>Qualification</span></a></li>
                                 {% endif %}
                                 {% if ('ROLE_APPLICANT' not in roles)  %}
                                     <li>
