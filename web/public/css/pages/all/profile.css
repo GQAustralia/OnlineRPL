@@ -4,10 +4,10 @@ input:focus{outline:0}.modal{text-align:center;padding:0 !important}.modal:befor
 .gq-id-files-upload-success-text.gq-id-files-upload-success-text img {margin-right:4px; padding-bottom:4px;width:auto !important;dipslay: inline;}
 .gq-id-files-upload-success-text span{}
 .gq-id-pwd-error-text {text-align:center;}
-.gq-id-pwd-error-text h2{color:#e01010; font-size:13px;}
+.gq-id-pwd-error-text h2{color:#e01010; font-size:13px;margin:0;}
 .gq-id-pwd-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;display: inline;}
 .gq-id-address-error-text {padding-top:12px; text-align:center;}
-.gq-id-address-error-text h2{color:#e01010; font-size:13px;}
+.gq-id-address-error-text h2{color:#e01010; font-size:13px;margin: 0;}
 .profile_popup .modal-body .gq-id-address-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;display: inline;}
 .gq-change-address-warning {width:60%; margin:0 auto; position:relative;}
 .profile_popup .modal-body .gq-change-address-warning img{dipslay: inline;}

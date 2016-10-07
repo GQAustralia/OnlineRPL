@@ -128,6 +128,9 @@
 .gq-id-file-error-text {
     text-align: center;
 }
+.gq-id-address-error-text h2{
+	margin: 0;
+}
 .gq-id-file-error-text h2,
 .gq-id-files-upload-error-text h2 {
     color: #e01010;
