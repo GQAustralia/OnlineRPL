@@ -27,7 +27,7 @@
         {
             var useremail = $("#InputEmail1").val();
             var userpwd = $("#InputPassword1").val();
-            var startdiv = '<div class="gq-id-files-upload-error-text"><h2>';
+            var startdiv = '<div class="gq-id-files-upload-error-text alert alert-danger"><h2>';
             var enddiv = '</h2></div>';
             regexp=/^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
             if(useremail=="") {
@@ -57,7 +57,7 @@
     {% if error %}
         <script>
             $("#change_pwd_error").show();
-            $("#change_pwd_error").html('<div class="gq-id-files-upload-error-text"><h2>Invalid credentials</h2></div>');
+            $("#change_pwd_error").html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2>Invalid credentials</h2></div>');
         </script>
     {% endif %}
 {% endblock %}
