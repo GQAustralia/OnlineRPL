@@ -706,7 +706,7 @@ function checkspace(text)
 function checkCurrentPassword(mypassword)
 {
     $("#hdn_pwd_check").val("0");
-    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
+    var startdiv = '<div class="gq-id-pwd-error-text alert alert-danger"><h2>';
     var enddiv = '</h2></div>';
     var mypassword = mypassword;
     //$("#pwd_error").html(startdiv + 'Please wait till password gets validated' + enddiv);
@@ -1711,7 +1711,7 @@ function checkEmailExist(emailId) {
 /* Change Password Validations */
 function passwordShowMsg(errorMsg,msgId)
 {
-    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
+    var startdiv = '<div class="gq-id-pwd-error-text alert alert-danger"><h2>';
     var enddiv = '</h2></div>';
     $("#pwd_error").show();
     $("#pwd_error").html(startdiv + errorMsg + enddiv);
@@ -2809,7 +2809,7 @@ $('body').on('click', '.fac_view_evidence', function(){
 /* Change Password Validations */
 function passwordShowerrorMsg(errorMsg,msgId)
 {
-    var startdiv = '<div class="gq-id-pwd-error-text1"><h2>';
+    var startdiv = '<div class="gq-id-pwd-error-text1 alert alert-danger"><h2>';
     var enddiv = '</h2></div>';
     $("#pwd_error1").show();
     $("#pwd_error1").html(startdiv + errorMsg + enddiv);
@@ -2822,7 +2822,7 @@ function newPasswordUpdate()
     var displayConfirmPwd = $("#confirm-password").parent().css( "display" );  
     var newpwd = $("#new-password").val();
     var newconfirmpwd = $("#confirm-password").val();
-    var startdiv = '<div class="gq-id-pwd-error-text1"><h2>';
+    var startdiv = '<div class="gq-id-pwd-error-text1 alert alert-danger"><h2>';
     var enddiv = '</h2></div>';
    
       
@@ -3151,7 +3151,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 	{
             $("#pwd_error_"+listId).show();
 	$("#profile_suc_msg2_"+listId).hide();		
-        $("#pwd_error_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Facilitator</h2></div>');
+        $("#pwd_error_"+listId).html('<div class="gq-id-pwd-error-text alert alert-danger" style="display: block;"><h2>Please Select Facilitator</h2></div>');
 	}
     if(facVal != 0)
     {
@@ -3199,7 +3199,7 @@ function updateAssessor(courseCode , userId, listId)
 	{
         $("#pwd_error2_"+listId).show();
 	$("#profile_suc_msg3_"+listId).hide();		
-        $("#pwd_error2_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select Assessor</h2></div>');
+        $("#pwd_error2_"+listId).html('<div class="gq-id-pwd-error-text alert alert-danger" style="display: block;"><h2>Please Select Assessor</h2></div>');
 	}
     
     if(assVal != 0)
@@ -3248,7 +3248,7 @@ function updateRto(courseCode , userId, listId)
 	{
                 $("#pwd_error3_"+listId).show();
 		$("#profile_suc_msg4_"+listId).hide();		
-                $("#pwd_error3_"+listId).html('<div class="gq-id-pwd-error-text" style="display: block;"><h2>Please Select RTO</h2></div>');
+                $("#pwd_error3_"+listId).html('<div class="gq-id-pwd-error-text alert alert-danger" style="display: block;"><h2>Please Select RTO</h2></div>');
 	}
     if(rtoVal != 0)
     {
@@ -3349,7 +3349,7 @@ function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
 function checkCurrentRolePassword(){
     mypassword = $('#current_password').val();
     $("#hdn_pwd_check").val("0");
-    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
+    var startdiv = '<div class="gq-id-pwd-error-text alert alert-danger"><h2>';
     var enddiv = '</h2></div>';
     var mypassword = mypassword;
     $("#pwd_error").html('');
@@ -3497,7 +3497,7 @@ $("#password_save").click(function()
     
     var newpwd = $("#password_newpassword").val();
     var newconfirmpwd = $("#password_confirmnewpassword").val();
-    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
+    var startdiv = '<div class="gq-id-pwd-error-text alert alert-danger"><h2>';
     var enddiv = '</h2></div>';
     var hdnpwdchk = $("#hdn_pwd_check").val();
     
@@ -3692,7 +3692,7 @@ function checkCurrentOthersPassword(){
     mypassword = $('#current_password').val();
     $("#hdn_pwd_check").val("0");
     $("#profile_suc_msg2").hide();
-    var startdiv = '<div class="gq-id-pwd-error-text"><h2>';
+    var startdiv = '<div class="gq-id-pwd-error-text alert alert-danger"><h2>';
     var enddiv = '</h2></div>';
     var mypassword = mypassword;
     $("#pwd_error").html('');
