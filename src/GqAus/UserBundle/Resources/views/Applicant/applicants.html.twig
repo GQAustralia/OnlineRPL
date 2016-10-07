@@ -8,7 +8,7 @@
 {% set cname = list.courseName %}
     {% set applicantLogged = user_service.getCourseUnitsByCourseCode(list.user.id,ccode)%}
     <tr class="{% if('ROLE_FACILITATOR' in userRole and list.facilitatorread == 0)%} text-bold {% elseif('ROLE_ASSESSOR' in userRole and list.assessorread == 0) %}text-bold {% elseif('ROLE_RTO' in userRole and list.rtoread == 0) %} text-bold {% else %} {% endif %}">
-        <td class="col-md-2 col-lg-2"><a class="firstName" {%if applicantLogged > 0%}href="applicantDetails/{{ccode}}/{{list.user.id}}" target="_blank"{%endif%}>{{list.user.firstName}} {{list.user.lastName}}</a></td>        
+        <td class="col-md-2 col-lg-2"><a class="firstName" {%if applicantLogged > 0%} href="applicantDetails/{{ccode}}/{{list.user.id}}" target="_blank" {%endif%}>{{list.user.firstName}} {{list.user.lastName}}</a></td>        
         <td class="col-md-3 col-lg-3 qualification">{{ccode}} {{list.courseName}}</td>
         <td class="email hide">{{list.user.email}}</td>
         <td class="address hide">{{list.user.address.address}}</td>
