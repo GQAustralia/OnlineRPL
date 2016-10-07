@@ -94,7 +94,7 @@ $(function() {
                 success: function(responseText) {
                     var result = jQuery.parseJSON(responseText);
                     if(result.type == 'Error' ) {
-                        $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2>'+ result.msg+'</h2></div>');
+                        $("body #status-message").html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2>'+ result.msg+'</h2></div>');
                         window.scrollTo(0, 0);
                     } else if (result.type == 'Success') {
                         $("body #status-message").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span> '+ result.msg+'</span></div>'); 
@@ -120,7 +120,7 @@ $(function() {
                 }
             });
       } else {
-          $("body #status-message").html('<strong> Please select status</strong>');
+          $("body #status-message").html('<div class="gq-id-files-upload-error-text alert alert-danger"><strong> Please select status</strong></div>');
           window.scrollTo(0, 0);
       }
     });
@@ -484,7 +484,7 @@ $("#userprofile_userImage").change(function() {
     {
 		$("#profile_suc_msg2").hide();
         $("#ajax-profile-error").show();
-        $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text"><h2>Please upload valid image</h2></div>');
+        $("#ajax-profile-error").html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2>Please upload valid image</h2></div>');
         //alert("Please upload valid image");
         return false;
     }
@@ -1789,7 +1789,7 @@ $("body").on('click', '#approve-all-units-from-rto', function() {
         success: function(responseText) {
             var result = jQuery.parseJSON(responseText);
             if(result.type == 'Error' ) {
-                $("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2> '+ result.msg+'</h2></div>');
+                $("body #status-message").html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2> '+ result.msg+'</h2></div>');
                 window.scrollTo(0, 0);
             } else if (result.type == 'Success') {
                 $( "#approve-all-units-from-rto").hide( "slow");
@@ -2134,7 +2134,7 @@ function validateFileUpload(fieldVal, formName) {
         if (allowedExtensions.indexOf(extension) === -1) 
         {
           $('#change_pwd_error').show();
-          $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2>Invalid File Format !</h2></div>');
+          $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2>Invalid File Format !</h2></div>');
           $('html, body').animate({
              scrollTop: $('#change_pwd_error').offset().top
            }, 500);
@@ -2143,7 +2143,7 @@ function validateFileUpload(fieldVal, formName) {
         }
     } else {
         $('#change_pwd_error').show();
-        $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text"><h2>Please Select file to upload!</h2></div>');
+        $('#change_pwd_error').html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2>Please Select file to upload!</h2></div>');
         $('html, body').animate({
             scrollTop: $('#change_pwd_error').offset().top
          }, 500);
@@ -2208,7 +2208,7 @@ if($('#frmAddNotes').length)
                 $("#notes-success-msg").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>Notes added successfully!</span></div>');
             } else {
                 $('#notes-error-msg').show();
-               $("#notes-error-msg").html('<div class="gq-id-files-upload-error-text"><h2> Error saving notes!</h2></div>');
+               $("#notes-error-msg").html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2> Error saving notes!</h2></div>');
             }
         },
         resetForm: true
@@ -2308,7 +2308,7 @@ $(".deleteUser").click(function() {
         success: function(result) {
             $("#uclose").trigger("click");
             if (result == 0) {
-                 $("#err_msg").html('<div class="gq-id-files-upload-error-text" style="display: block;"><h2>This User cannot be deleted!</h2></div>');
+                 $("#err_msg").html('<div class="gq-id-files-upload-error-text alert alert-danger" style="display: block;"><h2>This User cannot be deleted!</h2></div>');
             } else {
                 $("#err_msg").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>User deleted successfully!</span></div>');
                 $("#searchUserFilter").trigger("click");
@@ -2368,7 +2368,7 @@ $("body").on("click", "#submittoassessor,#request-cc", function(){
 			success: function(responseText) {
 				var result = jQuery.parseJSON(responseText);
 				if(result.type == 'Error' ) {
-					$("body #status-message").html('<div class="gq-id-files-upload-error-text"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
+					$("body #status-message").html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
 					window.scrollTo(0, 0);
 				} else if (result.type == 'Success') {
                                     if(courseStatus == '2'){ 
@@ -2401,7 +2401,7 @@ $("body").on("click", "#submittoassessor,#request-cc", function(){
 			}
 		});
   } else {
-	  $("body #status-message").html('<div class="gq-id-files-upload-error-text"><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</div>');
+	  $("body #status-message").html('<div class="gq-id-files-upload-error-text alert alert-danger"><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</div>');
 
   }
 });
