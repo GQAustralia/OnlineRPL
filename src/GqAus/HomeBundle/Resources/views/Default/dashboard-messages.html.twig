@@ -13,7 +13,7 @@
 			{% endif %}
         </span>
         <span class="add_btn">
-            <a href="/messages/compose" title="Add New Message">NEW <i class="material-icons add_icon">add</i></a>
+            <a href="/messages/compose" target="_blank" title="Add New Message">NEW <i class="material-icons add_icon">add</i></a>
         </span>
     </div>
     <div class="panel-group" id="accordion2">
@@ -33,7 +33,7 @@
                             {% for key, appliMsg in appMsg %}
                                 {% set remStatus = user_service.checkReminderExists(appliMsg.inbox.id, appliMsg.id, reminderType) %}
                                 <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                    <span class="content"><strong><a href="{{ app.request.baseUrl }}/messages/{{ appliMsg.id }}" title="View Message">{{ appliMsg.sent.firstName}} {{ appliMsg.sent.lastName}}</a></strong> - {{appliMsg.subject}} </span>
+                                    <span class="content"><a href="{{ app.request.baseUrl }}/messages/{{ appliMsg.id }}" title="View Message"><strong>{{ appliMsg.sent.firstName}} {{ appliMsg.sent.lastName}}</strong> - {{appliMsg.subject}}</a> </span>
                                     <div class="dropdown keep-open">
                                          <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                          <div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -69,7 +69,7 @@
                             {% for key, faciMsg in facMsg %}
                                     {% set remStatus = user_service.checkReminderExists(faciMsg.inbox.id, faciMsg.id, reminderType) %}
                                     <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                            <span class="content"><strong><a href="{{ app.request.baseUrl }}/messages/{{ faciMsg.id }}" title="View Message">{{ faciMsg.sent.firstName}} {{ faciMsg.sent.lastName}}</a></strong> - {{faciMsg.subject}} </span>
+                                            <span class="content"><a href="{{ app.request.baseUrl }}/messages/{{ faciMsg.id }}" title="View Message"><strong>{{ faciMsg.sent.firstName}} {{ faciMsg.sent.lastName}}</strong> - {{faciMsg.subject}} </a></span>
                                             <div class="dropdown keep-open">
                                                 {% if (('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles)) %}
                                                  <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
@@ -107,7 +107,7 @@
                             {% for key, ascMsg in assMsg %}
                                 {% set remStatus = user_service.checkReminderExists(ascMsg.inbox.id, ascMsg.id, reminderType) %}
                                 <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                    <span class="content"><strong><a href="{{ app.request.baseUrl }}/messages/{{ ascMsg.id }}" title="View Message">{{ ascMsg.sent.firstName}} {{ ascMsg.sent.lastName}}</a></strong> - {{ascMsg.subject}}</span>
+                                    <span class="content"><a href="{{ app.request.baseUrl }}/messages/{{ ascMsg.id }}" title="View Message"><strong>{{ ascMsg.sent.firstName}} {{ ascMsg.sent.lastName}}</strong> - {{ascMsg.subject}}</a></span>
                                     <div class="dropdown keep-open">
                                             <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                             <div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -143,7 +143,7 @@
                             {% for key, rtosMsg in rtoMsg %}
                                 {% set remStatus = user_service.checkReminderExists(rtosMsg.inbox.id, rtosMsg.id, reminderType) %}                                    
                                 <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                    <span class="content"><strong><a href="{{ app.request.baseUrl }}/messages/{{ rtosMsg.id }}" title="View Message">{{ rtosMsg.sent.firstName}} {{ rtosMsg.sent.lastName}}</a></strong> - {{rtosMsg.subject}} </span>
+                                    <span class="content"><a href="{{ app.request.baseUrl }}/messages/{{ rtosMsg.id }}" title="View Message"><strong>{{ rtosMsg.sent.firstName}} {{ rtosMsg.sent.lastName}}</strong> - {{rtosMsg.subject}}</a> </span>
                                     <div class="dropdown keep-open">
                                         <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                         <div class="dropdown-menu {{ remStatus.calendarClass }}">
@@ -179,7 +179,7 @@
                             {% for key, mngMsg in mngMsg %}
                                 {% set remStatus = user_service.checkReminderExists(mngMsg.inbox.id, mngMsg.id, reminderType) %}                                    
                                 <li class="clearfix {{ remStatus.playlistIconClass }}">
-                                    <span class="content"><strong><a href="{{ app.request.baseUrl }}/messages/{{ mngMsg.id }}" title="View Message">{{ mngMsg.sent.firstName}} {{ mngMsg.sent.lastName}}</a></strong> - {{mngMsg.subject}} </span>
+                                    <span class="content"><a href="{{ app.request.baseUrl }}/messages/{{ mngMsg.id }}" title="View Message"><strong>{{ mngMsg.sent.firstName}} {{ mngMsg.sent.lastName}}</strong> - {{mngMsg.subject}}</a> </span>
                                     <div class="dropdown keep-open">
                                         <span class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">{{ remStatus.playlistIcon }}</i></span>
                                         <div class="dropdown-menu {{ remStatus.calendarClass }}">

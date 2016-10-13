@@ -49,7 +49,7 @@
                                     {% if (todoList.reminderType == 'portfolio' or todoList.reminderType == 'message' or todoList.reminderType == 'evidence') %}
                                         {% set rTypeContent = user_service.getReminderTypeContent(todoList.reminderTypeId, todoList.reminderType, todoList.message) %}
                                         
-                                        <a class="reminder-view tool_tip" data-reminderId="{{todoList.id}}" data-status="{{todoList.reminderViewStatus}}" href="{{ rTypeContent.link }}" title="{{ rTypeContent.fulltext }}">
+                                        <a class="reminder-view tool_tip" target="_blank" data-reminderId="{{todoList.id}}" data-status="{{todoList.reminderViewStatus}}" href="{{ rTypeContent.link }}" title="{{ rTypeContent.fulltext }}">
                                             <span class="list_icon">
                                                     <i class="material-icons message">{{todoIcon}}</i>
                                             </span>
@@ -58,7 +58,7 @@
                                             </span>
                                         </a>
                                     {% else %}
-                                            <a class="clearfix tool_tip" title="{{ todoList.message }}">
+                                            <a class="clearfix tool_tip" target="_blank" title="{{ todoList.message }}">
                                                 <span class="list_icon"><i class="material-icons message">{{todoIcon}}</i></span>
                                                 <span class="content bold">{{ todoList.message }}</span>
                                             </a>
@@ -92,7 +92,7 @@
                                         
                                     {% if (todoCompleteList.reminderType == 'portfolio' or todoCompleteList.reminderType == 'message' or todoCompleteList.reminderType == 'evidence') %}
                                         {% set rTypeContent = user_service.getReminderTypeContent(todoCompleteList.reminderTypeId, todoCompleteList.reminderType, todoCompleteList.message) %}
-                                        <a href="{{ rTypeContent.link }}" title="{{ rTypeContent.fulltext }}" class="tool_tip">
+                                        <a href="{{ rTypeContent.link }}" target="_blank" title="{{ rTypeContent.fulltext }}" class="tool_tip">
                                             <span class="list_icon">
                                                     <i class="material-icons message">{{todoCompletedIcon}}</i>
                                             </span>
@@ -101,7 +101,7 @@
                                             </span>
                                         </a>
                                     {% else %}
-									<a class="clearfix">
+									<a class="clearfix" target="_blank">
                                         <span class="list_icon">
                                                 <i class="material-icons message">{{ todoCompletedIcon }}</i>
                                         </span>
