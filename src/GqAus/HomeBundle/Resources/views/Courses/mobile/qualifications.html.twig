@@ -139,7 +139,7 @@
     <div class="panel panel-default">
        <div class="panel-heading clearfix">
            <h4 class="panel-title">
-           <span>{{coreUnitsCount}} CORE UNITS {% if coreSubmitted >= 1 and coreRemaining < coreUnitsCount and coreRemaining > 0 %} - <strong>{{coreRemaining}} REMAINING </strong> {% endif %}</span>
+           <span>{{coreUnitsCount}} CORE UNITS {% if coreSubmitted >= 1 and coreRemaining < coreUnitsCount %} - <strong>{{coreRemaining}} REMAINING </strong> {% endif %}</span>
            <a class="btn-accordion collapsed" data-toggle="collapse" data-parent="#accordion" data-collapse="parent" href="#collapseTwo-{{courseCode}}">
                    <i class="material-icons">expand_more</i>
            </a>
@@ -205,7 +205,7 @@
     <div class="panel panel-default">
     <div class="panel-heading"  id='strip_{{courseCode}}' {% if totalCheckedCount >= electiveUnitCountRequired%} style="background-color:#E01010" {% else %}{% endif %}>
     <h4 class="panel-title">
-        <span>{{electiveUnitsCount}} ELECTIVE UNITS  <span id="spanremain"> {%if electiveRemaining>0 %}{% if electiveRemaining < electiveUnitCountRequired %} <strong> - {{electiveRemaining}} REMAINING </strong> {% elseif totalCheckedCount == 0 %} - Choose {{electiveUnitCountRequired}} {% else %} {% endif %}{% endif %}</span></span>
+        <span>{{electiveUnitsCount}} ELECTIVE UNITS  <span id="spanremain"> {% if electiveRemaining < electiveUnitCountRequired %} <strong> - {{electiveRemaining}} REMAINING </strong> {% elseif totalCheckedCount == 0 %} - Choose {{electiveUnitCountRequired}} {% else %} {% endif %}</span></span>
 	{% if totalCheckedCount >= electiveUnitCountRequired%}
         {% set statusOfFacElecUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseCode, 'facilitatorstatus', 'elective') %}
                     <a aria-expanded="false" data-toggle="collapse" id="toggle_edit_{{courseCode}}" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}" data-collapse="parent" class="edit-course hide"><i class="material-icons edit">edit</i></a>
