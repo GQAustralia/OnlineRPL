@@ -44,7 +44,7 @@
                                 <a href="javascript:void(0);">Add New User</a>
                             </span>
                             <ul class="dropdown-menu">
-                                <li><a href="javascript:void(0)" onclick="addNewUserbyRole('2');">Facilitator</a></li>
+                                <li><a href="javascript:void(0)" onclick="addNewUserbyRole('2');">Account Manager</a></li>
                                 {% if ('ROLE_SUPERADMIN' in userRole) %}
                                     <li><a href="javascript:void(0)" onclick="addNewUserbyRole('3');">Assessor</a></li>
                                     <li><a href="javascript:void(0)" onclick="addNewUserbyRole('4');">Rto</a></li>
@@ -63,7 +63,7 @@
                     <label for="">Filter By</label>
                     <select name="userType" id="userType" class="form-control">
                         <option value="">All</option>
-                        <option value="2">Facilitator</option>
+                        <option value="2">Account Manager</option>
                         <option value="3">Assessor</option>
                         <option value="4">Rto</option>
                         {% if ('ROLE_SUPERADMIN' in userRole) %}

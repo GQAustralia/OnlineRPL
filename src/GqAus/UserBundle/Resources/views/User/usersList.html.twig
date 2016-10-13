@@ -40,7 +40,7 @@
         </tr>#}
         <tr>
             <td><span class="">{{list.firstName}} {{list.lastName}}</span></td>
-            <td>{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Facilitator {% elseif list.getRole() == '4' %}  Rto {% else %} Manager {% endif %}</td>
+            <td>{% if list.getRole() == '3' %} Assessor {% elseif list.getRole() == '2' %}  Account Manager {% elseif list.getRole() == '4' %}  Rto {% else %} Manager {% endif %}</td>
             <td>
                 {% if (list.getRole() != '5') and (list.getRole() != '4') %}
                 <div class="dropdown keep-open">
