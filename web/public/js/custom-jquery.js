@@ -195,7 +195,7 @@ $(".changeUnitStatus").click(function() {
                   $("#strip_"+courseCode).css("background-color", "#E01010");               
                     $("#edit_"+courseCode).removeClass('hide');
                  $("#edit_"+courseCode).addClass('show');
-                 $("#spanremain").html('');
+                 $("#spanremain").html('<strong> - '+countremain+' REMAINING </strong>');
             }
             else
             {    $("#course_toggle_"+courseCode).removeClass('hide');
