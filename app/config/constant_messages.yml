@@ -205,7 +205,7 @@ parameters:
                                    All the evidence for the Qualification : #courseCode# : #courseName# are enough competent. <br/> 
                                    Validated all the evidence in the qualification and portfolio has been submitted to #role#.<br/><br/>
                                    Regards, <br/>#fromUserName#                               
-    mail_portfolio_assign_applicant_sub: "Welcome - OnlineRPL" 
+    mail_portfolio_assign_applicant_sub: "Welcome - Get Qualified Australia" 
     mail_portfolio_assign_applicant_con: >
                                  Dear #toUserName#,<br/><br/>      
                                    You're one step closer! <br/><br />
@@ -218,13 +218,13 @@ parameters:
                                     Dear #facname#, <br/> 
                                     You are the facilitator of #toUserName# for qualification #coursecode#.<br/><br/>
                                     Regards, <br/>OnlineRPL 
-    mail_portfolio_assign_applicantqua_sub: "Welcome - OnlineRPL" 
+    mail_portfolio_assign_applicantqua_sub: "Welcome - Get Qualified Australia" 
     mail_portfolio_assign_applicantqua_con: >
                                    Dear #toUserName#,<br/><br/>                                 
                                     #facname# is assigned as your Facilitator for you qualification . <br/><br/>
                                      You may <a href='#applicationUrl#login'>login</a> to Online RPL to start your jouney.<br/><br/>
                                    Regards,<br/>OnlineRPL
-    mail_user_creation_sub: "Welcome - OnlineRPL" 
+    mail_user_creation_sub: "Welcome - Get Qualified Australia" 
     mail_user_creation_con: >
                                  Dear #toUserName#,<br/><br/>
                                  Welcome to Online RPL. It is great to have you here. <br><br> You may login to Online RPL to start your jouney.

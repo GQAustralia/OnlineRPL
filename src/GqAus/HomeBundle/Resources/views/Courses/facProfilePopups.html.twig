@@ -13,7 +13,7 @@
                         <img class="no_upload" alt="profile_pic" src="{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}">
                         {% endif %}
                         <input type="file" class="hidden browse_btn">
-                        <div class="content">
+                        <div class="content">                            
                              {% if courses.facilitator.firstName is defined %}
                                 <h5 class="name"><strong>{{courses.facilitator.firstName}} {{courses.facilitator.lastName}}</strong></h5>
                                {% endif %}
