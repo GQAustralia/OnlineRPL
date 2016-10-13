@@ -3174,6 +3174,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
                      $("#profile_suc_msg2_"+listId).html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>'+res.message+'</span></div>');
                      facBtn.attr('disabled', false);
                      facBtn.text("UPDATE");
+                     window.location.reload();
                 }
             },
             error: function(){
@@ -3223,6 +3224,7 @@ function updateAssessor(courseCode , userId, listId)
                      $("#profile_suc_msg3_"+listId).html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>'+res.message+'</span></div>');
                       facBtn.attr('disabled', false);
                       facBtn.text("UPDATE");
+                      window.location.reload();
                 }
                 
             },
@@ -3272,6 +3274,7 @@ function updateRto(courseCode , userId, listId)
                      $("#profile_suc_msg4_"+listId).html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>'+res.message+'</span></div>');
                      facBtn.attr('disabled', false);
                      facBtn.text("UPDATE");
+                     window.location.reload();
                 }
                 
             },
