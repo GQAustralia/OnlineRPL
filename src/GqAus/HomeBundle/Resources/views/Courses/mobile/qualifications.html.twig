@@ -360,67 +360,68 @@
             {% endif %}
         </div>
         <!-- Enrollment form started -->
-                                 <div class="" id="idfiles_msg"></div>
-                                {% if courses.rto.lastName is defined and courses.rto.lastName != "" %}
-                                    {% set enrollment_form = rto_service.findRTOEnrollmentForm(courses.rto.lastName) %}
-                                    {% set uploaded_enrollment_form = course_file_service.getFile(courses.id) %}
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="comments">
-                                                <div class="panel-group">
-                                                    <div class="panel-heading">
-                                                        <span class="left">ENROLLMENT FORM</span> 
-                                                        {% if uploaded_enrollment_form == "" %} 
-                                                        <span class="right"><a href="{{enrollment_form}}" target="_blank"><i class="material-icons">file_download</i></a></span>
-                                                        {% endif %} 
-                                                    </div>
-                                                   {% if uploaded_enrollment_form == "" %}                                     
-                                                        <form name="enroll_files" id="enroll_files" method="POST" enctype="multipart/form-data"> 
-                                                            <input type="hidden" name="course_id" id="course_id" value="{{courseCode}}">
-                                                            <input type="hidden" name="user_id" id="user_id" value="{{userId}}">
-                                                            <div class="panel-content">
-                                                                <div class="add_section " role="tabpanel">
-                                                                    <input type="file" id="user_enroll_browse" name="user_enroll_browse" class="hidden uploadFile">
-                                                                    <span class="button uploadTrigger" id="idfileUpload"><i class="material-icons">add</i></span><strong>Add Enrollment Form</strong>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div class="panel-group hide" id="fileListContainer">
-                                                                <div class="panel clearfix">
-                                                                    <div class="panel-body">
-                                                                        <div class="panel-copy fileListContainer" id="progress-bars"></div>
-                                                                    </div>                                                                    
-                                                                </div>
-                                                            </div>
-                                                            <div id="idfiletype_image"></div>
-                                                            <div class="loading-icon" style="display: none;" id="ID_load"><img src="/public/images/loading.gif"></div> 
-                                                        </form>
-                                                   {% endif %}
-                                                   {% if uploaded_enrollment_form.path is defined %}
-                                                        <div class="panel-content">
-                                                            <div class="file_info">
-                                                                <span class="icon"><a href="{{amazon_link~uploaded_enrollment_form.path}}" class="fancybox fancybox.iframe"><p> <i class="material-icons">photo</i> Download Completed Form</p></a></span>
-                                                                <span class="file-discription"></span>
-                                                            </div>
-                                                        </div>
-                                                   {% endif%}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>                     
-                                {% endif %}
-                                <!-- Enrollment form ended -->
+    <div class="" id="idfiles_msg"></div>
+   {% if courses.rto.lastName is defined and courses.rto.lastName != "" %}
+       {% set enrollment_form = rto_service.findRTOEnrollmentForm(courses.rto.lastName) %}
+       {% set uploaded_enrollment_form = course_file_service.getFile(courses.id) %}
+      
+           <div class="col-xs-12 col-sm-12">
+               <div class="comments">
+                   <div class="panel-group">
+                       <div class="panel-heading">
+                           <span class="left">ENROLLMENT FORM</span> 
+                           {% if uploaded_enrollment_form == "" %} 
+                           <span class="right"><a href="{{enrollment_form}}" target="_blank"><i class="material-icons">file_download</i></a></span>
+                           {% endif %} 
+                       </div>
+                      {% if uploaded_enrollment_form == "" %}                                     
+                           <form name="enroll_files" id="enroll_files" method="POST" enctype="multipart/form-data"> 
+                               <input type="hidden" name="course_id" id="course_id" value="{{courseCode}}">
+                               <input type="hidden" name="user_id" id="user_id" value="{{userId}}">
+                               <div class="panel-content">
+                                   <div class="add_section " role="tabpanel">
+                                       <input type="file" id="user_enroll_browse" name="user_enroll_browse" class="hidden uploadFile">
+                                       <span class="button uploadTrigger" id="idfileUpload"><i class="material-icons">add</i></span><strong>Add Enrollment Form</strong>
+                                   </div>
+                               </div>
+
+                               <div class="panel-group hide" id="fileListContainer">
+                                   <div class="panel clearfix">
+                                       <div class="panel-body">
+                                           <div class="panel-copy fileListContainer" id="progress-bars"></div>
+                                       </div>                                                                    
+                                   </div>
+                               </div>
+                               <div id="idfiletype_image"></div>
+                               <div class="loading-icon" style="display: none;" id="ID_load"><img src="/public/images/loading.gif"></div> 
+                           </form>
+                      {% endif %}
+                      {% if uploaded_enrollment_form.path is defined %}
+                           <div class="panel-content">
+                               <div class="file_info btn-download">
+                                   <a class="download-cta" href="{{amazon_link~uploaded_enrollment_form.path}}" download>
+                                             Download Completed Form <i class="material-icons">photo</i> </a>
+                                   
+                               </div>
+                           </div>
+                      {% endif%}
+                   </div>
+               </div>
+           </div>
+                            
+   {% endif %}
+   <!-- Enrollment form ended -->
                 {% set myArray = ['3','15','16','0']%}
                 {% if courses.courseStatus in myArray %}
-                    <div class="row">
-                        <div class="col-lg-12">
+                    
+                        <div class="col-xs-12 col-sm-12">
                             <div class="comments">
                                 <div class="panel-group">
                                     <div class="panel-heading"><a href ="javascript:void(0)" id="signoff_sheet" userid="{{userId}}" course_code="{{courseCode}}" style='color:#FFF;'>SIGN OFF SHEET</a></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    
                 {%endif%}
         <div class="faq_link">
          <i class="material-icons help">help</i>
