@@ -29,7 +29,7 @@
                 </div>        
                 {% set userdata = app.security.getToken().getUser() %}
                 {% if (userRole=='ROLE_FACILITATOR') %}
-                    {% set role = 'Facilitator' %}
+                    {% set role = 'Account Manager' %}
                     {% set roleid = 2 %}
                 {% elseif(userRole=='ROLE_RTO') %}
                     {% set role = 'RTO' %}
