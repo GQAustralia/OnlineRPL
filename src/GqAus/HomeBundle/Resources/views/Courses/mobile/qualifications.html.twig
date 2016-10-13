@@ -366,7 +366,7 @@
        {% set uploaded_enrollment_form = course_file_service.getFile(courses.id) %}
       
            <div class="col-xs-12 col-sm-12">
-               <div class="comments">
+               <div class="comments download-enroll">
                    <div class="panel-group">
                        <div class="panel-heading">
                            <span class="left">ENROLLMENT FORM</span> 
@@ -400,7 +400,8 @@
                            <div class="panel-content">
                                <div class="file_info btn-download">
                                    <a class="download-cta" href="{{amazon_link~uploaded_enrollment_form.path}}" download>
-                                             Download Completed Form <i class="material-icons">photo</i> </a>
+                                       Download Completed Form <i class="material-icons">photo</i>
+                                   </a>
                                    
                                </div>
                            </div>

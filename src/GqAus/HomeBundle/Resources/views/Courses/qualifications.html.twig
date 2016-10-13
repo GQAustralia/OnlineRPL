@@ -35,7 +35,7 @@
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-lg-11">
+                    <div class="col-md-12 col-lg-12">
                         <p>
                             <span> {{ courses.getCourseName() }}{% if courses.getRtoDate()  != null %} -  <strong>Awarded {{ courses.getRtoDate()|date("d M Y") }}</strong>{% endif %}</span>
 
@@ -57,7 +57,7 @@
     {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}    
     {% set output = remaining|split('&&') %}
 
-                <div class="col-md-5 col-lg-4 ie-flex-fix">
+                <div class="col-md-5 col-lg-5 ie-flex-fix">
         {% set newuserblock = 0 %} 
         {% set requiredUnits = 0 %}
         {% set totalCheckedCount = 0 %} 
@@ -182,7 +182,7 @@
                                     {% set enrollment_form = rto_service.findRTOEnrollmentForm(courses.rto.lastName) %}
                                     {% set uploaded_enrollment_form = course_file_service.getFile(courses.id) %}
                                     <div class="row">
-                                        <div class="col-lg-12">
+                                        <div class="col-md-12 col-lg-12">
                                             <div class="comments download-enroll">
                                                 <div class="panel-group">
                                                     <div class="panel-heading">
