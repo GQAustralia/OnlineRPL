@@ -235,7 +235,7 @@ $("body .msgForCourse").click(function(){
                 $('body #msgSend').prop('disabled', false);
                 $('#message_popup').modal('hide');
                 $("body #status-message").css("display", "block");
-                $("body .status-message").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><h2> Sent message successfully</h2></div>');
+                $("body .status-message").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><h2> Sent message successfully</h2></div>').fadeOut(3000);
                 window.scrollTo(0, 0);
             }
         });
