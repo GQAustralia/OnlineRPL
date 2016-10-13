@@ -240,7 +240,10 @@ $("body .msgForCourse").click(function(){
             }
         });
     }
-})
+});
+$(".message_popup .close").click(function(){
+	$('body #msgBody').css("border","1px solid white");
+});
 /* function to check email already exist */
 function checkUserNameExistOrNot(username) {
     var count = '';
