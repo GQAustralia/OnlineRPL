@@ -210,12 +210,12 @@
         {% set statusOfFacElecUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseCode, 'facilitatorstatus', 'elective') %}
                     <a aria-expanded="false" data-toggle="collapse" id="toggle_edit_{{courseCode}}" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}" data-collapse="parent" class="edit-course hide"><i class="material-icons edit">edit</i></a>
 
-                   <a aria-expanded="false" id="course_toggle_{{courseCode}}" class="btn-accordion collapsed hide" data-toggle="collapse" data-parent="#nested"  data-collapse="parent" href="#nested-collapseSTR-{{courseCode}}">
+                   <a aria-expanded="false" id="course_toggle_{{courseCode}}" class="btn-accordion collapsed " data-toggle="collapse" data-parent="#nested"  data-collapse="parent" href="#nested-collapseSTR-{{courseCode}}">
                        <i class="material-icons">expand_more</i>
                    </a>
                         <div class="course-edit show"  id="course-btn-container-{{courseCode}}">
                             
-                        <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show edit' style="margin-right:10px;">
+                        <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show edit'>
                             {% if statusOfFacElecUnitsCount >= electiveUnitCountRequired %} {% else %}<i class="material-icons">edit</i> {% endif %}</a>
                         <button type="button" class="btn user-show hide" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
                 </div>
