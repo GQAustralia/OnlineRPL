@@ -2458,8 +2458,9 @@ $('#user_profile_form').on('submit', function(e) {
                     $('#userprofile_firstname').css('cursor','not-allowed');
                     $("#change_address_error").hide();
 		    $("#ajax-profile-error").hide();
+		    $("#resume_msg").hide();
                     $("#profile_suc_msg2").show();
-                        $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>Profile updated successfully!</span></div>');
+                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>Profile updated successfully!</span></div>');
 						$('.body_section,.profile_popup').scrollTop(0);
                 },
             error: function(){
