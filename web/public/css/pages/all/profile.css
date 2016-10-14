@@ -9,7 +9,7 @@ input:focus{outline:0}.modal{text-align:center;padding:0 !important}.modal:befor
 .gq-id-address-error-text {padding-top:12px; text-align:center;}
 .gq-id-address-error-text h2{color:#e01010; font-size:13px;margin: 0;}
 .profile_popup .modal-body .gq-id-address-error-text img {width:auto !important; margin-right:4px; padding-bottom:4px;display: inline;}
-.gq-change-address-warning {width:60%; margin:0 auto; position:relative;}
+.gq-change-address-warning {margin:0 auto; position:relative;}
 .profile_popup .modal-body .gq-change-address-warning img{dipslay: inline;}
 .profile_popup .modal-body .gq-id-pwd-error-text img{display: inline;}
 .gq-change-pwd-warning {width:60%; margin:0 auto;}
