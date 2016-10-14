@@ -178,8 +178,8 @@ $(".changeUnitStatus").click(function() {
 		$("#course-btn-container-"+courseCode).removeClass('course-edit hide').addClass('course-edit show');
 			$('#btn-done-'+courseCode).removeClass('show').addClass('hide');
                 $("#nested-collapseSTR-"+courseCode).removeClass('panel-collapse collapse').addClass("panel-collapse collapse in");
-               $('#edit_'+courseCode).css("margin-right","10px");
-               $("#course_toggle_"+courseCode).removeClass('show').addClass('hide');
+               //$('#edit_'+courseCode).css("margin-right","10px");
+               //$("#course_toggle_"+courseCode).removeClass('show').addClass('hide');
                $("#toggle_edit_"+courseCode).removeClass('show').addClass('hide');
                 
                  $('#nested-collapseSTR-'+courseCode).find('div.user-redirect-arrow').each(function(){
