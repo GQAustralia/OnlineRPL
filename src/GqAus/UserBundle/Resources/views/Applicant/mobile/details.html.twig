@@ -180,7 +180,7 @@
                                                             <div class="panle_body_content">
                                                                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseInfo.id)%}
                                                                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseInfo.id, userRole[0]) %}
-                                                                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status in-progress">{{approvalText}} </span> </p>{%else%}{%if currUnitStatus.issubmitted is defined%}{%if currUnitStatus.issubmitted == '1'%}<p> <span class="tag status done">Submitted</span> </p>{%endif%}{% endif %}{% endif %}
+                                                                {% if approvalText|length > 0 and approvalText != '0' %}<p> <span class="tag status {%if approvalText == 'Submitted'%}done{%else%}in-progress{%endif%}">{{approvalText}} </span> </p>{% endif %}
                                                                 <p> <span class="tag-id">{{units.id}}</span> </p>
                                                                 <p><a href="javascript:void(0)" data-courseCode="{{ courseInfo.id  }}" data-unitCode="{{units.id}}" data-userId="{{userId}}" class="mobileUnitInfo">{{units.name}}</a></p>
                                                             </div>

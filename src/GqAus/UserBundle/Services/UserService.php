@@ -3920,40 +3920,9 @@ class UserService
             $approvalStatus = 0;
             switch ($userRole) {
                 case 'ROLE_RTO' :
-                    $approvalStatus = $userCourseUnits->getRtostatus();
-                    if($approvalStatus != 0)
-                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Satisfactory';  
-                    else {
-                            $approvalStatus = $userCourseUnits->getAssessorstatus();
-                            if($approvalStatus != 0){
-                                $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Satisfactory';  
-                            }
-                            else{
-                                $approvalStatus = $userCourseUnits->getFacilitatorstatus();
-                                if($approvalStatus != 0){
-                                    $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
-                                }
-                            }   
-                        }
-                    break;
                 case 'ROLE_ASSESSOR' :
-                    $approvalStatus = $userCourseUnits->getAssessorstatus();
-                    if($approvalStatus != 0){
-                        $approvalStatus = ($approvalStatus == 1) ? 'Competent' : 'Not Yet Satisfactory';  
-                    }
-                    else{
-                        $approvalStatus = $userCourseUnits->getFacilitatorstatus();
-                        if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : 'Not Yet Satisfactory';  
-                    }
-                    break;
                 case 'ROLE_FACILITATOR' :
-                    $approvalStatus = $userCourseUnits->getFacilitatorstatus();
-                    if($approvalStatus != 0) $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : '2';  
-                    $unitStatus = $userCourseUnits->getIssubmitted();
-                    if($approvalStatus == '2')
-                        $approvalStatus = ($unitStatus == 1) ? '' : 'Not Yet Satisfactory';
-                    break;
-              case 'ROLE_APPLICANT' :
+                case 'ROLE_APPLICANT' :               
                     $rtoApprovalStatus = $userCourseUnits->getRtostatus();
                     if($approvalStatus != 0){ //1,2
                         $approvalStatus = ($approvalStatus == 1) ? 'Competent' : '2';
@@ -3967,7 +3936,7 @@ class UserService
                                         $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : '2'; 
                                         if($approvalStatus =='2') {
                                             $unitStatus = $userCourseUnits->getIssubmitted();
-                                             $approvalStatus = ($unitStatus == 1) ? 'Submitted' : 'Not Yet Satisfactory';
+                                             $approvalStatus = ($unitStatus == 1) ? 'Submitted' : 'Not Yet Competent';
                                         }
                                     }
                                     else{
@@ -3997,7 +3966,7 @@ class UserService
                                             $approvalStatus = ($approvalStatus == 1) ? 'Satisfactory' : '2';  
                                              if($approvalStatus =='2') {
                                                 $unitStatus = $userCourseUnits->getIssubmitted();
-                                                $approvalStatus = ($unitStatus == 1) ? 'Submitted' : 'Not Yet Satisfactory';
+                                                $approvalStatus = ($unitStatus == 1) ? 'Submitted' : 'Not Yet Competent';
                                              }
                                         }
                                         else{
