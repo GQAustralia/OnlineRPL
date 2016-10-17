@@ -54,7 +54,7 @@
         <div class="presentation-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-lg-11">
+                    <div class="col-md-12 col-lg-12">
                         <p>
                             <span>{% if courseInfo.name %} {{courseInfo.name}} {% endif %}</span>
                             <span>{% if courseInfo.id %} {{courseInfo.id}} {% endif %}</span>
@@ -65,13 +65,13 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-md-12 col-lg-11">
+                <div class="col-md-12 col-lg-12">
                     <div class="status-message" id="status-message" style="display:none;"></div>                    
                 </div>            
             </div>
             <div class="row">
                 {% if ('ROLE_ASSESSOR' in userRole) %}
-                <div class="col-md-12 col-lg-11 hide">
+                <div class="col-md-12 col-lg-12 hide">
                     <div class="gqa-btn-group">
                         <div class="btn btn-download border-dark">
                             <a download="" href="#"><i class="material-icons">file_download</i>Download Assessment Kit for this qualification</a>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 {% endif %}
-                <div class="col-md-5 col-lg-4 ie-flex-fix">
+                <div class="col-md-5 col-lg-5 ie-flex-fix">
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
                             <div class="progres_bar_section">
