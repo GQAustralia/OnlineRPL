@@ -3152,7 +3152,7 @@ function updateFacilitator(courseCode , userId, listId,userEmail,courseName)
 	{
             $("#pwd_error_"+listId).show();
 	$("#profile_suc_msg2_"+listId).hide();		
-        $("#pwd_error_"+listId).html('<div class="gq-id-pwd-error-text alert alert-danger" style="display: block;"><h2>Please Select Facilitator</h2></div>');
+        $("#pwd_error_"+listId).html('<div class="gq-id-pwd-error-text alert alert-danger" style="display: block;"><h2>Please Select Account Manager</h2></div>');
 	}
     if(facVal != 0)
     {
