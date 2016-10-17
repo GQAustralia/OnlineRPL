@@ -3967,7 +3967,7 @@ function validateNewMessage(toMessage,sublect,composeMsg)
         var count = checkUserNameExist(toMessage);    
         if (count == 0) {
              window.scrollBy(0,  200);
-            userExistMsg("User not exists, Please select valid User name!","compose_toUserName");            
+            userExistMsg("User does not exist. Please select a valid user!","compose_toUserName");            
             return false;
         }
     }
