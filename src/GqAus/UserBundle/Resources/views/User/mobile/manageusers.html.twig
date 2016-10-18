@@ -47,7 +47,7 @@
                                 <li><a href="javascript:void(0)" onclick="addNewUserbyRole('2');">Account Manager</a></li>
                                 {% if ('ROLE_SUPERADMIN' in userRole) %}
                                     <li><a href="javascript:void(0)" onclick="addNewUserbyRole('3');">Assessor</a></li>
-                                    <li><a href="javascript:void(0)" onclick="addNewUserbyRole('4');">Rto</a></li>
+                                    <li><a href="javascript:void(0)" onclick="addNewUserbyRole('4');">RTO</a></li>
                                     <li><a href="javascript:void(0)" onclick="addNewUserbyRole('5');">Manager</a></li>
                                 {% endif %}
                             </ul>
@@ -65,7 +65,7 @@
                         <option value="">All</option>
                         <option value="2">Account Manager</option>
                         <option value="3">Assessor</option>
-                        <option value="4">Rto</option>
+                        <option value="4">RTO</option>
                         {% if ('ROLE_SUPERADMIN' in userRole) %}
                         <option value="5">Manager</option>
                         {% endif %}
