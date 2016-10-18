@@ -213,15 +213,15 @@ parameters:
                                    <a href='#applicationUrl#validateUser/#token#'>Click Here</a> to log in to your account and begin your journey. <br/><br />
                                    If you have any queries or are unable to login in, please call our Sydney office on 133 775.<br/><br/>
                                     Regards,<br/>OnlineRPL  
-    mail_portfolio_assign_facilitator_sub: "Assigned as Facilitator - OnlineRPL" 
+    mail_portfolio_assign_facilitator_sub: "Assigned as Account Manager - OnlineRPL" 
     mail_portfolio_assign_facilitator_con: >
                                     Dear #facname#, <br/> 
-                                    You are the facilitator of #toUserName# for qualification #coursecode#.<br/><br/>
+                                    You are the Account Manager of #toUserName# for qualification #coursecode#.<br/><br/>
                                     Regards, <br/>OnlineRPL 
     mail_portfolio_assign_applicantqua_sub: "Welcome - Get Qualified Australia" 
     mail_portfolio_assign_applicantqua_con: >
                                    Dear #toUserName#,<br/><br/>                                 
-                                    #facname# is assigned as your Facilitator for you qualification . <br/><br/>
+                                    #facname# is assigned as your Account Manager for you qualification . <br/><br/>
                                      You may <a href='#applicationUrl#login'>login</a> to Online RPL to start your jouney.<br/><br/>
                                    Regards,<br/>OnlineRPL
     mail_user_creation_sub: "Welcome - Get Qualified Australia" 
