@@ -403,6 +403,7 @@
                                 </div>
                             </div>
                     {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_ASSESSOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
+                            {% if ('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole) %}
                                 <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
                                     <div class="btn border-right">
                                         <div class="dropdown keep-open">
@@ -419,10 +420,11 @@
                                         </div>
                                     </div>
                                 </div>
+                            {% endif %}
                                 <div class="col-md-{{colsLng}} col-lg-{{colsLng}}">
                                     <div class="btn {% if ('ROLE_ASSESSOR' in userRole)%}border-right{%endif%}">
                                         <div class="dropdown keep-open">
-                                            <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>ToDo list</a></span>
+                                            <span class="dropdown-toggle" data-toggle="dropdown"><a href="javascript:void(0)"><i class="material-icons">playlist_add</i>To Do list</a></span>
                                             <div class="arrow" style="left: 50%;"></div>
                                             <div class="dropdown-menu">
                                                 <div class="data_section">

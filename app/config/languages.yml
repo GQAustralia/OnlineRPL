@@ -15,7 +15,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:        
-        todo_list_not_found: "Todo List Not Found"
+        todo_list_not_found: "To Do List Not Found"
         no_messages        : "No Messages Found"
         no_applicants      : "No Applicants Found"
         no_id_files        : "No Id files found"

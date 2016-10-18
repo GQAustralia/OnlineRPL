@@ -3891,7 +3891,7 @@ class UserService
                 $colLg = '4';
                 break;
             case 'ROLE_ASSESSOR':
-                $colLg = '3';
+                $colLg = '4';
                 break;
             case 'ROLE_RTO':
                 $colLg = '12';
