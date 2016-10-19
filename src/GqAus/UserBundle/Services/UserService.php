@@ -3501,11 +3501,7 @@ class UserService
             case 15:
                 $cRto = $courseObj->getRto();
                 // checking whether the assessor and rto approved the qualification or not
-                if ($courseObj->getAssessorstatus() != 1) {
-                    $response['type'] = 'Error';
-                    $response['code'] = 4;
-                    $response['msg'] = 'Assessor has not yet approved the qualification.';
-                } else if (empty($cRto)) { // checking whether the rto is assigned or not
+                if (empty($cRto)) { // checking whether the rto is assigned or not
                     $response['type'] = 'Error';
                     $response['code'] = 7;
                     $response['msg'] = 'Please assign rto!';
@@ -3516,6 +3512,8 @@ class UserService
                 } else {
                     $courseObj->setFacilitatorstatus('1');
                     $courseObj->setFacilitatorDate(date('Y-m-d H:i:s'));
+                    $courseObj->setAssessorstatus('1');
+                    $courseObj->setAssessorDate(date('Y-m-d H:i:s'));
                     $toEmail = $courseObj->getRto()->getEmail();
                     $toId = $courseObj->getRto()->getId();
                     $messageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_portfolio_submitted_sub'));
