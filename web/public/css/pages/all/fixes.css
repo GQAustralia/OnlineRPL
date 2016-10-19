@@ -560,3 +560,6 @@
 .material-icons.done-icon{
     color: green;
 }
+.alert{
+    border-radius:0 !important;
+}
