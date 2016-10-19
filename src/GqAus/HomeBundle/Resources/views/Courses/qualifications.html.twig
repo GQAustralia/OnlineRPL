@@ -289,8 +289,8 @@
                 {% if approvalText|length > 0 and approvalText != '0' %}
                                                         <p> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
                                                         <a class="qualification-cta" target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}"></a>
-                                                        <p> <span class="tag-id">{{units.id}}</span> </p>
-                                                        <p>{{units.name}}</p>
+                                                        <p> <span class="tag-id">{{units.id}}</span> <span>{{units.name}}</span></p>
+                                                        <!--p>{{units.name}}</p-->
                                                     </div>
                                                     <div class="user-redirect-arrow"><span><i class="material-icons">chevron_right</i></span></div>
                                                     <!--span><i class="material-icons">chevron_right</i></span-->
@@ -341,7 +341,6 @@
                                         <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show edit' >
                             {% if statusOfFacElecUnitsCount >= electiveUnitCountRequired %} {% else %}<i class="material-icons">edit</i> {% endif %}</a>
                                         <button type="button" class="btn user-show done hide" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
-
                                     </div>
 
         {% else %}          
@@ -397,8 +396,8 @@
                 {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}                
 
                 {% if approvalText|length > 0 and approvalText != '0' %}<p id="sub_{{units.id}}"> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
-                                                <p> <span class="tag-id">{{units.id}}</span> </p>
-                                                <p>{{units.name}}</p>                                      
+                                                <p> <span class="tag-id">{{units.id}}</span> <span>{{units.name}}</span></p>
+                                                <!--p>{{units.name}}</p-->
 
                                             </div>
              {% if totalCheckedCount >= electiveUnitCountRequired%}
