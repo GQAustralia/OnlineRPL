@@ -45,15 +45,22 @@
                                         <span class="chat_content">
                                             <span class="chat_name">
                                                 {% if message.sent.id is defined and message.sent.id == curuser and  message.replymid=="0"%}                                                    
-                                                    <strong>You</strong>
+                                                    {% if message.read == 1 or message.sent.id == userId %} You {% else %}<strong> You </strong> {% endif %}
                                                     <span class="arrow"></span>
-                                                    <strong>{{message.inbox.firstname}}</strong>
+                                                    {% if message.read == 1 or message.sent.id == userId %} {{message.inbox.firstname}} {% else %}<strong>{{message.inbox.firstname}}</strong> {% endif %}                                                    
                                                     {% elseif message.sent.id is defined %}
-                                                            {{message.sent.firstname}}
+                                                             {% if message.read == 1 or message.sent.id == userId %}
+                                                    {{message.sent.firstname}}
+                                                         {% else %}
+                                                         <strong>{{message.sent.firstname}}</strong>
+                                                         {% endif %}
                                                     {% endif %}
                                             </span>
                                                 <span class="chat_content">
+                                                         {% if message.read == 1 or message.sent.id == userId %}
+                                                         {% else %}
                                                          <strong> 
+                                                         {% endif %}
                                                             {% if message.replymid is defined and message.replymid != 0 %}                                       
                                                             <span class="reply"></span>
                                                             {% endif %}
@@ -82,7 +89,14 @@
                                                                  {{ msgSubValarr |raw ~ ' -'}} 
                                                             {% endif %}
                                                             
-                                                        </strong>
+                                                       {% if message.read == 1 or message.sent.id == userId %}
+                                                         {% else %}
+                                                         </strong> 
+                                                         {% endif %}
+                                                    {% if message.read == 1 or message.sent.id == userId %}
+                                                         {% else %}
+                                                         <strong> 
+                                                         {% endif %}
                                                         {% if message.message|length > 15 %}
                                                             {% set msgVal = message.message|split(' ', 4) %}
                                                              {% if msgVal[1] is defined %}
@@ -104,9 +118,19 @@
                                                              {% endif %}
                                                             {{ msgarr ~ '...' |raw}}
                                                        {% endif %}
+                                                         {% if message.read == 1 or message.sent.id == userId %}
+                                                         {% else %}
+                                                         </strong> 
+                                                         {% endif %}
                                                 </span>
                                         </span>
-                                        <span class="date_time">{{ message.created | date("d/m/y") }}</span>
+                                        <span class="date_time">{% if message.read == 1 or message.sent.id == userId %}
+                                                         {% else %}
+                                                         <strong> 
+                                                         {% endif %}{{ message.created | date("d/m/y") }}{% if message.read == 1 or message.sent.id == userId %}
+                                                         {% else %}
+                                                         </strong> 
+                                                         {% endif %}</span>
 									</a>
                                 </li>
 
