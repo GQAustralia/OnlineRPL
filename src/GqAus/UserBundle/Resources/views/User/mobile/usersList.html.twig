@@ -22,6 +22,13 @@
             </td>
             <td>
                 <ul>
+                     {% if (list.getRole() == '3') or (list.getRole() == '4') %}
+                        <li>
+                            <a onclick="setValtoMessage('{{list.firstName}} {{list.lastName}}')">
+                               <i class="material-icons">control_point</i>
+                            </a>
+                        </li>
+                    {% endif %}
                     <li>
                         <a href="javascript:void(0);" onclick="editUserbyRole('{{list.id}}');">
                             <i class="material-icons">edit</i>

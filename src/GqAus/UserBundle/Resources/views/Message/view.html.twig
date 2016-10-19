@@ -25,10 +25,10 @@
                             {% for key, message in messages %}
                                 <li class="{% if message.read == 1 or message.sent.id == userId %} disable {% endif %} clearfix" id="msg-{{message.id}}">
                                     {% if parameters[1] is defined %}
-									 <a href="{{ base_url }}messages/{{message.id}}?{{parameters[1]}}" class="clearfix">
-									{%else%}
-									 <a href="{{ base_url }}messages/{{message.id}}" class="clearfix">
-									{%endif%} 
+                                            <a href="{{ base_url }}messages/{{message.id}}?{{parameters[1]}}" class="clearfix">
+                                           {%else%}
+                                            <a href="{{ base_url }}messages/{{message.id}}" class="clearfix">
+                                           {%endif%} 
                                         <span class="chat_pic">
                                             {% if  message.sent.userImage is defined and message.sent.userImage!=''%}
                                             {% set userimg = amazon_link~'user-'~message.sent.id~'/'~message.sent.userImage %}
@@ -423,7 +423,11 @@
         }
         $(document).ready(function(){
          getMessageElement();
-        
+         if(sessionStorage.msgUser){
+             $('#compose_toUserName').val(sessionStorage.msgUser);
+             sessionStorage.removeItem('msgUser');
+        console.log(sessionStorage.msgUser);
+         }
         });
 
 </script> 

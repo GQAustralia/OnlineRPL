@@ -364,5 +364,14 @@
 {% block javascripts %}       
     <script src="{{ asset('public/js/jquery.form.js') }}"></script>
     <script src="{{ asset('public/js/custom-form-elements.js') }}"></script> 
-    
+    <script>
+        $(document).ready(function(){
+        
+         if(sessionStorage.msgUser){
+             $('#compose_toUserName').val(sessionStorage.msgUser);
+             sessionStorage.removeItem('msgUser');
+        console.log(sessionStorage.msgUser);
+         }
+        });
+    </script>
 {% endblock %}

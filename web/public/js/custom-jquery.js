@@ -4056,10 +4056,10 @@ function assignrtovalidate(val,val2)
     }
 }
 function fousOnNote(reqId){
-	$("#ui-datepicker-div").hide();
+    $("#ui-datepicker-div").hide();
 }
 function fousOnDate(){
-	$("#ui-datepicker-div").show();
+    $("#ui-datepicker-div").show();
 }
 $('body').on('mouseup','#evidencefiles_previous', function() {
     moveToTop()
@@ -4078,4 +4078,11 @@ function moveToTop(){
 }
 function mobileMoveToTop(){
     $('.body_section').animate({scrollTop : 0}, "5000");
+}
+
+function setValtoMessage(val){
+  
+    sessionStorage.msgUser = val;
+
+ window.location.href = base_url+'messages/compose'; 
 }
