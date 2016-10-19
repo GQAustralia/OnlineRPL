@@ -8,7 +8,9 @@
     {% else %}
      <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}">      
      {% endif %}
-
+{% if ('ROLE_FACILITATOR' in userRole[0])  %}
+   <link rel="stylesheet" href="{{ asset('public/css/pages/all/factab.css') }}">   
+{% endif %}
 {% endblock %}
 {% block body %}
 
@@ -27,8 +29,7 @@
                                 <span>Portfolios </span><span class="count" > {% if pendingApplicantsCount > 0 %}({{pendingApplicantsCount}}){% endif %} </span>
                             </h4>
                         </div>
-                    </div>
-                </div>
+                    </div>                </div>
             </div>
             {% if ('ROLE_MANAGER' not in userRole[0]) and ('ROLE_SUPERADMIN' not in userRole[0]) %}
             <div class="col-md-12 col-lg-12">
@@ -156,7 +157,7 @@
 
         
 {% endblock %}
-
+ 
 {% block javascripts %} 
    <script type="text/javascript" src="{{ asset('public/js/list.min.js') }}"></script>
    <script type="text/javascript">
@@ -171,6 +172,19 @@
         };
         var completedList = new List('completed', Completedoptions);#}
                        
+   </script>
+   <script>
+       $(document).ready(function() {
+
+    $('#myTable tr').click(function() {
+        var href = $(this).find("a").attr("href");
+        if(href) {
+            window.location = href;
+        }
+    });
+
+});
+
    </script>
 {% endblock %}
    
