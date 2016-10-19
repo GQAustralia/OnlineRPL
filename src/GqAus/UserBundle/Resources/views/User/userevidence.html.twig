@@ -17,7 +17,6 @@
         {% set textCount = textCount + 1 %}
     {% endif %}
 {% endfor %}
-<form method="post" id="frmSelectEvidence" action="/saveExistingEvidence" name="frmSelectEvidence" enctype="multipart/form-data" onsubmit="return validateExisting();">
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="evidence_block ie-info-box">
@@ -65,7 +64,7 @@
                     <div id="gq-dashboard-tabs-error" style="width: 100%;"></div>
                 </div>
                 <div class="file_info_block">
-                    
+                    <form method="post" id="frmSelectEvidence" action="/saveExistingEvidence" name="frmSelectEvidence" enctype="multipart/form-data" onsubmit="return validateExisting();">
                         <div class="scroll-content mCustomScrollbar _mCS_1">
                             <div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside">
                                 <div id="mCSB_1_container" class="mCSB_container">
@@ -137,18 +136,18 @@
                                 </div>
                             </div>
                         </div>
+                        {% if evidences|length > 0%}
+                        <div class="gqa-btn-group btn-file-save">
+                            <div class="row no-gutter">
+                                <div class="col-md-12 col-lg-12">
+                                    <input type="submit" class="btn save-existing-evidence btn-danger" value="Save" />
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </form>
                 </div>                                            
             </div>
         </div>
     </div>
-    {% if evidences|length > 0%}
-    <div class="gqa-btn-group btn-file-save">
-        <div class="row no-gutter">
-            <div class="col-md-12 col-lg-12">
-                <input type="submit" class="btn save-existing-evidence btn-danger" value="Save" />
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-</form>
+</div>
