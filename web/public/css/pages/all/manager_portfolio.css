@@ -361,6 +361,9 @@
 	.main_container .portfolio-container .portfolio-filter select {
         width: 65%;
     }
+	#searchRoleId{
+		width: 60%;
+	}
 	.main_container .portfolio-container .portfolio-filter .btn_red{
 		padding: 5px 0;
 		margin-top: 0;
