@@ -449,7 +449,7 @@
                             </div>
                             <div class="input_section">
                                     <label class="subject">Subject : </label>
-                                    <input type="text" name="msgSubject" value="{%if courseInfo.id is defined %}{{courseInfo.id}} - {%endif%}{{courseInfo.name}}" id="msgSubject">
+                                    <input type="text" name="msgSubject" value="{%if userName is defined %}{{userName}} - {%endif%}{%if courseInfo.id is defined %}{{courseInfo.id}} - {%endif%}{{courseInfo.name}}" id="msgSubject">
                             </div>
                             <textarea name="msgBody" id="msgBody"></textarea>
                             <input type="hidden" name="UserId" id="UserId" value="{%if('ROLE_ASSESSOR' in userRole or 'ROLE_RTO' in userRole)%}{{facilitatorId}}{% else %}{{userId}}{%endif%}" />
