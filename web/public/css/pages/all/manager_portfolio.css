@@ -356,6 +356,16 @@
     .main_container .portfolio-container.logs .portfolio-data-table .table thead th:nth-child(4) {
         text-align: left
     }
+	.main_container .portfolio-container .portfolio-data-table .table td span.name{
+		display: inline-block;
+		width: 85%;
+	}
+	.main_container .portfolio-container .portfolio-data-table .table td a.edit{
+		display: table-cell;
+		vertical-align: middle;
+		width: 15%;
+		float: right;
+	}
 }
 @media screen and (min-width: 1024px) {
 	.main_container .portfolio-container .portfolio-filter select {
