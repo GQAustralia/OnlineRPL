@@ -9,7 +9,7 @@
         <div>
             <div id="err_msg"></div>
             <div class="">
-                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) %}
+                {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_ASSESSOR' in roles) or ('ROLE_MANAGER' in roles) %}
                     <div class="">                              
                         {% include 'GqAusHomeBundle:Default:mobile/todolist.html.twig' %}
                     </div>
