@@ -1924,7 +1924,7 @@ function sumitFormEvidence() {
             $('#gq-dashboard-tabs-success').show();
             if (responseText){            
                 $('#sp_'+responseText).show();
-                $('#gq-dashboard-tabs-success').html('<h2 style="text-align: center; width: 100%; font-size: 14px; color: green; padding: 10px;">Existing Evidence uploaded successfully!</h2>');
+                $('#gq-dashboard-tabs-success').html('<div class="alert alert-success">Existing Evidence uploaded successfully!</div>');
                 $('#frmSelectEvidence').find('input:checked').parent().html('<i class="material-icons">done</i>');
                 $('#uploadaction').val(1);
             }
