@@ -33,16 +33,18 @@
          {% set workSpan = user_service.getRoleWiseWorkSpan(userRole[0])%}
         {% set remaingVal = (100/workSpan)*(workSpan-output[0])%}
                  {% if (status == 0) %} 
-                   <div class="progress-container ">                                                
+                   <div class="progress-container "> 
+                        <a href="javascript:void(0);" {%if applicantLogged > 0%}class='userprofile' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}' {%endif%}>
                        <div class="progress">
                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{% if remaingVal > 0 %}{{ remaingVal }}{%else%} 0 {% endif %}%"></div>
-                       </div>                        
-                       <div class="progress-copy daysleft">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%}</div>
+                       </div>        
+                            
+                       <div class="progress-copy daysleft">{% if output[0] > 0 %}{{output[0]}} d {% else %} 0d!{%endif%}</div></a>
                    </div>
                 {% endif %}
                 {% set courseStatus = qualificationStatus[list.courseStatus]['status'] %} 
                 {% if (status == 0) %} 
-                <div class="qualification-copy qualification"><span>{{list.courseCode}} {{list.courseName}}</span></div>
+                <div class="qualification-copy qualification"> <a href="javascript:void(0);" {%if applicantLogged > 0%}class='userprofile' data-courseCode='{{list.courseCode}}' data-userId='{{list.user.id}}' {%endif%}><span>{{list.courseCode}} {{list.courseName}}</span></a></div>
                 {% endif %}
             </div>
             </td>

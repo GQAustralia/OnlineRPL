@@ -173,6 +173,8 @@
         var completedList = new List('completed', Completedoptions);#}
                        
    </script>
+   {% set userRole = app.security.getToken().getUser().getRoles() %}
+   {% if ('ROLE_FACILITATOR' in userRole[0])  %}
    <script>
        $(document).ready(function() {
 
@@ -186,6 +188,7 @@
 });
 
    </script>
+   {% endif %}
 {% endblock %}
    
     
