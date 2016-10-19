@@ -78,9 +78,9 @@
         {% if ('ROLE_MANAGER' in userRole) %}
          <td>
              {% if list.facilitator is defined and list.facilitator != null and list.facilitator.id!=0 %}
-                <span>{{list.facilitator.firstName}} {{list.facilitator.firstName}}</span>
+                <span class="name">{{list.facilitator.firstName}} {{list.facilitator.firstName}}</span>
              {% endif %}
-             <a href="javascript:void(0)" data-toggle="modal" data-target="#update_popup_{{id}}"><i class="material-icons">control_point</i></a>
+             <a href="javascript:void(0)" data-toggle="modal" data-target="#update_popup_{{id}}" class="edit"><i class="material-icons">edit</i></a>
              {#<span id="fac_tick_{{id}}" class="check {% if list.facilitator is defined and list.facilitator != null and list.facilitator.id!=0 %} {% else %}hide {% endif %}"><i class="material-icons">check</i></span> #}            
              <!-- Modal -->
         {% set courseFacilitator = user_service.getFacilitaorInfo('ROLE_FACILITATOR') %}
@@ -115,9 +115,9 @@
          </td>
          <td>
              {% if list.assessor is defined and list.assessor != null and list.assessor.id!=0  %}
-                <span>{{list.assessor.firstName}} {{list.assessor.lastName}}</span>
+                <span class="name">{{list.assessor.firstName}} {{list.assessor.lastName}}</span>
              {% endif %}
-             <a href="javascript:void(0)" data-toggle="modal" data-target="#update_assessor_{{id}}"><i class="material-icons">control_point</i></a>
+             <a href="javascript:void(0)" data-toggle="modal" data-target="#update_assessor_{{id}}" class="edit"><i class="material-icons">edit</i></a>
              {#<span id="ass_tick_{{id}}" class="check {% if list.assessor is defined and list.assessor != null and list.assessor.id!=0  %} {% else %} hide {% endif %}"><i class="material-icons">check</i></span> #}
              <!-- Modal -->
         {% set courseAssessor = user_service.getAssessorInfo('ROLE_ASSESSOR') %}
@@ -151,9 +151,9 @@
          </td>
          <td>
              {% if list.rto is defined and list.rto != null and list.rto.id!=0 %}
-                <span> {{list.rto.firstName}} {{list.rto.lastName}}</span>
+                <span class="name"> {{list.rto.firstName}} {{list.rto.lastName}}</span>
              {% endif %}
-             <a href="javascript:void(0)" data-toggle="modal" data-target="#update_rto_{{id}}"><i class="material-icons">control_point</i></a>
+             <a href="javascript:void(0)" data-toggle="modal" data-target="#update_rto_{{id}}" class="edit"><i class="material-icons">edit</i></a>
              {#<span id="rto_tick_{{id}}" class="check {% if list.rto is defined and list.rto != null and list.rto.id!=0 %}  {% else %} hide {% endif %}"><i class="material-icons">check</i></span>#}
              <!-- Modal -->
         {% set courseRto = user_service.getRtoInfo('ROLE_RTO') %}
