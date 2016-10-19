@@ -829,14 +829,13 @@ $(".setData").click(function() {
 
     if (remindDate === '') {
         $(reminderDateId).focus();
-        $(reminderDateId).css("border","1px solid red");
+        $(reminderDateId).css("border","1px solid red");       
         return false;
     }
     var currEle = $(this).parent().parent().parent();
     var stPos = {topPos:($(currEle[0]).offset().top),leftPos:$(currEle[0]).offset().left};
-
     var newTodoItemElement = false;
-
+     
     if( $('.dashboard').length > 0 ){
         var todoIcon = (reminderType == 'evidence') ? 'cloud_upload': ((reminderType=='portfolio')? 'account_circle': (reminderType=='message')? 'message': 'edit'); 
         var itemElement = $(this).parent().parent().parent().find('.content');
@@ -858,9 +857,9 @@ $(".setData").click(function() {
 
         newTodoItemContent = '<li class="list_item clearfix todoContent"><a class="clearfix tool_tip"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></li></a>';
         if(todoIcon == 'edit')
-            newTodoItemElement = '<li class="list_item clearfix todoContent"><a class="clearfix tool_tip" title="'+itemContent+'"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></a><div class="checkbox_outer"><input data-todotype="'+reminderType+'" data-todotypeid="reminderId" type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
+            newTodoItemElement = '<li class="list_item clearfix todoContent"><a class="clearfix tool_tip" title="'+getDisplayDate(remindDate)+itemContent+'"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+getDisplayDate(remindDate)+contentSub+'</span></a><div class="checkbox_outer"><input data-todotype="'+reminderType+'" data-todotypeid="reminderId" type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
         else 
-            newTodoItemElement = '<li class="list_item clearfix todoContent"><a class="tool_tip" target="_blank" data-reminderid="reminderId" data-status="0" title="'+itemContent+'" href="'+itemLink+'"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+contentSub+'</span></a><div class="checkbox_outer"><input data-todotype="'+reminderType+'" data-todotypeid="reminderId" type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
+            newTodoItemElement = '<li class="list_item clearfix todoContent"><a class="tool_tip" target="_blank" data-reminderid="reminderId" data-status="0" title="'+getDisplayDate(remindDate)+itemContent+'" href="'+itemLink+'"><span class="list_icon"><i class="material-icons message">'+todoIcon+'</i></span><span class="content bold">'+getDisplayDate(remindDate)+contentSub+'</span></a><div class="checkbox_outer"><input data-todotype="'+reminderType+'" data-todotypeid="reminderId" type="checkbox" id="reminderId" class="todomodalClass" data-status="0" data-toggle="modal" data-target="#confirm_popup"><span></span></div></li>';
 
         var todayDate = new Date();
         var todayMonth = todayDate.getMonth() + 1;
@@ -4085,4 +4084,22 @@ function setValtoMessage(val){
     sessionStorage.msgUser = val;
 
  window.location.href = base_url+'messages/compose'; 
+}
+
+function addZeroDecimal(reqval){
+    if(reqval<10){
+     return '0'+reqval;
+    }
+    return reqval;
+}
+function getDisplayDate(reDateStr){
+
+    var dateStrArr=reDateStr.split(' ');
+    var acDate=dateStrArr[0].split('/');
+    var acTime=dateStrArr[1].split(':');
+    var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+    var currentDate = new Date(acDate[2],Number(acDate[1])-1,acDate[0],acTime[0],acTime[1],00,00);
+    var displayDate=days[currentDate.getDay()]+' '+addZeroDecimal(currentDate.getDate())+'/'+addZeroDecimal(currentDate.getMonth())+' '+addZeroDecimal(currentDate.getHours())+':'+addZeroDecimal(currentDate.getMinutes())+dateStrArr[2].toUpperCase()+" ";
+    return displayDate;
 }

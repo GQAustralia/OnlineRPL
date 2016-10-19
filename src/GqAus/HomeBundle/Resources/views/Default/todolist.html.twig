@@ -40,6 +40,7 @@
                         {% if todoReminders|length > 0 %}
                                 {% for key, todoList in todoReminders %}
                                 {% set startDate = todoList.date|date('Y-m-d') %}
+                                {% set startDisDate = todoList.date %}
                                 {% set difference = date( 'now' | date() ).diff(date(startDate)) %}
                                 {% set daycount = difference.days %}
                                 {% set counterClass = (daycount<=3)? 'disable_day': ((daycount<=5)? 'active_day': 'highlight_day') %}
@@ -53,14 +54,15 @@
                                             <span class="list_icon">
                                                     <i class="material-icons message">{{todoIcon}}</i>
                                             </span>
+                                            
                                             <span class="content {% if(todoList.reminderViewStatus == '0' ) %} bold {% endif %}">
-                                                {{ rTypeContent.text }}
+                                              {{startDisDate| date('l') }}  {{startDisDate| date("d/m")}} {{startDisDate| date("h:iA")}} {{ rTypeContent.text }}
                                             </span>
                                         </a>
                                     {% else %}
                                             <a class="clearfix tool_tip" target="_blank" title="{{ todoList.message }}">
                                                 <span class="list_icon"><i class="material-icons message">{{todoIcon}}</i></span>
-                                                <span class="content bold">{{ todoList.message }}</span>
+                                                <span class="content bold"> {{startDisDate| date('l') }}  {{startDisDate| date("d/m")}} {{startDate| date("h:iA")}} {{ todoList.message }}</span>
                                             </a>
                                     {% endif %}
                                    {% if daycount > 2 %}
@@ -87,6 +89,7 @@
                     <ul class="completed-list">
                         {% if completedReminders|length > 0 %}
                             {% for  key, todoCompleteList in completedReminders %}
+                        {% set startCompleteDate = todoCompleteList.date|date('Y-m-d') %}
                                     {% set todoCompletedIcon = (todoCompleteList.reminderType == 'evidence') ? 'cloud_upload': ((todoCompleteList.reminderType=='portfolio')? 'account_circle': (todoCompleteList.reminderType=='message')? 'message': 'edit') %}
                                     <li class="list_item clearfix disable">
                                         
@@ -97,7 +100,7 @@
                                                     <i class="material-icons message">{{todoCompletedIcon}}</i>
                                             </span>
                                             <span class="content">
-                                                {{ rTypeContent.text }}
+                                                {{startCompleteDate| date('l') }}  {{startCompleteDate| date("d/m")}} {{startCompleteDate| date("h:iA")}} {{ rTypeContent.text }}
                                             </span>
                                         </a>
                                     {% else %}
@@ -105,7 +108,7 @@
                                         <span class="list_icon">
                                                 <i class="material-icons message">{{ todoCompletedIcon }}</i>
                                         </span>
-                                        <span class="content" title="{{ todoCompleteList.message }}">{{ todoCompleteList.message }}</span>
+                                        <span class="content" title=" {{startCompleteDate| date('l') }}  {{startCompleteDate| date("d/m")}} {{startCompleteDate| date("hA")}} {{ todoCompleteList.message }}">{{startCompleteDate| date('l') }}  {{startCompleteDate| date("d/m")}} {{startCompleteDate| date("h:iA")}}{{ todoCompleteList.message }}</span>
 									</a>
                                     {% endif %}
                                         <div class="checkbox_outer">
