@@ -128,19 +128,21 @@
                         <li>
                             <strong class="hidden-xs">Add New</strong>
                         </li>
-                        <li>
-                            <a href="{{ app.request.baseUrl }}/messages" title="Message" target="_blank" class="icon">
-                                <i class="material-icons message">message</i>
-                                <span>Message</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ app.request.baseUrl }}/applicants" title="Portfolio" target="_blank" class="icon">
-                                <i class="material-icons account_circle">account_circle</i>
-                                <span>Portfolio</span>
-                            </a>
-                        </li>
-                        {% if ('ROLE_FACILITATOR' in roles) %}
+                        {% if ('ROLE_RTO' in roles)%}
+                            <li>
+                                <a href="{{ app.request.baseUrl }}/messages" title="Message" target="_blank" class="icon">
+                                    <i class="material-icons message">message</i>
+                                    <span>Message</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ app.request.baseUrl }}/applicants" title="Portfolio" target="_blank" class="icon">
+                                    <i class="material-icons account_circle">account_circle</i>
+                                    <span>Portfolio</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if ('ROLE_FACILITATOR' not in roles) %}
                             <li>
                                 <a href="{{ app.request.baseUrl }}/evidences" title="Evidence" target="_blank" class="icon">
                                     <i class="material-icons cloud_upload">cloud_upload</i> 
