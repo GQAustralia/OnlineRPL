@@ -1,10 +1,6 @@
 {% set unreadPortfolios = (unreadApplicantsCount > 0) ? unreadApplicantsCount : 0 %}
 <div class="accordian_block">
-    <div class="title_bar clearfix">
-        <span class="title">
-                <a href="{{ app.request.baseUrl }}/applicants" title="View All Portfolios"> PORTFOLIOS <strong>({{ unreadPortfolios }})</strong></a>
-        </span>
-    </div>
+    <a href="{{ app.request.baseUrl }}/applicants" title="View All Portfolios"><div class="title_bar clearfix"><span class="title">PORTFOLIOS <strong>({{ unreadPortfolios }})</strong></span></div></a>
     {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_MANAGER' in roles) %}
         {% if pendingApplicantsCount > 0 %}
             <ul class="count_list clearfix">
