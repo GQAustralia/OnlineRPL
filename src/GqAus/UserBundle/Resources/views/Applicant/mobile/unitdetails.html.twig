@@ -213,7 +213,7 @@
         <div role="dialog" id="satisfactory"  data-backdrop="static" data-keyboard="false" class="modal fade" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content satisfactory-modal-content">
-                    <div class="modal-body"><p><strong>Done!</strong><br>This unit is  {% if ('ROLE_FACILITATOR' in userRole) %}SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}COMPETENT{% elseif('ROLE_RTO' in userRole)%}COMPETENT{% endif %}.<br/>Do you want to send {{username}} a message about this?</p></div>
+                    <div class="modal-body"><p><strong>Done!</strong><br>This unit is  {% if ('ROLE_FACILITATOR' in userRole) %}SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}COMPETENT{% elseif('ROLE_RTO' in userRole)%}COMPETENT{% endif %}.<br/>Do you want to send {{userName}} a message about this?</p></div>
                     <div class="modal-footer">
                         <div class="form-group form-group-lg gqa-btn-group" id="applicantEStatus" userRole="{{userRole.0}}">
                             <div class="form">
@@ -241,7 +241,7 @@
         <div role="dialog" id="not-satisfactory"  data-backdrop="static" data-keyboard="false" class="modal fade" style="display: none;">
             <div class="modal-dialog"><!-- Modal content-->
                <div class="modal-content not-satisfactory-modal-content">
-                    <div class="modal-body"><p><strong>Add a Message</strong><br>Please let {{username}} know why this unit is <br>{% if ('ROLE_FACILITATOR' in userRole) %}NOT YET SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}NOT YET COMPETENT{% elseif('ROLE_RTO' in userRole)%}NOT YET COMPETENT{% endif %}</p>
+                    <div class="modal-body"><p><strong>Add a Message</strong><br>Please let {{userName}} know why this unit is <br>{% if ('ROLE_FACILITATOR' in userRole) %}NOT YET SATISFACTORY{% elseif('ROLE_ASSESSOR' in userRole)%}NOT YET COMPETENT{% elseif('ROLE_RTO' in userRole)%}NOT YET COMPETENT{% endif %}</p>
                         <p><textarea name="msg-body" id="msg-body" cols="30" rows="4"></textarea></p>
                     </div>
                     <div class="modal-footer">
