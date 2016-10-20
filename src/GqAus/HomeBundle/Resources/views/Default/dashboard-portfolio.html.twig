@@ -4,22 +4,30 @@
     {% if ('ROLE_FACILITATOR' in roles) or ('ROLE_MANAGER' in roles) %}
         {% if pendingApplicantsCount > 0 %}
             <ul class="count_list clearfix">
+                {%if dateRangeRecords.thirtyDaysApplicantsCount != '0' %}<a style="color:#373a3c;" href="/applicants">{%endif%}
                 <li class="active">
                     <strong>{{ dateRangeRecords.thirtyDaysApplicantsCount }} {% if dateRangeRecords.thirtyDaysApplicantsCount == 0 %} <i class="material-icons">thumb_up</i> {% endif %}</strong>
                     <span class="average_count" style="height: {{ dateRangeRecords.thirtyDayApplicantsPercent }}px;"></span>
                 </li>
+                {%if dateRangeRecords.thirtyDaysApplicantsCount != '0' %}</a>{%endif%}
+                {%if dateRangeRecords.sixtyDaysApplicantsCount != '0' %}<a style="color:#373a3c;" href="/applicants">{%endif%}
                 <li>
                     <strong>{{ dateRangeRecords.sixtyDaysApplicantsCount }} {% if dateRangeRecords.sixtyDaysApplicantsCount == 0 %} <i class="material-icons">thumb_up</i> {% endif %}</strong>
                     <span class="high_count" style="height: {{ dateRangeRecords.sixtyDaysApplicantsPercent }}px;"></span>
                 </li>
+                {%if dateRangeRecords.sixtyDaysApplicantsCount != '0' %}</a>{%endif%}
+                {%if dateRangeRecords.ninetyDaysApplicantsCount != '0' %}<a style="color:#373a3c;" href="/applicants">{%endif%}
                 <li>
                     <strong>{{ dateRangeRecords.ninetyDaysApplicantsCount }} {% if dateRangeRecords.ninetyDaysApplicantsCount == 0 %} <i class="material-icons">thumb_up</i> {% endif %}</strong>
                     <span class="low_count" style="height: {{ dateRangeRecords.ninetyDaysApplicantsPercent }}px;"></span>
                 </li>
+                {%if dateRangeRecords.ninetyDaysApplicantsCount != '0' %}</a>{%endif%}
+                {%if dateRangeRecords.ninetyDaysPlusRecordsCount != '0' %}<a style="color:#373a3c;" href="/applicants">{%endif%}
                 <li>
                     <strong>{{ dateRangeRecords.ninetyDaysPlusRecordsCount }} {% if dateRangeRecords.ninetyDaysPlusRecordsCount == 0 %} <i class="material-icons">thumb_up</i> {% endif %}</strong>
                     <span class="very_low_count" style="height: {{ dateRangeRecords.ninetyDaysPlusRecordsPercent }}px;"></span>
                 </li>
+                {%if dateRangeRecords.ninetyDaysPlusRecordsCount != '0' %}</a>{%endif%}
             </ul>
             <ul class="range clearfix">
                 <li>
