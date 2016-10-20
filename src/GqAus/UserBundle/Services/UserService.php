@@ -3565,10 +3565,7 @@ class UserService
         $this->em->persist($courseObj);
         $this->em->flush();
         if ($toEmail != '' && $toId != '' && $roleMessageBody != '' && $roleMailBody != '') {
-             dump($toEmail);
-            dump($mailSubject); dump($roleMailBody); dump($courseObj->getFacilitator()->getEmail()); dump($courseObj->getFacilitator()->getUsername());
-            dump($aplMailBody);
-            exit;
+             
             // send the external mail and internal message to facilitator
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
              $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
