@@ -61,8 +61,6 @@ class ApplicantController extends Controller
                     $results['notesFromCourse'] = $userService->getNotesFromCourseIdOnly($applicantInfo['coursePrimaryId'], $roleType);
             }
             $electiveUnitArr = $results['electiveUnitsSelected'];
-//            $results['coreUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'core');
-//            $results['electiveUnitsCount'] = $userService->getCountUnits($results['courseInfo']['Units']['Unit'], 'elective', $electiveUnitArr);
             $results['evidenceCompleteness'] = $coursesService->getEvidenceByCourse($uid, $qcode);
             $results['facApplicantsCount'] = $this->get('UserService')->getPendingApplicantsCount($applicantInfo['facilitatorId'], array('ROLE_FACILITATOR'), '0');
             $results['assApplicantsCount'] = $this->get('UserService')->getPendingApplicantsCount($applicantInfo['assessorId'], array('ROLE_ASSESSOR'), '0');

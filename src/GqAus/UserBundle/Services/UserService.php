@@ -431,7 +431,12 @@ class UserService
             $rto = $this->getUserInfo($otheruser->getRto());
             $results['assessorImage'] = !empty($assessor) ? $this->userImage($assessor->getUserImage(),$assessor->getId()) : '';
 			
+            $results['rtofirstName'] = !empty($rto) ? $rto->getFirstname() : '';
+            $results['rtolastName'] = !empty($rto) ? $rto->getLastname() : '';
             $results['rtoName'] = !empty($rto) ? $rto->getUsername() : '';
+            $results['rtoImage'] = !empty($rto) ? $this->userImage($rto->getUserImage(),$rto->getId()) : '';
+            $results['rtoEmail'] = !empty($rto) ? $rto->getEmail() : '';
+            $results['rtoPhone'] =  !empty($rto) ? $assessor->getPhone() : '';
             $results['rtoCeoName'] = !empty($rto) ? $rto->getCeoname() : '';
             $results['rtoCeoEmail'] = !empty($rto) ? $rto->getCeoemail() : '';
             $results['rtoCeoPhone'] = !empty($rto) ? $rto->getCeophone() : null;

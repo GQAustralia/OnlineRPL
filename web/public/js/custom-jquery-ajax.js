@@ -75,6 +75,7 @@ $(".modal-body span.close").click(function(){
     $('#currProfile').modal('hide');
     $('#facProfile').modal('hide');
     $('#assProfile').modal('hide');
+    $('#rtoProfile').modal('hide');
 });
 
 $("body").on('click', '#disapproveyes', function() {

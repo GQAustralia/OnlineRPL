@@ -47,8 +47,8 @@
     {% set facVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
     {% set assProName = ('ROLE_ASSESSOR' in userRole) ? 'You ' : assessorName %}
     {% set assVocName = ('ROLE_ASSESSOR' in userRole) ? 'are' : 'is' %}
-    {% set rtoProName = ('ROLE_FACILITATOR' in userRole) ? 'You ' : rtoName %}
-    {% set rtoVocName = ('ROLE_FACILITATOR' in userRole) ? 'are' : 'is' %}
+    {% set rtoProName = ('ROLE_RTO' in userRole) ? 'You ' : rtoName %}
+    {% set rtoVocName = ('ROLE_RTO' in userRole) ? 'are' : 'is' %}
     <!-- Large Screens HTML -->
     <div class="body_section">
         <div class="presentation-section">
@@ -111,8 +111,8 @@
                             <div class="review-container">
                             {%if rtoId is not empty %}
                                 <div class="review">
-                                    <div class="review_content"><p><strong class="text-uppercase">Rto</strong> - {{rtoName}}</p></div>
-                                    <div class="review_profile-pic"><span></span></div>
+                                    <div class="review_content"><p><strong class="text-uppercase">{{rtoProName}}</strong> {{rtoVocName}} {{userName}}'s RTO for this course</p></div>
+                                    <div class="review_profile-pic"><a href="javascript:viod(0);"><img class="profile-img" data-target="#rtoProfile" data-toggle="modal" src="{% if rtoImage %}{{rtoImage}}{% endif %}" /></a></span></div>
                                 </div>
                             {%endif%}
                             {%if facilitatorId is not empty %}
