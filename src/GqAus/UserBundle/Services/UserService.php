@@ -3445,8 +3445,8 @@ class UserService
         $courseChangeStatus = $statusList[$courseStatus]['status'];
 
         // finding and replacing the variables from message templates
-        $subSearch = array('#courseCode#', '#courseName#');
-        $subReplace = array($courseObj->getCourseCode(), $courseObj->getCourseName());
+        $subSearch = array('#userName#','#courseCode#', '#courseName#');
+        $subReplace = array($courseObj->getUser()->getUsername(),$courseObj->getCourseCode(), $courseObj->getCourseName());
         $messageSubject = str_replace($subSearch, $subReplace,
             $this->container->getParameter('msg_portfolio_update_sub'));
         $mailSubject = str_replace($subSearch, $subReplace,
@@ -3565,6 +3565,10 @@ class UserService
         $this->em->persist($courseObj);
         $this->em->flush();
         if ($toEmail != '' && $toId != '' && $roleMessageBody != '' && $roleMailBody != '') {
+             dump($toEmail);
+            dump($mailSubject); dump($roleMailBody); dump($courseObj->getFacilitator()->getEmail()); dump($courseObj->getFacilitator()->getUsername());
+            dump($aplMailBody);
+            exit;
             // send the external mail and internal message to facilitator
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
              $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername()); 
