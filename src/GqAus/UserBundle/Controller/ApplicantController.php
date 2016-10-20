@@ -391,6 +391,7 @@ class ApplicantController extends Controller
                         $results['id'] = $evidences->getId();
                         $results['path'] = $evidences->getPath();
                         $results['pathName'] = $evidences->getName();
+                        $results['fileType'] = $evidences->getType();
                     }
                     return $this->render('GqAusUserBundle:Evidence:view-evidence.html.twig', $results);
                 }

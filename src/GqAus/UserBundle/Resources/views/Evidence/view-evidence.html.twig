@@ -5,14 +5,21 @@
 <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 gq-dashboard-right">
     <div class="row">
         <div class="col-xs-12">
-            <div class="gq-evidence-new">                
-                 <a href = "{{ amazon_link }}user-{{ userId.id }}/{{  path }}" class="fancybox">
-                    <div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div>
-                </a>                
+            <div class="gq-evidence-new">       
+                {% set msDocStatus = evidence_service.getFileExtensionType(path) %}
+                {% set eviType = evidence_service.getEvidenceShowType(fileType) %}
+                {% set output = eviType|split('&&') %}
+                <a href="{% if fileType != 'recording' %}{{ amazon_link }}user-{{userId.id}}/{{  path }}{%else%}{{ amazon_link~tokbox_key }}/{{ path }}/archive.mp4{%endif%}" 
+                    {% if (not msDocStatus) %}
+                        {% if output[1] is defined %}
+                            {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}" {% else %} target="_blank"{% endif %}
+                        {%endif%}
+                    {%else%}
+                            id="yourLink"
+                    {% endif %}><div class="gq-id-files-content-icon-wrap gq-id-files-content-img-icon"></div></a>              
             </div>
         </div>
     </div>
-
 </div>
 {% endblock %}
 {% block javascripts %}
@@ -26,6 +33,10 @@
                window.close();
             }    
         }).trigger("click");
+        var hrefval = $('#yourLink').attr('href');
+        if (typeof hrefval !== 'undefined') {
+          window.location.href = hrefval;  
+        }
     });
 </script>
 {% endblock %}
