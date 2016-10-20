@@ -8,9 +8,9 @@
     {% else %}
      <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}">      
      {% endif %}
-{% if ('ROLE_FACILITATOR' in userRole[0])  %}
+
    <link rel="stylesheet" href="{{ asset('public/css/pages/all/factab.css') }}">   
-{% endif %}
+
 {% endblock %}
 {% block body %}
 
@@ -174,7 +174,7 @@
                        
    </script>
    {% set userRole = app.security.getToken().getUser().getRoles() %}
-   {% if ('ROLE_FACILITATOR' in userRole[0])  %}
+   
    <script>
        $(document).ready(function() {
 
@@ -189,7 +189,7 @@
 });
 
    </script>
-   {% endif %}
+  
 {% endblock %}
    
     
