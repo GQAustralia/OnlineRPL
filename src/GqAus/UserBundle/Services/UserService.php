@@ -1653,6 +1653,9 @@ class UserService
                 $fromEmail = $this->container->getParameter('fromEmailAddress');
                 $fromUserName = 'Online RPL';
             }
+            
+            $fromEmail = $this->container->getParameter('fromEmailAddress');
+            
             $emailContent = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom(array($fromEmail => $fromUserName))
