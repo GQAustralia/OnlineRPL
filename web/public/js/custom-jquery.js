@@ -1555,7 +1555,7 @@ function validateAddress()
 		$('.body_section').scrollTop(0);
         return false;
     }
-    if(userrole!='rtouser') {
+    if((userrole=='facilitatoruser') || (userrole=='assessortoruser') || (userrole=='manager') || (userrole=='superadmin')) {
      if ($("#userprofile_phone").val() != "") {
          var uphoneVal = $("#userprofile_phone").val();
           var uphone = uphoneVal.replace(/\s/g, "");        
@@ -1592,7 +1592,7 @@ function validateAddress()
         }
     }
     }
-    if(userrole!='facilitatoruser') {
+    if((userrole=='rtouser') || (userrole=='assessortoruser') || (userrole=='applicant')) {
    if ($("#userprofile_address_address").val() == "") {
         $("#change_address_error").show();       
         showMyTabs("Please enter address");        
