@@ -106,7 +106,7 @@
                         </div>
                         {% endif %}
 
-                        <div class="section name_group clearfix">
+                        <div class="section name_group clearfix"  {% if ('ROLE_FACILITATOR' in userRole) %} style="border-bottom:1px solid #d8d8d8" {% endif %}>
                             <div class="form-group">
                                 <label for="gq-personal-pwd">Phone</label>
                                 {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
