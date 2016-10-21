@@ -29,24 +29,28 @@
                                 <span>Portfolios </span><span class="count" > {% if pendingApplicantsCount > 0 %}({{pendingApplicantsCount}}){% endif %} </span>
                             </h4>
                         </div>
-                    </div>                </div>
+                    </div>                
+                </div>
             </div>
-            {% if ('ROLE_MANAGER' not in userRole[0]) and ('ROLE_SUPERADMIN' not in userRole[0]) %}
+            {% if ('ROLE_MANAGER' not in userRole) and ('ROLE_SUPERADMIN' not in userRole) %}
             <div class="col-md-12 col-lg-12">
                 <div class="portfolio-filter clearfix">
                     <div class="filter gq-app-search-grid"> 
                         <input type="text" value="" id="search-current" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
                         <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search" style="display: none;"/>     
                     </div>
+                    {% if ('ROLE_FACILITATOR' in userRole) %}
                     <div class="days-list">
-                        <label for="">Days</label>
-                        <select>
-                            <option value="">0-30 days</option>
-                            <option value="">31-60 days</option>
-                            <option value="">61-90 days</option>
-                            <option value="">&gt; 90 days</option>
+                        <label for="">Days : </label>
+                        <select id="searchAge" name="searchAge">
+                            <option value="">--Select--</option>
+                            <option value="1"> 0 - 30 </option>
+                            <option value="2"> 31 - 60 </option>
+                            <option value="3"> 61 - 90 </option>
+                            <option value="4"> &gt;90 </option>
                         </select>
                     </div>
+                    {%endif%}
                     <div class="gq-dashboard-tabs-header wid20p">
                         <ul role="tablist" id="myTab">
                             <li role="presentation" id="applicantPending11" class="status active">
@@ -180,22 +184,6 @@
         };
         var completedList = new List('completed', Completedoptions);#}
                        
-   </script>
-   {% set userRole = app.security.getToken().getUser().getRoles() %}
-   
-   <script>
-       $(document).ready(function() {
-
-    $('#myTable tr').click(function() {
-        var href = $(this).find("a").attr("href");
-        if(href) {
-            //window.location = href;
-			window.open(href,'_blank');
-        }
-    });
-
-});
-
    </script>
   
 {% endblock %}

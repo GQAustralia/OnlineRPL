@@ -1292,6 +1292,19 @@ $(".search-box").keyup(function (e) {
         loadApplicantList('completedList',pagenum);
     }  
 });
+$('#searchAge').change(function(e) {
+    pagenum = 1;        
+    if(applicantStatus==0)
+    {      
+        loadDataIcon('currentList');
+        loadApplicantList('currentList',pagenum);
+    }
+    if(applicantStatus==1)
+    {
+        loadDataIcon('completedList');
+        loadApplicantList('completedList',pagenum);
+    }  
+});
 $(".search-box-mobile").keypress(function () {     
     if(applicantStatus==0)
     {      
@@ -1307,16 +1320,15 @@ $(".search-box-mobile").keypress(function () {
 });
 function loadApplicantList(divContent)
 {
-    
-    searchName = $('#searchName').val();
- //   searchTime = $('#timeRemaining').val();
+ searchName = $('#searchName').val();
  filterByUser = $('#filterByUser').val();
-filterByStatus = $('#filterByStatus').val(); 
+ filterByStatus = $('#filterByStatus').val(); 
+ searchAge = $('#searchAge').val(); 
     $.ajax({
         type: "POST",
         url: base_url + "searchApplicantsList",
         cache: false,
-        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus},
+        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByUser: filterByUser, filterByStatus: filterByStatus, searchAge: searchAge},
         success: function(result) {                       
            $("#filter-by-name").hide();
             $("#filter-by-week").hide();

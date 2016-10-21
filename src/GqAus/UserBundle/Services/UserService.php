@@ -676,7 +676,7 @@ class UserService
      * return array
      */
     public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, 
-        $searchTime = null, $filterByUser = null, $filterByStatus = null)
+        $searchTime = null, $filterByUser = null, $filterByStatus = null, $searchAge = null)
     {
       
         if ($page <= 0 ) {
@@ -699,12 +699,12 @@ class UserService
             $userType = 'superadmin';
             $userStatus = '';
         }
-        $fields = 'partial c.{id, courseCode, courseName, courseStatus,targetDate,facilitatorDate,assessorDate,rtoDate,facilitatorread,assessorread,rtoread}, partial u.{id, firstName, lastName,email}';
+        $fields = 'partial c.{id, courseCode, courseName, courseStatus,createdOn, targetDate,facilitatorDate,assessorDate,rtoDate,facilitatorread,assessorread,rtoread}, partial u.{id, firstName, lastName,email}';
         $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
             ->createQueryBuilder('c')
             ->select()
             ->innerJoin('c.user', 'u')
-             ->innerJoin('c.user', 'a');
+            ->innerJoin('c.user', 'a');
                 
 
         if ($userType != 'superadmin' && $userType != 'manager') {
@@ -789,17 +789,34 @@ class UserService
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) >= " . $searchTime1);
             $res->andWhere("DATE_DIFF(c.targetDate, c.createdOn) <= " . $searchTime);
         }
-
+        if (!empty($searchAge)) {
+            $filterByStatus = '';
+            if($searchAge == '1'){
+                $initialDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 30, date('Y')));
+                $finalDate = date('Y-m-d H:i:s');
+            }elseif($searchAge == '2'){
+                $initialDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 60, date('Y')));
+                $finalDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 31, date('Y')));;
+            }elseif($searchAge == '3'){
+                $initialDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 90, date('Y')));
+                $finalDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 61, date('Y')));;
+            }elseif($searchAge == '4'){
+                $initialDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 91, date('Y')));
+                $finalDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - 31, date('Y')-100));;
+            }
+            $nameCondition .= "c.createdOn BETWEEN '".$initialDate."' AND '".$finalDate."'";
+            $res->andWhere($nameCondition);
+        }
         if (!empty($filterByUser)) {
             $res->andWhere('c.facilitator = :filterByUser OR c.assessor = :filterByUser')
                 ->setParameter('filterByUser', $filterByUser);
         }
 
-        if ($filterByStatus >= 0 && $filterByStatus!="") {
+        if ($filterByStatus >= 0 && $filterByStatus != "") {
             $res->andWhere('c.courseStatus = :filterByStatus')->setParameter('filterByStatus', $filterByStatus);          
         }
-       
-       // $res->orderBy('c.id', 'DESC');
+
+        $res->orderBy('c.id', 'DESC');
                
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
@@ -807,7 +824,7 @@ class UserService
         /* Pagination */
         $applicantList = $res->getQuery()->getResult();
         
-       //dump($applicantList);exit;
+//       dump($applicantList);exit;
         for($i=0;$i<count($applicantList);$i++)
         {
            
