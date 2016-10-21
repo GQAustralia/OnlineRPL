@@ -2114,7 +2114,7 @@ class UserService
         }
         else if ($userRole == 'ROLE_MANAGER') {
             $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
-                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto OR u instance of GqAusUserBundle:Facilitator)');
             $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";
             $query->andWhere($nameCondition);            
         }
@@ -4457,7 +4457,7 @@ class UserService
         }
         else if ($userRole == 'ROLE_MANAGER') {
             $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
-                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
+                    . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto OR u instance of GqAusUserBundle:Facilitator)');
             $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName) = '" . $options['keyword'] . "' ";
             $query->andWhere($nameCondition);            
         }
