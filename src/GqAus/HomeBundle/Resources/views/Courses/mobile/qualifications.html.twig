@@ -21,6 +21,7 @@
     {% set userId = app.security.getToken().getUser().getId() %}     
     {% set flagCurrent = '1' %}
     {% set courseCode = courses.getCourseCode()%}
+    {% set packageInfo = courses_service.getPackagerulesInfo(courseCode)%}
         {% set courseId = courses.getId() %} 
     {% set courseInfo = courses_service.getUserCoursesInfo(courseCode)%}       
 {% if courseInfo.courseInfo == "No records found" %}
@@ -359,6 +360,25 @@
             </div>
             {% endif %}
         </div>
+         <!-- Packaging rules Display -->
+                    {% if packageInfo.packageInfo is defined %}
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="comments download-enroll">
+                                <div class="panel-group">
+                                    <div class="panel-heading">
+                                        <span>PACKAGING RULES</span>                                         
+                                    </div>
+                                    <div class="panel-content">
+                                        
+                                        <p>
+                                             {{packageInfo.packageInfo.packaging | raw}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     {% endif %}
+                    <!-- End Packaging rules Display -->
         <!-- Enrollment form started -->
     <div class="" id="idfiles_msg"></div>
    {% if courses.rto.lastName is defined and courses.rto.lastName != "" %}

@@ -23,7 +23,7 @@ class CoursesController extends Controller
         $results = $courseService->getCoursesInfo($id);
         $courseService->updateQualificationUnits($user->getId(), $id, $results);
         $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
-        
+        $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
         $results['electiveUnits'] = $getUnits['courseUnits'];
         $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
         $results['evidences'] = $user->getEvidences();
@@ -33,7 +33,7 @@ class CoursesController extends Controller
         $assessmentForm = $this->createForm(new AssessmentForm(), array());
         $results['assessmentForm'] = $assessmentForm->createView();
         $results['statusList'] = $this->get('UserService')->getQualificationStatus();
-        
+       
         return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', $results);
     }
 
@@ -55,6 +55,7 @@ class CoursesController extends Controller
                 $id = $coursearr->getCourseCode();
                 
                 $results = $courseService->getCoursesInfo($id);
+                $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
                 $courseService->updateQualificationUnits($user->getId(), $id, $results);
                 $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
                 
@@ -71,6 +72,7 @@ class CoursesController extends Controller
         else{
             $results = '';
         }
+        
         return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', 
             array('userCourses' => $user->getCourses(),
                 'courseConditionStatus' => $user->getCourseConditionStatus(),

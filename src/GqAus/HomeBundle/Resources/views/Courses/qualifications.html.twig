@@ -18,14 +18,17 @@
     {% set counterArr = 0 %}
     {% set awaitngVal = '' %}
 
-{% for key, courses in userCourses %}       
+{% for key, courses in userCourses %}     
+    
     {% set userRole = app.security.getToken().getUser().getRoles() %}
     {% set userId = app.security.getToken().getUser().getId() %} 
     {% set userId = app.security.getToken().getUser().getId() %} 
     {% set flagCurrent = '1' %}
     {% set courseCode = courses.getCourseCode()%}
         {% set courseId = courses.getId() %} 
-    {% set courseInfo = courses_service.getUserCoursesInfo(courseCode)%}       
+    {% set courseInfo = courses_service.getUserCoursesInfo(courseCode)%} 
+    {% set packageInfo = courses_service.getPackagerulesInfo(courseCode)%} 
+   
 {% if courseInfo.courseInfo == "No records found" %}
 {% elseif courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
 {% set evidenceCompleteness = courses_service.getEvidenceByCourse(userId, courseCode) %}
@@ -176,6 +179,26 @@
                     </div>
     {% endif %}
 {% endif %}
+                    <!-- Packaging rules Display -->
+                    {% if packageInfo.packageInfo is defined %}
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="comments download-enroll">
+                                <div class="panel-group">
+                                    <div class="panel-heading">
+                                        <span>PACKAGING RULES</span>                                         
+                                    </div>
+                                    <div class="panel-content">
+                                        <p>
+                                             {{packageInfo.packageInfo.packaging | raw}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <!-- End Packaging rules Display -->
                     <!-- Enrollment form started -->
                                  <div class="" id="idfiles_msg"></div>
                                 {% if courses.rto.lastName is defined and courses.rto.lastName != "" %}
