@@ -51,22 +51,24 @@
                                        <input type="text" value="" autocomplete="off" id="search-current" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
                                         <input type="text" value="" name="searchName" autocomplete="off" id="searchName" class="search-box" placeholder="Search" style="display: none;"/>  
                                     </div>
-                                </div>                                    
+                                </div>   
+                                {% if ('ROLE_FACILITATOR' in userRole) %}
                                 <div class="col-xs-6 col-sm-6">
                                     <div class="days-list">
-                                        <label for="">Days</label>
-                                        <select>
-                                            <option value="">0-30 days</option>
-                                            <option value="">31-60 days</option>
-                                            <option value="">61-90 days</option>
-                                            <option value="">&gt; 90 days</option>
+                                        <label for="">Days : </label>
+                                        <select id="searchAge" name="searchAge">
+                                            <option value="">--Select--</option>
+                                            <option value="1"> 0-30 days </option>
+                                            <option value="2"> 31-60 days </option>
+                                            <option value="3"> 61-90 days </option>
+                                            <option value="4"> &gt; 90 days </option>
                                         </select>
                                     </div>
                                 </div>
+                                {%endif%}
                             </div>
                         </div>
                     </div>
-                   
                     {% else %}
                        <div class="col-xs-12 col-sm-12">
                                 <div class="form-inline portfolio-filter">
