@@ -105,7 +105,7 @@
                         </div>
                         {% endif %}
 
-                        <div class="section name_group clearfix" {% if ('ROLE_FACILITATOR' in userRole) %} style="border-bottom:1px solid #d8d8d8" {% endif %}>
+                        <div class="section name_group clearfix" {% if(('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole))%} style="border-bottom:1px solid #d8d8d8" {% endif %}>
                             <div class="form-group">
                                 <label for="gq-personal-pwd">Phone</label>
                                 {{ form_widget(form.phone,{ 'attr': {'maxlength': '20'} }) }}
@@ -170,7 +170,7 @@
                         {% endif %}
 
                         <!-- Address info-->
-                        <div class="section name_group clearfix {% if ('ROLE_FACILITATOR' in userRole) %} hide {% endif %}">
+                        <div class="section name_group clearfix {% if (('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole)) %} hide {% endif %}">
                             <div class="form-group">
                                 <label for="gq-personal-pwd">Street Number</label>
                                 {{ form_widget(form.address.address,{ 'attr': {'maxlength': '30'} }) }}
@@ -180,7 +180,7 @@
                                 {{ form_widget(form.address.area,{ 'attr': {'maxlength': '30'} }) }}
                             </div>
                         </div>
-                        <div class="section name_group clearfix {% if ('ROLE_FACILITATOR' in userRole) %} hide {% endif %}">
+                        <div class="section name_group clearfix {% if (('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole))%} hide {% endif %}">
                             <div class="form-group">
                                 <label for="gq-personal-pwd">Suburb</label>
                                 {{ form_widget(form.address.suburb,{ 'attr': {'maxlength': '30'} }) }}
@@ -191,7 +191,7 @@
                             </div>
                         </div>
 
-                        <div class="section name_group clearfix {% if ('ROLE_FACILITATOR' in userRole) %} hide {% endif %}">
+                        <div class="section name_group clearfix {% if (('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole)) %} hide {% endif %}">
                             <div class="form-group">
                                 <label for="gq-personal-pwd">State</label>
                                 {{ form_widget(form.address.state,{ 'attr': {'maxlength': '30'} }) }}
@@ -202,7 +202,7 @@
                             </div>
                         </div>
 
-                        <div class="section {% if ('ROLE_FACILITATOR' in userRole) %} hide {% endif %}">
+                        <div class="section {% if (('ROLE_FACILITATOR' in userRole) or ('ROLE_MANAGER' in userRole)) %} hide {% endif %}">
                             <div class="form-group">
                                 <label for="gq-personal-pwd">Postcode</label>
                                 {{ form_widget(form.address.pincode,{ 'attr': {'maxlength': '30'} }) }}

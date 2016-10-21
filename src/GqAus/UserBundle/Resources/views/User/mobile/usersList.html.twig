@@ -22,12 +22,14 @@
             </td>
             <td>
                 <ul>
-                     {% if (list.getRole() == '3') or (list.getRole() == '4') or (list.getRole() == '2') %}
-                        <li>
-                            <a onclick="setValtoMessage('{{list.firstName}} {{list.lastName}}')">
-                               <i class="material-icons">control_point</i>
-                            </a>
-                        </li>
+                     {% if ('ROLE_MANAGER' in userRole) %}
+                        {% if (list.getRole() == '3') or (list.getRole() == '4') or (list.getRole() == '2') %}
+                           <li>
+                               <a onclick="setValtoMessage('{{list.firstName}} {{list.lastName}}')">
+                                  <i class="material-icons">control_point</i>
+                               </a>
+                           </li>
+                       {% endif %}
                     {% endif %}
                     <li>
                         <a href="javascript:void(0);" onclick="editUserbyRole('{{list.id}}');">
