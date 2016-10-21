@@ -45,13 +45,24 @@
                                </div>
                             </div>   
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12">
+                                <div class="col-xs-6 col-sm-6">
                                     <div  class="filter">
                                      {#   <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search" /> #}
                                        <input type="text" value="" autocomplete="off" id="search-current" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
-                        <input type="text" value="" name="searchName" autocomplete="off" id="searchName" class="search-box" placeholder="Search" style="display: none;"/>  
+                                        <input type="text" value="" name="searchName" autocomplete="off" id="searchName" class="search-box" placeholder="Search" style="display: none;"/>  
                                     </div>
                                 </div>                                    
+                                <div class="col-xs-6 col-sm-6">
+                                    <div class="days-list">
+                                        <label for="">Days</label>
+                                        <select>
+                                            <option value="">0-30 days</option>
+                                            <option value="">31-60 days</option>
+                                            <option value="">61-90 days</option>
+                                            <option value="">&gt; 90 days</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
