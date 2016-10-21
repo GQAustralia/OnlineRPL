@@ -1208,6 +1208,7 @@ $("#searchName").keyup(function(event) {
         }
 });
 $("#applicantCompleted").click(function() {
+    $(".days-list").css('visibility','hidden');
     $("#search-current").val("");
     $("#searchName").show();
     $("#search-current").hide();
