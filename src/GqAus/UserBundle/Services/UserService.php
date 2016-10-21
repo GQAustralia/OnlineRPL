@@ -547,6 +547,45 @@ class UserService
                 }
             }
             
+            if($result['userRole'] == 'ROLE_ASSESSOR'){
+                $userId = $result['userId'];
+                $courseCode = $result['courseCode'];
+                $coreUnitCount = $this->getCourseCountStatusByRoleWise($userId, 'ROLE_ASSESSOR', $courseCode, 'core');
+                $electiveUnits = $this->getCourseCountStatusByRoleWise($userId, 'ROLE_ASSESSOR', $courseCode, 'elective');
+                $totalReqAllUnits = $this->coursesService->getReqUnitsForCourseByCourseId($courseCode);
+                $totalReqUnits = $totalReqAllUnits['core'] + $totalReqAllUnits['elective'];
+                $reqElectUnits = $totalReqUnits-($coreUnitCount['noOfNotRvdrcrds'] + $coreUnitCount['noOfRvdRcrds']);
+                $statusOfAssCoreUnitsCount = $this->getTheStatusOfUnitsUnderCourse($userId, $courseCode, 'assessorstatus', 'core');
+                $statusOfAssElecUnitsCount = $this->getTheStatusOfUnitsUnderCourse($userId, $courseCode, 'assessorstatus', 'elective');
+                if ($reqElectUnits <= $statusOfAssElecUnitsCount)  $statusOfAssElecUnitsCount = $reqElectUnits;
+                $statusOfAssUnitsCount = $statusOfAssElecUnitsCount + $statusOfAssCoreUnitsCount;
+              
+                if($statusOfAssUnitsCount == $totalReqUnits){
+                    $courseObj->setAssessorDate(date('Y-m-d H:i:s'));
+                    $courseObj->getAssessorstatus($result['status']);
+                    $this->em->persist($courseObj);
+                    $this->em->flush();
+                    
+                    $subSearch = array('#userName#','#courseCode#', '#courseName#');
+                    $subReplace = array($courseObj->getUser()->getUsername(),$courseObj->getCourseCode(), $courseObj->getCourseName());
+                    $facMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_appove_evdience_ass_facilitator_sub'));
+                    $facMailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_appove_evdience_ass_facilitator_sub'));
+                    
+                    $msgSearch = array('#toUserName#', '#courseCode#', '#courseName#', '#userName#', '#fromUserName#', '#applicationUrl#');
+                    $facMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getUser()->getUsername(), $courseObj->getAssessor()->getUsername(), $this->container->getParameter('applicationUrl'));
+                    $canMsgReplace = array($courseObj->getFacilitator()->getUsername(), $courseObj->getCourseCode(), $courseObj->getCourseName(), $courseObj->getUser()->getUsername(), $courseObj->getAssessor()->getUsername(), $this->container->getParameter('applicationUrl'));
+                    
+                    $canMessageBody = str_replace($msgSearch, $canMsgReplace,$this->container->getParameter('msg_appove_evdience_ass_candidate_con'));
+                    $canMailBody = str_replace($msgSearch, $canMsgReplace,$this->container->getParameter('mail_appove_evdience_ass_candidate_con'));
+                   
+                    /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+                    $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
+                    /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+                   // $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $canMessageBody);
+
+                }
+                
+            }
             $logType = $this->getlogType('10');
             $this->createUserLog('10', $logType['message']);
 			

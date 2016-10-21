@@ -271,4 +271,17 @@ parameters:
                                        Your facilitator will be in touch with you shortly. <br /><br />
                                        <a href='#applicationUrl#messages'>Click here</a> to login to your Online RPL account.<br /><br/>
                                        Regards, <br/>#fromUserName#
+    mail_appove_evdience_ass_facilitator_sub: "#userName# - #courseCode# #courseName#" 
+    mail_appove_evdience_ass_candidate_con: >
+                                      Dear #toUserName#, <br/><br/>
+                                      Please note that this portfolio has been deemed competent.<br/>
+                                      Qualification : #courseCode# - #courseName#.<br/> 
+                                      Provided evidence for above course are competent.Candidate details: #userName#<br/><br/>
+                                      Regards, <br/>#fromUserName#
+    msg_appove_evdience_ass_facilitator_sub: "All Evidence are competent for - #courseCode# : #courseName#" 
+    msg_appove_evdience_ass_candidate_con: >
+                                       Hi #toUserName#, <br/><br/> 
+                                       Qualification : #courseCode# - #courseName#.<br/> 
+                                       Provided evidence for above course are competent.Candidate details: #userName#<br/><br/>
+                                       Regards, <br/>#fromUserName#
 
