@@ -160,13 +160,14 @@ class ApplicantController extends Controller
         $searchTime = $this->getRequest()->get('searchTime');
         $filterByUser = $this->getRequest()->get('filterByUser');
         $filterByStatus = $this->getRequest()->get('filterByStatus');
+        $searchAge = $this->getRequest()->get('searchAge');
         $status = $this->getRequest()->get('status');
         $page = $this->getRequest()->get('pagenum');        
         if ($page == '') {
             $page = 1;
         }         
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, 
-            $searchName, $searchTime, $filterByUser, $filterByStatus);
+            $searchName, $searchTime, $filterByUser, $filterByStatus, $searchAge);
             if ($userRole[0] == Superadmin::ROLE_NAME || $userRole[0] == Manager::ROLE_NAME) {
                     $results['facilitators'] = $this->get('UserService')->getUsers(Facilitator::ROLE);                    
                 }        
