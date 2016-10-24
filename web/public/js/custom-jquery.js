@@ -1923,10 +1923,11 @@ $(".select_existing_evidence").click(function() {
 function sumitFormEvidence() {
    var unit = $('#unit-code').val(),
        courseCode = $('#course-code').val();
-   $('#select_hid_unit').val(unit);
+    $('#select_hid_unit').val(unit);
     $('#select_hid_course').val(courseCode);
     $('#file_save').hide();
     $('.uploadevidence_loader').show();
+    $('.save-existing-evidence').prop('disabled', true);
     var data = $("#frmSelectEvidence").serialize();
     $.ajax({
         type: "POST",
@@ -1940,8 +1941,9 @@ function sumitFormEvidence() {
             if (responseText){            
                 $('#sp_'+responseText).show();
                 $('#gq-dashboard-tabs-success').html('<div class="alert alert-success">Existing Evidence uploaded successfully!</div>');
-                $('#frmSelectEvidence').find('input:checked').parent().html('<i class="material-icons">done</i>');
+                $('#frmSelectEvidence').find('input:checked').parent().html('<i class="material-icons" style="color:green;">done</i>');
                 $('#uploadaction').val(1);
+                $('.save-existing-evidence').prop('disabled', false);
             }
         }
     });
