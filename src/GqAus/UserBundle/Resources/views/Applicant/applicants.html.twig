@@ -82,7 +82,7 @@
         {% if ('ROLE_MANAGER' in userRole) %}
          <td>
              {% if list.facilitator is defined and list.facilitator != null and list.facilitator.id!=0 %}
-                <span class="name">{{list.facilitator.firstName}} {{list.facilitator.firstName}}</span>
+                <span class="name">{{list.facilitator.firstName}} {{list.facilitator.lastName}}</span>
              {% endif %}
              <a href="javascript:void(0)" data-toggle="modal" data-target="#update_popup_{{id}}" class="edit"><i class="material-icons">edit</i></a>
              {#<span id="fac_tick_{{id}}" class="check {% if list.facilitator is defined and list.facilitator != null and list.facilitator.id!=0 %} {% else %}hide {% endif %}"><i class="material-icons">check</i></span> #}            
