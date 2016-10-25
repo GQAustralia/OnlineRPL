@@ -4117,3 +4117,17 @@ function getDisplayDate(reDateStr){
     var displayDate=days[currentDate.getDay()]+' '+addZeroDecimal(currentDate.getDate())+'/'+addZeroDecimal(currentDate.getMonth())+' '+addZeroDecimal(currentDate.getHours())+':'+addZeroDecimal(currentDate.getMinutes())+dateStrArr[2].toUpperCase()+" ";
     return displayDate;
 }
+
+var ccToggle=true;
+function courseToggle(req){
+    ccToggle=!ccToggle;
+    if(ccToggle){
+        $(req).find('i').text('expand_less');
+    }else{
+        $(req).find('i').text('expand_more');
+        setTimeout(function(){ 
+          var cePos=  $(req).offset();
+          var movable=cePos.top-30;
+          $("html, body").animate({ scrollTop: movable }, "slow");},100);
+    }
+}
