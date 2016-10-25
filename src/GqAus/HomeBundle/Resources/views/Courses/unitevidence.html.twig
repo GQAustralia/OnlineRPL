@@ -8,9 +8,6 @@
 {% endblock %}
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
-{#    {% set unitFacStatus = unitStatus.facilitatorstatus %}
-    {% set unitAssStatus = unitStatus.assessorstatus %}
-    {% set unitRtostatus = unitStatus.rtostatus %}#}    
     <!-- Large Screens HTML -->
     <div class="hidden-xs body_section">
         <div class="presentation-section">
@@ -47,12 +44,8 @@
                         </p>
                     </div>
                 </div>
-            </div>
-           {# <div class="qualification-success-msg" id="gq-dashboard-tabs-success-assess"></div>
-            <div class="qualification-er-msg " id="gq-dashboard-tabs-error-assess"></div>#}
-            
+            </div>            
             {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseCode) %}
-            
             {% if( approvalText != '0') %}
                 {% set showUpload = (approvalText == 'Satisfactory') ? 'hide' : ((approvalText == 'Competent') ? 'hide' : (approvalText == 'Approved') ? 'hide' : ((approvalText == 'Submitted') ? 'hide': 'show')) %}
             {% else %}
@@ -75,7 +68,7 @@
                                                     <div class="panle_body_content">
                                                         <p><strong>Elements and Performance Criteria</strong></p>
                                                     </div>
-    <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested" data-toggle="collapse" aria-expanded="false" class="collapsed">
+                                                    <a href="#nested-collapseSeven" data-status="true"  data-collapse="child" data-parent="#nested" data-toggle="collapse" aria-expanded="false" class="collapsed">
                                                         <i class="material-icons">expand_less</i>
                                                     </a>
                                                 </div>
@@ -84,43 +77,42 @@
                                                 <div class="panel-body">
                                                     <div class="panel-copy">
                                                         <div class="unit-element-details">{%if elements|length > 0%}{{elements|raw}}{% endif %}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <div class="panel-title">
-                                                    <div class="panle_body_content">
-                                                        <p><strong>Required Skills &amp; Knowledge</strong></p>
-                                                    </div>
-                                                    <a href="#nested-collapseEight" data-collapse="child" data-parent="#nested" data-toggle="collapse">
-                                                        <i class="material-icons">expand_more</i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="panel-collapse collapse" id="nested-collapseEight">
-                                                <div class="panel-body">
-                                                    <div class="panel-copy">
-                                                        <div class="unit-element-details">{%if skillsKnowledge|length > 0%}{{skillsKnowledge|raw}}{% endif %}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <div class="panel-title">
-                                                    <div class="panle_body_content">
-                                                        <p><strong>Evidence Guide &amp; Range Statement</strong></p>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title">
+                                                        <div class="panle_body_content">
+                                                            <p><strong>Required Skills &amp; Knowledge</strong></p>
+                                                        </div>
+                                                        <a href="#nested-collapseEight" data-collapse="child" data-parent="#nested" data-toggle="collapse">
+                                                            <i class="material-icons">expand_more</i>
+                                                        </a>
                                                     </div>
-                                                    <a href="#nested-collapseNine" data-collapse="child" data-parent="#nested" data-toggle="collapse">
-                                                        <i class="material-icons">expand_more</i>
-                                                    </a>
+                                                </div>
+                                                <div class="panel-collapse collapse" id="nested-collapseEight">
+                                                    <div class="panel-body">
+                                                        <div class="panel-copy">
+                                                            <div class="unit-element-details">{%if skillsKnowledge|length > 0%}{{skillsKnowledge|raw}}{% endif %}</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="panel-collapse collapse" id="nested-collapseNine">
-                                                <div class="panel-body">
-                                                    <div class="panel-copy">
-                                                        <div class="unit-element-details">{%if evidenceGuide|length > 0%}{{evidenceGuide|raw}}{% endif %}</div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title">
+                                                        <div class="panle_body_content"><p><strong>Evidence Guide &amp; Range Statement</strong></p></div>
+                                                        <a href="#nested-collapseNine" data-collapse="child" data-parent="#nested" data-toggle="collapse">
+                                                            <i class="material-icons">expand_more</i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-collapse collapse" id="nested-collapseNine">
+                                                    <div class="panel-body">
+                                                        <div class="panel-copy">
+                                                            <div class="unit-element-details">{%if evidenceGuide|length > 0%}{{evidenceGuide|raw}}{% endif %}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,36 +123,38 @@
                         </div>
                     </div>
                 </div>
-                </div>
                 <div class="col-md-6 col-lg-6 ie-flex-fix">
                     <div class="row">
-                <div class="col-md-12 col-lg-12">
-                    <div class="panel-group">
-                        <div class="panel clearfix">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <span>Evidence</span>
-                                    <span class="pull-right evdcount" data-evdcount="{{evidenceCount}}"><strong> {{ evidenceCount }} Evidence Files Linked</strong></span>
-                                </h4>
-                            </div>
-                            {% if (showUpload == 'show' or approvalText =='0')%}
-                                <div class="panel-body" style="border-bottom:1px solid #d8d8d8">
-                                    <div class="gqa-btn-group">
-                                        <div class="row no-gutter">
-                                            <div class="col-md-12 col-lg-12">
-                                                <div class="btn-add btn" data-toggle="modal" data-target="#add-evidence">
-                                                    <i class="material-icons add-evidence-btn">add</i>
-                                                    <a class="add-evidence" href="#">Add Evidence</a>
+                        <div class="col-md-12 col-lg-12">
+                            <div class="panel-group">
+                                <div class="panel clearfix">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <span>Evidence</span>
+                                            <span class="pull-right evdcount" data-evdcount="{{evidenceCount}}"><strong> {{ evidenceCount }} Evidence Files Linked</strong></span>
+                                        </h4>
+                                    </div>
+                                    {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode, unitCode) %}
+                                    {% if (showUpload == 'show' or approvalText =='0')%}
+                                        {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 and unitType.type=='elective'%}                                        
+                                            <div class="panel-body" style="border-bottom:1px solid #d8d8d8">
+                                                <div class="gqa-btn-group">
+                                                    <div class="row no-gutter">
+                                                        <div class="col-md-12 col-lg-12">
+                                                            <div class="btn-add btn" data-toggle="modal" data-target="#add-evidence">
+                                                                <i class="material-icons add-evidence-btn">add</i>
+                                                                <a class="add-evidence" href="#">Add Evidence</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% if(evidences|length > 0 ) %}
-                            <div class="panel-body">
-                                <div class="panel-copy" id="linkedEvidences">
-				{%set inc = 0 %}
+                                        {% endif %}
+                                {% endif %}
+                                {% if(evidences|length > 0 ) %}
+                                <div class="panel-body">
+                                    <div class="panel-copy" id="linkedEvidences">
+                                    {%set inc = 0 %}
                                     {% for evidence in evidences %}
 					{%set inc = inc+1 %}
                                         {% if evidence.unit == unitCode %}
@@ -217,14 +211,12 @@
                                     </div>
                                         <div class="panel-body">
                                         {% set evdText = courses_service.getsubmitUnitForReview(userId,courseCode,unitCode) %}  
-                                            {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,unitCode) %}
                                         {% set selfAsseNote = '' %} 
                                         {% for key , test  in evdText %}                                         
-                                        {% if test.content  is defined %}
-                                       {% set selfAsseNote = test.content %} 
-                                         {% endif %}
+                                            {% if test.content  is defined %}
+                                                {% set selfAsseNote = test.content %} 
+                                            {% endif %}
                                         {% endfor%}
-                                            
                                             <textarea id="selfassnote" name="selfassnote" >{% if approvalText == "Not Yet Satisfactory" or  approvalText == "" %} {% else %}{{selfAsseNote}} {% endif %}</textarea>    
                                              <span class="char-count" id = "myWordCount"></span>                                             
                                         </div>
@@ -233,40 +225,26 @@
                         </div>
                     </div>
                     <div class="row">
-                <div class="col-md-12 col-lg-12">
-                    <div class="gqa-btn-group">
-                        <div class="row no-gutter">
-                            <div class="col-md-12 col-lg-12">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="gqa-btn-group">
                                 <div class="row no-gutter">
                                     <div class="col-md-12 col-lg-12">
-
-                                       {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseCode) %}
-
-                                        {% if unitType.type == "core" and unitType.issubmitted != 1%}
-                                                <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>
-                                       {% endif %} 
-                                        {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus!=0 and unitType.type=='elective' and unitType.issubmitted != 1 %}                                        
-                                            <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>
-
-                                       {#{% set unitType = courses_service.getUnitStatus(userId, unitCode,courseInfo.id) %}
-                                        {% if unitType.type=="core" %}
-                                                <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>
-                                       {% endif %} {% if electiveUnits[0] is defined and selfAsseNote  == "" and electiveUnits[0].electiveStatus!=0 and unitType.type='elective'%}                                        
-                                            <button type="button" id="btn-submit" class="btn btn-gray border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseInfo.id}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>#}
-
-                                        {% endif %}
-                                        
-                    
-
+                                        <div class="row no-gutter">
+                                            <div class="col-md-12 col-lg-12">
+                                                {% if unitType.type == "core" and unitType.issubmitted != 1%}
+                                                    <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>
+                                                {% endif %} 
+                                                {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus!=0 and unitType.type=='elective' and unitType.issubmitted != 1 %}                                        
+                                                    <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </div>                   
                             </div>
-                        </div>                   
+                        </div>
                     </div>
                 </div>
-                </div>
-                </div>
-                
             </div>
         </div>
     </div>

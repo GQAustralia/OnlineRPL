@@ -8,9 +8,6 @@
 {% endblock %}
 {% block body %}
     {% set userRole = app.security.getToken().getUser().getRoles() %}
-{#    {% set unitFacStatus = unitStatus.facilitatorstatus %}
-    {% set unitAssStatus = unitStatus.assessorstatus %}
-    {% set unitRtostatus = unitStatus.rtostatus %}#}
     
     <!-- Large Screens HTML -->
     <div class="body_section qualification mobi_unit_detail">
@@ -131,7 +128,10 @@
                                     <span class="pull-right evdcount" data-evdcount="{{evidenceCount}}"><strong> {{ evidenceCount }} Evidence Files Linked</strong></span>
                                 </h4>
                             </div>
+                            {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode, unitCode) %}
+                            {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseCode) %}
                             {% if (showUpload == 'show' or approvalText =='0')%}
+                                {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 and unitType.type=='elective'%}  
                                 <div class="panel-body" style="border-bottom:1px solid #d8d8d8">
                                     <div class="gqa-btn-group">
                                         <div class="row no-gutter">
@@ -144,6 +144,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% endif %}
                             {% endif %}
                             {% if(evidences|length > 0 ) %}
                             <div class="panel-body">
@@ -206,7 +207,6 @@
                                     </div>
                                         <div class="panel-body">
                                         {% set evdText = courses_service.getsubmitUnitForReview(userId,courseCode,unitCode) %}  
-                                            {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,unitCode) %}
                                         {% set selfAsseNote = '' %} 
                                         {% for key , test  in evdText %}
                                         {% if test.content  is defined %}
@@ -227,7 +227,6 @@
                                 <div class="row no-gutter">
                                     <div class="col-xs-12 col-sm-12">
 
-                                       {% set unitType = courses_service.getUnitStatus(userId, unitCode,courseCode) %}
 
                                         {% if unitType.type == "core" and unitType.issubmitted != 1%}
                                                 <button type="button" id="btn-submit" class="btn btn-danger border-right" onclick="return checkEvidenceToUnitSubmit({{userId}},'{{courseCode}}','{{unitCode}}');">SUBMIT THIS UNIT FOR REVIEW</button>
