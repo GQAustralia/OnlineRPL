@@ -200,8 +200,8 @@ parameters:
                                    Regards, <br/>#fromUserName#
     mail_portfolio_fac_assessor_submitted_sub: "Get Qualified Australia - Online RPL:  Notification" 
     mail_portfolio_fac_assessor_submitted_con: >
-                                   Hi #toUserName#, <br/> 
-                                   Please find herewith a new portfolio to be assessed.<br/>                                    
+                                   Hi #toUserName#, <br/><br/> 
+                                   Please find herewith a new portfolio to be assessed.<br/><br/>                                  
                                    Regards, <br/>#fromUserName#                               
     mail_portfolio_assign_applicant_sub: "Welcome - Get Qualified Australia" 
     mail_portfolio_assign_applicant_con: >
@@ -269,8 +269,8 @@ parameters:
                                        Regards, <br/>#fromUserName#
     mail_appove_evdience_ass_facilitator_sub: "#userName# - #courseCode# #courseName#" 
     mail_appove_evdience_ass_candidate_con: >
-                                      Dear #toUserName#, <br/><br/>
-                                      Please note that this portfolio has been deemed competent.<br/>                                      
+                                      Dear #toUserName#, <br/><br/><br/>
+                                      Please note that this portfolio has been deemed competent.<br/><br/>                                      
                                       Regards, <br/>#fromUserName#
     msg_appove_evdience_ass_facilitator_sub: "All Evidence are competent for - #courseCode# : #courseName#" 
     msg_appove_evdience_ass_candidate_con: >
