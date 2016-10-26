@@ -1179,8 +1179,92 @@ class UserService
         
         return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
     }
-    
-    
+    /**
+     * Function to get applicants list information
+     * @param int $userId
+     * @param string $userRole
+     * @param int $status
+     * @param int $page
+     * @param string $searchName
+     * @param string $searchQualification
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $searchTime
+     * return array
+     */
+    public function getUserApplicantsListByGridHeadings($userId, $userRole, $status, $page, $searchName = null, $searchTime = null, 
+        $filterByFac = null, $filterByAss = null, $filterByRto = null, $filterByStatus = null, $startDate = null, $endDate = null, $searchTime = null, $module = null){
+        $nameCondition = null;
+        $qualCondition = null;
+        if (in_array('ROLE_ASSESSOR', $userRole)) {
+            $userType = 'assessor';
+            $userStatus = 'assessorstatus';
+        } elseif (in_array('ROLE_FACILITATOR', $userRole)) {
+            $userType = 'facilitator';
+            $userStatus = 'facilitatorstatus';
+        } elseif (in_array('ROLE_RTO', $userRole)) {
+            $userType = 'rto';
+            $userStatus = 'rtostatus';
+        } elseif (in_array('ROLE_MANAGER', $userRole)) {
+            $userType = 'facilitator';
+            $userStatus = 'facilitatorstatus';
+        } elseif (in_array('ROLE_SUPERADMIN', $userRole)) {
+            $userType = 'facilitator';
+            $userStatus = 'facilitatorstatus';
+        }
+        $fields = 'partial c.{id, courseCode, courseName, courseStatus, assessorstatus, facilitatorstatus, rtostatus,'
+            . ' assessorDate, facilitatorDate, rtoDate}, partial u.{id, firstName, lastName}';
+        $res = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                ->createQueryBuilder('c')
+                ->select($fields)
+                ->join('c.user', 'u');
+        
+         if (!empty($filterByFac)) {
+            $res->andWhere('c.facilitator = :facilitatorId')->setParameter('facilitatorId', $filterByFac);
+         }
+         if (!empty($filterByAss)) {
+            $res->andWhere('c.assessor = :assessorId')->setParameter('assessorId', $filterByAss);
+         }                
+         if (!empty($filterByRto)) {
+            $res->andWhere('c.rto = :rtoId')->setParameter('rtoId', $filterByRto);
+         }                
+         if ($filterByStatus >= 0 && $filterByStatus != "") {
+            $res->andWhere('c.courseStatus = :filterByStatus')->setParameter('filterByStatus', $filterByStatus);          
+        }
+
+        if (!empty($searchName)) {
+            $searchNamearr = explode(" ", $searchName);
+            for ($i = 0; $i < count($searchNamearr); $i++) {
+                if ($i == 0)
+                    $nameCondition .= "u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
+                    . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+                else
+                    $nameCondition .= " OR u.firstName LIKE '%" . $searchNamearr[$i] . "%' "
+                    . "OR u.lastName LIKE '%" . $searchNamearr[$i] . "%'";
+            }
+            $res->andWhere($nameCondition);
+        }
+        
+        $res->orderBy('c.id', 'DESC');
+//        echo '<pre>';
+//        $query = $res->getQuery();
+//        print_r(array(
+//            'sql'        => $query->getSQL(),
+//            'parameters' => $query->getParameters(),
+//        ));
+//        exit;
+        /* Pagination */
+        $paginator = new \GqAus\UserBundle\Lib\Paginator();
+        if($page){
+            $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
+        }
+        /* Pagination */
+        $page = ($page) ? $page : '0';
+        $applicantList = $res->getQuery()->getResult();
+        
+        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
+                
+    }
 
     /**
      * Function to add qualification remainder
@@ -3049,12 +3133,12 @@ class UserService
         $statement = $connection->prepare("SELECT id, first_name as firstname, last_name as lastname, "
             . "role_type as roletype,status, CONCAT(first_name, ' ', last_name) as username FROM user WHERE"
             ." status = 1"
-            . " AND (role_type = :frole OR role_type = :arole) ORDER BY role_type ");
+            . " AND (role_type = :frole OR role_type = :arole OR role_type = :rrole) ORDER BY role_type ");
         $statement->bindValue('frole', Facilitator::ROLE);
         $statement->bindValue('arole', Assessor::ROLE);
+        $statement->bindValue('rrole', Rto::ROLE);
         $statement->execute();
         $users = $statement->fetchAll();
-       
         return $users;
     }
 

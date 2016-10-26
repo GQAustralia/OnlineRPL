@@ -1283,6 +1283,14 @@ $("#searchFilter").click(function() {
         loadApplicantList('completedList',pagenum);
     }
 });
+$("#filterByFacilitator, #filterByAssessor, #filterByRto, #filterByStatus").change(function(){
+    pagenum = 1;    
+    if(applicantStatus==0)
+    {
+        loadDataIcon('currentList');
+        loadApplicantListForManager('currentList',pagenum);
+    }
+});
 $(".search-box").keyup(function (e) {   
     pagenum = 1;        
     if(applicantStatus==0)
@@ -1341,7 +1349,23 @@ function loadApplicantList(divContent)
         }
     });
 }
-
+function loadApplicantListForManager(divContent)
+{
+    searchName = $('#searchName').val();
+    filterByStatus = $('#filterByStatus').val();
+    filterByFac = $('#filterByFacilitator').val();
+    filterByAss = $('#filterByAssessor').val();
+    filterByRto = $('#filterByRto').val();
+    $.ajax({
+        type: "POST",
+        url: base_url + "searchApplicantsListByGridHeadings",
+        cache: false,
+        data: {pagenum: pagenum, searchName: searchName, searchTime: '', status: applicantStatus, filterByFac: filterByFac, filterByStatus: filterByStatus, filterByAss: filterByAss, filterByRto: filterByRto },
+        success: function(result) {                       
+            $('#' + divContent).html(result);
+        }
+    });
+}
 function loadApplicantListReports(divContent, pagenum)
 {
     searchName = $('#searchNameForReports').val();

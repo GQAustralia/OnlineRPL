@@ -126,24 +126,21 @@ class ApplicantController extends Controller
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-		$pendingApplicantsCount = $this->get('UserService')->getPendingApplicantsCount($userId, $userRole, '0');
+        $pendingApplicantsCount = $this->get('UserService')->getPendingApplicantsCount($userId, $userRole, '0');
         $page = $this->get('request')->query->get('page', 1);
         $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
         $results['pageRequest'] = 'submit';
         $results['status'] = 0;
-		$results['pendingApplicantsCount']=$pendingApplicantsCount;
+        $results['pendingApplicantsCount']=$pendingApplicantsCount;
         $users = array();
         if ($userRole[0] == Superadmin::ROLE_NAME || $userRole[0] == Manager::ROLE_NAME) {
-                    $results['facilitators'] = $this->get('UserService')->getUsers(Facilitator::ROLE);                   
-                }
+            $results['facilitators'] = $this->get('UserService')->getUsers(Facilitator::ROLE);                   
+        }
         $qualificationStatus = array();
-       //if ($userRole[0] == 'ROLE_MANAGER' || $userRole[0] == 'ROLE_SUPERADMIN') {
-            $users = $this->get('UserService')->getUserByRole();
-            $qualificationStatus = $this->get('UserService')->getQualificationStatus();
-        //}
+        $users = $this->get('UserService')->getUserByRole();
+        $qualificationStatus = $this->get('UserService')->getQualificationStatus();
         $results['users'] = $users;
         $results['qualificationStatus'] = $qualificationStatus;
-       // dump( $results['facilitators']);
         return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
     }
 
@@ -198,6 +195,35 @@ class ApplicantController extends Controller
         $results['pageRequest'] = 'ajax';
         
         echo $this->renderView('GqAusUserBundle:Reports:ajax-applicants.html.twig', $results);
+        exit;
+    }
+    /**
+     * Function to search the users based on the heading dropdown values
+     * return string
+     */
+    public function searchApplicantsListByGridHeadingsAction()
+    {
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $searchName = $this->getRequest()->get('searchName');
+        $searchTime = $this->getRequest()->get('searchTime');
+        $filterByFac = $this->getRequest()->get('filterByFac');
+        $filterByAss = $this->getRequest()->get('filterByAss');
+        $filterByRto = $this->getRequest()->get('filterByRto');
+        $filterByStatus = $this->getRequest()->get('filterByStatus');
+        $status = $this->getRequest()->get('status');
+        $page = $this->getRequest()->get('pagenum');        
+        if ($page == '') {
+            $page = 1;
+        }         
+        $results = $this->get('UserService')->getUserApplicantsListByGridHeadings($userId, $userRole, $status, $page, 
+            $searchName, $searchTime, $filterByFac, $filterByAss, $filterByRto, $filterByStatus);
+        
+        $qualificationStatus = $this->get('UserService')->getQualificationStatus();
+        $results['qualificationStatus'] = $qualificationStatus;  
+        $results['pageRequest'] = 'ajax';
+        $results['status'] = $status;        
+        echo $this->renderView('GqAusUserBundle:Applicant:applicants.html.twig', $results);
         exit;
     }
 

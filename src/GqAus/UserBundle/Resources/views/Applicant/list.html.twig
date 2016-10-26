@@ -1,21 +1,16 @@
 {% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Applicant Lists{% endblock %}
 {% block stylesheets %}
-{% set userRole = app.security.getToken().getUser().getRoles() %}
+    {% set userRole = app.security.getToken().getUser().getRoles() %}
     <link rel="stylesheet" href="{{ asset('public/css/timepicker.css') }}" />
-      {% if ('ROLE_MANAGER' not in userRole[0]) and ('ROLE_SUPERADMIN' not in userRole[0]) %}
-    <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">  
+    {% if ('ROLE_MANAGER' not in userRole[0]) and ('ROLE_SUPERADMIN' not in userRole[0]) %}
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">  
     {% else %}
-     <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}">      
-     {% endif %}
-
-   {#<link rel="stylesheet" href="{{ asset('public/css/pages/all/factab.css') }}">  #} 
-
+         <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}">      
+    {% endif %}
 {% endblock %}
 {% block body %}
-
 {% set userRole = app.security.getToken().getUser().getRoles() %}
-     
  <!-- Larg Screens HTML Start -->        
 <section class="portfolio-container currentnew" id="currentnew">
     <div class="container">
@@ -33,56 +28,49 @@
                 </div>
             </div>
             {% if ('ROLE_MANAGER' not in userRole) and ('ROLE_SUPERADMIN' not in userRole) %}
-            <div class="col-md-12 col-lg-12">
-                <div class="portfolio-filter clearfix">
-                    <div class="filter gq-app-search-grid"> 
-                        <input type="text" value="" id="search-current" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
-                        <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search" style="display: none;"/>     
-                    </div>
-                    {% if ('ROLE_FACILITATOR' in userRole) %}
-                    <div class="days-list">
-                        <label for="">Days : </label>
-                        <select id="searchAge" name="searchAge">
-                            <option value="">--Select--</option>
-                            <option value="1"> 0 - 30 </option>
-                            <option value="2"> 31 - 60 </option>
-                            <option value="3"> 61 - 90 </option>
-                            <option value="4"> &gt;90 </option>
-                        </select>
-                    </div>
-                    {%endif%}
-                    <div class="gq-dashboard-tabs-header wid20p">
-                        <ul role="tablist" id="myTab">
-                            <li role="presentation" id="applicantPending11" class="status active">
-                                {#<a href="#current" aria-controls="current" role="tab" data-toggle="tab">CURRENT</a>#}
-                                <a href="/applicants">CURRENT</a>
-                            </li>
-                            <li role="presentation" id="applicantCompleted" class="status">
-                                <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab" >COMPLETED</a>
-                            </li>
-                        </ul>
+                <div class="col-md-12 col-lg-12">
+                    <div class="portfolio-filter clearfix">
+                        <div class="filter gq-app-search-grid"> 
+                            <input type="text" value="" id="search-current" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
+                            <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search" style="display: none;"/>     
+                        </div>
+                        {% if ('ROLE_FACILITATOR' in userRole) %}
+                        <div class="days-list">
+                            <label for="">Days : </label>
+                            <select id="searchAge" name="searchAge">
+                                <option value="">--Select--</option>
+                                <option value="1"> 0 - 30 </option>
+                                <option value="2"> 31 - 60 </option>
+                                <option value="3"> 61 - 90 </option>
+                                <option value="4"> &gt;90 </option>
+                            </select>
+                        </div>
+                        {%endif%}
+                        <div class="gq-dashboard-tabs-header wid20p">
+                            <ul role="tablist" id="myTab">
+                                <li role="presentation" id="applicantPending11" class="status active"><a href="/applicants">CURRENT</a></li>
+                                <li role="presentation" id="applicantCompleted" class="status"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab" >COMPLETED</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% else %}
-
-            <div class="col-lg-12">
-                <div class="form-inline portfolio-filter">
-                    <div class="row">
-                        <div class="col-sm-12 col-lg-3">
-                            {#    <input type="text" placeholder="Search" class="form-control search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state">                                    #}
-                              <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/>
-                        </div>
-                        <div class="col-sm-12 col-lg-3">
-                                <label for="">Filter By</label>
+                <div class="col-lg-12">
+                    <div class="form-inline portfolio-filter">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-3">
+                                  <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/>
+                            </div>
+                            {#<div class="col-sm-12 col-lg-3">
+                               <label for="">Filter By</label>
                                <select name="filterByUser" id="filterByUser" class="form-control">
                                     <option value="">Assessor/Account Manager</option>
                                 {% for key, user in users %}
                                     <option value="{{user.id}}">{% if user.roletype == 2 %} Account Manager {% else %} Assessor {% endif %} : {{user.username}}</option>
                                 {% endfor %}
                                 </select>
-                        </div>
-                        <div class="col-sm-12 col-lg-5">
+                            </div>
+                            <div class="col-sm-12 col-lg-5">
                                 <label for="">Select Status</label>
                                 <select name="filterByStatus" id="filterByStatus" class="form-control">
                                     <option value="">Qualification Status</option>
@@ -90,79 +78,62 @@
                                         <option value="{{key}}">{{status["status"]}}</option>
                                     {% endfor %}
                                 </select>
+                            </div>
+                            <div class="col-sm-12 col-lg-1">
+                                <button id="searchFilter" class="btn btn_red gq-reports-filter-btn">Filter</button>
+                            </div>#}
                         </div>
-                        <div class="col-sm-12 col-lg-1">
-                            <button id="searchFilter" class="btn btn_red gq-reports-filter-btn">Filter</button>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-lg-12">
+                <div class="tab-content">
+                    <div id="ajaxHtml" style="display:none;" {% if ('ROLE_SUPERADMIN' in userRole) %} tdcolspan="3" tdrtocolspan="3" {% else %} tdcolspan="6" tdrtocolspan="6" {% endif %}>
+                        <img src="{{ asset('public/images')}}/loading.gif" class="img"/>
+                    </div>
+                    <div class="tab-pane active" role="tabpanel" id="current">
+                        <div class="portfolio-data-table">                                
+                            <table class="table" id="myTable">
+                                {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                                <tbody class="list" id="currentList">
+                                    {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                </tbody>				
+                                {% if paginator.count > 1%}
+                                    <tfooter>
+                                        <tr>
+                                            {% if ('ROLE_MANAGER' in userRole[0]) or ('ROLE_SUPERADMIN' in userRole[0]) %}
+                                            {% else %}
+                                                {% if applicantList is defined %}
+                                                    <td colspan="6" class="gq-pagination-area">
+                                                        {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                                                    </td>
+                                                {% endif %}
+                                            {% endif %}
+                                        </tr>
+                                    </tfooter>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>			
+                    <div role="tabpanel" class="tab-pane" id="completed">
+                        <div class="portfolio-data-table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20%"><span class="">NAME</span></th>
+                                        <th><span class="">QUALIFICATION</span></th> 
+                                    </tr>
+                                </thead>
+                                <tbody class="list" id="completedList">                                
+                                        {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                </tbody>  
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-
-        {% endif %}
-			
-			<div class="col-lg-12">
-				<div class="tab-content">
-					<div id="ajaxHtml" style="display:none;" {% if ('ROLE_SUPERADMIN' in userRole) %} tdcolspan="3" tdrtocolspan="3" {% else %} tdcolspan="6" tdrtocolspan="6" {% endif %}>
-								<img src="{{ asset('public/images')}}/loading.gif" class="img"/>
-					</div>
-					<div class="tab-pane active" role="tabpanel" id="current">
-						{#<input class="search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state" />#}
-						
-						<div class="portfolio-data-table">                                
-							<table class="table" id="myTable">
-							  {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
-								<tbody class="list" id="currentList">
-									{% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
-								 </tbody>
-				
-								{% if paginator.count > 1%}
-									<tfooter>
-									  
-										<tr>
-									{#{% if ('ROLE_SUPERADMIN' in userRole)%}
-											<td colspan="3" class="gq-pagination-area">
-													{# display navigation for pages - paginator_navigator #}        
-													{#{{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
-											</td>
-									{% else %}#}
-									 {% if ('ROLE_MANAGER' in userRole[0]) or ('ROLE_SUPERADMIN' in userRole[0]) %}
-											{% else %}
-									{% if applicantList is defined %}
-											<td colspan="6" class="gq-pagination-area">
-													{# display navigation for pages - paginator_navigator #}        
-											  {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
-											</td>
-									{% endif %}
-									{% endif %}
-										</tr>
-									</tfooter>
-							  {% endif %}
-							</table>
-						</div>
-					</div>
-					
-					<div role="tabpanel" class="tab-pane" id="completed">
-						<div class="portfolio-data-table">
-							<table class="table">
-								   {#<input type="text" placeholder="Search" class="search_box search sort"  data-sort="firstName,qualification">#}
-								<thead>
-									<tr>
-										<th style="width:20%"><span class="">NAME</span></th>
-										<th><span class="">QUALIFICATION</span></th> 
-									</tr>
-								</thead>
-								<tbody class="list" id="completedList">                                
-									{% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
-								</tbody>  
-							 
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> 			
+        </div> 			
     </div>
-  
 </section>
         
 <!-- Larg Screens HTML End -->
@@ -177,15 +148,7 @@
         valueNames: [ 'firstName','qualification', 'evidence','daysleft','status','email','address','suburb','pincode','state','phone']
         };
         currentList = new List('currentnew', options);
-       
-        //currentList.reIndex();
-        {# var Completedoptions = {
-        valueNames: [ 'firstName','qualification']
-        };
-        var completedList = new List('completed', Completedoptions);#}
-                       
    </script>
-  
 {% endblock %}
    
     

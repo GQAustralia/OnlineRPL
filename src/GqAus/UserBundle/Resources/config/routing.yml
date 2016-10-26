@@ -67,6 +67,9 @@ searchApplicantsList:
 searchApplicantsListReports:
     path:     /searchApplicantsListReports
     defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsListReports }    
+searchApplicantsListByGridHeadings:
+    path:     /searchApplicantsListByGridHeadings
+    defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsListByGridHeadings }    
 createzip:
     path:     /zipFiles/{qcode}/{uid}
     defaults:  { _controller: GqAusUserBundle:Applicant:zip }
