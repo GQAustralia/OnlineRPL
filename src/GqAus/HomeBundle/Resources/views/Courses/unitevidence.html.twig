@@ -136,7 +136,7 @@
                                     </div>
                                     {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode, unitCode) %}
                                     {% if (showUpload == 'show' or approvalText =='0')%}
-                                        {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 and unitType.type=='elective'%}                                        
+                                        {% if (electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 and unitType.type=='elective') or (unitType.type == 'core')%}                                        
                                             <div class="panel-body" style="border-bottom:1px solid #d8d8d8">
                                                 <div class="gqa-btn-group">
                                                     <div class="row no-gutter">
