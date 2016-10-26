@@ -77,16 +77,36 @@
                                                         <input type="text" name="searchName" id="searchName" placeholder="Search" class="form-control search_box search-box">                                    
                                                 </div>
                                                 <div class="col-xs-12">
-                                                        <label for="">Filter By</label>
-                                                   <select name="filterByUser" id="filterByUser" class="form-control">
-                                                                <option value="">Assessor/Account Manager</option>
-                                                        {% for key, user in users %}
-                                                                <option value="{{user.id}}">{% if user.roletype == 2 %} Account Manager {% else %} Assessor {% endif %} : {{user.username}}</option>
-                                                        {% endfor %}
-                                                        </select>
+                                                        
+                                                   <select name="filterByFacilitator" id="filterByFacilitator" class="form-control">
+                    <option value="">ACCOUNT MANAGER</option>
+                    {% for key, user in users %}
+                        {% if user.roletype == 2 %}
+                            <option value="{{user.id}}"> {{user.username}}</option>
+                        {%endif%}
+                    {% endfor %}
+                </select>
                                                 </div>
+												<div class="col-xs-12">
+												<select name="filterByAssessor" id="filterByAssessor" class="form-control">
+                    <option value="">ASSESSOR</option>
+                    {% for key, user in users %}
+                        {% if user.roletype == 3 %}
+                            <option value="{{user.id}}"> {{user.username}}</option>
+                        {%endif%}
+                    {% endfor %}
+                </select>
+												</div>
+												<div class="col-xs-12"><select name="filterByRto" id="filterByRto" class="form-control">
+                    <option value="">RTO</option>
+                    {% for key, user in users %}
+                        {% if user.roletype == 4 %}
+                            <option value="{{user.id}}"> {{user.username}}</option>
+                        {%endif%}
+                    {% endfor %}
+                </select></div>
                                                 <div class="col-xs-12">
-                                                                <label for="">Select Status</label>
+                                                               
                                                                 <select name="filterByStatus" id="filterByStatus" class="form-control">
                                                                         <option value="">Qualification Status</option>
                                                                         {% for key, status in qualificationStatus %}
