@@ -11,6 +11,8 @@
     {% set classname = "gq-ajax-users-pagination" %}
 {% elseif((pagename == 'searchLogList') or (pagename == 'userslog')) %}
     {% set classname="gq-ajax-log-pagination" %}
+{% elseif(pagename == 'searchApplicantsListByGridHeadings')%}
+    {% set classname="gq-ajax-manager-pagination" %}
 {% else %}
     {% set classname = "gq-ajax-app-pagination" %}
 {% endif%}

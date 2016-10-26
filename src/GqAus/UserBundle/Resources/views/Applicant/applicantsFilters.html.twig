@@ -11,7 +11,7 @@
         <th class="sort asc" data-sort="daysleft"><span class="">DAYS LEFT</span></th>
         {% endif %}
         {% if ('ROLE_RTO' not in userRole) %}
-            <th {% if (('ROLE_MANAGER' in userRole) or ('ROLE_SUPERADMIN' in userRole)) %} 
+            <th {% if ('ROLE_MANAGER' in userRole) %} 
                     ><select name="filterByStatus" id="filterByStatus" class="form-control">
                         <option value="">QUAL STATUS</option>
                         {% for key, status in qualificationStatus %}

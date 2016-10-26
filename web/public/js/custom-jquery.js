@@ -1253,10 +1253,10 @@ $("body").on("click", ".gq-ajax-users-pagination", function() {
     loadUsersList('currentList');
 });
 
-$("body").on("click", ".gq-ajax-pagination", function() {   
+$("body").on("click", ".gq-ajax-manager-pagination", function() {   
     pagenum = $(this).attr("page");
     loadDataIcon('currentList');
-    loadApplicantListReports('currentList',pagenum);
+    loadApplicantListForManager('currentList',pagenum);
 });
 
 $("#searchNameForReports").keyup(function() {
