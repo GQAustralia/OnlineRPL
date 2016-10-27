@@ -28,6 +28,7 @@
         {% set courseId = courses.getId() %} 
     {% set courseInfo = courses_service.getUserCoursesInfo(courseCode)%} 
     {% set packageInfo = courses_service.getPackagerulesInfo(courseCode)%} 
+  
    
 {% if courseInfo.courseInfo == "No records found" %}
 {% elseif courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
@@ -180,7 +181,7 @@
     {% endif %}
 {% endif %}
                     <!-- Packaging rules Display -->
-                    {% if packageInfo.packageInfo is defined %}
+                    {% if packageInfo is defined %}
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
                             <div class="comments download-enroll">
@@ -193,7 +194,7 @@
                                     </div>
                                     <div class="panel-collapse collapse" id="packaging-{{courseCode}}" aria-expanded="false">
                                         <div class="panel-content">
-                                            <p>{{packageInfo.packageInfo.packaging | raw}}</p>
+                                            {{packageInfo | raw}}
                                         </div>
                                     </div>
                                 </div>

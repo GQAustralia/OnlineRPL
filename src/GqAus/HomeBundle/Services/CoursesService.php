@@ -77,12 +77,12 @@ class CoursesService
     public function getPackagerulesInfo($id)
     {
         $packageInfo = $this->fetchQualificationRequest($id);
-        if (!empty($courseInfo)) {
-            if (!empty($packageInfo['details'])) {
-                $packageInfo['details'] = html_entity_decode($packageInfo['details']);
+        if (!empty($packageInfo)) {
+            if (!empty($packageInfo['packaging'])) {
+                $packageInfoPackage = htmlspecialchars_decode($packageInfo['packaging']);
             }
         }        
-        return array('packageInfo' => $packageInfo);
+        return $packageInfoPackage;
     }
      /**
      * Function to get Unit info

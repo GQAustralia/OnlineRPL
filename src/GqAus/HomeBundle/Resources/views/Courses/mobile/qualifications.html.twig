@@ -22,7 +22,7 @@
     {% set flagCurrent = '1' %}
     {% set courseCode = courses.getCourseCode()%}
     {% set packageInfo = courses_service.getPackagerulesInfo(courseCode)%}
-        {% set courseId = courses.getId() %} 
+    {% set courseId = courses.getId() %} 
     {% set courseInfo = courses_service.getUserCoursesInfo(courseCode)%}       
 {% if courseInfo.courseInfo == "No records found" %}
 {% elseif courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
@@ -361,7 +361,7 @@
             {% endif %}
         </div>
          <!-- Packaging rules Display -->
-                    {% if packageInfo.packageInfo is defined %}
+                    {% if packageInfo is defined %}
                         <div class="col-xs-12 col-sm-12">
                             <div class="comments download-enroll">
                                 <div class="panel-group">
@@ -373,7 +373,7 @@
                                     </div>
                                     <div class="panel-collapse collapse" id="packaging-{{courseCode}}" aria-expanded="false">
                                         <div class="panel-content">
-                                            <p>{{packageInfo.packageInfo.packaging | raw}}</p>
+                                            <p>{{packageInfo | raw}}</p>
                                         </div>
                                     </div>
                                 </div>
