@@ -3454,8 +3454,7 @@ class UserService
      * return array
      */
     public function assessorStatusChange($courseObj, $courseStatus)
-    {
-        
+    {   
         $statusList = $this->getQualificationStatus();
         $courseName = $courseObj->getCourseName();
         $courseCurrentStatus = $statusList[$courseObj->getCourseStatus()]['status'];
@@ -3467,7 +3466,6 @@ class UserService
             $courseCode = $courseObj->getCourseCode();
             $userId = $courseObj->getUser()->getId();
             // checking whether the all units of this qualification has been approved or not
-//            $unitsApproval = $this->checkAllUnitsApprovalByRole($courseObj, 'assessorstatus');
              $coreUnitCount = $this->getCourseCountStatusByRoleWise($userId, 'ROLE_ASSESSOR', $courseCode, 'core');
              $electiveUnits = $this->getCourseCountStatusByRoleWise($userId, 'ROLE_ASSESSOR', $courseCode, 'elective');
              $totalReqAllUnits = $this->coursesService->getReqUnitsForCourseByCourseId($courseCode);
@@ -3531,25 +3529,22 @@ class UserService
             $aplMailBody = str_replace($msgSearch, $aplMsgReplace,
                 $this->container->getParameter('mail_portfolio_update_con'));
         }
-
-
+        
         // send the external mail and internal message to facilitator
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-        $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody,
-            $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
+        $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getAssessor()->getId(),
-            $messageSubject, $facMessageBody, '');
+        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getAssessor()->getId(), $messageSubject, $facMessageBody, '');
 
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
-        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-        $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody,
-            $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
-        /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-        $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(),
-            $messageSubject, $aplMessageBody, '');
-
+        /* For ASSESSOR and RTO, Changing Candidate's Portfolio status - Messaging should only be sent to Facilitator and not to Candidate */
+        if($courseStatus != '3' && $courseStatus != '10' && $courseStatus != '12' && $courseStatus != '13' && $courseStatus != '14'){
+            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+            $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
+            /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
+            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '');
+        }
         // update the zoho api status
         //$zohoId = '696292000010172044';
         if ($courseObj->getZohoId() != '') {
