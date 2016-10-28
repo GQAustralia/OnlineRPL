@@ -157,7 +157,7 @@
                                     {%set inc = 0 %}
                                     {% for evidence in evidences %}
 					{%set inc = inc+1 %}
-                                        {% if evidence.unit == unitCode %}
+                                        {% if evidence.unit == unitCode and evidence.type != 'text' %}
                                             {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                             {% set output = eviType|split('&&') %}
                                             <div id="fileId{{ evidence.id }}" class="file-info {% if evidence.jobId != '' %}disable" title="{{ still_processing }}{% endif %}">

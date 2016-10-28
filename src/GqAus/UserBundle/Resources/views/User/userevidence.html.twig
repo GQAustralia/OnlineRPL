@@ -50,12 +50,12 @@
                                         <input type="checkbox" value="file" class="existing-evidence-filter" checked><span></span>
                                     </span>
                                 </li>
-                                <li>
+{#                                <li>
                                     <span>Text ({{textCount}})</span>
                                     <span class="checkbox_outer">
                                         <input type="checkbox" value="text" class="existing-evidence-filter" checked><span></span>
                                     </span>
-                                </li>
+                                </li>#}
                             </ul>
                         </div>
                 </div>
@@ -102,7 +102,7 @@
                                                                     </div>
                                                             {% endif %}
                                                     {% else %}
-                                                        {% if evd[0].content %} 
+                                                  {#      {% if evd[0].content %} 
                                                             <div class="block type-{{ evd[0].type}}" style="margin-bottom: 10px;">
                                                                 <div class="file_info">
                                                                         <span class="icon">
@@ -124,7 +124,7 @@
                                                                         </span>                                                                                                                    
                                                                 </div>
                                                             </div>
-                                                        {% endif %}
+                                                        {% endif %}#}
                                                     {% endif %}
                                             {% endfor %}
                                     {% else %}
