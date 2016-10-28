@@ -1026,4 +1026,25 @@ class UserController extends Controller
         echo $touser;
         exit;
     }
+    /**
+     * Function to retrieve the adress field for user profile page
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function addressByFieldAction(Request $request)
+    {
+        $term = strtolower($_GET["term"]);
+        $highlightedId = strtolower($_GET["highlightedId"]);
+        $results = array();
+        $rows = $this->get('UserService')->getAddressesFromTable(array('term' => $term), array('highlightedId'=> $highlightedId));   
+        $json_array = array();                
+        if (is_array($rows))
+        {
+            foreach ($rows as $row)
+            {
+                array_push($json_array, $row['address']);
+            }
+        }               
+        echo json_encode($json_array);
+        exit;
+    }
 }

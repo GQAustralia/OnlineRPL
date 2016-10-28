@@ -115,6 +115,9 @@ compose:
 usernamesbyRoles:
     path:     /usernamesbyRoles
     defaults: { _controller: GqAusUserBundle:Message:usernamesbyRoles }
+addressByField:
+    path:     /addressbyField
+    defaults: { _controller: GqAusUserBundle:User:addressByField }
 sent:
     path:     /sent
     defaults: { _controller: GqAusUserBundle:Message:sent }

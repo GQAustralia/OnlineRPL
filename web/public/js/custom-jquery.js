@@ -706,6 +706,34 @@ function checkspace(text)
     }
 }
 
+function getAddressByDb(val, inputval){
+    $("#"+inputval+"").autocomplete({
+           source: function(request, response) {
+               $.getJSON(base_url + "addressbyField", {term: extractLast(request.term),highlightedId: inputval}, response);
+           },
+           search: function() {
+               var term = extractLast(this.value);
+                 if (term.length < 2) {
+                   return false;
+               }
+           },
+           focus: function() {
+               // prevent value inserted on focus
+               return false;
+           },
+           select: function(event, ui) {
+               var terms = split(this.value);
+               // remove the current input
+               terms.pop();
+               // add the selected item
+               terms.push(ui.item.value);
+               // add placeholder to get the comma-and-space at the end
+               terms.push("");
+               this.value = terms.join(" ");
+               return false;
+           }
+       });
+}
 function checkCurrentPassword(mypassword)
 {
     $("#hdn_pwd_check").val("0");
@@ -2396,54 +2424,53 @@ function extractLast(term) {
     return split(term).pop();
 }
 $("body").on("click", "#submittoassessor,#request-cc", function(){
-	var userId = $("body #csUserId").val();
-	var courseCode = $("body #csCourseCode").val();
-	var courseStatus = $(this).data("coursestatus");
-	$("body #status-message").show();
-	$("body #status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
-	if (courseStatus !== "") {
-		$.ajax({
-			type: "POST",
-			url: base_url + "updateCourseStatus",
-			data: {courseStatus: courseStatus, courseCode: courseCode, userId: userId},
-			success: function(responseText) {
-				var result = jQuery.parseJSON(responseText);
-				if(result.type == 'Error' ) {
-					$("body #status-message").html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
-					window.scrollTo(0, 0);
-				} else if (result.type == 'Success') {
-                                    if(courseStatus == '2'){ 
-                                        $( "body #submittoassessor").hide( "slow"); 
-                                        $(this).hide(); 
-                                        $("body #courseStatus").val(courseStatus);  
-                                    }
-                                    if(courseStatus == '10'){ 
-                                        $("body #courseStatus").val(courseStatus);  
-                                        $("body #request-cc").prop("disabled", true ).addClass("disabled");
-                                    }
-                                    if(courseStatus == '12'){ 
-                                        $("body .competency-call").hide( "slow"); 
-                                        $("body #courseStatus").val(courseStatus);  
-                                    }
-                                    $("body #status-message").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span> '+ result.msg+'</span></div>');
-									$('.body_section').scrollTop(0);
-				}   
-				if(result.code == '1'){
-				  $("body #currentCourseStatus").val(courseStatus);  
-				} else if(result.code != '5') {
-                                    if ( $('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').length > 0 ) {  
-                                            $("#courseStatus").val($("#currentCourseStatus").val());
-                                            $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
-                                    } else {
-                                            $("#courseStatus").val($("#courseStatus option:first").val());
-                                            $("#selectcourseStatus").html($("#courseStatus option:first").html());                          
-                                    }
-				}
-			}
-		});
+    var userId = $("body #csUserId").val();
+    var courseCode = $("body #csCourseCode").val();
+    var courseStatus = $(this).data("coursestatus");
+    $("body #status-message").show();
+    $("body #status-message").html('<img src="' + base_url + 'public/images/loading.gif">');
+    if (courseStatus !== "") {
+        $.ajax({
+            type: "POST",
+            url: base_url + "updateCourseStatus",
+            data: {courseStatus: courseStatus, courseCode: courseCode, userId: userId},
+            success: function(responseText) {
+            var result = jQuery.parseJSON(responseText);
+            if(result.type == 'Error' ) {
+                $("body #status-message").html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2><img src="' + base_url + 'public/images/login-error-icon.png"> '+ result.msg+'</h2></div>');   
+                window.scrollTo(0, 0);
+            } else if (result.type == 'Success') {
+                if(courseStatus == '2'){ 
+                    $( "body #submittoassessor").hide( "slow"); 
+                    $(this).hide(); 
+                    $("body #courseStatus").val(courseStatus);  
+                }
+                if(courseStatus == '10'){ 
+                    $("body #courseStatus").val(courseStatus);  
+                    $("body #request-cc").prop("disabled", true ).addClass("disabled");
+                }
+                if(courseStatus == '12'){ 
+                    $("body .competency-call").hide( "slow"); 
+                    $("body #courseStatus").val(courseStatus);  
+                }
+                $("body #status-message").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span> '+ result.msg+'</span></div>');
+                $('.body_section').scrollTop(0);
+            }   
+            if(result.code == '1'){
+              $("body #currentCourseStatus").val(courseStatus);  
+            } else if(result.code != '5') {
+                if ( $('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').length > 0 ) {  
+                        $("#courseStatus").val($("#currentCourseStatus").val());
+                        $("#selectcourseStatus").html($('#courseStatus option[value="' + $("#currentCourseStatus").val() + '"]').html());
+                } else {
+                        $("#courseStatus").val($("#courseStatus option:first").val());
+                        $("#selectcourseStatus").html($("#courseStatus option:first").html());                          
+                }
+            }
+        }
+    });
   } else {
-	  $("body #status-message").html('<div class="gq-id-files-upload-error-text alert alert-danger"><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</div>');
-
+    $("body #status-message").html('<div class="gq-id-files-upload-error-text alert alert-danger"><img src="' + base_url + 'public/images/login-error-icon.png"> Please select status</div>');
   }
 });
 function searchUsersFromCourse(id, facVal, accVal, rtoVal, curuserId) {  
@@ -2467,12 +2494,12 @@ function searchUsersFromCourse(id, facVal, accVal, rtoVal, curuserId) {
             terms.pop();
             // add the selected item
             terms.push(ui.item.value);
-			$.ajax({
-                type: "POST",
-                url: base_url + "searchUsersListFrom",
-                cache: false,
-                data: {name:ui.item.value},
-                success: function(result) { 
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "searchUsersListFrom",
+                    cache: false,
+                    data: {name:ui.item.value},
+                    success: function(result) { 
                     $("#UserId").val(result);
                 }
             });

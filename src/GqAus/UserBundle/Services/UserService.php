@@ -4750,28 +4750,60 @@ class UserService
         $objectCount = count($courseObjs);
         if($objectCount ==  1)
         {          
-//            $facName = '';
-//            $j = 0;
-//            for($i = 0; $i<$objectCount; $i++){
-//                if($j == 0)
-//                {   
-//                    $facName .= $courseObjs[$i]->getFacilitator()->getUsername();
-//                }
-//                else
-//                {
-//                    if($facName == $courseObjs[$i]->getFacilitator()->getUsername())
-//                       $facName = $courseObjs[$i]->getFacilitator()->getUsername();  
-//                    else
-//                        return '';
-//                }
-//                $j++;
-//            }
-//            return $facName;
-//        }          
-//        else
-//        {
             return $courseObjs[0]->getFacilitator()->getUsername();
         }
-        
+    }
+    /**
+     * Function to get the addresses from the autocomplete value
+     * @param type $term
+     * @return  array
+     */
+    public function getAddressesFromTable($term, $highlight)
+    {   
+        $term = $term['term'];
+        $highlightedId = $highlight['highlightedId'];
+        switch ($highlightedId) {
+            case 'userprofile_address_address':
+                $field = 'a.address as address';
+                $sqlString = 'a.address LIKE :address';
+            break;
+            case 'userprofile_address_area':
+                $field = 'a.area as address';
+                $sqlString = 'a.area LIKE :address';
+            break;
+            case 'userprofile_address_suburb':
+                $field = 'a.suburb as address';
+                $sqlString = 'a.suburb LIKE :address';
+            break;
+            case 'userprofile_address_city':
+                $field = 'a.city as address';
+                $sqlString = 'a.city LIKE :address';
+            break;
+            case 'userprofile_address_pincode':
+                $field = 'a.pincode as address';
+                $sqlString = 'a.pincode LIKE :address';
+            break;
+            case 'userprofile_address_state':
+                $field = 'a.state as address';
+                $sqlString = 'a.state LIKE :address';
+            break;
+            case 'userprofile_address_country':
+                $field = 'a.country as address';
+                $sqlString = 'a.country LIKE :address';
+            break;
+            default :
+                $field = 'a.address as address';
+                $sqlString = 'a.address LIKE :address';
+        }
+        $query = $this->em->getRepository('GqAusUserBundle:UserAddress')
+               ->createQueryBuilder('a')
+               ->select($field)
+               ->where($sqlString)
+               ->setParameter('address', '%'.$term.'%')
+               ->distinct()
+               ->getQuery();
+        $addresses = $query->getResult();
+        $addresses = array_map("unserialize", array_unique(array_map("serialize", $addresses)));
+        return $addresses;
     }
 }
