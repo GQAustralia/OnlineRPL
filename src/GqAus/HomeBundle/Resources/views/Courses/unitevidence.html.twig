@@ -154,9 +154,9 @@
                                 {% if(evidences|length > 0 ) %}
                                 <div class="panel-body">
                                     <div class="panel-copy" id="linkedEvidences">
-                                    {%set inc = 0 %}
+{#                                    {%set inc = 0 %}#}
                                     {% for evidence in evidences %}
-					{%set inc = inc+1 %}
+{#					{%set inc = inc+1 %}#}
                                         {% if evidence.unit == unitCode and evidence.type != 'text' %}
                                             {% set eviType = evidence_service.getEvidenceShowType(evidence.type) %}
                                             {% set output = eviType|split('&&') %}
@@ -171,7 +171,7 @@
                                                             {%endif%}{% endif %}{% endif %}><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i>
                                                         </a>
                                                     {% else %}
-                                                        <a href="#{{evidence.unit}}{{inc}}" class="fancybox" id="btnForm"> <i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a>
+{#                                                        <a href="#{{evidence.unit}}{{inc}}" class="fancybox" id="btnForm"> <i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></a>#}
                                                     {% endif %}
                                                 </span>
                                                 <span class="file-discription">
@@ -179,7 +179,7 @@
                                                     {% if evidence.type == 'recording' %}{% if evidence.path is defined %}{{evidence.path|slice(0, 20)}}{%endif%}{%else%}{% if evidence.name is defined %}{{evidence.name}}{%endif%}{%endif%}
                                                 <br/>{% if evidence.size is defined %}{{evidence.size}} {% if evidence.type != 'recording' %} |{%endif%} {%endif%} {%if evidence.created is defined%}ADDED {{evidence.created|date("d/m/y")}}{%endif%}
                                                     {% else %}
-                                                        {{ evidence.content|slice(0,20) }}<br/>ADDED {{evidence.created|date("d/m/y")}}
+{#                                                        {{ evidence.content|slice(0,20) }}<br/>ADDED {{evidence.created|date("d/m/y")}}#}
                                                     {% endif %}
                                                 </span>
                                                 {% if (showUpload == 'show')%}
@@ -191,7 +191,7 @@
                                                 {% endif %}
                                             </div>
                                         {% endif %}
-					<div id="{{evidence.unit}}{{inc}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evidence.content is defined %}{{evidence.content}}{%endif%}</div>
+{#					<div id="{{evidence.unit}}{{inc}}" style="display:none;width:400px;height:auto;overflow:auto;">{% if evidence.content is defined %}{{evidence.content}}{%endif%}</div>#}
                                     {% endfor %}
                                 </div>
                             </div>
