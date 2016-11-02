@@ -13,7 +13,7 @@ services:
         - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
     UserService:
         class: GqAus\UserBundle\Services\UserService
-        arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService', '@CoursesService']
+        arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService', '@CoursesService', '@SQSService']
     CourseFileService:
         class: GqAus\UserBundle\Services\UserCourse\FileService
         arguments: [@doctrine.orm.entity_manager]
