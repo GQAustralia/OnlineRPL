@@ -68,6 +68,7 @@ class UserService
      * @param object $mailer
      * @param object $guzzleService
      * @param object $coursesService
+     * @param object $sqsService
      */
     public function __construct($em, $container, $mailer, $guzzleService, $coursesService, $sqsService)
     {
