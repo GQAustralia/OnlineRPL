@@ -47,7 +47,7 @@ class SQSService
     public function sendInBoundMessage($sqsMessage)
     {
         try {
-            $this->sqsClient->sendMessage(array('QueueUrl' => self::INBOUND_URL, 'MessageBody' => $sqsMessage->type));
+            $this->sqsClient->sendMessage(array('QueueUrl' => self::INBOUND_URL, 'MessageBody' => $sqsMessage->content));
         }
         catch (Exception $e) {
            die('Error sending message to queue ' . $e->getMessage());

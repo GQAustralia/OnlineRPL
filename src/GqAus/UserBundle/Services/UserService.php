@@ -2268,8 +2268,9 @@ class UserService
         $this->saveMessageData($inbox, $sent, $msgInfo);
         
         //@todo send message to queue
-        $sqsMessage = '{"type": "Test Message"}';
-        $this->sqsService->sendInBoundMessage(json_decode($sqsMessage));
+        $sqsMessage = array('type' => 'Test Message', 'subject' => $subject, 'content' => $message);
+        $json_data = json_encode($sqsMessage);
+        $this->sqsService->sendInBoundMessage(json_decode($json_data));
     }
 
     /**
