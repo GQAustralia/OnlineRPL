@@ -56,7 +56,11 @@ class UserService
      * @var Object
      */
     private $coursesService;
-
+    
+    /**
+     * @var Object
+     */
+    private $sqsService;
     /**
      * Constructor
      * @param object $em
@@ -65,7 +69,7 @@ class UserService
      * @param object $guzzleService
      * @param object $coursesService
      */
-    public function __construct($em, $container, $mailer, $guzzleService, $coursesService)
+    public function __construct($em, $container, $mailer, $guzzleService, $coursesService, $sqsService)
     {
         $this->em = $em;
         $session = $container->get('session');
@@ -76,6 +80,7 @@ class UserService
         $this->container = $container;
         $this->guzzleService = $guzzleService;
         $this->coursesService = $coursesService;
+        $this->sqsService = $sqsService;
     }
 
     /**
@@ -2262,11 +2267,8 @@ class UserService
         $this->saveMessageData($inbox, $sent, $msgInfo);
         
         //@todo send message to queue
-        /*$sqsMessage['type'] = "Message";
-        $sqsService = $this->get('SQSService');
-        $sqsService->sendInBoundMessage(json_decode($sqsMessage));*/
-        
-        
+        $sqsMessage = '{"type": "Test Message"}';
+        $this->sqsService->sendInBoundMessage(json_decode($sqsMessage));
     }
 
     /**
