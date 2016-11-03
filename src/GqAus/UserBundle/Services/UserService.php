@@ -2268,9 +2268,8 @@ class UserService
         $this->saveMessageData($inbox, $sent, $msgInfo);
         
         //@todo send message to queue
-        $sqsMessage = array('type' => 'Test Message', 'subject' => $subject, 'content' => $message);
-        $json_data = json_encode($sqsMessage);
-        $this->sqsService->sendInBoundMessage(json_decode($json_data));
+        $sqsMessage = array("type" => "Portfolio Status Update", "subject" => $subject, "content" => $message);
+        $returnVal = $this->sqsService->sendInBoundMessage($sqsMessage);
     }
 
     /**
