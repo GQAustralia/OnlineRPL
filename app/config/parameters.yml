@@ -29,4 +29,5 @@ parameters:
     filefield.load_form_template: false
     tokbox_key: 45691252
     tokbox_secret_key: 5d5ece689dab101a1b3ddb3359f57f6273eb224c
-    aws_queue_name: CRMInboundMessage
+#    aws_queue_name: CRMInboundMessage
+    aws_queue_name: CRMOutboundQueue
