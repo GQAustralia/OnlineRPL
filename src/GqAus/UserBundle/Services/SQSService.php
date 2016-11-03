@@ -15,7 +15,8 @@ class SQSService
 
     private $sqsClient;
     
-    const INBOUND_URL = 'https://sqs.ap-southeast-2.amazonaws.com/187591088561/CRMInboundMessage';
+//    const INBOUND_URL = 'https://sqs.ap-southeast-2.amazonaws.com/187591088561/CRMInboundMessage';
+    const INBOUND_URL = 'https://sqs.ap-southeast-2.amazonaws.com/187591088561/CRMOutboundQueue';
     
     
     /**
