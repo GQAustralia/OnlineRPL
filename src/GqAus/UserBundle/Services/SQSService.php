@@ -36,7 +36,11 @@ class SQSService
                         
                 ),
                 'region' => 'ap-southeast-2',
-                'version' => '2012-11-05'
+                'version' => '2012-11-05',
+                'scheme' => 'http',
+                'http' => [
+                    'verify' => false
+                ]
         ));
 
     }
@@ -47,11 +51,38 @@ class SQSService
      */
     public function sendInBoundMessage($sqsMessage)
     {
+        $portfolioUpdate = [];
+        $portfolioUpdate["object"] = "Enrollment__c";
+        $portfolioUpdate['fields'] = [
+            'Name' => $sqsMessage['type'],
+            'Provider_Code__c' => 'Enrollment__c',
+            'CURRENT__c' => date('Y-m-d H:i:s'),
+            'Description' => $sqsMessage['content'],
+        ];     
+        $arg = [
+            'MessageBody' => json_encode($portfolioUpdate), // REQUIRED
+            'QueueUrl' => self::INBOUND_URL, // REQUIRED
+        ];
+        $finalArray = ['status' => 'failed','message' => ''];
         try {
-            $this->sqsClient->sendMessage(array('QueueUrl' => self::INBOUND_URL, 'MessageBody' => $sqsMessage->content));
+            $sqsResponse = $this->sqsClient->sendMessage($arg);
+            if (!empty($sqsResponse->get('MessageId'))) {
+                $finalArray = [
+                    'status' => 'success',
+                    'message' => $sqsResponse->get('MessageId')
+                ];
+            }else{
+                $finalArray = [
+                    'status' => 'failed',
+                    'message' => $sqsResponse->get('Message')
+                ];
+            }
+        } catch (Exception $e) {
+            $finalArray = [
+                    'status' => 'failed',
+                    'message' => $e->getMessage()
+                ];
         }
-        catch (Exception $e) {
-           die('Error sending message to queue ' . $e->getMessage());
-        } 
+        return $finalArray;
     }
 }
