@@ -3342,6 +3342,7 @@ class UserService
         $userAddressObj->setState(isset($data['state']) ? $data['state'] : '');
         $userAddressObj->setCountry(isset($data['country']) ? $data['country'] : '');
         $userAddressObj->setPincode(isset($data['pincode']) ? $data['pincode'] : '');
+        $userAddressObj->setPostal(isset($data['postal']) ? $data['postal'] : '');
         $this->em->persist($userAddressObj);
         $this->em->flush();
     }

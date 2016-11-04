@@ -248,5 +248,32 @@ class UserAddress
     {
         return $this->country;
     }
+    /**
+     * @var string
+     */
+    private $postal;
+
+    /**
+     * Set postal
+     *
+     * @param string $postal
+     * @return string
+     */
+    public function setPostal($postal)
+    {
+        $this->postal = $postal;
+
+        return $this;
+    }
+
+    /**
+     * Get postal
+     *
+     * @return string 
+     */
+    public function getPostal()
+    {
+       return $this->postal;
+    }
 
 }

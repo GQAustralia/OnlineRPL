@@ -31,6 +31,7 @@ class AddressForm extends AbstractType
         $builder->add('state', 'text', array('required' => false));
         $builder->add('country', 'text', array('required' => false));
         $builder->add('pincode', 'text', array('required' => false));
+        $builder->add('postal', 'text', array('required' => false));
     }
 
     /**
