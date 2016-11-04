@@ -3936,7 +3936,19 @@ function editUserbyRole(roletype)
         }
     });
 }
-
+$("body").on("click", "#postalcheck", function() {   
+    address = $('#userprofile_address_address').val();
+    area = $('#userprofile_address_area').val();
+    suburb = $('#userprofile_address_suburb').val();
+    city = $('#userprofile_address_city').val();
+    state = $('#userprofile_address_state').val();
+    pincode = $('#userprofile_address_pincode').val();
+    country = $('#userprofile_address_country').val();
+    totalAddress = address +" " + area + " "+ suburb + " " + city + " "+ state + " "+ pincode + " "+country;
+    $("#userprofile_address_postal").val(totalAddress);
+    $("#userprofile_save").prop('disabled', false);
+    $('#userprofile_save').css('background-color', 'red');
+});
 /*Log List*/
 $("body").on("click", ".gq-ajax-log-pagination", function() {   
     pagenum = $(this).attr("page"); 
