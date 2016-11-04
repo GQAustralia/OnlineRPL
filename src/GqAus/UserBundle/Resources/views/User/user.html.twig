@@ -89,6 +89,18 @@
                 {{ form_widget(form.address.country,{ 'attr': {'maxlength': '30','onkeyup':'checkspace(this);getAddressByDb(this.value,"userprofile_address_country")'} }) }}
             </div>
         </div>
+        <div class="section">
+            <div class="form-group clearfix">
+                <label><input type='checkbox' name='postalcheck' id='postalcheck'></label>
+                <label style='width:60%;'>Postal address is same as address</label> 
+            </div>
+        </div>
+        <div class="section">
+            <div class="form-group clearfix">
+                <label vertical-align="top">Postal Address</label>
+                {{ form_widget(form.address.postal,{'attr': {'rows': '3', 'cols': '30', 'onkeyup': 'checkspace(this);'} }) }}
+            </div>
+        </div>
     </div>
     <div class="link_section clearfix">
         <span class="faq_link">

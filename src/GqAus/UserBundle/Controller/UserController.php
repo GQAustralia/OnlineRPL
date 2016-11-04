@@ -812,6 +812,7 @@ class UserController extends Controller
         $city = $request->get('city');
         $state = $request->get('state');
         $country = $request->get('country');
+        $postal = $request->get('postal');
         $contactname = $request->get('contactname');
         $contactphone = $request->get('contactphone');
               
@@ -836,6 +837,7 @@ class UserController extends Controller
             $userAddress->setCity($city);
             $userAddress->setState($state);
             $userAddress->setCountry($country);
+            $userAddress->setPostal($postal);
             $userAddress->setSuburb($suburb);
             $userAddress->setAddress($street_name);
             $userAddress->setArea($street_number);

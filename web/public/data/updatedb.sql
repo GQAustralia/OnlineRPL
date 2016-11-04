@@ -75,3 +75,5 @@ CREATE TABLE IF NOT EXISTS `log` (
   `message` text NOT NULL,
   `role` int(11) NOT NULL COMMENT '1. Applicant 2. Facilitator 3. Assessor 4. RTO 5. Manager 6. Super Admin'
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+ALTER TABLE `user_address` ADD `postal` VARCHAR(500) NULL AFTER `pincode`;
