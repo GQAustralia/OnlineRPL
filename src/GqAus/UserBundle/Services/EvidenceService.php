@@ -232,6 +232,31 @@ class EvidenceService
             $this->userService->createUserLog('11', $logType['message']);
             return "0&&" . $data['hid_unit_assess'];
     }
+    /**
+     * Update Evidence Assessment 
+     * @param array $data
+     * return string
+     */
+    public function updateEvidenceAssessment($data){
+        if (!empty($data['self_assessment'])) {
+            $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+            $newObj = $textObj->find($data['selfAssId']);
+            $newObj->setContent($data['self_assessment']);
+            $newObj->setSelfAssesssment($data['setAssessment']);
+            $this->em->persist($newObj);
+            $this->em->flush();
+            $this->updateCourseUnits($this->userId, $data['hid_unit_assess'], $data['hid_course_assess'],'1');
+            
+            $logType = $this->userService->getlogType('10');
+            $this->userService->createUserLog('10', $logType['message']);
+
+            return "1&&" . $data['hid_unit_assess'];
+        } else
+            $logType = $this->userService->getlogType('11');
+            $this->userService->createUserLog('11', $logType['message']);
+            return "0&&" . $data['hid_unit_assess'];
+
+    }
 
     /**
      * Function to get file size

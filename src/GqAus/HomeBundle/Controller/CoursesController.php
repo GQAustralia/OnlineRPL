@@ -119,10 +119,13 @@ class CoursesController extends Controller
      */
     public function submitUnitForReviewAction()
     {
+        
         $userId = $this->getRequest()->get('userId');
         $unitId = $this->getRequest()->get('unitId');
         $courseCode = $this->getRequest()->get('courseCode');
         $selfAssNotes = $this->getRequest()->get('selfAssNotes');
+        $selfAssId = $this->getRequest()->get('selfAssId');
+
         $checkEvidenceforAvail = $this->get('EvidenceService')->getUserUnitwiseEvidences($userId, $unitId,$courseCode);
         $countEvidences = count($checkEvidenceforAvail);
        // $data = array('self_assessment'=>$selfAssNotes,'hid_unit_assess'=>$unitId,'hid_course_assess'=>$courseCode,'setAssessment' => '1');
@@ -139,8 +142,11 @@ class CoursesController extends Controller
             }
             else
             {
-                $data = array('self_assessment'=>$selfAssNotes,'hid_unit_assess'=>$unitId,'hid_course_assess'=>$courseCode,'setAssessment' => '1');
-                echo $result = $this->get('EvidenceService')->saveEvidenceAssessment($data);
+                $data = array('self_assessment'=>$selfAssNotes,'hid_unit_assess'=>$unitId,'hid_course_assess'=>$courseCode,'setAssessment' => '1','selfAssId' => $selfAssId);
+                if($selfAssId !='')
+                    echo $result = $this->get('EvidenceService')->updateEvidenceAssessment($data);
+                else
+                    echo $result = $this->get('EvidenceService')->saveEvidenceAssessment($data);
             }
         }
         exit;
