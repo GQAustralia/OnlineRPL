@@ -3380,6 +3380,7 @@ if($('.mobile_new_message_section').length > 0){
 function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
 {
     var selfAssNotes = $('#selfassnote').val();  
+    var selfAssId = $('#selfAssId').val();  
     var evdcount = $('.evdcount').attr('data-evdcount');    
     if (evdcount == 0 || evdcount == "0" || selfAssNotes == "" ) {
         $('#btn-submit').attr({"data-toggle":"modal", "data-target":"#review-submit"});
@@ -3395,10 +3396,9 @@ function checkEvidenceToUnitSubmit(userId, courseCode, unitCode)
          $.ajax({
         type: "POST",
         url: base_url + "submitUnitForReview",
-        data: {unitId: unitCode, courseCode: courseCode, userId: userId, selfAssNotes:selfAssNotes},
+        data: {unitId: unitCode, courseCode: courseCode, userId: userId, selfAssNotes:selfAssNotes, selfAssId:selfAssId},
         success: function(result) {
-             var rec = result.split("&&");  
-             console
+            var rec = result.split("&&");  
             if (rec[0] == '0') {
                 //$('#gq-dashboard-tabs-error-assess').html('<h2>Assessment not submitted!</h2>');
             } else if (rec[0] == '1') {             
