@@ -208,13 +208,16 @@
                                         <div class="panel-body">
                                         {% set evdText = courses_service.getsubmitUnitForReview(userId,courseCode,unitCode) %}  
                                         {% set selfAsseNote = '' %} 
+                                        {% set selfAsseId = '' %} 
                                         {% for key , test  in evdText %}
                                         {% if test.content  is defined %}
-                                       {% set selfAsseNote = test.content %} 
+                                            {% set selfAsseNote = test.content %} 
+                                            {% set selfAsseId = test.id %} 
                                          {% endif %}
                                         {% endfor%}
                                             
                                             <textarea id="selfassnote" name="selfassnote" >{{selfAsseNote}}</textarea>    
+                                            <input type="hidden" name="selfAssId" id="selfAssId" value="{{selfAsseId}}">                                            
                                              <span class="char-count" id = "myWordCount"></span>                                             
                                         </div>
                                 </div>                                        
