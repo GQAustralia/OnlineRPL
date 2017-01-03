@@ -1,0 +1,26 @@
+// Helpers
+
+@mixin break-word() {
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+@mixin truncate-ellipsis($width: 100%) {
+  width: $width;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin calc-add-two-values($property, $value1, $value2) {
+	#{$property}: calc(#{$value1} + #{$value2});
+	#{$property}: -webkit-calc(#{$value1} + #{$value2});
+	#{$property}: -moz-calc(#{$value1} + #{$value2});
+}
+
+@mixin calc-sub-two-values($property, $value1, $value2) {
+	#{$property}: calc(#{$value1} - #{$value2});
+	#{$property}: -webkit-calc(#{$value1} - #{$value2});
+	#{$property}: -moz-calc(#{$value1} - #{$value2});
+}

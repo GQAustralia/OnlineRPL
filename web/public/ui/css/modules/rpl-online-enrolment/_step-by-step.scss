@@ -1,0 +1,127 @@
+/*Start Wizard*/
+
+.bootstrapWizard {
+    display: block;
+    list-style: none;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    a {
+        &:hover,
+        &:active,
+        &:focus {
+            text-decoration: none;
+        }
+    }
+    li {
+        display: block;
+        float: left;
+        width: 20%;
+        text-align: center;
+        padding-left: 0;
+        &:before {
+            border-top: 3px solid #55606E;
+            content: "";
+            display: block;
+            font-size: 0;
+            overflow: hidden;
+            position: relative;
+            top: 11px;
+            right: 1px;
+            width: 100%;
+            z-index: 1;
+        }
+        &:first-child:before {
+            left: 50%;
+            max-width: 50%;
+        }
+        &:last-child:before {
+            max-width: 50%;
+            width: 50%;
+        }
+        &.complete .step {
+            background: #0aa66e;
+            padding: 1px 6px;
+            border: 3px solid #55606E;
+        }
+        .step {
+            i {
+                font-size: 10px;
+                font-weight: 400;
+                position: relative;
+                top: -1.5px;
+            }
+            background: #B2B5B9;
+            color: #fff;
+            display: inline;
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 12px;
+            padding: 7px 13px;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            line-height: normal;
+            position: relative;
+            text-align: center;
+            z-index: 2;
+            transition: all 0.1s linear 0s;
+        }
+        &.active {
+            .step,
+            &.complete .step {
+                background: $brand-primary;
+                color: #fff;
+                font-weight: 700;
+                padding: 7px 13px;
+                font-size: 15px;
+                border-radius: 50%;
+                //border: 3px solid #55606E;
+            }
+        }
+        &.complete .title,
+        &.active .title {
+            color: #2B3D53;
+        }
+        .title {
+            color: #bfbfbf;
+            display: block;
+            font-size: 13px;
+            line-height: 15px;
+            max-width: 100%;
+            position: relative;
+            table-layout: fixed;
+            text-align: center;
+            top: 20px;
+            word-wrap: break-word;
+            z-index: 104;
+        }
+    }
+}
+
+.wizard-steps {
+    margin-bottom: $grid-gutter-width;
+}
+
+.wizard-actions {
+    display: block;
+    list-style: none;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    li {
+        display: inline;
+    }
+}
+
+.tab-content.transparent {
+    background-color: transparent;
+}
+
+.carousel-inner {
+    .item div[class^="col-"] {
+        min-height: 100px;
+    }
+}
+
+
+/*End Wizard*/
