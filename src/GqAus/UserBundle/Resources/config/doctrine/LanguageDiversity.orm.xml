@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="GqAus\UserBundle\Entity\LanguageDiversity" table="language_diversity">
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="bornCountry" type="string" column="born_country" nullable="false"/>   
+        <field name="speakOtherThanEnglish" type="boolean" column="speak_english" nullable="false"/>   
+        <field name="specifyOtherThanEnglish" type="string" column="specify_excenglish" nullable="false"/>   
+        <field name="rateLevelEng" type="integer" column="rate_level_eng" nullable="false"/>   
+        <field name="relatedOrigin" type="integer" column="related_origin" nullable="false"/>   
+        <field name="disability" type="boolean" column="disability" nullable="false"/> 
+        <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User">
+           <join-column name="user_id" referenced-column-name="id" />
+        </many-to-one>
+    </entity>
+</doctrine-mapping>
