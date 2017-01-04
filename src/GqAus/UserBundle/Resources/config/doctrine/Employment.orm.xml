@@ -4,8 +4,8 @@
         <id name="id" type="integer" column="id">
             <generator strategy="IDENTITY"/>
         </id>
-        <field name="CurrentEmploymentStatus" type="string" column="type" nullable="false"/>
-        <field name="type" type="string" column="type" nullable="false"/>
+        <field name="curEmpStatus" type="string" column="current_employment_status" nullable="false"/>
+        <field name="studyReason" type="string" column="study_reason" nullable="false"/>
         <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User">
            <join-column name="user_id" referenced-column-name="id" />
         </many-to-one>

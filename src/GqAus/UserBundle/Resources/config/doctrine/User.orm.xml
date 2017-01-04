@@ -54,10 +54,10 @@
         <field name="crmId" type="string" column="crm_id" nullable="true"/>
         <field name="applicantStatus" type="integer" column="applicantStatus" length="1" nullable="false"/>
         <field name="loginToken" type="string" column="login_token"/>
-        <field name="curInAustralia" type="boolean" column="curr_australia"/>
-        <field name="interStudentVET " type="boolean" column="inter_student_VET"/>
-        <field name="exemStudIdentReg" type="boolean" column="exemption_sir"/>
-        <field name="applyForYourUSI" type="boolean" column="like_apply_usi"/>
+        <field name="curInAustralia" type="integer" column="curr_australia" nullable="true"/>
+        <field name="interStudentVET " type="integer" column="inter_student_VET" nullable="true"/>
+        <field name="exemStudIdentReg" type="integer" column="exemption_sir" nullable="true"/>
+        <field name="applyForYourUSI" type="integer" column="like_apply_usi" nullable="true"/>
         <one-to-many field="idfiles" target-entity="GqAus\UserBundle\Entity\UserIds" mapped-by="user" />        
         <one-to-many field="evidences" target-entity="GqAus\UserBundle\Entity\Evidence" mapped-by="user" >
             <cascade>

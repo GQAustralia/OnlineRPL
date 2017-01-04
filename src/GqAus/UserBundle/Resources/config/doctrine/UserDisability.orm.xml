@@ -7,7 +7,7 @@
         <many-to-one field="user" target-entity="GqAus\UserBundle\Entity\User">
            <join-column name="user_id" referenced-column-name="id" />
         </many-to-one>
-        <many-to-one field="disability" target-entity="GqAus\UserBundle\Entity\Disability">
+        <many-to-one field="disability" target-entity="GqAus\UserBundle\Entity\DisabilityElement">
            <join-column name="disability_id " referenced-column-name="id" />
         </many-to-one>
     </entity>
