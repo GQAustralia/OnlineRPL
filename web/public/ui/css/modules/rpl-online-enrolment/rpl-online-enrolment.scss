@@ -6,6 +6,11 @@
 // style for contact number with flag input
 @import 'intlTelInput';
 
+//style for datepicker
+@import 'datepicker';
+
+@import 'bootstrap-datetimepicker';
+
 @import "320";
 
 @media screen and (min-width: 568px) {
@@ -19,4 +24,4 @@
 }
 @media screen and (min-width: 1200px) {
     @import "1200";
-} 
+}  

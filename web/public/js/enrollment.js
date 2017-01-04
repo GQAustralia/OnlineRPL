@@ -10,4 +10,8 @@
                 employment:{},
                 upload:{}
             };
+            
+            $scope.validateSteps = function(form,index) {
+                
+            };
          });

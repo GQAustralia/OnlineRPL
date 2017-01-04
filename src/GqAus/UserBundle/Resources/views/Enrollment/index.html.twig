@@ -11,10 +11,10 @@
                             <div class="wizard-steps clearfix" id="wizardSteps">
                                 <div class="form-bootstrap-wizard">
                                     <ul class="bootstrapWizard form-wizard">
-                                        <li class="active" data-target="#formWizardCarousel" data-slide-to="0">
+                                        <li class="active" data-target="#formWizardCarousel" data-slide-to="0" class="active">
                                             <a href="#tab1" data-toggle="tab" class="active"> <span class="step">1</span> <span class="title">Your Profile</span> </a>
                                         </li>
-                                        <li class="" data-target="#formWizardCarousel" data-slide-to="1">
+                                        <li class="" ng-disabled="profileForm.$invalid" data-target="#formWizardCarousel" data-slide-to="1">
                                             <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Language and <br>Diversity</span> </a>
                                         </li>
                                         <li class="" data-target="#formWizardCarousel" data-slide-to="2">
@@ -33,7 +33,7 @@
                             <div class="carousel-inner">
                                 
                                 <!-- 1st Page Starts Here -->
-                                <div class="item active">
+                                <div class="item active" ng-form name="profileForm">
                                     <!-- Personal Details Section STARTS here-->
                                     <fieldset>
                                         <h2 class="page-header">Your Personal Details</h2>
@@ -41,19 +41,20 @@
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="firstName" class="control-label">First Name</label>
-                                                    <input type="text" id="firstName" class="form-control form-control-danger" ng-model="enrollment.profile.firstName">
+                                                    <input type="text" id="firstName" name="firstName" ng-model="enrollment.profile.firstName" ng-required="true" class="form-control form-control-danger">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="lastName" class="control-label">Last Name</label>
-                                                    <input type="text" id="lastName" class="form-control">
+                                                    <input type="text" id="lastName" name="lastName" ng-model="enrollment.profile.lastName" ng-required="true" class="form-control">
                                                 </div>
                                             </div>
+
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
-                                                <label for="birthday" class="control-label">Date of Birth</label>
-                                                <input type="date" id="birthday" class="form-control">
+                                                    <label for="birthday" class="control-label">Date of Birth</label>
+                                                    <input type="text" id="birthday" name="birthday" ng-model="enrollment.profile.birthday" ng-required="true" class="form-control date">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -61,36 +62,36 @@
                                                     <label class="control-label">Gender</label> <br>
                                                     <div class="btn-group  btn-group-sm" data-toggle="buttons">
                                                         <label class="btn btn-default" for="gender">
-                                                            <input type="radio" name="gender"> <span>Male</span> </label>
+                                                            <input type="radio" name="gender" ng-model="enrollment.profile.gender" ng-required="true"> <span>Male</span> </label>
                                                         <label class="btn btn-default" for="gender">
-                                                            <input type="radio" name="gender"> <span>Female</span> </label>
+                                                            <input type="radio" name="gender" ng-model="enrollment.profile.gender" ng-required="true"> <span>Female</span> </label>
                                                         <label class="btn btn-default" for="gender">
-                                                            <input type="radio" name="gender"> <span>Others</span> </label>
+                                                            <input type="radio" name="gender" ng-model="enrollment.profile.gender" ng-required="true"> <span>Others</span> </label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="homeTelNumber" class="control-label">Home Telephone Number</label>
-                                                    <input type="text" id="homeTelNumber" class="form-control" placeholder="">
+                                                    <input type="text" id="homeTelNumber" name="homeTelNumber" ng-model="enrollment.profile.homeTelNumber" ng-required="true" class="form-control" placeholder="">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="workTelNumber" class="control-label">Work Telephone Number</label>
-                                                    <input type="text" id="workTelNumber" class="form-control">
+                                                    <input type="text" id="workTelNumber" name="workTelNumber" ng-model="enrollment.profile.workTelNumber" ng-required="true" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="mobileNumber" class="control-label">Mobile Number</label>
-                                                    <input type="text" id="mobileNumber" class="form-control">
+                                                    <input type="text" id="mobileNumber" name="mobileNumber" ng-model="enrollment.profile.mobileNumber" ng-required="true" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="email" class="control-label">Email Address</label>
-                                                    <input type="email" id="email" class="form-control">
+                                                    <input type="email" id="email" name="email" ng-model="enrollment.profile.email" ng-required="true" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -102,65 +103,129 @@
                                         <h2 class="page-header">Your Address</h2>
                                         
                                         <div class="row">
-                                            <div class="col-xs-12">
-                                                <div class="form-group">
-                                                    <small class="text-muted">Type and search for your address and we'll automatically fill the details below. You can modify them manually if you need to.</small>
-                                                    <input id="autocomplete" placeholder="Search city, state, suburb or postcode" class="form-control input-lg" onFocus="geolocate()" type="text">
+                                            <div id="mainAddress">
+                                                <div class="col-xs-12">
+                                                    <div class="form-group">
+                                                        <small class="text-muted">Type and search for your address and we'll automatically fill the details below. You can modify them manually if you need to.</small>
+                                                        <input id="autocomplete" placeholder="Search city, state, suburb or postcode" class="form-control input-lg" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="propertyName" class="control-label">Building / Property Name</label>
+                                                        <input type="text" id="propertyName" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="unitDetails" class="control-label">Flat / Unit details</label>
+                                                        <input type="text" id="unitDetails" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="street_number" class="control-label">Street or lot number</label>
+                                                        <input type="text" id="street_number" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="streetName" class="control-label">Street Name</label>
+                                                        <input type="text" id="route" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="co-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="suburb" class="control-label">Suburb, locality or town</label>
+                                                        <input type="text" id="locality" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="state" class="control-label">State / territory</label>
+                                                        <input type="hidden" class="form-control" id ="administrative_area_level_1"></select>
+                                                        <select class="form-control" id ="state" name ="state"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="postcode" class="control-label">Post Code</label>
+                                                        <input type="text" id="postal_code" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="country" class="control-label">Country</label>
+                                                        <select class="form-control" id="country" name ="country"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12">
+                                                    <div class="form-group">
+                                                        <input type="checkbox" checked name="test" value="" id="postalAddress" data-toggle="collapse" data-target="#postalAddressForm" class="custom-input"><label for="postalAddress"> My Postal Address is same as above</label>
+                                                    </div>                                                
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="propertyName" class="control-label">Building / Property Name</label>
-                                                    <input type="text" id="propertyName" class="form-control">
+                                        </div>
+                                        <div id="postalAddressForm" class="collapse">
+                                            <h2 class="page-header">Your Postal Address</h2>
+                                            <div class="row">
+
+                                            
+                                                
+                                                <div class="col-xs-12">
+                                                    <div class="form-group">
+                                                        <input id="autocomplete_postal" placeholder="Search city, state, suburb or postcode" class="form-control input-lg" type="text">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="unitDetails" class="control-label">Flat / Unit details</label>
-                                                    <input type="text" id="unitDetails" class="form-control">
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="propertyName" class="control-label">Building / Property Name</label>
+                                                        <input type="text" id="propertyName_postal" class="form-control">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="street_number" class="control-label">Street or lot number</label>
-                                                    <input type="text" id="street_number" class="form-control">
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="unitDetails" class="control-label">Flat / Unit details</label>
+                                                        <input type="text" id="unitDetails_postal" class="form-control">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="streetName" class="control-label">Street Name</label>
-                                                    <input type="text" id="route" class="form-control">
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="street_number" class="control-label">Street or lot number</label>
+                                                        <input type="text" id="street_number_postal" class="form-control">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="co-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="suburb" class="control-label">Suburb, locality or town</label>
-                                                    <input type="text" id="locality" class="form-control">
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="streetName" class="control-label">Street Name</label>
+                                                        <input type="text" id="route_postal" class="form-control">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="state" class="control-label">State / territory</label>
-                                                    <input type="hidden" class="form-control" id ="administrative_area_level_1"></select>
-                                                    <select class="form-control" id ="state" name ="state"></select>
+                                                <div class="co-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="suburb" class="control-label">Suburb, locality or town</label>
+                                                        <input type="text" id="locality_postal" class="form-control">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="postcode" class="control-label">Post Code</label>
-                                                    <input type="text" id="postal_code" class="form-control">
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="state" class="control-label">State / territory</label>
+                                                        <input type="hidden" class="form-control" id ="administrative_area_level_1_postal"></select>
+                                                        <select class="form-control" id ="state_postal" name ="state"></select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="country" class="control-label">Country</label>
-                                                    <select class="form-control" id="country" name ="country"></select>
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="postcode" class="control-label">Post Code</label>
+                                                        <input type="text" id="postal_code_postal" class="form-control">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <div class="form-group">
-                                                    <input type="checkbox" name="test" value="" id="termsAndConditions" class="custom-input"><label for="termsAndConditions"> My Postal Address is same as above</label>
-                                                </div>                                                
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="country" class="control-label">Country</label>
+                                                        <select class="form-control" id="country_postal" name ="country"></select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -168,7 +233,7 @@
                                     
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="clearfix">
-                                        <button type="button" class="btn btn-primary pull-right" data-target="#formWizardCarousel" data-slide-to="1"><span class="text-uppercase">Next:</span> Language and Diversity <i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i></button>
+                                        <button type="button" class="btn btn-primary pull-right" data-target="#formWizardCarousel" data-slide-to="1"  ng-disabled="profileForm.$invalid"><span class="text-uppercase">Next:</span> Language and Diversity <i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i></button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
                                 </div>
@@ -455,276 +520,276 @@
                                     <!-- Employment Section STARTS here-->
                                     <fieldset>
                                         <div class="row">
-                                        <div class="col-xs-12">
-                                            <h2>Employment</h2>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat vel lacus ut vehicula.</p>
-                                        </div>
-                                    </div>
-                                        <div class="row">
-                                        <div class="col-xs-12"><span>What is your highest COMPLETED school level. Choose only one:</span></div>
+											<div class="col-xs-12">
+												<h2>Employment</h2>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat vel lacus ut vehicula.</p>
+											</div>
+										</div>
+                                       <div class="row">
+											<div class="col-xs-12"><span>What is your highest COMPLETED school level. Choose only one:</span></div>
 
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Full-time employee </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Part-time employee </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Self-employed - not employing others </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label><input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Employer </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Employed - unpaid worker in a family business </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Unemployed - seeking full-time work </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Unemployed - seeking part-time work </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Not employed - not seeking employment </label>
-                                            </div>
-                                        </div>
-                                    </div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Full-time employee </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Part-time employee </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Self-employed - not employing others </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label><input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Employer </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Employed - unpaid worker in a family business </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Unemployed - seeking full-time work </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Unemployed - seeking part-time work </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Not employed - not seeking employment </label>
+												</div>
+											</div>
+										</div>
                                     </fieldset>
                                     <!-- Employment Section Ends here-->
                                     
                                     <!-- Study reason Section STARTS here-->
                                     <fieldset>
                                         <div class="row">
-                                        <div class="col-xs-12">
-                                            <h2>Study reason</h2>
-                                        </div>
-                                    </div>
+											<div class="col-xs-12">
+												<h2>Study reason</h2>
+											</div>
+										</div>
                                         <div class="row">
-                                        <div class="col-xs-10"><span>Of the following categories, which BEST describes your main reason for undertaking this course/traineeship/apprenticeship?  (Choose one)</span></div>
+											<div class="col-xs-10"><span>Of the following categories, which BEST describes your main reason for undertaking this course/traineeship/apprenticeship?  (Choose one)</span></div>
 
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To get a job </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To develop my existing business </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To start my own business </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label><input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To try for a different career </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To get a better job promotion </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                            <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">It was a requirement for my job </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">I wanted extra skills for my job </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To get into another course of study </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">For personal interest or self-development </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 radio">
-                                            <div class="form-group">
-                                                <label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Other reasons </label>
-                                            </div>
-                                        </div>
-                                    </div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To get a job </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To develop my existing business </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To start my own business </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label><input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To try for a different career </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To get a better job promotion </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+												<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">It was a requirement for my job </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">I wanted extra skills for my job </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">To get into another course of study </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">For personal interest or self-development </label>
+												</div>
+											</div>
+											<div class="col-xs-12 radio">
+												<div class="form-group">
+													<label> <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">Other reasons </label>
+												</div>
+											</div>
+										</div>
                                     </fieldset>
                                     <!-- Study reason Section Ends here-->
                                     
                                     <!-- USI STARTS here-->
                                     <fieldset>
                                         <div class="row">
-                                        <div class="col-xs-12">
-                                            <h2>Unique Student Identifier (USI)</h2>
-                                        </div>
-                                    </div>
+											<div class="col-xs-12">
+												<h2>Unique Student Identifier (USI)</h2>
+											</div>
+										</div>
                                         <div class="row">
-                                        <div class="col-xs-9">
-                                            <p>
-                                                <a href="https://www.usi.gov.au/students/create-your-usi">From 1 January 2015, Get Qualified Australia’s partner RTOs can be prevented from issuing nationally recognised VET qualifications or statements of attainment to students if they do not have a <strong>Unique Student Identifier (USI).</strong></a>
-                                            </p>
-                                            <p>To determine if you are required to have a USI, please answer the following questions.</p>
-                                        </div>
-                                    </div>
+											<div class="col-xs-9">
+												<p>
+													<a href="https://www.usi.gov.au/students/create-your-usi">From 1 January 2015, Get Qualified Australia’s partner RTOs can be prevented from issuing nationally recognised VET qualifications or statements of attainment to students if they do not have a <strong>Unique Student Identifier (USI).</strong></a>
+												</p>
+												<p>To determine if you are required to have a USI, please answer the following questions.</p>
+											</div>
+										</div>
                                         <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                            <div class="form-group">
-                                                <label class="clear">Are you currently based in Australia?</label>
-                                                <div class="btn-group" btn-group-sm data-toggle="buttons">
-                                                    <label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#australiaBaseYes">
-                                                        <input type="radio" name="gender"> <span>Yes</span>
-                                                    </label>
-                                                    <label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#australiaBaseNo">
-                                                        <input type="radio" name="gender"> <span>No</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="australiaBaseYes" class="panel-collapse collapse">
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <div class="btn-group" btn-group-sm data-toggle="buttons">
-                                                        <p></p>
-                                                        <p><label class="clear">Are you an international student undertaking your entire VET course outside Australia (otherwise known as offshore training)?</label></p>
-                                                        <label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#internationalStudentYes">
-                                                            <input type="radio" name="gender"> <span>Yes</span>
-                                                        </label>
-                                                        <label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#StudentIdentifiersRegistrar">
-                                                            <input type="radio" name="gender"> <span>No</span>
-                                                        </label>
-                                                    </div>                                                                
-                                                </div>
-                                            </div>
-                                        </div>
+											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+												<div class="form-group">
+													<label class="clear">Are you currently based in Australia?</label>
+													<div class="btn-group" btn-group-sm data-toggle="buttons">
+														<label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#australiaBaseYes">
+															<input type="radio" name="gender"> <span>Yes</span>
+														</label>
+														<label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#australiaBaseNo">
+															<input type="radio" name="gender"> <span>No</span>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div id="australiaBaseYes" class="panel-collapse collapse">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<div class="form-group">
+														<div class="btn-group" btn-group-sm data-toggle="buttons">
+															<p></p>
+															<p><label class="clear">Are you an international student undertaking your entire VET course outside Australia (otherwise known as offshore training)?</label></p>
+															<label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#internationalStudentYes">
+																<input type="radio" name="gender"> <span>Yes</span>
+															</label>
+															<label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#StudentIdentifiersRegistrar">
+																<input type="radio" name="gender"> <span>No</span>
+															</label>
+														</div>                                                                
+													</div>
+												</div>
+											</div>
 
-                                        <!-- USI Options STARTS Here-->
-                                        <div id="internationalStudentYes" class="panel-collapse collapse">                                                                
-                                            <div class="col-xs-9">
-                                                <div class="form-group">
-                                                    <div class="alert alert-success">
-                                                        <p><a href="https://www.usi.gov.au/students/create-your-usi" target="_blank">You are NOT REQUIRED to get a USI.  You can proceed to the next.</a></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="StudentIdentifiersRegistrar" class="panel-collapse collapse">
-                                            <div class="col-xs-9">
-                                                <div class="form-group">
-                                                    <div class="btn-group" btn-group-sm data-toggle="buttons">
-                                                        <p></p>
-                                                        <p><label class="clear">Have you applied for and obtained an individual exemption from the Student Identifiers Registrar in being assigned a USI?</label></p>
-                                                        <label class="btn btn-default" for="gender">
-                                                            <input type="radio" name="gender"> <span>Yes</span>
-                                                        </label>
-                                                        <label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#UsiCollapseNoRequired">
-                                                            <input type="radio" name="gender"> <span>No</span>
-                                                        </label>
-                                                    </div>                                                                
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="UsiCollapseNoRequired" class="panel-collapse collapse">                                                                
-                                            <div class="col-xs-9">
-                                                <div class="form-group">
-                                                    <div class="alert alert-warning">
-                                                        <p>You are <strong>REQUIRED</strong> to get a USI.  You can create one from
-                                                            <a href="https://www.usi.gov.au/students/create-your-usi" target="_blank">http://www.usi.gov.au/create-your-USI/</a>
-                                                        </p>
-                                                    </div>
-                                                    <p>
-                                                        <strong>Alternatively, our partner RTO can apply for a USI on your behalf.</strong> To do this, you must authorise Get Qualified Australia to do this and declare that you have read the privacy information at <a href="http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx." target="_blank">http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx.</a>  Additionally, you need to download and submit to us a form that requires your signature. 
-                                                    </p>
-                                                    <div class="row">
-                                                        <div id="UsiApply" class="panel-collapse">
-                                                            <div class="col-xs-9">
-                                                                <div class="form-group">
-                                                                    <div class="btn-group" btn-group-sm data-toggle="buttons">
-                                                                        <p></p>
-                                                                        <p><label class="clear">Would you like for us to apply for your USI on your behalf?</label></p>
-                                                                        <label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#UsiDownloadPDF">
-                                                                            <input type="radio" name="gender"> <span>Yes</span>
-                                                                        </label>
-                                                                        <label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#UsiEnter">
-                                                                            <input type="radio" name="gender"> <span>No</span>
-                                                                        </label>
-                                                                    </div>                                                                
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div id="UsiDownloadPDF" class="panel-collapse collapse usi-download-pdf">  
-                                                                        <div class="col-xs-9">
-                                                                            <p></p>
-                                                                            <p>Please download this PDF, answer the questions, sign it, and save it. </p>
-                                                                            <img src="ui/img/download-pdf.png" alt="downloadPDF" title="downloadPDF" width="120px">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div id="UsiEnter" class="panel-collapse collapse usi-download-pdf">  
-                                                                        <div class="col-xs-12">
-                                                                            <div class="row">
-                                                                                <div class="col-xs-12">
-                                                                                    <p>Enter your 10-digit Unique Student identifier (if you already have one)</p>
-                                                                                </div>
-                                                                                <div class="col-xs-1">
-                                                                                    <input type="text" class="form-control" placeholder="">
-                                                                                </div>
-                                                                                <div class="col-xs-1">
-                                                                                    <input type="text" class="form-control" placeholder="">
-                                                                                </div>
-                                                                                <div class="col-xs-1">
-                                                                                    <input type="text" class="form-control" placeholder="">
-                                                                                </div>
-                                                                                <div class="col-xs-1">
-                                                                                    <input type="text" class="form-control" placeholder="">
-                                                                                </div>
-                                                                                <div class="col-xs-1">
-                                                                                    <input type="text" class="form-control" placeholder="">
-                                                                                </div>
-                                                                                <div class="col-xs-1">
-                                                                                    <input type="text" class="form-control" placeholder="">
-                                                                                </div>
-                                                                                <div class="col-xs-1">
-                                                                                    <input type="text" class="form-control" placeholder="">
-                                                                                </div>
-                                                                                <div class="col-xs-1">
-                                                                                    <input type="text" class="form-control" placeholder="">
-                                                                                </div>
-                                                                                <div class="col-xs-1">
-                                                                                    <input type="text" class="form-control" placeholder="">
-                                                                                </div>
-                                                                                <div class="col-xs-1">
-                                                                                    <input type="text" class="form-control" placeholder="">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+											<!-- USI Options STARTS Here-->
+											<div id="internationalStudentYes" class="panel-collapse collapse">                                                                
+												<div class="col-xs-9">
+													<div class="form-group">
+														<div class="alert alert-success">
+															<p><a href="https://www.usi.gov.au/students/create-your-usi" target="_blank">You are NOT REQUIRED to get a USI.  You can proceed to the next.</a></p>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div id="StudentIdentifiersRegistrar" class="panel-collapse collapse">
+												<div class="col-xs-9">
+													<div class="form-group">
+														<div class="btn-group" btn-group-sm data-toggle="buttons">
+															<p></p>
+															<p><label class="clear">Have you applied for and obtained an individual exemption from the Student Identifiers Registrar in being assigned a USI?</label></p>
+															<label class="btn btn-default" for="gender">
+																<input type="radio" name="gender"> <span>Yes</span>
+															</label>
+															<label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#UsiCollapseNoRequired">
+																<input type="radio" name="gender"> <span>No</span>
+															</label>
+														</div>                                                                
+													</div>
+												</div>
+											</div>
+											<div id="UsiCollapseNoRequired" class="panel-collapse collapse">                                                                
+												<div class="col-xs-9">
+													<div class="form-group">
+														<div class="alert alert-warning">
+															<p>You are <strong>REQUIRED</strong> to get a USI.  You can create one from
+																<a href="https://www.usi.gov.au/students/create-your-usi" target="_blank">http://www.usi.gov.au/create-your-USI/</a>
+															</p>
+														</div>
+														<p>
+															<strong>Alternatively, our partner RTO can apply for a USI on your behalf.</strong> To do this, you must authorise Get Qualified Australia to do this and declare that you have read the privacy information at <a href="http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx." target="_blank">http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx.</a>  Additionally, you need to download and submit to us a form that requires your signature. 
+														</p>
+														<div class="row">
+															<div id="UsiApply" class="panel-collapse">
+																<div class="col-xs-9">
+																	<div class="form-group">
+																		<div class="btn-group" btn-group-sm data-toggle="buttons">
+																			<p></p>
+																			<p><label class="clear">Would you like for us to apply for your USI on your behalf?</label></p>
+																			<label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#UsiDownloadPDF">
+																				<input type="radio" name="gender"> <span>Yes</span>
+																			</label>
+																			<label class="btn btn-default" for="gender" data-toggle="collapse" data-parent="#accordion" href="#UsiEnter">
+																				<input type="radio" name="gender"> <span>No</span>
+																			</label>
+																		</div>                                                                
+																	</div>
+																	<div class="row">
+																		<div id="UsiDownloadPDF" class="panel-collapse collapse usi-download-pdf">  
+																			<div class="col-xs-9">
+																				<p></p>
+																				<p>Please download this PDF, answer the questions, sign it, and save it. </p>
+																				<img src="{{ asset('public/ui/img/download-pdf.png') }}" alt="downloadPDF" title="downloadPDF" width="120px">
+																			</div>
+																		</div>
+																		<div id="UsiEnter" class="panel-collapse collapse usi-download-pdf">  
+																			<div class="col-xs-12">
+																				<div class="row">
+																					<div class="col-xs-12">
+																						<p>Enter your 10-digit Unique Student identifier (if you already have one)</p>
+																					</div>
+																					<div class="col-xs-1">
+																						<input type="text" class="form-control" placeholder="">
+																					</div>
+																					<div class="col-xs-1">
+																						<input type="text" class="form-control" placeholder="">
+																					</div>
+																					<div class="col-xs-1">
+																						<input type="text" class="form-control" placeholder="">
+																					</div>
+																					<div class="col-xs-1">
+																						<input type="text" class="form-control" placeholder="">
+																					</div>
+																					<div class="col-xs-1">
+																						<input type="text" class="form-control" placeholder="">
+																					</div>
+																					<div class="col-xs-1">
+																						<input type="text" class="form-control" placeholder="">
+																					</div>
+																					<div class="col-xs-1">
+																						<input type="text" class="form-control" placeholder="">
+																					</div>
+																					<div class="col-xs-1">
+																						<input type="text" class="form-control" placeholder="">
+																					</div>
+																					<div class="col-xs-1">
+																						<input type="text" class="form-control" placeholder="">
+																					</div>
+																					<div class="col-xs-1">
+																						<input type="text" class="form-control" placeholder="">
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
                                         <!-- USI Options Ends Here-->
-                                    </div>
+										</div>
                                     </fieldset>
                                     <!-- USI Ends here-->
                                     
@@ -794,15 +859,24 @@
     <script src = "{{ asset('public/ui/js/plugins/countries.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/intlTelInput.js') }}"></script>
     <script src="{{ asset('public/js/enrollment.js') }}"></script>
+    <!-- Bootstrap Datepicker -->
+    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/bootstrap-datetimepicker.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=initAutocomplete" async defer></script>
     <!-- places library for maps api -->
     
-    <script>
+     <script>
         $(document).ready(function() {
-            populateCountries('country', 'state'); // first parameter is id of country drop-down and second parameter is id of state drop-down
+            populateCountries('country', 'state');
+            populateCountries('country_postal', 'state_postal');
             populateCountries('country2');
 
             OPACITY_SCROLL.build();
+
+            INIT_COUNTRY_CODE.init();
+            INIT_COUNTRY_CODE.click();
+
+            INIT_DATEPICKER.build();
         });
     </script>
 {% endblock %}

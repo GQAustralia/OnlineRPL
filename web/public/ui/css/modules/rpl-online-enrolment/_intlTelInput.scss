@@ -1,6 +1,6 @@
 .intl-tel-input { position: relative; }
 .intl-tel-input .hide { display: none; }
-.intl-tel-input .flag-dropdown { position: absolute; z-index: 1; cursor: pointer; bottom: 12px; }
+.intl-tel-input .flag-dropdown { position: absolute; z-index: 1; cursor: pointer; }
 .intl-tel-input .flag-dropdown .selected-flag { margin: 1px; padding: 6px 16px 6px 6px; }
 .intl-tel-input .flag-dropdown .selected-flag:hover { background-color: rgba(0, 0, 0, 0.05); }
 .intl-tel-input .flag-dropdown .selected-flag .down-arrow { top: 6px; position: relative; left: 20px; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid black; }
@@ -267,6 +267,7 @@
     }
     .flag-dropdown{
         z-index: auto;
+        bottom: 8px;
         .down-arrow{
             display: none;
         }
@@ -274,6 +275,21 @@
         .selected-flag{ 
             padding: 6px;
         }
+    }
+}
+
+@media(max-width: 767px){
+    .intl-tel-input .flag-dropdown .country-list{
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        max-height: 100%;
+    }
+
+    .carousel-inner>.item.active{
+        @include transform(none);
+        @include perspective(none);
     }
 }
 /* End of country code doprdown */
