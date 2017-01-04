@@ -2,21 +2,41 @@
 
 namespace GqAus\UserBundle\Controller;
 
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use GqAus\UserBundle\Form\ProfileForm;
-use GqAus\UserBundle\Form\UserForm;
-use GqAus\UserBundle\Form\IdFilesForm;
 use GqAus\UserBundle\Form\ChangePasswordForm;
-use GqAus\UserBundle\Form\ResumeForm;
+use GqAus\UserBundle\Form\IdFilesForm;
+use GqAus\UserBundle\Form\MatrixForm;
+use GqAus\UserBundle\Form\ProfileForm;
 use GqAus\UserBundle\Form\QualificationForm;
 use GqAus\UserBundle\Form\ReferenceForm;
-use GqAus\UserBundle\Form\MatrixForm;
-use GqAus\UserBundle\Entity\User;
+use GqAus\UserBundle\Form\ResumeForm;
+use GqAus\UserBundle\Form\UserForm;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends Controller
 {
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    function firstTimePasswordLoginAction(Request $request)
+    {
+        $response = $this->get('HttpResponsesService');
+        $service = $this->get('SetNewUserPasswordService');
+        $tokenId = $request->get('tokenId');
+        $password = $request->get('newPassword');
+
+        if (!$tokenId || !$password) {
+            return $response->error()->respondBadRequest('Missing Parameters.');
+        }
+
+        if (!$service->validateUserTokenAndUpdatePassword($tokenId, $password)) {
+            return $response->error()->respondBadRequest('Invalid Token.');
+        }
+
+        return $response->fractal()->respondSuccess();
+    }
 
     /**
      * Function to edit user profile
@@ -925,40 +945,37 @@ class UserController extends Controller
         $userInfo = $userService->updateNewUserPasswordStatus($logintoken);
         exit;
     }
-    
-    function validateUserAction()
-    {                
-        $token = $this->getRequest()->get('loginToken'); 
+
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    function validateUserAction(Request $request)
+    {
         $userService = $this->get('UserService');
-        $userinfo = $userService->getUserLoginToken($token); 
-        $userid = 0; $user = '';
-        if (!empty($userinfo)) {                                  
-              $userid = $userinfo[0]->getId();     
-              $user = $userService->getUserInfo($userid);
-//              $tokenval = new UsernamePasswordToken($user, null, 'main', array('ROLE_APPLICANT'));
-//              $this->get('security.token_storage')->setToken($tokenval);
-//              $this->get('session')->set('_security_main', serialize($tokenval));
-               
+        $user = $userService->findUserByLoginToken($request->get('loginToken'));
+
+        /**
+         * @todo should go to a 404 page
+         */
+        if (!$user) {
+            return $this->render('GqAusUserBundle:User:first_time_password_login.html.twig');
         }
-       
-        return $this->render('GqAusUserBundle:User:newUserCheck.html.twig', array(
-                'userid' => $userid, 'user' => $user, 'applicantStatus' => $user->getApplicantStatus()));
-        exit;
-       
-        
-//        $loginToken = $this->getRequest()->get('loginToken');
-//        $userId = $this->getRequest()->get('userId');
-//        $userService = $this->get('UserService');
-//         $user = $userService->getUserInfo($userId);
-//         $providerKey = 'secured_area';
-//       $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
-//       dump($user->getApplicantStatus);exit;
-//        return $this->render('GqAusUserBundle:User:newUserCheck.html.twig');
-    //$this->container->get('security.context')->setToken($token);
-//
-//    $url = $this->generateUrl('index');
-//
-//    return $this->redirect($url);
+
+        /**
+         * @todo should go to rpl onboarding
+         *'2' indicates that the User has already set its password but is not yet finished to its on boarding page
+         */
+        if ($user->getApplicantStatus() == 2) {
+            return $this->redirect('GqAusUserBundle:Login:index.html.twig');
+        }
+
+        if ($user->getApplicantStatus() == 3) {
+            return $this->render('GqAusUserBundle:Login:index.html.twig');
+        }
+
+        return $this->render('GqAusUserBundle:User:first_time_password_login.html.twig', ['user' => $user]);
     }
 
     /*

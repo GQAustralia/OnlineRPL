@@ -1,12 +1,23 @@
 
 parameters:
-    gq_aus_user.amazon_s3.class: Aws\S3\S3Client   
+    gq_aus_user.amazon_s3.class: Aws\S3\S3Client
     gq_aus_user.file_uploader.class: GqAus\UserBundle\Services\FileUploader
-    
 services:
 #    api.example:
 #        class: UserBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+    SetNewUserPasswordService:
+        class: GqAus\UserBundle\Services\SetNewUserPasswordService
+        arguments: [@doctrine.orm.entity_manager]
+    ValidResponse:
+        class: GqAus\UserBundle\Services\Response\ValidResponse
+        arguments: []
+    ErrorResponse:
+        class: GqAus\UserBundle\Services\Response\ErrorResponse
+        arguments: []
+    HttpResponsesService:
+        class: GqAus\UserBundle\Services\Response\HttpResponsesService
+        arguments: [@ValidResponse, @ErrorResponse]
     kernel.listener.GqAusCacheListener:
         class: GqAus\UserBundle\EventListener\GqAusCacheListener
         tags:

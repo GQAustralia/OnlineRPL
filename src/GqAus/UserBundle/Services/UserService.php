@@ -85,6 +85,16 @@ class UserService
     }
 
     /**
+     * @param int $loginToken
+     *
+     * @return mixed
+     */
+    public function findUserByLoginToken($loginToken)
+    {
+        return $this->repository->findOneBy(['loginToken' => $loginToken]);
+    }
+
+    /**
      * function to get current user
      * return array
      */

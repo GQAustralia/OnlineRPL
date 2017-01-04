@@ -270,7 +270,10 @@ updateNewUserAjaxStatus:
     defaults: { _controller: GqAusUserBundle:User:updateNewUserAjaxStatus }
 updatepasswordAjax:
     path:     /updatepasswordAjax
-    defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax } 
+    defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax }
+firstTimePasswordLogin:
+    path:     /firstTimePasswordLogin
+    defaults: { _controller: GqAusUserBundle:User:firstTimePasswordLogin }
 updateJobId:
     path:     /updateSthreeJobId/{jobId}
     defaults: { _controller: GqAusUserBundle:Evidence:updateSthreeJobId }
