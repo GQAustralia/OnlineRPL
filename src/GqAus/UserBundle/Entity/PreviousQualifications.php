@@ -1,8 +1,55 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace GqAus\UserBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * PreviousQualifications
+ */
+class PreviousQualifications
+{
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return PreviousQualifications
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}

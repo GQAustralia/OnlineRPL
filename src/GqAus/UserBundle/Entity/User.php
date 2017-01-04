@@ -84,6 +84,23 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @var string
      */
     private $loginToken;
+    /**
+     * @var integer
+     */
+    private $curInAustralia;
+    /**
+     * @var integer
+     */
+    private $interStudentVET;
+    /**
+     * @var integer
+     */
+    private $exemStudIdentReg;
+    /**
+     * @var integer
+     */
+    private $applyForYourUSI;
+    
 
     /**
      * Constructor
@@ -1145,5 +1162,93 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     public function getLoginToken()
     {
         return $this->loginToken;
+    }
+     /**
+     * Set curInAustralia
+     *
+     * @param string $curInAustralia
+     * @return integer
+     */
+    public function setCurInAustralia($curInAustralia)
+    {
+        $this->curInAustralia = $curInAustralia;
+
+        return $this;
+    }
+
+    /**
+     * Get curInAustralia
+     *
+     * @return integer 
+     */
+    public function getCurInAustralia()
+    {
+        return $this->curInAustralia;
+    }
+    /**
+     * Set interStudentVET
+     *
+     * @param string $interStudentVET
+     * @return integer
+     */
+    public function setInterStudentVET($interStudentVET)
+    {
+        $this->interStudentVET = $interStudentVET;
+
+        return $this;
+    }
+
+    /**
+     * Get interStudentVET
+     *
+     * @return integer 
+     */
+    public function getInterStudentVET()
+    {
+        return $this->interStudentVET;
+    }
+    /**
+     * Set exemptionSir
+     *
+     * @param string $exemptionSir
+     * @return integer
+     */
+    public function setExemptionSir($exemStudIdentReg)
+    {
+        $this->exemStudIdentReg = $exemStudIdentReg;
+
+        return $this;
+    }
+
+    /**
+     * Get exemptionSir
+     *
+     * @return integer 
+     */
+    public function getExemptionSir()
+    {
+        return $this->exemStudIdentReg;
+    }
+    /**
+     * Set likeApplyUSI
+     *
+     * @param string $likeApplyUSI
+     * @return integer
+     */
+    public function setLikeApplyUSI($applyForYourUSI)
+    {
+        $this->applyForYourUSI = $applyForYourUSI;
+
+        return $this;
+    }
+
+    /**
+     * Get likeApplyUSI
+     *
+     * @return integer 
+     */
+    public function getLikeApplyUSI()
+    {
+        return $this->applyForYourUSI;
     }
 }
