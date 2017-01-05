@@ -23,6 +23,26 @@ var TOGGLE_PASSWORD = {
 	}
 }
 
+// control collapse behavior for "yes / no" fields
+var CONTROL_COLLAPSE = {
+	elem: $('[data-collapse]'),
+	collapse: function(){
+		this.elem.on('click', function(){
+			var target= $(this).data('target'),
+				show = 'show',
+				hide = 'hide';
+			if($(this).data('collapse') === show){
+				$(target).collapse(show)
+			}else{
+				$(target).collapse(hide)
+			}
+		})
+	},
+	build: function(){
+		CONTROL_COLLAPSE.collapse();
+	}
+}
+
 // Collapse Read More
 var READ_MORE = {
 	doc: $(document),

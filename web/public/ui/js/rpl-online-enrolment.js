@@ -1,10 +1,3 @@
-$(function(){
-    $('#birthday').datetimepicker({
-        'format' : 'DD/MM/YYYY'
-    });
-})
-
-
 // country code
 var INIT_COUNTRY_CODE = {
     doc: $(document),
@@ -18,8 +11,11 @@ var INIT_COUNTRY_CODE = {
         $(document).on('click', this.elems,function(){
             var country_list = $(this).closest('.intl-tel-input').find('.country-list')
             country_list.removeClass('hide');
+            $('header, .wizard-steps').addClass('has-country-code');
+
             $(this).keypress(function(){
-                country_list.addClass('hide')
+                country_list.addClass('hide');
+                $('header, .wizard-steps').removeClass('has-country-code');
             })
         })
     },

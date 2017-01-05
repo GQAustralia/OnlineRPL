@@ -6,10 +6,15 @@
 // style for contact number with flag input
 @import 'intlTelInput';
 
-//style for datepicker
-@import 'datepicker';
-
 @import 'bootstrap-datetimepicker';
+
+// style for your details page
+
+#postalAddressForm{ 
+	h2{
+		margin-top: 0;
+	}
+}
 
 @import "320";
 
