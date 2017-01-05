@@ -87,19 +87,19 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     /**
      * @var integer
      */
-    private $curInAustralia;
+    private $curinAustralia;
     /**
      * @var integer
      */
-    private $interStudentVET;
+    private $interStudentvet;
     /**
      * @var integer
      */
-    private $exemStudIdentReg;
+    private $exemStudidentreg;
     /**
      * @var integer
      */
-    private $applyForYourUSI;
+    private $applyForyourusi;
     
 
     /**
@@ -1164,91 +1164,91 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
         return $this->loginToken;
     }
      /**
-     * Set curInAustralia
+     * Set curinAustralia
      *
-     * @param string $curInAustralia
+     * @param string $curinAustralia
      * @return integer
      */
-    public function setCurInAustralia($curInAustralia)
+    public function setCurInAustralia($curinAustralia)
     {
-        $this->curInAustralia = $curInAustralia;
+        $this->curinAustralia = $curinAustralia;
 
         return $this;
     }
 
     /**
-     * Get curInAustralia
+     * Get curinAustralia
      *
      * @return integer 
      */
     public function getCurInAustralia()
     {
-        return $this->curInAustralia;
+        return $this->curinAustralia;
     }
     /**
-     * Set interStudentVET
+     * Set InterStudentVET
      *
      * @param string $interStudentVET
      * @return integer
      */
-    public function setInterStudentVET($interStudentVET)
+    public function setInterStudentVET($interStudentvet)
     {
-        $this->interStudentVET = $interStudentVET;
+        $this->interStudentvet = $interStudentvet;
 
         return $this;
     }
 
     /**
-     * Get interStudentVET
+     * Get InterStudentVET
      *
      * @return integer 
      */
     public function getInterStudentVET()
     {
-        return $this->interStudentVET;
+        return $this->interStudentvet;
     }
     /**
-     * Set exemptionSir
+     * Set ExemptionSir
      *
      * @param string $exemptionSir
      * @return integer
      */
-    public function setExemptionSir($exemStudIdentReg)
+    public function setExemptionSir($exemStudidentreg)
     {
-        $this->exemStudIdentReg = $exemStudIdentReg;
+        $this->exemStudidentreg = $exemStudidentreg;
 
         return $this;
     }
 
     /**
-     * Get exemptionSir
+     * Get ExemptionSir
      *
      * @return integer 
      */
     public function getExemptionSir()
     {
-        return $this->exemStudIdentReg;
+        return $this->exemStudidentreg;
     }
     /**
-     * Set likeApplyUSI
+     * Set LikeApplyUSI
      *
      * @param string $likeApplyUSI
      * @return integer
      */
-    public function setLikeApplyUSI($applyForYourUSI)
+    public function setLikeApplyUSI($applyForyourusi)
     {
-        $this->applyForYourUSI = $applyForYourUSI;
+        $this->applyForyourusi = $applyForyourusi;
 
         return $this;
     }
 
     /**
-     * Get likeApplyUSI
+     * Get LikeApplyUSI
      *
      * @return integer 
      */
     public function getLikeApplyUSI()
     {
-        return $this->applyForYourUSI;
+        return $this->applyForyourusi;
     }
 }
