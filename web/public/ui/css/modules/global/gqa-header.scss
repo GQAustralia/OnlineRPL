@@ -1,0 +1,125 @@
+// GQA Header
+.header-gqa {
+	.header-gqa-logo {
+		height: 50px;
+		@include transition(all .3s $easing);
+	}
+
+	.container {
+		position: relative;
+		z-index: 1;
+		padding-top: $grid-gutter-width;
+		padding-bottom: $grid-gutter-width;
+		@include transition(all .3s $easing);
+	}
+
+	&.compressed {
+		.header-gqa-logo { 
+			height: 36px; 
+			margin-top: 8px;
+			@include transition(all .3s $easing);
+		}
+		.container {
+			padding-top: ($grid-gutter-width/2)-5;
+			padding-bottom: ($grid-gutter-width/2)-5;
+			@include transition(all .3s $easing);
+		}
+		.navbar-bg-gradient {
+			border-bottom: 3px solid #d2443f;
+			@include box-shadow(0 1px 2px rgba(0,0,0,0.3));
+		}
+	}
+
+	nav {
+		ul {
+			padding: 0;
+			margin: 0;
+			list-style-type: none;
+			float: right;
+
+			li {
+				display: inline-block;
+				text-align: center;
+				@include transition(all .3s $easing);
+
+				a {
+					color: #FFF;
+					padding: $padding-base-vertical 18px;
+					text-decoration: none;
+					font-size: 16px;
+					@include transition(all .3s $easing);
+
+					&:hover { color: white; text-decoration: none; }
+				}
+			}
+		}
+	}
+}
+
+// Avatar on the header
+.avatar-menu {
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	&:hover { cursor: pointer; }
+
+	> .dropdown {
+		> .dropdown-toggle {
+			padding: $padding-base-vertical 18px;
+			padding-left: $avatar-xxs + 20 !important;
+			display: inline-block;
+			color: white;
+
+			.avatar {
+				display: inline-block;
+				position: absolute;
+				top: 3px;
+				left: 10px;
+			}
+			.avatar-name {
+				display: block;
+				float: left;
+				line-height: 1.1;
+				font-size: 16px;
+				max-width: 70px;
+				min-width: auto;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+	}
+}
+
+.navbar-bg-img {
+	width: 100%;
+	height: 280px;
+	position: relative;
+	z-index: 1;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	border-bottom: 4px solid $brand-primary;
+
+
+	&[data-bg="skyscraper-blur"] { background-image: url(../img/bg-skyscraper-blur.jpg); }
+
+	& + .main-content-gqa {
+		position: relative;
+		z-index: 1;
+		margin-top: -($grid-gutter-width*4);
+	}
+}
+
+.navbar-bg-gradient {
+	background-color: blue;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-image: url(../img/bg-gradient.jpg);
+	@include opacity(0);
+}
