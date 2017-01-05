@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>{% block title %}Recognition of Prior Learning{% endblock %}</title>
+    <meta name="description" content="Online RPL">
+    <meta name="author" content="GQA App Dev">
+    <meta name="copyright" content="Get Qualified Australia">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+      <!-- Bootstrap -->
+    {% block head %} 
+        {% set roles = app.security.getToken().getUser().getRoles() %}
+        
+        <!-- Core -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="{{ asset('public/ui/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/ui/css/bootstrap/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/ui/css/global.min.css') }}" rel="stylesheet" />
+
+    <!-- Login only -->
+    <link href="{{ asset('public/ui/css/modules/rpl-online-enrolment/rpl-online-enrolment.css') }}" rel="stylesheet" />   
+
+    <script src="{{ asset('public/ui/js/plugins/isMobile.min.js') }}"></script> <!-- Sniff if browser is loaded on mobile -->
+    <script src="{{ asset('public/ui/js/modernizr-3.3.1.gqa-build.121516.min.js') }}"></script> <!-- Modernizr -->
+    
+    {% endblock %}
+    {% block stylesheets %}{% endblock %}  
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/fixes.css') }}">
+        <script type="text/javascript">
+            var base_url = "{{ base_url }}";
+            var amazon_link = "{{ amazon_link }}";
+            var upload_path = "{{ asset('public/uploads/')}}";
+        </script>    
+
+</head>
+
+<body>
+     {% set roles = app.security.getToken().getUser().getRoles() %}
+    {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
+    {% set page = app.request.attributes.get('_route') %}
+    <header class="header-gqa" id="headerGQA">
+        <nav class="navbar-fixed-top">
+            <div class='container'>
+                <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg') }}" alt="Get Qualified Australia">
+                <ul>
+                    <li><a href='#'><i class="zmdi zmdi-home zmdi-hc-lg"></i> <span>Home</span></a></li>
+                    <li><a href='#'><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg"></i> <span>Evidences</span></a></li>
+                    <li><a href='#'><i class="zmdi zmdi-inbox zmdi-hc-lg"></i> <span>Inbox</span></a></li>
+
+                    <li class="avatar-menu">
+                        <div class="dropdown">
+                            <div class="dropdown-toggle" data-toggle="dropdown">
+                                <div class="avatar avatar-xxs"><img src="{{ asset('public/ui/img/avatar-default.png') }}" alt="You"></div>
+                                <span class="avatar-name" id="avatarFirstName">First Name Here</span>&nbsp;
+                                <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
+                            </div>
+
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href=""></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-bg-gradient" id="navGradient"></div>
+        </nav>
+    </header>
+
+    <div class="navbar-bg-img" data-bg="skyscraper-blur" id="navImg"></div>
+{% block body %}{% endblock %}
+    
+<footer class="footer-gqa" data-toggle="auto-fixed-footer">
+    <section class="container">
+        <img class="footer-gqa-logo img-responsive" src="{{ asset('public/ui/img/gqa-logo-full-white-type.svg') }}" alt="Get Qualified Australia">
+        <ul class="footer-gqa-nav list-inline small text-right" style="margin-top: 10px;">
+            <li><a href="https://www.gqaustralia.edu.au/" target="_blank">GQA Website</a></li>
+            <li><a href="tel:">Contact Us</a></li>
+            <li style="display: block; margin-top: 5px;">Copyright &copy; <span id="currentYear">----</span> GQA. All Rights Reserved</li>
+        </ul>
+    </section>
+</footer>
+
+    <!-- Core -->
+    <script src="{{ asset('public/ui/js/jquery-1.11.2.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/gqa-utilities.js') }}"></script>
+    <script src="{{ asset('public/ui/js/velocity.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/velocity.ui.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/polyfills.min.js') }}"></script>
+{% block javascripts %}{% endblock %}
+    
+</body>
+</html>

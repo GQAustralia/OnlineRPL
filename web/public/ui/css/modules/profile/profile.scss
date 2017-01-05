@@ -1,0 +1,177 @@
+@import '../../bootstrap/_variables.scss';
+@import '../../bootstrap/mixins/';
+
+$upload-button-width: 32px;
+
+.profile{
+	&.main-content-gqa{
+		margin-top: -$grid-gutter-width * 2
+	}
+	.banner{
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		min-height: 150px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+
+	.avatar{
+		@include border-radius($grid-gutter-width * 3);
+		overflow: hidden;
+		z-index: 2;
+		position: relative;
+		border: $grid-gutter-width / 4 solid #fff;
+		margin-top: -$grid-gutter-width * 3
+	}
+
+	form{
+		margin-top: -25px;
+		z-index: 2;
+		position: relative;
+		input[type="file"]{
+			opacity: 0;
+			width: $upload-button-width;
+			height: 34px;
+			margin: auto;
+			cursor: pointer;
+			overflow: hidden;
+			position: relative;
+			z-index: 2;
+		}
+		i{
+			background: $gray-dark;
+			position: absolute;
+			width: $upload-button-width;
+			left: 0;
+			right: 0;
+			top: 0;
+			margin: 0 auto;
+			color: #fff;
+			border: 2px solid #fff;
+			font-size: 18px;
+			padding: 5px 7px;
+			@include border-radius(22px);
+			@include box-shadow(1px 1px 5px -1px rgba(0,0,0,1))
+		}
+	}
+
+	h4{
+		color: $gray;
+		span{
+			color: $gray-dark;
+			font-weight: bold;
+		}
+	}
+
+	h3{
+
+		a:hover,
+		a:active{
+			text-decoration: none;
+		}
+	}
+
+	.profile-info{
+		display: table;
+		width: 100%;
+		vertical-align: middle;
+		margin: 15px 0 40px;
+		position: relative;
+		i.base-icon{
+			font-size: 30px;
+			width: 50px;
+			height: 50px;
+			text-align: center;
+			background: $gray-lighter;
+			padding: 10px 15px;
+			@include border-radius(30px);
+			display: inline-block;
+		}
+
+		p{
+			display: table-cell;
+			vertical-align: middle;
+			width: 100%;
+			padding-left: $grid-gutter-width / 2;
+			font-weight: bold;
+			color: $brand-gray;
+
+			span{
+				display: block;
+				color: $gray-darker;
+				font-size: $font-size-h4;
+				font-weight: normal;
+				margin-top: $grid-gutter-width / 6;
+			}
+
+			a span{
+				color: $brand-red;
+				text-decoration: underline;
+			}
+		}
+
+		img{
+			width: 20px;
+			height: auto;
+			margin-right: $grid-gutter-width /4;
+		}	
+
+		&-password{
+			p span,
+			p a{
+				display: table-cell;
+				vertical-align: middle;
+				padding-right: 15px;
+			}
+		}
+
+	}
+
+	i.zmdi-edit{
+		color: #fff;
+		background: $gray;
+		font-size: 14px;
+		padding: 2px 3px;
+		@include border-radius($border-radius-base);
+		width: auto;
+		height: auto;
+	}
+}
+
+
+@media (max-width: 768px){
+	.profile{
+		h3{
+			display: none;
+		}
+
+		h4{
+			margin-bottom: $grid-gutter-width;
+		}
+		&-info{
+			margin: 0 0 20px;
+			p{
+				position: relative;
+				padding-bottom: 20px;
+				span{
+					font-size: 14px;
+					word-break: break-all;
+				}
+
+				&:after{
+					content: '';
+					position: absolute;
+					width: 95%;
+					height: 1px;
+					border-top: 1px solid $gray-light;
+					bottom: 0;
+
+				}
+			}
+		}
+	}
+}
