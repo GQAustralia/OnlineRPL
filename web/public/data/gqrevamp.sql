@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2017 at 10:50 AM
+-- Generation Time: Jan 06, 2017 at 07:16 AM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -397,8 +397,8 @@ CREATE TABLE `user` (
   `crm_id` varchar(200) DEFAULT NULL,
   `applicantStatus` int(20) NOT NULL,
   `login_token` varchar(200) DEFAULT NULL,
-  `curr_australia` int(10) DEFAULT NULL,
-  `inter_student_VET` int(10) DEFAULT NULL,
+  `curin_australia` int(10) DEFAULT '0',
+  `inter_studentvet` int(10) DEFAULT NULL,
   `exemption_sir` int(10) DEFAULT NULL,
   `like_apply_usi` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
