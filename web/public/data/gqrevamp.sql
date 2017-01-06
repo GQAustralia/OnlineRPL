@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2017 at 07:16 AM
+-- Generation Time: Jan 06, 2017 at 10:55 AM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -420,7 +420,15 @@ CREATE TABLE `user_address` (
   `state` varchar(150) DEFAULT NULL,
   `country` varchar(150) DEFAULT NULL,
   `pincode` varchar(10) NOT NULL,
-  `postal` varchar(500) DEFAULT NULL,
+  `postal` int(10) DEFAULT NULL,
+  `p_buildingname` varchar(150) DEFAULT NULL,
+  `p_address` varchar(150) DEFAULT NULL,
+  `p_area` varchar(150) DEFAULT NULL,
+  `p_suburb` varchar(150) DEFAULT NULL,
+  `p_city` varchar(150) DEFAULT NULL,
+  `p_state` varchar(150) DEFAULT NULL,
+  `p_pincode` varchar(150) DEFAULT NULL,
+  `p_country` varchar(150) DEFAULT NULL,
   `updated` datetime NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
