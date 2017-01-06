@@ -1,4 +1,4 @@
-@import '../../bootstrap/_variables';
+@import '../../bootstrap/_variables.scss';
 @import '../../bootstrap/mixins/';
 
 .is-mobile {
@@ -29,6 +29,7 @@
 			display: table;
 			width: 100%;
 			margin: 0;
+			border-radius: 0;
 		}
 
 		.modal-body{
@@ -74,12 +75,12 @@
 		width: 75%;
 		background: #fff url('../../../img/bg-onboarding-popup.png') bottom center;
 		background-size: cover;
-		
+		border-radius: $border-radius-base;
 	}
 	.modal-content{
 		background: none;
 		border: none;
-		@include box-shadow(none);
+		// @include box-shadow(none);
 	}
 	h2{
 		padding: 0;

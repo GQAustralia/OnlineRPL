@@ -1,12 +1,9 @@
-@import '../../bootstrap/_variables';
+@import '../../bootstrap/_variables.scss';
 @import '../../bootstrap/mixins/';
 
 $upload-button-width: 32px;
 
 .profile{
-	&.main-content-gqa{
-		margin-top: -$grid-gutter-width * 2
-	}
 	.banner{
 		background-color: transparent;
 		background-repeat: no-repeat;
@@ -25,7 +22,6 @@ $upload-button-width: 32px;
 		z-index: 2;
 		position: relative;
 		border: $grid-gutter-width / 4 solid #fff;
-		margin-top: -$grid-gutter-width * 3
 	}
 
 	form{

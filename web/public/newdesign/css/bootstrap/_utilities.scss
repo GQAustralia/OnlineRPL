@@ -121,8 +121,8 @@
     text-transform: uppercase;
     background-color: transparent;
     border-color: 1px solid transparent;
-    padding-left: $grid-gutter-width/2 !important;
-    padding-right: $grid-gutter-width/2 !important;
+    padding-left: $grid-gutter-width/4 !important;
+    padding-right: $grid-gutter-width/4 !important;
 
     @include transition(all .3s $easing);
     &:hover {
