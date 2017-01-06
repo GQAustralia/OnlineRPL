@@ -1,3 +1,12 @@
+firstTimePasswordLogin:
+    path:     /firstTimePasswordLogin
+    defaults: { _controller: GqAusUserBundle:Authenticate:firstTimePasswordLogin }
+onBoarding:
+    path:     /onBoarding/{loginToken}
+    defaults: { _controller: GqAusUserBundle:Authenticate:onboarding }
+validateUser:
+    path:     /validateUser/{loginToken}
+    defaults: { _controller: GqAusUserBundle:Authenticate:validateUser }
 user_homepage:
     path:     /userprofile
     defaults: { _controller: GqAusUserBundle:User:profile }
@@ -66,10 +75,10 @@ searchApplicantsList:
     defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsList }
 searchApplicantsListReports:
     path:     /searchApplicantsListReports
-    defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsListReports }    
+    defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsListReports }
 searchApplicantsListByGridHeadings:
     path:     /searchApplicantsListByGridHeadings
-    defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsListByGridHeadings }    
+    defaults:  { _controller: GqAusUserBundle:Applicant:searchApplicantsListByGridHeadings }
 createzip:
     path:     /zipFiles/{qcode}/{uid}
     defaults:  { _controller: GqAusUserBundle:Applicant:zip }
@@ -108,10 +117,10 @@ download_assessor_profile:
     defaults:  { _controller: GqAusUserBundle:User:downloadAssessorProfile }
 messages:
     path:     /messages/{mid}
-    defaults: { _controller: GqAusUserBundle:Message:view, mid: null } 
+    defaults: { _controller: GqAusUserBundle:Message:view, mid: null }
 compose:
     path:     /compose
-    defaults: { _controller: GqAusUserBundle:Message:compose } 
+    defaults: { _controller: GqAusUserBundle:Message:compose }
 usernamesbyRoles:
     path:     /usernamesbyRoles
     defaults: { _controller: GqAusUserBundle:Message:usernamesbyRoles }
@@ -129,13 +138,13 @@ draft:
     defaults: { _controller: GqAusUserBundle:Message:trash }
 markasread:
     path:     /markasread
-    defaults: { _controller: GqAusUserBundle:Message:markAsRead }    
+    defaults: { _controller: GqAusUserBundle:Message:markAsRead }
 deleteFromUser:
     path:     /deleteFromUser
     defaults: { _controller: GqAusUserBundle:Message:deleteFromUser }
 deleteFromUserSent:
     path:     /deleteFromUserSent
-    defaults: { _controller: GqAusUserBundle:Message:deleteFromUserSent } 
+    defaults: { _controller: GqAusUserBundle:Message:deleteFromUserSent }
 viewMessage:
     path:     /view/{mid}
     defaults: { _controller: GqAusUserBundle:Message:viewMessage }
@@ -154,7 +163,7 @@ tokbox:
 subscriber:
     path:     /applicant/{roomId}
     defaults: { _controller: GqAusUserBundle:Tokbox:subscriber }
-approveForRTO:    
+approveForRTO:
     path:     /approveForRTO
     defaults: { _controller: GqAusUserBundle:Applicant:approveForRTO }
 approveAllUnitsFromRTO:
@@ -180,7 +189,7 @@ addApplicant:
     defaults: { _controller: GqAusUserBundle:User:addApplicant }
 viewEvidenceApplicant:
     path:     /viewEvidence/{evidenceId}
-    defaults: { _controller: GqAusUserBundle:Applicant:viewEvidence }    
+    defaults: { _controller: GqAusUserBundle:Applicant:viewEvidence }
 setRoleUsers:
     path:     /setRoleUsers
     defaults: { _controller: GqAusUserBundle:Applicant:setRoleUsers }
@@ -192,13 +201,13 @@ addEvidenceAssessment:
     defaults:  { _controller: GqAusUserBundle:Evidence:addEvidenceAssessment }
 viewUserIdFiles:
     path:     /viewUserIdFiles/{userId}
-    defaults: { _controller: GqAusUserBundle:User:viewUserIdFiles }     
+    defaults: { _controller: GqAusUserBundle:User:viewUserIdFiles }
 saveMessage:
     path:     /saveMessage
     defaults: { _controller: GqAusUserBundle:Message:saveMessage }
 addNotes:
     path:     /addNotes
-    defaults: { _controller: GqAusUserBundle:Notes:addNotes } 
+    defaults: { _controller: GqAusUserBundle:Notes:addNotes }
 getUnitNotes:
     path:     /getUnitNotes
     defaults: { _controller: GqAusUserBundle:Notes:getUnitNotes }
@@ -231,16 +240,16 @@ checkEmailExist:
     defaults: { _controller: GqAusUserBundle:User:checkEmailExist }
 updateCourseStatus:
     path:     /updateCourseStatus
-    defaults: { _controller: GqAusUserBundle:Applicant:updateCourseStatus }  
+    defaults: { _controller: GqAusUserBundle:Applicant:updateCourseStatus }
 faq:
     path:     /faq
     defaults: { _controller: GqAusUserBundle:User:faq }
 pendingApplicantCount:
     path:    /pendingApplicantCount
-    defaults: { _controller: GqAusUserBundle:Applicant:pendingApplicantCount }  
+    defaults: { _controller: GqAusUserBundle:Applicant:pendingApplicantCount }
 unreadApplicantCount:
     path:    /unreadApplicantCount
-    defaults: { _controller: GqAusUserBundle:Applicant:unreadApplicantCount }  
+    defaults: { _controller: GqAusUserBundle:Applicant:unreadApplicantCount }
 sendMsgtoApplicant:
     path:     /sendMsgtoApplicant
     defaults:  { _controller: GqAusUserBundle:Applicant:sendMsgtoApplicant }
@@ -271,9 +280,6 @@ updateNewUserAjaxStatus:
 updatepasswordAjax:
     path:     /updatepasswordAjax
     defaults: { _controller: GqAusUserBundle:User:updatepasswordAjax }
-firstTimePasswordLogin:
-    path:     /firstTimePasswordLogin
-    defaults: { _controller: GqAusUserBundle:User:firstTimePasswordLogin }
 updateJobId:
     path:     /updateSthreeJobId/{jobId}
     defaults: { _controller: GqAusUserBundle:Evidence:updateSthreeJobId }
@@ -306,16 +312,13 @@ userslog:
     defaults: { _controller: GqAusUserBundle:User:userslog }
 searchLogList:
     path:     /searchLogList
-    defaults: { _controller: GqAusUserBundle:User:searchLogList }    
+    defaults: { _controller: GqAusUserBundle:User:searchLogList }
 checkUserNameExist:
     path:     /checkUserNameExist
     defaults: { _controller: GqAusUserBundle:User:checkUserNameExist }
 checkUserNameExistOrNot:
     path:     /checkUserNameExistOrNot
     defaults: { _controller: GqAusUserBundle:User:checkUserNameExistOrNot }
-validateUser:
-    path:     /validateUser/{loginToken}
-    defaults: { _controller: GqAusUserBundle:User:validateUser }
 signOffSheet:
     path:     /signOffSheet/{courseCode}/{userId}
     defaults: { _controller: GqAusUserBundle:Applicant:signOffSheet }

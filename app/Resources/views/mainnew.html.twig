@@ -30,21 +30,6 @@
 
 {% block content %}{% endblock %}
 
-<footer class="footer-login" id="footerLogin">
-    <section class="footer-content">
-        <img src="{{ asset('public/newdesign/img/gqa-logo-full-white-type.svg') }}"
-             alt="Get Qualified Australia"
-             class="footer-logo img-responsive">
-        <ul class="list-inline small text-right" style="margin-top: 10px;">
-            <li><a href="https://www.gqaustralia.edu.au/" target="_blank">GQA Home</a></li>
-            <li><a href="tel:">Contact Us</a></li>
-            <li style="display: block; margin-top: 5px;">Copyright &copy; <span id="currentYear">----</span>
-                GQA. All Rights Reserved
-            </li>
-        </ul>
-    </section>
-</footer>
-
     <!-- Core -->
     <script src="{{ asset('public/newdesign/js/jquery-1.11.2.min.js') }}"></script>
     <script src="{{ asset('public/newdesign/js/bootstrap.min.js') }}"></script>
@@ -53,6 +38,7 @@
     <script src="{{ asset('public/newdesign/js/velocity.ui.min.js') }}"></script>
 
     <script src="{{ asset('public/newdesign/js/plugins/polyfills.min.js') }}"></script>
+
 
     {% block javascripts %}
     {% endblock %}

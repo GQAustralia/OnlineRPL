@@ -3,11 +3,75 @@
 namespace GqAus\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class AuthenticateController extends Controller
 {
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    function validateUserAction(Request $request)
+    {
+        $loginToken = $request->get('loginToken');
+        $userService = $this->get('UserService');
+        $user = $userService->findUserByLoginToken($loginToken);
+
+        /**
+         * @todo should go to a 404 page
+         */
+        if (!$user) {
+            return $this->render('GqAusUserBundle:Auth:first_time_password_login.html.twig');
+        }
+
+        if ($user->getApplicantStatus() == 2) {
+            return $this->redirect('/onBoarding/' . $loginToken);
+        }
+
+        if ($user->getApplicantStatus() == 3) {
+            return $this->render('GqAusUserBundle:Auth:index.html.twig');
+        }
+
+        return $this->render('GqAusUserBundle:Auth:first_time_password_login.html.twig', ['user' => $user]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function onBoardingAction(Request $request)
+    {
+        $userService = $this->get('UserService');
+        $user = $userService->findUserByLoginToken($request->get('loginToken'));
+
+        return $this->render('GqAusUserBundle:Auth:onboarding.html.twig');
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    function firstTimePasswordLoginAction(Request $request)
+    {
+        $response = $this->get('HttpResponsesService');
+        $service = $this->get('SetNewUserPasswordService');
+        $tokenId = $request->get('tokenId');
+        $password = $request->get('newPassword');
+
+        if (!$tokenId || !$password) {
+            return $response->error()->respondBadRequest('Missing Parameters.');
+        }
+
+        if (!$service->validateUserTokenAndUpdatePassword($tokenId, $password)) {
+            return $response->error()->respondBadRequest('Invalid Token.');
+        }
+
+        return $response->fractal()->respondSuccess();
+    }
 
     /**
      * Function to login as user

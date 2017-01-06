@@ -16,29 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * @param Request $request
-     *
-     * @return mixed
-     */
-    function firstTimePasswordLoginAction(Request $request)
-    {
-        $response = $this->get('HttpResponsesService');
-        $service = $this->get('SetNewUserPasswordService');
-        $tokenId = $request->get('tokenId');
-        $password = $request->get('newPassword');
-
-        if (!$tokenId || !$password) {
-            return $response->error()->respondBadRequest('Missing Parameters.');
-        }
-
-        if (!$service->validateUserTokenAndUpdatePassword($tokenId, $password)) {
-            return $response->error()->respondBadRequest('Invalid Token.');
-        }
-
-        return $response->fractal()->respondSuccess();
-    }
-
-    /**
      * Function to edit user profile
      * @param object $request
      * return string
@@ -944,38 +921,6 @@ class UserController extends Controller
         $userService = $this->get('UserService');
         $userInfo = $userService->updateNewUserPasswordStatus($logintoken);
         exit;
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    function validateUserAction(Request $request)
-    {
-        $userService = $this->get('UserService');
-        $user = $userService->findUserByLoginToken($request->get('loginToken'));
-
-        /**
-         * @todo should go to a 404 page
-         */
-        if (!$user) {
-            return $this->render('GqAusUserBundle:User:first_time_password_login.html.twig');
-        }
-
-        /**
-         * @todo should go to rpl onboarding
-         *'2' indicates that the User has already set its password but is not yet finished to its on boarding page
-         */
-        if ($user->getApplicantStatus() == 2) {
-            return $this->redirect('GqAusUserBundle:Login:index.html.twig');
-        }
-
-        if ($user->getApplicantStatus() == 3) {
-            return $this->render('GqAusUserBundle:Login:index.html.twig');
-        }
-
-        return $this->render('GqAusUserBundle:User:first_time_password_login.html.twig', ['user' => $user]);
     }
 
     /*
