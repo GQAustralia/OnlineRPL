@@ -6,10 +6,28 @@
 // style for contact number with flag input
 @import 'intlTelInput';
 
-//style for datepicker
-@import 'datepicker';
-
 @import 'bootstrap-datetimepicker';
+
+// style for your details page
+
+// set a minimum to btn-group btn
+.btn-group{
+	.btn{
+		min-width: 100px;
+	}
+} 
+
+// style for your details page
+
+h2{
+	font-weight: lighter;
+}
+
+#postalAddressForm{ 
+	h2{
+		margin-top: 0;
+	}
+}
 
 @import "320";
 
@@ -24,4 +42,4 @@
 }
 @media screen and (min-width: 1200px) {
     @import "1200";
-}  
+}

@@ -1,9 +1,34 @@
 $(function(){
-    $('#birthday').datetimepicker({
-        'format' : 'DD/MM/YYYY'
-    });
+    //populateCountries('country', 'state');
+    //populateCountries('country_postal', 'state_postal');
+    //populateCountries('country2');
+    
+    // country code
+    //INIT_COUNTRY_CODE.init();
+    INIT_COUNTRY_CODE.click();
+
+    // bootstrap datepicker
+    //INIT_DATEPICKER.build();
+
+    // custom collapsible fields
+    CONTROL_COLLAPSE.build();
+    
+    /* Popover for Upload files Modal */
+    $('[data-toggle="popover"]').popover();
+    $('#dataPopOver').attr('data-content','<ul><li><a href="javascript:void(0)"><i class="zmdi zmdi-folder-outline"></i>My Evidence Files</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-laptop"></i>My Computer</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-google-drive"></i>Google Drive</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-dropbox"></i>Drop Box</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-cloud-outline"></i>One Drive</a></li></ul>');
+
+    $('[data-toggle="popover"]').popover();
 })
 
+
+$('body').on('click', function (e) {
+    $('[data-toggle=popover]').each(function () {
+        // hide any open popovers when the anywhere else in the body is clicked
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            $(this).popover('hide');
+        }
+    });
+});
 
 // country code
 var INIT_COUNTRY_CODE = {
@@ -18,8 +43,11 @@ var INIT_COUNTRY_CODE = {
         $(document).on('click', this.elems,function(){
             var country_list = $(this).closest('.intl-tel-input').find('.country-list')
             country_list.removeClass('hide');
+            $('header, .wizard-steps').addClass('has-country-code');
+
             $(this).keypress(function(){
-                country_list.addClass('hide')
+                country_list.addClass('hide');
+                $('header, .wizard-steps').removeClass('has-country-code');
             })
         })
     },
@@ -39,6 +67,35 @@ var INIT_DATEPICKER = {
     },
     build: function(){
         INIT_DATEPICKER.init(); 
+    }
+}
+
+// control collapse behavior for fields with dependency
+var CONTROL_COLLAPSE = {
+    elem: $('[data-collapse]'),
+    show_hide: function(){
+        this.elem.on('click', function(){
+            var target= $(this).data('target'),
+                show = 'show',
+                hide = 'hide',
+                sub_target_show = $(this).data('sub-target-show'),
+                sub_target_hide = $(this).data('sub-target-hide');
+            if($(this).data('collapse') === show){
+                $(target).collapse(show)
+            }else{
+                $(target).collapse(hide).find('.active').removeClass('active');
+            }
+
+
+            if($(this).attr('data-sub-target-show') !== undefined){
+                $(sub_target_show).collapse('show');
+            }else if($(this).attr('data-sub-target-hide') !== undefined){
+                $(sub_target_hide).collapse('hide')
+            }
+        })
+    },
+    build: function(){
+        CONTROL_COLLAPSE.show_hide();
     }
 }
 

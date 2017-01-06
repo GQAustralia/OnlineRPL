@@ -21,7 +21,13 @@
     width: 100%;
   }
   @media (min-width: $screen-lg-min) {
-    width: $container-lg;
+    width: 90%;
+  }
+  @media (min-width: $screen-xlg - 100) {
+    width: 90%;
+  }
+  @media (min-width: $screen-xlg) {
+    width: $screen-xlg - 100;
   }
 }
 

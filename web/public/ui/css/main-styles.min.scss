@@ -1,0 +1,15 @@
+// Compile 'em all
+
+// Variables and Mixins
+@import 'bootstrap/variables.scss';
+@import 'bootstrap/mixins.scss';
+
+@import 'modules/global/global.min.scss';
+@import 'modules/global/transformicons.scss';
+
+// HTML 5 polyfills
+@import 'polyfills/progress.scss';
+
+// Pages
+@import 'modules/rpl-onboarding/rpl-onboarding.scss';
+@import 'modules/profile/profile.scss';

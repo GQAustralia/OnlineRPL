@@ -1,0 +1,131 @@
+.is-desktop {
+	.header-gqa {
+		.header-gqa-logo {
+			height: 50px;
+			margin-top: 30px;
+		}
+
+		&.compressed {
+			.header-gqa-logo { 
+				height: 36px; 
+				margin-top: 18px;
+			}
+			.nav-links li:after {
+				top: 0;
+				bottom: 0;
+				border-radius: 0;
+			}
+			.nav-links > li > a,
+			.avatar-menu > .dropdown > .dropdown-toggle {
+				padding: 25px 15px;
+
+				.avatar { top: 15px; }
+			}
+
+			nav.header-gqa-nav .dropdown-menu {
+				margin-top: 0;
+				min-width: 100%;
+			}
+		}
+	}
+
+	nav.header-gqa-nav {
+		float: right;
+		display: block;
+
+		.nav-links {
+			position: relative;
+			display: inline-block;
+
+			> li {
+				display: inline-block;
+				position: relative;	
+
+				&:after {
+					@include opacity(0);
+					@include transition(opacity, .2s, $easing);
+					content: '';
+					top: 20%;
+					bottom: 20%;
+					left: 0;
+					right: 0;
+					position: absolute;
+					z-index: 0;
+					border-radius: $border-radius-base;
+					background-color: transparentize(#12596b,0.7);
+				}
+
+				&:hover:after {
+					@include opacity(1);
+					@include transition(opacity, .2s, $easing);
+				}
+
+				> a {
+					padding: 44px 15px;
+					font-size: 16px;
+					position: relative;
+					z-index: 1;
+
+					&:hover { color: white; text-decoration: none; }
+				}
+			}
+		}
+
+		// Avatar on the header
+		.avatar-menu {
+			display: block;
+			float: right;
+			&:hover { cursor: pointer; }
+
+			> .dropdown {
+				> .dropdown-toggle {
+					padding: 44px 18px;
+					padding-left: $avatar-xxs + 20 !important;
+					display: inline-block;
+					color: white;
+
+					.avatar {
+						display: block;
+						position: absolute;
+						top: 34px;
+						left: 10px;
+					}
+					.avatar-name {
+						display: none;
+						@media (min-width: $screen-sm-min) {
+							display: block;	
+						}
+						float: left;
+						font-size: 16px;
+						max-width: 70px;
+						min-width: auto;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+				}
+			}
+		}
+
+		.dropdown-menu {
+			margin-top: -20px;
+			min-width: 100%;
+		}
+	}
+
+	.navbar-bg-img {
+		display: block;
+
+		& + .main-content-gqa {
+			margin-top: -(($grid-gutter-width*2)+40);
+		}
+	}
+
+	.navbar-bg-gradient {
+		@include opacity(0);
+	}
+
+	.btn-navicon-gqa {
+		display: none;
+	}
+}
