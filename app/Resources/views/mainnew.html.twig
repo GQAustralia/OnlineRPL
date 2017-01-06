@@ -15,10 +15,7 @@
     <link rel="stylesheet"
           href="{{ asset('public/newdesign/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('public/newdesign/css/bootstrap/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('public/newdesign/css/global.min.css') }}"/>
-
-    <link rel="stylesheet" href="{{ asset('public/newdesign/css/modules/login/login.css') }}"/>
-
+    
     {% block stylesheets %}
     {% endblock %}
 
@@ -30,17 +27,16 @@
 
 {% block content %}{% endblock %}
 
-    <!-- Core -->
-    <script src="{{ asset('public/newdesign/js/jquery-1.11.2.min.js') }}"></script>
-    <script src="{{ asset('public/newdesign/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('public/newdesign/js/gqa-utilities.js') }}"></script>
-    <script src="{{ asset('public/newdesign/js/velocity.min.js') }}"></script>
-    <script src="{{ asset('public/newdesign/js/velocity.ui.min.js') }}"></script>
+<!-- Core -->
+<script src="{{ asset('public/newdesign/js/jquery-1.11.2.min.js') }}"></script>
+<script src="{{ asset('public/newdesign/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('public/newdesign/js/gqa-utilities.js') }}"></script>
+<script src="{{ asset('public/newdesign/js/velocity.min.js') }}"></script>
+<script src="{{ asset('public/newdesign/js/velocity.ui.min.js') }}"></script>
 
-    <script src="{{ asset('public/newdesign/js/plugins/polyfills.min.js') }}"></script>
+<script src="{{ asset('public/newdesign/js/plugins/polyfills.min.js') }}"></script>
 
-
-    {% block javascripts %}
-    {% endblock %}
+{% block javascripts %}
+{% endblock %}
 </body>
 </html>

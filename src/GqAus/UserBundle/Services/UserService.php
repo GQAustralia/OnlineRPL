@@ -2,25 +2,21 @@
 
 namespace GqAus\UserBundle\Services;
 
-use Doctrine\ORM\EntityManager;
-use GqAus\UserBundle\Entity\User;
 use GqAus\UserBundle\Entity\Applicant;
+use GqAus\UserBundle\Entity\Assessor;
+use GqAus\UserBundle\Entity\Facilitator;
+use GqAus\UserBundle\Entity\Log;
+use GqAus\UserBundle\Entity\Manager;
+use GqAus\UserBundle\Entity\Message;
+use GqAus\UserBundle\Entity\Reminder;
+use GqAus\UserBundle\Entity\Rto;
+use GqAus\UserBundle\Entity\User;
 use GqAus\UserBundle\Entity\UserAddress;
 use GqAus\UserBundle\Entity\UserCourses;
-use GqAus\UserBundle\Entity\Facilitator;
-use GqAus\UserBundle\Entity\Assessor;
-use GqAus\UserBundle\Entity\Rto;
-use GqAus\UserBundle\Entity\Manager;
-use GqAus\UserBundle\Entity\Superadmin;
-use GqAus\UserBundle\Entity\Reminder;
-use GqAus\UserBundle\Entity\Message;
-use GqAus\UserBundle\Entity\Evidence\Text;
-use GqAus\UserBundle\Entity\Faq;
-use GqAus\UserBundle\Entity\Log;
-
 
 class UserService
 {
+    const COMPLETE_ON_BOARDING_APP_STAT = 3;
 
     /**
      * @var Object
@@ -82,6 +78,22 @@ class UserService
         $this->guzzleService = $guzzleService;
         $this->coursesService = $coursesService;
         $this->sqsService = $sqsService;
+    }
+
+    /**
+     * @param string $tokenId
+     *
+     * @return User
+     */
+    public function completeUserOnBoarding($tokenId)
+    {
+        $user = $this->findUserByLoginToken($tokenId);
+
+        $user->setApplicantStatus(self::COMPLETE_ON_BOARDING_APP_STAT);
+
+        $this->em->flush();
+
+        return $user;
     }
 
     /**

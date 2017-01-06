@@ -33,10 +33,30 @@ var LOGIN = {
 		LOGIN.handle_layout();
 		LOGIN.resize();
 		LOGIN.set_dimensions();
+	},
+	getPassword: function() {
+		return $('#new-password').val();
+	},
+	getLoginToken: function() {
+        return $('#loginToken').val();
 	}
 }
 
-$(document).ready(function() {
-	TOGGLE_PASSWORD.build();
-	LOGIN.build();	
+$(document).ready(function () {
+    TOGGLE_PASSWORD.build();
+    LOGIN.build();
+
+    $('#setPassword').click(function () {
+
+        var formData = {tokenId: LOGIN.getLoginToken(), newPassword: LOGIN.getPassword()};
+
+        $.post('/firstTimeSetPassword', formData).then(
+            (successResult) => {
+                console.log(successResult);
+            },
+            (errorResult) => {
+                console.log(errorResult);
+            }
+        );
+    });
 });

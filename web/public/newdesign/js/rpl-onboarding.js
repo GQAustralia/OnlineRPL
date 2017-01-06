@@ -1,6 +1,17 @@
 $(document).ready(function(){
 	IS_MOBILE.build();
 	ONBOARDING_CAROUSEL.build();
+
+    $('#nextStep').click(function () {
+        $.post('/acceptOnBoarding', {tokenId: $('#tokenId').val()}).then(
+            () => {
+
+            },
+            () => {
+
+            }
+        );
+    });
 })
 
 //Add class is-mobile to 'body' on mobile mode

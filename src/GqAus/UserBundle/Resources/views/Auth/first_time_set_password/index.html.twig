@@ -56,20 +56,13 @@
 
     </main>
 
-    <footer class="footer-login" id="footerLogin">
-        <section class="footer-content">
-            <img src="{{ asset('public/newdesign/img/gqa-logo-full-white-type.svg') }}"
-                 alt="Get Qualified Australia"
-                 class="footer-logo img-responsive">
-            <ul class="list-inline small text-right" style="margin-top: 10px;">
-                <li><a href="https://www.gqaustralia.edu.au/" target="_blank">GQA Home</a></li>
-                <li><a href="tel:">Contact Us</a></li>
-                <li style="display: block; margin-top: 5px;">Copyright &copy; <span id="currentYear">----</span>
-                    GQA. All Rights Reserved
-                </li>
-            </ul>
-        </section>
-    </footer>
+    {% include 'GqAusUserBundle:Auth:first_time_set_password/_footer.html.twig' %}
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('public/newdesign/css/global.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('public/newdesign/css/modules/login/login.css') }}"/>
 {% endblock %}
 
 {% block javascripts %}

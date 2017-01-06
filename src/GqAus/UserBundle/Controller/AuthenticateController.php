@@ -8,11 +8,9 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class AuthenticateController extends Controller
 {
-    /**
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
+    const COMPLETE_SET_PASSWORD_APP_STAT = 2;
+    const COMPLETE_ON_BOARDING_APP_STAT = 3;
+
     function validateUserAction(Request $request)
     {
         $loginToken = $request->get('loginToken');
@@ -23,18 +21,18 @@ class AuthenticateController extends Controller
          * @todo should go to a 404 page
          */
         if (!$user) {
-            return $this->render('GqAusUserBundle:Auth:first_time_password_login.html.twig');
+            return $this->render('GqAusUserBundle:Auth:first_time_set_password/index.html.twig');
         }
 
-        if ($user->getApplicantStatus() == 2) {
+        if ($user->getApplicantStatus() == SELF::COMPLETE_SET_PASSWORD_APP_STAT) {
             return $this->redirect('/onBoarding/' . $loginToken);
         }
 
-        if ($user->getApplicantStatus() == 3) {
-            return $this->render('GqAusUserBundle:Auth:index.html.twig');
+        if ($user->getApplicantStatus() == self::COMPLETE_ON_BOARDING_APP_STAT) {
+            return $this->redirect('/login');
         }
 
-        return $this->render('GqAusUserBundle:Auth:first_time_password_login.html.twig', ['user' => $user]);
+        return $this->render('GqAusUserBundle:Auth:first_time_set_password/index.html.twig', ['user' => $user]);
     }
 
     /**
@@ -47,7 +45,7 @@ class AuthenticateController extends Controller
         $userService = $this->get('UserService');
         $user = $userService->findUserByLoginToken($request->get('loginToken'));
 
-        return $this->render('GqAusUserBundle:Auth:onboarding.html.twig');
+        return $this->render('GqAusUserBundle:Auth:on_boarding/index.html.twig', ['tokenId' => $user->getLoginToken()]);
     }
 
     /**
@@ -71,6 +69,16 @@ class AuthenticateController extends Controller
         }
 
         return $response->fractal()->respondSuccess();
+    }
+
+    public function acceptOnBoardingAction(Request $request)
+    {
+        $response = $this->get('HttpResponsesService');
+        $service = $this->get('UserService');
+
+        $service->completeUserOnBoarding($request->get('tokenId'));
+
+        return $response->fractal()->respondSuccess('User On Boarding Complete.');
     }
 
     /**

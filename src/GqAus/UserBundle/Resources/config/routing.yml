@@ -1,9 +1,12 @@
-firstTimePasswordLogin:
-    path:     /firstTimePasswordLogin
-    defaults: { _controller: GqAusUserBundle:Authenticate:firstTimePasswordLogin }
+acceptOnBoarding:
+    path:     /acceptOnBoarding
+    defaults: { _controller: GqAusUserBundle:Authenticate:acceptOnBoarding }
+firstTimeSetPassword:
+    path:     /firstTimeSetPassword
+    defaults: { _controller: GqAusUserBundle:Authenticate:firstTimeSetPassword }
 onBoarding:
     path:     /onBoarding/{loginToken}
-    defaults: { _controller: GqAusUserBundle:Authenticate:onboarding }
+    defaults: { _controller: GqAusUserBundle:Authenticate:onBoarding }
 validateUser:
     path:     /validateUser/{loginToken}
     defaults: { _controller: GqAusUserBundle:Authenticate:validateUser }
