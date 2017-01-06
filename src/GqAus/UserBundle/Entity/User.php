@@ -1164,12 +1164,11 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
         return $this->loginToken;
     }
      /**
-     * Set curinAustralia
+     * Set CurinAustralia
      *
-     * @param string $curinAustralia
-     * @return integer
+     * @return string
      */
-    public function setCurInAustralia($curinAustralia)
+    public function setCurinAustralia($curinAustralia)
     {
         $this->curinAustralia = $curinAustralia;
 
@@ -1177,11 +1176,11 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     }
 
     /**
-     * Get curinAustralia
+     * Get CurinAustralia
      *
-     * @return integer 
+     * @return string 
      */
-    public function getCurInAustralia()
+    public function getCurinAustralia()
     {
         return $this->curinAustralia;
     }
