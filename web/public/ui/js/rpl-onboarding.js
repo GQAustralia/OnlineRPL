@@ -3,10 +3,6 @@ $(document).ready(function(){
 	ONBOARDING_CAROUSEL.build();
 })
 
-$(window).load(function(){
-	$('#onboardingModal').modal('show');
-})
-
 //Add class is-mobile to 'body' on mobile mode
 var IS_MOBILE = {
 	bind: function(){
@@ -48,8 +44,8 @@ var ONBOARDING_CAROUSEL = {
 		}
 	},
 	build: function(){
+		$('#onboardingModal').modal('show');
+		
 		ONBOARDING_CAROUSEL.bind();
-
-
 	}
 }

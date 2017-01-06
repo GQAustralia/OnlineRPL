@@ -38,3 +38,79 @@
         }
     }
 }
+
+
+.modal {
+    text-align: center;
+}
+.modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+}
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+    
+    .upload-id-files{        
+        padding: 0;
+        .popover-content{
+            padding: 0;
+        }
+        
+        p{
+            margin: 0;
+            padding: 40px 0;
+        }
+        &:before{
+            content: "";
+        }
+        
+        ul{
+            margin: 0;
+            padding: 0;
+            
+            li{
+                border-bottom: 1px dashed #e2e2e2;
+                list-style-type: none;
+                
+                
+                &:last-child{
+                    border-bottom: 0;
+                }
+                
+                a{
+                    color: $headings-small-color;
+                    padding: 10px 60px;
+                    display: block;
+                }
+                
+                i{
+                    padding-right: 5px;
+                }
+            }            
+        }
+        
+    }
+    
+}
+.modal-header{
+    background-color: transparent;
+    color: $gray;
+}
+.modal-title, .modal-body {
+    font-size: 20px;
+}
+.modal-body {
+    position: relative;
+    padding: 0;
+    
+    select{
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        
+    }
+}
