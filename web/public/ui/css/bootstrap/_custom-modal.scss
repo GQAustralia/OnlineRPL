@@ -1,0 +1,21 @@
+.modal{
+	&-header{
+		padding: 0;
+		border-bottom: none;
+	}
+
+	&-content{
+		border-radius: 0;
+		padding: 40px 25px;
+	}
+
+	&-title,
+	&-body{ 
+		max-width: 98%; 
+		margin: 0 auto;
+	}
+
+	&-modal-dialog{
+		min-width: 768px; 
+	}
+}

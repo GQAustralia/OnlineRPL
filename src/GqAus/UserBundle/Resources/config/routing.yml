@@ -319,3 +319,6 @@ validateUser:
 signOffSheet:
     path:     /signOffSheet/{courseCode}/{userId}
     defaults: { _controller: GqAusUserBundle:Applicant:signOffSheet }
+enrollment:
+    path:     /enrollment
+    defaults: { _controller: GqAusUserBundle:Enrollment:enrollment }
