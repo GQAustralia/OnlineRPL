@@ -1,10 +1,17 @@
 $(document).ready(function(){
 	IS_MOBILE.build();
 	ONBOARDING_CAROUSEL.build();
-})
 
-$(window).load(function(){
-	$('#onboardingModal').modal('show');
+    $('#nextStep').click(function () {
+        $.post('/acceptOnBoarding', {tokenId: $('#tokenId').val()}).then(
+            () => {
+
+            },
+            () => {
+
+            }
+        );
+    });
 })
 
 //Add class is-mobile to 'body' on mobile mode
@@ -48,8 +55,8 @@ var ONBOARDING_CAROUSEL = {
 		}
 	},
 	build: function(){
+		$('#onboardingModal').modal('show');
+		
 		ONBOARDING_CAROUSEL.bind();
-
-
 	}
 }

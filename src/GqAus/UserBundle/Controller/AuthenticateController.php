@@ -53,7 +53,7 @@ class AuthenticateController extends Controller
      *
      * @return mixed
      */
-    function firstTimePasswordLoginAction(Request $request)
+    function firstTimeSetPasswordAction(Request $request)
     {
         $response = $this->get('HttpResponsesService');
         $service = $this->get('SetNewUserPasswordService');
