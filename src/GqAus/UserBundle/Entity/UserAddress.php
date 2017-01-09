@@ -515,7 +515,6 @@ class UserAddress
     public function setPostalCountry($pcountry)
     {
         $this->pcountry = $pcountry;
-
         return $this;
     }
 
