@@ -262,14 +262,14 @@
                                     <!-- Language and cultural diversity Section STARTS here-->
                                     <fieldset>
                                         <h2 class="page-header">Language and cultural diversity</h2>
-                                    <div ng-bind="languageForm.$error"></div>
+                              {#      <div ng-bind="languageForm.$error"></div>
                                     <ul>
                                         <li ng-repeat="(key, errors) in languageForm.$error track by $index"> <strong>{[{ key }]}</strong> errors
                                             <ul>
                                                 <li ng-repeat="e in errors">{[{ e.$name }]} has an error: <strong>{[{ key }]}</strong>.</li>
                                             </ul>
                                         </li>
-                                    </ul>
+                                    </ul>#}
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                                 <div class="form-group">
@@ -678,7 +678,7 @@
                                     <div class="btn-auto-group">
                                         <button type="button" class="btn btn-default" data-target="#formWizardCarousel" data-slide-to="2"><i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> Schooling and Achievements</button>
 
-                                        <button type="button" class="btn btn-primary" data-target="#formWizardCarousel" data-slide-to="4">Upload ID Files <i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> </button>
+                                        <button type="button" class="btn btn-primary" data-target="#formWizardCarousel" data-slide-to="4" ng-disabled="employmentForm.$invalid" ng-click="employmentForm.$valid && proceedNext('employment')">Upload ID Files <i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> </button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
                                     
