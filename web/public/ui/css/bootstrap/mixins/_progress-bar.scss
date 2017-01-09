@@ -1,0 +1,20 @@
+// Progress bars
+
+@mixin progress-bar-variant($color) {
+  background-color: $color;
+}
+
+@mixin progress-tag-variant($color) {
+	color: $color;
+
+    /* Firefox */
+    &::-moz-progress-bar { background: $color; }
+
+    /* Chrome */
+    &::-webkit-progress-value { background: $color; }
+
+    /* Polyfill */
+    &[aria-valuenow]:after { background: $color; }
+
+	~ .progress-details:before { color: $color; }
+}

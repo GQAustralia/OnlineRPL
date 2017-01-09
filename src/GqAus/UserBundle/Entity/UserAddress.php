@@ -9,7 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserAddress
 {
-
+    /**
+     * @var string
+     */
+    private $buildingname;
+    
     /**
      * @var string
      */
@@ -67,7 +71,30 @@ class UserAddress
     {
         return $this->address;
     }
+    
+    /**
+     * Set buildingname
+     *
+     * @param string $buildingname
+     * @return buildingname
+     */
+    public function setBuildingName($buildingname)
+    {
+        $this->buildingname = $buildingname;
 
+        return $this;
+    }
+
+    /**
+     * Get buildingname
+     *
+     * @return string 
+     */
+    public function getBuildingName()
+    {
+        return $this->buildingname;
+    }
+    
     /**
      * Set area
      *
