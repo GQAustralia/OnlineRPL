@@ -1,3 +1,4 @@
+$( "#wizardSteps ul li a").unbind( "click" );
 var gqAus = angular.module("gqAus", ['ui.bootstrap']);
 gqAus.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
@@ -7,6 +8,9 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
     $scope.AllStates = $window.s_a;
     $scope.states = [];
     $scope.disabilityAreasNumber = 0;
+    $scope.forms = ['profile','language','schooling','employment','upload'];
+    $scope.activeForm = 0;
+    $scope.completedForms = [false,false,false,false,false];
     $scope.enrollment = {
         profile: {
             firstName: "",
@@ -54,21 +58,34 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         upload: {}
     };
 
-    $scope.validateSteps = function (form, index) {
-
+    $scope.formSlideTo = function (index) {
+        var slideFlag = true;
+        for(var i=0;i<index;i++) {
+            if($scope.completedForms[i] == false) slideFlag = false;     
+        }
+        console.log(slideFlag);
+        if(slideFlag == true){ 
+            $scope.activeForm = index;
+            $("#formWizardCarousel").carousel(i);
+        }
     };
+    $scope.formSlideTo(0);
     $scope.proceedNext = function (key) {
-        console.log($scope.enrollment[key]);
+        var form = $scope.forms[key];
+        console.log($scope.enrollment[form]);
+        $scope.completedForms[key] = true;
+        $scope.formSlideTo(key+1);
         var req = {
             method: 'POST',
             url: $window.base_url+"saveEnrollment",
             headers: {
                 'Content-Type': "application/json"
             },
-            data: {data: $scope.enrollment[key],type:key}
+            data: {data: $scope.enrollment[form],type:form}
         };
         $http(req).then(function(e) {
-            console.log(e);
+            $scope.completedForms[key] = true;
+            $scope.formSlideTo(key+1);
         }, function(error) {
             console.log(error);
         });
@@ -109,6 +126,13 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
       $scope.$watch('enrollment.employment.applyusi', function(items){
         $scope.enrollment.employment.usi = {};
       }, true);
+//      $scope.$watch('enrollment', function(){
+//        if(ProfileForm.$valid) $scope.completedForms.profile = true;
+//        if(LanguageForm.$valid) $scope.completedForms.languiage = true;
+//        if(SchoolingForm.$valid) $scope.completedForms.schooling = true;
+//        if(EmploymentForm.$valid) $scope.completedForms.employment = true;
+//        if(UploadForm.$valid) $scope.completedForms.profile = true;
+//      }, true);
     $scope.selectState = function (country) {
         var index = $scope.countries.indexOf(country); // 1
         if (index === -1)
