@@ -2,6 +2,11 @@
 // Checkboxes
 // --------------------------------------------------
 
+.custom-input + label {
+  display: block;
+  margin-bottom: 15px;
+}
+
 /* Base for label styling */
 .custom-input[type="checkbox"]:not(:checked),
 .custom-input[type="checkbox"]:checked,

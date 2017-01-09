@@ -1,9 +1,9 @@
-acceptOnBoarding:
-    path:     /acceptOnBoarding
-    defaults: { _controller: GqAusUserBundle:Authenticate:acceptOnBoarding }
-firstTimeSetPassword:
-    path:     /firstTimeSetPassword
-    defaults: { _controller: GqAusUserBundle:Authenticate:firstTimeSetPassword }
+acceptOnBoardingAjax:
+    path:     /acceptOnBoardingAjax
+    defaults: { _controller: GqAusUserBundle:Authenticate:acceptOnBoardingAjax }
+firstTimeSetPasswordAjax:
+    path:     /firstTimeSetPasswordAjax
+    defaults: { _controller: GqAusUserBundle:Authenticate:firstTimeSetPasswordAjax }
 onBoarding:
     path:     /onBoarding/{loginToken}
     defaults: { _controller: GqAusUserBundle:Authenticate:onBoarding }

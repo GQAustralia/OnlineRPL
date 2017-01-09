@@ -11,6 +11,11 @@ class AuthenticateController extends Controller
     const COMPLETE_SET_PASSWORD_APP_STAT = 2;
     const COMPLETE_ON_BOARDING_APP_STAT = 3;
 
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     function validateUserAction(Request $request)
     {
         $loginToken = $request->get('loginToken');
@@ -40,25 +45,12 @@ class AuthenticateController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function onBoardingAction(Request $request)
-    {
-        $userService = $this->get('UserService');
-        $user = $userService->findUserByLoginToken($request->get('loginToken'));
-
-        return $this->render('GqAusUserBundle:Auth:on_boarding/index.html.twig', ['tokenId' => $user->getLoginToken()]);
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return mixed
-     */
-    function firstTimeSetPasswordAction(Request $request)
+    function firstTimeSetPasswordAjaxAction(Request $request)
     {
         $response = $this->get('HttpResponsesService');
         $service = $this->get('SetNewUserPasswordService');
-        $tokenId = $request->get('tokenId');
-        $password = $request->get('newPassword');
+        $tokenId = $request->get('loginToken');
+        $password = $request->get('password');
 
         if (!$tokenId || !$password) {
             return $response->error()->respondBadRequest('Missing Parameters.');
@@ -71,12 +63,36 @@ class AuthenticateController extends Controller
         return $response->fractal()->respondSuccess();
     }
 
-    public function acceptOnBoardingAction(Request $request)
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function onBoardingAction(Request $request)
+    {
+        $userService = $this->get('UserService');
+        $user = $userService->findUserByLoginToken($request->get('loginToken'));
+
+        return $this->render('GqAusUserBundle:Auth:on_boarding/index.html.twig', ['loginToken' => $user->getLoginToken()]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function acceptOnBoardingAjaxAction(Request $request)
     {
         $response = $this->get('HttpResponsesService');
-        $service = $this->get('UserService');
+        $userService = $this->get('UserService');
 
-        $service->completeUserOnBoarding($request->get('tokenId'));
+        $user = $userService->findUserByLoginToken($request->get('loginToken'));
+
+        if (!$user) {
+            return $response->error()->respondBadRequest('Invalid Token.');
+        }
+
+        $userService->completeUserOnBoarding($request->get('loginToken'));
 
         return $response->fractal()->respondSuccess('User On Boarding Complete.');
     }

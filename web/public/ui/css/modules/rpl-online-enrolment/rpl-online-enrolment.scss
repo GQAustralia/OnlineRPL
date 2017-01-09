@@ -10,6 +10,19 @@
 
 // style for your details page
 
+// set a minimum to btn-group btn
+.btn-group{
+	.btn{
+		min-width: 100px;
+	}
+} 
+
+// style for your details page
+
+h2{
+	font-weight: lighter;
+}
+
 #postalAddressForm{ 
 	h2{
 		margin-top: 0;

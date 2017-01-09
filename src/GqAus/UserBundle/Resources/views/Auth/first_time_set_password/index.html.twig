@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <label class="control-label">Set your password</label>
                     <span class="form-password-mask">
-                        <input id="new-password" type="password" class="form-control" data-element="password"
+                        <input id="password" type="password" class="form-control" data-element="password"
                                placeholder="Type password...">
                         <button type="button" class="btn btn-mask-password" data-target="password"><i
                                     class="zmdi zmdi-eye"></i></button>
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label class="control-label">Re-type your password</label>
                     <span class="form-password-mask">
-                        <input type="password" class="form-control" data-element="password"
+                        <input id="confirmPassword" type="password" class="form-control" data-element="password"
                                placeholder="Type password...">
                         <button type="button" class="btn btn-mask-password" data-target="password"><i
                                     class="zmdi zmdi-eye"></i></button>
@@ -47,7 +47,10 @@
                                 &amp; Conditions</strong></a></label>
                     <input id="loginToken" type="hidden" value="{{ user.getLoginToken }}">
                 </div>
-                <button type="button" class="btn btn-success text-uppercase btn-block" id="setPassword">Set my
+                <div class="alert alert-danger hidden" id="errorMessage">
+                    <i class="zmdi zmdi-alert-circle-o zmdi-hc-lg zmdi-hc-fw"></i> <span></span>
+                </div>
+                <button type="button" class="btn btn-success text-uppercase btn-block" id="submitPassword">Set my
                     Password
                 </button>
             </div>
@@ -66,5 +69,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('public/ui/js/login.js') }}"></script>
+    <script src="{{ asset('public/ui/js/set-password.js') }}"></script>
 {% endblock %}

@@ -6,6 +6,8 @@
     padding: 0;
     position: relative;
     width: 100%;
+    left: auto;
+    margin-left: 0;
     a {
         &:hover,
         &:active,
@@ -19,6 +21,10 @@
         width: 20%;
         text-align: center;
         padding-left: 0;
+        border: none;
+        height: auto;
+        margin: 0;
+        text-indent: 0;
         &:before {
             border-top: 3px solid #55606E;
             content: "";
@@ -67,6 +73,10 @@
             transition: all 0.1s linear 0s;
         }
         &.active {
+            margin: auto;
+            width: 20%;
+            height: auto;
+            background: none;
             .step,
             &.complete .step {
                 background: $brand-primary;
