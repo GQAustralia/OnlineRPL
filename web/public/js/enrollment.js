@@ -81,7 +81,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
             headers: {
                 'Content-Type': "application/json"
             },
-            data: {data: $scope.enrollment[key],type:key}
+            data: {data: $scope.enrollment[form],type:form}
         };
         $http(req).then(function(e) {
             $scope.completedForms[key] = true;
