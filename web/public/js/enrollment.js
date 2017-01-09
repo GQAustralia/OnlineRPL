@@ -2,7 +2,7 @@ var gqAus = angular.module("gqAus", ['ui.bootstrap']);
 gqAus.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
-gqAus.controller('enrollmentCtlr', function ($scope, $window) {
+gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
     $scope.countries = $window.country_arr;
     $scope.AllStates = $window.s_a;
     $scope.states = [];
@@ -58,7 +58,20 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window) {
 
     };
     $scope.proceedNext = function (key) {
-        console.log($scope.enrollment[key])
+        console.log($scope.enrollment[key]);
+        var req = {
+            method: 'POST',
+            url: $window.base_url+"saveEnrollment",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            data: {data: $scope.enrollment[key],type:key}
+        };
+        $http(req).then(function(e) {
+            console.log(e);
+        }, function(error) {
+            console.log(error);
+        });
     };
     
      $scope.$watch('enrollment.language.disabilityAreas', function(items){
@@ -69,14 +82,14 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window) {
         $scope.disabilityAreasNumber = selectedItems;
       }, true); 
       $scope.$watch('enrollment.profile.postalAddress', function(items){
-        $scope.profile.postal = {};
+        $scope.enrollment.profile.postal = {};
       }, true); 
-      $scope.$watch('enrollment.profile.postalAddress', function(items){
-        $scope.profile.postal = {};
-      }, true);
-      $scope.$watch('enrollment.lanuage.enrollment.language.disability', function(items){
-        $scope.profile.disabilityAreas = {};
-      }, true);
+//      $scope.$watch('enrollment.profile.postalAddress', function(items){
+//        $scope.enrollment.profile.postal = {};
+//      }, true);
+//      $scope.$watch('enrollment.lanuage.enrollment.language.disability', function(items){
+//        $scope.enrollment.profile.disabilityAreas = {};
+//      }, true);
 //      $scope.$watch('enrollment.lanuage.enrollment.language.disability', function(items){
 //        $scope.profile.disabilityAreas = {};
 //      }, true);
