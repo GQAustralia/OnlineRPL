@@ -12,19 +12,19 @@
                                 <div class="form-bootstrap-wizard">
                                     <ul class="bootstrapWizard form-wizard">
                                         <li ng-click="formSlideTo(0)" ng-class="{ 'active': (activeForm == 0) }">
-                                            <a href="#tab1" data-toggle="tab" class="active"> <span class="step">1</span> <span class="title">Your Profile</span> </a>
+                                            <a href="javascript:void(0)"> <span class="step">1</span> <span class="title">Your Profile</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(1)" ng-class="{ 'active': (activeForm == 1) }">
-                                            <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Language and <br>Diversity</span> </a>
+                                            <a href="javascript:void(0)"> <span class="step">2</span> <span class="title">Language and <br>Diversity</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(2)" ng-class="{ 'active': (activeForm == 2) }">
-                                            <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Schooling and <br>Achievements</span> </a>
+                                            <a href="javascript:void(0)"> <span class="step">3</span> <span class="title">Schooling and <br>Achievements</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(3)" ng-class="{ 'active': (activeForm == 3) }">
-                                            <a href="#tab4" data-toggle="tab"> <span class="step">4</span> <span class="title">Employment <br> and USI</span> </a>
+                                            <a href="javascript:void(0)"> <span class="step">4</span> <span class="title">Employment <br> and USI</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(4)" ng-class="{ 'active': (activeForm == 4) }">
-                                            <a href="#tab5" data-toggle="tab"> <span class="step">5</span> <span class="title">Upload ID files</span> </a>
+                                            <a href="javascript:void(0)"> <span class="step">5</span> <span class="title">Upload ID files</span> </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -413,7 +413,7 @@
                                     
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">
-                                        <button type="button" class="btn btn-default" data-target="#formWizardCarousel" data-slide-to="0"><i class="zmdi zmdi-chevron-left zmdi-hc-lg"></i> Personal Details </button>
+                                        <button type="button" class="btn btn-default" ng-click="formSlideTo(0)"><i class="zmdi zmdi-chevron-left zmdi-hc-lg"></i> Personal Details </button>
                                         
                                         <button type="button" class="btn btn-primary" ng-disabled="languageForm.$invalid" ng-click="languageForm.$valid && proceedNext(1)">NEXT: Schooling and Achievements <i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i> </button>
                                     </div>
@@ -479,7 +479,7 @@
                                     
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">                                        
-                                        <button type="button" class="btn btn-default" data-target="#formWizardCarousel" data-slide-to="1"><i class="zmdi zmdi-chevron-left zmdi-hc-lg"></i> Language and cultural diversity</button>
+                                        <button type="button" class="btn btn-default"  ng-click="formSlideTo(1)"><i class="zmdi zmdi-chevron-left zmdi-hc-lg"></i> Language and cultural diversity</button>
 
                                         <button type="button" class="btn btn-primary" ng-disabled="schoolingForm.$invalid" ng-click="schoolingForm.$valid && proceedNext(2)">NEXT: Employment and USI <i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i></button>
                                     </div>
@@ -676,9 +676,9 @@
                                     
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">
-                                        <button type="button" class="btn btn-default" data-target="#formWizardCarousel" data-slide-to="2"><i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> Schooling and Achievements</button>
+                                        <button type="button" class="btn btn-default" ng-click="formSlideTo(2)"><i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> Schooling and Achievements</button>
 
-                                        <button type="button" class="btn btn-primary" ng-click="employmentForm.$valid && proceedNext(3)">Upload ID Files <i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> </button>
+                                        <button type="button" class="btn btn-primary"  ng-disabled="employmentForm.$invalid" ng-click="employmentForm.$valid && proceedNext(3)">Upload ID Files <i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> </button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
                                     
