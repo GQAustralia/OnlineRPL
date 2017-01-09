@@ -6,16 +6,51 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window) {
     $scope.countries = $window.country_arr;
     $scope.AllStates = $window.s_a;
     $scope.states = [];
+    $scope.disabilityAreasNumber = 0;
     $scope.enrollment = {
         profile: {
-            firstName: "Samir",
+            firstName: "",
             postalAddress: true,
             address: {},
             postal: {}
         },
-        language: {},
-        schooling: {},
-        employment: {},
+        language: {
+            disabilityAres: {
+                brain : false,
+                deaf : false,
+                intellectual : false,
+                learning : false,
+                medical : false,
+                mental : false,
+                other : false,
+                physical : false,
+                vision : false
+            }
+        },
+        schooling: {
+            highest: "Year 12 or equivalent",
+            qualifications: {
+                advancedDiploma : false,
+                bachelor : false,
+                certificateI : false,
+                certificateII : false,
+                diploma : false,
+                noQualification : false,
+                otherCertificate : false,
+                technician : false,
+                trade : false
+            }
+        },
+        employment: {
+            category : 'Full-time employee',
+            studyreason: 'To get a job',
+            basedinaustralia: '',
+            internationalstudent : '',
+            haveusi : '',
+            applyusi : '',
+            usi:{
+            }
+        },
         upload: {}
     };
 
@@ -25,6 +60,26 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window) {
     $scope.proceedNext = function (key) {
         console.log($scope.enrollment[key])
     };
+    
+     $scope.$watch('enrollment.language.disabilityAreas', function(items){
+        var selectedItems = 0;
+        angular.forEach(items, function(item){
+          selectedItems += item ? 1 : 0;
+        });
+        $scope.disabilityAreasNumber = selectedItems;
+      }, true); 
+      $scope.$watch('enrollment.profile.postalAddress', function(items){
+        $scope.profile.postal = {};
+      }, true); 
+      $scope.$watch('enrollment.profile.postalAddress', function(items){
+        $scope.profile.postal = {};
+      }, true);
+      $scope.$watch('enrollment.lanuage.enrollment.language.disability', function(items){
+        $scope.profile.disabilityAreas = {};
+      }, true);
+//      $scope.$watch('enrollment.lanuage.enrollment.language.disability', function(items){
+//        $scope.profile.disabilityAreas = {};
+//      }, true);
     $scope.selectState = function (country) {
         var index = $scope.countries.indexOf(country); // 1
         if (index === -1)
