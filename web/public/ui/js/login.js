@@ -142,6 +142,9 @@ var AUTH = {
         var btntext = '<i class="zmdi zmdi-settings zmdi-hc-spin"></i> Logging in...';
 
         AUTH.button.attr('disabled', true).html(btntext);
+
+        $('#frmLogin').submit();
+
     },
 
     log_out: function () {
@@ -253,24 +256,20 @@ var SET_PASSWORD = {
             return validity;
         }
     },
-    submit_password: function(){
+    submit_password: function () {
         var password = SET_PASSWORD.password.val(),
-            token = $('#token').val(),
-            btntext = '<i class="zmdi zmdi-settings zmdi-hc-spin"></i> Setting Password';
-        SET_PASSWORD.button.attr('disabled',true).html(btntext);
+            token = $('#token').val();
 
         $.ajax({
-            url: '/firstTimeSetPasswordAjax',
+            url: '/',
             type: 'POST',
-            data: {'loginToken': loginToken, 'password': password}
+            data: {'token': token, 'password': password}
         })
-            .success(function(data) {
-                window.location.href = "/firstTimeSetPassword";
-                SET_PASSWORD.button.attr('disabled',false).html('Set Password');
+            .success(function (data) {
+                window.location.href = "/firstTimeSetPassword"
             })
-            .fail(function() {
-                SET_PASSWORD.error_action('Could not connect to server.');
-                SET_PASSWORD.button.attr('disabled',false).html('Set Password');
+            .fail(function () {
+                SET_PASSWORD.error_action('Could not connect to server.')
             })
     },
     error_action: function (error_msg) {

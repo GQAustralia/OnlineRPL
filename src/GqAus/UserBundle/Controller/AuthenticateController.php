@@ -73,6 +73,10 @@ class AuthenticateController extends Controller
         $userService = $this->get('UserService');
         $user = $userService->findUserByLoginToken($request->get('loginToken'));
 
+        if ($user->getApplicantStatus() == self::COMPLETE_ON_BOARDING_APP_STAT) {
+            return $this->redirect('/login');
+        }
+
         return $this->render('GqAusUserBundle:Auth:on_boarding/index.html.twig', ['loginToken' => $user->getLoginToken()]);
     }
 
@@ -98,9 +102,9 @@ class AuthenticateController extends Controller
     }
 
     /**
-     * Function to login as user
      * @param int $userId
-     * return string
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userLoginAction($userId)
     {
@@ -123,5 +127,4 @@ class AuthenticateController extends Controller
             }
         }
     }
-
 }

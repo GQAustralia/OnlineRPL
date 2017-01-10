@@ -14,7 +14,7 @@ class LoginController extends Controller
      * return string
      */
     public function indexAction()
-    { 
+    {
         $request = $this->getRequest();
         $session = $request->getSession(); 
         $user = $this->get('security.context')->getToken()->getUser();
@@ -28,7 +28,7 @@ class LoginController extends Controller
         	$session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
         $request->getSession()->invalidate();
-        if (is_object($user) && count($user) > 0) {      
+        if (is_object($user) && count($user) > 0) {
             $role = $user->getRoles();   
             $session = $request->getSession();
             $session->set('user_id', $user->getId());
@@ -44,7 +44,7 @@ class LoginController extends Controller
                 return $this->redirect('dashboard');
             }
         } else {
-            
+
             return $this->render(
                     'GqAusUserBundle:Login:index.html.twig', array(
                     'error' => $error,

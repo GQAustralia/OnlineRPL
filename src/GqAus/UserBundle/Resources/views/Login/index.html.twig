@@ -1,63 +1,71 @@
-{% extends 'main.html.twig' %}
-{% block title %}GQ - RPL Login{% endblock %} 
+{% extends 'mainnew.html.twig' %}
+{% block title %}Get Qualified Australia: Online RPL{% endblock %}
 {% block content %}
-			<h2>Welcome</h2>
-                        <div id="change_pwd_error"></div>
-			<form class="form" action="{{ path('login_check') }}" name="frmLogin" id="frmLogin" method="post">
-				<input type="email" name = '_username' autocomplete="off"  class="form-control email" id="InputEmail1" placeholder="Email"/>
-				<input type="password" name='_password' autocomplete="off"  class="form-control password" id="InputPassword1" placeholder="Password"/>
-				 <a href="forgotpassword" class="forgot_pwd_link">Forgot password?</a>
-				<input type="submit" class="login_btn" value="LOGIN" onclick="return loginValidate();"/>
-			</form>
-                       
-		
+    <main class="login-container" id="loginContainer">
+        <section class="panel-login panel-login-md">
+            <form class="form" action="{{ path('login_check') }}" name="frmLogin" id="frmLogin" method="post">
+                <div class="panel-login-fields">
+                    <img src="{{ asset('public/ui/img/gqa-online-rpl.svg') }}" alt="GQA Online RPL"
+                         class="img-responsive clearfix">
+                    <div class="form-group">
+                        <label class="control-label">Email</label>
+                        <input type="text" class="form-control" data-element="password" id="username" name='_username'
+                               placeholder="Email registered to Online RPL">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Password</label>
+                        <span class="form-password-mask">
+							<input type="password" class="form-control" data-element="password" id="currentpassword"
+                                   name="_password"
+                                   placeholder="Type password...">
+							<button type="button" class="btn btn-mask-password" data-target="password"><i
+                                        class="zmdi zmdi-eye"></i></button>
+						</span>
+                    </div>
+
+                    <div class="alert alert-danger hidden" id="errorMessage">
+                        <i class="zmdi zmdi-alert-circle-o zmdi-hc-lg zmdi-hc-fw"></i> <span></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" id="rememberCredential" class="custom-input"><label
+                                for="rememberCredential">Remember
+                            me</label>
+                    </div>
+                    <button type="button" class="btn btn-success text-uppercase btn-block" id="submitAuth">Log In
+                    </button>
+                </div>
+                <i class="bg-blur"></i>
+            </form>
+        </section>
+
+        <footer class="footer-login" id="footerLogin">
+            <section class="footer-content">
+                <img src="{{ asset('public/ui/img/gqa-logo-full-white-type.svg') }}" alt="Get Qualified Australia"
+                     class="footer-logo img-responsive">
+                <ul class="list-inline small text-right" style="margin-top: 10px;">
+                    <li><a href="https://www.gqaustralia.edu.au/" target="_blank">GQA Home</a></li>
+                    <li><a href="tel:">Contact Us</a></li>
+                    <li style="display: block; margin-top: 5px;">Copyright &copy; <span id="currentYear">----</span>
+                        GQA. All Rights Reserved
+                    </li>
+                </ul>
+            </section>
+        </footer>
+
+    </main>
 {% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('public/ui/css/modules/login/login.css') }}"/>
+{% endblock %}
+
 {% block javascripts %}
-<!-- jQuery first, then Bootstrap JS. -->
-<script src="{{ asset('public/js/jquery.min.js') }}"></script>
-<script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('public/js/script.js') }}"></script>
-     <script>
-        $(document).ready(function() {
-            //$(".gq-id-files-upload-success-text").delay(3000).fadeOut(100);
-        });
-        var base_url = "{{ base_url }}";
-        /*Login Validation*/
-        function loginValidate()
-        {
-            var useremail = $("#InputEmail1").val();
-            var userpwd = $("#InputPassword1").val();
-            var startdiv = '<div class="gq-id-files-upload-error-text alert alert-danger"><h2>';
-            var enddiv = '</h2></div>';
-            regexp=/^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
-            if(useremail=="") {
-                $("#change_pwd_error").show();
-                $("#change_pwd_error").html(startdiv + "Please enter Email" + enddiv);
-                $("#InputEmail1").focus();    
-                return false;
-            }
-            else {
-                if(useremail.search(regexp)==-1) {
-                    $("#change_pwd_error").show();
-                    $("#change_pwd_error").html(startdiv + "Please enter valid Email" + enddiv);
-                    $("#InputEmail1").val('');
-                    $("#InputEmail1").focus();
-                    return false;
-                }
-            }
-          if(userpwd=="") {
-                $("#change_pwd_error").show();
-                $("#change_pwd_error").html(startdiv + "Please enter Password" + enddiv);
-                $("#InputEmail1").focus();
-                return false;
-            }
-         }
-        /*End Login Validation*/
-    </script>
+    <script src="{{ asset('public/ui/js/login.js') }}"></script>
+
     {% if error %}
-        <script>
-            $("#change_pwd_error").show();
-            $("#change_pwd_error").html('<div class="gq-id-files-upload-error-text alert alert-danger"><h2>Invalid credentials</h2></div>');
+        <script type="application/javascript">
+            SET_PASSWORD.error_action('Invalid Credentials');
         </script>
     {% endif %}
 {% endblock %}

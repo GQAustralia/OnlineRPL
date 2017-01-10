@@ -88,19 +88,19 @@
 		font-weight: lighter;
 		text-align: center;
 		color: $brand-gray;
-		font-size: 40px;
-	}
-
-	.modal-title{
-		p{
-			margin: 10px 0 40px;
-			font-size: 17px;
-		}
+		
 	}
 
 	.modal-body{
 		.col-md-4{
 			padding: 0 27px;
+		}
+
+		.col-sm-7{
+			float: none;
+			display: inline-block;
+			vertical-align: top;
+			margin-right: -5px;
 		}
 		.inner{
 			padding: 0;
@@ -131,51 +131,79 @@
 	}
 }
 
-// Tablet
-
-@media screen and (max-width: 991px){
-	.modal-dialog{
-		margin: auto;
-	}
-
-	.modal-onboarding{
-		.modal-body{
-			h2{
-			}
-			.col-md-4{
-				padding: 0;
-			}
-			.col-sm-7{
-				margin: 0 auto $grid-gutter-width;
-				float: none;
-			}
-
-			button{
-				margin: 20px 0;
-			}
-		}
-	}
-}
-
-@media screen and (max-width: 768px){
-	.modal-onboarding{
-		h2{
-			font-size: 25px;
+@media screen and (min-width: 320px) {
+    .modal-onboarding{
+		.modal-dialog{
+			margin: 0 auto;
+			width: 100%;
 		}
 
 		.modal-title{
 			p{
 				font-size: 14px;
-				margin: 10px auto 30px
+			}
+
+			h2{
+				font-size: 25px;
+			}
+		}
+
+		.modal-body{
+			.inner{
+				h4{
+					margin-bottom: 3px;
+				}
+			}
+
+			.col-sm-7{
+				margin-bottom: $grid-gutter-width / 2;
 			}
 		}
 	}
 }
 
-@media screen and (max-width: 480px){
+@media screen and (min-width: 568px) {
 	.modal-onboarding{
 		.modal-dialog{
-			width: 100%;
+			margin: 20px auto;
+			width: 75%
+		}
+
+		h2{
+			font-size: 30px;
 		}
 	}
+}
+
+@media screen and (min-width: 768px) {
+	.modal-onboarding{
+		.modal-body{
+			.inner{
+				h4{
+					font-size: $font-size-h4;
+					margin: 0 0 15px;
+					color: $brand-gray;
+				}
+			}
+		}
+
+		h2{
+			font-size: 40px;
+		}
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	.modal-onboarding{
+		.modal-title{
+			p{
+				margin: 10px 0 40px;
+				font-size: 17px;
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 1200px) {
+
 }
