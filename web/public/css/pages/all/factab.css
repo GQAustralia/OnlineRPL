@@ -1,0 +1,6 @@
+table#myTable {
+    border-collapse: collapse;   
+}
+#myTable td:hover {
+    cursor: pointer;
+}

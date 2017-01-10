@@ -19,13 +19,25 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link href="{{ asset('public/ui/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/ui/css/bootstrap/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('public/ui/css/modules/global/global.min.css') }}" rel="stylesheet" />
-
+    <link href="{{ asset('public/ui/css/main-styles.min.css') }}" rel="stylesheet" />
+    
+      <!-- App -->
+    <link href="{{ asset('public/ui/css/vendor/owl.carousel.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/ui/css/vendor/custom-scrollbar.min.css') }}" rel="stylesheet" />
     <!-- Login only -->
     <link href="{{ asset('public/ui/css/modules/rpl-online-enrolment/rpl-online-enrolment.css') }}" rel="stylesheet" />   
 
     <script src="{{ asset('public/ui/js/plugins/isMobile.min.js') }}"></script> <!-- Sniff if browser is loaded on mobile -->
     <script src="{{ asset('public/ui/js/modernizr-3.3.1.gqa-build.121516.min.js') }}"></script> <!-- Modernizr -->
+    
+   
+
+  
+    
+
+    <!-- enrolment only -->
+    <link href="ui/css/modules/rpl-online-enrolment/rpl-online-enrolment.css" rel="stylesheet" />
+
     
     {% endblock %}
     {% block stylesheets %}{% endblock %}  
@@ -41,32 +53,55 @@
      {% set roles = app.security.getToken().getUser().getRoles() %}
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
     {% set page = app.request.attributes.get('_route') %}
-    <header class="header-gqa" id="headerGQA">
-        <nav class="navbar-fixed-top">
-            <div class='container'>
-                <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg') }}" alt="Get Qualified Australia">
-                <ul>
-                    <li><a href='#'><i class="zmdi zmdi-home zmdi-hc-lg"></i> <span>Home</span></a></li>
-                    <li><a href='#'><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg"></i> <span>Evidences</span></a></li>
-                    <li><a href='#'><i class="zmdi zmdi-inbox zmdi-hc-lg"></i> <span>Inbox</span></a></li>
+<header class="header-gqa navbar-fixed-top" id="headerGQA">
+        <div class='container'>
+            <button type="button" id="btnNavicon" class="btn-navicon-gqa tcon tcon-menu--xbutterfly" aria-label="toggle menu">
+                <span class="tcon-menu__lines" aria-hidden="true"></span>
+                <span class="tcon-visuallyhidden">toggle menu</span>
+            </button>
+            <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
 
-                    <li class="avatar-menu">
-                        <div class="dropdown">
-                            <div class="dropdown-toggle" data-toggle="dropdown">
-                                <div class="avatar avatar-xxs"><img src="{{ asset('public/ui/img/avatar-default.png') }}" alt="You"></div>
-                                <span class="avatar-name" id="avatarFirstName">First Name Here</span>&nbsp;
-                                <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
-                            </div>
-
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href=""></a></li>
-                            </ul>
-                        </div>
+            <nav class="header-gqa-nav">
+                <ul class="nav-links" id="navLinks">
+                    <li class="dropdown">
+                        <a href='#' class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="zmdi zmdi-graduation-cap zmdi-hc-lg zmdi-hc-fw"></i> <span>Qualifications</span>
+                            <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#"><span class="h4">Overview <br><small>Summary of enroled qualifications</small></span></a></li>
+                            <li class="divider"></li>
+                            <li>
+                                <div><h4 class="h4">Your Enroled Qualifications</h4>
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item">Qualification in Cookery III</a>
+                                        <a href="#" class="list-group-item">Qualification in Cookery VI</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </li>
+                    <li><a href='#'><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> <span>Evidences</span></a></li>
+                    <li><a href='#'><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> <span>Inbox</span></a></li>
                 </ul>
-            </div>
-            <div class="navbar-bg-gradient" id="navGradient"></div>
-        </nav>
+
+                <div class="avatar-menu">
+                    <div class="dropdown">
+                        <div class="dropdown-toggle" data-toggle="dropdown">
+                            <div class="avatar avatar-xxs"><img src="{{ asset('public/ui/img/avatar-default.png')}}" alt="You"></div>
+                            <span class="avatar-name" id="avatarFirstName">First Name Here</span>&nbsp;
+                            <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
+                        </div>
+
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="navbar-bg-gradient" id="navGradient"></div>
+
     </header>
 
     <div class="navbar-bg-img" data-bg="skyscraper-blur" id="navImg"></div>

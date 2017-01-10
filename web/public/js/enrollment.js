@@ -1,4 +1,3 @@
-$( "#wizardSteps ul li a").unbind( "click" );
 var gqAus = angular.module("gqAus", ['ui.bootstrap']);
 gqAus.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
