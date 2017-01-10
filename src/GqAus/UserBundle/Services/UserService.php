@@ -13,6 +13,9 @@ use GqAus\UserBundle\Entity\Rto;
 use GqAus\UserBundle\Entity\User;
 use GqAus\UserBundle\Entity\UserAddress;
 use GqAus\UserBundle\Entity\UserCourses;
+use GqAus\UserBundle\Entity\LanguageDiversity;
+use GqAus\UserBundle\Entity\UserDisability;
+use GqAus\UserBundle\Entity\DisabilityElement;
 
 class UserService
 {
@@ -4841,45 +4844,119 @@ class UserService
      * @return type
      */
     public function updateUserProfile($userId, $params){
-        $userObj = $this->repository->findOneById($userId);
-        $userObj->setFirstName(isset($params['data']['firstName']) ? $params['data']['firstName'] : '');
-        $userObj->setLastName(isset($params['data']['lastName']) ? $params['data']['lastName'] : '');
-        $userObj->setGender(isset($params['data']['gender']) ? $params['data']['gender'] : '');
-        $userObj->setDateOfBirth(isset($params['data']['birthday']) ? $params['data']['birthday'] : '');
-        $userObj->setPhone(isset($params['data']['homeTelNumber']) ? $params['data']['homeTelNumber'] : '');
-        $userObj->setContactPhone(isset($params['data']['workTelNumber']) ? $params['data']['workTelNumber'] : '');
-        $userObj->setCeophone(isset($params['data']['mobileNumber']) ? $params['data']['mobileNumber'] : '');
-        $userObj->setEmail(isset($params['data']['email']) ? $params['data']['email'] : '');
-        
-        $this->em->persist($userObj);
-        $this->em->flush();
-        $userId = $userObj->getId();
-        if (!empty($userId)) {
-            $userAddressObj = $userObj->getAddress();
-            $userAddressObj->setAddress(isset($params['data']['address']['street_number']) ? $params['data']['address']['street_number'] : '');
-            $userAddressObj->setArea(isset($params['data']['address']['unitDetails']) ? $params['data']['address']['unitDetails'] : '');
-            $userAddressObj->setSuburb(isset($params['data']['address']['locality']) ? $params['data']['address']['locality'] : '');
-            $userAddressObj->setCountry(isset($params['data']['address']['country']) ? $params['data']['address']['country'] : '');
-            $userAddressObj->setPincode(isset($params['data']['address']['postal_code']) ? $params['data']['address']['postal_code'] : '');
-            $userAddressObj->setState(isset($params['data']['address']['state']) ? $params['data']['address']['state'] : '');
-            $userAddressObj->setBuildingName(isset($params['data']['address']['propertyName']) ? $params['data']['address']['propertyName'] : '');
-            $userAddressObj->setCity(isset($params['data']['address']['route']) ? $params['data']['address']['route'] : '');
+        $enrollmentType = $params['type'];
+        switch($enrollmentType){
+            case 'profile':
+                    $userObj = $this->repository->findOneById($userId);
+                    $userObj->setFirstName(isset($params['data']['firstName']) ? $params['data']['firstName'] : '');
+                    $userObj->setLastName(isset($params['data']['lastName']) ? $params['data']['lastName'] : '');
+                    $userObj->setGender(isset($params['data']['gender']) ? $params['data']['gender'] : '');
+                    $userObj->setDateOfBirth(isset($params['data']['birthday']) ? $params['data']['birthday'] : '');
+                    $userObj->setPhone(isset($params['data']['homeTelNumber']) ? $params['data']['homeTelNumber'] : '');
+                    $userObj->setContactPhone(isset($params['data']['workTelNumber']) ? $params['data']['workTelNumber'] : '');
+                    $userObj->setCeophone(isset($params['data']['mobileNumber']) ? $params['data']['mobileNumber'] : '');
+                    $userObj->setEmail(isset($params['data']['email']) ? $params['data']['email'] : '');
+                    $this->em->persist($userObj);
+                    $this->em->flush();
+                    $userId = $userObj->getId();
+                    if (!empty($userId)) {
+                        $userAddressObj = $userObj->getAddress();
+                        $userAddressObj->setAddress(isset($params['data']['address']['street_number']) ? $params['data']['address']['street_number'] : '');
+                        $userAddressObj->setArea(isset($params['data']['address']['unitDetails']) ? $params['data']['address']['unitDetails'] : '');
+                        $userAddressObj->setSuburb(isset($params['data']['address']['locality']) ? $params['data']['address']['locality'] : '');
+                        $userAddressObj->setCountry(isset($params['data']['address']['country']) ? $params['data']['address']['country'] : '');
+                        $userAddressObj->setPincode(isset($params['data']['address']['postal_code']) ? $params['data']['address']['postal_code'] : '');
+                        $userAddressObj->setState(isset($params['data']['address']['state']) ? $params['data']['address']['state'] : '');
+                        $userAddressObj->setBuildingName(isset($params['data']['address']['propertyName']) ? $params['data']['address']['propertyName'] : '');
+                        $userAddressObj->setCity(isset($params['data']['address']['route']) ? $params['data']['address']['route'] : '');
 
-            $userAddressObj->setPostal(isset($params['data']['postalAddress']) ? $params['data']['postalAddress'] : '');
-            if($params['data']['postalAddress'] != '1'){
-                $userAddressObj->setPostalAddress(isset($params['data']['postal']['street_number_postal']) ? $params['data']['postal']['street_number_postal'] : '');
-                $userAddressObj->setPostalArea(isset($params['data']['postal']['unitDetails_postal']) ? $params['data']['postal']['unitDetails_postal'] : '');
-                $userAddressObj->setPostalSuburb(isset($params['data']['postal']['locality_postal']) ? $params['data']['postal']['locality_postal'] : '');
-                $userAddressObj->setPostalCountry(isset($params['data']['postal']['country_postal']) ? $params['data']['postal']['country_postal'] : '');
-                $userAddressObj->setPostalPincode(isset($params['data']['postal']['postal_code_postal']) ? $params['data']['postal']['postal_code_postal'] : '');
-                $userAddressObj->setPostalState(isset($params['data']['postal']['state_postal']) ? $params['data']['postal']['state_postal'] : '');
-                $userAddressObj->setPostalBuildingName(isset($params['data']['postal']['propertyName_postal']) ? $params['data']['postal']['propertyName_postal'] : '');
-                $userAddressObj->setPostalCity(isset($params['data']['postal']['route_postal']) ? $params['data']['postal']['route_postal'] : '');
-            }
-
-            $this->em->persist($userAddressObj);
-            $this->em->flush();
+                        $userAddressObj->setPostal(isset($params['data']['postalAddress']) ? $params['data']['postalAddress'] : '');
+                        if(empty($params['data']['postalAddress'])){
+                            $userAddressObj->setPostalAddress(isset($params['data']['postal']['street_number']) ? $params['data']['postal']['street_number'] : '');
+                            $userAddressObj->setPostalArea(isset($params['data']['postal']['unitDetails']) ? $params['data']['postal']['unitDetails'] : '');
+                            $userAddressObj->setPostalSuburb(isset($params['data']['postal']['locality']) ? $params['data']['postal']['locality'] : '');
+                            $userAddressObj->setPostalCountry(isset($params['data']['postal']['country']) ? $params['data']['postal']['country'] : '');
+                            $userAddressObj->setPostalPincode(isset($params['data']['postal']['postal_code']) ? $params['data']['postal']['postal_code'] : '');
+                            $userAddressObj->setPostalState(isset($params['data']['postal']['state']) ? $params['data']['postal']['state'] : '');
+                            $userAddressObj->setPostalBuildingName(isset($params['data']['postal']['propertyName']) ? $params['data']['postal']['propertyName'] : '');
+                            $userAddressObj->setPostalCity(isset($params['data']['postal']['route']) ? $params['data']['postal']['route'] : '');
+                        }
+                        $this->em->persist($userAddressObj);
+                        $this->em->flush();
+                    }
+                    return $userId;
+                    break;
+            case 'language':
+//                return $params['data']['country']."/".$params['data']['speakOther']."/".$params['data']['speakLanguage']."/".$params['data']['aboriginal']."/".$params['data']['disability'];
+                    $userObj = $this->repository->find($userId);
+//                $otheruser = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $qcode,'user' => $user->getId()));
+//                    $lanDiversity = $this->em->getRepository('GqAusUserBundle:LanguageDiversity')->findBy(array('user' => $userId));
+                    $lanDiversity = new LanguageDiversity();
+//                    $lanDiversity->setUser(isset($userObj) ? $userObj : '');
+                    $lanDiversity->setBornCountry('India');
+                    $lanDiversity->setSpeakothEng(isset($params['data']['speakOther']) ? $params['data']['speakOther'] : '');
+                    $lanDiversity->setSpecothEng(isset($params['data']['speakLanguage']) ? $params['data']['speakLanguage'] : '');
+                    $lanDiversity->setRateLevelEng(isset($params['data']['speakEnglish']) ? $params['data']['speakEnglish'] : '');
+                    $lanDiversity->setRelatedOrigin(isset($params['data']['aboriginal']) ? $params['data']['aboriginal'] : '');
+                    $lanDiversity->setDisability(isset($params['data']['disability']) ? $params['data']['disability'] : '');
+                    $this->em->persist($lanDiversity);
+                    $this->em->flush();
+                    $userId = $lanDiversity->getUser();
+                    if(!empty($params['data']['disability'])){
+                       $userDisability = $this->em->getRepository('GqAusUserBundle:UserDisability')->findAllBy(array('user' => $userId));
+                       $this->em->remove($userDisability);
+                       $this->em->flush();
+                       foreach($params['data']['disabilityAreas'] as $key=>$value){
+                           $disElementObj = $this->em->getRepository('GqAusUserBundle:DisabilityElement')->findBy(array('type' => $key));
+                           $disElementObjId = $disElementObj[0]->getId();
+                           $userDisability = new UserDisability();
+                           $userDisability->setUser($userId);
+                           $userDisability->setDisability($disElementObjId);
+                           $this->em->persist($userDisability);
+                           $this->em->flush();
+                       }
+                   }
+                return $userObj;
+                break;
+            case 'schooling':
+                $schooling = new Schooling();
+                $schooling->setHighCompSchLevel(isset($params['data']['highest']) ? $params['data']['highest'] : '');
+                $schooling->setWhichYear(isset($params['data']['selectYear']) ? $params['data']['selectYear'] : '');
+                $schooling->setSecSchoolLevel(isset($params['data']['stillseconday']) ? $params['data']['stillseconday'] : '');
+                $schooling->setUser();
+                if(!empty($params['data']['qualifications'])){
+                       $userPrevQuals = $this->em->getRepository('GqAusUserBundle:UserPrevQualifications')->findAllBy(array('user' => $userId));
+                       $this->em->remove($userPrevQuals);
+                       $this->em->flush();
+                       foreach($params['data']['qualifications'] as $key=>$value){
+                           $prevQualsObj = $this->em->getRepository('GqAusUserBundle:PreviousQualifications')->findBy(array('name' => $key));
+                           $prevQualsObjObjId = $prevQualsObj[0]->getId();
+                           $userPrevQuals = new UserPrevQualifications();
+                           $userPrevQuals->setUser($userId);
+                           $userPrevQuals->setPrevQuals($prevQualsObjObjId);
+                           $this->em->persist($userPrevQuals);
+                           $this->em->flush();
+                       }
+                }
+                break;
+            case 'employment':
+                $empObj = new Employment();
+                $empObj->setCurEmpStatus(isset($params['data']['category']) ? $params['data']['category'] : '');
+                $empObj->setStudyReason(isset($params['data']['studyreason']) ? $params['data']['studyreason'] : '');
+                $empObj->setUser();
+                $userObj = $this->repository->findOneById($userId);
+                $userObj->setCurinAustralia(isset($params['data']['basedinaustralia']) ? $params['data']['basedinaustralia'] : '');
+                $userObj->setInterStudentVET(isset($params['data']['internationalstudent']) ? $params['data']['internationalstudent'] : '');
+                $userObj->setExemptionSir(isset($params['data']['haveusi']) ? $params['data']['haveusi'] : '');
+                $userObj->setLikeApplyUSI(isset($params['data']['applyusi']) ? $params['data']['applyusi'] : '');
+                $jsonusiNo = $params['data']['usi']['usi1'].$params['data']['usi']['usi2'].$params['data']['usi']['usi3'].$params['data']['usi']['usi4'].$params['data']['usi']['usi5'].$params['data']['usi']['usi6'].$params['data']['usi']['usi7'].$params['data']['usi']['usi8'].$params['data']['usi']['usi9'].$params['data']['usi']['usi10'];
+                $userObj->setUniversalStudentIdentifier(isset($jsonusiNo) ? $jsonusiNo : '');
+                $this->em->persist($userObj);
+                $this->em->flush();
+                break;
+            
+            default:
+                return 'Kishore';
         }
-        return $userObj;
     }
 }

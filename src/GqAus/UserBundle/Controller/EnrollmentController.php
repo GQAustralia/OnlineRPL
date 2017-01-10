@@ -25,6 +25,7 @@ class EnrollmentController extends Controller
      */
     public function saveEnrollmentAction(Request $request)
     {
+//        $userId ='59';
         $userId =  $this->get('security.context')->getToken()->getUser()->getId();
         if ($request->isMethod('POST')) {      
             $params = array();
@@ -33,8 +34,8 @@ class EnrollmentController extends Controller
             {
                 $params = json_decode($content, true); // 2nd param to get as array
             }
-            $this->get('UserService')->updateUserProfile($userId, $params);
-            return $this->redirect('/enrollment');
+            $op = $this->get('UserService')->updateUserProfile($userId, $params);
+            return new JsonResponse(array( 'data' => $op ));
         }
     }
 

@@ -12,17 +12,17 @@ class Schooling
     /**
      * @var string
      */
-    private $highCompSchoolLevel;
+    private $highcompschlevel;
     
     /**
      * @var string
      */
-    private $whichYear;
+    private $whichyear;
 
     /**
      * @var string
      */
-    private $secSchoolLevel;
+    private $secschlevel;
 
     /**
      * @var string
@@ -35,37 +35,37 @@ class Schooling
     private $user;
 
     /**
-     * Set highCompSchoolLevel
+     * Set highcompschlevel
      *
-     * @param string $highCompSchoolLevel
-     * @return highCompSchoolLevel
+     * @param string $highcompschlevel
+     * @return highcompschlevel
      */
-    public function setHighCompSchoolLevel($highCompSchoolLevel)
+    public function setHighCompSchLevel($highcompschlevel)
     {
-        $this->highCompSchoolLevel = $highCompSchoolLevel;
+        $this->highcompschlevel = $highcompschlevel;
 
         return $this;
     }
 
     /**
-     * Get highCompSchoolLevel
+     * Get highcompschlevel
      *
      * @return string 
      */
-    public function getHighCompSchoolLevel()
+    public function getHighCompSchLevel()
     {
-        return $this->highCompSchoolLevel;
+        return $this->highcompschlevel;
     }
     
     /**
-     * Set whichYear
+     * Set whichyear
      *
-     * @param string $whichYear
-     * @return whichYear
+     * @param string $whichyear
+     * @return whichyear
      */
-    public function setWhichYear($whichYear)
+    public function setWhichYear($whichyear)
     {
-        $this->whichYear = $whichYear;
+        $this->whichyear = $whichyear;
 
         return $this;
     }
@@ -81,26 +81,26 @@ class Schooling
     }
     
     /**
-     * Set secSchoolLevel
+     * Set secschlevel
      *
-     * @param string $secSchoolLevel
-     * @return secSchoolLevel
+     * @param string $secschlevel
+     * @return secschlevel
      */
-    public function setSecSchoolLevel($secSchoolLevel)
+    public function setSecSchoolLevel($secschlevel)
     {
-        $this->secSchoolLevel = $secSchoolLevel;
+        $this->secschlevel = $secschlevel;
 
         return $this;
     }
 
     /**
-     * Get secSchoolLevel
+     * Get secschlevel
      *
      * @return string 
      */
     public function getSecSchoolLevel()
     {
-        return $this->secSchoolLevel;
+        return $this->secschlevel;
     }
 
     /**
@@ -117,7 +117,7 @@ class Schooling
      * Set user
      *
      * @param \GqAus\UserBundle\Entity\User $user
-     * @return UserAddress
+     * @return User
      */
     public function setUser(\GqAus\UserBundle\Entity\User $user = null)
     {

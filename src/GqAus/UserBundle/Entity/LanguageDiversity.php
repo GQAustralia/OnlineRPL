@@ -12,27 +12,27 @@ class LanguageDiversity
     /**
      * @var string
      */
-    private $bornCountry;
+    private $borncountry;
     
     /**
      * @var string
      */
-    private $speakOtherThanEnglish;
+    private $speakotheng;
 
     /**
      * @var string
      */
-    private $specifyOtherThanEnglish;
+    private $specotheng;
 
     /**
      * @var string
      */
-    private $rateLevelEng;
+    private $rateleveleng;
 
     /**
      * @var string
      */
-    private $relatedOrigin;
+    private $relatedorigin;
 
     /**
      * @var integer
@@ -50,14 +50,14 @@ class LanguageDiversity
     private $user;
 
     /**
-     * Set bornCountry
+     * Set borncountry
      *
-     * @param string $bornCountry
-     * @return UserAddress
+     * @param string $borncountry
+     * @return borncountry
      */
-    public function setBornCountry($bornCountry)
+    public function setBornCountry($borncountry)
     {
-        $this->bornCountry = $bornCountry;
+        $this->borncountry = $borncountry;
 
         return $this;
     }
@@ -69,41 +69,41 @@ class LanguageDiversity
      */
     public function getBornCountry()
     {
-        return $this->bornCountry;
+        return $this->borncountry;
     }
     
     /**
-     * Set speakOtherThanEnglish
+     * Set speakotheng
      *
-     * @param string $speakOtherThanEnglish
-     * @return speakOtherThanEnglish
+     * @param string $speakotheng
+     * @return speakotheng
      */
-    public function setSpeakOtherThanEng($speakOtherThanEnglish)
+    public function setSpeakothEng($speakotheng)
     {
-        $this->speakOtherThanEnglish = $speakOtherThanEnglish;
+        $this->speakotheng = $speakotheng;
 
         return $this;
     }
 
     /**
-     * Get speakotherthaneng
+     * Get speakotheng
      *
      * @return string 
      */
-    public function getSpeakOtherThanEng()
+    public function getSpeakothEng()
     {
-        return $this->speakOtherThanEnglish;
+        return $this->speakotheng;
     }
     
     /**
-     * Set specifyOtherThanEnglish
+     * Set specotheng
      *
-     * @param string $specifyOtherThanEnglish
-     * @return specifyOtherThanEnglish
+     * @param string $specotheng
+     * @return specotheng
      */
-    public function setSpecifyOtherThanEng($specifyOtherThanEnglish)
+    public function setSpecothEng($specotheng)
     {
-        $this->specifyOtherThanEnglish = $specifyOtherThanEnglish;
+        $this->specotheng = $specotheng;
 
         return $this;
     }
@@ -113,20 +113,20 @@ class LanguageDiversity
      *
      * @return string 
      */
-    public function getSpecifyOtherThanEng()
+    public function getSpecothEng()
     {
-        return $this->specifyOtherThanEnglish;
+        return $this->specotheng;
     }
 
     /**
-     * Set rateLevelEng
+     * Set rateleveleng
      *
-     * @param string $rateLevelEng
-     * @return rateLevelEng
+     * @param string $rateleveleng
+     * @return rateleveleng
      */
-    public function setRateLevelEng($rateLevelEng)
+    public function setRateLevelEng($rateleveleng)
     {
-        $this->rateLevelEng = $rateLevelEng;
+        $this->rateleveleng = $rateleveleng;
 
         return $this;
     }
@@ -138,7 +138,7 @@ class LanguageDiversity
      */
     public function getRateLevelEng()
     {
-        return $this->rateLevelEng;
+        return $this->rateleveleng;
     }
 
     /**
@@ -147,9 +147,9 @@ class LanguageDiversity
      * @param string $relatedorigin
      * @return relatedorigin
      */
-    public function setRelatedOrigin($relatedOrigin)
+    public function setRelatedOrigin($relatedorigin)
     {
-        $this->relatedOrigin = $relatedOrigin;
+        $this->relatedorigin = $relatedorigin;
 
         return $this;
     }
@@ -161,7 +161,7 @@ class LanguageDiversity
      */
     public function getRelatedOrigin()
     {
-        return $this->relatedOrigin;
+        return $this->relatedorigin;
     }
 
     /**
@@ -201,7 +201,7 @@ class LanguageDiversity
      * Set user
      *
      * @param \GqAus\UserBundle\Entity\User $user
-     * @return UserAddress
+     * @return user
      */
     public function setUser(\GqAus\UserBundle\Entity\User $user = null)
     {
