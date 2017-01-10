@@ -43,7 +43,7 @@ var ONBOARDING_CAROUSEL = {
 var ONBOARDING_NEXT_STEP = {
     terms: $('#termsAndConditions'),
     button: $('#nextStep'),
-    token: $('#tokenId'),
+    token: $('#loginToken'),
     error: $('#errorMessage'),
     errormsg: $('#errorMessage span'),
     bind: function(){

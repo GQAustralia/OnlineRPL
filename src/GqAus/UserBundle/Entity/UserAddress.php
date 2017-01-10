@@ -38,7 +38,7 @@ class UserAddress
      * @var integer
      */
     private $pincode;
-
+    
     /**
      * @var string
      */
@@ -278,6 +278,7 @@ class UserAddress
     /**
      * @var string
      */
+    
     private $postal;
 
     /**
@@ -302,5 +303,228 @@ class UserAddress
     {
        return $this->postal;
     }
+    
+    /**
+    * @var string
+    */
+    private $pbuildingname;
+    
+    /**
+     * Set pbuildingname
+     *
+     * @param string $pbuildingname
+     * @return pbuildingname
+     */
+    public function setPostalBuildingName($pbuildingname)
+    {
+        $this->pbuildingname = $pbuildingname;
 
+        return $this;
+    }
+
+    /**
+     * Get pbuildingname
+     *
+     * @return string 
+     */
+    public function getPostalBuildingName()
+    {
+        return $this->pbuildingname;
+    }
+    
+    /**
+     * @var string
+     */
+    private $paddress;
+    
+    /**
+     * Set paddress
+     *
+     * @param string $paddress
+     * @return paddress
+     */
+    public function setPostalAddress($paddress)
+    {
+        $this->paddress = $paddress;
+
+        return $this;
+    }
+
+    /**
+     * Get paddress
+     *
+     * @return string 
+     */
+    public function getPostalAddress()
+    {
+        return $this->paddress;
+    }
+    
+    /**
+     * @var string
+     */
+    private $parea;
+    
+    /**
+     * Set parea
+     *
+     * @param string $parea
+     * @return parea
+     */
+    public function setPostalArea($parea)
+    {
+        $this->parea = $parea;
+
+        return $this;
+    }
+
+    /**
+     * Get parea
+     *
+     * @return string 
+     */
+    public function getPostalArea()
+    {
+        return $this->parea;
+    }
+
+    /**
+     * @var string
+     */
+    private $pcity;
+    
+    /**
+     * Set pcity
+     *
+     * @param string $pcity
+     * @return pcity
+     */
+    public function setPostalCity($pcity)
+    {
+        $this->pcity = $pcity;
+
+        return $this;
+    }
+
+    /**
+     * Get pcity
+     *
+     * @return string 
+     */
+    public function getPostalCity()
+    {
+        return $this->pcity;
+    }
+    
+    /**
+     * @var string
+     */
+    private $pstate;
+    
+    /**
+     * Set pstate
+     *
+     * @param string $pstate
+     * @return pstate
+     */
+    public function setPostalState($pstate)
+    {
+        $this->pstate = $pstate;
+
+        return $this;
+    }
+
+    /**
+     * Get pstate
+     *
+     * @return string 
+     */
+    public function getPostalState()
+    {
+        return $this->pstate;
+    }
+    
+    /**
+     * @var string
+     */
+    private $ppincode;
+    
+    /**
+     * Set ppincode
+     *
+     * @param string $ppincode
+     * @return ppincode
+     */
+    public function setPostalPincode($ppincode)
+    {
+        $this->ppincode = $ppincode;
+
+        return $this;
+    }
+
+    /**
+     * Get ppincode
+     *
+     * @return string 
+     */
+    public function getPostalPincode()
+    {
+        return $this->ppincode;
+    }
+    
+    
+    /**
+     * @var string
+     */
+    private $psuburb;
+    
+    /**
+     * Set psuburb
+     *
+     * @param string $psuburb
+     * @return psuburb
+     */
+    public function setPostalSuburb($psuburb)
+    {
+        $this->psuburb = $psuburb;
+
+        return $this;
+    }
+
+    /**
+     * Get psuburb
+     *
+     * @return string 
+     */
+    public function getPostalSuburb()
+    {
+        return $this->psuburb;
+    }
+    
+    /**
+     * @var string
+     */
+    private $pcountry;
+    
+    /**
+     * Set pcountry
+     *
+     * @param string $pcountry
+     * @return pcountry
+     */
+    public function setPostalCountry($pcountry)
+    {
+        $this->pcountry = $pcountry;
+        return $this;
+    }
+
+    /**
+     * Get pcountry
+     *
+     * @return string 
+     */
+    public function getPostalCountry()
+    {
+        return $this->pcountry;
+    }
 }

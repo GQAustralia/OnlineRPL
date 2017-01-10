@@ -253,25 +253,24 @@ var SET_PASSWORD = {
             return validity;
         }
     },
-    submit_password: function(){
+    submit_password: function () {
         var password = SET_PASSWORD.password.val(),
-            token = $('#token').val(),
+            loginToken = $('#loginToken').val(),
             btntext = '<i class="zmdi zmdi-settings zmdi-hc-spin"></i> Setting Password';
-        SET_PASSWORD.button.attr('disabled',true).html(btntext);
+        SET_PASSWORD.button.attr('disabled', true).html(btntext);
 
         $.ajax({
             url: '/firstTimeSetPasswordAjax',
             type: 'POST',
             data: {'loginToken': loginToken, 'password': password}
-        })
-            .success(function(data) {
-                window.location.href = "/firstTimeSetPassword";
-                SET_PASSWORD.button.attr('disabled',false).html('Set Password');
-            })
-            .fail(function() {
-                SET_PASSWORD.error_action('Could not connect to server.');
-                SET_PASSWORD.button.attr('disabled',false).html('Set Password');
-            })
+        }).success(function (data) {
+            window.location.href = "/onBoarding/" + loginToken;
+            SET_PASSWORD.button.attr('disabled', false).html('Set Password');
+        }).fail(function () {
+            SET_PASSWORD.error_action('Could not connect to server.');
+            SET_PASSWORD.button.attr('disabled', false).html('Set Password');
+        });
+
     },
     error_action: function (error_msg) {
         var errormsg = AUTH.errormsg,

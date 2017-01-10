@@ -4832,4 +4832,66 @@ class UserService
         $addresses = array_map("unserialize", array_unique(array_map("serialize", $addresses)));
         return $addresses;
     }
+    
+    /**
+     * 
+     * @param type $userId
+     * @param type $role
+     * @param type $params
+     * @return type
+     */
+    public function updateUserProfile($userId, $params){
+        $userObj = $this->repository->findOneById($userId);
+       
+        $userObj->setFirstName(isset($params['data']['firstName']) ? $params['data']['firstName'] : '');
+        $userObj->setLastName(isset($params['data']['lastName']) ? $params['data']['lastName'] : '');
+        $userObj->setGender(isset($params['data']['gender']) ? $params['data']['gender'] : '');
+        $userObj->setDateOfBirth(isset($params['data']['birthday']) ? $params['data']['birthday'] : '');
+        $userObj->setPhone(isset($params['data']['homeTelNumber']) ? $params['data']['homeTelNumber'] : '');
+        $userObj->setContactPhone(isset($params['data']['workTelNumber']) ? $params['data']['workTelNumber'] : '');
+        $userObj->setCeophone(isset($params['data']['mobileNumber']) ? $params['data']['mobileNumber'] : '');
+        $userObj->setEmail(isset($params['data']['email']) ? $params['data']['email'] : '');
+        
+        $this->em->persist($userObj);
+        $this->em->flush();
+        $userId = $userObj->getId();
+        if (!empty($userId)) {
+            $this->updateUserAddress($params['data'], $userObj);
+        }
+        return $userObj;
+    }
+    
+    /**
+     * Function to update user address
+     * @param array $data
+     * @param object $userObj
+     */
+    public function updateUserAddress($data, $userObj)
+    {
+        $userAddressObj = new UserAddress();
+        $userAddressObj->setUser($userObj);
+        $userAddressObj->setAddress(isset($data['address']['street_number']) ? $data['address']['street_number'] : '');
+        $userAddressObj->setArea(isset($data['address']['unitDetails']) ? $data['address']['unitDetails'] : '');
+        $userAddressObj->setSuburb(isset($data['address']['locality']) ? $data['address']['locality'] : '');
+        $userAddressObj->setCountry(isset($data['address']['country']) ? $data['address']['country'] : '');
+        $userAddressObj->setPincode(isset($data['address']['postal_code']) ? $data['address']['postal_code'] : '');
+        $userAddressObj->setState(isset($data['address']['state']) ? $data['address']['state'] : '');
+        $userAddressObj->setBuildingName(isset($data['address']['propertyName']) ? $data['address']['propertyName'] : '');
+        $userAddressObj->setCity(isset($data['address']['route']) ? $data['address']['route'] : '');
+        
+        $userAddressObj->setPostal(isset($data['postalAddress']) ? $data['postalAddress'] : '');
+        if($data['postalAddress'] != '1'){
+            $userAddressObj->setPostalAddress(isset($data['address']['street_number_postal']) ? $data['address']['street_number_postal'] : '');
+            $userAddressObj->setPostalArea(isset($data['address']['unitDetails_postal']) ? $data['address']['unitDetails_postal'] : '');
+            $userAddressObj->setPostalSuburb(isset($data['address']['locality_postal']) ? $data['address']['locality_postal'] : '');
+            $userAddressObj->setPostalCountry(isset($data['address']['country_postal']) ? $data['address']['country_postal'] : '');
+            $userAddressObj->setPostalPincode(isset($data['address']['postal_code_postal']) ? $data['address']['postal_code_postal'] : '');
+            $userAddressObj->setPostalState(isset($data['address']['state_postal']) ? $data['address']['state_postal'] : '');
+            $userAddressObj->setPostalBuildingName(isset($data['address']['propertyName_postal']) ? $data['address']['propertyName_postal'] : '');
+            $userAddressObj->setPostalCity(isset($data['address']['route_postal']) ? $data['address']['route_postal'] : '');
+        }
+        
+        $this->em->persist($userAddressObj);
+        $this->em->flush();
+    }
 }

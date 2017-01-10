@@ -328,3 +328,6 @@ signOffSheet:
 enrollment:
     path:     /enrollment
     defaults: { _controller: GqAusUserBundle:Enrollment:enrollment }
+saveEnrollment:
+    path:     /saveEnrollment
+    defaults: {_controller: GqAusUserBundle:Enrollment:saveEnrollment}

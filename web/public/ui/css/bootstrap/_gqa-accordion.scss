@@ -1,3 +1,5 @@
+
+// css for panel accordion will be here for the meantime only
 .panel-accordion{
 	margin: $grid-gutter-width/2 0;
 	[data-toggle="collapse"]{
@@ -16,17 +18,11 @@
 		}
 	}
 
-	.panel-heading{		
+	.panel-heading{
 		padding: 0;
-		i{
-			@include transition(all 0.3s ease-in-out);
-		}
-		[aria-expanded="true"] i{
-			@include transform(rotateZ(180deg));
-		}
 	}
 
 	.panel-body{
-	    padding: 15px 7px 20px;
+		padding: 0 0 20px;
 	}
 }
