@@ -4842,7 +4842,6 @@ class UserService
      */
     public function updateUserProfile($userId, $params){
         $userObj = $this->repository->findOneById($userId);
-       
         $userObj->setFirstName(isset($params['data']['firstName']) ? $params['data']['firstName'] : '');
         $userObj->setLastName(isset($params['data']['lastName']) ? $params['data']['lastName'] : '');
         $userObj->setGender(isset($params['data']['gender']) ? $params['data']['gender'] : '');
@@ -4856,42 +4855,31 @@ class UserService
         $this->em->flush();
         $userId = $userObj->getId();
         if (!empty($userId)) {
-            $this->updateUserAddress($params['data'], $userObj);
+            $userAddressObj = $userObj->getAddress();
+            $userAddressObj->setAddress(isset($params['data']['address']['street_number']) ? $params['data']['address']['street_number'] : '');
+            $userAddressObj->setArea(isset($params['data']['address']['unitDetails']) ? $params['data']['address']['unitDetails'] : '');
+            $userAddressObj->setSuburb(isset($params['data']['address']['locality']) ? $params['data']['address']['locality'] : '');
+            $userAddressObj->setCountry(isset($params['data']['address']['country']) ? $params['data']['address']['country'] : '');
+            $userAddressObj->setPincode(isset($params['data']['address']['postal_code']) ? $params['data']['address']['postal_code'] : '');
+            $userAddressObj->setState(isset($params['data']['address']['state']) ? $params['data']['address']['state'] : '');
+            $userAddressObj->setBuildingName(isset($params['data']['address']['propertyName']) ? $params['data']['address']['propertyName'] : '');
+            $userAddressObj->setCity(isset($params['data']['address']['route']) ? $params['data']['address']['route'] : '');
+
+            $userAddressObj->setPostal(isset($params['data']['postalAddress']) ? $params['data']['postalAddress'] : '');
+            if($params['data']['postalAddress'] != '1'){
+                $userAddressObj->setPostalAddress(isset($params['data']['postal']['street_number_postal']) ? $params['data']['postal']['street_number_postal'] : '');
+                $userAddressObj->setPostalArea(isset($params['data']['postal']['unitDetails_postal']) ? $params['data']['postal']['unitDetails_postal'] : '');
+                $userAddressObj->setPostalSuburb(isset($params['data']['postal']['locality_postal']) ? $params['data']['postal']['locality_postal'] : '');
+                $userAddressObj->setPostalCountry(isset($params['data']['postal']['country_postal']) ? $params['data']['postal']['country_postal'] : '');
+                $userAddressObj->setPostalPincode(isset($params['data']['postal']['postal_code_postal']) ? $params['data']['postal']['postal_code_postal'] : '');
+                $userAddressObj->setPostalState(isset($params['data']['postal']['state_postal']) ? $params['data']['postal']['state_postal'] : '');
+                $userAddressObj->setPostalBuildingName(isset($params['data']['postal']['propertyName_postal']) ? $params['data']['postal']['propertyName_postal'] : '');
+                $userAddressObj->setPostalCity(isset($params['data']['postal']['route_postal']) ? $params['data']['postal']['route_postal'] : '');
+            }
+
+            $this->em->persist($userAddressObj);
+            $this->em->flush();
         }
         return $userObj;
-    }
-    
-    /**
-     * Function to update user address
-     * @param array $data
-     * @param object $userObj
-     */
-    public function updateUserAddress($data, $userObj)
-    {
-        $userAddressObj = new UserAddress();
-        $userAddressObj->setUser($userObj);
-        $userAddressObj->setAddress(isset($data['address']['street_number']) ? $data['address']['street_number'] : '');
-        $userAddressObj->setArea(isset($data['address']['unitDetails']) ? $data['address']['unitDetails'] : '');
-        $userAddressObj->setSuburb(isset($data['address']['locality']) ? $data['address']['locality'] : '');
-        $userAddressObj->setCountry(isset($data['address']['country']) ? $data['address']['country'] : '');
-        $userAddressObj->setPincode(isset($data['address']['postal_code']) ? $data['address']['postal_code'] : '');
-        $userAddressObj->setState(isset($data['address']['state']) ? $data['address']['state'] : '');
-        $userAddressObj->setBuildingName(isset($data['address']['propertyName']) ? $data['address']['propertyName'] : '');
-        $userAddressObj->setCity(isset($data['address']['route']) ? $data['address']['route'] : '');
-        
-        $userAddressObj->setPostal(isset($data['postalAddress']) ? $data['postalAddress'] : '');
-        if($data['postalAddress'] != '1'){
-            $userAddressObj->setPostalAddress(isset($data['address']['street_number_postal']) ? $data['address']['street_number_postal'] : '');
-            $userAddressObj->setPostalArea(isset($data['address']['unitDetails_postal']) ? $data['address']['unitDetails_postal'] : '');
-            $userAddressObj->setPostalSuburb(isset($data['address']['locality_postal']) ? $data['address']['locality_postal'] : '');
-            $userAddressObj->setPostalCountry(isset($data['address']['country_postal']) ? $data['address']['country_postal'] : '');
-            $userAddressObj->setPostalPincode(isset($data['address']['postal_code_postal']) ? $data['address']['postal_code_postal'] : '');
-            $userAddressObj->setPostalState(isset($data['address']['state_postal']) ? $data['address']['state_postal'] : '');
-            $userAddressObj->setPostalBuildingName(isset($data['address']['propertyName_postal']) ? $data['address']['propertyName_postal'] : '');
-            $userAddressObj->setPostalCity(isset($data['address']['route_postal']) ? $data['address']['route_postal'] : '');
-        }
-        
-        $this->em->persist($userAddressObj);
-        $this->em->flush();
     }
 }

@@ -33,7 +33,8 @@ class EnrollmentController extends Controller
             {
                 $params = json_decode($content, true); // 2nd param to get as array
             }
-            echo $this->get('UserService')->updateUserProfile($userId, $params);
+            $this->get('UserService')->updateUserProfile($userId, $params);
+            return $this->redirect('/enrollment');
         }
     }
 
