@@ -59,8 +59,11 @@
                 <span class="tcon-menu__lines" aria-hidden="true"></span>
                 <span class="tcon-visuallyhidden">toggle menu</span>
             </button>
-            <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
-
+             {% if ('ROLE_APPLICANT' not in roles)  %}<a href="{{ app.request.baseUrl }}/dashboard">
+                {% else %}<a href="{{ app.request.baseUrl }}/qualifications">
+                {% endif %}
+                    <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
+                </a>
             <nav class="header-gqa-nav">
                 <ul class="nav-links" id="navLinks">
                     <li class="dropdown">
@@ -81,20 +84,27 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href='#'><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> <span>Evidences</span></a></li>
-                    <li><a href='#'><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> <span>Inbox</span></a></li>
-                </ul>
-
+                    {% if ('ROLE_FACILITATOR' in roles)  %}
+                    <li class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/evidences'><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> <span>Evidences</span></a></li>
+                    {% endif %}
+                    {% if ('ROLE_SUPERADMIN' not in roles) %} 
+                    <li class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/messages'><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> <span>Inbox</span></a></li>
+                {% endif %}
+                    </ul>
+                    {% set userFName = app.security.getToken().getUser().getFirstName()%}
+                    {% set userLName = app.security.getToken().getUser().getLastName()%}
+                    {% set userName = userFName~' '~userLName %}
+                    {% set userImage = app.security.getToken().getUser().getUserImage()%}
                 <div class="avatar-menu">
                     <div class="dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
                             <div class="avatar avatar-xxs"><img src="{{ asset('public/ui/img/avatar-default.png')}}" alt="You"></div>
-                            <span class="avatar-name" id="avatarFirstName">First Name Here</span>&nbsp;
+                            <span class="avatar-name" id="avatarFirstName">{{ userFName }}</span>&nbsp;
                             <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                         </div>
 
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="#"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
+                            <li><a href="{{ app.request.baseUrl }}/logout"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
                         </ul>
                     </div>
                 </div>

@@ -1,3 +1,7 @@
+$('.modal-dialog .upload-id-files p').on('click',function(e){
+    if(e.target !== e.currentTarget) return;
+    $('.id-files-input').trigger('click');
+});
 var gqAus = angular.module("gqAus", ['ui.bootstrap']);
 gqAus.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
@@ -10,6 +14,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
     $scope.forms = ['profile','language','schooling','employment','upload'];
     $scope.activeForm = 0;
     $scope.completedForms = [false,false,false,false,false];
+    $scope.evidenceFirst = true;
     $scope.enrollment = {
         profile: {
             firstName: "",
@@ -62,11 +67,11 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         for(var i=0;i<index;i++) {
             if($scope.completedForms[i] == false) slideFlag = false;     
         }
-        console.log(slideFlag);
-        if(slideFlag == true){ 
+        console.log(i,slideFlag);
+        //if(slideFlag == true){ 
             $scope.activeForm = index;
             $("#formWizardCarousel").carousel(i);
-        }
+        //}
     };
     $scope.formSlideTo(0);
     $scope.proceedNext = function (key) {
@@ -325,7 +330,16 @@ gqAus.directive('dateValidator', function () {
         }
     };
 });
-
+gqAus.filter('rangefromyear', function() {
+  return function(input, min) {
+    min = parseInt(min);
+    var datetime = new Date();
+    max = parseInt(datetime.getFullYear());
+    for (var i=max; i>=min; i--)
+      input.push(i);
+    return input;
+  };
+});
 function enrollmentAutocomplete() {
     var x = setInterval(function () {
         if (angular && angular.element(document.getElementById('enrollmentCtlr')) && angular.element(document.getElementById('enrollmentCtlr')).scope()) {

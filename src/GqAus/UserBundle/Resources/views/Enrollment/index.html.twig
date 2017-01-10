@@ -441,6 +441,28 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="selectYear" ng-hide="enrollment.schooling.highest=='Never attended school'">
+                                            <div class="col-xs-12 col-md-7">
+                                                <div class="form-group">
+                                                    <label for="selectYear" class="control-label">In which YEAR did you complete that school level?</label>
+                                                    <select class="form-control" id="selectYear" ng-model="enrollment.schooling.selectYear"  ng-options="n for n in [] | rangefromyear:1960"  ng-required="enrollment.schooling.highest!='Never attended school'">
+                                                        <option value="">Select Year</option>
+                                                       
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                        <p><label class="clear">Are you still attending secondary school?</label></p>
+                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.schooling.stillseconday" ng-required="true" uib-btn-radio="'Yes'"  ng-required="enrollment.schooling.highest!='Never attended school'">
+                                                            <input type="radio" name="gender"> <span>Yes</span>
+                                                        </label>
+                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.schooling.stillseconday" ng-required="true" uib-btn-radio="'No'"  ng-required="enrollment.schooling.highest!='Never attended school'">
+                                                            <input type="radio" name="gender"> <span>No</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- Schooling Section Ends here-->
                                     
@@ -693,13 +715,49 @@
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="form-group">
-                                                    <div class="upload-id-files">
+                                                    <section class="upload-id-files" ng-show="evidenceFirst">
                                                         <p class="points">
                                                             100 Points of Identification is needed so we're sure we're <br/>recognising the right person
                                                         </p>
                                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadIdFiles"><i class="zmdi zmdi-plus-square"></i> Upload your first ID now</button>
                                                         <!--input type="file" multiple-->
-                                                    </div>
+                                                    </section>
+                                                    
+                                                    <section class="consolidated-id-files clearfix"  ng-hide="evidenceFirst">
+                                                        <div class="progress-header">
+                                                            <div class="row">
+                                                                <div class="col-xs-12 col-sm-12 col-md-3">
+                                                                    <p class="id-points">
+                                                                        <span class="gained-points">70</span>
+                                                                        <span class="req-points">/ 100 ID points</span>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-4">
+                                                                    <div class="progress progress-tag-success">
+                                                                        <progress role="progress" value="70" max="100"><img class="fallback" width="30"></progress>
+                                                                        <!--figcaption data-value="70" data-unit="%" class="progress-details units-day">Pending</figcaption-->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-3 pull-right">
+                                                                    <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#uploadIdFiles"><i class="zmdi zmdi-plus-square"></i> Upload your first ID now</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="id-files-body">
+                                                            <div class="id-th clearfix">
+                                                                <div>Pts</div>
+                                                                <div>ID Type</div>
+                                                                <div>File Uploaded</div>
+                                                            </div>
+                                                            <div class="id-td">
+                                                                <div>70</div>
+                                                                <div>Australian Citizenship</div>
+                                                                <div>C_M_Msg_1.4.jpg</div>
+                                                                <div><i class="zmdi zmdi-close"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -748,8 +806,21 @@
                     
                     <h2 class="page-header">Upload file</h2>
                     <div class="upload-id-files">
-                        <p>Drop ID here of <span><a href="javascript:void(0)" id="dataPopOver" data-toggle="popover" data-html="true" data-placement="bottom" data-content="">browse your files</a></span></p>
+                        <p style="position:relative;z-index: 100">
+                            <span>Drop ID here of</span>
+                            <span class="browse-files">
+                                <a href="javascript:void(0)" id="dataPopOver" data-toggle="popover" data-html="true" data-placement="bottom" data-content="">browse your files</a>
+                            </span>
+                        </p>
+                        <input class="id-files-input" type="file" multiple>
                     </div>
+                    <!--div class="file-que">
+                        <ul>
+                            <li>
+                                
+                            </li>
+                        </ul>
+                    </div-->
                     
                 </div>
                 <div class="modal-footer">
