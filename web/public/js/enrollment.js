@@ -36,7 +36,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
             }
         },
         schooling: {
-            highest: "Year 12 or equivalent",
+            highest: "",
             qualifications: {
                 advancedDiploma : false,
                 bachelor : false,
@@ -68,10 +68,10 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
             if($scope.completedForms[i] == false) slideFlag = false;     
         }
         console.log(i,slideFlag);
-        //if(slideFlag == true){ 
+        if(slideFlag == true){ 
             $scope.activeForm = index;
             $("#formWizardCarousel").carousel(i);
-        //}
+        }
     };
     $scope.formSlideTo(0);
     $scope.proceedNext = function (key) {
