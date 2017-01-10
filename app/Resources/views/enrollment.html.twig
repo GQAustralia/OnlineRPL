@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link href="{{ asset('public/ui/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/ui/css/bootstrap/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('public/ui/css/global.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/ui/css/modules/global/global.min.css') }}" rel="stylesheet" />
 
     <!-- Login only -->
     <link href="{{ asset('public/ui/css/modules/rpl-online-enrolment/rpl-online-enrolment.css') }}" rel="stylesheet" />   
@@ -29,7 +29,6 @@
     
     {% endblock %}
     {% block stylesheets %}{% endblock %}  
-        <link rel="stylesheet" href="{{ asset('public/css/pages/all/fixes.css') }}">
         <script type="text/javascript">
             var base_url = "{{ base_url }}";
             var amazon_link = "{{ amazon_link }}";
