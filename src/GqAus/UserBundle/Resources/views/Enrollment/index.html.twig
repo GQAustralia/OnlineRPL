@@ -432,6 +432,7 @@
                                             <div class="form-group">
                                                 <label for="schooling" class="control-label">What is your highest COMPLETED school level. Choose only one:</label>
                                                 <select class="form-control" id="schooling" name="highest" ng-model="enrollment.schooling.highest" >
+                                                    <option value="">Select highest COMPLETED school level</option>
                                                     <option value="Year 12 or equivalent">Year 12 or equivalent</option>
                                                     <option value="Year 11 or equivalent">Year 11 or equivalent</option>
                                                     <option value="Year 10 or equivalent">Year 10 or equivalent</option>
@@ -441,7 +442,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="selectYear" ng-hide="enrollment.schooling.highest=='Never attended school'">
+                                        <div class="selectYear" ng-hide="enrollment.schooling.highest=='Never attended school' || enrollment.schooling.highest==''">
                                             <div class="col-xs-12 col-md-7">
                                                 <div class="form-group">
                                                     <label for="selectYear" class="control-label">In which YEAR did you complete that school level?</label>
