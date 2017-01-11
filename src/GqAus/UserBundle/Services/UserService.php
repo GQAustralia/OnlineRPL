@@ -4889,6 +4889,10 @@ class UserService
      */
     public function updateLangEnroll($userId, $params){
         $userObj =  $this->repository->findOneById($userId);
+//        $userObj = $this->repository->findOneBy(array('id' => $userId));
+        echo '<pre>';
+        print_r($userObj);
+        exit;
         $lanDiversity = new LanguageDiversity();
         $lanDiversity->setUser($userObj);
         $lanDiversity->setBornCountry(isset($params['data']['country']) ? $params['data']['country'] : '');

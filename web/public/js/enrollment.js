@@ -66,10 +66,10 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         for(var i=0;i<index;i++) {
             if($scope.completedForms[i] == false) slideFlag = false;     
         }
-        if(slideFlag === true){ 
+//        if(slideFlag === true){ 
             $scope.activeForm = index;
             $("#formWizardCarousel").carousel(i);
-        }
+//        }
     };
     $scope.formSlideTo(0);
     $scope.proceedNext = function (key) {
@@ -79,7 +79,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         $scope.formSlideTo(key+1);
         var req = {
             method: 'POST',
-            url: $window.base_url+"saveProEnroll",
+            url: $window.base_url+"saveLangEnroll",
             headers: {
                 'Content-Type': "application/json"
             },
