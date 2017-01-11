@@ -79,7 +79,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         $scope.formSlideTo(key+1);
         var req = {
             method: 'POST',
-            url: $window.base_url+"saveEnrollment",
+            url: $window.base_url+"saveProEnroll",
             headers: {
                 'Content-Type': "application/json"
             },
