@@ -16,7 +16,7 @@ class TwigEngine extends BaseTwigEngine
     public function render($name, array $parameters = array())
     {
         if ($this->mobileDetect->isMobile() && !$this->mobileDetect->isTablet()) {
-            $name = preg_replace('~:(?!.*:)~', '/mobile:', $name);
+            //$name = preg_replace('~:(?!.*:)~', '/mobile:', $name);
         }
         return parent::render($name, $parameters);
     }

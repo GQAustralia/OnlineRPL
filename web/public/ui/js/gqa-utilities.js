@@ -1,3 +1,6 @@
+// Transformicons
+!function(n,r){"function"==typeof define&&define.amd?define(r):"object"==typeof exports?module.exports=r():n.transformicons=r()}(this||window,function(){"use strict";var n={},r="tcon-transform",t={transform:["click"],revert:["click"]},e=function(n){return"string"==typeof n?Array.prototype.slice.call(document.querySelectorAll(n)):"undefined"==typeof n||n instanceof Array?n:[n]},o=function(n){return"string"==typeof n?n.toLowerCase().split(" "):n},f=function(n,r,f){var c=(f?"remove":"add")+"EventListener",u=e(n),s=u.length,a={};for(var l in t)a[l]=r&&r[l]?o(r[l]):t[l];for(;s--;)for(var d in a)for(var v=a[d].length;v--;)u[s][c](a[d][v],i)},i=function(r){n.toggle(r.currentTarget)};return n.add=function(r,t){return f(r,t),n},n.remove=function(r,t){return f(r,t,!0),n},n.transform=function(t){return e(t).forEach(function(n){n.classList.add(r)}),n},n.revert=function(t){return e(t).forEach(function(n){n.classList.remove(r)}),n},n.toggle=function(t){return e(t).forEach(function(t){n[t.classList.contains(r)?"revert":"transform"](t)}),n},n});
+
 // Toggle Visibility of a Password Field
 var TOGGLE_PASSWORD = {
 	doc: $(document),
@@ -103,43 +106,71 @@ var GQA_HEADER = {
 	    }
 	},
 	mobile_menu: function() {
+		$('<div class="menu-overlay"></div>').insertAfter('#navLinks');
+
 		var menu = $('#navLinks'),
-			width = "-"+menu.width()+"px";
+			width = "-"+menu.width()+"px",
+			overlay = $('.menu-overlay');
 
-		// Transformicons
-		!function(n,r){"function"==typeof define&&define.amd?define(r):"object"==typeof exports?module.exports=r():n.transformicons=r()}(this||window,function(){"use strict";var n={},r="tcon-transform",t={transform:["click"],revert:["click"]},e=function(n){return"string"==typeof n?Array.prototype.slice.call(document.querySelectorAll(n)):"undefined"==typeof n||n instanceof Array?n:[n]},o=function(n){return"string"==typeof n?n.toLowerCase().split(" "):n},f=function(n,r,f){var c=(f?"remove":"add")+"EventListener",u=e(n),s=u.length,a={};for(var l in t)a[l]=r&&r[l]?o(r[l]):t[l];for(;s--;)for(var d in a)for(var v=a[d].length;v--;)u[s][c](a[d][v],i)},i=function(r){n.toggle(r.currentTarget)};return n.add=function(r,t){return f(r,t),n},n.remove=function(r,t){return f(r,t,!0),n},n.transform=function(t){return e(t).forEach(function(n){n.classList.add(r)}),n},n.revert=function(t){return e(t).forEach(function(n){n.classList.remove(r)}),n},n.toggle=function(t){return e(t).forEach(function(t){n[t.classList.contains(r)?"revert":"transform"](t)}),n},n});		
+		transformicons.add('.tcon');
 
-		$('#btnNavicon').click(function() {
-			// transformicons.add('.tcon');
-			// transformicons.toggle($('#btnNavicon'));
+		function translateX() {
+			if (GQA_HEADER.is_menu_open == false) { return ['0',width]; }
+			else { return [width,'0']; }
+		}
 
-			function translateX() {
-				if (GQA_HEADER.is_menu_open == false) { return ['0',width]; }
-				else { return [width,'0']; }
-			}
+		function opacity() {
+			if (GQA_HEADER.is_menu_open == false) { return 1; }
+			else { return 0; }
+		}
 
-			function opacity() {
-				if (GQA_HEADER.is_menu_open == false) { return 1; }
-				else { return 0; }
-			}
+		function display() {
+			if (GQA_HEADER.is_menu_open == false) { return 'block'; }
+			else { return 'none'; }	
+		}
 
-			menu.velocity({
-				translateX: translateX(),
-				opacity: opacity()
-			},
+		function animate() {
+
+			menu.velocity({ translateX: translateX(),opacity: opacity() },
 			{
-				display: 'block',
+				display: display(),
 				duration: 500,
 				easing: [0.550, 0.085, 0.000, 0.960],
+				begin: function() {
+					$('<div class="menu-overlay-no-click"></div>').appendTo('body');
+					
+					overlay.velocity({ opacity: opacity() },
+					{
+						display: display(),
+						duration: 500,
+						easing: [0.550, 0.085, 0.000, 0.960]
+					});
+				},
 				complete: function() {
 					GQA_HEADER.is_menu_open == false ? GQA_HEADER.is_menu_open = true : GQA_HEADER.is_menu_open = false;
+					$('.menu-overlay-no-click').remove();
 				}
-			});
-		});
+			});	
+		}
+		
+		$('#btnNavicon').on('click', animate);
+		overlay.on('click', function(){ $('#btnNavicon').click(); });
 	},
 	build: function() {
 		this.scroll();
 		this.mobile_menu();
+	}
+}
+
+var BTN_LOADER = {
+	doc: $(document),
+	init: function() {
+		// this.doc.on('click', '.btn-loader', function(event) {
+		// 	$(this).html().detach();
+		// });
+	},
+	build: function() {
+		this.init();
 	}
 }
 
@@ -184,6 +215,7 @@ var GLOBAL_UI = {
 	init: function() {
 		this.handle_layout();
 		this.get_current_year();
+		BTN_LOADER.build();
 		ANIMATE_ARROW.build();
 		GQA_HEADER.build();
 	}

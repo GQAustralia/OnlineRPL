@@ -12,11 +12,12 @@
   position: relative;
   overflow: hidden;
   width: 100%;
+  @include transition(all 1s $easing);
 
   > .item {
     display: none;
     position: relative;
-    @include transition(.6s ease-in-out left);
+    @include transition(all 1s $easing);
 
     // Account for jankitude on images
     > img,
@@ -27,7 +28,7 @@
 
     // WebKit CSS3 transforms for supported devices
     @media all and (transform-3d), (-webkit-transform-3d) {
-      @include transition-transform(0.6s ease-in-out);
+      @include transition-transform(0.6s $easing);
       @include backface-visibility(hidden);
       @include perspective(1000px);
 

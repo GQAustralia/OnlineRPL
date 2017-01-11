@@ -8,6 +8,9 @@
 
 @import 'bootstrap-datetimepicker';
 
+@import 'usi-input';
+
+
 // style for your details page
 
 // set a minimum to btn-group btn
@@ -15,18 +18,53 @@
 	.btn{
 		min-width: 100px;
 	}
-} 
-
-// style for your details page
-
-h2{
-	font-weight: lighter;
 }
 
+// Set input controls to have border just for the enrolment form
+.form-control {
+	border: 1px solid $input-border;
+	border-radius: $border-radius-base - 1;
+	padding: $padding-base-vertical $padding-base-horizontal;
+	&:hover {
+		border: 1px solid $input-border-focus;
+		@include box-shadow(inset 0 0 0 2px rgba(119, 119, 119, 0.08));
+	}
+	&:focus {
+		border: 1px solid #717171;
+		border-bottom-color: #757575;
+		border-top-color: #909090;
+		border-right-color: #969696;
+		border-left-color: #969696;
+		@include box-shadow(0 0 0 2px rgba(119, 119, 119, 0.28));
+	}
+}
+
+// Added to counter the overflow hidden set by bootstrap's carousel inner so that box-shadows 
+// on input fields touching the edges of the carousel's container are not clipped 
+.carousel-inner {
+    margin-left: -3px;
+    margin-right: -3px;
+    >.item {
+        padding: 3px;
+    }
+}
+
+// style for your details page
 #postalAddressForm{ 
 	h2{
 		margin-top: 0;
 	}
+}
+
+.collapsing{ // remove collapse animation for all collapsible fields
+	@include transition(none);
+	width: 100%;
+}
+
+#LanguageSpoken{ // collapsible language field
+	clear: both;
+	width: 100%;
+	padding: 15px 0 0;
 }
 
 @import "320";
@@ -43,3 +81,11 @@ h2{
 @media screen and (min-width: 1200px) {
     @import "1200";
 }
+
+
+// Use sparingly. Declare styles only if it's event or behavior related.
+// And if you want to bullet-proof a CSS class/styling like absolutely positioned
+// controls, UI elements that should strictly fall under mobile devices even if 
+// @import 'is-mobile.scss';
+// @import 'is-tablet.scss';
+// @import 'is-desktop.scss';

@@ -1,8 +1,6 @@
 $(function(){
-    //populateCountries('country', 'state');
-    //populateCountries('country_postal', 'state_postal');
-    //populateCountries('country2');
 
+    
     // country code
     //INIT_COUNTRY_CODE.init();
     INIT_COUNTRY_CODE.click();
@@ -13,6 +11,8 @@ $(function(){
     // custom collapsible fields
     CONTROL_COLLAPSE.build();
 
+    INIT_CAROUSEL.build();
+    
     /* Popover for Upload files Modal */
     $('[data-toggle="popover"]').popover();
     $('#dataPopOver').attr('data-content','<ul><li><a href="javascript:void(0)"><i class="zmdi zmdi-folder-outline"></i>My Evidence Files</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-laptop"></i>My Computer</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-google-drive"></i>Google Drive</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-dropbox"></i>Drop Box</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-cloud-outline"></i>One Drive</a></li></ul>');
@@ -25,8 +25,8 @@ $('body').on('click', function (e) {
      if ($(e.target).data('toggle') !== 'popover'
         && $(e.target).parents('.popover.in').length === 0) { 
         $('[data-toggle="popover"]').popover('hide');
-    }
-});
+        }
+    });
 
 // country code
 var INIT_COUNTRY_CODE = {
@@ -38,15 +38,22 @@ var INIT_COUNTRY_CODE = {
         });
     },
     click: function(){
-        $(document).on('click', this.elems,function(){
-            var country_list = $(this).closest('.intl-tel-input').find('.country-list')
-            country_list.removeClass('hide');
-            $('header, .wizard-steps').addClass('has-country-code');
+        // $(document).on('click', this.elems,function(){
+        //     var country_list = $(this).closest('.intl-tel-input').find('.country-list')
+        //     country_list.removeClass('hide');
+        //     $('header, .wizard-steps').addClass('has-country-code');
 
-            $(this).keypress(function(){
-                country_list.addClass('hide');
-                $('header, .wizard-steps').removeClass('has-country-code');
-            })
+        //     $(this).keypress(function(){
+        //         country_list.addClass('hide');
+        //         $('header, .wizard-steps').removeClass('has-country-code');
+        //     })
+        // })
+
+        $(document).on('click', '.flag-dropdown', function(){
+            $('body').removeClass('has-country-code');
+            $('#autocomplete').css('z-index', 2);
+
+
         })
     },
     build: function(){
@@ -64,7 +71,7 @@ var INIT_DATEPICKER = {
         })
     },
     build: function(){
-        INIT_DATEPICKER.init();
+        INIT_DATEPICKER.init(); 
     }
 }
 
@@ -96,6 +103,114 @@ var CONTROL_COLLAPSE = {
         CONTROL_COLLAPSE.show_hide();
     }
 }
+
+var INIT_CAROUSEL = {
+    elem: $('#formWizardCarousel'),
+    init: function(){
+        this.elem.carousel().on('slide.bs.carousel', function(){
+            $("body").scrollTop(200);
+        })
+    },
+    build: function(){
+        INIT_CAROUSEL.init();
+    }
+}
+
+var USI_INPUT_UI = {
+    usi_field: $('#usiField'),
+    input: $('.pseudo-input input[type="text"]'),
+    input_box_body: $('#usiInputBody'),
+    pointer: 0,
+    doc: $(document),
+    init: function() {
+        var is_valid = true;
+
+        USI_INPUT_UI.input.on('keypress paste drop', function (event) {
+            var regex = new RegExp("^[a-zA-Z0-9]+$");
+            var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+            var len = $(this).val().length;
+
+            if (len > 1) {
+                is_valid = false;
+                event.preventDefault();
+                return false;
+            }
+            else {
+                is_valid = true;
+            }
+            
+            if (!regex.test(key)) {
+                is_valid = false;
+                event.preventDefault();
+                return false;
+            }
+            else {
+                is_valid = true;
+                USI_INPUT_UI.move_right($(this));
+            }
+        });
+
+        USI_INPUT_UI.input.on('keyup', function(event) {
+            if (is_valid === true) {
+                if (event.keyCode === 8) {
+                    $(this).val('');
+                    USI_INPUT_UI.move_left($(this));
+                }
+                if (event.keyCode === 37) {
+                    USI_INPUT_UI.move_left($(this));
+                }
+                if (event.keyCode === 39) {
+                    USI_INPUT_UI.move_right($(this));
+                }
+            }
+
+            var str = '';
+
+            USI_INPUT_UI.input.each(function(index) {
+               str = str + $(this).val();
+               USI_INPUT_UI.usi_field.val(str);
+            });
+        });     
+
+        USI_INPUT_UI.input.on('focus', function(event) {
+            $(this).parent().addClass('active').siblings().removeClass('active');
+        });
+
+        USI_INPUT_UI.input.on('blur', function (event) {
+            $(this).parent().removeClass('active');
+        });
+
+    },
+    move_left: function(obj) {
+        obj.parent().prev().find('input[type="text"]').focus().select(); 
+    },
+    move_right: function(obj) {
+         obj.parent().next().find('input[type="text"]').focus().select();
+    },
+    set_active: function(that) {
+        that.addClass('active');
+        that.siblings().removeClass('active');
+
+        console.log(that.index());
+    },
+    populate: function() {
+        var char = String.fromCharCode(event.keyCode).toUpperCase();
+        USI_INPUT_UI.input_box.eq(USI_INPUT_UI.pointer).text(char)
+        USI_INPUT_UI.usi_value[USI_INPUT_UI.pointer] = char;
+        USI_INPUT_UI.input_box.eq(USI_INPUT_UI.pointer + 1)
+            .addClass('active')
+            .siblings().removeClass('active');
+
+        USI_INPUT_UI.pointer = USI_INPUT_UI.pointer + 1;
+    },
+    build: function() {
+        USI_INPUT_UI.init();
+    }
+}
+
+$(document).ready(function() {
+    //USI_INPUT_UI.build();
+});
 
 // Autocomplete address form 
 // Reference: https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform

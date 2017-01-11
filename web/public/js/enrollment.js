@@ -56,8 +56,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
             internationalstudent : '',
             haveusi : '',
             applyusi : '',
-            usi:{
-            }
+            usi: ''
         },
         upload: {}
     };
@@ -67,8 +66,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         for(var i=0;i<index;i++) {
             if($scope.completedForms[i] == false) slideFlag = false;     
         }
-        console.log(i,slideFlag);
-        if(slideFlag == true){ 
+        if(slideFlag === true){ 
             $scope.activeForm = index;
             $("#formWizardCarousel").carousel(i);
         }
@@ -128,7 +126,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         $scope.enrollment.employment.applyusi = '';
       }, true);
       $scope.$watch('enrollment.employment.applyusi', function(items){
-        $scope.enrollment.employment.usi = {};
+        $scope.enrollment.employment.usi = '';
       }, true);
 //      $scope.$watch('enrollment', function(){
 //        if(ProfileForm.$valid) $scope.completedForms.profile = true;
@@ -227,6 +225,26 @@ gqAus.directive('datePicker', function () {
             'format': 'DD/MM/YYYY',
             'maxDate': 'now'
         }).on('dp.change', function (ev) {
+            ngModelCtrl.$modelValue = $(element).val();
+            scope.ngModel = $(element).val();
+            scope.$apply();
+            $(element).change();
+        });
+    };
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        scope: {
+            ngModel: '='
+        },
+        link: link
+    }
+});
+gqAus.directive('usiInput', function () {
+    var link = function (scope, element, attrs, ngModelCtrl) {
+
+        USI_INPUT_UI.build();
+        USI_INPUT_UI.input.on('keyup', function(event) {
             ngModelCtrl.$modelValue = $(element).val();
             scope.ngModel = $(element).val();
             scope.$apply();
