@@ -35,10 +35,11 @@ class LoginController extends Controller
             if($role[0] == "ROLE_APPLICANT")
             { 
                 $userProfilePercentage = $this->get('UserService')->getUserProfilePercentage($user);
-                if($userProfilePercentage < 100)
-                    return $this->redirect('userprofile');
-                else
-                    return $this->redirect('qualifications');
+                    return $this->redirect('enrollment');
+//                if($userProfilePercentage < 100)
+//                    return $this->redirect('qualifications');
+//                else
+//                    return $this->redirect('userprofile');
             }
             else{
                 return $this->redirect('dashboard');
