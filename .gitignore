@@ -39,3 +39,6 @@
 /composer.phar
 
 .idea/*
+nbproject/
+*.css.map
+.sass-cache

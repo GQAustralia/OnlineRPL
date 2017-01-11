@@ -1,2 +1,406 @@
+<<<<<<< HEAD:ui/css/global.min.css
+/* -------------------------------------------------------------
+  Sass CSS3 Mixins! The Cross-Browser CSS3 Sass Library
+  By: Matthieu Aussaguel, http://www.mynameismatthieu.com, @matthieu_tweets
+
+  List of CSS3 Sass Mixins File to be @imported and @included as you need
+
+  The purpose of this library is to facilitate the use of CSS3 on different browsers avoiding HARD TO READ and NEVER
+  ENDING css files
+
+  note: All CSS3 Properties are being supported by Safari 5
+  more info: http://www.findmebyip.com/litmus/#css3-properties
+
+  Mixins available:
+    -   css3-prefix             - arguments: Property, Value
+    -   background-gradient     - arguments: Start Color: #3C3C3C, End Color: #999999
+    -   background-horizontal   - arguments: Start Color: #3C3C3C, End Color: #999999
+    -   background-radial       - arguments: Start Color: #FFFFFF, Start position: 0%, End Color: #000000, End position: 100%
+    -   background-size         - arguments: Width: 100%, Height: 100%
+    -   background-opacity      - arguments: Color: #000, Opacity: .85
+    -   border-radius           - arguments: Radius: 5px
+    -   border-radius-separate  - arguments: Top Left: 5px, Top Right: 5px, Bottom Left: 5px, Bottom Right: 5px
+    -   box                     - arguments: Orientation: horizontal, Pack: center, Align: center
+    -   box-rgba                - arguments: R: 60, G: 3, B: 12, Opacity: 0.23, Color: #3C3C3C
+    -   box-shadow              - arguments: X: 2px, Y: 2px, Blur: 5px, Color: rgba(0,0,0,.4)
+    -   box-sizing              - arguments: Type: border-box
+    -   columns                 - arguments: Count: 3, Gap: 10
+    -   double-borders          - arguments: Color One: #3C3C3C, Color Two: #999999, Radius: 0
+    -   flex                    - arguments: Value: 1
+    -   flip                    - arguments: ScaleX: -1
+    -   font-face               - arguments: Font Family: myFont, Eot File Src: myFont.eot, Woff File Src: myFont.woff, Ttf File Src: myFont.ttf
+    -   opacity                 - arguments: Opacity: 0.5
+    -   outline radius          - arguments: Radius: 5px
+    -   resize                  - arguments: Direction: both
+    -   rotate                  - arguments: Degree: 0, M11: 0, M12: 0, M21: 0, M22: 0
+    CSS Matrix Rotation Calculator http://www.boogdesign.com/examples/transforms/matrix-calculator.html
+    -   text-shadow             - arguments: X: 2px, Y: 2px, Blur: 5px, Color: rgba(0,0,0,.4)
+    -   transform               - arguments: Parameters: null
+    -   transform-style         - arguments: Style: preserve-3d
+    -   transition              - Default arguments: What: all, Length: 1s, Easing: ease-in-out
+    -                            - Examples: @include transition (all 2s ease-in-out);
+    -                                        @include transition (opacity 1s ease-in 2s, width 2s ease-out);
+    -   triple-borders          - arguments: Color One: #3C3C3C, Color Two: #999999, Color Three: #000000, Radius: 0
+    -   keyframes               - arguments: Animation name
+                                - content:   Animation css
+    -   animation               - arguments: name duration timing-function delay iteration-count direction fill-mode play-state
+                                             (http://www.w3schools.com/cssref/css3_pr_animation.asp)
+
+------------------------------------------------------------- */
+/* ADDS A BROWSER PREFIX TO THE PROPERTY */
+/* BACKGROUND GRADIENT */
+/* BACKGROUND HORIZONTAL */
+/* BACKGROUND RADIAL */
+/* BACKGROUND SIZE */
+/* BACKGROUND COLOR OPACITY */
+/* BORDER RADIUS */
+/* BOX */
+/* BOX RGBA */
+/* BOX SHADOW */
+/* BOX SIZING */
+/* COLUMNS */
+/* DOUBLE BORDERS */
+/* FLEX */
+/* FLIP */
+/* FONT FACE */
+/* OPACITY */
+/* OUTLINE RADIUS */
+/* RESIZE */
+/* ROTATE*/
+/* TEXT SHADOW */
+/* TRANSFORM  */
+/* TRANSFORM STYLE */
+/* TRANSITION */
+/* TRIPLE BORDERS */
+/* KEYFRAMES */
+/* ANIMATION */
+/* line 3, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+progress[role] {
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  height: 5px;
+  vertical-align: -.2em;
+  border: none;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: #e6e6e6;
+  /* Chrome */
+  /* Overlay */ }
+  /* line 21, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+  progress[role] .fallback {
+    height: 5px;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  /* line 30, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+  progress[role]::-webkit-progress-bar {
+    background: #e6e6e6 !important; }
+  /* line 32, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+  progress[role][aria-valuenow]:before {
+    content: "";
+    display: block;
+    height: 100%; }
+  /* line 39, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+  progress[role]:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: none; }
+  /* line 49, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+  progress[role] strong {
+    display: none; }
+
+/* line 52, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+.progress {
+  position: relative;
+  width: auto;
+  margin-bottom: 15px; }
+  /* line 57, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+  .progress .progress-details {
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 10px; }
+    /* line 63, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+    .progress .progress-details:before {
+      content: attr(data-value)attr(data-unit);
+      display: block;
+      position: relative;
+      font-size: 2em;
+      font-weight: 300;
+      clear: both;
+      line-height: 1;
+      color: inherit; }
+
+/* line 76, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+.progress-tag-default progress {
+  color: #4d4d4d;
+  /* Firefox */
+  /* Chrome */
+  /* Polyfill */ }
+  /* line 11, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-default progress::-moz-progress-bar {
+    background: #4d4d4d; }
+  /* line 14, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-default progress::-webkit-progress-value {
+    background: #4d4d4d; }
+  /* line 17, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-default progress[aria-valuenow]:after {
+    background: #4d4d4d; }
+  /* line 19, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-default progress ~ .progress-details:before {
+    color: #4d4d4d; }
+
+/* line 79, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+.progress-tag-success progress {
+  color: #26b36a;
+  /* Firefox */
+  /* Chrome */
+  /* Polyfill */ }
+  /* line 11, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-success progress::-moz-progress-bar {
+    background: #26b36a; }
+  /* line 14, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-success progress::-webkit-progress-value {
+    background: #26b36a; }
+  /* line 17, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-success progress[aria-valuenow]:after {
+    background: #26b36a; }
+  /* line 19, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-success progress ~ .progress-details:before {
+    color: #26b36a; }
+
+/* line 82, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+.progress-tag-warning progress {
+  color: #ff9933;
+  /* Firefox */
+  /* Chrome */
+  /* Polyfill */ }
+  /* line 11, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-warning progress::-moz-progress-bar {
+    background: #ff9933; }
+  /* line 14, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-warning progress::-webkit-progress-value {
+    background: #ff9933; }
+  /* line 17, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-warning progress[aria-valuenow]:after {
+    background: #ff9933; }
+  /* line 19, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-warning progress ~ .progress-details:before {
+    color: #ff9933; }
+
+/* line 85, D:/Xampp/htdocs/online-rpl-ui/ui/css/polyfills/_progress.scss */
+.progress-tag-danger progress {
+  color: #e7302a;
+  /* Firefox */
+  /* Chrome */
+  /* Polyfill */ }
+  /* line 11, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-danger progress::-moz-progress-bar {
+    background: #e7302a; }
+  /* line 14, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-danger progress::-webkit-progress-value {
+    background: #e7302a; }
+  /* line 17, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-danger progress[aria-valuenow]:after {
+    background: #e7302a; }
+  /* line 19, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_progress-bar.scss */
+  .progress-tag-danger progress ~ .progress-details:before {
+    color: #e7302a; }
+
+/* line 3, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+.header-gqa .header-gqa-logo {
+  height: 50px;
+  -webkit-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -khtml-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -moz-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -ms-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -o-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96); }
+
+/* line 8, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+.header-gqa .container {
+  position: relative;
+  z-index: 1;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  -webkit-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -khtml-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -moz-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -ms-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -o-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96); }
+
+/* line 17, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+.header-gqa.compressed .header-gqa-logo {
+  height: 36px;
+  margin-top: 8px;
+  -webkit-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -khtml-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -moz-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -ms-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -o-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96); }
+
+/* line 22, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+.header-gqa.compressed .container {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  -webkit-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -khtml-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -moz-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -ms-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  -o-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+  transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96); }
+
+/* line 27, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+.header-gqa.compressed .navbar-bg-gradient {
+  border-bottom: 3px solid #d2443f;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); }
+
+/* line 34, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+.header-gqa nav ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  float: right; }
+  /* line 40, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+  .header-gqa nav ul li {
+    display: inline-block;
+    text-align: center;
+    -webkit-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+    -khtml-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+    -moz-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+    -ms-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+    -o-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+    transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96); }
+    /* line 45, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+    .header-gqa nav ul li a {
+      color: #FFF;
+      padding: 12px 18px;
+      text-decoration: none;
+      font-size: 16px;
+      -webkit-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+      -khtml-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+      -moz-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+      -ms-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+      -o-transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);
+      transition: all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96); }
+      /* line 52, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+      .header-gqa nav ul li a:hover {
+        color: white;
+        text-decoration: none; }
+
+/* line 60, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+.avatar-menu {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important; }
+  /* line 63, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+  .avatar-menu:hover {
+    cursor: pointer; }
+  /* line 66, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+  .avatar-menu > .dropdown > .dropdown-toggle {
+    padding: 12px 18px;
+    padding-left: 60px !important;
+    display: inline-block;
+    color: white; }
+    /* line 72, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+    .avatar-menu > .dropdown > .dropdown-toggle .avatar {
+      display: inline-block;
+      position: absolute;
+      top: 3px;
+      left: 10px; }
+    /* line 78, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+    .avatar-menu > .dropdown > .dropdown-toggle .avatar-name {
+      display: block;
+      float: left;
+      line-height: 1.1;
+      font-size: 16px;
+      max-width: 70px;
+      min-width: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+
+/* line 93, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+.navbar-bg-img {
+  width: 100%;
+  height: 280px;
+  position: relative;
+  z-index: 1;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-bottom: 4px solid #e7302a; }
+  /* line 104, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+  .navbar-bg-img[data-bg="skyscraper-blur"] {
+    background-image: url(../img/bg-skyscraper-blur.jpg); }
+  /* line 106, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+  .navbar-bg-img + .main-content-gqa {
+    position: relative;
+    z-index: 1;
+    margin-top: -240px; }
+
+/* line 113, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss */
+.navbar-bg-gradient {
+  background-color: blue;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(../img/bg-gradient.jpg);
+  filter: alpha(opacity=0);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  -webkit-opacity: 0;
+  -khtml-opacity: 0;
+  -moz-opacity: 0;
+  -ms-opacity: 0;
+  -o-opacity: 0;
+  opacity: 0; }
+
+/* line 1, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-footer.scss */
+.footer-gqa {
+  color: white;
+  background-color: #4d4d4d; }
+  /* line 14, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_clearfix.scss */
+  .footer-gqa:before, .footer-gqa:after {
+    content: " ";
+    display: table; }
+  /* line 19, D:/Xampp/htdocs/online-rpl-ui/ui/css/bootstrap/mixins/_clearfix.scss */
+  .footer-gqa:after {
+    clear: both; }
+  /* line 6, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-footer.scss */
+  .footer-gqa .container {
+    padding-top: 30px;
+    padding-bottom: 30px; }
+  /* line 11, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-footer.scss */
+  .footer-gqa .footer-gqa-logo {
+    height: 50px;
+    float: left; }
+  /* line 16, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-footer.scss */
+  .footer-gqa .footer-gqa-nav {
+    display: block;
+    float: right;
+    margin-bottom: 0;
+    margin-top: 0; }
+  /* line 24, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-footer.scss */
+  .footer-gqa a, .footer-gqa a:hover, .footer-gqa a:active {
+    color: #e6e6e6; }
+
+/*# sourceMappingURL=global.min.css.map */
+=======
 progress[role]{display:inline-block;position:relative;width:200px;height:5px;vertical-align:-.2em;border:none;-moz-box-sizing:border-box;box-sizing:border-box;appearance:none;-moz-appearance:none;-webkit-appearance:none;background:#e6e6e6}progress[role] .fallback{height:5px;position:absolute;top:0;left:0}progress[role]::-webkit-progress-bar{background:#e6e6e6 !important}progress[role][aria-valuenow]:before{content:"";display:block;height:100%}progress[role]:after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background:none}progress[role] strong{display:none}.progress{position:relative;width:auto;margin-bottom:15px}.progress .progress-details{font-size:1em;text-transform:uppercase;font-weight:400;margin-top:10px}.progress .progress-details:before{content:attr(data-value)attr(data-unit);display:block;position:relative;font-size:2em;font-weight:300;clear:both;line-height:1;color:inherit}.progress-tag-default progress{color:#4d4d4d}.progress-tag-default progress::-moz-progress-bar{background:#4d4d4d}.progress-tag-default progress::-webkit-progress-value{background:#4d4d4d}.progress-tag-default progress[aria-valuenow]:after{background:#4d4d4d}.progress-tag-default progress ~ .progress-details:before{color:#4d4d4d}.progress-tag-success progress{color:#26b36a}.progress-tag-success progress::-moz-progress-bar{background:#26b36a}.progress-tag-success progress::-webkit-progress-value{background:#26b36a}.progress-tag-success progress[aria-valuenow]:after{background:#26b36a}.progress-tag-success progress ~ .progress-details:before{color:#26b36a}.progress-tag-warning progress{color:#f93}.progress-tag-warning progress::-moz-progress-bar{background:#f93}.progress-tag-warning progress::-webkit-progress-value{background:#f93}.progress-tag-warning progress[aria-valuenow]:after{background:#f93}.progress-tag-warning progress ~ .progress-details:before{color:#f93}.progress-tag-danger progress{color:#e7302a}.progress-tag-danger progress::-moz-progress-bar{background:#e7302a}.progress-tag-danger progress::-webkit-progress-value{background:#e7302a}.progress-tag-danger progress[aria-valuenow]:after{background:#e7302a}.progress-tag-danger progress ~ .progress-details:before{color:#e7302a}.header-gqa .header-gqa-logo{height:50px;-webkit-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-khtml-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-moz-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-ms-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-o-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96)}.header-gqa .container{position:relative;z-index:1;padding-top:60px;padding-bottom:60px;-webkit-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-khtml-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-moz-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-ms-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-o-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96)}.header-gqa.compressed .header-gqa-logo{height:36px;margin-top:8px;-webkit-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-khtml-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-moz-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-ms-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-o-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96)}.header-gqa.compressed .container{padding-top:25px;padding-bottom:25px;-webkit-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-khtml-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-moz-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-ms-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-o-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96)}.header-gqa.compressed .navbar-bg-gradient{border-bottom:3px solid #d2443f;-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.3);box-shadow:0 1px 2px rgba(0,0,0,0.3)}.header-gqa nav ul{padding:0;margin:0;list-style-type:none;float:right}.header-gqa nav ul li{display:inline-block;text-align:center;-webkit-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-khtml-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-moz-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-ms-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-o-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96)}.header-gqa nav ul li a{color:#FFF;padding:12px 18px;text-decoration:none;font-size:16px;-webkit-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-khtml-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-moz-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-ms-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);-o-transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96);transition:all 0.3s cubic-bezier(0.55, 0.085, 0, 0.96)}.header-gqa nav ul li a:hover{color:white;text-decoration:none}.avatar-menu{padding-top:0 !important;padding-bottom:0 !important}.avatar-menu:hover{cursor:pointer}.avatar-menu>.dropdown>.dropdown-toggle{padding:12px 18px;padding-left:60px !important;display:inline-block;color:white}.avatar-menu>.dropdown>.dropdown-toggle .avatar{display:inline-block;position:absolute;top:3px;left:10px}.avatar-menu>.dropdown>.dropdown-toggle .avatar-name{display:block;float:left;line-height:1.1;font-size:16px;max-width:70px;min-width:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.navbar-bg-img{width:100%;height:280px;position:relative;z-index:1;background-size:cover;background-repeat:no-repeat;background-position:center center;border-bottom:4px solid #e7302a}.navbar-bg-img[data-bg="skyscraper-blur"]{background-image:url(../../img/bg-skyscraper-blur.jpg)}.navbar-bg-img+.main-content-gqa{position:relative;z-index:1;margin-top:-240px}.navbar-bg-gradient{background-color:blue;position:absolute;top:0;bottom:0;left:0;right:0;background-size:cover;background-repeat:no-repeat;background-position:center center;background-image:url(../../img/bg-gradient.jpg);filter:alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";-webkit-opacity:0;-khtml-opacity:0;-moz-opacity:0;-ms-opacity:0;-o-opacity:0;opacity:0}.footer-gqa{color:white;background-color:#4d4d4d}.footer-gqa:before,.footer-gqa:after{content:" ";display:table}.footer-gqa:after{clear:both}.footer-gqa .container{padding-top:15px;padding-bottom:15px}.footer-gqa .footer-gqa-logo{height:50px;float:left}.footer-gqa .footer-gqa-nav{display:block;float:right;margin-bottom:0;margin-top:0}.footer-gqa a,.footer-gqa a:hover,.footer-gqa a:active{color:#e6e6e6}
 /*# sourceMappingURL=global.min.css.map */
+>>>>>>> master:ui/css/modules/global/global.min.css

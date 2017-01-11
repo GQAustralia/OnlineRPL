@@ -128,7 +128,15 @@ author: Jack O'Connor (http://jackocnr.com)
                     that.countryListItems.removeClass("highlight");
                     var activeListItem = that.countryList.children(".active").addClass("highlight");
                     // show it
+                    if($('.country-list.hide').size() < 3){
+                        $('.country-list').addClass('hide');
+                    }
+
                     that.countryList.removeClass("hide");
+                    $('body').addClass('has-country-code'); 
+                    $('#autocomplete').css('z-index', 'auto');
+
+                    
                     that._scrollTo(activeListItem);
                     // listen for typing
                     $(document).bind("keydown.intlTelInput", function(e) {

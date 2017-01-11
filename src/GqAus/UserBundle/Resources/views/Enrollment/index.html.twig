@@ -654,40 +654,31 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div id="UsiEnter" class="collapse usi-download-pdf">  
+                                               <div id="UsiEnter" class="collapse usi-download-pdf">  
                                                     <div class="row">
-                                                        <div class="col-xs-12">
+                                                        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
                                                             <p>Enter your 10-digit Unique Student identifier (if you already have one)</p>
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <input type="text" class="form-control" placeholder="" ng-model="enrollment.employment.usi.usi1" ng-required="enrollment.employment.applyusi == 'No'">
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <input type="text" class="form-control" placeholder="" ng-model="enrollment.employment.usi.usi2" ng-required="enrollment.employment.applyusi == 'No'">
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <input type="text" class="form-control" placeholder="" ng-model="enrollment.employment.usi.usi3" ng-required="enrollment.employment.applyusi == 'No'">
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <input type="text" class="form-control" placeholder="" ng-model="enrollment.employment.usi.usi4" ng-required="enrollment.employment.applyusi == 'No'">
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <input type="text" class="form-control" placeholder="" ng-model="enrollment.employment.usi.usi5" ng-required="enrollment.employment.applyusi == 'No'">
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <input type="text" class="form-control" placeholder="" ng-model="enrollment.employment.usi.usi6" ng-required="enrollment.employment.applyusi == 'No'">
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <input type="text" class="form-control" placeholder="" ng-model="enrollment.employment.usi.usi7" ng-required="enrollment.employment.applyusi == 'No'">
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <input type="text" class="form-control" placeholder="" ng-model="enrollment.employment.usi.usi8" ng-required="enrollment.employment.applyusi == 'No'">
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <input type="text" class="form-control" placeholder="" ng-model="enrollment.employment.usi.usi9" ng-required="enrollment.employment.applyusi == 'No'">
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <input type="text" class="form-control" placeholder="" ng-model="enrollment.employment.usi.usi10" ng-required="enrollment.employment.applyusi == 'No'">
+                                                            <div class="form-group">
+                                                                <label for="firstName" class="control-label">Unique Student Identifier (USI)</label>
+                                                                <div class="usi-input">
+                                                                    <input type="text" class="hidden" id="usiField" ng-model="enrollment.employment.usi" ng-minlength="10" ng-maxlength="10" usi-input ng-required="enrollment.employment.applyusi == 'No'"  readonly/>
+
+                                                                    <!-- USI UI -->
+                                                                    <div class="usi-input-body" id="usiInputBody">
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" autofocus></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1"></i>
+                                                                    </div>
+                                                                    <!-- USI UI -->
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
