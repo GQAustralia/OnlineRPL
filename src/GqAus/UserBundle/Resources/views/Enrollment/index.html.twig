@@ -34,14 +34,14 @@
 
                                 <!-- 1st Page Starts Here -->
                                 <div class="item active" ng-form name="profileForm">
-{#                                    <div ng-bind="profileForm.$error"></div>
-                                    <ul>
-                                        <li ng-repeat="(key, errors) in profileForm.$error track by $index"> <strong>{[{ key }]}</strong> errors
-                                            <ul>
-                                                <li ng-repeat="e in errors">{[{ e.$name }]} has an error: <strong>{[{ key }]}</strong>.</li>
-                                            </ul>
-                                        </li>
-                                    </ul>#}
+                                    {#                                    <div ng-bind="profileForm.$error"></div>
+                                                                        <ul>
+                                                                            <li ng-repeat="(key, errors) in profileForm.$error track by $index"> <strong>{[{ key }]}</strong> errors
+                                                                                <ul>
+                                                                                    <li ng-repeat="e in errors">{[{ e.$name }]} has an error: <strong>{[{ key }]}</strong>.</li>
+                                                                                </ul>
+                                                                            </li>
+                                                                        </ul>#}
                                     <!-- Personal Details Section STARTS here-->
                                     <fieldset>
                                         <h2 class="page-header">Your Personal Details</h2>
@@ -108,10 +108,10 @@
 
                                     <!-- Address Section STARTS Hear-->
                                     <fieldset>
-                                        <h2 class="page-header">Your Address</h2>
 
-                                        <div class="row">
-                                            <div id="mainAddress">
+                                        <div id="mainAddress">
+                                            <h2 class="page-header">Your Address</h2>
+                                            <div class="row">
                                                 <div class="col-xs-12">
                                                     <div class="form-group">
                                                         <small class="text-muted">Type and search for your address and we'll automatically fill the details below. You can modify them manually if you need to.</small>
@@ -151,7 +151,7 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
                                                         <label for="state" class="control-label">State / territory</label>
-                                                        
+
                                                         <select class="form-control" id ="state" name ="state" ng-model="enrollment.profile.address.state" ng-required="true" ng-options="i as i for i in selectState(enrollment.profile.address.country)">
                                                             <option value="">Select State</option>
                                                         </select>
@@ -178,7 +178,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </fieldset>
                                     <!-- Address Section END'S Hear-->
                                     <fieldset>
@@ -256,28 +256,28 @@
                                     <!-- Previous and Next Btn's Ends here-->
                                 </div>
                                 <!-- 1st Page Ends Here -->
- 
+
                                 <!-- 2nd Page Starts Here -->
                                 <div class="item" ng-form name="languageForm">
                                     <!-- Language and cultural diversity Section STARTS here-->
                                     <fieldset>
                                         <h2 class="page-header">Language and cultural diversity</h2>
-                              {#      <div ng-bind="languageForm.$error"></div>
-                                    <ul>
-                                        <li ng-repeat="(key, errors) in languageForm.$error track by $index"> <strong>{[{ key }]}</strong> errors
-                                            <ul>
-                                                <li ng-repeat="e in errors">{[{ e.$name }]} has an error: <strong>{[{ key }]}</strong>.</li>
-                                            </ul>
-                                        </li>
-                                    </ul>#}
+                                        {#      <div ng-bind="languageForm.$error"></div>
+                                              <ul>
+                                                  <li ng-repeat="(key, errors) in languageForm.$error track by $index"> <strong>{[{ key }]}</strong> errors
+                                                      <ul>
+                                                          <li ng-repeat="e in errors">{[{ e.$name }]} has an error: <strong>{[{ key }]}</strong>.</li>
+                                                      </ul>
+                                                  </li>
+                                              </ul>#}
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="country" class="control-label">In which country were you born?</label>
                                                     <select class="form-control" id="country2" name ="country2" ng-model="enrollment.language.country" ng-required="true" ng-options="i as i for i in countries">
-                                                            <option value="">Select Country</option>
-                                                        </select>
-                                                    
+                                                        <option value="">Select Country</option>
+                                                    </select>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -299,59 +299,56 @@
                                                             <input name="language" type="text" class="form-control" ng-model="enrollment.language.speakLanguage" ng-required="enrollment.language.speakOther == 'Yes'">
                                                         </div>
                                                     </div>
-                                                    
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                        <p><label class="clear">How well do you speak English?</label></p>
-                                                        <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Very Well'">
-                                                            <input type="radio" name="speakEnglish"> <span>Very well</span>
-                                                        </label>
-                                                        <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Well'">
-                                                            <input type="radio" name="speakEnglish"> <span>Well</span>
-                                                        </label>
-                                                        <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Not well'">
-                                                            <input type="radio" name="speakEnglish"> <span>Not well</span>
-                                                        </label>
-                                                        <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Not at all'">
-                                                            <input type="radio" name="speakEnglish"> <span>Not at all</span>
-                                                        </label>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                        <p><label class="clear">Are you of Aboriginal or Torres Strait Islander origin?</label></p>
-                                                        <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'No'">
-                                                            <input type="radio" name="aboriginal"> <span>No</span>
-                                                        </label>
-                                                        <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'Yes, Aboriginal'">
-                                                            <input type="radio" name="aboriginal"> <span>Yes, Aboriginal</span>
-                                                        </label>
-                                                        <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'Yes, Torres Strait Islander'">
-                                                            <input type="radio" name="aboriginal"> <span>Yes, Torres Strait Islander</span>
-                                                        </label>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                            <p><label class="clear">How well do you speak English?</label></p>
+                                                            <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Very Well'">
+                                                                <input type="radio" name="speakEnglish"> <span>Very well</span>
+                                                            </label>
+                                                            <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Well'">
+                                                                <input type="radio" name="speakEnglish"> <span>Well</span>
+                                                            </label>
+                                                            <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Not well'">
+                                                                <input type="radio" name="speakEnglish"> <span>Not well</span>
+                                                            </label>
+                                                            <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Not at all'">
+                                                                <input type="radio" name="speakEnglish"> <span>Not at all</span>
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                            <p><label class="clear">Are you of Aboriginal or Torres Strait Islander origin?</label></p>
+                                                            <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'No'">
+                                                                <input type="radio" name="aboriginal"> <span>No</span>
+                                                            </label>
+                                                            <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'Yes, Aboriginal'">
+                                                                <input type="radio" name="aboriginal"> <span>Yes, Aboriginal</span>
+                                                            </label>
+                                                            <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'Yes, Torres Strait Islander'">
+                                                                <input type="radio" name="aboriginal"> <span>Yes, Torres Strait Islander</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </fieldset>
                                     <!-- Langugage and cultural diversity END's Here -->
-                                    
+
                                     <!-- Disability Section STARTS Here-->
                                     <fieldset>
-                                        <div clas="ht">
-                                            <div>
-                                                <h2 class="page-header">Disability</h2>    
-                                            </div>
-                                        </div>
-                                        
+                                        <h2 class="page-header">Disability</h2>
+
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group">
@@ -410,17 +407,17 @@
                                         </div>
                                     </fieldset>
                                     <!-- Disability Section END'S Here-->
-                                    
+
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">
                                         <button type="button" class="btn btn-default" ng-click="formSlideTo(0)"><i class="zmdi zmdi-chevron-left zmdi-hc-lg"></i> Personal Details </button>
-                                        
+
                                         <button type="button" class="btn btn-primary" ng-disabled="languageForm.$invalid" ng-click="languageForm.$valid && proceedNext(1)">NEXT: Schooling and Achievements <i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i> </button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
                                 </div>
                                 <!-- 2nd Page Ends Here -->
-                                
+
                                 <!-- 3rd Page Starts Here -->
                                 <div class="item schooling-achievements" ng-form name="schoolingForm">
 
@@ -448,7 +445,7 @@
                                                     <label for="selectYear" class="control-label">In which YEAR did you complete that school level?</label>
                                                     <select class="form-control" id="selectYear" ng-model="enrollment.schooling.selectYear"  ng-options="n for n in [] | rangefromyear:1960"  ng-required="enrollment.schooling.highest!='Never attended school'">
                                                         <option value="">Select Year</option>
-                                                       
+
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
@@ -466,16 +463,16 @@
                                         </div>
                                     </div>
                                     <!-- Schooling Section Ends here-->
-                                    
+
                                     <!-- Previous qualifications achieved Section STARTS here-->
                                     <fieldset>
                                         <h2 class="page-header">Previous qualifications achieved</h2>
-                                                
+
 
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="form-group">
-                                                    <p class="control-label">Have you SUCCESSFULLY completed any of the following qualifications? If yes, select as many as applicable.</p>
+                                                    <p><label class="control-label" for="bachelor">Have you SUCCESSFULLY completed any of the following qualifications? If yes, select as many as applicable.</label></p>
                                                     <input type="checkbox" name="achievement" value="" id="bachelor" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.bachelor" >
                                                     <label for="bachelor">Bachelor or higher degree</label>
                                                     <input type="checkbox" name="achievement" value="" id="advancedDiploma" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.advancedDiploma">
@@ -499,7 +496,7 @@
                                         </div>
                                     </fieldset>
                                     <!-- Previous qualifications achieved Section Ends here-->
-                                    
+
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">                                        
                                         <button type="button" class="btn btn-default"  ng-click="formSlideTo(1)"><i class="zmdi zmdi-chevron-left zmdi-hc-lg"></i> Language and cultural diversity</button>
@@ -509,7 +506,7 @@
                                     <!-- Previous and Next Btn's Ends here-->
                                 </div>
                                 <!-- 3rd Page Ends Here -->
-                                
+
                                 <!-- 4th Page Starts Here -->
                                 <div class="item employment-usi" ng-form name="employmentForm">
                                     <!-- Employment Section STARTS here-->
@@ -534,7 +531,7 @@
                                         </div>
                                     </fieldset>
                                     <!-- Employment Section Ends here-->
-                                    
+
                                     <!-- Study reason Section STARTS here-->
                                     <fieldset>
                                         <h2 class="page-header">Study reason</h2>
@@ -559,7 +556,7 @@
                                         </div>
                                     </fieldset>
                                     <!-- Study reason Section Ends here-->
-                                    
+
                                     <!-- USI STARTS here-->
                                     <fieldset>
 
@@ -567,9 +564,9 @@
 
                                         <blockquote>
                                             <p>From 1 January 2015, Get Qualified Australia’s partner RTOs can be prevented from issuing nationally recognised VET qualifications or statements of attainment to students if they do not have a <strong>Unique Student Identifier (USI).</strong></p>
-                                            
+
                                             <p><a href="https://www.usi.gov.au/students/create-your-usi"><strong>Reference</strong>: https://www.usi.gov.au/students/create-your-usi&nbsp;&nbsp;<i class="zmdi zmdi-open-in-new zmdi-hc-lg"></i> </a></p>
-                                            
+
                                             <p>To determine if you are required to have a USI, please answer the question below.</p>
                                         </blockquote>
 
@@ -588,9 +585,9 @@
                                                 </div>
                                                 <div id="australiaBaseYes" class="collapse">
                                                     <div class="form-group">
+                                                        <p><label class="clear">Are you an international student undertaking your entire VET course outside Australia (otherwise known as offshore training)?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
-                                                            <p></p>
-                                                            <p><label class="clear">Are you an international student undertaking your entire VET course outside Australia (otherwise known as offshore training)?</label></p>
+                                                            
                                                             <label class="btn btn-default" for="usi" data-collapse="hide" data-sub-target-show="#nextStep" data-target="#StudentIdentifiersRegistrar, #UsiEnter, #UsiCollapseNoRequired, #UsiEnter, #UsiDownloadPDF, #UsiNextStep, #UsiEnter" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 'Yes'" uib-btn-radio="'Yes'">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
@@ -609,8 +606,9 @@
 
                                                 <div id="StudentIdentifiersRegistrar" class="collapse">
                                                     <div class="form-group">
+                                                        <p><label class="clear">Have you applied for and obtained an individual exemption from the Student Identifiers Registrar in being assigned a USI?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
-                                                            <p><label class="clear">Have you applied for and obtained an individual exemption from the Student Identifiers Registrar in being assigned a USI?</label></p>
+                                                            
                                                             <label class="btn btn-default" for="gender" data-sub-target-show="#UsiNextStep" data-collapse="hide" data-target="#UsiCollapseNoRequired, #UsiEnter, #UsiDownloadPDF" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == 'No'" uib-btn-radio="'Yes'">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
@@ -635,8 +633,9 @@
                                                         <p>
                                                             <strong>Alternatively, our partner RTO can apply for a USI on your behalf.</strong> To do this, you must authorise Get Qualified Australia to do this and declare that you have read the privacy information at <a href="http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx." target="_blank">http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx.</a>  Additionally, you need to download and submit to us a form that requires your signature. 
                                                         </p>
+                                                        <p><label class="clear">Would you like for us to apply for your USI on your behalf?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
-                                                            <p><label class="clear">Would you like for us to apply for your USI on your behalf?</label></p>
+                                                            
                                                             <label class="btn btn-default" data-collapse="show" data-target="#UsiDownloadPDF" data-sub-target-hide="#UsiEnter" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == 'No'" uib-btn-radio="'Yes'">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
@@ -654,7 +653,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                               <div id="UsiEnter" class="collapse usi-download-pdf">  
+                                                <div id="UsiEnter" class="collapse usi-download-pdf">  
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
                                                             <p>Enter your 10-digit Unique Student identifier (if you already have one)</p>
@@ -687,7 +686,7 @@
                                         </div>
                                     </fieldset>
                                     <!-- USI Ends here-->
-                                    
+
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">
                                         <button type="button" class="btn btn-default" ng-click="formSlideTo(2)"><i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> Schooling and Achievements</button>
@@ -695,15 +694,15 @@
                                         <button type="button" class="btn btn-primary"  ng-disabled="employmentForm.$invalid" ng-click="employmentForm.$valid && proceedNext(3)">Upload ID Files <i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> </button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
-                                    
+
                                 </div>
                                 <!-- 4th Page Ends Here -->
-                                
+
                                 <!-- 5th Page Starts Here -->
                                 <div class="item upload-id">
                                     <fieldset>
                                         <h2 class="page-header">Upload ID Files</h2>
-                            
+
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="form-group">
@@ -714,7 +713,7 @@
                                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadIdFiles"><i class="zmdi zmdi-plus-square"></i> Upload your first ID now</button>
                                                         <!--input type="file" multiple-->
                                                     </section>
-                                                    
+
                                                     <section class="consolidated-id-files clearfix"  ng-hide="evidenceFirst">
                                                         <div class="progress-header">
                                                             <div class="row">
@@ -749,7 +748,7 @@
                                                             </div>
                                                         </div>
                                                     </section>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -772,8 +771,8 @@
             <!-- Put content here -->
         </div>
     </main>
- <!-- Upload ID Files Modal Popup Start -->
-    
+    <!-- Upload ID Files Modal Popup Start -->
+
     <div id="uploadIdFiles" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -795,7 +794,7 @@
                             <option value="">40 pts - Austrilan Citizenship Certificate</option>
                         </optgroup>
                     </select>
-                    
+
                     <h2 class="page-header">Upload file</h2>
                     <div class="upload-id-files">
                         <p style="position:relative;z-index: 100">
@@ -813,7 +812,7 @@
                             </li>
                         </ul>
                     </div-->
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
@@ -822,7 +821,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Upload ID Files Modal Popup End -->
 
 {% endblock %}
@@ -840,7 +839,7 @@
     <!-- Bootstrap Datepicker -->
     <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/bootstrap-datetimepicker.js') }}"></script>
-    
+
     <!-- places library for maps api -->
 
     <script src="{{ asset('public/ui/js/angular.min.js') }}"></script>
@@ -849,5 +848,5 @@
     <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
 
     <script src="{{ asset('public/js/enrollment.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete" async defer></script>
 {% endblock %}
