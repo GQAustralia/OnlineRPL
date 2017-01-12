@@ -6,7 +6,8 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <!-- widget div-->
-                    <form id="formWizard" novalidate="novalidate">
+                    <span ng-if="IsLoaded === false"> Loading .. </span>
+                    <form id="formWizard" novalidate="novalidate" ng-if="IsLoaded">
                         <div id="formWizardCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
                             <div class="wizard-steps clearfix" id="wizardSteps">
                                 <div class="form-bootstrap-wizard">
@@ -69,11 +70,11 @@
                                                 <div class="form-group">
                                                     <label class="control-label">Gender</label> <br>
                                                     <div class="btn-group  btn-group-sm" data-toggle="buttons">
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'Male'">
+                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'male'">
                                                             <input type="radio" name="gender" > <span>Male</span> </label>
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'Female'">
+                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'female'">
                                                             <input type="radio" name="gender"> <span>Female</span> </label>
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'Others'">
+                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'others'">
                                                             <input type="radio" name="gender"> <span>Others</span> </label>
                                                     </div>
                                                 </div>

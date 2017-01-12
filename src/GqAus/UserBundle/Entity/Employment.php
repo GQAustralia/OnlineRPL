@@ -28,7 +28,7 @@ class Employment
     /**
      * @var string
      */
-    private $studyReason;
+    private $studyreason;
     
 
     /**

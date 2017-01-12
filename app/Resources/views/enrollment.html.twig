@@ -45,6 +45,7 @@
             var base_url = "{{ base_url }}";
             var amazon_link = "{{ amazon_link }}";
             var upload_path = "{{ asset('public/uploads/')}}";
+            var or_user_id = "{{ app.security.getToken().getUser().getId()}}";
         </script>    
 
 </head>

@@ -99,37 +99,12 @@ class EnrollmentController extends Controller
      * @param type $userId
      * return $array
      */
-    public function getProEnrollAction($userId){
-        $response = $this->get('UserService')->getProEnroll($userId);
-        echo json_encode($response);
-        exit;
-    }
-    /**
-     * 
-     * @param type $userId
-     * return jsonarray
-     */
-    public function getLangEnrollAction($userId){
-        $response = $this->get('UserService')->getLangEnroll($userId);
-        echo json_encode($response);
-        exit;
-    }
-    /**
-     * @param type $userId
-     * return jsonarray* 
-     */
-    public function getSchEnrollAction($userId){
-        $response = $this->get('UserService')->getSchEnroll($userId);
-        echo json_encode($response);
-        exit;
-    }
-    /**
-     * @param type $userId
-     * return jsonarray 
-     */
-    public function getEmpEnrollAction($userId){
-        $response = $this->get('UserService')->getEmpEnroll($userId);
-        echo json_encode($response);
-        exit;
+    public function getEnrollAction($userId){
+        $enrollment = [];
+        $enrollment['profile'] = $this->get('UserService')->getProEnroll($userId);
+        $enrollment['language'] = $this->get('UserService')->getLangEnroll($userId);
+        $enrollment['schooling'] = $this->get('UserService')->getSchEnroll($userId);
+        $enrollment['employment'] = $this->get('UserService')->getEmpEnroll($userId);
+        return new JsonResponse($enrollment);
     }
 }

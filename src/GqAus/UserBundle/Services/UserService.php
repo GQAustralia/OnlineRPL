@@ -4990,7 +4990,7 @@ class UserService
         $profile['workTelNumber']  = $userObj->getContactPhone();
         $profile['mobileNumber']  = $userObj->getCeophone();
         $profile['email']  = $userObj->getEmail();
-        $profile['address']['street_number'] = $userObj->getAddress();
+        $profile['address']['street_number'] = $userObj->getAddress()->getAddress();
         $profile['address']['unitDetails'] = $userObj->getAddress()->getArea();
         $profile['address']['locality'] = $userObj->getAddress()->getSuburb();
         $profile['address']['country'] = $userObj->getAddress()->getCountry();
@@ -5009,7 +5009,7 @@ class UserService
         $profile['postal']['propertyName'] = $userObj->getAddress()->getPostalBuildingName();
         $profile['postal']['route'] = $userObj->getAddress()->getPostalCity();
        
-       return $response = array('profile' =>$profile);
+       return $profile;
     }
     /**
      * 
@@ -5017,17 +5017,20 @@ class UserService
      * @return type
      */
     public function getLangEnroll($userId){
-        $language = array();
+    $language = array();
         $lanDiversity = $this->em->getRepository('GqAusUserBundle:LanguageDiversity')->findBy(array('user' => $userId));
-        $language['country'] = $lanDiversity->getBornCountry();
-        $language['speakOther'] =        $lanDiversity->getSpeakothEng();
-        $language['speakLanguage'] = $lanDiversity->getSpecothEng();
-        $language['speakEnglish'] = $lanDiversity->getRateLevelEng();
-        $language['aboriginal'] = $lanDiversity->getRelatedOrigin();
-        $language['disability'] = $lanDiversity->getDisability();
-        $userDisability = $this->em->getRepository('GqAusUserBundle:UserDisability')->findBy(array('user' => $userId));
-        $language['disaElements']['disability'] = $userDisability->getDisability();
-        return $response = array('language' => $language);
+        if (!empty($lanDiversity)) {
+            $language['country'] = $lanDiversity->getBornCountry();
+            $language['speakOther'] = $lanDiversity->getSpeakothEng();
+            $language['speakLanguage'] = $lanDiversity->getSpecothEng();
+            $language['speakEnglish'] = $lanDiversity->getRateLevelEng();
+            $language['aboriginal'] = $lanDiversity->getRelatedOrigin();
+            $language['disability'] = $lanDiversity->getDisability();
+            $userDisability = $this->em->getRepository('GqAusUserBundle:UserDisability')->findBy(array('user' => $userId));
+            $language['disaElements']['disability'] = $userDisability->getDisability();
+        }
+
+        return $language;
     }
     /**
      * 
@@ -5037,12 +5040,14 @@ class UserService
     public function getSchEnroll($userId){
         $schooling = array();
         $schoolingArr = $this->em->getRepository('GqAusUserBundle:Schooling')->findBy(array('user' => $userId));
-        $schooling['highest'] = $schoolingArr->getHighCompSchLevel();
-        $schooling['selectYear'] = $schoolingArr->getWhichYear();
-        $schooling['stillseconday'] = $schoolingArr->getSecSchoolLevel();
-        $prevQualsObj = $this->em->getRepository('GqAusUserBundle:UserPrevQualifications')->findBy(array('user' => $userId));
-        $schooling['qualEmnts']['prevQuals'] = $prevQualsObj->getPrevQuals();
-        return $response = array('schooling' => $schooling);
+        if(!empty($schoolingArr)) {
+            $schooling['highest'] = $schoolingArr->getHighCompSchLevel();
+            $schooling['selectYear'] = $schoolingArr->getWhichYear();
+            $schooling['stillseconday'] = $schoolingArr->getSecSchoolLevel();
+            $prevQualsObj = $this->em->getRepository('GqAusUserBundle:UserPrevQualifications')->findBy(array('user' => $userId));
+            $schooling['qualEmnts']['prevQuals'] = $prevQualsObj->getPrevQuals();
+        }
+        return $schooling;
     }
    /**
     * 
@@ -5052,15 +5057,17 @@ class UserService
     public function getEmpEnroll($userId){
         $employment = array();
         $employmentArr = $this->em->getRepository('GqAusUserBundle:Employment')->findBy(array('user' => $userId));
-        $employment['category'] = $employmentArr->getCurEmpStatus();
-        $employment['studyreason'] = $employmentArr->getStudyReason();
-        $userObj = $this->getUserInfo($userId); 
-        $employment['basedinaustralia'] = $userObj->getCurinAustralia();
-        $employment['internationalstudent'] = $userObj->getInterStudentVET();
-        $employment['haveusi'] = $userObj->getExemptionSir();
-        $employment['applyusi'] = $userObj->getLikeApplyUSI();
-        $employment['usi'] = $userObj->getUniversalStudentIdentifier();
+        if(!empty($employmentArr)) {
+           $employment['category'] = $employmentArr->getCurEmpStatus();
+            $employment['studyreason'] = $employmentArr->getStudyReason();
+            $userObj = $this->getUserInfo($userId); 
+            $employment['basedinaustralia'] = $userObj->getCurinAustralia();
+            $employment['internationalstudent'] = $userObj->getInterStudentVET();
+            $employment['haveusi'] = $userObj->getExemptionSir();
+            $employment['applyusi'] = $userObj->getLikeApplyUSI();
+            $employment['usi'] = $userObj->getUniversalStudentIdentifier(); 
+        }
         
-        return $response = array('employment' => $employment);
+        return $employment;
     }
 }

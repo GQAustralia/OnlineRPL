@@ -7,6 +7,7 @@ gqAus.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
 gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
+    $scope.IsLoaded = false;
     $scope.countries = $window.country_arr;
     $scope.AllStates = $window.s_a;
     $scope.states = [];
@@ -92,7 +93,21 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
             console.log(error);
         });
     };
-    
+    $scope.getEnrollment = function () {
+        var req = {
+            method: 'GET',
+            url: $window.base_url+"getEnroll/"+$window.or_user_id,
+            headers: {
+                'Content-Type': "application/json"
+            }
+        };
+        $http(req).then(function(e) {
+            $scope.enrollment = angular.merge($scope.enrollment, e.data);
+            $scope.IsLoaded = true;
+        }, function(error) {
+            console.log(error);
+        });
+    };
      $scope.$watch('enrollment.language.disabilityAreas', function(items){
         var selectedItems = 0;
         angular.forEach(items, function(item){
@@ -214,8 +229,9 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
 
             $scope.$apply();
 
-        }
-    }
+        };
+    };
+    $scope.getEnrollment();
 });
 
 gqAus.directive('datePicker', function () {
