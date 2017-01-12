@@ -340,3 +340,15 @@ saveSchEnroll:
 saveEmpEnroll:
     path:     /saveEmpEnroll
     defaults: {_controller: GqAusUserBundle:Enrollment:saveEmpEnroll}
+getProEnroll:
+    path:     /getProEnroll/{userId}
+    defaults: {_controller: GqAusUserBundle:Enrollment:getProEnroll}
+getLangEnroll:
+    path:     /getLangEnroll/{userId}
+    defaults: {_controller: GqAusUserBundle:Enrollment:getLangEnroll}
+getSchEnroll:
+    path:     /getSchEnroll/{userId}
+    defaults: {_controller: GqAusUserBundle:Enrollment:getSchEnroll}
+getEmpEnroll:
+    path:     /getEmpEnroll/{userId}
+    defaults: {_controller: GqAusUserBundle:Enrollment:getEmpEnroll}

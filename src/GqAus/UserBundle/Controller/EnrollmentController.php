@@ -94,4 +94,42 @@ class EnrollmentController extends Controller
             return new JsonResponse(array( 'data' => $op ));
         } 
     }
+    /**
+     * 
+     * @param type $userId
+     * return $array
+     */
+    public function getProEnrollAction($userId){
+        $response = $this->get('UserService')->getProEnroll($userId);
+        echo json_encode($response);
+        exit;
+    }
+    /**
+     * 
+     * @param type $userId
+     * return jsonarray
+     */
+    public function getLangEnrollAction($userId){
+        $response = $this->get('UserService')->getLangEnroll($userId);
+        echo json_encode($response);
+        exit;
+    }
+    /**
+     * @param type $userId
+     * return jsonarray* 
+     */
+    public function getSchEnrollAction($userId){
+        $response = $this->get('UserService')->getSchEnroll($userId);
+        echo json_encode($response);
+        exit;
+    }
+    /**
+     * @param type $userId
+     * return jsonarray 
+     */
+    public function getEmpEnrollAction($userId){
+        $response = $this->get('UserService')->getEmpEnroll($userId);
+        echo json_encode($response);
+        exit;
+    }
 }

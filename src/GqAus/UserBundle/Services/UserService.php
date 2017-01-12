@@ -362,7 +362,7 @@ class UserService
      * return array
      */
     public function getUserInfo($userId)
-    {
+    { 
         return $this->repository->findOneById($userId);
     }
 
@@ -4842,6 +4842,8 @@ class UserService
      * @return type
      */
     public function updateProEnroll($userId, $params){
+        
+        $user = $this->getUserInfo($userId);
         $userObj =  $this->repository->findOneById($userId);
         $userObj->setFirstName(isset($params['data']['firstName']) ? $params['data']['firstName'] : '');
         $userObj->setLastName(isset($params['data']['lastName']) ? $params['data']['lastName'] : '');
@@ -4888,11 +4890,10 @@ class UserService
      * return object
      */
     public function updateLangEnroll($userId, $params){
-        $userObj =  $this->repository->findOneById($userId);
-//        $userObj = $this->repository->findOneBy(array('id' => $userId));
-        echo '<pre>';
-        print_r($userObj);
-        exit;
+        $userObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('user' => $userId));
+//        echo '<pre>';
+//        print_r($userObj);
+//        exit;
         $lanDiversity = new LanguageDiversity();
         $lanDiversity->setUser($userObj);
         $lanDiversity->setBornCountry(isset($params['data']['country']) ? $params['data']['country'] : '');
@@ -4972,5 +4973,94 @@ class UserService
         $this->em->flush();
         
         return $userObj;
+    }
+    /**
+     * 
+     * @param type $userId
+     * @return type
+     */
+    public function getProEnroll($userId){
+        $userObj = $this->getUserInfo($userId); 
+        $profile = [];
+        $profile['firstName']    = $userObj->getFirstName();
+        $profile['lastName']  = $userObj->getLastName();
+        $profile['gender']    = $userObj->getGender();
+        $profile['birthday']    = $userObj->getDateOfBirth();
+        $profile['homeTelNumber']  =  $userObj->getPhone();
+        $profile['workTelNumber']  = $userObj->getContactPhone();
+        $profile['mobileNumber']  = $userObj->getCeophone();
+        $profile['email']  = $userObj->getEmail();
+        $profile['address']['street_number'] = $userObj->getAddress();
+        $profile['address']['unitDetails'] = $userObj->getAddress()->getArea();
+        $profile['address']['locality'] = $userObj->getAddress()->getSuburb();
+        $profile['address']['country'] = $userObj->getAddress()->getCountry();
+        $profile['address']['postal_code'] = $userObj->getAddress()->getPincode();
+        $profile['address']['state'] = $userObj->getAddress()->getState();
+        $profile['address']['propertyName'] = $userObj->getAddress()->getBuildingName();
+        $profile['address']['route'] = $userObj->getAddress()->getCity();
+
+        $profile['postalAddress'] = $userObj->getAddress()->getPostal();
+        $profile['postal']['street_number'] = $userObj->getAddress()->getPostalAddress();
+        $profile['postal']['unitDetails'] = $userObj->getAddress()->getPostalArea();
+        $profile['postal']['locality'] = $userObj->getAddress()->getPostalSuburb();
+        $profile['postal']['country'] = $userObj->getAddress()->getPostalCountry();
+        $profile['postal']['postal_code'] = $userObj->getAddress()->getPostalPincode();
+        $profile['postal']['state'] = $userObj->getAddress()->getPostalState();
+        $profile['postal']['propertyName'] = $userObj->getAddress()->getPostalBuildingName();
+        $profile['postal']['route'] = $userObj->getAddress()->getPostalCity();
+       
+       return $response = array('profile' =>$profile);
+    }
+    /**
+     * 
+     * @param type $userId
+     * @return type
+     */
+    public function getLangEnroll($userId){
+        $language = array();
+        $lanDiversity = $this->em->getRepository('GqAusUserBundle:LanguageDiversity')->findBy(array('user' => $userId));
+        $language['country'] = $lanDiversity->getBornCountry();
+        $language['speakOther'] =        $lanDiversity->getSpeakothEng();
+        $language['speakLanguage'] = $lanDiversity->getSpecothEng();
+        $language['speakEnglish'] = $lanDiversity->getRateLevelEng();
+        $language['aboriginal'] = $lanDiversity->getRelatedOrigin();
+        $language['disability'] = $lanDiversity->getDisability();
+        $userDisability = $this->em->getRepository('GqAusUserBundle:UserDisability')->findBy(array('user' => $userId));
+        $language['disaElements']['disability'] = $userDisability->getDisability();
+        return $response = array('language' => $language);
+    }
+    /**
+     * 
+     * @param \GqAus\UserBundle\Services\type $userId
+     * @return type
+     */
+    public function getSchEnroll($userId){
+        $schooling = array();
+        $schoolingArr = $this->em->getRepository('GqAusUserBundle:Schooling')->findBy(array('user' => $userId));
+        $schooling['highest'] = $schoolingArr->getHighCompSchLevel();
+        $schooling['selectYear'] = $schoolingArr->getWhichYear();
+        $schooling['stillseconday'] = $schoolingArr->getSecSchoolLevel();
+        $prevQualsObj = $this->em->getRepository('GqAusUserBundle:UserPrevQualifications')->findBy(array('user' => $userId));
+        $schooling['qualEmnts']['prevQuals'] = $prevQualsObj->getPrevQuals();
+        return $response = array('schooling' => $schooling);
+    }
+   /**
+    * 
+    * @param type $userId
+    * @return type
+    */
+    public function getEmpEnroll($userId){
+        $employment = array();
+        $employmentArr = $this->em->getRepository('GqAusUserBundle:Employment')->findBy(array('user' => $userId));
+        $employment['category'] = $employmentArr->getCurEmpStatus();
+        $employment['studyreason'] = $employmentArr->getStudyReason();
+        $userObj = $this->getUserInfo($userId); 
+        $employment['basedinaustralia'] = $userObj->getCurinAustralia();
+        $employment['internationalstudent'] = $userObj->getInterStudentVET();
+        $employment['haveusi'] = $userObj->getExemptionSir();
+        $employment['applyusi'] = $userObj->getLikeApplyUSI();
+        $employment['usi'] = $userObj->getUniversalStudentIdentifier();
+        
+        return $response = array('employment' => $employment);
     }
 }
