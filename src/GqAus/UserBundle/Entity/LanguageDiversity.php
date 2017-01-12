@@ -201,7 +201,7 @@ class LanguageDiversity
      * Set user
      *
      * @param \GqAus\UserBundle\Entity\User $user
-     * @return user
+     * @return User
      */
     public function setUser(\GqAus\UserBundle\Entity\User $user = null)
     {

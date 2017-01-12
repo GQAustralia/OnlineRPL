@@ -1250,4 +1250,45 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->applyForyourusi;
     }
+    
+//    /**
+//     * @var \GqAus\UserBundle\Entity\LanguageDiversity
+//     */
+//    private $langDiversity;
+//
+//    /**
+//     * Set langDiversity
+//     *
+//     * @param \GqAus\UserBundle\Entity\LanguageDiversity $langDiversity
+//     * @return User
+//     */
+//    public function setLangDiversity(\GqAus\UserBundle\Entity\LanguageDiversity $langDiversity = null)
+//    {
+//        $this->langDiversity = $langDiversity;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get langDiversity
+//     *
+//     * @return \GqAus\UserBundle\Entity\LanguageDiversity 
+//     */
+//    public function getLangDiversity()
+//    {
+//        return $this->langDiversity;
+//    }
+//     /**
+//     * Add langDiversity
+//     *
+//     * @param \GqAus\UserBundle\Entity\LanguageDiversity $langDiversity
+//     * @return User
+//     */
+//    public function addLangDiversity(\GqAus\UserBundle\Entity\LanguageDiversity $langDiversity)
+//    {
+//        $this->langDiversity = $langDiversity;
+//
+//        return $this;
+//    }
+    
 }

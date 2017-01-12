@@ -71,5 +71,6 @@
         <one-to-many field="otherfiles" target-entity="GqAus\UserBundle\Entity\OtherFiles" mapped-by="assessor" />
         <one-to-many field="inboxMessages" target-entity="GqAus\UserBundle\Entity\Message" mapped-by="inbox" />        
         <one-to-many field="sentMessages" target-entity="GqAus\UserBundle\Entity\Message" mapped-by="sent" />
+        <!-- <one-to-one field="langDiversity" target-entity="GqAus\UserBundle\Entity\LanguageDiversity" mapped-by="user" /> -->
     </entity>
 </doctrine-mapping>

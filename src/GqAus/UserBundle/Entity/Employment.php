@@ -23,12 +23,12 @@ class Employment
     /**
      * @var string
      */
-    private $curEmpStatus;
+    private $curempstatus;
     
     /**
      * @var string
      */
-    private $studyReason;
+    private $studyreason;
     
 
     /**
@@ -65,48 +65,48 @@ class Employment
     }
     
     /**
-     * Set curEmpStatus
+     * Set curempstatus
      *
-     * @param string $curEmpStatus
-     * @return curEmpStatus
+     * @param string $curempstatus
+     * @return $curempstatus
      */
-    public function setCurEmpStatus($curEmpStatus)
+    public function setCurEmpStatus($curempstatus)
     {
-        $this->curEmpStatus = $curEmpStatus;
+        $this->$curempstatus = $curempstatus;
 
         return $this;
     }
 
     /**
-     * Get curEmpStatus
+     * Get curempstatus
      *
      * @return string 
      */
     public function getCurEmpStatus()
     {
-        return $this->curEmpStatus;
+        return $this->curempstatus;
     }
     
    /**
-     * Set studyReason
+     * Set studyreason
      *
-     * @param string $studyReason
-     * @return studyReason
+     * @param string $studyreason
+     * @return string
      */
-    public function setStudyReason($studyReason)
+    public function setStudyReason($studyreason)
     {
-        $this->studyReason = $studyReason;
+        $this->studyreason = $studyreason;
 
         return $this;
     }
 
     /**
-     * Get studyReason
+     * Get studyreason
      *
      * @return string 
      */
     public function getStudyReason()
     {
-        return $this->studyReason;
+        return $this->studyreason;
     }
 }

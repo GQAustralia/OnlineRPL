@@ -23,20 +23,88 @@ class EnrollmentController extends Controller
      * 
      * @param \GqAus\UserBundle\Controller\Request $request
      */
-    public function saveEnrollmentAction(Request $request)
+    public function saveProEnrollAction(Request $request)
     {
-//        $userId ='59';
-        $userId =  $this->get('security.context')->getToken()->getUser()->getId();
-        if ($request->isMethod('POST')) {      
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        if ($request->isMethod('POST')) {
             $params = array();
             $content = $this->get("request")->getContent();
             if (!empty($content))
             {
                 $params = json_decode($content, true); // 2nd param to get as array
             }
-            $op = $this->get('UserService')->updateUserProfile($userId, $params);
+            $op = $this->get('UserService')->updateProEnroll($userId, $params);
             return new JsonResponse(array( 'data' => $op ));
-        }
+        }        
     }
-
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function saveLangEnrollAction(Request $request)
+    {
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+            }
+            $op = $this->get('UserService')->updateLangEnroll($userId, $params);
+            return new JsonResponse(array( 'data' => $op ));
+        } 
+    }
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function saveSchEnrollAction(Request $request)
+    {
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+            }
+            $op = $this->get('UserService')->updateSchEnroll($userId, $params);
+            return new JsonResponse(array( 'data' => $op ));
+        } 
+    }
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function saveEmpEnrollAction(Request $request)
+    {
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+            }
+            $op = $this->get('UserService')->updateEmpEnroll($userId, $params);
+            return new JsonResponse(array( 'data' => $op ));
+        } 
+    }
+    /**
+     * 
+     * @param type $userId
+     * return $array
+     */
+    public function getEnrollAction($userId){
+        $enrollment = [];
+        $enrollment['profile'] = $this->get('UserService')->getProEnroll($userId);
+        $enrollment['language'] = $this->get('UserService')->getLangEnroll($userId);
+        $enrollment['schooling'] = $this->get('UserService')->getSchEnroll($userId);
+        $enrollment['employment'] = $this->get('UserService')->getEmpEnroll($userId);
+        return new JsonResponse($enrollment);
+    }
 }
