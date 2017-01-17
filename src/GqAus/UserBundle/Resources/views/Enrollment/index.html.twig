@@ -174,7 +174,7 @@
                                                 </div>
                                                 <div class="col-xs-12">
                                                     <div class="form-group">
-                                                        <input type="checkbox" checked value="1" id="postalAddress" ng-true-value="true" ng-false-value="false" name="postalAddress" ng-model="enrollment.profile.postalAddress" data-toggle="collapse" data-target="#postalAddressForm" class="custom-input"><label for="postalAddress"> My Postal Address is same as above</label>
+                                                        <input type="checkbox" checked value="1" id="postalAddress" ng-true-value="1" ng-false-value="0" name="postalAddress" ng-model="enrollment.profile.postalAddress" class="custom-input"><label for="postalAddress"> My Postal Address is same as above</label>
                                                     </div>                                                
                                                 </div>
                                             </div>
@@ -183,7 +183,7 @@
                                     </fieldset>
                                     <!-- Address Section END'S Hear-->
                                     <fieldset>
-                                        <div id="postalAddressForm" class="collapse">
+                                        <div id="postalAddressForm" ng-if="enrollment.profile.postalAddress === 0">
                                             <h2 class="page-header">Your Postal Address</h2>
                                             <div class="row">
 
@@ -287,17 +287,17 @@
                                                 <div class="form-group">
                                                     <div class="btn-group btn-group-sm" data-toggle="buttons">
                                                         <p><label>Do you speak a language other than English at home?</label></p>
-                                                        <label class="btn btn-default" for="langauge" data-collapse="hide" data-target="#LanguageSpoken" ng-model="enrollment.language.speakOther" ng-required="true" uib-btn-radio="'No'">
+                                                        <label class="btn btn-default" for="langauge" data-collapse="hide" data-target="#LanguageSpoken" ng-model="enrollment.language.speakOther" ng-required="true" uib-btn-radio="0">
                                                             <input type="radio" name="langauge">
                                                             <span>No, English only</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="langauge" data-collapse="show" data-target="#LanguageSpoken" ng-model="enrollment.language.speakOther" ng-required="true" uib-btn-radio="'Yes'">
+                                                        <label class="btn btn-default" for="langauge" ng-model="enrollment.language.speakOther" ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="langauge">
                                                             <span>Yes, Please specify</span>
                                                         </label>
 
-                                                        <div id="LanguageSpoken" class="collapse">
-                                                            <input name="language" type="text" class="form-control" ng-model="enrollment.language.speakLanguage" ng-required="enrollment.language.speakOther == 'Yes'">
+                                                        <div id="LanguageSpoken" ng-if="enrollment.language.speakOther == 1">
+                                                            <input name="language" type="text" class="form-control" ng-model="enrollment.language.speakLanguage" ng-required="enrollment.language.speakOther == 1">
                                                         </div>
                                                     </div>
 
@@ -355,10 +355,10 @@
                                                 <div class="form-group">
                                                     <div class="btn-group btn-group-sm" data-toggle="buttons">
                                                         <p><label class="clear">Do you consider yourself to have a disability, impairment or long-term condition?</label></p>
-                                                        <label class="btn btn-default" for="disability" data-collapse="show" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="'Yes'">
+                                                        <label class="btn btn-default" for="disability" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="disability"> <span>Yes</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="disability" data-collapse="hide" data-parent="#accordion" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="'No'">
+                                                        <label class="btn btn-default" for="disability" data-parent="#accordion" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="0">
                                                             <input type="radio" name="diabilisty"> <span>No</span>
                                                         </label>
                                                     </div>
@@ -366,39 +366,18 @@
                                             </div>
                                             <!-- Disability Options STARTS Here-->
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div id="DisabilityCollapse" class="panel-collapse collapse">
+                                                <div id="DisabilityCollapse" class="" ng-if="enrollment.language.disability == 0 ">
                                                     <div class="disability-options">
                                                         <p>Please select from the list below the area(s) of disability, impairment or long-term condition (select as many as applicable):</p>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                             <div class="form-group">
-                                                                <input type="checkbox" class="custom-input" name="disability" id="disability_1" ng-model="enrollment.language.disabilityAreas.deaf" ng-true-value="true" ng-false-value="false" ng-required="(enrollment.language.disability == 'Yes') && (disabilityAreasNumber < 1)" >
-                                                                <label for="disability_1"> Hearing / deaf</label>
-
-                                                                <input type="checkbox" class="custom-input" name="disability" id="disability_2" ng-model="enrollment.language.disabilityAreas.brain" ng-true-value="true" ng-false-value="false">
-                                                                <label for="disability_2"> Acquired brain impairment</label>
-
-                                                                <input type="checkbox" class="custom-input" name="disability" id="disability_3" ng-model="enrollment.language.disabilityAreas.physical" ng-true-value="true" ng-false-value="false">
-                                                                <label for="disability_3"> Physical</label>
-
-                                                                <input type="checkbox" class="custom-input" name="disability" id="disability_4" ng-model="enrollment.language.disabilityAreas.vision" ng-true-value="true" ng-false-value="false">
-                                                                <label for="disability_4"> Vision</label>
-
-                                                                <input type="checkbox" class="custom-input" name="disability" id="disability_5" ng-model="enrollment.language.disabilityAreas.intellectual" ng-true-value="true" ng-false-value="false">
-                                                                <label for="disability_5"> Intellectual</label>
-
-                                                                <input type="checkbox" class="custom-input" name="disability" id="disability_6" ng-model="enrollment.language.disabilityAreas.medical" ng-true-value="true" ng-false-value="false">
-                                                                <label for="disability_6"> Medical Condition</label>
-
-                                                                <input type="checkbox" class="custom-input" name="disability" id="disability_7" ng-model="enrollment.language.disabilityAreas.learning" ng-true-value="true" ng-false-value="false">
-                                                                <label for="disability_7"> Learning</label>
-
-                                                                <input type="checkbox" class="custom-input" name="disability" id="disability_8" ng-model="enrollment.language.disabilityAreas.other" ng-true-value="true" ng-false-value="false">
-                                                                <label for="disability_8"> Other</label>
-
-                                                                <input type="checkbox" class="custom-input" name="disability" id="disability_9" ng-model="enrollment.language.disabilityAreas.mental" ng-true-value="true" ng-false-value="false">
-                                                                <label for="disability_9"> Mental Illness</label>
+                                                                <span  ng-repeat="(key, value) in disabilityElement">
+                                                                    <input type="checkbox" class="custom-input" name="disability_{[{value.id}]}" id="disability_{[{key}]}" ng-model="enrollment.language.disabilityAreas[value.id]" ng-true-value="true" ng-false-value="false" ng-required="(enrollment.language.disability == 'Yes') && (disabilityAreasNumber < 1)" >
+                                                                    <label for="disability_{[{key}]}"> {[{value.type}]}</label>
+                                                                </span>
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>
@@ -474,24 +453,11 @@
                                             <div class="col-xs-12">
                                                 <div class="form-group">
                                                     <p><label class="control-label" for="bachelor">Have you SUCCESSFULLY completed any of the following qualifications? If yes, select as many as applicable.</label></p>
-                                                    <input type="checkbox" name="achievement" value="" id="bachelor" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.bachelor" >
-                                                    <label for="bachelor">Bachelor or higher degree</label>
-                                                    <input type="checkbox" name="achievement" value="" id="advancedDiploma" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.advancedDiploma">
-                                                    <label for="advancedDiploma">Advanced diploma or associate degree</label>
-                                                    <input type="checkbox" name="achievement" value="" id="diploma" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.diploma">
-                                                    <label for="diploma">Diploma (or associate diploma)</label>
-                                                    <input type="checkbox" name="achievement" value="" id="technician" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.technician">
-                                                    <label for="technician">Certificate IV (or advanced certificate / technician)</label>
-                                                    <input type="checkbox" name="achievement" value="" id="trade" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.trade">
-                                                    <label for="trade">Certificate III (or trade certificate)</label>
-                                                    <input type="checkbox" name="achievement" value="" id="certificateII" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.certificateII">
-                                                    <label for="certificateII">Certificate II</label>
-                                                    <input type="checkbox" name="achievement" value="" id="certificateI" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.certificateI">
-                                                    <label for="certificateI">Certificate I</label>
-                                                    <input type="checkbox" name="achievement" value="" id="otherCertificate" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.otherCertificate">
-                                                    <label for="otherCertificate">Certificates other than the above</label>
-                                                    <input type="checkbox" name="achievement" value="" id="noQualification" class="custom-input" ng-true-value="true" ng-false-value="false" ng-model="enrollment.schooling.qualifications.noQualification">
-                                                    <label for="noQualification">No, I have not completed any qualifications</label>
+                                                    <span  ng-repeat="(key, value) in previousQualification">
+                                                                    <input type="checkbox" class="custom-input" name="achievement_{[{value.id}]}" id="achievement_{[{key}]}" ng-model="enrollment.schooling.qualifications[value.id]" ng-true-value="true" ng-false-value="false" ng-required="(enrollment.language.disability == 'Yes') && (disabilityAreasNumber < 1)" >
+                                                                    <label for="achievement_{[{key}]}"> {[{value.name}]}</label>
+                                                    </span>
+                                                    
                                                 </div>
                                             </div>
                                         </div>

@@ -77,7 +77,7 @@ class Schooling
      */
     public function getWhichYear()
     {
-        return $this->whichYear;
+        return $this->whichyear;
     }
     
     /**

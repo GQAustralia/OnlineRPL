@@ -328,18 +328,12 @@ signOffSheet:
 enrollment:
     path:     /enrollment
     defaults: { _controller: GqAusUserBundle:Enrollment:enrollment }
-saveProEnroll:
-    path:     /saveProEnroll
-    defaults: {_controller: GqAusUserBundle:Enrollment:saveProEnroll}
-saveLangEnroll:
-    path:     /saveLangEnroll
-    defaults: {_controller: GqAusUserBundle:Enrollment:saveLangEnroll}
-saveSchEnroll:
-    path:     /saveSchEnroll
-    defaults: {_controller: GqAusUserBundle:Enrollment:saveSchEnroll}
-saveEmpEnroll:
-    path:     /saveEmpEnroll
-    defaults: {_controller: GqAusUserBundle:Enrollment:saveEmpEnroll}
+saveEnroll:
+    path:     /saveEnroll
+    defaults: {_controller: GqAusUserBundle:Enrollment:saveEnroll}
 getEnroll:
     path:     /getEnroll/{userId}
     defaults: {_controller: GqAusUserBundle:Enrollment:getEnroll}
+getDisabilityAndQualification:
+    path:     /getDisabilityAndQualification
+    defaults: {_controller: GqAusUserBundle:Enrollment:getDisabilityAndQualification}
