@@ -16,6 +16,8 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
     $scope.activeForm = 0;
     $scope.completedForms = [false,false,false,false,false];
     $scope.evidenceFirst = true;
+    $scope.disabilityElement = [];
+    $scope.previousQualification = [];
     $scope.enrollment = {
         profile: {
             firstName: "",
@@ -24,30 +26,14 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
             postal: {}
         },
         language: {
-            disabilityAres: {
-                brain : false,
-                deaf : false,
-                intellectual : false,
-                learning : false,
-                medical : false,
-                mental : false,
-                other : false,
-                physical : false,
-                vision : false
+            disabilityAreas: {
+                
             }
         },
         schooling: {
             highest: "",
             qualifications: {
-                advancedDiploma : false,
-                bachelor : false,
-                certificateI : false,
-                certificateII : false,
-                diploma : false,
-                noQualification : false,
-                otherCertificate : false,
-                technician : false,
-                trade : false
+               
             }
         },
         employment: {
@@ -61,16 +47,29 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         },
         upload: {}
     };
-
+    var req = {
+            method: 'POST',
+            url: $window.base_url+"getDisabilityAndQualification",
+            headers: {
+                'Content-Type': "application/json"
+            }
+        };
+        $http(req).then(function(data) {
+            
+            $scope.disabilityElement = data.data.disability;
+            $scope.previousQualification = data.data.qualification;
+        }, function(error) {
+            console.log(error);
+        });
     $scope.formSlideTo = function (index) {
         var slideFlag = true;
         for(var i=0;i<index;i++) {
             if($scope.completedForms[i] == false) slideFlag = false;     
         }
-//        if(slideFlag === true){ 
+        if(slideFlag === true){ 
             $scope.activeForm = index;
             $("#formWizardCarousel").carousel(i);
-//        }
+        }
     };
     $scope.formSlideTo(0);
     $scope.proceedNext = function (key) {
@@ -80,7 +79,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         $scope.formSlideTo(key+1);
         var req = {
             method: 'POST',
-            url: $window.base_url+"saveLangEnroll",
+            url: $window.base_url+"saveEnroll",
             headers: {
                 'Content-Type': "application/json"
             },
@@ -119,16 +118,8 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         $scope.enrollment.profile.postal = {};
       }, true); 
       $scope.$watch('enrollment.profile.disability', function(items){
-        $scope.enrollment.profile.disabilityAres = {
-                brain : false,
-                deaf : false,
-                intellectual : false,
-                learning : false,
-                medical : false,
-                mental : false,
-                other : false,
-                physical : false,
-                vision : false
+        $scope.enrollment.profile.disabilityAreas = {
+               
             };
       }, true);
       $scope.$watch('enrollment.employment.basedinaustralia', function(items){
@@ -285,7 +276,18 @@ gqAus.directive('ngIntlTelInput', [
                 ngModel: '='
             },
             link: function (scope, elm, attr, ngModelCtrl) {
-                scope.ngModel = '+61 ';
+                scope.ngModel = scope.ngModel || '+61 ';
+                var codes = scope.ngModel.split(" ");
+                var countryCode = codes[0] || '+61';
+//                var country;
+//                 if (intlTelInputUtils === 'undefined')
+//                    console.log('Phone Validation Library not added');
+//                else {
+//                    angular.forEach(values, function(value, key) {
+//                        this.push(key + ': ' + value);
+//                      }, log);
+//
+//                }
                 var initialCountry = attr.initialCountry || 'au';
                 $(elm).intlTelInput({
                     preferredCountries: [initialCountry]
@@ -305,7 +307,7 @@ gqAus.directive('ngIntlTelInput', [
                     scope.$apply();
                     $(elm).change();
                 });
-
+               
             }
         };
     }]);

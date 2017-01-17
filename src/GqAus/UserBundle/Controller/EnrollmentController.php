@@ -23,17 +23,39 @@ class EnrollmentController extends Controller
      * 
      * @param \GqAus\UserBundle\Controller\Request $request
      */
-    public function saveProEnrollAction(Request $request)
+    public function saveEnrollAction(Request $request)
     {
+        //$userId = 59;
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         if ($request->isMethod('POST')) {
             $params = array();
+            $type = "";
             $content = $this->get("request")->getContent();
             if (!empty($content))
             {
                 $params = json_decode($content, true); // 2nd param to get as array
+                $type = $params['type'];
             }
-            $op = $this->get('UserService')->updateProEnroll($userId, $params);
+            switch($type){
+               case 'profile':
+                  $op = $this->get('UserService')->updateProEnroll($userId, $params);
+                   break;
+               case 'language':
+                   $op = $this->get('UserService')->updateLangEnroll($userId, $params);
+                   break;
+               case 'schooling':
+                   $op = $this->get('UserService')->updateSchEnroll($userId, $params);
+                   break;
+               case 'employment':
+                   $op = $this->get('UserService')->updateEmpEnroll($userId, $params);
+                   break;
+               case 'upload':
+                   $op = '';
+                   break;
+               default:
+                   $op = 'No Action Selected';
+            }
+            
             return new JsonResponse(array( 'data' => $op ));
         }        
     }
@@ -45,6 +67,7 @@ class EnrollmentController extends Controller
     public function saveLangEnrollAction(Request $request)
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        //$userId = 52;
         if ($request->isMethod('POST')) {
             $params = array();
             $content = $this->get("request")->getContent();
@@ -105,6 +128,18 @@ class EnrollmentController extends Controller
         $enrollment['language'] = $this->get('UserService')->getLangEnroll($userId);
         $enrollment['schooling'] = $this->get('UserService')->getSchEnroll($userId);
         $enrollment['employment'] = $this->get('UserService')->getEmpEnroll($userId);
+        return new JsonResponse($enrollment);
+    }
+    
+    /**
+     * 
+     * @param type $userId
+     * return $array
+     */
+    public function getDisabilityAndQualificationAction(){
+        $enrollment = [];
+        $enrollment['disability'] = $this->get('UserService')->getDisabilityElements();
+        $enrollment['qualification'] = $this->get('UserService')->getPreviousQualifications();
         return new JsonResponse($enrollment);
     }
 }

@@ -16,6 +16,9 @@ use GqAus\UserBundle\Entity\UserCourses;
 use GqAus\UserBundle\Entity\LanguageDiversity;
 use GqAus\UserBundle\Entity\UserDisability;
 use GqAus\UserBundle\Entity\DisabilityElement;
+use GqAus\UserBundle\Entity\PreviousQualifications;
+use GqAus\UserBundle\Entity\Schooling;
+use GqAus\UserBundle\Entity\UserPrevQualifications;
 
 class UserService
 {
@@ -4890,33 +4893,47 @@ class UserService
      * return object
      */
     public function updateLangEnroll($userId, $params){
-        $userObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('user' => $userId));
-//        echo '<pre>';
-//        print_r($userObj);
-//        exit;
-        $lanDiversity = new LanguageDiversity();
+        $user = $this->getUserInfo($userId);
+        $userObj =  $this->repository->findOneById($userId);
+        
+        $languageDiversityObj = $this->em->getRepository('GqAusUserBundle:LanguageDiversity');
+        $lanDiversity = $languageDiversityObj->findOneByUser($userId);
+        if (empty($lanDiversity)) {
+            $lanDiversity = new LanguageDiversity();
+        }
         $lanDiversity->setUser($userObj);
         $lanDiversity->setBornCountry(isset($params['data']['country']) ? $params['data']['country'] : '');
-        $lanDiversity->setSpeakothEng(isset($params['data']['speakOther']) ? $params['data']['speakOther'] : '');
+        $lanDiversity->setSpeakothEng(isset($params['data']['speakOther']) ? (string)$params['data']['speakOther'] : '');
         $lanDiversity->setSpecothEng(isset($params['data']['speakLanguage']) ? $params['data']['speakLanguage'] : '');
         $lanDiversity->setRateLevelEng(isset($params['data']['speakEnglish']) ? $params['data']['speakEnglish'] : '');
         $lanDiversity->setRelatedOrigin(isset($params['data']['aboriginal']) ? $params['data']['aboriginal'] : '');
-        $lanDiversity->setDisability(isset($params['data']['disability']) ? $params['data']['disability'] : '');
+        $lanDiversity->setDisability(isset($params['data']['disability']) ? (string)$params['data']['disability'] : '');
         $this->em->persist($lanDiversity);
         $this->em->flush();
-        $userId = $lanDiversity->getUser();
-        if(!empty($params['data']['disability'])){
-           $userDisability = $this->em->getRepository('GqAusUserBundle:UserDisability')->findAllBy(array('user' => $userId));
-           $this->em->remove($userDisability);
-           $this->em->flush();
-           foreach($params['data']['disabilityAreas'] as $key=>$value){
-               $disElementObj = $this->em->getRepository('GqAusUserBundle:DisabilityElement')->findBy(array('type' => $key));
-               $disElementObjId = $disElementObj[0]->getId();
-               $userDisability = new UserDisability();
-               $userDisability->setUser($userId);
-               $userDisability->setDisability($disElementObjId);
-               $this->em->persist($userDisability);
-               $this->em->flush();
+        $userId = $lanDiversity->getUser()->getId();
+              
+        if(!empty($params['data']['disabilityAreas'])){
+           $userDisabilities = $this->em->getRepository('GqAusUserBundle:UserDisability')->findBy(array('user' => $userId));
+           foreach($userDisabilities as $userDisability)
+           {
+            $this->em->remove($userDisability);
+            $this->em->flush();
+           }
+           if($lanDiversity->getDisability() == '0')
+           {
+                foreach($params['data']['disabilityAreas'] as $key=>$value){
+                    if($value == true) {
+                         $disElementObj = $this->em->getRepository('GqAusUserBundle:DisabilityElement')->findOneById($key);
+                         if($disElementObj){
+                            $disElementObjId = $disElementObj->getId();
+                            $userDisability = new UserDisability();
+                            $userDisability->setUser($user);
+                            $userDisability->setDisability($disElementObj);
+                            $this->em->persist($userDisability);
+                            $this->em->flush();
+                         }
+                    }
+                }
            }
        }
        return $lanDiversity;
@@ -4929,23 +4946,34 @@ class UserService
      */
     public function updateSchEnroll($userId, $params){
         $userObj =  $this->repository->findOneById($userId);
-        $schooling = new Schooling();
+        $schoolingObj = $this->em->getRepository('GqAusUserBundle:Schooling');
+        $schooling = $schoolingObj->findOneByUser($userId);
+        if (empty($schooling)) {
+            $schooling = new Schooling();
+        } 
         $schooling->setHighCompSchLevel(isset($params['data']['highest']) ? $params['data']['highest'] : '');
         $schooling->setWhichYear(isset($params['data']['selectYear']) ? $params['data']['selectYear'] : '');
         $schooling->setSecSchoolLevel(isset($params['data']['stillseconday']) ? $params['data']['stillseconday'] : '');
         $schooling->setUser($userObj);
+        $this->em->persist($schooling);
+        $this->em->flush();
         if(!empty($params['data']['qualifications'])){
-               $userPrevQuals = $this->em->getRepository('GqAusUserBundle:UserPrevQualifications')->findAllBy(array('user' => $userId));
-               $this->em->remove($userPrevQuals);
-               $this->em->flush();
+               $userPrevQuals = $this->em->getRepository('GqAusUserBundle:UserPrevQualifications')->findBy(array('user' => $userId));
+               foreach($userPrevQuals as $userPrevQual)
+                {
+                 $this->em->remove($userPrevQual);
+                 $this->em->flush();
+                }
                foreach($params['data']['qualifications'] as $key=>$value){
-                   $prevQualsObj = $this->em->getRepository('GqAusUserBundle:PreviousQualifications')->findBy(array('name' => $key));
-                   $prevQualsObjId = $prevQualsObj[0]->getId();
-                   $userPrevQuals = new UserPrevQualifications();
-                   $userPrevQuals->setUser($userId);
-                   $userPrevQuals->setPrevQuals($prevQualsObjId);
-                   $this->em->persist($userPrevQuals);
-                   $this->em->flush();
+                   $prevQualsObj = $this->em->getRepository('GqAusUserBundle:PreviousQualifications')->findOneById($key);
+                   if($prevQualsObj){
+                        $prevQualsObjId = $prevQualsObj->getId();
+                        $userPrevQuals = new UserPrevQualifications();
+                        $userPrevQuals->setUser($userObj);
+                        $userPrevQuals->setPrevQuals($prevQualsObj);
+                        $this->em->persist($userPrevQuals);
+                        $this->em->flush();
+                   }
                }
         }
         return $schooling;
@@ -4999,7 +5027,7 @@ class UserService
         $profile['address']['propertyName'] = $userObj->getAddress()->getBuildingName();
         $profile['address']['route'] = $userObj->getAddress()->getCity();
 
-        $profile['postalAddress'] = $userObj->getAddress()->getPostal();
+        $profile['postalAddress'] = empty($userObj->getAddress()->getPostal())?1:$userObj->getAddress()->getPostal();
         $profile['postal']['street_number'] = $userObj->getAddress()->getPostalAddress();
         $profile['postal']['unitDetails'] = $userObj->getAddress()->getPostalArea();
         $profile['postal']['locality'] = $userObj->getAddress()->getPostalSuburb();
@@ -5018,7 +5046,7 @@ class UserService
      */
     public function getLangEnroll($userId){
     $language = array();
-        $lanDiversity = $this->em->getRepository('GqAusUserBundle:LanguageDiversity')->findBy(array('user' => $userId));
+        $lanDiversity = $this->em->getRepository('GqAusUserBundle:LanguageDiversity')->findOneBy(array('user' => $userId));
         if (!empty($lanDiversity)) {
             $language['country'] = $lanDiversity->getBornCountry();
             $language['speakOther'] = $lanDiversity->getSpeakothEng();
@@ -5027,7 +5055,7 @@ class UserService
             $language['aboriginal'] = $lanDiversity->getRelatedOrigin();
             $language['disability'] = $lanDiversity->getDisability();
             $userDisability = $this->em->getRepository('GqAusUserBundle:UserDisability')->findBy(array('user' => $userId));
-            $language['disaElements']['disability'] = $userDisability->getDisability();
+            //$language['disaElements']['disability'] = $userDisability->getDisability();
         }
 
         return $language;
@@ -5039,13 +5067,13 @@ class UserService
      */
     public function getSchEnroll($userId){
         $schooling = array();
-        $schoolingArr = $this->em->getRepository('GqAusUserBundle:Schooling')->findBy(array('user' => $userId));
+        $schoolingArr = $this->em->getRepository('GqAusUserBundle:Schooling')->findOneBy(array('user' => $userId));
         if(!empty($schoolingArr)) {
             $schooling['highest'] = $schoolingArr->getHighCompSchLevel();
             $schooling['selectYear'] = $schoolingArr->getWhichYear();
             $schooling['stillseconday'] = $schoolingArr->getSecSchoolLevel();
             $prevQualsObj = $this->em->getRepository('GqAusUserBundle:UserPrevQualifications')->findBy(array('user' => $userId));
-            $schooling['qualEmnts']['prevQuals'] = $prevQualsObj->getPrevQuals();
+            //$schooling['qualEmnts']['prevQuals'] = $prevQualsObj->getPrevQuals();
         }
         return $schooling;
     }
@@ -5069,5 +5097,31 @@ class UserService
         }
         
         return $employment;
+    }
+    
+    /**
+     * return Array
+     */
+    public function getDisabilityElements() {
+        $disabilityElementArr = $this->em->getRepository('GqAusUserBundle:DisabilityElement')->findAll();
+        $resultArr = [];
+        foreach ($disabilityElementArr as $key=>$disabilityElement){
+            $resultArr[$key]['id'] = $disabilityElement->getId();
+            $resultArr[$key]['type'] = $disabilityElement->getType();
+        }
+        return $resultArr;
+    }
+    
+    /**
+     * return Array
+     */
+    public function getPreviousQualifications() {
+        $previousQualificationArr = $this->em->getRepository('GqAusUserBundle:PreviousQualifications')->findAll();
+        $resultArr = [];
+        foreach ($previousQualificationArr as $key=>$previousQualification){
+            $resultArr[$key]['id'] = $previousQualification->getId();
+            $resultArr[$key]['name'] = $previousQualification->getName();
+        }
+        return $resultArr;
     }
 }
