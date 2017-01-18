@@ -542,55 +542,55 @@
                                                 <div class="form-group">
                                                     <p><label class="clear">Are you currently based in Australia?</label></p>
                                                     <div class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-default" for="usi" data-collapse="show" data-target="#australiaBaseYes" data-sub-target-hide="#nextStep" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="'Yes'">
+                                                        <label class="btn btn-default" for="usi" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="usi"> <span>Yes</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="usi" data-collapse="hide" data-target="#australiaBaseYes, #UsiNextStep, #StudentIdentifiersRegistrar, #UsiCollapseNoRequired, #UsiEnter, #UsiDownloadPDF" data-sub-target-show="#nextStep" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="'No'">
+                                                        <label class="btn btn-default" for="usi" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="0">
                                                             <input type="radio" name="gender"> <span>No</span>
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div id="australiaBaseYes" class="collapse">
+                                                <div id="australiaBaseYes" ng-if="enrollment.employment.basedinaustralia == 1">
                                                     <div class="form-group">
                                                         <p><label class="clear">Are you an international student undertaking your entire VET course outside Australia (otherwise known as offshore training)?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
                                                             
-                                                            <label class="btn btn-default" for="usi" data-collapse="hide" data-sub-target-show="#nextStep" data-target="#StudentIdentifiersRegistrar, #UsiEnter, #UsiCollapseNoRequired, #UsiEnter, #UsiDownloadPDF, #UsiNextStep, #UsiEnter" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 'Yes'" uib-btn-radio="'Yes'">
+                                                            <label class="btn btn-default" for="usi" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="1">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
-                                                            <label class="btn btn-default" for="usi" data-collapse="show" data-target="#StudentIdentifiersRegistrar" data-sub-target-hide="#nextStep" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 'Yes'" uib-btn-radio="'No'">
+                                                            <label class="btn btn-default" for="usi" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="0">
                                                                 <input type="radio" name="gender"> <span>No</span>
                                                             </label>
                                                         </div> 
                                                     </div>
                                                 </div>
 
-                                                <div id="nextStep" class="collapse">
+                                                <div id="nextStep" ng-if="enrollment.employment.internationalstudent == 1">
                                                     <div class="alert alert-success col-xs-9" role="alert">
                                                         You are <strong>NOT REQUIRED</strong> to get a USI.  You can proceed to the next step
                                                     </div>
                                                 </div>
 
-                                                <div id="StudentIdentifiersRegistrar" class="collapse">
+                                                <div id="StudentIdentifiersRegistrar"  ng-if="enrollment.employment.internationalstudent == '0'">
                                                     <div class="form-group">
                                                         <p><label class="clear">Have you applied for and obtained an individual exemption from the Student Identifiers Registrar in being assigned a USI?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
                                                             
-                                                            <label class="btn btn-default" for="gender" data-sub-target-show="#UsiNextStep" data-collapse="hide" data-target="#UsiCollapseNoRequired, #UsiEnter, #UsiDownloadPDF" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == 'No'" uib-btn-radio="'Yes'">
+                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == 0" uib-btn-radio="1">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
-                                                            <label class="btn btn-default" for="gender" data-collapse="show" data-target="#UsiCollapseNoRequired" data-sub-target-hide="#UsiNextStep" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == 'No'" uib-btn-radio="'No'">
+                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == 0" uib-btn-radio="0">
                                                                 <input type="radio" name="gender"> <span>No</span>
                                                             </label>
                                                         </div>                                                                
                                                     </div>
                                                 </div>
-                                                <div id="UsiNextStep" class="collapse">
+                                                <div id="UsiNextStep" ng-if="enrollment.employment.haveusi == '0'">
                                                     <div class="alert alert-success col-xs-9" role="alert">
                                                         You are <strong>NOT REQUIRED</strong> to get a USI.  You can proceed to the next step
                                                     </div>
                                                 </div>
-                                                <div id="UsiCollapseNoRequired" class="collapse">
+                                                <div id="UsiCollapseNoRequired" ng-if="enrollment.employment.haveusi == 1">
                                                     <div class="form-group">
                                                         <div class="alert alert-warning">
                                                             <p>You are <strong>REQUIRED</strong> to get a USI.  You can create one from
@@ -603,16 +603,16 @@
                                                         <p><label class="clear">Would you like for us to apply for your USI on your behalf?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
                                                             
-                                                            <label class="btn btn-default" data-collapse="show" data-target="#UsiDownloadPDF" data-sub-target-hide="#UsiEnter" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == 'No'" uib-btn-radio="'Yes'">
+                                                            <label class="btn btn-default" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == 0" uib-btn-radio="1">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
-                                                            <label class="btn btn-default" for="gender" data-collapse="show" data-target="#UsiEnter" data-sub-target-hide="#UsiDownloadPDF" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == 'No'" uib-btn-radio="'No'">
+                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == 0" uib-btn-radio="0">
                                                                 <input type="radio" name="gender"> <span>No</span>
                                                             </label>
                                                         </div>                                                                
                                                     </div>
                                                 </div>
-                                                <div id="UsiDownloadPDF" class="collapse">
+                                                <div id="UsiDownloadPDF" ng-if="enrollment.employment.applyusi == 1">
                                                     <div class="row">  
                                                         <div class="col-xs-9">
                                                             <p>Please download this PDF, answer the questions, sign it, and save it. </p>
@@ -620,14 +620,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div id="UsiEnter" class="collapse usi-download-pdf">  
+                                                <div id="UsiEnter" ng-if="enrollment.employment.applyusi == '0'">  
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
                                                             <p>Enter your 10-digit Unique Student identifier (if you already have one)</p>
                                                             <div class="form-group">
                                                                 <label for="firstName" class="control-label">Unique Student Identifier (USI)</label>
                                                                 <div class="usi-input">
-                                                                    <input type="text" class="hidden" id="usiField" ng-model="enrollment.employment.usi" ng-minlength="10" ng-maxlength="10" usi-input ng-required="enrollment.employment.applyusi == 'No'"  readonly/>
+                                                                    <input type="text" class="hidden" id="usiField" ng-model="enrollment.employment.usi" ng-minlength="10" ng-maxlength="10" usi-input ng-required="enrollment.employment.applyusi == 0"  readonly/>
 
                                                                     <!-- USI UI -->
                                                                     <div class="usi-input-body" id="usiInputBody">
