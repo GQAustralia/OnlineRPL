@@ -65,10 +65,10 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         for(var i=0;i<index;i++) {
             if($scope.completedForms[i] == false) slideFlag = false;     
         }
-//        if(slideFlag === true){ 
+        if(slideFlag === true){ 
             $scope.activeForm = index;
             $("#formWizardCarousel").carousel(i);
-//        }
+        }
     };
     $scope.formSlideTo(0);
     $scope.proceedNext = function (key) {
