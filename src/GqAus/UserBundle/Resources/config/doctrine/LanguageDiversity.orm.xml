@@ -12,8 +12,8 @@
         <field name="borncountry" type="string" column="born_country" nullable="true"/>   
         <field name="speakotheng" type="integer" column="speak_english" nullable="true"/>   
         <field name="specotheng" type="string" column="specify_excenglish" nullable="true"/>   
-        <field name="rateleveleng" type="integer" column="rate_level_eng" nullable="true"/>   
-        <field name="relatedorigin" type="integer" column="related_origin" nullable="true"/>   
+        <field name="rateleveleng" type="string" column="rate_level_eng" nullable="true"/>   
+        <field name="relatedorigin" type="string" column="related_origin" nullable="true"/>   
         <field name="disability" type="integer" column="disability" nullable="true"/> 
     </entity>
 </doctrine-mapping>

@@ -45,7 +45,7 @@ class Employment
      * Set user
      *
      * @param \GqAus\UserBundle\Entity\User $user
-     * @return UserAddress
+     * @return User
      */
     public function setUser(\GqAus\UserBundle\Entity\User $user = null)
     {
@@ -72,7 +72,7 @@ class Employment
      */
     public function setCurEmpStatus($curempstatus)
     {
-        $this->$curempstatus = $curempstatus;
+        $this->curempstatus = $curempstatus;
 
         return $this;
     }

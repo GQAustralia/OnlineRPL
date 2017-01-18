@@ -19,6 +19,7 @@ use GqAus\UserBundle\Entity\DisabilityElement;
 use GqAus\UserBundle\Entity\PreviousQualifications;
 use GqAus\UserBundle\Entity\Schooling;
 use GqAus\UserBundle\Entity\UserPrevQualifications;
+use GqAus\UserBundle\Entity\Employment;
 
 class UserService
 {
@@ -4986,11 +4987,15 @@ class UserService
      */
     public function updateEmpEnroll($userId, $params){
         $userObj =  $this->repository->findOneById($userId);
-        $empObj = new Employment();
-        $empObj->setCurEmpStatus(isset($params['data']['category']) ? $params['data']['category'] : '');
-        $empObj->setStudyReason(isset($params['data']['studyreason']) ? $params['data']['studyreason'] : '');
-        $empObj->setUser($userObj);
-        $this->em->persist($empObj);
+        $employmentObj = $this->em->getRepository('GqAusUserBundle:Employment');
+        $employment = $employmentObj->findOneByUser($userId);
+        if (empty($employment)) {
+            $employment = new Employment();
+        } 
+        $employment->setCurEmpStatus(isset($params['data']['category']) ? $params['data']['category'] : '');
+        $employment->setStudyReason(isset($params['data']['studyreason']) ? $params['data']['studyreason'] : '');
+        $employment->setUser($userObj);
+        $this->em->persist($employment);
         $this->em->flush();
         $userObj->setCurinAustralia(isset($params['data']['basedinaustralia']) ? $params['data']['basedinaustralia'] : '');
         $userObj->setInterStudentVET(isset($params['data']['internationalstudent']) ? $params['data']['internationalstudent'] : '');
@@ -5054,7 +5059,10 @@ class UserService
             $language['speakEnglish'] = $lanDiversity->getRateLevelEng();
             $language['aboriginal'] = $lanDiversity->getRelatedOrigin();
             $language['disability'] = $lanDiversity->getDisability();
-            $userDisability = $this->em->getRepository('GqAusUserBundle:UserDisability')->findBy(array('user' => $userId));
+            $userDisabilityArr = $this->em->getRepository('GqAusUserBundle:UserDisability')->findBy(array('user' => $userId));
+            foreach ($userDisabilityArr as $userDisability) {
+               $language['disabilityAreas'][$userDisability->getDisability()->getId()] = true;
+            }
             //$language['disaElements']['disability'] = $userDisability->getDisability();
         }
 
@@ -5070,10 +5078,12 @@ class UserService
         $schoolingArr = $this->em->getRepository('GqAusUserBundle:Schooling')->findOneBy(array('user' => $userId));
         if(!empty($schoolingArr)) {
             $schooling['highest'] = $schoolingArr->getHighCompSchLevel();
-            $schooling['selectYear'] = $schoolingArr->getWhichYear();
+            $schooling['selectYear'] = (Integer)$schoolingArr->getWhichYear();
             $schooling['stillseconday'] = $schoolingArr->getSecSchoolLevel();
-            $prevQualsObj = $this->em->getRepository('GqAusUserBundle:UserPrevQualifications')->findBy(array('user' => $userId));
-            //$schooling['qualEmnts']['prevQuals'] = $prevQualsObj->getPrevQuals();
+            $prevQualsObjArr = $this->em->getRepository('GqAusUserBundle:UserPrevQualifications')->findBy(array('user' => $userId));
+            foreach ($prevQualsObjArr as $prevQual) {
+               $schooling['qualifications'][$prevQual->getPrevQuals()->getId()] = true;
+            }
         }
         return $schooling;
     }
@@ -5084,9 +5094,9 @@ class UserService
     */
     public function getEmpEnroll($userId){
         $employment = array();
-        $employmentArr = $this->em->getRepository('GqAusUserBundle:Employment')->findBy(array('user' => $userId));
+        $employmentArr = $this->em->getRepository('GqAusUserBundle:Employment')->findOneByUser($userId);
         if(!empty($employmentArr)) {
-           $employment['category'] = $employmentArr->getCurEmpStatus();
+            $employment['category'] = $employmentArr->getCurEmpStatus();
             $employment['studyreason'] = $employmentArr->getStudyReason();
             $userObj = $this->getUserInfo($userId); 
             $employment['basedinaustralia'] = $userObj->getCurinAustralia();

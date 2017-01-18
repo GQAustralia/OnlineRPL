@@ -54,8 +54,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
                 'Content-Type': "application/json"
             }
         };
-        $http(req).then(function(data) {
-            
+        $http(req).then(function(data) {          
             $scope.disabilityElement = data.data.disability;
             $scope.previousQualification = data.data.qualification;
         }, function(error) {
@@ -66,10 +65,10 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         for(var i=0;i<index;i++) {
             if($scope.completedForms[i] == false) slideFlag = false;     
         }
-        if(slideFlag === true){ 
+//        if(slideFlag === true){ 
             $scope.activeForm = index;
             $("#formWizardCarousel").carousel(i);
-        }
+//        }
     };
     $scope.formSlideTo(0);
     $scope.proceedNext = function (key) {
@@ -107,6 +106,11 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
             console.log(error);
         });
     };
+    
+    $scope.usiPart = function(index) {
+        var val = $('#usiInputBody input').eq(index).val();
+        return $scope.enrollment.employment.usi && ($scope.enrollment.employment.usi[index] || '') || val;
+    } 
      $scope.$watch('enrollment.language.disabilityAreas', function(items){
         var selectedItems = 0;
         angular.forEach(items, function(item){
@@ -114,26 +118,26 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         });
         $scope.disabilityAreasNumber = selectedItems;
       }, true); 
-      $scope.$watch('enrollment.profile.postalAddress', function(items){
-        $scope.enrollment.profile.postal = {};
-      }, true); 
-      $scope.$watch('enrollment.profile.disability', function(items){
-        $scope.enrollment.profile.disabilityAreas = {
-               
-            };
-      }, true);
-      $scope.$watch('enrollment.employment.basedinaustralia', function(items){
-        $scope.enrollment.employment.internationalstudent = '';
-      }, true);
-      $scope.$watch('enrollment.employment.internationalstudent', function(items){
-        $scope.enrollment.employment.haveusi = '';
-      }, true);
-      $scope.$watch('enrollment.employment.haveusi', function(items){
-        $scope.enrollment.employment.applyusi = '';
-      }, true);
-      $scope.$watch('enrollment.employment.applyusi', function(items){
-        $scope.enrollment.employment.usi = '';
-      }, true);
+//      $scope.$watch('enrollment.profile.postalAddress', function(items){
+//        $scope.enrollment.profile.postal = {};
+//      }, true); 
+//      $scope.$watch('enrollment.profile.disability', function(items){
+//        $scope.enrollment.profile.disabilityAreas = {
+//               
+//            };
+//      }, true);
+//      $scope.$watch('enrollment.employment.basedinaustralia', function(items){
+//        $scope.enrollment.employment.internationalstudent = '';
+//      }, true);
+//      $scope.$watch('enrollment.employment.internationalstudent', function(items){
+//        $scope.enrollment.employment.haveusi = '';
+//      }, true);
+//      $scope.$watch('enrollment.employment.haveusi', function(items){
+//        $scope.enrollment.employment.applyusi = '';
+//      }, true);
+//      $scope.$watch('enrollment.employment.applyusi', function(items){
+//        $scope.enrollment.employment.usi = '';
+//      }, true);
 //      $scope.$watch('enrollment', function(){
 //        if(ProfileForm.$valid) $scope.completedForms.profile = true;
 //        if(LanguageForm.$valid) $scope.completedForms.languiage = true;
