@@ -5,7 +5,7 @@ namespace GqAus\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UserAddress
+ * UserOther
  */
 class UserOther
 {
