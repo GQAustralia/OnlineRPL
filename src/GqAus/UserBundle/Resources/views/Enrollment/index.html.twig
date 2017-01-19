@@ -545,7 +545,7 @@
                                                         <label class="btn btn-default" for="usi" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="usi"> <span>Yes</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="usi" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="0">
+                                                        <label class="btn btn-default" for="usi" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="0" ng-click="resetEnrollDepends('basedinaustralia')">
                                                             <input type="radio" name="gender"> <span>No</span>
                                                         </label>
                                                     </div>
@@ -555,7 +555,7 @@
                                                         <p><label class="clear">Are you an international student undertaking your entire VET course outside Australia (otherwise known as offshore training)?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
                                                             
-                                                            <label class="btn btn-default" for="usi" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="1">
+                                                            <label class="btn btn-default" for="usi" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="1" ng-click="resetEnrollDepends('internationalstudent')">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
                                                             <label class="btn btn-default" for="usi" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="0">
@@ -571,7 +571,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div id="StudentIdentifiersRegistrar"  ng-show="enrollment.employment.internationalstudent == '0'">
+                                                <div id="StudentIdentifiersRegistrar"  ng-show="enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">
                                                     <div class="form-group">
                                                         <p><label class="clear">Have you applied for and obtained an individual exemption from the Student Identifiers Registrar in being assigned a USI?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
@@ -579,7 +579,7 @@
                                                             <label class="btn btn-default" for="gender" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == '0'" uib-btn-radio="1">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
-                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == '0'" uib-btn-radio="0">
+                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == '0'" uib-btn-radio="0" ng-click="resetEnrollDepends('haveusi')">
                                                                 <input type="radio" name="gender"> <span>No</span>
                                                             </label>
                                                         </div>                                                                
@@ -590,7 +590,7 @@
                                                         You are <strong>NOT REQUIRED</strong> to get a USI.  You can proceed to the next step
                                                     </div>
                                                 </div>
-                                                <div id="UsiCollapseNoRequired" ng-show="enrollment.employment.haveusi == 1">
+                                                <div id="UsiCollapseNoRequired" ng-show="enrollment.employment.haveusi == 1 && enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">
                                                     <div class="form-group">
                                                         <div class="alert alert-warning">
                                                             <p>You are <strong>REQUIRED</strong> to get a USI.  You can create one from
@@ -603,7 +603,7 @@
                                                         <p><label class="clear">Would you like for us to apply for your USI on your behalf?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
                                                             
-                                                            <label class="btn btn-default" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == '0'" uib-btn-radio="1">
+                                                            <label class="btn btn-default" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == '0'" uib-btn-radio="1" ng-click="resetEnrollDepends('applyusi')">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
                                                             <label class="btn btn-default" for="gender" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == '0'" uib-btn-radio="0">
@@ -620,7 +620,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div id="UsiEnter" ng-show="enrollment.employment.applyusi == '0'">  
+                                                <div id="UsiEnter" ng-show="enrollment.employment.applyusi == '0' && enrollment.employment.haveusi == 1 && enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">  
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
                                                             <p>Enter your 10-digit Unique Student identifier (if you already have one)</p>
@@ -631,16 +631,16 @@
 
                                                                     <!-- USI UI -->
                                                                     <div class="usi-input-body" id="usiInputBody">
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" value="{[{usiPart(0)}]}"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" value="{[{usiPart(1)}]}"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" value="{[{usiPart(2)}]}"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" value="{[{usiPart(3)}]}"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" value="{[{usiPart(4)}]}"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" value="{[{usiPart(5)}]}"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" value="{[{usiPart(6)}]}"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" value="{[{usiPart(7)}]}"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" value="{[{usiPart(8)}]}"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" value="{[{usiPart(9)}]}"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[0]"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[1]"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[2]"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[3]"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[4]"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[5]"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[6]"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[7]"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[8]"></i>
+                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[9]"></i>
                                                                     </div>
                                                                     <!-- USI UI -->
                                                                 </div>

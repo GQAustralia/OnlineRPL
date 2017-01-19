@@ -26,15 +26,11 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
             postal: {}
         },
         language: {
-            disabilityAreas: {
-                
-            }
+            disabilityAreas: {}
         },
         schooling: {
             highest: "",
-            qualifications: {
-               
-            }
+            qualifications: {}
         },
         employment: {
             category : 'Full-time employee',
@@ -43,7 +39,8 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
             internationalstudent : '',
             haveusi : '',
             applyusi : '',
-            usi: ''
+            usi: '',
+            usiPart: []
         },
         upload: {}
     };
@@ -101,16 +98,23 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         };
         $http(req).then(function(e) {
             $scope.enrollment = angular.merge($scope.enrollment, e.data);
+            for (var i = 0; i < 10; i++) {
+                $scope.enrollment.employment.usiPart[i] = $scope.enrollment.employment.usi.charAt(i);
+            }
             $scope.IsLoaded = true;
         }, function(error) {
             console.log(error);
         });
     };
     
-    $scope.usiPart = function(index) {
-        var val = $('#usiInputBody input').eq(index).val();
-        return $scope.enrollment.employment.usi && ($scope.enrollment.employment.usi[index] || '') || val;
-    } 
+    $scope.resetEnrollDepends = function(enroll) {
+        var arr = ['basedinaustralia','internationalstudent','haveusi','applyusi','usi'];
+        var modelIndex = arr.indexOf(enroll);
+        for(var i=modelIndex+1; i< arr.length; i++){
+            $scope.enrollment.employment[arr[i]] = '';
+        }
+        $scope.enrollment.employment.usiPart = [];
+    }
      $scope.$watch('enrollment.language.disabilityAreas', function(items){
         var selectedItems = 0;
         angular.forEach(items, function(item){
@@ -118,33 +122,21 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http) {
         });
         $scope.disabilityAreasNumber = selectedItems;
       }, true); 
-//      $scope.$watch('enrollment.profile.postalAddress', function(items){
-//        $scope.enrollment.profile.postal = {};
-//      }, true); 
-//      $scope.$watch('enrollment.profile.disability', function(items){
-//        $scope.enrollment.profile.disabilityAreas = {
-//               
-//            };
-//      }, true);
-//      $scope.$watch('enrollment.employment.basedinaustralia', function(items){
-//        $scope.enrollment.employment.internationalstudent = '';
-//      }, true);
-//      $scope.$watch('enrollment.employment.internationalstudent', function(items){
-//        $scope.enrollment.employment.haveusi = '';
-//      }, true);
-//      $scope.$watch('enrollment.employment.haveusi', function(items){
-//        $scope.enrollment.employment.applyusi = '';
-//      }, true);
-//      $scope.$watch('enrollment.employment.applyusi', function(items){
-//        $scope.enrollment.employment.usi = '';
-//      }, true);
-//      $scope.$watch('enrollment', function(){
-//        if(ProfileForm.$valid) $scope.completedForms.profile = true;
-//        if(LanguageForm.$valid) $scope.completedForms.languiage = true;
-//        if(SchoolingForm.$valid) $scope.completedForms.schooling = true;
-//        if(EmploymentForm.$valid) $scope.completedForms.employment = true;
-//        if(UploadForm.$valid) $scope.completedForms.profile = true;
-//      }, true);
+      $scope.$watch('enrollment.profile.postalAddress', function(newValues){
+        if(newValues == 1 || newValues == '') $scope.enrollment.profile.postal = {};
+      }); 
+      $scope.$watch('enrollment.language.disability', function(newValues){
+          console.log(newValues);
+        if(newValues == 1 || newValues == '') $scope.enrollment.language.disabilityAreas = {};
+      });
+
+      $scope.$watch('enrollment.schooling.highest', function(newValues){
+        if(newValues=='Never attended school' || newValues==''){
+            $scope.enrollment.schooling.selectYear = '';
+            $scope.enrollment.schooling.stillseconday = '';
+        }
+      });
+
     $scope.selectState = function (country) {
         var index = $scope.countries.indexOf(country); // 1
         if (index === -1)
@@ -311,7 +303,11 @@ gqAus.directive('ngIntlTelInput', [
                     scope.$apply();
                     $(elm).change();
                 });
-               
+                scope.$watch(function () {
+                    return ngModelCtrl.$modelValue;
+                }, function (newValue) {
+                    $(elm).keyup();
+                });
             }
         };
     }]);
