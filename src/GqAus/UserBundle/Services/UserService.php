@@ -4997,10 +4997,10 @@ class UserService
         $employment->setUser($userObj);
         $this->em->persist($employment);
         $this->em->flush();
-        $userObj->setCurinAustralia(isset($params['data']['basedinaustralia']) ? $params['data']['basedinaustralia'] : '');
-        $userObj->setInterStudentVET(isset($params['data']['internationalstudent']) ? $params['data']['internationalstudent'] : '');
-        $userObj->setExemptionSir(isset($params['data']['haveusi']) ? $params['data']['haveusi'] : '');
-        $userObj->setLikeApplyUSI(isset($params['data']['applyusi']) ? $params['data']['applyusi'] : '');
+        $userObj->setCurinAustralia(isset($params['data']['basedinaustralia']) && (string)$params['data']['basedinaustralia'] != '' ? (string)$params['data']['basedinaustralia'] : null);
+        $userObj->setInterStudentVET(isset($params['data']['internationalstudent']) && (string)$params['data']['internationalstudent'] != '' ? (string)$params['data']['internationalstudent'] : null);
+        $userObj->setExemptionSir(isset($params['data']['haveusi']) && (string)$params['data']['haveusi'] != '' ? (string)$params['data']['haveusi'] : null);
+        $userObj->setLikeApplyUSI(isset($params['data']['applyusi']) && (string)$params['data']['applyusi'] != '' ? (string)$params['data']['applyusi'] : null);
         $userObj->setUniversalStudentIdentifier(isset($params['data']['usi']) ? $params['data']['usi'] : '');
         $this->em->persist($userObj);
         $this->em->flush();
