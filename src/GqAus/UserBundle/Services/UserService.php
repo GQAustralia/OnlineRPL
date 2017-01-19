@@ -4997,10 +4997,20 @@ class UserService
         $employment->setUser($userObj);
         $this->em->persist($employment);
         $this->em->flush();
-        $userObj->setCurinAustralia(isset($params['data']['basedinaustralia']) ? $params['data']['basedinaustralia'] : '');
-        $userObj->setInterStudentVET(isset($params['data']['internationalstudent']) ? $params['data']['internationalstudent'] : '');
-        $userObj->setExemptionSir(isset($params['data']['haveusi']) ? $params['data']['haveusi'] : '');
-        $userObj->setLikeApplyUSI(isset($params['data']['applyusi']) ? $params['data']['applyusi'] : '');
+        
+        $userOtherObj = $this->em->getRepository('GqAusUserBundle:UserOther');
+        $userOther= $userOtherObj->findOneByUser($userId);
+        if (empty($userOther)) {
+            $userOther = new UserOther();
+        } 
+        $userOther->setCurinAustralia(isset($params['data']['basedinaustralia']) && (string)$params['data']['basedinaustralia'] != '' ? (string)$params['data']['basedinaustralia'] : null);
+        $userOther->setInterStudentVET(isset($params['data']['internationalstudent']) && (string)$params['data']['internationalstudent'] != '' ? (string)$params['data']['internationalstudent'] : null);
+        $userOther->setExemptionSir(isset($params['data']['haveusi']) && (string)$params['data']['haveusi'] != '' ? (string)$params['data']['haveusi'] : null);
+        $userOther->setLikeApplyUSI(isset($params['data']['applyusi']) && (string)$params['data']['applyusi'] != '' ? (string)$params['data']['applyusi'] : null);
+        $userOther->setUser($userObj);
+        $this->em->persist($userOther);
+        $this->em->flush();
+        
         $userObj->setUniversalStudentIdentifier(isset($params['data']['usi']) ? $params['data']['usi'] : '');
         $this->em->persist($userObj);
         $this->em->flush();
@@ -5098,11 +5108,18 @@ class UserService
         if(!empty($employmentArr)) {
             $employment['category'] = $employmentArr->getCurEmpStatus();
             $employment['studyreason'] = $employmentArr->getStudyReason();
+            $userOtherArr = $this->em->getRepository('GqAusUserBundle:UserOther')->findOneBy(array('user' => $userId));
+            if(!empty($userOtherArr)) {
+                $employment['basedinaustralia'] = (Integer)$userOtherArr->getCurinAustralia();
+                $employment['internationalstudent'] = (Integer)$userOtherArr->getInterStudentVET();
+                $employment['haveusi'] = (Integer)$userOtherArr->getExemptionSir();
+                $employment['applyusi'] = (Integer)$userOtherArr->getLikeApplyUSI();
+            }
             $userObj = $this->getUserInfo($userId); 
-            $employment['basedinaustralia'] = $userObj->getCurinAustralia();
-            $employment['internationalstudent'] = $userObj->getInterStudentVET();
-            $employment['haveusi'] = $userObj->getExemptionSir();
-            $employment['applyusi'] = $userObj->getLikeApplyUSI();
+//            $employment['basedinaustralia'] = $userObj->getCurinAustralia();
+//            $employment['internationalstudent'] = $userObj->getInterStudentVET();
+//            $employment['haveusi'] = $userObj->getExemptionSir();
+//            $employment['applyusi'] = $userObj->getLikeApplyUSI();
             $employment['usi'] = $userObj->getUniversalStudentIdentifier(); 
         }
         

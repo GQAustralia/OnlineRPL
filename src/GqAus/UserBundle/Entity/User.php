@@ -84,22 +84,22 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @var string
      */
     private $loginToken;
-    /**
-     * @var integer
-     */
-    private $curinAustralia;
-    /**
-     * @var integer
-     */
-    private $interStudentvet;
-    /**
-     * @var integer
-     */
-    private $exemStudidentreg;
-    /**
-     * @var integer
-     */
-    private $applyForyourusi;
+//    /**
+//     * @var integer
+//     */
+//    private $curinAustralia;
+//    /**
+//     * @var integer
+//     */
+//    private $interStudentvet;
+//    /**
+//     * @var integer
+//     */
+//    private $exemStudidentreg;
+//    /**
+//     * @var integer
+//     */
+//    private $applyForyourusi;
     
 
     /**
@@ -1163,93 +1163,93 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->loginToken;
     }
-     /**
-     * Set CurinAustralia
-     *
-     * @return string
-     */
-    public function setCurinAustralia($curinAustralia)
-    {
-        $this->curinAustralia = $curinAustralia;
-
-        return $this;
-    }
-
-    /**
-     * Get CurinAustralia
-     *
-     * @return string 
-     */
-    public function getCurinAustralia()
-    {
-        return $this->curinAustralia;
-    }
-    /**
-     * Set InterStudentVET
-     *
-     * @param string $interStudentVET
-     * @return integer
-     */
-    public function setInterStudentVET($interStudentvet)
-    {
-        $this->interStudentvet = $interStudentvet;
-
-        return $this;
-    }
-
-    /**
-     * Get InterStudentVET
-     *
-     * @return integer 
-     */
-    public function getInterStudentVET()
-    {
-        return $this->interStudentvet;
-    }
-    /**
-     * Set ExemptionSir
-     *
-     * @param string $exemptionSir
-     * @return integer
-     */
-    public function setExemptionSir($exemStudidentreg)
-    {
-        $this->exemStudidentreg = $exemStudidentreg;
-
-        return $this;
-    }
-
-    /**
-     * Get ExemptionSir
-     *
-     * @return integer 
-     */
-    public function getExemptionSir()
-    {
-        return $this->exemStudidentreg;
-    }
-    /**
-     * Set LikeApplyUSI
-     *
-     * @param string $likeApplyUSI
-     * @return integer
-     */
-    public function setLikeApplyUSI($applyForyourusi)
-    {
-        $this->applyForyourusi = $applyForyourusi;
-
-        return $this;
-    }
-
-    /**
-     * Get LikeApplyUSI
-     *
-     * @return integer 
-     */
-    public function getLikeApplyUSI()
-    {
-        return $this->applyForyourusi;
-    }
+//     /**
+//     * Set CurinAustralia
+//     *
+//     * @return string
+//     */
+//    public function setCurinAustralia($curinAustralia)
+//    {
+//        $this->curinAustralia = $curinAustralia;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get CurinAustralia
+//     *
+//     * @return string 
+//     */
+//    public function getCurinAustralia()
+//    {
+//        return $this->curinAustralia;
+//    }
+//    /**
+//     * Set InterStudentVET
+//     *
+//     * @param string $interStudentVET
+//     * @return integer
+//     */
+//    public function setInterStudentVET($interStudentvet)
+//    {
+//        $this->interStudentvet = $interStudentvet;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get InterStudentVET
+//     *
+//     * @return integer 
+//     */
+//    public function getInterStudentVET()
+//    {
+//        return $this->interStudentvet;
+//    }
+//    /**
+//     * Set ExemptionSir
+//     *
+//     * @param string $exemptionSir
+//     * @return integer
+//     */
+//    public function setExemptionSir($exemStudidentreg)
+//    {
+//        $this->exemStudidentreg = $exemStudidentreg;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get ExemptionSir
+//     *
+//     * @return integer 
+//     */
+//    public function getExemptionSir()
+//    {
+//        return $this->exemStudidentreg;
+//    }
+//    /**
+//     * Set LikeApplyUSI
+//     *
+//     * @param string $likeApplyUSI
+//     * @return integer
+//     */
+//    public function setLikeApplyUSI($applyForyourusi)
+//    {
+//        $this->applyForyourusi = $applyForyourusi;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get LikeApplyUSI
+//     *
+//     * @return integer 
+//     */
+//    public function getLikeApplyUSI()
+//    {
+//        return $this->applyForyourusi;
+//    }
     
 //    /**
 //     * @var \GqAus\UserBundle\Entity\LanguageDiversity
