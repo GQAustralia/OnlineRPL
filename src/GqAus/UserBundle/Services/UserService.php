@@ -5134,4 +5134,14 @@ class UserService
         }
         return $resultArr;
     }
+    /**
+     * 
+     * @param type $userId
+     * @return type
+     */
+    public function getUserCourses($userId)
+    {
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('user' => $userId));
+        return $courseObj;
+    }
 }
