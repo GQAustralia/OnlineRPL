@@ -60,7 +60,7 @@
                             <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                         </a>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="#"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
+                            <li><a href="{{ app.request.baseUrl }}/qualifications"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
                             <li class="divider"></li>
                             <li>
                                 <div><h4 class="h4">Your Enrolled Qualifications</h4>
@@ -70,7 +70,7 @@
                                             {% for course in userCourses %} 
                                                 {%set courseName = course.getCourseName() %}
                                                 {% if courseName is defined and courseName != null %}       
-                                                    <a href="#" class="list-group-item">{{course.getCourseName()}}</a>
+                                                    <a href="{{ app.request.baseUrl }}/qualifications#{{course.getCourseName()}}" class="list-group-item">{{course.getCourseName()}}</a>
                                                 {%endif%}
                                             {%endfor%}
                                         </div>
@@ -99,6 +99,8 @@
                         </div>
 
                         <ul class="dropdown-menu pull-right">
+                            <li><a href="{{ app.request.baseUrl }}/userprofile"><i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My Profile</a></li>
+                            <li class="divider"></li>
                             <li><a href="{{ app.request.baseUrl }}/logout"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
                         </ul>
                     </div>
