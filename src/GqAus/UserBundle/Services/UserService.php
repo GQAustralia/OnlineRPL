@@ -20,6 +20,7 @@ use GqAus\UserBundle\Entity\PreviousQualifications;
 use GqAus\UserBundle\Entity\Schooling;
 use GqAus\UserBundle\Entity\UserPrevQualifications;
 use GqAus\UserBundle\Entity\Employment;
+use GqAus\UserBundle\Entity\UserIds;
 
 class UserService
 {
@@ -5006,6 +5007,65 @@ class UserService
         $this->em->flush();
         
         return $userObj;
+    }
+    /**
+     * Function to save the uploaded file.
+     * @param type $userId
+     * @param type $params
+     */
+    public function updateUploadEnroll($userId, $params){
+        $fileInfo = $params->get('fileInfo');
+        $fileName = $params->get('fileName');
+        $otherInfo= $params->get('otherInfo');
+        $size = $fileInfo['size'];
+        $mimeType = $fileInfo['type'];
+        $userObj =  $this->repository->findOneById($userId);
+        $userFiles = new UserIds(); 
+        if (!empty($userIds)) {
+            $userFiles->setUser($userObj);
+            $documentType = $this->em->getRepository('GqAusUserBundle:DocumentType');
+            $documentID = $documentType->findOneByType($otherInfo['docType']);  
+            $userFiles->setType($documentID);
+            $userFiles->setName($fileInfo['name']);
+            $userFiles->setPath($fileName);
+            $userFiles->setSize($size);            
+            $this->em->persist($userFiles);
+            $this->em->flush();
+        }
+        return $userFiles;
+    }
+    /**
+     * Function to remove the file based on the userid & fileid, which is in db table primary key
+     * @param type $userId
+     * @param type $fileId
+     * return array
+     */
+    public function removeIdFile($IdFileId){
+        $userIdObj = $this->em->getRepository('GqAusUserBundle:UserIds');
+        $userIds = $userIdObj->find($IdFileId);
+        if (!empty($userIds)) {
+            $userIds->setStatus('1');
+            $this->em->persist($userIds);
+            $this->em->flush();
+        }
+        return $userIds;
+    }
+    /**
+     * 
+     * @param type $userId
+     * return array
+     */
+    public function getUploadFiles($userId){
+        $filesList = array();
+        $userExists = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('user' => $userId));
+        if (!empty($userExists)) {
+            $userFilesArr = $this->em->getRepository('GqAusUserBundle:UserIds')->findBy(array('user' => $userId));
+            foreach ($userFilesArr as $userFile) {
+               $filesList[$userFile->getId()] = $userFile['name'];
+            }
+        }
+
+        return $filesList;
     }
     /**
      * 

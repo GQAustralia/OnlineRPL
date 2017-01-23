@@ -337,3 +337,6 @@ getEnroll:
 getDisabilityAndQualification:
     path:     /getDisabilityAndQualification
     defaults: {_controller: GqAusUserBundle:Enrollment:getDisabilityAndQualification}
+saveUpload:
+    path:    /saveUpload
+    defaults: {_controller: GqAusUserBundle:Enrollment:saveUpload}

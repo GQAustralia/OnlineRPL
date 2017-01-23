@@ -62,60 +62,21 @@ class EnrollmentController extends Controller
     /**
      * 
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function saveLangEnrollAction(Request $request)
-    {
+    public function saveUploadAction(Request $request){
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
-        //$userId = 52;
         if ($request->isMethod('POST')) {
             $params = array();
+            $type = "";
             $content = $this->get("request")->getContent();
             if (!empty($content))
             {
                 $params = json_decode($content, true); // 2nd param to get as array
+                $type = $params['type'];
             }
-            $op = $this->get('UserService')->updateLangEnroll($userId, $params);
-            return new JsonResponse(array( 'data' => $op ));
-        } 
-    }
-    /**
-     * 
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
-    public function saveSchEnrollAction(Request $request)
-    {
-        $userId = $this->get('security.context')->getToken()->getUser()->getId();
-        if ($request->isMethod('POST')) {
-            $params = array();
-            $content = $this->get("request")->getContent();
-            if (!empty($content))
-            {
-                $params = json_decode($content, true); // 2nd param to get as array
-            }
-            $op = $this->get('UserService')->updateSchEnroll($userId, $params);
-            return new JsonResponse(array( 'data' => $op ));
-        } 
-    }
-    /**
-     * 
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
-    public function saveEmpEnrollAction(Request $request)
-    {
-        $userId = $this->get('security.context')->getToken()->getUser()->getId();
-        if ($request->isMethod('POST')) {
-            $params = array();
-            $content = $this->get("request")->getContent();
-            if (!empty($content))
-            {
-                $params = json_decode($content, true); // 2nd param to get as array
-            }
-            $op = $this->get('UserService')->updateEmpEnroll($userId, $params);
-            return new JsonResponse(array( 'data' => $op ));
-        } 
+            $op = $this->get('UserService')->updateUploadEnroll($userId, $params);
+        }
+        return new JsonResponse(array( 'data' => $op ));
     }
     /**
      * 
