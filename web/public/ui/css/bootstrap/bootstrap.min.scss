@@ -48,11 +48,14 @@
 
 // Components w/ JavaScript
 @import "modals";
-@import "custom-modal"; // custom modal style
 @import "gqa-accordion";
 @import "tooltip";
 @import "popovers";
 @import "carousel";
+
+// GQA
+@import "custom-modal";
+@import "upload-control";
 
 // Utility classes
 @import "utilities";

@@ -1,0 +1,88 @@
+.upload-control{
+    border: 2px dashed lighten(#55606E,30%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: $border-radius-base;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+
+    @media (max-width: $screen-xs-max) {
+        padding: 15px;
+    }
+    @media (min-width: $screen-sm-min) {
+        padding: 60px 30px;
+    }
+
+    &:hover {
+        border: 2px dashed #55606E;
+        cursor: pointer;
+    }
+
+    .upload-control-content {
+        text-align: left;
+        z-index: 1;
+        position: relative;
+
+        @media (max-width: $screen-xs-max) {
+            display: block;
+            clear: both;
+            text-align: center;
+        }
+        @media (min-width: $screen-sm-min) {
+            display: inline-block;
+            padding-left: 80px;
+        }
+
+        @include clearfix();
+        > * {
+            @media (max-width: $screen-xs-max) {
+                position: relative;
+                clear: both;
+                text-align: center;
+            }
+            @media (min-width: $screen-sm-min) {
+                display: block;
+                float: left;
+                position: relative;
+                clear: both;
+            }
+        }
+    }
+
+    .upload-text {
+        padding: 0 30px;
+        font-size: 1.4em;
+    }
+
+    .upload-icon {
+        width: 100px;
+        height: auto;
+        margin: auto;
+        @media (max-width: $screen-xs-max) {
+            display: block;
+            position: relative;
+            clear: both;
+        }
+        @media (min-width: $screen-sm-min) {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+    
+    .upload-control-input {
+        position: absolute;
+        font-size: 60em;
+        top: -100%;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        @include opacity(0);
+        z-index: 0;
+
+        &:hover { cursor: pointer; }
+    }
+}

@@ -68,6 +68,10 @@ a.btn {
 .btn-default {
   @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
   border-bottom-color: #bbb;
+
+  &:hover {
+    color: darken($btn-default-color, 20%);
+  }
 }
 .btn-primary {
   @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
@@ -96,7 +100,7 @@ a.btn {
 // Make a button look and behave like a link
 .btn-link {
   color: $link-color;
-  font-weight: normal;
+  font-weight: 500;
   border-radius: 0;
 
   &,
@@ -116,7 +120,8 @@ a.btn {
   &:hover,
   &:focus {
     color: $link-hover-color;
-    text-decoration: $link-hover-decoration;
+    // text-decoration: $link-hover-decoration;
+    text-decoration: none;
     background-color: transparent;
   }
   &[disabled],
@@ -167,23 +172,28 @@ a.btn {
     width: 100%;
     float: none;
   }
-  @media (min-width: $screen-sm) {
+  @media (min-width: $screen-sm-min) {
     display: block;
     float: right;
     margin-bottom: $grid-gutter-width/4;
   }
 
   .btn {
-
     &:last-child {
-      margin-left: 5px;
+      @media (max-width: $screen-xs-max) {
+        margin-left: 0;
+      }
+      @media (min-width: $screen-sm-min) {
+        margin-left: 5px;
+      } 
     }
+
 
     @media (max-width: $screen-xs-max) {
       display: block;
       width: 100%;
-      margin-bottom: $grid-gutter-width/4;
     }
+    margin-bottom: $grid-gutter-width/4;
   }
 }
 

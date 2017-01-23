@@ -1,109 +1,102 @@
 /*Start Wizard*/
 
 .bootstrapWizard {
-    display: block;
+    //display: block;
     list-style: none;
     padding: 0;
     position: relative;
-    width: 100%;
-    left: auto;
-    margin-left: 0;
-    a {
-        &:hover,
-        &:active,
-        &:focus {
-            text-decoration: none;
-        }
-    }
+    width: 80%;
+    margin: auto;
+    @include clearfix();
+
+    $circle-dim: 35px;
+    $b-wdith: 6px;
+    
     li {
         display: block;
-        float: left;
         width: 20%;
-        text-align: center;
-        padding-left: 0;
-        border: none;
-        height: auto;
-        margin: 0;
-        text-indent: 0;
-        &:before {
-            border-top: 3px solid #55606E;
-            content: "";
+        float: left;
+        min-height: $circle-dim;
+        position: relative;
+
+        a {
+            color: $gray;
             display: block;
-            font-size: 0;
-            overflow: hidden;
-            position: relative;
-            top: 11px;
-            right: 1px;
-            width: 100%;
-            z-index: 1;
-        }
-        &:first-child:before {
-            left: 50%;
-            max-width: 50%;
-        }
-        &:last-child:before {
-            max-width: 50%;
-            width: 50%;
-        }
-        &.complete .step {
-            background: #0aa66e;
-            padding: 1px 6px;
-            border: 3px solid #55606E;
-        }
-        .step {
-            i {
-                font-size: 10px;
-                font-weight: 400;
-                position: relative;
-                top: -1.5px;
-            }
-            background: #B2B5B9;
-            color: #fff;
-            display: inline;
-            font-size: 15px;
-            font-weight: 700;
-            line-height: 12px;
-            padding: 7px 13px;
-            border: 3px solid transparent;
-            border-radius: 50%;
-            line-height: normal;
-            position: relative;
+            min-height: $circle-dim;
             text-align: center;
-            z-index: 2;
-            transition: all 0.1s linear 0s;
+
+            &:hover, &:active, &:focus {
+                text-decoration: none;
+                cursor: not-allowed;
+            }
+
+            span {
+                display: block;
+                margin-top: 10px;
+            }
+
+            &:before, &:after {
+                display: block;
+                content: '';
+            }
+
+            &:before {
+                width: $circle-dim - $b-wdith;
+                height: $circle-dim - $b-wdith;
+                margin: auto;
+                border: $b-wdith solid $gray-lighter;
+                background-color: lighten($gray,10%);
+                @include border-radius($circle-dim - $b-wdith);
+            }
         }
+
+        // Mouse Cursor state if Active or Done
+        &.done a:hover,
+        &.active a:hover{
+            cursor: pointer;
+            color: darken($gray,30%);
+        }
+
+        // Mouse Cursor state if section is still pending
+        &.active, &.done {
+            > a:before {
+                background-color: $brand-primary;
+            }
+
+            &:hover > a:before {
+                background-color: darken($brand-primary,5%);
+            }
+        }
+
+        //
         &.active {
-            margin: auto;
-            width: 20%;
-            height: auto;
-            background: none;
-            .step,
-            &.complete .step {
-                background: $brand-primary;
-                color: #fff;
-                font-weight: 700;
-                padding: 7px 13px;
-                font-size: 15px;
-                border-radius: 50%;
-                //border: 3px solid #55606E;
+            span {
+                font-weight: 500;
+                color: $gray-darker;
             }
         }
-        &.complete .title,
-        &.active .title {
-            color: #2B3D53;
-        }
-        .title {
-            color: #bfbfbf;
-            display: block;
-            font-size: 13px;
-            line-height: 15px;
-            max-width: 100%;
-            position: relative;
-            table-layout: fixed;
-            text-align: center;
-            top: 20px;
-            word-wrap: break-word;
-            z-index: 104;
+
+        &.done {
+            + li {
+                > a:hover { cursor: pointer; }
+                > a:after {
+                    display: block;
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 3px;
+                    left: -50%;
+                    right: auto;
+                    top: 14px;
+                    background-color: $brand-primary;
+                }
+
+                > a:before {
+                    background-color: $brand-primary;
+                }
+            }
+
+            &:first-child > a:after { display: none; }
         }
     }
 }

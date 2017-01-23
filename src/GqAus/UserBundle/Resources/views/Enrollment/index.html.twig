@@ -1,7 +1,9 @@
 {% extends "::enrollment.html.twig" %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="enrollmentCtlr"  id="enrollmentCtlr" {% endblock%}
 {% block body %}
-    <main class="main-content-gqa" ng-app = "gqAus">
-        <div class="container" id="enrollmentCtlr" ng-controller="enrollmentCtlr">
+    <main class="main-content-gqa">
+        <div class="container">
             <!-- Put content here -->
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -668,65 +670,74 @@
                                 <!-- 5th Page Starts Here -->
                                 <div class="item upload-id">
                                     <fieldset>
-                                        <h2 class="page-header">Upload ID Files</h2>
-
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <div class="form-group">
-                                                    <section class="upload-id-files" ng-show="evidenceFirst">
-                                                        <p class="points">
-                                                            100 Points of Identification is needed so we're sure we're <br/>recognising the right person
-                                                        </p>
-                                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadIdFiles"><i class="zmdi zmdi-plus-square"></i> Upload your first ID now</button>
-                                                        <!--input type="file" multiple-->
-                                                    </section>
-
-                                                    <section class="consolidated-id-files clearfix"  ng-hide="evidenceFirst">
-                                                        <div class="progress-header">
-                                                            <div class="row">
-                                                                <div class="col-xs-12 col-sm-12 col-md-3">
-                                                                    <p class="id-points">
-                                                                        <span class="gained-points">70</span>
-                                                                        <span class="req-points">/ 100 ID points</span>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="col-xs-12 col-sm-12 col-md-4">
-                                                                    <div class="progress progress-tag-success">
-                                                                        <progress role="progress" value="70" max="100"><img class="fallback" width="30"></progress>
-                                                                        <!--figcaption data-value="70" data-unit="%" class="progress-details units-day">Pending</figcaption-->
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-12 col-sm-12 col-md-3 pull-right">
-                                                                    <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#uploadIdFiles"><i class="zmdi zmdi-plus-square"></i> Upload your first ID now</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="id-files-body">
-                                                            <div class="id-th clearfix">
-                                                                <div>Pts</div>
-                                                                <div>ID Type</div>
-                                                                <div>File Uploaded</div>
-                                                            </div>
-                                                            <div class="id-td">
-                                                                <div>70</div>
-                                                                <div>Australian Citizenship</div>
-                                                                <div>C_M_Msg_1.4.jpg</div>
-                                                                <div><i class="zmdi zmdi-close"></i></div>
-                                                            </div>
-                                                        </div>
-                                                    </section>
-
+                                        <h2 class="page-header">Upload ID Files</h2>    
+                                        <div class="form-group">
+                                            <section class="upload-control" data-toggle="modal" data-target="#uploadIdFiles" ng-hide="enrollment.upload.uploadId.length > 0">
+                                                <div class="upload-control-content">
+                                                    <img src="{{ asset('public/ui/img/id.svg') }}" alt="ID" class="upload-icon">
+                                                    <p class="upload-text">100 Points of Identification is needed so we're<br/> sure we're recognising the right person</p>
+                                                    <button type="button" class="btn btn-link btn-lg">
+                                                        <i class="zmdi zmdi-plus-square"></i> Upload your first ID now
+                                                    </button>
+                                                    <!-- <input class="upload-control-input" type="file" id="uploadID"> -->
                                                 </div>
-                                            </div>
+                                            </section>
+
+                                            <section class="consolidated-id-files" ng-show="enrollment.upload.uploadId.length > 0">
+                                                <div class="progress-header">
+                                                    <div class="progress progress-tag-danger pull-left">
+                                                        <progress role="progress" value="{[{getTotalCompleted()}]}" max="100"><img class="fallback" width="30"></progress>
+                                                        <figcaption data-value="{[{getTotalCompleted()}]}" data-unit="/100" class="progress-details"> ID POINTS</figcaption>
+                                                    </div>
+
+                                                    <button type="button" class="btn btn-link btn-lg pull-right" data-toggle="modal" data-target="#uploadIdFiles"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload an ID</button>
+                                                </div>
+                                                <table class="table table-crud">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID Points</th>
+                                                            <th colspan="2">ID Submitted</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="id-files-body">
+                                                        <tr ng-repeat="(key, uploadId) in enrollment.upload.uploadId">
+                                                            <td><span class="points">{[{uploadId.type.point}]}</span></td>
+                                                            <td>
+                                                                <div class="progress progress-tag-success" ng-if="uploadId.status != 'completed'">
+                                                                    <progress role="progress" value="{[{uploadId.percentageCompleted}]}" max="100"><img class="fallback" width="30"></progress>
+                                                                    <figcaption data-value="{[{uploadId.percentageCompleted}]}" data-unit="%" class="progress-details"></figcaption>
+                                                                </div>
+                                                                <label>{[{uploadId.name}]}</label>
+                                                                <small class="text-uppercase text-muted">{[{uploadId.type.type}]}</small>
+                                                            </td>
+                                                            <td class="table-controls">
+                                                                <!-- Display this if item is being uploaded -->
+                                                                <button type="button" class="btn btn-default btn-xs" ng-if="uploadId.status != 'completed'" ng-click="cancelUpload(key)">
+                                                                    <i class="zmdi zmdi-close zmdi-hc-lg"></i> Cancel Upload
+                                                                </button>
+                                                                <!-- Display this if item is being uploaded -->
+
+                                                                <!-- Only display this if file's already in the server -->
+                                                                <button type="button" class="btn btn-link" ng-if="uploadId.status == 'completed'"><i class="zmdi zmdi-delete zmdi-hc-lg"></i> Remove</button>
+                                                                <!-- Only display this if file's already in the server -->
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </section>
+
                                         </div>
                                     </fieldset>
+
+
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#formWizardCarousel" data-slide-to="3">Employment &amp; USI</button>
 
-                                        <button type="button" class="btn btn-primary">Submit Enrolment Form</button>
+                                        <button type="button" class="btn btn-primary" ng-disabled="getTotalCompleted() < 100">Submit Enrolment Form</button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
+
                                 </div>
                                 <!-- 5th Page Ends Here -->
                             </div>
@@ -736,60 +747,62 @@
                 </div>
             </div>
             <!-- Put content here -->
+
         </div>
+               
     </main>
-    <!-- Upload ID Files Modal Popup Start -->
+                                                        
+                                                        
+                                                            <!-- Upload ID Files Modal Popup Start -->
 
-    <div id="uploadIdFiles" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="page-header">Add an Identification File</h2>
-                </div>
-                <div class="modal-body">
-                    <select>
-                        <optgroup label="70 Point IDs">
-                            <option value="">70 pts - Foreign Passport (current)</option>
-                            <option value="">70 pts - Passport (current)</option>
-                            <option value="">70 pts - Austrilan Citizenship Certificate</option>
-                        </optgroup>
-                        <optgroup label="40 Point IDs">
-                            <option value="">40 pts - Austrilan Driving License/Learner's Permit</option>
-                            <option value="">40 pts - Passport (current)</option>
-                            <option value="">40 pts - Austrilan Citizenship Certificate</option>
-                        </optgroup>
-                    </select>
+                                                            <div id="uploadIdFiles" class="modal fade" role="dialog">
+                                                                <div class="modal-dialog">
+                                                                    <!-- Modal content-->
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal"><i class="zmdi zmdi-close zmdi-hc-lg zmdi-hc-fw"></i></button>
+                                                                            <h3 class="modal-title">Add an Identification File</h3>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            {#<div class="dropdown form-group dropdown-dynamic btn-block" style="width: 100%;">
+                                                                                <button type="button" class="btn btn-default btn-lg btn-block text-left" data-toggle="dropdown">
+                                                                                    <span class="dropdown-picker-selected" id="dropdownSelected" ng-model="uploaddropDown">What ID are you uploading?</span>
+                                                                                    <i class="zmdi zmdi-chevron-down zmdi-hc-lg"></i>
+                                                                                </button>
+                                                                                <ul class="dropdown-menu" data-toggle="dropdown-picker">
+                                                                                    <li ng-repeat="documentType in documentTypes"><a href>{[{documentType.type}]}</a></li>
+                                                                                </ul>
+                                                                            </div>#}
+                                                                            <select ng-options="documentType.type group by documentType.pointDisplay for documentType in documentTypes" ng-model="enrollment.upload.type">
+                                                                                <option value=""> Select Document type </option>
+                                                                            </select>
 
-                    <h2 class="page-header">Upload file</h2>
-                    <div class="upload-id-files">
-                        <p style="position:relative;z-index: 100">
-                            <span>Drop ID here of</span>
-                            <span class="browse-files">
-                                <a href="javascript:void(0)" id="dataPopOver" data-toggle="popover" data-html="true" data-placement="bottom" data-content="">browse your files</a>
-                            </span>
-                        </p>
-                        <input class="id-files-input" type="file" multiple>
-                    </div>
-                    <!--div class="file-que">
-                        <ul>
-                            <li>
-                                
-                            </li>
-                        </ul>
-                    </div-->
+                                                                            <span></span>
+                                                                            <section class="upload-control">
+                                                                                <button type="button" class="btn btn-link btn-lg">
+                                                                                    <i class="zmdi zmdi-upload zmdi-hc-2x center-block"></i>
+                                                                                    <span class="center-block">Click to browse your files</span>
+                                                                                </button>
+                                                                                <input class="upload-control-input" type="file" id="uploadID" s3-upload 
+                                                                                       control="uploadControl" 
+                                                                                       progressbar = "progressbar(uploadingSize, uploadedSize, totalSize, fileNum)" 
+                                                                                       uploadcomplete="uploadcomplete(data,obj)" 
+                                                                                       uploadstarted="uploadstarted(file,fileNum,dataObj)"
+                                                                                       uploadfailed="uploadfailed(msg)" 
+                                                                                       validRegex ="/(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.csv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz|\.docx|\.xlsx|\.one|\.pub|\.pptx|\.doc|\.docx|\.vsdx|\.accdb|\.mdb|\.rpmsg|\.mso|\.xlsb|\.xls|\.xlsx|\.oft|\.asd|\.mpp|\.thmx|\.xlsm|\.snp|\.obi|\.pst|\.ost|\.olm|\.xsn|\.vsd|\.laccdb|\.dotx|\.docm|\.ppt|\.dot|\.accdr|\.xlam|\.mde|\.wbk|\.onepkg|\.pptm|\.xltx|\.xla|\.pip|\.accde|\.ppsm|\.ppsx|\.vss|\.slk|\.crtx|\.xlt|\.svd|\.xlb|\.xlm|\.xlw|\.grv|\.potx|\.xar|\.iaf|\.mpd|\.pa|\.pps|\.ops|\.dotm|\.pot|\.oab|\.acl|\.mdt|\.mpt|\.xltm|\.xl|\.ade|\.vst|\.ppam|\.xsf|\.accdt|\.mda|\.accdc|\.mdw|\.xll|\.mat|\.vdx|\.sldx|\.mar|\.ppa|\.accda|\.maf|\.puz|\.vsx|\.mam|\.prf|\.potm|\.wll|\.xlc|\.vtx|\.accdp|\.sldm|\.accdu|\.maq|\.xslb|\.h1q|\.cnv|\.maw)$/i"
+                                                                                       >
+                                                                            </section>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
-                    <button type="button" class="btn btn-primary">Add this ID</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                                                                        </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-default" onclick="$('#uploadIdFiles').modal('hide');" >Discard</button>
+                                                                                <button type="button" class="btn btn-primary" ng-click="uploadIds()">Add ID</button>
+                                                                            </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
-    <!-- Upload ID Files Modal Popup End -->
+                                                            <!-- Upload ID Files Modal Popup End -->
 
 {% endblock %}
 {% block javascripts %}    
@@ -800,20 +813,25 @@
     <!--Phone Number Flag Plugin-->
 
     <!--Country select with States Plugin-->
+    
+    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
     <script src = "{{ asset('public/ui/js/plugins/countries.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/intlTelInput.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/utils.js') }}"></script>
+    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
     <!-- Bootstrap Datepicker -->
     <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/bootstrap-datetimepicker.js') }}"></script>
 
     <!-- places library for maps api -->
 
-    <script src="{{ asset('public/ui/js/angular.min.js') }}"></script>
-    <script src="{{ asset('public/ui/js/angular-animate.min.js') }}"></script>
-    <script src="{{ asset('public/ui/js/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
     <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
 
-    <script src="{{ asset('public/js/enrollment.js') }}"></script>
+    <script src="{{ asset('public/js/angular/enrollment.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete" async defer></script>
 {% endblock %}

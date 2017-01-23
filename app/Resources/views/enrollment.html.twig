@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html {% block ngApp %}{% endblock %}>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,15 +28,17 @@
         <link href="ui/css/modules/rpl-online-enrolment/rpl-online-enrolment.css" rel="stylesheet" />
     {% endblock %}
     {% block stylesheets %}{% endblock %}  
-    <script type="text/javascript">
-        var base_url = "{{ base_url }}";
-        var amazon_link = "{{ amazon_link }}";
-        var upload_path = "{{ asset('public/uploads/')}}";
-        var or_user_id = "{{ app.security.getToken().getUser().getId()}}";
-    </script>    
+        <script type="text/javascript">
+            var base_url = "{{ base_url }}";
+            var amazon_link = "{{ amazon_link }}";
+            var upload_path = "{{ asset('public/uploads/')}}";
+            var or_user_id = "{{ app.security.getToken().getUser().getId()}}";
+            var S3UploadUrl = "{{ s3_upload_url }}";
+        </script>    
+
 </head>
 
-<body>
+<body  {% block ngController %}{% endblock %}>
     {% set roles = app.security.getToken().getUser().getRoles() %}
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
     {% set page = app.request.attributes.get('_route') %}

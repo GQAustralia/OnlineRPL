@@ -57,7 +57,7 @@
 .modal-content {
   position: relative;
   background-color: $modal-content-bg;
-  border: 1px solid $modal-content-border-color;
+  // border: 1px solid $modal-content-border-color;
   border-bottom-left-radius: $border-radius-large;
   border-bottom-right-radius: $border-radius-large;
   border-top-left-radius: $border-radius-large + 3;
@@ -85,31 +85,43 @@
 // Modal header
 // Top section of the modal w/ title and dismiss
 .modal-header {
-  padding: ($modal-title-padding - 5) $modal-title-padding;
-  color: #fff;
-  background-color: $gray;
+  @media (max-width: $screen-xs-max) {
+    padding: ($modal-title-padding - 10) $modal-title-padding/2;
+  }
+  @media (min-width: $screen-sm-min) {
+    padding: ($modal-title-padding - 5) $modal-title-padding;
+  }
+
+  color: $gray;
+  background-color: $gray-lighter;
   min-height: ($modal-title-padding + $modal-title-line-height);
   border-top-left-radius: $border-radius-large;
   border-top-right-radius: $border-radius-large;
-}
-// Close icon
-.modal-header .btn-close {
-  position: absolute;
-  right: 15px;
-  top: 15px;
 }
 
 // Title text within header
 .modal-title {
   margin: 0;
-  line-height: $modal-title-line-height;
+  // line-height: $modal-title-line-height;
+  line-height: 1;
+  @media (max-width: $screen-xs-max) {
+    font-size: 18px;
+  }
+  @media (min-width: $screen-sm-min) {
+    font-size: 24px;
+  }
 }
 
 // Modal body
 // Where all modal content resides (sibling of .modal-header and .modal-footer)
 .modal-body {
   position: relative;
-  padding: $modal-inner-padding * 2;
+  @media (max-width: $screen-xs-max) {
+    padding: $modal-inner-padding/2;
+  }
+  @media (min-width: $screen-sm-min) {
+    padding: $modal-inner-padding * 2;
+  }
 }
 
 // Footer (for actions)

@@ -17,8 +17,10 @@
  * @returns {MultiUpload}
  */
 function S3MultiUpload(file, otheInfo) {
+    console.log(otheInfo);
     this.PART_SIZE = 5 * 1024 * 1024; //minimum part size defined by aws s3
-    this.SERVER_LOC = 'http://loopme-dev.stg.valuelabs.com/s3/server.php'; //location of the server
+    if(!window.S3UploadUrl) console.log('Error S3 Upload Url Missing');
+    this.SERVER_LOC = window.S3UploadUrl || 'http://loopme-dev.stg.valuelabs.com/s3/server.php'; //location of the server
     this.RETRY_WAIT_SEC = 30; //wait before retrying again on upload failure
     this.file = file;
     this.fileInfo = {
@@ -78,7 +80,9 @@ function S3MultiUpload(file, otheInfo) {
      *
      */
     S3MultiUpload.prototype.start = function() {
+        var self = this;
         this.uploadPart(0);
+        self.onUploadStarted(self.fileInfo,self.fileNum, self.otherInfo);
     };
 
     /** private */

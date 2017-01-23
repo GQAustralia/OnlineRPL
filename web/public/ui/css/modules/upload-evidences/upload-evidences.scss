@@ -1,0 +1,72 @@
+@import '../../bootstrap/_variables.scss';
+@import '../../bootstrap/mixins/';
+
+.panel-body{
+	position: relative;
+}
+.panel-units-selected{
+	position: relative;
+	min-height: 500px;
+	.panel-units-selected-heading{
+		padding: 0 0 $grid-gutter-width / 4;
+		border-bottom: 1px solid $gray-lighter;
+
+		.form-group{
+			margin: 0 $grid-gutter-width / 4 0;
+		}
+	}
+	ul {
+		padding: 0;
+		margin: 0;
+		li{
+			list-style-type: none;
+		}
+	}	
+
+	#unitsSelected{
+		ul li{	
+			&.btn{
+				text-align: left;
+			}
+			&:first-child{
+				padding: 0 10px;
+				margin: 20px 0 $grid-gutter-width / 8 0;
+				font-weight: normal;
+				text-transform: uppercase;
+				&:before{
+					content: none;
+				}
+			}
+		}
+	}
+}
+.panel-unit-evidences{
+	position: absolute;
+	background: #fff;
+	max-width: 600px;
+	height: 100%;
+	overflow: auto;
+	max-height: 100%;
+	right: 0;
+	top: 0;
+	border-left: 1px solid $gray-lighter;
+
+	&.unfixed{
+		position: absolute !important;
+		right: 0 !important;
+		bottom: 0 !important;
+		top: auto !important;
+	}
+
+	@include clearfix;
+
+	.panel-accordion{
+		margin: 0;
+		padding: 30px; 
+		
+	}
+	.invisible{
+		opacity: 0;
+		z-index: -1;
+	}
+}
