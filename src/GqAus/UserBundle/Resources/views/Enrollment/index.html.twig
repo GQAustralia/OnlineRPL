@@ -732,7 +732,7 @@
 
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#formWizardCarousel" data-slide-to="3">Employment &amp; USI</button>
+                                        <button type="button" class="btn btn-default" ng-click="formSlideTo(3)">Employment &amp; USI</button>
 
                                         <button type="button" class="btn btn-primary" ng-disabled="getTotalCompleted() < 100">Submit Enrolment Form</button>
                                     </div>
@@ -760,7 +760,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <button type="button" class="close" data-dismiss="modal"><i class="zmdi zmdi-close zmdi-hc-lg zmdi-hc-fw"></i></button>
+                                                                            <button type="button" class="close" ng-click="closeUploadModal();"><i class="zmdi zmdi-close zmdi-hc-lg zmdi-hc-fw"></i></button>
                                                                             <h3 class="modal-title">Add an Identification File</h3>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -795,7 +795,7 @@
 
                                                                         </div>
                                                                             <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-default" onclick="$('#uploadIdFiles').modal('hide');" >Discard</button>
+                                                                                <button type="button" class="btn btn-default" ng-click="closeUploadModal();" >Discard</button>
                                                                                 <button type="button" class="btn btn-primary" ng-click="uploadIds()">Add ID</button>
                                                                             </div>
                                                                     </div>
