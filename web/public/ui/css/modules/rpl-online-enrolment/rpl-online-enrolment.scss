@@ -46,6 +46,14 @@
     margin-right: -3px;
     >.item {
         padding: 3px;
+        fieldset {
+        	@include opacity(0);
+        	@include transition(opacity .5s $easing);
+        }
+        &.active fieldset {
+        	@include opacity(1);
+        	@include transition(opacity .5s $easing);
+        }
     }
 }
 
@@ -65,6 +73,25 @@
 	clear: both;
 	width: 100%;
 	padding: 15px 0 0;
+}
+
+.divider{
+	position: relative;
+	text-align: center;
+	margin: 13px 0 50px;
+	p{
+		background: #fff;
+		display: inline-block;
+		padding: 0 20px;
+		letter-spacing: 1px;
+	}
+	&:after{
+		content: '';
+		background: $input-border;
+		height: 1px;
+		display: block;
+		margin: -20px auto 0;
+	}
 }
 
 @import "320";

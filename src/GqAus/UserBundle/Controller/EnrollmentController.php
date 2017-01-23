@@ -140,6 +140,14 @@ class EnrollmentController extends Controller
         $enrollment = [];
         $enrollment['disability'] = $this->get('UserService')->getDisabilityElements();
         $enrollment['qualification'] = $this->get('UserService')->getPreviousQualifications();
+        $documentTypesArr= $this->get('UserService')->getDocumentTypes();
+            $enrollment['documentTypes'] = [];
+        foreach ($documentTypesArr as $key=>$documentTypes){
+            $enrollment['documentTypes'][$key]['id'] = $documentTypes->getId();
+            $enrollment['documentTypes'][$key]['type'] = $documentTypes->getType();
+            $enrollment['documentTypes'][$key]['point'] = $documentTypes->getPoints();
+            $enrollment['documentTypes'][$key]['pointDisplay'] = $documentTypes->getPoints() . ' Point Ids';
+        }
         return new JsonResponse($enrollment);
     }
 }

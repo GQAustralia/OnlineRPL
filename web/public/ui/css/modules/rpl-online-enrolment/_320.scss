@@ -1,105 +1,48 @@
-.upload-id-files{
-    border: 2px dashed #55606E;
-    text-align: center;
-    padding-bottom: 30px;
-    position: relative;
-    
-    &::before{
-        content: "\E14D";
-        display: block;
-        font-size: 120px;
-        font-family: 'Material Icons';
-        text-align: center;
-        vertical-align: middle;
-    }
-    
-    .points{
-        color: #bfbbbb;
-        font-size: 18px;
-        text-align: center;
-    }
-    
-    input[type="file"] {
-        position: absolute;
-        top: 0;
-        opacity: 0;
-        height: 100%;
-        width: 100%;
-        cursor: pointer;
-    }
-    .btn{
-        background-color: #3E3E3E;
-        color: #fff;
-        
-        .zmdi-plus-square {
-            font-size: 30px;
-            vertical-align: middle;
-            padding-right: 10px;
-        }
-    }
+.bootstrapWizard { 
+    width: 100%;
+
+    li a span { display: none; }
 }
 
 .consolidated-id-files{
     .progress-header{
-        border-bottom: 1px solid #e2e2e2;
-        padding-bottom: 10px;
-        
-        .id-points{
-            margin-bottom: 0;
-            
-            span{
-                &.gained-points{
-                    font-size: 25px;
-                    font-weight: 900;
-                    vertical-align: sub;
-                }
-                &.req-points{
-                    
-                }
-            }
+        border-bottom: 1px solid $gray-lighter;
+        margin-bottom: 30px;
+        @include clearfix();
+
+        .btn {
+            margin-top: 15px;
         }
-        
-        .btn-default{
-            background-color: #3E3E3E;
-            color: #fff;
-        }
-        div[class^="col-"]{
-            min-height: inherit;
-        }
+
+        .progress figcaption:before { display: inline-block; margin-right: 5px; }
+        .progress { width: 150px; }
     }
     .id-files-body{
-        .id-th,
-        .id-td{
-            div {
-                float: left;
-                padding: 10px;
-                //width: 33.3%;
-                
-                &:nth-child(2),
-                &:nth-child(3)
-                {
-                    width: 46%;
+        tr> {
+            td {
+                &:first-child {
+                    min-width: 100px;
+                    width: 130px;
+                    max-width: 130px;
+                    text-align: center;
                 }
-            }                
-        }
-        .id-td{
-            div{
-                background-color: lightgray;
-                margin-left: 2px;
-            }
-            div:first-child{
-                //background-color: greenyellow;
+
+                label, small {
+                    display: block;
+                    clear: both;
+                }
+
+                .points {
+                    font-size: 1.8em;
+                    font-weight: 500;
+                }
+                &:last-child {
+                    width: 50px;
+                }
             }
         }
     }
 }
-
-
-
-
-
-
-
 
 /* Modal Popup over rights for enrolment page */
 
@@ -113,71 +56,23 @@
     height: 100%;
 }
 
-
 .modal-dialog {
   display: inline-block;
   text-align: left;
   vertical-align: middle;
-    
-    .upload-id-files{
-        padding: 0;
-        position: relative;
-        
-        &:before{
-            content: "";
-        }
-        
-        .popover-content{
-            padding: 0;
-        }
-        
-        p{
-            margin: 0;
-            padding: 40px 0;
-        }
-    
-        ul{
-            margin: 0;
-            padding: 0;
-            
-            li{
-                border-bottom: 1px dashed #e2e2e2;
-                list-style-type: none;
-                
-                &:last-child{
-                    border-bottom: 0;
-                }
-                
-                a{
-                    color: $headings-small-color;
-                    padding: 10px 60px;
-                    display: block;
-                }
-                
-                i{
-                    padding-right: 5px;
-                }
-            }            
-        }
-        
-    }
-    
-}
-.modal-header{
-    background-color: transparent;
-    color: $gray;
-}
-.modal-title, .modal-body {
-    font-size: 20px;
 }
 .modal-body {
-    position: relative;
-    padding: 0;
-    
     select{
         width: 100%;
         padding: 10px;
         font-size: 14px;
-        
+    }
+}
+
+// The "OR" divider in the Address section
+
+.divider{
+    &:after{
+        width: 100%;
     }
 }

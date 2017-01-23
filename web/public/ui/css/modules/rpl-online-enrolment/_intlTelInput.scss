@@ -272,7 +272,8 @@
         z-index: auto;
 
         .selected-flag{ 
-            padding: 13px 20px 14px 6px; 
+            padding: 13px 20px 14px 6px;
+            @include transition(0.2s all ease-in-out);
         }
     }
 }

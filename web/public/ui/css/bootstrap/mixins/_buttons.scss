@@ -27,7 +27,7 @@
   .open > &.dropdown-toggle {
     color: white;
     background-color: darken($background, 80%);
-    border-color: darken($border, 12%);
+    border-color: darken($background, 80%);
 
     &:hover,
     &:focus,

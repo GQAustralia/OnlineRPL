@@ -33,4 +33,9 @@ button.close {
   background: transparent;
   border: 0;
   -webkit-appearance: none;
+  outline: none;
+
+  &:active {
+    background-color: rgba(0,0,0,0.2);
+  }
 }

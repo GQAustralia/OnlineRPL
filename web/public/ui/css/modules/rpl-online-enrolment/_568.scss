@@ -1,0 +1,13 @@
+// The "OR" divider in the Address section
+.bootstrapWizard { 
+    width: 100%;
+
+    li a span { display: block; }
+}
+
+
+.divider{
+    &:after{
+        width: 30%;
+    }
+}
