@@ -3,7 +3,7 @@ $('.modal-dialog .upload-id-files p').on('click', function (e) {
         return;
     $('.id-files-input').trigger('click');
 });
-gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _, AjaxService) {
+gqAus.controller('enrollmentCtlr', function ($scope, $window, _, AjaxService) {
     $scope.IsLoaded = false;
     $scope.countries = $window.country_arr;
     $scope.AllStates = $window.s_a;
@@ -28,6 +28,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _, AjaxServ
             postal: {}
         },
         language: {
+            country: 'Australia',
             disabilityAreas: {}
         },
         schooling: {
@@ -83,6 +84,19 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _, AjaxServ
             for (var i = 0; i < 10; i++) {
                 $scope.enrollment.employment.usiPart[i] = $scope.enrollment.employment.usi.charAt(i);
             }
+            angular.forEach($scope.forms, function (value, key) {
+                var $obj = data[value];
+                if(value === 'upload') {
+                    $obj = data['upload']['uploadId']
+                }
+                if(_.isEmpty($obj) === false){
+                  $scope.completedForms[key] = true;
+                  $scope.formSlideTo(key);
+                }
+            });
+            if(!$scope.enrollment.profile.homeTelNumber) $scope.enrollment.profile.homeTelNumber = '+61 ';
+            if(!$scope.enrollment.profile.workTelNumber) $scope.enrollment.profile.workTelNumber = '+61 ';
+            if(!$scope.enrollment.profile.mobileNumber) $scope.enrollment.profile.mobileNumber = '+61 ';
             $scope.IsLoaded = true;
         }, function (error) {
             console.log(error);
@@ -108,10 +122,10 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _, AjaxServ
         if (newValues == 1 || newValues == '')
             $scope.enrollment.profile.postal = {};
     });
-    $scope.$watch('enrollment.language.disability', function (newValues) {
-        if (newValues == 1 || newValues == '')
-            $scope.enrollment.language.disabilityAreas = {};
-    });
+//    $scope.$watch('enrollment.language.disability', function (newValues) {
+//        if (newValues == 1 || newValues == '')
+//            $scope.enrollment.language.disabilityAreas = {};
+//    });
 
     $scope.$watch('enrollment.schooling.highest', function (newValues) {
         if (newValues == 'Never attended school' || newValues == '') {
@@ -120,7 +134,10 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _, AjaxServ
         }
     });
 
-
+    $scope.selectDisability = function() {
+        $scope.enrollment.language.disabilityAreas = {};
+    };
+    
     $scope.selectState = function (country) {
         var index = $scope.countries.indexOf(country); // 1
         if (index === -1)
