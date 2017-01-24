@@ -301,7 +301,26 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _, AjaxServ
         if (total > 100)
             total = 100;
         return total;
-    }
+    };
+    $scope.closeUploadModal = function() {
+        angular.element("#uploadID").val(null);
+        $scope.enrollment.upload.type = "";
+        $('#uploadIdFiles').modal('hide');
+    };
+    
+    $scope.isUploadInProgress = function() {
+        var total = 0;
+        for (var i = 0; i < $scope.enrollment.upload.uploadId.length; i++) {
+            if ($scope.enrollment.upload.uploadId[i].status == 'inprogress') {
+                return true;
+            }
+        }
+        return false;
+    };
+    
+    $scope.submitEnrolment = function() {
+        $window.location.href = '/userprofile';
+    };
     $scope.getEnrollment();
 });
 

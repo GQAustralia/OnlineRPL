@@ -402,7 +402,14 @@
 
                                 <!-- 3rd Page Starts Here -->
                                 <div class="item schooling-achievements" ng-form name="schoolingForm">
-
+                
+                                    {#<ul>
+                                        <li ng-repeat="(key, errors) in schoolingForm.$error track by $index"> <strong>{[{ key }]}</strong> errors
+                                            <ul>
+                                                <li ng-repeat="e in errors">{[{ e.$name }]} has an error: <strong>{[{ key }]}</strong>.</li>
+                                            </ul>
+                                        </li>
+                                    </ul>#}
                                     <!-- Schooling Section STARTS here-->
                                     <h2 class="page-header">Schooling</h2>
                                     <div class="row">
@@ -425,7 +432,7 @@
                                             <div class="col-xs-12 col-md-7">
                                                 <div class="form-group">
                                                     <label for="selectYear" class="control-label">In which YEAR did you complete that school level?</label>
-                                                    <select class="form-control" id="selectYear" ng-model="enrollment.schooling.selectYear"  ng-options="n for n in [] | rangefromyear:1960"  ng-required="enrollment.schooling.highest!='Never attended school'">
+                                                    <select class="form-control" id="selectYear" ng-model="enrollment.schooling.selectYear"  ng-options="n for n in [] | rangefromyear:1950"  ng-required="enrollment.schooling.highest != 'Never attended school'">
                                                         <option value="">Select Year</option>
 
                                                     </select>
@@ -433,10 +440,10 @@
                                                 <div class="form-group">
                                                     <div class="btn-group btn-group-sm" data-toggle="buttons">
                                                         <p><label class="clear">Are you still attending secondary school?</label></p>
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.schooling.stillseconday" ng-required="true" uib-btn-radio="'Yes'"  ng-required="enrollment.schooling.highest!='Never attended school'">
+                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.schooling.stillseconday" uib-btn-radio="'Yes'"  ng-required="enrollment.schooling.highest != 'Never attended school'">
                                                             <input type="radio" name="gender"> <span>Yes</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.schooling.stillseconday" ng-required="true" uib-btn-radio="'No'"  ng-required="enrollment.schooling.highest!='Never attended school'">
+                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.schooling.stillseconday" uib-btn-radio="'No'"  ng-required="enrollment.schooling.highest != 'Never attended school'">
                                                             <input type="radio" name="gender"> <span>No</span>
                                                         </label>
                                                     </div>
@@ -734,7 +741,7 @@
                                     <div class="btn-auto-group">
                                         <button type="button" class="btn btn-default" ng-click="formSlideTo(3)">Employment &amp; USI</button>
 
-                                        <button type="button" class="btn btn-primary" ng-disabled="getTotalCompleted() < 100">Submit Enrolment Form</button>
+                                        <button type="button" class="btn btn-primary" ng-click="submitEnrolment()" ng-disabled="getTotalCompleted() < 100 || isUploadInProgress()">Submit Enrolment Form</button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
 
