@@ -685,7 +685,7 @@
 
                                             <section class="consolidated-id-files" ng-show="enrollment.upload.uploadId.length > 0">
                                                 <div class="progress-header">
-                                                    <div class="progress progress-tag-danger pull-left">
+                                                    <div class="progress-tag progress-tag-danger pull-left">
                                                         <progress role="progress" value="{[{getTotalCompleted()}]}" max="100"><img class="fallback" width="30"></progress>
                                                         <figcaption data-value="{[{getTotalCompleted()}]}" data-unit="/100" class="progress-details"> ID POINTS</figcaption>
                                                     </div>
@@ -703,7 +703,7 @@
                                                         <tr ng-repeat="(key, uploadId) in enrollment.upload.uploadId">
                                                             <td><span class="points">{[{uploadId.type.point}]}</span></td>
                                                             <td>
-                                                                <div class="progress progress-tag-success" ng-if="uploadId.status != 'completed'">
+                                                                <div class="progress-tag progress-tag-success" ng-if="uploadId.status != 'completed'">
                                                                     <progress role="progress" value="{[{uploadId.percentageCompleted}]}" max="100"><img class="fallback" width="30"></progress>
                                                                     <figcaption data-value="{[{uploadId.percentageCompleted}]}" data-unit="%" class="progress-details"></figcaption>
                                                                 </div>
