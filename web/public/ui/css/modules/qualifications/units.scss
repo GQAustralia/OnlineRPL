@@ -1,0 +1,32 @@
+@import '../../bootstrap/custom-thumbnails.scss';
+
+.unit-page-main, .unit-page-status {
+	position: relative;
+	display: block;
+}
+
+@media (max-width: $screen-xs-max ) {
+	.unit-page-main {
+		width: 100%;
+	}
+
+	.unit-page-status {
+		width: 100%
+	}	
+}
+
+@media (min-width: $screen-sm-min ) {
+	.unit-page-main {
+		padding-right: $grid-gutter-width;
+		@include calc-sub-two-values(width, 100%, 200px);
+	}
+
+	.unit-page-status {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 250px;
+		background-color: $gray-lighter;
+	}
+}

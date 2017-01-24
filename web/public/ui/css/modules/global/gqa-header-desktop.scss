@@ -128,4 +128,12 @@
 	.btn-navicon-gqa {
 		display: none;
 	}
+
+	.tour .popover-title {
+		background-color: transparent;
+		font-size: 1.4em;
+		padding: 15px;
+		line-height: 1.2;
+		color: $brand-primary;	
+	}
 }

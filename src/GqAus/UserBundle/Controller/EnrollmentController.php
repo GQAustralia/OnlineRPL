@@ -65,6 +65,7 @@ class EnrollmentController extends Controller
      */
     public function saveUploadAction(Request $request){
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $uploadId = '';
         if ($request->isMethod('POST')) {
             $params = array();
             $type = "";
@@ -72,11 +73,11 @@ class EnrollmentController extends Controller
             if (!empty($content))
             {
                 $params = json_decode($content, true); // 2nd param to get as array
-                $type = $params['type'];
             }
             $op = $this->get('UserService')->updateUploadEnroll($userId, $params);
+            $uploadId = $op->getId();
         }
-        return new JsonResponse(array( 'data' => $op ));
+        return new JsonResponse(array( 'uploadId' => $uploadId ));
     }
     /**
      * 
@@ -89,6 +90,7 @@ class EnrollmentController extends Controller
         $enrollment['language'] = $this->get('UserService')->getLangEnroll($userId);
         $enrollment['schooling'] = $this->get('UserService')->getSchEnroll($userId);
         $enrollment['employment'] = $this->get('UserService')->getEmpEnroll($userId);
+        $enrollment['upload']['uploadId'] = $this->get('UserService')->getUploadFiles($userId);
         return new JsonResponse($enrollment);
     }
     
@@ -110,5 +112,25 @@ class EnrollmentController extends Controller
             $enrollment['documentTypes'][$key]['pointDisplay'] = $documentTypes->getPoints() . ' Point Ids';
         }
         return new JsonResponse($enrollment);
+    }
+    
+     /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function removeUserIdsAction(Request $request)
+    {
+         $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        if ($request->isMethod('POST') && $userId) {
+            $params = array();
+            $type = "";
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+            }
+            $op = $this->get('UserService')->removeIdFile($params['id']);
+        }
+        return new JsonResponse(array( 'data' => $op ));
     }
 }

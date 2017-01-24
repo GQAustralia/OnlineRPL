@@ -5014,17 +5014,17 @@ class UserService
      * @param type $params
      */
     public function updateUploadEnroll($userId, $params){
-        $fileInfo = $params->get('fileInfo');
-        $fileName = $params->get('fileName');
-        $otherInfo= $params->get('otherInfo');
+        $fileInfo = $params['file'];
+        $fileName = $params['name'];
+        $type = $params['type'];
         $size = $fileInfo['size'];
         $mimeType = $fileInfo['type'];
         $userObj =  $this->repository->findOneById($userId);
         $userFiles = new UserIds(); 
-        if (!empty($userIds)) {
+        if (!empty($userObj)) {
             $userFiles->setUser($userObj);
             $documentType = $this->em->getRepository('GqAusUserBundle:DocumentType');
-            $documentID = $documentType->findOneByType($otherInfo['docType']);  
+            $documentID = $documentType->findOneById($type['id']);  
             $userFiles->setType($documentID);
             $userFiles->setName($fileInfo['name']);
             $userFiles->setPath($fileName);
@@ -5057,11 +5057,27 @@ class UserService
      */
     public function getUploadFiles($userId){
         $filesList = array();
-        $userExists = $this->em->getRepository('GqAusUserBundle:User')->findOneBy(array('user' => $userId));
+        $userExists = $this->repository->findOneById($userId);
         if (!empty($userExists)) {
-            $userFilesArr = $this->em->getRepository('GqAusUserBundle:UserIds')->findBy(array('user' => $userId));
+            $userFilesArr = $this->em->getRepository('GqAusUserBundle:UserIds')->findBy(array('user' => $userId,'status' => null));
             foreach ($userFilesArr as $userFile) {
-               $filesList[$userFile->getId()] = $userFile['name'];
+                $uploadId = [];
+                $file = [
+                    "name" => $userFile->getName(),
+                    "size" => $userFile->getSize()
+                ];
+                $type = [
+                    "id" => $userFile->getType()->getId(),
+                    "type" => $userFile->getType()->getType(),
+                    "point" => $userFile->getType()->getPoints()
+                ];
+                $uploadId['file'] = $file;
+                $uploadId['name'] = $userFile->getPath();
+                $uploadId['type'] = $type;
+                $uploadId['percentageCompleted'] = 100;
+                $uploadId['status'] = 'completed';
+                $uploadId['id'] = $userFile->getId();
+                $filesList[] = $uploadId;
             }
         }
 
