@@ -46,21 +46,21 @@
 
 /* Modal Popup over rights for enrolment page */
 
-.modal {
-    text-align: center;
-}
-.modal:before {
-    display: inline-block;
-    vertical-align: middle;
-    content: " ";
-    height: 100%;
-}
+// .modal {
+//     text-align: center;
+// }
+// .modal:before {
+//     display: inline-block;
+//     vertical-align: middle;
+//     content: " ";
+//     height: 100%;
+// }
 
-.modal-dialog {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
-}
+// .modal-dialog {
+//   display: inline-block;
+//   text-align: left;
+//   vertical-align: middle;
+// }
 .modal-body {
     select{
         width: 100%;
@@ -75,4 +75,8 @@
     &:after{
         width: 100%;
     }
+}
+
+input.ng-invalid, select.ng-invalid, email.ng-invalid, label.ng-invalid{
+    border: 1px solid $brand-danger;
 }

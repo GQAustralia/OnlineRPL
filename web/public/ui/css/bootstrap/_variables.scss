@@ -564,7 +564,7 @@ $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%
 //##
 
 //** Default label background color
-$label-default-bg:            $gray-light !default;
+$label-default-bg:            $gray-dark !default;
 //** Primary label background color
 $label-primary-bg:            $brand-primary !default;
 //** Success label background color
@@ -604,7 +604,7 @@ $modal-content-fallback-border-color:          #999 !default;
 //** Modal backdrop background color
 $modal-backdrop-bg:           #000 !default;
 //** Modal backdrop opacity
-$modal-backdrop-opacity:      .5 !default;
+$modal-backdrop-opacity:      .7 !default;
 //** Modal header border color
 $modal-header-border-color:   #e5e5e5 !default;
 //** Modal footer border color
@@ -703,7 +703,7 @@ $list-group-link-heading-color: #333 !default;
 
 $panel-bg:                    #fff !default;
 $panel-body-padding:          30px !default;
-$panel-heading-padding:       10px 15px !default;
+$panel-heading-padding:       15px 30px !default;
 $panel-footer-padding:        $panel-heading-padding !default;
 $panel-border-radius:         $border-radius-base !default;
 

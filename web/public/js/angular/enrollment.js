@@ -3,11 +3,7 @@ $('.modal-dialog .upload-id-files p').on('click', function (e) {
         return;
     $('.id-files-input').trigger('click');
 });
-var gqAus = angular.module("gqAus", ['ui.bootstrap', 's3Upload', 'underscore']);
-gqAus.config(function ($interpolateProvider) {
-    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
-});
-gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _) {
+gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _, AjaxService) {
     $scope.IsLoaded = false;
     $scope.countries = $window.country_arr;
     $scope.AllStates = $window.s_a;
@@ -53,17 +49,10 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _) {
             type: ''
         }
     };
-    var req = {
-        method: 'POST',
-        url: $window.base_url + "getDisabilityAndQualification",
-        headers: {
-            'Content-Type': "application/json"
-        }
-    };
-    $http(req).then(function (data) {
-        $scope.disabilityElement = data.data.disability;
-        $scope.previousQualification = data.data.qualification;
-        $scope.documentTypes = data.data.documentTypes;
+    AjaxService.apiCall("getDisabilityAndQualification").then(function (data) {
+        $scope.disabilityElement = data.disability;
+        $scope.previousQualification = data.qualification;
+        $scope.documentTypes = data.documentTypes;
     }, function (error) {
         console.log(error);
     });
@@ -74,25 +63,14 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _) {
                 slideFlag = false;
         }
         if(slideFlag === true){ 
-            $scope.activeForm = index;
-            $("#formWizardCarousel").carousel(i);
+        $scope.activeForm = index;
+        $("#formWizardCarousel").carousel(i);
         }
     };
     $scope.formSlideTo(0);
     $scope.proceedNext = function (key) {
         var form = $scope.forms[key];
-        console.log($scope.enrollment[form]);
-        $scope.completedForms[key] = true;
-        $scope.formSlideTo(key + 1);
-        var req = {
-            method: 'POST',
-            url: $window.base_url + "saveEnroll",
-            headers: {
-                'Content-Type': "application/json"
-            },
-            data: {data: $scope.enrollment[form], type: form}
-        };
-        $http(req).then(function (e) {
+        AjaxService.apiCall('saveEnroll', {data: $scope.enrollment[form], type: form}).then(function (success) {
             $scope.completedForms[key] = true;
             $scope.formSlideTo(key + 1);
         }, function (error) {
@@ -100,15 +78,8 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _) {
         });
     };
     $scope.getEnrollment = function () {
-        var req = {
-            method: 'GET',
-            url: $window.base_url + "getEnroll/" + $window.or_user_id,
-            headers: {
-                'Content-Type': "application/json"
-            }
-        };
-        $http(req).then(function (e) {
-            $scope.enrollment = angular.merge($scope.enrollment, e.data);
+        AjaxService.apiCall("getEnroll/" + $window.or_user_id).then(function (data) {
+            $scope.enrollment = angular.merge($scope.enrollment, data);
             for (var i = 0; i < 10; i++) {
                 $scope.enrollment.employment.usiPart[i] = $scope.enrollment.employment.usi.charAt(i);
             }
@@ -243,8 +214,8 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _) {
             $window.alert('Select Document Type');
             return;
         }
-        
-        if(angular.element("#uploadID").val() == ''){
+
+        if (angular.element("#uploadID").val() == '') {
             $window.alert('Select Upload Id');
             return;
         }
@@ -257,218 +228,84 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, $http, _) {
     };
     $scope.cancelUpload = function (value) {
         var k;
-        angular.forEach($scope.uploadRelation, function(val, key) {
-            if(value = val){
-                var k = key;
+        angular.forEach($scope.uploadRelation, function (val, key) {
+            if (value = val) {
+                k = key;
             }
-          });
+        });
         $scope.uploadControl.cancel(k);
-        $scope.enrollment.upload.uploadId.splice(value,1);
-        $scope.$applyAsync(); 
+        $scope.enrollment.upload.uploadId.splice(value, 1);
+        $scope.$applyAsync();
+    };
+
+    $scope.removeUpload = function (index) {
+        AjaxService.apiCall("removeUserIds",{id:$scope.enrollment.upload.uploadId[index].id}).then(function (data) {
+            $scope.enrollment.upload.uploadId.splice(index, 1);
+            $scope.$applyAsync();
+        }, function (error) {
+            console.log(error);
+        });
+
     };
     $scope.progressbar = function (uploadingSize, uploadedSize, totalSize, fileNum) {
-        var uploadIndex  = $scope.uploadRelation[fileNum];
-        var completed = Math.floor((uploadedSize + uploadingSize)*100);
-        if(completed> 100) completed = 100;
+        var uploadIndex = $scope.uploadRelation[fileNum];
+        var completed = Math.floor((uploadedSize + uploadingSize) * 100);
+        if (completed > 100)
+            completed = 100;
         $scope.enrollment.upload.uploadId[uploadIndex].percentageCompleted = completed;
-        $scope.$applyAsync(); 
-    };
-    $scope.uploadcomplete = function (data,obj) {
-        
-        var uploadIndex = $scope.uploadRelation[obj.fileNum];
-        $scope.enrollment.upload.uploadId[uploadIndex].status = 'completed';
         $scope.$applyAsync();
-          
+    };
+    $scope.uploadcomplete = function (data, obj) {
+        var uploadIndex = $scope.uploadRelation[obj.fileNum];
+        AjaxService.apiCall("saveUpload", $scope.enrollment.upload.uploadId[uploadIndex]).then(function (data) {
+            if(data.uploadId !=='') {
+               $scope.enrollment.upload.uploadId[uploadIndex].id = data.uploadId;
+                $scope.enrollment.upload.uploadId[uploadIndex].status = 'completed';
+                $scope.$applyAsync(); 
+            }else{
+                $scope.enrollment.upload.uploadId[uploadIndex].status = 'failed';
+            }
+            
+        }, function (error) {
+            console.log(error);
+        });
     };
     $scope.uploadfailed = function (msg) {
-        $window.alert(msg); 
+        $window.alert(msg);
     };
-    $scope.uploadstarted = function (file,fileNum,dataObj) {
+    $scope.uploadstarted = function (file, fileNum, dataObj) {
         var index = $scope.enrollment.upload.uploadId.length;
         var uploadObj = {
-            file:file,
-            name:file.name,
-            type:dataObj.type,
-            percentageCompleted:0,
-            status:'inprogress'
+            file: file,
+            name: file.name,
+            type: dataObj.type,
+            percentageCompleted: 0,
+            status: 'inprogress'
         };
         $scope.enrollment.upload.uploadId.push(uploadObj);
         var Obj = {};
         Obj[fileNum] = index;
-        $scope.uploadRelation = angular.merge($scope.uploadRelation,Obj)
-        $scope.$applyAsync(); 
-         angular.element("#uploadID").val(null);
+        $scope.uploadRelation = angular.merge($scope.uploadRelation, Obj)
+        $scope.$applyAsync();
+        angular.element("#uploadID").val(null);
         $scope.enrollment.upload.type = "";
         $('#uploadIdFiles').modal('hide');
     };
     $scope.getTotalCompleted = function () {
         var total = 0;
         for (var i = 0; i < $scope.enrollment.upload.uploadId.length; i++) {
-            if($scope.enrollment.upload.uploadId[i].status == 'completed'){
+            if ($scope.enrollment.upload.uploadId[i].status == 'completed') {
                 total += $scope.enrollment.upload.uploadId[i].type.point;
             }
         }
-        if(total>100) total = 100;
+        if (total > 100)
+            total = 100;
         return total;
     }
     $scope.getEnrollment();
 });
 
-gqAus.directive('datePicker', function () {
-    var link = function (scope, element, attrs, ngModelCtrl) {
 
-        $(element).datetimepicker({
-            'format': 'DD/MM/YYYY',
-            'maxDate': 'now'
-        }).on('dp.change', function (ev) {
-            ngModelCtrl.$modelValue = $(element).val();
-            scope.ngModel = $(element).val();
-            scope.$apply();
-            $(element).change();
-        });
-    };
-    return {
-        require: 'ngModel',
-        restrict: 'A',
-        scope: {
-            ngModel: '='
-        },
-        link: link
-    }
-});
-gqAus.directive('usiInput', function () {
-    var link = function (scope, element, attrs, ngModelCtrl) {
-
-        USI_INPUT_UI.build();
-        USI_INPUT_UI.input.on('keyup', function (event) {
-            ngModelCtrl.$modelValue = $(element).val();
-            scope.ngModel = $(element).val();
-            scope.$apply();
-            $(element).change();
-        });
-    };
-    return {
-        require: 'ngModel',
-        restrict: 'A',
-        scope: {
-            ngModel: '='
-        },
-        link: link
-    }
-});
-gqAus.directive('ngIntlTelInput', [
-    function () {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-                ngModel: '='
-            },
-            link: function (scope, elm, attr, ngModelCtrl) {
-                scope.ngModel = scope.ngModel || '+61 ';
-                var codes = scope.ngModel.split(" ");
-                var countryCode = codes[0] || '+61';
-//                var country;
-//                 if (intlTelInputUtils === 'undefined')
-//                    console.log('Phone Validation Library not added');
-//                else {
-//                    angular.forEach(values, function(value, key) {
-//                        this.push(key + ': ' + value);
-//                      }, log);
-//
-//                }
-                var initialCountry = attr.initialCountry || 'au';
-                $(elm).intlTelInput({
-                    preferredCountries: [initialCountry]
-                }).on("click", function (e, countryData) {
-                    ngModelCtrl.$modelValue = $(elm).val();
-                    scope.ngModel = $(elm).val();
-                    scope.$apply();
-                    $(elm).change();
-                }).on("focus", function (e) {
-                    ngModelCtrl.$modelValue = $(elm).val();
-                    scope.ngModel = $(elm).val();
-                    scope.$apply();
-                    $(elm).change();
-                }).on("blur", function (e) {
-                    ngModelCtrl.$modelValue = $(elm).val();
-                    scope.ngModel = $(elm).val();
-                    scope.$apply();
-                    $(elm).change();
-                });
-                scope.$watch(function () {
-                    return ngModelCtrl.$modelValue;
-                }, function (newValue) {
-                    $(elm).keyup();
-                });
-            }
-        };
-    }]);
-gqAus.directive('phoneformat', function () {
-    return {
-        restrict: 'A',
-        require: 'ngModel',
-        link: function (scope, element, attr, ctrl) {
-            function validate(phoneInput) {
-                phoneInput = phoneInput.trim();
-                var phoneCodes = phoneInput.split(' ');
-                if (intlTelInputUtils === 'undefined')
-                    console.log('Phone Validation Library not added');
-                else if (intlTelInputUtils.isValidNumber(phoneInput, phoneCodes[0])) {
-                    ctrl.$setValidity('phoneformat', true);
-                    return phoneInput;
-                } else {
-                    ctrl.$setValidity('phoneformat', false);
-                    return false;
-
-                }
-            }
-            scope.$watch(function () {
-                return ctrl.$viewValue;
-            }, validate);
-        }
-    }
-});
-
-gqAus.directive('dateValidator', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, elem, attr, ngModel) {
-
-            function validate(value) {
-                if (value !== undefined && value != null) {
-                    ngModel.$setValidity('badDate', true);
-                    if (value instanceof Date) {
-                        var d = Date.parse(value);
-                        // it is a date
-                        if (isNaN(d)) {
-                            ngModel.$setValidity('badDate', false);
-                        }
-                    } else {
-                        var myPattern = new RegExp(/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/);
-                        if (value != '' && !myPattern.test(value)) {
-                            ngModel.$setValidity('badDate', false);
-                        }
-                    }
-                }
-            }
-
-            scope.$watch(function () {
-                return ngModel.$viewValue;
-            }, validate);
-        }
-    };
-});
-gqAus.filter('rangefromyear', function () {
-    return function (input, min) {
-        min = parseInt(min);
-        var datetime = new Date();
-        var max = parseInt(datetime.getFullYear());
-        for (var i = max; i >= min; i--)
-            input.push(i);
-        return input;
-    };
-});
 function enrollmentAutocomplete() {
     var x = setInterval(function () {
         if (angular && angular.element(document.getElementById('enrollmentCtlr')) && angular.element(document.getElementById('enrollmentCtlr')).scope()) {

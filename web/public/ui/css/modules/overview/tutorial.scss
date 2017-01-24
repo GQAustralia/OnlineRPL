@@ -1,0 +1,48 @@
+.is-mobile {
+	.tour {
+		&.popover {
+			margin-left: 10px;
+		}
+		.popover-title {
+			background-color: transparent;
+			font-size: 1.4em;
+			padding: 15px;
+			line-height: 1.2;
+			text-align: center;
+			color: $brand-primary;	
+		}
+	}
+	.tour-backdrop {
+		background-color: transparent !important;
+	}
+	.tour-step-background {
+		border-radius: 0;
+		width: 250px !important;
+	    background-color: transparent !important;
+	    @include box-shadow(0 0 15px rgba(134, 27, 24, 1) inset);
+	}
+	.tour.popover {
+		left: -10px;
+		right: 0;
+		width: 100%;
+		max-width: 100%;
+		border-radius: 0;
+		margin-top: 25px;
+	}
+}
+
+.is-desktop,.is-tablet {
+	.tour-backdrop {
+		background-color: transparent !important;
+	}
+
+	.tour-step-background {
+	    background-color: rgba(16, 183, 208, 0.33) !important;
+	    border: 2px solid #05323a;
+	    @include box-shadow(0 0 3px rgba(0,0,0,0.6));
+	}
+
+	.popover.tour {
+		margin-top: 30px;
+	}
+}

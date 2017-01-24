@@ -5,12 +5,12 @@ Error: Undefined variable: "$grid-gutter-width".
 1: .is-mobile {
 2: 	.login-container {
 3: 		vertical-align: middle;
-4: 		padding: $grid-gutter-width/2;
+4: 		padding: $grid-gutter-width/4;
 5: 		padding-bottom: 0;
 6: 	}
 7: 	.panel-login {
-8: 		width: 100%;
-9: 
+8: 		.panel-login-logo {
+9: 			> img { 
 
 Backtrace:
 D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/login/is-mobile.scss:4
@@ -66,14 +66,6 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:492:i
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `each'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-<<<<<<< HEAD
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:473:in `on_file_changed'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:331:in `block in watch'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/listener.rb:252:in `on_change'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/listener.rb:290:in `block in initialize_adapter'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapters/polling.rb:48:in `poll_changed_directories'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.rb:299:in `block in start_poller'
-=======
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:294:in `watch'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/sass_compiler.rb:46:in `watch!'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/commands/watch_project.rb:41:in `perform'
@@ -85,9 +77,8 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/bin/compass:30:in `block in <to
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/bin/compass:44:in `<top (required)>'
 C:/Ruby23/bin/compass:23:in `load'
 C:/Ruby23/bin/compass:23:in `<main>'
->>>>>>> da7b21fbe239d7bc55037004ac9d6b49cc63c724
 */
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$grid-gutter-width\".\A         on line 4 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/login/is-mobile.scss\A \A 1: .is-mobile {\A 2: 	.login-container {\A 3: 		vertical-align: middle;\A 4: 		padding: $grid-gutter-width/2;\A 5: 		padding-bottom: 0;\A 6: 	}\A 7: 	.panel-login {\A 8: 		width: 100%;\A 9: "; }
+  content: "Error: Undefined variable: \"$grid-gutter-width\".\A         on line 4 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/login/is-mobile.scss\A \A 1: .is-mobile {\A 2: 	.login-container {\A 3: 		vertical-align: middle;\A 4: 		padding: $grid-gutter-width/4;\A 5: 		padding-bottom: 0;\A 6: 	}\A 7: 	.panel-login {\A 8: 		.panel-login-logo {\A 9: 			> img { "; }

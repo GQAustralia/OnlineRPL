@@ -14,19 +14,19 @@
                             <div class="wizard-steps clearfix" id="wizardSteps">
                                 <div class="form-bootstrap-wizard">
                                     <ul class="bootstrapWizard form-wizard">
-                                        <li ng-click="formSlideTo(0)" ng-class="{ 'active': (activeForm == '0') }">
+                                        <li ng-click="formSlideTo(0)" ng-class="{ 'active': (activeForm == '0'), 'done' : completedForms[0]}">
                                             <a href="javascript:void(0)"> <span class="step">1</span> <span class="title">Your Profile</span> </a>
                                         </li>
-                                        <li ng-click="formSlideTo(1)" ng-class="{ 'active': (activeForm == 1) }">
+                                        <li ng-click="formSlideTo(1)" ng-class="{ 'active': (activeForm == 1), 'done' : completedForms[1]}">
                                             <a href="javascript:void(0)"> <span class="step">2</span> <span class="title">Language and <br>Diversity</span> </a>
                                         </li>
-                                        <li ng-click="formSlideTo(2)" ng-class="{ 'active': (activeForm == 2) }">
+                                        <li ng-click="formSlideTo(2)" ng-class="{ 'active': (activeForm == 2), 'done' : completedForms[2]}">
                                             <a href="javascript:void(0)"> <span class="step">3</span> <span class="title">Schooling and <br>Achievements</span> </a>
                                         </li>
-                                        <li ng-click="formSlideTo(3)" ng-class="{ 'active': (activeForm == 3) }">
+                                        <li ng-click="formSlideTo(3)" ng-class="{ 'active': (activeForm == 3), 'done' : completedForms[3]}">
                                             <a href="javascript:void(0)"> <span class="step">4</span> <span class="title">Employment <br> and USI</span> </a>
                                         </li>
-                                        <li ng-click="formSlideTo(4)" ng-class="{ 'active': (activeForm == 4) }">
+                                        <li ng-click="formSlideTo(4)" ng-class="{ 'active': (activeForm == 4), 'done' : completedForms[4]}">
                                             <a href="javascript:void(0)"> <span class="step">5</span> <span class="title">Upload ID files</span> </a>
                                         </li>
                                     </ul>
@@ -707,7 +707,7 @@
                                                                     <progress role="progress" value="{[{uploadId.percentageCompleted}]}" max="100"><img class="fallback" width="30"></progress>
                                                                     <figcaption data-value="{[{uploadId.percentageCompleted}]}" data-unit="%" class="progress-details"></figcaption>
                                                                 </div>
-                                                                <label>{[{uploadId.name}]}</label>
+                                                                <label>{[{uploadId.file.name}]}</label>
                                                                 <small class="text-uppercase text-muted">{[{uploadId.type.type}]}</small>
                                                             </td>
                                                             <td class="table-controls">
@@ -718,7 +718,7 @@
                                                                 <!-- Display this if item is being uploaded -->
 
                                                                 <!-- Only display this if file's already in the server -->
-                                                                <button type="button" class="btn btn-link" ng-if="uploadId.status == 'completed'"><i class="zmdi zmdi-delete zmdi-hc-lg"></i> Remove</button>
+                                                                <button type="button" class="btn btn-link" ng-if="uploadId.status == 'completed'" ng-click="removeUpload(key)"><i class="zmdi zmdi-delete zmdi-hc-lg"></i> Remove</button>
                                                                 <!-- Only display this if file's already in the server -->
                                                             </td>
                                                         </tr>
@@ -764,18 +764,24 @@
                                                                             <h3 class="modal-title">Add an Identification File</h3>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            {#<div class="dropdown form-group dropdown-dynamic btn-block" style="width: 100%;">
-                                                                                <button type="button" class="btn btn-default btn-lg btn-block text-left" data-toggle="dropdown">
+                                                                            <div class="dropdown form-group dropdown-dynamic btn-block" style="width: 100%;">
+                                                                               {# <button type="button" class="btn btn-default btn-lg btn-block text-left" data-toggle="dropdown">
                                                                                     <span class="dropdown-picker-selected" id="dropdownSelected" ng-model="uploaddropDown">What ID are you uploading?</span>
                                                                                     <i class="zmdi zmdi-chevron-down zmdi-hc-lg"></i>
                                                                                 </button>
                                                                                 <ul class="dropdown-menu" data-toggle="dropdown-picker">
                                                                                     <li ng-repeat="documentType in documentTypes"><a href>{[{documentType.type}]}</a></li>
-                                                                                </ul>
-                                                                            </div>#}
-                                                                            <select ng-options="documentType.type group by documentType.pointDisplay for documentType in documentTypes" ng-model="enrollment.upload.type">
+                                                                                </ul>#}
+                                                                               <ui-select ng-model="enrollment.upload.type" theme="" title="What ID are you uploading?" style="width: 100%;">
+                                                                                   <ui-select-match placeholder="What ID are you uploading?">{[{$select.selected.type}]}</ui-select-match>
+                                                                                   <ui-select-choices group-by="'pointDisplay'" repeat="documentType in documentTypes | propsFilter: {type: $select.search, point: $select.search}">
+                                                                                       <div ng-bind-html="documentType.type | highlight: $select.search"></div>
+                                                                                   </ui-select-choices>
+                                                                               </ui-select>
+                                                                            </div>
+                                                                            {#<select ng-options="documentType.type group by documentType.pointDisplay for documentType in documentTypes" ng-model="enrollment.upload.type">
                                                                                 <option value=""> Select Document type </option>
-                                                                            </select>
+                                                                            </select>#}
 
                                                                             <span></span>
                                                                             <section class="upload-control">
@@ -805,6 +811,9 @@
                                                             <!-- Upload ID Files Modal Popup End -->
 
 {% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" /> 
+{% endblock %} 
 {% block javascripts %}    
     <!-- App -->
     <!-- Online Enrolment only -->
@@ -831,7 +840,12 @@
     <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
     <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
+    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
 
+    <script src="{{ asset('public/js/angular/app.js') }}"></script>
+    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
+    <script src="{{ asset('public/js/angular/directives/enrollDirectives.js') }}"></script>
+    <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
     <script src="{{ asset('public/js/angular/enrollment.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete" async defer></script>
 {% endblock %}
