@@ -50,6 +50,7 @@ twig:
         log_list: "%log_list%"
         ms_docs: "%ms_docs%"
         ms_docs_view_url: "%ms_docs_view_url%"
+        s3_upload_url: %S3UploadUrl%
 
 # Assetic Configuration
 assetic:

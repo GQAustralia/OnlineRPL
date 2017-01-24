@@ -1,0 +1,223 @@
+.panel-qualification {
+	@include clearfix();
+	position: relative;
+	overflow: hidden;
+
+	*[class^='panel-qualification-'], *[class*=' panel-qualification-']{
+    	position: relative;
+    	display: block;
+    	float: left;
+    	min-height: 1;
+	}
+}
+
+.panel-qualification-meta {
+	width: 100%;
+	overflow: hidden;
+	border-top-left-radius: $border-radius-base;
+	border-bottom-left-radius: $border-radius-base;
+	z-index: 1;
+
+	.panel-qualification-img {
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: top center;
+		width: 100%;
+		height: $qual-card-img-height - 50;
+		position: relative;
+
+		&:after {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			content: '';
+			@include gradient-vertical(rgba(0,0,0,0.1),rgba(0,0,0,0.5),0,100%);
+			z-index: 0;
+		}
+	}
+
+	.panel-qualification-desc {
+		width: 100%;
+	    padding: 10px 15px;
+	    margin-bottom: 0;
+	    background-size: 153%;
+	    background-color: #f5f5f5;
+	    border-bottom: 1px solid #e8e8e8;
+	}
+
+	.qual-title {
+		position: absolute;
+		bottom: 15px;
+		left: 15px;
+		right: 15px;
+		margin: 0;
+		color: white;
+		z-index: 1;
+		small { color: white; }
+	}
+}
+
+.panel-qualification-heading {
+	padding: 15px;
+	text-align: left;
+	background-image: url(../img/bg-onboarding-popup.png);
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	@include clearfix();
+
+	.avatar {
+		float: left;
+		width: 25%;
+		height: auto;
+	}
+	.heading {
+		width: 75%;
+		display: block;
+		padding-top: 8px;
+		float: left;
+		font-weight: 300;
+		font-size: 1.2em;
+
+		span {
+			display: block;
+
+			&:last-child {
+				@include truncate-ellipsis(100%);
+			}
+		}
+	}
+
+	.list-group-notes {
+
+		li {
+			border-bottom: none;
+		}
+	}
+
+	& + .panel-body {
+		padding: 15px !important;
+	}
+}
+
+.panel-qualification-body {
+	@include clearfix();
+	width: 100%;
+
+	.panel-body-group {
+		padding: $grid-gutter-width/4;
+		> * { font-weight: 300; }
+
+		.h1,.h2,.h3,.h4,.h5,.h6 { margin-top: 0; display: none;}
+		.control-label { color: $gray; }
+	}
+
+	.panel-qualification-gauges {
+		width: 100%;
+		position: relative;
+		padding-top: 3%;
+		padding-bottom: 4%;
+
+		@include clearfix();
+
+		.qual-gauges {
+			position: relative;
+			display: block;
+			float: left;
+			width: 50%;
+			min-height: 150px;
+
+			.c100 {
+				margin: auto;
+				font-size: 120px;
+				float: none;
+				i {
+					margin-top: -$grid-gutter-width/4;
+					display: block;
+				}
+				i.progress-big-label {
+				    margin-top: -$grid-gutter-width/4;
+					position: absolute;
+					top: 63%;
+					left: 0;
+					right: 0;
+					display: block;
+					width: auto;
+					padding-left: 10%;
+					padding-right: 10%;
+					padding-top: 5%;
+				}
+			}
+
+			progress { width: 100%; margin-top: 30px; }
+		}
+	}
+
+	&:after {
+	    display: block;
+	    left: -$qual-card-body-offset;
+	    right: 0;
+	    height: 100%;
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    width: $qual-card-body-offset;
+	    background-color: #f5f5f5;
+	    border-right: 1px solid #e8e8e8;
+	}
+}
+
+.panel-qualification-footer {
+
+	border-top: 1px solid $gray-lighter;
+	width: 100%;
+	.btn {
+		text-align: left;
+		text-transform: uppercase;
+		padding: 20px 25px;
+		outline: none !important;
+	}
+}
+
+.progress-big-label {
+    font-size: 11px;
+    display: block;
+    width: 120px;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+.core-units:before, .elective-units:before {
+	content: 'Core Units';
+	display: block;
+	font-size: 12px;
+	text-transform: uppercase;
+    position: absolute;
+    bottom: -25px;
+    text-align: center;
+    left: 0;
+    right: 0px;
+    color: $gray;
+}
+
+.elective-units:before { content: 'Elective Units'; }
+.core-units:before { content: 'Core Units'; }
+
+// .c100.big {
+// 	&:after {
+// 		top: .02em;
+// 		left: .02em;
+// 		width: .96em;
+// 		height: .96em;
+// 	}
+// }
+
+#congratulatoryPopup {
+	
+}

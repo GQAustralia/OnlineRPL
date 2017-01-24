@@ -1,57 +1,21 @@
 /*
-Error: Undefined variable: "$brand-primary".
-        on line 24 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-mobile.scss
+Error: Undefined variable: "$zindex-navbar-fixed".
+        on line 1 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-mobile.scss
 
-19: 			position: fixed;
-20: 			display: none;
-21: 			top: 0;
-22: 			left: 0;
-23: 			padding-top: 60px;
-24: 			background: $brand-primary;
-25: 			bottom: 0;
-26: 			z-index: 1;
-27: 			min-width: 250px;
-28: 
-29: 			> li {
+1: $zindex-menu: $zindex-navbar-fixed + 1;
+2: 
+3: .is-mobile {
+4: 	.header-gqa {
+5: 		.header-gqa-logo {
+6: 			height: 30px;
 
 Backtrace:
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-mobile.scss:24
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-mobile.scss:1
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/operation.rb:64:in `_perform'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:471:in `visit_variable'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
@@ -87,4 +51,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$brand-primary\".\A         on line 24 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-mobile.scss\A \A 19: 			position: fixed;\A 20: 			display: none;\A 21: 			top: 0;\A 22: 			left: 0;\A 23: 			padding-top: 60px;\A 24: 			background: $brand-primary;\A 25: 			bottom: 0;\A 26: 			z-index: 1;\A 27: 			min-width: 250px;\A 28: \A 29: 			> li {"; }
+  content: "Error: Undefined variable: \"$zindex-navbar-fixed\".\A         on line 1 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-mobile.scss\A \A 1: $zindex-menu: $zindex-navbar-fixed + 1;\A 2: \A 3: .is-mobile {\A 4: 	.header-gqa {\A 5: 		.header-gqa-logo {\A 6: 			height: 30px;"; }

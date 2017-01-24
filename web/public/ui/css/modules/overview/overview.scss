@@ -1,0 +1,21 @@
+@import '../../bootstrap/_variables.scss';
+@import '../../bootstrap/mixins/';
+
+$qual-card-body-offset: 250px;
+$qual-card-img-height: 200px;
+
+@import 'tutorial.scss';
+@import "320";
+
+@media screen and (min-width: 568px) {
+    @import "568";
+}
+@media screen and (min-width: 768px) {
+    // @import "768";
+}
+@media screen and (min-width: 1025px) {
+    @import "1024";
+}
+@media screen and (min-width: $screen-xlg - 100) {
+    @import "1300";
+}

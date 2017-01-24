@@ -1,0 +1,62 @@
+/*
+Error: Undefined variable: "$gray-darker".
+        on line 18 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/circle.scss
+
+13: // VARS
+14: $circle-width: 0.08em;
+15: $circle-width-hover: 0.04em;
+16: 
+17: // colors default
+18: $primary-color: $gray-darker;
+19: $secondary-color: $gray-lighter;
+20: $bg-color: white;
+21: 
+22: $primary-color-green: $brand-green;
+23: $primary-color-orange: $brand-orange;
+
+Backtrace:
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/circle.scss:18
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:471:in `visit_variable'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:52:in `map'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:169:in `block in visit_children'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:168:in `visit_children'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:188:in `visit_root'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:159:in `visit'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:8:in `visit'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/root_node.rb:36:in `css_tree'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/engine.rb:381:in `_render_with_sourcemap'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/engine.rb:298:in `render_with_sourcemap'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `each'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:294:in `watch'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/sass_compiler.rb:46:in `watch!'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/commands/watch_project.rb:41:in `perform'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/commands/base.rb:18:in `execute'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/commands/project_base.rb:19:in `execute'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/bin/compass:30:in `block in <top (required)>'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/bin/compass:44:in `<top (required)>'
+C:/Ruby23/bin/compass:23:in `load'
+C:/Ruby23/bin/compass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$gray-darker\".\A         on line 18 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/circle.scss\A \A 13: // VARS\A 14: $circle-width: 0.08em;\A 15: $circle-width-hover: 0.04em;\A 16: \A 17: // colors default\A 18: $primary-color: $gray-darker;\A 19: $secondary-color: $gray-lighter;\A 20: $bg-color: white;\A 21: \A 22: $primary-color-green: $brand-green;\A 23: $primary-color-orange: $brand-orange;"; }

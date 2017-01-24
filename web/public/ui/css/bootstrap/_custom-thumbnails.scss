@@ -1,0 +1,148 @@
+$thumbnail-group-item-bg: #fdfdfd;
+$thumbnail-group-item-border-bottom-color: #cacaca;
+$thumbnail-group-item-border-left-color: #e6e6e6;
+$thumbnail-group-item-border-right-color: #e6e6e6;
+
+$thumbnail-group-item-card-width: 200px;
+
+.thumbnail-group {
+	display: block;
+	position: relative;
+	padding-left: 0;
+	margin: 30px 0 30px 0;
+	@include clearfix();
+
+	.thumbnail-group-item {
+		list-style: none;
+		display: block;
+		position: relative;
+		border-radius:$border-radius-base;
+	}
+
+	&.card-view {
+		.thumbnail-group-item {
+			float: left;
+			@include box-shadow(0 1px 2px 0px rgba(0,0,0,0.1));
+			@include transition(box-shadow .3s $easing);
+
+			&:hover {
+				@include box-shadow(0 1px 15px 0px rgba(0,0,0,0.3));
+				@include transition(box-shadow .3s $easing);
+			}
+
+			width: $thumbnail-group-item-card-width;
+
+			.thumbnail-header {
+				position: relative;
+				overflow: hidden;
+				border-top-left-radius: $border-radius-base;
+				border-top-right-radius: $border-radius-base;
+			}
+
+			.thumbnail-body {
+				@include clearfix();
+				padding: 15px;
+				border-bottom: 1px solid $thumbnail-group-item-border-bottom-color;
+				border-left: 1px solid $thumbnail-group-item-border-left-color;
+				border-right: 1px solid $thumbnail-group-item-border-right-color;
+				background-color: $thumbnail-group-item-bg;
+				border-bottom-left-radius: $border-radius-base;
+				border-bottom-right-radius: $border-radius-base;
+			}
+		}
+
+		[data-column-name="filename"] {
+			display: block;
+			font-weight: 500;
+			font-size: 1.1em;
+			margin-bottom: 10px;
+			line-height: 1;
+			position: relative;
+
+			&:after {
+				display: block;
+				position: absolute;
+				bottom: -20px;
+				content: '';
+				background-color: red;
+				width: 3px;
+				height: 2px;
+				font-family: 'icomoon';
+				font-size: 10px;
+				/* Better Font Rendering =========== */
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+			}
+
+		    &[href$='.zip']:after {  }
+		    &[href$='.jpg']:after {  }
+		    &[href$='.mp4']:after,
+		    &[href$='.mpeg']:after {  }
+		    &[href$='.doc']:after,
+		    &[href$='.docx']:after {  }
+		    &[href$='.pdf']:after {  }
+		    &[href$='.ppt']:after,
+		    &[href$='.pptx']:after {  }
+		    &[href$='.avi']:after,
+		    &[href$='.wmv']:after {  }
+		    &[href$='.wav']:after {  }
+		    &[href$='.xls']:after,
+		    &[href$='.xlsx']:after {  }
+		}
+		[data-column-name="date-submitted"] {
+			padding-left: 15px;
+			display: inline-block;
+			font-size: 0.8em;
+		}
+		[data-column-name="filesize"] {
+			display: inline-block;
+			font-size: 0.8em;
+		}
+		[data-column-name="linkage"] {
+			display: block;
+			clear: both;
+			width: 100%;
+			float: left;
+			position: relative;
+			line-height: 1;
+			padding-top: 25px;
+			margin-top: 3px;
+
+			&:before, &:after {
+				display: block;
+				position: absolute;
+			}
+			&:before {
+				content: 'Linked To';
+				text-transform: uppercase;
+				padding: 1px 5px;
+				font-size: 12px;
+				font-weight: 500;
+				color: $gray;
+				background-color: $thumbnail-group-item-bg;
+				top: 5px;
+				left: -5px;
+				z-index: 1;
+			}
+
+			&:after {
+				height: 1px;
+				background-color: $thumbnail-group-item-border-bottom-color;
+				top: 11px;
+				left: -14px;
+				right: -14px;
+				content: '';
+				z-index: 0;
+			}
+		}
+	}
+
+	&.list-view {
+		.thumbnail-group-item {
+			width: 100%;
+			float: none;
+		}
+	}
+
+	
+}

@@ -1,4 +1,4 @@
-.is-desktop {
+.is-desktop,.is-tablet {
 	.header-gqa {
 		.header-gqa-logo {
 			height: 50px;
@@ -127,5 +127,13 @@
 
 	.btn-navicon-gqa {
 		display: none;
+	}
+
+	.tour .popover-title {
+		background-color: transparent;
+		font-size: 1.4em;
+		padding: 15px;
+		line-height: 1.2;
+		color: $brand-primary;	
 	}
 }

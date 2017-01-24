@@ -62,60 +62,22 @@ class EnrollmentController extends Controller
     /**
      * 
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function saveLangEnrollAction(Request $request)
-    {
+    public function saveUploadAction(Request $request){
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
-        //$userId = 52;
+        $uploadId = '';
         if ($request->isMethod('POST')) {
             $params = array();
+            $type = "";
             $content = $this->get("request")->getContent();
             if (!empty($content))
             {
                 $params = json_decode($content, true); // 2nd param to get as array
             }
-            $op = $this->get('UserService')->updateLangEnroll($userId, $params);
-            return new JsonResponse(array( 'data' => $op ));
-        } 
-    }
-    /**
-     * 
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
-    public function saveSchEnrollAction(Request $request)
-    {
-        $userId = $this->get('security.context')->getToken()->getUser()->getId();
-        if ($request->isMethod('POST')) {
-            $params = array();
-            $content = $this->get("request")->getContent();
-            if (!empty($content))
-            {
-                $params = json_decode($content, true); // 2nd param to get as array
-            }
-            $op = $this->get('UserService')->updateSchEnroll($userId, $params);
-            return new JsonResponse(array( 'data' => $op ));
-        } 
-    }
-    /**
-     * 
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
-    public function saveEmpEnrollAction(Request $request)
-    {
-        $userId = $this->get('security.context')->getToken()->getUser()->getId();
-        if ($request->isMethod('POST')) {
-            $params = array();
-            $content = $this->get("request")->getContent();
-            if (!empty($content))
-            {
-                $params = json_decode($content, true); // 2nd param to get as array
-            }
-            $op = $this->get('UserService')->updateEmpEnroll($userId, $params);
-            return new JsonResponse(array( 'data' => $op ));
-        } 
+            $op = $this->get('UserService')->updateUploadEnroll($userId, $params);
+            $uploadId = $op->getId();
+        }
+        return new JsonResponse(array( 'uploadId' => $uploadId ));
     }
     /**
      * 
@@ -128,6 +90,7 @@ class EnrollmentController extends Controller
         $enrollment['language'] = $this->get('UserService')->getLangEnroll($userId);
         $enrollment['schooling'] = $this->get('UserService')->getSchEnroll($userId);
         $enrollment['employment'] = $this->get('UserService')->getEmpEnroll($userId);
+        $enrollment['upload']['uploadId'] = $this->get('UserService')->getUploadFiles($userId);
         return new JsonResponse($enrollment);
     }
     
@@ -140,6 +103,34 @@ class EnrollmentController extends Controller
         $enrollment = [];
         $enrollment['disability'] = $this->get('UserService')->getDisabilityElements();
         $enrollment['qualification'] = $this->get('UserService')->getPreviousQualifications();
+        $documentTypesArr= $this->get('UserService')->getDocumentTypes();
+            $enrollment['documentTypes'] = [];
+        foreach ($documentTypesArr as $key=>$documentTypes){
+            $enrollment['documentTypes'][$key]['id'] = $documentTypes->getId();
+            $enrollment['documentTypes'][$key]['type'] = $documentTypes->getType();
+            $enrollment['documentTypes'][$key]['point'] = $documentTypes->getPoints();
+            $enrollment['documentTypes'][$key]['pointDisplay'] = $documentTypes->getPoints() . ' Point Ids';
+        }
         return new JsonResponse($enrollment);
+    }
+    
+     /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function removeUserIdsAction(Request $request)
+    {
+         $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        if ($request->isMethod('POST') && $userId) {
+            $params = array();
+            $type = "";
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+            }
+            $op = $this->get('UserService')->removeIdFile($params['id']);
+        }
+        return new JsonResponse(array( 'data' => $op ));
     }
 }
