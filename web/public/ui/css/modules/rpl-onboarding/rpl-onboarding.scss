@@ -30,6 +30,7 @@
 			width: 100%;
 			margin: 0;
 			border-radius: 0;
+			@include transform(translate3d(0,0,0));
 		}
 
 		.modal-body{
@@ -80,6 +81,8 @@
 	.modal-content{
 		background: none;
 		border: none;
+		padding-top: 30px;
+		padding-bottom: 30px;
 		// @include box-shadow(none);
 	}
 	h2{
@@ -144,7 +147,7 @@
 			}
 
 			h2{
-				font-size: 25px;
+				font-size: 24px;
 			}
 		}
 

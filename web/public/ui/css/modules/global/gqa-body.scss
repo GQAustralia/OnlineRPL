@@ -1,13 +1,36 @@
-// Place a min-width to create horizontal scrollbar on desktop
-.is-desktop {
-	.header-gqa, .footer-gqa, body, html { min-width: $screen-sm-min; }
-}
-
 .is-mobile {
 	.main-content-gqa {
 		.container {
 			padding-left: 5px;
 			padding-right: 5px;
 		}
+	}
+}
+
+.dropdown-dynamic {
+	.dropdown-picker-selected {
+		display: block;
+		float: left;
+		text-align: left;
+		@include truncate-ellipsis();
+	}
+	.dropdown-menu {
+		height: 280px;
+		overflow-y: auto;
+		li {
+			&.active {
+				background-color: $gray-darker;
+				color: white;
+			}
+		}
+	}
+}
+
+.list-group-no-border {
+	display: block;
+	width: 100%;
+	clear: both;
+	li {
+		border-bottom: none;
 	}
 }

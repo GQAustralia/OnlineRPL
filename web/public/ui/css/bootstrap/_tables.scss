@@ -23,6 +23,7 @@ th {
   width: 100%;
   max-width: 100%;
   margin-bottom: $line-height-computed;
+
   // Cells
   > thead,
   > tbody,
@@ -33,14 +34,21 @@ th {
         padding: $table-cell-padding;
         line-height: $line-height-base;
         vertical-align: top;
-        border-top: 1px solid $table-border-color;
       }
+      > td { border-top: 1px solid $table-border-color; }
+
     }
   }
   // Bottom align for column headings
   > thead > tr > th {
     vertical-align: bottom;
-    border-bottom: 2px solid $table-border-color;
+    padding: 25px 30px 20px 30px;
+    background-color: #f3f3f3;
+    border-right: 3px solid white;
+    text-transform: uppercase;
+
+    &:last-child { border-right: none; }
+    // border-bottom: 2px solid $table-border-color;
   }
   // Remove top border from thead by default
   > caption + thead,
@@ -53,6 +61,7 @@ th {
       }
     }
   }
+  tbody > tr:first-child > td { border-top: none; }
   // Account for multiple tbody instances
   > tbody + tbody {
     border-top: 2px solid $table-border-color;
@@ -231,4 +240,23 @@ table {
 
     }
   }
+}
+
+
+// Tables with form controls
+.table-crud {
+    thead {
+        > tr {
+            th {
+
+            }
+        }
+    }
+    tbody {
+        > tr {
+            td {
+                vertical-align: middle;
+            }
+        } 
+    }
 }

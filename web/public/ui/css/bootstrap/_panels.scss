@@ -26,6 +26,7 @@
     padding: $panel-body-padding*2;
   }
   @include clearfix;
+  position: relative;
 }
 
 // Optional heading

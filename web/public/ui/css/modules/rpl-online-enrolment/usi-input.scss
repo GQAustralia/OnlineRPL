@@ -1,0 +1,94 @@
+.usi-input {
+	display: inline-block;
+	width: 100%;
+	position: relative;
+
+	input[type="text"] {
+		text-transform: uppercase;
+		// @include opacity(1);
+		// position: absolute;
+	}
+}
+
+
+.upload-progress {
+	@include calc-add-two-values(width, 100%,50px);
+}
+
+.usi-input-body {
+	display: table;
+	position: relative;
+	width: 100%;
+
+	> .pseudo-input {
+		display: table-cell;
+		position: relative;
+		min-width: 30px;
+		width: 1%;
+		border: 1px solid $gray-light;
+		border-right: none;
+		outline: none;
+		height: $input-height-base - 3;
+		text-align: center;
+		vertical-align: middle;
+		@include transition(all .3s $easing);
+		@include box-shadow(0 1px 0 $gray-light);
+		z-index: 0;
+
+		$b-height: 6px;
+		&.active {
+			position: relative;
+			background-color: #fff8f0;
+			border-bottom-color: darken($gray-light, 35%) !important;
+			@include box-shadow(0 2px 0 darken($gray-light, 35%));
+			z-index: 1;
+
+			input[type="text"] { font-weight: 600; }
+
+			&:before, &:after {
+				display: block;
+				content: '';
+				position: absolute;
+				width: 3px;
+				height: $b-height + 2;
+				background-color: darken($gray-light, 35%);
+				bottom: -$b-height/2;
+			}
+
+			&:before { left: -1px; }
+			&:after { right: -1px; }
+		}
+
+		&:active {
+			background-color: $gray-lighter;
+		}
+
+		&:hover {
+			cursor: text;
+			background-color: lighten($gray-lighter,5%);
+			@include transition(all .3s $easing);
+		}
+
+		&:last-child {
+			border-right: 1px solid $gray-light; 
+			margin-right: 0;
+		}
+
+		input[type="text"] {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: block;
+			width: 100%;
+			border: none !important;
+			outline: none !important;
+			text-align: center;
+			font-size: $font-size-h2;
+			font-style: normal !important;
+			background-color: transparent;
+			padding: 0;
+		}
+	}
+}

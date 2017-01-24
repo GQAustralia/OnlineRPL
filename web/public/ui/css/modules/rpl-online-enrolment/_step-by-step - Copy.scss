@@ -1,0 +1,167 @@
+/*Start Wizard*/
+
+.bootstrapWizard {
+    //display: block;
+    list-style: none;
+    padding: 0;
+    position: relative;
+    width: 80%;
+    left: auto;
+    margin: 0 auto;
+    
+    &.carousel-indicators{ position: relative; }
+    
+    a {
+        &:hover,
+        &:active,
+        &:focus {
+            text-decoration: none;
+        }
+    }
+    
+    li {
+        display: block;
+        float: left;
+        width: 20%;
+        text-align: center;
+        padding-left: 0;
+        border: none;
+        height: auto;
+        margin: 0;
+        text-indent: 0;
+        &:before {
+            border-top: 3px solid $gray-lighter;
+            content: "";
+            display: block;
+            font-size: 0;
+            overflow: hidden;
+            position: relative;
+            top: 11px;
+            right: 1px;
+            width: 100%;
+            z-index: 1;
+        }
+        &:first-child:before {
+            left: 50%;
+            //max-width: 50%;
+        }
+        &:last-child:before {
+            max-width: 50%;
+            width: 50%;
+        }
+        &.complete .step {
+            background: #0aa66e;
+            padding: 1px 6px;
+            border: 3px solid #55606E;
+        }
+        &.active:first-child:before{
+            left: 50%;
+            max-width: 100%;
+            z-index: 2;
+        }
+        //&.active:nth-child(1)::before,
+        &.active:nth-child(2)::before,
+        &.active:nth-child(3)::before,
+        &.active:nth-child(4)::before{
+            border-top: 3px solid $brand-primary;
+            left: -50%;
+            max-width: 100%;
+            z-index: 3;
+        }
+        &.active:last-child:before{
+            left: -43%;
+            width: 100%;
+            border-top: 3px solid $brand-primary;
+            z-index: 2;
+            max-width: 100%;
+        }
+        .step {
+            i {
+                font-size: 10px;
+                font-weight: 400;
+                position: relative;
+                top: -1.5px;
+            }
+            background: $brand-gray;
+            color: #fff;
+            display: inline;
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 12px;
+            padding: 0px 9px;
+            border: 8px solid $gray-lighter;
+            border-radius: 50%;
+            line-height: normal;
+            position: relative;
+            text-align: center;
+            z-index: 2;
+            transition: all 0.1s linear 0s;
+        }
+        &.active {
+            margin: auto;
+            width: 20%;
+            height: auto;
+            background: none;
+            .step,
+            &.complete .step {
+                background: $brand-primary;
+                color: #fff;
+                font-weight: 700;
+                padding: 0 9px;
+                font-size: 15px;
+                border-radius: 50%;
+                border: 8px solid $gray-lighter;
+            }
+        }
+        /*&.active+li{
+            .step {
+                background: $brand-primary;
+            }
+        }*/
+        &.complete .title,
+        &.active .title {
+            color: #2B3D53;
+        }
+        .title {
+            color: #bfbfbf;
+            display: block;
+            font-size: 13px;
+            line-height: 15px;
+            max-width: 100%;
+            position: relative;
+            table-layout: fixed;
+            text-align: center;
+            top: 20px;
+            word-wrap: break-word;
+            z-index: 104;
+        }
+    }
+}
+
+.wizard-steps {
+    margin-bottom: $grid-gutter-width;
+}
+
+.wizard-actions {
+    display: block;
+    list-style: none;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    li {
+        display: inline;
+    }
+}
+
+.tab-content.transparent {
+    background-color: transparent;
+}
+
+.carousel-inner {
+    .item div[class^="col-"] {
+        min-height: 100px;
+    }
+}
+
+
+/*End Wizard*/

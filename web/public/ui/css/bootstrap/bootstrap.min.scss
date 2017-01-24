@@ -38,7 +38,7 @@
 @import "thumbnails";
 @import "custom-checkbox";
 @import "alerts";
-// @import "progress-bars";
+@import "progress-bars";
 @import "media";
 @import "list-group";
 @import "panels";
@@ -48,11 +48,14 @@
 
 // Components w/ JavaScript
 @import "modals";
-@import "custom-modal"; // custom modal style
 @import "gqa-accordion";
 @import "tooltip";
 @import "popovers";
 @import "carousel";
+
+// GQA
+@import "custom-modal";
+@import "upload-control";
 
 // Utility classes
 @import "utilities";
