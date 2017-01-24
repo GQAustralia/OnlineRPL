@@ -83,6 +83,9 @@ gqAus.directive('ngIntlTelInput', [
                 scope.$watch(function () {
                     return ngModelCtrl.$modelValue;
                 }, function (newValue) {
+                    if(newValue === '') {
+                        $(elm).val(countryCode);
+                    }
                     $(elm).keyup();
                 });
             }
