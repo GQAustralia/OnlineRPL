@@ -33,7 +33,7 @@ class AuthenticateController extends Controller
             return $this->redirect('/onBoarding/' . $loginToken);
         }
 
-        if ($user->getApplicantStatus() == self::COMPLETE_ON_BOARDING_APP_STAT) {
+        if ($user->getApplicantStatus() >= self::COMPLETE_ON_BOARDING_APP_STAT) {
             return $this->redirect('/login');
         }
 

@@ -1,0 +1,62 @@
+<header class="header-gqa navbar-fixed-top" id="headerGQA">
+    <div class='container'>
+        <button type="button" id="btnNavicon" class="btn-navicon-gqa tcon tcon-menu--xbutterfly"
+                aria-label="toggle menu">
+            <span class="tcon-menu__lines" aria-hidden="true"></span>
+            <span class="tcon-visuallyhidden">toggle menu</span>
+        </button>
+        <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg') }}"
+             alt="Get Qualified Australia">
+
+        <nav class="header-gqa-nav">
+            <ul class="nav-links" id="navLinks">
+                <li class="dropdown">
+                    <a href='#' class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="t-item-1"> <i class="zmdi zmdi-graduation-cap zmdi-hc-lg zmdi-hc-fw"></i> Qualifications</span>
+                        <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li><a href="#"><span class="h4">Overview <br><small>Summary of enroled qualifications</small></span></a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="sub-menu">
+                            <h4 class="h4 sub-menu-title">Your Qualification(s)</h4>
+                            <a href="#">Qualification in Cookery III</a>
+                            <a href="#">Qualification in Cookery VI</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href='#'><span class="t-item-2"><i
+                                    class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidences</span></a>
+                </li>
+                <li>
+                    <a href='#'><span class="t-item-3"><i
+                                    class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span></a>
+                </li>
+            </ul>
+
+            <div class="avatar-menu">
+                <div class="dropdown">
+                    <div class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="avatar avatar-xxs t-item-4"><img
+                                    src="{{ asset('public/ui/img/avatar-default.png') }}" alt="You"></div>
+                        <span class="avatar-name" id="avatarFirstName">First Name Here</span>&nbsp;
+                        <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
+                    </div>
+
+                    <ul class="dropdown-menu pull-right">
+                        <li><a href="#"><i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My
+                                Profile</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/logout"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="navbar-bg-gradient" id="navGradient"></div>
+
+</header>

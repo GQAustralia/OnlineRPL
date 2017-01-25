@@ -43,7 +43,7 @@ var ONBOARDING_CAROUSEL = {
 var ONBOARDING_NEXT_STEP = {
 	terms: $('#termsAndConditions'),
 	button: $('#nextStep'),
-	token: $('#tokenId'),
+	token: $('#loginToken'),
 	error: $('#errorMessage'),
 	errormsg: $('#errorMessage span'),
 	bind: function(){
@@ -67,14 +67,13 @@ var ONBOARDING_NEXT_STEP = {
 	accept_onboarding: function(){
 		var btntext = '<i class="zmdi zmdi-settings zmdi-hc-spin"></i> Processing';
 			ONBOARDING_NEXT_STEP.button.attr('disabled',true).html(btntext);
-
 		$.ajax({
-			url: '/acceptOnBoarding',
+			url: '/acceptOnBoardingAjax',
 			type: 'POST',
-			data: { 'token' : ONBOARDING_NEXT_STEP.token.val() }, 
+			data: { 'loginToken' : ONBOARDING_NEXT_STEP.token.val() },
 		})
 		.success(function(data) {
-			window.location.href = "/enrolment.html";
+			window.location.href = "/enrolment";
 			ONBOARDING_NEXT_STEP.button.attr('disabled',false).html('<span class="text-uppercase">Next Step:</span> Online Enrolment');
 		})
 		.fail(function() {
