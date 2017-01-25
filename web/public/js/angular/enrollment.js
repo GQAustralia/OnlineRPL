@@ -3,13 +3,14 @@ $('.modal-dialog .upload-id-files p').on('click', function (e) {
         return;
     $('.id-files-input').trigger('click');
 });
-gqAus.controller('enrollmentCtlr', function ($scope, $window, _, AjaxService) {
+gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, AjaxService) {
     $scope.IsLoaded = false;
     $scope.countries = $window.country_arr;
     $scope.AllStates = $window.s_a;
     $scope.states = [];
     $scope.disabilityAreasNumber = 0;
     $scope.forms = ['profile', 'language', 'schooling', 'employment', 'upload'];
+    $scope.titles = ['Your Profile', 'Language and Diversity', 'Schooling and Achievements', 'Employment  and USI', 'Upload ID files'];
     $scope.activeForm = 0;
     $scope.completedForms = [false, false, false, false, false];
     $scope.evidenceFirst = true;
@@ -20,12 +21,17 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, _, AjaxService) {
     $scope.uploadControl = {};
     $scope.uploadRelation = {};
     $scope.userId = $window.or_user_id || 0;
+    $rootScope.pageTitle = 'Enrolment - Your Profile';
     $scope.enrollment = {
         profile: {
             firstName: "",
             postalAddress: true,
-            address: {},
-            postal: {}
+            address: {
+                country: "Australia"
+            },
+            postal: {
+                country: "Australia"
+            }
         },
         language: {
             country: 'Australia',
@@ -65,6 +71,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, _, AjaxService) {
         }
         if(slideFlag === true){ 
         $scope.activeForm = index;
+        $rootScope.pageTitle = 'Enrolment - '+$scope.titles[index];
         $("#formWizardCarousel").carousel(i);
         }
     };
@@ -120,7 +127,9 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, _, AjaxService) {
     }, true);
     $scope.$watch('enrollment.profile.postalAddress', function (newValues) {
         if (newValues == 1 || newValues == '')
-            $scope.enrollment.profile.postal = {};
+            $scope.enrollment.profile.postal = {
+                country: "Australia"
+            };
     });
 //    $scope.$watch('enrollment.language.disability', function (newValues) {
 //        if (newValues == 1 || newValues == '')
@@ -336,7 +345,7 @@ gqAus.controller('enrollmentCtlr', function ($scope, $window, _, AjaxService) {
     };
     
     $scope.submitEnrolment = function() {
-        $window.location.href = '/userprofile';
+        $window.location.href = '/overview';
     };
     $scope.getEnrollment();
 });
