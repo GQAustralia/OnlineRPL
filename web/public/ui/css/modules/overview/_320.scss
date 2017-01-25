@@ -70,12 +70,13 @@
 	@include clearfix();
 
 	.avatar {
+		display: none;
 		float: left;
-		width: 25%;
+		width: 15%;
 		height: auto;
 	}
 	.heading {
-		width: 75%;
+		width: 100%;
 		display: block;
 		padding-top: 8px;
 		float: left;
