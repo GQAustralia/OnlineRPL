@@ -6,74 +6,7 @@
         <link rel="stylesheet" href="{{ asset('public/ui/css/vendor/bootstrap-tour.min.css') }}"/>
     {% endblock %}
 
-    <header class="header-gqa navbar-fixed-top" id="headerGQA">
-        <div class='container'>
-            <button type="button" id="btnNavicon" class="btn-navicon-gqa tcon tcon-menu--xbutterfly"
-                    aria-label="toggle menu">
-                <span class="tcon-menu__lines" aria-hidden="true"></span>
-                <span class="tcon-visuallyhidden">toggle menu</span>
-            </button>
-            <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg') }}"
-                 alt="Get Qualified Australia">
-
-            <nav class="header-gqa-nav">
-                <ul class="nav-links" id="navLinks">
-                    <li class="dropdown">
-                        <a href='#' class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="t-item-1"> <i class="zmdi zmdi-graduation-cap zmdi-hc-lg zmdi-hc-fw"></i> Qualifications</span>
-                            <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="#"><span class="h4">Overview <br><small>Summary of enroled qualifications</small></span></a>
-                            </li>
-                            <li class="divider"></li>
-                            <li class="sub-menu">
-                                <h4 class="h4 sub-menu-title">Your Qualification(s)</h4>
-                                <a href="#">Qualification in Cookery III</a>
-                                <a href="#">Qualification in Cookery VI</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href='#'><span class="t-item-2"><i
-                                        class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard</span></a>
-                    </li>
-                    <li>
-                        <a href='#'><span class="t-item-2"><i class="zmdi zmdi-accounts zmdi-hc-lg zmdi-hc-fw"></i> Applicants</span></a>
-                    </li>
-                    <li>
-                        <a href='#'><span class="t-item-2"><i
-                                        class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidences</span></a>
-                    </li>
-                    <li>
-                        <a href='#'><span class="t-item-3"><i
-                                        class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span></a>
-                    </li>
-                </ul>
-
-                <div class="avatar-menu">
-                    <div class="dropdown">
-                        <div class="dropdown-toggle" data-toggle="dropdown">
-                            <div class="avatar avatar-xxs t-item-4"><img
-                                        src="{{ asset('public/ui/img/avatar-default.png') }}" alt="You"></div>
-                            <span class="avatar-name" id="avatarFirstName">First Name Here</span>&nbsp;
-                            <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
-                        </div>
-
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="#"><i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My
-                                    Profile</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a href="#"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-        <div class="navbar-bg-gradient" id="navGradient"></div>
-
-    </header>
+    {% include 'GqAusUserBundle:Overview:_header.html.twig' %}
 
     <div class="navbar-bg-img" data-bg="skyscraper-blur" id="navImg"></div>
 
@@ -187,130 +120,113 @@
         </div>
     </main>
 
-    <!-- Onboarding Modal -->
-    <div class="modal modal-onboarding fade" tabindex="-1" role="dialog" id="congratulatoryPopup">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-title text-center">
-                    <h2 class="lead">Good job in completing your enrolment form, <span>Angela</span>!</h2>
-                    <p class="lead">You are now in your RPL Overview page, and ready to upload your evidences!</p>
-                </div>
+    {% include 'GqAusUserBundle:Overview:_modal.html.twig' %}
 
-                <div class="modal-body clearfix text-center">
-                    <div class="col-xs-12">
-                        <div class="inner">
-                            <img src="{{ asset('public/ui/img/graphic-complete-form.png') }}">
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-lg clear" data-dismiss="modal" aria-label="Close">LET'S GET
-                        STARTED!
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Onboarding Modal -->
-
-    <footer class="footer-gqa" data-toggle="auto-fixed-footer">
-        <section class="container">
-            <img class="footer-gqa-logo img-responsive" src="{{ asset('public/ui/img/gqa-logo-full-white-type.svg') }}"
-                 alt="Get Qualified Australia">
-            <ul class="footer-gqa-nav list-inline small text-right" style="margin-top: 10px;">
-                <li><a href="https://www.gqaustralia.edu.au/" target="_blank">GQA Website</a></li>
-                <li><a href="tel:">Contact Us</a></li>
-                <li style="display: block; margin-top: 5px;">Copyright &copy; <span id="currentYear">----</span> GQA.
-                    All
-                    Rights Reserved
-                </li>
-            </ul>
-        </section>
-    </footer>
+    {% include 'GqAusUserBundle:Overview:_footer.html.twig' %}
 
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('public/ui/js/plugins/bootstrap-tour.min.js') }}"></script>
 
-    <script>
-    var FIRST_TIME_TOUR = {
-        template: '<div class="popover tour"><div class="arrow"></div><h4 class="popover-title"></h4><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group btn-group-sm"><button class="btn btn-default" data-role="prev"><i class="zmdi zmdi-chevron-left zmdi-hc-lg zmdi-hc-fw"></i></button><button class="btn btn-default" data-role="next"><i class="zmdi zmdi-chevron-right zmdi-hc-lg zmdi-hc-fw"></i></button></div><button class="btn btn-link btn-sm" data-role="end">SKIP TOUR</button></div></div>',
-        init: function () {
-            var tour = new Tour({
-                name: 'tour',
-                smartPlacement: true,
-                storage: false,
-                template: FIRST_TIME_TOUR.template,
-                onEnd: FIRST_TIME_TOUR.hide_backdrop,
-                steps: [
-                    {
-                        placement: 'bottom',
-                        element: ".t-item-1",
-                        title: "Jump quickly to your Qualification",
-                        content: "This is always on your header, making it easy for you to go to any of your enrolled qualifications and home."
-                    },
-                    {
-                        placement: 'bottom',
-                        element: ".t-item-2",
-                        title: "View your Evidence Gallery",
-                        content: "All your previously uploaded evidence files will be stored here for future use."
-                    },
-                    {
-                        placement: 'bottom',
-                        element: ".t-item-3",
-                        title: "Your very own RPL Mailbox",
-                        content: "You can send messages to your Account Manager and see other notifications in this mailbox."
-                    },
-                    {
-                        placement: 'bottom',
-                        element: ".t-item-4",
-                        title: "Your name, your picture and profile dropdown",
-                        content: "Hey, it's your name and picture!  You can use the dropdown to get to your profile and change your details!"
-                    }
-                ]
-            });
+    <script type="text/javascript">
+        var FIRST_TIME_TOUR = {
+            template: '<div class="popover tour"><div class="arrow"></div><h4 class="popover-title"></h4><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group btn-group-sm"><button class="btn btn-default" data-role="prev"><i class="zmdi zmdi-chevron-left zmdi-hc-lg zmdi-hc-fw"></i></button><button class="btn btn-default" data-role="next"><i class="zmdi zmdi-chevron-right zmdi-hc-lg zmdi-hc-fw"></i></button></div><button class="btn btn-link btn-sm" data-role="end">END TOUR</button></div></div>',
 
-            var popup = $('#congratulatoryPopup');
-            tour.init();
-            popup.on('show.bs.modal', FIRST_TIME_TOUR.show_backdrop);
-            popup.modal({backdrop: false, show: true,});
-
-            popup.on('hidden.bs.modal', function (event) {
-                if (isMobile.phone === true) {
-                    $('#btnNavicon').click();
-                    FIRST_TIME_TOUR.hide_backdrop();
-                    var tmr;
-                    tmr = setInterval(function () {
-                        if (GQA_HEADER.is_menu_open === true) {
-                            tour.start();
-                            clearInterval(tmr);
+            init: function () {
+                var popup = $('#congratulatoryPopup'), header = $('#headerGQA');
+                var tour = new Tour({
+                    name: 'tour',
+                    smartPlacement: true,
+                    backdrop: true,
+                    storage: false,
+                    backdropPadding: 15,
+                    template: FIRST_TIME_TOUR.template,
+                    onEnd: FIRST_TIME_TOUR.hide_backdrop,
+                    onHidden: function (tour) {
+                        if (tour.getCurrentStep() === 2 && isMobile.phone === true) {
+                            $('#btnNavicon').click();
+                            header.css('zIndex', 1100);
+                            FIRST_TIME_TOUR.show_backdrop();
                         }
-                    }, 50);
-                }
-                else {
-                    tour.start();
-                }
-            });
-        },
-        show_backdrop: function () {
-            $('<div class="modal-backdrop in congratulatoryPopupBackdrop"/>').appendTo('body');
-        },
-        hide_backdrop: function () {
-            $('.congratulatoryPopupBackdrop').velocity(
-                {opacity: 0},
-                {
-                    display: 'none', duration: 300,
-                    complete: function () {
-                        $(this).remove();
+                        else {
+                            header.css('zIndex', '');
+                        }
+                    },
+                    steps: [
+                        {
+                            placement: 'bottom',
+                            element: ".t-item-1",
+                            title: "Jump quickly to your Qualification",
+                            content: "This is always on your header, making it easy for you to go to any of your enrolled qualifications and home."
+                        },
+                        {
+                            placement: 'bottom',
+                            element: ".t-item-2",
+                            title: "View your Evidence Gallery",
+                            content: "All your previously uploaded evidence files will be stored here for future use."
+                        },
+                        {
+                            placement: 'bottom',
+                            element: ".t-item-3",
+                            title: "Your very own RPL Mailbox",
+                            content: "You can send messages to your Account Manager and see other notifications in this mailbox."
+                        },
+                        {
+                            placement: 'bottom',
+                            element: ".t-item-4",
+                            title: "Your name, your picture and profile dropdown",
+                            content: "Hey, it's your name and picture!  You can use the dropdown to get to your profile and change your details!"
+                        }
+                    ]
+                });
+
+                tour.init();
+
+                popup.on('show.bs.modal', FIRST_TIME_TOUR.show_backdrop);
+
+                popup.modal({backdrop: false, show: true,});
+
+                popup.on('hidden.bs.modal', function (event) {
+                    if (isMobile.phone === true) {
+                        $('#btnNavicon').click();
+                        FIRST_TIME_TOUR.hide_backdrop();
+                        var tmr;
+                        tmr = setInterval(function () {
+                            if (GQA_HEADER.is_menu_open === true) {
+
+                                tour.start();
+                                clearInterval(tmr);
+                            }
+                        }, 50);
+                    }
+                    else {
+                        header.css('zIndex', 2000);
+                        tour.start();
                     }
                 });
-        },
-        build: function () {
-            this.init();
+            },
+            show_backdrop: function () {
+                $('<div class="modal-backdrop in congratulatoryPopupBackdrop"/>').appendTo('body');
+            },
+            hide_backdrop: function () {
+                $('.congratulatoryPopupBackdrop').velocity(
+                    {opacity: 0},
+                    {
+                        display: 'none', duration: 300,
+                        complete: function () {
+                            $('#headerGQA').css('zIndex', '');
+                            $(this).remove();
+                        }
+                    });
+            },
+            build: function () {
+                this.init();
+            }
         }
-    }
 
-    $(document).ready(function () {
-        FIRST_TIME_TOUR.build();
-    });
+        $(document).ready(function () {
+            FIRST_TIME_TOUR.build();
+        });
     </script>
 {% endblock %}
