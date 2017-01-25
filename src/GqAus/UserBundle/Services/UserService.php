@@ -4921,7 +4921,7 @@ class UserService
             $this->em->remove($userDisability);
             $this->em->flush();
            }
-           if($lanDiversity->getDisability() == '0')
+           if($lanDiversity->getDisability() == 1)
            {
                 foreach($params['data']['disabilityAreas'] as $key=>$value){
                     if($value == true) {

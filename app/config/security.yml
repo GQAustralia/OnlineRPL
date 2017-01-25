@@ -42,6 +42,7 @@ security:
         - { path: ^/courseunitDetails/.*, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/files/.*, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/userslog, roles: [ROLE_SUPERADMIN] }
+        - { path: ^/enrolment, roles: [ROLE_APPLICANT] }
     access_denied_url: /unauthorized
     providers:
         main:

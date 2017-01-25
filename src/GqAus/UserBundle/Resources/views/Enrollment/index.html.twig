@@ -1,6 +1,7 @@
 {% extends "::enrollment.html.twig" %}
 {% block ngApp %} ng-app="gqAus" {% endblock%}
 {% block ngController %} ng-controller="enrollmentCtlr"  id="enrollmentCtlr" {% endblock%}
+{% block title %} {[{pageTitle}]} {% endblock%}
 {% block body %}
     <main class="main-content-gqa">
         <div class="container">
@@ -84,19 +85,19 @@
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="homeTelNumber" class="control-label">Home Telephone Number</label>
-                                                    <input type="text" id="homeTelNumber" name="homeTelNumber" ng-model="enrollment.profile.homeTelNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initial-country="au" placeholder="">
+                                                    <input type="text" id="homeTelNumber" ng-pattern="/^(\+([ 0-9-\(\)\[\]])*)$/i" name="homeTelNumber" ng-model="enrollment.profile.homeTelNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initial-country="au" placeholder="">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="workTelNumber" class="control-label">Work Telephone Number</label>
-                                                    <input type="text" id="workTelNumber" name="workTelNumber" ng-model="enrollment.profile.workTelNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initialCountry="au">
+                                                    <input type="text" id="workTelNumber" name="workTelNumber" ng-pattern="/^(\+([ 0-9-\(\)\[\]])*)$/i" ng-model="enrollment.profile.workTelNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initialCountry="au">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="mobileNumber" class="control-label">Mobile Number</label>
-                                                    <input type="text" id="mobileNumber" name="mobileNumber" ng-model="enrollment.profile.mobileNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initialCountry="au">
+                                                    <input type="text" id="mobileNumber" name="mobileNumber" ng-pattern="/^(\+([ 0-9-\(\)\[\]])*)$/i" ng-model="enrollment.profile.mobileNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initialCountry="au">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -145,7 +146,7 @@
                                                         <input type="text" id="route" name="route" ng-model="enrollment.profile.address.route" ng-required="true" class="form-control">
                                                     </div>
                                                 </div>
-                                                <div class="co-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
                                                         <label for="suburb" class="control-label">Suburb, locality or town</label>
                                                         <input type="text" id="locality" name="locality" ng-model="enrollment.profile.address.locality" ng-required="true" class="form-control">
@@ -220,7 +221,7 @@
                                                         <input type="text" id="route_postal" name="route_postal" ng-model="enrollment.profile.postal.route" ng-required="!enrollment.profile.postalAddress" class="form-control">
                                                     </div>
                                                 </div>
-                                                <div class="co-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
                                                         <label for="suburb" class="control-label">Suburb, locality or town</label>
                                                         <input type="text" id="locality_postal" name="locality_postal" ng-model="enrollment.profile.postal.locality" ng-required="!enrollment.profile.postalAddress" class="form-control">
@@ -357,10 +358,10 @@
                                                 <div class="form-group">
                                                     <div class="btn-group btn-group-sm" data-toggle="buttons">
                                                         <p><label class="clear">Do you consider yourself to have a disability, impairment or long-term condition?</label></p>
-                                                        <label class="btn btn-default" for="disability" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-click="selectDisability()" ng-required="true" uib-btn-radio="1">
+                                                        <label class="btn btn-default" for="disability" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="disability"> <span>Yes</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="disability" data-parent="#accordion" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="0">
+                                                        <label class="btn btn-default" for="disability" data-parent="#accordion" data-target="#DisabilityCollapse" ng-click="selectDisability()" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="0">
                                                             <input type="radio" name="diabilisty"> <span>No</span>
                                                         </label>
                                                     </div>
@@ -368,7 +369,7 @@
                                             </div>
                                             <!-- Disability Options STARTS Here-->
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div id="DisabilityCollapse" class="" ng-show="enrollment.language.disability == '0' ">
+                                                <div id="DisabilityCollapse" class="" ng-show="enrollment.language.disability == 1 ">
                                                     <div class="disability-options">
                                                         <p>Please select from the list below the area(s) of disability, impairment or long-term condition (select as many as applicable):</p>
                                                     </div>
@@ -376,7 +377,7 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                             <div class="form-group">
                                                                 <span  ng-repeat="(key, value) in disabilityElement">
-                                                                    <input type="checkbox" class="custom-input" name="disability_{[{value.id}]}" id="disability_{[{key}]}" ng-model="enrollment.language.disabilityAreas[value.id]" ng-true-value="true" ng-false-value="false" ng-required="(enrollment.language.disability == 'Yes') && (disabilityAreasNumber < 1)" >
+                                                                    <input type="checkbox" class="custom-input" name="disability_{[{value.id}]}" id="disability_{[{key}]}" ng-model="enrollment.language.disabilityAreas[value.id]" ng-true-value="true" ng-false-value="false" ng-required="(enrollment.language.disability == 1) && (disabilityAreasNumber < 1)" >
                                                                     <label for="disability_{[{key}]}"> {[{value.type}]}</label>
                                                                 </span>
                                                                 

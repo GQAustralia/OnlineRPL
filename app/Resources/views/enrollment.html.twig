@@ -53,39 +53,41 @@
                     <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
                 </a>
             <nav class="header-gqa-nav">
-                <ul class="nav-links" id="navLinks">
-                    <li class="dropdown">
-                        <a href='#' class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="zmdi zmdi-graduation-cap zmdi-hc-lg zmdi-hc-fw"></i> <span>Qualifications</span>
-                            <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="{{ app.request.baseUrl }}/qualifications"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
-                            <li class="divider"></li>
-                            <li>
-                                <div><h4 class="h4">Your Enrolled Qualifications</h4>
-                                    {% set userCourses = user_service.getUserCourses(userId) %}  
-                                    {% if userCourses|length > 0 %}
-                                        <div class="list-group">
-                                            {% for course in userCourses %} 
-                                                {%set courseName = course.getCourseName() %}
-                                                {% if courseName is defined and courseName != null %}       
-                                                    <a href="{{ app.request.baseUrl }}/qualifications#{{course.getCourseName()}}" class="list-group-item">{{course.getCourseName()}}</a>
-                                                {%endif%}
-                                            {%endfor%}
-                                        </div>
-                                    {%endif%}
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    {% if ('ROLE_FACILITATOR' in roles)  %}
-                    <li class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/evidences'><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> <span>Evidences</span></a></li>
-                    {% endif %}
-                    {% if ('ROLE_SUPERADMIN' not in roles) %} 
-                    <li class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/messages'><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> <span>Inbox</span></a></li>
-                {% endif %}
+                {% if app.request.attributes.get('_route') != 'enrollment' %}  
+                    <ul class="nav-links" id="navLinks">
+                        <li class="dropdown">
+                            <a href='#' class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="zmdi zmdi-graduation-cap zmdi-hc-lg zmdi-hc-fw"></i> <span>Qualifications</span>
+                                <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="{{ app.request.baseUrl }}/qualifications"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div><h4 class="h4">Your Enrolled Qualifications</h4>
+                                        {% set userCourses = user_service.getUserCourses(userId) %}  
+                                        {% if userCourses|length > 0 %}
+                                            <div class="list-group">
+                                                {% for course in userCourses %} 
+                                                    {%set courseName = course.getCourseName() %}
+                                                    {% if courseName is defined and courseName != null %}       
+                                                        <a href="{{ app.request.baseUrl }}/qualifications#{{course.getCourseName()}}" class="list-group-item">{{course.getCourseName()}}</a>
+                                                    {%endif%}
+                                                {%endfor%}
+                                            </div>
+                                        {%endif%}
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        {% if ('ROLE_FACILITATOR' in roles)  %}
+                            <li class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/evidences'><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> <span>Evidences</span></a></li>
+                            {% endif %}
+                            {% if ('ROLE_SUPERADMIN' not in roles) %} 
+                            <li class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/messages'><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> <span>Inbox</span></a></li>
+                            {% endif %}
                     </ul>
+                {% endif %}
                     {% set userFName = app.security.getToken().getUser().getFirstName()%}
                     {% set userLName = app.security.getToken().getUser().getLastName()%}
                     {% set userName = userFName~' '~userLName %}
@@ -99,8 +101,8 @@
                         </div>
 
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="{{ app.request.baseUrl }}/userprofile"><i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My Profile</a></li>
-                            <li class="divider"></li>
+                            {% if app.request.attributes.get('_route') != 'enrollment' %}<li><a href="{{ app.request.baseUrl }}/userprofile"><i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My Profile</a></li>
+                            <li class="divider"></li> {% endif %}
                             <li><a href="{{ app.request.baseUrl }}/logout"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
                         </ul>
                     </div>
