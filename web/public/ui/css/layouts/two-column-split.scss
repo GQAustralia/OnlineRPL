@@ -1,0 +1,21 @@
+.container-two-column-split {
+	*[class^='section-'], *[class*='section-']{
+		position: relative;
+		float: left;
+		display: block;
+		min-height: 1;
+	}
+
+	.section-main {
+		@media (max-width: $screen-xs-max) {
+			width: 100%;
+		}
+		@media (min-width: $screen-sm-min) {
+			width: 50%;
+
+			& + .section-main {
+				padding-left: $grid-gutter-width/4;
+			}
+		}
+	}
+}

@@ -1,5 +1,6 @@
 // Width variables
-$sidebar-width: 300px; // on desktop
+$sidebar-width: 330px; // on desktop
 
 @import 'left-sidebar-and-main.scss';
 @import 'right-sidebar-and-main.scss';
+@import 'two-column-split.scss';
