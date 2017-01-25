@@ -1,0 +1,232 @@
+{% extends 'mainnew.html.twig' %}
+{% block title %}Get Qualified Australia: Online RPL{% endblock %}
+{% block content %}
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('public/ui/css/vendor/bootstrap-tour.min.css') }}"/>
+    {% endblock %}
+
+    {% include 'GqAusUserBundle:Overview:_header.html.twig' %}
+
+    <div class="navbar-bg-img" data-bg="skyscraper-blur" id="navImg"></div>
+
+    <main class="main-content-gqa">
+        <div class="container container-left-sidebar-main">
+            <section class="section-sidebar">
+                <div class="panel panel-default">
+                    <div class="panel-qualification-heading">
+                        <div class="avatar avatar-xs"><img src="{{ asset('public/ui/img/avatar-default.png') }}"
+                                                           alt="You"></div>
+                        <div class="heading">
+                            <span>Welcome back</span>
+                            <span>Person with a Long Name</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <h6 class="text-uppercase control-label"><strong>Things you need to do</strong></h6>
+                        <ul class="list-group list-group-no-border">
+                            <li class="list-group-item">Item 1</li>
+                            <li class="list-group-item">Item 2</li>
+                            <li class="list-group-item">Item 3</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section class="section-main">
+
+                <!-- ng-repeat-->
+                <article class="panel panel-default panel-qualification">
+                    <div class="panel-qualification-meta">
+                        <div class="panel-qualification-img"
+                             style="background-image: url({{ asset('public/ui/img/sample-qual-image.jpg') }});">
+                            <h3 class="h3 qual-title">
+                                <small>SIT-X123213</small>
+                                <br> Certificate in Commercial Cookery IV
+                            </h3>
+                            <span class="hidden" aria-label="hidden"
+                                  aria-value="Qualification-name">Qualification Name</span>
+                        </div>
+                        <dl class="panel-qualification-desc">
+                            <dd class="control-label">
+                                <small>STATUS</small>
+                                <br><span>Evidence Gathering</span></dd>
+                        </dl>
+                        <dl class="panel-qualification-desc">
+                            <dd class="control-label">
+                                <small>Account Manager</small>
+                                <br><span>Malou Wang</span></dd>
+                        </dl>
+                    </div>
+                    <div class="panel-qualification-body">
+                        <div class="panel-body-group">
+                            <h3 class="h3 qual-title">
+                                <small>SIT-X123213</small>
+                                <br> Certificate in Commercial Cookery IV
+                            </h3>
+                            <div class="panel-qualification-gauges">
+
+                                <div class="qual-gauges">
+                                    <div class="c100 p50 big">
+                                        <span>
+                                            <i>50%</i>
+                                            <i class="progress-big-label">Total evidence completed</i>
+                                        </span>
+                                        <div class="slice">
+                                            <div class="bar"></div>
+                                            <div class="fill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="qual-gauges">
+                                    <div class="progress-tag progress-tag-danger">
+                                        <progress role="progress" value="0" max="100"><img class="fallback" width="30">
+                                        </progress>
+                                        <figcaption data-value="0" data-unit="" class="progress-details"> DAYS LEFT
+                                        </figcaption>
+                                    </div>
+                                </div>
+
+                                <div class="qual-gauges">
+                                    <div class="c100 p50 small core-units">
+                                        <span>50%</span>
+                                        <div class="slice">
+                                            <div class="bar"></div>
+                                            <div class="fill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="qual-gauges">
+                                    <div class="c100 p50 small elective-units">
+                                        <span>50%</span>
+                                        <div class="slice">
+                                            <div class="bar"></div>
+                                            <div class="fill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="panel-qualification-footer">
+                            <a href="#" class="btn btn-link btn-block"><i
+                                        class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</a>
+                        </div>
+                    </div>
+                </article>
+                <!-- ng-repeat-->
+            </section>
+        </div>
+    </main>
+
+    {% include 'GqAusUserBundle:Overview:_modal.html.twig' %}
+
+    {% include 'GqAusUserBundle:Overview:_footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('public/ui/js/plugins/bootstrap-tour.min.js') }}"></script>
+
+    <script type="text/javascript">
+        var FIRST_TIME_TOUR = {
+            template: '<div class="popover tour"><div class="arrow"></div><h4 class="popover-title"></h4><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group btn-group-sm"><button class="btn btn-default" data-role="prev"><i class="zmdi zmdi-chevron-left zmdi-hc-lg zmdi-hc-fw"></i></button><button class="btn btn-default" data-role="next"><i class="zmdi zmdi-chevron-right zmdi-hc-lg zmdi-hc-fw"></i></button></div><button class="btn btn-link btn-sm" data-role="end">END TOUR</button></div></div>',
+
+            init: function () {
+                var popup = $('#congratulatoryPopup'), header = $('#headerGQA');
+                var tour = new Tour({
+                    name: 'tour',
+                    smartPlacement: true,
+                    backdrop: true,
+                    storage: false,
+                    backdropPadding: 15,
+                    template: FIRST_TIME_TOUR.template,
+                    onEnd: FIRST_TIME_TOUR.hide_backdrop,
+                    onHidden: function (tour) {
+                        if (tour.getCurrentStep() === 2 && isMobile.phone === true) {
+                            $('#btnNavicon').click();
+                            header.css('zIndex', 1100);
+                            FIRST_TIME_TOUR.show_backdrop();
+                        }
+                        else {
+                            header.css('zIndex', '');
+                        }
+                    },
+                    steps: [
+                        {
+                            placement: 'bottom',
+                            element: ".t-item-1",
+                            title: "Jump quickly to your Qualification",
+                            content: "This is always on your header, making it easy for you to go to any of your enrolled qualifications and home."
+                        },
+                        {
+                            placement: 'bottom',
+                            element: ".t-item-2",
+                            title: "View your Evidence Gallery",
+                            content: "All your previously uploaded evidence files will be stored here for future use."
+                        },
+                        {
+                            placement: 'bottom',
+                            element: ".t-item-3",
+                            title: "Your very own RPL Mailbox",
+                            content: "You can send messages to your Account Manager and see other notifications in this mailbox."
+                        },
+                        {
+                            placement: 'bottom',
+                            element: ".t-item-4",
+                            title: "Your name, your picture and profile dropdown",
+                            content: "Hey, it's your name and picture!  You can use the dropdown to get to your profile and change your details!"
+                        }
+                    ]
+                });
+
+                tour.init();
+
+                popup.on('show.bs.modal', FIRST_TIME_TOUR.show_backdrop);
+
+                popup.modal({backdrop: false, show: true,});
+
+                popup.on('hidden.bs.modal', function (event) {
+                    if (isMobile.phone === true) {
+                        $('#btnNavicon').click();
+                        FIRST_TIME_TOUR.hide_backdrop();
+                        var tmr;
+                        tmr = setInterval(function () {
+                            if (GQA_HEADER.is_menu_open === true) {
+
+                                tour.start();
+                                clearInterval(tmr);
+                            }
+                        }, 50);
+                    }
+                    else {
+                        header.css('zIndex', 2000);
+                        tour.start();
+                    }
+                });
+            },
+            show_backdrop: function () {
+                $('<div class="modal-backdrop in congratulatoryPopupBackdrop"/>').appendTo('body');
+            },
+            hide_backdrop: function () {
+                $('.congratulatoryPopupBackdrop').velocity(
+                    {opacity: 0},
+                    {
+                        display: 'none', duration: 300,
+                        complete: function () {
+                            $('#headerGQA').css('zIndex', '');
+                            $(this).remove();
+                        }
+                    });
+            },
+            build: function () {
+                this.init();
+            }
+        }
+
+        $(document).ready(function () {
+            FIRST_TIME_TOUR.build();
+        });
+    </script>
+{% endblock %}

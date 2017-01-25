@@ -1,7 +1,9 @@
 {
-"version": 3,
-"mappings": "",
-"sources": [],
-"names": [],
-"file": "sprite@2x.css"
+  "version": 3,
+  "file": "sprite@2x.css",
+  "sources": [
+    "sprite@2x.scss"
+  ],
+  "mappings": "",
+  "names": []
 }
