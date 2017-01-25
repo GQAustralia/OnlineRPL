@@ -8,13 +8,6 @@ Error: Undefined mixin 'transition'.
 2: @import 'gqa-header.scss';
 3: @import 'gqa-footer.scss';
 4: @import 'gqa-body.scss';
-5: 
-6: // Min-widths for desktop
-7: 
-8: .is-desktop {
-9: 	.header-gqa .container, body { min-width: $screen-sm-min; }
-10: }
-11: 
 
 Backtrace:
 D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss:6:in `transition'
@@ -95,4 +88,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'transition'.\A         on line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss, in `transition'\A         from line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss\A         from line 2 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/global.min.scss\A \A 1: // Header, Footer, Body\A 2: @import 'gqa-header.scss';\A 3: @import 'gqa-footer.scss';\A 4: @import 'gqa-body.scss';\A 5: \A 6: // Min-widths for desktop\A 7: \A 8: .is-desktop {\A 9: 	.header-gqa .container, body { min-width: $screen-sm-min; }\A 10: }\A 11: "; }
+  content: "Error: Undefined mixin 'transition'.\A         on line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss, in `transition'\A         from line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss\A         from line 2 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/global.min.scss\A \A 1: // Header, Footer, Body\A 2: @import 'gqa-header.scss';\A 3: @import 'gqa-footer.scss';\A 4: @import 'gqa-body.scss';"; }
