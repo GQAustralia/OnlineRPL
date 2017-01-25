@@ -25,6 +25,7 @@ use GqAus\UserBundle\Entity\UserIds;
 class UserService
 {
     const COMPLETE_ON_BOARDING_APP_STAT = 3;
+    const COMPLETE_GOOD_JOB_WELCOME_SPLASH_SCREEN_APP_STAT = 4;
 
     /**
      * @var Object
@@ -89,6 +90,22 @@ class UserService
     }
 
     /**
+     * @param integer $id
+     *
+     * @return User
+     */
+    public function completeOverview($id)
+    {
+        $user = $this->findUserById($id);
+
+        $user->setApplicantStatus(self::COMPLETE_GOOD_JOB_WELCOME_SPLASH_SCREEN_APP_STAT);
+
+        $this->em->flush();
+
+        return $user;
+    }
+
+    /**
      * @param string $tokenId
      *
      * @return User
@@ -104,6 +121,15 @@ class UserService
         return $user;
     }
 
+    /**
+     * @param string $id
+     *
+     * @return User
+     */
+    public function findUserById($id)
+    {
+        return $this->repository->find($id);
+    }
     /**
      * @param int $loginToken
      *
