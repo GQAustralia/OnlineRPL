@@ -26,8 +26,8 @@ class LoginController extends Controller
             $request->getSession()->set('user_id', $user->getId());
 
             if ($user->getApplicantStatus() < 3) {
-                return $this->render('GqAusUserBundle:Login:index.html.twig', ['error' => 'Invalid Credentials']);
-
+                return $this->redirect('enrolment');
+                //return $this->render('GqAusUserBundle:Login:index.html.twig', ['error' => 'Invalid Credentials']);
             }
 
             if ($user->getApplicantStatus() == 3) {
