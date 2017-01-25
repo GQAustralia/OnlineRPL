@@ -1,32 +1,96 @@
 @import '../../bootstrap/custom-thumbnails.scss';
 
-.unit-page-main, .unit-page-status {
+$qual-img-width: 220px;
+$qual-img-height: 200px;
+
+.panel-qual-heading {
 	position: relative;
-	display: block;
+	@include clearfix();
+	background-image: url(../img/bg-onboarding-popup.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	border-bottom: none;
+
+	.panel-heading {
+		position: relative;
+		@include clearfix();
+	}
+	.panel-heading-img {
+		display: block;
+		position: relative;
+	}
 }
 
-@media (max-width: $screen-xs-max ) {
-	.unit-page-main {
-		width: 100%;
-	}
-
-	.unit-page-status {
-		width: 100%
-	}	
+@media (max-width: $screen-xs-max) {
+	@import 'less-than-768.scss';
 }
 
-@media (min-width: $screen-sm-min ) {
-	.unit-page-main {
-		padding-right: $grid-gutter-width;
-		@include calc-sub-two-values(width, 100%, 200px);
+@media (min-width: $screen-sm-min) {
+	@import '768.scss';
+}
+
+.list-about-units {
+	a {
+		padding: 5px 0;
+		color: $gray;
+	}
+}
+
+.list-group-contacts {
+	> .list-group-item {
+		position: relative;
+		border-bottom: none;
+		@include clearfix();
+		padding: 5px;
+		&:hover {
+			background-color: transparent;
+		}
+		.avatar {
+			float: left;
+		}
+		.avatar-name {
+			@include calc-sub-two-values(width,100%,$avatar-xxs);
+			padding-left: $grid-gutter-width/4;
+			float: left;
+			display: block;
+		}
+
+		&:hover {
+			cursor: pointer;
+			.avatar-name { color: $brand-primary; }
+
+			* {
+				cursor: inherit;
+			}
+		}
 	}
 
-	.unit-page-status {
+	.list-group-button {
 		position: absolute;
-		top: 0;
+		top: 8px;
 		right: 0;
-		bottom: 0;
-		width: 250px;
-		background-color: $gray-lighter;
+		background-color: transparent !important;
+		background-image: none !important;
+		@include opacity(.5);
+		@include transition(opacity .3s $easing);
+
+		&:hover {
+			@include transition(opacity .3s $easing);
+			@include opacity(1);
+		}
+	}
+}
+
+
+.qual-gauges-group {
+	padding-top: 15px;
+	text-align: center;
+
+
+	.qual-spacing {
+		display: inline-block;
+		padding: 5px;
+		padding-bottom: 30px;
 	}
 }

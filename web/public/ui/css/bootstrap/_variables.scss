@@ -12,7 +12,7 @@ $gray-base:              #000 !default;
 $gray-darker:            lighten($gray-base, 20%) !default;
 $gray-dark:              lighten($gray-base, 30%) !default;
 $gray:                   lighten($gray-base, 50%) !default;
-$gray-light:             lighten($gray-base, 70%) !default;
+$gray-light:             lighten($gray-base, 60%) !default;
 $gray-lighter:           lighten($gray-base, 90%) !default;
 
 // GQA Colors
@@ -703,7 +703,7 @@ $list-group-link-heading-color: #333 !default;
 
 $panel-bg:                    #fff !default;
 $panel-body-padding:          30px !default;
-$panel-heading-padding:       15px 30px !default;
+$panel-heading-padding:       30px !default;
 $panel-footer-padding:        $panel-heading-padding !default;
 $panel-border-radius:         $border-radius-base !default;
 
