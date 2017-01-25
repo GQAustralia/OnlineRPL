@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html {% block ngApp %}{% endblock %}>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,36 +8,22 @@
     <meta name="description" content="Online RPL">
     <meta name="author" content="GQA App Dev">
     <meta name="copyright" content="Get Qualified Australia">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    
       <!-- Bootstrap -->
     {% block head %} 
-        {% set roles = app.security.getToken().getUser().getRoles() %}
-        
+        {% set roles = app.security.getToken().getUser().getRoles() %}    
         <!-- Core -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <link href="{{ asset('public/ui/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('public/ui/css/bootstrap/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('public/ui/css/main-styles.min.css') }}" rel="stylesheet" />
-    
-      <!-- App -->
-    <link href="{{ asset('public/ui/css/vendor/owl.carousel.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('public/ui/css/vendor/custom-scrollbar.min.css') }}" rel="stylesheet" />
-    <!-- Login only -->
-    <link href="{{ asset('public/ui/css/modules/rpl-online-enrolment/rpl-online-enrolment.css') }}" rel="stylesheet" />   
-
-    <script src="{{ asset('public/ui/js/plugins/isMobile.min.js') }}"></script> <!-- Sniff if browser is loaded on mobile -->
-    <script src="{{ asset('public/ui/js/modernizr-3.3.1.gqa-build.121516.min.js') }}"></script> <!-- Modernizr -->
-    
-   
-
-  
-    
-
-    <!-- enrolment only -->
-    <link href="ui/css/modules/rpl-online-enrolment/rpl-online-enrolment.css" rel="stylesheet" />
-
-    
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+        <link href="{{ asset('public/ui/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('public/ui/css/bootstrap/bootstrap.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('public/ui/css/main-styles.min.css') }}" rel="stylesheet" />
+          <!-- App -->
+        <link href="{{ asset('public/ui/css/vendor/owl.carousel.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('public/ui/css/vendor/custom-scrollbar.min.css') }}" rel="stylesheet" />
+        <!-- Login only -->
+        <link href="{{ asset('public/ui/css/modules/rpl-online-enrolment/rpl-online-enrolment.css') }}" rel="stylesheet" />   
+        <script src="{{ asset('public/ui/js/plugins/isMobile.min.js') }}"></script> <!-- Sniff if browser is loaded on mobile -->
+        <script src="{{ asset('public/ui/js/modernizr-3.3.1.gqa-build.121516.min.js') }}"></script> <!-- Modernizr -->
     {% endblock %}
     {% block stylesheets %}{% endblock %}  
         <script type="text/javascript">
@@ -46,15 +31,17 @@
             var amazon_link = "{{ amazon_link }}";
             var upload_path = "{{ asset('public/uploads/')}}";
             var or_user_id = "{{ app.security.getToken().getUser().getId()}}";
+            var S3UploadUrl = "{{ s3_upload_url }}";
         </script>    
 
 </head>
 
-<body>
-     {% set roles = app.security.getToken().getUser().getRoles() %}
+<body  {% block ngController %}{% endblock %}>
+    {% set roles = app.security.getToken().getUser().getRoles() %}
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
     {% set page = app.request.attributes.get('_route') %}
-<header class="header-gqa navbar-fixed-top" id="headerGQA">
+    {% set userId = app.security.getToken().getUser().getId() %} 
+    <header class="header-gqa navbar-fixed-top" id="headerGQA">
         <div class='container'>
             <button type="button" id="btnNavicon" class="btn-navicon-gqa tcon tcon-menu--xbutterfly" aria-label="toggle menu">
                 <span class="tcon-menu__lines" aria-hidden="true"></span>
@@ -73,14 +60,21 @@
                             <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                         </a>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="#"><span class="h4">Overview <br><small>Summary of enroled qualifications</small></span></a></li>
+                            <li><a href="{{ app.request.baseUrl }}/qualifications"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
                             <li class="divider"></li>
                             <li>
-                                <div><h4 class="h4">Your Enroled Qualifications</h4>
-                                    <div class="list-group">
-                                        <a href="#" class="list-group-item">Qualification in Cookery III</a>
-                                        <a href="#" class="list-group-item">Qualification in Cookery VI</a>
-                                    </div>
+                                <div><h4 class="h4">Your Enrolled Qualifications</h4>
+                                    {% set userCourses = user_service.getUserCourses(userId) %}  
+                                    {% if userCourses|length > 0 %}
+                                        <div class="list-group">
+                                            {% for course in userCourses %} 
+                                                {%set courseName = course.getCourseName() %}
+                                                {% if courseName is defined and courseName != null %}       
+                                                    <a href="{{ app.request.baseUrl }}/qualifications#{{course.getCourseName()}}" class="list-group-item">{{course.getCourseName()}}</a>
+                                                {%endif%}
+                                            {%endfor%}
+                                        </div>
+                                    {%endif%}
                                 </div>
                             </li>
                         </ul>
@@ -105,6 +99,8 @@
                         </div>
 
                         <ul class="dropdown-menu pull-right">
+                            <li><a href="{{ app.request.baseUrl }}/userprofile"><i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My Profile</a></li>
+                            <li class="divider"></li>
                             <li><a href="{{ app.request.baseUrl }}/logout"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
                         </ul>
                     </div>
@@ -112,7 +108,6 @@
             </nav>
         </div>
         <div class="navbar-bg-gradient" id="navGradient"></div>
-
     </header>
 
     <div class="navbar-bg-img" data-bg="skyscraper-blur" id="navImg"></div>

@@ -1,6 +1,6 @@
 {% extends "::enrollment.html.twig" %}
 {% block body %}
-    <main class="main-content-gqa" ng-app = "gqAus">
+    <main class="main-content-gqa" ng-app="gqAus">
         <div class="container" id="enrollmentCtlr" ng-controller="enrollmentCtlr">
             <!-- Put content here -->
             <div class="panel panel-default">
@@ -13,19 +13,24 @@
                                 <div class="form-bootstrap-wizard">
                                     <ul class="bootstrapWizard form-wizard">
                                         <li ng-click="formSlideTo(0)" ng-class="{ 'active': (activeForm == '0') }">
-                                            <a href="javascript:void(0)"> <span class="step">1</span> <span class="title">Your Profile</span> </a>
+                                            <a href="javascript:void(0)"> <span class="step">1</span> <span
+                                                        class="title">Your Profile</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(1)" ng-class="{ 'active': (activeForm == 1) }">
-                                            <a href="javascript:void(0)"> <span class="step">2</span> <span class="title">Language and <br>Diversity</span> </a>
+                                            <a href="javascript:void(0)"> <span class="step">2</span> <span
+                                                        class="title">Language and <br>Diversity</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(2)" ng-class="{ 'active': (activeForm == 2) }">
-                                            <a href="javascript:void(0)"> <span class="step">3</span> <span class="title">Schooling and <br>Achievements</span> </a>
+                                            <a href="javascript:void(0)"> <span class="step">3</span> <span
+                                                        class="title">Schooling and <br>Achievements</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(3)" ng-class="{ 'active': (activeForm == 3) }">
-                                            <a href="javascript:void(0)"> <span class="step">4</span> <span class="title">Employment <br> and USI</span> </a>
+                                            <a href="javascript:void(0)"> <span class="step">4</span> <span
+                                                        class="title">Employment <br> and USI</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(4)" ng-class="{ 'active': (activeForm == 4) }">
-                                            <a href="javascript:void(0)"> <span class="step">5</span> <span class="title">Upload ID files</span> </a>
+                                            <a href="javascript:void(0)"> <span class="step">5</span> <span
+                                                        class="title">Upload ID files</span> </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -50,57 +55,87 @@
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="firstName" class="control-label">First Name</label>
-                                                    <input type="text" id="firstName" name="firstName" ng-model="enrollment.profile.firstName" ng-required="true" class="form-control form-control-danger">
+                                                    <input type="text" id="firstName" name="firstName"
+                                                           ng-model="enrollment.profile.firstName" ng-required="true"
+                                                           class="form-control form-control-danger">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="lastName" class="control-label">Last Name</label>
-                                                    <input type="text" id="lastName" name="lastName" ng-model="enrollment.profile.lastName" ng-required="true" class="form-control">
+                                                    <input type="text" id="lastName" name="lastName"
+                                                           ng-model="enrollment.profile.lastName" ng-required="true"
+                                                           class="form-control">
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="birthday" class="control-label">Date of Birth</label>
-                                                    <input type="text" id="birthday" name="birthday" date-validator ng-model="enrollment.profile.birthday" ng-required="true" date-picker="enrollment.profile.birthday" class="form-control date">
+                                                    <input type="text" id="birthday" name="birthday" date-validator
+                                                           ng-model="enrollment.profile.birthday" ng-required="true"
+                                                           date-picker="enrollment.profile.birthday"
+                                                           class="form-control date">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Gender</label> <br>
                                                     <div class="btn-group  btn-group-sm" data-toggle="buttons">
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'male'">
-                                                            <input type="radio" name="gender" > <span>Male</span> </label>
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'female'">
-                                                            <input type="radio" name="gender"> <span>Female</span> </label>
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'others'">
-                                                            <input type="radio" name="gender"> <span>Others</span> </label>
+                                                        <label class="btn btn-default" for="gender"
+                                                               ng-model="enrollment.profile.gender" ng-required="true"
+                                                               uib-btn-radio="'male'">
+                                                            <input type="radio" name="gender"> <span>Male</span>
+                                                        </label>
+                                                        <label class="btn btn-default" for="gender"
+                                                               ng-model="enrollment.profile.gender" ng-required="true"
+                                                               uib-btn-radio="'female'">
+                                                            <input type="radio" name="gender"> <span>Female</span>
+                                                        </label>
+                                                        <label class="btn btn-default" for="gender"
+                                                               ng-model="enrollment.profile.gender" ng-required="true"
+                                                               uib-btn-radio="'others'">
+                                                            <input type="radio" name="gender"> <span>Others</span>
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="homeTelNumber" class="control-label">Home Telephone Number</label>
-                                                    <input type="text" id="homeTelNumber" name="homeTelNumber" ng-model="enrollment.profile.homeTelNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initial-country="au" placeholder="">
+                                                    <label for="homeTelNumber" class="control-label">Home Telephone
+                                                        Number</label>
+                                                    <input type="text" id="homeTelNumber" name="homeTelNumber"
+                                                           ng-model="enrollment.profile.homeTelNumber"
+                                                           ng-required="true" phoneformat class="form-control"
+                                                           ng-intl-tel-input initial-country="au" placeholder="">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="workTelNumber" class="control-label">Work Telephone Number</label>
-                                                    <input type="text" id="workTelNumber" name="workTelNumber" ng-model="enrollment.profile.workTelNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initialCountry="au">
+                                                    <label for="workTelNumber" class="control-label">Work Telephone
+                                                        Number</label>
+                                                    <input type="text" id="workTelNumber" name="workTelNumber"
+                                                           ng-model="enrollment.profile.workTelNumber"
+                                                           ng-required="true" phoneformat class="form-control"
+                                                           ng-intl-tel-input initialCountry="au">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="mobileNumber" class="control-label">Mobile Number</label>
-                                                    <input type="text" id="mobileNumber" name="mobileNumber" ng-model="enrollment.profile.mobileNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initialCountry="au">
+                                                    <label for="mobileNumber" class="control-label">Mobile
+                                                        Number</label>
+                                                    <input type="text" id="mobileNumber" name="mobileNumber"
+                                                           ng-model="enrollment.profile.mobileNumber" ng-required="true"
+                                                           phoneformat class="form-control" ng-intl-tel-input
+                                                           initialCountry="au">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="email" class="control-label">Email Address</label>
-                                                    <input type="email" id="email" name="email" ng-model="enrollment.profile.email" ng-required="true" class="form-control">
+                                                    <input type="email" id="email" name="email"
+                                                           ng-model="enrollment.profile.email" ng-required="true"
+                                                           class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -115,45 +150,69 @@
                                             <div class="row">
                                                 <div class="col-xs-12">
                                                     <div class="form-group">
-                                                        <small class="text-muted">Type and search for your address and we'll automatically fill the details below. You can modify them manually if you need to.</small>
-                                                        <input id="autocomplete" placeholder="Search city, state, suburb or postcode" class="form-control input-lg" type="text">
+                                                        <small class="text-muted">Type and search for your address and
+                                                            we'll automatically fill the details below. You can modify
+                                                            them manually if you need to.
+                                                        </small>
+                                                        <input id="autocomplete"
+                                                               placeholder="Search city, state, suburb or postcode"
+                                                               class="form-control input-lg" type="text">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="propertyName" class="control-label">Building / Property Name</label>
-                                                        <input type="text" id="propertyName" name="propertyName" ng-model="enrollment.profile.address.propertyName" ng-required="true" class="form-control">
+                                                        <label for="propertyName" class="control-label">Building /
+                                                            Property Name</label>
+                                                        <input type="text" id="propertyName" name="propertyName"
+                                                               ng-model="enrollment.profile.address.propertyName"
+                                                               ng-required="true" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="unitDetails" class="control-label">Flat / Unit details</label>
-                                                        <input type="text" id="unitDetails" name="unitDetails" ng-model="enrollment.profile.address.unitDetails" ng-required="true" class="form-control">
+                                                        <label for="unitDetails" class="control-label">Flat / Unit
+                                                            details</label>
+                                                        <input type="text" id="unitDetails" name="unitDetails"
+                                                               ng-model="enrollment.profile.address.unitDetails"
+                                                               ng-required="true" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="street_number" class="control-label">Street or lot number</label>
-                                                        <input type="text" id="street_number" name="street_number" ng-model="enrollment.profile.address.street_number" ng-required="true" class="form-control">
+                                                        <label for="street_number" class="control-label">Street or lot
+                                                            number</label>
+                                                        <input type="text" id="street_number" name="street_number"
+                                                               ng-model="enrollment.profile.address.street_number"
+                                                               ng-required="true" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="streetName" class="control-label">Street Name</label>
-                                                        <input type="text" id="route" name="route" ng-model="enrollment.profile.address.route" ng-required="true" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="co-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <label for="suburb" class="control-label">Suburb, locality or town</label>
-                                                        <input type="text" id="locality" name="locality" ng-model="enrollment.profile.address.locality" ng-required="true" class="form-control">
+                                                        <label for="streetName" class="control-label">Street
+                                                            Name</label>
+                                                        <input type="text" id="route" name="route"
+                                                               ng-model="enrollment.profile.address.route"
+                                                               ng-required="true" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="state" class="control-label">State / territory</label>
+                                                        <label for="suburb" class="control-label">Suburb, locality or
+                                                            town</label>
+                                                        <input type="text" id="locality" name="locality"
+                                                               ng-model="enrollment.profile.address.locality"
+                                                               ng-required="true" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="state" class="control-label">State /
+                                                            territory</label>
 
-                                                        <select class="form-control" id ="state" name ="state" ng-model="enrollment.profile.address.state" ng-required="true" ng-options="i as i for i in selectState(enrollment.profile.address.country)">
+                                                        <select class="form-control" id="state" name="state"
+                                                                ng-model="enrollment.profile.address.state"
+                                                                ng-required="true"
+                                                                ng-options="i as i for i in selectState(enrollment.profile.address.country)">
                                                             <option value="">Select State</option>
                                                         </select>
                                                     </div>
@@ -161,21 +220,30 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
                                                         <label for="postcode" class="control-label">Post Code</label>
-                                                        <input type="text" id="postal_code" name="postal_code" ng-model="enrollment.profile.address.postal_code" ng-required="true" class="form-control">
+                                                        <input type="text" id="postal_code" name="postal_code"
+                                                               ng-model="enrollment.profile.address.postal_code"
+                                                               ng-required="true" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
                                                         <label for="country" class="control-label">Country</label>
-                                                        <select class="form-control" id="country" name ="country" ng-model="enrollment.profile.address.country" ng-required="true" ng-options="i as i for i in countries">
+                                                        <select class="form-control" id="country" name="country"
+                                                                ng-model="enrollment.profile.address.country"
+                                                                ng-required="true"
+                                                                ng-options="i as i for i in countries">
                                                             <option value="">Select Country</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12">
                                                     <div class="form-group">
-                                                        <input type="checkbox" checked value="1" id="postalAddress" ng-true-value="1" ng-false-value="0" name="postalAddress" ng-model="enrollment.profile.postalAddress" class="custom-input"><label for="postalAddress"> My Postal Address is same as above</label>
-                                                    </div>                                                
+                                                        <input type="checkbox" checked value="1" id="postalAddress"
+                                                               ng-true-value="1" ng-false-value="0" name="postalAddress"
+                                                               ng-model="enrollment.profile.postalAddress"
+                                                               class="custom-input"><label for="postalAddress"> My
+                                                            Postal Address is same as above</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -188,47 +256,77 @@
                                             <div class="row">
 
 
-
                                                 <div class="col-xs-12">
                                                     <div class="form-group">
-                                                        <input id="autocomplete_postal" placeholder="Search city, state, suburb or postcode" class="form-control input-lg" type="text">
+                                                        <input id="autocomplete_postal"
+                                                               placeholder="Search city, state, suburb or postcode"
+                                                               class="form-control input-lg" type="text">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="propertyName" class="control-label">Building / Property Name</label>
-                                                        <input type="text" id="propertyName_postal" name="propertyName_postal" ng-model="enrollment.profile.postal.propertyName" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <label for="propertyName" class="control-label">Building /
+                                                            Property Name</label>
+                                                        <input type="text" id="propertyName_postal"
+                                                               name="propertyName_postal"
+                                                               ng-model="enrollment.profile.postal.propertyName"
+                                                               ng-required="!enrollment.profile.postalAddress"
+                                                               class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="unitDetails" class="control-label">Flat / Unit details</label>
-                                                        <input type="text" id="unitDetails_postal" name="unitDetails_postal" ng-model="enrollment.profile.postal.unitDetails" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <label for="unitDetails" class="control-label">Flat / Unit
+                                                            details</label>
+                                                        <input type="text" id="unitDetails_postal"
+                                                               name="unitDetails_postal"
+                                                               ng-model="enrollment.profile.postal.unitDetails"
+                                                               ng-required="!enrollment.profile.postalAddress"
+                                                               class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="street_number" class="control-label">Street or lot number</label>
-                                                        <input type="text" id="street_number_postal" name="street_number_postal" ng-model="enrollment.profile.postal.street_number" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <label for="street_number" class="control-label">Street or lot
+                                                            number</label>
+                                                        <input type="text" id="street_number_postal"
+                                                               name="street_number_postal"
+                                                               ng-model="enrollment.profile.postal.street_number"
+                                                               ng-required="!enrollment.profile.postalAddress"
+                                                               class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="streetName" class="control-label">Street Name</label>
-                                                        <input type="text" id="route_postal" name="route_postal" ng-model="enrollment.profile.postal.route" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <label for="streetName" class="control-label">Street
+                                                            Name</label>
+                                                        <input type="text" id="route_postal" name="route_postal"
+                                                               ng-model="enrollment.profile.postal.route"
+                                                               ng-required="!enrollment.profile.postalAddress"
+                                                               class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="co-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="suburb" class="control-label">Suburb, locality or town</label>
-                                                        <input type="text" id="locality_postal" name="locality_postal" ng-model="enrollment.profile.postal.locality" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <label for="suburb" class="control-label">Suburb, locality or
+                                                            town</label>
+                                                        <input type="text" id="locality_postal" name="locality_postal"
+                                                               ng-model="enrollment.profile.postal.locality"
+                                                               ng-required="!enrollment.profile.postalAddress"
+                                                               class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label for="state" class="control-label">State / territory</label>
-                                                        <input type="hidden" class="form-control" id ="administrative_area_level_1_postal"></select>
-                                                        <select class="form-control" id ="state_postal"  name="state_postal" ng-model="enrollment.profile.postal.state" ng-required="!enrollment.profile.postalAddress" ng-options="i as i for i in selectState(enrollment.profile.address.country)">
+                                                        <label for="state" class="control-label">State /
+                                                            territory</label>
+                                                        <input type="hidden" class="form-control"
+                                                               id="administrative_area_level_1_postal"></select>
+                                                        <select class="form-control" id="state_postal"
+                                                                name="state_postal"
+                                                                ng-model="enrollment.profile.postal.state"
+                                                                ng-required="!enrollment.profile.postalAddress"
+                                                                ng-options="i as i for i in selectState(enrollment.profile.address.country)">
                                                             <option value="">Select State</option>
                                                         </select>
                                                     </div>
@@ -236,13 +334,21 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
                                                         <label for="postcode" class="control-label">Post Code</label>
-                                                        <input type="text" id="postal_code_postal" name="postal_code_postal" ng-model="enrollment.profile.postal.postal_code" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <input type="text" id="postal_code_postal"
+                                                               name="postal_code_postal"
+                                                               ng-model="enrollment.profile.postal.postal_code"
+                                                               ng-required="!enrollment.profile.postalAddress"
+                                                               class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group">
                                                         <label for="country" class="control-label">Country</label>
-                                                        <select class="form-control" id="country_postal" name="country_postal" ng-model="enrollment.profile.postal.country" ng-required="!enrollment.profile.postalAddress" ng-options="i as i for i in countries">
+                                                        <select class="form-control" id="country_postal"
+                                                                name="country_postal"
+                                                                ng-model="enrollment.profile.postal.country"
+                                                                ng-required="!enrollment.profile.postalAddress"
+                                                                ng-options="i as i for i in countries">
                                                             <option value="">Select Country</option>
                                                         </select>
                                                     </div>
@@ -252,7 +358,11 @@
                                     </fieldset>
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="clearfix">
-                                        <button type="button" class="btn btn-primary pull-right"  ng-disabled="profileForm.$invalid" ng-click="profileForm.$valid && proceedNext(0)"><span class="text-uppercase">Next:</span> Language and Diversity <i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i></button>
+                                        <button type="button" class="btn btn-primary pull-right"
+                                                ng-disabled="profileForm.$invalid"
+                                                ng-click="profileForm.$valid && proceedNext(0)"><span
+                                                    class="text-uppercase">Next:</span> Language and Diversity <i
+                                                    class="zmdi zmdi-chevron-right zmdi-hc-lg"></i></button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
                                 </div>
@@ -274,8 +384,11 @@
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="country" class="control-label">In which country were you born?</label>
-                                                    <select class="form-control" id="country2" name ="country2" ng-model="enrollment.language.country" ng-required="true" ng-options="i as i for i in countries">
+                                                    <label for="country" class="control-label">In which country were you
+                                                        born?</label>
+                                                    <select class="form-control" id="country2" name="country2"
+                                                            ng-model="enrollment.language.country" ng-required="true"
+                                                            ng-options="i as i for i in countries">
                                                         <option value="">Select Country</option>
                                                     </select>
 
@@ -286,63 +399,93 @@
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                        <p><label>Do you speak a language other than English at home?</label></p>
-                                                        <label class="btn btn-default" for="langauge" data-collapse="hide" data-target="#LanguageSpoken" ng-model="enrollment.language.speakOther" ng-required="true" uib-btn-radio="0">
+                                                        <p><label>Do you speak a language other than English at
+                                                                home?</label></p>
+                                                        <label class="btn btn-default" for="langauge"
+                                                               data-collapse="hide" data-target="#LanguageSpoken"
+                                                               ng-model="enrollment.language.speakOther"
+                                                               ng-required="true" uib-btn-radio="0">
                                                             <input type="radio" name="langauge">
                                                             <span>No, English only</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="langauge" ng-model="enrollment.language.speakOther" ng-required="true" uib-btn-radio="1">
+                                                        <label class="btn btn-default" for="langauge"
+                                                               ng-model="enrollment.language.speakOther"
+                                                               ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="langauge">
                                                             <span>Yes, Please specify</span>
                                                         </label>
 
-                                                        <div id="LanguageSpoken" ng-show="enrollment.language.speakOther == 1">
-                                                            <input name="language" type="text" class="form-control" ng-model="enrollment.language.speakLanguage" ng-required="enrollment.language.speakOther == 1">
+                                                        <div id="LanguageSpoken"
+                                                             ng-show="enrollment.language.speakOther == 1">
+                                                            <input name="language" type="text" class="form-control"
+                                                                   ng-model="enrollment.language.speakLanguage"
+                                                                   ng-required="enrollment.language.speakOther == 1">
                                                         </div>
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </div>
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                            <p><label class="clear">How well do you speak English?</label></p>
-                                                            <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Very Well'">
-                                                                <input type="radio" name="speakEnglish"> <span>Very well</span>
-                                                            </label>
-                                                            <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Well'">
-                                                                <input type="radio" name="speakEnglish"> <span>Well</span>
-                                                            </label>
-                                                            <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Not well'">
-                                                                <input type="radio" name="speakEnglish"> <span>Not well</span>
-                                                            </label>
-                                                            <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Not at all'">
-                                                                <input type="radio" name="speakEnglish"> <span>Not at all</span>
-                                                            </label>
-                                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                        <p><label class="clear">How well do you speak English?</label>
+                                                        </p>
+                                                        <label class="btn btn-default" for="speakEnglish"
+                                                               ng-model="enrollment.language.speakEnglish"
+                                                               ng-required="true" uib-btn-radio="'Very Well'">
+                                                            <input type="radio" name="speakEnglish">
+                                                            <span>Very well</span>
+                                                        </label>
+                                                        <label class="btn btn-default" for="speakEnglish"
+                                                               ng-model="enrollment.language.speakEnglish"
+                                                               ng-required="true" uib-btn-radio="'Well'">
+                                                            <input type="radio" name="speakEnglish"> <span>Well</span>
+                                                        </label>
+                                                        <label class="btn btn-default" for="speakEnglish"
+                                                               ng-model="enrollment.language.speakEnglish"
+                                                               ng-required="true" uib-btn-radio="'Not well'">
+                                                            <input type="radio" name="speakEnglish">
+                                                            <span>Not well</span>
+                                                        </label>
+                                                        <label class="btn btn-default" for="speakEnglish"
+                                                               ng-model="enrollment.language.speakEnglish"
+                                                               ng-required="true" uib-btn-radio="'Not at all'">
+                                                            <input type="radio" name="speakEnglish">
+                                                            <span>Not at all</span>
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                            <p><label class="clear">Are you of Aboriginal or Torres Strait Islander origin?</label></p>
-                                                            <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'No'">
-                                                                <input type="radio" name="aboriginal"> <span>No</span>
-                                                            </label>
-                                                            <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'Yes, Aboriginal'">
-                                                                <input type="radio" name="aboriginal"> <span>Yes, Aboriginal</span>
-                                                            </label>
-                                                            <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'Yes, Torres Strait Islander'">
-                                                                <input type="radio" name="aboriginal"> <span>Yes, Torres Strait Islander</span>
-                                                            </label>
-                                                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                        <p><label class="clear">Are you of Aboriginal or Torres Strait
+                                                                Islander origin?</label></p>
+                                                        <label class="btn btn-default" for="aboriginal"
+                                                               ng-model="enrollment.language.aboriginal"
+                                                               ng-required="true" uib-btn-radio="'No'">
+                                                            <input type="radio" name="aboriginal"> <span>No</span>
+                                                        </label>
+                                                        <label class="btn btn-default" for="aboriginal"
+                                                               ng-model="enrollment.language.aboriginal"
+                                                               ng-required="true" uib-btn-radio="'Yes, Aboriginal'">
+                                                            <input type="radio" name="aboriginal">
+                                                            <span>Yes, Aboriginal</span>
+                                                        </label>
+                                                        <label class="btn btn-default" for="aboriginal"
+                                                               ng-model="enrollment.language.aboriginal"
+                                                               ng-required="true"
+                                                               uib-btn-radio="'Yes, Torres Strait Islander'">
+                                                            <input type="radio" name="aboriginal"> <span>Yes, Torres Strait Islander</span>
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                     </fieldset>
                                     <!-- Langugage and cultural diversity END's Here -->
 
@@ -354,11 +497,20 @@
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group">
                                                     <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                        <p><label class="clear">Do you consider yourself to have a disability, impairment or long-term condition?</label></p>
-                                                        <label class="btn btn-default" for="disability" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="1">
+                                                        <p><label class="clear">Do you consider yourself to have a
+                                                                disability, impairment or long-term condition?</label>
+                                                        </p>
+                                                        <label class="btn btn-default" for="disability"
+                                                               data-target="#DisabilityCollapse"
+                                                               ng-model="enrollment.language.disability"
+                                                               ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="disability"> <span>Yes</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="disability" data-parent="#accordion" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="0">
+                                                        <label class="btn btn-default" for="disability"
+                                                               data-parent="#accordion"
+                                                               data-target="#DisabilityCollapse"
+                                                               ng-model="enrollment.language.disability"
+                                                               ng-required="true" uib-btn-radio="0">
                                                             <input type="radio" name="diabilisty"> <span>No</span>
                                                         </label>
                                                     </div>
@@ -366,18 +518,26 @@
                                             </div>
                                             <!-- Disability Options STARTS Here-->
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div id="DisabilityCollapse" class="" ng-show="enrollment.language.disability == '0' ">
+                                                <div id="DisabilityCollapse" class=""
+                                                     ng-show="enrollment.language.disability == '0' ">
                                                     <div class="disability-options">
-                                                        <p>Please select from the list below the area(s) of disability, impairment or long-term condition (select as many as applicable):</p>
+                                                        <p>Please select from the list below the area(s) of disability,
+                                                            impairment or long-term condition (select as many as
+                                                            applicable):</p>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                             <div class="form-group">
-                                                                <span  ng-repeat="(key, value) in disabilityElement">
-                                                                    <input type="checkbox" class="custom-input" name="disability_{[{value.id}]}" id="disability_{[{key}]}" ng-model="enrollment.language.disabilityAreas[value.id]" ng-true-value="true" ng-false-value="false" ng-required="(enrollment.language.disability == 'Yes') && (disabilityAreasNumber < 1)" >
+                                                                <span ng-repeat="(key, value) in disabilityElement">
+                                                                    <input type="checkbox" class="custom-input"
+                                                                           name="disability_{[{value.id}]}"
+                                                                           id="disability_{[{key}]}"
+                                                                           ng-model="enrollment.language.disabilityAreas[value.id]"
+                                                                           ng-true-value="true" ng-false-value="false"
+                                                                           ng-required="(enrollment.language.disability == 'Yes') && (disabilityAreasNumber < 1)">
                                                                     <label for="disability_{[{key}]}"> {[{value.type}]}</label>
                                                                 </span>
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -390,9 +550,14 @@
 
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">
-                                        <button type="button" class="btn btn-default" ng-click="formSlideTo(0)"><i class="zmdi zmdi-chevron-left zmdi-hc-lg"></i> Personal Details </button>
+                                        <button type="button" class="btn btn-default" ng-click="formSlideTo(0)"><i
+                                                    class="zmdi zmdi-chevron-left zmdi-hc-lg"></i> Personal Details
+                                        </button>
 
-                                        <button type="button" class="btn btn-primary" ng-disabled="languageForm.$invalid" ng-click="languageForm.$valid && proceedNext(1)">NEXT: Schooling and Achievements <i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i> </button>
+                                        <button type="button" class="btn btn-primary"
+                                                ng-disabled="languageForm.$invalid"
+                                                ng-click="languageForm.$valid && proceedNext(1)">NEXT: Schooling and
+                                            Achievements <i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i></button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
                                 </div>
@@ -407,8 +572,10 @@
                                         <!--<div class="col-xs-12"><span>What is your highest COMPLETED school level. Choose only one:</span></div>-->
                                         <div class="col-xs-12 col-md-7">
                                             <div class="form-group">
-                                                <label for="schooling" class="control-label">What is your highest COMPLETED school level. Choose only one:</label>
-                                                <select class="form-control" id="schooling" name="highest" ng-model="enrollment.schooling.highest" >
+                                                <label for="schooling" class="control-label">What is your highest
+                                                    COMPLETED school level. Choose only one:</label>
+                                                <select class="form-control" id="schooling" name="highest"
+                                                        ng-model="enrollment.schooling.highest">
                                                     <option value="">Select highest COMPLETED school level</option>
                                                     <option value="Year 12 or equivalent">Year 12 or equivalent</option>
                                                     <option value="Year 11 or equivalent">Year 11 or equivalent</option>
@@ -419,22 +586,34 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="selectYear" ng-hide="enrollment.schooling.highest=='Never attended school' || enrollment.schooling.highest==''">
+                                        <div class="selectYear"
+                                             ng-hide="enrollment.schooling.highest=='Never attended school' || enrollment.schooling.highest==''">
                                             <div class="col-xs-12 col-md-7">
                                                 <div class="form-group">
-                                                    <label for="selectYear" class="control-label">In which YEAR did you complete that school level?</label>
-                                                    <select class="form-control" id="selectYear" ng-model="enrollment.schooling.selectYear"  ng-options="n for n in [] | rangefromyear:1960"  ng-required="enrollment.schooling.highest!='Never attended school'">
+                                                    <label for="selectYear" class="control-label">In which YEAR did you
+                                                        complete that school level?</label>
+                                                    <select class="form-control" id="selectYear"
+                                                            ng-model="enrollment.schooling.selectYear"
+                                                            ng-options="n for n in [] | rangefromyear:1960"
+                                                            ng-required="enrollment.schooling.highest!='Never attended school'">
                                                         <option value="">Select Year</option>
 
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                        <p><label class="clear">Are you still attending secondary school?</label></p>
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.schooling.stillseconday" ng-required="true" uib-btn-radio="'Yes'"  ng-required="enrollment.schooling.highest!='Never attended school'">
+                                                        <p><label class="clear">Are you still attending secondary
+                                                                school?</label></p>
+                                                        <label class="btn btn-default" for="gender"
+                                                               ng-model="enrollment.schooling.stillseconday"
+                                                               ng-required="true" uib-btn-radio="'Yes'"
+                                                               ng-required="enrollment.schooling.highest!='Never attended school'">
                                                             <input type="radio" name="gender"> <span>Yes</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.schooling.stillseconday" ng-required="true" uib-btn-radio="'No'"  ng-required="enrollment.schooling.highest!='Never attended school'">
+                                                        <label class="btn btn-default" for="gender"
+                                                               ng-model="enrollment.schooling.stillseconday"
+                                                               ng-required="true" uib-btn-radio="'No'"
+                                                               ng-required="enrollment.schooling.highest!='Never attended school'">
                                                             <input type="radio" name="gender"> <span>No</span>
                                                         </label>
                                                     </div>
@@ -452,12 +631,19 @@
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="form-group">
-                                                    <p><label class="control-label" for="bachelor">Have you SUCCESSFULLY completed any of the following qualifications? If yes, select as many as applicable.</label></p>
-                                                    <span  ng-repeat="(key, value) in previousQualification">
-                                                                    <input type="checkbox" class="custom-input" name="achievement_{[{value.id}]}" id="achievement_{[{key}]}" ng-model="enrollment.schooling.qualifications[value.id]" ng-true-value="true" ng-false-value="false" ng-required="(enrollment.language.disability == 'Yes') && (disabilityAreasNumber < 1)" >
+                                                    <p><label class="control-label" for="bachelor">Have you SUCCESSFULLY
+                                                            completed any of the following qualifications? If yes,
+                                                            select as many as applicable.</label></p>
+                                                    <span ng-repeat="(key, value) in previousQualification">
+                                                                    <input type="checkbox" class="custom-input"
+                                                                           name="achievement_{[{value.id}]}"
+                                                                           id="achievement_{[{key}]}"
+                                                                           ng-model="enrollment.schooling.qualifications[value.id]"
+                                                                           ng-true-value="true" ng-false-value="false"
+                                                                           ng-required="(enrollment.language.disability == 'Yes') && (disabilityAreasNumber < 1)">
                                                                     <label for="achievement_{[{key}]}"> {[{value.name}]}</label>
                                                     </span>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -465,10 +651,16 @@
                                     <!-- Previous qualifications achieved Section Ends here-->
 
                                     <!-- Previous and Next Btn's Starts here-->
-                                    <div class="btn-auto-group">                                        
-                                        <button type="button" class="btn btn-default"  ng-click="formSlideTo(1)"><i class="zmdi zmdi-chevron-left zmdi-hc-lg"></i> Language and cultural diversity</button>
+                                    <div class="btn-auto-group">
+                                        <button type="button" class="btn btn-default" ng-click="formSlideTo(1)"><i
+                                                    class="zmdi zmdi-chevron-left zmdi-hc-lg"></i> Language and cultural
+                                            diversity
+                                        </button>
 
-                                        <button type="button" class="btn btn-primary" ng-disabled="schoolingForm.$invalid" ng-click="schoolingForm.$valid && proceedNext(2)">NEXT: Employment and USI <i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i></button>
+                                        <button type="button" class="btn btn-primary"
+                                                ng-disabled="schoolingForm.$invalid"
+                                                ng-click="schoolingForm.$valid && proceedNext(2)">NEXT: Employment and
+                                            USI <i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i></button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
                                 </div>
@@ -482,16 +674,29 @@
                                         <div class="row">
                                             <div class="col-xs-12 col-md-7">
                                                 <div class="form-group">
-                                                    <label for="employment">Of the following categories, which BEST describes your current employment status?  (Choose one)</label>
-                                                    <select class="form-control" id="employment" name="categories" ng-model="enrollment.employment.category" ng-required='true'>
+                                                    <label for="employment">Of the following categories, which BEST
+                                                        describes your current employment status? (Choose one)</label>
+                                                    <select class="form-control" id="employment" name="categories"
+                                                            ng-model="enrollment.employment.category"
+                                                            ng-required='true'>
                                                         <option value="Full-time employee">Full-time employee</option>
                                                         <option value="Part-time employee">Part-time employee</option>
-                                                        <option value="Self-employed - not employing others">Self-employed - not employing others</option>
+                                                        <option value="Self-employed - not employing others">
+                                                            Self-employed - not employing others
+                                                        </option>
                                                         <option value="Employer">Employer</option>
-                                                        <option value="Employed - unpaid worker in a family business">Employed - unpaid worker in a family business</option>
-                                                        <option value="Unemployed - seeking full-time work">Unemployed - seeking full-time work</option>
-                                                        <option value="Unemployed - seeking part-time work">Unemployed - seeking part-time work</option>
-                                                        <option value="Not employed - not seeking employment">Not employed - not seeking employment</option>
+                                                        <option value="Employed - unpaid worker in a family business">
+                                                            Employed - unpaid worker in a family business
+                                                        </option>
+                                                        <option value="Unemployed - seeking full-time work">Unemployed -
+                                                            seeking full-time work
+                                                        </option>
+                                                        <option value="Unemployed - seeking part-time work">Unemployed -
+                                                            seeking part-time work
+                                                        </option>
+                                                        <option value="Not employed - not seeking employment">Not
+                                                            employed - not seeking employment
+                                                        </option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -505,17 +710,37 @@
                                         <div class="row">
                                             <div class="col-xs-12 col-md-7">
                                                 <div class="form-group">
-                                                    <label for="studyReason">Of the following categories, which BEST describes your main reason for undertaking this course/traineeship/apprenticeship?  (Choose one)</label>
-                                                    <select class="form-control" id="studyReason" name="studyreason" ng-model="enrollment.employment.studyreason" ng-required='true'>
+                                                    <label for="studyReason">Of the following categories, which BEST
+                                                        describes your main reason for undertaking this
+                                                        course/traineeship/apprenticeship? (Choose one)</label>
+                                                    <select class="form-control" id="studyReason" name="studyreason"
+                                                            ng-model="enrollment.employment.studyreason"
+                                                            ng-required='true'>
                                                         <option value="To get a job">To get a job</option>
-                                                        <option value="To develop my existing business">To develop my existing business</option>
-                                                        <option value="To start my own business">To start my own business</option>
-                                                        <option value="To try for a different career">To try for a different career</option>
-                                                        <option value="To get a better job promotion">To get a better job promotion</option>
-                                                        <option value="It was a requirement for my job">It was a requirement for my job</option>
-                                                        <option value="I wanted extra skills for my job">I wanted extra skills for my job</option>
-                                                        <option value="To get into another course of study">To get into another course of study</option>
-                                                        <option value="For personal interest or self-development">For personal interest or self-development</option>
+                                                        <option value="To develop my existing business">To develop my
+                                                            existing business
+                                                        </option>
+                                                        <option value="To start my own business">To start my own
+                                                            business
+                                                        </option>
+                                                        <option value="To try for a different career">To try for a
+                                                            different career
+                                                        </option>
+                                                        <option value="To get a better job promotion">To get a better
+                                                            job promotion
+                                                        </option>
+                                                        <option value="It was a requirement for my job">It was a
+                                                            requirement for my job
+                                                        </option>
+                                                        <option value="I wanted extra skills for my job">I wanted extra
+                                                            skills for my job
+                                                        </option>
+                                                        <option value="To get into another course of study">To get into
+                                                            another course of study
+                                                        </option>
+                                                        <option value="For personal interest or self-development">For
+                                                            personal interest or self-development
+                                                        </option>
                                                         <option value="Other reasons">Other reasons</option>
                                                     </select>
                                                 </div>
@@ -530,117 +755,199 @@
                                         <h2 class="page-header">Unique Student Identifier (USI)</h2>
 
                                         <blockquote>
-                                            <p>From 1 January 2015, Get Qualified Australia’s partner RTOs can be prevented from issuing nationally recognised VET qualifications or statements of attainment to students if they do not have a <strong>Unique Student Identifier (USI).</strong></p>
+                                            <p>From 1 January 2015, Get Qualified Australia’s partner RTOs can be
+                                                prevented from issuing nationally recognised VET qualifications or
+                                                statements of attainment to students if they do not have a <strong>Unique
+                                                    Student Identifier (USI).</strong></p>
 
-                                            <p><a href="https://www.usi.gov.au/students/create-your-usi"><strong>Reference</strong>: https://www.usi.gov.au/students/create-your-usi&nbsp;&nbsp;<i class="zmdi zmdi-open-in-new zmdi-hc-lg"></i> </a></p>
+                                            <p><a href="https://www.usi.gov.au/students/create-your-usi"><strong>Reference</strong>:
+                                                    https://www.usi.gov.au/students/create-your-usi&nbsp;&nbsp;<i
+                                                            class="zmdi zmdi-open-in-new zmdi-hc-lg"></i> </a></p>
 
-                                            <p>To determine if you are required to have a USI, please answer the question below.</p>
+                                            <p>To determine if you are required to have a USI, please answer the
+                                                question below.</p>
                                         </blockquote>
 
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group">
-                                                    <p><label class="clear">Are you currently based in Australia?</label></p>
+                                                    <p><label class="clear">Are you currently based in
+                                                            Australia?</label></p>
                                                     <div class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-default" for="usi" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="1">
+                                                        <label class="btn btn-default" for="usi"
+                                                               ng-model="enrollment.employment.basedinaustralia"
+                                                               ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="usi"> <span>Yes</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="usi" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="0" ng-click="resetEnrollDepends('basedinaustralia')">
+                                                        <label class="btn btn-default" for="usi"
+                                                               ng-model="enrollment.employment.basedinaustralia"
+                                                               ng-required="true" uib-btn-radio="0"
+                                                               ng-click="resetEnrollDepends('basedinaustralia')">
                                                             <input type="radio" name="gender"> <span>No</span>
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div id="australiaBaseYes" ng-show="enrollment.employment.basedinaustralia == 1">
+                                                <div id="australiaBaseYes"
+                                                     ng-show="enrollment.employment.basedinaustralia == 1">
                                                     <div class="form-group">
-                                                        <p><label class="clear">Are you an international student undertaking your entire VET course outside Australia (otherwise known as offshore training)?</label></p>
+                                                        <p><label class="clear">Are you an international student
+                                                                undertaking your entire VET course outside Australia
+                                                                (otherwise known as offshore training)?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
-                                                            
-                                                            <label class="btn btn-default" for="usi" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="1" ng-click="resetEnrollDepends('internationalstudent')">
+
+                                                            <label class="btn btn-default" for="usi"
+                                                                   ng-model="enrollment.employment.internationalstudent"
+                                                                   ng-required="enrollment.employment.basedinaustralia == 1"
+                                                                   uib-btn-radio="1"
+                                                                   ng-click="resetEnrollDepends('internationalstudent')">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
-                                                            <label class="btn btn-default" for="usi" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="0">
+                                                            <label class="btn btn-default" for="usi"
+                                                                   ng-model="enrollment.employment.internationalstudent"
+                                                                   ng-required="enrollment.employment.basedinaustralia == 1"
+                                                                   uib-btn-radio="0">
                                                                 <input type="radio" name="gender"> <span>No</span>
                                                             </label>
-                                                        </div> 
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div id="nextStep" ng-show="enrollment.employment.internationalstudent == 1">
+                                                <div id="nextStep"
+                                                     ng-show="enrollment.employment.internationalstudent == 1">
                                                     <div class="alert alert-success col-xs-9" role="alert">
-                                                        You are <strong>NOT REQUIRED</strong> to get a USI.  You can proceed to the next step
+                                                        You are <strong>NOT REQUIRED</strong> to get a USI. You can
+                                                        proceed to the next step
                                                     </div>
                                                 </div>
 
-                                                <div id="StudentIdentifiersRegistrar"  ng-show="enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">
+                                                <div id="StudentIdentifiersRegistrar"
+                                                     ng-show="enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">
                                                     <div class="form-group">
-                                                        <p><label class="clear">Have you applied for and obtained an individual exemption from the Student Identifiers Registrar in being assigned a USI?</label></p>
+                                                        <p><label class="clear">Have you applied for and obtained an
+                                                                individual exemption from the Student Identifiers
+                                                                Registrar in being assigned a USI?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
-                                                            
-                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == '0'" uib-btn-radio="1">
+
+                                                            <label class="btn btn-default" for="gender"
+                                                                   ng-model="enrollment.employment.haveusi"
+                                                                   ng-required="enrollment.employment.internationalstudent == '0'"
+                                                                   uib-btn-radio="1">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
-                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == '0'" uib-btn-radio="0" ng-click="resetEnrollDepends('haveusi')">
+                                                            <label class="btn btn-default" for="gender"
+                                                                   ng-model="enrollment.employment.haveusi"
+                                                                   ng-required="enrollment.employment.internationalstudent == '0'"
+                                                                   uib-btn-radio="0"
+                                                                   ng-click="resetEnrollDepends('haveusi')">
                                                                 <input type="radio" name="gender"> <span>No</span>
                                                             </label>
-                                                        </div>                                                                
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div id="UsiNextStep" ng-show="enrollment.employment.haveusi == 1">
                                                     <div class="alert alert-success col-xs-9" role="alert">
-                                                        You are <strong>NOT REQUIRED</strong> to get a USI.  You can proceed to the next step
+                                                        You are <strong>NOT REQUIRED</strong> to get a USI. You can
+                                                        proceed to the next step
                                                     </div>
                                                 </div>
-                                                <div id="UsiCollapseNoRequired" ng-show="enrollment.employment.haveusi == '0' && enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">
+                                                <div id="UsiCollapseNoRequired"
+                                                     ng-show="enrollment.employment.haveusi == '0' && enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">
                                                     <div class="form-group">
                                                         <div class="alert alert-warning">
-                                                            <p>You are <strong>REQUIRED</strong> to get a USI.  You can create one from
-                                                                <a href="https://www.usi.gov.au/students/create-your-usi" target="_blank">http://www.usi.gov.au/create-your-USI/</a>
+                                                            <p>You are <strong>REQUIRED</strong> to get a USI. You can
+                                                                create one from
+                                                                <a href="https://www.usi.gov.au/students/create-your-usi"
+                                                                   target="_blank">http://www.usi.gov.au/create-your-USI/</a>
                                                             </p>
                                                         </div>
                                                         <p>
-                                                            <strong>Alternatively, our partner RTO can apply for a USI on your behalf.</strong> To do this, you must authorise Get Qualified Australia to do this and declare that you have read the privacy information at <a href="http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx." target="_blank">http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx.</a>  Additionally, you need to download and submit to us a form that requires your signature. 
+                                                            <strong>Alternatively, our partner RTO can apply for a USI
+                                                                on your behalf.</strong> To do this, you must authorise
+                                                            Get Qualified Australia to do this and declare that you have
+                                                            read the privacy information at <a
+                                                                    href="http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx."
+                                                                    target="_blank">http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx.</a>
+                                                            Additionally, you need to download and submit to us a form
+                                                            that requires your signature.
                                                         </p>
-                                                        <p><label class="clear">Would you like for us to apply for your USI on your behalf?</label></p>
+                                                        <p><label class="clear">Would you like for us to apply for your
+                                                                USI on your behalf?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
-                                                            
-                                                            <label class="btn btn-default" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == '0'" uib-btn-radio="1" ng-click="resetEnrollDepends('applyusi')">
+
+                                                            <label class="btn btn-default"
+                                                                   ng-model="enrollment.employment.applyusi"
+                                                                   ng-required="enrollment.employment.haveusi == '0'"
+                                                                   uib-btn-radio="1"
+                                                                   ng-click="resetEnrollDepends('applyusi')">
                                                                 <input type="radio" name="gender"> <span>Yes</span>
                                                             </label>
-                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == '0'" uib-btn-radio="0">
+                                                            <label class="btn btn-default" for="gender"
+                                                                   ng-model="enrollment.employment.applyusi"
+                                                                   ng-required="enrollment.employment.haveusi == '0'"
+                                                                   uib-btn-radio="0">
                                                                 <input type="radio" name="gender"> <span>No</span>
                                                             </label>
-                                                        </div>                                                                
-                                                    </div>
-                                                </div>
-                                                <div id="UsiDownloadPDF" ng-show="enrollment.employment.applyusi == 1">
-                                                    <div class="row">  
-                                                        <div class="col-xs-9">
-                                                            <p>Please download this PDF, answer the questions, sign it, and save it. </p>
-                                                            <img src="{{ asset('public/ui/img/download-pdf.png') }}" alt="downloadPDF" title="downloadPDF" width="120px">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div id="UsiEnter" ng-show="enrollment.employment.applyusi == '0' && enrollment.employment.haveusi == '0' && enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">  
+                                                <div id="UsiDownloadPDF" ng-show="enrollment.employment.applyusi == 1">
+                                                    <div class="row">
+                                                        <div class="col-xs-9">
+                                                            <p>Please download this PDF, answer the questions, sign it,
+                                                                and save it. </p>
+                                                            <img src="{{ asset('public/ui/img/download-pdf.png') }}"
+                                                                 alt="downloadPDF" title="downloadPDF" width="120px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="UsiEnter"
+                                                     ng-show="enrollment.employment.applyusi == '0' && enrollment.employment.haveusi == '0' && enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
-                                                            <p>Enter your 10-digit Unique Student identifier (if you already have one)</p>
+                                                            <p>Enter your 10-digit Unique Student identifier (if you
+                                                                already have one)</p>
                                                             <div class="form-group">
-                                                                <label for="firstName" class="control-label">Unique Student Identifier (USI)</label>
+                                                                <label for="firstName" class="control-label">Unique
+                                                                    Student Identifier (USI)</label>
                                                                 <div class="usi-input">
-                                                                    <input type="text" class="hidden" id="usiField" ng-model="enrollment.employment.usi" ng-minlength="10" ng-maxlength="10" usi-input ng-required="enrollment.employment.applyusi == '0'"  readonly/>
+                                                                    <input type="text" class="hidden" id="usiField"
+                                                                           ng-model="enrollment.employment.usi"
+                                                                           ng-minlength="10" ng-maxlength="10" usi-input
+                                                                           ng-required="enrollment.employment.applyusi == '0'"
+                                                                           readonly/>
 
                                                                     <!-- USI UI -->
                                                                     <div class="usi-input-body" id="usiInputBody">
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[0]"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[1]"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[2]"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[3]"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[4]"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[5]"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[6]"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[7]"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[8]"></i>
-                                                                        <i class="pseudo-input"><input type="text" maxlength="1" ng-model="enrollment.employment.usiPart[9]"></i>
+                                                                        <i class="pseudo-input"><input type="text"
+                                                                                                       maxlength="1"
+                                                                                                       ng-model="enrollment.employment.usiPart[0]"></i>
+                                                                        <i class="pseudo-input"><input type="text"
+                                                                                                       maxlength="1"
+                                                                                                       ng-model="enrollment.employment.usiPart[1]"></i>
+                                                                        <i class="pseudo-input"><input type="text"
+                                                                                                       maxlength="1"
+                                                                                                       ng-model="enrollment.employment.usiPart[2]"></i>
+                                                                        <i class="pseudo-input"><input type="text"
+                                                                                                       maxlength="1"
+                                                                                                       ng-model="enrollment.employment.usiPart[3]"></i>
+                                                                        <i class="pseudo-input"><input type="text"
+                                                                                                       maxlength="1"
+                                                                                                       ng-model="enrollment.employment.usiPart[4]"></i>
+                                                                        <i class="pseudo-input"><input type="text"
+                                                                                                       maxlength="1"
+                                                                                                       ng-model="enrollment.employment.usiPart[5]"></i>
+                                                                        <i class="pseudo-input"><input type="text"
+                                                                                                       maxlength="1"
+                                                                                                       ng-model="enrollment.employment.usiPart[6]"></i>
+                                                                        <i class="pseudo-input"><input type="text"
+                                                                                                       maxlength="1"
+                                                                                                       ng-model="enrollment.employment.usiPart[7]"></i>
+                                                                        <i class="pseudo-input"><input type="text"
+                                                                                                       maxlength="1"
+                                                                                                       ng-model="enrollment.employment.usiPart[8]"></i>
+                                                                        <i class="pseudo-input"><input type="text"
+                                                                                                       maxlength="1"
+                                                                                                       ng-model="enrollment.employment.usiPart[9]"></i>
                                                                     </div>
                                                                     <!-- USI UI -->
                                                                 </div>
@@ -656,9 +963,15 @@
 
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">
-                                        <button type="button" class="btn btn-default" ng-click="formSlideTo(2)"><i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> Schooling and Achievements</button>
+                                        <button type="button" class="btn btn-default" ng-click="formSlideTo(2)"><i
+                                                    class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> Schooling and
+                                            Achievements
+                                        </button>
 
-                                        <button type="button" class="btn btn-primary"  ng-disabled="employmentForm.$invalid" ng-click="employmentForm.$valid && proceedNext(3)">Upload ID Files <i class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i> </button>
+                                        <button type="button" class="btn btn-primary"
+                                                ng-disabled="employmentForm.$invalid"
+                                                ng-click="employmentForm.$valid && proceedNext(3)">Upload ID Files <i
+                                                    class="zmdi-zmdi-chevron-left zmdi-hc-lg"></i></button>
                                     </div>
                                     <!-- Previous and Next Btn's Ends here-->
 
@@ -675,13 +988,19 @@
                                                 <div class="form-group">
                                                     <section class="upload-id-files" ng-show="evidenceFirst">
                                                         <p class="points">
-                                                            100 Points of Identification is needed so we're sure we're <br/>recognising the right person
+                                                            100 Points of Identification is needed so we're sure we're
+                                                            <br/>recognising the right person
                                                         </p>
-                                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadIdFiles"><i class="zmdi zmdi-plus-square"></i> Upload your first ID now</button>
+                                                        <button type="button" class="btn btn-default"
+                                                                data-toggle="modal" data-target="#uploadIdFiles"><i
+                                                                    class="zmdi zmdi-plus-square"></i> Upload your first
+                                                            ID now
+                                                        </button>
                                                         <!--input type="file" multiple-->
                                                     </section>
 
-                                                    <section class="consolidated-id-files clearfix"  ng-hide="evidenceFirst">
+                                                    <section class="consolidated-id-files clearfix"
+                                                             ng-hide="evidenceFirst">
                                                         <div class="progress-header">
                                                             <div class="row">
                                                                 <div class="col-xs-12 col-sm-12 col-md-3">
@@ -692,12 +1011,19 @@
                                                                 </div>
                                                                 <div class="col-xs-12 col-sm-12 col-md-4">
                                                                     <div class="progress progress-tag-success">
-                                                                        <progress role="progress" value="70" max="100"><img class="fallback" width="30"></progress>
+                                                                        <progress role="progress" value="70" max="100">
+                                                                            <img class="fallback" width="30"></progress>
                                                                         <!--figcaption data-value="70" data-unit="%" class="progress-details units-day">Pending</figcaption-->
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xs-12 col-sm-12 col-md-3 pull-right">
-                                                                    <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#uploadIdFiles"><i class="zmdi zmdi-plus-square"></i> Upload your first ID now</button>
+                                                                    <button type="button"
+                                                                            class="btn btn-default btn-sm pull-right"
+                                                                            data-toggle="modal"
+                                                                            data-target="#uploadIdFiles"><i
+                                                                                class="zmdi zmdi-plus-square"></i>
+                                                                        Upload your first ID now
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -722,7 +1048,9 @@
                                     </fieldset>
                                     <!-- Previous and Next Btn's Starts here-->
                                     <div class="btn-auto-group">
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#formWizardCarousel" data-slide-to="3">Employment &amp; USI</button>
+                                        <button type="button" class="btn btn-default" data-toggle="modal"
+                                                data-target="#formWizardCarousel" data-slide-to="3">Employment &amp; USI
+                                        </button>
 
                                         <button type="button" class="btn btn-primary">Submit Enrolment Form</button>
                                     </div>
@@ -767,7 +1095,8 @@
                         <p style="position:relative;z-index: 100">
                             <span>Drop ID here of</span>
                             <span class="browse-files">
-                                <a href="javascript:void(0)" id="dataPopOver" data-toggle="popover" data-html="true" data-placement="bottom" data-content="">browse your files</a>
+                                <a href="javascript:void(0)" id="dataPopOver" data-toggle="popover" data-html="true"
+                                   data-placement="bottom" data-content="">browse your files</a>
                             </span>
                         </p>
                         <input class="id-files-input" type="file" multiple>
@@ -775,7 +1104,7 @@
                     <!--div class="file-que">
                         <ul>
                             <li>
-                                
+
                             </li>
                         </ul>
                     </div-->
@@ -792,7 +1121,7 @@
     <!-- Upload ID Files Modal Popup End -->
 
 {% endblock %}
-{% block javascripts %}    
+{% block javascripts %}
     <!-- App -->
     <!-- Online Enrolment only -->
     <script src="{{ asset('public/ui/js/plugins/owl.carousel.min.js') }}"></script>
@@ -800,7 +1129,7 @@
     <!--Phone Number Flag Plugin-->
 
     <!--Country select with States Plugin-->
-    <script src = "{{ asset('public/ui/js/plugins/countries.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/countries.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/intlTelInput.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/utils.js') }}"></script>
     <!-- Bootstrap Datepicker -->
@@ -815,5 +1144,6 @@
     <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
 
     <script src="{{ asset('public/js/enrollment.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete"
+            async defer></script>
 {% endblock %}

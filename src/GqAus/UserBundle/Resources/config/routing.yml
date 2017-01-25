@@ -329,7 +329,7 @@ signOffSheet:
     path:     /signOffSheet/{courseCode}/{userId}
     defaults: { _controller: GqAusUserBundle:Applicant:signOffSheet }
 enrollment:
-    path:     /enrollment
+    path:     /enrolment
     defaults: { _controller: GqAusUserBundle:Enrollment:enrollment }
 saveEnroll:
     path:     /saveEnroll
@@ -340,3 +340,9 @@ getEnroll:
 getDisabilityAndQualification:
     path:     /getDisabilityAndQualification
     defaults: {_controller: GqAusUserBundle:Enrollment:getDisabilityAndQualification}
+saveUpload:
+    path:    /saveUpload
+    defaults: {_controller: GqAusUserBundle:Enrollment:saveUpload}
+removeUserIds:
+    path:    /removeUserIds
+    defaults: {_controller: GqAusUserBundle:Enrollment:removeUserIds}
