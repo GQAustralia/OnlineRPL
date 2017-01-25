@@ -36,7 +36,7 @@ class LoginController extends Controller
             }
 
             if ($user->getRoles()[0] == self::ROLE_APPLICANT) {
-                return $this->redirect('enrollment');
+                return $this->redirect('enrolment');
             }
 
             return $this->redirect('dashboard');

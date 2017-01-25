@@ -73,7 +73,7 @@ var ONBOARDING_NEXT_STEP = {
 			data: { 'loginToken' : ONBOARDING_NEXT_STEP.token.val() },
 		})
 		.success(function(data) {
-			window.location.href = "/enrollment";
+			window.location.href = "/enrolment";
 			ONBOARDING_NEXT_STEP.button.attr('disabled',false).html('<span class="text-uppercase">Next Step:</span> Online Enrolment');
 		})
 		.fail(function() {
