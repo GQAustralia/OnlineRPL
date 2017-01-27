@@ -3981,13 +3981,13 @@ class UserService
         
             $diff = abs(strtotime($targetDate) - strtotime($currentDate));
             $days = floor(($diff)/ (60*60*24));
-            $field = 90;
+            $field = $fecWorkSpan;
             
         if($days > 0 )
-            $graph = 90-$days;
+            $graph = (100*$days)/$fecWorkSpan;
         else
             $graph = 0;       
-        return $days."&&".$graph;
+        return ($fecWorkSpan-$days)."&&".$graph;
     }
     /**
      * Function to get the Notes 

@@ -84,6 +84,23 @@ class CoursesService
         }        
         return $packageInfoPackage;
     }
+    
+    /**
+     * Function to get course Info
+     * @param int $id
+     * return array
+     */
+    public function getCourseInfo($id)
+    {
+    	$courseInfo = $this->fetchQualificationRequest($id);
+    	if (!empty($courseInfo)) {
+    		if (!empty($courseInfo['qualification'])) {
+    			$courseInfo = htmlspecialchars_decode($courseInfo['qualification']);
+    		}
+    	}
+    	return $courseInfo;
+    }
+    
      /**
      * Function to get Unit info
      * @param int $id
