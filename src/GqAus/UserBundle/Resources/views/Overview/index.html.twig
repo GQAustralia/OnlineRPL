@@ -1,4 +1,4 @@
-{% extends 'mainnew.html.twig' %}
+{% extends 'revamp_base.html.twig' %}
 {% block title %}Get Qualified Australia: Online RPL{% endblock %}
 {% block content %}
 
@@ -6,20 +6,21 @@
         <link rel="stylesheet" href="{{ asset('public/ui/css/vendor/bootstrap-tour.min.css') }}"/>
     {% endblock %}
 
-    {% include 'GqAusUserBundle:Overview:_header.html.twig' %}
-
-    <div class="navbar-bg-img" data-bg="skyscraper-blur" id="navImg"></div>
-
+    {% block body %}
+    {% set userObj = app.security.getToken().getUser() %}
+    {% set userImg = userObj.getUserImage()%}
+    {% set userRole = userObj.getRoles() %}
+    {% set userId = userObj.getId() %} 
+    {% set userId = userObj.getId() %} 
     <main class="main-content-gqa">
         <div class="container container-left-sidebar-main">
             <section class="section-sidebar">
                 <div class="panel panel-default">
                     <div class="panel-qualification-heading">
-                        <div class="avatar avatar-xs"><img src="{{ asset('public/ui/img/avatar-default.png') }}"
-                                                           alt="You"></div>
+                        <div class="avatar avatar-xs"><img src="{% if userImg  != '' %} {{userImg}} {%else%} public/images/userprofile.png{%endif%}" alt="You"></div>
                         <div class="heading">
                             <span>Welcome back</span>
-                            <span>Person with a Long Name</span>
+                            <span>{{ userObj.getUsername() }}</span>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -33,98 +34,83 @@
                 </div>
             </section>
             <section class="section-main">
+                {% for key, courses in userCourses %}     
+                {% set flagCurrent = '1' %}
+                {% set courseCode = courses.getCourseCode()%}
+                {% set courseId = courses.getId() %} 
+                {% set courseInfo = courses_service.getCourseInfo(courseCode)%} 
+                {% set courseInfotmp = courses_service.getUserCoursesInfo(courseCode)%} 
+                {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}    
+                {% set output = remaining|split('&&') %}
+                {% set evidenceCompleteness = courses_service.getEvidenceByCourse(userId, courseCode) %}
+                {%set courseStatus = user_service.getQualificationStatus()%}
 
-                <!-- ng-repeat-->
-                <article class="panel panel-default panel-qualification">
-                    <div class="panel-qualification-meta">
-                        <div class="panel-qualification-img"
-                             style="background-image: url({{ asset('public/ui/img/sample-qual-image.jpg') }});">
-                            <h3 class="h3 qual-title">
-                                <small>SIT-X123213</small>
-                                <br> Certificate in Commercial Cookery IV
-                            </h3>
-                            <span class="hidden" aria-label="hidden"
-                                  aria-value="Qualification-name">Qualification Name</span>
-                        </div>
-                        <dl class="panel-qualification-desc">
-                            <dd class="control-label">
-                                <small>STATUS</small>
-                                <br><span>Evidence Gathering</span></dd>
-                        </dl>
-                        <dl class="panel-qualification-desc">
-                            <dd class="control-label">
-                                <small>Account Manager</small>
-                                <br><span>Malou Wang</span></dd>
-                        </dl>
-                    </div>
-                    <div class="panel-qualification-body">
-                        <div class="panel-body-group">
-                            <h3 class="h3 qual-title">
-                                <small>SIT-X123213</small>
-                                <br> Certificate in Commercial Cookery IV
-                            </h3>
-                            <div class="panel-qualification-gauges">
-
-                                <div class="qual-gauges">
-                                    <div class="c100 p50 big">
-                                        <span>
-                                            <i>50%</i>
-                                            <i class="progress-big-label">Total evidence completed</i>
-                                        </span>
-                                        <div class="slice">
-                                            <div class="bar"></div>
-                                            <div class="fill"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="qual-gauges">
-                                    <div class="progress-tag progress-tag-danger">
-                                        <progress role="progress" value="0" max="100"><img class="fallback" width="30">
-                                        </progress>
-                                        <figcaption data-value="0" data-unit="" class="progress-details"> DAYS LEFT
-                                        </figcaption>
-                                    </div>
-                                </div>
-
-                                <div class="qual-gauges">
-                                    <div class="c100 p50 small core-units">
-                                        <span>50%</span>
-                                        <div class="slice">
-                                            <div class="bar"></div>
-                                            <div class="fill"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="qual-gauges">
-                                    <div class="c100 p50 small elective-units">
-                                        <span>50%</span>
-                                        <div class="slice">
-                                            <div class="bar"></div>
-                                            <div class="fill"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="panel-qualification-footer">
-                            <a href="#" class="btn btn-link btn-block"><i
-                                        class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</a>
-                        </div>
-                    </div>
-                </article>
-                <!-- ng-repeat-->
+                 <!-- ng-repeat-->
+                 <article class="panel panel-default panel-qualification">
+                     <div class="panel-qualification-meta">
+                         <div class="panel-qualification-img" style="background-image: url({{ courseInfo.bannerImg }});">
+                             <h3 class="h3 qual-title"><small>{{ courseCode }}</small><br> {{ courses.getCourseName() }}</h3>
+                             <span class="hidden" aria-label="hidden" aria-value="Qualification-name">{{ courses.getCourseName() }}</span>
+                         </div>
+                         <dl class="panel-qualification-desc">
+                             <dd class="control-label"><small>STATUS</small> <br><span>{{ courseStatus[courses.courseStatus]['status'] }}</span></dd>
+                         </dl>
+                         <dl class="panel-qualification-desc">
+                             <dd class="control-label"><small>Account Manager</small> <br><span>{{courses.facilitator.firstName}} {{courses.facilitator.lastName}}</span></dd>
+                         </dl>
+                     </div>
+                     <div class="panel-qualification-body">
+                         <div class="panel-body-group">
+                             <h3 class="h3 qual-title"><small>{{ courseCode }}</small><br> {{ courses.getCourseName() }}</h3>
+                             <div class="panel-qualification-gauges">
+ 
+                                 <div class="qual-gauges">
+                                     <div class="c100 p{{ evidenceCompleteness|trim('%') }} big">
+                                         <span>
+                                             <i>{{ evidenceCompleteness }}</i>
+                                             <i class="progress-big-label">Total evidence completed</i>
+                                         </span>
+                                         <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                                     </div>
+                                 </div>
+ 
+                                 <div class="qual-gauges">
+                                     <div class="progress-tag progress-tag-danger">
+                                         <progress role="progress" value="{{output[1]}}" max="100"><img class="fallback" width="30"></progress>
+                                         <figcaption data-value="{{output[0]}}" data-unit="" class="progress-details"> DAYS LEFT</figcaption>
+                                     </div>
+                                 </div>
+ 
+                                 <div class="qual-gauges">
+                                     <div class="c100 p{{ evidenceCompleteness|trim('%') }} small core-units">
+                                         <span>10%</span>
+                                         <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                                     </div>                                    
+                                 </div>
+ 
+                                 <div class="qual-gauges">
+                                     <div class="c100 p{{ evidenceCompleteness|trim('%') }} small elective-units">
+                                         <span>50%</span>
+                                         <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                                     </div>
+                                 </div>
+ 
+                             </div>
+                         </div>
+                         <div class="panel-qualification-footer">
+                             <a href="{{ app.request.baseUrl }}/files" class="btn btn-link btn-block"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</a>
+                         </div>
+                     </div>
+                 </article>
+                {% endfor %}
             </section>
         </div>
     </main>
 
     {% include 'GqAusUserBundle:Overview:_modal.html.twig' %}
-
-    {% include 'GqAusUserBundle:Overview:_footer.html.twig' %}
-
 {% endblock %}
+
+
 
 {% block javascripts %}
     <script src="{{ asset('public/ui/js/plugins/bootstrap-tour.min.js') }}"></script>
@@ -229,4 +215,5 @@
             FIRST_TIME_TOUR.build();
         });
     </script>
+{% endblock %}
 {% endblock %}
