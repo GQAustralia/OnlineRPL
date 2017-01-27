@@ -277,7 +277,7 @@
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="country" class="control-label">In which country were you born?</label>
+                                                    <p><label for="country">In which country were you born?</label></p>
                                                     <select class="form-control" id="country2" name ="country2" ng-model="enrollment.language.country" ng-required="true" ng-options="i as i for i in countries">
                                                         <option value="">Select Country</option>
                                                     </select>
@@ -417,7 +417,7 @@
                                         <!--<div class="col-xs-12"><span>What is your highest COMPLETED school level. Choose only one:</span></div>-->
                                         <div class="col-xs-12 col-md-7">
                                             <div class="form-group">
-                                                <label for="schooling" class="control-label">What is your highest COMPLETED school level. Choose only one:</label>
+                                                <p><label for="schooling">What is your highest COMPLETED school level. Choose only one:</label></p>
                                                 <select class="form-control" id="schooling" name="highest" ng-model="enrollment.schooling.highest" >
                                                     <option value="">Select highest COMPLETED school level</option>
                                                     <option value="Year 12 or equivalent">Year 12 or equivalent</option>
@@ -432,7 +432,7 @@
                                         <div class="selectYear" ng-hide="enrollment.schooling.highest=='Never attended school' || enrollment.schooling.highest==''">
                                             <div class="col-xs-12 col-md-7">
                                                 <div class="form-group">
-                                                    <label for="selectYear" class="control-label">In which YEAR did you complete that school level?</label>
+                                                    <p><label for="selectYear">In which YEAR did you complete that school level?</label></p>
                                                     <select class="form-control" id="selectYear" ng-model="enrollment.schooling.selectYear"  ng-options="n for n in [] | rangefromyear:1950"  ng-required="enrollment.schooling.highest != 'Never attended school'">
                                                         <option value="">Select Year</option>
 
@@ -462,7 +462,7 @@
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="form-group">
-                                                    <p><label class="control-label" for="bachelor">Have you SUCCESSFULLY completed any of the following qualifications? If yes, select as many as applicable.</label></p>
+                                                    <p><label for="bachelor">Have you SUCCESSFULLY completed any of the following qualifications? If yes, select as many as applicable.</label></p>
                                                     <span  ng-repeat="(key, value) in previousQualification">
                                                                     <input type="checkbox" class="custom-input" name="achievement_{[{value.id}]}" id="achievement_{[{key}]}" ng-model="enrollment.schooling.qualifications[value.id]" ng-true-value="true" ng-false-value="false" ng-required="(enrollment.language.disability == 'Yes') && (disabilityAreasNumber < 1)" ng-change="qualificationChanged(value)" >
                                                                     <label for="achievement_{[{key}]}"> {[{value.name}]}</label>
@@ -542,7 +542,7 @@
                                         <blockquote>
                                             <p>From 1 January 2015, Get Qualified Australia’s partner RTOs can be prevented from issuing nationally recognised VET qualifications or statements of attainment to students if they do not have a <strong>Unique Student Identifier (USI).</strong></p>
 
-                                            <p><a href="https://www.usi.gov.au/students/create-your-usi"><strong>Reference</strong>: https://www.usi.gov.au/students/create-your-usi&nbsp;&nbsp;<i class="zmdi zmdi-open-in-new zmdi-hc-lg"></i> </a></p>
+                                            <p><a href="https://www.usi.gov.au/students/create-your-usi" target="_blank"><strong>Reference</strong>: https://www.usi.gov.au/students/create-your-usi&nbsp;&nbsp;<i class="zmdi zmdi-open-in-new zmdi-hc-lg"></i> </a></p>
 
                                             <p>To determine if you are required to have a USI, please answer the question below.</p>
                                         </blockquote>
