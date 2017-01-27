@@ -22,6 +22,7 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
     $scope.uploadRelation = {};
     $scope.userId = $window.or_user_id || 0;
     $rootScope.pageTitle = 'Enrolment - Your Profile';
+    $scope.noQualification = '';
     $scope.enrollment = {
         profile: {
             firstName: "",
@@ -60,6 +61,11 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
         $scope.disabilityElement = data.disability;
         $scope.previousQualification = data.qualification;
         $scope.documentTypes = data.documentTypes;
+        angular.forEach(data.qualification, function (value, key) {
+            if(value.name === 'No, I have not completed any qualifications') {
+                $scope.noQualification = value.id;
+            }
+        });
     }, function (error) {
         console.log(error);
     });
@@ -119,7 +125,17 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
             $scope.enrollment.employment[arr[i]] = '';
         }
         $scope.enrollment.employment.usiPart = [];
-    }
+    };
+    
+    $scope.qualificationChanged = function(qualification){
+        if(qualification.id == $scope.noQualification && $scope.enrollment.schooling.qualifications[qualification.id] == true) {
+            $scope.enrollment.schooling.qualifications = {};
+            $scope.enrollment.schooling.qualifications[qualification.id] = true;  
+        }else{
+            var key = $scope.noQualification;
+            $scope.enrollment.schooling.qualifications[key] = false
+        }
+    };
     $scope.$watch('enrollment.language.disabilityAreas', function (items) {
         var selectedItems = 0;
         angular.forEach(items, function (item) {
