@@ -91,6 +91,7 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
             for (var i = 0; i < 10; i++) {
                 $scope.enrollment.employment.usiPart[i] = $scope.enrollment.employment.usi.charAt(i);
             }
+            var formKey = 0;
             angular.forEach($scope.forms, function (value, key) {
                 var $obj = data[value];
                 if(value === 'upload') {
@@ -98,9 +99,10 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
                 }
                 if(_.isEmpty($obj) === false){
                   $scope.completedForms[key] = true;
-                  $scope.formSlideTo(key);
+                  formKey = key;
                 }
             });
+            $scope.formSlideTo(formKey);
             if(!$scope.enrollment.profile.homeTelNumber) $scope.enrollment.profile.homeTelNumber = '+61 ';
             if(!$scope.enrollment.profile.workTelNumber) $scope.enrollment.profile.workTelNumber = '+61 ';
             if(!$scope.enrollment.profile.mobileNumber) $scope.enrollment.profile.mobileNumber = '+61 ';
