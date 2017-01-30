@@ -22,18 +22,18 @@ class CoursesController extends Controller
         $courseService = $this->get('CoursesService');
         $results = $courseService->getCoursesInfo($id);
         $courseService->updateQualificationUnits($user->getId(), $id, $results);
-        $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
+       // $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
         $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
-        $results['electiveUnits'] = $getUnits['courseUnits'];
-        $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
-        $results['evidences'] = $user->getEvidences();
+        //$results['electiveUnits'] = $getUnits['courseUnits'];
+       // $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
+        //$results['evidences'] = $user->getEvidences();
         $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
-        $form = $this->createForm(new EvidenceForm(), array());
+       /* $form = $this->createForm(new EvidenceForm(), array());
         $results['form'] = $form->createView();
         $assessmentForm = $this->createForm(new AssessmentForm(), array());
-        $results['assessmentForm'] = $assessmentForm->createView();
+        $results['assessmentForm'] = $assessmentForm->createView();*/
         $results['statusList'] = $this->get('UserService')->getQualificationStatus();
-       
+//print_r($results['courseDetails']);
         return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', $results);
     }
 
@@ -44,7 +44,8 @@ class CoursesController extends Controller
     public function qualificationsAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        $statusList = $this->get('UserService')->getQualificationStatus();       
+        $statusList = $this->get('UserService')->getQualificationStatus(); 
+        $userId = $this->getRequest()->get('userId');
         $userCourses = $user->getCourses();
         
         if(!empty($userCourses))

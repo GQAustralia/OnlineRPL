@@ -61,7 +61,7 @@
                                 <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{ app.request.baseUrl }}/qualifications"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
+                                <li><a href="{{ app.request.baseUrl }}/overview"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
                                 <li class="divider"></li>
                                 <li>
                                     <div><h4 class="h4">Your Enrolled Qualifications</h4>
@@ -71,7 +71,7 @@
                                                 {% for course in userCourses %} 
                                                     {%set courseName = course.getCourseName() %}
                                                     {% if courseName is defined and courseName != null %}       
-                                                        <a href="{{ app.request.baseUrl }}/qualifications#{{course.getCourseName()}}" class="list-group-item">{{course.getCourseName()}}</a>
+                                                        <a href="{{ app.request.baseUrl }}/qualificationDetails/{{course.getCourseCode()}}" class="list-group-item">{{course.getCourseName()}}</a>
                                                     {%endif%}
                                                 {%endfor%}
                                             </div>
@@ -81,7 +81,9 @@
                             </ul>
                         </li>
                         {% if ('ROLE_FACILITATOR' in roles)  %}
-                            <li class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/evidences'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidences</span></a></li>
+                                <li class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/evidences'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidences</span></a></li>
+                            {% elseif ('ROLE_APPLICANT' in roles) %}
+                                <li class="{% if app.request.attributes.get('_route') == 'files' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/files'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidences</span></a></li>
                             {% endif %}
                             {% if ('ROLE_SUPERADMIN' not in roles) %} 
                             <li class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/messages'><span class="t-item-3"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span></a></li>
