@@ -15,6 +15,12 @@ class EnrollmentController extends Controller
      */
     public function enrollmentAction()
     {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userService = $this->get('UserService');
+        
+        if ($user->getApplicantStatus() == $userService::COMPLETE_ENROLMENT) {
+                return $this->redirect('overview');
+            }
        return $this->render('GqAusUserBundle:Enrollment:index.html.twig', array(
                 // ...
         ));
@@ -130,6 +136,26 @@ class EnrollmentController extends Controller
                 $params = json_decode($content, true); // 2nd param to get as array
             }
             $op = $this->get('UserService')->removeIdFile($params['id']);
+        }
+        return new JsonResponse(array( 'data' => $op ));
+    }
+    
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    
+    public function setEnrollmentCompleteAction(Request $request)
+    {
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        if ($request->isMethod('POST') && $userId) {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+            }
+            $op = $this->get('UserService')->setEnrollmentComplete($userId);
         }
         return new JsonResponse(array( 'data' => $op ));
     }

@@ -363,7 +363,12 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
     };
     
     $scope.submitEnrolment = function() {
-        $window.location.href = '/overview';
+        AjaxService.apiCall('setEnrollmentComplete').then(function (success) {
+            $window.location.href = '/overview';
+        }, function (error) {
+            console.log(error);
+        });
+        
     };
     $scope.getEnrollment();
 });
