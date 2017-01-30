@@ -25,7 +25,8 @@ use GqAus\UserBundle\Entity\UserIds;
 class UserService
 {
     const COMPLETE_ON_BOARDING_APP_STAT = 3;
-    const COMPLETE_GOOD_JOB_WELCOME_SPLASH_SCREEN_APP_STAT = 4;
+    const COMPLETE_ENROLMENT = 4;
+    const COMPLETE_GOOD_JOB_WELCOME_SPLASH_SCREEN_APP_STAT = 5;
 
     /**
      * @var Object
@@ -5245,5 +5246,20 @@ class UserService
     {
         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('user' => $userId));
         return $courseObj;
+    }
+    
+    /**
+     * Function to enrolment completed
+     * @param type $userId
+     * return array
+     */
+    public function setEnrollmentComplete($id){
+        $user = $this->findUserById($id);
+
+        $user->setApplicantStatus(self::COMPLETE_ENROLMENT);
+
+        $this->em->flush();
+
+        return $user->getApplicantStatus();
     }
 }

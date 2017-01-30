@@ -346,3 +346,6 @@ saveUpload:
 removeUserIds:
     path:    /removeUserIds
     defaults: {_controller: GqAusUserBundle:Enrollment:removeUserIds}
+setEnrollmentComplete:
+    path:    /setEnrollmentComplete
+    defaults: {_controller: GqAusUserBundle:Enrollment:setEnrollmentComplete}
