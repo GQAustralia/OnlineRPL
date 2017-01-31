@@ -78,10 +78,12 @@
                         </p>
                     </div>
                 </div>
+                {% if(courseDetails.facilitator|length > 0) or if (courseDetails.assessor|length > 0) or if (courseDetails.rto|length > 0) %}
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h4>Qualification Contacts <!--<br><small>More description about this section</small>--></h4>
                         <div class="list-group list-group-contacts">
+                        {% if(courseDetails.facilitator|length > 0) %}
                             <span class="list-group-item">
                                 <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.facilitator.firstName|default('') }} {{ courseDetails.facilitator.lastName|default('') }}" data-email="{{ courseDetails.facilitator.email|default('') }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.facilitator.id|default('')~'/'~courseDetails.facilitator.userImage|default('') }}" data-phone="{{ courseDetails.facilitator.phone|default('') }}" data-acctype="Account Manager">
                                     <img src="{{ amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage }}" alt="You">
@@ -91,6 +93,8 @@
                                 </div>
                                 <a href="{{ app.request.baseUrl }}/messages"><button type="button" class="btn btn-sm btn-default list-group-button"><i class="zmdi zmdi-email zmdi-hc-lg"></i></button></a>
                             </span>
+                             {% endif %}
+                            {% if (courseDetails.assessor|length > 0) %}
                             <span class="list-group-item">
                                 <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName|default('') }} {{ courseDetails.assessor.lastName|default('') }}" data-email="{{ courseDetails.assessor.email|default('') }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.assessor.id|default('')~'/'~courseDetails.assessor.userImage|default('') }}" data-phone="{{ courseDetails.assessor.phone|default('') }}" data-acctype="Assessor">
                                     <img src="{{ amazon_link~'user-'~courseDetails.assessor.id|default('')~'/'~courseDetails.assessor.userImage|default('') }}" alt="You">
@@ -99,6 +103,8 @@
                                     <label class="h5"><strong>{{ courseDetails.assessor.firstName|default('') }} {{ courseDetails.assessor.lastName|default('') }}</strong> <br><small>Assessor</small></label>
                                 </div>
                             </span>
+                             {% endif %}
+                            {% if (courseDetails.rto|length > 0) %}
                             <span class="list-group-item">
                                 <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName|default('') }} {{ courseDetails.rto.lastName|default('') }}" data-email="{{ courseDetails.rto.email|default('') }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.rto.id|default('')~'/'~courseDetails.rto.userImage|default('') }}" data-phone="{{ courseDetails.rto.phone|default('') }}" data-acctype="RTO">
                                     <img src="{{ amazon_link~'user-'~courseDetails.rto.id|default('')~'/'~courseDetails.rto.userImage|default('') }}" alt="You">
@@ -107,9 +113,11 @@
                                     <label class="h5"><strong>{{ courseDetails.rto.firstName|default('') }} {{ courseDetails.rto.lastName|default('') }}</strong> <br><small>RTO</small></label>
                                 </div>
                             </span>
+                             {% endif %}
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </section>
             <section class="section-main">
                 <div class="panel panel-default">
