@@ -34,6 +34,7 @@
                 </div>
             </section>
             <section class="section-main">
+                
                 {% for key, courses in userCourses %}     
                 {% set flagCurrent = '1' %}
                 {% set courseCode = courses.getCourseCode()%}
@@ -212,6 +213,9 @@
 
         $(document).ready(function () {
             FIRST_TIME_TOUR.build();
+            $('.panel-qualification').on("click", function(){
+               $(".manager-nav").toggleClass("show hide");
+            });
         });
     </script>
 {% endblock %}
