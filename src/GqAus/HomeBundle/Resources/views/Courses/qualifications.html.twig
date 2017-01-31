@@ -182,151 +182,8 @@
                 </div>
             </section>
         </div>
-<div class="container container-two-column-split" ng-show="qualificationPage == 'elective'">
-            <section class="section-main col-section-5">
-                <div class="panel panel-default panel-units">
-                    <div class="panel-body">
-                        <div class="form-group unit-search">
-                            <input type="text" class="form-control input-lg" onfocus="UNITS.display_search(this)" onblur="UNITS.hide_search(this)"placeholder="Type keywords here...">
-                            <i class="zmdi zmdi-search zmdi-hc-2x icon"></i>
-                        </div>
-
-                        <h3>Select your Elective Units</h3>
-                        <div class="list-group list-group-units panel-accordion">
-                            <ul class="list-group-units-item" data-unit-group="E-Marketing"> 
-                                <li class="list-group-units-subitem selected">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapse1">
-                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
-                                            <span class="unit-code">UTX1233467</span>
-                                            <i class="zmdi zmdi-chevron-down"></i>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                    <div id="collapse1" class="panel-collapse collapse">
-                                        <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
-                                    </div>
-                                </li>
-                                <li class="list-group-units-subitem">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapse2">
-                                            <span>Basic Salt Sprinkling</span>
-                                            <i class="zmdi zmdi-chevron-down"></i>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                    <div id="collapse2" class="panel-collapse collapse">
-                                        <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="section-main col-section-5">
-                <div class="panel panel-default panel-selected-units">
-                    <div class="panel-selected-units-body">
-
-                        <div class="no-selected-units text-center" ng-if="selected.count === 0">
-                            <div class="animated-checklist" id="animatedChecklist">
-                                <i class="list zmdi"></i><i class="list zmdi"></i><i class="list zmdi"></i>
-                                <i class="cursor"></i>
-                            </div>
-                            <h3>You need to select your Elective units <br>
-                                <small>Select by clicking your preferred elective units on the left</small>
-                            </h3>
-                        </div>
-
-                        <div class="list-group list-group-units panel-accordion" ng-if="selected.count > 0">
-                            <h4 style="margin-bottom: 72px;">Selected units <br> <small class="text-uppercase">Pick from list on left</small></h4>
-
-                            <div class="unit-count text-muted">
-                                <span ng-model="selected.count">1</span><small>/<span ng-model="selected.total">4</span></small>
-                            </div>
-
-                            <ul class="list-group-units-item" data-unit-group="E-Marketing"> 
-                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
-                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
-                                            <span class="unit-code">UTX1233467</span>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                </li>
-                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
-                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
-                                            <span class="unit-code">UTX1233467</span>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                </li>
-                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
-                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
-                                            <span class="unit-code">UTX1233467</span>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                </li>
-                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
-                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
-                                            <span class="unit-code">UTX1233467</span>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                </li>
-                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
-                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
-                                            <span class="unit-code">UTX1233467</span>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                </li>
-                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
-                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
-                                            <span class="unit-code">UTX1233467</span>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                </li>
-                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
-                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
-                                            <span class="unit-code">UTX1233467</span>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                </li>
-                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
-                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
-                                            <span class="unit-code">UTX1233467</span>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <button type="button" class="btn btn-success center-block" style="margin-top: 30px;" ng-if="selected.count === selected.total">I&apos;m done selecting units</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    
+{% include 'GqAusHomeBundle:Courses:electiveunits.html.twig' %} 
+  
     </main>
 
 <div class="modal fade" id="contactProfile">
@@ -368,7 +225,7 @@
     <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
     <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
-
+    <script src="{{ asset('public/ui/js/units.js') }}"></script>
 
     <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
