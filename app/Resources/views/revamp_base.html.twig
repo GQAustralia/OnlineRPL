@@ -115,6 +115,16 @@
     </header>
 
     <div class="navbar-bg-img" data-bg="skyscraper-blur" id="navImg"></div>
+    <div class="popover-help">
+            <div class="dropdown dropup">
+                <a class="dropdown-toggle" data-toggle="dropdown">?</a>
+                <ul class="dropdown-menu pull-right">
+                    <li data-role="title">How can we help you?</li>
+                    <li><a href='{{ app.request.baseUrl }}/faq' target="_blank"><i class='zmdi zmdi-help'></i>Help & FAQ</a></li>
+                    <li><a href='#'><i class='zmdi zmdi-comment-text'></i>Website Feedback</a>  </li>
+                </ul>
+            </div>
+        </div>
 {% block body %}{% endblock %}
     
 <footer class="footer-gqa" data-toggle="auto-fixed-footer">
