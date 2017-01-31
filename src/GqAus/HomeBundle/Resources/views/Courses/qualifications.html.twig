@@ -50,14 +50,14 @@
                         <div class="qual-gauges-group">
                             <div class="qual-gauges qual-spacing">
                                 <div class="c100 p50 small core-units">
-                                    <span>50/70</span>
+                                    <span>5/{{ courseApiInfo.courseInfo.Units.Core.unit|length }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>                                    
                             </div>
 
                             <div class="qual-gauges qual-spacing">
                                 <div class="c100 p50 small elective-units">
-                                    <span>20/40</span>
+                                    <span>2/{{ courseApiInfo.courseInfo.Units.Elective.groups.group.unit|length }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>
                             </div>
@@ -81,21 +81,27 @@
                         <h4>Qualification Contacts <!--<br><small>More description about this section</small>--></h4>
                         <div class="list-group list-group-contacts">
                             <span class="list-group-item">
-                                <div class="avatar avatar-xxs" data-toggle="modal" data-target="#contactProfile"><img src="{{ amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage }}" alt="You"></div>
-                                <div class="avatar-name" data-toggle="modal" data-target="#contactProfile">
+                                <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.facilitator.firstName }} {{ courseDetails.facilitator.lastName }}" data-email="{{ courseDetails.facilitator.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage }}" data-phone="{{ courseDetails.facilitator.phone }}" data-acctype="Account Manager">
+                                    <img src="{{ amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage }}" alt="You">
+                                </div>
+                                <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.facilitator.firstName }} {{ courseDetails.facilitator.lastName }}" data-email="{{ courseDetails.facilitator.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage }}" data-phone="{{ courseDetails.facilitator.phone }}" data-acctype="Account Manager">
                                     <label class="h5"><strong>{{ courseDetails.facilitator.firstName }} {{ courseDetails.facilitator.lastName }}</strong> <br><small>Account Manager</small></label>
                                 </div>
                                 <a href="{{ app.request.baseUrl }}/messages"><button type="button" class="btn btn-sm btn-default list-group-button"><i class="zmdi zmdi-email zmdi-hc-lg"></i></button></a>
                             </span>
                             <span class="list-group-item">
-                                <div class="avatar avatar-xxs" data-toggle="modal" data-target="#contactProfile"><img src="{{ amazon_link~'user-'~courseDetails.assessor.id~'/'~courseDetails.assessor.userImage }}" alt="You"></div>
-                                <div class="avatar-name" data-toggle="modal" data-target="#contactProfile">
+                                <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName }} {{ courseDetails.assessor.lastName }}" data-email="{{ courseDetails.assessor.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.assessor.id~'/'~courseDetails.assessor.userImage }}" data-phone="{{ courseDetails.assessor.phone }}" data-acctype="Assessor">
+                                    <img src="{{ amazon_link~'user-'~courseDetails.assessor.id~'/'~courseDetails.assessor.userImage }}" alt="You">
+                                </div>
+                                <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName }} {{ courseDetails.assessor.lastName }}" data-email="{{ courseDetails.assessor.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.assessor.id~'/'~courseDetails.assessor.userImage }}" data-phone="{{ courseDetails.assessor.phone }}" data-acctype="Assessor">
                                     <label class="h5"><strong>{{ courseDetails.assessor.firstName }} {{ courseDetails.assessor.lastName }}</strong> <br><small>Assessor</small></label>
                                 </div>
                             </span>
                             <span class="list-group-item">
-                                <div class="avatar avatar-xxs" data-toggle="modal" data-target="#contactProfile"><img src="{{ amazon_link~'user-'~courseDetails.rto.id~'/'~courseDetails.rto.userImage }}" alt="You"></div>
-                                <div class="avatar-name" data-toggle="modal" data-target="#contactProfile">
+                                <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName }} {{ courseDetails.rto.lastName }}" data-email="{{ courseDetails.rto.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.rto.id~'/'~courseDetails.rto.userImage }}" data-phone="{{ courseDetails.rto.phone }}" data-acctype="RTO">
+                                    <img src="{{ amazon_link~'user-'~courseDetails.rto.id~'/'~courseDetails.rto.userImage }}" alt="You">
+                                </div>
+                                <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName }} {{ courseDetails.rto.lastName }}" data-email="{{ courseDetails.rto.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.rto.id~'/'~courseDetails.rto.userImage }}" data-phone="{{ courseDetails.rto.phone }}" data-acctype="RTO">
                                     <label class="h5"><strong>{{ courseDetails.rto.firstName }} {{ courseDetails.rto.lastName }}</strong> <br><small>RTO</small></label>
                                 </div>
                             </span>
@@ -179,24 +185,22 @@
             <div class="modal-body clearfix">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
                 <div class="avatar avatar-sm">
-                    <img src="ui/img/avatar-default.png" alt="You">
-                     <button type="button" class="btn btn-sm btn-default ml-1"><i class="zmdi zmdi-email zmdi-hc-lg"></i>&nbsp;&nbsp;Send Message</button>
+                    <img class="profile-img" src="#">
+                    <span class="profile-message"><a href="{{ app.request.baseUrl }}/messages"><button type="button" class="btn btn-sm btn-default ml-1"><i class="zmdi zmdi-email zmdi-hc-lg"></i>&nbsp;&nbsp;Send Message</button></a></span>
                 </div>
                 <div class="avatar-name">
                     <label class="h3"> 
-                        Malou Wang <br />
-                        <small><strong>Account Manager</strong></small> <br />
+                        <span class="profile-name">Malou Wang</span> <br />
+                        <small><strong><span class="profile-type">Account Manager</span></strong></small> <br />
                        
                     </label>
                     <div class="avatar-info">
                     <ul class="list-unstyled">
-                        <li><i class="zmdi zmdi-email"></i> mlsenica@gmail.com</li>
-                        <li><i class="zmdi zmdi-smartphone-iphone"></i> 0123456789</li>
+                        <li><i class="zmdi zmdi-email"></i> <span class="profile-email"></span></li>
+                        <li><i class="zmdi zmdi-smartphone-iphone"></i> <span class="profile-phone"></span></li>
                     </ul>
                 </div>
                 </div>
-                
-
             </div>
         </div>
     </div>
@@ -205,5 +209,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('public/js/isMobile.min.js') }}"></script> <!-- Sniff if browser is loaded on mobile -->
+    <script src="{{ asset('public/js/qualification.js') }}"></script> 
+    
 {% endblock %}
