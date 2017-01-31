@@ -93,7 +93,7 @@
                             </span>
                             <span class="list-group-item">
                                 <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName|default('') }} {{ courseDetails.assessor.lastName|default('') }}" data-email="{{ courseDetails.assessor.email|default('') }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.assessor.id|default('')~'/'~courseDetails.assessor.userImage|default('') }}" data-phone="{{ courseDetails.assessor.phone|default('') }}" data-acctype="Assessor">
-                                    <img src="{{ amazon_link~'user-'~courseDetails.assessor.id~'/'~courseDetails.assessor.userImage }}" alt="You">
+                                    <img src="{{ amazon_link~'user-'~courseDetails.assessor.id|default('')~'/'~courseDetails.assessor.userImage }}" alt="You">
                                 </div>
                                 <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName|default('') }} {{ courseDetails.assessor.lastName|default('') }}" data-email="{{ courseDetails.assessor.email|default('') }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.assessor.id|default('')~'/'~courseDetails.assessor.userImage|default('') }}" data-phone="{{ courseDetails.assessor.phone|default('') }}" data-acctype="Assessor">
                                     <label class="h5"><strong>{{ courseDetails.assessor.firstName|default('') }} {{ courseDetails.assessor.lastName|default('') }}</strong> <br><small>Assessor</small></label>
@@ -101,7 +101,7 @@
                             </span>
                             <span class="list-group-item">
                                 <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName|default('') }} {{ courseDetails.rto.lastName|default('') }}" data-email="{{ courseDetails.rto.email|default('') }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.rto.id|default('')~'/'~courseDetails.rto.userImage|default('') }}" data-phone="{{ courseDetails.rto.phone|default('') }}" data-acctype="RTO">
-                                    <img src="{{ amazon_link~'user-'~courseDetails.rto.id~'/'~courseDetails.rto.userImage }}" alt="You">
+                                    <img src="{{ amazon_link~'user-'~courseDetails.rto.id|default('')~'/'~courseDetails.rto.userImage }}" alt="You">
                                 </div>
                                 <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName|default('') }} {{ courseDetails.rto.lastName|default('') }}" data-email="{{ courseDetails.rto.email|default('') }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.rto.id|default('')~'/'~courseDetails.rto.userImage|default('') }}" data-phone="{{ courseDetails.rto.phone|default('') }}" data-acctype="RTO">
                                     <label class="h5"><strong>{{ courseDetails.rto.firstName|default('') }} {{ courseDetails.rto.lastName|default('') }}</strong> <br><small>RTO</small></label>
