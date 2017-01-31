@@ -11,7 +11,7 @@
     {% set userImg = userObj.getUserImage()%}
     {% set userRole = userObj.getRoles() %}
     {% set userId = userObj.getId() %} 
-    {% set userId = userObj.getId() %} 
+
     <main class="main-content-gqa">
         <div class="container container-left-sidebar-main">
             <section class="section-sidebar">
@@ -39,7 +39,6 @@
                 {% set courseCode = courses.getCourseCode()%}
                 {% set courseId = courses.getId() %} 
                 {% set courseInfo = courses_service.getCourseInfo(courseCode)%} 
-                {% set courseInfotmp = courses_service.getUserCoursesInfo(courseCode)%} 
                 {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}    
                 {% set output = remaining|split('&&') %}
                 {% set evidenceCompleteness = courses_service.getEvidenceByCourse(userId, courseCode) %}
@@ -56,7 +55,7 @@
                              <dd class="control-label"><small>STATUS</small> <br><span>{{ courseStatus[courses.courseStatus]['status'] }}</span></dd>
                          </dl>
                          <dl class="panel-qualification-desc">
-                             <dd class="control-label"><small>Account Manager</small> <br><span>{{courses.facilitator.firstName}} {{courses.facilitator.lastName}}</span></dd>
+                             <dd class="control-label"><small>Account Manager</small> <br><span>{% if(courses.facilitator.firstName != '') %} {{courses.facilitator.firstName}}{%endif%} {% if(courses.facilitator.lastName != '') %}{{courses.facilitator.lastName}}{%endif%}</span></dd>
                          </dl>
                      </div>
                      <div class="panel-qualification-body">
