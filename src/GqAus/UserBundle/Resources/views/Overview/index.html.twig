@@ -46,7 +46,7 @@
                 {%set courseStatus = user_service.getQualificationStatus()%}
 
                  <!-- ng-repeat-->
-                 <article class="panel panel-default panel-qualification">
+                 <article class="panel panel-default panel-qualification" data-courseCode="{{ courseCode }}">
                      <div class="panel-qualification-meta">
                          <div class="panel-qualification-img" style="background-image: url({{ courseInfo.bannerImg }});">
                              <h3 class="h3 qual-title"><small>{{ courseCode }}</small><br> {{ courses.getCourseName() }}</h3>
@@ -214,7 +214,7 @@
         $(document).ready(function () {
             FIRST_TIME_TOUR.build();
             $('.panel-qualification').on("click", function(){
-               $(".manager-nav").toggleClass("show hide");
+               location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode');
             });
         });
     </script>
