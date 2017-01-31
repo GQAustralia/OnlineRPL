@@ -1,578 +1,214 @@
-{% extends 'base.html.twig' %}
+{% extends 'revamp_base.html.twig' %}
 {% block title %}GQ - RPL Qualification{% endblock %}
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('public/css/pages/all/qualification.css') }}">
-<link rel="stylesheet" href="{{ asset('/public/css/pages/all/candidate_profile.css') }}"> 
-<link rel="stylesheet" href="{{ asset('public/css/pages/candidate/round-progress.css') }}">
-<link rel="stylesheet" href="{{ asset('public/css/pages/candidate/roundslider.css') }}"> 
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
+
+<link href="{{ asset('public/css/package_rules.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
-<div class="hidden-xs body_section">
-    <!-- Larg Screens HTML --> 
-{% if userCourses is empty%}
-    <div>No Courses Available</div>
-{% else %}
-    {% set counter = '' %}
-    {% set counterArr = 0 %}
-    {% set awaitngVal = '' %}
-
-{% for key, courses in userCourses %}     
     
-    {% set userRole = app.security.getToken().getUser().getRoles() %}
-    {% set userId = app.security.getToken().getUser().getId() %} 
-    {% set userId = app.security.getToken().getUser().getId() %} 
-    {% set flagCurrent = '1' %}
-    {% set courseCode = courses.getCourseCode()%}
-        {% set courseId = courses.getId() %} 
-    {% set courseInfo = courses_service.getUserCoursesInfo(courseCode)%} 
-    {% set packageInfo = courses_service.getPackagerulesInfo(courseCode)%} 
-  
-   
-{% if courseInfo.courseInfo == "No records found" %}
-{% elseif courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
-{% set evidenceCompleteness = courses_service.getEvidenceByCourse(userId, courseCode) %}
-{% set counter = counter~evidenceCompleteness~',' %}
-{% set awaitngVal = counter|split(',') %} 
-    <div class="data-collapse">
-        <div class="presentation-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 col-lg-12">
+    {% set userObj = app.security.getToken().getUser() %}
+    {% set userRole = userObj.getRoles() %}
+    {% set userId = userObj.getId() %} 
+    {% set courseCode = courseDetails.courseCode %}
+    {% set courseInfo = courses_service.getCourseInfo(courseDetails.courseCode)%}
+    {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}    
+    {% set output = remaining|split('&&') %} 
+    {%set courseStatus = user_service.getQualificationStatus()%}
+    {% set courseApiInfo = courses_service.getUserCoursesInfo(courseCode)%} 
+
+    <main class="main-content-gqa">
+        <div class="container">
+            <div class="panel panel-default panel-qual-heading">
+                <div class="panel-heading-img" style="background-image: url({{ courseInfo.bannerImg }})">
+                    <span class="hidden" aria-readonly>Certificate in Commercial Cookery IV</span>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="h3 qual-title"><small>{{ courseDetails.courseCode }}</small><br>{{ courseDetails.courseName }}</h3>
+                </div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#pagelink" aria-controls="home" role="tab"><span class="hidden-xs">Qualification</span> Info</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#pagelink" aria-controls="tab" role="tab">Core <span class="hidden-xs">Units</span></a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#pagelink" aria-controls="tab" role="tab">Elective <span class="hidden-xs">Units</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container container-right-sidebar-main">
+            <section class="section-sidebar section-sidebar-compressed">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>Qualification Status</h4>
+                        <span class="label label-primary">{{ courseStatus[courseDetails.courseStatus]['status'] }}</span>
+                        <hr>
+                        <div class="qual-gauges-group">
+                            <div class="qual-gauges qual-spacing">
+                                <div class="c100 p50 small core-units">
+                                    <span>5/{{ courseApiInfo.courseInfo.Units.Core.unit|length }}</span>
+                                    <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                                </div>                                    
+                            </div>
+
+                            <div class="qual-gauges qual-spacing">
+                                <div class="c100 p50 small elective-units">
+                                    <span>2/{{ courseApiInfo.courseInfo.Units.Elective.groups.group.unit|length }}</span>
+                                    <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="qual-gauges">
+                            <div class="progress-tag progress-tag-danger">
+                                <progress role="progress" value="{{output[1]}}" max="100"><img class="fallback" width="30"></progress>
+                                <figcaption data-value="{{output[0]}}" data-unit="" class="progress-details"> DAYS LEFT</figcaption>
+                            </div>
+                        </div>
+                        <hr>
+                        <p class="text-muted">Jump into your unit pages and start uploading your evidences.</p>
                         <p>
-                            <span> {{ courses.getCourseName() }}{% if courses.getRtoDate()  != null %} -  <strong>Awarded {{ courses.getRtoDate()|date("d M Y") }}</strong>{% endif %}</span>
-
-                            <span>{{ courses.getCourseCode() }}                            
-                           {% if userCourses|length > 1  and loop.index > 1 %}
-                                <a href="javascript:void(0);" data-toggle="collapse" data-target="#collapse-{{courseCode}}" onclick="courseToggle(this)">
-                                    <i class="material-icons">expand_less</i>
-                                </a>  
-                            {% endif %}
-                            </span>
-
+                            <a href="#" class="btn-link btn-block">Manage Core Units</a>
+                            <a href="#" class="btn-link btn-block">Manage Eleective Units</a>
                         </p>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="container candidate collapse {% if loop.index == 1 %}in {% endif %}"  id="collapse-{{courseCode}}">
-            <div class="row">                
-    {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}    
-    {% set output = remaining|split('&&') %}
-
-                <div class="col-md-6 col-lg-6 ie-flex-fix">
-        {% set newuserblock = 0 %} 
-        {% set requiredUnits = 0 %}
-        {% set totalCheckedCount = 0 %} 
-     {% if courseInfo.courseInfo.Units is defined and courseInfo.courseInfo.Units %}
-         {% if courseInfo.courseInfo.Units.Core.unit is defined and  courseInfo.courseInfo.Units.Core.unit %}
-             {% set coreUnitCount = courseInfo.courseInfo.Units.Core.unit|length %}
-             {% set unitsData = courseInfo.courseInfo.Units.Core.unit %}
-
-             {% if courseInfo.courseInfo.Units.Elective is defined and courseInfo.courseInfo.Units.Elective%}
-                {% set totalCheckedCount = courses_service.getElectiveCheckedValues(userId,courseCode) %} 
-                {% set getIssubmitStatus = courses_service.getOneUnitStatus(userId, courseCode)%} 
-                {% if getIssubmitStatus >= 1%}
-                    {% set newuserblock = 1 %} 
-             {% endif %}
-             {% if courseInfo.courseInfo.Units.Elective.validation is defined and  courseInfo.courseInfo.Units.Elective.validation%} 
-                {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}  
-                {% set requiredUnits = coreUnitCount+electiveUnitCountRequired %}
-
-             {% endif %}
-        {% endif %}
-    {% endif %}
-{% endif %}
-{% if courses.courseStatus is defined and courses.courseStatus != 0 %}       
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12">
-                            <div class="info-box">
-                    {% if newuserblock == 0 %}
-                                <div class="info-copy">
-                                    <a href="{{ app.request.baseUrl }}/faq" target="_blank" style="width: 100%; display: inline-block; text-align: center;"><i class="material-icons">error_outline</i></a>
-                                    <p>For this qualification you need to show you're experienced in a total of {{requiredUnits}} units.</p>
-                                    <strong>Start by choosing your <span class="text-uppercase">Elective Units.</span></strong>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>Qualification Contacts <!--<br><small>More description about this section</small>--></h4>
+                        <div class="list-group list-group-contacts">
+                            <span class="list-group-item">
+                                <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.facilitator.firstName }} {{ courseDetails.facilitator.lastName }}" data-email="{{ courseDetails.facilitator.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage }}" data-phone="{{ courseDetails.facilitator.phone }}" data-acctype="Account Manager">
+                                    <img src="{{ amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage }}" alt="You">
                                 </div>
-                    {% elseif newuserblock == 1 %}
-                            {% set unitType = courses_service.getOneUnitStatus(userId, courseCode) %}
-                            {% if unitType == 0 %}
-                                    <p class="text-center"><strong>
-                                        Welcome to your new qualification,<br/>
-                                        let's go
-                                    </strong>
-                                </p>
-                            {% else %}
-                                        <div class="progres_bar_section">
-                                            <p class="text-center">
-                                                <strong>
-                                           {% if courses.facilitator is defined and courses.facilitator!= null %} {{courses.facilitator.firstName}} is reviewing your evidence  {% endif %}
-                                                </strong>
-                                            </p>
-                            {% endif %}
-
-                                    <div class="progres-content">
-                                        <div class="activ-middle">
-
-                                            <div id="slider{{counterArr}}" class="round-progress rslider"></div>
-                                            <div class="evidence-status">{% if awaitngVal[counterArr]|slice(0,3) == 100 %}Evidence Submitted{% elseif awaitngVal[counterArr]|slice(0,2) > 0 %}PORTFOLIO COMPLETION{% endif %}</div>
-                                        </div>
-                                        <p class="day-progress clearfix">
-                                            <span class="start-day">0<br/>Days</span>
-                                            <span class="end-day">90<br/>Days</span>
-                                        </p>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="90" style="width:{%if (output[1] > 0) %}{{output[1]}}{%else%}0{%endif%}%">
-
-                                                <span class="sr-only">{{output[0]}} Complete</span>
-                                            </div>
-                                        </div>
-                                        <p class="text-center">{%if (output[1] == 1) %}Today is your first day{% else %} You have <strong class="text-danger">{{output[0]}} Days</strong> to complete your portfolio of evidence {% endif %}</p>
-                                    </div>
+                                <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.facilitator.firstName }} {{ courseDetails.facilitator.lastName }}" data-email="{{ courseDetails.facilitator.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage }}" data-phone="{{ courseDetails.facilitator.phone }}" data-acctype="Account Manager">
+                                    <label class="h5"><strong>{{ courseDetails.facilitator.firstName }} {{ courseDetails.facilitator.lastName }}</strong> <br><small>Account Manager</small></label>
                                 </div>
-        {% endif %}
+                                <a href="{{ app.request.baseUrl }}/messages"><button type="button" class="btn btn-sm btn-default list-group-button"><i class="zmdi zmdi-email zmdi-hc-lg"></i></button></a>
+                            </span>
+                            <span class="list-group-item">
+                                <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName }} {{ courseDetails.assessor.lastName }}" data-email="{{ courseDetails.assessor.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.assessor.id~'/'~courseDetails.assessor.userImage }}" data-phone="{{ courseDetails.assessor.phone }}" data-acctype="Assessor">
+                                    <img src="{{ amazon_link~'user-'~courseDetails.assessor.id~'/'~courseDetails.assessor.userImage }}" alt="You">
+                                </div>
+                                <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName }} {{ courseDetails.assessor.lastName }}" data-email="{{ courseDetails.assessor.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.assessor.id~'/'~courseDetails.assessor.userImage }}" data-phone="{{ courseDetails.assessor.phone }}" data-acctype="Assessor">
+                                    <label class="h5"><strong>{{ courseDetails.assessor.firstName }} {{ courseDetails.assessor.lastName }}</strong> <br><small>Assessor</small></label>
+                                </div>
+                            </span>
+                            <span class="list-group-item">
+                                <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName }} {{ courseDetails.rto.lastName }}" data-email="{{ courseDetails.rto.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.rto.id~'/'~courseDetails.rto.userImage }}" data-phone="{{ courseDetails.rto.phone }}" data-acctype="RTO">
+                                    <img src="{{ amazon_link~'user-'~courseDetails.rto.id~'/'~courseDetails.rto.userImage }}" alt="You">
+                                </div>
+                                <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName }} {{ courseDetails.rto.lastName }}" data-email="{{ courseDetails.rto.email }}" data-imgsrc="{{ amazon_link~'user-'~courseDetails.rto.id~'/'~courseDetails.rto.userImage }}" data-phone="{{ courseDetails.rto.phone }}" data-acctype="RTO">
+                                    <label class="h5"><strong>{{ courseDetails.rto.firstName }} {{ courseDetails.rto.lastName }}</strong> <br><small>RTO</small></label>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section-main">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>Qualification Description</h4>
+                        <p>{{ courseApiInfo.courseInfo.details|raw }}</p>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>Qualification Structure and Complete List of Requirements</h4>
+                        <div class="package-rules">{{ packagerulesInfo|raw }}</div>
+                        <hr>
+                        <div role="tabpanel">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#core" aria-controls="core" role="tab" data-toggle="tab"><span>{{ courseApiInfo.courseInfo.Units.Core.unit|length }}</span>&nbsp;Core Units</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#elective" aria-controls="elective" role="tab" data-toggle="tab"><span>{{ courseApiInfo.courseInfo.Units.Elective.groups.group.unit|length }}</span>&nbsp;Elective Units</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="core">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr><th style="width: 150px;">Unit Code</th><th>Unit Name</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for unitInfo in courseApiInfo.courseInfo.Units.Core.unit %}
+                                                <tr><td>{{ unitInfo.id }}</td><td>{{ unitInfo.name }}</td></tr>
+                                            {% endfor %}
+                                            <!--<tr class="table-subheader"><td colspan="2"><strong class="text-uppercase">Accounting</strong></td></tr>
+                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
+                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
+                                            <tr class="table-subheader"><td colspan="2"><strong class="text-uppercase">Banking 101</strong></td></tr>
+                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
+                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="elective">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr><th style="width: 150px;">Unit Code</th><th>Unit Name</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for unitInfo in courseApiInfo.courseInfo.Units.Elective.groups.group.unit %}
+                                                <tr><td>{{ unitInfo.id }}</td><td>{{ unitInfo.name }}</td></tr>
+                                            {% endfor %}
+                                            <!--<tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
+                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
+                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>-->
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-{% endif %}
-    {% if courses.facilitator.firstName is defined %}
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12">
-                            <div class="hidden-xs review">
-                <div class="review_content">
-                        <p>{{courses.facilitator.firstName}} {{courses.facilitator.lastName}} is your <span class="text-uppercase"> Account Manager </span>for this qualification</p>
                 </div>
-                <div class="review_profile-pic">
-                        <a href="javascript:void(0)"><img class="profile-img" data-target="#facProfile{{courseCode}}" data-toggle="modal" src="{% if courses.Facilitator.userImage %}{{amazon_link~'user-'~courses.Facilitator.id~'/'~courses.Facilitator.userImage}}{% endif %}"></a>                               
+            </section>
+        </div>
+    </main>
+
+<div class="modal fade" id="contactProfile">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                <h4 class="modal-title">Malou Wang</h4>
+            </div> -->
+             
+            <div class="modal-body clearfix">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                <div class="avatar avatar-sm">
+                    <img class="profile-img" src="#">
+                    <span class="profile-message"><a href="{{ app.request.baseUrl }}/messages"><button type="button" class="btn btn-sm btn-default ml-1"><i class="zmdi zmdi-email zmdi-hc-lg"></i>&nbsp;&nbsp;Send Message</button></a></span>
+                </div>
+                <div class="avatar-name">
+                    <label class="h3"> 
+                        <span class="profile-name">Malou Wang</span> <br />
+                        <small><strong><span class="profile-type">Account Manager</span></strong></small> <br />
+                       
+                    </label>
+                    <div class="avatar-info">
+                    <ul class="list-unstyled">
+                        <li><i class="zmdi zmdi-email"></i> <span class="profile-email"></span></li>
+                        <li><i class="zmdi zmdi-smartphone-iphone"></i> <span class="profile-phone"></span></li>
+                    </ul>
+                </div>
                 </div>
             </div>
         </div>
     </div>
-    {% endif %}
-{% if courses.facilitator is defined and courses.facilitator != null or courses.assessor is defined and courses.assessor != null %}       
-{% set notes = user_service.getNotesFromUserAndCourseApplicant(courseId) %}    
-    {% if notes|length > 0 %}
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12">
-                            <div class="comments">
-                                <div class="panel-group">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">Notes <span class="count">({{notes|length}})</span></h4>
-                                    </div>
-                        {% for note in notes %} 
-                        {% set notUserId = (note.type == 'f') ? courses.Facilitator.id : courses.assessor.id %}
-                            {% set notecrted = (note.type =='f') ? courses.facilitator.firstName : courses.assessor.firstName %}
-                            {% set notecrtedImg = (note.type =='f') ? courses.Facilitator.userImage : courses.assessor.userImage%}
-                                    <div class="panel-content">
-                                        <img src="{% if notecrtedImg %} {{ amazon_link~'user-'~notUserId~'/'~notecrtedImg }} {% endif %}" class="profile-img">
-                                        <span><strong>{{notecrted}}</strong></span>
-                                        <span class="date-time">
-                                            <span class="date">{{ note.created|date('d/m/y')}}</span>
-                                            <span class="date"> - </span>
-                                            <span class="time">{{ note.created|date('H:i')}}</span>
-                                        </span>
-                                        <p>{{note.note}}</p>
-                                    </div>
-                        {% endfor %}     
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-    {% endif %}
-{% endif %}
-                    <!-- Packaging rules Display -->
-                    {% if packageInfo is defined %}
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12">
-                            <div class="comments download-enroll">
-                                <div class="panel-group">
-                                    <div class="panel-heading">
-                                        <span>PACKAGING RULES</span>
-                                        <a href="#packaging-{{courseCode}}" data-status="true" data-collapse="child" data-parent="#nested" data-toggle="collapse" aria-expanded="false" class="collapsed packaging-rules">
-                                            <i class="material-icons">expand_more</i>
-                                        </a>
-                                    </div>
-                                    <div class="panel-collapse collapse" id="packaging-{{courseCode}}" aria-expanded="false">
-                                        <div class="panel-content">
-                                            {{packageInfo | raw}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-                    <!-- End Packaging rules Display -->
-                    <!-- Enrollment form started -->
-                                 <div class="" id="idfiles_msg"></div>
-                                {% if courses.rto.lastName is defined and courses.rto.lastName != "" %}
-                                    {% set enrollment_form = rto_service.findRTOEnrollmentForm(courses.rto.lastName) %}
-                                    {% set uploaded_enrollment_form = course_file_service.getFile(courses.id) %}
-                                    <div class="row">
-                                        <div class="col-md-12 col-lg-12">
-                                            <div class="comments download-enroll">
-                                                <div class="panel-group">
-                                                    <div class="panel-heading">
-                                                        <span>ENROLLMENT FORM</span> 
-                                                        {% if uploaded_enrollment_form == "" %} 
-                                                        <a class="pull-right" href="{{enrollment_form}}" target="_blank"><i class="material-icons enroll">file_download</i></a>
-                                                        {% endif %}
-                                                    </div>
-                                                   {% if uploaded_enrollment_form == "" %}                                     
-                                                        <form name="enroll_files" id="enroll_files" method="POST" enctype="multipart/form-data"> 
-                                                            <input type="hidden" name="course_id" id="course_id" value="{{courseCode}}">
-                                                            <input type="hidden" name="user_id" id="user_id" value="{{userId}}">
-                                                            <div class="panel-content">
-                                                                <div class="add_section " role="tabpanel">
-                                                                    <input type="file" id="user_enroll_browse" name="user_enroll_browse" class="hidden uploadFile">
-                                                                    <span class="button uploadTrigger" id="idfileUpload"><i class="material-icons">add</i></span><strong>Add Enrollment Form</strong>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div class="panel-group hide" id="fileListContainer">
-                                                                <div class="panel clearfix">
-                                                                    <div class="panel-body">
-                                                                        <div class="panel-copy fileListContainer" id="progress-bars"></div>
-                                                                    </div>                                                                    
-                                                                </div>
-                                                            </div>
-                                                            <div id="idfiletype_image"></div>
-                                                            <div class="loading-icon" style="display: none;" id="ID_load"><img src="/public/images/loading.gif"></div> 
-                                                        </form>
-                                                   {% endif %}
-                                                   {% if uploaded_enrollment_form.path is defined %}
-                                                        <div class="btn-download">
-                                                            <a class="download-cta"href="{{amazon_link~uploaded_enrollment_form.path}}" download>
-                                                                Download Completed Form <i class="material-icons">photo</i>
-                                                            </a>
-                                                        </div>
-                                                   {% endif%}
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>                     
-                                {% endif %}
-                                <!-- Enrollment form ended -->
-                    {% set myArray = ['3','15','16','0']%}
-                    {% if courses.courseStatus in myArray %}
-                        <div class="row">
-                            <div class="col-md-12 col-lg-12">
-                                <div class="comments">
-                                    <div class="panel-group">
-                                        <div class="panel-heading"><a href ="javascript:void(0)" id="signoff_sheet" userid="{{userId}}" course_code="{{courseCode}}" style='color:#FFF;'>SIGN OFF SHEET</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {%endif%}
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12">                
-                            <div class="hidden-xs faq_link">
-                                <i class="material-icons help">help</i>
-                                <a href="{{ app.request.baseUrl }}/faq" target="_blank">
-
-                                    <span>FAQs</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>   
-                </div>         
-                <div class="col-md-6 col-lg-6 flex-fix-q">
-                    <div class="accordion panel-group">
-    {% set i = 1 %}           
-    {% set coreUnitsCount = courses_service.getCoreElectiveUnitsCount(userId,courseCode,'core') %}    
-    {% set coreSubmitted = courses_service.getSubmittedCoreStatus(userId,courseCode,'core') %}
-    {% set coreRemaining = coreUnitsCount - coreSubmitted %}
-                        <div class="panel panel-default">
-                            <div class="panel-heading clearfix">
-                                <h4 class="panel-title">
-                                    <span>{{coreUnitsCount}} CORE UNITS {% if coreSubmitted >= 1 and coreRemaining < coreUnitsCount %} - <strong>{{coreRemaining}} REMAINING </strong>
-                                        {% endif %}</span>
-                                    <a class="btn-accordion collapsed" data-toggle="collapse" data-parent="#accordion" data-collapse="parent" href="#collapseTwo-{{courseCode}}">
-                                        <i class="material-icons">expand_more</i>
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseTwo-{{courseCode}}" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <div class="accordion panel-group" id="nested">
-
-                  {% if courseInfo.courseInfo.Units.Core is defined and courseInfo.courseInfo.Units.Core %} 
-                    {% if courseInfo.courseInfo.Units.Core.unit is defined and  courseInfo.courseInfo.Units.Core.unit %}
-
-                   {% set coreUnitCount = courseInfo.courseInfo.Units.Core.unit|length %}
-
-
-                    {% set unitsData = courseInfo.courseInfo.Units.Core.unit %}    
-
-                   {% for key, units in unitsData %}  
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <div class="panel-title">
-                                                    <div class="panle_body_content">
-                 {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
-                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}               
-                {% if approvalText|length > 0 and approvalText != '0' %}
-                                                        <p> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
-                                                        <a class="qualification-cta" target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseCode }}/{{ units.id }}/{{userId}}"></a>
-                                                        <p> <span class="tag-id">{{units.id}}</span> <span>{{units.name}}</span></p>
-                                                        <!--p>{{units.name}}</p-->
-                                                    </div>
-                                                    <div class="user-redirect-arrow"><span><i class="material-icons">chevron_right</i></span></div>
-                                                    <!--span><i class="material-icons">chevron_right</i></span-->
-                                                </div>
-                                            </div>
-                                            <div id="nested-collapseSeven" class="panel-collapse collapse">
-
-                                            </div>
-                                        </div>
-                   {% endfor %} 
-                    {% endif %}
-                    {% endif %}
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-        {% if courseInfo.courseInfo.Units.Elective is defined and courseInfo.courseInfo.Units.Elective%}
-
-            {% set   electiveUnitsCount = courses_service.getCoreElectiveUnitsCount(userId,courseCode,'elective') %}
-
-        {% if courseInfo.courseInfo.Units.Elective.validation is defined and  courseInfo.courseInfo.Units.Elective.validation%}    
-
-            {% if courseInfo.courseInfo.Units.Elective.validation.type is defined %}
-                {% if courseInfo.courseInfo.Units.Elective.validation.requirement is defined and courseInfo.courseInfo.Units.Elective.validation.requirement %}
-                    {% set electiveUnitCountRequired = courseInfo.courseInfo.Units.Elective.validation.requirement %}      
-                        {% set totalCheckedCount = courses_service.getElectiveCheckedValues(userId,courseCode) %}           
-            {% set electiveSubmitted = courses_service.getSubmittedElectiveStatus(userId,courseCode,'elective') %}
-            {% set electiveRemaining = electiveUnitCountRequired - totalCheckedCount %}
-                {% endif %}
-            {% endif %}                  
-                        <input type="hidden" name="chkboxCount" id="chkboxCount" value="{{electiveUnitCountRequired}}">
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading"  id='strip_{{courseCode}}' {% if totalCheckedCount >= electiveUnitCountRequired%} style="background-color:#E01010" {% else %}{% endif %}>
-                                <h4 class="panel-title">
-                                    <span>{{electiveUnitsCount}} ELECTIVE UNITS  <span id="spanremain"> {% if electiveRemaining < electiveUnitCountRequired %} <strong> - {{electiveRemaining}} REMAINING </strong> {% elseif totalCheckedCount == 0 %} - Choose {{electiveUnitCountRequired}} {% else %} {% endif %}</span></span>
-
-	{% if totalCheckedCount >= electiveUnitCountRequired%}
-        {% set statusOfFacElecUnitsCount = user_service.getTheStatusOfUnitsUnderCourse(userId, courseCode, 'facilitatorstatus', 'elective') %}
-{#                                    <a aria-expanded="false" data-toggle="collapse" id="toggle_edit_{{courseCode}}" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}" data-collapse="parent" class="edit-course hide"><i class="material-icons edit">edit</i></a>#}
-
-                                    <a aria-expanded="false" id="course_toggle_{{courseCode}}" class="btn-accordion collapsed" data-toggle="collapse" data-parent="#nested"  data-collapse="parent" href="#nested-collapseSTR-{{courseCode}}">
-                                        <i class="material-icons">expand_more</i>
-                                    </a>
-                                    <div class="course-edit show"  id="course-btn-container-{{courseCode}}">
-                                        <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show edit' >
-                            {% if statusOfFacElecUnitsCount >= electiveUnitCountRequired %} {% else %}<i class="material-icons">edit</i> {% endif %}</a>
-                                        <button type="button" class="btn user-show done hide" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
-                                    </div>
-
-        {% else %}          
-
-                                    <div class="course-edit hide"  id="course-btn-container-{{courseCode}}">
-
-                                        <a href="javascript:void(0)" id="edit_{{courseCode}}" onclick="convertToEdit('{{courseCode}}');" class='user-show edit'>
-                            {% if statusOfFacElecUnitsCount is defined and statusOfFacElecUnitsCount >= electiveUnitCountRequired %} {% else %}<i class="material-icons">edit</i> {% endif %}</a>
-                                        <button type="button" class="btn user-show hide" id="btn-done-{{courseCode}}" onclick="convertToCheck('{{courseCode}}');">DONE</button>
-                                    </div>
-{#                                    <a aria-expanded="false" data-toggle="collapse" id="toggle_edit_{{courseCode}}" data-parent="#nested" href="#nested-collapseSTR-{{courseCode}}" data-collapse="parent" class="edit-course "><i class="material-icons edit">edit</i></a>#}
-
-                                    <a aria-expanded="false" id="course_toggle_{{courseCode}}" class="btn-accordion collapsed " data-toggle="collapse" data-parent="#nested"  data-collapse="parent" href="#nested-collapseSTR-{{courseCode}}">
-                                        <i class="material-icons">expand_more</i>
-                                    </a>
-
-        {% endif %}	
-
-                                </h4>       
-
-                            </div>
-                            <div aria-expanded="false" id="nested-collapseSTR-{{courseCode}}" class="panel-collapse collapse {% if totalCheckedCount >= electiveUnitCountRequired %} in {% endif %}">
-                                <div class="panel-body">
-
-
-        {% if courseInfo.courseInfo.Units.Elective.groups is defined and courseInfo.courseInfo.Units.Elective.groups %}
-        {% if courseInfo.courseInfo.Units.Elective.groups.group is defined and courseInfo.courseInfo.Units.Elective.groups.group %}
-            {% set unitsData = courseInfo.courseInfo.Units.Elective.groups.group.unit %}
-
-        {% for key, units in unitsData %}   
-         {% set electiveUnitId = units.id %}       
-
-    {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,electiveUnitId) %}  
-
-                                    <div class="select">
-
-        {% if unitsData %}
-
-                {% set groupIdArray = '' %}
-                {% set groupSelectCount = 0 %}
-
-                {% set electiveUnits = courses_service.getQualificationElectiveStatus(userId, courseCode,units.id) %} 
-                {% set electiveStatus = 1 %}
-        {% if electiveStatus==1 %}
-
-                {% set newuserblock = 1 %} 
-            {% endif %}
-                                        <div class="panle_body_content unit-selection border-bottom clearfix">
-                                            <a class="qualification-cta"  target="_blank" href="{{ app.request.baseUrl }}/courseunitDetails/{{ courseInfo.courseInfo.id  }}/{{ units.id }}/{{userId}}"></a>
-                                            <i class="material-icons info">info</i>
-                                            <div class="tag-copy">
-                {% set currUnitStatus = courses_service.getUnitStatus(userId, units.id, courseCode)%}
-                {% set approvalText = user_service.getStausByStatus(currUnitStatus, userId, units.id, courseCode, userRole[0]) %}                
-
-                {% if approvalText|length > 0 and approvalText != '0' %}<p id="sub_{{units.id}}"> <span class="tag status {% if approvalText == "Submitted"%} done {% else %}in-progress {% endif %}">{{approvalText}} </span> </p>{% endif %}                                        
-                                                <p> <span class="tag-id">{{units.id}}</span> <span>{{units.name}}</span></p>
-                                                <!--p>{{units.name}}</p-->
-
-                                            </div>
-             {% if totalCheckedCount >= electiveUnitCountRequired%}
-                                            <div class="checkbox_outer modalClass checkmark-icon hide"  data-toggle="modal" data-target="" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
-                                                <input {% if approvalText == "Satisfactory" or approvalText == "Competent" %} disabled="disabled" {% else %} {% endif %} name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{courseCode}}', '{{units.id}}', '{{totalCheckedCount}}', '{{electiveUnitCountRequired}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
-
-                                            </div>
-                                            <div class="user-redirect-arrow">
-                                                <span><i class="material-icons">chevron_right</i></span>
-                                            </div>
-            {% else %}
-                                            <div class="checkbox_outer modalClass checkmark-icon"  data-toggle="modal" data-target="" unit_id="{{units.id}}" user_id="{{ userId }}" id="{{units.id}}" course_code="{{courseInfo.courseInfo.id}}">                        
-                                                <input {% if approvalText == "Satisfactory" or approvalText == "Competent" %} disabled="disabled" {% else %} {% endif %}  name="chk-val-{{courseCode}}[]" id="span_{{units.id}}" type="checkbox" onclick="setUnitId('{{courseCode}}', '{{units.id}}', '{{totalCheckedCount}}', '{{electiveUnitCountRequired}}')" {% if electiveUnits[0] is defined and electiveUnits[0].electiveStatus==1 %}checked {% else %}unchecked{% endif %} ><span></span>                      
-
-                                            </div>
-                                            <div class="user-redirect-arrow hide">
-                                                <span>
-                                                    <i class="material-icons">chevron_right</i>
-                                                </span>
-                                            </div>
-            {% endif %}
-
-                                        </div>
-       {# {% endfor %}#}
-          {% endif %}
-                                    </div>
-         {% endfor %} 
-        {% endif %}
-        {% endif %}
-                                </div>
-                            </div>
-                        </div>
-     {% endif %}
-    {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-     {% include 'GqAusHomeBundle:Courses:facProfilePopups.html.twig' %}                  
-    </div>
-
- {% set counterArr = counterArr+1 %}
-{% endif %}
-
-{% endfor %}
-    <input type="hidden" id="courseCount" name="courseCount" value="{{counter}}">
-{% endif %}
 </div>
 
-
-<!-- Larg Screens HTML End -->
-<input type="hidden" id="unitcheckval" name="unitcheckval" value="">
-<div class="modal-pop">
-    <div role="dialog" id="myModal" class="modal fade" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body"><p>Are you sure you want to select this elective unit?</p></div>
-                <div class="modal-footer">
-                    <div class="form-group form-group-lg gqa-btn-group">
-                        <div class="form">
-                            <div class="row no-gutter">
-                                <div class="col-md-6 col-lg-6">
-                                    <button data-target="#myModal" data-toggle="modal" class="btn btn-danger border-right changeUnitStatus" type="button">OK</button>
-                                </div>
-                                <div class="col-md-6 col-lg-6">
-                                    <button data-target="#myModal" data-toggle="modal" class="btn btn-danger" type="button" onclick="return cancelCheckbox();">CANCEL</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>          
-                </div>
-            </div>
-        </div>
-    </div>
-    <div role="dialog" id="myModal_uncheck" class="modal fade" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body"><p>Are you sure you want to un-select this elective unit?</p></div>
-                <div class="modal-footer">
-                    <div class="form-group form-group-lg gqa-btn-group">
-                        <div class="form">
-                            <div class="row no-gutter">
-                                <div class="col-md-6 col-lg-6">
-                                    <button data-target="#myModal_uncheck" data-toggle="modal" class="btn btn-danger border-right changeUnitStatus" type="button">OK</button>
-                                </div>
-                                <div class="col-md-6 col-lg-6">
-                                    <button data-target="#myModal_uncheck" data-toggle="modal" class="btn btn-danger" type="button" onclick="return cancelCheckbox();">CANCEL</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>          
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="validate-info" role="dialog" data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog modal-sm modal-lg">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-body">
-                    <p>
-                        <!--button type="button" class="close" data-dismiss="modal">&times;</button-->
-                        You Have Reached Required Elective Units.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <div class="gqa-btn-group btn-file-save">
-                        <div class="row no-gutter">
-                            <div class="col-xs-12 col-md-12 col-md-12 col-lg-12">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="return cancelCheckbox();">OK</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('public/js/roundslider.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/js/s3-upload/s3enrollupload.js') }}"></script>
-    <script>
-        $(function() {
-            function getTheSliderValues() {
-                var valuesStr = $('#courseCount').val();
-                var perValuesArr = valuesStr.split(",");
-                perValuesArr.pop();
-                for (var i = 0; i < perValuesArr.length; i++) {
-                    var obj = new Object();
-                    obj.sliderType = "min-range";
-                    obj.value = perValuesArr[i];
-                    obj.min = 0;
-                    obj.max = 100;
-                    obj.startAngle = 90;
-                    obj.circleShape = "half-top";
-                    obj.radius = 80;
-                    obj.handleSize = 0;
-                    obj.width = 20;
-                    obj.editableTooltip = false;
-                    $("#slider" + i).roundSlider(obj);
-                }
-
-            }
-            getTheSliderValues();
-        });
-    </script>
-
+    <script src="{{ asset('public/js/qualification.js') }}"></script> 
+    
 {% endblock %}
