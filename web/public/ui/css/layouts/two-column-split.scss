@@ -11,7 +11,9 @@
 			width: 100%;
 		}
 		@media (min-width: $screen-sm-min) {
-			width: 50%;
+			&.col-section-4 { width: 40%; }
+			&.col-section-5 { width: 50%; }
+			&.col-section-6 { width: 60%; }
 
 			& + .section-main {
 				padding-left: $grid-gutter-width/4;

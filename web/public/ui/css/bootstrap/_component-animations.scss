@@ -33,5 +33,5 @@ tbody.collapse.in { display: table-row-group; }
   overflow: hidden;
   @include transition-property(height, visibility);
   @include transition-duration(.35s);
-  @include transition-timing-function(ease);
+  @include transition-timing-function($easing);
 }

@@ -1,9 +1,11 @@
 {% extends 'revamp_base.html.twig' %}
-{% block title %}GQ - RPL Qualification{% endblock %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="qualificationCtlr"  id="qualificationCtlr" {% endblock%}
+{% block title %}{[{pageTitle || 'GQ - RPL Qualification'}]}{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
-
+<link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" /> 
 <link href="{{ asset('public/css/package_rules.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
@@ -27,20 +29,20 @@
                 <div class="panel-heading">
                     <h3 class="h3 qual-title"><small>{{ courseDetails.courseCode }}</small><br>{{ courseDetails.courseName }}</h3>
                 </div>
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#pagelink" aria-controls="home" role="tab"><span class="hidden-xs">Qualification</span> Info</a>
+                <ul class="nav nav-tabs" role="tablist" ng-init="qualificationPage = '{{qualificationPage}}'">
+                    <li role="presentation" ng-class="{'active':qualificationPage == 'qualification'}">
+                        <a href="#pagelink" ng-click="qualificationPage = 'qualification'"><span class="hidden-xs">Qualification</span> Info</a>
                     </li>
-                    <li role="presentation">
-                        <a href="#pagelink" aria-controls="tab" role="tab">Core <span class="hidden-xs">Units</span></a>
+                    <li role="presentation" ng-class="{'active':qualificationPage == 'core'}">
+                        <a href="#pagelink" ng-click="qualificationPage = 'core'">Core <span class="hidden-xs">Units</span></a>
                     </li>
-                    <li role="presentation">
-                        <a href="#pagelink" aria-controls="tab" role="tab">Elective <span class="hidden-xs">Units</span></a>
+                    <li role="presentation" ng-class="{'active':qualificationPage == 'elective'}">
+                        <a href="#pagelink" ng-click="qualificationPage = 'elective'">Elective <span class="hidden-xs">Units</span></a>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="container container-right-sidebar-main">
+<div class="container container-right-sidebar-main" ng-show="qualificationPage == 'qualification'">
             <section class="section-sidebar section-sidebar-compressed">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -172,6 +174,151 @@
                 </div>
             </section>
         </div>
+<div class="container container-two-column-split" ng-show="qualificationPage == 'elective'">
+            <section class="section-main col-section-5">
+                <div class="panel panel-default panel-units">
+                    <div class="panel-body">
+                        <div class="form-group unit-search">
+                            <input type="text" class="form-control input-lg" onfocus="UNITS.display_search(this)" onblur="UNITS.hide_search(this)"placeholder="Type keywords here...">
+                            <i class="zmdi zmdi-search zmdi-hc-2x icon"></i>
+                        </div>
+
+                        <h3>Select your Elective Units</h3>
+                        <div class="list-group list-group-units panel-accordion">
+                            <ul class="list-group-units-item" data-unit-group="E-Marketing"> 
+                                <li class="list-group-units-subitem selected">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" data-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
+                                            <span class="unit-code">UTX1233467</span>
+                                            <i class="zmdi zmdi-chevron-down"></i>
+                                        </button>
+                                        <button type="button" class="btn"><i class="zmdi"></i></button>
+                                    </div>
+                                    <div id="collapse1" class="panel-collapse collapse">
+                                        <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-units-subitem">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" data-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                            <span>Basic Salt Sprinkling</span>
+                                            <i class="zmdi zmdi-chevron-down"></i>
+                                        </button>
+                                        <button type="button" class="btn"><i class="zmdi"></i></button>
+                                    </div>
+                                    <div id="collapse2" class="panel-collapse collapse">
+                                        <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section-main col-section-5">
+                <div class="panel panel-default panel-selected-units">
+                    <div class="panel-selected-units-body">
+
+                        <div class="no-selected-units text-center" ng-if="selected.count === 0">
+                            <div class="animated-checklist" id="animatedChecklist">
+                                <i class="list zmdi"></i><i class="list zmdi"></i><i class="list zmdi"></i>
+                                <i class="cursor"></i>
+                            </div>
+                            <h3>You need to select your Elective units <br>
+                                <small>Select by clicking your preferred elective units on the left</small>
+                            </h3>
+                        </div>
+
+                        <div class="list-group list-group-units panel-accordion" ng-if="selected.count > 0">
+                            <h4 style="margin-bottom: 72px;">Selected units <br> <small class="text-uppercase">Pick from list on left</small></h4>
+
+                            <div class="unit-count text-muted">
+                                <span ng-model="selected.count">1</span><small>/<span ng-model="selected.total">4</span></small>
+                            </div>
+
+                            <ul class="list-group-units-item" data-unit-group="E-Marketing"> 
+                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
+                                            <span class="unit-code">UTX1233467</span>
+                                        </button>
+                                        <button type="button" class="btn"><i class="zmdi"></i></button>
+                                    </div>
+                                </li>
+                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
+                                            <span class="unit-code">UTX1233467</span>
+                                        </button>
+                                        <button type="button" class="btn"><i class="zmdi"></i></button>
+                                    </div>
+                                </li>
+                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
+                                            <span class="unit-code">UTX1233467</span>
+                                        </button>
+                                        <button type="button" class="btn"><i class="zmdi"></i></button>
+                                    </div>
+                                </li>
+                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
+                                            <span class="unit-code">UTX1233467</span>
+                                        </button>
+                                        <button type="button" class="btn"><i class="zmdi"></i></button>
+                                    </div>
+                                </li>
+                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
+                                            <span class="unit-code">UTX1233467</span>
+                                        </button>
+                                        <button type="button" class="btn"><i class="zmdi"></i></button>
+                                    </div>
+                                </li>
+                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
+                                            <span class="unit-code">UTX1233467</span>
+                                        </button>
+                                        <button type="button" class="btn"><i class="zmdi"></i></button>
+                                    </div>
+                                </li>
+                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
+                                            <span class="unit-code">UTX1233467</span>
+                                        </button>
+                                        <button type="button" class="btn"><i class="zmdi"></i></button>
+                                    </div>
+                                </li>
+                                <li class="list-group-units-subitem selected chosen" ng-class="'selected': model.value, 'chosen': model.value" ng-click="unselectUnit()">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                            <span class="unit-name">Basic Salt Sprinkling Basic Salt Sprinkling Basic Salt Sprinkling</span>
+                                            <span class="unit-code">UTX1233467</span>
+                                        </button>
+                                        <button type="button" class="btn"><i class="zmdi"></i></button>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <button type="button" class="btn btn-success center-block" style="margin-top: 30px;" ng-if="selected.count === selected.total">I&apos;m done selecting units</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    
     </main>
 
 <div class="modal fade" id="contactProfile">
@@ -210,5 +357,21 @@
 
 {% block javascripts %}
     <script src="{{ asset('public/js/qualification.js') }}"></script> 
-    
+    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
+    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
+
+
+    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
+    <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
+    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/app.js') }}"></script>
+    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/controllers/qualificationCtlr.js') }}"></script>
 {% endblock %}

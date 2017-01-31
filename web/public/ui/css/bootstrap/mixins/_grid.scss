@@ -29,6 +29,7 @@
     padding-right: ceil(($gutter / 2));
   }
   @include clearfix;
+  @include transition(width .5s $easing);
 }
 
 // Creates a wrapper for a series of columns

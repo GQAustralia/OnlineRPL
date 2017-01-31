@@ -1,0 +1,44 @@
+.list-group-contacts {
+	> .list-group-item {
+		position: relative;
+		border-bottom: none;
+		@include clearfix();
+		padding: 5px;
+		&:hover {
+			background-color: transparent;
+		}
+		.avatar {
+			float: left;
+		}
+		.avatar-name {
+			@include calc-sub-two-values(width,100%,$avatar-xxs);
+			padding-left: $grid-gutter-width/4;
+			float: left;
+			display: block;
+		}
+
+		&:hover {
+			cursor: pointer;
+			.avatar-name { color: $brand-primary; }
+
+			* {
+				cursor: inherit;
+			}
+		}
+	}
+
+	.list-group-button {
+		position: absolute;
+		top: 8px;
+		right: 0;
+		background-color: transparent !important;
+		background-image: none !important;
+		@include opacity(.5);
+		@include transition(opacity .3s $easing);
+
+		&:hover {
+			@include transition(opacity .3s $easing);
+			@include opacity(1);
+		}
+	}
+}

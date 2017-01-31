@@ -10,8 +10,10 @@
 
 @import 'usi-input';
 
-
-// style for your details page
+// override control label class for enrolment form only
+.control-label{
+	text-transform: none;
+}
 
 // set a minimum to btn-group btn
 .btn-group{

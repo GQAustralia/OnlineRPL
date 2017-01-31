@@ -1,8 +1,6 @@
 .panel-accordion{
 	margin: $grid-gutter-width/2 0;
-	[data-toggle="collapse"]{
-		border-bottom: 1px solid $gray-lighter;
-		padding: 20px 30px 20px 5px;
+	[data-toggle="collapse"] {
 		margin: 0;
 		cursor: pointer;
 		position: relative;
@@ -16,15 +14,12 @@
 		}
 	}
 
-	.panel-heading{		
-		padding: 0;
-		i{
-			@include transition(all 0.3s ease-in-out);
-		}
-		[aria-expanded="true"] i{
-			@include transform(rotateZ(180deg));
-		}
-	}
+	.panel-heading { padding: 0; }
+
+	[data-toggle="collapse"] > i { @include transition(all 0.3s ease-in-out); }
+
+	[aria-expanded="false"] > i { @include transform(rotateZ(0deg)); }
+	[aria-expanded="true"] > i { @include transform(rotateZ(180deg)); }
 
 	.panel-body{
 	    padding: 15px 7px 20px;

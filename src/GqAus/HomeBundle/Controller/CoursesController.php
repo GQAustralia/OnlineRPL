@@ -13,10 +13,11 @@ class CoursesController extends Controller
     /**
      * Function for dashboard landing page
      * @param int $id
+     * @param String $page
      * @param object $request
      * return array
      */
-    public function indexAction($id, Request $request)
+    public function indexAction($id, $page = 'qualification', Request $request)
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $courseService = $this->get('CoursesService');
@@ -33,6 +34,7 @@ class CoursesController extends Controller
         $assessmentForm = $this->createForm(new AssessmentForm(), array());
         $results['assessmentForm'] = $assessmentForm->createView();*/
         $results['statusList'] = $this->get('UserService')->getQualificationStatus();
+        $results['qualificationPage'] = $page;
 //print_r($results['courseDetails']);
         return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', $results);
     }
@@ -152,5 +154,63 @@ class CoursesController extends Controller
         }
         exit;
     }
+    
+    /**
+     * Function to get Elective Units
+     * return Json
+     */
+    
+    public function getElectiveUnitsAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $statusList = $this->get('UserService')->getQualificationStatus();       
+        $userCourses = $user->getCourses();
+        
+        if(!empty($userCourses))
+        {
+            $courseService = $this->get('CoursesService');
+            foreach($userCourses as $coursearr){
+                $id = $coursearr->getCourseCode();
+                
+                $results = $courseService->getCoursesInfo($id);
+                $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
+                $courseService->updateQualificationUnits($user->getId(), $id, $results);
+                $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
+                
+                $results['electiveUnits'] = $getUnits['courseUnits'];
+                $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
+                $results['evidences'] = $user->getEvidences();
+                $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
+            } 
+        }
+        else{
+            $results = [];
+        }
+        //var_dump($results);
+        //exit();
+        return new JsonResponse(array( 'data' => $results ));
+        
+    }
+
+    /**
+     * Function to update elective Units file
+     * return Json
+     */
+    
+    public function uploadElectiveUnitsAction()
+    {
+        
+    }
+    
+    /**
+     * Function to update Self Assessment 
+     * return json
+     */
+    
+    public function updateSelfAssessmentAction()
+    {
+        
+    }  
+
 
 }

@@ -1,0 +1,88 @@
+.panel-right{
+    width: 100%;
+}
+
+.modal-unit-details{
+    .modal-dialog{
+        width: 80%;
+    }
+}
+
+.progress{
+    margin: 0 0 25px;
+    width: 100%;
+}
+
+h2.page-header{
+    margin: 0 0 $grid-gutter-width / 3;
+}
+
+.panel-units{
+    .panel-units-heading{
+        clear: both;
+        h4{
+            margin-top: 27px;
+            margin-bottom: 0;
+        }
+        h4,
+        .form-group,
+        a.btn{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .pull-right{
+            a{	
+                i{
+                    font-size: 20px;
+                }
+                span{
+                    display: none;
+                }
+            }
+            &.form-group{
+                span{
+                    display: block;
+                    font-size: 20px;
+                    padding: 9px 0;
+                }
+
+                select{
+                    @include opacity(0);
+                    position: absolute;
+                    top: 0;
+                }
+            }
+        }
+    }
+
+    .is-active{
+        padding-right: 15px;
+        .panel-units-heading{
+
+            .pull-right{
+                display: none;
+                a{	
+                    i{
+                        font-size: 20px;
+                    }
+                    span{
+                        display: none;
+                    }
+                }
+                &.form-group{
+                    span{
+                        display: block;
+                        font-size: 20px;
+                        padding: 9px 0;
+                    }
+
+                    select{
+                        @include opacity(0);
+                        position: absolute;
+                        top: 0;
+                    }
+                }
+            }
+        }
+    }
+}

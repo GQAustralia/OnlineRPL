@@ -2,11 +2,6 @@
 // Grid system
 // --------------------------------------------------
 
-// Shifting container
-.container-custom {
-  
-}
-
 // Container widths
 //
 // Set the container width, and override it for fixed navbars in media queries.
@@ -23,11 +18,8 @@
   @media (min-width: $screen-lg-min) {
     width: 90%;
   }
-  @media (min-width: $screen-xlg - 100) {
-    width: 90%;
-  }
-  @media (min-width: $screen-xlg) {
-    width: $screen-xlg - 100;
+  @media (min-width: $screen-xlg + 100) {
+    width: $screen-xlg + 40;
   }
 }
 
