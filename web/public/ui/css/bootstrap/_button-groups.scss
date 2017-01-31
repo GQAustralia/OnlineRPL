@@ -6,11 +6,20 @@
 .btn-group,
 .btn-group-vertical {
   position: relative;
-  display: inline-block;
-  vertical-align: middle; // match .btn alignment given font-size hack above
+  display: block;
+  @media (min-width: $screen-sm-min){
+    display: inline-block;
+    vertical-align: middle; // match .btn alignment given font-size hack above
+  }
   > .btn {
     position: relative;
-    float: left;
+    float: none;
+    display: block;
+    
+    @media (min-width: $screen-sm-min) {
+      float: left;
+      
+    }
     // Bring the "active" button to the front
     &:hover,
     &:focus,
@@ -23,12 +32,15 @@
 
 // Prevent double borders when buttons are next to each other
 .btn-group {
-  .btn + .btn,
-  .btn + .btn-group,
-  .btn-group + .btn,
-  .btn-group + .btn-group {
-    margin-left: -1px;
+  @media (min-width: $screen-sm-min) {
+    .btn + .btn,
+    .btn + .btn-group,
+    .btn-group + .btn,
+    .btn-group + .btn-group {
+      margin-left: -1px;
+    }
   }
+  
 }
 
 // Optional: Group multiple button groups together for a toolbar
@@ -173,12 +185,18 @@
     border-radius: 0;
   }
   &:first-child:not(:last-child) {
-    @include border-top-radius($btn-border-radius-base);
+    @media(min-width: $screen-sm-min){
+       @include border-top-radius($btn-border-radius-base);
+    }
+   
     @include border-bottom-radius(0);
   }
   &:last-child:not(:first-child) {
     @include border-top-radius(0);
-    @include border-bottom-radius($btn-border-radius-base);
+    @media(min-width: $screen-sm-min){
+       @include border-bottom-radius($btn-border-radius-base);
+    }
+    
   }
 }
 .btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn {

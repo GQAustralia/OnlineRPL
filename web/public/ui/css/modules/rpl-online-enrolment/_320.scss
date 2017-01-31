@@ -76,3 +76,7 @@
         width: 100%;
     }
 }
+
+input.ng-invalid, select.ng-invalid, email.ng-invalid, label.ng-invalid{
+    border: 1px solid $brand-danger;
+}

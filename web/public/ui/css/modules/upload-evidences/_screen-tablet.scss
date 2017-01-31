@@ -1,0 +1,40 @@
+#unisSelected{
+    @include transition(all 0.3s $easing);
+}
+
+.progress{
+    margin: -45px 0 0;
+    width: 30%;
+}
+
+.panel-units{
+    .panel-units-heading{
+        .pull-right{ 
+            width: auto;
+
+            &.form-group{
+                margin: 0 15px;
+                span{
+                    display: none;
+                }
+
+                select{
+                    @include opacity(1);
+                    position: relative;
+                }
+            }
+        }
+
+    }
+}
+.panel-units{
+    #panelLeft{
+        &.is-active{
+            width: 50%;
+        }
+    }
+    
+    .panel-right{
+        width: 50%;
+    }
+}
