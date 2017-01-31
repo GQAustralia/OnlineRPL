@@ -18,6 +18,11 @@
 		float: right;
 		margin-bottom: 0;
 		margin-top: 0;
+		padding-right: 55px;
+
+		@media(min-width: 1200px){
+			padding-right: 0;
+		}
 	}
 
 	a {
@@ -25,4 +30,6 @@
 			color: $gray-lighter;
 		}
 	}
+
+
 }

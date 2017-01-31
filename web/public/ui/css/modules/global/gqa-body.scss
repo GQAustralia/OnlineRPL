@@ -38,3 +38,46 @@
 .table-subheader td{
 	padding-top: 25px !important;
 }
+
+.popover-help {
+	position: fixed;
+	bottom: $grid-gutter-width / 2;
+	right: $grid-gutter-width / 4;
+	z-index: 9;
+
+	.dropdown > a {
+		cursor: pointer;
+		padding: 9px 19px;
+		display: inline-block;
+		background: #fff;
+		font-size: 20px;
+		@include border-radius(50px);
+		color: $gray-dark;
+		font-weight: 700;
+		@include box-shadow(0 3px 0 0 rgba(0,0,0,0.2), 0 0 0 0.5px rgba(0,0,0,0.04));
+		@include transition(all 0.3s $easing);
+		&:hover,
+		&:active{
+			background: $gray-lighter;
+			text-decoration: none;
+		}
+	}
+
+	.dropdown-menu {
+		> li a{
+			padding: 10px 15px;
+		}
+
+		[data-role="title"]{
+			padding: 10px 15px;
+			background: $gray-lighter;
+		}
+
+		i{
+			padding-right: $grid-gutter-width / 5;
+			font-size: 20px;
+			vertical-align: middle;
+			color: $brand-red;
+		}
+	}
+}

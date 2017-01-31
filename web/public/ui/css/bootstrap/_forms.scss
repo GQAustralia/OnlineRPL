@@ -437,10 +437,58 @@ input[type="checkbox"] {
   @include form-control-validation($state-success-text, $state-success-text, $state-success-bg);
 }
 .has-warning {
-  @include form-control-validation($state-warning-text, $state-warning-text, $state-warning-bg);
+  @include form-control-validation($state-success-text, $state-warning-text, $state-warning-bg);
 }
 .has-error {
-  @include form-control-validation($state-danger-text, $state-danger-text, $state-danger-bg);
+  @include form-control-validation($state-danger-text, lighten($state-danger-text, 15%), $state-danger-bg);
+  $tooltip-error: lighten($state-danger-text, 5%);
+
+  .form-control {
+    background: lighten($tooltip-error, 46%) !important; 
+  }
+  .btn-group{
+    border: 1px solid lighten($state-danger-text, 15%);
+    @include border-radius(4px);
+  }
+  .tooltip {
+    &.top .tooltip-arrow {
+      border-top-color: $tooltip-error;
+    }
+    .tooltip-inner {
+       background: $tooltip-error;
+    }
+  }
+
+  input,
+  select,
+  .btn-group {
+    & + i {
+      position: absolute;
+      top: 0;
+      right: 10px;  
+      color: $tooltip-error;
+      margin-left: 10px;
+    } 
+  }
+
+  @media( min-width: $screen-sm-min){
+    input + i,
+    select + i {
+      right: 0;
+      top: 38px;
+      right: 15px;
+    }
+
+    select + i{
+      top: 6px;
+    }
+
+    .btn-group + i{
+      position: relative;
+      top:0;
+      right: 0;
+    }
+  }
 }
 
 // Reposition feedback icon if input has visible label above
