@@ -16,6 +16,9 @@ addEvidence:
 qualificationDetails:
     path:     /qualificationDetails/{id}
     defaults:  { _controller: GqAusHomeBundle:Courses:index }
+qualificationUnits:
+    path:     /qualificationDetails/{id}/{page}
+    defaults:  { _controller: GqAusHomeBundle:Courses:index }
 qualifications:
     path:     /qualifications
     defaults:  { _controller: GqAusHomeBundle:Courses:qualifications }

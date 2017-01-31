@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use GqAus\UserBundle\Form\EvidenceForm;
 use GqAus\UserBundle\Form\AssessmentForm;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CoursesController extends Controller
 {
@@ -157,38 +158,48 @@ class CoursesController extends Controller
     
     /**
      * Function to get Elective Units
+     * @param object $request
      * return Json
      */
     
-    public function getElectiveUnitsAction()
+    public function getElectiveUnitsAction(Request $request)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $statusList = $this->get('UserService')->getQualificationStatus();       
-        $userCourses = $user->getCourses();
+        $results = [];
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $type = "";
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $id = $params['courseCode'];
+                if($id != ''){
+                    $user = $this->get('security.context')->getToken()->getUser();
+                    $statusList = $this->get('UserService')->getQualificationStatus();
+                    $courseService = $this->get('CoursesService');
+                    $results = $courseService->fetchCourseRequest($id);
+                    foreach($results['Units']['Elective']['groups'] as $key=>$group){
+                        foreach($group['unit'] as $index=>$elective){
+                            $results['Units']['Elective']['groups'][$key]['unit'][$index]['details'] = $courseService->fetchUnitRequest($elective['id']);
+                        }
+                    }
+//                    $courseService->updateQualificationUnits($user->getId(), $id, $results);
+//                    $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
+//                    $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
+//                    $results['electiveUnits'] = $getUnits['courseUnits'];
+//                    $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
+//                    $results['evidences'] = $user->getEvidences();
+//                    $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
+//                    $results['statusList'] = $this->get('UserService')->getQualificationStatus();
+                }
+               
+            }
+        }
         
-        if(!empty($userCourses))
-        {
-            $courseService = $this->get('CoursesService');
-            foreach($userCourses as $coursearr){
-                $id = $coursearr->getCourseCode();
-                
-                $results = $courseService->getCoursesInfo($id);
-                $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
-                $courseService->updateQualificationUnits($user->getId(), $id, $results);
-                $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
-                
-                $results['electiveUnits'] = $getUnits['courseUnits'];
-                $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
-                $results['evidences'] = $user->getEvidences();
-                $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
-            } 
-        }
-        else{
-            $results = [];
-        }
+       
         //var_dump($results);
         //exit();
-        return new JsonResponse(array( 'data' => $results ));
+        return new JsonResponse($results);
         
     }
 
