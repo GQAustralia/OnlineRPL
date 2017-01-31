@@ -201,7 +201,7 @@ var SET_PASSWORD = {
                 SET_PASSWORD.error_action('Password do not match.')
             }
         } else {
-            SET_PASSWORD.error_action('Invalid password.')
+            SET_PASSWORD.error_action('Password must be minimum of 8 characters.')
         }
 
         // check for spaces and password length
@@ -210,7 +210,7 @@ var SET_PASSWORD = {
                 field_has_space = pattern.test(password),
                 validity = 'invalid';
 
-            if (password.length > 5 && password.length < 17) {
+            if (password.length > 8) {
                 if (field_has_space === false) {
                     validity = 'valid';
                 } else {
