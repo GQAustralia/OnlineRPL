@@ -175,10 +175,9 @@ var SET_PASSWORD = {
     confirm_password: $('#confirmPassword'),
     button: $('#submitPassword'),
     terms: $('#termsAndConditions'),
-    bind: function () {
-        this.button.on('click', function () {
-            SET_PASSWORD.validate_fields()
-        })
+    bind: function(){
+        this.button.on('click', function(){SET_PASSWORD.validate_fields()});
+        $('#password, #confirmPassword').on('change', function(){SET_PASSWORD.validate_empty_fields();})
     },
     submit_enter: function () {
         $(document).on('keyup', '#password, #confirmPassword', function (event) {
@@ -186,6 +185,20 @@ var SET_PASSWORD = {
                 SET_PASSWORD.validate_fields();
             }
         });
+    },
+    validate_empty_fields: function(){
+        if(checkEmptyField(SET_PASSWORD.password) === 'valid' && checkEmptyField(SET_PASSWORD.confirm_password) === 'valid'){ this.button.prop('disabled', false)}
+        else{this.button.prop('disabled', true)}
+
+        function checkEmptyField(elem){
+            var validity = 'invalid';
+            if(elem.val().length){
+                validity = 'valid';
+            }else{
+                validity = 'invalid';
+            }
+            return validity;
+        }
     },
     validate_fields: function () {
         var password = SET_PASSWORD.password.val();
