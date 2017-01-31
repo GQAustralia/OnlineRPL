@@ -78,7 +78,7 @@
                         </p>
                     </div>
                 </div>
-                {% if(courseDetails.facilitator|length > 0) or if (courseDetails.assessor|length > 0) or if (courseDetails.rto|length > 0) %}
+                {% if(courseDetails.facilitator|length > 0 or courseDetails.assessor|length > 0 or courseDetails.rto|length > 0) %}
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h4>Qualification Contacts <!--<br><small>More description about this section</small>--></h4>
