@@ -17,8 +17,12 @@
     {% set courseInfo = courses_service.getCourseInfo(courseDetails.courseCode)%}
     {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}    
     {% set output = remaining|split('&&') %} 
-    {%set courseStatus = user_service.getQualificationStatus()%}
+    {% set courseStatus = user_service.getQualificationStatus()%}
     {% set courseApiInfo = courses_service.getUserCoursesInfo(courseCode)%} 
+    {% set unitSubmitted = courses_service.getUnitsSubmittedbyCourse(userId, courseCode) %}
+    {% set coreUnitsSubmittedPercent = (unitSubmitted['core']/courseApiInfo.courseInfo.Units.Core.unit|length)*100 %}
+    {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/courseApiInfo.courseInfo.Units.Elective.validation.requirement)*100 %}
+    
     <main class="main-content-gqa">
         <div class="container">
             <div class="panel panel-default panel-qual-heading">
@@ -41,7 +45,7 @@
                 </ul>
             </div>
         </div>
-<div class="container container-right-sidebar-main" ng-show="qualificationPage == 'qualification'">
+        <div class="container container-right-sidebar-main" ng-show="qualificationPage == 'qualification'">
             <section class="section-sidebar section-sidebar-compressed">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -50,21 +54,21 @@
                         <hr>
                         <div class="qual-gauges-group">
                             <div class="qual-gauges qual-spacing">
-                                <div class="c100 p50 small core-units">
-                                    <span>5/{{ courseApiInfo.courseInfo.Units.Core.unit|length }}</span>
+                                <div class="c100 p{{ coreUnitsSubmittedPercent }} small core-units">
+                                    <span>{{ unitSubmitted['core']}} /{{ courseApiInfo.courseInfo.Units.Core.unit|length }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>                                    
                             </div>
 
                             <div class="qual-gauges qual-spacing">
-                                <div class="c100 p50 small elective-units">
-                                    <span>2/{{ courseApiInfo.courseInfo.Units.Elective.groups.group.unit|length }}</span>
+                                <div class="c100 p{{ electiveUnitsSubmittedPercent }} small elective-units">
+                                    <span>{{ unitSubmitted['elective']}} /{{ courseApiInfo.courseInfo.Units.Elective.validation.requirement }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>
                             </div>
                         </div>
                         <div class="qual-gauges">
-                            <div class="progress-tag progress-tag-danger">
+                            <div class="progress-tag progress-tag-{% if(output[0]<30) %}danger{% elseif(output[0]<90) %}warning{% else %}success{%endif%}">
                                 <progress role="progress" value="{{output[1]}}" max="100"><img class="fallback" width="30"></progress>
                                 <figcaption data-value="{{output[0]}}" data-unit="" class="progress-details"> DAYS LEFT</figcaption>
                             </div>
