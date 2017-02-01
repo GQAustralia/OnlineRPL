@@ -81,8 +81,8 @@
 	.modal-content{
 		background: none;
 		border: none;
-		padding-top: 30px;
-		padding-bottom: 30px;
+		padding-top: 60px;
+		padding-bottom: 60px;
 		// @include box-shadow(none);
 	}
 	h2{
@@ -190,8 +190,10 @@
 			}
 		}
 
-		h2{
-			font-size: 40px;
+		.modal-title{
+			h2{
+				font-size: 40px;
+			}
 		}
 	}
 }

@@ -1,4 +1,4 @@
-.modal-onboarding {
+.modal{
 	&-header{
 		padding: 0;
 		border-bottom: none;
@@ -14,7 +14,7 @@
 		margin: 0 auto;
 	}
 
-	&-modal-dialog{
-		min-width: 768px; 
+	&-dialog{
+		max-width: 1140px
 	}
 }
