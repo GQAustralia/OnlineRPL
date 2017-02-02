@@ -19,14 +19,17 @@
     {% set output = remaining|split('&&') %} 
     {% set courseStatus = user_service.getQualificationStatus()%}
     {% set courseApiInfo = courses_service.getUserCoursesInfo(courseCode)%} 
+    {% set coreUnitsCnt = courseApiInfo.courseInfo.Units.Core.unit|default(0) %}
     {% set unitSubmitted = courses_service.getUnitsSubmittedbyCourse(userId, courseCode) %}
-    {% set coreUnitsSubmittedPercent = (unitSubmitted['core']/courseApiInfo.courseInfo.Units.Core.unit|length)*100 %}
-    {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/courseApiInfo.courseInfo.Units.Elective.validation.requirement)*100 %}
+    {% set electiveUnitsCnt = courseApiInfo.courseInfo.Units.Elective.validation.requirement|default(0) %}
+    {% set coreUnitsSubmittedPercent = (unitSubmitted['core']/coreUnitsCnt|length)*100 %}  
+    {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/electiveUnitsCnt)*100 %} 
+    {% set totalElectiveUnitsCnt = courseApiInfo.courseInfo.Units.Elective.groups.group.unit|default(0) %}
     
     <main class="main-content-gqa">
         <div class="container">
             <div class="panel panel-default panel-qual-heading">
-                <div class="panel-heading-img" style="background-image: url({{ courseInfo.bannerImg }})">
+                <div class="panel-heading-img" style="background-image: url({{ courseInfo.bannerImg|default('') }})">
                     <span class="hidden" aria-readonly>Certificate in Commercial Cookery IV</span>
                 </div>
                 <div class="panel-heading">
@@ -55,14 +58,14 @@
                         <div class="qual-gauges-group">
                             <div class="qual-gauges qual-spacing">
                                 <div class="c100 p{{ coreUnitsSubmittedPercent }} small core-units">
-                                    <span>{{ unitSubmitted['core']}} /{{ courseApiInfo.courseInfo.Units.Core.unit|length }}</span>
+                                    <span>{{ unitSubmitted['core']}} /{{ coreUnitsCnt|length }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>                                    
                             </div>
 
                             <div class="qual-gauges qual-spacing">
                                 <div class="c100 p{{ electiveUnitsSubmittedPercent }} small elective-units">
-                                    <span>{{ unitSubmitted['elective']}} /{{ courseApiInfo.courseInfo.Units.Elective.validation.requirement }}</span>
+                                    <span>{{ unitSubmitted['elective']}} /{{ electiveUnitsCnt }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>
                             </div>
@@ -137,10 +140,10 @@
                         <div role="tabpanel">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active">
-                                    <a href="#core" aria-controls="core" role="tab" data-toggle="tab"><span>{{ courseApiInfo.courseInfo.Units.Core.unit|length }}</span>&nbsp;Core Units</a>
+                                    <a href="#core" aria-controls="core" role="tab" data-toggle="tab"><span>{{ coreUnitsCnt|length }}</span>&nbsp;Core Units</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#elective" aria-controls="elective" role="tab" data-toggle="tab"><span>{{ courseApiInfo.courseInfo.Units.Elective.groups.group.unit|length }}</span>&nbsp;Elective Units</a>
+                                    <a href="#elective" aria-controls="elective" role="tab" data-toggle="tab"><span>{{ totalElectiveUnitsCnt|length }}</span>&nbsp;Elective Units</a>
                                 </li>
                             </ul>
 
@@ -152,7 +155,7 @@
                                             <tr><th style="width: 150px;">Unit Code</th><th>Unit Name</th></tr>
                                         </thead>
                                         <tbody>
-                                            {% for unitInfo in courseApiInfo.courseInfo.Units.Core.unit %}
+                                            {% for unitInfo in coreUnitsCnt %}
                                                 <tr><td>{{ unitInfo.id }}</td><td>{{ unitInfo.name }}</td></tr>
                                             {% endfor %}
                                             <!--<tr class="table-subheader"><td colspan="2"><strong class="text-uppercase">Accounting</strong></td></tr>
@@ -170,7 +173,7 @@
                                             <tr><th style="width: 150px;">Unit Code</th><th>Unit Name</th></tr>
                                         </thead>
                                         <tbody>
-                                            {% for unitInfo in courseApiInfo.courseInfo.Units.Elective.groups.group.unit %}
+                                            {% for unitInfo in totalElectiveUnitsCnt %}
                                                 <tr><td>{{ unitInfo.id }}</td><td>{{ unitInfo.name }}</td></tr>
                                             {% endfor %}
                                             <!--<tr><td>BSBFIM601A</td><td>Manage finances</td></tr>

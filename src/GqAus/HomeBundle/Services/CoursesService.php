@@ -77,6 +77,7 @@ class CoursesService
     public function getPackagerulesInfo($id)
     {
         $packageInfo = $this->fetchQualificationRequest($id);
+        $packageInfoPackage =  null;
         if (!empty($packageInfo)) {
             if (!empty($packageInfo['packaging'])) {
                 $packageInfoPackage = htmlspecialchars_decode($packageInfo['packaging']);
