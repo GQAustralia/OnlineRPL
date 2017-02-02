@@ -1,7 +1,8 @@
 {% extends 'revamp_base.html.twig' %}
 {% block ngApp %} ng-app="gqAus" {% endblock%}
 {% block ngController %} ng-controller="enrollmentCtlr"  id="enrollmentCtlr" {% endblock%}
-{% block title %} {[{pageTitle}]} {% endblock%}
+{% block title %}  Enrolment - Your Profile {% endblock %}
+{% block ngtitle %}pageTitle{% endblock%}
 {% block body %}
     <main class="main-content-gqa">
         <div class="container">
@@ -51,26 +52,29 @@
                                         <h2 class="page-header">Your Personal Details</h2>
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : profileForm.firstName.$invalid}">
                                                     <label for="firstName" class="control-label">First name</label>
                                                     <input type="text" id="firstName" name="firstName" ng-model="enrollment.profile.firstName" ng-required="true" class="form-control form-control-danger">
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.firstName.$invalid " data-toggle="tooltip" data-placement="top" title="First Name is required"></i>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : profileForm.lastName.$invalid}">
                                                     <label for="lastName" class="control-label">Last name</label>
                                                     <input type="text" id="lastName" name="lastName" ng-model="enrollment.profile.lastName" ng-required="true" class="form-control">
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.lastName.$invalid " data-toggle="tooltip" data-placement="top" title="Last Name is required"></i>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : profileForm.birthday.$invalid}">
                                                     <label for="birthday" class="control-label">Date of birth</label>
                                                     <input type="text" id="birthday" name="birthday" date-validator ng-model="enrollment.profile.birthday" ng-required="true" date-picker="enrollment.profile.birthday" placeholder="DD/MM/YYYY" class="form-control date">
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.birthday.$invalid " data-toggle="tooltip" data-placement="top" title="Birthday is required"></i>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : enrollment.profile.gender === '' || enrollment.profile.gender === undefined}">
                                                     <label class="control-label">Gender</label> <br>
                                                     <div class="btn-group  btn-group-sm" data-toggle="buttons">
                                                         <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'male'">
@@ -80,30 +84,35 @@
                                                         <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'others'">
                                                             <input type="radio" name="gender"> <span>Others</span> </label>
                                                     </div>
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="enrollment.profile.gender == '' || enrollment.profile.gender === undefined" data-toggle="tooltip" data-placement="top" title="Gender is required"></i>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : profileForm.homeTelNumber.$invalid}">
                                                     <label for="homeTelNumber" class="control-label">Home Telephone Number</label>
                                                     <input type="text" id="homeTelNumber" ng-pattern="/^(\+([ 0-9-\(\)\[\]])*)$/i" name="homeTelNumber" ng-model="enrollment.profile.homeTelNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initial-country="au" placeholder="">
+                                                <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.homeTelNumber.$invalid " data-toggle="tooltip" data-placement="top" title="Invalid telephone number"></i>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : profileForm.workTelNumber.$invalid}">
                                                     <label for="workTelNumber" class="control-label">Work telephone number</label>
                                                     <input type="text" id="workTelNumber" name="workTelNumber" ng-pattern="/^(\+([ 0-9-\(\)\[\]])*)$/i" ng-model="enrollment.profile.workTelNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initialCountry="au">
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.workTelNumber.$invalid " data-toggle="tooltip" data-placement="top" title="Invalid telephone number"></i>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : profileForm.mobileNumber.$invalid}">
                                                     <label for="mobileNumber" class="control-label">Mobile number</label>
                                                     <input type="text" id="mobileNumber" name="mobileNumber" ng-pattern="/^(\+([ 0-9-\(\)\[\]])*)$/i" ng-model="enrollment.profile.mobileNumber" ng-required="true" phoneformat class="form-control" ng-intl-tel-input initialCountry="au">
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.mobileNumber.$invalid " data-toggle="tooltip" data-placement="top" title="Invalid telephone number"></i>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : profileForm.email.$invalid}">
                                                     <label for="email" class="control-label">Email Address</label>
                                                     <input type="email" id="email" name="email" ng-model="enrollment.profile.email" ng-required="true" ng-pattern = '/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i' class="form-control">
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.email.$invalid " data-toggle="tooltip" data-placement="top" title="Enter valid email address"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -129,56 +138,64 @@
                                                     <p>OR</p>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.propertyName.$invalid}">
                                                         <label for="propertyName" class="control-label">Building / Property name</label>
                                                         <input type="text" id="propertyName" name="propertyName" ng-model="enrollment.profile.address.propertyName" ng-required="true" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.propertyName.$invalid " data-toggle="tooltip" data-placement="top" title="Property Name is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.unitDetails.$invalid}">
                                                         <label for="unitDetails" class="control-label">Flat / Unit details</label>
                                                         <input type="text" id="unitDetails" name="unitDetails" ng-model="enrollment.profile.address.unitDetails" ng-required="true" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.unitDetails.$invalid " data-toggle="tooltip" data-placement="top" title="Flat / Unit details is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.street_number.$invalid}">
                                                         <label for="street_number" class="control-label">Street or lot number</label>
                                                         <input type="text" id="street_number" name="street_number" ng-model="enrollment.profile.address.street_number" ng-required="true" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.street_number.$invalid " data-toggle="tooltip" data-placement="top" title="Street or lot number is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.route.$invalid}">
                                                         <label for="streetName" class="control-label">Street name</label>
                                                         <input type="text" id="route" name="route" ng-model="enrollment.profile.address.route" ng-required="true" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.route.$invalid " data-toggle="tooltip" data-placement="top" title="Street name is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.locality.$invalid}">
                                                         <label for="suburb" class="control-label">Suburb, locality or town</label>
                                                         <input type="text" id="locality" name="locality" ng-model="enrollment.profile.address.locality" ng-required="true" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.locality.$invalid " data-toggle="tooltip" data-placement="top" title="Suburb, locality or town is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.state.$invalid}">
                                                         <label for="state" class="control-label">State / territory</label>
 
                                                         <select class="form-control" id ="state" name ="state" ng-model="enrollment.profile.address.state" ng-required="true" ng-options="i as i for i in selectState(enrollment.profile.address.country)">
                                                             <option value="">Select State</option>
                                                         </select>
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.state.$invalid " data-toggle="tooltip" data-placement="top" title="State is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.postal_code.$invalid}">
                                                         <label for="postcode" class="control-label">Postcode</label>
                                                         <input type="text" id="postal_code" name="postal_code" ng-model="enrollment.profile.address.postal_code" ng-required="true" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.postal_code.$invalid " data-toggle="tooltip" data-placement="top" title="Postcode is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.country.$invalid}">
                                                         <label for="country" class="control-label">Country</label>
                                                         <select class="form-control" id="country" name ="country" ng-model="enrollment.profile.address.country" ng-required="true" ng-options="i as i for i in countries">
                                                             <option value="">Select Country</option>
                                                         </select>
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.country.$invalid " data-toggle="tooltip" data-placement="top" title="Country is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12">
@@ -208,56 +225,64 @@
                                                     <p>OR</p>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.propertyName_postal.$invalid}">
                                                         <label for="propertyName" class="control-label">Building / Property name</label>
                                                         <input type="text" id="propertyName_postal" name="propertyName_postal" ng-model="enrollment.profile.postal.propertyName" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.propertyName_postal.$invalid " data-toggle="tooltip" data-placement="top" title="Building / Property name is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.unitDetails_postal.$invalid}">
                                                         <label for="unitDetails" class="control-label">Flat / Unit details</label>
                                                         <input type="text" id="unitDetails_postal" name="unitDetails_postal" ng-model="enrollment.profile.postal.unitDetails" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.unitDetails_postal.$invalid " data-toggle="tooltip" data-placement="top" title="Flat / Unit details is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.street_number_postal.$invalid}">
                                                         <label for="street_number" class="control-label">Street or lot number</label>
                                                         <input type="text" id="street_number_postal" name="street_number_postal" ng-model="enrollment.profile.postal.street_number" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.street_number_postal.$invalid " data-toggle="tooltip" data-placement="top" title="Street or lot number is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.route_postal.$invalid}">
                                                         <label for="streetName" class="control-label">Street name</label>
                                                         <input type="text" id="route_postal" name="route_postal" ng-model="enrollment.profile.postal.route" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.route_postal.$invalid " data-toggle="tooltip" data-placement="top" title="Street name is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.locality_postal.$invalid}">
                                                         <label for="suburb" class="control-label">Suburb, locality or town</label>
                                                         <input type="text" id="locality_postal" name="locality_postal" ng-model="enrollment.profile.postal.locality" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.locality_postal.$invalid " data-toggle="tooltip" data-placement="top" title="Suburb, locality or town is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.state_postal.$invalid}">
                                                         <label for="state" class="control-label">State / territory</label>
                                                         <input type="hidden" class="form-control" id ="administrative_area_level_1_postal"></select>
                                                         <select class="form-control" id ="state_postal"  name="state_postal" ng-model="enrollment.profile.postal.state" ng-required="!enrollment.profile.postalAddress" ng-options="i as i for i in selectState(enrollment.profile.address.country)">
                                                             <option value="">Select State</option>
                                                         </select>
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.state_postal.$invalid " data-toggle="tooltip" data-placement="top" title="State / territory is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.postal_code_postal.$invalid}">
                                                         <label for="postcode" class="control-label">postcode</label>
                                                         <input type="text" id="postal_code_postal" name="postal_code_postal" ng-model="enrollment.profile.postal.postal_code" ng-required="!enrollment.profile.postalAddress" class="form-control">
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.postal_code_postal.$invalid " data-toggle="tooltip" data-placement="top" title="postcode is required"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : profileForm.country_postal.$invalid}">
                                                         <label for="country" class="control-label">Country</label>
                                                         <select class="form-control" id="country_postal" name="country_postal" ng-model="enrollment.profile.postal.country" ng-required="!enrollment.profile.postalAddress" ng-options="i as i for i in countries">
                                                             <option value="">Select Country</option>
                                                         </select>
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.country_postal.$invalid " data-toggle="tooltip" data-placement="top" title="Country is required"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -286,20 +311,21 @@
                                               </ul>#}
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : languageForm.country2.$invalid}">
                                                     <p><label for="country">In which country were you born?</label></p>
                                                     <select class="form-control" id="country2" name ="country2" ng-model="enrollment.language.country" ng-required="true" ng-options="i as i for i in countries">
                                                         <option value="">Select Country</option>
                                                     </select>
-
+                                                     <i class="zmdi zmdi-alert-triangle" ng-show="languageForm.country2.$invalid " data-toggle="tooltip" data-placement="top" title="Country is required"></i>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : enrollment.language.speakOther === '' || enrollment.language.speakOther === undefined}">
+                                                    <p><label>Do you speak a language other than English at home?</label></p>
                                                     <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                        <p><label>Do you speak a language other than English at home?</label></p>
+                                                        
                                                         <label class="btn btn-default" for="langauge" data-collapse="hide" data-target="#LanguageSpoken" ng-model="enrollment.language.speakOther" ng-required="true" uib-btn-radio="0">
                                                             <input type="radio" name="langauge">
                                                             <span>No, English only</span>
@@ -308,20 +334,23 @@
                                                             <input type="radio" name="langauge">
                                                             <span>Yes, Please specify</span>
                                                         </label>
-
-                                                        <div id="LanguageSpoken" ng-show="enrollment.language.speakOther == 1">
-                                                            <input name="language" type="text" class="form-control" ng-model="enrollment.language.speakLanguage" ng-required="enrollment.language.speakOther == 1">
-                                                        </div>
+                                                       
                                                     </div>
-
+                                                     <i class="zmdi zmdi-alert-triangle" ng-show="enrollment.language.speakOther === '' || enrollment.language.speakOther === undefined " data-toggle="tooltip" data-placement="top" title="Do you speak a language other than English at home is required"></i>
+                                                        <div id="LanguageSpoken" ng-show="enrollment.language.speakOther == 1" ng-class="{ 'form-group has-error' : languageForm.speakLanguage.$invalid}">
+                                                            <input name="speakLanguage" id="speakLanguage" type="text" class="form-control" ng-model="enrollment.language.speakLanguage" ng-required="enrollment.language.speakOther == 1">
+                                                            <i class="zmdi zmdi-alert-triangle" ng-show="languageForm.speakLanguage.$invalid " data-toggle="tooltip" data-placement="top" title="Please specify language is required"></i>
+                                                        </div>
+                                                     
                                                 </div>
                                             </div>
                                         </div>
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : enrollment.language.speakEnglish === '' || enrollment.language.speakEnglish === undefined}">
+                                                        <p><label class="clear">How well do you speak English?</label></p>
                                                         <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                            <p><label class="clear">How well do you speak English?</label></p>
+                                                            
                                                             <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Very Well'">
                                                                 <input type="radio" name="speakEnglish"> <span>Very well</span>
                                                             </label>
@@ -335,14 +364,16 @@
                                                                 <input type="radio" name="speakEnglish"> <span>Not at all</span>
                                                             </label>
                                                         </div>
+                                                         <i class="zmdi zmdi-alert-triangle" ng-show="enrollment.language.speakEnglish === '' || enrollment.language.speakEnglish === undefined" data-toggle="tooltip" data-placement="top" title="How well do you speak English is required"></i>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : enrollment.language.aboriginal === '' || enrollment.language.aboriginal === undefined}">
+                                                        <p><label class="clear">Are you of Aboriginal or Torres Strait Islander origin?</label></p>
                                                         <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                            <p><label class="clear">Are you of Aboriginal or Torres Strait Islander origin?</label></p>
+                                                            
                                                             <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'No'">
                                                                 <input type="radio" name="aboriginal"> <span>No</span>
                                                             </label>
@@ -353,6 +384,7 @@
                                                                 <input type="radio" name="aboriginal"> <span>Yes, Torres Strait Islander</span>
                                                             </label>
                                                         </div>
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="enrollment.language.aboriginal === '' || enrollment.language.aboriginal === undefined " data-toggle="tooltip" data-placement="top" title="Are you of Aboriginal or Torres Strait Islander origin is required"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -365,9 +397,10 @@
 
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : enrollment.language.disability === '' || enrollment.language.disability === undefined}">
+                                                    <p><label class="clear">Do you consider yourself to have a disability, impairment or long-term condition?</label></p>
                                                     <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                        <p><label class="clear">Do you consider yourself to have a disability, impairment or long-term condition?</label></p>
+                                                        
                                                         <label class="btn btn-default" for="disability" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="disability"> <span>Yes</span>
                                                         </label>
@@ -375,6 +408,7 @@
                                                             <input type="radio" name="diabilisty"> <span>No</span>
                                                         </label>
                                                     </div>
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="enrollment.language.disability === '' || enrollment.language.disability === undefined" data-toggle="tooltip" data-placement="top" title="Do you consider yourself to have a disability, impairment or long-term condition is required"></i>
                                                 </div>
                                             </div>
                                             <!-- Disability Options STARTS Here-->
@@ -385,12 +419,12 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                            <div class="form-group">
+                                                            <div class="form-group" ng-class="{ 'has-error' : (enrollment.language.disability == 1) && (disabilityAreasNumber < 1)}">
                                                                 <span  ng-repeat="(key, value) in disabilityElement">
                                                                     <input type="checkbox" class="custom-input" name="disability_{[{value.id}]}" id="disability_{[{key}]}" ng-model="enrollment.language.disabilityAreas[value.id]" ng-true-value="true" ng-false-value="false" ng-required="(enrollment.language.disability == 1) && (disabilityAreasNumber < 1)" >
                                                                     <label for="disability_{[{key}]}"> {[{value.type}]}</label>
                                                                 </span>
-                                                                
+                                                                <i class="zmdi zmdi-alert-triangle" ng-show="(enrollment.language.disability == 1) && (disabilityAreasNumber < 1) " data-toggle="tooltip" data-placement="top" title="Please select minimum one from disability, impairment or long-term condition"></i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -426,7 +460,7 @@
                                     <div class="row">
                                         <!--<div class="col-xs-12"><span>What is your highest COMPLETED school level. Choose only one:</span></div>-->
                                         <div class="col-xs-12 col-md-7">
-                                            <div class="form-group">
+                                            <div class="form-group" ng-class="{ 'has-error' : schoolingForm.highest.$invalid}">
                                                 <p><label for="schooling">What is your highest COMPLETED school level. Choose only one:</label></p>
                                                 <select class="form-control" id="schooling" name="highest" ng-model="enrollment.schooling.highest" >
                                                     <option value="">Select highest COMPLETED school level</option>
@@ -437,27 +471,31 @@
                                                     <option value="Year 8 or equivalent">Year 8 or below</option>
                                                     <option value="Never attended school">Never attended school</option>
                                                 </select>
+                                                <i class="zmdi zmdi-alert-triangle" ng-show="schoolingForm.highest.$invalid" data-toggle="tooltip" data-placement="top" title="highest COMPLETED school level is required"></i>
                                             </div>
                                         </div>
                                         <div class="selectYear" ng-hide="enrollment.schooling.highest=='Never attended school' || enrollment.schooling.highest==''">
                                             <div class="col-xs-12 col-md-7">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : schoolingForm.selectYear.$invalid}">
                                                     <p><label for="selectYear">In which YEAR did you complete that school level?</label></p>
-                                                    <select class="form-control" id="selectYear" ng-model="enrollment.schooling.selectYear"  ng-options="n for n in [] | rangefromyear:1950"  ng-required="enrollment.schooling.highest != 'Never attended school'">
+                                                    <select class="form-control" id="selectYear" name="selectYear" ng-model="enrollment.schooling.selectYear"  ng-options="n for n in [] | rangefromyear:1950"  ng-required="enrollment.schooling.highest != 'Never attended school'">
                                                         <option value="">Select Year</option>
 
                                                     </select>
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="schoolingForm.selectYear.$invalid" data-toggle="tooltip" data-placement="top" title="In which YEAR did you complete that school level is required"></i>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : enrollment.schooling.highest != 'Never attended school' && (enrollment.schooling.stillseconday === '' || enrollment.schooling.stillseconday === undefined)}">
+                                                    <p><label class="clear">Are you still attending secondary school?</label></p>
                                                     <div class="btn-group btn-group-sm" data-toggle="buttons">
-                                                        <p><label class="clear">Are you still attending secondary school?</label></p>
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.schooling.stillseconday" uib-btn-radio="'Yes'"  ng-required="enrollment.schooling.highest != 'Never attended school'">
-                                                            <input type="radio" name="gender"> <span>Yes</span>
+                                                        
+                                                        <label class="btn btn-default" for="stillseconday" ng-model="enrollment.schooling.stillseconday" uib-btn-radio="'Yes'"  ng-required="enrollment.schooling.highest != 'Never attended school'">
+                                                            <input type="radio" name="stillseconday"> <span>Yes</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="gender" ng-model="enrollment.schooling.stillseconday" uib-btn-radio="'No'"  ng-required="enrollment.schooling.highest != 'Never attended school'">
-                                                            <input type="radio" name="gender"> <span>No</span>
+                                                        <label class="btn btn-default" for="stillseconday" ng-model="enrollment.schooling.stillseconday" uib-btn-radio="'No'"  ng-required="enrollment.schooling.highest != 'Never attended school'">
+                                                            <input type="radio" name="stillseconday"> <span>No</span>
                                                         </label>
                                                     </div>
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="enrollment.schooling.highest != 'Never attended school' && (enrollment.schooling.stillseconday === '' || enrollment.schooling.stillseconday === undefined)" data-toggle="tooltip" data-placement="top" title="Are you still attending secondary school is required"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -474,7 +512,7 @@
                                                 <div class="form-group">
                                                     <p><label for="bachelor">Have you SUCCESSFULLY completed any of the following qualifications? If yes, select as many as applicable.</label></p>
                                                     <span  ng-repeat="(key, value) in previousQualification">
-                                                                    <input type="checkbox" class="custom-input" name="achievement_{[{value.id}]}" id="achievement_{[{key}]}" ng-model="enrollment.schooling.qualifications[value.id]" ng-true-value="true" ng-false-value="false" ng-required="(enrollment.language.disability == 'Yes') && (disabilityAreasNumber < 1)" ng-change="qualificationChanged(value)" >
+                                                                    <input type="checkbox" class="custom-input" name="achievement_{[{value.id}]}" id="achievement_{[{key}]}" ng-model="enrollment.schooling.qualifications[value.id]" ng-true-value="true" ng-false-value="false" ng-change="qualificationChanged(value)" >
                                                                     <label for="achievement_{[{key}]}"> {[{value.name}]}</label>
                                                     </span>
                                                     
@@ -501,7 +539,7 @@
                                         <h2 class="page-header">Employment</h2>
                                         <div class="row">
                                             <div class="col-xs-12 col-md-7">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : employmentForm.categories.$invalid}">
                                                     <label for="employment">Of the following categories, which BEST describes your current employment status?  (Choose one)</label>
                                                     <select class="form-control" id="employment" name="categories" ng-model="enrollment.employment.category" ng-required='true'>
                                                         <option value="Full-time employee">Full-time employee</option>
@@ -513,6 +551,7 @@
                                                         <option value="Unemployed - seeking part-time work">Unemployed - seeking part-time work</option>
                                                         <option value="Not employed - not seeking employment">Not employed - not seeking employment</option>
                                                     </select>
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="employmentForm.categories.$invalid" data-toggle="tooltip" data-placement="top" title="Category is required"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -524,7 +563,7 @@
                                         <h2 class="page-header">Study reason</h2>
                                         <div class="row">
                                             <div class="col-xs-12 col-md-7">
-                                                <div class="form-group">
+                                                <div class="form-group" ng-class="{ 'has-error' : employmentForm.studyreason.$invalid}">
                                                     <label for="studyReason">Of the following categories, which BEST describes your main reason for undertaking this course/traineeship/apprenticeship?  (Choose one)</label>
                                                     <select class="form-control" id="studyReason" name="studyreason" ng-model="enrollment.employment.studyreason" ng-required='true'>
                                                         <option value="To get a job">To get a job</option>
@@ -538,6 +577,7 @@
                                                         <option value="For personal interest or self-development">For personal interest or self-development</option>
                                                         <option value="Other reasons">Other reasons</option>
                                                     </select>
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="employmentForm.studyreason.$invalid" data-toggle="tooltip" data-placement="top" title="Reason is required"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -559,29 +599,32 @@
 
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <p><label class="clear">Are you currently based in Australia?</label></p>
+                                                <p><label class="clear">Are you currently based in Australia?</label></p>
+                                                <div class="form-group" ng-class="{ 'has-error' : enrollment.employment.basedinaustralia === '' || enrollment.employment.basedinaustralia === undefined}">
+                                                    
                                                     <div class="btn-group" data-toggle="buttons">
-                                                        <label class="btn btn-default" for="usi" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="1">
-                                                            <input type="radio" name="usi"> <span>Yes</span>
+                                                        <label class="btn btn-default" for="basedinaustralia" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="1">
+                                                            <input type="radio" name="basedinaustralia"> <span>Yes</span>
                                                         </label>
-                                                        <label class="btn btn-default" for="usi" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="0" ng-click="resetEnrollDepends('basedinaustralia')">
-                                                            <input type="radio" name="gender"> <span>No</span>
+                                                        <label class="btn btn-default" for="basedinaustralia" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="0" ng-click="resetEnrollDepends('basedinaustralia')">
+                                                            <input type="radio" name="basedinaustralia"> <span>No</span>
                                                         </label>
                                                     </div>
+                                                    <i class="zmdi zmdi-alert-triangle" ng-show="enrollment.employment.basedinaustralia === '' || enrollment.employment.basedinaustralia === undefined" data-toggle="tooltip" data-placement="top" title="Are you currently based in Australia is required"></i>
                                                 </div>
                                                 <div id="australiaBaseYes" ng-show="enrollment.employment.basedinaustralia == 1">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : enrollment.employment.internationalstudent === '' || enrollment.employment.internationalstudent === undefined}">
                                                         <p><label class="clear">Are you an international student undertaking your entire VET course outside Australia (otherwise known as offshore training)?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
                                                             
-                                                            <label class="btn btn-default" for="usi" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="1" ng-click="resetEnrollDepends('internationalstudent')">
-                                                                <input type="radio" name="gender"> <span>Yes</span>
+                                                            <label class="btn btn-default" for="internationalstudent" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="1" ng-click="resetEnrollDepends('internationalstudent')">
+                                                                <input type="radio" name="internationalstudent"> <span>Yes</span>
                                                             </label>
-                                                            <label class="btn btn-default" for="usi" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="0">
-                                                                <input type="radio" name="gender"> <span>No</span>
+                                                            <label class="btn btn-default" for="internationalstudent" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="0">
+                                                                <input type="radio" name="internationalstudent"> <span>No</span>
                                                             </label>
                                                         </div> 
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="enrollment.employment.internationalstudent === '' || enrollment.employment.internationalstudent === undefined" data-toggle="tooltip" data-placement="top" title="Field is required"></i>
                                                     </div>
                                                 </div>
 
@@ -592,17 +635,18 @@
                                                 </div>
 
                                                 <div id="StudentIdentifiersRegistrar"  ng-show="enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : enrollment.employment.haveusi === '' || enrollment.employment.haveusi === undefined}">
                                                         <p><label class="clear">Have you applied for and obtained an individual exemption from the Student Identifiers Registrar in being assigned a USI?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
                                                             
-                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == '0'" uib-btn-radio="1">
-                                                                <input type="radio" name="gender"> <span>Yes</span>
+                                                            <label class="btn btn-default" for="haveusi" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == '0'" uib-btn-radio="1">
+                                                                <input type="radio" name="haveusi"> <span>Yes</span>
                                                             </label>
-                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == '0'" uib-btn-radio="0" ng-click="resetEnrollDepends('haveusi')">
-                                                                <input type="radio" name="gender"> <span>No</span>
+                                                            <label class="btn btn-default" for="haveusi" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == '0'" uib-btn-radio="0" ng-click="resetEnrollDepends('haveusi')">
+                                                                <input type="radio" name="haveusi"> <span>No</span>
                                                             </label>
-                                                        </div>                                                                
+                                                        </div>
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="enrollment.employment.haveusi === '' || enrollment.employment.haveusi === undefined" data-toggle="tooltip" data-placement="top" title="Field is required"></i>
                                                     </div>
                                                 </div>
                                                 <div id="UsiNextStep" ng-show="enrollment.employment.haveusi == 1">
@@ -611,7 +655,7 @@
                                                     </div>
                                                 </div>
                                                 <div id="UsiCollapseNoRequired" ng-show="enrollment.employment.haveusi == '0' && enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">
-                                                    <div class="form-group">
+                                                    <div class="form-group" ng-class="{ 'has-error' : enrollment.employment.applyusi === '' || enrollment.employment.applyusi === undefined}">
                                                         <div class="alert alert-warning">
                                                             <p>You are <strong>REQUIRED</strong> to get a USI.  You can create one from
                                                                 <a href="https://www.usi.gov.au/students/create-your-usi" target="_blank">http://www.usi.gov.au/create-your-USI/</a>
@@ -623,13 +667,14 @@
                                                         <p><label class="clear">Would you like for us to apply for your USI on your behalf?</label></p>
                                                         <div class="btn-group" data-toggle="buttons">
                                                             
-                                                            <label class="btn btn-default" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == '0'" uib-btn-radio="1" ng-click="resetEnrollDepends('applyusi')">
-                                                                <input type="radio" name="gender"> <span>Yes</span>
+                                                            <label class="btn btn-default" for="applyusi" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == '0'" uib-btn-radio="1" ng-click="resetEnrollDepends('applyusi')">
+                                                                <input type="radio" name="applyusi"> <span>Yes</span>
                                                             </label>
-                                                            <label class="btn btn-default" for="gender" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == '0'" uib-btn-radio="0">
-                                                                <input type="radio" name="gender"> <span>No</span>
+                                                            <label class="btn btn-default" for="applyusi" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == '0'" uib-btn-radio="0">
+                                                                <input type="radio" name="applyusi"> <span>No</span>
                                                             </label>
-                                                        </div>                                                                
+                                                        </div>
+                                                        <i class="zmdi zmdi-alert-triangle" ng-show="enrollment.employment.applyusi === '' || enrollment.employment.applyusi === undefined" data-toggle="tooltip" data-placement="top" title="Field is required"></i>
                                                     </div>
                                                 </div>
                                                 <div id="UsiDownloadPDF" ng-show="enrollment.employment.applyusi == 1">
@@ -644,7 +689,7 @@
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
                                                             <p>Enter your 10-digit Unique Student identifier (if you already have one)</p>
-                                                            <div class="form-group">
+                                                            <div class="form-group" ng-class="{ 'has-error' : employmentForm.usiField.$invalid}">
                                                                 <label for="firstName" class="control-label">Unique Student Identifier (USI)</label>
                                                                 <div class="usi-input">
                                                                     <input type="text" class="hidden" id="usiField" name="usiField" ng-model="enrollment.employment.usi" ng-minlength="10" ng-maxlength="10" usi-input ng-required="enrollment.employment.applyusi == '0'"  readonly/>
@@ -664,6 +709,7 @@
                                                                     </div>
                                                                     <!-- USI UI -->
                                                                 </div>
+                                                                <i class="zmdi zmdi-alert-triangle" ng-show="employmentForm.usiField.$invalid" data-toggle="tooltip" data-placement="top" title="USI is required"></i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -864,6 +910,6 @@
     <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
     <script src="{{ asset('public/js/angular/directives/enrollDirectives.js') }}"></script>
     <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
-    <script src="{{ asset('public/js/angular/enrollment.js') }}"></script>
+    <script src="{{ asset('public/js/angular/controllers/enrollmentCtlr.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete" async defer></script>
 {% endblock %}
