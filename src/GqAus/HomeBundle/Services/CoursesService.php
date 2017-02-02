@@ -77,6 +77,7 @@ class CoursesService
     public function getPackagerulesInfo($id)
     {
         $packageInfo = $this->fetchQualificationRequest($id);
+        $packageInfoPackage =  null;
         if (!empty($packageInfo)) {
             if (!empty($packageInfo['packaging'])) {
                 $packageInfoPackage = htmlspecialchars_decode($packageInfo['packaging']);
@@ -413,8 +414,12 @@ class CoursesService
             $qualificationUnits = $this->xml2array($result);
         }       
         if(!empty($qualificationUnits['package'])){
-            $unitsCount['core'] = count($qualificationUnits['package']['Units']['Core']['unit']);
-            $unitsCount['elective'] = $qualificationUnits['package']['Units']['Elective']['validation']['requirement'];
+        				if (!empty($qualificationUnits['package']['Units']['Core'])) {
+            				$unitsCount['core'] = count($qualificationUnits['package']['Units']['Core']['unit']);
+        				}
+        				if (!empty($qualificationUnits['package']['Units']['Elective'])) {
+           				 $unitsCount['elective'] = $qualificationUnits['package']['Units']['Elective']['validation']['requirement'];
+        				}
         }
         return $unitsCount;
     }

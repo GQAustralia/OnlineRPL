@@ -49,13 +49,15 @@
                 {% set unitSubmitted = courses_service.getUnitsSubmittedbyCourse(userId, courseCode) %}
                 {% set courseStatus = user_service.getQualificationStatus()%}
                 {% set courseApiInfo = courses_service.getUserCoursesInfo(courseCode)%} 
-                {% set coreUnitsSubmittedPercent = (unitSubmitted['core']/courseApiInfo.courseInfo.Units.Core.unit|length)*100 %}
-                {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/courseApiInfo.courseInfo.Units.Elective.validation.requirement)*100 %}
+                {% set coreUnitsCnt = courseApiInfo.courseInfo.Units.Core.unit|default(0) %}
+                {% set electiveUnitsCnt = courseApiInfo.courseInfo.Units.Elective.validation.requirement|default(0) %}
+                {% set coreUnitsSubmittedPercent = (unitSubmitted['core']/coreUnitsCnt|length)*100 %}  
+                {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/electiveUnitsCnt)*100 %}
 
                  <!-- ng-repeat-->
                  <article class="panel panel-default panel-qualification" data-courseCode="{{ courseCode }}">
                      <div class="panel-qualification-meta">
-                         <div class="panel-qualification-img" style="background-image: url({{ courseInfo.bannerImg }});">
+                         <div class="panel-qualification-img" style="background-image: url({{ courseInfo.bannerImg|default('') }});">
                              <h3 class="h3 qual-title"><small>{{ courseCode }}</small><br> {{ courses.getCourseName() }}</h3>
                              <span class="hidden" aria-label="hidden" aria-value="Qualification-name">{{ courses.getCourseName() }}</span>
                          </div>
@@ -63,7 +65,7 @@
                              <dd class="control-label"><small>STATUS</small> <br><span>{{ courseStatus[courses.courseStatus]['status'] }}</span></dd>
                          </dl>
                          <dl class="panel-qualification-desc">
-                             <dd class="control-label"><small>Account Manager</small> <br><span>{% if(courses.facilitator.firstName != '') %} {{courses.facilitator.firstName}}{%endif%} {% if(courses.facilitator.lastName != '') %}{{courses.facilitator.lastName}}{%endif%}</span></dd>
+                             <dd class="control-label"><small>Account Manager</small> <br><span>{{ courses.facilitator.firstName|default('') }} {{ courses.facilitator.lastName|default('') }}</span></dd>
                          </dl>
                      </div>
                      <div class="panel-qualification-body">
