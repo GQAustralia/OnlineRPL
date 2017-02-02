@@ -3,7 +3,7 @@ $('.modal-dialog .upload-id-files p').on('click', function (e) {
         return;
     $('.id-files-input').trigger('click');
 });
-gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, AjaxService) {
+gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, AjaxService, $timeout) {
     $scope.IsLoaded = false;
     $scope.countries = $window.country_arr;
     $scope.AllStates = $window.s_a;
@@ -91,24 +91,63 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
             console.log(error);
         });
     };
+    $scope.formWatchValid = function () {
+        $timeout(function () {
+            angular.forEach($scope.forms, function (value, key) {
+                var $obj = $scope.enrollment[value];
+                if (value === 'upload') {
+                    $obj = $scope.enrollment['upload']['uploadId'];
+                }
+                var formValid = false;
+                switch (value) {
+                    case 'profile':
+                        formValid = $scope.profileForm.$valid;
+                        break;
+                    case 'language':
+                        formValid = $scope.languageForm.$valid;
+                        break;
+                    case 'schooling':
+                        formValid = $scope.schoolingForm.$valid;
+                        break;
+                    case 'employment':
+                        formValid = $scope.employmentForm.$valid;
+                        break;
+                    case 'upload' :
+                        formValid = $scope.getTotalCompleted() >= 100;
+                        break;
+                    default:
+                        formValid = true;
+                        break;
+                };
+                $scope.completedForms[key] = (_.isEmpty($obj) === false && formValid);
+                $scope.$applyAsync();
+            });
+            var invalidKey = _.indexOf($scope.completedForms, false);
+            if (invalidKey !== -1) {
+                $scope.completedForms = _.map($scope.completedForms, function (num, key) {
+                    return invalidKey > key;
+                });
+                $scope.$applyAsync();
+            }
+        });
+
+    };
     $scope.getEnrollment = function () {
         AjaxService.apiCall("getEnroll/" + $window.or_user_id).then(function (data) {
             $scope.enrollment = angular.merge($scope.enrollment, data);
             for (var i = 0; i < 10; i++) {
                 $scope.enrollment.employment.usiPart[i] = $scope.enrollment.employment.usi.charAt(i);
             }
-            var formKey = 0;
-            angular.forEach($scope.forms, function (value, key) {
-                var $obj = data[value];
-                if(value === 'upload') {
-                    $obj = data['upload']['uploadId']
+            $timeout(function () {    
+                $scope.formWatchValid();
+                var invalidKey = _.indexOf($scope.completedForms,false);
+                if(invalidKey === -1){
+                    invalidKey = 4;
                 }
-                if(_.isEmpty($obj) === false){
-                  $scope.completedForms[key] = true;
-                  formKey = key;
-                }
+                
+                $scope.formSlideTo(invalidKey);
             });
-            $scope.formSlideTo(formKey);
+            
             if(!$scope.enrollment.profile.homeTelNumber) $scope.enrollment.profile.homeTelNumber = '+61 ';
             if(!$scope.enrollment.profile.workTelNumber) $scope.enrollment.profile.workTelNumber = '+61 ';
             if(!$scope.enrollment.profile.mobileNumber) $scope.enrollment.profile.mobileNumber = '+61 ';
@@ -161,6 +200,12 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
         }
     });
 
+    $scope.$watch('enrollment', function (newValues,oldValues) {
+        if (newValues !== oldValues) {
+           $scope.formWatchValid();
+        }
+    },true);
+    
     $scope.selectDisability = function() {
         $scope.enrollment.language.disabilityAreas = {};
     };
