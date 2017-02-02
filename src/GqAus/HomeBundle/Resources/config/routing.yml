@@ -37,12 +37,15 @@ submitUnitForReview:
 unreadEvidenceCount:
     path:    /unreadEvidenceCount
     defaults: { _controller: GqAusHomeBundle:Default:unreadEvidenceCount }
-getElectiveUnits:
-    path:    /electiveUnits/getElectiveUnits
-    defaults: { _controller: GqAusHomeBundle:Courses:getElectiveUnits }
+getUnits:
+    path:    /units/getUnits
+    defaults: { _controller: GqAusHomeBundle:Courses:getUnits }
 uploadElectiveUnits:
     path:    /uploadElectiveUnits
     defaults: { _controller: GqAusHomeBundle:Courses:uploadElectiveUnits }
 updateSelfAssessment:
     path:    /updateSelfAssessment
     defaults: { _controller: GqAusHomeBundle:Courses:updateSelfAssessment }
+getUnitDetails:
+    path:    /units/getUnitDetails
+    defaults: { _controller: GqAusHomeBundle:Courses:getUnitDetails }
