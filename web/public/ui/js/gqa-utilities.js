@@ -172,13 +172,16 @@ var GQA_FOOTER =  {
 	doc: $(document),
 	handle_footer: function() {
 		var wh = $(window).height(),
-		    bh = $('body').height(),
+			body = $('body'),
+		    bh = body.height(),
 		    footer = $('[data-toggle="auto-fixed-footer"]');
 
 		if (bh > wh) {
+			body.css('paddingBottom','');
 			footer.removeClass('navbar-fixed-bottom');
 		}
 		else {
+			body.css('paddingBottom', footer.height() + 15);
 			footer.addClass('navbar-fixed-bottom');
 		}
 	},
@@ -220,6 +223,59 @@ var BTN_LOADER = {
 	}
 }
 
+// custom dropdown picker
+var DROPDOWN_PICKER = {
+    doc: $(document),
+    init: function() {
+        this.doc.on('click', '[data-toggle="dropdown-picker"] li',function(event) {
+            $(this).addClass('active').siblings().removeClass('active');
+            $('#dropdownSelected').html($(this).text());
+        });
+        this.doc.on('click', '[data-toggle="dropdown-picker"] li a',function(event) {
+            event.preventDefault();
+        });
+    },
+    build: function() {
+        this.init();
+    }
+}
+
+// auto height if textarea as user types
+var INIT_TEXTAREA_HEIGHT = {
+	init: function(){
+		autosize($('textarea'));
+	},
+	build: function(){
+		INIT_TEXTAREA_HEIGHT.init();
+	}
+}
+
+// has error fields
+var HAS_ERROR = {
+	has_error: '.has-error',
+	init_tooltip: function(){
+		$('[data-toggle="tooltip"]').tooltip();
+	},
+	focus: function(){
+//		$(document).on('blur', this.has_error + ' input, '+ this.has_error + ' select', function(){
+//			removeHasError($(this));
+//		})
+
+//		$(document).on('click', this.has_error + ' .btn-group .btn', function(){
+//			removeHasError($(this));
+//		})
+
+		function removeHasError(elem){
+			$(elem).closest('.has-error').removeClass('has-error').find('i').remove();
+		}
+	},
+	build: function(){
+		HAS_ERROR.init_tooltip();
+		HAS_ERROR.focus();
+	}
+}
+
+
 // Initialize Global UI elements 
 var GLOBAL_UI = {
 	handle_layout: function() {
@@ -244,13 +300,16 @@ var GLOBAL_UI = {
 		this.handle_layout();
 		this.get_current_year();
 		// BTN_LOADER.build();
+		HAS_ERROR.build();
 		GQA_HEADER.build();
 		GQA_FOOTER.build();
 	}
 }
 
+
 $(document).ready(function() {
 	GLOBAL_UI.init();
+	
 });
 
 // // CSS Pointer-events: none Polyfill

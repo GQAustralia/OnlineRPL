@@ -1,9 +1,13 @@
 gqAus.directive('datePicker', function () {
     var link = function (scope, element, attrs, ngModelCtrl) {
-
+        var carousel = $('.carousel-inner');
         $(element).datetimepicker({
-            'format': 'DD/MM/YYYY',
+            'format' : 'DD/MM/YYYY',
             'maxDate': 'now'
+        }).on('dp.show', function(e){
+            carousel.css('overflow', 'visible')
+        }).on('dp.hide', function(e){
+            carousel.css('overflow', 'hidden')
         }).on('dp.change', function (ev) {
             ngModelCtrl.$modelValue = $(element).val();
             scope.ngModel = $(element).val();
