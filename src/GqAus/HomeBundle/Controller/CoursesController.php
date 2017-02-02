@@ -162,7 +162,7 @@ class CoursesController extends Controller
      * return Json
      */
     
-    public function getElectiveUnitsAction(Request $request)
+    public function getUnitsAction(Request $request)
     {
         $results = [];
         if ($request->isMethod('POST')) {
@@ -178,11 +178,12 @@ class CoursesController extends Controller
                     $statusList = $this->get('UserService')->getQualificationStatus();
                     $courseService = $this->get('CoursesService');
                     $results = $courseService->fetchCourseRequest($id);
-                    foreach($results['Units']['Elective']['groups'] as $key=>$group){
-                        foreach($group['unit'] as $index=>$elective){
-                            $results['Units']['Elective']['groups'][$key]['unit'][$index]['details'] = $courseService->fetchUnitRequest($elective['id']);
-                        }
-                    }
+//                    foreach($results['Units']['Elective']['groups'] as $key=>$group){
+//                        foreach($group['unit'] as $index=>$elective){
+//                            $results['Units']['Elective']['groups'][$key]['unit'][$index]['details'] = $courseService->fetchUnitRequest($elective['id']);
+//                        }
+//                    }
+                    $results['statusList'] = $statusList;
 //                    $courseService->updateQualificationUnits($user->getId(), $id, $results);
 //                    $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
 //                    $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
@@ -203,6 +204,28 @@ class CoursesController extends Controller
         
     }
 
+    public function getUnitDetailsAction(Request $request) 
+    {
+        $results = [];
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $type = "";
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $id = $params['unitCode'];
+                if($id != ''){
+                    $user = $this->get('security.context')->getToken()->getUser();
+                    $courseService = $this->get('CoursesService');
+                    $results = $courseService->fetchUnitRequest($id);
+                }
+               
+            }
+        }
+        
+        return new JsonResponse($results);
+    }
     /**
      * Function to update elective Units file
      * return Json
