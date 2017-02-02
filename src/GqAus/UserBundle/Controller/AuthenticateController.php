@@ -77,7 +77,10 @@ class AuthenticateController extends Controller
             return $this->redirect('/login');
         }
 
-        return $this->render('GqAusUserBundle:Auth:on_boarding/index.html.twig', ['loginToken' => $user->getLoginToken()]);
+        return $this->render('GqAusUserBundle:Auth:on_boarding/index.html.twig', [
+            'loginToken' => $user->getLoginToken(),
+            'firstName' => $user->getFirstName()
+        ]);
     }
 
     /**

@@ -11,8 +11,28 @@
             </button>
             <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg') }}"
                  alt="Get Qualified Australia">
+
+            <nav class="header-gqa-nav">
+                <div class="avatar-menu">
+                    <div class="dropdown">
+                        <div class="dropdown-toggle" data-toggle="dropdown">
+                            <div class="avatar avatar-xxs">
+                                <img src="{{ asset('public/ui/img/avatar-default.png') }}" alt="You">
+                            </div>
+                            <span class="avatar-name" id="avatarFirstName">{{ firstName }}</span>&nbsp;
+                            <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
+                        </div>
+
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
         </div>
         <div class="navbar-bg-gradient" id="navGradient"></div>
+
     </header>
 
     <div class="navbar-bg-img" data-bg="skyscraper-blur" id="navImg"></div>
@@ -245,7 +265,7 @@
 
                     </form>
 
-                    <button class="btn btn-primary pull-right col-xs-12 col-sm-5 col-md-4" id="nextStep"><span
+                    <button class="btn btn-primary pull-right col-xs-12 col-sm-5 col-md-4" id="nextStep" disabled><span
                                 class="text-uppercase">Next Step:</span> Online Enrolment
                     </button>
                 </div>

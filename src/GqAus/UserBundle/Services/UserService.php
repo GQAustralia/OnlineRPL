@@ -3985,7 +3985,7 @@ class UserService
             $field = $fecWorkSpan;
             
         if($days > 0 )
-            $graph = (100*$days)/$fecWorkSpan;
+            $graph = floor((($fecWorkSpan-$days)/$fecWorkSpan)*100);
         else
             $graph = 0;       
         return ($fecWorkSpan-$days)."&&".$graph;

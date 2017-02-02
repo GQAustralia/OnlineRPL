@@ -77,6 +77,7 @@ class CoursesService
     public function getPackagerulesInfo($id)
     {
         $packageInfo = $this->fetchQualificationRequest($id);
+        $packageInfoPackage =  null;
         if (!empty($packageInfo)) {
             if (!empty($packageInfo['packaging'])) {
                 $packageInfoPackage = htmlspecialchars_decode($packageInfo['packaging']);
@@ -413,8 +414,12 @@ class CoursesService
             $qualificationUnits = $this->xml2array($result);
         }       
         if(!empty($qualificationUnits['package'])){
-            $unitsCount['core'] = count($qualificationUnits['package']['Units']['Core']['unit']);
-            $unitsCount['elective'] = $qualificationUnits['package']['Units']['Elective']['validation']['requirement'];
+        				if (!empty($qualificationUnits['package']['Units']['Core'])) {
+            				$unitsCount['core'] = count($qualificationUnits['package']['Units']['Core']['unit']);
+        				}
+        				if (!empty($qualificationUnits['package']['Units']['Elective'])) {
+           				 $unitsCount['elective'] = $qualificationUnits['package']['Units']['Elective']['validation']['requirement'];
+        				}
         }
         return $unitsCount;
     }
@@ -885,5 +890,23 @@ class CoursesService
         }
         return round($eviPercentage) . '%';
     }
-
+    
+    /**
+     * Function to get the Evidence percenatge based on the units in the course
+     * @param int $userId
+     * @param string $coursecode
+     * return string
+     */
+    public function getUnitsSubmittedbyCourse($userId, $courseCode){
+    	$reqNoUnits = $this->getReqUnitsForCourseByCourseId($courseCode);
+    	$eviPercentage = 0;
+    	$totalElecOfUnits = 0;
+    	$totalCoreOfUnits = 0;
+    	$courseCoreUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'core', 'issubmitted' => '1' ));
+    	$courseElecUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'elective', 'issubmitted' => '1' ));
+    	$totalCoreOfUnits = count($courseCoreUnitObj);
+    	$totalElecOfUnits = count($courseElecUnitObj);
+    	
+    	return array('core' => $totalCoreOfUnits, 'elective' => $totalElecOfUnits);
+    }
 }

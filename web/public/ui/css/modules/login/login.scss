@@ -31,6 +31,17 @@
 		float: left;
 		z-index: 1;
 	}
+
+	.panel-login-fields{
+		a{
+			color: $gray-dark;
+			text-decoration: underline;
+		}
+	}
+}
+
+.welcome h4:first-of-type{
+	margin: $grid-gutter-width / 2 0;
 }
 
 .footer-login {

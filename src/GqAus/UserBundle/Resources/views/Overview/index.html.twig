@@ -24,12 +24,15 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <h6 class="text-uppercase control-label"><strong>Things you need to do</strong></h6>
+                        <p>
+                            Information to the candidate will be displayed here. Information to the candidate will be displayed here. Information to the candidate will be displayed here. Information to the candidate will be displayed here. 
+                        </p>
+                        <!--<h6 class="text-uppercase control-label"><strong>Things you need to do</strong></h6>
                         <ul class="list-group list-group-no-border">
                             <li class="list-group-item">Item 1</li>
                             <li class="list-group-item">Item 2</li>
                             <li class="list-group-item">Item 3</li>
-                        </ul>
+                        </ul>-->
                     </div>
                 </div>
             </section>
@@ -43,12 +46,18 @@
                 {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}    
                 {% set output = remaining|split('&&') %}
                 {% set evidenceCompleteness = courses_service.getEvidenceByCourse(userId, courseCode) %}
-                {%set courseStatus = user_service.getQualificationStatus()%}
+                {% set unitSubmitted = courses_service.getUnitsSubmittedbyCourse(userId, courseCode) %}
+                {% set courseStatus = user_service.getQualificationStatus()%}
+                {% set courseApiInfo = courses_service.getUserCoursesInfo(courseCode)%} 
+                {% set coreUnitsCnt = courseApiInfo.courseInfo.Units.Core.unit|default(0) %}
+                {% set electiveUnitsCnt = courseApiInfo.courseInfo.Units.Elective.validation.requirement|default(0) %}
+                {% set coreUnitsSubmittedPercent = (unitSubmitted['core']/coreUnitsCnt|length)*100 %}  
+                {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/electiveUnitsCnt)*100 %}
 
                  <!-- ng-repeat-->
                  <article class="panel panel-default panel-qualification" data-courseCode="{{ courseCode }}">
                      <div class="panel-qualification-meta">
-                         <div class="panel-qualification-img" style="background-image: url({{ courseInfo.bannerImg }});">
+                         <div class="panel-qualification-img" style="background-image: url({{ courseInfo.bannerImg|default('') }});">
                              <h3 class="h3 qual-title"><small>{{ courseCode }}</small><br> {{ courses.getCourseName() }}</h3>
                              <span class="hidden" aria-label="hidden" aria-value="Qualification-name">{{ courses.getCourseName() }}</span>
                          </div>
@@ -56,7 +65,7 @@
                              <dd class="control-label"><small>STATUS</small> <br><span>{{ courseStatus[courses.courseStatus]['status'] }}</span></dd>
                          </dl>
                          <dl class="panel-qualification-desc">
-                             <dd class="control-label"><small>Account Manager</small> <br><span>{% if(courses.facilitator.firstName != '') %} {{courses.facilitator.firstName}}{%endif%} {% if(courses.facilitator.lastName != '') %}{{courses.facilitator.lastName}}{%endif%}</span></dd>
+                             <dd class="control-label"><small>Account Manager</small> <br><span>{{ courses.facilitator.firstName|default('') }} {{ courses.facilitator.lastName|default('') }}</span></dd>
                          </dl>
                      </div>
                      <div class="panel-qualification-body">
@@ -75,22 +84,22 @@
                                  </div>
  
                                  <div class="qual-gauges">
-                                     <div class="progress-tag progress-tag-danger">
+                                     <div class="progress-tag progress-tag-{% if(output[0]<30) %}danger{% elseif(output[0]<90) %}warning{% else %}success{%endif%}">
                                          <progress role="progress" value="{{output[1]}}" max="100"><img class="fallback" width="30"></progress>
                                          <figcaption data-value="{{output[0]}}" data-unit="" class="progress-details"> DAYS LEFT</figcaption>
                                      </div>
                                  </div>
  
                                  <div class="qual-gauges">
-                                     <div class="c100 p{{ evidenceCompleteness|trim('%') }} small core-units">
-                                         <span>10%</span>
+                                     <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units">
+                                         <span>{{ coreUnitsSubmittedPercent|round }}%</span>
                                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                      </div>                                    
                                  </div>
  
                                  <div class="qual-gauges">
-                                     <div class="c100 p{{ evidenceCompleteness|trim('%') }} small elective-units">
-                                         <span>50%</span>
+                                     <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units">
+                                         <span>{{ electiveUnitsSubmittedPercent|round }}%</span>
                                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                      </div>
                                  </div>
@@ -213,8 +222,20 @@
 
         $(document).ready(function () {
             FIRST_TIME_TOUR.build();
-            $('.panel-qualification').on("click", function(){
-               location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode');
+             $('.panel-qualification').on("click", function(e){
+                 console.log($(this));
+                 var target = $( event.target );
+                 var obj = $(this);
+
+                 if(target.is('.elective-units') || target.parents('.elective-units').length > 0){
+                     location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode')+'/elective';
+                 }
+                 else if(target.is('.core-units') || target.parents('.core-units').length > 0){
+                     location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode')+'/core';
+                 }
+                 else {
+                     location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode');
+                 }
             });
         });
     </script>

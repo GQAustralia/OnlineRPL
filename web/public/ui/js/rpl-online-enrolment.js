@@ -6,7 +6,7 @@ $(function(){
     INIT_COUNTRY_CODE.click();
 
     // bootstrap datepicker
-    //INIT_DATEPICKER.build();
+    INIT_DATEPICKER.build();
 
     // custom collapsible fields
     CONTROL_COLLAPSE.build();
@@ -38,22 +38,9 @@ var INIT_COUNTRY_CODE = {
         });
     },
     click: function(){
-        // $(document).on('click', this.elems,function(){
-        //     var country_list = $(this).closest('.intl-tel-input').find('.country-list')
-        //     country_list.removeClass('hide');
-        //     $('header, .wizard-steps').addClass('has-country-code');
-
-        //     $(this).keypress(function(){
-        //         country_list.addClass('hide');
-        //         $('header, .wizard-steps').removeClass('has-country-code');
-        //     })
-        // })
-
         $(document).on('click', '.flag-dropdown', function(){
             $('body').removeClass('has-country-code');
             $('#autocomplete').css('z-index', 2);
-
-
         })
     },
     build: function(){
@@ -64,10 +51,15 @@ var INIT_COUNTRY_CODE = {
 
 // init bootstrap datepicker
 var INIT_DATEPICKER = {
-    elem: $('#birthday'),
+    elem: $('[data-init="datepicker"]'),
     init: function(){
+        var carousel = $('.carousel-inner');
         this.elem.datetimepicker({
             'format' : 'DD/MM/YYYY'
+        }).on('dp.show', function(e){
+            carousel.css('overflow', 'visible')
+        }).on('dp.hide', function(e){
+            carousel.css('overflow', 'hidden')
         })
     },
     build: function(){
