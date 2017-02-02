@@ -69,7 +69,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group" ng-class="{ 'has-error' : profileForm.birthday.$invalid}">
                                                     <label for="birthday" class="control-label">Date of birth</label>
-                                                    <input type="text" id="birthday" name="birthday" data-init="datepicker" date-validator ng-model="enrollment.profile.birthday" ng-required="true" date-picker="enrollment.profile.birthday" placeholder="DD/MM/YYYY" class="form-control date">
+                                                    <input type="text" id="birthday" name="birthday" datePicker date-validator ng-model="enrollment.profile.birthday" ng-required="true" date-picker="enrollment.profile.birthday" placeholder="DD/MM/YYYY" class="form-control date">
                                                     <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.birthday.$invalid " data-toggle="tooltip" data-placement="top" title="Birthday is required"></i>
                                                 </div>
                                             </div>
