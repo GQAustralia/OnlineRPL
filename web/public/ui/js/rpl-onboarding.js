@@ -47,22 +47,16 @@ var ONBOARDING_NEXT_STEP = {
 	error: $('#errorMessage'),
 	errormsg: $('#errorMessage span'),
 	bind: function(){
-		ONBOARDING_NEXT_STEP.button.on('click', function(){
-			ONBOARDING_NEXT_STEP.validate_terms();
-		});
+		ONBOARDING_NEXT_STEP.terms.on('change', function(){ONBOARDING_NEXT_STEP.control_submit_button()});
+		ONBOARDING_NEXT_STEP.button.on('click', function(){ONBOARDING_NEXT_STEP.validate_terms()});
 	},
+	control_submit_button: function(){
+		if(this.terms.is(':checked')){this.button.prop('disabled', false)}
+		else{this.button.prop('disabled', true)};
+	},	
 	validate_terms: function(){
-		var validity = 'invalid';
-
-		if(isTermsChecked() === 'valid'){ONBOARDING_NEXT_STEP.accept_onboarding()}
-		else{ONBOARDING_NEXT_STEP.error_action('Please read the the RPL Information Kit.')};
-
-		function isTermsChecked(){
-			if(ONBOARDING_NEXT_STEP.terms.is(':checked')){validity = 'valid';}
-			else{validity = 'invalid'}
-
-			return validity;
-		}
+		if(this.terms.is(':checked')){this.accept_onboarding()}
+		else{this.error_action('Please read the the RPL Information Kit.')};
 	},
 	accept_onboarding: function(){
 		var btntext = '<i class="zmdi zmdi-settings zmdi-hc-spin"></i> Processing';
