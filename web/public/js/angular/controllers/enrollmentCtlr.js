@@ -92,7 +92,6 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
         });
     };
     $scope.formWatchValid = function () {
-        $timeout(function () {
             angular.forEach($scope.forms, function (value, key) {
                 var $obj = $scope.enrollment[value];
                 if (value === 'upload') {
@@ -129,7 +128,6 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
                 });
                 $scope.$applyAsync();
             }
-        });
 
     };
     $scope.getEnrollment = function () {

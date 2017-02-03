@@ -204,6 +204,47 @@ class CoursesController extends Controller
         
     }
 
+    /**
+     * Function to get the unit details
+     * @param  Symfony\Component\HttpFoundation\Request
+     * return Json
+     */
+    
+    
+    public function getUserUnitsAction(Request $request) {
+         $results = [
+             'elective' => [],
+             'core' => []
+         ];
+         $user = $this->get('security.context')->getToken()->getUser();
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $courseCode = $params['courseCode'];
+                $userId = $user->getId();
+                if($userId != '' && $courseCode != ''){
+                    $courseService = $this->get('CoursesService');
+                    $results['elective'] = $courseService->getUserCourseUnits($userId,$courseCode,'elective');
+                    $results['core'] = $courseService->getUserCourseUnits($userId,$courseCode,'core');
+                }
+               
+            }
+        }
+        
+       
+        //var_dump($results);
+        //exit();
+        return new JsonResponse($results);
+    }
+     /**
+     * Function to get the unit details
+      * @param  object $request
+     * return Json
+     */
+    
     public function getUnitDetailsAction(Request $request) 
     {
         $results = [];
@@ -225,6 +266,37 @@ class CoursesController extends Controller
         }
         
         return new JsonResponse($results);
+    }
+    
+    /**
+     * Function to update the selected Units
+     * @param 
+     * return Json
+     */
+    
+    public function updateSelectedElectiveUnitsAction() {
+       $results = [];
+       $user = $this->get('security.context')->getToken()->getUser();
+       $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $units = $params['units'];
+                $courseCode = $params['courseCode'];
+                $courseService = $this->get('CoursesService');
+                $courseService->resetUnitElectives();
+                foreach($units as $unit) {
+                     $results = $courseService->updateUnitElective($userId,$unit['id'],$courseCode);
+                }
+                
+               
+            }
+        }
+        
+        return new JsonResponse($results); 
     }
     /**
      * Function to update elective Units file
