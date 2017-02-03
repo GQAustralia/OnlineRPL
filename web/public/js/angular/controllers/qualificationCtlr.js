@@ -78,7 +78,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     };
     
     $scope.doneSelecting = function() {
-        AjaxService.apiCall("units/updateSelectedElectiveUnits", {"units" : $scope.selectedElectiveUnits}).then(function (data) {
+        AjaxService.apiCall("units/updateSelectedElectiveUnits", {"units" : $scope.selectedElectiveUnits,"courseCode":$scope.courseCode}).then(function (data) {
             $scope.getUserUnits();
         }, function (error) {
             console.log(error);
