@@ -909,4 +909,63 @@ class CoursesService
     	
     	return array('core' => $totalCoreOfUnits, 'elective' => $totalElecOfUnits);
     }
+    
+    /** 
+     * Function to get the Units and details
+     * @param int $userId
+     * @param string $courseCode
+     * @param string $unitCode
+     * return string
+     */
+    public function getUserCourseUnits($userId, $courseCode, $type = 'elective'){
+    	$reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+         $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+            'courseCode' => $courseCode,
+            'type' => $type
+             ));
+        $courseUnits = array();
+        if (!empty($userCourseUnits)) {
+            foreach ($userCourseUnits as $units) {
+                $unit = [];
+                $unit['id'] = $units->getId();
+                $unit['unitId'] = $units->getUnitId();
+                $unit['userId'] = $units->getUser()->getId();
+                $unit['courseCode'] = $units->getCourseCode();
+                $unit['type'] = $units->getType();
+                $unit['facilitatorStatus'] = $units->getFacilitatorstatus();
+                $unit['assessorStatus'] = $units->getAssessorstatus();
+                $unit['rtoStatus'] = $units->getRtostatus();
+                $unit['status'] = $units->getStatus();
+                $unit['electiveStatus'] = $units->getElectiveStatus();
+                $unit['isSubmitted'] = $units->getIssubmitted();
+                $courseUnits[trim($units->getUnitId())] =  $unit;    
+            }
+        } 
+        
+        return $courseUnits;
+    }
+    
+    /** 
+     * Function to update user selected units status to 0
+     * @param int $userId
+     * @param string $courseCode
+     * return string
+     */
+    
+    public function resetUnitElectives($userId, $courseCode)
+    {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+            'courseCode' => $courseCode,
+            'type' => 'elective'
+        ));
+        if (!empty($userCourseUnits)) {
+            foreach ($userCourseUnits as $units) {
+                $units->setElectiveStatus('0');
+                $this->em->persist($units);
+                $this->em->flush();
+            }
+        }
+        
+    }
 }

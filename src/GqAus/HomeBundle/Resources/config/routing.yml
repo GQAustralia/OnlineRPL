@@ -49,3 +49,9 @@ updateSelfAssessment:
 getUnitDetails:
     path:    /units/getUnitDetails
     defaults: { _controller: GqAusHomeBundle:Courses:getUnitDetails }
+getUserUnits:
+    path: /units/getUserUnits
+    defaults: { _controller: GqAusHomeBundle:Courses:getUserUnits }
+updateSelectedElectiveUnits:
+    path: /units/updateSelectedElectiveUnits
+    defaults: { _controller: GqAusHomeBundle:Courses:updateSelectedElectiveUnits }

@@ -2,11 +2,15 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     $scope.IsLoaded = false;
     $scope.unitsFetched = false;
     $scope.electiveUnits = [];
+    $scope.allElectiveUnits = [];
     $scope.selectedElectiveUnits = [];
     $scope.coreUnits = [];
+    $scope.allCoreUnits = [];
     $scope.selectedCoreUnits = [];
     $scope.requiredElective = 0;
     $scope.unitDetails = {};
+    $scope.userElectiveUnits = [];
+    $scope.userCoreUnits = [];
 
     $scope.addRemoveUnit = function(unit) {
         
@@ -33,12 +37,28 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
             $scope.unitsFetched = true;
             angular.forEach($scope.electiveUnits.groups, function (value, key) {
                 angular.forEach(value.unit, function (val, index) {
+                    $scope.allElectiveUnits.push(val);
                     $scope.getUnitDetails(val.id);
                 });
             });
             angular.forEach($scope.coreUnits, function (val, index) {
+                    $scope.allCoreUnits.push(val);
                     $scope.getUnitDetails(val.id);
                 });
+                $scope.userSelectedSync();
+        }, function (error) {
+            console.log(error);
+        });
+        $scope.getUserUnits();        
+    };
+    
+    $scope.getUserUnits = function () {
+        
+        AjaxService.apiCall("units/getUserUnits", {"courseCode": $scope.courseCode}).then(function (data) {
+            console.log(data);
+            $scope.userElectiveUnits = data.elective;
+            $scope.userCoreUnits = data.core;
+            
         }, function (error) {
             console.log(error);
         });
@@ -58,7 +78,20 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     };
     
     $scope.doneSelecting = function() {
-        
+        AjaxService.apiCall("units/updateSelectedElectiveUnits", {"units" : $scope.selectedElectiveUnits}).then(function (data) {
+            $scope.getUserUnits();
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    
+    $scope.userSelectedSync = function() {
+        angular.forEach($scope.userElectiveUnits, function (val, index) {
+                    if(val.electiveStatus == 1){
+                       var $obj =  _.where($scope.allElectiveUnits,{"id":val.unitId});
+                        if(!_.isEmpty($obj))$scope.selectedElectiveUnits.push($obj[0]);
+                    }
+                });
     };
     
     // Watchers
@@ -76,5 +109,9 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
            
         }
     });
-
+    
+    $scope.$watch('userElectiveUnits', function (newValues) {
+        $scope.userSelectedSync();
+    });
+    
 });
