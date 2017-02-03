@@ -287,7 +287,7 @@ class CoursesController extends Controller
                 $units = $params['units'];
                 $courseCode = $params['courseCode'];
                 $courseService = $this->get('CoursesService');
-                $courseService->resetUnitElectives();
+                $courseService->resetUnitElectives($userId,$courseCode);
                 foreach($units as $unit) {
                      $results = $courseService->updateUnitElective($userId,$unit['id'],$courseCode);
                 }
