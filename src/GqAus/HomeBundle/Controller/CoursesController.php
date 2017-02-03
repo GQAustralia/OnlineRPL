@@ -241,7 +241,7 @@ class CoursesController extends Controller
     }
      /**
      * Function to get the unit details
-      * @param  object $request
+      * @param  Symfony\Component\HttpFoundation\Request
      * return Json
      */
     
@@ -270,11 +270,11 @@ class CoursesController extends Controller
     
     /**
      * Function to update the selected Units
-     * @param 
+     * @param Symfony\Component\HttpFoundation\Request
      * return Json
      */
     
-    public function updateSelectedElectiveUnitsAction() {
+    public function updateSelectedElectiveUnitsAction(Request $request) {
        $results = [];
        $user = $this->get('security.context')->getToken()->getUser();
        $userId = $user->getId();
