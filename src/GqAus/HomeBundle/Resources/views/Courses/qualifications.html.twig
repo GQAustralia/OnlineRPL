@@ -24,7 +24,11 @@
     {% set unitSubmitted = courses_service.getUnitsSubmittedbyCourse(userId, courseCode) %}
     {% set electiveUnitsCnt = courseApiInfo.courseInfo.Units.Elective.validation.requirement|default(0) %}
     {% set coreUnitsSubmittedPercent = (unitSubmitted['core']/coreUnitsCnt|length)*100 %}  
-    {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/electiveUnitsCnt)*100 %} 
+    {% if electiveUnitsCnt > 0%}
+        {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/electiveUnitsCnt)*100 %}
+    {% else %}
+        {% set electiveUnitsSubmittedPercent = 0 %}
+    {% endif %} 
     {% set totalElectiveUnitsCnt = courseApiInfo.courseInfo.Units.Elective.groups.group.unit|default(0) %}
     
     <main class="main-content-gqa">
@@ -130,7 +134,7 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h4>Qualification Description</h4>
-                        <p>{{ courseApiInfo.courseInfo.details|raw }}</p>
+                        <p>{{ courseApiInfo.courseInfo.details|default('')|raw }}</p>
                     </div>
                 </div>
                 <div class="panel panel-default">

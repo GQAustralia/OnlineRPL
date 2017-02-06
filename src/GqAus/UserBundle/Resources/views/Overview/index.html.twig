@@ -52,8 +52,11 @@
                 {% set coreUnitsCnt = courseApiInfo.courseInfo.Units.Core.unit|default(0) %}
                 {% set electiveUnitsCnt = courseApiInfo.courseInfo.Units.Elective.validation.requirement|default(0) %}
                 {% set coreUnitsSubmittedPercent = (unitSubmitted['core']/coreUnitsCnt|length)*100 %}  
-                {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/electiveUnitsCnt)*100 %}
-
+                {% if electiveUnitsCnt > 0%}
+                    {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/electiveUnitsCnt)*100 %}
+                {% else %}
+                    {% set electiveUnitsSubmittedPercent = 0 %}
+                {% endif %}
                  <!-- ng-repeat-->
                  <article class="panel panel-default panel-qualification" data-courseCode="{{ courseCode }}">
                      <div class="panel-qualification-meta">
