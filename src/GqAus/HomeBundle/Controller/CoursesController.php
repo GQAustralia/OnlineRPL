@@ -162,7 +162,7 @@ class CoursesController extends Controller
      * return Json
      */
     
-    public function getElectiveUnitsAction(Request $request)
+    public function getUnitsAction(Request $request)
     {
         $results = [];
         if ($request->isMethod('POST')) {
@@ -178,11 +178,12 @@ class CoursesController extends Controller
                     $statusList = $this->get('UserService')->getQualificationStatus();
                     $courseService = $this->get('CoursesService');
                     $results = $courseService->fetchCourseRequest($id);
-                    foreach($results['Units']['Elective']['groups'] as $key=>$group){
-                        foreach($group['unit'] as $index=>$elective){
-                            $results['Units']['Elective']['groups'][$key]['unit'][$index]['details'] = $courseService->fetchUnitRequest($elective['id']);
-                        }
-                    }
+//                    foreach($results['Units']['Elective']['groups'] as $key=>$group){
+//                        foreach($group['unit'] as $index=>$elective){
+//                            $results['Units']['Elective']['groups'][$key]['unit'][$index]['details'] = $courseService->fetchUnitRequest($elective['id']);
+//                        }
+//                    }
+                    $results['statusList'] = $statusList;
 //                    $courseService->updateQualificationUnits($user->getId(), $id, $results);
 //                    $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
 //                    $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
@@ -203,6 +204,100 @@ class CoursesController extends Controller
         
     }
 
+    /**
+     * Function to get the unit details
+     * @param  Symfony\Component\HttpFoundation\Request
+     * return Json
+     */
+    
+    
+    public function getUserUnitsAction(Request $request) {
+         $results = [
+             'elective' => [],
+             'core' => []
+         ];
+         $user = $this->get('security.context')->getToken()->getUser();
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $courseCode = $params['courseCode'];
+                $userId = $user->getId();
+                if($userId != '' && $courseCode != ''){
+                    $courseService = $this->get('CoursesService');
+                    $results['elective'] = $courseService->getUserCourseUnits($userId,$courseCode,'elective');
+                    $results['core'] = $courseService->getUserCourseUnits($userId,$courseCode,'core');
+                }
+               
+            }
+        }
+        
+       
+        //var_dump($results);
+        //exit();
+        return new JsonResponse($results);
+    }
+     /**
+     * Function to get the unit details
+      * @param  Symfony\Component\HttpFoundation\Request
+     * return Json
+     */
+    
+    public function getUnitDetailsAction(Request $request) 
+    {
+        $results = [];
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $type = "";
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $id = $params['unitCode'];
+                if($id != ''){
+                    $user = $this->get('security.context')->getToken()->getUser();
+                    $courseService = $this->get('CoursesService');
+                    $results = $courseService->fetchUnitRequest($id);
+                }
+               
+            }
+        }
+        
+        return new JsonResponse($results);
+    }
+    
+    /**
+     * Function to update the selected Units
+     * @param Symfony\Component\HttpFoundation\Request
+     * return Json
+     */
+    
+    public function updateSelectedElectiveUnitsAction(Request $request) {
+       $results = [];
+       $user = $this->get('security.context')->getToken()->getUser();
+       $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $units = $params['units'];
+                $courseCode = $params['courseCode'];
+                $courseService = $this->get('CoursesService');
+                $courseService->resetUnitElectives($userId,$courseCode);
+                foreach($units as $unit) {
+                     $results = $courseService->updateUnitElective($userId,$unit['id'],$courseCode);
+                }
+                
+               
+            }
+        }
+        
+        return new JsonResponse($results); 
+    }
     /**
      * Function to update elective Units file
      * return Json

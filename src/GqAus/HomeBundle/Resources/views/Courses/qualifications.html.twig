@@ -1,7 +1,8 @@
 {% extends 'revamp_base.html.twig' %}
 {% block ngApp %} ng-app="gqAus" {% endblock%}
 {% block ngController %} ng-controller="qualificationCtlr"  id="qualificationCtlr" {% endblock%}
-{% block title %}{[{pageTitle || 'GQ - RPL Qualification'}]}{% endblock %}
+{% block title %}GQ - RPL Qualification{% endblock %}
+{% block ngtitle %}pageTitle{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
@@ -37,13 +38,13 @@
                 </div>
                 <ul class="nav nav-tabs" role="tablist" ng-init="qualificationPage = '{{qualificationPage}}'">
                     <li role="presentation" ng-class="{'active':qualificationPage == 'qualification'}">
-                        <a href="javascript:void()" ng-click="qualificationPage = 'qualification'"><span class="hidden-xs">Qualification</span> Info</a>
+                        <a href="javascript:void(0)" ng-click="qualificationPage = 'qualification'"><span class="hidden-xs">Qualification</span> Info</a>
                     </li>
                     <li role="presentation" ng-class="{'active':qualificationPage == 'core'}">
-                        <a href="javascript:void()" ng-click="qualificationPage = 'core'">Core <span class="hidden-xs">Units</span></a>
+                        <a href="javascript:void(0)" ng-click="qualificationPage = 'core'">Core <span class="hidden-xs">Units</span></a>
                     </li>
                     <li role="presentation" ng-class="{'active':qualificationPage == 'elective'}">
-                        <a href="javascript:void()" ng-click="qualificationPage = 'elective'">Elective <span class="hidden-xs">Units</span></a>
+                        <a href="javascript:void(0)" ng-click="qualificationPage = 'elective'">Elective <span class="hidden-xs">Units</span></a>
                     </li>
                 </ul>
             </div>
