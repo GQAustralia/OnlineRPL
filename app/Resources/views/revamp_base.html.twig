@@ -47,10 +47,12 @@
                 <span class="tcon-menu__lines" aria-hidden="true"></span>
                 <span class="tcon-visuallyhidden">toggle menu</span>
             </button>
-             {% if ('ROLE_APPLICANT' not in roles)  %}<a href="{{ app.request.baseUrl }}/dashboard">
-                {% else %}<a href="{{ app.request.baseUrl }}/qualifications">
-                {% endif %}
-                    <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
+             {% if ('ROLE_APPLICANT' not in roles)  %}
+                <a href="{{ app.request.baseUrl }}/dashboard">
+             {% else %}
+                    <a href="{{ app.request.baseUrl }}/overview">
+             {% endif %}
+                <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
                 </a>
             <nav class="header-gqa-nav">
                 {% if app.request.attributes.get('_route') != 'enrollment' %}  
