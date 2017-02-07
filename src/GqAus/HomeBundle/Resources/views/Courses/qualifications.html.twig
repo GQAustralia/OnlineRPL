@@ -161,7 +161,7 @@
                                         </thead>
                                         <tbody>
                                             {% for unitInfo in coreUnitsCnt %}
-                                                <tr><td>{{ unitInfo.id }}</td><td>{{ unitInfo.name }}</td></tr>
+                                                <tr><td>{{ unitInfo.id|default('') }}</td><td>{{ unitInfo.name|default('') }}</td></tr>
                                             {% endfor %}
                                             <!--<tr class="table-subheader"><td colspan="2"><strong class="text-uppercase">Accounting</strong></td></tr>
                                             <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
@@ -179,7 +179,7 @@
                                         </thead>
                                         <tbody>
                                             {% for unitInfo in totalElectiveUnitsCnt %}
-                                                <tr><td>{{ unitInfo.id }}</td><td>{{ unitInfo.name }}</td></tr>
+                                                <tr><td>{{ unitInfo.id|default('') }}</td><td>{{ unitInfo.name|default('') }}</td></tr>
                                             {% endfor %}
                                             <!--<tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
                                             <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
