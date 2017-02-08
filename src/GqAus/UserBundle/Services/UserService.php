@@ -2639,6 +2639,8 @@ class UserService
             $ManagerRoleUser = $this->getManager($courseData['managerId']);
             if (!empty($ManagerRoleUser)) {
                 if ($courseExist <= 0) {
+                	
+                				$fecWorkSpan = $this->container->getParameter('fec_workspan');
                     $userCoursesObj = new UserCourses();
                     $userCoursesObj->setUser($user);
                     $userCoursesObj->setCourseCode(isset($courseData['courseCode']) ? $courseData['courseCode'] : '');
@@ -2653,7 +2655,7 @@ class UserService
                     $userCoursesObj->setFacilitatorread(0);
                     $userCoursesObj->setAssessorread(0);
                     $userCoursesObj->setRtoread(0);
-                    $targetDate = date('Y-m-d H:m:s', strtotime('+90 days'));
+                    $targetDate = date('Y-m-d H:m:s', strtotime('+'.$fecWorkSpan.' days'));
                     $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : $targetDate);
                     $this->em->persist($userCoursesObj);
                     $this->em->flush();
