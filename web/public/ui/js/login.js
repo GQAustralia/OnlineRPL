@@ -22,7 +22,7 @@ var LOGIN = {
     },
     handle_layout: function () {
         var ismobile = isMobile.phone;
-        ismobile === true ? $('body').addClass('is-mobile') : $('body').addClass('is-desktop is-tablet');
+        /* ismobile === true ? $('body').addClass('is-mobile') : $('body').addClass('is-desktop is-tablet'); */
     },
     get_current_year: function () {
         var d = new Date(), n = d.getFullYear();

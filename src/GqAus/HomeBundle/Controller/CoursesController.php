@@ -20,7 +20,13 @@ class CoursesController extends Controller
      */
     public function indexAction($id, $page = 'qualification', Request $request)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+    	
+    	$user = $this->get('security.context')->getToken()->getUser();
+    	$userService = $this->get('UserService');
+    	$checkStatus = $userService->getHaveAccessPage($user->getId(), $user->getId(), $id, $user->getRoles());
+    	if(!$checkStatus)
+    		return $this->render('GqAusUserBundle:Default:error.html.twig');
+       
         $courseService = $this->get('CoursesService');
         $results = $courseService->getCoursesInfo($id);
         $courseService->updateQualificationUnits($user->getId(), $id, $results);

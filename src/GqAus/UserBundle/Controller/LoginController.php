@@ -24,17 +24,19 @@ class LoginController extends Controller
         if (is_object($user) && count($user) > 0) {
 
             $request->getSession()->set('user_id', $user->getId());
-
-            if ($user->getApplicantStatus() < $userService::COMPLETE_ENROLMENT && $user->getRoles()[0] == self::ROLE_APPLICANT) {
-                return $this->redirect('enrolment');
-                //return $this->render('GqAusUserBundle:Login:index.html.twig', ['error' => 'Invalid Credentials']);
-            }
-
-            if ($user->getApplicantStatus() == $userService::COMPLETE_ENROLMENT) {
-                $userService->completeOverview($user->getId());
-                return $this->redirect('overview');
-            }
-
+												if ($user->getRoles()[0] == self::ROLE_APPLICANT) {
+				            if ($user->getApplicantStatus() < $userService::COMPLETE_ENROLMENT && $user->getRoles()[0] == self::ROLE_APPLICANT) {
+				                return $this->redirect('enrolment');
+				                //return $this->render('GqAusUserBundle:Login:index.html.twig', ['error' => 'Invalid Credentials']);
+				            }
+				
+				            if ($user->getApplicantStatus() == $userService::COMPLETE_ENROLMENT) {
+				                $userService->completeOverview($user->getId());
+				                return $this->redirect('overview');
+				            }
+				            
+				            return $this->redirect('overview');
+												}
 
             return $this->redirect('dashboard');
         }

@@ -64,11 +64,11 @@
 									    {% if ('ROLE_MANAGER' in roles) %}
 									    	{% set setUserId = list.manager %}
 									    {% elseif ('ROLE_FACILITATOR' in roles and list.facilitator.id != null) %}
-											{% set setUserId = list.facilitator.id %}
+											{% set setUserId = list.facilitator.id|default(0) %}
 										{% elseif ('ROLE_ASSESSOR' in roles and list.assessor.id != null) %}
-											{% set setUserId = list.assessor.id %}
+											{% set setUserId = list.assessor.id|default(0) %}
 										{% elseif ('ROLE_RTO' in roles and list.rto.id != null) %}
-											{% set setUserId = list.rto.id %}
+											{% set setUserId = list.rto.id|default(0) %}
 										{% endif %}
 										
 										{% set remStatus = user_service.checkReminderExists(setUserId, list.id, 'portfolio') %}
@@ -109,11 +109,11 @@
 						<ul>
 							{% for dKey, dList in eightyDaysApplicantList %}
 								{% if ('ROLE_FACILITATOR' in roles) or ('ROLE_MANAGER' in roles)  %}
-									{% set setUserId = dList.facilitator.id %}
+									{% set setUserId = dList.facilitator.id|default(0) %}
 								{% elseif ('ROLE_ASSESSOR' in roles) %}
-									{% set setUserId = dList.assessor.id %}
+									{% set setUserId = dList.assessor.id|default(0) %}
 								{% else %}
-									{% set setUserId = dList.rto.id %}
+									{% set setUserId = dList.rto.id|default(0) %}
 								{% endif %}							
 							{% set remStatus = user_service.checkReminderExists(setUserId, dList.id, '') %}
 								<li class="clearfix {{ remStatus.playlistIconClass }}">
@@ -153,11 +153,11 @@
 					   <ul>
 						   {% for eKey, eList in eightyPercEvd %}
 								{% if ('ROLE_FACILITATOR' in roles or 'ROLE_MANAGER' in roles) %}
-									{% set setUserId = eList.facilitator.id %}
+									{% set setUserId = eList.facilitator.id|default(0) %}
 								{% elseif ('ROLE_ASSESSOR' in roles) %}
-									{% set setUserId = eList.assessor.id %}
+									{% set setUserId = eList.assessor.id|default(0) %}
 								{% else %}
-									{% set setUserId = eList.rto.id %}
+									{% set setUserId = eList.rto.id|default(0) %}
 								{% endif %}							   
 						   {% set remStatus = user_service.checkReminderExists(setUserId, eList.id, '') %}
 							   <li class="clearfix {{ remStatus.playlistIconClass }}">
@@ -199,11 +199,11 @@
                     <ul>
                         {% for assKey, assList in applicantsWithAssesor %}
                         {% if ('ROLE_FACILITATOR' in roles) %}
-                                {% set setUserId = assList.facilitator.id %}
+                                {% set setUserId = assList.facilitator.id|default(0) %}
                         {% elseif ('ROLE_ASSESSOR' in roles) %}
-                                {% set setUserId = assList.assessor.id %}
+                                {% set setUserId = assList.assessor.id|default(0) %}
                         {% else %}
-                                {% set setUserId = assList.rto.id %}
+                                {% set setUserId = assList.rto.id|default(0) %}
                         {% endif %}
                         {% set remStatus = user_service.checkReminderExists(setUserId, assList.id, '') %}
                             <li class="clearfix {{ remStatus.playlistIconClass }}">
@@ -245,11 +245,11 @@
 						<ul>
 							{% for rtoKey, rtoList in applicantsWithRto %}
 								{% if ('ROLE_FACILITATOR' in roles) %}
-									{% set setUserId = rtoList.facilitator.id %}
+									{% set setUserId = rtoList.facilitator.id|default(0) %}
 								{% elseif ('ROLE_ASSESSOR' in roles) %}
-									{% set setUserId = rtoList.assessor.id %}
+									{% set setUserId = rtoList.assessor.id|default(0) %}
 								{% else %}
-									{% set setUserId = rtoList.rto.id %}
+									{% set setUserId = rtoList.rto.id|default(0) %}
 								{% endif %}								
 							{% set remStatus = user_service.checkReminderExists(setUserId, rtoList.id, '') %}
 								<li class="clearfix {{ remStatus.playlistIconClass }}">

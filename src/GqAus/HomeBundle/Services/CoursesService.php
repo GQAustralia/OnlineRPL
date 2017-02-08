@@ -5,6 +5,7 @@ namespace GqAus\HomeBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
 use GqAus\UserBundle\Entity\UserCourseUnits;
+use GuzzleHttp\Exception\ServerException;
 
 class CoursesService
 {
@@ -303,16 +304,20 @@ class CoursesService
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "unitsbyqualifications";
-       /*  $authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
-        $this->guzzleService->addSubscriber($authPlugin);
-        $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
-        $request = $this->guzzleService->post($url, null, $fieldString); // Create a request with basic Auth
-        $response = $request->send(); // Send the request and get the response
-        $result = $response->getBody(); */
-        $response = $this->guzzleService->request('POST', $url, [
-        		'auth' => [$apiAuthUsername, $apiAuthPassword],
-        		'query' => $fieldString
-        		]);
+        
+        try {
+        				$response = $this->guzzleService->request('POST', $url, [
+						        		'auth' => [$apiAuthUsername, $apiAuthPassword],
+						        		'query' => $fieldString
+						        		]);
+        }catch (ServerException $e) {
+        	
+        				$response = $e->getResponse(true);
+        }
+        
+        if ($response->getStatusCode() != 200) {
+        	return null;
+        }
         
         $result = $response->getBody();
         return $result;
@@ -328,16 +333,20 @@ class CoursesService
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "qualifications";
-       /*  $authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
-        $this->guzzleService->addSubscriber($authPlugin);
-        $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
-        $request = $this->guzzleService->post($url, null, $fieldString); // Create a request with basic Auth
-        $response = $request->send(); // Send the request and get the response
-        $result = $response->getBody(); */
-        $response = $this->guzzleService->request('POST', $url, [
-        		'auth' => [$apiAuthUsername, $apiAuthPassword],
-        		'query' => $fieldString
-        		]);
+        
+        try {
+        				$response = $this->guzzleService->request('POST', $url, [
+						        		'auth' => [$apiAuthUsername, $apiAuthPassword],
+						        		'query' => $fieldString
+						        		]);
+        }catch (ServerException $e) {
+        	 
+        				$response = $e->getResponse(true);
+        }
+        
+        if ($response->getStatusCode() != 200) {
+        	return null;
+        }
         
         $result = $response->getBody();
         return $result;
@@ -353,16 +362,20 @@ class CoursesService
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "qualificationunits";
-        /*$authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
-        $this->guzzleService->addSubscriber($authPlugin);
-        $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
-        $request = $this->guzzleService->post($url, null, $fieldString); // Create a request with basic Auth
-        $response = $request->send(); // Send the request and get the response
-        $result = $response->getBody();*/
-        $response = $this->guzzleService->request('POST', $url, [
-        		'auth' => [$apiAuthUsername, $apiAuthPassword],
-        		'query' => $fieldString
-        		]);
+
+        try {
+				        $response = $this->guzzleService->request('POST', $url, [
+				        			'auth' => [$apiAuthUsername, $apiAuthPassword],
+				        			'query' => $fieldString
+				        			]);
+        }catch (ServerException $e) {
+        
+        				$response = $e->getResponse(true);
+        }
+        
+        if ($response->getStatusCode() != 200) {
+        	return null;
+        }
         
         $result = $response->getBody();
         return $result;
@@ -378,16 +391,20 @@ class CoursesService
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "units";
-        /*$authPlugin = new \Guzzle\Plugin\CurlAuth\CurlAuthPlugin($apiAuthUsername, $apiAuthPassword);
-        $this->guzzleService->addSubscriber($authPlugin);
-        $request = $this->guzzleService->get($url)->setAuth($apiAuthUsername, $apiAuthPassword);
-        $request = $this->guzzleService->post($url, null, $fieldString); // Create a request with basic Auth
-        $response = $request->send(); // Send the request and get the response
-        $result = $response->getBody();*/
-        $response = $this->guzzleService->request('POST', $url, [
-        		'auth' => [$apiAuthUsername, $apiAuthPassword],
-        		'query' => $fieldString
-        		]);
+      
+        try {
+        				$response = $this->guzzleService->request('POST', $url, [
+					        		'auth' => [$apiAuthUsername, $apiAuthPassword],
+					        		'query' => $fieldString
+					        		]);
+        }catch (ServerException $e) {
+        
+        				$response = $e->getResponse(true);
+        }
+        
+        if ($response->getStatusCode() != 200) {
+        	return null;
+        }
         
         $result = $response->getBody();
         return $result;
@@ -404,15 +421,25 @@ class CoursesService
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "unitsbyqualifications";
-        $response = $this->guzzleService->request('POST', $url, [
-        		'auth' => [$apiAuthUsername, $apiAuthPassword],
-        		'query' => $params
-        		]);
-        
+
+        try {
+        				$response = $this->guzzleService->request('POST', $url, [
+						        		'auth' => [$apiAuthUsername, $apiAuthPassword],
+						        		'query' => $params
+						        		]);
+        }catch (ServerException $e) {
+    								$response = $e->getResponse(true);
+    				}
+
+								if ($response->getStatusCode() != 200) {
+									return array();
+								}
+								
         $result = $response->getBody();
         if (!empty($result)) {         
             $qualificationUnits = $this->xml2array($result);
-        }       
+        }      
+        $unitsCount = array();
         if(!empty($qualificationUnits['package'])){
         				if (!empty($qualificationUnits['package']['Units']['Core'])) {
             				$unitsCount['core'] = count($qualificationUnits['package']['Units']['Core']['unit']);
@@ -864,6 +891,9 @@ class CoursesService
      */
     public function getEvidenceByCourse($userId, $courseCode){
         $reqNoUnits = $this->getReqUnitsForCourseByCourseId($courseCode);
+        if (empty($reqNoUnits)) {
+        				return '0%';
+        }
         $eviPercentage = 0;
         $totalElecOfUnits = 0;
         $totalCoreOfUnits = 0;
