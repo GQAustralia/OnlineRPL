@@ -3980,15 +3980,17 @@ class UserService
         $rtoWorkSpan = $this->container->getParameter('rto_workspan');
         $currentDate = date('Y-m-d H:i:s');
         
-            $diff = abs(strtotime($targetDate) - strtotime($currentDate));
+            $diff = strtotime($targetDate) - strtotime($currentDate);
             $days = floor(($diff)/ (60*60*24));
             $field = $fecWorkSpan;
             
         if($days > 0 )
-            $graph = floor((($fecWorkSpan-$days)/$fecWorkSpan)*100);
-        else
-            $graph = 0;       
-        return ($fecWorkSpan-$days)."&&".$graph;
+            $graph = floor((($days)/$fecWorkSpan)*100);
+        else{
+            $graph = 0; 
+        				$days = 0;
+        }
+        return $days."&&".$graph;
     }
     /**
      * Function to get the Notes 
