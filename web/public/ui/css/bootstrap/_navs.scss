@@ -78,19 +78,31 @@
   > li {
     float: left;
     // Make the list-items overlay the bottom border
-    margin-bottom: -1px;
+    // margin-bottom: -1px;
 
     // Actual tabs (as links)
     > a {
       color: $text-color;
-      margin-right: 2px;
+      // margin-right: 2px;
       line-height: $line-height-base;
       border: none;
       border-radius: 0;
       text-transform: uppercase;
       font-weight: 500;
       &:hover {
-        border-color: $nav-tabs-link-hover-border-color $nav-tabs-link-hover-border-color $nav-tabs-border-color;
+        // border-color: $nav-tabs-link-hover-border-color $nav-tabs-link-hover-border-color $nav-tabs-border-color;
+      }
+      &:after {
+        display: block;
+        content: '';
+        width: 60px;
+        height: 4px;
+        background-color: $brand-red;
+        position: absolute;
+        bottom: -2px;
+        @include opacity(0);
+        @include transition(opacity .3s $easing , width .5s $easing);
+        @include calc-sub-two-values(left, 50%, 30px);
       }
     }
 
@@ -101,9 +113,14 @@
       &:focus {
         color: $nav-tabs-active-link-hover-color;
         background-color: transparent;
-        border-bottom: 1px solid $nav-tabs-active-link-hover-border-color;
-        border-bottom-color: $brand-red;
-        @include box-shadow(0 2px 0 $brand-red);
+        // border-bottom: 1px solid $nav-tabs-active-link-hover-border-color;
+        // border-bottom-color: $brand-red;
+        // @include box-shadow(0 4px 0 $brand-red);
+        &:after {
+          @include opacity(1);
+          @include transition(opacity .3s $easing , width .5s $easing);
+          width: 60px;
+        }
         cursor: default;
       }
     }

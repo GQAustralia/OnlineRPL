@@ -177,9 +177,6 @@
                                             {% for unitInfo in totalElectiveUnitsCnt %}
                                                 <tr><td>{{ unitInfo.id }}</td><td>{{ unitInfo.name }}</td></tr>
                                             {% endfor %}
-                                            <!--<tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
-                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
-                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>-->
                                         </tbody>
                                     </table>
                                 </div>
@@ -190,6 +187,7 @@
             </section>
         </div>
 {% include 'GqAusHomeBundle:Courses:electiveunits.html.twig' %} 
+{% include 'GqAusHomeBundle:Courses:electiveUpload.html.twig' %} 
 <div class="container" ng-hide="IsLoaded"> Loading.... </div>
   
     </main>
@@ -225,16 +223,146 @@
         </div>
     </div>
 </div>
+  <!-- Elements and performance criteria -->
+    <div class="modal fade" id="elementsPerformanceCriteria">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                    <h4 class="modal-title">{[{details.title}]}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="btn-auto-group btn-group">
+                        <button type="button" class="btn btn-default" ng-click="printElective(details)"><i class="zmdi zmdi-print zmdi-hc-lg zmdi-hc-fw"></i> Print</button>
+                        <button type="button" class="btn btn-default" ng-click="downloadElective(details)"><i class="zmdi zmdi-download zmdi-hc-lg zmdi-hc-fw"></i> Download PDF</button>
+                    </div>
+                    <div id="detailsElective" class="table table-compressed table-bordered clearfix" ng-bind-html="unitDetails[selectedElective][details.detailsType]"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Elements and performance criteria -->
 
+
+    <!-- File Preview -->
+    <div class="modal fade modal-file-preview" tabindex="-1" role="dialog" id="filePreview">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                    <h4 class="modal-title">Preview</h4>
+                </div>
+                <div class="modal-body clearfix" >
+                     <gq-audio ng-if="evidenceView.type ==='audio'" datapath="{[{evidenceView.s3Path}]}"></gq-audio>
+                    <gq-video ng-if="evidenceView.type ==='video'" datapath="{[{evidenceView.s3Path}]}" datatype="{[{evidenceview.mimeType}]}" ></gq-video>
+                    <img ng-if="evidenceView.type === 'image'" src="{[{evidenceView.s3Path}]}" alt="{[{evidenceView.name}]}" class="img img-responsive">
+                </div>
+                <div class="modal-footer">
+                    <strong class="center-block text-left">{[{evidenceView.name}]}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- File Preview -->
+
+    <!-- Upload Evidences Files Modal Popup Start -->
+    <div class="modal fade modal-upload-evidence" id="uploadEvidence" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="zmdi zmdi-close zmdi-hc-lg zmdi-hc-fw"></i></button>
+                    <h3 class="modal-title">Upload Evidence</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="progress-tag progress-tag-default">
+                                <progress role="progress" value="{[{(uploadDetails.totalUploadedSize/uploadDetails.maxUploadedSize)*100}]}" max="100"><img class="fallback" width="{[{(uploadDetails.totalUploadedSize/uploadDetails.maxUploadedSize)*100}]}"></progress>
+                                <figcaption data-value="{[{(uploadDetails.maxUploadedSize-uploadDetails.totalUploadedSize) | bytesToSize:'size'}]}" data-unit=" {[{(uploadDetails.maxUploadedSize-uploadDetails.totalUploadedSize) | bytesToSize:'measure'}]}" class="progress-details">file space left</figcaption>
+                            </div> 
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-link btn-transparent btn-help" data-toggle="collapse" data-target="#collapseEvidenceHelp" aria-expanded="false" aria-controls="collapseEvidenceHelp">
+                                <i class="zmdi zmdi-help zmdi-hc-2x center-block"></i> HELP
+                            </button>
+
+                            <div id="collapseEvidenceHelp" class="panel-collapse evidence-help collapse">
+
+                                <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapseEvidenceHelp" aria-expanded="false" aria-controls="collapseEvidenceHelp"><i class="zmdi zmdi-hc-lg zmdi-arrow-left"></i> Back</button>
+
+                                <h4 class="page-header">What types of evidences can I upload?</h4>
+                                <ul>
+                                    <li>Test 1</li>
+                                    <li>Test 1</li>
+                                    <li>Test 1</li>
+                                </ul>
+                                <hr>
+                                <h4 class="page-header">List of files types accepted</h4>
+                                <ul>
+                                    <li>Test 1</li>
+                                    <li>Test 1</li>
+                                    <li>Test 1</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <section class="upload-control">
+                        <button type="button" class="btn btn-link btn-lg">
+                            <i class="zmdi zmdi-upload zmdi-hc-2x center-block"></i>
+                            <span class="center-block">Click to browse your files</span>
+                        </button>
+                        <input class="upload-control-input" type="file" id="uploadID" s3-upload 
+                               multiple="multiple" 
+                               control="uploadControl" 
+                               progressbar = "progressbar(uploadingSize, uploadedSize, totalSize, fileNum)" 
+                               uploadcomplete="uploadcomplete(data,obj)" 
+                               uploadstarted="uploadstarted(file,fileNum,dataObj)"
+                               uploadfailed="uploadfailed(msg)" 
+                               validRegex ="/(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.csv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz|\.docx|\.xlsx|\.one|\.pub|\.pptx|\.doc|\.docx|\.vsdx|\.accdb|\.mdb|\.rpmsg|\.mso|\.xlsb|\.xls|\.xlsx|\.oft|\.asd|\.mpp|\.thmx|\.xlsm|\.snp|\.obi|\.pst|\.ost|\.olm|\.xsn|\.vsd|\.laccdb|\.dotx|\.docm|\.ppt|\.dot|\.accdr|\.xlam|\.mde|\.wbk|\.onepkg|\.pptm|\.xltx|\.xla|\.pip|\.accde|\.ppsm|\.ppsx|\.vss|\.slk|\.crtx|\.xlt|\.svd|\.xlb|\.xlm|\.xlw|\.grv|\.potx|\.xar|\.iaf|\.mpd|\.pa|\.pps|\.ops|\.dotm|\.pot|\.oab|\.acl|\.mdt|\.mpt|\.xltm|\.xl|\.ade|\.vst|\.ppam|\.xsf|\.accdt|\.mda|\.accdc|\.mdw|\.xll|\.mat|\.vdx|\.sldx|\.mar|\.ppa|\.accda|\.maf|\.puz|\.vsx|\.mam|\.prf|\.potm|\.wll|\.xlc|\.vtx|\.accdp|\.sldm|\.accdu|\.maq|\.xslb|\.h1q|\.cnv|\.maw)$/i"
+                               >
+                    </section>
+
+                    <div class="dropup form-group dropdown-dynamic btn-block">
+                        <ui-select ng-model="uploadInProgress.category" theme="" title="Evidence Category" style="width: 100%;">
+                            <ui-select-match placeholder="What ID are you uploading?">{[{$select.selected.name}]}</ui-select-match>
+                            <ui-select-choices repeat="evidenceCategory in uploadDetails.evidenceCategories | propsFilter: {id: $select.search, name: $select.search}">
+                                <div ng-bind-html="evidenceCategory.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        {#<button type="button" class="btn btn-default btn-block text-left" data-toggle="dropdown">
+                            <span class="dropdown-picker-selected" id="dropdownSelected">Evidence Category</span>
+                            <i class="zmdi zmdi-chevron-down zmdi-hc-lg"></i>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown-picker" style="width: 100%">
+                            <li><a href="#">Resume, references &amp; job descriptions</a></li>
+                            <li><a href="#">Word samples, memos, letters, reports</a></li>
+                            <li><a href="#">Photographic and video evidence</a></li>
+                            <li><a href="#">Education, training and qualifications</a></li>
+                            <li><a href="#">Other evidences</a></li>                            
+                        </ul>#}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="closeUploadModal();">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-click="uploadIds()">Submit File</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Upload ID Evdences Modal Popup End -->
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('public/js/qualification.js') }}"></script> 
     <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
+    
     <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
     <script src="{{ asset('public/ui/js/units.js') }}"></script>
-
+    <script src="{{ asset('public/js/xepOnline.jqPlugin.js') }}"></script>
+    
     <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
@@ -247,4 +375,7 @@
     <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
 
     <script src="{{ asset('public/js/angular/controllers/qualificationCtlr.js') }}"></script>
+    <script src="{{ asset('public/js/angular/filters/uploadElectiveFilter.js') }}"></script>
+    <script src="{{ asset('public/js/angular/directives/qualificationDirective.js') }}"></script>
+    <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
 {% endblock %}

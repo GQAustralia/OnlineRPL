@@ -137,70 +137,71 @@ class EvidenceService
      * @param array $data
      * return string
      */
-    public function saveS3ToEvidence($data)
+     public function saveS3ToEvidence($data)
     {
-	
-        $i = 0;
-        $seterror = 'no';
-        $fileInfo = $data->get('fileInfo');
-        $filName = $data->get('fileName');
-		$jobId = $data->get('jobId');
-        $otherInfo= $data->get('otherInfo');
-        $size = $fileInfo['size'];
-        $mimeType = $fileInfo['type'];;
-        $size = $this->fileSize($size);
-        $pos = strpos($mimeType, '/');
-        $type = substr($mimeType, 0, $pos);
-        switch ($type) {
-            case 'image':
-                $fileObj = new Image();
-                break;
-            case 'audio':
-                $fileObj = new Audio();
-                break;
-            case 'video':
-                $fileObj = new Video();
-                break;
-            case 'text':
-                $fileObj = new File();
-                $type = 'file';
-                break;
-            case 'application':
-                $fileObj = new File();
-                break;
-            default :
-                $fileObj = new File();
-                break;
-        }
-        $fileObj->setPath($filName);
-        $fileObj->setName($fileInfo['name']);
-        $fileObj->setJobId($jobId);
-        $fileObj->setFacilitatorViewStatus('0');
-        $fileObj->setUser($this->currentUser);
-        $fileObj->setSize($size);
-        if(isset($otherInfo['hid_unit'])) // null value added for unmapped file upload
-            $fileObj->setUnit($otherInfo['hid_unit']);
-        if(isset($otherInfo['hid_course'])) // null value added for unmapped file upload
-            $fileObj->setCourse($otherInfo['hid_course']);
-        $this->em->persist($fileObj);
-        $this->em->flush();
-        $evidenceId = $fileObj->getId();
-        $fileNumber = $otherInfo['fileNum'];
-        if((isset($otherInfo['hid_unit']) && !empty($otherInfo['hid_unit'])) && (isset($otherInfo['hid_course']) && !empty($otherInfo['hid_unit']))) // Uploading evidence by candidate then update course units
-            $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course'],'', false);
 
-        if (!empty($otherInfo['self_assessment'])) {
+        if (empty($data['self_assessment'])) {
+            $i = 0;
+            $seterror = 'no';
+            $filName = $data['path'];
+            $jobId = $data['jobId'];
+            $size = $data['size'];
+            ;
+            $mimeType = $data['type'];
+            $size = $this->fileSize($size);
+            $pos = strpos($mimeType, '/');
+            $type = substr($mimeType, 0, $pos);
+            switch ($type) {
+                case 'image':
+                    $fileObj = new Image();
+                    break;
+                case 'audio':
+                    $fileObj = new Audio();
+                    break;
+                case 'video':
+                    $fileObj = new Video();
+                    break;
+                case 'text':
+                    $fileObj = new File();
+                    $type = 'file';
+                    break;
+                case 'application':
+                    $fileObj = new File();
+                    break;
+                default :
+                    $fileObj = new File();
+                    break;
+            }
+            $fileObj->setPath($filName);
+            $fileObj->setName($data['name']);
+            $fileObj->setJobId($jobId);
+            $fileObj->setFacilitatorViewStatus('0');
+            $fileObj->setUser($this->currentUser);
+            $fileObj->setSize($size);
+            $categoryObj = $this->em->getRepository('GqAusUserBundle:EvidenceCategory')->findOneById($data['category']);
+            $fileObj->setCategory($categoryObj);
+            if (isset($data['unitCode'])) // null value added for unmapped file upload
+                $fileObj->setUnit($data['unitCode']);
+            if (isset($data['courseCode'])) // null value added for unmapped file upload
+                $fileObj->setCourse($data['courseCode']);
+            $this->em->persist($fileObj);
+            $this->em->flush();
+            $evidenceId = $fileObj->getId();
+            $fileNumber = $data['fileNum'];
+            if((isset($data['unitCode']) && !empty($data['unitCode'])) && (isset($data['courseCode']) && !empty($data['courseCode']))) // Uploading evidence by candidate then update course units
+            $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'],'', false);
+        } else {
             $textObj = new Text();
-            $textObj->setContent($otherInfo['self_assessment']);
-            $textObj->setUnit($otherInfo['hid_unit']);
-            $textObj->setCourse($otherInfo['hid_course']);
+            $textObj->setContent($data['self_assessment']);
+            $textObj->setUnit($data['unitCode']);
+            $textObj->setCourse($data['courseCode']);
             $textObj->setUser($this->currentUser);
             $this->em->persist($textObj);
             $this->em->flush();
-            $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course'],'', false);
+            $this->updateCourseUnits($this->userId, $otherInfo['unitCode'], $otherInfo['courseCode'],'', false);
         }
-        return json_encode(['evidenceId'=>$evidenceId, 'fileNumber' => $fileNumber, 'evdType' => $type]);
-        return ($seterror == 'no') ? $otherInfo['hid_unit'] : $seterror;
+       
+        return array('evidenceId' => $evidenceId);
     }
 
     /**

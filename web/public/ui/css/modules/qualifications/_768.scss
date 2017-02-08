@@ -1,8 +1,24 @@
 .panel-qual-heading {
 	padding-left: $qual-img-width !important;
 	.panel-heading {
+		padding: $grid-gutter-width/2 $grid-gutter-width;
 		.unit-label {
 			// margin-bottom: 40px;
+		}
+
+		&:before {
+			$dim: 15px;
+			$top: ($dim - 3 ) / 2;
+			position: absolute;
+			@include calc-sub-two-values(top, 50%, $top);
+			right: 100%;
+			content: '';
+			width: 0;
+			height: 0;
+			border: 0 solid transparent;
+			border-top-width: $dim - 3;
+			border-bottom-width: $dim - 3;
+			border-right: $dim solid #ededed;
 		}
 	}
 	.panel-heading-img {
@@ -21,13 +37,20 @@
 
 	.nav-tabs {
 		// background-color: rgba(255,255,255,0.4);
-		padding-bottom: 2px;
+		// padding-bottom: 2px;
 		padding-left: 60px;
 		border-bottom: 1px solid #c5c5c5;
 		li {
 			a {
-				
+				line-height: 1;
+				padding: 15px 30px;
 			}
 		}
+	}
+}
+
+.panel-units {
+	.panel-body {
+		padding: $grid-gutter-width/2;
 	}
 }

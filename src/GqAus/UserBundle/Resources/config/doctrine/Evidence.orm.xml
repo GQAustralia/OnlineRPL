@@ -23,5 +23,8 @@
         <field name="jobId" type="string" column="job_id"/>
         <field name="facilitatorViewStatus" type="string" column="facilitator_view_status"/>
         <field name="created" type="string" column="created"/>
+        <many-to-one field="category" target-entity="GqAus\UserBundle\Entity\EvidenceCategory">
+            <join-column name="category" referenced-column-name="id" />
+        </many-to-one>
     </entity>
 </doctrine-mapping>

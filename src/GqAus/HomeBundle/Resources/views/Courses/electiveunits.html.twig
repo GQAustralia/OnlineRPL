@@ -1,4 +1,4 @@
-<div class="container container-two-column-split" ng-show="qualificationPage == 'elective' && IsLoaded">
+<div class="container container-two-column-split" ng-show="qualificationPage == 'elective' && IsLoaded && (electiveUploadSelected === false)">
     
             <section class="section-main col-section-5" ng-init="courseCode='{{courseCode}}'">
                 <div class="panel panel-default panel-units">
@@ -9,16 +9,16 @@
                         </div>
 
                         <h3>Select your Elective Units</h3>
-                        <div class="list-group list-group-units panel-accordion">
+                        <div class="list-group list-group-units panel-accordion" ng-class="{'disable-not-selected': selectedElectiveUnits.length == requiredElective}">
                             <ul class="list-group-units-item" ng-repeat="electiveGroup in electiveUnits.groups" data-unit-group="{[{electiveGroup.name || ''}]}"> 
                                 <li class="list-group-units-subitem" ng-class="{'selected' : isSelected(elective)}" ng-repeat="elective in electiveGroup.unit | filter: elective_search">
                                     <div class="btn-group">
-                                        <button type="button" class="btn" aria-expanded="{[{showDetails}]}" ng-class="{'collapsed': ! showDetails }" ng-click="showDetails = ! showDetails">
+                                        <button type="button" class="btn" aria-expanded="{[{showDetails}]}" ng-class="{'collapsed': ! showDetails }" ng-click="getUnitDetails(elective.id); showDetails = ! showDetails">
                                             <span class="unit-name" ng-bind="elective.name"></span>
                                             <span class="unit-code" ng-bind="elective.id" ng-if="isSelected(elective)"></span>
                                             <i class="zmdi zmdi-chevron-down"></i>
                                         </button>
-                                        <button type="button" class="btn" ng-click="addRemoveUnit(elective)"><i class="zmdi"></i></button>
+                                        <button type="button" class="btn" ng-click="(isSubmitted(elective) !== true) && addRemoveUnit(elective)"><i class="zmdi"></i></button>
                                     </div>
                                     <div class="panel-collapse collapse" ng-class="{'in': showDetails }"  ng-show="showDetails">
                                         <p ng-bind-html="unitDetails[elective.id].elements"></p> 
@@ -65,19 +65,22 @@
                             </div>
 
                             <ul class="list-group-units-item" data-unit-group=""> 
-                                <li class="list-group-units-subitem selected chosen" ng-repeat="electiveUnit in selectedElectiveUnits">
+                                <li class="list-group-units-subitem selected chosen" ng-class="{'locked': electiveUnit.isSubmitted === 1}" ng-repeat="electiveUnit in selectedElectiveUnits">
                                     <div class="btn-group">
                                         <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
                                             <span class="unit-name" ng-bind="electiveUnit.name"></span>
                                             <span class="unit-code" ng-bind="electiveUnit.id"></span>
                                         </button>
-                                        <button type="button" class="btn" ng-click="addRemoveUnit(electiveUnit)"><i class="zmdi"></i></button>
+                                        <button type="button" class="btn" ng-click="electiveUnit.isSubmitted !== 1 && addRemoveUnit(electiveUnit)"><i class="zmdi"></i></button>
                                     </div>
                                 </li>
                                 
                             </ul>
-
-                            <button type="button" class="btn btn-success center-block" style="margin-top: 30px;" ng-if="selectedElectiveUnits.length == requiredElective" ng-click="doneSelecting()">I&apos;m done selecting units</button>
+                            
+                        </div>
+                        <div class="btn-auto-group clearfix">
+                            <button type="button" class="btn btn-default" ng-click="deSelectEvidences()"><i class="zmdi zmdi-format-clear-all"></i> Deselect all</button>
+                            <button type="button" class="btn btn-success" ng-if="selectedElectiveUnits.length == requiredElective" ng-click="doneSelecting()">I&apos;m done selecting units</button>
                         </div>
                     </div>
                 </div>

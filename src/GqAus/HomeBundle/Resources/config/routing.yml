@@ -55,3 +55,12 @@ getUserUnits:
 updateSelectedElectiveUnits:
     path: /units/updateSelectedElectiveUnits
     defaults: { _controller: GqAusHomeBundle:Courses:updateSelectedElectiveUnits }
+downloadSelectedElectiveUnits:
+    path: /units/downloadSelectedElectiveUnits/{unitId}/{detailsType}
+    defaults: { _controller: GqAusHomeBundle:Courses:downloadSelectedElectiveUnits }
+getUploadDetails:
+    path: /units/getUploadDetails
+    defaults: { _controller: GqAusHomeBundle:Courses:getUploadDetails }
+getEvidencesByUnit:
+    path: /units/getEvidencesByUnit
+    defaults: { _controller: GqAusHomeBundle:Courses:getEvidencesByUnit }
