@@ -24,7 +24,7 @@
     <script src="{{ asset('public/ui/js/modernizr-3.3.1.gqa-build.121516.min.js') }}"></script>
 </head>
 
-<body class="bg-login">
+<body class="bg-login {% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}" >
 
 {% block content %}{% endblock %}
 
