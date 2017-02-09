@@ -1,213 +1,128 @@
-{% extends 'base.html.twig' %}
-{% block title %}GQ - RPL Edit Profile{% endblock %}
-{% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="{{ asset('public/css/bootstrap-select.min.css') }}" />
-<link href="{{ asset('public/css/form.css') }}" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{{ asset('public/css/pages/all/candidate_profile.css') }}" />
-<script src="{{ asset('public/js/custom-form-elements.js') }}"></script>
-<link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}" media="screen" />
-{% endblock %}
+{% extends 'revamp_base.html.twig' %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="profileCtlr"  id="profileCtlr" {% endblock%}
+{% block title %}  My Profile {% endblock %}
+{% block ngtitle %}myProfile{% endblock%}
+{% block stylesheets %}{% endblock %}
 {% block body %}
-<div class="body_section candidate_profile">
-    <div class="container">
-        <div class="row">
-           <div class="col-xs-12">
-            {% for flashMessage in app.session.flashbag.get('notice') %}
-            <div class="row" id="profile_suc_msg" >
-                <div class="gq-id-files-upload-success-text alert alert-success" style="dispaly:none">
-                    <span>
-                    {{ flashMessage }}</span>
-                </div>
-            </div>
-            {% endfor %}
-            <div class="gq-change-address-warning" id="change_address_error">
-                {% for flashMessage in app.session.flashbag.get('errornotice') %}
-                <div class="gq-id-address-error-text" style="dispaly:none">
-                    <h2>{{ flashMessage }}</h2>
-                </div>
-               {% endfor %}
-            </div>
-            <div id="profile_suc_msg2"></div>
-        </div>
-        {% set userRole = app.security.getToken().getUser().getRoles() %}
-        {% set userId = app.security.getToken().getUser().getId() %}
-        {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
-        <!-- DESKTOP VERSION -->
-       
-            {% include 'GqAusUserBundle:User:user.html.twig' %}
-            {% include 'GqAusUserBundle:User:idfiles.html.twig' %}
-       
-        <!-- DESKTOP VERSION -->
-        </div>
-    </div>
-</div>
-<div class="modal fade center_popup transparent_popup" id="onboard2" role="dialog">
-    <div class="modal-dialog vertical-align-center">
-            <!-- Modal content-->
-            <div class="modal-content">
-                    <div class="modal-body">
-                            <div class="step_list">
-                                <form class="form" name="save_userdata"  id="save_userdata">
-                                    <h2>Let's get you started!</h2>
-
-                                    <ul>
-                                            <li>
-                                                    <span class="title"><strong>Step 1:</strong></span>
-                                                    <p class="content">Check and complete your details and 100 points of ID</p>
-                                            </li>
-                                            <li>
-                                                    <span class="title"><strong>Step 2:</strong></span>
-                                                    <p class="content">Choose elective units for your course</p>
-                                            </li>
-                                            <li>
-                                                    <span class="title"><strong>Step 3:</strong></span>
-                                                    <p class="content">Start uploading your files as evidence of your skills & knowledge</p>
-                                            </li>
-                                            <li>
-                                                    <p class="content">For more info at any time, check the Frequently Asked Questions</p>
-                                            </li>
-                                    </ul>
-                                    <div class="btn_section clearfix">
-                                            <a href="{{ app.request.baseUrl }}/faq" target="MyNewWindow" class="faq_btn">
-                                                    <span><i class="material-icons">info</i></span>
-                                            FAQs</a>
-                                            <a href="javascript:void(0)" class="active" onclick="saveUserPassword()">Ok, got it</a>
-                                    </div>
-                                    </form>
-                            </div>
+    {% set userFirstName = user.firstName %}
+    {% set userLastName = user.lastName %}
+    {% set userFullName = userFirstName~' '~userLastName%}
+    {% set userUSI = user.universalStudentIdentifier %}
+    {% set userDOB = user.dateOfBirth %}
+    {% set userGender = user.gender %}
+    {% set userImage = (user.userImage != '') ? user.userImage : 'avatar-default.svg' %}
+    {% set userEmail = user.email %}
+    {% set userHomePhone = user.phone %}
+    {% set userWorkPhone = user.contactPhone %}
+    {% set userMobPhone = user.ceophone %}
+    {% set userBilAdd =  user.address.buildingname~' '~user.address.address~' '~user.address.area~' '~user.address.city~' '~user.address.suburb~' '~user.address.state~' '~user.address.country~' '~user.address.pincode %}
+    {% set userPosAdd = (user.address.postal == '1') ? userBilAdd : user.address.pbuildingname~' '~user.address.paddress~' '~user.address.parea~' '~user.address.pcity~' '~user.address.psuburb~' '~user.address.pstate~' '~user.address.pcountry~' '~user.address.ppincode %}
+    {% set userIdFiles = user.idfiles %}
+    <main class="main-content-gqa profile">
+        <div class="container"><!-- Put content here -->       <!-- Put content here --></div>
+        <div class="container">            
+            <div class="panel panel-default">
+                <div class="profile-header">
+                    <div class="avatar avatar-sm">
+                        <form>
+                            <input type="file" id="uploadAvatar" /><i class="zmdi zmdi-camera"></i>
+                        </form>
+                        <img src="{{ asset('public/ui/img/')~userImage}}" alt="{{userFullName}}">
                     </div>
+                    <div class="profile-user">
+                        <h2>{{userFullName}}</h2>
+                        <h4>USI Number - <span>{{userUSI}}</span></h4>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <h3>Your Personal Details
+                        <a class="pull-right" href="#" data-toggle="tooltip" title="Please contact your Account Manager....."><i class="zmdi zmdi-edit"></i><small>Edit</small></a>
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-calendar-note base-icon"></i>
+                                <p>Date of birth<span>{{userDOB}}</span></p>
+                            </div>
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-phone base-icon"></i>
+                                <p>Home telepehone number<span><img src="{{ asset('public/ui/img/flag_au.jpg') }}">{{userHomePhone}}</span>
+                                </p>
+                            </div>
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-smartphone-iphone base-icon"></i>
+                                <p>Mobile number<span><img src="{{ asset('public/ui/img/flag_au.jpg') }}">{{userMobPhone}}</span></p>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-female base-icon"></i>
+                                <p>Gender<span>{{userGender}}</span></p>
+                            </div>
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-phone base-icon"></i>
+                                <p>Work telephone number<span>{{userWorkPhone}}</span></p>
+                            </div>
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-email base-icon"></i>
+                                <p>Email Address<a href="mailto:{{userEmail}}"><span>{{userEmail}}</span></a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-    </div>
-</div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Your Address
+                        <a class="pull-right" href="#" data-toggle="tooltip" title="Please contact your Account Manager....."><i class="zmdi zmdi-edit"></i><small>Edit</small></a>
+                    </h3>
+                    <div class="profile-info">
+                        <i class="zmdi zmdi-pin base-icon"></i>
+                        <p>Postal Address<span>{{userPosAdd}}</span></p>
+                    </div>
+                    <div class="profile-info">
+                        <i class="zmdi zmdi-nature base-icon"></i>
+                        <p>Billing Address<span>{{userBilAdd}}</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Your Account Settings</h3>
+                    <div class="profile-info profile-info-password">
+                        <i class="zmdi zmdi-lock base-icon"></i>
+                        <p>Password
+                            <span class="">&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;</span>
+                            <a>
+                                <i class="zmdi zmdi-edit" style=""></i>
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="profile-info">
+                        <i class="zmdi zmdi-account-box base-icon"></i>
+                        <p>ID Files Submitted
+                        {% set fileSts = 0 %}
+                        {% if userIdFiles is defined %}
+                            {% for item in userIdFiles %}
+                                {% if item.status != 1 %}
+                                    {% set fileSts = 1 %}
+                                    <a href = "{{ amazon_link~item.path }}"><span>{{item.type.type}}</span></a>
+                                {% endif %}
+                            {% endfor %}
+                            {% if fileSts == 0 or userIdFiles is not defined %}<span>{{no_id_files}}</span>{% endif %}                        
+                        {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 {% endblock %}
+
 {% block javascripts %}
-<script type="text/javascript">
-
-    $(document).ready(function(){ 
-    if({{applicantStatus}} == '2')
-    {
-        $("#onboard2").removeClass("hidden");
-        $('#onboard2').modal({backdrop: 'static', keyboard: false,show:true}); 
-    }
-  $(".form_block input[type='text'],.form_block input[type='number']").on('focusin', function(){
-   $(this).data('val', $(this).val());
-   $(this).prev().css("color","red");
-   $(".update_btn").css("background","red").removeAttr('disabled');
-  });
-  
-  $(".form_block input[type='text'],.form_block input[type='number']").blur(function(){
-   
-   var prev = $(this).data('val');
-   var current = $(this).val();
-   var color = $(".form_block label").attr('style');
-   
-   if( (prev != current)){
-    
-    $(this).prev().css("color","red");
-    
-    $(this).attr('isChanged',"1");
-    
-    $(".update_btn").css("background","red").removeAttr('disabled');
-   }else{
-    $(this).attr('isChanged',"0");
-    $(this).prev().removeAttr('style');
-    checkChangeStatus();
-    //$(".update_btn").css("background","#eee");
-    
-   }
-  });
- 
-  function checkChangeStatus(){
-   var change=false;
-   $('#userprofile').find('input').each(function(index){
-     if($(this).attr('isChanged')=="1"){
-      change=true;
-      $(".update_btn").css("background","red").removeAttr('disabled');
-      return false;
-     }
-    });
-    if(!change){
-     $(".update_btn").css("background","#eee").attr('disabled','disabled');
-    }
-  }
- 
-  var gender_val = $(".form_block input[type='radio']:checked").val();
- var genderId=null;
- var changeFired=false;
-  $(".form_block input[type='radio']").on('change', function(){
-  changeFired=true;
-  //alert($(this).attr('id')); 
-  genderId= '#'+$(this).attr('id');
-  // $(this).next().css("color","red");
-   $(".update_btn").css("background","red").removeAttr('disabled');
-   current_val = $(this).val();
-   if(gender_val != current_val){
-    $(this).attr('isChanged',"1");
-	$(this).next().css("color","red");
-   }else{
-   $("input[type='radio']").next().removeAttr('style');
- $(this).attr('isChanged',"0");
- $(this).next().css("color","red");
-   }
-  
-  });
-  
-$("body").on("click",function(evt){
- 
-//	alert(evt.target);
-	
-	current_val = $(genderId).val();
-	//alert($(evt.target).attr('type'));
-	if(changeFired && $(evt.target).attr('type')!="radio" && gender_val == current_val){
-	  $(genderId).attr('isChanged',"0");
-    $('#userprofile_gender_0').attr('isChanged',"0");
-    $('#userprofile_gender_1').attr('isChanged',"0");
-    $("input[type='radio']").next().removeAttr('style');
-	changeFired=false;
-	if($(evt.target).attr('type')==undefined){
-    checkChangeStatus();
-	}
- }
- 	
- });
- 
- 
-  $(".form_block input[type='radio']").on('blur', function(){
-   current_val = $(this).val();
-   
-   if(gender_val != current_val){
-    $(this).attr('isChanged',"1");
-    $(this).next().css("color","red");
-    $(".update_btn").css("background","red").removeAttr('disabled');
-   }else{
-    $(this).attr('isChanged',"0");
-    $('#userprofile_gender_0').attr('isChanged',"0");
-    $('#userprofile_gender_1').attr('isChanged',"0");
-    $("input[type='radio']").next().removeAttr('style');
-    checkChangeStatus();
-   }
-   
-  });
-
- 
- 
-  $(".form_block .pwd input[type='text'],#userprofile_firstname,#userprofile_lastname,#userprofile_email,#userprofile_phone").focus(function(){       
-   $(this).prev().css("color","#999");
-   $(".update_btn").css("background","#eee").attr('disabled','disabled');
-  });
-  $(".form_block .pwd input[type='text'],#userprofile_firstname,#userprofile_lastname,#userprofile_email,#userprofile_phone").blur(function(){
-   $(this).prev().css("color","#999");
-   $(".update_btn").css("background","#eee").attr('disabled','disabled');
-  });
-    });
- 
-</script>
-<script type="text/javascript" src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
-<script src="{{ asset('public/js/jquery.form.js') }}"></script>
-<script src="{{ asset('public/js/bootstrap-select.min.js') }}"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.fancybox').fancybox();
-    });
-</script>
+    <script src="ui/js/plugins/owl.carousel.min.js"></script>
 {% endblock %}
