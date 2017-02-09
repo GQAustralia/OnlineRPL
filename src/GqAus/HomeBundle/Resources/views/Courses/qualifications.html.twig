@@ -99,7 +99,7 @@
                                 {% if (courseDetails.facilitator.userImage != '') %}
                                     {% set facilitatorImg = amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage %}
                                 {% else %}
-                                    {% set facilitatorImg = 'public/images/userprofile.png' %}
+                                    {% set facilitatorImg = '../public/images/userprofile.png' %}
                                 {% endif %}
                             
                                 <span class="list-group-item">
@@ -117,7 +117,7 @@
                                 {% if (courseDetails.assessor.userImage != '') %}
                                     {% set assessorImg = amazon_link~'user-'~courseDetails.assessor.id|default('')~'/'~courseDetails.assessor.userImage|default('') %}
                                 {% else %}
-                                    {% set assessorImg = 'public/images/userprofile.png' %}
+                                    {% set assessorImg = '../public/images/userprofile.png' %}
                                 {% endif %}
                                 
                                 <span class="list-group-item">
@@ -134,7 +134,7 @@
                                 {% if (courseDetails.rto.userImage != '') %}
                                     {% set rtoImg = amazon_link~'user-'~courseDetails.rto.id|default('')~'/'~courseDetails.rto.userImage|default('') %}
                                 {% else %}
-                                    {% set rtoImg = 'public/images/userprofile.png' %}
+                                    {% set rtoImg = '../public/images/userprofile.png' %}
                                 {% endif %}
                                 
                                 <span class="list-group-item">
