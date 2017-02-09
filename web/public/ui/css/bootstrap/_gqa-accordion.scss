@@ -12,6 +12,10 @@
 			line-height: 0;
 			font-size: 35px;
 		}
+
+		&:hover {
+			color: $brand-red;
+		}
 	}
 
 	.panel-heading { padding: 0; }
@@ -23,5 +27,10 @@
 
 	.panel-body{
 	    padding: 15px 7px 20px;
+	}
+
+	.panel-collapse-inner {
+		padding-top: 15px;
+		padding-bottom: 15px; 
 	}
 }

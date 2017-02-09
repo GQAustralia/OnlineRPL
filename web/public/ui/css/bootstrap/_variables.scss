@@ -137,7 +137,7 @@ $table-border-color:            #ddd !default;
 //
 //## For each of Bootstrap's buttons, define text, background and border color.
 
-$btn-font-weight:                500 !default;
+$btn-font-weight:                400 !default;
 
 $btn-default-color:              #333 !default;
 $btn-default-bg:                 #f3f3f3 !default;
@@ -304,6 +304,7 @@ $screen-desktop:             $screen-md-min !default;
 //** Deprecated `$screen-lg` as of v3.0.1
 $screen-lg:                  1200px !default;
 $screen-lg-min:              $screen-lg !default;
+
 //** Deprecated `$screen-lg-desktop` as of v3.0.1
 $screen-lg-desktop:          $screen-lg-min !default;
 
@@ -314,7 +315,7 @@ $screen-xlg:				 1400px !default;
 $screen-xs-max:              ($screen-sm-min - 1) !default;
 $screen-sm-max:              ($screen-md-min - 1) !default;
 $screen-md-max:              ($screen-lg-min - 1) !default;
-
+$screen-lg-max:          	 ($screen-xlg - 1) !default;
 
 //== Grid system
 //

@@ -44,9 +44,27 @@ var UNITS = {
                 });
             },duration);
         }
+    },
+    toggle_details: function() {
+        var parent = $('[data-panel-parent="two-column-split"]'),
+            lpanel =  parent.find('[data-panel="left"]'),
+            rpanel =  parent.find('[data-panel="right"]');
+
+        lpanel.toggleClass('col-section-10').toggleClass('col-section-5');
+        rpanel.toggleClass('col-section-0').toggleClass('col-section-5');
+    },
+    toggle_selection: function() {
+        var parent = $('[data-panel-parent="two-column-split"]'),
+            lpanel =  parent.find('[data-panel="left"]'),
+            rpanel =  parent.find('[data-panel="right"]');
+
+            lpanel.toggle();
+            rpanel.toggle();
     }
 }
 
 $(document).ready(function() {
+    TEXTAREA_AUTOHEIGHT.build();
+    FILE_THUMBNAIL.build();
     UNITS.animate_zerostate();
 });

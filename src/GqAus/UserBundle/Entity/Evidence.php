@@ -216,5 +216,32 @@ abstract class Evidence
      */
     public function getFacilitatorViewStatus() {
         return $this->facilitatorViewStatus;
-    }    
+    } 
+    
+    /**
+     * Get category
+     *
+     * @return string 
+     */
+    private $category;
+    
+    /**
+     * 
+     * @return type
+     */
+    function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * 
+     * @param type $category
+     */
+    function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+
 }

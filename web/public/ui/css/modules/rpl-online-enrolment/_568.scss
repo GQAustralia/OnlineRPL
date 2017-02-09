@@ -2,7 +2,10 @@
 .bootstrapWizard { 
     width: 100%;
 
-    li a span { display: block; }
+    li a {
+    	font-size: 12px;
+    	span { display: block; }
+    } 
 }
 
 

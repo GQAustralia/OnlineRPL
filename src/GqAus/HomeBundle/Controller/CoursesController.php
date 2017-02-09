@@ -127,39 +127,31 @@ class CoursesController extends Controller
      * Function to Submit Unit for Review
      * return string
      */
-    public function submitUnitForReviewAction()
+    public function submitUnitForReviewAction(Request $request)
     {
-        
-        $userId = $this->getRequest()->get('userId');
-        $unitId = $this->getRequest()->get('unitId');
-        $courseCode = $this->getRequest()->get('courseCode');
-        $selfAssNotes = $this->getRequest()->get('selfAssNotes');
-        $selfAssId = $this->getRequest()->get('selfAssId');
+        $results = [];
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $unitCode = $params['unitCode'];
+                $courseCode = $params['courseCode'];
+                $checkEvidenceforAvail = $this->get('EvidenceService')->getUserUnitwiseEvidences($userId, $unitCode,$courseCode);
+                $countEvidences = count($checkEvidenceforAvail);
+                if ($countEvidences == 0) {
+                    $results['error'] = "Please upload some evidences";
+                } else {
+                    $data = array('unitCode' => $unitCode, 'courseCode' => $courseCode);
 
-        $checkEvidenceforAvail = $this->get('EvidenceService')->getUserUnitwiseEvidences($userId, $unitId,$courseCode);
-        $countEvidences = count($checkEvidenceforAvail);
-       // $data = array('self_assessment'=>$selfAssNotes,'hid_unit_assess'=>$unitId,'hid_course_assess'=>$courseCode,'setAssessment' => '1');
-        
-        if($countEvidences == 0 )
-        {
-            echo "2&&" . $unitId;
-        }
-        else
-        {
-            if($selfAssNotes == "" || $countEvidences == 0)
-            {
-                echo "3&&" . $unitId;
-            }
-            else
-            {
-                $data = array('self_assessment'=>$selfAssNotes,'hid_unit_assess'=>$unitId,'hid_course_assess'=>$courseCode,'setAssessment' => '1','selfAssId' => $selfAssId);
-                if($selfAssId !='')
-                    echo $result = $this->get('EvidenceService')->updateEvidenceAssessment($data);
-                else
-                    echo $result = $this->get('EvidenceService')->saveEvidenceAssessment($data);
+                    $results = $this->get('EvidenceService')->unitSubmit($data);
+                }
             }
         }
-        exit;
+
+        return new JsonResponse($results);
     }
     
     /**
@@ -209,6 +201,31 @@ class CoursesController extends Controller
         return new JsonResponse($results);
         
     }
+    
+    private function unitObjectToArray($userCourseUnits) {
+        $courseUnits = array();
+        if (!empty($userCourseUnits)) {
+            $userService = $this->get('UserService');
+            foreach ($userCourseUnits as $units) {
+                $unit = [];
+                $unit['id'] = $units->getId();
+                $unit['unitId'] = $units->getUnitId();
+                $unit['userId'] = $units->getUser()->getId();
+                $unit['courseCode'] = $units->getCourseCode();
+                $unit['type'] = $units->getType();
+                $unit['facilitatorStatus'] = $units->getFacilitatorstatus();
+                $unit['assessorStatus'] = $units->getAssessorstatus();
+                $unit['rtoStatus'] = $units->getRtostatus();
+                $unit['status'] = $units->getStatus();
+                $unit['electiveStatus'] = $units->getElectiveStatus();
+                $unit['isSubmitted'] = $units->getIssubmitted();
+                $unit['statusText'] = $userService->getStausByStatus($unit['status'], $unit['userId'], $unit['unitId'], $unit['courseCode'], $units->getUser()->getRoles()[0]);
+                $courseUnits[trim($units->getUnitId())] =  $unit;    
+            }
+        } 
+        
+        return $courseUnits;
+    }
 
     /**
      * Function to get the unit details
@@ -233,8 +250,8 @@ class CoursesController extends Controller
                 $userId = $user->getId();
                 if($userId != '' && $courseCode != ''){
                     $courseService = $this->get('CoursesService');
-                    $results['elective'] = $courseService->getUserCourseUnits($userId,$courseCode,'elective');
-                    $results['core'] = $courseService->getUserCourseUnits($userId,$courseCode,'core');
+                    $results['elective'] = $this->unitObjectToArray($courseService->getUserCourseUnits($userId,$courseCode,'elective'));
+                    $results['core'] = $this->unitObjectToArray($courseService->getUserCourseUnits($userId,$courseCode,'core'));
                 }
                
             }
@@ -323,6 +340,117 @@ class CoursesController extends Controller
     {
         
     }  
-
-
+    /**
+     * Function to download unit Details by type
+     * @param $unitId
+     * @param $detailsType
+     * return null
+     */
+    public function downloadSelectedElectiveUnitsAction($unitId,$detailsType)
+    {
+        $courseService = $this->get('CoursesService');
+        $results = $courseService->fetchUnitRequest($unitId);
+        $title = '';
+        $details = '';
+        switch($detailsType){
+            case 'elements':
+                $title = 'Elements and performance criteria';
+                $details = $results['elements'];
+                break;
+            case 'evidence_guide':
+                $title = 'Evidence Guide and Range Statement';
+                $details = $results['evidence_guide'];
+                break;
+            case 'skills_and_knowledge':
+                $title = 'Evidence Guide and Range Statement';
+                $details = $results['skills_and_knowledge'];
+                break;
+            default:
+                $title = 'Details';
+                $details = $results['elements'].' '. $results['evidence_guide'].' '.$results['skills_and_knowledge'];
+                break;
+        }
+        $fileTemp = $this->get('kernel')->getRootDir() . '/logs/temp_' . time() . '.pdf';
+        $outputFileName = str_replace(" ", "-", $results['title']). ' - '. $results['code'] . '_' . time() . '.pdf';
+        $html2pdf = $this->get('html2pdf_factory')->create('P', 'A4', 'en', true, 'UTF-8', array(10, 15, 10, 15));
+        $html2pdf->writeHTML($details);
+        $html2pdf->Output($outputFileName,  'D');
+       exit();
+    }
+    
+    public function getUploadDetailsAction(Request $request) {
+       $results = [];
+       $user = $this->get('security.context')->getToken()->getUser();
+       $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $courseService = $this->get('CoursesService');
+                $results = $courseService->getUploadDetails($userId);
+                
+            }
+        }
+        
+        return new JsonResponse($results);        
+    }
+    
+    /**
+     * Function to get unit Evidence
+     * return string
+     */
+    public function getEvidencesByUnitAction(Request $request)
+    {
+        $results = [];
+       $user = $this->get('security.context')->getToken()->getUser();
+       $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $unitCode = $params['unitCode'];
+                $courseCode = $params['courseCode'];
+                
+                $courseService = $this->get('CoursesService');
+                $results = $courseService->getEvidencesByUnit($userId,$unitCode,$courseCode);
+                
+            }
+        }
+        
+        return new JsonResponse($results);     
+        
+    }
+    
+    /**
+     * Function to Save unit Evidence
+     * return string
+     */
+    public function saveUnitEvidencesAction(Request $request)
+    {
+       $results = [];
+       $user = $this->get('security.context')->getToken()->getUser();
+       $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $unitCode = $params['unitCode'];
+                $courseCode = $params['courseCode'];
+                $category = $params['courseCode'];
+                
+                $courseService = $this->get('CoursesService');
+                $results = $courseService->getEvidencesByUnit($userId,$unitCode,$courseCode);
+                
+            }
+        }
+        
+        return new JsonResponse($results);     
+        
+    }
 }

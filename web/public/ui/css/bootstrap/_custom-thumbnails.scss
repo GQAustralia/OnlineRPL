@@ -16,63 +16,135 @@ $thumbnail-group-item-card-width: 200px;
 		list-style: none;
 		display: block;
 		position: relative;
-		border-radius: $border-radius-base;
+		border-radius: 2px;
 	}
 
 	&.card-view {
-		.thumbnail-group-item {
-			float: left;
-			@include box-shadow(0 1px 2px 0px rgba(0,0,0,0.1));
-			@include transition(box-shadow .3s $easing);
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;		
+    	.thumbnail-group-item {
+			width: 200px; // ie
+			padding: 3px;
 
-			&:hover {
-				@include box-shadow(0 1px 15px 0px rgba(0,0,0,0.3));
-				@include transition(box-shadow .3s $easing);
+			@media(min-width: $screen-xs-min){
+				padding: $grid-gutter-width / 8;
 			}
+			.thumbnail-holder{
+				position: relative;
+				@include box-shadow(0 1px 2px 0px rgba(0,0,0,0));
+				@include transition(box-shadow .3s $easing);
 
-			width: $thumbnail-group-item-card-width;
+
+				&:hover {
+					@include box-shadow(0 1px 15px 0px rgba(0,0,0,0.3));
+					@include transition(box-shadow .3s $easing);
+				}
+			}
 
 			.thumbnail-header {
 				position: relative;
-				overflow: hidden;
-				border-top-left-radius: $border-radius-base;
-				border-top-right-radius: $border-radius-base;
+				background-size: cover; // ie
+				width: 100%; // ie
+				
 			}
 
 			.thumbnail-body {
 				@include clearfix();
 				padding: 15px;
-				border-bottom: 1px solid $thumbnail-group-item-border-bottom-color;
-				border-left: 1px solid $thumbnail-group-item-border-left-color;
-				border-right: 1px solid $thumbnail-group-item-border-right-color;
-				background-color: $thumbnail-group-item-bg;
-				border-bottom-left-radius: $border-radius-base;
-				border-bottom-right-radius: $border-radius-base;
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				height: 40px;
+				
+				@include transition(all .5s $easing);
 			}
+
+			&:hover{
+				.thumbnail-body{ 
+					background: rgba(0, 0, 0, 0.5);
+					height: 100%;
+
+					a{
+						@include opacity(1);
+					}
+				}
+				[data-column-name="filename"]{
+					white-space: normal;
+					text-overflow: none;
+					overflow: visible;
+				}
+			}
+		}
+
+		[data-has-icon="true"] {
+			.thumbnail-body {
+				@include gradient-vertical(transparent, transparent, -15%, 100%);
+
+				[data-column-name] {
+					color: $brand-gray;
+				}
+			}
+
+			&:hover{
+				.thumbnail-body{
+					[data-column-name]{
+						color: #fff;
+					}
+				}
+			}
+
+			.thumbnail-holder{
+				background: $gray-lighter;
+			}
+
+			.thumbnail-icon{
+				// position: absolute;
+				// font-size: 20px;
+				// right: $grid-gutter-width / 4;
+				// top: $grid-gutter-width / 4;
+
+				font-size: 30px;
+				margin: auto;
+				top: 0;
+				right: 0;
+				left: 0;
+				position: absolute;
+				bottom: 0;
+				display: block;
+				width: 50px;
+				height: 50px;
+				text-align: center;
+			}
+		}
+
+		[data-has-icon="false"]{
+			.thumbnail-body{
+				//@include gradient-vertical(transparent, #232323 , 0%, 100%);
+				
+				background: rgba(0, 0, 0, 0.3);
+			} 
+		}
+
+		[data-file-type="img"]{
+			-webkit-background-size: cover;
+				-moz-background-size: cover;
+					-o-background-size: cover;
+						-ms-background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
 		}
 
 		[data-column-name="filename"] {
 			display: block;
-			font-weight: 500;
-			font-size: 1.1em;
-			margin-bottom: 10px;
+			font-size: 0.8em;
+			overflow: hidden;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 			line-height: 1;
 			position: relative;
-
-			&:after {
-				display: block;
-				position: absolute;
-				bottom: -20px;
-				content: '';
-				background-color: red;
-				width: 3px;
-				height: 2px;
-				font-family: 'icomoon';
-				font-size: 10px;
-				/* Better Font Rendering =========== */
-				-webkit-font-smoothing: antialiased;
-				-moz-osx-font-smoothing: grayscale;
-			}
+			color: #fff;
 
 		    &[href$='.zip']:after {  }
 		    &[href$='.jpg']:after {  }
@@ -89,52 +161,65 @@ $thumbnail-group-item-card-width: 200px;
 		    &[href$='.xls']:after,
 		    &[href$='.xlsx']:after {  }
 		}
-		[data-column-name="date-submitted"] {
-			padding-left: 15px;
-			display: inline-block;
-			font-size: 0.8em;
-		}
-		[data-column-name="filesize"] {
-			display: inline-block;
-			font-size: 0.8em;
-		}
-		[data-column-name="linkage"] {
-			display: block;
-			clear: both;
+
+		[data-trigger="preview-file"]{
+			position: absolute;
+			left: 0;
+			bottom: 0;
 			width: 100%;
-			float: left;
-			position: relative;
-			line-height: 1;
-			padding-top: 25px;
-			margin-top: 3px;
-
-			&:before, &:after {
-				display: block;
-				position: absolute;
-			}
-			&:before {
-				content: 'Linked To';
-				text-transform: uppercase;
-				padding: 1px 5px;
-				font-size: 12px;
-				font-weight: 500;
-				color: $gray;
-				background-color: $thumbnail-group-item-bg;
-				top: 5px;
-				left: -5px;
-				z-index: 1;
-			}
-
-			&:after {
-				height: 1px;
-				background-color: $thumbnail-group-item-border-bottom-color;
-				top: 11px;
-				left: -14px;
-				right: -14px;
-				content: '';
-				z-index: 0;
-			}
+			@include border-radius(0);
+			padding: 5px;
+			font-size: 12px;
+			@include opacity(0);
+			color: white;
+			background-color: rgba(0,0,0,0.6);
 		}
+		// [data-column-name="date-submitted"] {
+		// 	padding-left: 15px;
+		// 	display: inline-block;
+		// 	font-size: 0.8em;
+		// }
+		// [data-column-name="filesize"] {
+		// 	display: inline-block;
+		// 	font-size: 0.8em;
+		// }
+		// [data-column-name="linkage"] {
+		// 	display: block;
+		// 	clear: both;
+		// 	width: 100%;
+		// 	float: left;
+		// 	position: relative;
+		// 	line-height: 1;
+		// 	padding-top: 25px;
+		// 	margin-top: 3px;
+
+		// 	&:before, &:after {
+		// 		display: block;
+		// 		position: absolute;
+		// 	}
+		// 	&:before {
+		// 		content: 'Linked To';
+		// 		text-transform: uppercase;
+		// 		padding: 1px 5px;
+		// 		font-size: 12px;
+		// 		font-weight: 500;
+		// 		color: $gray;
+		// 		background-color: $thumbnail-group-item-bg;
+		// 		top: 5px;
+		// 		left: -5px;
+		// 		z-index: 1;
+		// 	}
+
+		// 	&:after {
+		// 		height: 1px;
+		// 		background-color: $thumbnail-group-item-border-bottom-color;
+		// 		top: 11px;
+		// 		left: -14px;
+		// 		right: -14px;
+		// 		content: '';
+		// 		z-index: 0;
+		// 	}
+		// }
 	}
 
 	&.list-view {
@@ -142,7 +227,5 @@ $thumbnail-group-item-card-width: 200px;
 			width: 100%;
 			float: none;
 		}
-	}
-
-	
+	}	
 }

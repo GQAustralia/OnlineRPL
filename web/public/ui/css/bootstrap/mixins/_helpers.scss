@@ -17,10 +17,14 @@
 	#{$property}: calc(#{$value1} + #{$value2});
 	#{$property}: -webkit-calc(#{$value1} + #{$value2});
 	#{$property}: -moz-calc(#{$value1} + #{$value2});
+  #{$property}: -o-calc(#{$value1} + #{$value2});
+  #{$property}: -ms-calc(#{$value1} + #{$value2});
 }
 
 @mixin calc-sub-two-values($property, $value1, $value2) {
 	#{$property}: calc(#{$value1} - #{$value2});
 	#{$property}: -webkit-calc(#{$value1} - #{$value2});
 	#{$property}: -moz-calc(#{$value1} - #{$value2});
+  #{$property}: -o-calc(#{$value1} - #{$value2});
+  #{$property}: -ms-calc(#{$value1} - #{$value2});
 }

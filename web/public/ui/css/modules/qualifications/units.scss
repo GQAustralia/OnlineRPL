@@ -32,6 +32,10 @@ $qual-img-height: 200px;
 
 @import 'list-group-units.scss';
 @import 'list-group-contacts.scss';
+@import 'unit-search.scss';
+@import 'sticky-panel.scss';
+@import 'panel-upload-evidence.scss';
+@import 'panel-selected-units.scss';
 
 .qual-gauges-group {
 	padding-top: 15px;
@@ -100,4 +104,10 @@ $qual-img-height: 200px;
 
 .panel-contacts {
 
+}
+
+.mTop {
+	margin-top: 7px;
+	& + .list-group-units { margin-top: 60px; }
+	& + .alert { margin-top: 15px; }
 }

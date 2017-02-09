@@ -1,11 +1,11 @@
 .modal{
 	&-header{
-		padding: 0;
+		// /padding: 0;
 		border-bottom: none;
 	}
 
 	&-content{
-		padding: 40px 25px;
+		//padding: 40px 25px;
 	}
 
 	&-title,
@@ -16,5 +16,12 @@
 
 	&-dialog{
 		max-width: 1140px
+	}
+
+	&.modal-file-preview {
+		.modal-body{
+			max-width: 100%;
+			padding: 0;
+		}
 	}
 }

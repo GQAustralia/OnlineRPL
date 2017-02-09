@@ -7,6 +7,7 @@
 @import 'modules/global/global.min.scss';
 @import 'modules/global/transformicons.scss';
 @import 'modules/global/circle.scss';
+@import 'modules/global/message-thread.scss';
 
 // HTML 5 polyfills
 @import 'polyfills/progress.scss';
@@ -15,6 +16,6 @@
 @import 'layouts/layouts.scss';
 @import 'modules/rpl-onboarding/rpl-onboarding.scss';
 @import 'modules/profile/profile.scss';
-@import 'modules/upload-evidences/upload-evidences.scss';
+// @import 'modules/upload-evidences/upload-evidences.scss';
 @import 'modules/overview/overview.scss';
-@import 'modules/qualifications/units.scss'; 
+@import 'modules/qualifications/units.scss';  

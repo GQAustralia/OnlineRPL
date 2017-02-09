@@ -4119,7 +4119,7 @@ class UserService
      * return string status
      */
     public function getStausByStatus($status, $applicantId, $unitId, $courseCode, $userRole){
-      
+
         $approvalStatus = 0;
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findOneBy(array( 'user' => $applicantId, 'unitId' => $unitId, 'courseCode' => $courseCode));
