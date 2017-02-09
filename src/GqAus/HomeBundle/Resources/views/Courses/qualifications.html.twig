@@ -212,7 +212,8 @@
             </section>
         </div>
 {% include 'GqAusHomeBundle:Courses:electiveunits.html.twig' %} 
-{% include 'GqAusHomeBundle:Courses:electiveUpload.html.twig' %} 
+{% include 'GqAusHomeBundle:Courses:electiveUpload.html.twig' %}
+{% include 'GqAusHomeBundle:Courses:coreUpload.html.twig' %} 
 <div class="container" ng-hide="IsLoaded"> Loading.... </div>
   
     </main>
@@ -261,7 +262,7 @@
                         <button type="button" class="btn btn-default" ng-click="printElective(details)"><i class="zmdi zmdi-print zmdi-hc-lg zmdi-hc-fw"></i> Print</button>
                         <button type="button" class="btn btn-default" ng-click="downloadElective(details)"><i class="zmdi zmdi-download zmdi-hc-lg zmdi-hc-fw"></i> Download PDF</button>
                     </div>
-                    <div id="detailsElective" class="table table-compressed table-bordered clearfix" ng-bind-html="unitDetails[selectedElective][details.detailsType]"></div>
+                    <div id="detailsElective" class="table table-compressed table-bordered clearfix" ng-bind-html="unitDetails[selectedUnit][details.detailsType]"></div>
                 </div>
             </div>
         </div>
@@ -351,7 +352,7 @@
 
                     <div class="dropup form-group dropdown-dynamic btn-block">
                         <ui-select ng-model="uploadInProgress.category" theme="" title="Evidence Category" style="width: 100%;">
-                            <ui-select-match placeholder="What ID are you uploading?">{[{$select.selected.name}]}</ui-select-match>
+                            <ui-select-match placeholder="What types of evidence are you uploading?">{[{$select.selected.name}]}</ui-select-match>
                             <ui-select-choices repeat="evidenceCategory in uploadDetails.evidenceCategories | propsFilter: {id: $select.search, name: $select.search}">
                                 <div ng-bind-html="evidenceCategory.name | highlight: $select.search"></div>
                             </ui-select-choices>

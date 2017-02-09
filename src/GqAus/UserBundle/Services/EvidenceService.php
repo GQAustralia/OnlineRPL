@@ -821,4 +821,23 @@ class EvidenceService
             $msDocStatus = false;
 	return $msDocStatus;
     }
+    
+    /**
+     * function to update Evidence Completed Status
+     * @param Array
+     */
+    
+    public function unitSubmit($data)
+    {
+        if (!empty($data['unitCode']) && !empty($data['courseCode'])) {
+            $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'], '1');
+            $logType = $this->userService->getlogType('10');
+            $this->userService->createUserLog('10', $logType['message']);
+            return array('success'=>'Updated Succesfully');
+        } else {
+            $logType = $this->userService->getlogType('11');
+            $this->userService->createUserLog('11', $logType['message']);
+            return array('error'=>'Unit or Course ID missing');
+        }
+    }
 }

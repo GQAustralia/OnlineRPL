@@ -943,26 +943,8 @@ class CoursesService
             'courseCode' => $courseCode,
             'type' => $type
              ));
-        $courseUnits = array();
-        if (!empty($userCourseUnits)) {
-            foreach ($userCourseUnits as $units) {
-                $unit = [];
-                $unit['id'] = $units->getId();
-                $unit['unitId'] = $units->getUnitId();
-                $unit['userId'] = $units->getUser()->getId();
-                $unit['courseCode'] = $units->getCourseCode();
-                $unit['type'] = $units->getType();
-                $unit['facilitatorStatus'] = $units->getFacilitatorstatus();
-                $unit['assessorStatus'] = $units->getAssessorstatus();
-                $unit['rtoStatus'] = $units->getRtostatus();
-                $unit['status'] = $units->getStatus();
-                $unit['electiveStatus'] = $units->getElectiveStatus();
-                $unit['isSubmitted'] = $units->getIssubmitted();
-                $courseUnits[trim($units->getUnitId())] =  $unit;    
-            }
-        } 
-        
-        return $courseUnits;
+                
+        return $userCourseUnits;
     }
     
     /** 
@@ -1039,7 +1021,7 @@ class CoursesService
     
     public function getEvidencesByUnit($userId,$unitCode,$courseCode){
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
-        $evidences = $reposObj->findBy(['unit'=>$unitCode,'course'=>$courseCode]);
+        $evidences = $reposObj->findBy(['user'=>$userId,'unit'=>$unitCode,'course'=>$courseCode]);
         $userEvidence = [];
         $mimeTypes = array(
             'ai' => 'application/postscript',
