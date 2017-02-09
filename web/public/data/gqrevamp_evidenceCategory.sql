@@ -32,3 +32,11 @@ ALTER TABLE `evidence` ADD `category` INT(10) NULL DEFAULT NULL AFTER `job_id`, 
 
 ALTER TABLE `evidence`
   ADD CONSTRAINT `category_ibfk_1` FOREIGN KEY (`category`) REFERENCES `evidence_category` (`id`);
+
+
+INSERT INTO `evidence_category` (`id`, `name`, `created`) VALUES
+(1, 'Resume, references & job descriptions', '2017-02-07 11:09:17'),
+(2, 'Word samples, memos, letters, reports', '2017-02-07 11:09:17'),
+(3, 'Photographic and video evidence', '2017-02-07 11:09:17'),
+(4, 'Education, training and qualifications', '2017-02-07 11:09:17'),
+(5, 'Other evidences', '2017-02-07 11:09:17');
