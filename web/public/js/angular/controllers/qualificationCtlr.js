@@ -287,15 +287,17 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
         var uploadIndex = _.findIndex($scope.uploadInProgress.uploads, {fileNum: obj.fileNum});
         $scope.uploadInProgress.uploads[uploadIndex].path = data.fileName;
         $scope.uploadInProgress.uploads[uploadIndex].jobId = data.jobId;
-
-        AjaxService.apiCall("addEvidences", $scope.uploadInProgress.uploads[uploadIndex]).then(function (data) {
+        var uploadedObj = $scope.uploadInProgress.uploads[uploadIndex];
+        AjaxService.apiCall("addEvidences",uploadedObj).then(function (data) {
             if (data.uploadId !== '') {
-                $scope.getUnitEvidences($scope.uploadInProgress.uploads[uploadIndex].unitCode);
-                $scope.uploadInProgress.uploads.splice(uploadIndex, 1);
+                $scope.getUnitEvidences(uploadedObj.unitCode);
+                _.without($scope.uploadInProgress.uploads, uploadedObj)
+                //$scope.uploadInProgress.uploads.splice(uploadIndex, 1);
                 $scope.getUploadDetails();
                 $scope.$applyAsync();
             } else {
-                $scope.enrollment.upload.uploadId[uploadIndex].status = 'failed';
+                var index = _.indexOf($scope.uploadInProgress.uploads, uploadedObj);
+                $scope.enrollment.upload.uploadId[index].status = 'failed';
             }
 
         }, function (error) {
@@ -372,7 +374,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     $scope.getStatusText = function (unitId) {
         var $obj;
         if ($scope.qualificationPage === 'elective')
-            _.where($scope.allElectiveUnits, {"id": unitId});
+            $obj = _.where($scope.allElectiveUnits, {"id": unitId});
         else
             $obj = _.where($scope.allCoreUnits, {"id": unitId});
         if (!_.isEmpty($obj)) {
@@ -410,6 +412,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     };
 
     $scope.submitUnit = function () {
+        $('#submitUnitConfirmation').modal('hide');
         AjaxService.apiCall("submitUnitForReview", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode}).then(function (data) {
             if (data.success) {
                 $scope.getUserUnits();
@@ -443,6 +446,10 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
         }
         $scope.is_open = false;
     };
+    
+    $scope.submitConfirm = function() {
+        $('#submitUnitConfirmation').modal('show');
+    }
 
     // Watchers
     $scope.$watch('qualificationPage', function (newValues) {

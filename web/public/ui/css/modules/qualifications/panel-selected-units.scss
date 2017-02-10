@@ -76,6 +76,14 @@
 	}
 }
 
+.filter-status {
+	@media (max-width: $screen-xs) {
+		> * { float: none !important; display: block; }
+		.btn { margin-top: 5px; }
+	}
+	strong { margin-top: 5px; }
+}
+
 [data-panel-parent="two-column-split"] {
 	.col-section-5 .progress-tag { width: 100%; }
 	.col-section-10 .progress-tag { 

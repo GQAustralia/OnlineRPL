@@ -35,7 +35,7 @@
   left:0;
   @include calc-sub-two-values(top, 50%, 9px);
   width: 18px; height: 18px;
-  border: 1px solid darken($gray-light,9%);
+  border: 2px solid $gray-light;
   background: #f8f8f8;
 }
 

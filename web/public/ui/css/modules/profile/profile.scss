@@ -4,6 +4,41 @@
 $upload-button-width: 32px;
 
 .profile{
+
+	.panel{
+		margin: 0 auto 15px;
+	}
+	.profile-header{
+		background: url(../img/bg-onboarding-popup.png);
+		background-size: cover;
+		background-position: center;
+		padding: 30px 60px;
+		min-height: 175px;
+		text-align: center;
+		h2{
+			font-weight: 100;
+			font-size: 20px;
+		}
+
+		h4{
+			font-size: 14px;
+		}
+	}
+	.profile-user{
+		display: block;
+		vertical-align: middle;
+		width: 100%;
+		padding-left: 0;
+	}
+	.avatar{
+		@include border-radius($grid-gutter-width * 3);
+		z-index: 2;
+		position: relative;
+		// border: $grid-gutter-width / 4 solid #fff;
+		display: inline-block;
+		vertical-align: middle;
+	}
+
 	.banner{
 		background-color: transparent;
 		background-repeat: no-repeat;
@@ -16,18 +51,12 @@ $upload-button-width: 32px;
 		width: 100%;
 	}
 
-	.avatar{
-		@include border-radius($grid-gutter-width * 3);
-		overflow: hidden;
-		z-index: 2;
-		position: relative;
-		border: $grid-gutter-width / 4 solid #fff;
-	}
-
+	
 	form{
-		margin-top: -25px;
 		z-index: 2;
-		position: relative;
+		position: absolute;
+		bottom: 0;
+		right: 7px;
 		input[type="file"]{
 			opacity: 0;
 			width: $upload-button-width;
@@ -39,7 +68,7 @@ $upload-button-width: 32px;
 			z-index: 2;
 		}
 		i{
-			background: $gray-dark;
+			background: $brand-red;
 			position: absolute;
 			width: $upload-button-width;
 			left: 0;
@@ -47,11 +76,11 @@ $upload-button-width: 32px;
 			top: 0;
 			margin: 0 auto;
 			color: #fff;
-			border: 2px solid #fff;
+			// border: 2px solid #fff;
 			font-size: 18px;
-			padding: 5px 7px;
+			padding: 7px 9px;
 			@include border-radius(22px);
-			@include box-shadow(1px 1px 5px -1px rgba(0,0,0,1))
+			// @include box-shadow(1px 1px 5px -1px rgba(0,0,0,1))
 		}
 	}
 
@@ -59,15 +88,17 @@ $upload-button-width: 32px;
 		color: $gray;
 		span{
 			color: $gray-dark;
-			font-weight: bold;
 		}
 	}
 
 	h3{
-
-		a:hover,
-		a:active{
-			text-decoration: none;
+		font-weight: 100;
+		margin-top: 0;
+		font-size: 18px;
+		a,
+		small{
+			color: $brand-red;
+			font-size: 14px;
 		}
 	}
 
@@ -75,39 +106,36 @@ $upload-button-width: 32px;
 		display: table;
 		width: 100%;
 		vertical-align: middle;
-		margin: 15px 0 40px;
+		margin: 15px 0 23px;
 		position: relative;
 		i.base-icon{
-			font-size: 30px;
-			width: 50px;
-			height: 50px;
+			font-size: 16px;
 			text-align: center;
-			background: $gray-lighter;
-			padding: 10px 15px;
+			padding: 3px 0 0 0;
 			@include border-radius(30px);
 			display: inline-block;
+			color: lighten($brand-gray, 5%);
+			// color: $brand-red;
 		}
 
 		p{
 			display: table-cell;
 			vertical-align: middle;
 			width: 100%;
-			padding-left: $grid-gutter-width / 2;
-			font-weight: bold;
-			color: $brand-gray;
+			padding-left: $grid-gutter-width / 4;
+			font-weight: 400 ;
+			color: lighten($brand-gray, 5%);
 
 			span{
 				display: block;
 				color: $gray-darker;
-				font-size: $font-size-h4;
 				font-weight: normal;
-				margin-top: $grid-gutter-width / 6;
 			}
 
-			a span{
-				color: $brand-red;
-				text-decoration: underline;
-			}
+			// a span{
+			// 	color: $brand-red;
+			// 	text-decoration: underline;
+			// }
 		}
 
 		img{
@@ -127,47 +155,53 @@ $upload-button-width: 32px;
 
 	}
 
-	i.zmdi-edit{
-		color: #fff;
-		background: $gray;
-		font-size: 14px;
-		padding: 2px 3px;
-		@include border-radius($border-radius-base);
-		width: auto;
-		height: auto;
-	}
+	// i.zmdi-edit{
+	// 	color: #fff;
+	// 	background: $gray;
+	// 	font-size: 14px;
+	// 	padding: 2px 3px;
+	// 	@include border-radius($border-radius-base);
+	// 	width: auto;
+	// 	height: auto;
+	// }
 }
 
-
-@media (max-width: 768px){
+@media screen and (min-width: $screen-sm-min){
 	.profile{
 		h3{
-			display: none;
+			font-size: 24px;
 		}
 
-		h4{
-			margin-bottom: $grid-gutter-width;
+
+	}
+	.profile-header{
+		text-align: left;
+		.avatar,
+		.profile-user{
+			display: inline-block;
 		}
-		&-info{
-			margin: 0 0 20px;
-			p{
-				position: relative;
-				padding-bottom: 20px;
-				span{
-					font-size: 14px;
-					word-break: break-all;
-				}
 
-				&:after{
-					content: '';
-					position: absolute;
-					width: 95%;
-					height: 1px;
-					border-top: 1px solid $gray-light;
-					bottom: 0;
+		.profile-user{
+			padding-left: $grid-gutter-width / 2;
+			width: calc(100% - 165px);
+			text-align: left;
 
-				}
+			h2{
+				font-weight: 100;
+				font-size: 30px;
+			}
+
+			h4{
+				font-size: 18px;
 			}
 		}
 	}
 }
+
+@media screen and (min-width: $screen-md-min){
+	.profile .panel{
+		max-width: 850px;
+		
+	}
+}
+

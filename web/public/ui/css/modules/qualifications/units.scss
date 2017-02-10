@@ -111,3 +111,5 @@ $qual-img-height: 200px;
 	& + .list-group-units { margin-top: 60px; }
 	& + .alert { margin-top: 15px; }
 }
+
+.is-mobile .hidden-mobile { display: none; }

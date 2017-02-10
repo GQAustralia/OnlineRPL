@@ -2,11 +2,12 @@
             <section class="section-main col-section-10" ng-class="{'col-section-5': is_open === true, 'col-section-10': is_open === false}" data-panel="left">
                 <div class="panel panel-default panel-units">
                     <div class="panel-body">
-
-                        <div class="progress-tag progress-tag-default">
-                            <h3>Your Core Units</h3>
-                            <progress style="width: 100%" role="progress" value="{[{percentCoreSubmitted()}]}" max="100"><img class="fallback" width="30"></progress>
-                            <figcaption class="progress-details"> <span class="unit-percent">{[{percentCoreSubmitted()}]}</span> complete</figcaption>
+                        <div class="clearfix">
+                            <div class="progress-tag progress-tag-default">
+                                <h3>Your Core Units</h3>
+                                <progress style="width: 100%" role="progress" value="{[{percentCoreSubmitted()}]}" max="100"><img class="fallback" width="30"></progress>
+                                <figcaption class="progress-details"> <span class="unit-percent">{[{percentCoreSubmitted()}]}</span> complete</figcaption>
+                            </div>
                         </div>
                          <div class="dropdown dropdown-unit-filter">
                                 <button type="button" class="btn btn-default text-left btn-sm" data-toggle="dropdown" ng-init="unitStatusArr['core'].selectedFilter = 'all'">
@@ -33,13 +34,13 @@
                                         <label class="progress-summary-item btn btn-default" data-status="notyetcompetent" for="unitFilter" ng-click="setCoreFilter('Not yet competent')">
                                             <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['core']['Not yet competent'].length}]}</strong><small>Not yet competent</small>
                                         </label> <!-- red -->
-                                         <label class="progress-summary-item btn btn-default" data-status="notyetstarted" for="unitFilter" ng-click="setCoreFilter('all')" ng-if="unitStatusArr['core'].selectedFilter != 'all'">
-                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['core']['all'].length}]}</strong><small>Show All</small>
-                                        </label> <!-- white -->
                                     </div>
                                 </div>
                             </div>
-
+                        <div class="alert well-sm alert-info clearfix filter-status" ng-if="unitStatusArr['core'].selectedFilter != 'all'">
+                            <strong class="pull-left">Showing all <span ng-bind="unitStatusArr['core'][unitStatusArr['core'].selectedFilter].length">6</span> <span>Competent</span> units </strong>
+                            <button type="button" class="btn btn-info btn-xs pull-right" ng-click="setCoreFilter('all')">Remove Filter <i class="zmdi zmdi-close zmdi-hc-lg"></i></small></button>
+                        </div>
                         <div class="list-group list-group-units panel-accordion">
                             <ul class="list-group-units-item units-selected"> 
                                 <li class="list-group-units-subitem" ng-class="{'active': is_open === true && core.id === selectedUnit }"  ng-click="showUnitUpload(core)" ng-repeat="core in allCoreUnits | inArrayFilter:unitStatusArr['core'][unitStatusArr['core'].selectedFilter]:'id'">
@@ -59,169 +60,6 @@
                     </div>
                 </div>
             </section>
-            <section class="section-main col-section-0" ng-class="{'col-section-5': is_open === true, 'col-section-0': is_open === false}" data-panel="right">
-                <div class="panel panel-default panel-upload-evidence" ng-class="{'in': is_open === true}">
-                   <div class="panel-upload-buttons">
-                        <button type="button" class="btn btn-sm"><i class="zmdi zmdi-open-in-new zmdi-hc-lg zmdi-hc-fw"></i></button>
-                        <button type="button" class="btn btn-sm btn-panel-close" ng-click="closeSelected()"><i class="zmdi zmdi-hc-lg zmdi-hc-fw"></i> <span>Back</span></button>
-                    </div>
-                    <div class="panel-body">
-                        <div class="panel-accordion" role="tablist" aria-multiselectable="false">
-                            
-                            <!-- About this Unit -->
-                            <article class="form-group">
-                                <h3 class="panel-heading-text">About this unit</h3>
-                                <div class="panel-collapse-inner">
-                                    <ol class="list-bullet list-unstyled">
-                                        <li><a class="btn-link" href="#" ng-click="show_details('elements','Elements and performance criteria')" >Elements and performance criteria</a></li>
-                                        <li><a class="btn-link" href="#" ng-click="show_details('skills_and_knowledge','Required skills and knowledge')" >Required skills and knowledge</a></li>
-                                        <li><a class="btn-link" href="#" ng-click="show_details('evidence_guide','Evidence Guide and Range Statement')" >Evidence Guide and Range Statement</a></li>
-                                    </ol>
-                                </div>                             
-                            </article>
-                            <!-- About this Unit -->
-
-                            <!-- Upload Evidences -->
-                            <article class="form-group">
-                                <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseEvidences" aria-expanded="true" aria-controls="collapseAbout">Evidence<i class="zmdi zmdi-chevron-down"></i></h3>
-
-                                <div id="collapseEvidences" class="panel-collapse collapse in collapsed">
-                                    <div class="panel-collapse-inner" ng-if="core.count === 0">
-                                        <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
-                                            <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
-                                            <h4>
-                                                No evidence for this unit yet <br>
-                                                <button type="button" class="btn-link">Upload evidence now</button>
-                                            </h4>
-                                            <!-- <input class="upload-control-input" type="file" id="uploadID"> -->
-                                        </section>
-                                    </div>
-
-                                    <div class="panel-collapse-inner" data-has-thumbnail="true">
-                                        <div>
-                                            <label style="margin-top: 10px;"><span>{[{(unitEvidences| filter:{type: '!text'}).length}]}</span> evidences</label>
-                                            <div class="btn-auto-group" ng-if="!isSubmitted()">
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</button>
-                                            </div>
-                                        </div>
-                                        <ul class="thumbnail-group card-view" {#ng-class="'card-view': evidence.view === 'card', 'list-view': evidence.view === 'list'"#}>
-                                            <li class="thumbnail-group-item" ng-repeat="evidence in unitEvidences| filter:{type: '!text'}" data-file-type="{[{data.type}]}" data-has-icon="{[{data.type == 'image'?'false':'true'}]}">
-                                                <div class="thumbnail-holder">
-                                                    <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
-                                                    </div>
-                                                    <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
-                                                            <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
-                                                            <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
-                                                        </div>
-                                                    <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
-                                                        <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
-                                                        <div class="thumbnail-body">                                
-                                                            <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
-                                                            <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
-                                                            <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                            </li>
-                                            
-                                        </ul>
-                                    </div>
-                                </div>
-                            </article>
-                            <!-- Upload Evidences -->
-
-                            <!-- Self Assess Notes -->
-                            <article class="form-group">
-                                <h3 class="panel-heading-text" data-toggle="collapse" href="#collapseNotes" aria-expanded="true" aria-controls="collapseAbout">Self Assessment Notes <i class="zmdi zmdi-chevron-down"></i></h3>
-
-                                <div id="collapseNotes" class="panel-collapse collapse in collapsed">
-                                    <div class="panel-collapse-inner">
-                                        <div class="click-to-edit"  ng-if="!isSubmitted()" {#ng-class="'view': assessmentNote !== 'edit' " ng-click="editAssessmentNotes()"#}>
-                                            <textarea class="form-control" readonly {#ng-readonly="assessmentNoteMode === 'view' "#}>t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</textarea>
-
-                                            <div class="center-block text-right click-to-edit-actions">
-                                                <button type="button" class="btn btn-default btn-xs" ng-click="">Discard</button>
-                                                <button type="button" class="btn btn-primary btn-xs"{# ng-disabled="assessment === '' "#} ng-click="">Save Note</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <!-- Self Assess Notes -->
-
-                            <!-- Notes from Account Manager -->
-                            <article class="form-group">
-                                <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseManagerNotes" aria-expanded="true" aria-controls="collapseAbout">
-                                    <span {#ng-if="role === 'Candidate' "#}>Notes from your Account Manager</span>
-
-                                    <!-- <span ng-if="role === 'Candidate' ">Your Notes</span> -->
-                                    <i class="zmdi zmdi-chevron-down"></i>
-                                </h3>
-                            
-                                <div id="collapseManagerNotes" class="panel-collapse collapse in collapsed">
-                                    <div class="panel-collapse-inner">
-                                        <section class="message-thread">
-                                            <div class="message-thread-item">
-                                                <div class="message-avatar avatar avatar-xxs"><img src="{{ asset('public/ui/img/avatar-default.png') }}" alt="You"></div>
-                                                <div class="message-post">
-                                                    <strong class="message-avatar-name">Malou Wang <small class="text-muted">Account Manager</small></strong>
-                                                    <small class="message-stamp">02/12/2017</small>
-                                                    <p class="message-text">The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-
-                                                    <span class="message-post-footer-button"{# ng-if="role === 'candidate' "#}>
-                                                        <button type="button" class="btn btn-link btn-sm acknowledged" {#ng-class="'acknowledged' : messageItemStatus === 'acknowledged' " ng-click="acknowledgeMessage()"#}>
-                                                            <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i> Got it!
-                                                        </button>
-
-                                                        <label class="text-success"><i class="zmdi zmdi-check-circle"></i> Acknowledged</label>
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div class="message-thread-item">
-                                                <div class="message-avatar avatar avatar-xxs"><img src="{{ asset('public/ui/img/avatar-default.png') }}" alt="You"></div>
-                                                <div class="message-post">
-                                                    <strong class="message-avatar-name">Malou Wang <small class="text-muted">Account Manager</small></strong>
-                                                    <small class="message-stamp">02/12/2017</small>
-
-                                                    <p class="message-text" {#ng-if="messageItem !== 'edit' #}">The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-
-                                                    <div class="messsage-text text-right"{# ng-if="messageItem !== 'edit'"#}>
-                                                        <textarea rows="1" autofocus class="form-control" auto-expand style="margin-bottom: 15px;" placeholder="Your message here...">The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</textarea>
-                                                        <button type="button" class="btn btn-default btn-xs">Discard</button>
-                                                        <button type="button" class="btn btn-primary btn-xs">Apply changes</button>
-                                                    </div>
-
-                                                    <div class="dropdown message-thread-item-dropdown"{# ng-if="role !== 'candidate' "#}>
-                                                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-                                                            <i class="zmdi zmdi-more zmdi-hc-lg zmdi-hc-fw"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu pull-right">
-                                                            <li><a href="#"><i class="zmdi zmdi-edit zmdi-hc-lg zmdi-hc-fw"></i> Edit</a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-delete zmdi-hc-lg zmdi-hc-fw"></i> Delete</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="message-input"  ng-if="!isSubmitted()"{# ng-if="role !== 'candidate' "#}>
-                                                <textarea cols="30" rows="2" class="form-control" auto-expand placeholder="Type your message here..."></textarea>
-                                                <button type="button" class="btn btn-link btn-send"><i class="zmdi zmdi-mail-send zmdi-hc-2x"></i></button>
-                                            </div>
-                                        </section>
-                                    </div>
-                                </div>
-                            </article>
-                            <!-- Notes from Account Manager -->
-
-                            <div class="btn-auto-group" ng-if="!isSubmitted()">
-                                <button class="btn btn-default">Save</button>
-                                <button class="btn btn-success" ng-click="submitUnit()">Submit this Unit for Assessment</button>
-                            </div>
-                        </div>
-                    </div>
-                
-                </div>
-            </section>
+        {% include 'GqAusHomeBundle:Courses:unitEvidenceUpload.html.twig' %} 
         </div>
    

@@ -9,7 +9,7 @@ $thumbnail-group-item-card-width: 200px;
 	display: block;
 	position: relative;
 	padding-left: 0;
-	margin: 30px 0 30px 0;
+	margin: 30px -7.5px 30px -7.5px;
 	@include clearfix();
 
 	.thumbnail-group-item {
@@ -37,6 +37,7 @@ $thumbnail-group-item-card-width: 200px;
 
 
 				&:hover {
+					cursor: pointer;
 					@include box-shadow(0 1px 15px 0px rgba(0,0,0,0.3));
 					@include transition(box-shadow .3s $easing);
 				}
@@ -110,6 +111,7 @@ $thumbnail-group-item-card-width: 200px;
 				right: 0;
 				left: 0;
 				position: absolute;
+				@include opacity(0.5);
 				bottom: 0;
 				display: block;
 				width: 50px;
@@ -228,4 +230,8 @@ $thumbnail-group-item-card-width: 200px;
 			float: none;
 		}
 	}	
+}
+
+.thumbnail-group-item-loading {
+	
 }
