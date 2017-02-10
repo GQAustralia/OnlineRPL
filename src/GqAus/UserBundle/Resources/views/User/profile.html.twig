@@ -25,9 +25,7 @@
             <div class="panel panel-default">
                 <div class="profile-header">
                     <div class="avatar avatar-sm">
-                        <form>
-                            <input type="file" id="uploadAvatar" /><i class="zmdi zmdi-camera"></i>
-                        </form>
+                        <form><input type="file" id="uploadAvatar" /><i class="zmdi zmdi-camera"></i></form>
                         <img src="{{ asset('public/ui/img/')~userImage}}" alt="{{userFullName}}">
                     </div>
                     <div class="profile-user">
@@ -47,8 +45,7 @@
                             </div>
                             <div class="profile-info">
                                 <i class="zmdi zmdi-phone base-icon"></i>
-                                <p>Home telepehone number<span><img src="{{ asset('public/ui/img/flag_au.jpg') }}">{{userHomePhone}}</span>
-                                </p>
+                                <p>Home telepehone number<span><img src="{{ asset('public/ui/img/flag_au.jpg') }}">{{userHomePhone}}</span></p>
                             </div>
                             <div class="profile-info">
                                 <i class="zmdi zmdi-smartphone-iphone base-icon"></i>
@@ -72,7 +69,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h3>Your Address
@@ -92,37 +88,108 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h3>Your Account Settings</h3>
-                    <div class="profile-info profile-info-password">
-                        <i class="zmdi zmdi-lock base-icon"></i>
-                        <p>Password
-                            <span class="">&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;</span>
-                            <a>
-                                <i class="zmdi zmdi-edit" style=""></i>
-                            </a>
+                    <div class="profile-info profile-info-password"><i class="zmdi zmdi-lock base-icon"></i>
+                        <p>Password <br />
+                            <span>
+                                <i class="zmdi zmdi-circle"></i>
+                                <i class="zmdi zmdi-circle"></i>
+                                <i class="zmdi zmdi-circle"></i>
+                                <i class="zmdi zmdi-circle"></i>
+                                <i class="zmdi zmdi-circle"></i>
+                                <i class="zmdi zmdi-circle"></i>
+                                <i class="zmdi zmdi-circle"></i>
+                                <i class="zmdi zmdi-circle"></i>
+                                <i class="zmdi zmdi-circle"></i>
+                            </span>
+                            <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#editPassword"><i class="zmdi zmdi-edit"></i>Edit</button>
                         </p>
                     </div>
 
                     <div class="profile-info">
                         <i class="zmdi zmdi-account-box base-icon"></i>
                         <p>ID Files Submitted
-                        {% set fileSts = 0 %}
-                        {% if userIdFiles is defined %}
-                            {% for item in userIdFiles %}
-                                {% if item.status != 1 %}
-                                    {% set fileSts = 1 %}
-                                    <a href = "{{ amazon_link~item.path }}"><span>{{item.type.type}}</span></a>
-                                {% endif %}
-                            {% endfor %}
-                            {% if fileSts == 0 or userIdFiles is not defined %}<span>{{no_id_files}}</span>{% endif %}                        
-                        {% endif %}
+                            {% set fileSts = 0 %}
+                            {% if userIdFiles is defined %}
+                                {% for item in userIdFiles %}
+                                    {% if item.status != 1 %}
+                                        {% set fileSts = 1 %}
+                                        <a data-toggle="modal" data-target="#fileViewer{{item.id}}" href = "{{ amazon_link~item.path }}"><span>{{item.type.type}}</span></a>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if fileSts == 0 or userIdFiles is not defined %}<span>{{no_id_files}}</span>{% endif %}                        
+                            {% endif %}
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    <!-- Change password -->
+    <div class="modal fade" id="editPassword" >
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                    <h4 class="modal-title">Change Your Password</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="control-label">Old Password</label>
+                            <span class="form-password-mask">
+                                <input type="password" class="form-control" id="oldPassword" data-element="password">
+                                <button type="button" class="btn btn-mask-password" data-target="password"><i class="zmdi zmdi-eye"></i></button>
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">New Password</label>
+                            <span class="form-password-mask">
+                                <input type="password" class="form-control" id="password" data-element="password">
+                                <button type="button" class="btn btn-mask-password" data-target="password"><i class="zmdi zmdi-eye"></i></button>
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Confirm New Password</label>
+                            <span class="form-password-mask">
+                                <input type="password" class="form-control" id="confirmPassword" data-element="password">
+                                <button type="button" class="btn btn-mask-password" data-target="password"><i class="zmdi zmdi-eye"></i></button>
+                            </span>
+                        </div>
+                        <div class="alert alert-danger hidden" id="errorMessage">
+                            <i class="zmdi zmdi-alert-circle-o zmdi-hc-lg zmdi-hc-fw"></i> <span></span>
+                        </div>
+                        <button type="button" disabled class="btn btn-success text-uppercase btn-block" id="submitPassword">Change my Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Change Password -->
+     {% if userIdFiles is defined %}
+        {% for item in userIdFiles %}
+            <!-- File Preview -->
+            <div class="modal fade" id="fileViewer{{item.id}}">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                            <h4 class="modal-title">{{item.name}}</h4>
+                        </div>
+                        <div class="modal-body modal-body-lg"> 
+                            <img src="{{ amazon_link~item.path }}" style="width: 100%;" alt="{{item.name}}" title="{{item.name}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of File Preview -->
+        {%endfor%}
+    {%endif%}
 {% endblock %}
 
 {% block javascripts %}
-    <script src="ui/js/plugins/owl.carousel.min.js"></script>
+    <script src="{{ asset('public/ui/js/plugins/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/set-changepassword.js') }}"></script>
+    <script src="{{ asset('public/ui/js/profile.js') }}"></script>
 {% endblock %}
