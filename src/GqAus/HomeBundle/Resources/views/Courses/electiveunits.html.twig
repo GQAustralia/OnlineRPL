@@ -13,7 +13,7 @@
                             <ul class="list-group-units-item" ng-repeat="electiveGroup in electiveUnits.groups" data-unit-group="{[{electiveGroup.name || ''}]}"> 
                                 <li class="list-group-units-subitem" ng-class="{'selected' : isSelected(elective)}" ng-repeat="elective in electiveGroup.unit | filter: elective_search">
                                     <div class="btn-group">
-                                        <button type="button" class="btn" aria-expanded="{[{showDetails}]}" ng-class="{'collapsed': ! showDetails }" ng-click="getUnitDetails(elective.id); showDetails = ! showDetails">
+                                        <button type="button" class="btn" aria-expanded="{[{showDetails}]}" ng-class="{'collapsed': ! showDetails }" ng-click="getUnitDetails(elective.id); showDetails = ! showDetails" data-toggle="collapse">
                                             <span class="unit-name" ng-bind="elective.name"></span>
                                             <span class="unit-code" ng-bind="elective.id" ng-if="isSelected(elective)"></span>
                                             <i class="zmdi zmdi-chevron-down"></i>

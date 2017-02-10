@@ -152,7 +152,14 @@ $upload-button-width: 32px;
 				padding-right: 15px;
 			}
 		}
-
+		&.profile-info-password{
+			i.zmdi-circle{
+				font-size: 8px;
+			}
+			p span{
+				display: inline-block;
+			}
+		}
 	}
 
 	// i.zmdi-edit{

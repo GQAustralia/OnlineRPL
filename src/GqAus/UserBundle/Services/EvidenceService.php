@@ -198,7 +198,7 @@ class EvidenceService
             $textObj->setUser($this->currentUser);
             $this->em->persist($textObj);
             $this->em->flush();
-            $this->updateCourseUnits($this->userId, $otherInfo['unitCode'], $otherInfo['courseCode'],'', false);
+            $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'],'', false);
         }
        
         return array('evidenceId' => $evidenceId);
@@ -838,6 +838,111 @@ class EvidenceService
             $logType = $this->userService->getlogType('11');
             $this->userService->createUserLog('11', $logType['message']);
             return array('error'=>'Unit or Course ID missing');
+        }
+    }
+    
+    /**
+     * 
+     * @param type $userId
+     * @param type $courseCode
+     * @param type $unitCode
+     * @param type $evidenceKeys
+     * @return 
+     */
+    
+    public function copyEvidence($userId,$courseCode,$unitCode,$category,$evidenceKeys)
+    {
+        $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
+        $audioObj = $this->em->getRepository('GqAusUserBundle:Evidence\Audio');
+        $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
+        $fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
+        $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+        foreach($evidenceKeys as $evidence){
+            $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->find($evidence);
+            switch ($evdObj->getType()) {
+                case 'image':
+                 //   $evidenceObj = $imgObj->find($val);
+                    $newObj = new Image();
+                    break;
+                case 'audio':
+                  //  $evidenceObj = $audioObj->find($val);
+                    $newObj = new Audio();
+                    break;
+                case 'video':
+                  //  $evidenceObj = $videoObj->find($val);
+                    $newObj = new Video();
+                    break;
+                case 'file':
+                   // $evidenceObj = $fileObj->find($val);
+                    $newObj = new File();
+                    break;
+                case 'text':
+                   // $evidenceObj = $textObj->find($val);
+                    $newObj = new Text();
+                    break;
+                default :
+                   // $evidenceObj = $fileObj->find($val);
+                    $newObj = new File();
+                    break;
+            }
+            $newObj->setPath($evdObj->getPath());
+            $newObj->setName($evdObj->getName());
+            $newObj->setSize(0);
+            $newObj->setUser($this->currentUser);
+            $newObj->setUnit($unitCode);
+            $newObj->setCourse($courseCode);
+            $categoryObj = $this->em->getRepository('GqAusUserBundle:EvidenceCategory')->findOneById($category);
+            $newObj->setCategory($categoryObj);
+            $newObj->setJobId("");
+            $newObj->setFacilitatorViewStatus('0');
+            $this->em->persist($newObj);
+            $this->em->flush();
+            $this->updateCourseUnits($this->userId, $unitCode, $courseCode, '', false);
+        }
+        return ['sucess'=>true];
+    }
+    
+    public function deleteEvidences($evidences)
+    {
+        $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
+        $audioObj = $this->em->getRepository('GqAusUserBundle:Evidence\Audio');
+        $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
+        $fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
+        $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+        foreach ($evidences as $evidence) {
+            $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->findOneById($evidence);
+
+            switch ($evdObj->getType()) {
+                case 'image':
+                    $evidenceObj = $imgObj->findOneById($evidence);
+                    break;
+                case 'audio':
+                    $evidenceObj = $audioObj->findOneById($evidence);
+                    break;
+                case 'video':
+                    $evidenceObj = $videoObj->findOneById($evidence);
+                    break;
+                case 'file':
+                    $evidenceObj = $fileObj->findOneById($evidence);
+                    break;
+                case 'text':
+                    $evidenceObj = $textObj->findOneById($evidence);
+                    break;
+                default :
+                    $evidenceObj = $fileObj->findOneById($evidence);
+                    break;
+            }
+
+            if (!empty($evidenceObj)) {
+                $fileName = $evidenceObj->getPath();
+                $this->em->remove($evidenceObj);
+                $this->em->flush();
+
+                $logType = $this->userService->getlogType('8');
+                $this->userService->createUserLog('8', $logType['message']);
+
+                return array('fileName' => $fileName);
+            }
         }
     }
 }

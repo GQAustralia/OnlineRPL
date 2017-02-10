@@ -1019,10 +1019,7 @@ class CoursesService
         return $uploadDetails;
     }
     
-    public function getEvidencesByUnit($userId,$unitCode,$courseCode){
-        $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
-        $evidences = $reposObj->findBy(['user'=>$userId,'unit'=>$unitCode,'course'=>$courseCode]);
-        $userEvidence = [];
+    private function mimeTypes() {
         $mimeTypes = array(
             'ai' => 'application/postscript',
             'aif' => 'audio/x-aiff',
@@ -1184,6 +1181,13 @@ class CoursesService
             'xyz' => 'chemical/x-xyz',
             'zip' => 'application/zip'
         );
+        return $mimeTypes;
+    }
+    public function getEvidencesByUnit($userId,$unitCode,$courseCode){
+        $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
+        $evidences = $reposObj->findBy(['user'=>$userId,'unit'=>$unitCode,'course'=>$courseCode]);
+        $userEvidence = [];
+        
         foreach($evidences as $evidence){
             $evd = [];
             $evd['id'] = $evidence->getId();
@@ -1201,7 +1205,7 @@ class CoursesService
                 $info = pathinfo($s3Path);
                 $basename = isset($info['basename']) ? $info['basename'] : '';
                 $ext = isset($info['extension']) ? $info['extension'] : '';
-                $evd['mimeType'] = (isset($mimeTypes[$ext]) ? $mimeTypes[$ext] : '');
+                $evd['mimeType'] = (isset($this->mimeTypes()[$ext]) ? $this->mimeTypes()[$ext] : '');
                 if(empty($evd['mimeType'])) {
                     $contentType = get_headers($s3Path, 1)["Content-Type"];
                     $evd['mimeType'] = ($contentType != '')? $contentType : 'application/octet-stream';
@@ -1223,4 +1227,51 @@ class CoursesService
 //        }
     }
     
+    /**
+     * Function to get All evidence Except text By user
+     * @param object $request
+     * return string
+     */
+    
+    public function getEvidenceLibraryAction($userId)
+    {
+        $evidences = $this->em->getRepository('GqAusUserBundle:Evidence')->findByUser($userId);
+        $userEvidence = [];
+        foreach ($evidences as $evidence) {
+            $type = $evidence->getType();
+            if ($type != 'text') {
+                $evd = [];
+                $evd['id'] = $evidence->getId();
+
+                $evd['type'] = $type;
+                $evd['path'] = $evidence->getPath();
+                $evd['s3Path'] = $evd['mimeType'] = $evd['fileType'] = '';
+                if ($type != 'text') {
+                    $s3Path = '';
+                    if ($type != 'recording')
+                        $s3Path = $this->container->getParameter('amazon_s3_base_url') . 'user-' . $userId . '/' . $evd['path'];
+                    else
+                        $s3Path = $this->container->getParameter('amazon_s3_base_url') . $this->container->getParameter('tokbox_key') . '/' . $evd['path'] . '/archive.mp4';
+                    $evd['s3Path'] = $s3Path;
+                    $info = pathinfo($s3Path);
+                    $basename = isset($info['basename']) ? $info['basename'] : '';
+                    $ext = isset($info['extension']) ? $info['extension'] : '';
+                    $evd['mimeType'] = (isset($this->mimeTypes()[$ext]) ? $this->mimeTypes()[$ext] : '');
+                    if (empty($evd['mimeType'])) {
+                        $contentType = get_headers($s3Path, 1)["Content-Type"];
+                        $evd['mimeType'] = ($contentType != '') ? $contentType : 'application/octet-stream';
+                    }
+                    $evd['fileType'] = $ext;
+                }
+
+                $evd['name'] = ($type == 'text') ? '' : $evidence->getName();
+                $evd['content'] = ($type == 'text') ? $evidence->getContent() : '';
+                $evd['size'] = $evidence->getSize();
+                $evd['facilitatorViewStatus'] = $evidence->getfacilitatorViewStatus();
+
+                $userEvidence[] = $evd;
+            }
+        }
+        return $userEvidence;
+    }
 }

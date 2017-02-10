@@ -185,4 +185,41 @@ class EvidenceController extends Controller
         echo 'success';
         exit;
     }
+    
+    public function copyEvidencesAction(Request $request) {
+        $results = [];
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $courseCode = $params['courseCode'];
+                $unitCode = $params['unitCode'];
+                $evidenceKeys = $params['evidenceIds'];
+                $category = $params['category'];
+                $results = $this->get('EvidenceService')->copyEvidence($userId,$courseCode,$unitCode,$category,$evidenceKeys);
+            }
+        }
+
+        return new JsonResponse($results);
+    }
+    
+    public function deleteEvidencesAction(Request $request) {
+        $results = [];
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $evidences = $params['evidences'];
+                $results = $this->get('EvidenceService')->deleteEvidences($evidences);
+            }
+        }
+
+        return new JsonResponse($results);
+    }
 }

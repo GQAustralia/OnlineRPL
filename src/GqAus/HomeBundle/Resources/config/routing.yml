@@ -64,3 +64,6 @@ getUploadDetails:
 getEvidencesByUnit:
     path: /units/getEvidencesByUnit
     defaults: { _controller: GqAusHomeBundle:Courses:getEvidencesByUnit }
+getEvidenceLibrary:
+    path: /units/getEvidenceLibrary
+    defaults: { _controller: GqAusHomeBundle:Courses:getEvidenceLibrary }
