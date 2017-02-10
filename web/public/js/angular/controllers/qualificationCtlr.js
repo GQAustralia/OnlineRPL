@@ -1,6 +1,13 @@
 gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, AjaxService, $filter) {
     $scope.IsLoaded = false;
     $scope.unitsFetched = false;
+    $scope.pageStats = {
+       evidenceEdit:false,
+       evidenceView:'card',
+       libraryView:'card',
+       evidenceFiles:{},
+       isLibrary:false
+    };
     $scope.electiveUnits = [];
     $scope.allElectiveUnits = [];
     $scope.selectedElectiveUnits = [];
@@ -17,10 +24,12 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     $scope.uploadAdditional = {};
     $scope.uploadControl = {};
     $scope.unitEvidences = [];
+    $scope.allEvidences = [];
     $scope.evidenceView = {};
     $scope.uploadInProgress = {
         uploads: [],
-        category: {}
+        category: {},
+        libraryFiles:{}
     };
     $scope.userId = $window.or_user_id || 0;
     $scope.uploadDetails = {
@@ -229,6 +238,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
         }, function (error) {
             console.log(error);
         });
+        $scope.getEvidenceLibrary();
     };
 
     $scope.getUnitEvidences = function (unitCode) {
@@ -247,11 +257,29 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
             return;
         }
 
-        if (angular.element("#uploadID").val() == '') {
+        var keys = [];
+        _.each($scope.uploadInProgress.libraryFiles, function (val, key) {
+            if (val) {
+                keys.push(key);
+            }
+        });
+
+        if (angular.element("#uploadID").val() == '' && keys.length === 0 ) {
             $window.alert('Select evidence files');
             return;
         }
-        var additionalObj = {
+        if(keys.length > 0){
+            $scope.uploadInProgress.libraryFiles = [];
+            AjaxService.apiCall("units/copyEvidences", {evidenceIds: keys, courseCode: $scope.courseCode, unitCode: $scope.selectedUnit,category:$scope.uploadInProgress.category.id}).then(function (data) {
+                $scope.getUnitEvidences($scope.selectedUnit);
+                $scope.getUploadDetails();
+                
+            }, function (error) {
+                console.log(error);
+            });
+            $scope.closeUploadModal();
+        }else{
+             var additionalObj = {
             category: $scope.uploadInProgress.category.id,
             userId: $scope.userId,
             unitCode: $scope.selectedUnit,
@@ -259,6 +287,8 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
         };
         $scope.uploadControl.start(additionalObj);
         $('#uploadIdFiles').modal('hide');
+        }
+       
     };
     $scope.cancelUpload = function (value) {
         $scope.uploadControl.cancel(value);
@@ -266,6 +296,14 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
         $scope.$applyAsync();
     };
 
+    $scope.getEvidenceLibrary = function(){
+        AjaxService.apiCall("units/getEvidenceLibrary", {}).then(function (data) {
+           $scope.allEvidences = data;
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    
     $scope.removeUpload = function (index) {
 //        AjaxService.apiCall("removeUserIds",{id:$scope.enrollment.upload.uploadId[index].id}).then(function (data) {
 //            $scope.uploadInProgress.uploads.splice(index, 1);
@@ -291,7 +329,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
         AjaxService.apiCall("addEvidences",uploadedObj).then(function (data) {
             if (data.uploadId !== '') {
                 $scope.getUnitEvidences(uploadedObj.unitCode);
-                _.without($scope.uploadInProgress.uploads, uploadedObj)
+                $scope.uploadInProgress.uploads =  _.without($scope.uploadInProgress.uploads, uploadedObj);
                 //$scope.uploadInProgress.uploads.splice(uploadIndex, 1);
                 $scope.getUploadDetails();
                 $scope.$applyAsync();
@@ -449,7 +487,29 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     
     $scope.submitConfirm = function() {
         $('#submitUnitConfirmation').modal('show');
-    }
+    };
+    
+    $scope.deleteEvidence = function (evidence) {
+        var ids = [];
+        if (evidence === undefined) {
+            var keys = [];
+            _.each($scope.pageStats.evidenceFiles, function (val, key) {
+                if (val) {
+                    keys.push(key);
+                }
+            });
+            ids = keys;
+            $scope.pageStats.evidenceFiles = [];
+        } else {
+            ids.push(evidence.id);
+        }
+        $scope.unitEvidences = _.filter($scope.unitEvidences, function(evi){ return !_.contains(ids, evi.id); });
+        AjaxService.apiCall("units/deleteEvidences", {evidences:ids}).then(function (data) {
+            $scope.getUnitEvidences($scope.selectedUnit);
+        }, function (error) {
+            console.log(error);
+        });
+    };
 
     // Watchers
     $scope.$watch('qualificationPage', function (newValues) {
@@ -473,6 +533,12 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
 
     $scope.$watch('userElectiveUnits', function (newValues) {
         $scope.userSelectedSync();
+    });
+    
+    $scope.$watch('pageStats.isLibrary', function (newValues) {
+        if(newValues===false){
+            $scope.uploadInProgress.libraryFiles = {}
+        }
     });
 
 });

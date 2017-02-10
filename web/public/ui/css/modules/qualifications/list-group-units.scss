@@ -120,10 +120,12 @@ $selected-bg: #70bdc7;
 		}
 	}
 
-	.panel-collapse > p {
+	.panel-collapse > .panel-body {
 		padding: $padding-large-vertical*2 $padding-large-horizontal;
 		margin: 0;
 		background-color: white;
+		max-height: 300px;
+		overflow: auto;  
 	}
 }
 
