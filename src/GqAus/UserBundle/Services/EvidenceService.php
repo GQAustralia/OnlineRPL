@@ -191,13 +191,24 @@ class EvidenceService
             if((isset($data['unitCode']) && !empty($data['unitCode'])) && (isset($data['courseCode']) && !empty($data['courseCode']))) // Uploading evidence by candidate then update course units
             $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'],'', false);
         } else {
-            $textObj = new Text();
+        				
+            if (!empty($data['self_assessment_id'])) {
+            	
+            				$textObjTemp = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+            				$textObj = $textObjTemp->findOneById($data['self_assessment_id']);
+            }
+            else {
+            	$textObj = new Text();
+            }
+            
             $textObj->setContent($data['self_assessment']);
             $textObj->setUnit($data['unitCode']);
             $textObj->setCourse($data['courseCode']);
             $textObj->setUser($this->currentUser);
+            $textObj->setFacilitatorViewStatus('0');
             $this->em->persist($textObj);
             $this->em->flush();
+            $evidenceId = $textObj->getId();
             $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'],'', false);
         }
        

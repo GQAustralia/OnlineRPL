@@ -25,6 +25,12 @@ abstract class Evidence
         return $this->id;
     }
     
+    public function setId($id)
+    {
+    					$this->id = $id;
+    					return $this;
+    }
+    
      /**
      * Returns type of evidence.
      *
