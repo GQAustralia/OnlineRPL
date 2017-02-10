@@ -134,7 +134,10 @@
 		    z-index: 2;
 		    background: white;
 		    padding: 30px;
-		    height: 100% !important;
+		    height: calc(100% - 90px) !important;
+		    height: -moz-calc(100% - 90px) !important;
+		    height: -webkit-calc(100% - 90px) !important;
+		    height: -o-calc(100% - 90px) !important;
 		}
 
 		border-radius: $border-radius-base;

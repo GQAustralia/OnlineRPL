@@ -259,4 +259,29 @@
       pointer-events: none;
     }
   }
+
+  &.btn-group .btn-transparent {
+    margin-left: 0 !important;
+    border: 2px solid transparent;
+    @include box-shadow(none);
+
+    &:first-child {
+      border-top-right-radius: $border-radius-base !important;
+      border-bottom-right-radius: $border-radius-base !important;
+    }
+
+    &:last-child {
+      border-top-left-radius: $border-radius-base !important;
+      border-bottom-left-radius: $border-radius-base !important;
+    }
+
+    &:hover {
+      border-radius: $border-radius-base;
+    }
+    &.active {
+      @include box-shadow(none);
+      border-radius: $border-radius-base;
+      border: 2px solid $brand-red !important;
+    }
+  }
 }

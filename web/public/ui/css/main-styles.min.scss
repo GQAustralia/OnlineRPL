@@ -1,5 +1,5 @@
 // Compile 'em all
-
+ 
 // Variables and Mixins
 @import 'bootstrap/variables.scss';
 @import 'bootstrap/mixins.scss';
@@ -12,10 +12,11 @@
 // HTML 5 polyfills
 @import 'polyfills/progress.scss';
 
-// Pages
+// Pages / Modules
 @import 'layouts/layouts.scss';
 @import 'modules/rpl-onboarding/rpl-onboarding.scss';
-@import 'modules/profile/profile.scss';
-// @import 'modules/upload-evidences/upload-evidences.scss';
+
+// @import 'modules/upload-evidences/upload-evidences.scss'; 
 @import 'modules/overview/overview.scss';
-@import 'modules/qualifications/units.scss';  
+@import 'modules/qualifications/units.scss';
+@import 'modules/evidence-library/evidence-library.scss';
