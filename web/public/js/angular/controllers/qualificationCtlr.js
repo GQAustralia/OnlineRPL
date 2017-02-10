@@ -53,7 +53,10 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
         }
     };
 
-
+    $scope.unitStatus = '';
+    $scope.selectedUnitObj = [];
+    $scope.selfAssessment = {};
+    
     $scope.addRemoveUnit = function (unit) {
 
         var obj = _.where($scope.selectedElectiveUnits, unit);
@@ -71,6 +74,9 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     };
 
     $scope.isSubmitted = function (unit) {
+    	if ($scope.qualificationPage == ''){
+    		return $scope.selectedUnitObj.isSubmitted === 1;
+    	}
         var $obj;
         if ($scope.qualificationPage == 'elective')
             $obj = unit && _.where($scope.selectedElectiveUnits, unit) || _.where($scope.selectedElectiveUnits, {id: $scope.selectedUnit});
@@ -234,6 +240,9 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     $scope.getUnitEvidences = function (unitCode) {
         AjaxService.apiCall("units/getEvidencesByUnit", {"unitCode": unitCode, "courseCode": $scope.courseCode}).then(function (data) {
             if ($scope.selectedUnit === unitCode) $scope.unitEvidences = data;
+            var $obj = _.where($scope.unitEvidences,{type:"text"});
+            $scope.selfAssessment = $obj[0]||{};
+            $scope.selfAssessment.modified = angular.copy($scope.selfAssessment.content);
         }, function (error) {
             console.log(error);
         });
@@ -449,20 +458,64 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     
     $scope.submitConfirm = function() {
         $('#submitUnitConfirmation').modal('show');
-    }
+    };
+    
+    $scope.openUnitDetails = function() {
+    	$window.location.href = ' /qualification/unitDetails/'+ $scope.selectedUnit+'/'+$scope.courseCode;
+    };
+    
+    $scope.showUnitUploadById = function (id) {
+        $scope.selectedUnit = id;
+        $scope.getUnitDetails(id);
+        $scope.unitEvidences = [];
+        $scope.getUnitEvidences(id);
+    };
+    
+    
+    $scope.getUnitInfo = function(status) {
+    	 AjaxService.apiCall("qualification/getUnitInfo", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode}).then(function (data) {
+    		 $scope.unitStatus = data.statusText;
+    		 $scope.selectedUnitObj = data;
+         }, function (error) {
+             console.log(error);
+         });
+    };
+    
+    $scope.saveSelfAssessmentNotes = function() {
+    	var uploadedObj = {
+    			'self_assessment' : $scope.selfAssessment.modified,
+    			'courseCode' : $scope.courseCode,
+    			'unitCode' : $scope.selectedUnit,
+    			'self_assessment_id' : $scope.selfAssessment.id||null
+    	};
+        AjaxService.apiCall("addEvidences",uploadedObj).then(function (data) {
+            if (data.uploadId !== '') {
+                $scope.getUnitEvidences(uploadedObj.unitCode);
+                _.without($scope.uploadInProgress.uploads, uploadedObj)
+                //$scope.uploadInProgress.uploads.splice(uploadIndex, 1);
+                $scope.getUploadDetails();
+                $scope.$applyAsync();
+            }
 
+        }, function (error) {
+            console.log(error);
+        });
+    }
+    
     // Watchers
     $scope.$watch('qualificationPage', function (newValues) {
         if (newValues !== '') {
             $scope.IsLoaded = false;
             if (newValues === "qualification") {
-                $rootScope.pageTitle = "GQ - RPL Qualification";
+                $rootScope.pageTitle = "GQ - Recognition of Prior Learning Qualification";
                 $scope.IsLoaded = true;
             } else {
                 if (newValues === "core")
-                    $rootScope.pageTitle = "GQ - RPL Core unit";
+                    $rootScope.pageTitle = "GQ - Recognition of Prior Learning Core unit";
                 if (newValues === "elective")
-                    $rootScope.pageTitle = "GQ - RPL Elective unit";
+                    $rootScope.pageTitle = "GQ - Recognition of Prior Learning Elective unit";
+                if (newValues === '') 
+                	$rootScope.pageTitle = "GQ - Recognition of Prior Learning Unit Details";
                 $scope.getUploadDetails();
                 $scope.closeSelected();
                 ($scope.unitsFetched == false) ? $scope.getUnits() : $scope.IsLoaded = true;

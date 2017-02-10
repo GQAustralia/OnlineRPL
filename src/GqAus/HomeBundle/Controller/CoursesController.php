@@ -453,4 +453,64 @@ class CoursesController extends Controller
         return new JsonResponse($results);     
         
     }
+    
+    
+    /**
+     * Function to retrive unit details
+     * return string
+     */
+    public function getCourseUnitDetailsAction($unitCode, $courseCode)
+    {
+    	$user = $this->get('security.context')->getToken()->getUser();
+    	$userService = $this->get('UserService');
+    	$courseService = $this->get('CoursesService');
+    	$results['courseDetails'] = $courseService->getCourseDetails($courseCode, $user->getId());
+    	$results['unitCode'] = $unitCode;
+    	$results['courseCode'] = $courseCode;
+    	$checkStatus = $userService->getHaveAccessPage($user->getId(), $user->getId(), $courseCode, $user->getRoles());
+    	if(!$checkStatus)
+    					return $this->render('GqAusUserBundle:Default:error.html.twig');
+       
+        
+
+        return $this->render('GqAusHomeBundle:Courses:getcourseunitdetails.html.twig', $results);
+    
+    }
+    
+    
+    /**
+     * Function to Save unit Evidence
+     * return string
+     */
+    public function getUnitInfoAction(Request $request)
+    {
+    				$user = $this->get('security.context')->getToken()->getUser();
+    				$userId = $user->getId();
+    				if ($request->isMethod('POST') && $userId != '') {
+    								$params = array();
+    								$content = $this->get("request")->getContent();
+    								if (!empty($content)) {
+    												$params = json_decode($content, true); // 2nd param to get as array
+									    			$unitCode = $params['unitCode'];
+									    			$courseCode = $params['courseCode'];
+									    			$userService = $this->get('UserService');
+									    			
+									    			$courseService = $this->get('CoursesService');
+									    			$unitInfo = $courseService->getUnitStatus($userId, $unitCode, $courseCode);
+									    			$unit['id'] = $unitInfo->getId();
+									    			$unit['unitId'] = $unitInfo->getUnitId();
+									    			$unit['userId'] = $unitInfo->getUser()->getId();
+									    			$unit['courseCode'] = $unitInfo->getCourseCode();
+									    			$unit['type'] = $unitInfo->getType();
+									    			$unit['facilitatorStatus'] = $unitInfo->getFacilitatorstatus();
+									    			$unit['assessorStatus'] = $unitInfo->getAssessorstatus();
+									    			$unit['rtoStatus'] = $unitInfo->getRtostatus();
+									    			$unit['status'] = $unitInfo->getStatus();
+									    			$unit['electiveStatus'] = $unitInfo->getElectiveStatus();
+									    			$unit['isSubmitted'] = $unitInfo->getIssubmitted();
+									    			$unit['statusText'] = $userService->getStausByStatus($unitInfo->getStatus(), $userId, $unitCode, $courseCode, $user->getRoles()[0]);
+    								}
+    				}
+    				return new JsonResponse($unit);
+    }
 }

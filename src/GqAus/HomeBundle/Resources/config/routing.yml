@@ -64,3 +64,9 @@ getUploadDetails:
 getEvidencesByUnit:
     path: /units/getEvidencesByUnit
     defaults: { _controller: GqAusHomeBundle:Courses:getEvidencesByUnit }
+unitDetails:
+    path: /qualification/unitDetails/{unitCode}/{courseCode}
+    defaults: {_controller: GqAusHomeBundle:Courses:getCourseUnitDetails}
+getUnitInfo:
+    path: /qualification/getUnitInfo
+    defaults: {_controller: GqAusHomeBundle:Courses:getUnitInfo}

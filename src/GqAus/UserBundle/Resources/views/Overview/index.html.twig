@@ -25,7 +25,10 @@
                     </div>
                     <div class="panel-body">
                         <p>
-                            Information to the candidate will be displayed here. Information to the candidate will be displayed here. Information to the candidate will be displayed here. Information to the candidate will be displayed here. 
+                            This is your Online RPL homepage. You can see here the qualifications you are currently enrolled in.
+                         </p>
+                         <p>
+                            To start uploading evidence, you can follow the links at the bottom of each of your qualifications. 
                         </p>
                         <!--<h6 class="text-uppercase control-label"><strong>Things you need to do</strong></h6>
                         <ul class="list-group list-group-no-border">
@@ -95,14 +98,14 @@
  
                                  <div class="qual-gauges">
                                      <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units">
-                                         <span>{{ coreUnitsSubmittedPercent|round }}%</span>
+                                         <span>{{ unitSubmitted['core']}}/{{ coreUnitsCnt|length }}</span>
                                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                      </div>                                    
                                  </div>
  
                                  <div class="qual-gauges">
                                      <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units">
-                                         <span>{{ electiveUnitsSubmittedPercent|round }}%</span>
+                                         <span>{{ unitSubmitted['elective']}}/{{ electiveUnitsCnt }}</span>
                                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                      </div>
                                  </div>
@@ -110,7 +113,7 @@
                              </div>
                          </div>
                          <div class="panel-qualification-footer">
-                             <a href="{{ app.request.baseUrl }}/files" class="btn btn-link btn-block"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</a>
+                             <a href="{{ app.request.baseUrl }}/files" class="btn btn-link btn-block"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> {% if(evidenceCompleteness|trim('%') == 0)%} Get Started{%else%}Upload Evidence{%endif%}</a>
                          </div>
 
                      </div>

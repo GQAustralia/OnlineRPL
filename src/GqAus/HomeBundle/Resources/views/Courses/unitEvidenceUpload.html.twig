@@ -1,7 +1,7 @@
     <section class="section-main col-section-0" ng-class="{'col-section-5': is_open === true, 'col-section-0': is_open === false}" data-panel="right">
                 <div class="panel panel-default panel-upload-evidence" ng-class="{'in': is_open === true}">
                    <div class="panel-upload-buttons">
-                        <button type="button" class="btn btn-sm"><i class="zmdi zmdi-open-in-new zmdi-hc-lg zmdi-hc-fw"></i></button>
+                        <button type="button" class="btn btn-sm" ng-click="openUnitDetails()"><i class="zmdi zmdi-open-in-new zmdi-hc-lg zmdi-hc-fw"></i></button>
                         <button type="button" class="btn btn-sm btn-panel-close" ng-click="closeSelected()"><i class="zmdi zmdi-hc-lg zmdi-hc-fw"></i> <span>Back</span></button>
                     </div>
                     <div class="panel-body">
@@ -76,11 +76,11 @@
 
                                 <div id="collapseNotes" class="panel-collapse collapse in collapsed">
                                     <div class="panel-collapse-inner">
-                                        <div class="click-to-edit">
-                                            <textarea class="form-control" ng-readonly="isSubmitted()"></textarea>
+                                        <div class="click-to-edit" ng-init="selfAssessment = (unitEvidences| filter:{type: 'text'})[0]||{}">
+                                            <textarea class="form-control" ng-model="selfAssessment.modified" ng-readonly="isSubmitted()">{[{selfAssessment.content}]}</textarea>
 
                                             <div class="center-block text-right click-to-edit-actions" ng-if="!isSubmitted()">
-                                                <button type="button" class="btn btn-default btn-xs" ng-click="">Discard</button>
+                                                <button type="button" class="btn btn-default btn-xs" ng-click="selfAssessment.modified = angular.copy(selfAssessment.content)">Discard</button>
                                                 <button type="button" class="btn btn-primary btn-xs"{# ng-disabled="assessment === '' "#} ng-click="">Save Note</button>
                                             </div>
                                         </div>
