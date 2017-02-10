@@ -512,6 +512,7 @@ class CoursesController extends Controller
     								}
     				}
     				return new JsonResponse($unit);
+    }
     /**
      * Function to get All evidence Except text By user
      * @param object $request
