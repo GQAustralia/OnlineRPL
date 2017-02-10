@@ -70,3 +70,6 @@ unitDetails:
 getUnitInfo:
     path: /qualification/getUnitInfo
     defaults: {_controller: GqAusHomeBundle:Courses:getUnitInfo}
+getEvidenceLibrary:
+    path: /units/getEvidenceLibrary
+    defaults: { _controller: GqAusHomeBundle:Courses:getEvidenceLibrary }

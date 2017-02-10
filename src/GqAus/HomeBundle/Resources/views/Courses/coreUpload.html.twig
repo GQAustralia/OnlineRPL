@@ -8,7 +8,7 @@
                                 <progress style="width: 100%" role="progress" value="{[{percentCoreSubmitted()}]}" max="100"><img class="fallback" width="30"></progress>
                                 <figcaption class="progress-details"> <span class="unit-percent">{[{percentCoreSubmitted()}]}</span> complete</figcaption>
                             </div>
-                        </div>
+                        
                          <div class="dropdown dropdown-unit-filter">
                                 <button type="button" class="btn btn-default text-left btn-sm" data-toggle="dropdown" ng-init="unitStatusArr['core'].selectedFilter = 'all'">
                                     <i class="zmdi zmdi-filter-list zmdi-hc-lg zmdi-hc-fw"></i> <span class="filter-text">{[{unitStatusArr['core'].selectedFilter == 'all'?'Filter by Unit Status':'Filtered by '+unitStatusArr['elective'].selectedFilter}]}</span>
@@ -36,6 +36,7 @@
                                         </label> <!-- red -->
                                     </div>
                                 </div>
+                            </div>
                             </div>
                         <div class="alert well-sm alert-info clearfix filter-status" ng-if="unitStatusArr['core'].selectedFilter != 'all'">
                             <strong class="pull-left">Showing all <span ng-bind="unitStatusArr['core'][unitStatusArr['core'].selectedFilter].length">6</span> <span>Competent</span> units </strong>

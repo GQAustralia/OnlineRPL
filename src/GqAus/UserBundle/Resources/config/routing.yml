@@ -349,3 +349,9 @@ removeUserIds:
 setEnrollmentComplete:
     path:    /setEnrollmentComplete
     defaults: {_controller: GqAusUserBundle:Enrollment:setEnrollmentComplete}
+copyEvidences:
+    path: /units/copyEvidences
+    defaults: { _controller: GqAusUserBundle:Evidence:copyEvidences }
+deleteEvidences:
+    path: /units/deleteEvidences
+    defaults: { _controller: GqAusUserBundle:Evidence:deleteEvidences }

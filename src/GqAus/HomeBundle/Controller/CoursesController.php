@@ -512,5 +512,25 @@ class CoursesController extends Controller
     								}
     				}
     				return new JsonResponse($unit);
+    /**
+     * Function to get All evidence Except text By user
+     * @param object $request
+     * return string
+     */
+    public function getEvidenceLibraryAction(Request $request)
+    {
+       $results = [];
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
+            }
+        }
+
+        return new JsonResponse($results);
     }
 }
