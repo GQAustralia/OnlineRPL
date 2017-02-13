@@ -650,7 +650,7 @@ class EvidenceService
                  $evfancy = "";
                  break;            
         }
-        return $evtype."&&".$evfancy;
+        return $evtype;
     }
     /**
      * Function to get the EvidenceType By Evidence Id
@@ -825,12 +825,13 @@ class EvidenceService
         $fileExt = explode('.', $fileName);
         $fileExtIndex = (count($fileExt)-1);
         $fileExtType = $fileExt[$fileExtIndex];
-        $msDocExtensions = $this->container->getParameter('ms_docs');
-        if(in_array($fileExtType, $msDocExtensions))
-            $msDocStatus = true;
-        else
-            $msDocStatus = false;
-	return $msDocStatus;
+        return $fileExtType;
+//        $msDocExtensions = $this->container->getParameter('ms_docs');
+//        if(in_array($fileExtType, $msDocExtensions))
+//            $msDocStatus = true;
+//        else
+//            $msDocStatus = false;
+//	return $msDocStatus;
     }
     
     /**
@@ -955,5 +956,42 @@ class EvidenceService
                 return array('fileName' => $fileName);
             }
         }
+    }
+    
+    public function getEvidenceCats(){
+        $evidenceCats = $this->em->getRepository('GqAusUserBundle:EvidenceCategory');
+        return $evidenceCats->findAll();
+    }
+    public function getFileFormatFromFileExt($filename){
+         switch ($filename) {
+             case 'image':
+             case 'jpg':
+             case 'png':
+             case 'bmp':
+             case 'jpeg':
+             case 'svg':
+                 $fileFor = "img";
+                 break;
+             case 'audio':
+             case 'wmv':
+             case 'video':
+             case 'mp3':
+             case 'mp4':
+                 $fileFor = 'audio';
+                 break;
+             case 'pdf':
+                 $fileFor = "pdf";
+                 break;
+             case 'xls':
+             case 'xlsx':
+             case 'docx':
+             case 'txt':
+                 $fileFor = "office";
+                 break;
+             default:
+                 $fileFor = "";
+                 break;
+         }
+         return $fileFor;
     }
 }
