@@ -4,10 +4,11 @@
         <id name="id" type="integer" column="id">
             <generator strategy="IDENTITY"/>
         </id>
-        <field name="unitID" type="integer" column="unit_id" nullable="false"/>
+        <field name="unitID" type="string" column="unit_id" nullable="false"/>
         <field name="note" type="string" column="note" nullable="false"/>
         <field name="type" type="string" column="type" nullable="false"/>
 		<field name="courseId" type="integer" column="course_id" nullable="True"/>
         <field name="created" type="datetime" column="created" nullable="false"/>
+        <field name="acknowledged" type="integer" column="acknowledged" nullable="false"/>
     </entity>
 </doctrine-mapping>

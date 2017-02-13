@@ -73,3 +73,12 @@ getUnitInfo:
 getEvidenceLibrary:
     path: /units/getEvidenceLibrary
     defaults: { _controller: GqAusHomeBundle:Courses:getEvidenceLibrary }
+getNotes:
+    path: /units/getNotes
+    defaults: { _controller: GqAusHomeBundle:Courses:getNotes }  
+saveNotes:
+    path: units/saveNotes
+    defaults: { _controller: GqAusHomeBundle:Courses:saveNotes }  
+acknowledgeNote:
+    path: units/acknowledgeNote
+    defaults: { _controller: GqAusHomeBundle:Courses:acknowledgeNote }     

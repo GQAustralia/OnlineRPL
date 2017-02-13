@@ -11,7 +11,7 @@ class Note
 {
 
     /**
-     * @var integer
+     * @var string
      */
     private $unitID;
 
@@ -39,6 +39,11 @@ class Note
      * @var integer
      */
     private $courseId;
+    
+    /**
+     * @var integer
+     */
+    private $acknowledged;
 
     /**
      * Set unitID
@@ -163,6 +168,29 @@ class Note
     {
         return $this->courseId;
     }
-
+				
+    
+    /**
+     * Set courseId
+     *
+     * @param integer $courseId
+     * @return integer
+     */
+    public function setAcknowledged($acknowledged)
+    {
+    	$this->acknowledged = $acknowledged;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get courseId
+     *
+     * @return integer
+     */
+    public function getAcknowledged()
+    {
+    	return $this->acknowledged;
+    }
 
 }
