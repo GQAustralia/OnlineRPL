@@ -177,7 +177,7 @@ var SET_PASSWORD = {
     terms: $('#termsAndConditions'),
     bind: function(){
         this.button.on('click', function(){SET_PASSWORD.validate_fields()});
-        $('#password, #confirmPassword').on('change', function(){SET_PASSWORD.validate_empty_fields();})
+        $('#password, #confirmPassword').on('keyup', function(){SET_PASSWORD.validate_empty_fields();})
     },
     submit_enter: function () {
         $(document).on('keyup', '#password, #confirmPassword', function (event) {
