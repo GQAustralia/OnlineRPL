@@ -42,6 +42,7 @@ class CoursesController extends Controller
         $results['assessmentForm'] = $assessmentForm->createView();*/
         $results['statusList'] = $this->get('UserService')->getQualificationStatus();
         $results['qualificationPage'] = $page;
+        $results['selectUnit'] = 1;
 //print_r($results['courseDetails']);
         return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', $results);
     }
@@ -513,6 +514,7 @@ class CoursesController extends Controller
     				}
     				return new JsonResponse($unit);
     }
+    
     /**
      * Function to get All evidence Except text By user
      * @param object $request
@@ -534,4 +536,79 @@ class CoursesController extends Controller
 
         return new JsonResponse($results);
     }
+    
+    /**
+     * Function to get notes by unit and course
+     * @param object $request
+     * return string
+     */
+    public function getNotesAction(Request $request)
+    {
+				    	$results = [];
+				    	$user = $this->get('security.context')->getToken()->getUser();
+				    	$userId = $user->getId();
+				    	if ($request->isMethod('POST') && $userId != '') {
+								    	$params = array();
+								    	$content = $this->get("request")->getContent();
+								    	if (!empty($content)) {
+												    	$params = json_decode($content, true); // 2nd param to get as array
+												    	$courseCode = $params['courseCode'];
+												    	$unitCode = $params['unitCode'];
+												    	$results = $this->get('NotesService')->getNotesByUnitAndCourse($userId, $courseCode, $unitCode, 'f');
+								    	}
+				    	}
+    
+    	return new JsonResponse($results);
+    }
+    
+    /**
+     * Function to save notes by unit and course
+     * @param object $request
+     * return string
+     */
+    public function saveNotesAction(Request $request)
+    {
+				    $results = [];
+				    $user = $this->get('security.context')->getToken()->getUser();
+				    $userId = $user->getId();
+				    if ($request->isMethod('POST') && $userId != '') {
+								    $params = array();
+								    $content = $this->get("request")->getContent();
+								    if (!empty($content)) {
+								    $params = json_decode($content, true); // 2nd param to get as array
+												    $courseCode = $params['courseCode'];
+												    $unitCode = $params['unitCode'];
+												    $note = $params['note'];
+												    $results = $this->get('NotesService')->saveCandidateNotes($userId, $courseCode, $unitCode, $note);
+				    				}
+				    }
+			    
+			    	return new JsonResponse($results);
+    }
+    
+    /**
+     * Function to acknowledge Note by note id
+     * @param object $request
+     * return string
+     */
+    public function acknowledgeNoteAction(Request $request)
+    {
+				    $results = [];
+				    $user = $this->get('security.context')->getToken()->getUser();
+				    $userId = $user->getId();
+				    if ($request->isMethod('POST') && $userId != '') {
+								    $params = array();
+								    $content = $this->get("request")->getContent();
+								    if (!empty($content)) {
+												    $params = json_decode($content, true); // 2nd param to get as array
+												    $noteId = $params['noteId'];
+												    $courseCode = $params['courseCode'];
+												    $unitCode = $params['unitCode'];
+												    $results = $this->get('NotesService')->acknowledgeNote($noteId, $userId, $courseCode, $unitCode);
+								    }
+				    }
+				    
+				    return new JsonResponse($results);
+    }
+    
 }

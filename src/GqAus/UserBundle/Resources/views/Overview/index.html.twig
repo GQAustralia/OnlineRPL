@@ -113,7 +113,7 @@
                              </div>
                          </div>
                          <div class="panel-qualification-footer">
-                             <a href="{{ app.request.baseUrl }}/files" class="btn btn-link btn-block"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> {% if(evidenceCompleteness|trim('%') == 0)%} Get Started{%else%}Upload Evidence{%endif%}</a>
+                             <a href="{{ app.request.baseUrl }}{% if(evidenceCompleteness|trim('%') == 0)%}/qualificationDetails/{{ courseCode }}/core{%else%}/qualificationDetails/{{ courseCode }}{%endif%}" class="btn btn-link btn-block"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> {% if(evidenceCompleteness|trim('%') == 0)%} Get Started{%else%}Upload Evidence{%endif%}</a>
                          </div>
 
                      </div>
@@ -129,7 +129,6 @@
 
 
 {% block javascripts %}
-    <script src="{{ asset('public/ui/js/plugins/bootstrap-tour.min.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/bootstrap-tour.min.js') }}"></script>
    
     <script type="text/javascript">

@@ -29,3 +29,11 @@ gqAus.filter('bytesToSize', function () {
             return sizes[i];
     };
 });
+
+gqAus.filter('getLength', function () {
+    return function (objInstance) {
+    	var keys = Object.keys(objInstance);
+    	return len = keys.length;
+    };
+});
+

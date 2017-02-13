@@ -65,6 +65,9 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     $scope.unitStatus = '';
     $scope.selectedUnitObj = [];
     $scope.selfAssessment = {};
+    $scope.notes = {};
+    $scope.role = 'candidate';
+    
     
     $scope.addRemoveUnit = function (unit) {
 
@@ -209,6 +212,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
         $scope.getUnitDetails(unit.id);
         $scope.unitEvidences = [];
         $scope.getUnitEvidences(unit.id);
+        getNotes($scope.selectedUnit, $scope.courseCode);
     };
 
     $scope.show_details = function (detailsType, title) {
@@ -499,7 +503,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     };
     
     $scope.openUnitDetails = function() {
-    	$window.location.href = ' /qualification/unitDetails/'+ $scope.selectedUnit+'/'+$scope.courseCode;
+    	window.open('/qualification/unitDetails/'+ $scope.selectedUnit+'/'+$scope.courseCode); 
     };
     
     $scope.showUnitUploadById = function (id) {
@@ -510,7 +514,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     };
     
     
-    $scope.getUnitInfo = function(status) {
+    $scope.getUnitInfo = function() {
     	 AjaxService.apiCall("qualification/getUnitInfo", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode}).then(function (data) {
     		 $scope.unitStatus = data.statusText;
     		 $scope.selectedUnitObj = data;
@@ -561,6 +565,47 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
             console.log(error);
         });
     };  
+    
+    $scope.initUnitDetailsPage = function(unitCode) {
+    	$scope.selectedUnit = unitCode;
+    	$scope.getUploadDetails();
+    	$scope.showUnitUploadById($scope.selectedUnit);
+    	$scope.getUnitInfo();
+    	getNotes($scope.selectedUnit, $scope.courseCode);
+    }
+    
+    var getNotes = function(selectedUnit, courseCode) {
+    	
+    	AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode}).then(function (data) {
+    		$scope.notes = data;
+        }, function (error) {
+            console.log(error);
+        });
+    }
+    
+    $scope.saveNotes = function (newNotes) {
+    	if (newNotes != '') {
+	    	 AjaxService.apiCall("units/saveNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "note":newNotes}).then(function (data) {
+	    		 if (data != 'error') {
+	    			 $scope.notes = data;
+	    		 }
+	         }, function (error) {
+	             console.log(error);
+	         });
+    	}
+    }
+    
+    
+    
+    $scope.acknowledgeNote = function (noteId) {
+    	AjaxService.apiCall("units/acknowledgeNote", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "noteId": noteId}).then(function (data) {
+    		if (data != 'error') {
+   			 $scope.notes = data;
+   		 }
+        }, function (error) {
+            console.log(error);
+        });
+    }
     // Watchers
     $scope.$watch('qualificationPage', function (newValues) {
         if (newValues !== '') {

@@ -84,7 +84,98 @@ class NotesService
         }
         return $return;
     }
+    
+    
+    /**
+     * Function to update acknowledge
+     * @param int $unitId
+     * @param string $userType
+     * return array
+     */
+    public function acknowledgeNote($noteId, $userId, $courseCode, $unitCode)
+    {
+				    	$return = array();
+				    	$notesObj = $this->em->getRepository('GqAusUserBundle:Note');
+				    	$unitNotes = $notesObj->findOneById(array(
+				    			'id' => $noteId), array('id' => 'DESC'));
+				    	
+				    	if ($unitNotes) {
+								    	$unitNotes->setAcknowledged(1);
+											  $this->em->persist($unitNotes);
+											  $this->em->flush();
+								    	return $this->getNotesByUnitAndCourse($userId, $courseCode, $unitCode, 'f');
+				    	}
+				    	
+				    	return "error";
+    }
+    /**
+     * Function to save Notes
+     * @param array $data
+     * return string
+     */
+    public function saveCandidateNotes($userId, $courseCode, $unitCode, $note)
+    {
+			    	if (!empty($note)) {
+			    		
+			    		$courseInfo = $this->em->getRepository('GqAusUserBundle:UserCourses')
+			    						->findOneBy(array('courseCode' => $courseCode, 'user' => $userId));
+			    		
+			    		$notesObj = new Note();
+			    		$notesObj->setUnitID($unitCode);
+			    		$notesObj->setNote($note);
+			    		$notesObj->setType('f');
+			    		$notesObj->setCourseId($courseInfo->getId());
+			    		$dateObj = new DateTime('now');
+			    		$notesObj->setCreated($dateObj);
+			    		$notesObj->setAcknowledged(0);
+			    		$this->em->persist($notesObj);
+			    		$this->em->flush();
+									
+			    		return $this->getNotesByUnitAndCourse($userId, $courseCode, $unitCode, 'f');
+			    	} 
+			    	else
+			    		return "error";
+    }
+    
+    
+    /**
+     * Function to get notes
+     * @param int $unitId
+     * @param string $userType
+     * return array
+     */
+    public function getNotesByUnitAndCourse($userId, $courseCode, $unitCode, $type)
+    {
+				    $return = array();
 
+				    $courseInfo = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                ->findOneBy(array('courseCode' => $courseCode, 'user' => $userId));
+				    
+				    $notesObj = $this->em->getRepository('GqAusUserBundle:Note');
+				    
+				    $unitNotes = $notesObj->findBy(array(
+				    			'unitID' => $unitCode,
+				    			'courseId' => $courseInfo->getId(),
+				    			'type' => $type), array('id' => 'DESC'));
+				    
+				    $unitNotesArr = array();
+				    foreach ($unitNotes as $note) {
+				    	$noteArr = [];
+				    	$noteArr['id'] = $note->getId();
+				    	$noteArr['unitID'] = $note->getUnitID();
+				    	$noteArr['note'] = $note->getNote();
+				    	$noteArr['type'] = $note->getType();
+				    	$noteArr['courseId'] = $note->getCourseId();
+				    	$note_created_date = $note->getCreated();
+				    	$noteArr['created'] = $note_created_date->format('d/m/Y');
+				    	$noteArr['acknowledged'] = $note->getAcknowledged();
+				    	$unitNotesArr[trim($note->getId())] =  $noteArr;
+				    }
+				    return $unitNotesArr;
+    }
+    
+    
+    
     /**
      * Function to get facilitatorInfo
      * @param int $unitId
