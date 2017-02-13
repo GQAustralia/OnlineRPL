@@ -17,7 +17,7 @@
             <section class="section-sidebar">
                 <div class="panel panel-default">
                     <div class="panel-qualification-heading">
-                        <div class="avatar avatar-xs"><img src="{% if userImg  != '' %}{{amazon_link~'user-'~userId~'/'~userImg}}{{userImg}}{%else%} public/images/userprofile.png{%endif%}" alt="You"></div>
+                        <div class="avatar avatar-xs"><img src="{% if userImg  != '' %}{{amazon_link~'user-'~userId~'/'~userImg}}{%else%} public/images/userprofile.png{%endif%}" alt="You"></div>
                         <div class="heading">
                             <span>Welcome back</span>
                             <span>{{ userObj.getUsername() }}</span>
