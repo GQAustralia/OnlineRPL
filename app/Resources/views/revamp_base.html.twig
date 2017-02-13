@@ -99,7 +99,7 @@
                 <div class="avatar-menu">
                     <div class="dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
-                            <div class="avatar avatar-xxs t-item-4"><img src="{{amazon_link~'user-'~userId~'/'~userImg}}" alt="You"></div>
+                            <div class="avatar avatar-xxs t-item-4"><img src="{% if userImage  != '' %}{{amazon_link~'user-'~userId~'/'~userImage}}{%else%}public/ui/img/avatar-default.png{%endif%}" alt="You"></div>
                             <span class="avatar-name" id="avatarFirstName">{{ userFName }}</span>&nbsp;
                             <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                         </div>
