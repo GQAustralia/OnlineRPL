@@ -5,13 +5,14 @@
 {% block ngtitle %}myProfile{% endblock%}
 {% block stylesheets %}{% endblock %}
 {% block body %}
+    {% set userId = user.id%}
     {% set userFirstName = user.firstName %}
     {% set userLastName = user.lastName %}
     {% set userFullName = userFirstName~' '~userLastName%}
     {% set userUSI = user.universalStudentIdentifier %}
     {% set userDOB = user.dateOfBirth %}
     {% set userGender = user.gender %}
-    {% set userImage = (user.userImage != '') ? user.userImage : 'avatar-default.svg' %}
+    {% set userImage = (user.userImage != '') ? amazon_link~'user-'~userId~'/'~user.userImage : 'public/ui/img/avatar-default.svg' %}
     {% set userEmail = user.email %}
     {% set userHomePhone = user.phone %}
     {% set userWorkPhone = user.contactPhone %}
@@ -20,15 +21,22 @@
     {% set userPosAdd = (user.address.postal == '1') ? userBilAdd : user.address.pbuildingname~' '~user.address.paddress~' '~user.address.parea~' '~user.address.pcity~' '~user.address.psuburb~' '~user.address.pstate~' '~user.address.pcountry~' '~user.address.ppincode %}
     {% set userIdFiles = user.idfiles %}
     <main class="main-content-gqa profile">
-        <div class="container"><!-- Put content here -->       <!-- Put content here --></div>
+        <div class="container"></div>
         <div class="container">            
             <div class="panel panel-default">
                 <div class="profile-header">
                     <div class="avatar avatar-sm">
-                        <form><input type="file" id="uploadAvatar" /><i class="zmdi zmdi-camera"></i></form>
-                        <img src="{{ asset('public/ui/img/')~userImage}}" alt="{{userFullName}}">
+                        <form>
+                            <input type="file" id="userprofile_userImage" name="userprofile"/><i class="zmdi zmdi-camera"></i>
+                        </form>
+                        <input type="hidden" name="userVal" id="userVal" value="{{userId}}">
+                        <input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
+                        <input type="hidden" value="0" id='hdn-type' name='hdn-type'/>
+                        <img src="{{userImage}}" alt="{{userFullName}}" id="user_profile_image" class="profile_image">
                     </div>
                     <div class="profile-user">
+                        <div id="profile_suc_msg2"><span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span></div>
+                        <div class="ajax-profile-error" id="ajax-profile-error"></div>
                         <h2>{{userFullName}}</h2>
                         <h4>USI Number - <span>{{userUSI}}</span></h4>
                     </div>
@@ -45,11 +53,11 @@
                             </div>
                             <div class="profile-info">
                                 <i class="zmdi zmdi-phone base-icon"></i>
-                                <p>Home telepehone number<span><img src="{{ asset('public/ui/img/flag_au.jpg') }}">{{userHomePhone}}</span></p>
+                                <p>Home telepehone number<span>{{userHomePhone}}</span></p>
                             </div>
                             <div class="profile-info">
                                 <i class="zmdi zmdi-smartphone-iphone base-icon"></i>
-                                <p>Mobile number<span><img src="{{ asset('public/ui/img/flag_au.jpg') }}">{{userMobPhone}}</span></p>
+                                <p>Mobile number<span>{{userMobPhone}}</span></p>
                             </div>
                         </div>
                         <div class="col-md-5 col-sm-6 col-xs-12">
@@ -190,6 +198,10 @@
 
 {% block javascripts %}
     <script src="{{ asset('public/ui/js/plugins/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('public/ui/js/set-changepassword.js') }}"></script>
+    <!--Phone Number Flag Plugin-->
+    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <script src="{{ asset('public/js/s3-upload/s3upload-profileimg.js') }}"></script>
+    <script src="{{ asset('public/js/s3-upload/s3upload-trainermatrix.js') }}"></script>
+    <script src="{{ asset('public/ui/js/change-password.js') }}"></script>
     <script src="{{ asset('public/ui/js/profile.js') }}"></script>
 {% endblock %}

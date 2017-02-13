@@ -138,23 +138,15 @@ var s3uploadPi = null;
                     data: datas,
                     dataType:'json',
                     success: function(res) {
-                    $('#resume_msg').hide();
-                    $('#change_address_error').hide();
-		    $("#ajax-profile-error").hide();
-                    $('#user_profile_image').attr('src',amazon_link+'user-'+userId+'/'+obj.uploadedName);                    
-                    $("#profile_suc_msg2").show();
-                    $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>Profile Image updated successfully!</span></div>');
-                    $("#ajax-profile-error").hide();
-                    $("#ajax-gq-profile-page-img").css("background-image", "url('" + amazon_link+'user-'+userId+'/'+obj.uploadedName + "')");
-                    if (userType == 0) {
-                        $("#ajax-gq-profile-small-page-img").css("background-image", "url('" + amazon_link+'user-'+userId+'/'+obj.uploadedName + "')");
-                    }
-                    if (userType == 2) {
-                        $('#hdn-img').val(result);
-                    }
-                    $("#ajax-loading-icon").hide();
-                    $("#progress-barsPi").hide();
-                    $("#fileListContainer").hide();
+                        $("#ajax-profile-error").hide();
+                        $('#user_profile_image').attr('src', amazon_link+'user-'+userId+'/'+obj.uploadedName);                    
+                        $("#profile_suc_msg2").show();
+    //                    $("#ajax-profile-error").hide();
+                        $("#user_profile_image").attr('src',amazon_link+'user-'+userId+'/'+obj.uploadedName);     
+//                        $("#profile_suc_msg2").html('<div class="gq-id-files-upload-success-text alert alert-success" style="display: block;"><span>Profile Image updated successfully!</span></div>');
+                        $("#ajax-loading-icon").hide();
+                        $("#progress-barsPi").hide();
+                        $("#fileListContainer").hide();
                     }
                 }); 
                 def.resolve('success');
