@@ -1,0 +1,28 @@
+.evidence-controls {
+	@include clearfix();
+
+	.checkbox-control,.btn-group {
+		display: block;
+		float: left;
+	}
+
+	.checkbox-control {
+		margin: 3px 5px 0 0;
+		border-right: 1px solid $gray-lighter;
+		padding: 5px 15px 5px 0;
+		label { margin-bottom: 0; }
+	}
+
+	> .btn {
+		float: right;
+	}
+
+	& + .thumbnail-group {
+		margin-top: 15px;
+	}
+}
+
+.is-mobile .evidence-controls .checkbox-control {
+    margin: 6px 15px 0 0;
+    padding: 10px 25px 10px 0;
+}

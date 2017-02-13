@@ -62,13 +62,21 @@ progress[role] {
 
         &:before {
             content: attr(data-value) + attr(data-unit);
-            display: block;
             position: relative;
             font-size: 2em;
             font-weight: 300;
             clear: both;
             line-height: 1;
             color: inherit;
+            display: block;
+        }
+
+        &.progress-details-inline {
+            &:before { display: inline-block; }
+        }
+
+        &.progress-details-block {
+            &:before { display: block; }
         }
     }
 }

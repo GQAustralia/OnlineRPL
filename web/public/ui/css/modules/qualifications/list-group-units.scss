@@ -1,3 +1,5 @@
+$selected-bg: #70bdc7;
+
 .list-group-units {
 	$top-spacing: 30px;
 	margin-top: 0;
@@ -46,6 +48,7 @@
 			.btn {
 				text-align: left;
 				font-size: 1.2em;
+				font-weight: 400;
 				background-color: transparent;
 				border: none;
 				border-radius: 0;
@@ -64,7 +67,7 @@
 
 				i { right: 20px; font-size: 1.4em; }
 			}
-			.btn:first-child {
+			.btn:first-of-type {
 				@include calc-sub-two-values(width, 100%, $btn-width);
 				@include box-shadow(0 1px 0 $gray-lighter);
 
@@ -92,7 +95,7 @@
 					right: 50px;
 				}
 			}
-			.btn:last-child {
+			.btn:first-of-type + .btn {
 				position: absolute;
 				top: -1px;
 				bottom: -1px;
@@ -117,48 +120,56 @@
 		}
 	}
 
-	.panel-collapse > p {
+	.panel-collapse > .panel-body {
 		padding: $padding-large-vertical*2 $padding-large-horizontal;
 		margin: 0;
 		background-color: white;
+		max-height: 300px;
+		overflow: auto;  
 	}
 }
 
+// Disabled state of the unit items if user already met the max required elective units
+.list-group-units.disable-not-selected {
+	$disabled-color: #ececec;
+	.list-group-units-item {
+		.list-group-units-subitem:not(.selected) {
+			background-color: $disabled-color;
+			border-color: $disabled-color;
+
+			&:hover {
+				.btn-group .btn {
+					background-color: $disabled-color !important;
+					color: darken(#8a8a8a,6%);
+					cursor: not-allowed;
+				}
+			}
+
+			.btn-group .btn {
+				color: #8a8a8a;
+
+				&:first-of-type {
+					@include box-shadow(0 1px 0 $disabled-color);
+					&:hover {
+						background-color: $disabled-color;
+					}
+				}
+				&:first-of-type + .btn {
+					background-color: $disabled-color;
+					border: 1px solid $disabled-color;
+					border-bottom-color: $disabled-color;
+					border-left: none;
+
+					i:before { content: '\f119'; }
+				}
+			}
+		}
+	}
+}
 
 .list-group-units-item {
-	$selected-bg: #b9eae8;
 
-	// // Scaling effect
-	// .list-group-units-subitem {
-	// 	position: relative;
-	// 	&:after {
-	// 		display: block;
-	// 		content: '';
-	// 		@include opacity(1);
-	// 		@include scale(0.5);
-	// 		@include transition(all .3s $easing);
-	// 		z-index: 0;
-	// 		background-color: $selected-bg;
-	// 		position: absolute;
-	// 		top: 0;
-	// 		left: 0;
-	// 		right: 0;
-	// 		bottom: 0;
-	// 	}
-
-	// 	&.selected {
-	// 		&:after {
-	// 			display: block;
-	// 			content: '';
-	// 			@include opacity(0);
-	// 			@include scale(1.5);
-	// 			@include transition(all .3s $easing);
-	// 			z-index: 0;
-	// 		}
-	// 	}
-	// }
-	// Scaling effect
-
+	// State if a unit item is selected/currently active
 	.list-group-units-subitem.selected {
 		background-color: $selected-bg;
 		border-color: darken($selected-bg,10%);
@@ -170,15 +181,15 @@
 		}
 
 		.btn-group .btn {
-			color: darken($selected-bg,70%);
+			color: white;
 
-			&:first-child {
+			&:first-of-type {
 				@include box-shadow(0 1px 0 darken($selected-bg,15%));
 				&:hover {
 					background-color: darken($selected-bg,10%);
 				}
 			}
-			&:last-child {
+			&:first-of-type + .btn {
 				background-color: $selected-bg;
 				border: 1px solid darken($selected-bg,10%);
 				border-bottom-color: darken($selected-bg,15%);
@@ -189,10 +200,11 @@
 		}
 	}
 
+	// State if a unit item is already on the selected bucket/panel
 	.list-group-units-subitem.selected.chosen {
 
 		.btn-group .btn {
-			&:first-child {
+			&:first-of-type {
 				padding-right: 90px;
 
 				.unit-name {
@@ -202,16 +214,148 @@
 					right: 10px;
 				}
 			}
-			&:last-child {
+			&:first-of-type + .btn {
 				i:before { content: '\f270' !important; }
 			}
+		}
+	}
+
+	// State if a unit item is already locked / can't be deselected
+	.list-group-units-subitem.selected.chosen.locked {
+		background-color: darken($selected-bg,10%);
+		border-color: darken($selected-bg,10%);
+
+		.btn-group .btn {
+			&:first-of-type {
+				padding-right: 90px;
+
+				.unit-name {
+					width: 96%;
+				}
+				.unit-code {
+					right: 10px;
+				}
+			}
+			&:first-of-type + .btn {
+				background-color: darken($selected-bg,10%);
+				border: 1px solid darken($selected-bg,10%);
+				border-bottom-color: darken($selected-bg,15%);
+				i:before { content: '\f190' !important; }
+			}
+			&:hover {
+				cursor: not-allowed;
+			}
+		}
+
+		& + .tooltip {
+			left: auto !important;
+			right: -15px;
+			.tooltip-inner {
+				max-width: 250px;
+			}
+			.tooltip-arrow {
+				left: auto !important;
+				right: 40px !important;
+			}
+		}
+	}
+
+	&.units-selected {
+		.list-group-units-subitem {
+			.btn-group {
+				.btn:first-of-type {
+					width: 100%;
+				}
+
+				.unit-status {
+					position: absolute;
+					top: 15px;
+					right: 15px;
+					bottom: 15px;
+					font-size: 14px;
+					width: 130px;
+					display: block;
+
+					.label {
+						position: relative;
+						top: auto;
+						right: auto;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+
+		.list-group-units-subitem.active {
+			background-color: $selected-bg;
+			border-color: darken($selected-bg,10%);
+
+			.btn-group .btn {
+				color: white;
+				background-color: transparent;
+
+				&:first-of-type {
+					@include box-shadow(0 1px 0 darken($selected-bg,15%));
+				}
+
+				&:hover, &:hover * {
+					cursor: default;
+				}
+
+				.label {
+					border: 1px solid darken($selected-bg, 15%);
+					border-bottom: 1px solid darken($selected-bg, 24%);
+				}
+			}
+
+			&:before {
+				
+				content: '';
+				position: absolute;
+				top: -1px;
+				bottom: -1px;
+				left: 100%;
+				right: 0;
+				background-color: $selected-bg;
+				border-top: 1px solid darken($selected-bg,10%);
+				border-bottom: 1px solid darken($selected-bg,15%);
+
+				@media (max-width: $screen-xs-max) {
+					display: none;
+				}
+				@media (min-width: $screen-xs + 1) and (max-width: $screen-xs-max) {
+					width: 15 + $panel-body-padding;
+				}
+				@media (min-width: $screen-sm-min) {
+					display: block;
+					width: 15 + ($panel-body-padding/2);
+				}
+				@media (min-width: $screen-md-min) {
+					width: 15 + $panel-body-padding;
+				}
+				@media (min-width: $screen-lg-min) {
+					width: 15 + ($panel-body-padding*2);
+				}
+			}
+
+
+			// &:hover {
+			// 	.btn-group .btn {
+			// 		background-color: darken($selected-bg,10%) !important;
+			// 	}
+
+			// 	&:before {
+			// 		cursor: pointer;
+			// 		background-color: darken($selected-bg,10%) !important;
+			// 	}
+			// }
 		}
 	}
 }
 
 .unit-count {
     position: absolute;
-    top: 30px;
+    top: 15px;
     right: 30px;
     font-size: 2.8em;
     font-weight: 300;
@@ -219,19 +363,6 @@
 
     small { font-size: 60%; }
 }
-
-.panel-selected-units {
-	padding: 15px;
-
-	.panel-selected-units-body {
-		position: relative;
-		padding: 30px;
-		border: 1px solid $gray-lighter;
-		border-radius: $border-radius-base;
-		min-height: 350px;
-	}
-}
-
 .animated-checklist {
 	width: 150px;
 	height: 120px;
@@ -302,69 +433,65 @@
 
 .no-selected-units { margin-top: 50px; }
 
-.unit-search {
-    position: absolute;
-    z-index: 1;
-    background-color: transparent;
+.panel-heading-text {
+	@media (max-width: $screen-xs-max) {
+		font-size: $font-size-h5 + 2;
+		font-weight: 500;
 
-	@media (max-width: $screen-xs) {
-		top: $panel-body-padding/2;
-		right: $panel-body-padding/2;
-		left: $panel-body-padding/2;
+		.zmdi-chevron-down { font-size: 1.8em; }
 	}
-	@media (min-width: $screen-xs + 1) and (max-width: $screen-xs-max) {
-		top: $panel-body-padding;
-		right: $panel-body-padding;
-		left: $panel-body-padding;
+	@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+		font-size: $font-size-h5 + 2;
+		font-weight: 500;
+
+		.zmdi-chevron-down { font-size: 1.8em; }
 	}
+	@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+		font-size: $font-size-h5 + 2;
+
+		.zmdi-chevron-down { font-size: 1.8em; }
+	}
+	@media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+		font-size: $font-size-h4;
+
+		.zmdi-chevron-down { font-size: 1.8em; }
+	}
+}
+
+.is-desktop, .is-tablet {
 	@media (min-width: $screen-sm-min) {
-		top: $panel-body-padding/2;
-		right: $panel-body-padding/2;
-		left: $panel-body-padding/2;
+		.message-start-select-desktop { display: block; }
+		.message-start-select-mobile { display: none; }
 	}
-	@media (min-width: $screen-md-min) {
-		top: $panel-body-padding;
-		right: $panel-body-padding;
-		left: $panel-body-padding;
-	}
-	@media (min-width: $screen-lg-min) {
-		top: $panel-body-padding*2;
-		right: $panel-body-padding*2;
-		left: $panel-body-padding*2;
-	}
+	.alert-max-exceeded, .btn-continue { display: none; }
+}
 
+.is-mobile {
+	@media (max-width: $screen-xs-max) {
+		.unit-count { top: -15px; right: 3px; }
+		.panel-selected-units-body {
+			border: none !important;
+			padding: 0 !important;
+		}
 
-	.form-control {
-		background-color: white;
-		width: 30px;
-		@include opacity(0);
-		float: right;
-		position: relative;
-		z-index: 2;
-		@include transition(all .5s $easing);
+		[data-panel-parent="two-column-split"].container-units {
+			[data-panel="left"],
+			.message-start-select-desktop { display: none; }
+		}
 
-		&:hover {
-			cursor: pointer;
+		.message-start-select-mobile { 
+			display: block;
+			margin-top: 15px;
+			font-size: 18px;
+		}
 
-			& + i {
-				color: $brand-primary;
+		.animated-checklist	{
+			+ h3:first-letter {
+				text-transform: uppercase;
+			}
+			+ h3 span:first-of-type {
+				display: none;
 			}
 		}
-	}
-
-	&.focused {
-		background-color: white;
-		.form-control {
-			width: 100%;
-			@include opacity(1);
-			@include transition(all .5s $easing);
-		}
-	}
-
-	.icon {
-		position: absolute;
-		top: 23%;
-		right: 0;
-		z-index: 0;
 	}
 }

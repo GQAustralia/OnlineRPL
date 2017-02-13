@@ -10,9 +10,11 @@
 
     @media (max-width: $screen-xs-max) {
         padding: 15px;
+        cursor: pointer;
     }
     @media (min-width: $screen-sm-min) {
         padding: 60px 30px;
+        cursor: pointer;
     }
 
     &:hover {

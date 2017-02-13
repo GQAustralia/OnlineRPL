@@ -105,10 +105,10 @@
   // line-height: $modal-title-line-height;
   line-height: 1;
   @media (max-width: $screen-xs-max) {
-    font-size: 18px;
+    //font-size: 18px;
   }
   @media (min-width: $screen-sm-min) {
-    font-size: 24px;
+    //font-size: 24px; 
   }
 }
 
@@ -122,6 +122,18 @@
   @media (min-width: $screen-sm-min) {
     padding: $modal-inner-padding * 2;
   }
+  &-lg{
+    padding: $modal-inner-padding / 4
+  }
+  &-md{
+    padding: $modal-inner-padding / 2;
+  }
+  &-sm{
+    padding: $modal-inner-padding;
+  }
+  &-xs{
+    padding: $modal-inner-padding * 2;
+  } 
 }
 
 // Footer (for actions)

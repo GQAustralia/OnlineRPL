@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use GqAus\UserBundle\Form\EvidenceForm;
 use GqAus\UserBundle\Form\AssessmentForm;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EvidenceController extends Controller
 {
@@ -18,13 +19,19 @@ class EvidenceController extends Controller
     public function addAction(Request $request)
     {
 
-        error_reporting(0);
-        $form = $this->createForm(new EvidenceForm(), array());
-        if ($request->isMethod('POST')) {
-            //$fileNames = $this->get('gq_aus_user.file_uploader')->process($data['file']);
-            echo $this->get('EvidenceService')->saveS3ToEvidence($request->request);
-            exit;
+        $results = [];
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $results = $this->get('EvidenceService')->saveS3ToEvidence($params);
+            }
         }
+
+        return new JsonResponse($results);
     }
 
     /**
@@ -177,5 +184,42 @@ class EvidenceController extends Controller
         $this->get('EvidenceService')->updateEvidenceViewStaus($id);
         echo 'success';
         exit;
+    }
+    
+    public function copyEvidencesAction(Request $request) {
+        $results = [];
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $courseCode = $params['courseCode'];
+                $unitCode = $params['unitCode'];
+                $evidenceKeys = $params['evidenceIds'];
+                $category = $params['category'];
+                $results = $this->get('EvidenceService')->copyEvidence($userId,$courseCode,$unitCode,$category,$evidenceKeys);
+            }
+        }
+
+        return new JsonResponse($results);
+    }
+    
+    public function deleteEvidencesAction(Request $request) {
+        $results = [];
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $evidences = $params['evidences'];
+                $results = $this->get('EvidenceService')->deleteEvidences($evidences);
+            }
+        }
+
+        return new JsonResponse($results);
     }
 }

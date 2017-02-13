@@ -1,0 +1,66 @@
+.unit-search {
+    position: absolute;
+    z-index: 1;
+    background-color: transparent;
+
+	@media (max-width: $screen-xs) {
+		top: $panel-body-padding/2;
+		right: $panel-body-padding/2;
+		left: $panel-body-padding/2;
+	}
+	@media (min-width: $screen-xs + 1) and (max-width: $screen-xs-max) {
+		top: $panel-body-padding;
+		right: $panel-body-padding;
+		left: $panel-body-padding;
+	}
+	@media (min-width: $screen-sm-min) {
+		top: $panel-body-padding/2;
+		right: $panel-body-padding/2;
+		left: $panel-body-padding/2;
+	}
+	@media (min-width: $screen-md-min) {
+		top: $panel-body-padding;
+		right: $panel-body-padding;
+		left: $panel-body-padding;
+	}
+
+
+	.form-control {
+		background-color: white;
+		width: 30px;
+		float: right;
+		position: relative;
+		z-index: 2;
+		@include opacity(0);
+		@include transition(all .5s $easing);
+
+		&:hover {
+			cursor: pointer;
+
+			& + i {
+				color: $brand-primary;
+			}
+		}
+	}
+
+	&.focused {
+		background-color: white;
+		@include transition(all .5s $easing);
+		.form-control {
+			width: 100%;
+			@include opacity(1);
+			@include transition(all .5s $easing);
+
+			&:hover {
+				cursor: text;
+			}
+		}
+	}
+
+	.icon {
+		position: absolute;
+		top: 23%;
+		right: 0;
+		z-index: 0;
+	}
+}

@@ -137,70 +137,82 @@ class EvidenceService
      * @param array $data
      * return string
      */
-    public function saveS3ToEvidence($data)
+     public function saveS3ToEvidence($data)
     {
-	
-        $i = 0;
-        $seterror = 'no';
-        $fileInfo = $data->get('fileInfo');
-        $filName = $data->get('fileName');
-		$jobId = $data->get('jobId');
-        $otherInfo= $data->get('otherInfo');
-        $size = $fileInfo['size'];
-        $mimeType = $fileInfo['type'];;
-        $size = $this->fileSize($size);
-        $pos = strpos($mimeType, '/');
-        $type = substr($mimeType, 0, $pos);
-        switch ($type) {
-            case 'image':
-                $fileObj = new Image();
-                break;
-            case 'audio':
-                $fileObj = new Audio();
-                break;
-            case 'video':
-                $fileObj = new Video();
-                break;
-            case 'text':
-                $fileObj = new File();
-                $type = 'file';
-                break;
-            case 'application':
-                $fileObj = new File();
-                break;
-            default :
-                $fileObj = new File();
-                break;
-        }
-        $fileObj->setPath($filName);
-        $fileObj->setName($fileInfo['name']);
-        $fileObj->setJobId($jobId);
-        $fileObj->setFacilitatorViewStatus('0');
-        $fileObj->setUser($this->currentUser);
-        $fileObj->setSize($size);
-        if(isset($otherInfo['hid_unit'])) // null value added for unmapped file upload
-            $fileObj->setUnit($otherInfo['hid_unit']);
-        if(isset($otherInfo['hid_course'])) // null value added for unmapped file upload
-            $fileObj->setCourse($otherInfo['hid_course']);
-        $this->em->persist($fileObj);
-        $this->em->flush();
-        $evidenceId = $fileObj->getId();
-        $fileNumber = $otherInfo['fileNum'];
-        if((isset($otherInfo['hid_unit']) && !empty($otherInfo['hid_unit'])) && (isset($otherInfo['hid_course']) && !empty($otherInfo['hid_unit']))) // Uploading evidence by candidate then update course units
-            $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course'],'', false);
 
-        if (!empty($otherInfo['self_assessment'])) {
-            $textObj = new Text();
-            $textObj->setContent($otherInfo['self_assessment']);
-            $textObj->setUnit($otherInfo['hid_unit']);
-            $textObj->setCourse($otherInfo['hid_course']);
+        if (empty($data['self_assessment'])) {
+            $i = 0;
+            $seterror = 'no';
+            $filName = $data['path'];
+            $jobId = $data['jobId'];
+            $size = $data['size'];
+            ;
+            $mimeType = $data['type'];
+            $size = $this->fileSize($size);
+            $pos = strpos($mimeType, '/');
+            $type = substr($mimeType, 0, $pos);
+            switch ($type) {
+                case 'image':
+                    $fileObj = new Image();
+                    break;
+                case 'audio':
+                    $fileObj = new Audio();
+                    break;
+                case 'video':
+                    $fileObj = new Video();
+                    break;
+                case 'text':
+                    $fileObj = new File();
+                    $type = 'file';
+                    break;
+                case 'application':
+                    $fileObj = new File();
+                    break;
+                default :
+                    $fileObj = new File();
+                    break;
+            }
+            $fileObj->setPath($filName);
+            $fileObj->setName($data['name']);
+            $fileObj->setJobId($jobId);
+            $fileObj->setFacilitatorViewStatus('0');
+            $fileObj->setUser($this->currentUser);
+            $fileObj->setSize($size);
+            $categoryObj = $this->em->getRepository('GqAusUserBundle:EvidenceCategory')->findOneById($data['category']);
+            $fileObj->setCategory($categoryObj);
+            if (isset($data['unitCode'])) // null value added for unmapped file upload
+                $fileObj->setUnit($data['unitCode']);
+            if (isset($data['courseCode'])) // null value added for unmapped file upload
+                $fileObj->setCourse($data['courseCode']);
+            $this->em->persist($fileObj);
+            $this->em->flush();
+            $evidenceId = $fileObj->getId();
+            $fileNumber = $data['fileNum'];
+            if((isset($data['unitCode']) && !empty($data['unitCode'])) && (isset($data['courseCode']) && !empty($data['courseCode']))) // Uploading evidence by candidate then update course units
+            $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'],'', false);
+        } else {
+        				
+            if (!empty($data['self_assessment_id'])) {
+            	
+            				$textObjTemp = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+            				$textObj = $textObjTemp->findOneById($data['self_assessment_id']);
+            }
+            else {
+            	$textObj = new Text();
+            }
+            
+            $textObj->setContent($data['self_assessment']);
+            $textObj->setUnit($data['unitCode']);
+            $textObj->setCourse($data['courseCode']);
             $textObj->setUser($this->currentUser);
+            $textObj->setFacilitatorViewStatus('0');
             $this->em->persist($textObj);
             $this->em->flush();
-            $this->updateCourseUnits($this->userId, $otherInfo['hid_unit'], $otherInfo['hid_course'],'', false);
+            $evidenceId = $textObj->getId();
+            $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'],'', false);
         }
-        return json_encode(['evidenceId'=>$evidenceId, 'fileNumber' => $fileNumber, 'evdType' => $type]);
-        return ($seterror == 'no') ? $otherInfo['hid_unit'] : $seterror;
+       
+        return array('evidenceId' => $evidenceId);
     }
 
     /**
@@ -819,5 +831,129 @@ class EvidenceService
         else
             $msDocStatus = false;
 	return $msDocStatus;
+    }
+    
+    /**
+     * function to update Evidence Completed Status
+     * @param Array
+     */
+    
+    public function unitSubmit($data)
+    {
+        if (!empty($data['unitCode']) && !empty($data['courseCode'])) {
+            $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'], '1');
+            $logType = $this->userService->getlogType('10');
+            $this->userService->createUserLog('10', $logType['message']);
+            return array('success'=>'Updated Succesfully');
+        } else {
+            $logType = $this->userService->getlogType('11');
+            $this->userService->createUserLog('11', $logType['message']);
+            return array('error'=>'Unit or Course ID missing');
+        }
+    }
+    
+    /**
+     * 
+     * @param type $userId
+     * @param type $courseCode
+     * @param type $unitCode
+     * @param type $evidenceKeys
+     * @return 
+     */
+    
+    public function copyEvidence($userId,$courseCode,$unitCode,$category,$evidenceKeys)
+    {
+        $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
+        $audioObj = $this->em->getRepository('GqAusUserBundle:Evidence\Audio');
+        $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
+        $fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
+        $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+        foreach($evidenceKeys as $evidence){
+            $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->find($evidence);
+            switch ($evdObj->getType()) {
+                case 'image':
+                 //   $evidenceObj = $imgObj->find($val);
+                    $newObj = new Image();
+                    break;
+                case 'audio':
+                  //  $evidenceObj = $audioObj->find($val);
+                    $newObj = new Audio();
+                    break;
+                case 'video':
+                  //  $evidenceObj = $videoObj->find($val);
+                    $newObj = new Video();
+                    break;
+                case 'file':
+                   // $evidenceObj = $fileObj->find($val);
+                    $newObj = new File();
+                    break;
+                case 'text':
+                   // $evidenceObj = $textObj->find($val);
+                    $newObj = new Text();
+                    break;
+                default :
+                   // $evidenceObj = $fileObj->find($val);
+                    $newObj = new File();
+                    break;
+            }
+            $newObj->setPath($evdObj->getPath());
+            $newObj->setName($evdObj->getName());
+            $newObj->setSize(0);
+            $newObj->setUser($this->currentUser);
+            $newObj->setUnit($unitCode);
+            $newObj->setCourse($courseCode);
+            $categoryObj = $this->em->getRepository('GqAusUserBundle:EvidenceCategory')->findOneById($category);
+            $newObj->setCategory($categoryObj);
+            $newObj->setJobId("");
+            $newObj->setFacilitatorViewStatus('0');
+            $this->em->persist($newObj);
+            $this->em->flush();
+            $this->updateCourseUnits($this->userId, $unitCode, $courseCode, '', false);
+        }
+        return ['sucess'=>true];
+    }
+    
+    public function deleteEvidences($evidences)
+    {
+        $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
+        $audioObj = $this->em->getRepository('GqAusUserBundle:Evidence\Audio');
+        $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
+        $fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
+        $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+        foreach ($evidences as $evidence) {
+            $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->findOneById($evidence);
+
+            switch ($evdObj->getType()) {
+                case 'image':
+                    $evidenceObj = $imgObj->findOneById($evidence);
+                    break;
+                case 'audio':
+                    $evidenceObj = $audioObj->findOneById($evidence);
+                    break;
+                case 'video':
+                    $evidenceObj = $videoObj->findOneById($evidence);
+                    break;
+                case 'file':
+                    $evidenceObj = $fileObj->findOneById($evidence);
+                    break;
+                case 'text':
+                    $evidenceObj = $textObj->findOneById($evidence);
+                    break;
+                default :
+                    $evidenceObj = $fileObj->findOneById($evidence);
+                    break;
+            }
+
+            if (!empty($evidenceObj)) {
+                $fileName = $evidenceObj->getPath();
+                $this->em->remove($evidenceObj);
+                $this->em->flush();
+
+                $logType = $this->userService->getlogType('8');
+                $this->userService->createUserLog('8', $logType['message']);
+
+                return array('fileName' => $fileName);
+            }
+        }
     }
 }

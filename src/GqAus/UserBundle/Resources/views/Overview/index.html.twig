@@ -1,6 +1,6 @@
 {% extends 'revamp_base.html.twig' %}
 {% block title %}Get Qualified Australia: Online RPL{% endblock %}
-{% block content %}
+
 
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('public/ui/css/vendor/bootstrap-tour.min.css') }}"/>
@@ -11,7 +11,7 @@
     {% set userImg = userObj.getUserImage()%}
     {% set userRole = userObj.getRoles() %}
     {% set userId = userObj.getId() %} 
-
+   
     <main class="main-content-gqa">
         <div class="container container-left-sidebar-main">
             <section class="section-sidebar">
@@ -25,7 +25,10 @@
                     </div>
                     <div class="panel-body">
                         <p>
-                            Information to the candidate will be displayed here. Information to the candidate will be displayed here. Information to the candidate will be displayed here. Information to the candidate will be displayed here. 
+                            This is your Online RPL homepage. You can see here the qualifications you are currently enrolled in.
+                         </p>
+                         <p>
+                            To start uploading evidence, you can follow the links at the bottom of each of your qualifications. 
                         </p>
                         <!--<h6 class="text-uppercase control-label"><strong>Things you need to do</strong></h6>
                         <ul class="list-group list-group-no-border">
@@ -95,14 +98,14 @@
  
                                  <div class="qual-gauges">
                                      <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units">
-                                         <span>{{ coreUnitsSubmittedPercent|round }}%</span>
+                                         <span>{{ unitSubmitted['core']}}/{{ coreUnitsCnt|length }}</span>
                                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                      </div>                                    
                                  </div>
  
                                  <div class="qual-gauges">
                                      <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units">
-                                         <span>{{ electiveUnitsSubmittedPercent|round }}%</span>
+                                         <span>{{ unitSubmitted['elective']}}/{{ electiveUnitsCnt }}</span>
                                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                      </div>
                                  </div>
@@ -110,8 +113,9 @@
                              </div>
                          </div>
                          <div class="panel-qualification-footer">
-                             <a href="{{ app.request.baseUrl }}/files" class="btn btn-link btn-block"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</a>
+                             <a href="{{ app.request.baseUrl }}/files" class="btn btn-link btn-block"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> {% if(evidenceCompleteness|trim('%') == 0)%} Get Started{%else%}Upload Evidence{%endif%}</a>
                          </div>
+
                      </div>
                  </article>
                 {% endfor %}
@@ -126,7 +130,8 @@
 
 {% block javascripts %}
     <script src="{{ asset('public/ui/js/plugins/bootstrap-tour.min.js') }}"></script>
-
+    <script src="{{ asset('public/ui/js/plugins/bootstrap-tour.min.js') }}"></script>
+   
     <script type="text/javascript">
         var FIRST_TIME_TOUR = {
             template: '<div class="popover tour"><div class="arrow"></div><h4 class="popover-title"></h4><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group btn-group-sm"><button class="btn btn-default" data-role="prev"><i class="zmdi zmdi-chevron-left zmdi-hc-lg zmdi-hc-fw"></i></button><button class="btn btn-default" data-role="next"><i class="zmdi zmdi-chevron-right zmdi-hc-lg zmdi-hc-fw"></i></button></div><button class="btn btn-link btn-sm" data-role="end">END TOUR</button></div></div>',
@@ -224,8 +229,11 @@
         }
 
         $(document).ready(function () {
-            FIRST_TIME_TOUR.build();
-             $('.panel-qualification').on("click", function(event){
+ 
+            if ({{show_splash_screen}}) {
+                FIRST_TIME_TOUR.build();
+            }
+            $('.panel-qualification').on("click", function(event){
 
                  var target = $( event.target );
                  var obj = $(this);
@@ -242,5 +250,4 @@
             });
         });
     </script>
-{% endblock %}
 {% endblock %}

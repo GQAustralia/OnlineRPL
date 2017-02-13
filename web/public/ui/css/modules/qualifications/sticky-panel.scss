@@ -1,0 +1,51 @@
+.panel-fixed {
+	position: fixed;
+	top: 90px;
+	bottom: 0;
+	right: 5%;
+	left: calc(50% + 15px);
+	@include transition(width .3s $easing);
+
+	// based from grid.scss
+	@media (max-width: $screen-md-max) {
+		@include calc-sub-two-values(width, 50%, 45px);
+	}
+	@media (min-width: $screen-lg-min) {
+		@include calc-sub-two-values(width, 45%, 45px);
+	}
+	@media (min-width: $screen-xlg + 100) {
+		width: (($screen-xlg + 100)/2) - $grid-gutter-width - 15;
+	}
+}
+
+
+// CSS fix so that auto-resized textarea controls will get the exact height if the
+// panel is opened
+[data-panel-parent="two-column-split"] {
+	[data-panel="right"] {
+
+		&.col-section-0 {
+			position: fixed;
+			top: 0;
+			right: 5%;
+			left: calc(50% + 15px);
+			visibility: hidden;
+			@include opacity(0);
+
+			// based from grid.scss
+			@media (max-width: $screen-md-max) {
+				@include calc-sub-two-values(width, 50%, 45px);
+			}
+			@media (min-width: $screen-lg-min) {
+				@include calc-sub-two-values(width, 45%, 45px);
+			}
+			@media (min-width: $screen-xlg + 100) {
+				width: (($screen-xlg + 100)/2) - $grid-gutter-width - 15;
+			}
+
+			.panel {
+				position: absolute;
+			}
+		}
+	}	
+}

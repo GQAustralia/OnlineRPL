@@ -162,6 +162,7 @@ output {
 // Reset height for `textarea`s
 textarea.form-control {
   height: auto;
+  resize: none;
 }
 
 

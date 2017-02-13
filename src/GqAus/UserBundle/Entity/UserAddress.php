@@ -307,7 +307,7 @@ class UserAddress
     /**
     * @var string
     */
-    private $pbuildingname;
+   public $pbuildingname;
     
     /**
      * Set pbuildingname
@@ -335,7 +335,7 @@ class UserAddress
     /**
      * @var string
      */
-    private $paddress;
+    public $paddress;
     
     /**
      * Set paddress
@@ -363,7 +363,7 @@ class UserAddress
     /**
      * @var string
      */
-    private $parea;
+    public $parea;
     
     /**
      * Set parea
@@ -391,7 +391,7 @@ class UserAddress
     /**
      * @var string
      */
-    private $pcity;
+    public $pcity;
     
     /**
      * Set pcity
@@ -419,7 +419,7 @@ class UserAddress
     /**
      * @var string
      */
-    private $pstate;
+    public $pstate;
     
     /**
      * Set pstate
@@ -447,7 +447,7 @@ class UserAddress
     /**
      * @var string
      */
-    private $ppincode;
+    public $ppincode;
     
     /**
      * Set ppincode
@@ -476,7 +476,7 @@ class UserAddress
     /**
      * @var string
      */
-    private $psuburb;
+    public $psuburb;
     
     /**
      * Set psuburb
@@ -504,7 +504,7 @@ class UserAddress
     /**
      * @var string
      */
-    private $pcountry;
+    public $pcountry;
     
     /**
      * Set pcountry

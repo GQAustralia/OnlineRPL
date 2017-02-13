@@ -197,6 +197,24 @@ a.btn {
   }
 }
 
+// Transparent button
+.btn-transparent {
+  background-color: transparent;
+  color: $gray-dark;
+  border-radius: $btn-border-radius-base;
+  @include transition(all .3s $easing);
+
+  &.btn-lg { border-radius: $btn-border-radius-large; }
+  &.btn-sm { border-radius: $btn-border-radius-small; }
+  &.btn-xs { border-radius: $btn-border-radius-small; }
+
+  &:hover {
+    @include transition(all .3s $easing);
+    background-color: lighten($gray-lighter, 5%);
+    color: $gray-darker;
+  }
+}
+
 // Specificity overrides
 input[type="submit"],
 input[type="reset"],
