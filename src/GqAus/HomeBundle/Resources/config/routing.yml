@@ -73,3 +73,8 @@ getUnitInfo:
 getEvidenceLibrary:
     path: /units/getEvidenceLibrary
     defaults: { _controller: GqAusHomeBundle:Courses:getEvidenceLibrary }
+getAllEvidenceCats:
+    path: /getAllEvidenceCats
+    defaults: { _controller: GqAusUserBundle:Evidence:getEvidenceCats }
+    
+

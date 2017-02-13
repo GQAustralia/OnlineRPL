@@ -1,6 +1,6 @@
 {% extends 'revamp_base.html.twig' %}
 {% block ngApp %} ng-app="gqAus" {% endblock%}
-{% block ngController %} ng-controller="profileCtlr"  id="profileCtlr" {% endblock%}
+{% block ngController %} ng-controller="userprofileCtlr"  id="userprofileCtlr" {% endblock%}
 {% block title %}  My Profile {% endblock %}
 {% block ngtitle %}myProfile{% endblock%}
 {% block stylesheets %}{% endblock %}
@@ -22,11 +22,10 @@
                 <div class="panel-evidence-library-body">
                     <aside class="panel-evidence-library-menu">
                         <!-- Filter evidences according to category -->
-                        <div class="btn-group" data-toggle="buttons">
-                                <label class="btn" for="category0" ng-click="filterCategory('all')"><input type="radio" id="category0" name="evidenceCategories">All Categories</label>
-                            {% for evdCatId, evdCatObj in evidenceCats %}
-                                <label class="btn" for="category{{evdCatObj.id}}" ng-click="filterCategory('cat{{evdCatObj.id}}')"><input type="radio" id="category{{evdCatObj.id}}" name="evidenceCategories">{{evdCatObj.name}}</label>
-                            {%endfor%}
+                        <div class="btn-group" data-toggle="buttons"> 
+                            <label class="btn" for="category0" ng-click="filterCategory('all')"><input type="radio" id="category0" name="evidenceCategories">All Categories</label>
+                            <div class="container" ng-hide="IsLoaded"> Loading.... </div>
+                            <label class="btn" ng-repeat="evidence in allEvidenceCats" for="category{[{evidence.id}]}" ng-click="filterCategory('cat{[{evidence.id}]}')"><input type="radio" id="category{[{evidence.id}]}" name="{[{evidence.name}]}">{[{evidence.name}]}</label>
                         </div>
                         <!-- Filter evidences according to category -->
                     </aside>
@@ -57,17 +56,6 @@
                             </div>
                             <i class="divider"></i>
                             <div class="btn-group btn-group-xs" data-toggle="buttons">
-                                <button 
-                                    type="button" 
-                                    class="btn btn-transparent active" 
-                                    ng-class="'active': listFilter === true " 
-                                    data-toggle="modal" 
-                                    data-target="#evidenceFilter" 
-                                    data-backdrop="static" 
-                                    data-keyboard="false"
-                                >
-                                    <i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-filter-list"></i>
-                                </button>
                             </div>
                             <i class="divider"></i>
                             <div class="panel-evidence-filters">
@@ -92,59 +80,25 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="clearfix">
-                            <ul class="thumbnail-group card-view">
-                                {% for eKey, evd in evidences %}
-                                    {% if evd[0].type !='text' %}
-                                        {% set eviType = evidence_service.getFileExtensionType(evd[0].name) %}
-                                        {% set getType = evidence_service.getFileFormatFromFileExt(eviType) %}
-                                        <li class="thumbnail-group-item" data-file-type="{{getType}}" data-has-icon="{%if(getType == 'img')%}false{%else%}true{%endif%}">
-                                            <div class="thumbnail-group-selection"><input type="checkbox" name="" class="custom-input"><label for="selectControl"></label></div>
-                                                <div class="thumbnail-holder">
-                                                    <div class="thumbnail-header"  title="{{ evd[0].name }}" {%if(getType != 'office' and getType != 'audio' and getType != 'video' and getType != 'pdf')%} style="background-image: url('{{ amazon_link }}user-{{evd[0].user.id}}/{{ evd[0].path }}')" title="{{ evd[0].name }}" {%endif%}>
-                                                        {%if(getType == 'audio' or getType == 'video')%}
-                                                            <i class="zmdi zmdi-headset thumbnail-icon"></i>
-                                                        {%elseif(getType == 'office' or getType == 'pdf' or getType == 'txt')%}
-                                                            <i class="zmdi zmdi-collection-{{getType}} thumbnail-icon"></i>
-                                                        {%elseif(getType == 'office' and (eviType =='xlsx' or eviType =='docx' or eviType =='doc' or eviType =='txt'))%}
-                                                            <i class="zmdi zmdi-file-text thumbnail-icon"></i>
-                                                        {%endif%}
-                                                    </div>
-                                                    <div class="thumbnail-body">                                
-                                                        <span data-column-name="filename" data-filename="test.jpg">{{ evd[0].name }}</span>
-                                                        <a class="btn" data-trigger="preview-file">Preview</a>
-                                                    </div>
-                                                </div>
-                                            <button type="button" class="btn btn-transparent btn-xs btn-delete"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
-                                        </li>
-                                    {%else%}
-                                        <li class="thumbnail-group-item" data-file-type="office" data-has-icon="true" style="width: 14.2857%;">
-                                            <div class="thumbnail-group-selection"><input name="" class="custom-input" type="checkbox"><label for="selectControl"></label></div>
-                                                <div class="thumbnail-holder">
-                                                    <div class="thumbnail-header" title="{{ evd[0].content|slice(0,20) }} {% if evd[0].content|length > 20 %}...{% endif %}">
-                                                        <i class="zmdi zmdi-collection-office thumbnail-icon"></i>                                                        
-                                                        <i class="zmdi zmdi-file-text thumbnail-icon"></i>                                                    
-                                                    </div>
-                                                    <div class="thumbnail-body">                                
-                                                        <span data-column-name="filename" data-filename="test.jpg">{{ evd[0].content|slice(0,20) }} {% if evd[0].content|length > 20 %}...{% endif %}</span>
-                                                        <a class="btn" data-trigger="preview-file">Preview</a>
-                                                    </div>
-                                                </div>
-                                            <button type="button" class="btn btn-transparent btn-xs btn-delete"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
-                                        </li>
-                                    {%endif%}
-                                {%endfor%}
-                                <!-- Upload in progress -->
-                                <li class="thumbnail-group-item thumbnail-group-item-loading">
+                            <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
+                            <ul class="thumbnail-group card-view thumbnail-group-scroll edit-mode" ng-class="{'card-view': pageStats.libraryView === 'card', 'list-view': pageStats.libraryView === 'list'}">
+                                <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                    <div class="thumbnail-group-selection"><input type="checkbox" name="libraryFiles" value="{[{evidence.id}]}" id="libraryFiles-{[{evidence.id}]}" ng-model="uploadInProgress.libraryFiles[evidence.id]" class="custom-input"><label for="libraryFiles-{[{evidence.id}]}"></label></div>
                                     <div class="thumbnail-holder">
-                                        <div class="thumbnail-header"></div>
-                                        <div class="thumbnail-progress-fill" data-progress-value="0%">
-                                            <i class="percentage-fill" data-progress-value="0%" style="height: 0;"></i>
+                                        <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="{[{evidence.name}]}"></div>
+                                        <div class="thumbnail-body" ng-if="evidence.type == 'image'"><span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span></div>
+                                        <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
+                                            <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
+                                            <div class="thumbnail-body">
+                                                <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+{#                                                <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>#}
+                                                <a class="btn" data-trigger="preview-file">Preview</a>
+                                            </div>
                                         </div>
                                     </div>
+                                    <button type="button" class="btn btn-transparent btn-xs btn-delete"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
                                 </li>
-                                <!-- Upload in progress -->
                             </ul>
                         </div>
                     </section>
@@ -152,10 +106,48 @@
             </div>
         <!-- Put content here -->
         </div>
-    </main>	
+    </main>
+    <!-- File Preview -->
+    <div class="modal fade modal-file-preview" tabindex="-1" role="dialog" id="filePreview">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                    <h4 class="modal-title">Preview</h4>
+                </div>
+                <div class="modal-body clearfix" >
+                     <gq-audio ng-if="evidenceView.type ==='audio'" datapath="{[{evidenceView.s3Path}]}"></gq-audio>
+                    <gq-video ng-if="evidenceView.type ==='video'" datapath="{[{evidenceView.s3Path}]}" datatype="{[{evidenceview.mimeType}]}" ></gq-video>
+                    <img ng-if="evidenceView.type === 'image'" src="{[{evidenceView.s3Path}]}" alt="{[{evidenceView.name}]}" class="img img-responsive">
+                </div>
+                <div class="modal-footer">
+                    <strong class="center-block text-left">{[{evidenceView.name}]}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- File Preview -->
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript">
-        $(document).ready(function() { FILE_THUMBNAIL.build(); });
-    </script>
+    <script src="{{ asset('public/js/qualification.js') }}"></script> 
+    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
+    
+    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/units.js') }}"></script>
+    <script src="{{ asset('public/js/xepOnline.jqPlugin.js') }}"></script>
+    
+    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
+    <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
+    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/app.js') }}"></script>
+    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/controllers/userprofileCtrl.js') }}"></script>
+    
 {% endblock %}
