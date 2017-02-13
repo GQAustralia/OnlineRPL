@@ -83,12 +83,12 @@
                             </ul>
                         </li>
                         {% if ('ROLE_FACILITATOR' in roles)  %}
-                                <li class="{% if app.request.attributes.get('_route') == 'evidences' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/evidences'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidences</span></a></li>
+                                <li class="{% if app.request.attributes.get('_route') == 'evidences' %}active{% endif %}"><a href='{{ app.request.baseUrl }}/evidences'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidence</span></a></li>
                             {% elseif ('ROLE_APPLICANT' in roles) %}
-                                <li class="{% if app.request.attributes.get('_route') == 'files' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/files'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidences</span></a></li>
+                                <li class="{% if app.request.attributes.get('_route') == 'files' %}active{% endif %}"><a href='{{ app.request.baseUrl }}/files'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidence</span></a></li>
                             {% endif %}
                             {% if ('ROLE_SUPERADMIN' not in roles) %} 
-                            <li class="{% if app.request.attributes.get('_route') == 'messages' %} active {% endif %}"><a href='{{ app.request.baseUrl }}/messages'><span class="t-item-3"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span></a></li>
+                            <li class="{% if app.request.attributes.get('_route') == 'messages' %}active{% endif %}"><a href='{{ app.request.baseUrl }}/messages'><span class="t-item-3"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span></a></li>
                             {% endif %}
                     </ul>
                 {% endif %}
@@ -99,7 +99,7 @@
                 <div class="avatar-menu">
                     <div class="dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
-                            <div class="avatar avatar-xxs t-item-4"><img src="{{ asset('public/ui/img/avatar-default.png')}}" alt="You"></div>
+                            <div class="avatar avatar-xxs t-item-4"><img src="{{amazon_link~'user-'~userId~'/'~userImg}}{{userImg}}" alt="You"></div>
                             <span class="avatar-name" id="avatarFirstName">{{ userFName }}</span>&nbsp;
                             <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                         </div>
