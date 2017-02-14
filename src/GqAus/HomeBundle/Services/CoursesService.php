@@ -1242,7 +1242,7 @@ class CoursesService
             if ($type != 'text') {
                 $evd = [];
                 $evd['id'] = $evidence->getId();
-
+                $evd['catId'] = $evidence->getCategory()->getId();
                 $evd['type'] = $type;
                 $evd['path'] = $evidence->getPath();
                 $evd['s3Path'] = $evd['mimeType'] = $evd['fileType'] = '';

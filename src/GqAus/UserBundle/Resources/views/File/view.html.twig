@@ -23,25 +23,19 @@
                     <aside class="panel-evidence-library-menu">
                         <!-- Filter evidences according to category -->
                         <div class="btn-group" data-toggle="buttons"> 
-                            <label class="btn" for="category0" ng-click="filterCategory('all')"><input type="radio" id="category0" name="evidenceCategories">All Categories</label>
+                            <label class="btn" ng-click="filerCat('6')" for="category6"><input type="radio" id="category0" name="evidenceCategories">All Categories</label>
                             <div class="container" ng-hide="IsLoaded"> Loading.... </div>
-                            <label class="btn" ng-repeat="evidence in allEvidenceCats" for="category{[{evidence.id}]}" ng-click="filterCategory('cat{[{evidence.id}]}')"><input type="radio" id="category{[{evidence.id}]}" name="{[{evidence.name}]}">{[{evidence.name}]}</label>
+                            <label class="btn" ng-repeat="evidence in allEvidenceCats" ng-click="filerCat(evidence.id)" for="category{[{evidence.id}]}"><input type="radio" id="category{[{evidence.id}]}" name="{[{evidence.name}]}" >{[{evidence.name}]}</label>
                         </div>
                         <!-- Filter evidences according to category -->
                     </aside>
-
                     <section class="panel-evidence-library-content" data-has-thumbnail="true">
                         <div class="panel-evidence-search">
-                            <div class="input-group-search">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <i class="zmdi zmdi-search zmdi-hc-2x icon"></i>
-                            </div>                    
+                            <div class="input-group-search"><input type="text" class="form-control" placeholder="Search..."><i class="zmdi zmdi-search zmdi-hc-2x icon"></i></div>                    
                         </div>
                         <div class="evidence-controls btn-group-toolbar">
                             <div class="btn-group btn-group-xs" data-toggle="buttons">
-                                <label class="btn btn-transparent" for="batchSelect">
-                                    <input type="checkbox" name="batchSelect" id="batchSelect" value=""><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-select-all"></i>
-                                </label>
+                                <label class="btn btn-transparent" for="batchSelect"><input type="checkbox" name="batchSelect" id="batchSelect" value=""><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-select-all"></i></label>
                             </div>
                             <i class="divider"></i>
                             <div class="evidence-toggle-view">
@@ -56,12 +50,15 @@
                             </div>
                             <i class="divider"></i>
                             <div class="btn-group btn-group-xs" data-toggle="buttons">
+                                <button type="button" class="btn btn-transparent active"  data-toggle="modal" data-target="#evidenceFilter" data-backdrop="static" data-keyboard="false">
+                                    <i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-filter-list"></i>
+                                </button>
                             </div>
                             <i class="divider"></i>
                             <div class="panel-evidence-filters">
                                 <div class="dropdown dropdown-evidence-filter">
                                     <button type="button" class="btn btn-transparent text-left" data-toggle="dropdown">
-                                        <span class="evidence-controls-label"">Sort by</span>
+                                        <span class="evidence-controls-label">Sort by</span>
                                         <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-lg zmdi-hc-fw"></i>
                                     </button>
                                     <div class="dropdown-menu pull-right">
@@ -82,8 +79,8 @@
                         </div>
                         <div class="clearfix">
                             <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
-                            <ul class="thumbnail-group card-view thumbnail-group-scroll edit-mode" ng-class="{'card-view': pageStats.libraryView === 'card', 'list-view': pageStats.libraryView === 'list'}">
-                                <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                            <ul class="thumbnail-group card-view">
+                                <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
                                     <div class="thumbnail-group-selection"><input type="checkbox" name="libraryFiles" value="{[{evidence.id}]}" id="libraryFiles-{[{evidence.id}]}" ng-model="uploadInProgress.libraryFiles[evidence.id]" class="custom-input"><label for="libraryFiles-{[{evidence.id}]}"></label></div>
                                     <div class="thumbnail-holder">
                                         <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="{[{evidence.name}]}"></div>
@@ -92,8 +89,15 @@
                                             <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
                                             <div class="thumbnail-body">
                                                 <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
-{#                                                <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>#}
-                                                <a class="btn" data-trigger="preview-file">Preview</a>
+                                                <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                            </div>
+                                             <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
+                                                <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
+                                                <div class="thumbnail-body">                                
+                                                    <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+                                                    <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                                    <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -127,6 +131,59 @@
         </div>
     </div>
     <!-- File Preview -->
+    <!-- Evidence Gallery Filter -->
+    <div class="modal fade" id="evidenceFilter">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                    <h3 class="modal-title">Filter Library</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <legend class="small text-muted text-uppercase">Files associated to</legend>
+                        <span ng-repeat="courseDetails in userCourses"><input type="checkbox"  name="course{[{courseDetails.id}]}" value="{[{courseDetails.id}]}" id="file{[{courseDetails.id}]}" class="custom-input"><label for="file{[{courseDetails.id}]}"><span >{[{courseDetails.name}]}</span></label></span>
+                    </div>
+                    <div class="form-group">
+                        <legend class="small text-muted text-uppercase">Files linked to</legend>
+                        <input type="checkbox" name="coursesingleunit" value="1" id="coursesingleunit" class="custom-input"><label for="coursesingleunit"><span>Evidence linked to a single unit</span></label>
+                        <input type="checkbox" name="coursemultiunit" value="2" id="coursemultiunit" class="custom-input"><label for="coursemultiunit"><span>Evidence linked to multiple units</span></label>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <legend class="small text-muted text-uppercase">Filter by file format</legend>
+                        <ul class="list-unstyled">
+                            <li>
+                                <input type="checkbox" name="test" value="" id="video" class="custom-input">
+                                <label for="video"><span>Video <br><small class="text-muted">mp4, avi, mov, mpeg &amp; other known video formats</small></span></label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="test" value="" id="audio" class="custom-input">
+                                <label for="audio"><span>Audio <br><small class="text-muted">mp3, wav &amp; other known audio formats</small></span></label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="test" value="" id="documents" class="custom-input">
+                                <label for="documents"><span>Documents <br><small class="text-muted">PDF, Word, Excel, Powerpoint files</small></span></label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="test" value="" id="images" class="custom-input">
+                                <label for="images"><span>Images <br><small class="text-muted">JPEG, PNG, &amp; other image formats</small></span></label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="test" value="" id="notes" class="custom-input">
+                                <label for="notes"><span>Self-assessment Notes <br><small class="text-muted">What you've written for your Core &amp; Elective units</small></span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default">Clear</button>
+                    <button type="button" class="btn btn-primary">Apply filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Evidence Gallery Filter -->
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('public/js/qualification.js') }}"></script> 

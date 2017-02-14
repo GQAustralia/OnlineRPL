@@ -76,5 +76,7 @@ getEvidenceLibrary:
 getAllEvidenceCats:
     path: /getAllEvidenceCats
     defaults: { _controller: GqAusUserBundle:Evidence:getEvidenceCats }
-    
+getUserCourses:
+    path: /getUserCourses
+    defaults: { _controller: GqAusHomeBundle:Courses:getUserCourses }
 
