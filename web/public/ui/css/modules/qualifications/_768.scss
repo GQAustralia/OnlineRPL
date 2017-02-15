@@ -6,20 +6,8 @@
 			// margin-bottom: 40px;
 		}
 
-		&:before {
-			$dim: 15px;
-			$top: ($dim - 3 ) / 2;
-			position: absolute;
-			@include calc-sub-two-values(top, 50%, $top);
-			right: 100%;
-			content: '';
-			width: 0;
-			height: 0;
-			border: 0 solid transparent;
-			border-top-width: $dim - 3;
-			border-bottom-width: $dim - 3;
-			border-right: $dim solid #ededed;
-		}
+		@include pointing-left-heading(#ededed);
+
 	}
 	.panel-heading-img {
 		@media (min-width: $screen-sm-min) {
@@ -46,11 +34,5 @@
 				padding: 15px 30px;
 			}
 		}
-	}
-}
-
-.panel-units {
-	.panel-body {
-		padding: $grid-gutter-width/2;
 	}
 }

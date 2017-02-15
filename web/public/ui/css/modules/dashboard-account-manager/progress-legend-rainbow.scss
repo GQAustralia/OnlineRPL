@@ -1,0 +1,108 @@
+.lead-stat-container, .progress-container {
+	position: relative;
+	float: left;
+	min-height: 1px;
+}
+
+.lead-stat-container {
+	@media (max-width: $screen-xs-max) {
+		width: 100%;
+		text-align: center;
+	}
+	@media (min-width: $screen-sm-min) and (max-width: $screen-sm-min + 149 ){
+		text-align: center;
+		margin-top: -10px;
+	}
+	@media (min-width: $screen-sm-min + 150) {
+		text-align: left;
+		margin-top: -10px;
+	}
+	@media (min-width: $screen-md-min) {
+		width: $table-item-avatar-width;
+	}
+}
+
+.progress-container {
+	@media (max-width: $screen-xs-max) {
+		width: 100%;	
+	}
+	@media (min-width: $screen-sm-min) {
+		@include calc-sub-two-values(width, 100%, $table-item-avatar-width);
+		padding-left: 15px;
+	}
+	@media (min-width: $screen-md-min) {
+		padding-left: 30px;
+	}
+}
+
+.lead-stat-heading {
+	font-weight: 300;
+	font-size: 6em;
+	display: block;
+	clear: both;
+	line-height: 1;
+	color: $gray;
+}
+
+.progress-legend {
+	overflow: visible;
+	.progress-bar {
+		position: relative;
+		&.progress-bar-danger > .progress-inline-legend {
+			color: $brand-red;
+		}
+		&.progress-bar-warning > .progress-inline-legend {
+			color: $brand-orange;
+		}
+		&.progress-bar-success > .progress-inline-legend {
+			color: $brand-green;
+		}
+
+		&[data-days="31-60"] > .progress-inline-legend { color: $gray; }
+		&[data-days="91-120"] > .progress-inline-legend { color: $gray; }
+	}
+	.progress-inline-legend {
+		display: block;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		font-weight: 400;
+		padding-top: 10px;
+		text-align: left;
+
+		@media (max-width: $screen-xs-max) {
+			font-size: 12px;
+		}	
+		@media (min-width: $screen-sm-min) {
+			font-size: 12px;
+		}
+
+		i {
+			font-weight: 300;
+			font-style: normal;
+			@media (max-width: $screen-xs-max) {
+				font-size: 230%;
+			}	
+			@media (min-width: $screen-sm-min) {
+				font-size: 200%;
+			}
+		}
+	}
+
+	& + strong {
+		margin-top: 49px;
+		display: block;
+		float: left;
+	}
+}
+
+.panel-listing-count {
+	@media (max-width: $screen-xs-max) {
+		display: block;
+		margin-bottom: 15px;
+	}	
+	@media (min-width: $screen-sm-min) {
+		display: block;
+		float: left;		
+	}
+}

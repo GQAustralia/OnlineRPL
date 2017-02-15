@@ -3,7 +3,11 @@
 	.header-gqa-logo {
 		height: 50px;
 		width: auto;
+		display: inline-block;
 		@include transition(all .3s $easing);
+		position: relative;
+
+		img { width: inherit; height: inherit; }
 	}
 
 	.container {
@@ -93,7 +97,7 @@ nav.header-gqa-nav {
 	z-index: 1;
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-position: center center;
+	background-position: center bottom;
 	border-bottom: 4px solid $brand-primary;
 
 
@@ -137,9 +141,48 @@ nav.header-gqa-nav {
 	    padding: 18px 15px;
 	    margin: 0;
 	}
-
-	
 }
 
+// Defined User Roles
+[data-role="account-manager"] {
+	.header-gqa {
+		.header-gqa-logo {
+			&:after {
+				position: absolute;
+				content: 'Manager';
+				font-weight: 600;
+				text-transform: uppercase;
+				display: block;
+				border-radius: 2px;
+				background-color: white;
+				color: $gray-dark;
+				z-index: 1;
+				width: auto;
+				line-height: 1;
+				bottom: 6px;
+				right: -14px;
+			    padding: 0.20em 0.2em;
+			    font-size: 0.72em;
+			}		
+		}
+
+		&.compressed .header-gqa-logo:after {
+			    bottom: 3px;
+			    right: -17px;
+			    padding: 0.25em 0.2em;
+			    font-size: 0.6em;
+		}
+		&.compressed .navbar-bg-gradient {
+			border-bottom: 1px solid #2773c5;		
+		}
+	}
+	.navbar-bg-img[data-bg="skyscraper-blur"] {
+		background-image: url(../img/bg-skyscraper2-blur.jpg);
+	}
+	.navbar-bg-gradient {
+		background-image: url(../img/bg-gradient2.jpg);
+	}
+}
 @import 'gqa-header-mobile.scss';
 @import 'gqa-header-desktop.scss';
+

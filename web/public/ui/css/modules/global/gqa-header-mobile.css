@@ -4,7 +4,7 @@ Error: Undefined variable: "$zindex-navbar-fixed".
 
 1: $zindex-menu: $zindex-navbar-fixed + 1;
 2: 
-3: .is-mobile {
+3: @media (max-width: $screen-xs-max) {
 4: 	.header-gqa {
 5: 		.header-gqa-logo {
 6: 			height: 30px;
@@ -51,4 +51,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$zindex-navbar-fixed\".\A         on line 1 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-mobile.scss\A \A 1: $zindex-menu: $zindex-navbar-fixed + 1;\A 2: \A 3: .is-mobile {\A 4: 	.header-gqa {\A 5: 		.header-gqa-logo {\A 6: 			height: 30px;"; }
+  content: "Error: Undefined variable: \"$zindex-navbar-fixed\".\A         on line 1 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-mobile.scss\A \A 1: $zindex-menu: $zindex-navbar-fixed + 1;\A 2: \A 3: @media (max-width: $screen-xs-max) {\A 4: 	.header-gqa {\A 5: 		.header-gqa-logo {\A 6: 			height: 30px;"; }

@@ -11,7 +11,7 @@ Error: Undefined variable: "$screen-xs-max".
 11: 			width: 100%;
 12: 		}
 13: 		@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-14: 			width: 30%;
+14: 			width: 35%;
 15: 		}
 
 Backtrace:
@@ -70,19 +70,14 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:492:i
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `each'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:294:in `watch'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/sass_compiler.rb:46:in `watch!'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/commands/watch_project.rb:41:in `perform'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/commands/base.rb:18:in `execute'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/commands/project_base.rb:19:in `execute'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:15:in `run!'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/bin/compass:30:in `block in <top (required)>'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/bin/compass:44:in `<top (required)>'
-C:/Ruby23/bin/compass:23:in `load'
-C:/Ruby23/bin/compass:23:in `<main>'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:473:in `on_file_changed'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:331:in `block in watch'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/listener.rb:252:in `on_change'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/listener.rb:290:in `block in initialize_adapter'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapters/polling.rb:48:in `poll_changed_directories'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.rb:299:in `block in start_poller'
 */
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$screen-xs-max\".\A         on line 10 of D:/Xampp/htdocs/online-rpl-ui/ui/css/layouts/left-sidebar-and-main.scss\A \A 5: 		display: block;\A 6: 		min-height: 1;\A 7: 	}\A 8: \A 9: 	.section-sidebar {\A 10: 		@media (max-width: $screen-xs-max) {\A 11: 			width: 100%;\A 12: 		}\A 13: 		@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {\A 14: 			width: 30%;\A 15: 		}"; }
+  content: "Error: Undefined variable: \"$screen-xs-max\".\A         on line 10 of D:/Xampp/htdocs/online-rpl-ui/ui/css/layouts/left-sidebar-and-main.scss\A \A 5: 		display: block;\A 6: 		min-height: 1;\A 7: 	}\A 8: \A 9: 	.section-sidebar {\A 10: 		@media (max-width: $screen-xs-max) {\A 11: 			width: 100%;\A 12: 		}\A 13: 		@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {\A 14: 			width: 35%;\A 15: 		}"; }

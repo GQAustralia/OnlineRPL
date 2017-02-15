@@ -1,0 +1,84 @@
+.popover.compressed {
+	width: 290px;
+	max-width: 290px;
+	min-width: 290px;
+	textarea {
+		padding: 15px !important;
+		// @include box-shadow(none);
+		border-radius: 0;
+
+		&:focus {
+			// border: 1px solid $input-border-focus;
+			// outline: 1px solid $input-border-focus;
+		}
+	}
+	.btn-add-task {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+	.btn-set-date {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		border-top-right-radius: 0;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		border: none;
+		width: 75px;
+	    border-right: 1px solid #cecece;
+	    padding-left: 12px;
+	    padding-right: 12px;
+	    color: #616161;
+	    font-weight: 500;
+		@include box-shadow(none);
+	}
+
+	.popover-title {
+		padding-left: 90px;
+		font-size: 12px !important;
+	}
+
+	.task-controls {
+		width: 100%;
+		height: auto;
+		overflow: hidden;
+
+		.datepicker { padding: 10px; }
+
+		[data-init="datepicker"] {
+			display: none;
+		}
+	}
+
+	&.show-date {
+		.task-controls {
+			textarea {
+				display: none;
+			}
+			[data-init="datepicker"] {
+				display: block;
+			}
+		}
+		.btn-add-task { display: none; }
+
+		[data-action="today"] {
+			&:before {
+				content: 'Today';
+				text-transform: uppercase;
+			}
+			padding: 7px 12px;
+			background-color: $brand-red;
+			color: white;
+			display: block;
+			border-bottom-right-radius: $border-radius-base;
+			border-bottom-left-radius: $border-radius-base;
+			&:hover {
+				cursor: pointer;
+				background-color: darken($brand-red,10%);
+			}
+			text-decoration: none;
+			> .glyphicon { display: none; }
+		}
+	}
+}

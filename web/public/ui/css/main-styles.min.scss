@@ -9,16 +9,19 @@
 @import 'modules/global/circle.scss';
 @import 'modules/global/message-thread.scss';
 
+// Plugins
+@import 'modules/rpl-online-enrolment/bootstrap-datetimepicker';
+
 // HTML 5 polyfills
 @import 'polyfills/progress.scss';
 
 // Pages / Modules
 @import 'layouts/layouts.scss';
 @import 'modules/rpl-onboarding/rpl-onboarding.scss';
-
-// @import 'modules/upload-evidences/upload-evidences.scss'; 
 @import 'modules/overview/overview.scss';
 @import 'modules/qualifications/units.scss';
 @import 'modules/evidence-library/evidence-library.scss';
 @import 'modules/profile/profile.scss';
- 
+
+@import 'modules/dashboard-account-manager/dashboard.scss';
+@import 'modules/applicants-account-manager/applicants.scss';

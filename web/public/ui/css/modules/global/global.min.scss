@@ -4,11 +4,6 @@
 @import 'gqa-body.scss';
 
 // Min-widths for desktop
-
-.is-desktop {
-	.header-gqa .container, body { min-width: $screen-sm-min; }
-}
-
 @media (max-width: $screen-md-max) {
 	.avatar-menu .avatar-name { display: none !important; }
 }

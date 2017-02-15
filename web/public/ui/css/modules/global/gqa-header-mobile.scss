@@ -1,9 +1,86 @@
 $zindex-menu: $zindex-navbar-fixed + 1;
 
+@media (max-width: $screen-xs-max) {
+	.header-gqa {
+		.header-gqa-logo {
+			height: 30px;
+		}
+
+		.container {
+			text-align: center;
+			padding-top: 15px;
+			padding-bottom: 15px;
+		}
+	}
+
+	nav.header-gqa-nav {
+		float: right;
+		display: block;
+
+		.nav-links {
+			position: fixed;
+			top: 0;
+			left: 0;
+			padding-top: 60px;
+			background: $brand-primary;
+			bottom: 0;
+			z-index: $zindex-menu + 1;
+			min-width: 250px;
+			display: none;
+			@include box-shadow(3px 0 50px rgba(0,0,0,0.7));
+
+			// > li {
+			// 	display: block;
+
+			// 	> a {
+			// 		display: block;
+			// 		padding: 20px 15px;
+			// 		font-size: 18px;
+			// 		border-bottom: 1px solid lighten($brand-primary,7%);
+			// 		text-align: left;
+			// 	}
+			// }
+		}
+
+		// Avatar on the header
+		.avatar-menu {
+			display: block;
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+
+	.navbar-bg-img {
+		display: none;
+
+		& + .main-content-gqa {
+			margin-top: $grid-gutter-width + 5;
+		}
+	}
+
+	.navbar-bg-gradient {
+		display: block;
+
+		border-bottom: 1px solid #51a9c3;
+		@include opacity(1);
+		@include box-shadow(0 1px 2px rgba(0,0,0,0.3));
+	}
+
+	.btn-navicon-gqa {
+		z-index: $zindex-menu + 2;
+		display: block;
+	}
+}
+
 .is-mobile {
 	.header-gqa {
 		.header-gqa-logo {
 			height: 30px;
+
+			&:after {
+				display: none;
+			}
 		}
 
 		.container {

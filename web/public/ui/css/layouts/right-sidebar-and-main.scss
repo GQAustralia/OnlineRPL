@@ -16,12 +16,6 @@
 		@media (min-width: $screen-md-min) {
 			width: $sidebar-width;
 		}
-
-		.panel-body {
-			@media (min-width: $screen-md-min) {
-				padding: 30px;
-			}
-		}
 	}
 	.section-main {
 		@media (max-width: $screen-xs-max) {

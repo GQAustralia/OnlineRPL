@@ -1,0 +1,83 @@
+.list-circle-visuals {
+	padding-left: 0;
+	margin: 0;
+	margin-top: 30px;
+	float: left;
+	width: 100%;
+	clear: both;
+	list-style: none;
+	display: block;
+	@include clearfix();
+
+	li {
+		display: block;
+		float: left;
+		position: relative;
+		padding: 5px;
+
+		@media (max-width: 567px) {
+			width: 100%;
+			padding-left: 5%;
+			text-align: center;
+			margin-bottom: 15px;
+		}
+		@media (min-width: 568px) {
+			width: 50%;
+			padding-left: 0;
+			text-align: center;
+		}
+		@media (min-width: $screen-sm-min) {
+			padding-left: 0;
+			width: 50%;
+			text-align: center;
+		}
+		@media (min-width: $screen-md-min) and (max-width: $screen-md-min + 100) {
+			width: 33.33333%;	
+		}
+		@media (min-width: $screen-md-min + 101) and (max-width: $screen-md-max) {
+			width: 33.33333%;	
+		}
+		@media (min-width: $screen-lg-min) {
+			width: 25%;	
+		}
+		
+
+		$dim: 100px;
+		.value {
+			font-size: 3em;
+			font-weight: 300;
+			border-radius: $dim;
+			width: $dim;
+			height: $dim;
+			min-width: $dim;
+			min-height: $dim;
+			max-width: $dim;
+			max-height: $dim;
+			border: 2px solid lighten($gray-light, 5%);
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 1;
+
+			+ figcaption {
+				position: absolute;
+				font-size: 15px;
+				font-weight: 500;
+				text-align: left;
+				display: block;
+				padding: 5px;
+				color: lighten($gray-light, 5%);
+				line-height: 1;
+				background-color: white;
+				@include calc-sub-two-values(top, 50%, 20px);
+				left: $dim - 10;
+			}
+		}
+
+		.circle {
+			display: block;
+			margin: auto;
+			position: relative;
+		}
+	}
+}

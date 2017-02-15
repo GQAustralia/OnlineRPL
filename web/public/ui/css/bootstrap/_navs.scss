@@ -92,17 +92,23 @@
       &:hover {
         // border-color: $nav-tabs-link-hover-border-color $nav-tabs-link-hover-border-color $nav-tabs-border-color;
       }
-      &:after {
+      &:after, &:before {
         display: block;
         content: '';
-        width: 60px;
-        height: 4px;
+        width: 0;
+        height: 5px;
         background-color: $brand-red;
         position: absolute;
         bottom: -2px;
         @include opacity(0);
-        @include transition(opacity .3s $easing , width .5s $easing);
-        @include calc-sub-two-values(left, 50%, 30px);
+        @include transition(width .3s $easing);
+      }
+
+      &:after {
+        left: 50%;
+      }
+      &:before {
+        right: 50%;
       }
     }
 
@@ -116,10 +122,16 @@
         // border-bottom: 1px solid $nav-tabs-active-link-hover-border-color;
         // border-bottom-color: $brand-red;
         // @include box-shadow(0 4px 0 $brand-red);
-        &:after {
+        &:after,&:before {
           @include opacity(1);
-          @include transition(opacity .3s $easing , width .5s $easing);
-          width: 60px;
+          @include transition(width .3s $easing);
+          width: 20px;
+        }
+        &:before {
+
+        }
+        &:after {
+          @include calc-add-two-values(right,50%,20px);
         }
         cursor: default;
       }

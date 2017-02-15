@@ -1,17 +1,21 @@
 /*
 Error: Undefined mixin 'transition'.
-        on line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss, in `transition'
-        from line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss
+        on line 7 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss, in `transition'
+        from line 7 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss
         from line 2 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/global.min.scss
 
-1: // Header, Footer, Body
 2: @import 'gqa-header.scss';
 3: @import 'gqa-footer.scss';
 4: @import 'gqa-body.scss';
+5: 
+6: // Min-widths for desktop
+7: @media (max-width: $screen-md-max) {
+8: 	.avatar-menu .avatar-name { display: none !important; }
+9: }
 
 Backtrace:
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss:6:in `transition'
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss:6
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss:7:in `transition'
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss:7
 D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/global.min.scss:2
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:351:in `block in visit_mixin'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:98:in `block in with_mixin'
@@ -88,4 +92,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'transition'.\A         on line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss, in `transition'\A         from line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss\A         from line 2 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/global.min.scss\A \A 1: // Header, Footer, Body\A 2: @import 'gqa-header.scss';\A 3: @import 'gqa-footer.scss';\A 4: @import 'gqa-body.scss';"; }
+  content: "Error: Undefined mixin 'transition'.\A         on line 7 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss, in `transition'\A         from line 7 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss\A         from line 2 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/global.min.scss\A \A 2: @import 'gqa-header.scss';\A 3: @import 'gqa-footer.scss';\A 4: @import 'gqa-body.scss';\A 5: \A 6: // Min-widths for desktop\A 7: @media (max-width: $screen-md-max) {\A 8: 	.avatar-menu .avatar-name { display: none !important; }\A 9: }"; }

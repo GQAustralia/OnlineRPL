@@ -32,7 +32,7 @@
 		position: relative;
 		z-index: 2;
 		@include opacity(0);
-		@include transition(all .5s $easing);
+		// @include transition(opacity .5s $easing);
 
 		&:hover {
 			cursor: pointer;
@@ -45,11 +45,11 @@
 
 	&.focused {
 		background-color: white;
-		@include transition(all .5s $easing);
+		// @include transition(all .5s $easing);
 		.form-control {
 			width: 100%;
 			@include opacity(1);
-			@include transition(all .5s $easing);
+			// @include transition(opacity .5s $easing);
 
 			&:hover {
 				cursor: text;

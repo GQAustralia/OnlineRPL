@@ -8,10 +8,10 @@
 				width: 45%;
 				min-height: 250px;
 
-				.c100 { 
-					font-size: 15em; 
-					margin-top: 30px;
-				}
+				// .c100 { 
+				// 	font-size: 15em; 
+				// 	margin-top: 30px;
+				// }
 
 				& + .qual-gauges {
 					min-height: 1 !important;
@@ -19,11 +19,11 @@
 				}
 			}
 
-			&:not(:first-child) {
-				.c100 {
-					font-size: 9em;
-				}	
-			}
+			// &:not(:first-child) {
+			// 	.c100 {
+			// 		font-size: 9em;
+			// 	}	
+			// }
 
 			progress {
 				width: 100%;

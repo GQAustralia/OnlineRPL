@@ -201,3 +201,16 @@
   &:active, &:focus { outline: none !important; background-color: rgba(0,0,0,0.8); color: white; }
 }
 // ===================== Scroll to top ================ //
+
+// ===================== Content from API ================//
+
+.content-from-api{
+  padding-top: $grid-gutter-width / 4;
+  h2{
+    @extend .h4;
+  }
+  p{
+    line-height: 1.3;
+    margin-bottom: 0;
+  }
+}

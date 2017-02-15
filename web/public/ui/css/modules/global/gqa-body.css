@@ -1,39 +1,24 @@
 /*
-Error: Undefined mixin 'truncate-ellipsis'.
-        on line 15 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-body.scss, in `truncate-ellipsis'
-        from line 15 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-body.scss
+Error: Undefined variable: "$screen-sm-max".
+        on line 11 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-body.scss
 
-10: .dropdown-dynamic {
-11: 	.dropdown-picker-selected {
-12: 		display: block;
-13: 		float: left;
-14: 		text-align: left;
-15: 		@include truncate-ellipsis();
-16: 	}
-17: 	.dropdown-menu {
-18: 		height: 280px;
-19: 		overflow-y: auto;
-20: 		li {
+6: 		}
+7: 	}
+8: }
+9: 
+10: .is-desktop {
+11: 	min-width: $screen-sm-max;
+12: 	overflow-x: auto;
+13: }
+14: 
+15: .dropdown-dynamic {
+16: 	.dropdown-picker-selected {
 
 Backtrace:
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-body.scss:15:in `truncate-ellipsis'
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-body.scss:15
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:351:in `block in visit_mixin'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:98:in `block in with_mixin'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:98:in `with_mixin'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:349:in `visit_mixin'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-body.scss:11
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
@@ -70,19 +55,14 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:492:i
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `each'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:294:in `watch'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/sass_compiler.rb:46:in `watch!'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/commands/watch_project.rb:41:in `perform'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/commands/base.rb:18:in `execute'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/commands/project_base.rb:19:in `execute'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:15:in `run!'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/bin/compass:30:in `block in <top (required)>'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/compass-1.0.3/bin/compass:44:in `<top (required)>'
-C:/Ruby23/bin/compass:23:in `load'
-C:/Ruby23/bin/compass:23:in `<main>'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:473:in `on_file_changed'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:331:in `block in watch'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/listener.rb:252:in `on_change'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/listener.rb:290:in `block in initialize_adapter'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapters/polling.rb:48:in `poll_changed_directories'
+C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.rb:299:in `block in start_poller'
 */
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'truncate-ellipsis'.\A         on line 15 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-body.scss, in `truncate-ellipsis'\A         from line 15 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-body.scss\A \A 10: .dropdown-dynamic {\A 11: 	.dropdown-picker-selected {\A 12: 		display: block;\A 13: 		float: left;\A 14: 		text-align: left;\A 15: 		@include truncate-ellipsis();\A 16: 	}\A 17: 	.dropdown-menu {\A 18: 		height: 280px;\A 19: 		overflow-y: auto;\A 20: 		li {"; }
+  content: "Error: Undefined variable: \"$screen-sm-max\".\A         on line 11 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-body.scss\A \A 6: 		}\A 7: 	}\A 8: }\A 9: \A 10: .is-desktop {\A 11: 	min-width: $screen-sm-max;\A 12: 	overflow-x: auto;\A 13: }\A 14: \A 15: .dropdown-dynamic {\A 16: 	.dropdown-picker-selected {"; }

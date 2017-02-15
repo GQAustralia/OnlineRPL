@@ -30,6 +30,33 @@
 			color: $gray-lighter;
 		}
 	}
+}
 
-
+.is-mobile {
+	.footer-gqa {
+		.container {
+			position: relative;
+		    padding-top: 15px;
+		    padding-bottom: 40px;
+		    position: relative;
+		}
+	}
+	.footer-gqa-logo {
+		height: 36px;
+	}
+	.footer-gqa-nav {
+		padding-right: 0;
+		li:last-child {
+			text-align: center;
+			position: absolute;
+			bottom: 15px;
+			left: 0;
+			right: 0;
+			z-index: 1;
+			color: #b9b9b9;
+			padding-top: 15px;
+			font-size: 11px;
+			z-index: 0;
+		}
+	}
 }

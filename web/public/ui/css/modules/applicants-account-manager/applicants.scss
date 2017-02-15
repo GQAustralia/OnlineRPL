@@ -1,0 +1,38 @@
+.all-applicants-legend {
+	display: block;
+
+	@media (max-width: $screen-xs-max) {
+		width: 100%;
+		float: left;
+		margin-top: 15px;
+	}
+	@media (min-width: $screen-sm-min) {
+		float: right;
+		width: 480px;
+	}
+
+	.progress-container { width: 100% !important; padding-left: 0; }
+}
+
+.panel-listing {
+	.panel-evidence-search {
+		@media (max-width: $screen-xs-max) {
+			position: absolute;
+			@include calc-add-two-values(top, 100%, 15px);
+			left: 0;
+			right: 0;
+			z-index: 1;
+			width: auto;
+		}
+		@media (min-width: $screen-sm-min) {
+			bottom: 0;
+			right: 0;
+			top: auto;
+			position: absolute;			
+			width: 300px !important;
+		}
+	}
+	&.panel-dashboard .panel-body {
+		padding-top: 75px;
+	}
+}

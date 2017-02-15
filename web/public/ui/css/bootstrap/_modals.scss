@@ -120,7 +120,7 @@
     padding: $modal-inner-padding/2;
   }
   @media (min-width: $screen-sm-min) {
-    padding: $modal-inner-padding * 2;
+    padding: $modal-inner-padding;
   }
   &-lg{
     padding: $modal-inner-padding / 4

@@ -1,0 +1,237 @@
+.dashboard-table {
+	padding-left: 0;
+	margin: 0;
+	list-style: none;
+
+	.dashboard-table-item {
+		@media (max-width: $screen-xs-max) {
+			display: block;
+			margin-top: 30px;
+		}
+		@media (min-width: $screen-sm-min) {
+			display: table;
+			width: 100%;
+		}
+
+		@include clearfix();
+	}
+}
+
+$gray-bg: lighten($gray-lighter, 4%);
+$table-item-avatar-width: 160px;
+.dashboard-table-item {
+	border: 1px solid $gray-lighter;
+	background-color: $gray-bg;
+	border-radius: $border-radius-base;
+	// overflow: hidden;
+
+	.dashboard-table-item-avatar {
+		@media (max-width: $screen-xs-max) {
+			display: block;
+			width: 100%;
+		    border-radius: 0;
+		    padding: 5px;
+		    text-align: center;
+		    border-top-left-radius: $border-radius-base;
+		    border-top-right-radius: $border-radius-base;
+		}
+		@media (min-width: $screen-sm-min) {
+			display: table-cell;
+			width: $table-item-avatar-width;
+			overflow: hidden;
+		}
+		margin: 0;
+		vertical-align: middle;
+		padding: 15px 10px;
+		background-color: white;
+		border-top-left-radius: $border-radius-base;
+		border-bottom-left-radius: $border-radius-base;
+
+		.avatar {
+			@media (max-width: $screen-xs-max) {
+				display: block;
+				float: none;
+				margin-top: -25px;
+			}
+			@media (min-width: $screen-sm-min) {
+				float: left;
+				display: block;
+			}
+		}
+
+		.avatar-name {
+			@media (max-width: $screen-xs-max) {
+			    display: inline-block;
+			    float: none;
+			    padding: 4px 0;
+			    font-size: 1.2em;
+			}
+			@media (min-width: $screen-sm-min) {
+				float: left;
+				padding: 10px 0 0 10px;
+			}
+			display: block;
+			font-weight: 500;
+		}
+	}
+
+	.dashboard-table-item-metadata {
+		@media (max-width: $screen-xs-max) {
+			display: block;
+			width: 100%;
+		}
+		@media (min-width: $screen-sm-min) {
+			display: table-cell;
+			vertical-align: middle;
+			@include calc-sub-two-values(width, 100%, $table-item-avatar-width);
+		}
+	}
+}
+
+$days: 70px;
+$status: 80px;
+$progress: 90px;
+$action: 35px;
+$qual-padding: 15px;
+$t-item-width-comp: $days + $status + $progress + $action + ($qual-padding * 2);
+
+.dashboard-table-head-sort {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+
+	li {
+		display: table-cell;
+		.btn {
+			font-size: $font-size-base;
+			border-radius: 0;
+			text-align: left;
+			font-weight: 500;
+			text-transform: uppercase;
+			font-size: 12px;
+		}
+
+		&:first-child { width: 160px; }
+		&:nth-child(2) { width: $days + 10; }
+		&:nth-child(3) { @include calc-sub-two-values(width, 100%, $t-item-width-comp); }
+		&:nth-child(4) { width: $status + 10; }
+		&:nth-child(5) { width: $progress + $action + 5; }
+	}
+}
+
+.dashboard-table-item-metadata {
+	.qual-item {
+		display: table;
+		width: 100%;
+		padding: $qual-padding;
+		position: relative;
+		> * {
+			@media (max-width: $screen-xs-max) {
+				padding: 0;
+				display: block;
+			}
+			@media (min-width: $screen-sm-min) {
+				display: table-cell;
+			}
+			
+			position: relative;
+			vertical-align: middle;
+			padding: 0 5px;
+
+			span {
+				&:first-child { margin-left: -5px }
+				&:last-child { margin-right: -5px }
+			}
+		}
+		& + .qual-item {
+			border-top: 2px solid white;
+		}
+
+		@media (max-width: $screen-xs-max) {
+			.qual-item-days {
+				font-size: 1.4em;
+
+				&:after {
+					display: inline-block;
+					padding-left: 5px;
+					content: 'days remaining';
+					text-transform: uppercase;
+					font-size: 12px;
+					width: 105px;
+
+				}
+			}
+			.qual-item-name {
+				font-size: 1.2em;
+				margin-top: 5px;
+				// @include calc-sub-two-values(width, 100%, $t-item-width-comp);
+			}
+			.qual-item-status {
+			    font-size: 1em;
+			    margin-top: 5px;
+			    float: left;		
+			}
+			.qual-item-progress {
+			    font-size: 1em;
+			    margin-top: 5px;
+			    float: right;
+			    font-weight: 400;
+			}
+			.qual-item-action {
+			    position: absolute;
+			    top: 10px;
+			    right: 10px;
+			    padding: 0;
+			}
+		}
+		@media (min-width: $screen-sm-min) {
+			.qual-item-days {
+				width: $days;
+				text-align: center;
+				font-size: 1.6em;
+			}
+			.qual-item-name {
+				font-size: 1.1em;
+				@include calc-sub-two-values(width, 100%, $t-item-width-comp);
+			}
+			.qual-item-status {
+				width: $status;
+				text-align: left;			
+			}
+			.qual-item-progress {
+				font-size: 1.6em;
+				width: $progress;
+				text-align: center;
+			}
+			.qual-item-action {
+				width: $action;
+				text-align: center;
+			}
+		}
+
+		&[data-unit-status]:before {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: -2px;
+			width: 4px;
+			content: '';
+			background-color: $gray;
+		}
+		&[data-unit-status="danger"] {
+			.qual-item-days { color: $brand-red; }
+			&:before { background-color: $brand-red; }
+		}
+		&[data-unit-status="warning"] {
+			.qual-item-days { color: $brand-orange; }
+			&:before { background-color: $brand-orange; }
+		}
+		&[data-unit-status="safe"] {
+			.qual-item-days { color: $brand-green; }
+			&:before { background-color: $brand-green; }
+		}
+	}
+}

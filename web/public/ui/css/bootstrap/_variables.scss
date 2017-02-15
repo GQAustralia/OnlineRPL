@@ -20,6 +20,7 @@ $brand-green: 			 #26b36a;
 $brand-gray: 			 #808080;
 $brand-orange:			 #ff9933;
 $brand-red: 		 	 #e7302a;
+$brand-bluegreen:		 #70bdc7;
 
 $brand-primary:         $brand-red !default;
 $brand-success:         #5cb85c !default;
@@ -44,6 +45,7 @@ $link-hover-color:      darken($link-color, 15%) !default;
 //** Link hover decoration.
 $link-hover-decoration: underline !default;
 
+$selected-bg: 			$brand-bluegreen;
 
 //== Typography
 //
@@ -447,17 +449,17 @@ $nav-pills-active-link-hover-color:         $component-active-color !default;
 //
 //##
 
-$pagination-color:                     $link-color !default;
-$pagination-bg:                        #fff !default;
+$pagination-color:                     $text-color !default;
+$pagination-bg:                        transparent !default;
 $pagination-border:                    #ddd !default;
 
-$pagination-hover-color:               $link-hover-color !default;
+$pagination-hover-color:               $text-color !default;
 $pagination-hover-bg:                  $gray-lighter !default;
 $pagination-hover-border:              #ddd !default;
 
 $pagination-active-color:              #fff !default;
-$pagination-active-bg:                 $brand-primary !default;
-$pagination-active-border:             $brand-primary !default;
+$pagination-active-bg:                 $gray-dark !default;
+$pagination-active-border:             $gray-dark !default;
 
 $pagination-disabled-color:            $gray-light !default;
 $pagination-disabled-bg:               #fff !default;
@@ -669,7 +671,7 @@ $progress-bar-info-bg:        $brand-info !default;
 //##
 
 //** Background color on `.list-group-item`
-$list-group-bg:                 #fff !default;
+$list-group-bg:                 transparent !default;
 //** `.list-group-item` border color
 $list-group-border:             #ddd !default;
 //** List group border radius

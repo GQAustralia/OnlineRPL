@@ -1,23 +1,23 @@
 /*
 Error: Undefined mixin 'transition'.
-        on line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss, in `transition'
-        from line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss
+        on line 7 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss, in `transition'
+        from line 7 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss
 
-1: // GQA Header Constants
 2: .header-gqa {
 3: 	.header-gqa-logo {
 4: 		height: 50px;
 5: 		width: auto;
-6: 		@include transition(all .3s $easing);
-7: 	}
-8: 
-9: 	.container {
-10: 		position: relative;
-11: 		z-index: 1;
+6: 		display: inline-block;
+7: 		@include transition(all .3s $easing);
+8: 		position: relative;
+9: 
+10: 		img { width: inherit; height: inherit; }
+11: 	}
+12: 
 
 Backtrace:
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss:6:in `transition'
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss:6
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss:7:in `transition'
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss:7
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:351:in `block in visit_mixin'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:98:in `block in with_mixin'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
@@ -80,4 +80,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'transition'.\A         on line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss, in `transition'\A         from line 6 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss\A \A 1: // GQA Header Constants\A 2: .header-gqa {\A 3: 	.header-gqa-logo {\A 4: 		height: 50px;\A 5: 		width: auto;\A 6: 		@include transition(all .3s $easing);\A 7: 	}\A 8: \A 9: 	.container {\A 10: 		position: relative;\A 11: 		z-index: 1;"; }
+  content: "Error: Undefined mixin 'transition'.\A         on line 7 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss, in `transition'\A         from line 7 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header.scss\A \A 2: .header-gqa {\A 3: 	.header-gqa-logo {\A 4: 		height: 50px;\A 5: 		width: auto;\A 6: 		display: inline-block;\A 7: 		@include transition(all .3s $easing);\A 8: 		position: relative;\A 9: \A 10: 		img { width: inherit; height: inherit; }\A 11: 	}\A 12: "; }

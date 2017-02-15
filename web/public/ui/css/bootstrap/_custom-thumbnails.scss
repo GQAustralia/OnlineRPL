@@ -25,7 +25,7 @@ $thumbnail-group-item-card-width: 200px;
 		flex-direction: row;		
     	.thumbnail-group-item {
 			width: 200px; // ie
-			padding: 3px;
+			padding: 5px;
 
 			@media(min-width: $screen-xs-min){
 				padding: $grid-gutter-width / 8;
@@ -332,6 +332,17 @@ $thumbnail-group-item-card-width: 200px;
 			padding-top: 30px;
 			@include transition(padding .3s $easing);
 		}
+
+		.btn-delete {
+			top: 25px;
+			right: 0;
+		}
+	}
+}
+
+.is-mobile, .is-tablet {
+	.thumbnail-group-item .edit-mode .btn-delete {
+		display: block;
 	}
 }
 

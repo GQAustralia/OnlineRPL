@@ -1,12 +1,12 @@
 .panel-qualification-meta {
-	width: $qual-card-body-offset - 50;
+	width: $qual-card-body-offset;
 	overflow: hidden;
 	border-top-left-radius: $border-radius-base;
 	border-bottom-left-radius: $border-radius-base;
 	z-index: 1;
 
 	.panel-qualification-img {
-		height: $qual-card-img-height - 50;
+		height: $qual-card-img-height;
 
 		.qual-title { display: none; }
 		&:after { display: none; }
@@ -23,12 +23,8 @@
 }
 
 .panel-qualification-heading {
-	padding: 15px;
+	padding: 20px;
 	text-align: left;
-	background-image: url(../img/bg-onboarding-popup.png);
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
 	@include clearfix();
 
 	.avatar {
@@ -63,20 +59,24 @@
 	}
 
 	& + .panel-body {
-		padding: 15px !important;
+		padding: 30px !important;
 	}
 }
 
 .panel-qualification-body {
-	@include calc-sub-two-values(width, 100%, $qual-card-body-offset - 50);
+	@include calc-sub-two-values(width, 100%, $qual-card-body-offset);
 
 	.panel-body-group {
-		padding: $grid-gutter-width/2;
+		padding: 0;
 
 		.h1,.h2,.h3,.h4,.h5,.h6 { margin-top: 0; }
 		.control-label { color: $gray; }
 		.qual-title {
 			display: block;
+			position: relative;
+			@include pointing-left-heading(white);
+			margin-bottom: 0;
+			padding: 30px;
 		}
 	}
 

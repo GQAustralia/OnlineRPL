@@ -1,0 +1,9 @@
+.panel-tab-bg + .panel-body{
+	@media (min-width: $screen-sm-min) {
+		padding: 30px;	
+	}
+}
+
+.panel-dashboard + .panel-dashboard .panel-body{
+	// padding-top: 0;
+}

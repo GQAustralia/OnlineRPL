@@ -2,9 +2,9 @@
 @import '../../bootstrap/mixins/';
 
 .is-mobile {
-	&.modal-open{
-		position: fixed;
-	}
+	// .modal-open{
+	// 	position: fixed;
+	// }
 	.modal-onboarding{
 		.modal-content{
 			display: table-cell;
