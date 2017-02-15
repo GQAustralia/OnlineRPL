@@ -1243,6 +1243,7 @@ class CoursesService
                 $evd = [];
                 $evd['id'] = $evidence->getId();
                 $evd['catId'] = $evidence->getCategory()->getId();
+                $evd['created'] = $evidence->getCreated();
                 $evd['type'] = $type;
                 $evd['path'] = $evidence->getPath();
                 $evd['s3Path'] = $evd['mimeType'] = $evd['fileType'] = '';
