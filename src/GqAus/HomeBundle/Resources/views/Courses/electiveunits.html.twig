@@ -21,9 +21,11 @@
                                         <button type="button" class="btn" ng-click="(isSubmitted(elective) !== true) && addRemoveUnit(elective)"><i class="zmdi"></i></button>
                                     </div>
                                     <div class="panel-collapse collapse" ng-class="{'in': showDetails }"  ng-show="showDetails">
-                                        <p ng-bind-html="unitDetails[elective.id].elements"></p> 
-                                        <p ng-bind-html="unitDetails[elective.id].evidence_guide"></p> 
-                                        <p ng-bind-html="unitDetails[elective.id].skills_and_knowledge"></p> 
+                                        <div class="panel-body table-from-api content-from-api table-striped">
+                                            <p ng-bind-html="unitDetails[elective.id].elements"></p> 
+                                            <p ng-bind-html="unitDetails[elective.id].evidence_guide"></p> 
+                                            <p ng-bind-html="unitDetails[elective.id].skills_and_knowledge"></p> 
+                                        </div>
                                     </div>
                                 </li>
                                 {#<li class="list-group-units-subitem">

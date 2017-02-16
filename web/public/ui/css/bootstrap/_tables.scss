@@ -18,9 +18,10 @@ th {
 }
 
 %table{
-  width: 100%;
+  width: 100% !important;
   max-width: 100%;
   margin-bottom: $line-height-computed;
+  empty-cells: hide;
   // Cells
   > thead,
   > tbody,
@@ -32,7 +33,15 @@ th {
         line-height: $line-height-base;
         vertical-align: top;
       }
-      > td { border-top: 1px solid $table-border-color; }
+      > td { 
+        border: none !important; 
+        display: block;
+        width: auto !important;
+
+        @media screen and (min-width: $screen-tablet){
+          display: table-cell;
+        }
+      }
 
     }
   }
@@ -44,7 +53,7 @@ th {
     border-right: 3px solid white;
     text-transform: uppercase;
 
-    &:last-child { border-right: none; }
+    &:last-child { border: none !important; border-right: none !important; }
     // border-bottom: 2px solid $table-border-color;
   }
   // Remove top border from thead by default
@@ -54,11 +63,11 @@ th {
     > tr:first-child {
       > th,
       > td {
-        border-top: 0;
+        border-top: 0 !important;
       }
     }
   }
-  tbody > tr:first-child > td { border-top: none; }
+  tbody > tr:first-child > td { border-top: none !important; }
   // Account for multiple tbody instances
   > tbody + tbody {
     border-top: 2px solid $table-border-color;
@@ -73,8 +82,9 @@ th {
 }
 
 .table-from-api{
-  
   table{
+    border: 1px solid #e6e6e6;
+    margin: 20px 0;
     @extend %table;
   }
 }
@@ -130,12 +140,15 @@ th {
 //
 // Default zebra-stripe styles (alternating gray and transparent backgrounds)
 
-.table-striped {
+%table-striped{
   > tbody > tr:nth-of-type(odd) {
-    background-color: $table-bg-accent;
+    background-color: #f3f3f3;
   }
 }
-
+.table-striped,
+.table-striped table {
+  @extend %table-striped
+}
 
 // Hover effect
 //
