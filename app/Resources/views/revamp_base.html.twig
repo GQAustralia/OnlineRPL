@@ -65,20 +65,18 @@
                             <ul class="dropdown-menu pull-right">
                                 <li><a href="{{ app.request.baseUrl }}/overview"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
                                 <li class="divider"></li>
-                                <li>
-                                    <div><h4 class="h4">Your Enrolled Qualifications</h4>
-                                        {% set userCourses = user_service.getUserCourses(userId) %}  
-                                        {% if userCourses|length > 0 %}
-                                            <div class="list-group">
-                                                {% for course in userCourses %} 
-                                                    {%set courseName = course.getCourseName() %}
-                                                    {% if courseName is defined and courseName != null %}       
-                                                        <a href="{{ app.request.baseUrl }}/qualificationDetails/{{course.getCourseCode()}}" class="list-group-item">{{course.getCourseName()}}</a>
-                                                    {%endif%}
-                                                {%endfor%}
-                                            </div>
-                                        {%endif%}
-                                    </div>
+                                <li class="sub-menu">
+                                    <h4 class="h4 sub-menu-title">Your Qualifications</h4>
+                                    {% set userCourses = user_service.getUserCourses(userId) %}  
+                                    {% if userCourses|length > 0 %}
+                                        {% for course in userCourses %} 
+                                            {%set courseName = course.getCourseName() %}
+                                            {% if courseName is defined and courseName != null %}       
+                                                <a href="{{ app.request.baseUrl }}/qualificationDetails/{{course.getCourseCode()}}" class="list-group-item">{{course.getCourseName()}}</a>
+                                            {%endif%}
+                                        {%endfor%}
+                                    {%endif%}
+                                    
                                 </li>
                             </ul>
                         </li>

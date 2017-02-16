@@ -129,7 +129,7 @@ $zindex-menu: $zindex-navbar-fixed + 1;
 					background-color: darken($brand-primary,10%);
 					@include box-shadow(none);
 
-					* { color: white !important; }
+					* { color: white !important; border: none;}
 					.divider {
 						background-color: darken($brand-primary,4%);
 					}
