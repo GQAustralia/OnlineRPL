@@ -69,7 +69,13 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
             $scope.allEvidences = _.where($scope.evidences, {"catId":catid});
     }
     
-    $scope.clearFilters = function(){}
+    $scope.clearFilters = function(){
+        $scope.fileuncheck.Selected = false;
+    }
+    
+    $scope.applyFilters = function(){
+        $('#evidenceFilter').modal('hide');
+    }
     
     $scope.sortBy = function(propertyName) {
         $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;

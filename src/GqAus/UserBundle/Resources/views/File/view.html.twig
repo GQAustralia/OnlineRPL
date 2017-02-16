@@ -33,7 +33,7 @@
                         </div>
                         <!-- Filter evidences according to category -->
                     </aside>
-                    <section class="panel-evidence-library-content" {#ng-if="(allEvidences| filter:{type: '!text'}).length > 0"#} data-has-thumbnail="true">
+                    <section class="panel-evidence-library-content" ng-if="(allEvidences| filter:{type: '!text'}).length > 0" data-has-thumbnail="true">
                         <div class="panel-evidence-search">
                             <div class="input-group-search"><input type="text" class="form-control" ng-model="search" placeholder="Search..."><i class="zmdi zmdi-search zmdi-hc-2x icon"></i></div>                    
                         </div>
@@ -222,7 +222,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <legend class="small text-muted text-uppercase">Files associated to</legend>
-                        <span ng-repeat="courseDetails in userCourses"><input type="checkbox"  name="course{[{courseDetails.id}]}" value="{[{courseDetails.id}]}" id="file{[{courseDetails.id}]}" class="custom-input"><label for="file{[{courseDetails.id}]}"><span >{[{courseDetails.name}]}</span></label></span>
+                        <span ng-repeat="courseDetails in userCourses"><input type="checkbox"  name="course{[{courseDetails.id}]}"   ng-true-value="1" ng-false-value="0" ng-model="fileuncheck" value="{[{courseDetails.id}]}" id="file{[{courseDetails.id}]}" class="custom-input"><label for="file{[{courseDetails.id}]}"><span >{[{courseDetails.name}]}</span></label></span>
                     </div>
                     <div class="form-group">
                         <legend class="small text-muted text-uppercase">Files linked to</legend>
@@ -258,7 +258,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" ng-click="clearFilters()">Clear</button>
-                    <button type="button" class="btn btn-primary">Apply filter</button>
+                    <button type="button" class="btn btn-primary" ng-click="applyFilters()">Apply filter</button>
                 </div>
             </div>
         </div>
