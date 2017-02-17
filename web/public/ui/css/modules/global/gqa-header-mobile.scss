@@ -129,6 +129,10 @@ $zindex-menu: $zindex-navbar-fixed + 1;
 					background-color: darken($brand-primary,10%);
 					@include box-shadow(none);
 
+					a{
+						white-space: normal;
+					}
+
 					* { color: white !important; border: none;}
 					.divider {
 						background-color: darken($brand-primary,4%);
@@ -136,6 +140,12 @@ $zindex-menu: $zindex-navbar-fixed + 1;
 				}
 				&.dropdown.open .dropdown-menu {
 					position: relative !important;
+
+					.sub-menu{
+						max-height: 210px;
+						overflow: auto;
+					}
+						
 
 					a {
 						&:active, &:focus, &:hover {
