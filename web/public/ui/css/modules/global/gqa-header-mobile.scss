@@ -17,6 +17,18 @@ $zindex-menu: $zindex-navbar-fixed + 1;
 		float: right;
 		display: block;
 
+		&.open:before{
+			content: '';
+			width: 300px;
+			height: 60px;
+			background: $brand-red;
+			content: '';
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 1033;
+		}
+
 		.nav-links {
 			position: fixed;
 			top: 0;
@@ -28,6 +40,8 @@ $zindex-menu: $zindex-navbar-fixed + 1;
 			width: 300px;
 			display: none;
 			@include box-shadow(3px 0 50px rgba(0,0,0,0.7));
+			height: 100%;
+			overflow: auto;
 
 			// > li {
 			// 	display: block;
@@ -140,13 +154,6 @@ $zindex-menu: $zindex-navbar-fixed + 1;
 				}
 				&.dropdown.open .dropdown-menu {
 					position: relative !important;
-
-					.sub-menu{
-						max-height: 210px;
-						overflow: auto;
-					}
-						
-
 					a {
 						&:active, &:focus, &:hover {
 							border-radius: 0;
@@ -217,7 +224,7 @@ $zindex-menu: $zindex-navbar-fixed + 1;
 	}
 
 	.btn-navicon-gqa {
-		z-index: $zindex-menu + 2;
+		z-index: $zindex-menu + 3;
 		display: block;
 	}
 }
