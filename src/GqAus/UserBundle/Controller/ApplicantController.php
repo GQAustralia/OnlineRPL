@@ -5,6 +5,7 @@ namespace GqAus\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use GqAus\UserBundle\Form\NotesForm;
 use GqAus\UserBundle\Entity\Facilitator;
 use GqAus\UserBundle\Entity\Assessor;
@@ -119,16 +120,44 @@ class ApplicantController extends Controller
     }
 
     /**
-     * Function list applicants list
-     * return array
+     * Function list applicants list index page
+     * render template for front end view
      */
     public function applicantsListAction()
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();		
+		$dateRangeRecordsCount = $this->get('UserService')->getFacilitatorPortfolioCounts($userId, $userRole);
+        return $this->render('GqAusUserBundle:Applicant:list.html.twig', $dateRangeRecordsCount);
+    }
+	
+    /**
+     * Function get applicants list service call
+     * return array
+     */
+    public function getApplicantsListAction(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $type = "";
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+                dump($params);
+            }
+		}
+		$page = isset($params['page']) ? $params['page'] : '0';
+		$filterByStatus = isset($params['filterbystatus']) ? $params['filterbystatus'] : '1';
+		$status = ($params['filterbystatus'] == 1) ? '0' : '1';
+
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $pendingApplicantsCount = $this->get('UserService')->getPendingApplicantsCount($userId, $userRole, '0');
+
         $page = $this->get('request')->query->get('page', 1);
-        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
+        $applicantResult = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, '', '', '', $filterByStatus);
+
         $results['pageRequest'] = 'submit';
         $results['status'] = 0;
         $results['pendingApplicantsCount']=$pendingApplicantsCount;
@@ -136,13 +165,39 @@ class ApplicantController extends Controller
         if ($userRole[0] == Superadmin::ROLE_NAME || $userRole[0] == Manager::ROLE_NAME) {
             $results['facilitators'] = $this->get('UserService')->getUsers(Facilitator::ROLE);                   
         }
-        $qualificationStatus = array();
+        $qualificationStatus = $qualStatusArray = array();
         $users = $this->get('UserService')->getUserByRole();
         $qualificationStatus = $this->get('UserService')->getQualificationStatus();
         $results['users'] = $users;
-        $results['qualificationStatus'] = $qualificationStatus;
-        return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
-    }
+		
+		foreach($qualificationStatus as $key=>$qualStatus){
+			$qualStatusArray[$key]['status'] =   $qualStatus['status'];
+			$qualStatusArray[$key]['order'] =   $qualStatus['order'];
+			$qualStatusArray[$key]['Factive'] =   $qualStatus['Factive'];
+			$qualStatusArray[$key]['Aactive'] =   $qualStatus['Aactive'];
+		}
+
+		$applicantsArray = array();
+		foreach($applicantResult['applicantList'] as $akey => $applicant){
+			$leftDaysList = explode('&&',$applicant->leftdays);
+			$applicantsArray[$applicant->getUser()->getId()]['firstName'] =  $applicant->getUser()->getFirstName();
+			$applicantsArray[$applicant->getUser()->getId()]['lastName'] =  $applicant->getUser()->getLastName();
+			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseCode'] = $applicant->getCourseCode();
+			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseName'] = $applicant->getCourseName();
+			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseStatus'] = $qualificationStatus[$applicant->getCourseStatus()]['status'];
+			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['leftdays'] = $leftDaysList['0'];
+		}
+		
+		
+		unset($results['pageRequest']);
+		unset($results['status']);
+		unset($results['pendingApplicantsCount']);
+		unset($results['users']);
+        $results['qualificationStatus'] = $qualStatusArray;
+        $results['applicantList'] = $applicantsArray;
+
+		return new JsonResponse($results);
+	}
 
     /**
      * Function search applicants list
