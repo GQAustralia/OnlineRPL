@@ -881,12 +881,15 @@ class UserService
 
         $res->orderBy('c.id', 'DESC');
                
+
+			   
         /* Pagination */
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
         /* Pagination */
         $applicantList = $res->getQuery()->getResult();
         
+		
 //       dump($applicantList);exit;
         for($i=0;$i<count($applicantList);$i++)
         {
@@ -914,26 +917,33 @@ class UserService
         $thirtyDayRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '0', '30');
         $sixtyDayRecordsCount  = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '31', '60');
         $ninetyDayRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '61', '90');
-        $ninetyDayPlusRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '2', '91', '');
+        $oneTwentyDayRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '91', '120');
+        $oneFiftyDayRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '121', '150');
+        $oneEightyDayRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '151', '180');
+		
         $thirtyDayRecordsPercent = $sixtyDayRecordsPercent = $ninetyDayRecordsPercent = $ninetyDayPlusRecordsPercent = 0;
         if($allRecordsCount > 0) {
 
             $thirtyDayRecordsPercent = ($thirtyDayRecordsCount/$allRecordsCount)*100;
             $sixtyDayRecordsPercent = ($sixtyDayRecordsCount/$allRecordsCount)*100;
             $ninetyDayRecordsPercent = ($ninetyDayRecordsCount/$allRecordsCount)*100;
-            $ninetyDayPlusRecordsPercent = ($ninetyDayPlusRecordsCount/$allRecordsCount)*100;
+            $ninetyDayPlusRecordsPercent = ($ninetyDayRecordsCount/$allRecordsCount)*100;
         }
         return array(
                     'allApplicantsCount' => $allRecordsCount,
                     'thirtyDaysApplicantsCount' => $thirtyDayRecordsCount, 
                     'sixtyDaysApplicantsCount' => $sixtyDayRecordsCount,
                     'ninetyDaysApplicantsCount' => $ninetyDayRecordsCount,
-                    'ninetyDaysPlusRecordsCount' => $ninetyDayPlusRecordsCount,
+                    'oneTwentyDayRecordsCount' => $oneTwentyDayRecordsCount,
+                    'oneFiftyDayRecordsCount' => $oneFiftyDayRecordsCount,
+                    'oneEightyDayRecordsCount' => $oneEightyDayRecordsCount,
+
                     'thirtyDayApplicantsPercent' => $thirtyDayRecordsPercent,
                     'sixtyDaysApplicantsPercent' => $sixtyDayRecordsPercent,
                     'ninetyDaysApplicantsPercent' => $ninetyDayRecordsPercent,
                     'ninetyDaysPlusRecordsPercent' => $ninetyDayPlusRecordsPercent,
                 );
+
     }
 
     /**
