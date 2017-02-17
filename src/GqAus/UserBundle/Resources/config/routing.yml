@@ -52,6 +52,9 @@ uploadProfilePic:
 applicants:
     path:     /applicants
     defaults: { _controller: GqAusUserBundle:Applicant:applicantsList }
+getapplicants:
+    path:     /getapplicants
+    defaults: { _controller: GqAusUserBundle:Applicant:getApplicantsList }	
 applicantDetails:
     path:     /applicantDetails/{qcode}/{uid}
     defaults: { _controller: GqAusUserBundle:Applicant:details }
