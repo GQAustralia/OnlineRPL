@@ -25,7 +25,7 @@ $zindex-menu: $zindex-navbar-fixed + 1;
 			background: $brand-primary;
 			bottom: 0;
 			z-index: $zindex-menu + 1;
-			min-width: 250px;
+			width: 300px;
 			display: none;
 			@include box-shadow(3px 0 50px rgba(0,0,0,0.7));
 
