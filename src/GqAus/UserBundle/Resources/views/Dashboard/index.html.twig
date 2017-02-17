@@ -1,0 +1,49 @@
+{% extends 'revamp_base.html.twig' %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="dashboardController"  id="dashboardController" {% endblock%}
+{% block title %}  Get Qualified Australia: Online RPL {% endblock %}
+{% block ngtitle %}pageTitle{% endblock%}
+{% block body %}
+
+
+{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('public/ui/css/vendor/owl.carousel.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/ui/css/modules/rpl-online-enrolment/rpl-online-enrolment.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block javascripts %}
+    <!-- App -->
+    <!-- Online Enrolment only -->
+    <script src="{{ asset('public/ui/js/plugins/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/rpl-online-enrolment.js') }}"></script>
+    <!--Phone Number Flag Plugin-->
+
+    <!--Country select with States Plugin-->
+
+    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
+    <script src = "{{ asset('public/ui/js/plugins/countries.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/intlTelInput.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/utils.js') }}"></script>
+    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <!-- Bootstrap Datepicker -->
+    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/bootstrap-datetimepicker.js') }}"></script>
+
+    <!-- places library for maps api -->
+
+    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
+    <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
+    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/app.js') }}"></script>
+    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
+    <script src="{{ asset('public/js/angular/directives/enrollDirectives.js') }}"></script>
+    <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
+    <script src="{{ asset('public/js/angular/controllers/enrollmentCtlr.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete" async defer></script>
+{% endblock %}

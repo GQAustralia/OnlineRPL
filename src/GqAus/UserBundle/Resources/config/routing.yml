@@ -1,3 +1,6 @@
+dashboard:
+    path:     /dashboard
+    defaults: { _controller: GqAusUserBundle:Dashboard:index }
 overview:
     path:     /overview
     defaults: { _controller: GqAusUserBundle:Overview:index }
@@ -52,9 +55,6 @@ uploadProfilePic:
 applicants:
     path:     /applicants
     defaults: { _controller: GqAusUserBundle:Applicant:applicantsList }
-getapplicants:
-    path:     /getapplicants
-    defaults: { _controller: GqAusUserBundle:Applicant:getApplicantsList }	
 applicantDetails:
     path:     /applicantDetails/{qcode}/{uid}
     defaults: { _controller: GqAusUserBundle:Applicant:details }
