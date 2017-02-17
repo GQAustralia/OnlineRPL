@@ -4,7 +4,10 @@
 $upload-button-width: 32px;
 
 .profile{
-
+	[class^="col-"], .row {
+		padding: 0;
+		margin: 0;
+	}
 	.panel{
 		margin: 0 auto 15px;
 	}
@@ -12,7 +15,7 @@ $upload-button-width: 32px;
 		background: url(../img/bg-onboarding-popup.png);
 		background-size: cover;
 		background-position: center;
-		padding: 30px 60px;
+		padding: 15px;
 		min-height: 175px;
 		text-align: center;
 		h2{
@@ -179,13 +182,16 @@ $upload-button-width: 32px;
 			font-size: 24px;
 		}
 
-
+		.profile-header{
+			padding: 30px;
+		}
 	}
 	.profile-header{
 		text-align: left;
 		.avatar,
 		.profile-user{
-			display: inline-block;
+			display: block;
+			float: left;
 		}
 
 		.profile-user{
@@ -206,9 +212,10 @@ $upload-button-width: 32px;
 }
 
 @media screen and (min-width: $screen-md-min){
-	.profile .panel{
-		max-width: 850px;
-		
+	.profile {
+		.panel{
+			max-width: 850px;
+		}
 	}
 }
 

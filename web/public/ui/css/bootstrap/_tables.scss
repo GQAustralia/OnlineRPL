@@ -140,7 +140,7 @@ th {
 //
 // Default zebra-stripe styles (alternating gray and transparent backgrounds)
 
-%table-striped{
+%table-striped{ 
   > tbody > tr:nth-of-type(odd) {
     background-color: #f3f3f3;
   }

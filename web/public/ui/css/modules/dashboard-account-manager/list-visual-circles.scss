@@ -1,7 +1,7 @@
 .list-circle-visuals {
 	padding-left: 0;
 	margin: 0;
-	margin-top: 30px;
+	margin-top: 15px;
 	float: left;
 	width: 100%;
 	clear: both;
@@ -42,9 +42,9 @@
 		}
 		
 
-		$dim: 100px;
+		$dim: 80px;
 		.value {
-			font-size: 3em;
+			font-size: 2.4em;
 			font-weight: 300;
 			border-radius: $dim;
 			width: $dim;

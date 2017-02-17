@@ -84,12 +84,16 @@ $bg-color-dark: white;
 
 	// bigger size
 	&.big{
-		font-size: 12em;
+		font-size: 14em;
 	}
 
 	// smaller size
 	&.small{
 		font-size: 8em;
+
+		&:after {
+
+		}
 	}
 
 	// centered value inside circle
@@ -99,16 +103,26 @@ $bg-color-dark: white;
 		z-index: 1;
 		left: 0;
 		top: 0;
-		width: 5em;
-		line-height: 5em;
-		font-size: 0.2em;
-		color: $secondary-color;
+		// width: 5em;
+		// line-height: 5em;
+		// font-size: 0.2em;
+
+
+		width: 3.33em;
+		line-height: 3.33em;
+		font-size: 0.3em;
+		color: $primary-color;
+
 		display: block;
 		text-align: center;
 		white-space: nowrap;
 		@include transition-property(all);
 		@include transition-duration(0.2s);
 		@include transition-timing-function(ease-out);
+
+		* {
+			font-style: normal;
+		}
 	}
 
 	// background inside the circle
@@ -172,27 +186,6 @@ $bg-color-dark: white;
 		}
 
 	}
-
-	// hover styles
-	&:hover{
-
-		cursor: default;
-
-		> span {
-			width: 3.33em;
-			line-height: 3.33em;
-			font-size: 0.3em;
-			color: $primary-color;
-		}
-
-		&:after{
-			top: $circle-width-hover;
-			left: $circle-width-hover;
-			width: 1 - (2 * $circle-width-hover);
-			height: 1 - (2 * $circle-width-hover);
-		}
-	}
-
 
 	// override colors for the dark skin
 	&.dark {

@@ -1,28 +1,49 @@
 .panel-qual-heading {
-	.panel-heading {
-		padding: $grid-gutter-width/2;
-		* { color: white !important; }
+
+	&.panel-avatar-tab {
+		.panel-heading {
+			padding: $grid-gutter-width/4;
+			padding-top: 0;
+
+			* { text-align: center; }
+		}
+		.panel-heading-img {
+			padding-top: 15px;
+			.avatar {
+				$dim: 100px;
+				width: $dim;
+				height: $dim;
+				max-width: $dim;
+				max-height: $dim;
+			}
+		}
 	}
-	.panel-heading-img {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-size: cover;
-		background-position: top center;
-		border-radius: $panel-border-radius;
-		z-index: 0;
-		&:after {
-			display: block;
+	&:not(.panel-avatar-tab) {
+		padding: $grid-gutter-width/2;
+		.panel-heading {
+			* { color: white !important; }
+		}
+		.panel-heading-img {
 			position: absolute;
 			top: 0;
 			left: 0;
 			right: 0;
 			bottom: 0;
-			content: '';
-			@include gradient-vertical(rgba(0,0,0,0.1),rgba(0,0,0,0.5),0,100%);
+			background-size: cover;
+			background-position: top center;
+			border-radius: $panel-border-radius;
 			z-index: 0;
+			&:after {
+				display: block;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				content: '';
+				@include gradient-vertical(rgba(0,0,0,0.1),rgba(0,0,0,0.5),0,100%);
+				z-index: 0;
+			}
 		}
 	}
 

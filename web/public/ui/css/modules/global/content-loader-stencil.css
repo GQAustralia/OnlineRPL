@@ -1,22 +1,21 @@
 /*
-Error: Undefined variable: "$grid-gutter-width".
-        on line 4 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/login/is-mobile.scss
+Error: Undefined variable: "$gray-lighter".
+        on line 5 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/content-loader-stencil.scss
 
-1: .is-mobile {
-2: 	.login-container {
-3: 		vertical-align: middle;
-4: 		padding: $grid-gutter-width/4;
-5: 		padding-bottom: 0;
+1: [data-loader] {
+2: 	&.loading {
+3: 		height: 300px;
+4: 		position: relative;
+5: 		background-color: $gray-lighter;
 6: 	}
-7: 	.panel-login {
-8: 		.panel-login-logo {
-9: 			> img { 
+7: }
+8: 
+9: .loader {
+10: 	position: absolute;
 
 Backtrace:
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/login/is-mobile.scss:4
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/content-loader-stencil.scss:5
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/operation.rb:64:in `_perform'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
@@ -76,4 +75,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$grid-gutter-width\".\A         on line 4 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/login/is-mobile.scss\A \A 1: .is-mobile {\A 2: 	.login-container {\A 3: 		vertical-align: middle;\A 4: 		padding: $grid-gutter-width/4;\A 5: 		padding-bottom: 0;\A 6: 	}\A 7: 	.panel-login {\A 8: 		.panel-login-logo {\A 9: 			> img { "; }
+  content: "Error: Undefined variable: \"$gray-lighter\".\A         on line 5 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/content-loader-stencil.scss\A \A 1: [data-loader] {\A 2: 	&.loading {\A 3: 		height: 300px;\A 4: 		position: relative;\A 5: 		background-color: $gray-lighter;\A 6: 	}\A 7: }\A 8: \A 9: .loader {\A 10: 	position: absolute;"; }

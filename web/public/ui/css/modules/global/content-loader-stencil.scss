@@ -1,0 +1,86 @@
+[data-loader] {
+	.loading {
+		display: block;
+		height: 377px;
+		position: relative;
+		background-color: $gray-lighter;
+	}
+}
+
+.loader {
+	$urlBase: '../img/content-loader/content-loader-';
+	$leftWidth: 300px;
+	$rightWidth: 93px;
+	$offset: $rightWidth + $leftWidth;
+	$widthCurve: 12px;
+
+	overflow: hidden;
+	> .msk1, > .msk2, &:before {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		content: '';
+		display: block;
+	}
+
+
+	> .msk1:before,
+	> .msk2:after {
+		position: absolute;
+		top: 31px;
+		height: 15px;
+		z-index: 5;
+		content: '';
+		display: block;
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: contain;
+	}
+
+	// Left stencil
+	> .msk1 {
+		left: 0;
+		width: $leftWidth;
+		background-repeat: no-repeat;
+		background-position: left center;
+		background-image: url(#{$urlBase}left.svg);
+		background-size: contain;
+		z-index: 1;
+
+		&:before {
+			right: 0;
+			width: $widthCurve;
+			background-image: url(#{$urlBase}left-curve.svg);
+		}
+	}
+
+	// Repeat
+	&:before {
+		@include calc-sub-two-values(width,100%,$offset);
+		left: $leftWidth;
+		right: $rightWidth;
+		z-index: 2;
+
+		background-repeat: repeat-x;
+		background-position: center center;
+		background-image: url(#{$urlBase}repeat.svg);
+		background-size: contain;
+	}
+
+	// Right stencil
+	> .msk2 {
+		right: 0;
+		width: $rightWidth;
+		background-repeat: no-repeat;
+		background-position: right center;
+		background-image: url(#{$urlBase}right.svg);
+		background-size: contain;
+		z-index: 3;
+
+		&:after {
+			left: 0;
+			width: $widthCurve;
+			background-image: url(#{$urlBase}right-curve.svg);
+		}	
+	}
+}

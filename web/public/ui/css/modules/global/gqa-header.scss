@@ -20,7 +20,7 @@
 	&.compressed {
 		.header-gqa-logo {
 			height: 50px;
-			@include transition(all .3s $easing);
+			@include transition(all .3s $easing); 
 		}
 		.navbar-bg-gradient {
 			border-bottom: 1px solid #51a9c3;

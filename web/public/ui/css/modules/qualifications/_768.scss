@@ -1,38 +1,62 @@
 .panel-qual-heading {
 	padding-left: $qual-img-width !important;
-	.panel-heading {
-		padding: $grid-gutter-width/2 $grid-gutter-width;
-		.unit-label {
-			// margin-bottom: 40px;
-		}
 
-		@include pointing-left-heading(#ededed);
-
-	}
 	.panel-heading-img {
-		@media (min-width: $screen-sm-min) {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: $qual-img-width;
+		background-size: cover;
+		background-position: top center;
+		border-top-left-radius: $panel-border-radius;
+		border-bottom-left-radius: $panel-border-radius;
+
+		.avatar {
+			$dim: 140px;
+			width: $dim;
+			height: $dim;
+			max-width: $dim;
+			max-height: $dim;
+
 			position: absolute;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			width: $qual-img-width;
-			background-size: cover;
-			background-position: top center;
-			border-top-left-radius: $panel-border-radius;
-			border-bottom-left-radius: $panel-border-radius;
+
+			@include calc-sub-two-values(top,50%,$dim/2);
+			@include calc-sub-two-values(left,50%,$dim/2);
 		}
 	}
 
 	.nav-tabs {
-		// background-color: rgba(255,255,255,0.4);
-		// padding-bottom: 2px;
-		padding-left: 60px;
+		
 		border-bottom: 1px solid #c5c5c5;
 		li {
 			a {
 				line-height: 1;
 				padding: 15px 30px;
 			}
+		}
+	}
+
+	&.panel-avatar-tab {
+		.panel-heading-img {
+			@include gradient-vertical(rgba(140, 140, 140, 0.16), rgba(0,0,0,0.0), 0,100%);
+			border-bottom: 1px solid #c5c5c5;
+		}
+		.panel-heading {
+			padding: ($grid-gutter-width/2)-10 $grid-gutter-width/2;
+		}
+		.nav-tabs {
+			padding-left: 0;
+		}
+	}
+
+	&:not(.panel-avatar-tab) {
+		.panel-heading {
+			padding: $grid-gutter-width/2 $grid-gutter-width;
+			@include pointing-left-heading(#ededed);
+		}
+		.nav-tabs {
+			padding-left: 60px;
 		}
 	}
 }
