@@ -459,10 +459,10 @@ input[type="checkbox"] {
        background: $tooltip-error;
     }
   }
-
   input,
   select,
-  .btn-group {
+  .btn-group,
+  .intl-tel-input {
     & + i {
       position: absolute;
       top: 0;
@@ -472,22 +472,31 @@ input[type="checkbox"] {
     } 
   }
 
+  input.form-control{
+    padding: 12px 25px;
+  }
+
   @media( min-width: $screen-sm-min){
     input + i,
-    select + i {
+    select + i,
+    .intl-tel-input + i {
       right: 0;
       top: 38px;
       right: 15px;
     }
 
     select + i{
-      top: 6px;
+      top: 6px; 
     }
 
     .btn-group + i{
       position: relative;
       top:0;
       right: 0;
+    }
+
+    input.form-control{
+      padding: 12px 35px 12px 25px;
     }
   }
 }
