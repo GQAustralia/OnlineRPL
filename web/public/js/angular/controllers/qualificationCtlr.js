@@ -443,7 +443,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
                 break;
             case 'Satisfactory':
                 cls = 'label-default'
-                breaak;
+                break;
             case 'Not yet satisfactory':
             case 'Not yet competent':
                 cls = 'label-danger';
