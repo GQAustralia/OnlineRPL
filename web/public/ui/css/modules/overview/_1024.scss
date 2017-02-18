@@ -82,16 +82,18 @@
 
 	.panel-qualification-gauges {
 		.qual-gauges {
-			width: 25%;
-			margin-top: 0;
-
 			&:first-child {
-				width: 45%;
-				min-height: 250px;
+				width: $big-circle-width;
+			}
+			&:nth-child(2) {
+				@include calc-sub-two-values(width, 100%, $big-circle-width);
+				.progress-tag { margin-top: -12px; }
+			}
+			&:nth-child(3) {
 
-				.c100 { 
-					margin-top: 40px;
-				}
+			}
+			&:last-child {
+
 			}
 		}
 	}

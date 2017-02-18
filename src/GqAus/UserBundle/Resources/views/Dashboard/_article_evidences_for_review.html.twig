@@ -1,0 +1,93 @@
+<article class="panel panel-default panel-dashboard">
+    <div class="panel-heading panel-tab-bg">
+        <h3 class="qual-title"><i class="zmdi zmdi-search-in-page"></i> Evidences for Review</h3>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#incomplete" aria-controls="incomplete" role="tab" data-toggle="tab">
+                    New uploads <sup class="label label-primary">8</sup>
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#complete" aria-controls="complete" role="tab" data-toggle="tab">
+                    > 7 days <sup class="label label-primary">8</sup>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body override-padding">
+        <div role="tabpanel">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="incomplete">
+
+                    <ol class="dashboard-table-head-sort">
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Applicant
+                                <i class="caret"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Days <i
+                                        class="caret"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">
+                                Qualification <i class="caret"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Status <i
+                                        class="caret"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">% Done <i
+                                        class="caret"></i></button>
+                        </li>
+                    </ol>
+                    <ol class="dashboard-table">
+                        <!-- Applicant item -->
+                        <li class="dashboard-table-item" ng-repeat="">
+                            <section class="dashboard-table-item-avatar">
+                                <div class="avatar avatar-xxs t-item-4"><img
+                                            src="ui/img/avatar-default.png" alt="You"></div>
+                                <span class="avatar-name">Eric de Felix</span>
+                            </section>
+                            <section class="dashboard-table-item-metadata">
+                                <!-- Qualification item -->
+                                <div class="qual-item" ng-repeat="" data-unit-status="warning">
+                                    <span class="qual-item-days">29</span>
+                                    <span class="qual-item-name">Certificate III in Cookery</span>
+                                    <span class="qual-item-status">Not Started</span>
+                                    <span class="qual-item-progress">100%</span>
+                                    <span class="qual-item-action">
+                                                        <button type="button" class="btn btn-xs btn-transparent"
+                                                                data-placement="left" data-toggle="popover"><i
+                                                                    class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i></button>
+                                                    </span>
+                                </div>
+                                <div class="qual-item" ng-repeat="" data-unit-status="success">
+                                    <span class="qual-item-days">29</span>
+                                    <span class="qual-item-name">Certificate III in Cookery</span>
+                                    <span class="qual-item-status">Not Started</span>
+                                    <span class="qual-item-progress">100%</span>
+                                    <span class="qual-item-action">
+                                                         <button type="button" class="btn btn-xs btn-transparent"
+                                                                 data-placement="left" data-toggle="popover"><i
+                                                                     class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i></button>
+                                                    </span>
+                                </div>
+                                <!-- Qualification item -->
+
+                            </section>
+                        </li>
+                        <!-- Applicant item -->
+                    </ol>
+
+                    <div class="text-right">
+                        <a href="#" class="btn btn-link">View All</a>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="complete"></div>
+            </div>
+        </div>
+    </div>
+</article>

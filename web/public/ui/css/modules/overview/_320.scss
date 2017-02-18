@@ -123,6 +123,8 @@
 	.panel-qualification-gauges {
 		width: 100%;
 		position: relative;
+		padding: 0 15px;
+		padding-bottom: 15px;
 
 		@include clearfix();
 
@@ -130,32 +132,22 @@
 			position: relative;
 			display: block;
 			float: left;
-			width: 50%;
-			min-height: 150px;
 
-			// .c100 {
-			// 	margin: auto;
-			// 	font-size: 120px;
-			// 	float: none;
-			// 	i {
-			// 		margin-top: -$grid-gutter-width/4;
-			// 		display: block;
-			// 	}
-			// 	i.progress-big-label {
-			// 	    margin-top: -$grid-gutter-width/4;
-			// 		position: absolute;
-			// 		top: 63%;
-			// 		left: 0;
-			// 		right: 0;
-			// 		display: block;
-			// 		width: auto;
-			// 		padding-left: 10%;
-			// 		padding-right: 10%;
-			// 		padding-top: 5%;
-			// 	}
-			// }
+			&:first-child {
+				width: $big-circle-width;
+			}
+			&:nth-child(2) {
+				@include calc-sub-two-values(width, 100%, $big-circle-width);
+				.progress-tag { margin-top: -12px; }
+			}
+			&:nth-child(3) {
 
-			progress { width: 100%; margin-top: 30px; }
+			}
+			&:last-child {
+
+			}
+
+			progress { width: 100%; }
 		}
 	}
 

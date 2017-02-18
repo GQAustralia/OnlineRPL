@@ -275,6 +275,35 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 	}
 }
 
+.form-link-units {
+	@include clearfix();
+	.input-control {
+		@include calc-sub-two-values(width,100%,115px);
+		float: left;
+		display: block;
+		position: relative;
+
+		& + .btn {
+			float: right;
+		}
+	}
+}
+
+.table-link-units {
+	tr > td {
+		vertical-align: middle !important;
+		&:first-child {
+			padding-left: 0;
+			@include calc-sub-two-values(width,100%,85px);
+		}
+		&:last-child {
+			width: 85px;
+			padding: 0;
+			text-align: center;
+		}
+	}
+}
+
 .is-mobile .evidence-controls .checkbox-control {
     margin: 6px 15px 0 0;
     padding: 10px 25px 10px 0;

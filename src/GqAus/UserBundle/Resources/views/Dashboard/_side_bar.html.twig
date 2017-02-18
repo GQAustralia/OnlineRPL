@@ -1,0 +1,57 @@
+<section class="section-sidebar">
+    <div class="panel panel-default">
+        <div class="panel-qualification-heading">
+            <div class="avatar avatar-xs"><img src="{{ asset('public/ui/img/avatar-default.png') }}" alt="You"></div>
+            <div class="heading">
+                <span>Welcome back</span>
+                <span>Person with a Long Name</span>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <label class="control-label">
+                <i class="zmdi zmdi-hc-lg zmdi-time-countdown pull-left"></i>
+                <strong>MyTasks</strong></label>
+            <button type="button" class="btn btn-link text-uppercase btn-float-right btn-add-task"
+                    data-placement="bottom" data-toggle="popover">
+                <i class="zmdi zmdi-hc-lg zmdi-plus"></i> Add new
+            </button>
+
+            <div class="clearfix" style="width: 100px; margin-top: 5px;">
+                <button type="button" class="btn btn-default btn-xs btn-block">View all</button>
+            </div>
+        </div>
+
+        <hr style="margin: 0;">
+        <div class="task-list">
+            <ul class="nav" role="tablist">
+                <li role="presentation" class="active">
+                    <span data-target="#dueToday" aria-controls="dueToday" role="tab" data-toggle="tab">Due today <i
+                                class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
+                    <ul class="list-group">
+                        <li class="list-group-item" data-status="done">
+                            <strong>Subject here</strong> &ndash;
+                            <span>This is the summary that is very very long</span>
+                            <small>Eric de Felix - Diploma of Awesomeness</small>
+                            <span class="overdue text-danger">5 days overdue</span>
+                        </li>
+                    </ul>
+                </li>
+                <li role="presentation">
+                    <span data-target="#dueSoon" aria-controls="dueSoon" role="tab" data-toggle="tab">Due soon <i
+                                class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
+                    <ul class="list-group">
+                        <li class="list-group-item" data-status="pending">
+                            <strong>Subject here</strong> &ndash;
+                            <span>This is the summary that is very very long</span>
+                        </li>
+                        <li class="list-group-item" data-status="overdue">
+                            <strong>Subject here</strong> &ndash;
+                            <span>This is the summary that is very very long</span>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>

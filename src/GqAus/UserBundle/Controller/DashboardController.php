@@ -17,7 +17,7 @@ class DashboardController extends Controller
         return $this->render('GqAusUserBundle:Dashboard:index.html.twig');
     }
 
-    /*public function indexAction(Request $request)
+    public function indexOldAction(Request $request)
     {
         $session = $request->getSession();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
@@ -34,7 +34,7 @@ class DashboardController extends Controller
             $results = $this->get('UserService')->getSuperAdminDashboardInfo($user);
             return $this->render('GqAusHomeBundle:Default:user-dashboard.html.twig', $results);
         } else { /* 2-Facilitator, 3-Assessor, 4-Rto */
-            /*$results = $userService->getUsersDashboardInfo($user);
+            $results = $userService->getUsersDashboardInfo($user);
             $results['paginator'] = '';
             $results['page'] = '';
             $results['pageRequest'] = '';
@@ -42,7 +42,7 @@ class DashboardController extends Controller
 
             return $this->render('GqAusHomeBundle:Default:dashboard.html.twig', $results);
         }
-    }*/
+    }
 
     /**
      * function to download related file

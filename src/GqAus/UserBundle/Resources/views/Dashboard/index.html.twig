@@ -1,17 +1,32 @@
-{% extends 'revamp_base.html.twig' %}
-{% block ngApp %} ng-app="gqAus" {% endblock%}
-{% block ngController %} ng-controller="dashboardController"  id="dashboardController" {% endblock%}
+{% extends 'dashboard_base.html.twig' %}
+{% block ngApp %} ng-app="gqAus" {% endblock %}
+{% block ngController %} ng-controller="dashboardController"  id="dashboardController" {% endblock %}
 {% block title %}  Get Qualified Australia: Online RPL {% endblock %}
-{% block ngtitle %}pageTitle{% endblock%}
-{% block body %}
+{% block ngtitle %}pageTitle{% endblock %}
 
-
-{% endblock %}
 {% block stylesheets %}
-    <link href="{{ asset('public/ui/css/vendor/owl.carousel.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('public/ui/css/modules/rpl-online-enrolment/rpl-online-enrolment.css') }}" rel="stylesheet" />
-    <link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/ui/css/vendor/owl.carousel.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet"/>
 {% endblock %}
+
+{% block content %}
+    {% include 'GqAusUserBundle:Dashboard:_header.html.twig' %}
+
+    <main class="main-content-gqa">
+        <div class="container container-left-sidebar-main">
+            {% include 'GqAusUserBundle:Dashboard:_side_bar.html.twig' %}
+            <section class="section-main">
+                {% include 'GqAusUserBundle:Dashboard:_article_message.html.twig' %}
+                {% include 'GqAusUserBundle:Dashboard:_article_applicants_overview.html.twig' %}
+                {% include 'GqAusUserBundle:Dashboard:_article_evidences_for_review.html.twig' %}
+            </section>
+        </div>
+    </main>
+
+    {% include 'GqAusUserBundle:Dashboard:_footer.html.twig' %}
+
+{% endblock %}
+
 {% block javascripts %}
     <!-- App -->
     <!-- Online Enrolment only -->
@@ -21,8 +36,8 @@
 
     <!--Country select with States Plugin-->
 
-    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
-    <script src = "{{ asset('public/ui/js/plugins/countries.js') }}"></script>
+    <script src="{{ asset('public/js/underscore-min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/countries.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/intlTelInput.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/utils.js') }}"></script>
     <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
@@ -45,5 +60,6 @@
     <script src="{{ asset('public/js/angular/directives/enrollDirectives.js') }}"></script>
     <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
     <script src="{{ asset('public/js/angular/controllers/enrollmentCtlr.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete"
+            async defer></script>
 {% endblock %}

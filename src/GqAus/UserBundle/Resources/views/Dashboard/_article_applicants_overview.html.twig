@@ -1,0 +1,133 @@
+<article class="panel panel-default panel-dashboard">
+    <div class="panel-heading panel-tab-bg">
+
+        <h3 class="qual-title"><i class="zmdi zmdi-accounts"></i> Applicants Overview</h3>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#incomplete" aria-controls="incomplete" role="tab"
+                   data-toggle="tab">Incomplete</a>
+            </li>
+            <li role="presentation">
+                <a href="#complete" aria-controls="complete" role="tab" data-toggle="tab">Complete</a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body override-padding">
+        <div role="tabpanel">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="incomplete">
+
+                    <div class="clearfix form-group">
+                        <div class="lead-stat-container">
+                            <span class="lead-stat-heading">21</span>
+                            <strong class="text-uppercase text-muted">Total Incomplete<br>Qualifications</strong>
+                        </div>
+                        <hr class="visible-xs">
+                        <div class="progress-container">
+                            <div class="progress progress-legend">
+                                <div class="progress-bar progress-bar-danger" role="progressbar"
+                                     data-days="0-30" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>5</i> <br> 0-30</strong>
+                                </div>
+                                <div class="progress-bar progress-bar-warning" role="progressbar"
+                                     data-days="31-60" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>0</i> <br> 31-60</strong>
+                                </div>
+                                <div class="progress-bar progress-bar-warning" role="progressbar"
+                                     data-days="61-90" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>7</i> <br> 61-90</strong>
+                                </div>
+                                <div class="progress-bar progress-bar-warning" role="progressbar"
+                                     data-days="91-120" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>0</i> <br> 91-120</strong>
+                                </div>
+                                <div class="progress-bar progress-bar-success" role="progressbar"
+                                     data-days="121-150" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>1</i> <br>
+                                        121-150</strong>
+                                </div>
+                                <div class="progress-bar progress-bar-success" role="progressbar"
+                                     data-days="151-180" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>8</i> <br>
+                                        151-180</strong>
+                                </div>
+                            </div>
+                            <strong class="text-muted text-uppercase">Incomplete qualifications<br>by
+                                number of days left</strong>
+                        </div>
+                    </div>
+
+                    <ol class="dashboard-table-head-sort">
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Applicant
+                                <i class="caret"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Days <i
+                                        class="caret"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">
+                                Qualification <i class="caret"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Status <i
+                                        class="caret"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">% Done <i
+                                        class="caret"></i></button>
+                        </li>
+                    </ol>
+                    <ol class="dashboard-table">
+                        <!-- Applicant item -->
+                        <li class="dashboard-table-item" ng-repeat="">
+                            <section class="dashboard-table-item-avatar">
+                                <div class="avatar avatar-xxs t-item-4"><img
+                                            src="{{ asset('public/ui/img/avatar-default.png') }}"
+                                            alt="You"></div>
+                                <span class="avatar-name">Eric de Felix</span>
+                            </section>
+                            <section class="dashboard-table-item-metadata">
+                                <!-- Qualification item -->
+                                <div class="qual-item" ng-repeat="" data-unit-status="warning">
+                                    <span class="qual-item-days">29</span>
+                                    <span class="qual-item-name">Certificate III in Cookery</span>
+                                    <span class="qual-item-status">Not Started</span>
+                                    <span class="qual-item-progress">100%</span>
+                                    <span class="qual-item-action">
+                                                        <button type="button" class="btn btn-xs btn-transparent"
+                                                                data-placement="left" data-toggle="popover"><i
+                                                                    class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i></button>
+                                                    </span>
+                                </div>
+                                <div class="qual-item" ng-repeat="" data-unit-status="success">
+                                    <span class="qual-item-days">29</span>
+                                    <span class="qual-item-name">Certificate III in Cookery</span>
+                                    <span class="qual-item-status">Not Started</span>
+                                    <span class="qual-item-progress">100%</span>
+                                    <span class="qual-item-action">
+                                                         <button type="button" class="btn btn-xs btn-transparent"
+                                                                 data-placement="left" data-toggle="popover"><i
+                                                                     class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i></button>
+                                                    </span>
+                                </div>
+                                <!-- Qualification item -->
+
+                            </section>
+                        </li>
+                        <!-- Applicant item -->
+                    </ol>
+
+                    <div class="text-right">
+                        <a href="#" class="btn btn-link">View All</a>
+                    </div>
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="complete"></div>
+            </div>
+        </div>
+    </div>
+</article>

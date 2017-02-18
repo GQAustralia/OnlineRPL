@@ -2,12 +2,12 @@
 Error: Undefined mixin 'pointing-left-heading'.
         on line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss, in `pointing-left-heading'
         from line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss
-        from line 17 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/overview.scss
+        from line 18 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/overview.scss
 
 Backtrace:
 D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss:77:in `pointing-left-heading'
 D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss:77
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/overview.scss:17
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/overview.scss:18
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:351:in `block in visit_mixin'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:98:in `block in with_mixin'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
@@ -108,4 +108,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'pointing-left-heading'.\A         on line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss, in `pointing-left-heading'\A         from line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss\A         from line 17 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/overview.scss"; }
+  content: "Error: Undefined mixin 'pointing-left-heading'.\A         on line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss, in `pointing-left-heading'\A         from line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss\A         from line 18 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/overview.scss"; }

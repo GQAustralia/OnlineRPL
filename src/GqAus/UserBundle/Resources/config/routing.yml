@@ -1,4 +1,7 @@
-dashboard:
+dashboard-old:
+    path:     /dashboard-old
+    defaults: { _controller: GqAusUserBundle:Dashboard:indexOld }
+  dashboard:
     path:     /dashboard
     defaults: { _controller: GqAusUserBundle:Dashboard:index }
 overview:

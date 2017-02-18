@@ -6,10 +6,10 @@
  
 // Core variables and mixins
 @import "variables";
-@import "mixins";
+@import "mixins"; 
 
 // Reset and dependencies
-@import "normalize";  
+@import "normalize";
 @import "print";
 
 // Core CSS
@@ -42,7 +42,7 @@
 @import "media";
 @import "list-group";
 @import "panels";
-@import "responsive-embed";
+// @import "responsive-embed";
 @import "wells";
 @import "close";
 
