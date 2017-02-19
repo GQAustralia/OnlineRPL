@@ -15,52 +15,61 @@
             <ul class="nav-links" id="navLinks">
                 <li>
                     <a href='#'>
-                            <span class="t-item-2">
-                                <i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard
-                            </span>
+                        <span class="t-item-2">
+                            <i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard
+                        </span>
                     </a>
                 </li>
                 <li>
                     <a href='#'>
-                            <span class="t-item-2">
-                                <i class="zmdi zmdi-accounts zmdi-hc-lg zmdi-hc-fw"></i> Applicants
-                            </span>
+                        <span class="t-item-2">
+                            <i class="zmdi zmdi-accounts zmdi-hc-lg zmdi-hc-fw"></i> Applicants
+                        </span>
                     </a>
                 </li>
                 <li>
                     <a href='#'>
-                            <span class="t-item-2">
-                                <i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidence
-                            </span>
+                        <span class="t-item-2">
+                            <i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidence
+                        </span>
                     </a>
                 </li>
                 <li>
                     <a href='#'>
-                            <span class="t-item-3">
-                                <i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox
-                            </span>
+                        <span class="t-item-3">
+                            <i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox
+                        </span>
                     </a>
                 </li>
             </ul>
-
+            {% set userFName = app.security.getToken().getUser().getFirstName() %}
+            {% set userLName = app.security.getToken().getUser().getLastName() %}
+            {% set userName = userFName~' '~userLName %}
+            {% set userImage = app.security.getToken().getUser().getUserImage() %}
             <div class="avatar-menu">
                 <div class="dropdown">
                     <div class="dropdown-toggle" data-toggle="dropdown">
                         <div class="avatar avatar-xxs t-item-4">
-                            <img src="{{ asset('public/ui/img/avatar-default.png') }}" alt="You">
+                            <img src="{% if userImage  != '' %}{{ amazon_link~'user-'~userId~'/'~userImage }}{% else %}public/ui/img/avatar-default.png{% endif %}"
+                                 alt="You">
                         </div>
-                        <span class="avatar-name" id="avatarFirstName">First Name Here</span>&nbsp;
+                        <span class="avatar-name" id="avatarFirstName">{{ userFName }}</span>&nbsp;
                         <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                     </div>
 
                     <ul class="dropdown-menu pull-right">
+                        {% if app.request.attributes.get('_route') != 'enrollment' %}
+                            <li>
+                                <a href="{{ app.request.baseUrl }}/userprofile">
+                                    <i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My Profile
+                                </a>
+                            </li>
+                            <li class="divider"></li> {% endif %}
                         <li>
-                            <a href="#">
-                                <i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My Profile
+                            <a href="{{ app.request.baseUrl }}/logout">
+                                <i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out
                             </a>
                         </li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
                     </ul>
                 </div>
             </div>
