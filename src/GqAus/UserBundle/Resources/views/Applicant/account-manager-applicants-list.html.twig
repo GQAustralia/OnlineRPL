@@ -1,0 +1,218 @@
+{% extends 'revamp_base.html.twig' %}
+{% block title %}GQ - RPL Applicant Lists{% endblock %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="applicantCtrl"  id="applicantCtrl" {% endblock%}
+{% block stylesheets %}
+	
+{% endblock %}
+{% block body %}
+{% set userRole = app.security.getToken().getUser().getRoles() %}
+ <!-- Larg Screens HTML Start -->        
+
+    <main class="main-content-gqa">
+        <div class="container">
+            <article class="panel panel-default panel-dashboard panel-listing">
+                <div class="panel-heading panel-tab-bg">
+                    <h2 class="qual-title"><i class="zmdi zmdi-accounts"></i> Applicants Overview</h2>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" ng-class="{'active':activeTab == 'incomplete'}" ng-click="activeTab = 'incomplete' ">
+                            <a href="#incomplete" ng-click="resetSearch(); getApplicants('incomplete')" aria-controls="incomplete" role="tab" data-toggle="tab">Incomplete</a>
+                        </li>
+                        <li role="presentation" ng-class="{'active':activeTab == 'complete'}" ng-click="activeTab = 'complete' ">
+                            <a href="#complete" ng-click="resetSearch(); getApplicants('complete');" aria-controls="complete" role="tab" data-toggle="tab">Complete</a>
+                        </li>
+
+                        <li class="panel-evidence-search">
+                            <div class="input-group-search">
+                                <input id="searchApplicants" type="text" class="form-control" placeholder="Search qualification or applicant..." ng-model="searchApplicant" ng-blur="searchApplicants()">
+                                <i class="zmdi zmdi-search zmdi-hc-2x icon"></i>
+                            </div>                    
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div role="tabpanel">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active">
+
+                                <div class="clearfix" style="margin-bottom: 60px;">
+                                    <div class="panel-listing-count" ng-if="loading">
+                                        <span class="text-muted text-uppercase">Viewing <strong>{[{ applicantViewCount }]}</strong> of <strong>{[{ applicantListTmp.length }]}</strong> applicants</span>
+                                    </div>
+                                    <div class="all-applicants-legend">
+                                        <div class="progress-container">
+											<p><strong class="text-muted text-uppercase">Filter by number of days left</strong></p>
+                                            <div class="progress progress-legend">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" data-days="0-30" style="width:16.66666%">
+                                                    <strong class="progress-inline-legend"><i>{{ thirtyDaysApplicantsCount }}</i> <br> 0-30</strong>
+                                                </div>
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" data-days="31-60" style="width:16.66666%">
+                                                    <strong class="progress-inline-legend"><i>{{ sixtyDaysApplicantsCount }}</i> <br> 31-60</strong>
+                                                </div>
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" data-days="61-90" style="width:16.66666%">
+                                                    <strong class="progress-inline-legend"><i>{{ ninetyDaysApplicantsCount }}</i> <br> 61-90</strong>
+                                                </div>
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" data-days="91-120" style="width:16.66666%">
+                                                    <strong class="progress-inline-legend"><i>{{ oneTwentyDayRecordsCount }}</i> <br> 91-120</strong>
+                                                </div>
+                                                <div class="progress-bar progress-bar-success" role="progressbar" data-days="121-150" style="width:16.66666%">
+                                                    <strong class="progress-inline-legend"><i>{{ oneFiftyDayRecordsCount }}</i> <br> 121-150</strong>
+                                                </div>
+                                                <div class="progress-bar progress-bar-success" role="progressbar" data-days="151-180" style="width:16.66666%">
+                                                    <strong class="progress-inline-legend"><i>{{ oneEightyDayRecordsCount }}</i> <br> 151-180</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="clearfix" ng-if="!loading">Loading...</div>
+                                <div class="clearfix" ng-if="loading">
+                                    <ol class="dashboard-table-head-sort hidden-xs">
+                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Applicant <i class="caret"></i></button></li>
+                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Days <i class="caret"></i></button></li>
+                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Qualification <i class="caret"></i></button></li>
+                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Status <i class="caret"></i></button></li>
+                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">% Done <i class="caret"></i></button></li>
+                                    </ol>
+                                    <ol class="dashboard-table">
+                                        <!-- Applicant item -->
+                                        <li class="dashboard-table-item" ng-repeat="applicant in applicantlist">
+                                            <section class="dashboard-table-item-avatar">
+                                                <div class="avatar avatar-xxs t-item-4"><img src="public/ui/img/avatar-default.png" alt="You"></div>
+                                                <span class="avatar-name ng-cloak">{[{ applicant.firstName }]} {[{ applicant.lastName }]} </span>
+                                            </section>
+                                            <section class="dashboard-table-item-metadata">
+                                                <!-- Qualification item -->
+                                                <div class="qual-item" data-unit-status="" ng-repeat="courses in applicant.course">
+                                                    <span class="qual-item-days">{[{ courses.leftdays }]}</span>
+                                                    <span class="qual-item-name">{[{ courses.courseName }]}</span>
+                                                    <span class="qual-item-status">{[{ courses.courseStatus }]}</span>
+                                                    <span class="qual-item-progress">{[{ courses.percentage }]}</span>
+                                                    <span class="qual-item-action">
+                                                        <button type="button" class="btn btn-xs btn-transparent" data-placement="left" data-toggle="popover"><i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i></button>
+                                                    </span>
+                                                </div>
+                                                <!-- Qualification item -->
+
+                                            </section>
+                                        </li> 
+                                        <!-- Applicant item -->
+                                    </ol>
+									
+									<!-- No results section -->
+									<div ng-if="applicantlist.length == 0 && loading" class="clearfix modal-body text-center">
+										<i class="zmdi zmdi-search-in-page zmdi-hc-4x"></i>
+										<h4>We can't seem to find what you're looking for
+											<br><small>Please try a different keyword or <button type="button" class="btn-link" ng-click="focusSearch()">reset your search.</button></small>
+										</h4>
+									</div>
+                                
+
+                                <div class="clearfix text-center">
+                                   <ul class="pagination">
+                                        <li ><a href="#" ng-click="prevPage();showPaginatedList();"><i class="zmdi zmdi-chevron-left zmdi-hc-lg"></i></a></li>
+                                        <li ng-class="{'active': currentPage==page}" ng-repeat="page in paginationLinksArr"><a href="#" ng-click="showPaginatedList(page);">{[{page}]}</a></li>
+                                        <li><a href="#" ng-click="nextPage();showPaginatedList();"><i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i></a></li>
+                                    </ul>
+                                </div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+
+{% endblock %}
+{% block javascripts %}
+    <!-- App -->
+    <!-- Online Enrolment only -->
+    <script src="{{ asset('public/ui/js/plugins/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/rpl-online-enrolment.js') }}"></script>
+    <!--Phone Number Flag Plugin-->
+
+    <!--Country select with States Plugin-->
+    
+    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
+    <script src = "{{ asset('public/ui/js/plugins/countries.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/intlTelInput.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/utils.js') }}"></script>
+    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <!-- Bootstrap Datepicker -->
+    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/bootstrap-datetimepicker.js') }}"></script>
+
+    <!-- places library for maps api -->
+
+    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
+    <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
+    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/app.js') }}"></script>
+    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
+    <script src="{{ asset('public/js/angular/directives/enrollDirectives.js') }}"></script>
+    <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
+    <script src="{{ asset('public/js/angular/filters/applicantFilters.js') }}"></script>
+    <script src="{{ asset('public/js/angular/controllers/enrollmentCtlr.js') }}"></script>
+    <script src="{{ asset('public/js/angular/controllers/applicantCtrl.js') }}"></script>
+	
+   <!-- Account Manager -->
+    <script src="ui/js/plugins/moment.min.js"></script>
+    <script src="ui/js/plugins/bootstrap-datetimepicker.js"></script>
+    <script>
+
+        var template = '<div class="popover compressed" role="tooltip">' +
+                            '<div class="arrow"/>' +
+                            '<h3 class="popover-title"/>' +
+                            '<div class="popover-content"/>'+
+                            '<button type="button" class="btn btn-primary btn-block btn-sm text-uppercase btn-add-task"><strong>Add task</strong></button>'+
+                        '</div>';
+
+        var title = '<span class="taskTitle">Task for today</span> '+
+                    '<button type="button" class="btn btn-transparent btn-xs btn-set-date"><i class="zmdi zmdi-calendar zmdi-hc-lg zmdi-hc-fw"></i> EDIT</button>';
+
+        var content =   '<div class="task-controls">' +
+                            '<textarea name="" id="" rows="4" class="form-control" placeholder="Enter your task"></textarea>' +
+                            '<div data-init="datepicker"></div>' +
+                        '</div>';
+
+        $('[data-toggle="popover"]')
+            .popover({ html : true,  animation: false, template: template, content: content, title: title, viewport: '.main-content-gqa' })
+                .on('shown.bs.popover', function(e){
+                    $(this).next().velocity({scaleX: [1,0], scaleY: [1,0]} , { easing: [ 250, 20 ], duration: 800 });
+                    init_buttons();
+                    init_datepicker();
+                });
+
+        function init_datepicker() {
+            $('[data-init="datepicker"]').datetimepicker({
+                'format' : 'DD/MM/YYYY',
+                'inline' : true,
+                'useCurrent' : true,
+                'showTodayButton': true,
+                'minDate' : new Date()
+            }).on('dp.change', function(e){
+                var parent = $(this).closest('.popover').find('.taskTitle');
+                var date = $(this).data("DateTimePicker").date().format('DD/MM/YYYY');
+                parent.html('Task set on ' + date);
+            });
+        }
+
+        function init_buttons() {
+            $(document).on('click', '.btn-set-date', function(event) {
+                $(this).closest('.popover').toggleClass('show-date');
+                $(this).find('i').toggleClass('zmdi-calendar').toggleClass('zmdi-arrow-left');
+            });
+        }
+
+        // INIT_DATEPICKER.build();
+    </script>	
+{% endblock %}

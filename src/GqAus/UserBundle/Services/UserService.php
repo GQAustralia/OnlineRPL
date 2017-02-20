@@ -739,7 +739,7 @@ class UserService
      * return array
      */
     public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, 
-        $searchTime = null, $filterByUser = null, $filterByStatus = null, $searchAge = null)
+        $searchTime = null, $filterByUser = null, $filterByStatus = null, $searchAge = null, $serviceCall = null)
     {
       
         if ($page <= 0 ) {
@@ -843,9 +843,11 @@ class UserService
                     . "OR c.courseName LIKE '%" . $searchNamearr[$i] . "%'"
                     . "OR c.courseCode LIKE '%" . $searchNamearr[$i] . "%'";
             }
+			/* dump($nameCondition);
+			exit; */
             $res->andWhere($nameCondition);
         }
-
+	
         if (!empty($searchTime)) {
             $searchTime = $searchTime * 7;
             $searchTime1 = $searchTime - 6;
@@ -880,30 +882,34 @@ class UserService
         }
 
         $res->orderBy('c.id', 'DESC');
-               
-
-			   
-        /* Pagination */
-        $paginator = new \GqAus\UserBundle\Lib\Paginator();
-        $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
-        /* Pagination */
+		$resultArray = array();
+		if($serviceCall==null){
+			/* Pagination */
+			$paginator = new \GqAus\UserBundle\Lib\Paginator();
+			$pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
+			/* Pagination */
+			$resultArray['paginator'] = $paginator;
+		}
         $applicantList = $res->getQuery()->getResult();
         
-		
-//       dump($applicantList);exit;
         for($i=0;$i<count($applicantList);$i++)
         {
            
             $userId     =  $applicantList[$i]->getUser()->getId();
             $courseCode = $applicantList[$i]->getCourseCode();
            
-         
            $ldays =  $this->getDaysRemainingFromRole($userId,$courseCode, $userRole[0]);
-          
+		   $percentage = $this->coursesService->getEvidenceByCourse($userId, $courseCode);
+
            $applicantList[$i]->leftdays = $ldays;
+           $applicantList[$i]->percentage = $percentage;
            
         }
-        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
+
+		$resultArray['applicantList'] = $applicantList;
+		$resultArray['page'] = $page;
+
+        return $resultArray;
     }
     
     /**
@@ -938,6 +944,7 @@ class UserService
                     'oneFiftyDayRecordsCount' => $oneFiftyDayRecordsCount,
                     'oneEightyDayRecordsCount' => $oneEightyDayRecordsCount,
 
+					'ninetyDaysPlusRecordsCount' => 0,
                     'thirtyDayApplicantsPercent' => $thirtyDayRecordsPercent,
                     'sixtyDaysApplicantsPercent' => $sixtyDayRecordsPercent,
                     'ninetyDaysApplicantsPercent' => $ninetyDayRecordsPercent,
