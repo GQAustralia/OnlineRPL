@@ -1,7 +1,6 @@
 $(document).ready(function(){
 	//to show the profile popup
 	$(".profile-popup").on("click", function(){
-
 		var profileData = $(this).data();
 		if (profileData.acctype != 'Account Manager') {
 			$('.profile-message').hide();
@@ -11,6 +10,7 @@ $(document).ready(function(){
 		}
 		$('.profile-img').attr('src', profileData.imgsrc);
 		$('.profile-name').html(profileData.name);
+		$('.profile-email').attr('title', profileData.email);
 		$('.profile-type').html(profileData.acctype);
 		$('.profile-email').html(profileData.email);
 		$('.profile-phone').html(profileData.phone);
