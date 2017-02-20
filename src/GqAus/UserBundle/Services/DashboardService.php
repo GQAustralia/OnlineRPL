@@ -11,6 +11,8 @@ class DashboardService
      */
     protected $em;
 
+    protected $connection;
+
     /**
      * SetNewUserPasswordService constructor.
      *
@@ -19,26 +21,26 @@ class DashboardService
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
+        $this->connection = $this->em->getConnection();
         $this->repository = $em->getRepository('GqAusUserBundle:User');
     }
 
     /**
+     * Counts total message from each user role
+     *
+     * 1 = applicant
+     * 2 = facilitator
+     * 3 = assessor
+     * 4 = rto
+     * 5 = manager
+     * 6 = superadmin
+     *
      * @param int $recipientUserId
      * @return array
      */
     public function countUserReceivedMessages($recipientUserId)
     {
-        $roleNameAndTotal = [
-            1 => ['total' => 0, 'name' => 'applicant'],
-            2 => ['total' => 0, 'name' => 'facilitator'],
-            3 => ['total' => 0, 'name' => 'assessor'],
-            4 => ['total' => 0, 'name' => 'rto'],
-            5 => ['total' => 0, 'name' => 'manager'],
-            6 => ['total' => 0, 'name' => 'superadmin']
-        ];
-        $connection = $this->em->getConnection();
-
-        $statement = $connection->prepare('
+        $query = $this->connection->prepare('
             SELECT u.role_type, COUNT(*) AS total
             FROM message m 
             LEFT JOIN USER u
@@ -48,12 +50,24 @@ class DashboardService
             GROUP BY u.role_type
         ');
 
-        $statement->execute();
+        $query->execute();
 
-        foreach ($statement->fetchAll() as $message) {
-            $roleNameAndTotal[$message['role_type']]['total'] = $message['total'];
+        return $this->mapRolesToMessagesRoleIdWithTotalMessages($query->fetchAll());
+    }
+
+    /**
+     * @param $messages
+     * @return array
+     */
+    private function mapRolesToMessagesRoleIdWithTotalMessages($messages)
+    {
+        $roles = ['applicants', 'facilitators', 'assessors', 'rtos', 'managers', 'superadmins'];
+        $roleIdAndTotalMessages = array_fill(1, 6, 0);
+
+        foreach ($messages as $message) {
+            $roleIdAndTotalMessages[$message['role_type']] = $message['total'];
         }
 
-        return $roleNameAndTotal;
+        return array_combine($roles, $roleIdAndTotalMessages);
     }
 }
