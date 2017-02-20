@@ -252,10 +252,10 @@ var SET_PASSWORD = {
                     SET_PASSWORD.error_action('You must agree with the Terms and Conditions.')
                 }
             }else{
-                SET_PASSWORD.error_action('Password do not match.')
+                SET_PASSWORD.error_action('Passwords do not match.')
             }
         }else{
-            SET_PASSWORD.error_action('Password must be minimum of 8 characters')
+            SET_PASSWORD.error_action('Your password must be at least 8 characters')
         }
 
         $('#password, #confirmPassword, #oldPassword').on('keyup', function(){
