@@ -176,13 +176,13 @@ var SET_PASSWORD = {
     button: $('#submitPassword'),
     terms: $('#termsAndConditions'),
     bind: function(){
-        this.button.on('click', function(){SET_PASSWORD.validate_fields()});
+        this.button.on('click', function(){SET_PASSWORD.validate_fields_on_submit()});
         $('#password, #confirmPassword').on('keyup', function(){SET_PASSWORD.validate_empty_fields();})
     },
     submit_enter: function () {
         $(document).on('keyup', '#password, #confirmPassword', function (event) {
             if (event.keyCode == 13) {
-                SET_PASSWORD.validate_fields();
+                SET_PASSWORD.validate_fields_on_submit();
             }
         });
     },
@@ -200,71 +200,72 @@ var SET_PASSWORD = {
             return validity;
         }
     },
-    validate_fields: function () {
-        var password = SET_PASSWORD.password.val();
+    check_characters: function(){
+        var password = SET_PASSWORD.password.val(),
+            confirm_password = SET_PASSWORD.confirm_password.val(),
+            pattern = /\s/g,
+            field_has_space = pattern.test(password),
+            validity = 'invalid';
 
-        if (checkCharacters() === 'valid') {
-            if (isPasswordMatch() === 'valid') {
-                if (checkTerms() === 'valid') {
-                    SET_PASSWORD.submit_password();
-                } else {
-                    SET_PASSWORD.error_action('You must agree with the Terms and Conditions.')
-                }
-            } else {
-                SET_PASSWORD.error_action('Password do not match.')
-            }
-        } else {
-            SET_PASSWORD.error_action('Password must be minimum of 8 characters.')
-        }
-
-        // check for spaces and password length
-        function checkCharacters() {
-            var pattern = /\s/g,
-                field_has_space = pattern.test(password),
-                validity = 'invalid';
-
-            if (password.length > 8) {
-                if (field_has_space === false) {
-                    validity = 'valid';
-                } else {
-                    SET_PASSWORD.error_action('Password must not contain spaces')
-                    validity = 'invalid'
-                }
-            } else {
-                validity = 'invalid';
-            }
-            return validity;
-        }
-
-        // check if password field matches with confirm password field
-        function isPasswordMatch() {
-            var confirm_password = SET_PASSWORD.confirm_password.val(),
-                validity = 'invalid';
-
-            if (password === confirm_password) {
-                validity = 'valid'
-            }
-            else {
-                validity = 'invalid';
-            }
-
-            return validity;
-        }
-
-        //check if terms and conditions fields is checked
-        function checkTerms() {
-            var terms = SET_PASSWORD.terms,
-                validity = 'invalid';
-
-            if ((terms).is(':checked')) {
-                validity = 'valid'
-            }
-            else {
+        if(confirm_password.length > 7 && password.length > 7){
+            if(field_has_space === false){
+                validity = 'valid';
+            }else{
+                SET_PASSWORD.error_action('Password must not contain spaces')
                 validity = 'invalid'
             }
-
-            return validity;
+        }else{
+            validity = 'invalid';
         }
+        return validity;
+    },
+    is_password_match: function(){
+        var confirm_password = SET_PASSWORD.confirm_password.val(),
+            validity = 'invalid',
+            password = SET_PASSWORD.password.val();
+
+        if(password === confirm_password){validity = 'valid'}
+        else{validity = 'invalid';}
+
+        return validity;
+    },
+    is_terms_checked: function(){
+        var terms = SET_PASSWORD.terms,
+            validity = 'invalid',
+            password = SET_PASSWORD.password.val();
+
+        if(terms.size() > 0){
+            if((terms).is(':checked')){validity = 'valid'}
+            else{validity = 'invalid'}
+        }else{
+            validity = 'valid'
+        }
+        return validity;
+    },
+    validate_fields_on_submit: function () {
+        var password = SET_PASSWORD.password.val();
+        if(SET_PASSWORD.check_characters() === 'valid'){
+            if(SET_PASSWORD.is_password_match() === 'valid'){
+                if(SET_PASSWORD.is_terms_checked() === 'valid'){
+                    SET_PASSWORD.submit_password();
+                }else{
+                    SET_PASSWORD.error_action('You must agree with the Terms and Conditions.')
+                }
+            }else{
+                SET_PASSWORD.error_action('Password do not match.')
+            }
+        }else{
+            SET_PASSWORD.error_action('Password must be minimum of 8 characters')
+        }
+
+        $('#password, #confirmPassword, #oldPassword').on('keyup', function(){
+            if(SET_PASSWORD.check_characters() === 'valid'){
+                $('#errorMessage').addClass('hidden');
+                if(SET_PASSWORD.is_password_match() === 'valid'){
+                    $('#errorMessage').addClass('hidden');
+                }
+            }
+        });
     },
     submit_password: function () {
         var password = SET_PASSWORD.password.val(),
