@@ -123,14 +123,40 @@ class ApplicantController extends Controller
      * Function list applicants list index page
      * render template for front end view
      */
-    public function applicantsListAction()
+    public function amApplicantsListAction()
     {
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();		
 		$dateRangeRecordsCount = $this->get('UserService')->getFacilitatorPortfolioCounts($userId, $userRole);
-        return $this->render('GqAusUserBundle:Applicant:list.html.twig', $dateRangeRecordsCount);
+        return $this->render('GqAusUserBundle:Applicant:account-manager-applicants-list.html.twig', $dateRangeRecordsCount);
     }
 	
+    /**
+     * Function list applicants list
+     * return array
+     */
+    public function applicantsListAction()
+    {
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $pendingApplicantsCount = $this->get('UserService')->getPendingApplicantsCount($userId, $userRole, '0');
+        $page = $this->get('request')->query->get('page', 1);
+        $results = $this->get('UserService')->getUserApplicantsList($userId, $userRole, '0', $page);
+        $results['pageRequest'] = 'submit';
+        $results['status'] = 0;
+        $results['pendingApplicantsCount']=$pendingApplicantsCount;
+        $users = array();
+        if ($userRole[0] == Superadmin::ROLE_NAME || $userRole[0] == Manager::ROLE_NAME) {
+            $results['facilitators'] = $this->get('UserService')->getUsers(Facilitator::ROLE);                   
+        }
+        $qualificationStatus = array();
+        $users = $this->get('UserService')->getUserByRole();
+        $qualificationStatus = $this->get('UserService')->getQualificationStatus();
+        $results['users'] = $users;
+        $results['qualificationStatus'] = $qualificationStatus;
+        return $this->render('GqAusUserBundle:Applicant:list.html.twig', $results);
+    }
+
     /**
      * Function get applicants list service call
      * return array
@@ -144,19 +170,20 @@ class ApplicantController extends Controller
             if (!empty($content))
             {
                 $params = json_decode($content, true); // 2nd param to get as array
-                dump($params);
             }
 		}
 		$page = isset($params['page']) ? $params['page'] : '0';
-		$filterByStatus = isset($params['filterbystatus']) ? $params['filterbystatus'] : '1';
+		$filterByStatus = ($params['filterbystatus'] == 0) ? $params['filterbystatus'] : '';
 		$status = ($params['filterbystatus'] == 1) ? '0' : '1';
+		$searchName = ($params['searchstring']) ? $params['searchstring'] : '';
+		$serviceCall = true;
 
         $userId = $this->get('security.context')->getToken()->getUser()->getId();
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $pendingApplicantsCount = $this->get('UserService')->getPendingApplicantsCount($userId, $userRole, '0');
 
         $page = $this->get('request')->query->get('page', 1);
-        $applicantResult = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, '', '', '', $filterByStatus);
+        $applicantResult = $this->get('UserService')->getUserApplicantsList($userId, $userRole, $status, $page, $searchName, '', '', $filterByStatus, '', $serviceCall);
 
         $results['pageRequest'] = 'submit';
         $results['status'] = 0;
@@ -186,6 +213,7 @@ class ApplicantController extends Controller
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseName'] = $applicant->getCourseName();
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseStatus'] = $qualificationStatus[$applicant->getCourseStatus()]['status'];
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['leftdays'] = $leftDaysList['0'];
+			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['percentage'] = $applicant->percentage;
 		}
 		
 		
