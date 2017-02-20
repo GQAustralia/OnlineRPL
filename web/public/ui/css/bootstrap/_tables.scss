@@ -35,12 +35,6 @@ th {
       }
       > td { 
         border: none !important; 
-        display: block;
-        width: auto !important;
-
-        @media screen and (min-width: $screen-tablet){
-          display: table-cell;
-        }
       }
 
     }
@@ -86,6 +80,11 @@ th {
     border: 1px solid #e6e6e6;
     margin: 20px 0;
     @extend %table;
+    min-width: 500px;
+  }
+
+  .content-table{
+    overflow: auto;
   }
 }
 
