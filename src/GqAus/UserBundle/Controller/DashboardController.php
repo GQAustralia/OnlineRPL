@@ -4,6 +4,7 @@ namespace GqAus\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use GqAus\UserBundle\Services\DashboardService;
 
 class DashboardController extends Controller
 {
@@ -14,7 +15,13 @@ class DashboardController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('GqAusUserBundle:Dashboard:index.html.twig');
+        $dashboard = $this->get('DashboardService');
+        $sessionUser = $this->get('security.context')->getToken()->getUser();
+
+        $totalUserMessages = $dashboard->countUserReceivedMessages($sessionUser->getId());
+
+        print_r($totalUserMessages); die;
+        return $this->render('GqAusUserBundle:Dashboard:index.html.twig', ['totalUserMessages' => $totalUserMessages]);
     }
 
     public function indexOldAction(Request $request)

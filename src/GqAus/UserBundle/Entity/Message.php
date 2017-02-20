@@ -73,7 +73,7 @@ class Message
      * @var string
      */
     private $msgbody;
-    
+
     /**
      * Set subject
      *

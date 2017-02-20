@@ -100,7 +100,7 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @var integer
      */
     private $applyForyourusi;
-    
+
 
     /**
      * Constructor
