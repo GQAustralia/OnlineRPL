@@ -81,7 +81,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group" ng-class="{ 'has-error' : enrollment.profile.gender === '' || enrollment.profile.gender === undefined}">
                                                     <label class="control-label">Gender</label> <br>
-                                                    <div class="btn-group  btn-group-sm" data-toggle="buttons">
+                                                    <div class="btn-group btn-group-dynamic btn-group-sm" data-toggle="buttons">
                                                         <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'male'">
                                                             <input type="radio" name="gender" > <span>Male</span> </label>
                                                         <label class="btn btn-default" for="gender" ng-model="enrollment.profile.gender" ng-required="true" uib-btn-radio="'female'">
@@ -333,7 +333,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group" ng-class="{ 'has-error' : enrollment.language.speakOther === '' || enrollment.language.speakOther === undefined}">
                                                     <label>Do you speak a language other than English at home?</label><br />
-                                                    <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                    <div class="btn-group btn-group-dynamic btn-group-sm" data-toggle="buttons">
                                                         
                                                         <label class="btn btn-default" for="langauge" data-collapse="hide" data-target="#LanguageSpoken" ng-model="enrollment.language.speakOther" ng-required="true" uib-btn-radio="0">
                                                             <input type="radio" name="langauge">
@@ -358,7 +358,7 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group" ng-class="{ 'has-error' : enrollment.language.speakEnglish === '' || enrollment.language.speakEnglish === undefined}">
                                                         <label class="clear">How well do you speak English?</label>
-                                                        <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                        <div class="btn-group btn-group-dynamic btn-group-sm" data-toggle="buttons">
                                                             
                                                             <label class="btn btn-default" for="speakEnglish" ng-model="enrollment.language.speakEnglish" ng-required="true" uib-btn-radio="'Very Well'">
                                                                 <input type="radio" name="speakEnglish"> <span>Very well</span>
@@ -381,7 +381,7 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group" ng-class="{ 'has-error' : enrollment.language.aboriginal === '' || enrollment.language.aboriginal === undefined}">
                                                         <label class="clear">Are you of Aboriginal or Torres Strait Islander origin?</label>
-                                                        <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                        <div class="btn-group btn-group-dynamic btn-group-sm" data-toggle="buttons">
                                                             
                                                             <label class="btn btn-default" for="aboriginal" ng-model="enrollment.language.aboriginal" ng-required="true" uib-btn-radio="'No'">
                                                                 <input type="radio" name="aboriginal"> <span>No</span>
@@ -408,7 +408,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group" ng-class="{ 'has-error' : enrollment.language.disability === '' || enrollment.language.disability === undefined}">
                                                     <label class="clear">Do you consider yourself to have a disability, impairment or long-term condition?</label><br />
-                                                    <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                    <div class="btn-group btn-group-dynamic btn-group-sm" data-toggle="buttons">
                                                         
                                                         <label class="btn btn-default" for="disability" data-target="#DisabilityCollapse" ng-model="enrollment.language.disability" ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="disability"> <span>Yes</span>
@@ -498,7 +498,7 @@
                                                 </div>
                                                 <div class="form-group" ng-class="{ 'has-error' : enrollment.schooling.highest != 'Never attended school' && (enrollment.schooling.stillseconday === '' || enrollment.schooling.stillseconday === undefined)}">
                                                     <label class="clear">Are you still attending secondary school?</label><br />
-                                                    <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                    <div class="btn-group btn-group-dynamic btn-group-sm" data-toggle="buttons">
                                                         
                                                         <label class="btn btn-default" for="stillseconday" ng-model="enrollment.schooling.stillseconday" uib-btn-radio="'Yes'"  ng-required="enrollment.schooling.highest != 'Never attended school'">
                                                             <input type="radio" name="stillseconday"> <span>Yes</span>
@@ -623,7 +623,7 @@
                                                 <label class="clear">Are you currently based in Australia?</label>
                                                 <div class="form-group" ng-class="{ 'has-error' : enrollment.employment.basedinaustralia === '' || enrollment.employment.basedinaustralia === undefined}">
                                                     
-                                                    <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                    <div class="btn-group btn-group-dynamic btn-group-sm" data-toggle="buttons">
                                                         <label class="btn btn-default" for="basedinaustralia" ng-model="enrollment.employment.basedinaustralia" ng-required="true" uib-btn-radio="1">
                                                             <input type="radio" name="basedinaustralia"> <span>Yes</span>
                                                         </label>
@@ -636,7 +636,7 @@
                                                 <div id="australiaBaseYes" ng-show="enrollment.employment.basedinaustralia == 1">
                                                     <div class="form-group" ng-class="{ 'has-error' : enrollment.employment.internationalstudent === '' || enrollment.employment.internationalstudent === undefined}">
                                                         <label class="clear">Are you an international student undertaking your entire VET course outside Australia (otherwise known as offshore training)?</label><br />
-                                                        <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                        <div class="btn-group btn-group-dynamic btn-group-sm" data-toggle="buttons">
                                                             
                                                             <label class="btn btn-default" for="internationalstudent" ng-model="enrollment.employment.internationalstudent" ng-required="enrollment.employment.basedinaustralia == 1" uib-btn-radio="1" ng-click="resetEnrollDepends('internationalstudent')">
                                                                 <input type="radio" name="internationalstudent"> <span>Yes</span>
@@ -658,7 +658,7 @@
                                                 <div id="StudentIdentifiersRegistrar"  ng-show="enrollment.employment.internationalstudent == '0' && enrollment.employment.basedinaustralia == 1">
                                                     <div class="form-group" ng-class="{ 'has-error' : enrollment.employment.haveusi === '' || enrollment.employment.haveusi === undefined}">
                                                         <label class="clear">Have you applied for and obtained an individual exemption from the Student Identifiers Registrar in being assigned a USI?</label><br />
-                                                        <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                        <div class="btn-group btn-group-dynamic btn-group-sm" data-toggle="buttons">
                                                             
                                                             <label class="btn btn-default" for="haveusi" ng-model="enrollment.employment.haveusi" ng-required="enrollment.employment.internationalstudent == '0'" uib-btn-radio="1">
                                                                 <input type="radio" name="haveusi"> <span>Yes</span>
@@ -686,7 +686,7 @@
                                                             <strong>Alternatively, our partner RTO can apply for a USI on your behalf.</strong> To do this, you must authorise Get Qualified Australia to do this and declare that you have read the privacy information at <a href="http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx." target="_blank">http://www.usi.gov.au/Training-Organisations/Pages/Privacy-Notice.aspx.</a>  Additionally, you need to download and submit to us a form that requires your signature. 
                                                         </p>
                                                         <label class="clear">Would you like for us to apply for your USI on your behalf?</label><br />
-                                                        <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                                        <div class="btn-group btn-group-dynamic btn-group-sm" data-toggle="buttons">
                                                             
                                                             <label class="btn btn-default" for="applyusi" ng-model="enrollment.employment.applyusi" ng-required="enrollment.employment.haveusi == '0'" uib-btn-radio="1" ng-click="resetEnrollDepends('applyusi')">
                                                                 <input type="radio" name="applyusi"> <span>Yes</span>
