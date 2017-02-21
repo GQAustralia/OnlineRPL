@@ -21,9 +21,18 @@
                             <small class="text-muted text-uppercase hidden-xs">Upload and manage for core &amp; elective units</small>
                         </h3>
                     </div>
-                    <button type="button" class="btn btn-primary btn-upload-evidence" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload <span class="hidden-mobile">Evidence</span></button>
+                    <button ng-if="(allEvidences| filter:{type: '!text'}).length > 0" type="button" class="btn btn-primary btn-upload-evidence" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload <span class="hidden-mobile">Evidence</span></button>
                 </div>
-                <div class="panel-evidence-library-body">
+                <!-- Zero State -->
+                <div class="panel-body" ng-if="!isSubmitted() && (allEvidences| filter:{type: '!text'}).length === 0">
+                    <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
+                        <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
+                        <h4>No evidence for this unit yet <br><button type="button" class="btn-link">Upload evidence now</button></h4>
+                    </section>
+                </div>
+                <!-- Zero State -->
+                 <!-- Has value state -->
+                <div class="panel-evidence-library-body" ng-if="(allEvidences| filter:{type: '!text'}).length > 0">
                     <aside class="panel-evidence-library-menu">
                         <!-- Filter evidences according to category -->
                         <div class="btn-group" data-toggle="buttons"> 
@@ -114,6 +123,7 @@
                         </div>
                     </section>
                 </div>
+                 <!-- Has value state -->
             </div>
         <!-- Put content here -->
         </div>
