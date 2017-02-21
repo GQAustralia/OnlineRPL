@@ -4,18 +4,13 @@ namespace GqAus\UserBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use GqAus\UserBundle\Resolvers\ItComputeDaysDifference;
+use GqAus\UserBundle\Resolvers\ItReturnsQualificationStatusMessage;
 
-class AccountManagerDashboardService
+class AccountManagerDashboardService extends CustomRepositoryService
 {
-    use ItComputeDaysDifference;
+    use ItComputeDaysDifference, ItReturnsQualificationStatusMessage;
 
     CONST QUALIFICATION_COMPLETE_STATUS = 16;
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    protected $connection;
 
     protected $courseRepository;
 
@@ -26,8 +21,8 @@ class AccountManagerDashboardService
      */
     public function __construct(EntityManager $em)
     {
-        $this->em = $em;
-        $this->connection = $this->em->getConnection();
+        parent::__construct($em);
+
         $this->courseRepository = $em->getRepository('GqAusUserBundle:UserCourses');
     }
 
@@ -42,11 +37,12 @@ class AccountManagerDashboardService
      * 6 = superadmin
      *
      * @param int $recipientUserId
+     *
      * @return array
      */
     public function countUserReceivedMessages($recipientUserId)
     {
-        $query = $this->connection->prepare('
+        $result = $this->all('
             SELECT u.role_type, COUNT(*) AS total
             FROM message m 
             LEFT JOIN USER u
@@ -56,13 +52,12 @@ class AccountManagerDashboardService
             GROUP BY u.role_type
         ');
 
-        $query->execute();
-
-        return $this->mapRolesToMessagesRoleIdWithTotalMessages($query->fetchAll());
+        return $this->mapRolesToMessagesRoleIdWithTotalMessages($result);
     }
 
     /**
-     * @param $userId
+     * @param int $userId
+     *
      * @return array
      */
     public function getApplicantsOverviewCourseStatusCounter($userId)
@@ -72,28 +67,43 @@ class AccountManagerDashboardService
         return $this->buildApplicantsOverviewQualificationTotals($userCourses);
     }
 
-    public function getApplicantsOverviewApplicants()
-    {
-        $query = $this->connection->prepare('
-            select DISTINCT (user_id) from user_courses where manager=1 order by created_on DESC limit 5;
+    /**
+     * @param int $userId
+     *
+     * @return array
+     */
+    public function getApplicantsOverviewApplicantList($userId)
+    {echo '<pre>';
+
+        $result = [];
+
+        $queryTop5Users = $this->all('
+            SELECT DISTINCT (user_id) 
+            FROM user_courses 
+            WHERE manager=' . $userId . ' 
+            ORDER BY created_on 
+            DESC LIMIT 5
         ');
-        $query->execute();
-        $result = $query->fetchAll();
 
-        echo '<pre>';
+        if (!count($queryTop5Users)) {
+            return [];
+        }
+
+        $top5Users = implode(',', array_column($queryTop5Users, 'user_id'));
+
+        $userCourses =  $this->all('SELECT * FROM user_courses WHERE user_id IN (' . $top5Users . ')');
+
+        foreach($userCourses as $userCourse) {
+            $qualificationStatus =
+            $result[$userCourse['user_id']][] = [
+                'course_code' => $userCourse['course_code'],
+                'course_name' => $userCourse['course_name'],
+                'days' => $this->computeDaysBetween($userCourse['created_on']),
+                'status' => $this->getQualificationStatus($userCourse['course_status'])
+            ];
+        }
+
         print_r($result); die;
-
-        $query = $this->connection->prepare('
-            select * from user_courses where user_id IN()
-        ');
-
-        $query->execute();
-
-        $result = $query->fetchAll();
-
-        echo '<pre>';
-        print_r($result); die;
-
     }
 
     /**

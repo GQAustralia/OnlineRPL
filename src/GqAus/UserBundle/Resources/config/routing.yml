@@ -1,5 +1,5 @@
-dashboard-old:
-    path:     /dashboard-old
+dashboard:
+    path:     /dashboard
     defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:indexOld }
 account-manager-dashboard:
     path:     /account-manager-dashboard

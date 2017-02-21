@@ -20,11 +20,15 @@ class AccountManagerDashboardController extends Controller
 
         $totalUserMessages = $dashboard->countUserReceivedMessages($userId);
         $qualificationRangeCounter = $dashboard->getApplicantsOverviewCourseStatusCounter($userId);
-        $applicantsOverviewApplicants = $dashboard->getApplicantsOverviewApplicants();
+        $applicantsOverviewApplicantList = $dashboard->getApplicantsOverviewApplicantList($userId);
+
+        echo "<pre>";
+        print_r($applicantsOverviewApplicantList); die;
         return $this->render('GqAusUserBundle:AccountManagerDashboard:index.html.twig', [
             'messagesTotal' => $totalUserMessages,
             'user' => $this->getUserInfo(),
-            'appOverviewCount' => $qualificationRangeCounter
+            'appOverviewCount' => $qualificationRangeCounter,
+            'applicantsOverviewApplicantList' => $applicantsOverviewApplicantList
         ]);
     }
 
