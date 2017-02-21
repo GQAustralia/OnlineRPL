@@ -5,6 +5,7 @@ namespace GqAus\UserBundle\Services;
 use Doctrine\ORM\EntityManager;
 use GqAus\UserBundle\Resolvers\ItComputeDaysDifference;
 use GqAus\UserBundle\Resolvers\ItReturnsQualificationStatusMessage;
+use GqAus\HomeBundle\Services\CoursesService;
 
 class AccountManagerDashboardService extends CustomRepositoryService
 {
@@ -68,12 +69,12 @@ class AccountManagerDashboardService extends CustomRepositoryService
     }
 
     /**
-     * @param int $userId
-     *
+     * @param $userId
+     * @param CoursesService $coursesService
      * @return array
      */
-    public function getApplicantsOverviewApplicantList($userId)
-    {echo '<pre>';
+    public function getApplicantsOverviewApplicantList($userId, CoursesService $coursesService)
+    {//echo '<pre>';
 
         $result = [];
 
@@ -91,19 +92,39 @@ class AccountManagerDashboardService extends CustomRepositoryService
 
         $top5Users = implode(',', array_column($queryTop5Users, 'user_id'));
 
-        $userCourses =  $this->all('SELECT * FROM user_courses WHERE user_id IN (' . $top5Users . ')');
+        $qualifications = $this->all('
+                          SELECT u.first_name, u.last_name, uc.user_id, uc.course_code, uc.course_name, uc.created_on, uc.course_status 
+                          FROM user_courses uc 
+                          LEFT JOIN user u 
+                          ON uc.user_id=u.id 
+                          WHERE uc.user_id IN (' . $top5Users . ')
+                      ');
 
-        foreach($userCourses as $userCourse) {
-            $qualificationStatus =
-            $result[$userCourse['user_id']][] = [
-                'course_code' => $userCourse['course_code'],
+        return $this->buildApplicationsOverviewApplicantList($qualifications, $coursesService);
+
+    }
+
+    /**
+     * @param $userCourses
+     * @param CoursesService $coursesService
+     * @return array
+     */
+    private function buildApplicationsOverviewApplicantList($userCourses, CoursesService $coursesService)
+    {
+        $result = [];
+
+        foreach ($userCourses as $userCourse) {
+            $result[$userCourse['user_id']]['courses'][] = [
                 'course_name' => $userCourse['course_name'],
                 'days' => $this->computeDaysBetween($userCourse['created_on']),
-                'status' => $this->getQualificationStatus($userCourse['course_status'])
+                'status' => $this->getQualificationStatus($userCourse['course_status']),
+                //'percentage' => $coursesService->getEvidenceByCourse($userCourse['user_id'], $userCourse['course_code'])
+                'percentage' => $coursesService->getEvidenceByCourse($userCourse['user_id'], $userCourse['course_code'])
             ];
+            $result[$userCourse['user_id']]['name'] = $userCourse['first_name'] . ' ' . $userCourse['last_name'];
         }
 
-        print_r($result); die;
+        return $result;
     }
 
     /**
@@ -113,8 +134,6 @@ class AccountManagerDashboardService extends CustomRepositoryService
      */
     private function buildApplicantsOverviewQualificationTotals($userCourses = [])
     {
-        $incompleteQualificationCount = 0;
-        $completeQualificationCount = 0;
         $qualificationsDaysRangeCount = [
             '_0_30_' => ['total' => 0, 'min' => 0, 'max' => 30],
             '_31_60_' => ['total' => 0, 'min' => 31, 'max' => 60],
@@ -123,6 +142,8 @@ class AccountManagerDashboardService extends CustomRepositoryService
             '_121_150_' => ['total' => 0, 'min' => 121, 'max' => 150],
             '_151_180_' => ['total' => 0, 'min' => 151, 'max' => 180]
         ];
+        $incompleteQualificationCount = 0;
+        $completeQualificationCount = 0;
 
         foreach ($userCourses as $userCourse) {
 

@@ -89,42 +89,39 @@
                         </li>
                     </ol>
                     <ol class="dashboard-table">
-                        <!-- Applicant item -->
-                        <li class="dashboard-table-item">
-                            <section class="dashboard-table-item-avatar">
-                                <div class="avatar avatar-xxs t-item-4"><img
-                                            src="{{ asset('public/ui/img/avatar-default.png') }}"
-                                            alt="You"></div>
-                                <span class="avatar-name">Eric de Felix</span>
-                            </section>
-                            <section class="dashboard-table-item-metadata">
-                                <!-- Qualification item -->
-                                <div class="qual-item" data-unit-status="warning">
-                                    <span class="qual-item-days">29</span>
-                                    <span class="qual-item-name">Certificate III in Cookery</span>
-                                    <span class="qual-item-status">Not Started</span>
-                                    <span class="qual-item-progress">100%</span>
-                                    <span class="qual-item-action">
-                                                        <button type="button" class="btn btn-xs btn-transparent"
-                                                                data-placement="left" data-toggle="popover"><i
-                                                                    class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i></button>
-                                                    </span>
-                                </div>
-                                <div class="qual-item" data-unit-status="success">
-                                    <span class="qual-item-days">29</span>
-                                    <span class="qual-item-name">Certificate III in Cookery</span>
-                                    <span class="qual-item-status">Not Started</span>
-                                    <span class="qual-item-progress">100%</span>
-                                    <span class="qual-item-action">
-                                                         <button type="button" class="btn btn-xs btn-transparent"
-                                                                 data-placement="left" data-toggle="popover"><i
-                                                                     class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i></button>
-                                                    </span>
-                                </div>
-                                <!-- Qualification item -->
 
-                            </section>
-                        </li>
+                        {% for applicant in applicantsOverviewApplicantList %}
+                            <li class="dashboard-table-item">
+
+                                <section class="dashboard-table-item-avatar">
+                                    <div class="avatar avatar-xxs t-item-4"><img
+                                                src="{{ asset('public/ui/img/avatar-default.png') }}"
+                                                alt="You"></div>
+                                    <span class="avatar-name">{{ applicant.name }}</span>
+                                </section>
+
+                                <section class="dashboard-table-item-metadata">
+                                    {% for courses in applicant.courses %}
+                                        <div class="qual-item" data-unit-status="warning">
+                                            <span class="qual-item-days">{{ courses.days }}</span>
+                                            <span class="qual-item-name">{{ courses.course_name }}</span>
+                                            <span class="qual-item-status">{{ courses.status }}</span>
+                                            <span class="qual-item-progress">{{ courses.percentage }}</span>
+                                            <span class="qual-item-action">
+                                                <button type="button"
+                                                        class="btn btn-xs btn-transparent"
+                                                        data-placement="left"
+                                                        data-toggle="popover">
+                                                <i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        <!-- Qualification item -->
+                                    {% endfor %}
+                                </section>
+
+                            </li>
+                        {% endfor %}
                         <!-- Applicant item -->
                     </ol>
 
