@@ -21,7 +21,7 @@
 
                     <div class="clearfix form-group">
                         <div class="lead-stat-container">
-                            <span class="lead-stat-heading">21</span>
+                            <span class="lead-stat-heading">{{ appOverviewCount.incomplete }}</span>
                             <strong class="text-uppercase text-muted">Total Incomplete<br>Qualifications</strong>
                         </div>
                         <hr class="visible-xs">
@@ -29,28 +29,35 @@
                             <div class="progress progress-legend">
                                 <div class="progress-bar progress-bar-danger" role="progressbar"
                                      data-days="0-30" style="width:16.66666%">
-                                    <strong class="progress-inline-legend"><i>5</i> <br> 0-30</strong>
+                                    <strong class="progress-inline-legend">
+                                        <i>{{ appOverviewCount.daysRange._0_30_.total }}</i> <br> 0-30
+                                    </strong>
                                 </div>
                                 <div class="progress-bar progress-bar-warning" role="progressbar"
                                      data-days="31-60" style="width:16.66666%">
-                                    <strong class="progress-inline-legend"><i>0</i> <br> 31-60</strong>
+                                    <strong class="progress-inline-legend"><i>{{ appOverviewCount.daysRange._31_60_.total }}</i>
+                                        <br> 31-60</strong>
                                 </div>
                                 <div class="progress-bar progress-bar-warning" role="progressbar"
                                      data-days="61-90" style="width:16.66666%">
-                                    <strong class="progress-inline-legend"><i>7</i> <br> 61-90</strong>
+                                    <strong class="progress-inline-legend"><i>{{ appOverviewCount.daysRange._61_90_.total }}</i>
+                                        <br> 61-90</strong>
                                 </div>
                                 <div class="progress-bar progress-bar-warning" role="progressbar"
                                      data-days="91-120" style="width:16.66666%">
-                                    <strong class="progress-inline-legend"><i>0</i> <br> 91-120</strong>
+                                    <strong class="progress-inline-legend"><i>{{ appOverviewCount.daysRange._91_120_.total }}</i>
+                                        <br> 91-120</strong>
                                 </div>
                                 <div class="progress-bar progress-bar-success" role="progressbar"
                                      data-days="121-150" style="width:16.66666%">
-                                    <strong class="progress-inline-legend"><i>1</i> <br>
+                                    <strong class="progress-inline-legend"><i>{{ appOverviewCount.daysRange._121_150_.total }}</i>
+                                        <br>
                                         121-150</strong>
                                 </div>
                                 <div class="progress-bar progress-bar-success" role="progressbar"
                                      data-days="151-180" style="width:16.66666%">
-                                    <strong class="progress-inline-legend"><i>8</i> <br>
+                                    <strong class="progress-inline-legend"><i>{{ appOverviewCount.daysRange._151_180_.total }}</i>
+                                        <br>
                                         151-180</strong>
                                 </div>
                             </div>

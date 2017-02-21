@@ -5,7 +5,7 @@ namespace GqAus\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class DashboardController extends Controller
+class AccountManagerDashboardController extends Controller
 {
     /**
      * @param Request $request
@@ -14,12 +14,32 @@ class DashboardController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $dashboard = $this->get('DashboardService');
+        $dashboard = $this->get('AccountManagerDashboardService');
         $sessionUser = $this->get('security.context')->getToken()->getUser();
+        $userId = $sessionUser->getId();
 
-        $totalUserMessages = $dashboard->countUserReceivedMessages($sessionUser->getId());
+        $totalUserMessages = $dashboard->countUserReceivedMessages($userId);
+        $qualificationRangeCounter = $dashboard->getApplicantsOverviewCourseStatusCounter($userId);
+        $applicantsOverviewApplicants = $dashboard->getApplicantsOverviewApplicants();
+        return $this->render('GqAusUserBundle:AccountManagerDashboard:index.html.twig', [
+            'messagesTotal' => $totalUserMessages,
+            'user' => $this->getUserInfo(),
+            'appOverviewCount' => $qualificationRangeCounter
+        ]);
+    }
 
-        return $this->render('GqAusUserBundle:Dashboard:index.html.twig', ['messagesTotal' => $totalUserMessages]);
+    /**
+     * @return array
+     */
+    private function getUserInfo()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        return [
+            'id' => $user->getId(),
+            'firstName' => $user->getFirstName(),
+            'avatar' => $user->getUserImage()
+        ];
     }
 
     public function indexOldAction(Request $request)

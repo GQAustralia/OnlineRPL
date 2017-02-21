@@ -11,19 +11,19 @@
 
 
 {% block content %}
-    {% include 'GqAusUserBundle:Dashboard:_header.html.twig' %}
+    {% include 'GqAusUserBundle:AccountManagerDashboard:_header.html.twig' %}
     <main class="main-content-gqa">
         <div class="container container-left-sidebar-main">
-            {% include 'GqAusUserBundle:Dashboard:_side_bar.html.twig' %}
+            {% include 'GqAusUserBundle:AccountManagerDashboard:_side_bar.html.twig' %}
             <section class="section-main">
-                {% include 'GqAusUserBundle:Dashboard:_article_message.html.twig' %}
-                {% include 'GqAusUserBundle:Dashboard:_article_applicants_overview.html.twig' %}
-                {% include 'GqAusUserBundle:Dashboard:_article_evidences_for_review.html.twig' %}
+                {% include 'GqAusUserBundle:AccountManagerDashboard:_article_message.html.twig' %}
+                {% include 'GqAusUserBundle:AccountManagerDashboard:_article_applicants_overview.html.twig' %}
+                {% include 'GqAusUserBundle:AccountManagerDashboard:_article_evidences_for_review.html.twig' %}
             </section>
         </div>
     </main>
 
-    {% include 'GqAusUserBundle:Dashboard:_footer.html.twig' %}
+    {% include 'GqAusUserBundle:AccountManagerDashboard:_footer.html.twig' %}
 
 {% endblock %}
 

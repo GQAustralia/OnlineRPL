@@ -1,9 +1,9 @@
 dashboard-old:
     path:     /dashboard-old
-    defaults: { _controller: GqAusUserBundle:Dashboard:indexOld }
-dashboard:
-    path:     /dashboard
-    defaults: { _controller: GqAusUserBundle:Dashboard:index }
+    defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:indexOld }
+account-manager-dashboard:
+    path:     /account-manager-dashboard
+    defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:index }
 overview:
     path:     /overview
     defaults: { _controller: GqAusUserBundle:Overview:index }

@@ -6,8 +6,8 @@ services:
 #    api.example:
 #        class: UserBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
-    DashboardService:
-        class: GqAus\UserBundle\Services\DashboardService
+    AccountManagerDashboardService:
+        class: GqAus\UserBundle\Services\AccountManagerDashboardService
         arguments: [@doctrine.orm.entity_manager]
     SetNewUserPasswordService:
         class: GqAus\UserBundle\Services\SetNewUserPasswordService

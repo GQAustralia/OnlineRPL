@@ -42,18 +42,19 @@
                     </a>
                 </li>
             </ul>
-            {% set userFName = app.security.getToken().getUser().getFirstName() %}
-            {% set userLName = app.security.getToken().getUser().getLastName() %}
-            {% set userName = userFName~' '~userLName %}
-            {% set userImage = app.security.getToken().getUser().getUserImage() %}
+
             <div class="avatar-menu">
                 <div class="dropdown">
                     <div class="dropdown-toggle" data-toggle="dropdown">
                         <div class="avatar avatar-xxs t-item-4">
-                            <img src="{% if userImage  != '' %}{{ amazon_link~'user-'~userId~'/'~userImage }}{% else %}public/ui/img/avatar-default.png{% endif %}"
+                            <img src="{% if user.avatar  != '' %}
+                                        {{ amazon_link~'user-'~user.id~'/'~user.avatar }}
+                                        {% else %}
+                                            {{ asset('public/ui/img/avatar-default.png') }}
+                                        {% endif %}"
                                  alt="You">
                         </div>
-                        <span class="avatar-name" id="avatarFirstName">{{ userFName }}</span>&nbsp;
+                        <span class="avatar-name" id="avatarFirstName">{{ user.firstName }}</span>&nbsp;
                         <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                     </div>
 
