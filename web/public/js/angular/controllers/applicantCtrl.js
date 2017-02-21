@@ -13,7 +13,9 @@ gqAus.controller('applicantCtrl', function($rootScope, $scope, AjaxService){
 	$scope.paginationLinksArr = [];
 	$scope.applicantListTmp = [];
 	$scope.getApplicants = function(tabStatus, srchStr){
-
+		$scope.loading = false;
+		$scope.applicantlist = [];
+		$scope.applicantListTmp = [];
 		$scope.page = 1;
 		$scope.searchString = (srchStr) ? srchStr : '';
 		$scope.tabstat = (tabStatus == 'incomplete') ? 1 : 0 ;
