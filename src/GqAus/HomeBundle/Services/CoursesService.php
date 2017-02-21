@@ -1269,6 +1269,7 @@ class CoursesService
                 $evd['content'] = ($type == 'text') ? $evidence->getContent() : '';
                 $evd['size'] = $evidence->getSize();
                 $evd['facilitatorViewStatus'] = $evidence->getfacilitatorViewStatus();
+                $evd['courseCode'] = ($evidence->getCourse()) ? $evidence->getCourse() : '';
 
                 $userEvidence[] = $evd;
             }

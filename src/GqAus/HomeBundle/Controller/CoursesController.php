@@ -549,6 +549,7 @@ class CoursesController extends Controller
                 $courses = [];
                 $courses['id'] = $userCourse->getId();
                 $courses['name'] = $userCourse->getCourseName();
+                $courses['courseCode'] = $userCourse->getCourseCode();
                 $results[trim($userCourse->getId())] =  $courses;  
             }
         }

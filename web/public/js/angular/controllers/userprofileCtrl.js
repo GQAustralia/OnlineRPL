@@ -8,15 +8,20 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
        evidenceFiles:{},
        isLibrary:false
     };
+    $scope.checkVal = {};
+    $scope.filterLib = [];
     $scope.allEvidenceCats = [];
     $scope.allEvidences = [];
+    $scope.filterEvds = [];
     $scope.evidenceView = {};
+    $scope.courseCodes = [];
     $scope.userId = $window.or_user_id || 0;
     $scope.userCourses = [];
     $scope.evidences = {};
     $scope.propertyName = 'name';
     $scope.reverse = true;
     $scope.uploadAdditional = {};
+
     $scope.uploadControl = {};
     $scope.uploadInProgress = {
         uploads: [],
@@ -69,8 +74,13 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
             $scope.allEvidences = _.where($scope.evidences, {"catId":catid});
     }
     
+    $scope.fileAssociatedTo = function(courseCode){
+        $scope.filterEvds = _.where($scope.evidences, {"courseCode":courseCode});
+        $scope.allEvidences = _.union($scope.filterEvds);
+    }
+    
     $scope.clearFilters = function(){
-        $scope.fileuncheck.Selected = false;
+//        $scope.checkVal = !$scope.checkVal;
     }
     
     $scope.applyFilters = function(){
