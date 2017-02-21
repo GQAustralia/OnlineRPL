@@ -43,10 +43,10 @@
 			border-bottom: 1px solid #c5c5c5;
 		}
 		.panel-heading {
-			padding: ($grid-gutter-width/2)-10 $grid-gutter-width/2;
+			padding: $grid-gutter-width/2 $grid-gutter-width;
 		}
 		.nav-tabs {
-			padding-left: 0;
+			padding-left: $grid-gutter-width;
 		}
 	}
 

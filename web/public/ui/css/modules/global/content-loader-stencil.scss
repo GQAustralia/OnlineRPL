@@ -5,6 +5,10 @@
 		position: relative;
 		background-color: $gray-lighter;
 	}
+
+	&:hover {
+		cursor: progress;
+	}
 }
 
 .loader {
@@ -15,26 +19,14 @@
 	$widthCurve: 12px;
 
 	overflow: hidden;
-	> .msk1, > .msk2, &:before {
+	width: 100%;
+
+	> .msk1, > .msk2, > .msk3 {
 		position: absolute;
 		top: 0;
 		bottom: 0;
 		content: '';
 		display: block;
-	}
-
-
-	> .msk1:before,
-	> .msk2:after {
-		position: absolute;
-		top: 31px;
-		height: 15px;
-		z-index: 5;
-		content: '';
-		display: block;
-		background-repeat: no-repeat;
-		background-position: center center;
-		background-size: contain;
 	}
 
 	// Left stencil
@@ -46,16 +38,10 @@
 		background-image: url(#{$urlBase}left.svg);
 		background-size: contain;
 		z-index: 1;
-
-		&:before {
-			right: 0;
-			width: $widthCurve;
-			background-image: url(#{$urlBase}left-curve.svg);
-		}
 	}
 
-	// Repeat
-	&:before {
+	// Middle stencil
+	> .msk2 {
 		@include calc-sub-two-values(width,100%,$offset);
 		left: $leftWidth;
 		right: $rightWidth;
@@ -65,10 +51,35 @@
 		background-position: center center;
 		background-image: url(#{$urlBase}repeat.svg);
 		background-size: contain;
+
+		&:before, &:after {
+			position: absolute;
+			top: 31px;
+			height: 15px;
+			z-index: 5;
+			content: '';
+			display: block;
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: contain;
+		}
+
+		// Left curve
+		&:before {
+			right: 100%;
+			width: $widthCurve;
+			background-image: url(#{$urlBase}left-curve.svg);
+		}
+		// Right curve
+		&:after {
+			left: 100%;
+			width: $widthCurve;
+			background-image: url(#{$urlBase}right-curve.svg);
+		}	
 	}
 
 	// Right stencil
-	> .msk2 {
+	> .msk3 {
 		right: 0;
 		width: $rightWidth;
 		background-repeat: no-repeat;
@@ -76,11 +87,25 @@
 		background-image: url(#{$urlBase}right.svg);
 		background-size: contain;
 		z-index: 3;
-
-		&:after {
-			left: 0;
-			width: $widthCurve;
-			background-image: url(#{$urlBase}right-curve.svg);
-		}	
 	}
+
+	// Shine
+	&:after {
+		position: absolute;
+		top: -10%;
+		bottom: -10%;
+		content: '';
+		display: block;
+		z-index: 0;
+		width: 25%;
+		left: -30%;
+		@include transform(rotateZ(15deg));
+		@include gradient-horizontal-three-colors($gray-lighter, rgba(255,255,255,0.5), 50%, $gray-lighter);
+		@include animation(shine 2s infinite);
+	}
+}
+
+@include keyframes(shine) {
+	0% { left: -30%; }
+	100% { left: 110%; }
 }

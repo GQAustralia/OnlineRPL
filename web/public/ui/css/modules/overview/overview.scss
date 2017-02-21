@@ -3,6 +3,7 @@
 
 $qual-card-body-offset: 220px;
 $qual-card-img-height: 220px;
+$big-circle-width: 260px;
 
 @import 'tutorial.scss';
 @import "320";
@@ -10,12 +11,80 @@ $qual-card-img-height: 220px;
 @media screen and (min-width: 568px) {
     @import "568";
 }
-@media screen and (min-width: 768px) {
-    // @import "768";
+@media screen and (min-width: $screen-sm) {
+    @import "768";
 }
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: $screen-md-min) {
     @import "1024";
 }
-@media screen and (min-width: $screen-xlg - 100) {
-    @import "1300";
+@media screen and (min-width: $screen-lg) {
+    @import "1200"; 
+}
+// Small tweaks for the circular progress bars on specific width range
+@media (min-width: $screen-md-min) {
+	.panel-overview .panel-qualification-body .panel-body-group  {
+		.qual-title {
+			padding: 15px;
+		}
+		.panel-qualification-gauges {
+			padding: 15px;
+		}
+	}
+}
+@media (min-width: $screen-lg-min) {
+	.panel-overview .panel-qualification-body .panel-body-group  {
+		.qual-title {
+			padding: 30px;
+		}
+		.panel-qualification-gauges {
+			padding: 30px;
+		}
+	}
+}
+@media (min-width: $screen-lg) and (max-width: 1340){
+	.panel-overview {
+		.panel-qualification-body .panel-body-group {
+			.qual-title {
+
+			}
+			.panel-qualification-gauges {
+				&:first-child {
+					// width: $big-circle-width;
+				}
+				&:nth-child(2) {
+					// @include calc-sub-two-values(width, 100%, $big-circle-width);
+					// progress { width: 100%; }
+				}
+				&:nth-child(3) {
+
+				}
+				&:last-child {
+
+				}
+			}
+		}
+	}
+}
+@media (min-width: $screen-xlg - 60) {
+	.panel-overview .panel-qualification-body .panel-body-group  {
+		.panel-qualification-gauges {
+			&:nth-child(2) {
+				progress { width: 340px; }
+			}
+		}
+	}
+}
+@media (min-width: $screen-xlg) {
+	.panel-overview {
+		.panel-qualification-body .panel-body-group {
+			.qual-title {
+				padding-left: 60px;
+				padding-right: 60px;
+			}
+			.panel-qualification-gauges {
+				padding-left: 60px;
+				padding-right: 60px;
+			}
+		}
+	}
 }

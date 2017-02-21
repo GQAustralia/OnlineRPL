@@ -1,21 +1,21 @@
 /*
-Error: Undefined variable: "$brand-green".
-        on line 22 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/circle.scss
+Error: Undefined variable: "$gray".
+        on line 18 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/circle.scss
 
+13: // VARS
+14: $circle-width: 0.020em;
+15: $circle-width-hover: 0.020em;
+16: 
 17: // colors default
-18: $primary-color: #307bbb;
-19: $secondary-color: #ccc;
+18: $primary-color: $gray;
+19: $secondary-color: $gray-lighter;
 20: $bg-color: white;
 21: 
 22: $primary-color-green: $brand-green;
 23: $primary-color-orange: $brand-orange;
-24: 
-25: 
-26: // colors dark skin
-27: $primary-color-dark: $gray-dark;
 
 Backtrace:
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/circle.scss:22
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/circle.scss:18
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:471:in `visit_variable'
@@ -54,4 +54,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$brand-green\".\A         on line 22 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/circle.scss\A \A 17: // colors default\A 18: $primary-color: #307bbb;\A 19: $secondary-color: #ccc;\A 20: $bg-color: white;\A 21: \A 22: $primary-color-green: $brand-green;\A 23: $primary-color-orange: $brand-orange;\A 24: \A 25: \A 26: // colors dark skin\A 27: $primary-color-dark: $gray-dark;"; }
+  content: "Error: Undefined variable: \"$gray\".\A         on line 18 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/circle.scss\A \A 13: // VARS\A 14: $circle-width: 0.020em;\A 15: $circle-width-hover: 0.020em;\A 16: \A 17: // colors default\A 18: $primary-color: $gray;\A 19: $secondary-color: $gray-lighter;\A 20: $bg-color: white;\A 21: \A 22: $primary-color-green: $brand-green;\A 23: $primary-color-orange: $brand-orange;"; }

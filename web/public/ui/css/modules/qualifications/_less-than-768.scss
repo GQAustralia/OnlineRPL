@@ -19,8 +19,15 @@
 		}
 	}
 	&:not(.panel-avatar-tab) {
-		padding: $grid-gutter-width/2;
+		// padding: $grid-gutter-width/2;
 		.panel-heading {
+			height: 170px;
+			.qual-title {
+				position: absolute;
+				bottom: 15px;
+				left: 15px;
+				right: 15px;
+			}
 			* { color: white !important; }
 		}
 		.panel-heading-img {

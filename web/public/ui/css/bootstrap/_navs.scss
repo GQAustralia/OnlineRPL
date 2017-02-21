@@ -127,13 +127,20 @@
           @include transition(width .3s $easing);
           width: 20px;
         }
-        &:before {
-
-        }
         &:after {
           @include calc-add-two-values(right,50%,20px);
         }
         cursor: default;
+      }
+    }
+
+    // Hover on active state if A tag is a dropdown
+    &.active.dropdown > a {
+      &:hover,
+      &:focus {
+        color: $nav-tabs-active-link-hover-color;
+        background-color: $nav-link-hover-bg;
+        cursor: pointer;
       }
     }
   }

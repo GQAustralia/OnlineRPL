@@ -444,7 +444,8 @@ input[type="checkbox"] {
   @include form-control-validation($state-danger-text, lighten($state-danger-text, 15%), $state-danger-bg);
   $tooltip-error: lighten($state-danger-text, 5%);
 
-  .form-control {
+  .form-control,
+  .usi-input-body i{
     background: lighten($tooltip-error, 46%) !important; 
   }
   .btn-group{
@@ -462,7 +463,8 @@ input[type="checkbox"] {
   input,
   select,
   .btn-group,
-  .intl-tel-input {
+  .intl-tel-input,
+  .usi-input {
     & + i {
       position: absolute;
       top: 0;
@@ -479,13 +481,15 @@ input[type="checkbox"] {
   @media( min-width: $screen-sm-min){
     input + i,
     select + i,
+    .usi-input + i,
     .intl-tel-input + i {
       right: 0;
       top: 38px;
       right: 15px;
     }
 
-    select + i{
+    select + i,
+    .usi-input + i{
       top: 6px; 
     }
 

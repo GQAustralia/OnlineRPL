@@ -11,12 +11,12 @@
 
 
 // VARS
-$circle-width: 0.025em;
-$circle-width-hover: 0.025em;
+$circle-width: 0.020em;
+$circle-width-hover: 0.020em;
 
 // colors default
-$primary-color: #307bbb;
-$secondary-color: #ccc;
+$primary-color: $gray;
+$secondary-color: $gray-lighter;
 $bg-color: white;
 
 $primary-color-green: $brand-green;
@@ -73,27 +73,13 @@ $bg-color-dark: white;
 	height: 1em;
 	border-radius: 50%;
 	float: none;
-	margin: auto;
+	// margin: auto;
 	background-color: $secondary-color;
 
 	// center circle to its parent
 	&.center{
 		float: none;
 		margin: 0 auto;
-	}
-
-	// bigger size
-	&.big{
-		font-size: 14em;
-	}
-
-	// smaller size
-	&.small{
-		font-size: 8em;
-
-		&:after {
-
-		}
 	}
 
 	// centered value inside circle
@@ -103,14 +89,10 @@ $bg-color-dark: white;
 		z-index: 1;
 		left: 0;
 		top: 0;
-		// width: 5em;
-		// line-height: 5em;
-		// font-size: 0.2em;
 
-
-		width: 3.33em;
-		line-height: 3.33em;
-		font-size: 0.3em;
+		width: 4em;
+		line-height: 3.4em;
+		font-size: 0.25em;
 		color: $primary-color;
 
 		display: block;
@@ -139,7 +121,6 @@ $bg-color-dark: white;
 		@include transition-property(all);
 		@include transition-duration(0.2s);
 		@include transition-timing-function(ease-in);
-
 	}
 
 	// the slice (mask)
@@ -148,6 +129,47 @@ $bg-color-dark: white;
 		width: 1em;
 		height: 1em;
 		clip: rect(0em, 1em, 1em, 0.5em);
+	}
+
+	// bigger size
+	&.big{
+		font-size: 15em;
+	}
+
+	// smaller size
+	&.small{
+		$circle-width: 0.03em;
+		font-size: 8em;
+
+		.slice {
+			> .fill {
+			    // border: .04em solid gray;
+			    // width: .96em;
+			    // height: .96em;
+				// border: $circle-width solid $primary-color;
+				// width: 1 - (2 * $circle-width);
+				// height: 1 - (2 * $circle-width);
+			}
+			> .bar {
+				border: $circle-width solid $primary-color;
+				width: 1 - (2 * $circle-width);
+				height: 1 - (2 * $circle-width);
+			    // border: .031em solid gray;
+			    // width: .94em;
+			    // height: .94em;
+			}
+		}
+		&:after {
+		    // top: .03em;
+		    // left: 0.03em;
+		    // width: .94em;
+		    // height: .94em;
+
+			top: $circle-width;
+			left: $circle-width;
+		    width: 1 - (2 * $circle-width);
+		    height: 1 - (2 * $circle-width);
+		}
 	}
 
 	// circle to show the status
@@ -167,7 +189,6 @@ $bg-color-dark: white;
 			// @include rotate(( 360/100 * $j));
 		}
 	}
-
 
 	// loop to create all needed elements automatically
 	@for $j from 51 through 100 {

@@ -2,21 +2,21 @@
  
 // Variables and Mixins
 @import 'bootstrap/variables.scss';
-@import 'bootstrap/mixins.scss'; 
+@import 'bootstrap/mixins.scss';  
 
 @import 'modules/global/global.min.scss';
 @import 'modules/global/transformicons.scss';
 @import 'modules/global/circle.scss';
-@import 'modules/global/message-thread.scss'; 
+@import 'modules/global/message-thread.scss';
 @import 'modules/global/content-loader-stencil.scss';
-
+ 
 // Plugins
 @import 'modules/rpl-online-enrolment/bootstrap-datetimepicker';
 
 // HTML 5 polyfills
-@import 'polyfills/progress.scss'; 
+@import 'polyfills/progress.scss';
 
-// Pages / Modules 
+// Pages / Modules
 @import 'layouts/layouts.scss';
 @import 'modules/rpl-onboarding/rpl-onboarding.scss';
 @import 'modules/overview/overview.scss';
