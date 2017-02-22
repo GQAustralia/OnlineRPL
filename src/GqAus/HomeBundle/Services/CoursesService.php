@@ -1268,6 +1268,7 @@ class CoursesService
                 $evd['name'] = ($type == 'text') ? '' : $evidence->getName();
                 $evd['content'] = ($type == 'text') ? $evidence->getContent() : '';
                 $evd['size'] = $evidence->getSize();
+//                $evd['linkToMulti'] = $this->getLinkedToMultiOrNot($evidence->getId());
                 $evd['facilitatorViewStatus'] = $evidence->getfacilitatorViewStatus();
                 $evd['courseCode'] = ($evidence->getCourse()) ? $evidence->getCourse() : '';
 
@@ -1276,4 +1277,14 @@ class CoursesService
         }
         return $userEvidence;
     }
+         /**
+     * 
+     * @param type $evdId
+     */
+    public function getLinkedToMultiOrNot($evdId){
+//        echo $evdId;
+//        exit;
+        $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->findOneById($evidence);
+    }
+   
 }

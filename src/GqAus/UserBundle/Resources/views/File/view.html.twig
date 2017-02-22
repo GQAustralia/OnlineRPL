@@ -23,16 +23,15 @@
                     </div>
                     <button ng-if="(allEvidences| filter:{type: '!text'}).length > 0" type="button" class="btn btn-primary btn-upload-evidence" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload <span class="hidden-mobile">Evidence</span></button>
                 </div>
-                
                 <!-- Zero State -->
-                <div class="panel-body" ng-if="!isSubmitted() && (allEvidences| filter:{type: '!text'}).length === 0">
+                <div class="panel-body" ng-if="(allEvidences| filter:{type: '!text'}).length === 0">
+                    <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
                     <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
                         <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
                         <h4>No evidence for this unit yet <br><button type="button" class="btn-link">Upload evidence now</button></h4>
                     </section>
                 </div>
                 <!-- Zero State -->
-                
                 <!-- Has value state -->
                 <div class="panel-evidence-library-body" ng-if="(allEvidences| filter:{type: '!text'}).length > 0">
                     <aside class="panel-evidence-library-menu">
@@ -89,17 +88,14 @@
                             </div>
                         </div>
                         <div class="clearfix">
-                            <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
                             <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
-                                <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences|orderBy:propertyName:reverse|filter:search|filter:filterLib.video|filter:filterLib.audio|filter:filterLib.image|filter:filterLib.document|filter:filterLib.note"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
-{#                                    <div class="thumbnail-group-selection"><input type="checkbox" id="evidenceFiles-{[{evidence.id}]}" name="evidenceFiles" ng-model="pageStats.evidenceFiles[evidence.id]" class="custom-input"><label for="evidenceFiles-{[{evidence.id}]}"></label></div>#}
+                                <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences|orderBy:propertyName:reverse|filter:search"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
                                     <div class="thumbnail-holder">
-                                        <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
-                                        </div>
+                                        <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here"></div>
                                         <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
-                                                <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+                                            <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
                                                 <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
-                                            </div>
+                                        </div>
                                         <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
                                             <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
                                             <div class="thumbnail-body">                                
@@ -109,7 +105,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-transparent btn-xs btn-delete" ng-if="!isSubmitted()" ng-click="deleteEvidence(evidence)"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                                    <button type="button" class="btn btn-transparent btn-xs btn-delete" ng-click="deleteEvidence(evidence)"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
                                 </li>
                                 <!-- Upload in progress -->
                                 <li class="thumbnail-group-item thumbnail-group-item-loading" ng-repeat="uploadEvidence in uploadInProgress.uploads">
@@ -234,7 +230,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <legend class="small text-muted text-uppercase">Files associated to</legend>
-                        <span ng-repeat="courseDetails in userCourses"><input type="checkbox"  name="course{[{courseDetails.id}]}" ng-click="fileAssociatedTo(courseDetails.courseCode)" value="{[{courseDetails.id}]}" id="file{[{courseDetails.id}]}" class="custom-input"><label for="file{[{courseDetails.id}]}"><span >{[{courseDetails.name}]}</span></label></span>
+                        <span ng-repeat="courseDetails in userCourses"><input type="checkbox"  name="course{[{courseDetails.id}]}" ng-model="userCCodes[courseDetails.courseCode]" id="file{[{courseDetails.id}]}" class="custom-input"><label for="file{[{courseDetails.id}]}"><span >{[{courseDetails.name}]}</span></label></span>
                     </div>
                     <div class="form-group">
                         <legend class="small text-muted text-uppercase">Files linked to</legend>
@@ -245,24 +241,24 @@
                         <legend class="small text-muted text-uppercase">Filter by file format</legend>
                         <ul class="list-unstyled">
                             <li>
-                                <input type="checkbox" data-ng-model='filterLib.video' data-ng-true-value="'video'" data-ng-false-value='' id="video" class="custom-input">
+                                <input type="checkbox" data-ng-model='filterLib.video' id="video" class="custom-input">
                                 <label for="video"><span>Video <br><small class="text-muted">mp4, avi, mov, mpeg &amp; other known video formats</small></span></label>
                             </li>
                             <li>
-                                <input type="checkbox" data-ng-model='filterLib.audio' data-ng-true-value="'audio'" data-ng-false-value='' id="audio"  class="custom-input">
+                                <input type="checkbox" data-ng-model='filterLib.audio' id="audio"  class="custom-input">
                                 <label for="audio"><span>Audio <br><small class="text-muted">mp3, wav &amp; other known audio formats</small></span></label>
                             </li>
                             <li>
-                                <input type="checkbox" data-ng-model='filterLib.document' data-ng-true-value="'document'" data-ng-false-value=''  id="documents" class="custom-input">
-                                <label for="documents"><span>Document <br><small class="text-muted">PDF, Word, Excel, Powerpoint files</small></span></label>
+                                <input type="checkbox" data-ng-model='filterLib.file' id="file" class="custom-input">
+                                <label for="file"><span>Document <br><small class="text-muted">PDF, Word, Excel, Powerpoint files</small></span></label>
                             </li>
                             <li>
-                                <input type="checkbox" data-ng-model='filterLib.image' data-ng-true-value="'image'" data-ng-false-value='' id="images" class="custom-input">
-                                <label for="images"><span>Image <br><small class="text-muted">JPEG, PNG, &amp; other image formats</small></span></label>
+                                <input type="checkbox" data-ng-model='filterLib.image' id="image" class="custom-input">
+                                <label for="image"><span>Image <br><small class="text-muted">JPEG, PNG, &amp; other image formats</small></span></label>
                             </li>
                             <li>
-                                <input type="checkbox" data-ng-model='filterLib.note' data-ng-true-value="'note'" data-ng-false-value=''  id="notes" class="custom-input">
-                                <label for="notes"><span>Self-assessment Note <br><small class="text-muted">What you've written for your Core &amp; Elective units</small></span>
+                                <input type="checkbox" data-ng-model='filterLib.text' id="text" class="custom-input">
+                                <label for="text"><span>Self-assessment Note <br><small class="text-muted">What you've written for your Core &amp; Elective units</small></span>
                                 </label>
                             </li>
                         </ul>

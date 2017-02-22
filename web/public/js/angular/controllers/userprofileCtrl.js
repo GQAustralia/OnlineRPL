@@ -9,19 +9,25 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
        isLibrary:false
     };
     $scope.checkVal = {};
-    $scope.filterLib = [];
+    $scope.fileAssToArr = [];
+    $scope.fileAssToObj = {};
+    $scope.fileLinToArr = [];
+    $scope.fileLinToObj = {};
+    $scope.fileFormToArr = [];
+    $scope.fileFormToObj = {};
+    $scope.filterLib = {};
     $scope.allEvidenceCats = [];
     $scope.allEvidences = [];
     $scope.filterEvds = [];
     $scope.evidenceView = {};
-    $scope.courseCodes = [];
+    $scope.userCCodes = {};
     $scope.userId = $window.or_user_id || 0;
     $scope.userCourses = [];
     $scope.evidences = {};
     $scope.propertyName = 'name';
     $scope.reverse = true;
     $scope.uploadAdditional = {};
-
+    $scope.selectedListArr = [];
     $scope.uploadControl = {};
     $scope.uploadInProgress = {
         uploads: [],
@@ -74,19 +80,67 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
             $scope.allEvidences = _.where($scope.evidences, {"catId":catid});
     }
     
-    $scope.fileAssociatedTo = function(courseCode){
-        $scope.filterEvds = _.where($scope.evidences, {"courseCode":courseCode});
-        $scope.allEvidences = _.union($scope.filterEvds);
-    }
+//    $scope.fileAssociatedTo = function(courseCode){
+//        $scope.filterEvds = _.where($scope.evidences, {"courseCode":courseCode});
+//        $scope.allEvidences = _.union($scope.filterEvds);
+//    }
     
     $scope.clearFilters = function(){
 //        $scope.checkVal = !$scope.checkVal;
     }
     
     $scope.applyFilters = function(){
+        if(angular.isObject($scope.userCCodes)){
+            $scope.selectedfileAssArr = [];
+            angular.forEach($scope.userCCodes, function (fileAssVal, fileAssIndex) {
+                if(fileAssVal === true){
+                    $scope.fileAssToObj[fileAssIndex] = _.where($scope.evidences, {"courseCode":fileAssIndex});
+                } else if(fileAssVal === false){
+                     delete $scope.fileAssToObj[fileAssIndex];
+                     $scope.fileAssToObj[fileAssIndex] = [];
+                 }
+                $scope.fileAssToArr = angular.extend({},$scope.fileAssToArr, $scope.fileAssToObj);
+            });
+            angular.forEach($scope.fileAssToArr, function(key, obj){
+                angular.forEach(key, function(key1, obj1){
+                    $scope.selectedfileAssArr.push(key1);
+                });
+            });
+        }
+        if (_.isEmpty($scope.selectedfileAssArr))
+            $scope.allEvidences = $scope.evidences;
+        else
+            $scope.allEvidences = $scope.selectedfileAssArr;
+        
+        if(angular.isObject($scope.filterLib)){
+            $scope.selectedfileFormArr = [];            
+            angular.forEach($scope.filterLib, function (formVal, formIndex) {
+                if(formVal === true){
+                    $scope.fileFormToObj[formIndex] = _.where($scope.allEvidences, {"type":formIndex});
+                } else{
+                     delete $scope.fileFormToObj[formIndex];
+                     $scope.fileFormToObj[formIndex] = [];
+                 }
+                $scope.fileFormToArr = angular.extend({},$scope.fileFormToArr, $scope.fileFormToObj);
+            });
+            angular.forEach($scope.fileFormToArr, function(key2, obj2){
+                angular.forEach(key2, function(key3, obj3){
+                        $scope.selectedfileFormArr.push(key3);
+                });
+//                console.log($scope.selectedfileFormArr);
+            });
+//            console.log($scope.selectedfileFormArr);
+//                return false;
+            if (_.isEmpty($scope.selectedfileFormArr))
+                $scope.allEvidences = $scope.evidences;
+            else
+                $scope.allEvidences = $scope.selectedfileFormArr;
+        }
+
+        console.log($scope.allEvidences);
+//        return false;
         $('#evidenceFilter').modal('hide');
-    }
-    
+    }    
     $scope.sortBy = function(propertyName) {
         $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
         $scope.propertyName = propertyName;
