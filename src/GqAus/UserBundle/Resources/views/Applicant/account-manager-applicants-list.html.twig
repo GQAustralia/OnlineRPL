@@ -3,7 +3,7 @@
 {% block ngApp %} ng-app="gqAus" {% endblock%}
 {% block ngController %} ng-controller="applicantCtrl"  id="applicantCtrl" {% endblock%}
 {% block stylesheets %}
-	
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 {% endblock %}
 {% block body %}
 {% set userRole = app.security.getToken().getUser().getRoles() %}
@@ -17,10 +17,10 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" ng-class="{'active':activeTab == 'incomplete'}" ng-click="activeTab = 'incomplete' ">
-                            <a href="#incomplete" ng-click="resetSearch(); getApplicants('incomplete')" aria-controls="incomplete" role="tab" data-toggle="tab">Incomplete</a>
+                            <a href="#incomplete" ng-click="resetSearch(); resetPagination(); getApplicants('incomplete')" aria-controls="incomplete" role="tab" data-toggle="tab">Incomplete</a>
                         </li>
                         <li role="presentation" ng-class="{'active':activeTab == 'complete'}" ng-click="activeTab = 'complete' ">
-                            <a href="#complete" ng-click="resetSearch(); getApplicants('complete');" aria-controls="complete" role="tab" data-toggle="tab">Complete</a>
+                            <a href="#complete" ng-click="resetSearch(); resetPagination(); getApplicants('complete');" aria-controls="complete" role="tab" data-toggle="tab">Complete</a>
                         </li>
 
                         <li class="panel-evidence-search">
@@ -35,6 +35,7 @@
                     <div role="tabpanel">
                         <!-- Tab panes -->
                         <div class="tab-content">
+
                             <div role="tabpanel" class="tab-pane active">
 
                                 <div class="clearfix" style="margin-bottom: 60px;">
@@ -90,8 +91,10 @@
                                                     <span class="qual-item-name">{[{ courses.courseName }]}</span>
                                                     <span class="qual-item-status">{[{ courses.courseStatus }]}</span>
                                                     <span class="qual-item-progress">{[{ courses.percentage }]}</span>
-                                                    <span class="qual-item-action">
-                                                        <button type="button" class="btn btn-xs btn-transparent" data-placement="left" data-toggle="popover"><i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i></button>
+                                                    <span class="qual-item-action" id="task-{[{ courses.courseId }]}">
+                                                        <button type="button" class="btn btn-xs btn-transparent" id="{[{courses.courseId}]}" data-placement="left" datepicker ng-model="datepicker" data-toggle="popover">
+															<i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i>
+														</button>
                                                     </span>
                                                 </div>
                                                 <!-- Qualification item -->
@@ -145,6 +148,7 @@
     <!-- Bootstrap Datepicker -->
     <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/bootstrap-datetimepicker.js') }}"></script>
+   <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>	
 
     <!-- places library for maps api -->
 
@@ -158,58 +162,9 @@
 
     <script src="{{ asset('public/js/angular/app.js') }}"></script>
     <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
-    <script src="{{ asset('public/js/angular/directives/enrollDirectives.js') }}"></script>
-    <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
-    <script src="{{ asset('public/js/angular/controllers/enrollmentCtlr.js') }}"></script>
+    <script src="{{ asset('public/js/angular/directives/applicantDirective.js') }}"></script>
     <script src="{{ asset('public/js/angular/controllers/applicantCtrl.js') }}"></script>
-	
+
    <!-- Account Manager -->
-    <script>
-
-        var template = '<div class="popover compressed" role="tooltip">' +
-                            '<div class="arrow"/>' +
-                            '<h3 class="popover-title"/>' +
-                            '<div class="popover-content"/>'+
-                            '<button type="button" class="btn btn-primary btn-block btn-sm text-uppercase btn-add-task"><strong>Add task</strong></button>'+
-                        '</div>';
-
-        var title = '<span class="taskTitle">Task for today</span> '+
-                    '<button type="button" class="btn btn-transparent btn-xs btn-set-date"><i class="zmdi zmdi-calendar zmdi-hc-lg zmdi-hc-fw"></i> EDIT</button>';
-
-        var content =   '<div class="task-controls">' +
-                            '<textarea name="" id="" rows="4" class="form-control" placeholder="Enter your task"></textarea>' +
-                            '<div data-init="datepicker"></div>' +
-                        '</div>';
-
-        $('[data-toggle="popover"]')
-            .popover({ html : true,  animation: false, template: template, content: content, title: title, viewport: '.main-content-gqa' })
-                .on('shown.bs.popover', function(e){
-                    $(this).next().velocity({scaleX: [1,0], scaleY: [1,0]} , { easing: [ 250, 20 ], duration: 800 });
-                    init_buttons();
-                    init_datepicker();
-                });
-
-        function init_datepicker() {
-            $('[data-init="datepicker"]').datetimepicker({
-                'format' : 'DD/MM/YYYY',
-                'inline' : true,
-                'useCurrent' : true,
-                'showTodayButton': true,
-                'minDate' : new Date()
-            }).on('dp.change', function(e){
-                var parent = $(this).closest('.popover').find('.taskTitle');
-                var date = $(this).data("DateTimePicker").date().format('DD/MM/YYYY');
-                parent.html('Task set on ' + date);
-            });
-        }
-
-        function init_buttons() {
-            $(document).on('click', '.btn-set-date', function(event) {
-                $(this).closest('.popover').toggleClass('show-date');
-                $(this).find('i').toggleClass('zmdi-calendar').toggleClass('zmdi-arrow-left');
-            });
-        }
-
-        // INIT_DATEPICKER.build();
-    </script>	
+	
 {% endblock %}

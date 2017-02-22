@@ -102,19 +102,39 @@ class ApplicantController extends Controller
      * Function to add reminder/notes
      * return string
      */
-    public function addReminderAction()
+    public function addReminderAction(Request $request)
     {
-        $userId = $this->get('security.context')->getToken()->getUser()->getId();
-        $userCourseId = $this->getRequest()->get('userCourseId');
-        $remindDate = $this->getRequest()->get('remindDate');
-        $reminderType = $this->getRequest()->get('reminderType');
-        $reminderTypeId = $this->getRequest()->get('reminderTypeId');
-        if (empty($userCourseId)) {
-            $userCourseId = $this->getRequest()->get('listId');
-        }
-        $remindDate = str_replace('/', '-', $remindDate);
-        $remindDate = date('Y-m-d H:i:s', strtotime(strtoupper($remindDate)));
-        $message = $this->getRequest()->get('message');
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $type = "";
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+            }
+
+			$userId = $this->get('security.context')->getToken()->getUser()->getId();
+			$userCourseId = $params['userCourseId'];
+			$remindDate = $params['remindDate'];
+			$reminderType = '';
+			$reminderTypeId = $params['userCourseId'];
+			$remindDate = date('Y-m-d H:i:s', strtotime(strtoupper($remindDate)));
+			$message = $params['message'];
+			
+		} else {
+			$userId = $this->get('security.context')->getToken()->getUser()->getId();
+			$userCourseId = $this->getRequest()->get('userCourseId');
+			$remindDate = $this->getRequest()->get('remindDate');
+			$reminderType = $this->getRequest()->get('reminderType');
+			$reminderTypeId = $this->getRequest()->get('reminderTypeId');
+			if (empty($userCourseId)) {
+				$userCourseId = $this->getRequest()->get('listId');
+			}
+			$remindDate = str_replace('/', '-', $remindDate);
+			$remindDate = date('Y-m-d H:i:s', strtotime(strtoupper($remindDate)));
+			$message = $this->getRequest()->get('message');
+		}
+
         echo $this->get('UserService')->addQualificationReminder($userId, $userCourseId, $message, $remindDate, $reminderType, $reminderTypeId);
         exit;
     }
@@ -205,6 +225,7 @@ class ApplicantController extends Controller
 		}
 
 		$applicantsArray = array();
+
 		foreach($applicantResult['applicantList'] as $akey => $applicant){
 			$leftDaysList = explode('&&',$applicant->leftdays);
 			$applicantsArray[$applicant->getUser()->getId()]['firstName'] =  $applicant->getUser()->getFirstName();
@@ -214,9 +235,9 @@ class ApplicantController extends Controller
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseStatus'] = $qualificationStatus[$applicant->getCourseStatus()]['status'];
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['leftdays'] = $leftDaysList['0'];
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['percentage'] = $applicant->percentage;
+			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseId'] = $applicant->getId();
 		}
-		
-		
+
 		unset($results['pageRequest']);
 		unset($results['status']);
 		unset($results['pendingApplicantsCount']);
