@@ -68,29 +68,24 @@
 
                     <ol class="dashboard-table-head-sort">
                         <li>
-                            <button type="button" class="btn btn-transparent btn-xs btn-block">Applicant
-                                <i class="caret"></i></button>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Applicant</button>
                         </li>
                         <li>
-                            <button type="button" class="btn btn-transparent btn-xs btn-block">Days <i
-                                        class="caret"></i></button>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Days</button>
                         </li>
                         <li>
-                            <button type="button" class="btn btn-transparent btn-xs btn-block">
-                                Qualification <i class="caret"></i></button>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Qualification </button>
                         </li>
                         <li>
-                            <button type="button" class="btn btn-transparent btn-xs btn-block">Status <i
-                                        class="caret"></i></button>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Status</button>
                         </li>
                         <li>
-                            <button type="button" class="btn btn-transparent btn-xs btn-block">% Done <i
-                                        class="caret"></i></button>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">% Done</button>
                         </li>
                     </ol>
                     <ol class="dashboard-table">
 
-                        {% for applicant in applicantsOverviewApplicantList %}
+                        {% for applicant in applicantsOverviewApplicantList.incomplete %}
                             <li class="dashboard-table-item">
 
                                 <section class="dashboard-table-item-avatar">
@@ -102,7 +97,66 @@
 
                                 <section class="dashboard-table-item-metadata">
                                     {% for courses in applicant.courses %}
-                                        <div class="qual-item" data-unit-status="warning">
+                                        <div class="qual-item" data-unit-status="{{ courses.color_status }}">
+                                            <span class="qual-item-days">{{ courses.days }}</span>
+                                            <span class="qual-item-name">{{ courses.course_name }}</span>
+                                            <span class="qual-item-status">{{ courses.status }}</span>
+                                            <span class="qual-item-progress">{{ courses.percentage }}</span>
+                                            <span class="qual-item-action">
+                                                <button type="button"
+                                                        class="btn btn-xs btn-transparent"
+                                                        data-placement="left"
+                                                        data-toggle="popover">
+                                                <i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                    {% endfor %}
+                                </section>
+
+                            </li>
+                        {% endfor %}
+                    </ol>
+
+                    <div class="text-right">
+                        <a href="#" class="btn btn-link">View All</a>
+                    </div>
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="complete">
+                    <ol class="dashboard-table-head-sort">
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Applicant</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Days</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Qualification</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Status</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">% Done</button>
+                        </li>
+                    </ol>
+                    <ol class="dashboard-table">
+
+                        {% for applicant in applicantsOverviewApplicantList.complete %}
+                            <li class="dashboard-table-item">
+
+                                <section class="dashboard-table-item-avatar">
+                                    <div class="avatar avatar-xxs t-item-4"><img
+                                                src="{{ asset('public/ui/img/avatar-default.png') }}"
+                                                alt="You"></div>
+                                    <span class="avatar-name">{{ applicant.name }}</span>
+                                </section>
+
+                                <section class="dashboard-table-item-metadata">
+                                    {% for courses in applicant.courses %}
+                                        <div class="qual-item" data-unit-status="{{ courses.color_status }}">
                                             <span class="qual-item-days">{{ courses.days }}</span>
                                             <span class="qual-item-name">{{ courses.course_name }}</span>
                                             <span class="qual-item-status">{{ courses.status }}</span>
@@ -128,9 +182,7 @@
                     <div class="text-right">
                         <a href="#" class="btn btn-link">View All</a>
                     </div>
-
                 </div>
-                <div role="tabpanel" class="tab-pane" id="complete"></div>
             </div>
         </div>
     </div>

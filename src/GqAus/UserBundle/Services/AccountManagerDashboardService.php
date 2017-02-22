@@ -74,34 +74,49 @@ class AccountManagerDashboardService extends CustomRepositoryService
      * @return array
      */
     public function getApplicantsOverviewApplicantList($userId, CoursesService $coursesService)
-    {//echo '<pre>';
+    {
+        $incompleteQualifications = $this->getApplicantsOverviewDetailed('incomplete', $userId);
+        $completeQualifications = $this->getApplicantsOverviewDetailed('complete', $userId);
 
-        $result = [];
+        return [
+            'incomplete' => $this->buildApplicationsOverviewApplicantList($incompleteQualifications, $coursesService),
+            'complete' => $this->buildApplicationsOverviewApplicantList($completeQualifications, $coursesService)
+        ];
+    }
 
-        $queryTop5Users = $this->all('
-            SELECT DISTINCT (user_id) 
-            FROM user_courses 
-            WHERE manager=' . $userId . ' 
-            ORDER BY created_on 
+    /**
+     * @param $filterType
+     * @param $userId
+     *
+     * @return array
+     */
+    private function getApplicantsOverviewDetailed($filterType, $userId)
+    {
+        $filterTypeMap = ['complete' => '>=16', 'incomplete' => '<=15'];
+
+        $qualification = $this->all('
+            SELECT DISTINCT (user_id)
+            FROM user_courses
+            WHERE manager=' . $userId . '
+            AND course_status ' . $filterTypeMap[$filterType] . '
+            ORDER BY created_on
             DESC LIMIT 5
         ');
 
-        if (!count($queryTop5Users)) {
+        if (!count($qualification)) {
             return [];
         }
 
-        $top5Users = implode(',', array_column($queryTop5Users, 'user_id'));
+        $qualificationUserIds = implode(',', array_column($qualification, 'user_id'));
 
-        $qualifications = $this->all('
-                          SELECT u.first_name, u.last_name, uc.user_id, uc.course_code, uc.course_name, uc.created_on, uc.course_status 
-                          FROM user_courses uc 
-                          LEFT JOIN user u 
-                          ON uc.user_id=u.id 
-                          WHERE uc.user_id IN (' . $top5Users . ')
-                      ');
-
-        return $this->buildApplicationsOverviewApplicantList($qualifications, $coursesService);
-
+        return $this->all('
+                  SELECT u.first_name, u.last_name, uc.user_id, uc.course_code, uc.course_name, uc.created_on, uc.course_status 
+                  FROM user_courses uc 
+                  LEFT JOIN user u 
+                  ON uc.user_id=u.id 
+                  WHERE uc.user_id IN (' . $qualificationUserIds . ')
+                  AND uc.course_status ' . $filterTypeMap[$filterType] . '
+        ');
     }
 
     /**
@@ -114,17 +129,42 @@ class AccountManagerDashboardService extends CustomRepositoryService
         $result = [];
 
         foreach ($userCourses as $userCourse) {
+
+            $days = $this->computeDaysBetween($userCourse['created_on']);
+
             $result[$userCourse['user_id']]['courses'][] = [
                 'course_name' => $userCourse['course_name'],
-                'days' => $this->computeDaysBetween($userCourse['created_on']),
+                'days' => $days,
                 'status' => $this->getQualificationStatus($userCourse['course_status']),
-                //'percentage' => $coursesService->getEvidenceByCourse($userCourse['user_id'], $userCourse['course_code'])
-                'percentage' => $coursesService->getEvidenceByCourse($userCourse['user_id'], $userCourse['course_code'])
+                'color_status' => $this->geDaysColorStatus($days),
+                /*'percentage' => $coursesService->getEvidenceByCourse($userCourse['user_id'], $userCourse['course_code'])*/
+                'percentage' => 50
             ];
+
             $result[$userCourse['user_id']]['name'] = $userCourse['first_name'] . ' ' . $userCourse['last_name'];
         }
 
         return $result;
+    }
+
+    /**
+     * @param $days
+     *
+     * @return string
+     */
+    private function geDaysColorStatus($days)
+    {
+        if ($this->getDaysCountRange($days, 0, 30)) {
+            return 'danger';
+        }
+
+        if ($this->getDaysCountRange($days, 31, 120)) {
+            return 'warning';
+        }
+
+        if ($this->getDaysCountRange($days, 121, 180)) {
+            return 'safe';
+        }
     }
 
     /**
