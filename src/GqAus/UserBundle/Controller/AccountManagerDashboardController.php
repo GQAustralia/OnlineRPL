@@ -14,7 +14,7 @@ class AccountManagerDashboardController extends Controller
      */
     public function indexAction(Request $request)
     {
-      //  echo '<pre>';
+       // echo '<pre>';
         $dashboard = $this->get('AccountManagerDashboardService');
         $coursesService = $this->get('CoursesService');
         $sessionUser = $this->get('security.context')->getToken()->getUser();
@@ -25,7 +25,6 @@ class AccountManagerDashboardController extends Controller
         $applicantsOverviewApplicantList = $dashboard->getApplicantsOverviewApplicantList($userId, $coursesService);
         $evidencesForReview = $dashboard->getEvidencesForReviewList();
 
-       // print_r($evidencesForReview); die;
         return $this->render('GqAusUserBundle:AccountManagerDashboard:index.html.twig', [
             'messagesTotal' => $totalUserMessages,
             'user' => $this->getUserInfo(),

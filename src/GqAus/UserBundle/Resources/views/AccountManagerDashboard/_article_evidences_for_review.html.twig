@@ -5,12 +5,12 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#newUploads" aria-controls="incomplete" role="tab" data-toggle="tab">
-                    New uploads <sup class="label label-primary">8</sup>
+                    New uploads <sup class="label label-primary">{{ evidences.lessThan8DaysTotal }}</sup>
                 </a>
             </li>
             <li role="presentation">
                 <a href="#greaterThan7Days" aria-controls="complete" role="tab" data-toggle="tab">
-                    > 7 days <sup class="label label-primary">8</sup>
+                    > 7 days <sup class="label label-primary">{{ evidences.greaterThan7DaysTotal }}</sup>
                 </a>
             </li>
         </ul>

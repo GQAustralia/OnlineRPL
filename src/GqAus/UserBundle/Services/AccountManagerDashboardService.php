@@ -109,9 +109,11 @@ class AccountManagerDashboardService extends CustomRepositoryService
         $evidenceIds = implode(',', array_column($evidenceIds, 'user_id'));
 
         $evidencesLessThan8Days = $this->queryEvidenceForReview($evidenceIds, 7, 0);
-        $evidencesGreaterThan7Days = $this->queryEvidenceForReview($evidenceIds, 30, 8);
+        $evidencesGreaterThan7Days = $this->queryEvidenceForReview($evidenceIds, 180, 8);
 
         return [
+            'lessThan8DaysTotal' => count($evidencesLessThan8Days),
+            'greaterThan7DaysTotal' => count($evidencesGreaterThan7Days),
             'lessThan8Days' => $this->buildEvidencesForReview($evidencesLessThan8Days),
             'greaterThan7Days' => $this->buildEvidencesForReview($evidencesGreaterThan7Days)
         ];
@@ -326,19 +328,26 @@ class AccountManagerDashboardService extends CustomRepositoryService
     public function buildEvidencesForReview($evidences)
     {
         $result = [];
+        $limiter = 0;
 
         foreach ($evidences as $evidence) {
+
+            if ($limiter == 5) {
+                break;
+            }
+
             $fileName = $this->getFileNameFromEvidence($evidence);
 
-            if ($fileName) {
-                $result[$evidence['user_id']]['evidences'][] = [
-                    'file_name' => $fileName,
-                    'unit_code' => $evidence['unit_code'],
-                    'created' => $evidence['created'],
-                ];
+            $result[$evidence['user_id']]['evidences'][] = [
+                'file_name' => $fileName,
+                'unit_code' => $evidence['unit_code'],
+                'created' => $evidence['created'],
+            ];
 
-                $result[$evidence['user_id']]['name'] = $evidence['first_name'] . ' ' . $evidence['last_name'];
-            }
+            $result[$evidence['user_id']]['name'] = $evidence['first_name'] . ' ' . $evidence['last_name'];
+            $result[$evidence['user_id']]['total'] = $evidence['first_name'] . ' ' . $evidence['last_name'];
+
+            $limiter++;
         }
 
         return $result;
