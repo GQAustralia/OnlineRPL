@@ -12,6 +12,10 @@ gqAus.controller('applicantCtrl', function($rootScope, $scope, AjaxService){
 	$scope.currentPage = 1;
 	$scope.paginationLinksArr = [];
 	$scope.applicantListTmp = [];
+	
+	$scope.greeting = 'Hello, World!';
+    $scope.showGreeting = false;
+	
 	$scope.getApplicants = function(tabStatus, srchStr){
 		$scope.loading = false;
 		$scope.applicantlist = [];
@@ -41,13 +45,18 @@ gqAus.controller('applicantCtrl', function($rootScope, $scope, AjaxService){
 			$scope.getApplicants($scope.activeTab);
 		}
 	}
-	
+
 	$scope.resetSearch = function(){
 		$scope.searchApplicant = '';
 	}
-	
+
+	$scope.resetPagination = function(){
+		$scope.currentPage = 1;
+	}
+
 	$scope.focusSearch = function(){
 		$scope.resetSearch();
+		$scope.resetPagination();
 		$('#searchApplicants').focus();
 	}
 
@@ -79,10 +88,8 @@ gqAus.controller('applicantCtrl', function($rootScope, $scope, AjaxService){
 			$scope.currentPage = pageNum;
 		}
 
-		console.log($scope.applicantListTmp);
-		console.log(($scope.currentPage-1)*$scope.itemsPerPage);
 		$scope.applicantlist = $scope.applicantListTmp.slice(($scope.currentPage-1)*$scope.itemsPerPage, ($scope.itemsPerPage+($scope.currentPage-1)*$scope.itemsPerPage));
-		console.log($scope.applicantlist);
+
 		$scope.pageTotalCount = $scope.itemsPerPage * $scope.currentPage;
 		$scope.applicantViewCount = ( $scope.pageTotalCount > $scope.applicantListTmp.length) ? $scope.applicantListTmp.length : (($scope.pageTotalCount <= 0) ? $scope.itemsPerPage : $scope.pageTotalCount);
 		$scope.loading = true;
@@ -103,4 +110,39 @@ gqAus.controller('applicantCtrl', function($rootScope, $scope, AjaxService){
 		}
 		return _.range(linkStartNum, linkEndNum+1);	
 	}
+	
+	
+	$scope.addreminder = function(courseId){
+		var remindDate = '';
+		var remContent = '';
+		remContent = $('#remcontent-'+courseId).val();
+		var today = new Date();
+		remindDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+		if($('#datetodb')){
+			remindDate = $('#datetodb').val();
+		}
+
+		console.log('remContent :: '+remContent);
+		console.log('datetodb :: '+remindDate);
+
+		AjaxService.apiCall("addReminder", {message: remContent, userCourseId: courseId, remindDate: remindDate}).then(function (data) {
+			$scope.showSuccessMessage();
+			return false;
+		}, function (error) {
+			console.log(error);
+		});
+	}
+	
+	$scope.showSuccessMessage = function() {
+       $scope.msg="hi";
+       $scope.showGreeting = true;
+       $timeout(function(){
+          $scope.showGreeting = false;
+       }, 500);
+    };
 });
+
+/* $('body').on('click', '.btn-add-task', function(){
+	console.log('inside');
+}); */
