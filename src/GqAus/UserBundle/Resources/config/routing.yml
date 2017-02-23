@@ -130,6 +130,9 @@ download_assessor_profile:
 messages:
     path:     /messages/{mid}
     defaults: { _controller: GqAusUserBundle:Message:view, mid: null }
+getMessages:
+    path:     /getMessages/{type}
+    defaults: { _controller: GqAusUserBundle:Message:getMessages, type: null }
 compose:
     path:     /compose
     defaults: { _controller: GqAusUserBundle:Message:compose }
@@ -361,3 +364,17 @@ copyEvidences:
 deleteEvidences:
     path: /units/deleteEvidences
     defaults: { _controller: GqAusUserBundle:Evidence:deleteEvidences }
+saveFlagged:
+    path: /saveFlagged
+    defaults: { _controller: GqAusUserBundle:Message:saveFlagged}
+updateMsg:
+    path: /updateMsg
+    defaults: {_controller: GqAusUserBundle:Message:updateMsg}
+viewMsgThread:
+    path: /viewMsgThread/{mid}
+    defaults: {_controller: GqAusUserBundle:Message:viewMsgThread}
+getCoursesByUser:
+    path: /getCoursesByUser
+    defaults: {_controller: GqAusUserBundle:Message:getCoursesByUser}   
+    
+    

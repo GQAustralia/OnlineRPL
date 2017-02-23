@@ -74,13 +74,39 @@ class Message
      */
     private $msgbody;
     
+    
+    /**
+     * @var string
+     */
+    private $flagged;
+    
+    /**
+     * @var string
+     */
+    private $courseCode;
+    
+    /**
+     * @var string
+     */
+    private $new;
+    
+    /**
+     * @var string
+     */
+    private $systemGenerated;
+    
+
+    /**
+     * @var string
+     */
+    private $draft;
+    
     /**
      * Set subject
      *
      * @param string $subject
      * @return Message
      */
-   
             
     public function setSubject($subject)
     {
@@ -315,7 +341,8 @@ class Message
 
         return $this;
     }
-/**
+    
+			/**
      * Get ReplyMid
      *
      * @return integer 
@@ -337,5 +364,121 @@ class Message
 
         return $this;
     }
+				
+    
+    /**
+     * Set flagged
+     *
+     * @param string $flagged
+     * @return Message
+     */
+    public function setFlagged($flagged)
+    {
+    	$this->flagged = $flagged;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get flagged
+     *
+     * @return string
+     */
+    public function getFlagged()
+    {
+    	return $this->flagged;
+    }
+    
+    /**
+     * Set read
+     *
+     * @param string $courseCode
+     * @return Message
+     */
+    public function setCourseCode($courseCode)
+    {
+    	$this->courseCode = $courseCode;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get courseCode
+     *
+     * @return string
+     */
+    public function getCourseCode()
+    {
+    	return $this->courseCode;
+    }
 
+    /**
+     * Set new
+     *
+     * @param string $new
+     * @return Message
+     */
+    public function setNew($new)
+    {
+    	$this->new = $new;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get new
+     *
+     * @return string
+     */
+    public function getNew()
+    {
+    	return $this->new;
+    }
+
+    /**
+     * Set systemGenerated
+     *
+     * @param string $systemGenerated
+     * @return Message
+     */
+    public function setSystemGenerated($systemGenerated)
+    {
+    	$this->systemGenerated = $systemGenerated;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get systemGenerated
+     *
+     * @return string
+     */
+    public function getSystemGenerated()
+    {
+    	return $this->systemGenerated;
+    }
+    
+    /**
+     * Set read
+     *
+     * @param string $read
+     * @return Message
+     */
+    public function setDraft($draft)
+    {
+    	$this->draft = $draft;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get Draft
+     *
+     * @return string
+     */
+    public function getDraft()
+    {
+    	return $this->draft;
+    }
+    
 }

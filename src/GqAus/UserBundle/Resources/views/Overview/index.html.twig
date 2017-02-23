@@ -11,7 +11,7 @@
     {% set userImg = userObj.getUserImage()%}
     {% set userRole = userObj.getRoles() %}
     {% set userId = userObj.getId() %} 
-   
+    {% set userImage = amazon_link~'user-'~userId~'/'~userImage %}
     <main class="main-content-gqa">
         <div class="container container-left-sidebar-main">
             <section class="section-sidebar">

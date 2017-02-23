@@ -19,5 +19,12 @@
             <join-column name="from_user" referenced-column-name="id" />
         </many-to-one>
         <field name="unitID" type="integer" column="unit_id" nullable="true"/>
+        
+        <field name="flagged" type="string" column="is_flagged" length="1" nullable="false"/>
+        <field name="courseCode" type="string" column="course_code" nullable="false"/>
+        <field name="new" type="string" column="is_new" length="1" nullable="false"/>
+        <field name="systemGenerated" type="string" column="is_system_gen" length="1" nullable="false"/>
+        <field name="draft" type="string" column="is_draft" length="1" nullable="false"/>
+        
     </entity>
 </doctrine-mapping>
