@@ -10,10 +10,9 @@
 <link href="{{ asset('public/css/package_rules.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
-    
+    {% set userId = courseDetails.user.getId() %} 
     {% set userObj = app.security.getToken().getUser() %}
     {% set userRole = userObj.getRoles() %}
-    {% set userId = userObj.getId() %} 
     {% set courseCode = courseDetails.courseCode %}
     {% set courseInfo = courses_service.getCourseInfo(courseDetails.courseCode)%}
     {% set remaining = user_service.getDaysRemainingApplicant(userId, courseCode, userRole[0]) %}    

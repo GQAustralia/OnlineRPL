@@ -90,7 +90,7 @@
                                                 <!-- Qualification item -->
                                                 <div class="qual-item" data-unit-status="" ng-repeat="courses in applicant.course">
                                                     <span ng-show="activeTab == 'incomplete'" class="qual-item-days">{[{ courses.leftdays }]}</span>
-                                                    <span class="qual-item-name"><a href="/qualificationDetails/{[{courses.courseCode}]}" target="_blank">{[{ courses.courseName }]}</a></span>
+                                                    <span class="qual-item-name"><a href="/qualificationDetails/{[{courses.courseCode}]}/{[{applicant.userId}]}" target="_blank">{[{ courses.courseName }]}</a></span>
                                                     <span ng-show="activeTab == 'incomplete'" class="qual-item-status">{[{ courses.courseStatus }]}</span>
                                                     <span ng-show="activeTab == 'incomplete'" class="qual-item-progress">{[{ courses.percentage }]}</span>
                                                     <span ng-show="activeTab == 'incomplete'" class="qual-item-action" id="task-{[{ courses.courseId }]}">

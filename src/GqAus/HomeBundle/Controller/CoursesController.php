@@ -18,11 +18,16 @@ class CoursesController extends Controller
      * @param object $request
      * return array
      */
-    public function indexAction($id, $page = 'qualification', Request $request)
+    public function indexAction($id, $userId = '', $page = 'qualification', Request $request)
     {
     	
     	$user = $this->get('security.context')->getToken()->getUser();
+        
     	$userService = $this->get('UserService');
+        if(in_array('ROLE_FACILITATOR', $user->getRoles())){
+            $user = $userService->findUserById($userId);
+        }
+        
     	$checkStatus = $userService->getHaveAccessPage($user->getId(), $user->getId(), $id, $user->getRoles());
     	if(!$checkStatus)
     		return $this->render('GqAusUserBundle:Default:error.html.twig');
@@ -35,6 +40,8 @@ class CoursesController extends Controller
         //$results['electiveUnits'] = $getUnits['courseUnits'];
        // $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
         //$results['evidences'] = $user->getEvidences();
+        
+                
         $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
        /* $form = $this->createForm(new EvidenceForm(), array());
         $results['form'] = $form->createView();
@@ -43,7 +50,9 @@ class CoursesController extends Controller
         $results['statusList'] = $this->get('UserService')->getQualificationStatus();
         $results['qualificationPage'] = $page;
         $results['selectUnit'] = 1;
-//print_r($results['courseDetails']);
+//        echo '<pre>';
+//        dump($results);
+//        exit;
         return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', $results);
     }
 

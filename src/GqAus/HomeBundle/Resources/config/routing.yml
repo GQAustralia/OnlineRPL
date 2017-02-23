@@ -14,8 +14,8 @@ addEvidence:
     path:     /addEvidence
     defaults:  { _controller: GqAusHomeBundle:Courses:addEvidence }
 qualificationDetails:
-    path:     /qualificationDetails/{id}
-    defaults:  { _controller: GqAusHomeBundle:Courses:index }
+    path:     /qualificationDetails/{id}/{userId}
+    defaults:  { _controller: GqAusHomeBundle:Courses:index, userId:null }
 qualificationUnits:
     path:     /qualificationDetails/{id}/{page}
     defaults:  { _controller: GqAusHomeBundle:Courses:index }
