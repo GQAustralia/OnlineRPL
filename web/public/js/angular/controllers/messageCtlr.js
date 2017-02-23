@@ -70,8 +70,8 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
 	            			if (newMsgsArr.length > 0) {
 			            		updateMsg(newMsgsArr, 'new', '0');
 			            		angular.forEach($scope.messages, function(msgObj, key) {
-			                    	if ($scope.messages['msg_'+key].is_new != undefined) {
-			                    		$scope.messages['msg_'+key].is_new = 0;
+			                    	if ($scope.messages[key].is_new != undefined) {
+			                    		$scope.messages[key].is_new = 0;
 			                    	}
 			                	});
 	            			}
