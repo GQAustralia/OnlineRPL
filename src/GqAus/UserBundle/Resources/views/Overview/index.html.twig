@@ -11,13 +11,13 @@
     {% set userImg = userObj.getUserImage()%}
     {% set userRole = userObj.getRoles() %}
     {% set userId = userObj.getId() %} 
-   
+    {% set userImage = amazon_link~'user-'~userId~'/'~userImage %}
     <main class="main-content-gqa">
         <div class="container container-left-sidebar-main">
             <section class="section-sidebar">
                 <div class="panel panel-default">
                     <div class="panel-qualification-heading">
-                        <div class="avatar avatar-xs"><img src="{% if userImg  != '' %} {{userImg}} {%else%} public/images/userprofile.png{%endif%}" alt="You"></div>
+                        <div class="avatar avatar-xs"><img src="{% if userImg  != '' %}{{userImage}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
                         <div class="heading">
                             <span>Welcome back</span>
                             <span>{{ userObj.getUsername() }}</span>

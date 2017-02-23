@@ -567,17 +567,21 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     };  
     
     $scope.initUnitDetailsPage = function(unitCode) {
+    	$scope.IsLoaded = false;
+    	$rootScope.pageTitle = "GQ - Recognition of Prior Learning - Unit Details";
     	$scope.selectedUnit = unitCode;
     	$scope.getUploadDetails();
     	$scope.showUnitUploadById($scope.selectedUnit);
     	$scope.getUnitInfo();
     	getNotes($scope.selectedUnit, $scope.courseCode);
+    	
     }
     
     var getNotes = function(selectedUnit, courseCode) {
     	
     	AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode}).then(function (data) {
     		$scope.notes = data;
+    		$scope.IsLoaded = true;
         }, function (error) {
             console.log(error);
         });
@@ -611,15 +615,15 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
         if (newValues !== '') {
             $scope.IsLoaded = false;
             if (newValues === "qualification") {
-                $rootScope.pageTitle = "GQ - Recognition of Prior Learning Qualification";
+                $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Qualification";
                 $scope.IsLoaded = true;
             } else {
                 if (newValues === "core")
-                    $rootScope.pageTitle = "GQ - Recognition of Prior Learning Core unit";
+                    $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Core unit";
                 if (newValues === "elective")
-                    $rootScope.pageTitle = "GQ - Recognition of Prior Learning Elective unit";
+                    $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Elective unit";
                 if (newValues === '') 
-                	$rootScope.pageTitle = "GQ - Recognition of Prior Learning Unit Details";
+                	$rootScope.pageTitle = "GQ - Recognition of Prior Learning - Unit Details";
                 $scope.getUploadDetails();
                 $scope.closeSelected();
                 ($scope.unitsFetched == false) ? $scope.getUnits() : $scope.IsLoaded = true;

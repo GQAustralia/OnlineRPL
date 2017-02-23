@@ -1,0 +1,148 @@
+<div class="isMobile">
+    <div class="mail-box">
+        <aside class="lg-side">
+            <div class="inbox-head"  ng-hide="viewMsgThread || showComposeMsg">
+                <h3 class="dropdown-toggle" data-toggle="dropdown">{[{msgText}]} <span><i class="zmdi zmdi-caret-down"></i></span></h3>
+                <select ng-model="searchCourseCode" ng-change="getMessages();">
+                    <option value="">Show....</option>
+                    {% for courseArr in coursesList %} 
+                    <option value="{{courseArr.courseCode}}" ng-click="searchCourseCode='{{courseArr.courseCode}}'; getMessages()">{{courseArr.courseName}}</option>
+                    {% endfor %}
+                </select>
+                <div class="sm-side dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <ul class="inbox-nav inbox-divider">
+                        <li> <a href="#" ng-click="msgType = 'all';paginator.currentPage=1;msgText='Inbox';getMessages()"><i class="zmdi zmdi-inbox"></i> Inbox <span class="label label-danger pull-right"ng-hide="unreadCnt <= 0">{[{unreadCnt}]}</span></a>
+                            <ul>
+                                <li><a href="#" ng-repeat="msgSegregationText in messageSegregationArr[role]" ng-click="setMessageType(msgSegregationText);paginator.currentPage=1;getMessages()"> {[{msgSegregationText}]} </a></li>
+                            </ul>
+                        </li>
+                        <li> <a href="#" ng-click="msgType = 'sent';msgText='Sent';paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-mail-send"></i> Sent </a> </li>
+                        <li> <a href="#" ng-click="msgType = 'draft';msgText='Drafts';paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-star"></i> Drafts </a> </li>
+                        <li> <a href="#" ng-click="msgType = 'flagged';msgText='Flagged';paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-bookmark"></i> Flagged </a> </li>
+                        <li> <a href="#" ng-click="unreadMsgs()"><i class="zmdi zmdi-bookmark"></i> Mars as unread </a> </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="inbox-body"   ng-hide="viewMsgThread || showComposeMsg">
+                <div class="mail-option">
+                    <div class="btn-group">
+                        <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="#" class="btn mini tooltips" ng-click="paginator.currentPage=1;getMessages()"> <i class="zmdi zmdi-refresh"></i> </a>
+                    </div>
+                    <div class="btn-group hidden-phone"> <a data-toggle="dropdown" href="#" class="btn mini blue" aria-expanded="false">More
+                            <i class="zmdi zmdi-chevron-down "></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" ng-click="unreadMsgs()"><i class="zmdi zmdi-edit"></i> Mark as Unread</a></li>
+                            <li><a href="#" ng-click="flaggMultipleMsgs()"><i class="zmdi zmdi-star"></i> Flag</a></li>
+                        </ul>
+                    </div>
+                    <ul class="unstyled inbox-pagination">
+                        <li><span>{[{paginator.display}]}</span></li>
+                        <li> <a class="np-btn" href="#" ng-disabled="paginator.currentPage == 1" ng-click="prev();"><i class="zmdi zmdi-chevron-left pagination-left"></i></a> </li>
+                        <li> <a class="np-btn" href="#" ng-disabled="paginator.currentPage == paginator.totalPages" ng-click="next();"><i class="zmdi zmdi-chevron-right pagination-right"></i></a> </li>
+                    </ul>
+                </div>
+                <div class="table table-inbox">
+                    <div ng-hide="IsLoaded"> Loading.... </div>
+                    <div class="table-row" ng-class="{'unread': msg.read != 0}"  ng-repeat="msg in messages">
+                        <div class="aside mail-avatar" ng-init="amazon_link='{{amazon_link}}'; userImage = msg.msgFrm.userImage != ''?amazon_link+'user-'+msg.msgFrm.id+'/'+msg.msgFrm.userImage:'../public/images/userprofile.png'">
+                            <div class="avatar-xxs" ng-click="displayMsg(msg.id, msg.read);"> <img ng-src="{[{ userImage }]}" alt="{[{ msg.msgFrm.name }]}"> </div>
+                            <div class="select-item">
+                                <input type="checkbox" name="inboxList" value="selectListItem" ng-click="selectMsg(msg.id);">
+                            </div>
+                            <div class="avatar-details">
+                                <span class="avatar-name" ng-click="displayMsg(msg.id, msg.read);"> {[{ msg.msgFrm.name }]}
+                                    <span class="avatar-designation">{[{ msg.msgFrm.role }]}</span>
+                                </span>
+                                <span class="date-time" ng-click="displayMsg(msg.id, msg.read);">
+                                    <span class="date-stamp">{[{msg.created.date}]}</span>
+                                    <span class="time-stamp">{[{msg.created.time}]}</span>
+                                </span>
+                                <div class="view-message">
+                                    <p class="mail-subject" ng-click="displayMsg(msg.id, msg.read);">{[{msg.subject}]}</p>
+                                    <i class="zmdi zmdi-star" ng-class="{'flagged': msg.flagged == 1}" ng-click="flaggMsg(msg.id, msg.flagged);"></i>
+                                    <p class="message-copy" ng-click="displayMsg(msg.id, msg.read);">{[{msg.stippedMessage}]}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="composer" ng-click="showComposeMsg=true"><i class="zmdi zmdi-edit"></i></div>
+                </div>
+            </div>
+            <section class="message-thread" ng-hide="!viewMsgThread || showComposeMsg">
+                <div class="inbox-head"> <span class="mobi-back" ng-click="viewMsgThread=false;replyMsg='';"><i class="zmdi zmdi-chevron-left"></i> Back </span></div>
+                <article class="message-thread-header">
+                    {[{messageThread.viewMsg.subject}]}
+                    <i class="zmdi zmdi-mail-reply" ng-hide="hideReplyButton" ng-click="hideReplyButton = true"></i>
+                    <i class="zmdi zmdi-star" ng-class="{'flagged': messageThread.viewMsg.flagged == 1}"></i>
+                </article>
+                <section class="message-compose" id="MobimsgReply" ng-hide="!hideReplyButton">
+                    <div class="form-group">
+                        <label for="recipient">Recipient</label>
+                        <input type="text" id="recipient" class="form-control" placeholder="To Whom are you sending this to ?"  disabled value="{[{ messageThread.viewMsg.msgFrm.name }]}">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" class="form-control" placeholder="{[{messageThread.viewMsg.subject}]}" list="subject" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="course">Optional</label>
+                        <input type="text" id="course" class="form-control" placeholder="e.g Course name and ID" list="optional">
+                        <datalist id="optional">
+                            <option ng-repeat="userCourse in messageThread.userCourses" value="{[{userCourse.courseName}]} ({[{userCourse.courseCode}]})"></option>
+                        </datalist>
+                        <textarea cols="30" rows="6" class="form-control" ng-model="replyMsg" placeholder="Type your message here..." style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;"></textarea>
+                    </div>
+                    <div class="btn-auto-group">
+                        <button type="button" class="btn btn-primary btn-sm"  ng-click="viewMsgThread=false;replyMsg='';"> <i class="zmdi zmdi-delete"></i> Discard </button>
+                        <button type="button" class="btn btn-primary btn-info btn-sm" ng-click="saveMsg('draft')"> <i class="zmdi zmdi-floppy"></i> Save as draft </button>
+                        <button type="button" class="btn btn-primary btn-success btn-sm" ng-click="saveMsg('reply')"> <i class="zmdi zmdi-mail-send"></i> Send </button>
+                    </div>
+                </section>
+                <div class="message-thread-container">
+                    <div class="message-thread-item" ng-repeat="msgThread in messageThread">
+                        <div class="message-avatar avatar avatar-xxs" ng-init="amazon_link='{{amazon_link}}';userImage = msg.msgFrm.userImage != ''?amazon_link+'user-'+msgThread.msgFrm.id+'/'+msgThread.msgFrm.userImage:'../public/images/userprofile.png'">
+                            <img ng-src="{[{ userImage }]}" alt="{[{ msgThread.msgFrm.name }]}">
+                        </div>
+                        <div class="message-post">
+                            <strong class="message-avatar-name">{[{ msgThread.msgFrm.name }]} <small class="text-muted">{[{ msgThread.msgFrm.role }]}</small></strong>
+                            <small class="message-stamp">{[{msgThread.created.date}]}</small>
+                            <p class="message-text"  ng-bind-html="msgThread.message"></p>
+                        </div>
+                    </div>                  
+                </div>
+            </section>
+            <section class="message-thread compose-message" ng-hide="!showComposeMsg">
+                <div class="inbox-head">
+                    <h3>New Message</h3></div>
+                <section class="message-compose" id="MobimsgReply">
+                    <div class="form-group">
+                        <label for="recipient">Recipient</label>
+                        <input type="text" id="recipient" class="form-control" ng-model="newMsg.userName" placeholder="To Whom are you sending this to ?" list="names"> </div>
+                        <datalist id="names" >
+                            {% for username in to_users %}
+                            {% set roleArr = username[0].getRoles()[0] | split('_') %}
+                            <option  data-id="{{username[0].getId()}}" data-role="{{roleArr[1]}}" value="{{username[1]}}">{{roleArr[1]}}</option>
+                            {% endfor %}
+                        </datalist>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" class="form-control" ng-model="newMsg.subject" placeholder="e.g Portfolio Update : FNS40615 : Certificate IV in Horticulture" list="subject" > </div>
+                    <div class="form-group">
+                        <label for="newMsgCourse">Optional</label>
+                        <input type="text" id="newMsgCourse" class="form-control" ng-model="newMsg.courseCode" placeholder="e.g Course name and ID" list="newMsgOptionalCourse">
+                        <datalist id="newMsgOptionalCourse">
+                            <option ng-repeat="course in newMsgCourseObj" value="{[{course.courseCode}]}">{[{course.courseName}]}</option>
+                        </datalist>
+                        <textarea cols="30" rows="6" class="form-control" ng-model="newMsg.message" placeholder="Type your message here..." style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;"></textarea>
+                    </div>
+                    <div class="btn-auto-group">
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="showComposeMsg=false;newMsg={};viewMsgThread=false;"> <i class="zmdi zmdi-delete"></i> Discard </button>
+                        <button type="button" class="btn btn-primary btn-info btn-sm" ng-click="saveMsg('draft')"> <i class="zmdi zmdi-floppy"></i> Save as draft </button>
+                        <button type="button" class="btn btn-primary btn-success btn-sm" ng-click="saveMsg('new')"> <i class="zmdi zmdi-mail-send"></i> Send </button>
+                    </div>
+                </section>
+            </section>
+        </aside>
+    </div>
+</div>
