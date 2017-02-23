@@ -503,7 +503,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     };
     
     $scope.openUnitDetails = function() {
-    	window.open('/qualification/unitDetails/'+ $scope.selectedUnit+'/'+$scope.courseCode); 
+    	window.open('/qualification/unitDetails/'+ $scope.selectedUnit+'/'+$scope.courseCode+'/'+$scope.applicantId); 
     };
     
     $scope.showUnitUploadById = function (id) {
@@ -571,12 +571,12 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     	$scope.getUploadDetails();
     	$scope.showUnitUploadById($scope.selectedUnit);
     	$scope.getUnitInfo();
-    	getNotes($scope.selectedUnit, $scope.courseCode);
+    	getNotes($scope.selectedUnit, $scope.courseCode, $scope.applicantId);
     }
     
-    var getNotes = function(selectedUnit, courseCode) {
+    var getNotes = function(selectedUnit, courseCode, applicantId) {
     	
-    	AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode}).then(function (data) {
+    	AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "userId": $scope.applicantId}).then(function (data) {
     		$scope.notes = data;
         }, function (error) {
             console.log(error);

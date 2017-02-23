@@ -65,8 +65,8 @@ getEvidencesByUnit:
     path: /units/getEvidencesByUnit
     defaults: { _controller: GqAusHomeBundle:Courses:getEvidencesByUnit }
 unitDetails:
-    path: /qualification/unitDetails/{unitCode}/{courseCode}
-    defaults: {_controller: GqAusHomeBundle:Courses:getCourseUnitDetails}
+    path: /qualification/unitDetails/{unitCode}/{courseCode}/{userId}
+    defaults: {_controller: GqAusHomeBundle:Courses:getCourseUnitDetails, userId:null}
 getUnitInfo:
     path: /qualification/getUnitInfo
     defaults: {_controller: GqAusHomeBundle:Courses:getUnitInfo}
