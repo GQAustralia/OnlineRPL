@@ -73,15 +73,9 @@
                                     </button>
                                     <div class="dropdown-menu pull-right">
                                         <div class="btn-group btn-group-vertical progress-summary" data-toggle="buttons">
-                                            <label class="progress-summary-item btn btn-default" for="sortByDate">
-                                                <span ng-click="sortBy('created')" id="sortByDate">By Date Uploaded</span>
-                                            </label>
-                                            <label class="progress-summary-item btn btn-default" for="sortByFileFormat">
-                                                <span ng-click="sortBy('type')" id="sortByDate">File format</span>
-                                            </label>
-                                            <label class="progress-summary-item btn btn-default" for="sortByName">
-                                                <input type="radio" ng-click="sortBy('name')" id="sortByName">Filename
-                                            </label>
+                        <label class="progress-summary-item btn btn-default" for="sortByDate"><span ng-click="sortBy('created')" id="sortByDate">By Date Uploaded</span></label>
+                        <label class="progress-summary-item btn btn-default" for="sortByForm"><span ng-click="sortBy('type')" id="sortByFile">File format</span></label>
+                        <label class="progress-summary-item btn btn-default" for="sortByName"><span ng-click="sortBy('name')" id="sortByFileName">Filename</span></label>
                                         </div>
                                     </div>
                                 </div>
