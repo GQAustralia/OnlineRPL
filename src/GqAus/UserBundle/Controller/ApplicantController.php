@@ -230,6 +230,8 @@ class ApplicantController extends Controller
 			$leftDaysList = explode('&&',$applicant->leftdays);
 			$applicantsArray[$applicant->getUser()->getId()]['firstName'] =  $applicant->getUser()->getFirstName();
 			$applicantsArray[$applicant->getUser()->getId()]['lastName'] =  $applicant->getUser()->getLastName();
+			$applicantsArray[$applicant->getUser()->getId()]['userImage'] =  $applicant->getUser()->getUserImage();			
+			$applicantsArray[$applicant->getUser()->getId()]['userId'] =  $applicant->getUser()->getId();			
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseCode'] = $applicant->getCourseCode();
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseName'] = $applicant->getCourseName();
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseStatus'] = $qualificationStatus[$applicant->getCourseStatus()]['status'];

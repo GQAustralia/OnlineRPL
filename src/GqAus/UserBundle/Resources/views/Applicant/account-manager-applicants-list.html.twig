@@ -81,14 +81,16 @@
                                         <!-- Applicant item -->
                                         <li class="dashboard-table-item" ng-repeat="applicant in applicantlist">
                                             <section class="dashboard-table-item-avatar">
-                                                <div class="avatar avatar-xxs t-item-4"><img src="public/ui/img/avatar-default.png" alt="You"></div>
+                                                <div class="avatar avatar-xxs t-item-4">
+													<img ng-src="{[{ applicant.userImage  != '' && '{{amazon_link}}user-'+applicant.userId+'/'+applicant.userImage || 'public/ui/img/avatar-default.png'}]}" alt="{[{ applicant.firstName }]} {[{ applicant.lastName }]}">
+												</div>
                                                 <span class="avatar-name ng-cloak">{[{ applicant.firstName }]} {[{ applicant.lastName }]} </span>
                                             </section>
                                             <section class="dashboard-table-item-metadata">
                                                 <!-- Qualification item -->
                                                 <div class="qual-item" data-unit-status="" ng-repeat="courses in applicant.course">
                                                     <span ng-show="activeTab == 'incomplete'" class="qual-item-days">{[{ courses.leftdays }]}</span>
-                                                    <span class="qual-item-name">{[{ courses.courseName }]}</span>
+                                                    <span class="qual-item-name"><a href="/qualificationDetails/{[{courses.courseCode}]}" target="_blank">{[{ courses.courseName }]}</a></span>
                                                     <span ng-show="activeTab == 'incomplete'" class="qual-item-status">{[{ courses.courseStatus }]}</span>
                                                     <span ng-show="activeTab == 'incomplete'" class="qual-item-progress">{[{ courses.percentage }]}</span>
                                                     <span ng-show="activeTab == 'incomplete'" class="qual-item-action" id="task-{[{ courses.courseId }]}">
