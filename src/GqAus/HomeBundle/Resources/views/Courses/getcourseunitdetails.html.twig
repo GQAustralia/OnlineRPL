@@ -18,6 +18,7 @@
         {% set facilitatorImg = '../../../public/ui/img/avatar-default.png' %}
     {% endif %}
     <main class="main-content-gqa">
+        
         <div class="container">
             <div class="panel panel-default panel-qual-heading">
                 <div class="panel-heading-img" style="background-image: url({{ courseInfo.bannerImg|default('') }})">
@@ -56,6 +57,7 @@
                 </div>
             </section>
             <section class="section-main">
+                <div class="container" ng-hide="IsLoaded"> Loading.... </div>
                 <div class="panel panel-default panel-upload-evidence">
                     <div class="panel-body">
                         <div class="panel-accordion" role="tablist" aria-multiselectable="false">
