@@ -138,7 +138,6 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
         $('#evidenceFilter').modal('hide');
     }    
     $scope.sortBy = function(propertyName) {
-        console.log(propertyName);
         $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
         $scope.propertyName = propertyName;
     };
