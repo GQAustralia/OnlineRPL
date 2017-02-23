@@ -3,13 +3,13 @@
 namespace GqAus\UserBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use GqAus\UserBundle\Resolvers\ItComputeDaysLeft;
+use GqAus\UserBundle\Resolvers\ItComputeDays;
 use GqAus\UserBundle\Resolvers\ItReturnsQualificationStatusMessage;
 use GqAus\HomeBundle\Services\CoursesService;
 
 class AccountManagerDashboardService extends CustomRepositoryService
 {
-    use ItComputeDaysLeft, ItReturnsQualificationStatusMessage;
+    use ItComputeDays, ItReturnsQualificationStatusMessage;
 
     CONST QUALIFICATION_COMPLETE_STATUS = 16;
 
@@ -114,34 +114,17 @@ class AccountManagerDashboardService extends CustomRepositoryService
      */
     public function getRemindersList($userId)
     {
-        $dueSoonList = $this->getReminders($userId, 'dueSoon');
-        $toDoList = $this->getReminders($userId, 'toDoList');
+        $overdue = $this->getReminders($userId, 'overdue');
+        $dueToday = $this->getReminders($userId, 'dueToday');
+        $doneDueToday = $this->getReminders($userId, 'doneDueToday');
+        $dueSoon = $this->getReminders($userId, 'dueSoon');
 
         return [
-            'dueSoon' => $dueSoonList,
-            'toDoList' => $toDoList
+            'overdue' => $this->buildReminder($overdue),
+            'dueToday' => $this->buildReminder($dueToday),
+            'doneDueToday' => $this->buildReminder($doneDueToday),
+            'dueSoon' => $this->buildReminder($dueSoon)
         ];
-    }
-
-    /**
-     * @param $userId
-     * @param $listType
-     *
-     * @return array
-     */
-    private function getReminders($userId, $listType)
-    {
-        $condition = [
-            'dueSoon' => '>',
-            'toDoList' => '<='
-        ];
-
-        return $this->all('
-            SELECT id, date AS due_date, message FROM reminder
-            WHERE completed = 0
-            AND user_id = ' . $userId . '
-            AND date ' . $condition[$listType] . '  NOW()
-        ');
     }
 
     /**
@@ -284,16 +267,6 @@ class AccountManagerDashboardService extends CustomRepositoryService
         return $result;
     }
 
-    private function getAvatar($userId, $imageName)
-    {
-        if (!$imageName) {
-            return '/public/ui/img/avatar-default.png';
-        }
-        $amazonLink = 'https://s3-ap-southeast-2.amazonaws.com/onlinerplevidences/user-';
-
-        return $amazonLink . $userId . '/' . $imageName;
-    }
-
     /**
      * @param $days
      *
@@ -410,5 +383,62 @@ class AccountManagerDashboardService extends CustomRepositoryService
         }
 
         return '';
+    }
+
+    /**
+     * @param $userId
+     * @param $listType
+     *
+     * @todo needs to reconstruct logic
+     * @return array
+     */
+    private function getReminders($userId, $listType)
+    {
+        $isCompleteQuery = ' AND completed = 0';
+
+        if ($listType == 'dueToday') {
+            $condition = ' AND date BETWEEN "' . date('Y-m-d' . ' 00:00:00') . '" AND "' . date('Y-m-d' . ' 23:59:59') . '"';
+            return $this->getRemindersQuery($userId, $isCompleteQuery, $condition);
+        }
+
+        if ($listType == 'doneDueToday') {
+            $isCompleteQuery = ' AND completed = 1';
+            $condition = ' AND date BETWEEN "' . date('Y-m-d' . ' 00:00:00') . '" AND "' . date('Y-m-d' . ' 23:59:59') . '"';
+            return $this->getRemindersQuery($userId, $isCompleteQuery, $condition);
+        }
+
+        if ($listType == 'overdue') {
+            $condition = ' AND date < CURDATE()';
+            return $this->getRemindersQuery($userId, $isCompleteQuery, $condition);
+        }
+
+        if ($listType == 'dueSoon') {
+            $condition = ' AND date > "' . date('Y-m-d' . ' 23:59:59') . '"';
+            return $this->getRemindersQuery($userId, $isCompleteQuery, $condition);
+        }
+
+
+    }
+
+    private function getRemindersQuery($userId, $isCompleteQuery, $condition)
+    {
+        return $this->all('
+            SELECT id, date AS due_date, message FROM reminder
+            WHERE user_id = ' . $userId . $isCompleteQuery . $condition . '
+        ');
+    }
+
+    private function buildReminder($reminders = [])
+    {
+        $result = array_map(function ($reminder) {
+            return [
+                'id' => $reminder['id'],
+                'due_date' => $reminder['due_date'],
+                'message' => $reminder['message'],
+                'days_due' => $this->computeDaysDifference($reminder['due_date'])
+            ];
+        }, $reminders);
+
+        return $result;
     }
 }

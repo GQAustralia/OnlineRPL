@@ -35,26 +35,41 @@
                     <span data-target="#dueToday" aria-controls="dueToday" role="tab" data-toggle="tab">Due today <i
                                 class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
                     <ul class="list-group">
-                        <li class="list-group-item" data-status="done">
-                            <strong>Subject here</strong> &ndash;
-                            <span>This is the summary that is very very long</span>
-                            <small>Eric de Felix - Diploma of Awesomeness</small>
-                            <span class="overdue text-danger">5 days overdue</span>
-                        </li>
+
+                        {% for over in reminders.overdue %}
+                            <li class="list-group-item" data-status="overdue">
+                                <span>{{ over.message }}</span>
+                                <span class="overdue text-danger">{{ over.days_due }} days overdue</span>
+                            </li>
+                        {% endfor %}
+
+                        {% for dueToday in reminders.dueToday %}
+                            <li class="list-group-item" data-status="overdue">
+                                <span>{{ dueToday.message }}</span>
+                                <span class="overdue text-success">{{ dueToday.days_due }} days overdue</span>
+                            </li>
+                        {% endfor %}
+
+                        {% for doneDueToday in reminders.doneDueToday %}
+                            <li class="list-group-item" data-status="done">
+                                <strong>Subject here</strong> &ndash;
+                                <span>This is the summary that is very very long</span>
+                                <small>{{ doneDueToday.message }}</small>
+                                <span class="overdue text-danger">{{ doneDueToday.days_due }} days overdue</span>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </li>
                 <li role="presentation">
                     <span data-target="#dueSoon" aria-controls="dueSoon" role="tab" data-toggle="tab">Due soon <i
                                 class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
                     <ul class="list-group">
-                        <li class="list-group-item" data-status="pending">
-                            <strong>Subject here</strong> &ndash;
-                            <span>This is the summary that is very very long</span>
-                        </li>
-                        <li class="list-group-item" data-status="overdue">
-                            <strong>Subject here</strong> &ndash;
-                            <span>This is the summary that is very very long</span>
-                        </li>
+                        {% for dueSoon in reminders.dueSoon %}
+                            <li class="list-group-item" data-status="pending">
+                                <span>{{ dueSoon.message }}</span>
+                                <span class="overdue text-info">{{ dueSoon.days_due }} days before due</span>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </li>
             </ul>
