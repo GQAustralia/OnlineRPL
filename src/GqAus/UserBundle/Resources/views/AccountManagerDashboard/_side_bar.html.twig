@@ -1,10 +1,16 @@
 <section class="section-sidebar">
     <div class="panel panel-default">
         <div class="panel-qualification-heading">
-            <div class="avatar avatar-xs"><img src="{{ asset('public/ui/img/avatar-default.png') }}" alt="You"></div>
+            <div class="avatar avatar-xs">
+                <img src="{% if user.avatar  != '' %}
+                                        {{ amazon_link~'user-'~user.id~'/'~user.avatar }}
+                                        {% else %}
+                                            {{ asset('public/ui/img/avatar-default.png') }}
+                                        {% endif %}" alt="You">
+            </div>
             <div class="heading">
                 <span>Welcome back</span>
-                <span>Person with a Long Name</span>
+                <span>{{ user.firstName }} {{ user.lastName }}</span>
             </div>
         </div>
 

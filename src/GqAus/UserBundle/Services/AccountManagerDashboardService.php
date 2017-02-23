@@ -3,13 +3,13 @@
 namespace GqAus\UserBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use GqAus\UserBundle\Resolvers\ItComputeDaysDifference;
+use GqAus\UserBundle\Resolvers\ItComputeDaysLeft;
 use GqAus\UserBundle\Resolvers\ItReturnsQualificationStatusMessage;
 use GqAus\HomeBundle\Services\CoursesService;
 
 class AccountManagerDashboardService extends CustomRepositoryService
 {
-    use ItComputeDaysDifference, ItReturnsQualificationStatusMessage;
+    use ItComputeDaysLeft, ItReturnsQualificationStatusMessage;
 
     CONST QUALIFICATION_COMPLETE_STATUS = 16;
 
@@ -96,20 +96,8 @@ class AccountManagerDashboardService extends CustomRepositoryService
      */
     public function getEvidencesForReviewList()
     {
-        $evidenceIds = $this->all('
-            SELECT DISTINCT user_id 
-            FROM evidence 
-            ORDER BY created DESC limit 5
-        ');
-
-        if (!count($evidenceIds)) {
-            return [];
-        }
-
-        $evidenceIds = implode(',', array_column($evidenceIds, 'user_id'));
-
-        $evidencesLessThan8Days = $this->queryEvidenceForReview($evidenceIds, 7, 0);
-        $evidencesGreaterThan7Days = $this->queryEvidenceForReview($evidenceIds, 180, 8);
+        $evidencesLessThan8Days = $this->queryEvidenceForReview(7, 0);
+        $evidencesGreaterThan7Days = $this->queryEvidenceForReview(180, 8);
 
         return [
             'lessThan8DaysTotal' => count($evidencesLessThan8Days),
@@ -117,6 +105,43 @@ class AccountManagerDashboardService extends CustomRepositoryService
             'lessThan8Days' => $this->buildEvidencesForReview($evidencesLessThan8Days),
             'greaterThan7Days' => $this->buildEvidencesForReview($evidencesGreaterThan7Days)
         ];
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return array
+     */
+    public function getRemindersList($userId)
+    {
+        $dueSoonList = $this->getReminders($userId, 'dueSoon');
+        $toDoList = $this->getReminders($userId, 'toDoList');
+
+        return [
+            'dueSoon' => $dueSoonList,
+            'toDoList' => $toDoList
+        ];
+    }
+
+    /**
+     * @param $userId
+     * @param $listType
+     *
+     * @return array
+     */
+    private function getReminders($userId, $listType)
+    {
+        $condition = [
+            'dueSoon' => '>',
+            'toDoList' => '<='
+        ];
+
+        return $this->all('
+            SELECT id, date AS due_date, message FROM reminder
+            WHERE completed = 0
+            AND user_id = ' . $userId . '
+            AND date ' . $condition[$listType] . '  NOW()
+        ');
     }
 
     /**
@@ -134,6 +159,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
             '_121_150_' => ['total' => 0, 'min' => 121, 'max' => 150],
             '_151_180_' => ['total' => 0, 'min' => 151, 'max' => 180]
         ];
+
         $incompleteQualificationCount = 0;
         $completeQualificationCount = 0;
 
@@ -144,7 +170,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
                 : $incompleteQualificationCount++;
 
             foreach ($qualificationsDaysRangeCount as $key => $value) {
-                $totalDays = $this->computeDaysBetween($userCourse->getCreatedOn());
+                $totalDays = $this->computeDaysLeft($userCourse->getCreatedOn());
 
                 if ($this->getDaysCountRange($totalDays, $value['min'], $value['max'])) {
                     $qualificationsDaysRangeCount[$key]['total']++;
@@ -208,28 +234,23 @@ class AccountManagerDashboardService extends CustomRepositoryService
     {
         $filterTypeMap = ['complete' => '>=16', 'incomplete' => '<=15'];
 
-        $qualification = $this->all('
-            SELECT DISTINCT (user_id)
-            FROM user_courses
-            WHERE manager=' . $userId . '
-            AND course_status ' . $filterTypeMap[$filterType] . '
-            ORDER BY created_on
-            DESC LIMIT 5
-        ');
-
-        if (!count($qualification)) {
-            return [];
-        }
-
-        $qualificationUserIds = implode(',', array_column($qualification, 'user_id'));
-
         return $this->all('
-                  SELECT u.first_name, u.last_name, uc.user_id, uc.course_code, uc.course_name, uc.created_on, uc.course_status 
-                  FROM user_courses uc 
-                  LEFT JOIN user u 
-                  ON uc.user_id=u.id 
-                  WHERE uc.user_id IN (' . $qualificationUserIds . ')
-                  AND uc.course_status ' . $filterTypeMap[$filterType] . '
+                  SELECT 
+                      u.id as user_id,
+                      u.first_name,
+                      u.last_name,
+                      u.user_img,
+                      uc.user_id,
+                      uc.course_code,
+                      uc.course_name,
+                      uc.created_on,
+                      uc.course_status
+                  FROM user_courses uc
+                  LEFT JOIN user u ON uc.user_id=u.id
+                  WHERE uc.course_status ' . $filterTypeMap[$filterType] . '
+                  AND manager=' . $userId . '
+                  ORDER BY uc.created_on ASC
+                  LIMIT 10
         ');
     }
 
@@ -244,21 +265,33 @@ class AccountManagerDashboardService extends CustomRepositoryService
 
         foreach ($userCourses as $userCourse) {
 
-            $days = $this->computeDaysBetween($userCourse['created_on']);
+            $days = $this->computeDaysLeft($userCourse['created_on']);
 
-            $result[$userCourse['user_id']]['courses'][] = [
-                'course_name' => $userCourse['course_name'],
+            $result[] = [
+                'name' => $userCourse['first_name'] . ' ' . $userCourse['last_name'],
+                'avatar' => $userCourse['user_img'],
                 'days' => $days,
+                'course_name' => $userCourse['course_name'],
+                'course_code' => $userCourse['course_code'],
                 'status' => $this->getQualificationStatus($userCourse['course_status']),
-                'color_status' => $this->geDaysColorStatus($days),
+                'percentage' => 50,
                 /*'percentage' => $coursesService->getEvidenceByCourse($userCourse['user_id'], $userCourse['course_code'])*/
-                'percentage' => 50
-            ];
+                'color_status' => $this->geDaysColorStatus($days),
 
-            $result[$userCourse['user_id']]['name'] = $userCourse['first_name'] . ' ' . $userCourse['last_name'];
+            ];
         }
 
         return $result;
+    }
+
+    private function getAvatar($userId, $imageName)
+    {
+        if (!$imageName) {
+            return '/public/ui/img/avatar-default.png';
+        }
+        $amazonLink = 'https://s3-ap-southeast-2.amazonaws.com/onlinerplevidences/user-';
+
+        return $amazonLink . $userId . '/' . $imageName;
     }
 
     /**
@@ -282,18 +315,20 @@ class AccountManagerDashboardService extends CustomRepositoryService
     }
 
     /**
-     * @param $evidenceIds
      * @param $from
      * @param $to
      *
      * @return array
      */
-    private function queryEvidenceForReview($evidenceIds, $from, $to)
+    private function queryEvidenceForReview($from, $to)
     {
         return $this->all('
-                    SELECT e.user_id, 
+                    SELECT 
+                        e.id,
+                        e.user_id, 
                         usr.first_name, 
-                        usr.last_name, 
+                        usr.last_name,
+                        usr.user_img,
                         e.type,
                         e.unit_code,
                         e.created,
@@ -313,11 +348,10 @@ class AccountManagerDashboardService extends CustomRepositoryService
                     LEFT JOIN evidence_text text ON e.id=text.id
                     LEFT JOIN evidence_video video ON e.id=video.id
                     LEFT JOIN user usr ON usr.id=e.user_id
-                    WHERE user_id IN(' . $evidenceIds . ')
-                    AND e.facilitator_view_status="0"
+                    WHERE e.facilitator_view_status="0"
                     AND e.created BETWEEN NOW() - INTERVAL ' . $from . ' DAY AND NOW() - INTERVAL ' . $to . ' DAY
+                    ORDER BY e.created ASC
         ');
-
     }
 
     /**
@@ -332,20 +366,19 @@ class AccountManagerDashboardService extends CustomRepositoryService
 
         foreach ($evidences as $evidence) {
 
-            if ($limiter == 5) {
+            if ($limiter == 10) {
                 break;
             }
 
             $fileName = $this->getFileNameFromEvidence($evidence);
 
-            $result[$evidence['user_id']]['evidences'][] = [
+            $result[] = [
+                'avatar' => $evidence['user_img'],
                 'file_name' => $fileName,
                 'unit_code' => $evidence['unit_code'],
                 'created' => $evidence['created'],
+                'name' => $evidence['first_name'] . ' ' . $evidence['last_name']
             ];
-
-            $result[$evidence['user_id']]['name'] = $evidence['first_name'] . ' ' . $evidence['last_name'];
-            $result[$evidence['user_id']]['total'] = $evidence['first_name'] . ' ' . $evidence['last_name'];
 
             $limiter++;
         }

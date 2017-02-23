@@ -14,7 +14,7 @@ class AccountManagerDashboardController extends Controller
      */
     public function indexAction(Request $request)
     {
-       // echo '<pre>';
+        echo '<pre>';
         $dashboard = $this->get('AccountManagerDashboardService');
         $coursesService = $this->get('CoursesService');
         $sessionUser = $this->get('security.context')->getToken()->getUser();
@@ -24,13 +24,15 @@ class AccountManagerDashboardController extends Controller
         $qualificationRangeCounter = $dashboard->getApplicantsOverviewQualificationStatusTotals($userId);
         $applicantsOverviewApplicantList = $dashboard->getApplicantsOverviewApplicantList($userId, $coursesService);
         $evidencesForReview = $dashboard->getEvidencesForReviewList();
+        $remindersList = $dashboard->getRemindersList($userId);
 
         return $this->render('GqAusUserBundle:AccountManagerDashboard:index.html.twig', [
             'messagesTotal' => $totalUserMessages,
             'user' => $this->getUserInfo(),
             'appOverviewCount' => $qualificationRangeCounter,
             'applicantsOverviewApplicantList' => $applicantsOverviewApplicantList,
-            'evidences' => $evidencesForReview
+            'evidences' => $evidencesForReview,
+            'reminders' => $remindersList
         ]);
     }
 
@@ -44,6 +46,7 @@ class AccountManagerDashboardController extends Controller
         return [
             'id' => $user->getId(),
             'firstName' => $user->getFirstName(),
+            'lastName' => $user->getLastName(),
             'avatar' => $user->getUserImage()
         ];
     }

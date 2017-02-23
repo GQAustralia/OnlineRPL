@@ -42,16 +42,21 @@
                             <li class="dashboard-table-item">
                                 <section class="dashboard-table-item-avatar">
                                     <div class="avatar avatar-xxs t-item-4"><img
-                                                src="ui/img/avatar-default.png" alt="You"></div>
+                                                src="
+                                        {% if user.avatar  != '' %}
+                                            {{ amazon_link~'user-'~user.id~'/'~user.avatar }}
+                                        {% else %}
+                                            {{ asset('public/ui/img/avatar-default.png') }}
+                                        {% endif %}" alt="You">
+                                    </div>
                                     <span class="avatar-name">{{ evidence.name }}</span>
                                 </section>
                                 <section class="dashboard-table-item-metadata">
-                                    {% for evidence in evidence.evidences %}
-                                        <div class="qual-item" data-unit-status="warning">
-                                            <span class="qual-item-status">{{ evidence.file_name }}</span>
-                                            <span class="qual-item-name">{{ evidence.unit_code }}</span>
-                                            <span class="qual-item-status">{{ evidence.created }}</span>
-                                            <span class="qual-item-action">
+                                    <div class="qual-item" data-unit-status="warning">
+                                        <span class="qual-item-status">{{ evidence.file_name }}</span>
+                                        <span class="qual-item-name">{{ evidence.unit_code }}</span>
+                                        <span class="qual-item-status">{{ evidence.created }}</span>
+                                        <span class="qual-item-action">
                                             <button type="button"
                                                     class="btn btn-xs btn-transparent"
                                                     data-placement="left"
@@ -59,8 +64,7 @@
                                                     <i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i>
                                             </button>
                                         </span>
-                                        </div>
-                                    {% endfor %}
+                                    </div>
                                 </section>
                             </li>
                         {% endfor %}
@@ -94,17 +98,22 @@
                             <li class="dashboard-table-item">
                                 <section class="dashboard-table-item-avatar">
                                     <div class="avatar avatar-xxs t-item-4"><img
-                                                src="ui/img/avatar-default.png" alt="You"></div>
+                                                src="
+                                        {% if user.avatar  != '' %}
+                                            {{ amazon_link~'user-'~user.id~'/'~user.avatar }}
+                                        {% else %}
+                                            {{ asset('public/ui/img/avatar-default.png') }}
+                                        {% endif %}" alt="You">
+                                    </div>
                                     <span class="avatar-name">{{ evidence.name }}</span>
                                 </section>
                                 <section class="dashboard-table-item-metadata">
 
-                                    {% for evidence in evidence.evidences %}
-                                        <div class="qual-item" data-unit-status="warning">
-                                            <span class="qual-item-status">{{ evidence.file_name }}</span>
-                                            <span class="qual-item-name">{{ evidence.unit_code }}</span>
-                                            <span class="qual-item-status">{{ evidence.created }}</span>
-                                            <span class="qual-item-action">
+                                    <div class="qual-item" data-unit-status="warning">
+                                        <span class="qual-item-status">{{ evidence.file_name }}</span>
+                                        <span class="qual-item-name">{{ evidence.unit_code }}</span>
+                                        <span class="qual-item-status">{{ evidence.created }}</span>
+                                        <span class="qual-item-action">
                                             <button type="button"
                                                     class="btn btn-xs btn-transparent"
                                                     data-placement="left"
@@ -112,8 +121,7 @@
                                                     <i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i>
                                             </button>
                                         </span>
-                                        </div>
-                                    {% endfor %}
+                                    </div>
 
                                 </section>
                             </li>

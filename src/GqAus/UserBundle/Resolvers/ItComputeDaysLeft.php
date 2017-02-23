@@ -4,7 +4,7 @@ namespace GqAus\UserBundle\Resolvers;
 
 use DateTime;
 
-trait ItComputeDaysDifference
+trait ItComputeDaysLeft
 {
     /**
      * @param string $dateFrom
@@ -12,7 +12,7 @@ trait ItComputeDaysDifference
      *
      * @return string
      */
-    public function computeDaysBetween($dateFrom, $dateTo = null)
+    public function computeDaysLeft($dateFrom, $dateTo = null)
     {
         if (is_null($dateTo)) {
             $dateTo = date('Y-m-d');
@@ -23,6 +23,12 @@ trait ItComputeDaysDifference
 
         $interval = $startDate->diff($endDate);
 
-        return $interval->format('%a');
+        $days = ($interval->format('%a')) - 180;
+
+        if ($days < 0) {
+            return $days * -1;
+        }
+
+        return $days;
     }
 }
