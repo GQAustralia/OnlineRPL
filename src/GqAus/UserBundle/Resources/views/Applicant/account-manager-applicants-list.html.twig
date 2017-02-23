@@ -35,7 +35,7 @@
                     <div role="tabpanel">
                         <!-- Tab panes -->
                         <div class="tab-content">
-
+							<span ng-show="showSuccessMessage">{[{msg}]}</span>
                             <div role="tabpanel" class="tab-pane active">
 
                                 <div class="clearfix" style="margin-bottom: 60px;">
@@ -72,10 +72,10 @@
                                 <div class="clearfix" ng-if="loading">
                                     <ol class="dashboard-table-head-sort hidden-xs">
                                         <li><button type="button" class="btn btn-transparent btn-xs btn-block">Applicant <i class="caret"></i></button></li>
-                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Days <i class="caret"></i></button></li>
+                                        <li ng-show="activeTab == 'incomplete'"><button type="button" class="btn btn-transparent btn-xs btn-block">Days <i class="caret"></i></button></li>
                                         <li><button type="button" class="btn btn-transparent btn-xs btn-block">Qualification <i class="caret"></i></button></li>
-                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Status <i class="caret"></i></button></li>
-                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">% Done <i class="caret"></i></button></li>
+                                        <li ng-show="activeTab == 'incomplete'"><button type="button" class="btn btn-transparent btn-xs btn-block">Status <i class="caret"></i></button></li>
+                                        <li ng-show="activeTab == 'incomplete'"><button type="button" class="btn btn-transparent btn-xs btn-block">% Done <i class="caret"></i></button></li>
                                     </ol>
                                     <ol class="dashboard-table">
                                         <!-- Applicant item -->
@@ -87,11 +87,11 @@
                                             <section class="dashboard-table-item-metadata">
                                                 <!-- Qualification item -->
                                                 <div class="qual-item" data-unit-status="" ng-repeat="courses in applicant.course">
-                                                    <span class="qual-item-days">{[{ courses.leftdays }]}</span>
+                                                    <span ng-show="activeTab == 'incomplete'" class="qual-item-days">{[{ courses.leftdays }]}</span>
                                                     <span class="qual-item-name">{[{ courses.courseName }]}</span>
-                                                    <span class="qual-item-status">{[{ courses.courseStatus }]}</span>
-                                                    <span class="qual-item-progress">{[{ courses.percentage }]}</span>
-                                                    <span class="qual-item-action" id="task-{[{ courses.courseId }]}">
+                                                    <span ng-show="activeTab == 'incomplete'" class="qual-item-status">{[{ courses.courseStatus }]}</span>
+                                                    <span ng-show="activeTab == 'incomplete'" class="qual-item-progress">{[{ courses.percentage }]}</span>
+                                                    <span ng-show="activeTab == 'incomplete'" class="qual-item-action" id="task-{[{ courses.courseId }]}">
                                                         <button type="button" class="btn btn-xs btn-transparent" id="{[{courses.courseId}]}" data-placement="left" datepicker ng-model="datepicker" data-toggle="popover">
 															<i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i>
 														</button>
