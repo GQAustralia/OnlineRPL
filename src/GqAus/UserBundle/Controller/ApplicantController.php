@@ -235,6 +235,7 @@ class ApplicantController extends Controller
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseCode'] = $applicant->getCourseCode();
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseName'] = $applicant->getCourseName();
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseStatus'] = $qualificationStatus[$applicant->getCourseStatus()]['status'];
+			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseStatusId'] = $applicant->getCourseStatus();
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['leftdays'] = $leftDaysList['0'];
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['percentage'] = $applicant->percentage;
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseId'] = $applicant->getId();

@@ -141,8 +141,80 @@ gqAus.controller('applicantCtrl', function($rootScope, $scope, AjaxService){
           $scope.showGreeting = false;
        }, 500);
     };
-});
 
-/* $('body').on('click', '.btn-add-task', function(){
-	console.log('inside');
-}); */
+	$scope.sortApplicants = function(soryBy){
+
+		$scope.currentPage = 1;
+		var applicantData = [];
+		var list = '';
+
+		angular.forEach($scope.applicantListTmp, function(filterObj , filterIndex) {
+			
+			angular.forEach(filterObj.course, function(courseObj, courseKey) {
+
+				var applicant = {};
+				applicant.firstName = filterObj.firstName;
+				applicant.lastName = filterObj.lastName;
+				applicant.userImage = filterObj.userImage;
+				applicant.userId = filterObj.userId;
+				applicant.courseCode = courseObj.courseCode;
+				applicant.courseName = courseObj.courseName;
+				applicant.courseStatus = courseObj.courseStatus;
+				applicant.courseStatusId = courseObj.courseStatusId;
+				applicant.leftdays = courseObj.leftdays;
+				applicant.percentage = courseObj.percentage;
+				applicant.percent = courseObj.percentage.replace('%','');
+				applicant.courseId = courseObj.courseId;
+				applicant.course = {courseKey: courseObj};
+				applicantData.push(applicant);
+			})
+		})
+
+		$scope.currentSortTab = soryBy;
+		switch(soryBy)
+		{
+			case 'applicant':
+				list = _.sortBy(applicantData, function(o) {
+					return o.firstName.toLowerCase();
+				});
+				$scope.orderBy = ($scope.appSort == undefined ) ? $scope.appSort = 'ASC' : ($scope.appSort == 'ASC') ? $scope.appSort = 'DESC' : ($scope.appSort == 'DESC') ? $scope.appSort = 'ASC' : $scope.appSort = 'ASC';
+				break;
+
+			case 'days':
+				list = _.sortBy(applicantData, function(o) {
+					return parseInt(o.leftdays, 10);
+				});
+				$scope.orderBy = ($scope.daysSort == undefined ) ? $scope.daysSort = 'ASC' : ($scope.daysSort == 'ASC') ? $scope.daysSort = 'DESC' : ($scope.daysSort == 'DESC') ? $scope.daysSort = 'ASC' : $scope.daysSort = 'ASC';
+				break;
+
+			case 'qual':
+				list = _.sortBy(applicantData, function(o) {
+					return o.courseName.toLowerCase();
+				});
+				$scope.orderBy = ($scope.qualSort == undefined ) ? $scope.qualSort = 'ASC' : ($scope.qualSort == 'ASC') ? $scope.qualSort = 'DESC' : ($scope.qualSort == 'DESC') ? $scope.qualSort = 'ASC' : $scope.qualSort = 'ASC';
+				break;
+
+			case 'status':
+				list = _.sortBy(applicantData, function(o) {
+					return parseInt(o.courseStatusId, 10);
+				});
+				$scope.orderBy = ($scope.statSort == undefined ) ? $scope.statSort = 'ASC' : ($scope.statSort == 'ASC') ? $scope.statSort = 'DESC' : ($scope.statSort == 'DESC') ? $scope.statSort = 'ASC' : $scope.statSort = 'ASC';
+				break;
+
+			case 'percent':
+				list = _.sortBy(applicantData, function(o) {
+					return parseInt(o.percent, 10);
+				});
+				$scope.orderBy = ($scope.perSort == undefined ) ? $scope.perSort = 'ASC' : ($scope.perSort == 'ASC') ? $scope.perSort = 'DESC' : ($scope.perSort == 'DESC') ? $scope.perSort = 'ASC' : $scope.perSort = 'ASC';
+				break;
+		}
+
+		if($scope.orderBy == 'DESC'){
+			list = list.reverse();
+		}
+
+		$scope.applicantListTmp = list;
+		$scope.showPaginatedList();
+		$scope.paginationLinksArr = range();
+	}
+});
