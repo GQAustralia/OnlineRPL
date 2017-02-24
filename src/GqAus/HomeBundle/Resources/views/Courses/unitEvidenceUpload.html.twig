@@ -134,6 +134,11 @@
                             
                                 <div id="collapseManagerNotes" class="panel-collapse collapse in collapsed">
                                     <div class="panel-collapse-inner">
+       
+                                        <div class="clearfix modal-body text-center" ng-if="notes.length === null">
+                                            <i class="zmdi zmdi-hc-2x zmdi-book"></i>
+                                            <h4>No notes found.</h4>
+                                        </div>
                                         <section class="message-thread">
                                             <div class="message-thread-item" ng-repeat="note in notes">
                                                 <div class="message-avatar avatar avatar-xxs"><img src="{{facilitatorImg}}" alt="You"></div>

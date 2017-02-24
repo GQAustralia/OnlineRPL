@@ -1,159 +1,156 @@
-{% extends 'revamp_base.html.twig' %}
+{% extends 'base.html.twig' %}
 {% block title %}GQ - RPL Applicant Lists{% endblock %}
-{% block ngApp %} ng-app="gqAus" {% endblock%}
-{% block ngController %} ng-controller="applicantCtrl"  id="applicantCtrl" {% endblock%}
 {% block stylesheets %}
-	
+    {% set userRole = app.security.getToken().getUser().getRoles() %}
+    <link rel="stylesheet" href="{{ asset('public/css/timepicker.css') }}" />
+    {% if ('ROLE_MANAGER' not in userRole[0]) and ('ROLE_SUPERADMIN' not in userRole[0]) %}
+        <link rel="stylesheet" href="{{ asset('public/css/pages/all/portfolio.css') }}">  
+    {% else %}
+         <link rel="stylesheet" href="{{ asset('public/css/pages/all/manager_portfolio.css') }}">      
+    {% endif %}
 {% endblock %}
 {% block body %}
 {% set userRole = app.security.getToken().getUser().getRoles() %}
  <!-- Larg Screens HTML Start -->        
-
-    <main class="main-content-gqa">
-        <div class="container">
-            <article class="panel panel-default panel-dashboard panel-listing">
-                <div class="panel-heading panel-tab-bg">
-                    <h2 class="qual-title"><i class="zmdi zmdi-accounts"></i> Applicants Overview</h2>
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active">
-                            <a href="#incomplete" ng-click="getApplicants('1')" aria-controls="incomplete" role="tab" data-toggle="tab">Incomplete</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#complete" ng-click="getApplicants('0')" aria-controls="complete" role="tab" data-toggle="tab">Complete</a>
-                        </li>
-
-                        <li class="panel-evidence-search">
-                            <div class="input-group-search">
-                                <input type="text" class="form-control" placeholder="Search qualification or applicant...">
-                                <i class="zmdi zmdi-search zmdi-hc-2x icon"></i>
-                            </div>                    
-                        </li>
-                    </ul>
+<section class="portfolio-container currentnew" id="currentnew">
+    <div class="container">
+	<div id="err_msg"></div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading clearfix">
+                            <h4 class="panel-title">
+                                <span>Portfolios </span><span class="count" > {% if pendingApplicantsCount > 0 %}({{pendingApplicantsCount}}){% endif %} </span>
+                            </h4>
+                        </div>
+                    </div>                
                 </div>
-                <div class="panel-body">
-                    <div role="tabpanel">
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active">
-
-                                <div class="clearfix" style="margin-bottom: 60px;">
-                                    <div class="panel-listing-count">
-                                        <span class="text-muted text-uppercase">Viewing <strong>20</strong> of <strong>150</strong> applicants</span>
-                                    </div>
-                                    <div class="all-applicants-legend">
-                                        <div class="progress-container">
-											<p><strong class="text-muted text-uppercase">Filter by number of days left</strong></p>
-                                            <div class="progress progress-legend">
-                                                <div class="progress-bar progress-bar-danger" role="progressbar" data-days="0-30" style="width:16.66666%">
-                                                    <strong class="progress-inline-legend"><i>{{ thirtyDaysApplicantsCount }}</i> <br> 0-30</strong>
-                                                </div>
-                                                <div class="progress-bar progress-bar-warning" role="progressbar" data-days="31-60" style="width:16.66666%">
-                                                    <strong class="progress-inline-legend"><i>{{ sixtyDaysApplicantsCount }}</i> <br> 31-60</strong>
-                                                </div>
-                                                <div class="progress-bar progress-bar-warning" role="progressbar" data-days="61-90" style="width:16.66666%">
-                                                    <strong class="progress-inline-legend"><i>{{ ninetyDaysApplicantsCount }}</i> <br> 61-90</strong>
-                                                </div>
-                                                <div class="progress-bar progress-bar-warning" role="progressbar" data-days="91-120" style="width:16.66666%">
-                                                    <strong class="progress-inline-legend"><i>{{ oneTwentyDayRecordsCount }}</i> <br> 91-120</strong>
-                                                </div>
-                                                <div class="progress-bar progress-bar-success" role="progressbar" data-days="121-150" style="width:16.66666%">
-                                                    <strong class="progress-inline-legend"><i>{{ oneFiftyDayRecordsCount }}</i> <br> 121-150</strong>
-                                                </div>
-                                                <div class="progress-bar progress-bar-success" role="progressbar" data-days="151-180" style="width:16.66666%">
-                                                    <strong class="progress-inline-legend"><i>{{ oneEightyDayRecordsCount }}</i> <br> 151-180</strong>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="clearfix">
-                                    <ol class="dashboard-table-head-sort hidden-xs">
-                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Applicant <i class="caret"></i></button></li>
-                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Days <i class="caret"></i></button></li>
-                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Qualification <i class="caret"></i></button></li>
-                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Status <i class="caret"></i></button></li>
-                                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">% Done <i class="caret"></i></button></li>
-                                    </ol>
-                                    <ol class="dashboard-table">
-                                        <!-- Applicant item -->
-                                        <li class="dashboard-table-item" ng-repeat="applicant in applicantlist">
-                                            <section class="dashboard-table-item-avatar">
-                                                <div class="avatar avatar-xxs t-item-4"><img src="public/ui/img/avatar-default.png" alt="You"></div>
-                                                <span class="avatar-name ng-cloak">{[{ applicant.firstName }]} {[{ applicant.lastName }]} </span>
-                                            </section>
-                                            <section class="dashboard-table-item-metadata">
-                                                <!-- Qualification item -->
-                                                <div class="qual-item" data-unit-status="warning" ng-repeat="courses in applicant.course">
-                                                    <span class="qual-item-days">{[{ courses.leftdays }]}</span>
-                                                    <span class="qual-item-name">{[{ courses.courseName }]}</span>
-                                                    <span class="qual-item-status">{[{ courses.courseStatus }]}</span>
-                                                    <span class="qual-item-progress">100%</span>
-                                                    <span class="qual-item-action">
-                                                        <button type="button" class="btn btn-xs btn-transparent" data-placement="left" data-toggle="popover"><i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i></button>
-                                                    </span>
-                                                </div>
-                                                <!-- Qualification item -->
-
-                                            </section>
-                                        </li> 
-                                        <!-- Applicant item -->
-                                    </ol>
-                                </div>
-                                <div class="clearfix text-center">
-                                    <ul class="pagination">
-                                        <li><a href="#"><i class="zmdi zmdi-chevron-left zmdi-hc-lg"></i></a></li>
-                                        <li class="active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li><a href="#"><i class="zmdi zmdi-chevron-right zmdi-hc-lg"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
+            </div>
+            {% if ('ROLE_MANAGER' not in userRole) and ('ROLE_SUPERADMIN' not in userRole) %}
+                <div class="col-md-12 col-lg-12">
+                    <div class="portfolio-filter clearfix">
+                        <div class="filter gq-app-search-grid"> 
+                            <input type="text" value="" id="search-current" placeholder="Search" class="search_box search sort"  data-sort="firstName,lastName,phone,email,qualification,status,address,suburb,pincode,state"> 
+                            <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search" style="display: none;"/>     
+                        </div>
+                        {% if ('ROLE_FACILITATOR' in userRole) %}
+                        <div class="days-list">
+                            <label for="">Days : </label>
+                            <select id="searchAge" name="searchAge">
+                                <option value="">--Select--</option>
+                                <option value="1"> 0 - 30 </option>
+                                <option value="2"> 31 - 60 </option>
+                                <option value="3"> 61 - 90 </option>
+                                <option value="4"> &gt;90 </option>
+                            </select>
+                        </div>
+                        {%else%}
+                        <div class="days-list">&nbsp;</div>
+                        {%endif%}
+                        <div class="gq-dashboard-tabs-header wid20p">
+                            <ul role="tablist" id="myTab">
+                                <li role="presentation" id="applicantPending11" class="status active"><a href="/applicants">CURRENT</a></li>
+                                <li role="presentation" id="applicantCompleted" class="status"><a href="#completed" aria-controls="completed" role="tab" data-toggle="tab" >COMPLETED</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </article>
-        </div>
-    </main>
+            {% else %}
+                <div class="col-lg-12">
+                    <div class="form-inline portfolio-filter">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-3">
+                                  <input type="text" value="" name="searchName" id="searchName" class="search-box" placeholder="Search"/>
+                            </div>
+                            {#<div class="col-sm-12 col-lg-3">
+                               <label for="">Filter By</label>
+                               <select name="filterByUser" id="filterByUser" class="form-control">
+                                    <option value="">Assessor/Account Manager</option>
+                                {% for key, user in users %}
+                                    <option value="{{user.id}}">{% if user.roletype == 2 %} Account Manager {% else %} Assessor {% endif %} : {{user.username}}</option>
+                                {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-lg-5">
+                                <label for="">Select Status</label>
+                                <select name="filterByStatus" id="filterByStatus" class="form-control">
+                                    <option value="">Qualification Status</option>
+                                    {% for key, status in qualificationStatus %}
+                                        <option value="{{key}}">{{status["status"]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-lg-1">
+                                <button id="searchFilter" class="btn btn_red gq-reports-filter-btn">Filter</button>
+                            </div>#}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-lg-12">
+                <div class="tab-content">
+                    <div id="ajaxHtml" style="display:none;" {% if ('ROLE_SUPERADMIN' in userRole) %} tdcolspan="3" tdrtocolspan="3" {% else %} tdcolspan="6" tdrtocolspan="6" {% endif %}>
+                        <img src="{{ asset('public/images')}}/loading.gif" class="img"/>
+                    </div>
+                    <div class="tab-pane active" role="tabpanel" id="current">
+                        <div class="portfolio-data-table">                                
+                            <table class="table" id="myTable">
+                                {% include 'GqAusUserBundle:Applicant:applicantsFilters.html.twig' %}
+                                <tbody class="list" id="currentList">
+                                    {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                </tbody>				
+                                {% if paginator.count > 1%}
+                                    <tfooter>
+                                        <tr>
+                                            {% if ('ROLE_MANAGER' in userRole[0]) or ('ROLE_SUPERADMIN' in userRole[0]) %}
+                                            {% else %}
+                                                {% if applicantList is defined %}
+                                                    <td colspan="6" class="gq-pagination-area">
+                                                        {{ include('GqAusUserBundle:Paginator:paginator_navigator.html.twig', {'paginator' : paginator}) }}
+                                                    </td>
+                                                {% endif %}
+                                            {% endif %}
+                                        </tr>
+                                    </tfooter>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>			
+                    <div role="tabpanel" class="tab-pane" id="completed">
+                        <div class="portfolio-data-table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20%"><span class="">NAME</span></th>
+                                        <th><span class="">QUALIFICATION</span></th> 
+                                    </tr>
+                                </thead>
+                                <tbody class="list" id="completedList">                                
+                                        {% include 'GqAusUserBundle:Applicant:applicants.html.twig' %}
+                                </tbody>  
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 			
+    </div>
+</section>
+        
+<!-- Larg Screens HTML End -->
 
-
+        
 {% endblock %}
-{% block javascripts %}
-    <!-- App -->
-    <!-- Online Enrolment only -->
-    <script src="{{ asset('public/ui/js/plugins/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('public/ui/js/rpl-online-enrolment.js') }}"></script>
-    <!--Phone Number Flag Plugin-->
-
-    <!--Country select with States Plugin-->
+ 
+{% block javascripts %} 
+   <script type="text/javascript" src="{{ asset('public/js/list.min.js') }}"></script>
+   <script type="text/javascript">
+       options = {
+        valueNames: [ 'firstName','qualification', 'evidence','daysleft','status','email','address','suburb','pincode','state','phone']
+        };
+        currentList = new List('currentnew', options);
+   </script>
+{% endblock %}
+   
     
-    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
-    <script src = "{{ asset('public/ui/js/plugins/countries.js') }}"></script>
-    <script src="{{ asset('public/ui/js/plugins/intlTelInput.js') }}"></script>
-    <script src="{{ asset('public/ui/js/plugins/utils.js') }}"></script>
-    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
-    <!-- Bootstrap Datepicker -->
-    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
-    <script src="{{ asset('public/ui/js/plugins/bootstrap-datetimepicker.js') }}"></script>
-
-    <!-- places library for maps api -->
-
-    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
-    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
-    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
-    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
-    <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
-    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
-    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
-
-    <script src="{{ asset('public/js/angular/app.js') }}"></script>
-    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
-    <script src="{{ asset('public/js/angular/directives/enrollDirectives.js') }}"></script>
-    <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
-    <script src="{{ asset('public/js/angular/controllers/enrollmentCtlr.js') }}"></script>
-    <script src="{{ asset('public/js/angular/controllers/applicantCtrl.js') }}"></script>
-{% endblock %}

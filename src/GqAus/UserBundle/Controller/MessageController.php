@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use GqAus\UserBundle\Form\ComposeMessageForm;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 use \DateTime;
 
 class MessageController extends Controller
@@ -18,175 +20,249 @@ class MessageController extends Controller
     public function viewAction(Request $request, $mid=null)
     {
         
-        $messageService = $this->get('UserService');
-        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
-        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $userid = $messageService->getCurrentUser()->getId();        
-        $page = $this->get('request')->query->get('page', 1);
-        $result = $messageService->getMyInboxMessages($userid, $page);      
-        $result['unreadcount'] = $messageService->getUnreadMessagesCount($userid);       
-        $now = new DateTime('now');
-        $result['today'] = $now->format('Y-m-d');
-        // removing caching
-        $response = new Response( );
-        $response->headers->set("Cache-Control", "no-store");
-        $response->headers->set("Pragma", "no-cache");
-        $response->headers->set("Expires", "-1");
-        $response->send();
-        $newmid = $mid;
-        $result['curuser'] = $userid;
-        /*View Message Code -- msgcode*/
-        if(isset($mid) && $mid!="")
-        {
-            $messageService = $this->get('UserService');
-            $unreadcount = $messageService->getUnreadMessagesCount($userid);
-            // getting the last route to check whether it is coming from inbox or sent ot tash
-            //look for the referer route
-            //For reply mails thread
-            $replyId = $this->getRequest()->get('reply_id');
-            if($mid != 'compose' && $mid != 'usernamesbyRoles'){
-                
-                $checkStatus = $messageService->getMessagesAccessPage($loggedinUserId, $mid);
-                if($checkStatus == 0)
-                    return $this->render('GqAusUserBundle:Default:error.html.twig');
-            }
-            if(($mid !="compose" && $mid !="usernamesbyRoles")  ||  $replyId != "") {
-               if($replyId != "") {
-                    $newmid = $mid;
-                    $mid = $replyId;
-                }
-                $messageService->setReadViewStatus($mid);
-                $referer = $this->getRequest()->headers->get('referer');
-                $path = $this->container->getParameter('applicationUrl');
-                $lastPath = str_replace($path, '', $referer); 
-                if ($lastPath != '') {                    
-                    $lastPath = explode('/', $lastPath);
-                    // updating the readstatus if it is from inbox
-                    if ($lastPath[0] == 'messages') {
-                        $messageService->setReadViewStatus($mid);
-                    }
-                }
-                $messages = $messageService->getReplyMessages($mid); 
-                $replymsgarr = array();
-                $i = 0;
-                foreach($messages as $message) {
-                    $msgUser = $message->getSent()->getId(); // from user
-                    $touser = $message->getInbox()->getId(); // to user
-                    $toStatus = $message->getToStatus();
-                    $fromStatus = $message->getFromStatus(); 
-                    $created = $message->getCreated(); 
-                    if ($userid == $msgUser) {
-                        $userName = $message->getInbox()->getUserName();
-                        $from = ' from me';
-                        if ($userid == $message->getInbox()->getId()) {
-                            $from = ' to me';
-                        }
-                    } else {
-                        $userName = $message->getSent()->getUserName();
-                        $from = ' to me';
-                    }
-                    $content = nl2br($message->getMessage());
-                    $fromUser = $messageService->getRequestUser($msgUser); 
-                    $toUser = $messageService->getRequestUser($touser);
-                    $replymsgarr[$i]['userImage'] = $fromUser->getUserImage();
-                    $replymsgarr[$i]['fromUserImage'] = $fromUser->getUserImage();
-                    $replymsgarr[$i]['toUserImage'] = $toUser->getUserImage();
-                    $replymsgarr[$i]['toUserId'] = $toUser->getId();
-                    $replymsgarr[$i]['fromUserId'] = $fromUser->getId();
-                    $replymsgarr[$i]['fromUserName'] = $fromUser->getUserName();               
-                    if($replymsgarr[$i]['fromUserImage'] == "" || $replymsgarr[$i]['toUserImage'] == "")
-                    {
-                        $replymsgarr[$i]['fromUserImage'] = "no-image.png";
-                        $replymsgarr[$i]['toUserImage'] = "no-image.png";
-                    }
-                    $replymsgarr[$i]['unreadcount'] = $unreadcount;
-                    $replymsgarr[$i]['message'] = $message;
-                    $replymsgarr[$i]['content'] = $content;
-                    $replymsgarr[$i]['userName'] = $userName;
-                    $replymsgarr[$i]['from'] = $from;
-                    $replymsgarr[$i]['created'] = $created;                    
-                    $i++;
-                }
-                $result['toUserVal']=$toUser->getId();
-                $result['msgID'] = $mid;
-                $result['replymsgarr'] = $replymsgarr;                
-                if($replyId == "")
-                    return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
-            }
-            //to new message
-            if($newmid == "compose") {
-                   
-                $replyId = $this->getRequest()->get('reply_id');
-                //if replyid is there 
-                if ($replyId) {
-
-                    $message = $messageService->getMessage($replyId);
-                    $newDateCreated = date('d/m/Y', strtotime($message->getCreated()));
-                    $repSub = "Re: " . $message->getSubject();
-                    if ($messageService->getCurrentUser()->getId() != $message->getSent()->getId()) {
-                        $repuser = $message->getSent()->getEmail();
-                        $repUserName = $message->getSent()->getUsername();
-                    } else {
-                        $repuser = $message->getInbox()->getEmail();
-                        $repUserName = $message->getInbox()->getUsername();
-                    }
-                    $unitId = '';
-                    if ($message->getUnitID() != '' || $message->getUnitID() > 0) {
-                        $unitId = $message->getUnitID();
-                    }
-                    $fromUser = $messageService->getRequestUser($message->getSent()->getId());  
-                    $toUser = $messageService->getRequestUser($message->getInbox()->getId()); 
-                    $result['userImage'] = $fromUser->getUserImage();
-                    $result['toUserImage'] = $toUser->getUserImage();
-                    $result['created'] = $message->getCreated();
-                    $result['msgType'] = 'reply';
-                    $result['user'] = $repuser;
-                    $result['userName'] = $repUserName;
-                    $result['unitId'] = $unitId;
-                    $result['sub'] = $repSub;
-                    $result['replymid'] = $replyId;                   
-                }
-                else {
-                    //For new amessages
-                    $result['replymid'] = "";
-                    $result['msgType'] = "new";
-                }                
-                $composeform = $this->createForm(new ComposeMessageForm(), array());
-                $result['composemsgForm'] = $composeform->createView(); 
-                $composeformMobile = $this->createForm(new ComposeMessageForm(), array());
-                $result['composeformMobile'] = $composeformMobile->createView(); 
-                
-                return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
-            }
-            //to show Role against users suggest box
-            if($newmid == "usernamesbyRoles") {
-                $messageService = $this->get('UserService');
-                $userrole = $messageService->getCurrentUser()->getRoles();
-                $msgUserId = $messageService->getCurrentUser()->getId();
-                $term = strtolower($_GET["term"]);
-                $results = array();
-                $rows = $messageService->getUsernamesbyRoles(array('keyword' => $term),$userrole[0],$msgUserId);               
-                $json_array = array();                
-                if (is_array($rows))
-                {
-                    foreach ($rows as $row)
-                    {
-                        array_push($json_array, $row[1]);
-                    }
-                }               
-                echo json_encode($json_array);
-                exit;
-            }
-        }
-        else
-        {
-            $result['msgType'] = "";
-            return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
-        }
-        /*View Message*/
-        
+    				$result = array();
+    				$user = $this->get('security.context')->getToken()->getUser();
+    				$userRole = $user->getRoles();
+    				$result['role'] = $userRole[0];
+    				
+    				$userService = $this->get('UserService');
+    				$result['to_users'] = $userService->getUsernamesbyRoles(array(), $userRole[0], $user->getId());
+    				$loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+    				$loggedinUserRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+    				$result['coursesList'] = $userService->getUserCoursesByIDAndRole($loggedinUserId, $loggedinUserRole[0]);
+    				
+        /*View Message */
+        return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
     }
 
+    /**
+     * Function viewMsgThread to retrive the message thread based on message id
+     * @param unknown $mid
+     */
+    public function viewMsgThreadAction($mid) {
+    			
+    				
+    				$userService = $this->get('UserService');
+    				$viewMsgobj['messages'][] = $userService->em->getRepository('GqAusUserBundle:Message')->find($mid);
+    				
+    				$messages['messages'] = $userService->getReplyMessages($mid);
+    				$messageThread = $this->messageObjectToArray($messages);
+    				$messageThread['view_message'] = $this->messageObjectToArray($viewMsgobj);
+    				$loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+    				$courseDetails = $userService->getUserCourses($loggedinUserId);
+    				$messageThread['userCourses'] = $this->courseObjToArray($courseDetails);
+    				return new JsonResponse($messageThread);
+    }
+    
+    public function getCoursesByUserAction() {
+    	
+    				$userService = $this->get('UserService');
+			    	$content = $this->get("request")->getContent();
+			    	$params = json_decode($content, true); // 2nd param to get as array
+			    	$toUser = $params['userId'];
+			    	$toUserRole = $params['toUserRole'];
+			    	$loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+			    	$loggedinUserRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+			    	$courseDetails['courses'] = $userService->getUserCoursesByIDAndRole($loggedinUserId, $loggedinUserRole[0], $toUser, $toUserRole);
+
+			    	return new JsonResponse($courseDetails);
+    }
+    
+    /**
+     * 
+     * @param Object $courseDetails
+     * @return Array:couses
+     */
+    private function courseObjToArray($courseDetails) {
+    				$coursesArr = [];
+    				foreach ($courseDetails as $course) {
+    								$courseArr = [];
+    								$courseArr['courseCode'] = $course->getCourseCode();
+    								$courseArr['courseName'] = $course->getCourseName();
+    								array_push($coursesArr,$courseArr);
+    				}
+    				return $coursesArr;
+    }
+    
+    /**
+     * Function to retrieve all messages based on type
+     * @param object $request
+     * return string
+     */
+    public function getMessagesAction(Request $request)
+    {
+    				$result = [];
+			    	$userService = $this->get('UserService');
+			    	$loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+			    	$userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+			    	$userid = $userService->getCurrentUser()->getId();
+			    	
+			    	$content = $this->get("request")->getContent();
+			    	$params = json_decode($content, true); // 2nd param to get as array
+			    	$type = strtolower($params['type']);
+			    	$page = $params['page'];
+			    	$searchCourseCode = $params['searchCourseCode'];
+			    	$unreadcount = 0;
+			    	
+			    	switch (strtolower($type)){
+							    	case 'all':
+										    		$results = $userService->getMyInboxMessages($userid, $page, $searchCourseCode);
+										    		$unreadcount = $userService->getUnreadMessagesCount($userid);
+																break;
+							    	case 'sent':
+							    					$results = $userService->getMySentMessages($userid, $page, $searchCourseCode);
+							    					break;
+							    	case 'applicant':
+							    	case 'assessor':
+							    	case 'rto' :
+							    					$results = $userService->getMessagesByRole($userid, $page, $type, $searchCourseCode);
+							    					break;
+							    	case 'draft':
+							    	case 'flagged':
+							    	case 'messages':
+							    	case 'system':
+							    	default:
+							    					$results = $userService->getMessages($userid, $page, $type, $searchCourseCode);
+			    	}
+    				
+    				$result = $this->messageObjectToArray($results, $type);
+    				$result['unreadcount'] = $unreadcount;
+    				//dump($result);exit;
+    				return new JsonResponse($result);
+    }
+    
+    
+    /**
+     * 
+     * 
+     * @param Object $messagesObj
+     * @return multitype:multitype:number  unknown multitype:NULL
+     */
+    private function messageObjectToArray($messagesObj, $type='') {
+    	$messagesArr = [];
+    	$messagesArr['messages'] = array();
+    	//dump($messagesObj['messages']);exit;
+    	if (!empty($messagesObj['messages'])) {
+			    		foreach ($messagesObj['messages'] as $msgObj) {
+						    			$messageArr = [];
+						    			$messageArr['subject'] = $msgObj->getSubject();
+						    			$messageArr['message'] = $msgObj->getMessage();
+						    			$messageArr['stippedMessage'] = strip_tags($msgObj->getMessage());
+						    			$messageArr['created'] = array('date' => date('d/m/Y', strtotime($msgObj->getCreated())), 'time' => date('g:i A', strtotime($msgObj->getCreated())));
+						    			$messageArr['read'] = $msgObj->getRead();
+						    			$messageArr['toStatus'] = $msgObj->getToStatus();
+						    			$messageArr['fromStatus'] = $msgObj->getFromStatus();
+						    			$messageArr['reply'] = $msgObj->getReply();
+						    			$messageArr['id'] = $msgObj->getId();
+						    			$messageArr['unitID'] = $msgObj->getunitID();
+						    			$messageArr['replymid'] = $msgObj->getreplymid();
+						    			
+						    			$messageArr['flagged'] = $msgObj->getFlagged();
+						    			$messageArr['is_new'] = $msgObj->getNew();
+						    			$messageArr['systemGenerated'] = $msgObj->getSystemGenerated();
+						    			$messageArr['courseCode'] = $msgObj->getCourseCode();
+						    			
+						    			if (!empty($msgObj->getSent())) {
+						    							$role = '';
+						    							if ($msgObj->getSent()->getRoles()[0] == 'ROLE_FACILITATOR' ) {
+						    											$role = 'Account Manager';
+						    							}
+						    							
+						    							if ($msgObj->getSent()->getRoles()[0] == 'ROLE_MANAGER' ) {
+						    								$role = 'Supervisor';
+						    							}
+						    							if ($type == 'sent' || $type == 'draft') {
+						    											
+									    								if ($msgObj->getInbox()->getRoles()[0] == 'ROLE_FACILITATOR' ) {
+									    									$role = 'Account Manager';
+									    								}
+									    								 
+									    								if ($msgObj->getInbox()->getRoles()[0] == 'ROLE_MANAGER' ) {
+									    									$role = 'Supervisor';
+									    								}
+						    											$messageArr['msgFrm'] = array('name' => $msgObj->getInbox()->getFirstName().' '.$msgObj->getInbox()->getLastName(), 
+																										    																	'userImage' => $msgObj->getInbox()->getUserImage(), 
+																										    																	'id' => $msgObj->getInbox()->getId(),
+						    																																					'role' => $role
+						    							);
+						    							}
+						    							else {
+									    								
+										    								if ($msgObj->getSent()->getRoles()[0] == 'ROLE_FACILITATOR' ) {
+										    									$role = 'Account Manager';
+										    								}
+										    								 
+										    								if ($msgObj->getSent()->getRoles()[0] == 'ROLE_MANAGER' ) {
+										    									$role = 'Supervisor';
+										    								}
+						    								
+						    												$messageArr['msgFrm'] = array('name' => $msgObj->getSent()->getFirstName().' '.$msgObj->getSent()->getLastName(),
+									    										'userImage' => $msgObj->getSent()->getUserImage(),
+									    										'id' => $msgObj->getSent()->getId(),
+									    										'role' => $role);
+									    										 
+						    							}
+						    			}
+						    			array_push($messagesArr['messages'],$messageArr);
+						    			//$messagesArr['messages']['message_'.trim($msgObj->getId())] =  $messageArr;
+			    		}
+    	}
+    	if (isset($messagesObj['sentuserid'])) {
+    					$messagesArr['sentuserid'] = $messagesObj['sentuserid'];
+    	}
+    	//dump($messagesObj);exit;
+    	if (isset($messagesObj['paginator'])) {
+    		$messagesArr['paginator'] = array('count' => $messagesObj['paginator']->getCount(),
+    				'currentPage' => $messagesObj['paginator']->getCurrentPage(),
+    				'pageLimit' => $this->container->getParameter('pagination_limit_page'),
+    				'totalPages' => $messagesObj['paginator']->getTotalPages());
+    	}
+    	else {
+    		$messagesArr['paginator'] = array('count' => 0,
+    				'currentPage' => 1,
+    				'totalPages' => 0);
+    	}
+    	
+
+    	return $messagesArr;
+    }
+    
+    
+    /**
+     * Function to mark as read / unread
+     * @param object $request
+     * return int
+     */
+    public function saveFlaggedAction(Request $request)
+    {
+    	$content = $this->get("request")->getContent();
+    	$params = json_decode($content, true); // 2nd param to get as array
+    	$msgIds = $params['msgIds'];
+    	$isFlagged = $params['is_flagged'];
+
+    	$userService = $this->get('UserService');
+    	$userService->saveFlagged($msgIds, $isFlagged);
+    	return new JsonResponse();
+    }
+    
+    
+    /**
+     * 
+     * @param Request $request
+     */
+    public function updateMsgAction(Request $request)
+    {
+			    	$content = $this->get("request")->getContent();
+			    	$params = json_decode($content, true); // 2nd param to get as array
+			    	$msgIds = $params['msgIds'];
+			    	$field = $params['field'];
+			    	$value = $params['value'];
+			    	
+			    	$userService = $this->get('UserService');
+
+			    	$userService->updateMsg($msgIds, $field, $value);
+			    	return new JsonResponse();
+    }
     /**
      * Function to save the message
      * @param object $request
@@ -269,45 +345,44 @@ class MessageController extends Controller
      */
     public function saveMessageAction(Request $request)
     {         
-        if ($request->isMethod('POST')) {            
+        if ($request->isMethod('POST')) {  
+												
+        				$replymid = 0;
+        				$content = $this->get("request")->getContent();
+        				$params = json_decode($content, true);
             $userService = $this->get('UserService');
             $curuser = $userService->getCurrentUser();
-            $composeform = $this->createForm(new ComposeMessageForm(), array());
-            $composeform->handleRequest($request);
-            $replymid = $this->getRequest()->get('replymid');
-            if ($composeform->isValid()) {
-                $composearr = $request->get('compose'); 
-                if($composearr['to'] == "")
-                   $to = $composearr['toUserName'];
-                else
-                   $to = $composearr['to'];
-                $subject = $composearr['subject'];
-                $message = $composearr['message'];
-                $unitId = '';
-                if (isset($composearr['unitId'])) {
-                    $unitId = $composearr['unitId'];
-                }
-                if(isset($replymid) && $replymid != "" && $replymid != 0)
-                {
-                    $user = $this->getDoctrine()
-                        ->getRepository('GqAusUserBundle:User')
-                        ->findOneBy(array('email' => $to));                                 
-                    if ($user) 
-                        $touser = $user->getId();
-                }
-                else {
-                    $nameCondition="";
-                    $query = $this->getDoctrine()->getRepository('GqAusUserBundle:User')
-                            ->createQueryBuilder('u')
-                            ->select('u');
-                    $searchIn = $query->expr()->concat('u.firstName', $query->expr()->concat($query->expr()->literal(' '), 'u.lastName'));
-                    $nameCondition .= $searchIn."='".$to."'" ;
-                    $query->Where($nameCondition);
-                    $user = $query->getQuery()->getResult(); 
-                    if ($user) 
-                        $touser = $user[0]->getId();
-                }
-                //echo "<pre>"; dump($user); exit;
+            if (isset($params['replymid'])) {
+            				$replymid = $params['replymid'];
+            }
+            $to = $params['to_user']; 
+            $subject = $params['subject']; 
+            
+            if (isset($params['replyMsg'])) {
+            				$message = $params['replyMsg'];
+            }
+            
+            if (isset($params['message'])) {
+            	$message = $params['message'];
+            }
+            
+            $unitId = '';
+            if (isset($params['unitId'])) {
+                    $unitId = $params['unitId'];
+            }
+            
+            $courseCode = '';
+            if (isset($params['courseCode'])) {
+            	$courseCode = $params['courseCode'];
+            }
+            
+
+                $user = $this->getDoctrine()
+                ->getRepository('GqAusUserBundle:User')
+                ->findOneBy(array('id' => $to));
+                if ($user)
+                	$touser = $user->getId();
+               // echo "<pre>"; dump($user); exit;
                 if ($user) {
                     $msgRespose = $userService->checkMessage($touser,$curuser->getId());
                     if($msgRespose == 1)
@@ -326,8 +401,17 @@ class MessageController extends Controller
                         }
 
                         $msgdata = array('subject' => $subject,
-                            'message' => $message, 'unitId' => $unitId, 'replymid' => $replymid);
-
+                            'message' => $message, 'unitId' => $unitId, 'replymid' => $replymid, 'courseCode' => $courseCode, 'flagged' => 0);
+																								
+                        $type = $params['type'];
+                        if ($type == 'draft') {
+                        				$msgdata['draft'] = 1;
+                        				$msgdata['new'] = 0;
+                        }
+                        else {
+                        				$msgdata['new'] = 1;
+                        				$msgdata['draft'] = 0;
+                        }
                         // for sending external mail
                         $mailSubject = str_replace('#messageSubject#', $subject,
                             $this->container->getParameter('mail_notification_sub'));
@@ -347,25 +431,24 @@ class MessageController extends Controller
 
                         $userService->saveMessageData($sentuser, $curuser, $msgdata);
 
-                        $request->getSession()->getFlashBag()->add(
-                            'msgnotice', $this->container->getParameter('message_succ')
-                        );
+                        
+                            $msg_status = $this->container->getParameter('message_succ');
+                            $status = 'sucess';
+                        
                     }
                     else
                     {
-                        $request->getSession()->getFlashBag()->add(
-                            'errornotice', $this->container->getParameter('user_authorize')
-                        );
+                    				$msg_status = $this->container->getParameter('user_authorize');
+                    				$status = 'error';
                     }
                 }
                 else {
-
-                        $request->getSession()->getFlashBag()->add(
-                            'errornotice', $this->container->getParameter('no_user_found')
-                        );
+                					$msg_status = $this->container->getParameter('no_user_found');
+                					$status = 'error';
+                        
                 }
-            }
-            return $this->redirect('messages');
+            //return $this->redirect('messages');
+            return new JsonResponse(array('status' => $status, 'msg_status' => $msg_status));
         }
     }
 

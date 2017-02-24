@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Message
 {
-    
+
     /**
      * @var string
      */
@@ -68,11 +68,38 @@ class Message
      * @var string
      */
     private $replymid;
-    
+
     /**
      * @var string
      */
     private $msgbody;
+
+
+    /**
+     * @var string
+     */
+    private $flagged;
+
+    /**
+     * @var string
+     */
+    private $courseCode;
+
+    /**
+     * @var string
+     */
+    private $new;
+
+    /**
+     * @var string
+     */
+    private $systemGenerated;
+
+
+    /**
+     * @var string
+     */
+    private $draft;
 
     /**
      * Set subject
@@ -80,8 +107,7 @@ class Message
      * @param string $subject
      * @return Message
      */
-   
-            
+
     public function setSubject($subject)
     {
         $this->subject = $subject;
@@ -92,7 +118,7 @@ class Message
     /**
      * Get subject
      *
-     * @return string 
+     * @return string
      */
     public function getSubject()
     {
@@ -115,7 +141,7 @@ class Message
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {
@@ -138,7 +164,7 @@ class Message
     /**
      * Get created
      *
-     * @return string 
+     * @return string
      */
     public function getCreated()
     {
@@ -161,7 +187,7 @@ class Message
     /**
      * Get read
      *
-     * @return string 
+     * @return string
      */
     public function getRead()
     {
@@ -184,7 +210,7 @@ class Message
     /**
      * Get toStatus
      *
-     * @return string 
+     * @return string
      */
     public function getToStatus()
     {
@@ -207,7 +233,7 @@ class Message
     /**
      * Get fromStatus
      *
-     * @return string 
+     * @return string
      */
     public function getFromStatus()
     {
@@ -230,7 +256,7 @@ class Message
     /**
      * Get reply
      *
-     * @return string 
+     * @return string
      */
     public function getReply()
     {
@@ -240,7 +266,7 @@ class Message
     /**
      * Get id
      *
-     * @return string 
+     * @return string
      */
     public function getId()
     {
@@ -263,7 +289,7 @@ class Message
     /**
      * Get inbox
      *
-     * @return \GqAus\UserBundle\Entity\User 
+     * @return \GqAus\UserBundle\Entity\User
      */
     public function getInbox()
     {
@@ -286,7 +312,7 @@ class Message
     /**
      * Get sent
      *
-     * @return \GqAus\UserBundle\Entity\User 
+     * @return \GqAus\UserBundle\Entity\User
      */
     public function getSent()
     {
@@ -296,7 +322,7 @@ class Message
     /**
      * Get unitID
      *
-     * @return integer 
+     * @return integer
      */
     public function getunitID()
     {
@@ -315,10 +341,11 @@ class Message
 
         return $this;
     }
-/**
+
+    /**
      * Get ReplyMid
      *
-     * @return integer 
+     * @return integer
      */
     public function getreplymid()
     {
@@ -336,6 +363,122 @@ class Message
         $this->replymid = $replymid;
 
         return $this;
+    }
+
+
+    /**
+     * Set flagged
+     *
+     * @param string $flagged
+     * @return Message
+     */
+    public function setFlagged($flagged)
+    {
+        $this->flagged = $flagged;
+
+        return $this;
+    }
+
+    /**
+     * Get flagged
+     *
+     * @return string
+     */
+    public function getFlagged()
+    {
+        return $this->flagged;
+    }
+
+    /**
+     * Set read
+     *
+     * @param string $courseCode
+     * @return Message
+     */
+    public function setCourseCode($courseCode)
+    {
+        $this->courseCode = $courseCode;
+
+        return $this;
+    }
+
+    /**
+     * Get courseCode
+     *
+     * @return string
+     */
+    public function getCourseCode()
+    {
+        return $this->courseCode;
+    }
+
+    /**
+     * Set new
+     *
+     * @param string $new
+     * @return Message
+     */
+    public function setNew($new)
+    {
+        $this->new = $new;
+
+        return $this;
+    }
+
+    /**
+     * Get new
+     *
+     * @return string
+     */
+    public function getNew()
+    {
+        return $this->new;
+    }
+
+    /**
+     * Set systemGenerated
+     *
+     * @param string $systemGenerated
+     * @return Message
+     */
+    public function setSystemGenerated($systemGenerated)
+    {
+        $this->systemGenerated = $systemGenerated;
+
+        return $this;
+    }
+
+    /**
+     * Get systemGenerated
+     *
+     * @return string
+     */
+    public function getSystemGenerated()
+    {
+        return $this->systemGenerated;
+    }
+
+    /**
+     * Set read
+     *
+     * @param string $read
+     * @return Message
+     */
+    public function setDraft($draft)
+    {
+        $this->draft = $draft;
+
+        return $this;
+    }
+
+    /**
+     * Get Draft
+     *
+     * @return string
+     */
+    public function getDraft()
+    {
+        return $this->draft;
     }
 
 }

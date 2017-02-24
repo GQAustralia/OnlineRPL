@@ -739,7 +739,7 @@ class UserService
      * return array
      */
     public function getUserApplicantsList($userId, $userRole, $status, $page = null, $searchName = null, 
-        $searchTime = null, $filterByUser = null, $filterByStatus = null, $searchAge = null)
+        $searchTime = null, $filterByUser = null, $filterByStatus = null, $searchAge = null, $serviceCall = null)
     {
       
         if ($page <= 0 ) {
@@ -843,9 +843,11 @@ class UserService
                     . "OR c.courseName LIKE '%" . $searchNamearr[$i] . "%'"
                     . "OR c.courseCode LIKE '%" . $searchNamearr[$i] . "%'";
             }
+			/* dump($nameCondition);
+			exit; */
             $res->andWhere($nameCondition);
         }
-
+	
         if (!empty($searchTime)) {
             $searchTime = $searchTime * 7;
             $searchTime1 = $searchTime - 6;
@@ -880,30 +882,34 @@ class UserService
         }
 
         $res->orderBy('c.id', 'DESC');
-               
-
-			   
-        /* Pagination */
-        $paginator = new \GqAus\UserBundle\Lib\Paginator();
-        $pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
-        /* Pagination */
+		$resultArray = array();
+		if($serviceCall==null){
+			/* Pagination */
+			$paginator = new \GqAus\UserBundle\Lib\Paginator();
+			$pagination = $paginator->paginate($res, $page, $this->container->getParameter('pagination_limit_page'));
+			/* Pagination */
+			$resultArray['paginator'] = $paginator;
+		}
         $applicantList = $res->getQuery()->getResult();
         
-		
-//       dump($applicantList);exit;
         for($i=0;$i<count($applicantList);$i++)
         {
            
             $userId     =  $applicantList[$i]->getUser()->getId();
             $courseCode = $applicantList[$i]->getCourseCode();
            
-         
            $ldays =  $this->getDaysRemainingFromRole($userId,$courseCode, $userRole[0]);
-          
+		   $percentage = $this->coursesService->getEvidenceByCourse($userId, $courseCode);
+
            $applicantList[$i]->leftdays = $ldays;
+           $applicantList[$i]->percentage = $percentage;
            
         }
-        return array('applicantList' => $applicantList, 'paginator' => $paginator, 'page' => $page);
+
+		$resultArray['applicantList'] = $applicantList;
+		$resultArray['page'] = $page;
+
+        return $resultArray;
     }
     
     /**
@@ -938,6 +944,7 @@ class UserService
                     'oneFiftyDayRecordsCount' => $oneFiftyDayRecordsCount,
                     'oneEightyDayRecordsCount' => $oneEightyDayRecordsCount,
 
+					'ninetyDaysPlusRecordsCount' => 0,
                     'thirtyDayApplicantsPercent' => $thirtyDayRecordsPercent,
                     'sixtyDaysApplicantsPercent' => $sixtyDayRecordsPercent,
                     'ninetyDaysApplicantsPercent' => $ninetyDayRecordsPercent,
@@ -1969,7 +1976,7 @@ class UserService
             $diff = $diff + 1;
         }
         return floor($diff) . ' week(s)'; */
-		return $applicantList[0]['diff'];
+								return $applicantList[0]['diff'];
     }
 
     /**
@@ -2022,7 +2029,7 @@ class UserService
     * @param int $page
     * return array
     */
-   public function getMyInboxMessages($userId, $page)    
+   public function getMyInboxMessages($userId, $page, $searchCourseCode='')    
     {
         if ($page <= 0) {
             $page = 1;
@@ -2031,20 +2038,113 @@ class UserService
             ->createQueryBuilder('m')
             ->select('m')
             ->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $userId)
-            ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0')            
-            ->orWhere(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId)
-            ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0')
-            ->andWhere(sprintf('m.%s = :%s', 'toStatus', 'toStatus'))->setParameter('toStatus', '0')
             ->addOrderBy('m.created', 'DESC');
-        $getMessages = $query->getQuery()->getResult();        
+        if (!empty($searchCourseCode)) {
+        	
+        				$query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'".$searchCourseCode."'");
+        	
+        }
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
+       /*  dump($pagination);//exit;
+         $query = $query->getQuery();
+         print_r(array(
+         		'sql'        => $query->getSQL(),
+         		'parameters' => $query->getParameters(),
+         )); exit; */ 
         return array('messages' => $pagination, 'paginator' => $paginator,'sentuserid' => $userId);
-        
-       // return array('messages' => $getMessages,'sentuserid' => $userId);
         
     }
 
+    /**
+     * Function to get messages by type
+     * @param int $userId
+     * @param int $page
+     * @param srting type 
+     * return array
+     */
+    public function getMessages($userId, $page, $type, $searchCourseCode)
+    {
+			    	if ($page <= 0) {
+			    				$page = 1;
+			    	}
+			    	
+			    	
+			    	$query = $this->em->getRepository('GqAusUserBundle:Message')
+			    	->createQueryBuilder('m')
+			    	->select('m')
+			    	->addOrderBy('m.created', 'DESC');
+			    	
+			    	if ($type == 'draft') {
+			    		$query->where(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId);
+			    	}
+			    	else {
+			    		$query->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $userId);
+			    	}
+			    	if ($type == 'messages') {
+			    					$query->andWhere("m.systemGenerated!='1'");
+			    	}
+			    	
+			    	if ($type == 'system') {
+			    					$query->andWhere("m.systemGenerated='1'");
+			    	}
+			    	
+			    	if ($type == 'draft') {
+			    		$query->andWhere("m.draft='1'");
+			    	}
+			    	
+			    	if ($type == 'flagged') {
+			    		$query->andWhere("m.flagged='1'");
+			    	}
+			    	
+			    	if (!empty($searchCourseCode)) {
+			    	
+			    					$query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'".$searchCourseCode."'");
+			    	
+			    	}
+			    	/* $query = $query->getQuery();
+			    	 print_r(array(
+			    	 		'sql'        => $query->getSQL(),
+			    	 		'parameters' => $query->getParameters(),
+			    	 )); exit; */
+			    	$paginator = new \GqAus\UserBundle\Lib\Paginator();
+			    	$pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
+			    	
+			    	return array('messages' => $pagination, 'paginator' => $paginator,'sentuserid' => $userId);
+    
+    }
+    
+    /**
+     * 
+     * @param array $msgIds
+     * @param boolean $isFlagged
+     */
+    public function saveFlagged($msgIds, $isFlagged){
+			    	foreach($msgIds as $id) {
+			    				$msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
+			        $msgObj->setFlagged($isFlagged);
+			        $this->em->persist($msgObj);
+			        $this->em->flush();
+			    	}
+    }
+    
+    /**
+     * 
+     * @param array $msgIds
+     * @param string $field
+     * @param string $value
+     */
+    public function updateMsg($msgIds, $field, $value){
+    				
+				    	foreach($msgIds as $id) {
+				    		
+								    		$msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($id);
+								    		$method = 'set' . ucfirst($field);
+								    		$msgObj->$method($value);
+								    		$this->em->persist($msgObj);
+								    		$this->em->flush();
+				    	}
+    }
     /**
      * Function to save the message
      * @param object $sentuser
@@ -2063,7 +2163,12 @@ class UserService
         $msgObj->setToStatus(0);
         $msgObj->setReply(0);
         $msgObj->setunitID($msgdata['unitId']);
-		$msgObj->setreplymid($msgdata['replymid']);
+								$msgObj->setreplymid($msgdata['replymid']);
+								$msgObj->setFlagged($msgdata['flagged']);
+								$msgObj->setCourseCode($msgdata['courseCode']);
+								$msgObj->setNew($msgdata['new']);
+								$msgObj->setSystemGenerated(0);
+								$msgObj->setDraft($msgdata['draft']);
         $this->em->persist($msgObj);
         /* Create Log for message */
         $logType = $this->getlogType('1');
@@ -2080,7 +2185,7 @@ class UserService
      * @param int $page
      * return array
      */
-    public function getMySentMessages($userId, $page)
+    public function getMySentMessages($userId, $page, $searchCourseCode='')
     {
         if ($page <= 0) {
             $page = 1;
@@ -2089,13 +2194,57 @@ class UserService
             ->createQueryBuilder('m')
             ->select('m')
             ->where(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId)
-            ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0')
+           // ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0')
             ->addOrderBy('m.created', 'DESC');
+        if (!empty($searchCourseCode)) {
+        	 
+        				$query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'".$searchCourseCode."'");
+        	 
+        }
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
         return array('messages' => $pagination, 'paginator' => $paginator);
     }
-
+				
+    
+    public function getMessagesByRole($userid, $page, $type, $searchCourseCode='') {
+    				
+			    	if ($page <= 0) {
+			    					$page = 1;
+			    	}
+			    	$query = $this->em->getRepository('GqAusUserBundle:Message')
+							    	->createQueryBuilder('m')
+							    	->select('m')
+							    	->leftJoin('GqAusUserBundle:User','u','WITH','u.id = m.sent')
+							    	->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $userid)
+							    	->addOrderBy('m.created', 'DESC');
+			    	
+			    	if ($type == 'applicant') {
+			    					$query->andWhere('(u instance of GqAusUserBundle:Applicant)');
+			    	}
+			    	
+			    	if ($type == 'assessor') {
+			    					$query->andWhere('(u instance of GqAusUserBundle:Assessor)');
+			    	}
+			    	
+			    	if ($type == 'rto') {
+			    					$query->andWhere('(u instance of GqAusUserBundle:Rto)');
+			    	}
+			    	if (!empty($searchCourseCode)) {
+			    	
+			    					$query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'".$searchCourseCode."'");
+			    	
+			    	}
+			    	$paginator = new \GqAus\UserBundle\Lib\Paginator();
+			    	$pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
+			   /*  	$query = $query->getQuery();
+			    	 print_r(array(
+			    	 		'sql'        => $query->getSQL(),
+			    	 		'parameters' => $query->getParameters(),
+			    	 )); exit; */
+			    	//dump($pagination);exit;
+			    	return array('messages' => $pagination, 'paginator' => $paginator);
+    }
     /**
      * Function to get trashed messages
      * @param int $userId
@@ -2199,17 +2348,22 @@ class UserService
     {
         $msgobj = $this->em->getRepository('GqAusUserBundle:Message')->find($mid); 
         $replymid = $msgobj->getreplymid();   
+        
         if($replymid > 0) {
             $query = $this->em->getRepository('GqAusUserBundle:Message')
                 ->createQueryBuilder('m')
                 ->select('m')
                 ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $replymid)
-                ->orWhere(sprintf('m.%s = :%s', 'replymid', 'replymid'))->setParameter('replymid', $replymid);
+                ->orWhere(sprintf('m.%s = :%s', 'replymid', 'replymid'))->setParameter('replymid', $replymid)
+                ->addOrderBy('m.id', 'DESC');
+            
         } else {
             $query = $this->em->getRepository('GqAusUserBundle:Message')
                 ->createQueryBuilder('m')
                 ->select('m')
-                ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $mid);
+                ->where(sprintf('m.%s = :%s', 'id', 'id'))->setParameter('id', $mid)
+                ->orWhere(sprintf('m.%s = :%s', 'replymid', 'replymid'))->setParameter('replymid', $mid)
+                ->addOrderBy('m.id', 'DESC');
         }
       
         $getMessages = $query->getQuery()->getResult(); 
@@ -2256,47 +2410,58 @@ class UserService
             
         $query = $this->em->getRepository('GqAusUserBundle:User')
             ->createQueryBuilder('u')
-            ->select( "CONCAT( CONCAT(u.firstName, ' '), u.lastName)" )
+            ->select( "CONCAT( CONCAT(u.firstName, ' '), u.lastName), u " )
             ->innerJoin('GqAusUserBundle:UserCourses', 'uc');
         $nameCondition = "";
         $usercondition = "";
         if ($userRole == 'ROLE_APPLICANT') {            
             $query->where('(u instance of GqAusUserBundle:Facilitator)');
-            $nameCondition .="CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";           
-            $query->andWhere($nameCondition);
+            if (!empty($options['keyword'])) {
+            				$nameCondition .="CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";           
+            				$query->andWhere($nameCondition);
+            }
             $query->andWhere('uc.facilitator = u.id');
             $query->andWhere('uc.user = :userId')->setParameter('userId', $msgUserId);
         }
         else if ($userRole == 'ROLE_ASSESSOR' ) {            
             $query->where('(u instance of GqAusUserBundle:Facilitator)');
-            $nameCondition .="CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";           
-            $query->andWhere($nameCondition);
+            if (!empty($options['keyword'])) {
+            				$nameCondition .="CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";           
+            				$query->andWhere($nameCondition);
+            }
             $query->andWhere('uc.facilitator = u.id');
             $query->andWhere('uc.assessor = :assessorId')->setParameter('assessorId', $msgUserId);
         }
         else if ($userRole == 'ROLE_RTO' ) {            
             $query->where('(u instance of GqAusUserBundle:Facilitator)');
-            $nameCondition .="CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";          
-            $query->andWhere($nameCondition);
+            if (!empty($options['keyword'])) {
+            				$nameCondition .="CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";          
+            				$query->andWhere($nameCondition);
+            }
             $query->andWhere('uc.facilitator = u.id');
             $query->andWhere('uc.rto = :rtoId')->setParameter('rtoId', $msgUserId);
         }
         else if ($userRole == 'ROLE_FACILITATOR') {
             $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
                     . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto)');
-            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";             
-            $query->andWhere($nameCondition);
+            if (!empty($options['keyword'])) {
+            				$nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";             
+            				$query->andWhere($nameCondition);
+            }
             $query->andWhere('uc.user = u.id OR uc.assessor = u.id or uc.rto = u.id ');
             $query->andWhere('uc.facilitator = :facilitatorId')->setParameter('facilitatorId', $msgUserId);
         }
         else if ($userRole == 'ROLE_MANAGER') {
             $query->where('(u instance of GqAusUserBundle:Applicant OR u instance '
                     . 'of GqAusUserBundle:Assessor OR u instance of GqAusUserBundle:Rto OR u instance of GqAusUserBundle:Facilitator)');
-            $nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";
-            $query->andWhere($nameCondition);            
+            if (!empty($options['keyword'])) {
+            				$nameCondition .= "CONCAT( CONCAT(u.firstName, ' '), u.lastName)  LIKE '%" . $options['keyword'] . "%' ";
+            				$query->andWhere($nameCondition);       
+            }     
         }
       
             $getMessages = $query->getQuery()->getResult(); 
+            
             $getMessages = array_map("unserialize", array_unique(array_map("serialize", $getMessages)));
             sort($getMessages);
            // echo "<pre>"; dump($getMessages); exit;
@@ -5260,6 +5425,51 @@ class UserService
     {
         $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findBy(array('user' => $userId));
         return $courseObj;
+    }
+    
+    /**
+     * Function to get the user courses based on to user and role for message compose.
+     * @param userID $loggedinUserId
+     * @param userID $toUser
+     * @param string $toUserRole
+     */
+    public function getUserCoursesByIDAndRole($loggedinUserId, $loggedinUserRole, $toUser = null, $toUserRole = null) {
+			    	
+			    	$query = $this->em->getRepository('GqAusUserBundle:UserCourses')
+			    	->createQueryBuilder('uc')
+			    	->groupBy('uc.courseCode')
+			    	//->where(sprintf('uc.%s = :%s', 'userId', 'userId'))->setParameter('userId', $toUser)
+			    	->select('uc.courseCode, uc.courseName');
+
+			    	
+			    	if ($toUserRole == 'APPLICANT') {
+			    					$query->where(sprintf('uc.%s = :%s', 'user', 'user'))->setParameter('user', $toUser);
+			    	}
+			    	elseif($toUserRole == 'FACILITATOR') {
+			    					$query->where(sprintf('uc.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $toUser);
+			    	}
+			    	elseif($toUserRole == 'ASSESSOR') {
+			    					$query->where(sprintf('uc.%s = :%s', 'assessor', 'assessor'))->setParameter('assessor', $toUser);
+			    	}
+			    	elseif($toUserRole == 'RTO') {
+			    					$query->where(sprintf('uc.%s = :%s', 'rto', 'rto'))->setParameter('rto', $toUser);
+			    	}
+
+			    	if ($loggedinUserRole == 'ROLE_APPLICANT') {
+			    					$query->andWhere(sprintf('uc.%s = :%s', 'user', 'user'))->setParameter('user', $loggedinUserId);
+			    	}
+			    	elseif($loggedinUserRole == 'ROLE_FACILITATOR') {
+			    					$query->andWhere(sprintf('uc.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $loggedinUserId);
+			    	}
+			    	elseif($loggedinUserRole == 'ROLE_ASSESSOR') {
+			    					$query->andWhere(sprintf('uc.%s = :%s', 'assessor', 'assessor'))->setParameter('assessor', $loggedinUserId);
+			    	}
+			    	elseif($loggedinUserRole == 'ROLE_RTO') {
+			    					$query->andWhere(sprintf('uc.%s = :%s', 'rto', 'rto'))->setParameter('rto', $loggedinUserId);
+			    	}
+			    	$courseObj = $query->getQuery()->getResult();
+			    	
+			    	return $courseObj;
     }
     
     /**

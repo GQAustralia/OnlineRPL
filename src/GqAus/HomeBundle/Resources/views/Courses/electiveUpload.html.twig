@@ -46,7 +46,7 @@
                                 <li class="list-group-units-subitem" ng-class="{'active': is_open === true && elective.id === selectedUnit }"  ng-click="showUnitUpload(elective)" ng-repeat="elective in electiveGroup.unit | inArrayFilter:selectedElectiveUnits:'id' | inArrayFilter:unitStatusArr['elective'][unitStatusArr['elective'].selectedFilter]:'id'">
                                     <div class="btn-group">
                                         <button type="button" class="btn">
-                                            <span class="unit-name">{[{elective.name}]}</span>
+                                            <span class="unit-name">{[{elective.id}]} - {[{elective.name}]}</span>
                                            <span class="unit-status"><label for="{[{elective.name}]}" ng-if="getStatusText(elective.id)" class="label" ng-class="getStatusClass(getStatusText(elective.id))">{[{ getStatusText(elective.id) || 'Evidence Needed'}]}</label></span>
                                         </button>
                                     </div>
