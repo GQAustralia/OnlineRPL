@@ -22,14 +22,21 @@ class UserController extends Controller
      */
     public function profileAction(Request $request)
     { 
-          
+        $applicantList = [];
         $session = $request->getSession();
         $sessionUser = $this->get('security.context')->getToken()->getUser();
         $session->set('user_id', $sessionUser->getId());
         $userService = $this->get('UserService');
         $user = $userService->getCurrentUser(); 
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        if ($userRole[0] != "ROLE_APPLICANT") {
+            $applicantList['applicants'] = count($userService->getApplicantsHandled($user->getId()));
+            $applicantList['qualifications'] = count($userService->getQualificationsHandled($user->getId()));
+            $applicantList['completedQuals'] = count($userService->getCompletedQuals($user->getId()));
+            $applicantList['unCompletedQuals'] = $applicantList['qualifications'] - $applicantList['completedQuals'] ;
+        }
         
-        return $this->render('GqAusUserBundle:User:profile.html.twig', array('user' => $user));
+        return $this->render('GqAusUserBundle:User:profile.html.twig', array('user' => $user, 'applicantCount' => $applicantList));
     }
 
     /**
