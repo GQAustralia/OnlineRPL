@@ -90,9 +90,9 @@ $bg-color-dark: white;
 		left: 0;
 		top: 0;
 
-		width: 3.33em;
-		line-height: 3.33em;
-		font-size: 0.3em;
+		width: 4em;
+		line-height: 3.4em;
+		font-size: 0.25em;
 		color: $primary-color;
 
 		display: block;
@@ -138,25 +138,37 @@ $bg-color-dark: white;
 
 	// smaller size
 	&.small{
-		$circle-width: 0.020em;
-		font-size: 9em;
-		.slice > .bar {
-			border: $circle-width solid $primary-color;
-			width: 1 - (2 * $circle-width);
-			height: 1 - (2 * $circle-width);
-			clip: rect(0em, 0.5em, 1em, 0em);
+		$circle-width: 0.03em;
+		font-size: 8em;
+
+		.slice {
+			> .fill {
+			    // border: .04em solid gray;
+			    // width: .96em;
+			    // height: .96em;
+				// border: $circle-width solid $primary-color;
+				// width: 1 - (2 * $circle-width);
+				// height: 1 - (2 * $circle-width);
+			}
+			> .bar {
+				border: $circle-width solid $primary-color;
+				width: 1 - (2 * $circle-width);
+				height: 1 - (2 * $circle-width);
+			    // border: .031em solid gray;
+			    // width: .94em;
+			    // height: .94em;
+			}
 		}
 		&:after {
+		    // top: .03em;
+		    // left: 0.03em;
+		    // width: .94em;
+		    // height: .94em;
+
 			top: $circle-width;
 			left: $circle-width;
 		    width: 1 - (2 * $circle-width);
 		    height: 1 - (2 * $circle-width);
-		}
-
-		> span {
-			width: 3.33em;
-			line-height: 3.33em;
-			font-size: 0.3em;
 		}
 	}
 
@@ -177,7 +189,6 @@ $bg-color-dark: white;
 			// @include rotate(( 360/100 * $j));
 		}
 	}
-
 
 	// loop to create all needed elements automatically
 	@for $j from 51 through 100 {

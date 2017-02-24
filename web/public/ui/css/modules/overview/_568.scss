@@ -1,19 +1,19 @@
 .panel-qualification-body {
 	.panel-qualification-gauges {
-		padding: 0 30px;
+		padding: 30px;
 		.qual-gauges {
 			&:first-child {
 				width: $big-circle-width;
 			}
 			&:nth-child(2) {
-				@include calc-sub-two-values(width, 100%, $big-circle-width);
-				.progress-tag { margin-top: -12px; }
+				// @include calc-sub-two-values(width, 100%, $big-circle-width);
+				.progress-tag { margin-top: -15px; }
 			}
 			&:nth-child(3) {
 
 			}
 			&:last-child {
-
+				padding-left: 40px;
 			}
 			progress {
 				width: 100%;

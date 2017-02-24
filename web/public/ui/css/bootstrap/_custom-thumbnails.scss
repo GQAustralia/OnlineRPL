@@ -299,6 +299,64 @@ $thumbnail-group-item-card-width: 200px;
 	}
 }
 
+.thumbnail-group.list-view {
+	.thumbnail-group-selection {
+	    clear: both;
+	    position: absolute;
+	    top: 15px;
+	    display: none;
+	}
+	.thumbnail-group-item {
+		@include transition(padding .3s $easing);
+
+		.dropdown-thumbnail {
+			position: absolute;
+			z-index: 100;
+			top: 0;
+			right: 0;
+
+			&:not(.open) {
+				display: none;
+			}
+
+			.dropdown-menu .zmdi {
+				
+			}
+		}
+
+		.btn-context-menu {
+
+			background-color: $gray-dark;
+			color: white;
+			border: 1px solid white;
+			@include box-shadow(0 0px 0 2px white);
+
+			&:hover {
+				background-color: darken($gray-dark,10%);
+			}
+		}
+
+		&:hover .dropdown-thumbnail {
+			display: block;
+		}
+	}
+	&.edit-mode {
+		.thumbnail-group-selection {
+			display: block;
+		}
+		.thumbnail-group-item {
+			padding-top: 30px;
+			@include transition(padding .3s $easing);
+		}
+
+		.dropdown-thumbnail {
+			top: 25px;
+			right: 0;
+			display: block;		
+		}
+	}
+}
+
 .is-mobile, .is-tablet {
 	.thumbnail-group-item .edit-mode .btn-context-menu {
 		display: block;

@@ -4,7 +4,7 @@
 		height: 50px;
 		width: auto;
 		display: inline-block;
-		@include transition(all .3s $easing);
+		@include transition(all .2s $easing);
 		position: relative;
 
 		img { width: inherit; height: inherit; }
@@ -15,12 +15,12 @@
 		z-index: 1;
 	}
 
-	.avatar { @include transition(all .3s $easing); }
+	.avatar { @include transition(all .2s $easing); }
 
 	&.compressed {
 		.header-gqa-logo {
 			height: 50px;
-			@include transition(all .3s $easing); 
+			@include transition(all .2s $easing); 
 		}
 		.navbar-bg-gradient {
 			border-bottom: 1px solid #51a9c3;
@@ -31,7 +31,7 @@
 			text-shadow: 0 1px 1px rgba(0,0,0,0.3);
 		}
 		.avatar {
-			@include transition(all .3s $easing);
+			@include transition(all .2s $easing);
 		}
 	}
 }
@@ -45,13 +45,13 @@ nav.header-gqa-nav {
 		position: relative;
 
 		> li {
-			@include transition(all .3s $easing);
+			@include transition(all .2s $easing);
 
 			> a {
 				color: #FFF;
 				text-decoration: none;
 				display: block;
-				@include transition(all .3s $easing);
+				@include transition(all .2s $easing);
 
 				&:hover { color: white; text-decoration: none; }
 			}
@@ -64,7 +64,7 @@ nav.header-gqa-nav {
 
 		> .dropdown {
 			> .dropdown-toggle {
-				@include transition(all .3s $easing);
+				@include transition(all .2s $easing);
 				padding-left: $avatar-xxs + 20 !important;
 				display: inline-block;
 				color: white;

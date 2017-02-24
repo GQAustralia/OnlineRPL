@@ -179,7 +179,7 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 	}
 }
 
-.panel-evidence-library-menu {
+.panel-evidence-library-menu, .panel-aside {
 	[data-toggle="buttons"] {
 		.btn {
 			border-radius: 0;
@@ -191,6 +191,7 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 			white-space: normal;
 			word-break: break-word;
 			margin: 0 !important;
+			color: $gray-dark;
 
 			@media (max-width: $screen-sm-max) {
 				padding: 15px 30px;

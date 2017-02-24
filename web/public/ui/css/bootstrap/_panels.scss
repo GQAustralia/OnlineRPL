@@ -28,9 +28,11 @@
   @media (min-width: $screen-md-min) {
     padding: $panel-body-padding;
   }
-  // @media (min-width: $screen-lg-min) {
-  //   padding: $panel-body-padding*2;
-  // }
+  @media (min-width: $screen-lg-min) {
+    &.panel-body-lg {
+      padding: $panel-body-padding * 2;
+    }
+  }
   @include clearfix;
   position: relative;
 }

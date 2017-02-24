@@ -1,0 +1,27 @@
+.panel-applicant {
+	@include clearfix();
+	.panel-aside {
+		width: $qual-img-width;
+		position: relative;
+		float: left;
+		min-height: 300px;
+		padding-top: 60px;
+
+		&.affix {
+			position: fixed;
+			top: $navbar-height + 15px;
+		}
+	}
+	.panel-aside.affix + .panel-body {
+		margin-left: $qual-img-width;
+	}
+	.panel-body {
+		position: relative;
+		float: left;
+		@include calc-sub-two-values(width,100%,$qual-img-width);
+	}
+
+	.question {
+		width: 300px !important;
+	}
+}

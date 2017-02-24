@@ -100,7 +100,7 @@
 		width: 25%;
 		left: -30%;
 		@include transform(rotateZ(15deg));
-		@include gradient-horizontal-three-colors($gray-lighter, rgba(255,255,255,0.3), 50%, $gray-lighter);
+		@include gradient-horizontal-three-colors($gray-lighter, rgba(255,255,255,0.5), 50%, $gray-lighter);
 		@include animation(shine 2s infinite);
 	}
 }

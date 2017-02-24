@@ -201,6 +201,7 @@
 			z-index: initial;
 			min-width: initial;
 			background: transparent;
+			width: auto;
 			@include box-shadow(none);
 
 			> li {
