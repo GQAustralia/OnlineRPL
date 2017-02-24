@@ -19,6 +19,20 @@ class CustomRepositoryService
         $this->connection = $this->em->getConnection();
     }
 
+
+    /**
+     * @param $entity
+     *
+     * @return mixed
+     */
+    public function create($entity)
+    {
+        $this->em->persist($entity);
+        $this->em->flush();
+
+        return $entity;
+    }
+
     /**
      * @param string $query
      *

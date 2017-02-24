@@ -9,10 +9,9 @@
     <meta name="author" content="GQA App Dev">
     <meta name="copyright" content="Get Qualified Australia">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- Bootstrap -->
+
     {% block head %}
         {% set roles = app.security.getToken().getUser().getRoles() %}
-        <!-- Core -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
         <link href="{{ asset('public/ui/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}"
               rel="stylesheet"/>
@@ -20,10 +19,9 @@
         <link href="{{ asset('public/ui/css/main-styles.min.css') }}" rel="stylesheet"/>
         <link href="{{ asset('public/ui/css/vendor/bootstrap-tour.min.css') }}" rel="stylesheet"/>
         <link href="{{ asset('public/ui/css/vendor/animate.min.css') }}" rel="stylesheet"/>
-        <!-- Login only -->
 
-        <script src="{{ asset('public/ui/js/plugins/isMobile.min.js') }}"></script> <!-- Sniff if browser is loaded on mobile -->
-        <script src="{{ asset('public/ui/js/modernizr-3.3.1.gqa-build.121516.min.js') }}"></script> <!-- Modernizr -->
+        <script src="{{ asset('public/ui/js/plugins/isMobile.min.js') }}"></script>
+        <script src="{{ asset('public/ui/js/modernizr-3.3.1.gqa-build.121516.min.js') }}"></script>
     {% endblock %}
     {% block stylesheets %}{% endblock %}
     <script type="text/javascript">

@@ -6,6 +6,12 @@ services:
 #    api.example:
 #        class: UserBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+    UserCourseService:
+        class: GqAus\UserBundle\Services\UserCourseService
+        arguments: [@doctrine.orm.entity_manager]
+    ReminderService:
+        class: GqAus\UserBundle\Services\ReminderService
+        arguments: [@doctrine.orm.entity_manager]
     AccountManagerDashboardService:
         class: GqAus\UserBundle\Services\AccountManagerDashboardService
         arguments: [@doctrine.orm.entity_manager]

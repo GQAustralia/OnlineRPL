@@ -1,12 +1,7 @@
 {% extends 'dashboard_base.html.twig' %}
-{% block ngApp %} ng-app="gqAus" {% endblock %}
-{% block ngController %} ng-controller="dashboardController"  id="dashboardController" {% endblock %}
 {% block title %}  Get Qualified Australia: Online RPL {% endblock %}
-{% block ngtitle %}pageTitle{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('public/ui/css/vendor/owl.carousel.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet"/>
 {% endblock %}
 
 
@@ -28,38 +23,91 @@
 {% endblock %}
 
 {% block javascripts %}
-    <!-- App -->
-    <!-- Online Enrolment only -->
-    <script src="{{ asset('public/ui/js/plugins/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('public/ui/js/rpl-online-enrolment.js') }}"></script>
-    <!--Phone Number Flag Plugin-->
 
-    <!--Country select with States Plugin-->
-
-    <script src="{{ asset('public/js/underscore-min.js') }}"></script>
-    <script src="{{ asset('public/ui/js/plugins/countries.js') }}"></script>
-    <script src="{{ asset('public/ui/js/plugins/intlTelInput.js') }}"></script>
-    <script src="{{ asset('public/ui/js/plugins/utils.js') }}"></script>
-    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
-    <!-- Bootstrap Datepicker -->
     <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
     <script src="{{ asset('public/ui/js/plugins/bootstrap-datetimepicker.js') }}"></script>
 
-    <!-- places library for maps api -->
+    <script type="text/javascript">
 
-    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
-    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
-    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
-    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
-    <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
-    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
-    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
+        var template = '<div class="popover compressed" role="tooltip">' +
+            '<div class="arrow"/>' +
+            '<h3 class="popover-title"/>' +
+            '<div class="popover-content"/>' +
+            '<button type="button" class="btn btn-primary btn-block btn-sm text-uppercase btn-add-task add-new-task"> + ' +
+            '<strong>Add task</strong></button>' +
+            '</div>';
 
-    <script src="{{ asset('public/js/angular/app.js') }}"></script>
-    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
-    <script src="{{ asset('public/js/angular/directives/enrollDirectives.js') }}"></script>
-    <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
-    <script src="{{ asset('public/js/angular/controllers/enrollmentCtlr.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhCdWqxWHuIpbRQ5o8MPlVNx1Bck_kgBI&libraries=places&callback=enrollmentAutocomplete"
-            async defer></script>
+        var title = '<span class="taskTitle">Task for today</span> ' +
+            '<button type="button" class="btn btn-transparent btn-xs btn-set-date"><i class="zmdi zmdi-calendar zmdi-hc-lg zmdi-hc-fw"></i> EDIT</button>';
+
+        var content = '<div class="task-controls">' +
+            '<textarea name="" id="taskMessage" rows="4" class="form-control" placeholder="Enter your task"></textarea>' +
+            '<div data-init="datepicker"></div>' +
+            '</div>';
+
+        var userId = {{ user.id }};
+
+        $('[data-toggle="popover"]')
+            .popover({
+                html: true,
+                animation: false,
+                template: template,
+                content: content,
+                title: title,
+                viewport: '.main-content-gqa'
+            })
+            .on('shown.bs.popover', function (e) {
+                $(this).next().velocity({scaleX: [1, 0], scaleY: [1, 0]}, {easing: [250, 20], duration: 800});
+                init_buttons();
+                init_datepicker($(this));
+
+                var that = $(this);
+
+                $('.add-new-task').click(function () {
+
+                    var newTaskData = {
+                        'user_course_id': that.attr('data-id'),
+                        'user_id': userId,
+                        'date': that.attr('data-task-date'),
+                        'type': that.attr('data-file-type'),
+                        'created_by': userId,
+                        'message': $('#taskMessage').val()
+                    };
+
+                    $.post("/addNewTask", newTaskData).then(
+                        (result) => {
+                            console.log(result);
+                        }
+                    );
+
+                    that.click();
+                });
+
+            });
+
+        function init_datepicker(datePickerObject) {
+            $('[data-init="datepicker"]').datetimepicker({
+                'format': 'DD/MM/YYYY',
+                'inline': true,
+                'useCurrent': true,
+                'showTodayButton': true,
+                'minDate': new Date()
+            }).on('dp.change', function (e) {
+                var parent = $(this).closest('.popover').find('.taskTitle');
+                var taskDateForPopUp = $(this).data("DateTimePicker").date().format('DD/MM/YYYY');
+                var taskDateForDatabase = $(this).data("DateTimePicker").date().format('YYYY-MM-DD');
+
+                parent.html('Task set on ' + taskDateForPopUp);
+                datePickerObject.attr('data-task-date', taskDateForDatabase);
+            });
+        }
+
+        function init_buttons() {
+            $(document).on('click', '.btn-set-date', function (event) {
+                $(this).closest('.popover').toggleClass('show-date');
+                $(this).find('i').toggleClass('zmdi-calendar').toggleClass('zmdi-arrow-left');
+            });
+        }
+
+    </script>
 {% endblock %}

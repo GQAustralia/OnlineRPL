@@ -14,7 +14,7 @@ class AccountManagerDashboardController extends Controller
      */
     public function indexAction(Request $request)
     {
-      //  echo '<pre>';
+        //  echo '<pre>';
         $dashboard = $this->get('AccountManagerDashboardService');
         $coursesService = $this->get('CoursesService');
         $sessionUser = $this->get('security.context')->getToken()->getUser();
@@ -35,6 +35,32 @@ class AccountManagerDashboardController extends Controller
             'evidences' => $evidencesForReview,
             'reminders' => $remindersList
         ]);
+    }
+
+    public function addNewTaskAction(Request $request)
+    {
+        $response = $this->get('HttpResponsesService');
+        $reminderService = $this->get('ReminderService');
+        $userService = $this->get('UserService');
+        $userCourseService = $this->get('UserCourseService');
+
+        $userCourse = $userCourseService->findOneById($request->request->get('user_course_id'));
+        $user = $userService->findUserById($request->request->get('user_id'));
+        $createdBy = $userService->findUserById($request->request->get('created_by'));
+
+        $reminder = $reminderService->factory(
+            $userCourse,
+            $user,
+            $request->request->get('date'),
+            $request->request->get('type'),
+            $createdBy,
+            $request->request->get('message')
+        );
+
+        $reminder = $reminderService->create($reminder);
+
+        return $response->fractal()->respondSuccess($reminder);
+
     }
 
     /**

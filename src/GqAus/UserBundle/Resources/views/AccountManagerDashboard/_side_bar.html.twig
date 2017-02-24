@@ -18,8 +18,14 @@
             <label class="control-label">
                 <i class="zmdi zmdi-hc-lg zmdi-time-countdown pull-left"></i>
                 <strong>MyTasks</strong></label>
-            <button type="button" class="btn btn-link text-uppercase btn-float-right btn-add-task"
-                    data-placement="bottom" data-toggle="popover">
+                <button type="button"
+                        class="btn btn-link text-uppercase btn-float-right btn-add-task"
+                        data-placement="bottom"
+                        data-toggle="popover"
+                        data-id=null
+                        data-file-type="evidence"
+                        data-task-date="{{ "now"|date("Y-m-d") }}"
+                >
                 <i class="zmdi zmdi-hc-lg zmdi-plus"></i> Add new
             </button>
 

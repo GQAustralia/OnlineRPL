@@ -219,7 +219,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
 
         return $this->all('
                   SELECT 
-                      u.id as user_id,
+                      u.id,
                       u.first_name,
                       u.last_name,
                       u.user_img,
@@ -251,6 +251,8 @@ class AccountManagerDashboardService extends CustomRepositoryService
             $days = $this->computeDaysLeft($userCourse['created_on']);
 
             $result[] = [
+                'id' => $userCourse['id'],
+                'user_id' => $userCourse['user_id'],
                 'name' => $userCourse['first_name'] . ' ' . $userCourse['last_name'],
                 'avatar' => $userCourse['user_img'],
                 'days' => $days,
