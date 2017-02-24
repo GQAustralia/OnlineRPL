@@ -1242,7 +1242,8 @@ class CoursesService
             if ($type != 'text') {
                 $evd = [];
                 $evd['id'] = $evidence->getId();
-
+                $evd['catId'] = $evidence->getCategory()->getId();
+                $evd['created'] = $evidence->getCreated();
                 $evd['type'] = $type;
                 $evd['path'] = $evidence->getPath();
                 $evd['s3Path'] = $evd['mimeType'] = $evd['fileType'] = '';
@@ -1267,11 +1268,23 @@ class CoursesService
                 $evd['name'] = ($type == 'text') ? '' : $evidence->getName();
                 $evd['content'] = ($type == 'text') ? $evidence->getContent() : '';
                 $evd['size'] = $evidence->getSize();
+//                $evd['linkToMulti'] = $this->getLinkedToMultiOrNot($evidence->getId());
                 $evd['facilitatorViewStatus'] = $evidence->getfacilitatorViewStatus();
+                $evd['courseCode'] = ($evidence->getCourse()) ? $evidence->getCourse() : '';
 
                 $userEvidence[] = $evd;
             }
         }
         return $userEvidence;
     }
+         /**
+     * 
+     * @param type $evdId
+     */
+    public function getLinkedToMultiOrNot($evdId){
+//        echo $evdId;
+//        exit;
+        $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->findOneById($evidence);
+    }
+   
 }

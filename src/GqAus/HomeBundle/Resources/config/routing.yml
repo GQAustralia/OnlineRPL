@@ -82,3 +82,9 @@ saveNotes:
 acknowledgeNote:
     path: units/acknowledgeNote
     defaults: { _controller: GqAusHomeBundle:Courses:acknowledgeNote }     
+getAllEvidenceCats:
+    path: /getAllEvidenceCats
+    defaults: { _controller: GqAusUserBundle:Evidence:getEvidenceCats }
+getUserCourses:
+    path: /getUserCourses
+    defaults: { _controller: GqAusHomeBundle:Courses:getUserCourses }

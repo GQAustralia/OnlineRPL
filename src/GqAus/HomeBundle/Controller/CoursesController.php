@@ -502,7 +502,28 @@ class CoursesController extends Controller {
                 $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
             }
         }
-
+        
+        return new JsonResponse($results);
+    }
+    /**
+     * Function to get all courses assigned to user
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function getUserCoursesAction(Request $request)
+    {
+        $results = [];
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+        if ($userId != '') {
+            $userCourses = $this->get("UserService")->getUserCourses($userId);
+            foreach ($userCourses as $userCourse) {
+                $courses = [];
+                $courses['id'] = $userCourse->getId();
+                $courses['name'] = $userCourse->getCourseName();
+                $courses['courseCode'] = $userCourse->getCourseCode();
+                $results[trim($userCourse->getId())] =  $courses;  
+            }
+        }
         return new JsonResponse($results);
     }
 

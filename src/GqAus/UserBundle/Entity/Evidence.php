@@ -235,7 +235,7 @@ abstract class Evidence
      * 
      * @return type
      */
-    function getCategory()
+    public function getCategory()
     {
         return $this->category;
     }
@@ -244,7 +244,7 @@ abstract class Evidence
      * 
      * @param type $category
      */
-    function setCategory($category)
+    public function setCategory($category)
     {
         $this->category = $category;
     }
