@@ -18,14 +18,14 @@
             <label class="control-label">
                 <i class="zmdi zmdi-hc-lg zmdi-time-countdown pull-left"></i>
                 <strong>MyTasks</strong></label>
-                <button type="button"
-                        class="btn btn-link text-uppercase btn-float-right btn-add-task"
-                        data-placement="bottom"
-                        data-toggle="popover"
-                        data-id=null
-                        data-file-type="evidence"
-                        data-task-date="{{ "now"|date("Y-m-d") }}"
-                >
+            <button type="button"
+                    class="btn btn-link text-uppercase btn-float-right btn-add-task"
+                    data-placement="bottom"
+                    data-toggle="popover"
+                    data-id=null
+                    data-file-type="evidence"
+                    data-task-date="{{ "now"|date("Y-m-d") }}"
+            >
                 <i class="zmdi zmdi-hc-lg zmdi-plus"></i> Add new
             </button>
 
@@ -36,30 +36,28 @@
 
         <hr style="margin: 0;">
         <div class="task-list">
-            <ul class="nav" role="tablist">
+            <ul class="nav" role="tablist" id="task-list">
                 <li role="presentation" class="active">
                     <span data-target="#dueToday" aria-controls="dueToday" role="tab" data-toggle="tab">Due today <i
                                 class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
                     <ul class="list-group">
 
                         {% for over in reminders.overdue %}
-                            <li class="list-group-item" data-status="overdue">
+                            <li class="list-group-item dueListCircleCheck" data-status="overdue" id="{{ over.id }}">
                                 <span>{{ over.message }}</span>
                                 <span class="overdue text-danger">{{ over.days_due }} days overdue</span>
                             </li>
                         {% endfor %}
 
                         {% for dueToday in reminders.dueToday %}
-                            <li class="list-group-item" data-status="overdue">
+                            <li class="list-group-item dueListCircleCheck" data-status="overdue" id="{{ dueToday.id }}">
                                 <span>{{ dueToday.message }}</span>
                                 <span class="overdue text-success">{{ dueToday.days_due }} days overdue</span>
                             </li>
                         {% endfor %}
 
                         {% for doneDueToday in reminders.doneDueToday %}
-                            <li class="list-group-item" data-status="done">
-                                <strong>Subject here</strong> &ndash;
-                                <span>This is the summary that is very very long</span>
+                            <li class="list-group-item dueListCircleCheck" data-status="done" id="{{ doneDueToday.id }}">
                                 <small>{{ doneDueToday.message }}</small>
                                 <span class="overdue text-danger">{{ doneDueToday.days_due }} days overdue</span>
                             </li>
@@ -71,7 +69,7 @@
                                 class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
                     <ul class="list-group">
                         {% for dueSoon in reminders.dueSoon %}
-                            <li class="list-group-item" data-status="pending">
+                            <li class="list-group-item dueListCircleCheck" data-status="pending" id="{{ dueSoon.id }}">
                                 <span>{{ dueSoon.message }}</span>
                                 <span class="overdue text-info">{{ dueSoon.days_due }} days before due</span>
                             </li>

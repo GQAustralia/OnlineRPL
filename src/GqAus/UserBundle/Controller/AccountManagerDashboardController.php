@@ -37,12 +37,17 @@ class AccountManagerDashboardController extends Controller
         ]);
     }
 
-    public function addNewTaskAction(Request $request)
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function addNewTaskAndReloadAction(Request $request)
     {
-        $response = $this->get('HttpResponsesService');
         $reminderService = $this->get('ReminderService');
         $userService = $this->get('UserService');
         $userCourseService = $this->get('UserCourseService');
+        $dashboard = $this->get('AccountManagerDashboardService');
 
         $userCourse = $userCourseService->findOneById($request->request->get('user_course_id'));
         $user = $userService->findUserById($request->request->get('user_id'));
@@ -57,10 +62,32 @@ class AccountManagerDashboardController extends Controller
             $request->request->get('message')
         );
 
-        $reminder = $reminderService->create($reminder);
+        $reminderService->create($reminder);
+        $remindersList = $dashboard->getRemindersList($user->getId());
 
-        return $response->fractal()->respondSuccess($reminder);
+        return $this->render(
+            'GqAusUserBundle:AccountManagerDashboard:_taskList.html.twig',
+            ['reminders' => $remindersList]
+        );
+    }
 
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function completeTaskAction(Request $request)
+    {
+        $dashboard = $this->get('AccountManagerDashboardService');
+
+        $dashboard->completeTask($request->request->get('task_id'));
+
+        $remindersList = $dashboard->getRemindersList($request->request->get('user_id'));
+
+        return $this->render(
+            'GqAusUserBundle:AccountManagerDashboard:_taskList.html.twig',
+            ['reminders' => $remindersList]
+        );
     }
 
     /**

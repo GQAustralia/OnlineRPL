@@ -29,6 +29,8 @@
 
     <script type="text/javascript">
 
+        reloadDueListCircleChecker();
+
         var template = '<div class="popover compressed" role="tooltip">' +
             '<div class="arrow"/>' +
             '<h3 class="popover-title"/>' +
@@ -74,9 +76,10 @@
                         'message': $('#taskMessage').val()
                     };
 
-                    $.post("/addNewTask", newTaskData).then(
+                    $.post("/addNewTaskAndReload", newTaskData).then(
                         (result) => {
-                            console.log(result);
+                            $('#task-list').html(result);
+                            reloadDueListCircleChecker();
                         }
                     );
 
@@ -106,6 +109,21 @@
             $(document).on('click', '.btn-set-date', function (event) {
                 $(this).closest('.popover').toggleClass('show-date');
                 $(this).find('i').toggleClass('zmdi-calendar').toggleClass('zmdi-arrow-left');
+            });
+        }
+
+        function reloadDueListCircleChecker() {
+
+            $('.dueListCircleCheck').click(function () {
+
+                var completeTaskData = {'task_id': $(this).attr('id'), 'user_id': userId};
+
+                $.post("/completeTask", completeTaskData).then(
+                    (result) => {
+                        $('#task-list').html(result);
+                        reloadDueListCircleChecker();
+                    }
+                );
             });
         }
 

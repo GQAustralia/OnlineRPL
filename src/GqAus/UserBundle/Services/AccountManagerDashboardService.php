@@ -14,6 +14,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
     CONST QUALIFICATION_COMPLETE_STATUS = 16;
 
     protected $courseRepository;
+    protected $reminderRepository;
 
     /**
      * SetNewUserPasswordService constructor.
@@ -25,6 +26,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
         parent::__construct($em);
 
         $this->courseRepository = $em->getRepository('GqAusUserBundle:UserCourses');
+        $this->reminderRepository = $em->getRepository('GqAusUserBundle:Reminder');
     }
 
     /**
@@ -125,6 +127,34 @@ class AccountManagerDashboardService extends CustomRepositoryService
             'doneDueToday' => $this->buildReminder($doneDueToday),
             'dueSoon' => $this->buildReminder($dueSoon)
         ];
+    }
+
+    /**
+     * @param $taskId
+     *
+     * @return null|object
+     */
+    public function completeTask($taskId)
+    {
+        $dateNow = date('Y-m-d');
+        $task = $this->reminderRepository->findOneBy(['id' => $taskId]);
+
+        $task->setCompleted(1);
+        $task->setCompletedDate($dateNow);
+
+        $this->update($task);
+
+        return $task;
+    }
+
+    /**
+     * @param $id
+     *
+     * @return null|object
+     */
+    public function findOneById($id)
+    {
+        return $this->repository->findBy(['id' => $id]);
     }
 
     /**

@@ -50,4 +50,14 @@ class ReminderService extends CustomRepositoryService
 
         return $reminder;
     }
+
+    /**
+     * @param $id
+     *
+     * @return null|object
+     */
+    public function findOneById($id)
+    {
+        return $this->repository->findBy(['id' => $id]);
+    }
 }

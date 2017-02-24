@@ -29,6 +29,6 @@ class UserCourseService extends CustomRepositoryService
      */
     public function findOneById($id)
     {
-        return $this->repository->find($id);
+        return $this->repository->findOneBy(['id' => $id]);
     }
 }
