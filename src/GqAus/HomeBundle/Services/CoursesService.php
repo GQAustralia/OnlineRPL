@@ -1286,5 +1286,27 @@ class CoursesService
 //        exit;
         $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->findOneById($evidence);
     }
+    
+    public function getStatusClass($statusText) {
+    	$cls = 'label-warning';
+    			switch ($statusText) {
+    				case 'Submitted':
+    					$cls = 'label-warning';
+    					break;
+    				case 'Satisfactory':
+    					$cls = 'label-default';
+    							break;
+    				case 'Not yet satisfactory':
+    				case 'Not yet competent':
+    					$cls = 'label-danger';
+    					break;
+    				case 'Competent':
+    					$cls = 'label-success';
+    					break;
+    				default:
+    					$cls = 'label-warning';
+    	}
+    	return $cls;
+    }
    
 }

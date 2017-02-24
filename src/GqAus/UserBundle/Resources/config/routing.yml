@@ -376,5 +376,9 @@ viewMsgThread:
 getCoursesByUser:
     path: /getCoursesByUser
     defaults: {_controller: GqAusUserBundle:Message:getCoursesByUser}   
-    
-    
+applicantIndividualPage:
+    path: /applicantIndQual/view/{applicantId}/{ccode}
+    defaults: { _controller: GqAusUserBundle:Applicant:individualQual }
+applicantProfile:
+    path: /applicantProfile/{applicantId}
+    defaults: { _controller: GqAusUserBundle:Applicant:applicantProfile }    

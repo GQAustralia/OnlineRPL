@@ -968,4 +968,35 @@ class ApplicantController extends Controller
         
         return $result['Body'];
    }
+   
+   public function individualQualAction($applicantId, $ccode){
+   				$userService = $this->get('UserService');
+   				$user = $this->get('security.context')->getToken()->getUser();
+   				$loggedinUserId = $user->getId();
+   				$userRole = $user->getRoles();
+			   	$checkStatus = $userService->getHaveAccessPage($loggedinUserId, $applicantId, $ccode, $userRole);
+			   	if(!$checkStatus)
+			   						return $this->render('GqAusUserBundle:Default:error.html.twig');
+			   	
+			   	$results['courseObj'] = $this->get('CoursesService')->getCourseDetails($ccode, $applicantId);
+			   	$results['user'] = $user;
+			   	$results['courseCode'] = $ccode;
+			   	$results['applicantId'] = $applicantId;
+			   	$results['applicantCourses'] = $userService->getUserCourses($applicantId);
+			   	
+			   	return $this->render('GqAusUserBundle:Applicant:individualQual.html.twig', $results);
+   }
+   
+   public function applicantProfileAction($applicantId) {
+   				$userService = $this->get('UserService');
+   				$results = array();
+   				
+   				$user = $this->get('security.context')->getToken()->getUser();
+   				$results['user'] = $user;
+   				$results['applicantCourses'] = $userService->getUserCourses($applicantId);
+   				$results['applicantId'] = $applicantId;
+   				$results['applicantObj'] = $userService->getUserInfo($applicantId);
+   				
+   				return $this->render('GqAusUserBundle:Applicant:applicantProfile.html.twig', $results);
+   }
 }

@@ -1,0 +1,344 @@
+{% extends 'revamp_base.html.twig' %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="messageCtlr"  id="messageCtlr" {% endblock%}
+{% block title %}GQ - RPL Qualification{% endblock %}
+{% block ngtitle %}pageTitle{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
+<link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" /> 
+<link href="public/ui/css/modules/mail/mail-box.css" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+
+    {% set userImg = user.getUserImage()%}
+    {% set userId = user.getId()%}
+    {% set userRole = user.getRoles()%}
+    {% set courseInfo = courses_service.getCourseInfo(courseCode)%} 
+    {% set remaining = user_service.getDaysRemainingApplicant(applicantId, courseObj.courseCode(), 'ROLE_APPLICANT') %}    
+    {% set output = remaining|split('&&') %}
+    {% set evidenceCompleteness = courses_service.getEvidenceByCourse(applicantId, courseObj.courseCode()) %}
+    {% set unitSubmitted = courses_service.getUnitsSubmittedbyCourse(applicantId, courseObj.courseCode()) %}
+    {% set courseStatus = user_service.getQualificationStatus()%}
+    {% set courseApiInfo = courses_service.getUserCoursesInfo(courseCode)%} 
+    {% set coreUnitsCnt = courseApiInfo.courseInfo.Units.Core.unit|default(0) %}
+    {% set electiveUnitsCnt = courseApiInfo.courseInfo.Units.Elective.validation.requirement|default(0) %}
+    {% set coreUnitsSubmittedPercent = (unitSubmitted['core']/coreUnitsCnt|length)*100 %}  
+    {% if electiveUnitsCnt > 0%}
+        {% set electiveUnitsSubmittedPercent = (unitSubmitted['elective']/electiveUnitsCnt)*100 %}
+    {% else %}
+        {% set electiveUnitsSubmittedPercent = 0 %}
+    {% endif %}
+    <main class="main-content-gqa">
+        <div class="container">
+
+            <div class="panel panel-default panel-qual-heading panel-avatar-tab">
+                <div class="panel-heading-img">
+                    <div class="avatar"><img src="{% if userImg  != '' %}{{amazon_link~'user-'~userId~'/'~userImg}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="h3 qual-title">{{ user.getUsername() }}<br>
+                    <small class="small" style="font-size: 50%;">
+                        <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-title="{{ user.getUsername() }}" data-placement="bottom" style="margin-top: -3px;" onClick="location.href='{{ app.request.baseUrl }}/messages'">
+                            <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i>
+                        </button>&nbsp; |&nbsp;
+                        GQA Profile since  {{ user.created()|date("m/d/Y") }}
+                    </small>
+                    </h3>
+                </div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active dropdown">
+                        <a href="#pagelink" class="dropdown-toggle" aria-controls="home" role="tab" data-toggle="dropdown">Qualifications <i class="caret"></i></a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#">
+                                <h4>Overview <br><small>Summary of enroled qualifications</small></h4>
+                                </a>
+                            </li>
+                            
+                            {% for appCourseObj in applicantCourses %}
+                            <li class="divider clearfix btn-block"></li>
+                            <li class="dropdown-static-header" onClick='location.href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}"'><h4>{{appCourseObj.getCourseName()}}</h4></li>
+                            <li><a href="applicant-core-account-manager.html">Core Units</a></li>
+                            <li><a href="applicant-elective-account-manager.html">Elective Units</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li role="presentation">
+                        <a href="/applicantProfile/{{applicantId}}" aria-controls="tab" role="tab">Profile</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="applicant-enrolment-account-manager.html" aria-controls="tab" role="tab">Enrolment Info</a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <article class="panel panel-default panel-qualification">
+                <div class="panel-qualification-meta">
+                    <div class="panel-qualification-img" style="background-image: url({{ courseInfo.bannerImg|default('') }})">
+                        <h3 class="h3 qual-title">
+                            <small>{{courseObj.courseCode()}}</small><br> {{courseObj.courseName()}}
+                        </h3>
+                        
+                        <span class="hidden" aria-label="hidden" aria-value="Qualification-name">{{courseObj.courseCode()}}</span>
+                    </div>
+                    
+                    <dl class="panel-qualification-desc">
+                        <dd><label class="text-muted text-uppercase small">Account Manager</label> <br><a href="/userprofile" class="btn btn-link-compressed btn-link">{{courseObj.facilitator.getUserName()|default('')}}</a></dd>
+
+                        <dd>
+                            <label class="text-muted text-uppercase small">Assessor</label> <br>
+                            <button class="btn btn-link-compressed btn-link" data-toggle="modal" data-target="#assessorProfile">{{courseObj.assessor.getUserName()|default('')}}</button>
+                        </dd>
+
+                        <dd>
+                            <label class="text-muted text-uppercase small">RTO</label> <br>
+                            <button class="btn btn-link-compressed btn-link" data-toggle="modal" data-target="#rtoProfile">{{courseObj.rto.getUserName()|default('')}}</button>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="panel-qualification-body">
+                    <div class="panel-body-group">
+                        <h3 class="h3 qual-title">
+                            <small>{{courseObj.courseCode()}}</small><br> {{courseObj.courseName()}}
+                        </h3>
+                        <div class="panel-qualification-gauges change-status">
+                            <label class="label {{ courses_service.getStatusClass(courseStatus[courseObj.courseStatus]['status'])}}">{{ courseStatus[courseObj.courseStatus]['status'] }}</label>
+                            <button type="button" class="btn btn-xs btn-link" data-toggle="modal" data-target="#qualStatuses">
+                                <i class="zmdi zmdi-edit"></i> Change
+                            </button>
+                        </div>
+                        <div class="panel-qualification-gauges">
+                            <div class="qual-gauges">
+                                <div class="c100 p{{ evidenceCompleteness|trim('%') }} big">
+                                    <span>
+                                        <i>{{ evidenceCompleteness }}</i>
+                                        <i class="progress-big-label">Total evidence completed</i>
+                                    </span>
+                                    <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                                </div>
+                            </div>
+
+                            <div class="qual-gauges">
+                                <div class="progress-tag progress-tag-{% if(output[0]<30) %}danger{% elseif(output[0]<90) %}warning{% else %}success{%endif%}">
+                                    <progress role="progress" value="{{output[1]}}" max="100"><img class="fallback" width="30"></progress>
+                                    <figcaption data-value="{{output[0]}}" data-unit="" class="progress-details"> DAYS LEFT</figcaption>
+                                </div>
+                            </div>
+
+                            <div class="qual-gauges">
+                                <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units">
+                                    <span>{{ unitSubmitted['core']}}/{{ coreUnitsCnt|length }}</span>
+                                    <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                                </div>                             
+                            </div>
+
+                            <div class="qual-gauges">
+                                <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units">
+                                    <span>{{ unitSubmitted['elective']}}/{{ electiveUnitsCnt }}</span>
+                                    <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="panel-qualification-gauges action-footer">
+                            <i class="zmdi zmdi-cloud-upload zmdi-hc-lg zmdi-hc-fw text-primary"></i>
+                            <strong ng-if="hasNewCoreUploads()"><a href="#">2 new uploads</a> for Core</strong>
+                            <strong ng-if="hasNewElectiveUploads()">and <a href="#">3 new uploads</a> for Electives</strong>
+                        </p>
+                    </div>
+                </div>
+            </article>
+            
+        </div>
+    </main>
+    
+    <!-- Change status -->
+    <div class="modal fade" id="qualStatuses">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                    <h4 class="modal-title">Change Qualification Status?</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="radio" class="custom-input" name="qual_statuses" id="statusABC" value=""><label for="statusABC">Status label here</label>
+                    <input type="radio" class="custom-input" name="qual_statuses" id="statusCDE" value=""><label for="statusCDE">Status label here</label>
+                    <input type="radio" class="custom-input" name="qual_statuses" id="statusEFG" value=""><label for="statusEFG">Status label here</label>
+                    <input type="radio" class="custom-input" name="qual_statuses" id="statusGHI" value=""><label for="statusGHI">Status label here</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-transparent" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Change status -->
+
+
+     {% if (courseObj.assessor.userImage != '') %}
+         {% set assessorImg = amazon_link~'user-'~courseObj.assessor.id~'/'~courseObj.assessor.userImage %}
+     {% else %}
+         {% set assessorImg = '../public/images/userprofile.png' %}
+     {% endif %}
+    <!-- Assessor profile -->
+    <div class="modal fade modal-profile" id="assessorProfile">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                    <div class="panel panel-default panel-qual-heading panel-avatar-tab">
+                        <div class="panel-heading-img">
+                            <div class="avatar"><img src="{{assessorImg}}" alt="You"></div>
+                        </div>
+                        <div class="panel-heading" style="border-bottom: 1px solid #c5c5c5;">
+                            <h3 class="h3 qual-title">{{courseObj.assessor.getUserName()|default('')}}<br>
+                            <small class="small" style="font-size: 50%;">
+                                <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages'">
+                                    <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i> Send message
+                                </button>
+                            </small>
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default profile">
+                        <div class="panel-body panel-body-lg">
+                            <h3>Personal Details</h3>
+                            <div class="row">
+                                <div class="col-xs-12">
+
+                                    <div class="profile-info">
+                                        <i class="zmdi zmdi-phone base-icon"></i>
+                                        <p>
+                                            Home phone number
+                                            <span><img src="ui/img/flag_au.jpg">{{courseObj.assessor.phone|default('')}}</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="profile-info">
+                                        <i class="zmdi zmdi-phone base-icon"></i>
+                                        <p>
+                                            Work phone number
+                                            <span><img src="ui/img/flag_au.jpg">{{courseObj.assessor.contactPhone|default('-')}}</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="profile-info">
+                                        <i class="zmdi zmdi-smartphone base-icon"></i>
+                                        <p>
+                                            Mobile phone number
+                                            <span><img src="ui/img/flag_au.jpg">{{courseObj.assessor.ceophone|default('-')}}</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="profile-info">
+                                        <i class="zmdi zmdi-email base-icon"></i>
+                                        <p>
+                                            Email address
+                                            <span>{{courseObj.assessor.getEmail()|default('')}}</span>
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Assessor profile -->
+    
+     {% if (courseObj.rto.userImage != '') %}
+         {% set rtoImg = amazon_link~'user-'~courseObj.rto.id~'/'~courseObj.rto.userImage %}
+     {% else %}
+         {% set rtoImg = '../public/images/userprofile.png' %}
+     {% endif %}
+    <!-- RTO Profile -->
+    <div class="modal fade modal-profile" id="rtoProfile">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                    <div class="panel panel-default panel-qual-heading panel-avatar-tab">
+                        <div class="panel-heading-img">
+                            <div class="avatar"><img src="{{rtoImg}}" alt="You"></div>
+                        </div>
+                        <div class="panel-heading" style="border-bottom: 1px solid #c5c5c5;">
+                            <h3 class="h3 qual-title">{{courseObj.rto.getUserName()|default('')}}<br>
+                            <small class="small" style="font-size: 50%;">
+                                <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages'">
+                                    <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i> Send message
+                                </button>
+                            </small>
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default profile">
+                        <div class="panel-body panel-body-lg">
+                            <h3>RTO Details</h3>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-6 col-xs-12">
+                                    <div class="profile-info">
+                                        <i class="zmdi zmdi-city base-icon"></i>
+                                        <p>
+                                            College Name
+                                            <span>{{courseObj.assessor.getUserName()|default('')}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="profile-info">
+                                        <i class="zmdi zmdi-file-text base-icon"></i>
+                                        <p>
+                                            Provide Code
+                                            <span>23/12/1985</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="profile-info">
+                                        <i class="zmdi zmdi-phone base-icon"></i>
+                                        <p>
+                                            College phone number
+                                            <span><img src="ui/img/flag_au.jpg">{{courseObj.rto.phone|default('-')}}</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="profile-info">
+                                        <i class="zmdi zmdi-account-box base-icon"></i>
+                                        <p>
+                                            Contact person name
+                                            <span><img src="ui/img/flag_au.jpg">{{courseObj.rto.contactName|default('-')}}</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="profile-info">
+                                        <i class="zmdi zmdi-account-box-phone base-icon"></i>
+                                        <p>
+                                            Contact person number
+                                            <span><img src="ui/img/flag_au.jpg">{{courseObj.rto.contactPhone|default('-')}}</span>
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <hr>
+                            
+                            <h3>RTO Address</h3>
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-pin base-icon"></i>
+                                <p>
+                                    Postal Address
+                                    <span>{{courseObj.rto.address.address|default('')}} {{courseObj.rto.address.area|default('')}} {{courseObj.rto.address.city|default('')}} {{courseObj.rto.address.state|default('')}} {{courseObj.rto.address.pincode|default('')}} {{courseObj.rto.address.suburb|default('')}} {{courseObj.rto.address.country|default('')}} {{courseObj.rto.address.postal|default('')}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- RTO Profile -->
+{% endblock %}
