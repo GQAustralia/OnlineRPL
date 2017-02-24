@@ -576,7 +576,29 @@ class CoursesController extends Controller {
 
         return new JsonResponse($results);
     }
+    /**
+     * Function to edit the note text & save
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function editNotesAction(Request $request) {
+         $results = [];
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $userId = $params['userId'];
+                $noteId = $params['noteId'];
+                $noteMsg = $params['noteMsg'];
+                $courseCode = $params['courseCode'];
+                $results = $this->get('NotesService')->saveFacilitatorNotes($userId, $courseCode, $noteId, $noteMsg);
+            }
+        }
 
+        return new JsonResponse($results);
+    }
     /**
      * Function to acknowledge Note by note id
      * @param object $request
@@ -595,6 +617,26 @@ class CoursesController extends Controller {
                 $courseCode = $params['courseCode'];
                 $unitCode = $params['unitCode'];
                 $results = $this->get('NotesService')->acknowledgeNote($noteId, $userId, $courseCode, $unitCode);
+            }
+        }
+
+        return new JsonResponse($results);
+    }
+    /**
+     * Function to delete the note from the unit.
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function deleteNoteAction(Request $request) {
+        $results = [];
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $noteId = $params['noteId'];
+                $userId = $params['userId'];
+                $courseCode = $params['courseCode'];
+                $results = $this->get('NotesService')->deleteNote($userId, $courseCode,$noteId);
             }
         }
 

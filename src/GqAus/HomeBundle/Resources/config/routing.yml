@@ -79,9 +79,15 @@ getNotes:
 saveNotes:
     path: units/saveNotes
     defaults: { _controller: GqAusHomeBundle:Courses:saveNotes }  
+editNotes:
+    path: units/editNotes
+    defaults: { _controller: GqAusHomeBundle:Courses:editNotes }  
 acknowledgeNote:
     path: units/acknowledgeNote
-    defaults: { _controller: GqAusHomeBundle:Courses:acknowledgeNote }     
+    defaults: { _controller: GqAusHomeBundle:Courses:acknowledgeNote }    
+deleteNote:
+    path: units/deleteNote
+    defaults: { _controller: GqAusHomeBundle:Courses:deleteNote }    
 getAllEvidenceCats:
     path: /getAllEvidenceCats
     defaults: { _controller: GqAusUserBundle:Evidence:getEvidenceCats }

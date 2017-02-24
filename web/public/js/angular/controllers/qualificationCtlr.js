@@ -66,8 +66,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     $scope.selectedUnitObj = [];
     $scope.selfAssessment = {};
     $scope.notes = {};
-    $scope.role = 'candidate';
-    
+//    $scope.role = 'candidate';
     
     $scope.addRemoveUnit = function (unit) {
 
@@ -640,5 +639,33 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
             $scope.uploadInProgress.libraryFiles = {}
         }
     });
-
+    $scope.deleteNote = function(noteId){
+        AjaxService.apiCall("units/deleteNote", {"userId":$scope.applicantId,"courseCode": $scope.courseCode,"noteId": noteId}).then(function (data) {
+            if (data != 'error') {
+                $scope.notes = data;
+             }
+        }, function (error) {
+            console.log(error);
+        });
+    }
+    $scope.editNote = function(noteId){
+        $scope.noteId = noteId;
+    }
+    
+    $scope.discardNote = function(){
+        $scope.noteId = '';
+    }
+    
+    $scope.applyChanges = function(userId, noteText, noteId){
+        if ((noteText != '') && (noteId != '')) {
+            AjaxService.apiCall("units/editNotes", {"userId":userId,"courseCode": $scope.courseCode,"noteId":noteId,"noteMsg":noteText}).then(function (data) {
+                if (data != 'error') {
+                    $scope.notes = data;
+                    $scope.noteId = '';
+                }
+            }, function (error) {
+                console.log(error);
+            });
+    	}
+    }
 });

@@ -102,6 +102,22 @@ class NotesService {
 
         return "error";
     }
+    /**
+     * Function to delete the note 
+     * @param type $noteId
+     * @return string
+     */
+    public function deleteNote($userId, $courseCode,$noteId){
+        $return = array();
+        $unitNoteObj = $this->em->getRepository('GqAusUserBundle:Note')->findOneById(array('id' => $noteId));
+        if ($unitNoteObj) {
+            $unitCode = $unitNoteObj->getUnitId();
+            $this->em->remove($unitNoteObj);
+            $this->em->flush();
+            return $this->getNotesByUnitAndCourse($userId, $courseCode, $unitCode, 'f');
+        }
+        return "error";
+    }
 
     /**
      * Function to save Notes
@@ -126,6 +142,22 @@ class NotesService {
             $this->em->flush();
 
             return $this->getNotesByUnitAndCourse($userId, $courseCode, $unitCode, 'f');
+        } else
+            return "error";
+    }
+    /**
+     * Function to save the note from facilitator
+     * @param type $noteId
+     * @param type $noteMsg
+     * @return string
+     */
+    public function saveFacilitatorNotes($userId,$courseCode,$noteId, $noteMsg) {
+        if (!empty($noteId) && !empty($noteMsg) ) {
+            $unitNoteObj = $this->em->getRepository('GqAusUserBundle:Note')->findOneById(array('id' => $noteId));
+            $unitNoteObj->setNote($noteMsg);
+            $this->em->persist($unitNoteObj);
+            $this->em->flush();
+            return $this->getNotesByUnitAndCourse($userId, $courseCode, $unitNoteObj->getUnitID(), 'f');
         } else
             return "error";
     }
