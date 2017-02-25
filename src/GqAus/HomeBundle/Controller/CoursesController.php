@@ -19,6 +19,12 @@ class CoursesController extends Controller {
      */
     public function indexAction($id, $userId = '', $page = 'qualification', Request $request) {
 
+		$currentUrl = $request->getUri();
+		$pageUrl = $this->container->getParameter('applicationUrl').''.$request->attributes->get('_route').'/';
+		$paramPart = str_replace($pageUrl, '', $currentUrl);
+		$urlParams = explode('/',$paramPart);
+		$page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
+
         $user = $this->get('security.context')->getToken()->getUser();
 
         $userService = $this->get('UserService');
