@@ -624,11 +624,23 @@ class ApplicantController extends Controller
      * Function to update course status
      * return array
      */
-    public function updateCourseStatusAction()
+    public function updateCourseStatusAction(Request $request)
     {
-        $courseStatus = $this->getRequest()->get('courseStatus');
-        $courseCode = $this->getRequest()->get('courseCode');
-        $applicantId = $this->getRequest()->get('userId');
+			    	$courseStatus = $this->getRequest()->get('courseStatus');
+			    	$courseCode = $this->getRequest()->get('courseCode');
+			    	$applicantId = $this->getRequest()->get('userId');
+			    	
+    				if ($request->isMethod('POST')) {
+						    		$params = array();
+						    		$type = "";
+						    		$content = $this->get("request")->getContent();
+						    		
+						    			$params = json_decode($content, true); // 2nd param to get as array
+						    			$courseStatus = $params['courseStatus'];
+						    			$courseCode = $params['courseCode'];
+						    			$applicantId = $params['userId'];
+						  }
+        
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $result = $this->get('UserService')->updateCourseStatus($courseStatus, $courseCode, $applicantId, $userRole);
         echo json_encode($result);
@@ -983,7 +995,9 @@ class ApplicantController extends Controller
 			   	$results['user'] = $user;
 			   	$results['courseCode'] = $ccode;
 			   	$results['applicantId'] = $applicantId;
-			   	$results['applicantCourses'] = $userService->getUserCourses($applicantId);
+			   	$results['applicantCourses'] = $userService->getUserCoursesByloggedinUser($loggedinUserId, $userRole[0], $applicantId, "APPLICANT"); 
+			   	$results['applicantObj'] = $userService->getUserInfo($applicantId);
+			   	$results['evidenceCountArr'] = $userService->getUnviewedEvidenceCountByCourse($applicantId, $ccode);
 			   	
 			   	return $this->render('GqAusUserBundle:Applicant:individualQual.html.twig', $results);
    }
@@ -993,8 +1007,11 @@ class ApplicantController extends Controller
    				$results = array();
    				
    				$user = $this->get('security.context')->getToken()->getUser();
+   				$loggedinUserId = $user->getId();
+   				$userRole = $user->getRoles();
+   				
    				$results['user'] = $user;
-   				$results['applicantCourses'] = $userService->getUserCourses($applicantId);
+   				$results['applicantCourses'] = $userService->getUserCoursesByloggedinUser($loggedinUserId, $userRole[0], $applicantId, "APPLICANT"); 
    				$results['applicantId'] = $applicantId;
    				$results['applicantObj'] = $userService->getUserInfo($applicantId);
    				

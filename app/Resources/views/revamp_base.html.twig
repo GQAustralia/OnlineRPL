@@ -41,7 +41,7 @@
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
     {% set page = app.request.attributes.get('_route') %}
     {% set userId = app.security.getToken().getUser().getId() %} 
-    {% set new_messages = courses_service.getCourseInfo('SIT-X123213')%} 
+    {% set unreadMsgs = user_service.getFiveMessagesAndUnreadCnt(userId)%} 
 
     <header class="header-gqa navbar-fixed-top" id="headerGQA">
         <div class='container'>
@@ -102,39 +102,41 @@
                                     <a href='#' class="visible-mobile">
                                         <span class="t-item-3"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span>
                                     </a>
-                                    <a href class="dropdown-toggle hidden-mobile" data-toggle="dropdown" data-inbox-count="2">
+                                    <a href class="dropdown-toggle hidden-mobile" data-toggle="dropdown" data-inbox-count="{{unreadMsgs.unreadMsgCnt}}">
                                         <span class="t-item-3"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span>
                                         <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-messages pull-right">                        
-                                        <li><a href="#">
-                                            <div class="dropdown-avatar">
-                                                <div class="avatar avtar-inline-block avatar-xxs"><img src="ui/img/avatar-default.png" alt="You"></div>
-                                            </div>
-                                            <div class="dropdown-messaging">
-                                                <div class="clearfix"><span class="label label-default pull-left">System</span><span class="pull-right">a minute ago</span></div>
-                                                <label>Eric de Felix</label>
-                                                <p class="break-word">This is a very very long message so long it will create a new line, it will create a new line, it will create a new line</p>
-                                            </div>
-                                        </a></li>
-                                        <li><a href="#">
-                                            <div class="dropdown-avatar">
-                                                <div class="avatar avtar-inline-block avatar-xxs"><img src="ui/img/avatar-default.png" alt="You"></div>
-                                            </div>
-                                            <div class="dropdown-messaging">
-                                                <div class="clearfix"><span class="label label-default pull-left">System</span><span class="pull-right">a minute ago</span></div>
-                                                <label>Eric de Felix</label>
-                                                <p class="break-word">This is a very very long message so long it will create a new line, it will create a new line, it will create a new line</p>
-                                            </div>
-                                        </a></li>
-            
-                                        <!-- If nothing to display -->
-                                        <li class="text-center panel-body">
-                                            <i class="divider"></i>
-                                            <i class="zmdi zmdi-hc-3x zmdi-thumb-up"></i>
-                                            <h4>All caught up!<br> <small>No new messages for now.</small></h4>
-                                        </li>
-                                        <!-- If nothing to display -->
+                                    <ul class="dropdown-menu dropdown-menu-messages pull-right">  
+                                        {% if unreadMsgs.unreadMsgCnt > 0 %}     
+                                        {% for unreadwMsg in unreadMsgs.messages%}                 
+                                            <li><a href="#">
+                                                
+                                                <div class="dropdown-avatar">
+                                                    <div class="avatar avtar-inline-block avatar-xxs">
+                                                        {% if unreadwMsg.getSystemGenerated()  != 1 %}
+                                                            <img src="{% if unreadwMsg.sent.getUserImage()  != '' %}{{amazon_link~'user-'~unreadwMsg.sent.getId()~'/'~unreadwMsg.sent.getUserImage()}}{%else%}public/images/userprofile.png{%endif%}" alt="{{unreadwMsg.sent.getUserName()}}">
+                                                        {% else %}
+                                                            <img src="ui/img/avatar-default.png">
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-messaging">
+                                                    <div class="clearfix">{% if unreadwMsg.getSystemGenerated()  == 1 %}<span class="label label-default pull-left">System</span>{% endif %}<span class="pull-right">{{user_service.formatMsgTime(unreadwMsg.getCreated())}}</span></div>
+                                                    <label>{{unreadwMsg.sent.getUserName()}}</label>
+                                                    <p class="break-word">{{unreadwMsg.getSubject()}}</p>
+                                                </div>
+                                            </a></li>
+                                        {% endfor %}
+                                        {% else %}
+                                            <!-- If nothing to display -->
+                                            <li class="text-center panel-body">
+                                                <i class="divider"></i>
+                                                <i class="zmdi zmdi-hc-3x zmdi-thumb-up"></i>
+                                                <h4>All caught up!<br> <small>No new messages for now.</small></h4>
+                                            </li>
+                                          
+                                            <!-- If nothing to display -->
+                                    {% endif %}
                                         <li><button type="button" class="btn btn-link text-uppercase btn-block"><a href="{{ app.request.baseUrl }}/messages">Go to Inbox</a></button></li>
                                     </ul>
                                 </li>
