@@ -5,6 +5,7 @@
 {% block ngtitle %}myProfile{% endblock%}
 {% block stylesheets %}{% endblock %}
 {% block body %}
+    {% set userRole = app.security.getToken().getUser().getRoles() %}
     {% set userId = user.id%}
     {% set userFirstName = user.firstName %}
     {% set userLastName = user.lastName %}
@@ -38,45 +39,65 @@
                         <div id="profile_suc_msg2"><span class="loading-icon" id="ajax-loading-icon" style="display:none;"><img id="ajax-loading-icon-img" src="{{ asset('public/images/loading.gif') }}" /></span></div>
                         <div class="ajax-profile-error" id="ajax-profile-error"></div>
                         <h2>{{userFullName}}</h2>
-                        <h4>USI Number - <span>{{userUSI}}</span></h4>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <h3>Your Personal Details
-                        <a class="pull-right" href="#" data-toggle="tooltip" title="Please contact your Account Manager....."><i class="zmdi zmdi-edit"></i><small>Edit</small></a>
-                    </h3>
-                    <div class="row">
-                        <div class="col-md-5 col-sm-6 col-xs-12">
-                            <div class="profile-info">
-                                <i class="zmdi zmdi-calendar-note base-icon"></i>
-                                <p>Date of birth<span>{{userDOB}}</span></p>
-                            </div>
-                            <div class="profile-info">
-                                <i class="zmdi zmdi-phone base-icon"></i>
-                                <p>Home telepehone number<span>{{userHomePhone}}</span></p>
-                            </div>
-                            <div class="profile-info">
-                                <i class="zmdi zmdi-smartphone-iphone base-icon"></i>
-                                <p>Mobile number<span>{{userMobPhone}}</span></p>
-                            </div>
-                        </div>
-                        <div class="col-md-5 col-sm-6 col-xs-12">
-                            <div class="profile-info">
-                                <i class="zmdi zmdi-female base-icon"></i>
-                                <p>Gender<span>{{userGender}}</span></p>
-                            </div>
-                            <div class="profile-info">
-                                <i class="zmdi zmdi-phone base-icon"></i>
-                                <p>Work telephone number<span>{{userWorkPhone}}</span></p>
-                            </div>
-                            <div class="profile-info">
-                                <i class="zmdi zmdi-email base-icon"></i>
-                                <p>Email Address<a href="mailto:{{userEmail}}"><span>{{userEmail}}</span></a></p>
-                            </div>
-                        </div>
+                        {% if('ROLE_APPLICANT' in userRole) %}
+                            <h4>USI Number - <span>{{userUSI}}</span></h4>
+                        {%endif%}
                     </div>
                 </div>
             </div>
+            {% if('ROLE_APPLICANT' not in userRole) %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-xs-12 col-sm-6 text-center">
+                            <h2><i class="zmdi zmdi-pin-account"></i>{%if(applicantCount.applicants>0)%}{{applicantCount.applicants}}{%else%}0{%endif%}</h2>
+                            <strong class="text-uppercase text-muted">Applicants handled</strong>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 text-center">
+                            <h2><i class="zmdi zmdi-graduation-cap"></i> {%if(applicantCount.qualifications>0)%}{{applicantCount.qualifications}}{%else%}0{%endif%}</h2>
+                            <strong class="text-uppercase text-muted">Qualifications handled</strong>
+
+                            <p class="small text-uppercase"><strong>{%if(applicantCount.completedQuals>0)%}{{applicantCount.completedQuals}}{%else%}0{%endif%} </strong>Completed / <strong>{%if(applicantCount.unCompletedQuals>0)%}{{applicantCount.unCompletedQuals}}{%else%}0{%endif%}</strong> Incomplete</p>
+                        </div>
+                    </div>
+                </div>
+            {%endif%}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>Your Personal Details
+                            <a class="pull-right" href="#" data-toggle="tooltip" title="Please contact your Account Manager....."><i class="zmdi zmdi-edit"></i><small>Edit</small></a>
+                        </h3>
+                        <div class="row">
+                            <div class="col-md-5 col-sm-6 col-xs-12">
+                                <div class="profile-info">
+                                    <i class="zmdi zmdi-calendar-note base-icon"></i>
+                                    <p>Date of birth<span>{{userDOB}}</span></p>
+                                </div>
+                                <div class="profile-info">
+                                    <i class="zmdi zmdi-phone base-icon"></i>
+                                    <p>Home telepehone number<span>{{userHomePhone}}</span></p>
+                                </div>
+                                <div class="profile-info">
+                                    <i class="zmdi zmdi-smartphone-iphone base-icon"></i>
+                                    <p>Mobile number<span>{{userMobPhone}}</span></p>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-6 col-xs-12">
+                                <div class="profile-info">
+                                    <i class="zmdi zmdi-female base-icon"></i>
+                                    <p>Gender<span>{{userGender}}</span></p>
+                                </div>
+                                <div class="profile-info">
+                                    <i class="zmdi zmdi-phone base-icon"></i>
+                                    <p>Work telephone number<span>{{userWorkPhone}}</span></p>
+                                </div>
+                                <div class="profile-info">
+                                    <i class="zmdi zmdi-email base-icon"></i>
+                                    <p>Email Address<a href="mailto:{{userEmail}}"><span>{{userEmail}}</span></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h3>Your Address
@@ -112,7 +133,7 @@
                             <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#editPassword"><i class="zmdi zmdi-edit"></i>Edit</button>
                         </p>
                     </div>
-
+                {% if('ROLE_APPLICANT' in userRole) %}
                     <div class="profile-info">
                         <i class="zmdi zmdi-account-box base-icon"></i>
                         <p>ID Files Submitted
@@ -128,6 +149,7 @@
                             {% endif %}
                         </p>
                     </div>
+                {%endif%}
                 </div>
             </div>
         </div>
@@ -175,24 +197,26 @@
         </div>
     </div>
     <!-- End of Change Password -->
-     {% if userIdFiles is defined %}
-        {% for item in userIdFiles %}
+    {% if('ROLE_APPLICANT' in userRole) %}
+        {% if userIdFiles is defined %}
+            {% for item in userIdFiles %}
             <!-- File Preview -->
-            <div class="modal fade" id="fileViewer{{item.id}}">
-                <div class="modal-dialog modal-md">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
-                            <h4 class="modal-title">{{item.name}}</h4>
-                        </div>
-                        <div class="modal-body modal-body-lg"> 
-                            <img src="{{ amazon_link~item.path }}" style="width: 100%;" alt="{{item.name}}" title="{{item.name}}">
+                <div class="modal fade" id="fileViewer{{item.id}}">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                                <h4 class="modal-title">{{item.name}}</h4>
+                            </div>
+                            <div class="modal-body modal-body-lg"> 
+                                <img src="{{ amazon_link~item.path }}" style="width: 100%;" alt="{{item.name}}" title="{{item.name}}">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- End of File Preview -->
-        {%endfor%}
+                <!-- End of File Preview -->
+            {%endfor%}
+        {%endif%}
     {%endif%}
 {% endblock %}
 
