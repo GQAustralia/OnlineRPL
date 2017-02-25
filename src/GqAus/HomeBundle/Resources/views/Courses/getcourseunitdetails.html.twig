@@ -10,8 +10,11 @@
 <link href="{{ asset('public/css/package_rules.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
+    {% set userId = courseDetails.user.getId() %} 
+    {% set userObj = app.security.getToken().getUser() %}
+    {% set userRole = userObj.getRoles() %}
     {% set courseInfo = courses_service.getCourseInfo(courseDetails.courseCode)%}
-    
+    {% set loggedInUserRole = ('ROLE_FACILITATOR' in userRole) ? 'facilitator' : 'candidate' %}
     {% if (courseDetails.facilitator!= '' and courseDetails.facilitator.userImage != '') %}
         {% set facilitatorImg = amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage %}
     {% else %}
@@ -30,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <div class="container container-right-sidebar-main" ng-init="qualificationPage = '';courseCode = '{{ courseDetails.courseCode }}';initUnitDetailsPage('{{ unitCode }}');">
+        <div class="container container-right-sidebar-main" ng-init="qualificationPage = '';courseCode = '{{ courseDetails.courseCode }}';applicantId = '{{ userId }}';role = '{{ loggedInUserRole }}';initUnitDetailsPage('{{ unitCode }}');">
             <section class="section-sidebar section-sidebar-compressed">
                 <div class="panel panel-default" ng-if="unitStatus != ''">
                     <div class="panel-body">

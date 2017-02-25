@@ -399,7 +399,9 @@ class CoursesController extends Controller {
                 $params = json_decode($content, true); // 2nd param to get as array
                 $unitCode = $params['unitCode'];
                 $courseCode = $params['courseCode'];
-
+                if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
+                    $userId = $params['userId'];
+                }
                 $courseService = $this->get('CoursesService');
                 $results = $courseService->getEvidencesByUnit($userId, $unitCode, $courseCode);
             }
@@ -438,6 +440,7 @@ class CoursesController extends Controller {
      * return string
      */
     public function getCourseUnitDetailsAction($unitCode, $courseCode, $userId = '') {
+        
         $user = $this->get('security.context')->getToken()->getUser();
         $userService = $this->get('UserService');
         if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
