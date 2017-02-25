@@ -24,7 +24,6 @@ class FileController extends Controller
         if (in_array('ROLE_APPLICANT', $userRole)) {
             $userCourses = $user->getCourses();
             $evidences = $evidenceService->currentUser->getEvidences();
-            $evidenceCats = $evidenceService->getEvidenceCats();
         } else {
             $userId = $request->get('userId');
             $toViewUser = $evidenceService->userService->getUserInfo($userId);
@@ -41,6 +40,7 @@ class FileController extends Controller
             
             //$evidences = array();
         }
+        $evidenceCats = $evidenceService->getEvidenceCats();
         $formattedEvd = $evidenceService->formatEvidencesListToDisplay($evidences);
         return $this->render('GqAusUserBundle:File:view.html.twig', array('evidences' => $formattedEvd['formattedEvidences'], 'evdMapping' => $formattedEvd['evdMapping'], 'courses' => $userCourses,'userName' => $userName,'courseCode' => $courseCode,'userId' => $userId, 'evidenceCats' => $evidenceCats));
     }
