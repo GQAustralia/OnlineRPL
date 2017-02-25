@@ -71,11 +71,11 @@
 								<div class="clearfix" ng-if="!loading">Loading...</div>
                                 <div class="clearfix" ng-if="loading">
                                     <ol class="dashboard-table-head-sort hidden-xs">
-                                        <li><button ng-click="sortApplicants('applicant')" type="button" class="btn btn-transparent btn-xs btn-block">Applicant <i ng-show="currentSortTab=='applicant'" class="caret"></i></button></li>
-                                        <li ng-show="activeTab == 'incomplete'"><button ng-click="sortApplicants('days')" type="button" class="btn btn-transparent btn-xs btn-block">Days <i ng-show="currentSortTab=='days'" class="caret"></i></button></li>
-                                        <li><button  ng-click="sortApplicants('qual')" type="button" class="btn btn-transparent btn-xs btn-block">Qualification <i ng-show="currentSortTab=='qual'" class="caret"></i></button></li>
-                                        <li ng-show="activeTab == 'incomplete'"><button  ng-click="sortApplicants('status')" type="button" class="btn btn-transparent btn-xs btn-block">Status <i ng-show="currentSortTab=='status'" class="caret"></i></button></li>
-                                        <li ng-show="activeTab == 'incomplete'"><button  ng-click="sortApplicants('percent')" type="button" class="btn btn-transparent btn-xs btn-block">% Done <i ng-show="currentSortTab=='percent'" class="caret"></i></button></li>
+                                        <li><button ng-click="sortApplicants('applicant')" type="button" class="btn btn-transparent btn-xs btn-block">Applicant <i ng-show="currentSortTab=='applicant'" ng-class="{'sort-ascend': orderBy=='ASC', 'sort-descend': orderBy=='DESC'}"></i></button></li>
+                                        <li ng-show="activeTab == 'incomplete'"><button ng-click="sortApplicants('days')" type="button" class="btn btn-transparent btn-xs btn-block">Days <i ng-show="currentSortTab=='days'" ng-class="{'sort-ascend': orderBy=='ASC', 'sort-descend': orderBy=='DESC'}"></i></button></li>
+                                        <li><button  ng-click="sortApplicants('qual')" type="button" class="btn btn-transparent btn-xs btn-block">Qualification <i ng-show="currentSortTab=='qual'" ng-class="{'sort-ascend': orderBy=='ASC', 'sort-descend': orderBy=='DESC'}></i></button></li>
+                                        <li ng-show="activeTab == 'incomplete'"><button  ng-click="sortApplicants('status')" type="button" class="btn btn-transparent btn-xs btn-block">Status <i ng-show="currentSortTab=='status'" ng-class="{'sort-ascend': orderBy=='ASC', 'sort-descend': orderBy=='DESC'}></i></button></li>
+                                        <li ng-show="activeTab == 'incomplete'"><button  ng-click="sortApplicants('percent')" type="button" class="btn btn-transparent btn-xs btn-block">% Done <i ng-show="currentSortTab=='percent'" ng-class="{'sort-ascend': orderBy=='ASC', 'sort-descend': orderBy=='DESC'}></i></button></li>
                                     </ol>
                                     <ol class="dashboard-table">
                                         <!-- Applicant item -->
