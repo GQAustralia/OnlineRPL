@@ -448,8 +448,6 @@ class AccountManagerDashboardService extends CustomRepositoryService
             $condition = ' AND date > "' . date('Y-m-d' . ' 23:59:59') . '"';
             return $this->getRemindersQuery($userId, $isCompleteQuery, $condition);
         }
-
-
     }
 
     private function getRemindersQuery($userId, $isCompleteQuery, $condition)

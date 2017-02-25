@@ -27,7 +27,7 @@
         </ul>
     </li>
     <li role="presentation">
-                    <span data-target="#dueSoon" aria-controls="dueSoon" role="tab" data-toggle="tab">Due soon <i
+        <span data-target="#dueSoon" aria-controls="dueSoon" role="tab" data-toggle="tab">Due soon <i
                                 class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
         <ul class="list-group">
             {% for dueSoon in reminders.dueSoon %}
@@ -37,5 +37,8 @@
                 </li>
             {% endfor %}
         </ul>
+    </li>
+    <li role="presentation">
+        <span aria-controls="allTasks" data-toggle="modal" data-target="#allTasks">View All</span>
     </li>
 </ul>

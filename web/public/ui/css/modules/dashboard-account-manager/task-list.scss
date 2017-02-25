@@ -9,12 +9,9 @@
 					padding-top: 0;
 				}
 			}
-			&:last-child { 
-				border: none;
-				> span {
-					padding-bottom: 0;
-				}
-			}
+			&:last-child { border: none; }
+			&:not(.active):last-child > span { padding-bottom: 0; }
+
 			@media (max-width: $screen-xs-max) {
 				padding: 0 15px;
 			}
@@ -62,6 +59,11 @@
 				&[data-status="pending"]:before { content: '\f26c'; color: $text-color; }
 
 				small, .overdue { display: block; clear: both; margin-top: 3px; }
+
+				&:hover {
+					color: $gray-dark;
+					cursor: pointer;
+				}
 			}
 
 			&.active {
@@ -78,5 +80,10 @@
 				> span { color: $brand-red; }
 			}
 		}
+	}
+
+	&.compressed .nav li.list-group-item {
+		padding-left: 0;
+		padding-right: 0;
 	}
 }

@@ -45,7 +45,12 @@
 	    margin-bottom: 0;
 
 	    dd {
-	    	label { margin-bottom: 0; }
+	    	label { 
+	    		margin-bottom: 0;
+	    		white-space: normal;
+	    		font-size: 80%;
+	    		display: inline-block;
+	    	}
 	    	margin-bottom: 15px;
 	    }
 	}

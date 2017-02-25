@@ -28,15 +28,11 @@
             >
                 <i class="zmdi zmdi-hc-lg zmdi-plus"></i> Add new
             </button>
-
-            <div class="clearfix" style="width: 100px; margin-top: 5px;">
-                <button type="button" class="btn btn-default btn-xs btn-block">View all</button>
-            </div>
         </div>
 
         <hr style="margin: 0;">
         <div class="task-list">
-            <ul class="nav" role="tablist" id="task-list">
+            <ul class="nav" role="tablist" id="side-task-list">
                 <li role="presentation" class="active">
                     <span data-target="#dueToday" aria-controls="dueToday" role="tab" data-toggle="tab">Due today <i
                                 class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
@@ -57,7 +53,8 @@
                         {% endfor %}
 
                         {% for doneDueToday in reminders.doneDueToday %}
-                            <li class="list-group-item dueListCircleCheck" data-status="done" id="{{ doneDueToday.id }}">
+                            <li class="list-group-item dueListCircleCheck" data-status="done"
+                                id="{{ doneDueToday.id }}">
                                 <small>{{ doneDueToday.message }}</small>
                                 <span class="overdue text-danger">{{ doneDueToday.days_due }} days overdue</span>
                             </li>
@@ -75,6 +72,9 @@
                             </li>
                         {% endfor %}
                     </ul>
+                </li>
+                <li role="presentation">
+                    <span aria-controls="allTasks" data-toggle="modal" data-target="#allTasks">View All</span>
                 </li>
             </ul>
         </div>

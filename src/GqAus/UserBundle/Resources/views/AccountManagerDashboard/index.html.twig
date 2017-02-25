@@ -19,6 +19,9 @@
     </main>
 
     {% include 'GqAusUserBundle:AccountManagerDashboard:_footer.html.twig' %}
+    <div id="modal-task-list">
+        {% include 'GqAusUserBundle:AccountManagerDashboard:_modal_all_task.html.twig' %}
+    </div>
 
 {% endblock %}
 
@@ -67,21 +70,31 @@
 
                 $('.add-new-task').click(function () {
 
-                    var newTaskData = {
-                        'user_course_id': that.attr('data-id'),
-                        'user_id': userId,
-                        'date': that.attr('data-task-date'),
-                        'type': that.attr('data-file-type'),
-                        'created_by': userId,
-                        'message': $('#taskMessage').val()
-                    };
+                    if ($('#taskMessage').val() != '') {
 
-                    $.post("/addNewTaskAndReload", newTaskData).then(
-                        (result) => {
-                            $('#task-list').html(result);
-                            reloadDueListCircleChecker();
-                        }
-                    );
+                        var newTaskData = {
+                            'user_course_id': that.attr('data-id'),
+                            'user_id': userId,
+                            'date': that.attr('data-task-date'),
+                            'type': that.attr('data-file-type'),
+                            'created_by': userId,
+                            'message': $('#taskMessage').val()
+                        };
+
+                        $.post("/addNewTaskAndReload", newTaskData).then(
+                            (result) => {
+                                $('#side-task-list').html(result);
+
+                                $.post("/loadModalTask", {user_id: userId}).then(
+                                    (modalResult) => {
+                                        $('#modal-task-list').html(modalResult);
+                                    }
+                                );
+
+                                reloadDueListCircleChecker();
+                            }
+                        );
+                    }
 
                     that.click();
                 });
@@ -116,11 +129,18 @@
 
             $('.dueListCircleCheck').click(function () {
 
-                var completeTaskData = {'task_id': $(this).attr('id'), 'user_id': userId};
+                var completeTaskData = {task_id: $(this).attr('id'), user_id: userId};
 
                 $.post("/completeTask", completeTaskData).then(
                     (result) => {
-                        $('#task-list').html(result);
+                        $('#side-task-list').html(result);
+
+                        $.post("/loadModalTask", {user_id: userId}).then(
+                            (modalResult) => {
+                                $('#modal-task-list').html(modalResult);
+                            }
+                        );
+
                         reloadDueListCircleChecker();
                     }
                 );

@@ -46,7 +46,7 @@ a.label {
   @include label-variant($label-default-bg);
 }
 
-.label-primary {
+.label-primary, .label-red {
   @include label-variant($label-primary-bg);
 }
 
@@ -58,10 +58,27 @@ a.label {
   @include label-variant($label-info-bg);
 }
 
-.label-warning {
+.label-warning, .label-orange {
   @include label-variant($label-warning-bg);
 }
 
 .label-danger {
   @include label-variant($label-danger-bg);
+}
+
+// Qualification and unit status labels
+.label-blue {
+  @include label-variant($brand-blue);
+}
+
+.label-purple {
+  @include label-variant($brand-purple);
+}
+
+.label-pink {
+  @include label-variant($brand-pink);
+}
+
+.label-green {
+  @include label-variant($brand-lgreen);
 }

@@ -44,6 +44,8 @@
 		}
 		.panel-heading {
 			padding: $grid-gutter-width/2 $grid-gutter-width;
+
+			.qual-title { font-size: 2.6em; }
 		}
 		.nav-tabs {
 			padding-left: $grid-gutter-width;

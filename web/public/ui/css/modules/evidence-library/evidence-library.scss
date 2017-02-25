@@ -83,7 +83,7 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 		@include clearfix();
 		position: relative;
 
-		min-height: 500px;
+		min-height: 530px;
 
 		.panel-evidence-library-menu {
 			@media (max-width: $screen-xs-max) {
@@ -99,6 +99,7 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 				width: $evidence-library-width-sm;
 				border-right: 1px solid $gray-lighter;
 				border-bottom-left-radius: $panel-border-radius;
+				padding-bottom: 40px;
 			}
 			@media (min-width: $screen-md-min) {
 				width: $evidence-library-width;	
@@ -109,7 +110,6 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 			background-color: rgba(255,255,255,0.8);
 			
 			&:before {
-				content: 'Categories';
 				text-transform: uppercase;
 				font-weight: 500;
 				color: $gray-light;
@@ -272,6 +272,11 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 				border: none;
 				@include box-shadow(none);
 			}
+
+			&:not(.active) {
+				background-color: white;
+				&:hover { background-color: $dropdown-link-hover-bg; }
+			}
 		}
 	}
 }
@@ -303,6 +308,27 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 			text-align: center;
 		}
 	}
+}
+
+.indicator-storage {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 15px 15px 40px;
+    height: 38px;
+    color: $gray;
+    background: #f3f3f3;
+    border-bottom-left-radius: $border-radius-base;
+
+    > * { line-height: 1; margin: 0; font-weight: 500; font-size: 12px; }
+
+    .zmdi {
+    	position: absolute;
+    	top: 9px;
+    	left: 5px;
+    	font-size: 1.75em;
+    }
 }
 
 .is-mobile .evidence-controls .checkbox-control {

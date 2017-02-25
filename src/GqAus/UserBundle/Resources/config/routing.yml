@@ -1,3 +1,9 @@
+sendEmail:
+    path:     /sendEmail
+    defaults: { _controller: GqAusUserBundle:SampleEmail:sendEmail }
+loadModalTask:
+    path:     /loadModalTask
+    defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:loadModalTask }
 completeTask:
     path:     /completeTask
     defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:completeTask }

@@ -4,13 +4,7 @@
 	min-width: 290px;
 	textarea {
 		padding: 15px !important;
-		// @include box-shadow(none);
 		border-radius: 0;
-
-		&:focus {
-			// border: 1px solid $input-border-focus;
-			// outline: 1px solid $input-border-focus;
-		}
 	}
 	.btn-add-task {
 		border-top-left-radius: 0;
@@ -19,7 +13,7 @@
 	.btn-set-date {
 		position: absolute;
 		top: 0;
-		left: 0;
+		right: 0;
 		bottom: 0;
 		border-top-right-radius: 0;
 		border-bottom-left-radius: 0;
@@ -32,10 +26,10 @@
 	    color: #616161;
 	    font-weight: 500;
 		@include box-shadow(none);
+		@include transition(none);
 	}
 
 	.popover-title {
-		padding-left: 90px;
 		font-size: 12px !important;
 	}
 
@@ -60,6 +54,20 @@
 				display: block;
 			}
 		}
+		.btn-set-date {
+			left: 0;
+			width: 50px;
+			overflow: hidden;
+			@include transition(none);
+
+			i.zmdi {
+				width: 40px;
+				padding-right: 13px;
+			}
+		}
+		.popover-title {
+			padding-left: 65px;
+		}
 		.btn-add-task { display: none; }
 
 		[data-action="today"] {
@@ -80,5 +88,11 @@
 			text-decoration: none;
 			> .glyphicon { display: none; }
 		}
+	}
+}
+
+.popover.left {
+	.arrow {
+		top: 93px !important;
 	}
 }

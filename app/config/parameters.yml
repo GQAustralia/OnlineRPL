@@ -6,10 +6,10 @@ parameters:
     database_name: onlinerpl_db
     database_user: root
     database_password: null
-    mailer_transport: null
+    mailer_transport: gmail
     mailer_host: null
-    mailer_user: null
-    mailer_password: null
+    mailer_user: jeremuelraymundo@gmail.com
+    mailer_password: Pr0gramm3rss
     mailer_encryption: null
     mailer_port: null
     mailer_auth_mode: null

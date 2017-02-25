@@ -91,6 +91,22 @@ class AccountManagerDashboardController extends Controller
     }
 
     /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function loadModalTaskAction(Request $request)
+    {
+        $dashboard = $this->get('AccountManagerDashboardService');
+        $remindersList = $dashboard->getRemindersList($request->request->get('user_id'));
+
+        return $this->render(
+            'GqAusUserBundle:AccountManagerDashboard:_modal_all_task.html.twig',
+            ['reminders' => $remindersList]
+        );
+    }
+
+    /**
      * @return array
      */
     private function getUserInfo()
