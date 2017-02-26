@@ -13,13 +13,11 @@ class SampleEmailController extends Controller
 
         $email = $this->get('EmailService');
 
-        $result = $email->sendNotificationToApplicant(61);
+       //$result = $email->sendNotificationToApplicant(61);
 
-        if(! $result){
-            echo 'failed';
-        }
+
       //  $email->sendNotificationEmailToSupervisors(61);
-       // $email->sendWelcomeEmailToApplicant(61, 'Certificate IV in Beauty Therapy');
+        $email->sendWelcomeEmailToApplicant(61, 'Certificate IV in Beauty Therapy');
        // $email->notifyApplicantForTheAssignedAccountManager(37, 'SHB40115');
 
         return $response->fractal()->respondSuccess();
