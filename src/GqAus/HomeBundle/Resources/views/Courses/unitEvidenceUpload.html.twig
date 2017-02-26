@@ -30,16 +30,18 @@
                                 <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseEvidences" aria-expanded="true" aria-controls="collapseAbout">Evidence <small class="badge badge-xs" ng-if="(unitEvidences| filter:{type: '!text'}).length>0">{[{(unitEvidences| filter:{type: '!text'}).length}]} files</small><i class="zmdi zmdi-chevron-down"></i></h3>
 
                                 <div id="collapseEvidences" class="panel-collapse collapse in collapsed">
-                                    <div class="panel-collapse-inner" ng-if="!isSubmitted() && (unitEvidences| filter:{type: '!text'}).length === 0">
-                                        <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
-                                            <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
-                                            <h4>
-                                                No evidence for this unit yet <br>
-                                                <button type="button" class="btn-link">Upload evidence now</button>
-                                            </h4>
-                                            <!-- <input class="upload-control-input" type="file" id="uploadID"> -->
-                                        </section>
-                                    </div>
+									{% if ('ROLE_APPLICANT' in roles) %}
+										<div class="panel-collapse-inner" ng-if="!isSubmitted() && (unitEvidences| filter:{type: '!text'}).length === 0">
+											<section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
+												<i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
+												<h4>
+													No evidence for this unit yet <br>
+													<button type="button" class="btn-link">Upload evidence now</button>
+												</h4>
+												<!-- <input class="upload-control-input" type="file" id="uploadID"> -->
+											</section>
+										</div>
+									{% endif %}
 
                                     <div class="panel-collapse-inner" ng-if="(unitEvidences| filter:{type: '!text'}).length > 0" data-has-thumbnail="true">
                                         <div class="evidence-controls">
@@ -178,13 +180,19 @@
                                 </div>
                             </article>
                             <!-- Notes from Account Manager -->
-
-                            <div class="btn-auto-group" ng-if="!isSubmitted()">
-                                <button class="btn btn-default">Save</button>
-                                <button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0">Submit this Unit for Assessment</button>
-                            </div> 
+							{% if ('ROLE_APPLICANT' in roles) %}
+								<div class="btn-auto-group" ng-if="!isSubmitted()">
+									<button class="btn btn-default">Save</button>
+									<button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0">Submit this Unit for Assessment</button>
+								</div>
+							{% endif %}
+							{% if ('ROLE_FACILITATOR' in roles) %}
+								<div class="btn-auto-group" ng-if="isSubmitted()">
+									<button class="btn btn-default" ng-click="satisfactory('1', 'ROLE_FACILITATOR')">Satisfactory</button>
+									<button class="btn btn-success" ng-click="satisfactory('0', 'ROLE_FACILITATOR')" ng-disabled="unitEvidences.length === 0">Not Yet Satisfactory</button>
+								</div>
+							{% endif %}
                         </div>
                     </div>
-                
                 </div>
             </section>

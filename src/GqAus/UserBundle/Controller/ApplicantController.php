@@ -77,21 +77,43 @@ class ApplicantController extends Controller
      * Function to update user unit evidence status
      *  return string
      */
-    public function setUserUnitEvidencesStatusAction()
+    public function setUserUnitEvidencesStatusAction(Request $request)
     {
-        $result = array();
-        $userId = $this->getRequest()->get('userId');
-        $result['userId'] = $userId;
-        $result['unit'] = $this->getRequest()->get('unit');
-        $result['status'] = $this->getRequest()->get('status');
-        $result['userRole'] = $this->getRequest()->get('userRole');
-        $result['currentUserName'] = $this->get('security.context')->getToken()->getUser()->getUserName();
-        $result['currentUserId'] = $this->get('security.context')->getToken()->getUser()->getId();
-        $result['currentuserRole'] = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $result['courseName'] = $this->getRequest()->get('courseName');
-        $result['courseCode'] = $this->getRequest()->get('courseCode');
-        $result['unitName'] = $this->getRequest()->get('unitName');
-        $result['msgBody'] = $this->getRequest()->get('msgBody');
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $type = "";
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+				$userId = $params['userId'];
+				$result['userId'] = $userId;
+				$result['unit'] = $params['unit'];
+				$result['status'] = $params['status'];
+				$result['userRole'] = $params['userRole'];
+				$result['currentUserName'] = $this->get('security.context')->getToken()->getUser()->getUserName();
+				$result['currentUserId'] = $this->get('security.context')->getToken()->getUser()->getId();
+				$result['currentuserRole'] = $this->get('security.context')->getToken()->getUser()->getRoles();
+				$result['courseName'] = $params['courseName'];
+				$result['courseCode'] = $params['courseCode'];
+				$result['unitName'] = $params['unitName'];
+            }
+
+		} else {
+			$result = array();
+			$userId = $this->getRequest()->get('userId');
+			$result['userId'] = $userId;
+			$result['unit'] = $this->getRequest()->get('unit');
+			$result['status'] = $this->getRequest()->get('status');
+			$result['userRole'] = $this->getRequest()->get('userRole');
+			$result['currentUserName'] = $this->get('security.context')->getToken()->getUser()->getUserName();
+			$result['currentUserId'] = $this->get('security.context')->getToken()->getUser()->getId();
+			$result['currentuserRole'] = $this->get('security.context')->getToken()->getUser()->getRoles();
+			$result['courseName'] = $this->getRequest()->get('courseName');
+			$result['courseCode'] = $this->getRequest()->get('courseCode');
+			$result['unitName'] = $this->getRequest()->get('unitName');
+			$result['msgBody'] = $this->getRequest()->get('msgBody');
+		}
         $userUnitEvStatus = $this->get('UserService')->updateApplicantEvidences($result);
         echo $userUnitEvStatus.= "&&" . $this->get('UserService')
             ->updateCourseRTOStatus($userId, $result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
@@ -999,5 +1021,20 @@ class ApplicantController extends Controller
    				$results['applicantObj'] = $userService->getUserInfo($applicantId);
    				
    				return $this->render('GqAusUserBundle:Applicant:applicantProfile.html.twig', $results);
+   }
+
+   public function enrollmentInfoAction($applicantId) {
+		dump($applicantId);
+		exit;
+		$userService = $this->get('UserService');
+		$results = array();
+		
+		$user = $this->get('security.context')->getToken()->getUser();
+		$results['user'] = $user;
+		$results['applicantCourses'] = $userService->getUserCourses($applicantId);
+		$results['applicantId'] = $applicantId;
+		$results['applicantObj'] = $userService->getUserInfo($applicantId);
+		
+		return $this->render('GqAusUserBundle:Applicant:applicantProfile.html.twig', $results);
    }
 }
