@@ -5474,11 +5474,7 @@ class UserService {
      * Function to retrieve the handled applicants 
      * @param type $userId
      */
-    public function getApplicantsHandled($userId) {
-//       $applicantsList = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $qcode));
-//       $applicantsList = $this->em->getRepository('GqAusUserBundle:UserCourses');
-//       return $totalCountAppList =  $applicantsList->findBy(array('facilitator' => $userId));
-       
+    public function getApplicantsHandled($userId) {    
         $query = $this->em->getRepository('GqAusUserBundle:UserCourses')
             ->createQueryBuilder('uc')
             ->groupBy('uc.user')

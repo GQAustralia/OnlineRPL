@@ -73,6 +73,9 @@ getUnitInfo:
 getEvidenceLibrary:
     path: /units/getEvidenceLibrary
     defaults: { _controller: GqAusHomeBundle:Courses:getEvidenceLibrary }
+getEvidenceLibraryForOthThanApplicant:
+    path: /units/getEvidenceLibraryForOthThanApplicant
+    defaults: { _controller: GqAusHomeBundle:Courses:getEvidenceLibraryForOthThanApplicant }
 getNotes:
     path: /units/getNotes
     defaults: { _controller: GqAusHomeBundle:Courses:getNotes }  

@@ -4,6 +4,7 @@ namespace GqAus\HomeBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
+use GqAus\UserBundle\Entity\UserCourses;
 use GqAus\UserBundle\Entity\UserCourseUnits;
 use GuzzleHttp\Exception\ServerException;
 
@@ -1307,6 +1308,20 @@ class CoursesService
     					$cls = 'label-warning';
     	}
     	return $cls;
+    }
+    /**
+     * Function to retrieve the list of applicants from the facilitator
+     * @param type $facId
+     */
+    public function listOfApplicantsForLoggedinUser($facId = '') {
+        $query = $this->em->getRepository('GqAusUserBundle:UserCourses')
+            ->createQueryBuilder('uc')
+            ->groupBy('uc.user')
+//            ->select('uc.user')
+            ->where(sprintf('uc.%s = :%s', 'facilitator', 'facilitatorId'))->setParameter('facilitatorId', $facId);
+				
+        $courseObj = $query->getQuery()->getResult();
+        return $courseObj;
     }
    
 }

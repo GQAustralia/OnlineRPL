@@ -508,11 +508,27 @@ class CoursesController extends Controller {
             $content = $this->get("request")->getContent();
             if (!empty($content)) {
                 $params = json_decode($content, true); // 2nd param to get as array
-                $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
+                if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
+                   $assignedUsers = $this->get('CoursesService')->listOfApplicantsForLoggedinUser($userId);
+                   if(count($assignedUsers) > 0){
+                        for($rcrd = 0; $rcrd < count($assignedUsers)-1; $rcrd++){
+                            $userId = $assignedUsers[$rcrd]->getUser()->getId();
+                            $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
+                        }
+                   }
+                }else
+                    $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
             }
-        }
+        }        
         
         return new JsonResponse($results);
+    }
+    /**
+     * Function to retrieve
+     * @param Request $request
+     */
+    public function getEvidenceLibraryForOthThanApplicantAction(Request $request) {
+        
     }
     /**
      * Function to get all courses assigned to user
