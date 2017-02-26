@@ -19,11 +19,11 @@ class CoursesController extends Controller {
      */
     public function indexAction($id, $userId = '', $page = 'qualification', Request $request) {
 
-		$currentUrl = $request->getUri();
-		$pageUrl = $this->container->getParameter('applicationUrl').''.$request->attributes->get('_route').'/';
-		$paramPart = str_replace($pageUrl, '', $currentUrl);
-		$urlParams = explode('/',$paramPart);
-		$page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
+        $currentUrl = $request->getUri();
+        $pageUrl = $this->container->getParameter('applicationUrl') . '' . $request->attributes->get('_route') . '/';
+        $paramPart = str_replace($pageUrl, '', $currentUrl);
+        $urlParams = explode('/', $paramPart);
+        $page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
 
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -440,7 +440,7 @@ class CoursesController extends Controller {
      * return string
      */
     public function getCourseUnitDetailsAction($unitCode, $courseCode, $userId = '') {
-        
+
         $user = $this->get('security.context')->getToken()->getUser();
         $userService = $this->get('UserService');
         if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
@@ -509,20 +509,21 @@ class CoursesController extends Controller {
             if (!empty($content)) {
                 $params = json_decode($content, true); // 2nd param to get as array
                 if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
-                   $assignedUsers = $this->get('CoursesService')->listOfApplicantsForLoggedinUser($userId);
-                   if(count($assignedUsers) > 0){
-                        for($rcrd = 0; $rcrd < count($assignedUsers)-1; $rcrd++){
+                    $assignedUsers = $this->get('CoursesService')->listOfApplicantsForLoggedinUser($userId);
+                    if (count($assignedUsers) > 0) {
+                        for ($rcrd = 0; $rcrd < count($assignedUsers) - 1; $rcrd++) {
                             $userId = $assignedUsers[$rcrd]->getUser()->getId();
                             $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
                         }
-                   }
-                }else
+                    }
+                } else
                     $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
             }
-        }        
-        
+        }
+
         return new JsonResponse($results);
     }
+
     /**
      * Function to retrieve
      * @param Request $request
@@ -530,12 +531,12 @@ class CoursesController extends Controller {
     public function getEvidenceLibraryForOthThanApplicantAction(Request $request) {
         
     }
+
     /**
      * Function to get all courses assigned to user
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
-    public function getUserCoursesAction(Request $request)
-    {
+    public function getUserCoursesAction(Request $request) {
         $results = [];
         $user = $this->get('security.context')->getToken()->getUser();
         $userId = $user->getId();
@@ -546,7 +547,7 @@ class CoursesController extends Controller {
                 $courses['id'] = $userCourse->getId();
                 $courses['name'] = $userCourse->getCourseName();
                 $courses['courseCode'] = $userCourse->getCourseCode();
-                $results[trim($userCourse->getId())] =  $courses;  
+                $results[trim($userCourse->getId())] = $courses;
             }
         }
         return new JsonResponse($results);
@@ -601,12 +602,13 @@ class CoursesController extends Controller {
 
         return new JsonResponse($results);
     }
+
     /**
      * Function to edit the note text & save
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
     public function editNotesAction(Request $request) {
-         $results = [];
+        $results = [];
         $user = $this->get('security.context')->getToken()->getUser();
         $userId = $user->getId();
         if ($request->isMethod('POST') && $userId != '') {
@@ -624,6 +626,7 @@ class CoursesController extends Controller {
 
         return new JsonResponse($results);
     }
+
     /**
      * Function to acknowledge Note by note id
      * @param object $request
@@ -647,6 +650,7 @@ class CoursesController extends Controller {
 
         return new JsonResponse($results);
     }
+
     /**
      * Function to delete the note from the unit.
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -661,7 +665,7 @@ class CoursesController extends Controller {
                 $noteId = $params['noteId'];
                 $userId = $params['userId'];
                 $courseCode = $params['courseCode'];
-                $results = $this->get('NotesService')->deleteNote($userId, $courseCode,$noteId);
+                $results = $this->get('NotesService')->deleteNote($userId, $courseCode, $noteId);
             }
         }
 

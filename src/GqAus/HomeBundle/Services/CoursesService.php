@@ -8,8 +8,7 @@ use GqAus\UserBundle\Entity\UserCourses;
 use GqAus\UserBundle\Entity\UserCourseUnits;
 use GuzzleHttp\Exception\ServerException;
 
-class CoursesService
-{
+class CoursesService {
 
     private $repository;
 
@@ -35,8 +34,7 @@ class CoursesService
      * @param object $mailer
      * @param object $guzzleService
      */
-    public function __construct($em, $container, $mailer, $guzzleService)
-    {
+    public function __construct($em, $container, $mailer, $guzzleService) {
         $this->em = $em;
         $this->repository = $em->getRepository('GqAusUserBundle:User');
         $this->container = $container;
@@ -50,10 +48,9 @@ class CoursesService
      * @param int $uid
      * return array
      */
-    public function getCourseDetails($qcode, $uid)
-    {
+    public function getCourseDetails($qcode, $uid) {
         return $this->em->getRepository('GqAusUserBundle:UserCourses')
-                ->findOneBy(array('courseCode' => $qcode, 'user' => $uid));
+                        ->findOneBy(array('courseCode' => $qcode, 'user' => $uid));
     }
 
     /**
@@ -61,63 +58,60 @@ class CoursesService
      * @param int $id
      * return array
      */
-    public function getCoursesInfo($id)
-    {
+    public function getCoursesInfo($id) {
         $courseInfo = $this->fetchRequest($id);
         if (!empty($courseInfo)) {
             if (!empty($courseInfo['details'])) {
                 $courseInfo['details'] = html_entity_decode($courseInfo['details']);
             }
-        }        
+        }
         return array('courseInfo' => $courseInfo);
     }
+
     /**
      * Function to get package rules
      * @param int $id
      * return array
      */
-    public function getPackagerulesInfo($id)
-    {
+    public function getPackagerulesInfo($id) {
         $packageInfo = $this->fetchQualificationRequest($id);
-        $packageInfoPackage =  null;
+        $packageInfoPackage = null;
         if (!empty($packageInfo)) {
             if (!empty($packageInfo['packaging'])) {
                 $packageInfoPackage = htmlspecialchars_decode($packageInfo['packaging']);
             }
-        }        
+        }
         return $packageInfoPackage;
     }
-    
+
     /**
      * Function to get course Info
      * @param int $id
      * return array
      */
-    public function getCourseInfo($id)
-    {
-    	$courseInfo = $this->fetchQualificationRequest($id);
-    	if (!empty($courseInfo)) {
-    		if (!empty($courseInfo['qualification'])) {
-    			$courseInfo = htmlspecialchars_decode($courseInfo['qualification']);
-    		}
-    	}
-    	return $courseInfo;
+    public function getCourseInfo($id) {
+        $courseInfo = $this->fetchQualificationRequest($id);
+        if (!empty($courseInfo)) {
+            if (!empty($courseInfo['qualification'])) {
+                $courseInfo = htmlspecialchars_decode($courseInfo['qualification']);
+            }
+        }
+        return $courseInfo;
     }
-    
-     /**
+
+    /**
      * Function to get Unit info
      * @param int $id
      * return array
      */
-    public function getUnitInfo($id)
-    {   
+    public function getUnitInfo($id) {
         $unitInfo = $this->fetchUnitRequest($id);
-       
+
         if (!empty($unitInfo)) {
             if (!empty($unitInfo['details'])) {
                 $unitInfo['details'] = html_entity_decode($courseInfo['details']);
             }
-        }        
+        }
         return array('unitInfo' => $unitInfo);
     }
 
@@ -126,23 +120,22 @@ class CoursesService
      * @param int $id
      * return array
      */
-    public function getUserCoursesInfo($id)
-    {
+    public function getUserCoursesInfo($id) {
         $courseInfo = $this->fetchCourseRequest($id);
         if (!empty($courseInfo)) {
             if (!empty($courseInfo['details'])) {
                 $courseInfo['details'] = html_entity_decode($courseInfo['details']);
             }
-        }        
+        }
         return array('courseInfo' => $courseInfo);
     }
+
     /**
      * Function to api request for courses
      * @param int $id
      * return array
      */
-    public function fetchRequest($id)
-    {
+    public function fetchRequest($id) {
         $session = new Session();
         $start = $session->get('start');
         $apiToken = $session->get('api_token');
@@ -174,13 +167,13 @@ class CoursesService
         }
         return (!empty($qualificationUnits['qualification'])) ? $qualificationUnits['qualification'] : array();
     }
+
     /**
      * Function to api request for courses
      * @param int $id
      * return array
      */
-    public function fetchQualificationRequest($id)
-    {
+    public function fetchQualificationRequest($id) {
         $session = new Session();
         $start = $session->get('start');
         $apiToken = $session->get('api_token');
@@ -212,13 +205,13 @@ class CoursesService
         }
         return (!empty($qualificationUnits['qualification'])) ? $qualificationUnits['qualification'] : array();
     }
+
     /**
      * Function to api request for courses
      * @param int $id
      * return array
      */
-    public function fetchCourseRequest($id)
-    {
+    public function fetchCourseRequest($id) {
         $session = new Session();
         $start = $session->get('start');
         $apiToken = $session->get('api_token');
@@ -245,9 +238,9 @@ class CoursesService
             }
         }
 
-        if (!empty($result)) {         
+        if (!empty($result)) {
             $qualificationUnits = $this->xml2array($result);
-        }       
+        }
 //        $myfile = fopen("newfile.txt", "r") or die("Unable to open file!");
 //        $qualificationUnits =  json_decode(fread($myfile,filesize("newfile.txt")),true);
 //        dump($qualificationUnits); 
@@ -255,13 +248,13 @@ class CoursesService
 //        exit();
         return (!empty($qualificationUnits['package'])) ? $qualificationUnits['package'] : array();
     }
+
     /**
      * Function to api request for unit
      * @param int $id
      * return array
      */
-    public function fetchUnitRequest($id)
-    {
+    public function fetchUnitRequest($id) {
         $session = new Session();
         $start = $session->get('start');
         $apiToken = $session->get('api_token');
@@ -287,135 +280,136 @@ class CoursesService
                 $result = $this->accessUnitAPI($postFields);
             }
         }
-        
+
         if (!empty($result)) {
             $qualificationUnits = $this->xml2array($result);
         }
-        
+
         return (!empty($qualificationUnits['unit'])) ? $qualificationUnits['unit'] : array();
     }
+
     /**
      * Function to access API
      * @param string $fieldString
      * return array
      */
-    public function accessCourseAPI($fieldString)
-    {
+    public function accessCourseAPI($fieldString) {
         $apiUrl = $this->container->getParameter('apiUrl');
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "unitsbyqualifications";
-        
+
         try {
-        				$response = $this->guzzleService->request('POST', $url, [
-						        		'auth' => [$apiAuthUsername, $apiAuthPassword],
-						        		'query' => $fieldString
-						        		]);
-        }catch (ServerException $e) {
-        	
-        				$response = $e->getResponse(true);
+            $response = $this->guzzleService->request('POST', $url, [
+                'auth' => [$apiAuthUsername, $apiAuthPassword],
+                'query' => $fieldString
+            ]);
+        } catch (ServerException $e) {
+
+            $response = $e->getResponse(true);
         }
-        
+
         if ($response->getStatusCode() != 200) {
-        	return null;
+            return null;
         }
-        
+
         $result = $response->getBody();
         return $result;
     }
+
     /**
      * Function to access API
      * @param string $fieldString
      * return array
      */
-    public function accessQualificationAPI($fieldString)
-    {
+    public function accessQualificationAPI($fieldString) {
         $apiUrl = $this->container->getParameter('apiUrl');
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "qualifications";
-        
+
         try {
-        				$response = $this->guzzleService->request('POST', $url, [
-						        		'auth' => [$apiAuthUsername, $apiAuthPassword],
-						        		'query' => $fieldString
-						        		]);
-        }catch (ServerException $e) {
-        	 
-        				$response = $e->getResponse(true);
+            $response = $this->guzzleService->request('POST', $url, [
+                'auth' => [$apiAuthUsername, $apiAuthPassword],
+                'query' => $fieldString
+            ]);
+        } catch (ServerException $e) {
+
+            $response = $e->getResponse(true);
         }
-        
+
         if ($response->getStatusCode() != 200) {
-        	return null;
+            return null;
         }
-        
+
         $result = $response->getBody();
         return $result;
     }
+
     /**
      * Function to access API
      * @param string $fieldString
      * return array
      */
-    public function accessAPI($fieldString)
-    {
+    public function accessAPI($fieldString) {
         $apiUrl = $this->container->getParameter('apiUrl');
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "qualificationunits";
 
         try {
-				        $response = $this->guzzleService->request('POST', $url, [
-				        			'auth' => [$apiAuthUsername, $apiAuthPassword],
-				        			'query' => $fieldString
-				        			]);
-        }catch (ServerException $e) {
-        
-        				$response = $e->getResponse(true);
+            $response = $this->guzzleService->request('POST', $url, [
+                'auth' => [$apiAuthUsername, $apiAuthPassword],
+                'query' => $fieldString
+            ]);
+        } catch (ServerException $e) {
+
+            $response = $e->getResponse(true);
         }
-        
+
         if ($response->getStatusCode() != 200) {
-        	return null;
+            return null;
         }
-        
+
         $result = $response->getBody();
         return $result;
     }
+
     /**
      * Function to access unit API
      * @param string $fieldString
      * return array
      */
-    public function accessUnitAPI($fieldString)
-    {   
+    public function accessUnitAPI($fieldString) {
         $apiUrl = $this->container->getParameter('apiUrl');
         $apiAuthUsername = $this->container->getParameter('apiAuthUsername');
         $apiAuthPassword = $this->container->getParameter('apiAuthPassword');
         $url = $apiUrl . "units";
-      
+
         try {
-        				$response = $this->guzzleService->request('POST', $url, [
-					        		'auth' => [$apiAuthUsername, $apiAuthPassword],
-					        		'query' => $fieldString
-					        		]);
-        }catch (ServerException $e) {
-        
-        				$response = $e->getResponse(true);
+            $response = $this->guzzleService->request('POST', $url, [
+                'auth' => [$apiAuthUsername, $apiAuthPassword],
+                'query' => $fieldString
+            ]);
+        } catch (ServerException $e) {
+
+            $response = $e->getResponse(true);
         }
-        
+
         if ($response->getStatusCode() != 200) {
-        	return null;
+            return null;
         }
-        
+
         $result = $response->getBody();
         return $result;
     }
+
     /**
      * Function to get the Required Units Count is having both core & elective units
      * @param type $courseCode
      * @return integer
      */
-    public function getReqUnitsForCourseByCourseId($courseCode){
+    public function getReqUnitsForCourseByCourseId($courseCode) {
         $params = array('code' => $courseCode);
         $totalReqUnits = 0;
         $apiUrl = $this->container->getParameter('apiUrl');
@@ -424,30 +418,30 @@ class CoursesService
         $url = $apiUrl . "unitsbyqualifications";
 
         try {
-        				$response = $this->guzzleService->request('POST', $url, [
-						        		'auth' => [$apiAuthUsername, $apiAuthPassword],
-						        		'query' => $params
-						        		]);
-        }catch (ServerException $e) {
-    								$response = $e->getResponse(true);
-    				}
+            $response = $this->guzzleService->request('POST', $url, [
+                'auth' => [$apiAuthUsername, $apiAuthPassword],
+                'query' => $params
+            ]);
+        } catch (ServerException $e) {
+            $response = $e->getResponse(true);
+        }
 
-								if ($response->getStatusCode() != 200) {
-									return array();
-								}
-								
+        if ($response->getStatusCode() != 200) {
+            return array();
+        }
+
         $result = $response->getBody();
-        if (!empty($result)) {         
+        if (!empty($result)) {
             $qualificationUnits = $this->xml2array($result);
-        }      
+        }
         $unitsCount = array();
-        if(!empty($qualificationUnits['package'])){
-        				if (!empty($qualificationUnits['package']['Units']['Core'])) {
-            				$unitsCount['core'] = count($qualificationUnits['package']['Units']['Core']['unit']);
-        				}
-        				if (!empty($qualificationUnits['package']['Units']['Elective'])) {
-           				 $unitsCount['elective'] = $qualificationUnits['package']['Units']['Elective']['validation']['requirement'];
-        				}
+        if (!empty($qualificationUnits['package'])) {
+            if (!empty($qualificationUnits['package']['Units']['Core'])) {
+                $unitsCount['core'] = count($qualificationUnits['package']['Units']['Core']['unit']);
+            }
+            if (!empty($qualificationUnits['package']['Units']['Elective'])) {
+                $unitsCount['elective'] = $qualificationUnits['package']['Units']['Elective']['validation']['requirement'];
+            }
         }
         return $unitsCount;
     }
@@ -457,8 +451,7 @@ class CoursesService
      * @param string $result
      * return string
      */
-    public function getTokenGenerated($result)
-    {
+    public function getTokenGenerated($result) {
         $token = false;
         $p = xml_parser_create();
         xml_parse_into_struct($p, $result, $vals, $index);
@@ -479,8 +472,7 @@ class CoursesService
      * @param string $priority
      * return string
      */
-    function xml2array($contents, $getAttributes = 1, $priority = 'tag')
-    {        
+    function xml2array($contents, $getAttributes = 1, $priority = 'tag') {
         if (!$contents) {
             return array();
         }
@@ -500,7 +492,7 @@ class CoursesService
         if (!$xmlValues) {
             return;
         }
-        
+
         //Initializations
         $xmlArray = array();
         $parents = array();
@@ -600,7 +592,7 @@ class CoursesService
                 $current = &$parent[$level - 1];
             }
         }
-       
+
         return($xmlArray);
     }
 
@@ -611,8 +603,7 @@ class CoursesService
      * @param string $courseCode
      * return integer
      */
-    public function updateUnitElective($userId, $unitId, $courseCode)
-    {
+    public function updateUnitElective($userId, $unitId, $courseCode) {
         $status = 1;
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userUnitObj = $reposObj->findOneBy(array('user' => $userId,
@@ -621,27 +612,28 @@ class CoursesService
         if (empty($userUnitObj)) {
             $reposObj = new UserCourseUnits();
             $userObj = $this->em->getRepository('GqAusUserBundle:User')
-                ->find($userId);
+                    ->find($userId);
             $reposObj->setUnitId($unitId);
             $reposObj->setCourseCode($courseCode);
             $reposObj->setStatus(1);
             $reposObj->setElectiveStatus(1);
             $reposObj->setUser($userObj);
             $this->em->persist($reposObj);
-        } else {           
+        } else {
             $userUnitObj->setElectiveStatus($status);
         }
         $this->em->flush();
         $this->em->clear();
         return $status;
     }
+
     /**
      * Function to get the selected elective units from the candidate to loggedin users in the elective units section 
      * @param type $userId
      * @param type $courseCode
      * @return type
      */
-    public function getSelectedElectiveUnits($userId, $courseCode){
+    public function getSelectedElectiveUnits($userId, $courseCode) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'electiveStatus' => '1'));
         $courseUnits = array();
@@ -660,8 +652,7 @@ class CoursesService
      * @param string $type
      * return array
      */
-    public function getElectiveUnits($userId, $courseCode, $type='elective')
-    {
+    public function getElectiveUnits($userId, $courseCode, $type = 'elective') {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'status' => '1', 'type' => $type));
         $courseUnits = array();
@@ -672,14 +663,14 @@ class CoursesService
         }
         return $courseUnits;
     }
+
     /**
      * Function to get count of core and elective units
      * @param int $userId
      * @param string $courseCode
      * return int
      */
-    public function getCoreElectiveUnitsCount($userId, $courseCode,$type)
-    {
+    public function getCoreElectiveUnitsCount($userId, $courseCode, $type) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findBy(array('user' => $userId,
             'courseCode' => $courseCode,
@@ -689,9 +680,10 @@ class CoursesService
             foreach ($userCourseUnits as $units) {
                 $courseUnits[trim($units->getUnitId())] = trim($units->getUnitId());
             }
-        }        
+        }
         return count($courseUnits);
     }
+
     /**
      * Function to get applicant unit status
      * @param int $applicantId
@@ -699,8 +691,7 @@ class CoursesService
      * @param string $courseCode
      * return array
      */
-    public function getUnitStatus($applicantId, $unitId, $courseCode)
-    {
+    public function getUnitStatus($applicantId, $unitId, $courseCode) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findOneBy(array(
             'user' => $applicantId,
@@ -708,22 +699,23 @@ class CoursesService
             'courseCode' => $courseCode));
         return !empty($userCourseUnits) ? $userCourseUnits : '';
     }
-  /**
+
+    /**
      * Function to get applicant any unit status
      * @param int $applicantId     
      * @param string $courseCode
      * return int
      */
-    public function getOneUnitStatus($applicantId, $courseCode)
-    {
+    public function getOneUnitStatus($applicantId, $courseCode) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findBy(array(
-            'user' => $applicantId,            
+            'user' => $applicantId,
             'courseCode' => $courseCode,
-            'issubmitted' => '1' ));
+            'issubmitted' => '1'));
         $result = !empty($userCourseUnits) ? count($userCourseUnits) : '0';
         return $result;
     }
+
     /**
      * Function to get core Units Status
      * @param int $applicantId     
@@ -731,49 +723,48 @@ class CoursesService
      * @param string $unittype
      * return array
      */
-    public function getSubmittedCoreStatus($applicantId, $courseCode, $unittype)
-    {
+    public function getSubmittedCoreStatus($applicantId, $courseCode, $unittype) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findBy(array(
-            'user' => $applicantId,            
+            'user' => $applicantId,
             'courseCode' => $courseCode,
-            'type'=> $unittype,
-            'issubmitted' => '1' ,            
+            'type' => $unittype,
+            'issubmitted' => '1',
             'status' => '1'));
-        
+
         return !empty($userCourseUnits) ? count($userCourseUnits) : '';
     }
-     /**
+
+    /**
      * Function to get submitted elective Units Status
      * @param int $applicantId     
      * @param string $courseCode
      * @param string $unittype
      * return array
      */
-    public function getSubmittedElectiveStatus($applicantId, $courseCode, $unittype)
-    {
+    public function getSubmittedElectiveStatus($applicantId, $courseCode, $unittype) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findBy(array(
-            'user' => $applicantId,            
+            'user' => $applicantId,
             'courseCode' => $courseCode,
-            'type'=> $unittype,
-            'issubmitted' => '1' ,            
+            'type' => $unittype,
+            'issubmitted' => '1',
             'electiveStatus' => '1'));
-        
+
         return !empty($userCourseUnits) ? count($userCourseUnits) : '';
     }
+
     /**
      * Function to update qualification unit table
      * @param int $userId
      * @param string $courseCode
      * @param array $apiResults
      */
-    public function updateQualificationUnits($userId, $courseCode, $apiResults)
-    {
+    public function updateQualificationUnits($userId, $courseCode, $apiResults) {
         if (isset($apiResults['courseInfo'])) {
             if (isset($apiResults['courseInfo']['Units'])) {
                 $userObj = $this->em->getRepository('GqAusUserBundle:User')
-                    ->find($userId);
+                        ->find($userId);
                 if (isset($apiResults['courseInfo']['Units']['Unit'])) {
                     if (array_key_exists('id', $apiResults['courseInfo']['Units']['Unit'])) {
                         $unitResults[] = $apiResults['courseInfo']['Units']['Unit'];
@@ -816,8 +807,7 @@ class CoursesService
      * @param string $courseCode
      * return array
      */
-    public function getQualificationElectiveUnits($userId, $courseCode)
-    {
+    public function getQualificationElectiveUnits($userId, $courseCode) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findBy(array('user' => $userId,
             'courseCode' => $courseCode));
@@ -832,47 +822,46 @@ class CoursesService
                     $courseUnits[] = $units->getUnitId();
                 }
                 if (($aStatus == 1 && $rStatus == 2) || ($aStatus == 2 && $rStatus == 0) ||
-                    ($aStatus == 0 && $rStatus == 0)) {
+                        ($aStatus == 0 && $rStatus == 0)) {
                     $courseApprovedUnits[] = $units->getUnitId();
                 }
             }
         }
         return compact('courseUnits', 'courseApprovedUnits');
     }
+
     /**
      * Function to Submit Unit for Review
      */
-    
-    public function getsubmitUnitForReview($userId,$courseCode,$unitId)
-    {
-         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
+    public function getsubmitUnitForReview($userId, $courseCode, $unitId) {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
         $evidences = $reposObj->findBy(array('user' => $userId, 'unit' => $unitId, 'course' => $courseCode));
         return $evidences;
     }
+
     /**
      * Function to get qualification elective units using elective_status
      * @param int $userId
      * @param string $courseCode
      * return array
      */
-    public function getQualificationElectiveStatus($userId, $courseCode,$unitId)
-    {
+    public function getQualificationElectiveStatus($userId, $courseCode, $unitId) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findBy(array('user' => $userId,
-            'courseCode' => $courseCode,'unitId'=>$unitId,'type'=>'elective'));
+            'courseCode' => $courseCode, 'unitId' => $unitId, 'type' => 'elective'));
         $courseUnits = array();
-  
+
         return $userCourseUnits;
     }
-     /**
+
+    /**
      * Function to get Elective CheckedValues
      * @param type $userId
      * @param type $courseCode     /
      */
-    public function getElectiveCheckedValues($userId, $courseCode)
-    {
-         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
-         $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+    public function getElectiveCheckedValues($userId, $courseCode) {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId,
             'courseCode' => $courseCode,
             'type' => 'elective',
             'electiveStatus' => '1'));
@@ -881,82 +870,81 @@ class CoursesService
             foreach ($userCourseUnits as $units) {
                 $courseUnits[trim($units->getUnitId())] = trim($units->getUnitId());
             }
-        }                
+        }
         return count($courseUnits);
     }
+
     /**
      * Function to get the Evidence percenatge based on the units in the course 
      * @param int $userId
      * @param string $coursecode
      * return string
      */
-    public function getEvidenceByCourse($userId, $courseCode){
+    public function getEvidenceByCourse($userId, $courseCode) {
         $reqNoUnits = $this->getReqUnitsForCourseByCourseId($courseCode);
         if (empty($reqNoUnits)) {
-        				return '0%';
+            return '0%';
         }
         $eviPercentage = 0;
         $totalElecOfUnits = 0;
         $totalCoreOfUnits = 0;
-        $courseCoreUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'core', 'issubmitted' => '1' ));
-        $courseElecUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'elective', 'issubmitted' => '1' ));
+        $courseCoreUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'core', 'issubmitted' => '1'));
+        $courseElecUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'elective', 'issubmitted' => '1'));
         $totalCoreOfUnits = count($courseCoreUnitObj);
         $totalElecOfUnits = count($courseElecUnitObj);
-        if($totalElecOfUnits > $reqNoUnits['elective'])
+        if ($totalElecOfUnits > $reqNoUnits['elective'])
             $totalElecOfUnits = $reqNoUnits['elective'];
         $totalNoOfUnits = $totalCoreOfUnits + $totalElecOfUnits;
-        if($totalNoOfUnits > 0){
+        if ($totalNoOfUnits > 0) {
             $eviPercentage = ($totalNoOfUnits / (($reqNoUnits['core']) + ($reqNoUnits['elective']))) * 100;
             $eviPercentage = ($eviPercentage > 100) ? '100' : $eviPercentage;
         }
         return round($eviPercentage) . '%';
     }
-    
+
     /**
      * Function to get the Evidence percenatge based on the units in the course
      * @param int $userId
      * @param string $coursecode
      * return string
      */
-    public function getUnitsSubmittedbyCourse($userId, $courseCode){
-    	$reqNoUnits = $this->getReqUnitsForCourseByCourseId($courseCode);
-    	$eviPercentage = 0;
-    	$totalElecOfUnits = 0;
-    	$totalCoreOfUnits = 0;
-    	$courseCoreUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'core', 'issubmitted' => '1' ));
-    	$courseElecUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'elective', 'issubmitted' => '1' ));
-    	$totalCoreOfUnits = count($courseCoreUnitObj);
-    	$totalElecOfUnits = count($courseElecUnitObj);
-    	
-    	return array('core' => $totalCoreOfUnits, 'elective' => $totalElecOfUnits);
+    public function getUnitsSubmittedbyCourse($userId, $courseCode) {
+        $reqNoUnits = $this->getReqUnitsForCourseByCourseId($courseCode);
+        $eviPercentage = 0;
+        $totalElecOfUnits = 0;
+        $totalCoreOfUnits = 0;
+        $courseCoreUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'core', 'issubmitted' => '1'));
+        $courseElecUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $userId, 'courseCode' => $courseCode, 'type' => 'elective', 'issubmitted' => '1'));
+        $totalCoreOfUnits = count($courseCoreUnitObj);
+        $totalElecOfUnits = count($courseElecUnitObj);
+
+        return array('core' => $totalCoreOfUnits, 'elective' => $totalElecOfUnits);
     }
-    
-    /** 
+
+    /**
      * Function to get the Units and details
      * @param int $userId
      * @param string $courseCode
      * @param string $unitCode
      * return string
      */
-    public function getUserCourseUnits($userId, $courseCode, $type = 'elective'){
-    	$reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
-         $userCourseUnits = $reposObj->findBy(array('user' => $userId,
+    public function getUserCourseUnits($userId, $courseCode, $type = 'elective') {
+        $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
+        $userCourseUnits = $reposObj->findBy(array('user' => $userId,
             'courseCode' => $courseCode,
             'type' => $type
-             ));
-                
+        ));
+
         return $userCourseUnits;
     }
-    
-    /** 
+
+    /**
      * Function to update user selected units status to 0
      * @param int $userId
      * @param string $courseCode
      * return string
      */
-    
-    public function resetUnitElectives($userId, $courseCode)
-    {
+    public function resetUnitElectives($userId, $courseCode) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits');
         $userCourseUnits = $reposObj->findBy(array('user' => $userId,
             'courseCode' => $courseCode,
@@ -969,11 +957,9 @@ class CoursesService
                 $this->em->flush();
             }
         }
-        
     }
-    
-    public function convertToBytes($from)
-    {
+
+    public function convertToBytes($from) {
         $number = substr($from, 0, -2);
         switch (strtoupper(substr($from, -2))) {
             case "KB":
@@ -991,23 +977,22 @@ class CoursesService
         }
     }
 
-    public function getTotalUploadSize($userId)
-    {
+    public function getTotalUploadSize($userId) {
 
         $totalSize = 0;
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
         $evidences = $reposObj->findBy(array('user' => $userId));
         foreach ($evidences as $evidence) {
-           $totalSize += $this->convertToBytes($evidence->getSize());
+            $totalSize += $this->convertToBytes($evidence->getSize());
         }
         return $totalSize;
     }
 
-    public function getUploadDetails($userId){
+    public function getUploadDetails($userId) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:EvidenceCategory');
         $evidenceCategories = $reposObj->findAll();
         $evidence_category = [];
-        foreach($evidenceCategories as $evidencecategory){
+        foreach ($evidenceCategories as $evidencecategory) {
             $evidenceCat = [];
             $evidenceCat['name'] = $evidencecategory->getName();
             $evidenceCat['id'] = $evidencecategory->getId();
@@ -1016,10 +1001,10 @@ class CoursesService
         $uploadDetails = array();
         $uploadDetails['evidenceCategory'] = $evidence_category;
         $uploadDetails['totalUploadSize'] = $this->getTotalUploadSize($userId);
-        $uploadDetails['maxUploadSize'] = 10*1024*1024*1024;
+        $uploadDetails['maxUploadSize'] = 10 * 1024 * 1024 * 1024;
         return $uploadDetails;
     }
-    
+
     private function mimeTypes() {
         $mimeTypes = array(
             'ai' => 'application/postscript',
@@ -1184,19 +1169,20 @@ class CoursesService
         );
         return $mimeTypes;
     }
-    public function getEvidencesByUnit($userId,$unitCode,$courseCode){
+
+    public function getEvidencesByUnit($userId, $unitCode, $courseCode) {
         $reposObj = $this->em->getRepository('GqAusUserBundle:Evidence');
-        $evidences = $reposObj->findBy(['user'=>$userId,'unit'=>$unitCode,'course'=>$courseCode]);
+        $evidences = $reposObj->findBy(['user' => $userId, 'unit' => $unitCode, 'course' => $courseCode]);
         $userEvidence = [];
-        
-        foreach($evidences as $evidence){
+
+        foreach ($evidences as $evidence) {
             $evd = [];
             $evd['id'] = $evidence->getId();
             $type = $evidence->getType();
             $evd['type'] = $type;
             $evd['path'] = $evidence->getPath();
             $evd['s3Path'] = $evd['mimeType'] = $evd['fileType'] = '';
-            if($type != 'text'){
+            if ($type != 'text') {
                 $s3Path = '';
                 if ($type != 'recording')
                     $s3Path = $this->container->getParameter('amazon_s3_base_url') . 'user-' . $userId . '/' . $evd['path'];
@@ -1207,13 +1193,13 @@ class CoursesService
                 $basename = isset($info['basename']) ? $info['basename'] : '';
                 $ext = isset($info['extension']) ? $info['extension'] : '';
                 $evd['mimeType'] = (isset($this->mimeTypes()[$ext]) ? $this->mimeTypes()[$ext] : '');
-                if(empty($evd['mimeType'])) {
+                if (empty($evd['mimeType'])) {
                     $contentType = get_headers($s3Path, 1)["Content-Type"];
-                    $evd['mimeType'] = ($contentType != '')? $contentType : 'application/octet-stream';
+                    $evd['mimeType'] = ($contentType != '') ? $contentType : 'application/octet-stream';
                 }
                 $evd['fileType'] = $ext;
             }
-            
+
             $evd['name'] = ($type == 'text') ? '' : $evidence->getName();
             $evd['content'] = ($type == 'text') ? $evidence->getContent() : '';
             $evd['size'] = $evidence->getSize();
@@ -1227,15 +1213,13 @@ class CoursesService
 //           $totalSize += $this->convertToBytes($evidence->getSize());
 //        }
     }
-    
+
     /**
      * Function to get All evidence Except text By user
      * @param object $request
      * return string
      */
-    
-    public function getEvidenceLibraryAction($userId)
-    {
+    public function getEvidenceLibraryAction($userId) {
         $evidences = $this->em->getRepository('GqAusUserBundle:Evidence')->findByUser($userId);
         $userEvidence = [];
         foreach ($evidences as $evidence) {
@@ -1278,50 +1262,52 @@ class CoursesService
         }
         return $userEvidence;
     }
-         /**
+
+    /**
      * 
      * @param type $evdId
      */
-    public function getLinkedToMultiOrNot($evdId){
+    public function getLinkedToMultiOrNot($evdId) {
 //        echo $evdId;
 //        exit;
         $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->findOneById($evidence);
     }
-    
+
     public function getStatusClass($statusText) {
-    	$cls = 'label-warning';
-    			switch ($statusText) {
-    				case 'Submitted':
-    					$cls = 'label-warning';
-    					break;
-    				case 'Satisfactory':
-    					$cls = 'label-default';
-    							break;
-    				case 'Not yet satisfactory':
-    				case 'Not yet competent':
-    					$cls = 'label-danger';
-    					break;
-    				case 'Competent':
-    					$cls = 'label-success';
-    					break;
-    				default:
-    					$cls = 'label-warning';
-    	}
-    	return $cls;
+        $cls = 'label-warning';
+        switch ($statusText) {
+            case 'Submitted':
+                $cls = 'label-warning';
+                break;
+            case 'Satisfactory':
+                $cls = 'label-default';
+                break;
+            case 'Not yet satisfactory':
+            case 'Not yet competent':
+                $cls = 'label-danger';
+                break;
+            case 'Competent':
+                $cls = 'label-success';
+                break;
+            default:
+                $cls = 'label-warning';
+        }
+        return $cls;
     }
+
     /**
      * Function to retrieve the list of applicants from the facilitator
      * @param type $facId
      */
     public function listOfApplicantsForLoggedinUser($facId = '') {
         $query = $this->em->getRepository('GqAusUserBundle:UserCourses')
-            ->createQueryBuilder('uc')
-            ->groupBy('uc.user')
+                        ->createQueryBuilder('uc')
+                        ->groupBy('uc.user')
 //            ->select('uc.user')
-            ->where(sprintf('uc.%s = :%s', 'facilitator', 'facilitatorId'))->setParameter('facilitatorId', $facId);
-				
+                        ->where(sprintf('uc.%s = :%s', 'facilitator', 'facilitatorId'))->setParameter('facilitatorId', $facId);
+
         $courseObj = $query->getQuery()->getResult();
         return $courseObj;
     }
-   
+
 }
