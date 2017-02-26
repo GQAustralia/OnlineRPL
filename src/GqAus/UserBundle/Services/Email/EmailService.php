@@ -4,6 +4,7 @@ namespace GqAus\UserBundle\Services\Email;
 
 use Doctrine\ORM\EntityManager;
 use GqAus\UserBundle\Services\CustomRepositoryService;
+use Swift_Image;
 use Swift_Message;
 
 class EmailService extends CustomRepositoryService
@@ -39,19 +40,38 @@ class EmailService extends CustomRepositoryService
     {
         $user = $this->userRepository->findOneBy(['id' => $userId]);
 
+
+        // $imgUrl = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/btn_take-me-there.png'));
+
+        /*  $emailContent = $this->templating->render(
+              'GqAusUserBundle:Email:email-notifications.html.twig',
+              ['user' => 'aa', 'imgUrl' => $imgUrl]
+          );*/
+
+        $message = Swift_Message::newInstance();
+        $imgUrl = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-template/social_media/facebook.png'));
+
+        $message->setSubject('Notification');
+        $message->setFrom('jeremuelraymundo@gmail.com');
+        $message->setTo($user->getEmail());
+
+        //list($message, $imageUrl) = $this->buildEmailImages($message);
+
+
         $emailContent = $this->templating->render(
             'GqAusUserBundle:Email:email-notifications.html.twig',
-            ['user' => $user]
+            ['user' => $user, 'imgUrl' => $imgUrl]
         );
 
-        $email = $this->emailFactory(
-            'Notification',
-            'jeremuelraymundo@gmail.com',
-            'jeremuelraymundo@gmail.com',
-            $emailContent
-        );
+        /* $email = $this->emailFactory(
+             'Notification',
+             'jeremuelraymundo@gmail.com',
+             'jeremuelraymundo@gmail.com',
+             $emailContent
+         );*/
+        $message->setBody($emailContent, 'text/html');
 
-        return $this->mailer->send($email);
+        return $this->mailer->send($message);
     }
 
     public function sendWelcomeEmailToApplicant($userId, $courseName)
@@ -150,15 +170,33 @@ class EmailService extends CustomRepositoryService
      *
      * @return Swift_Message
      */
-    private function emailFactory($subject, $from, $to, $body)
+    private function emailFactory($subject, $from, $to, $emailContent)
     {
         $message = Swift_Message::newInstance();
 
+        /*    $emailContent = $this->templating->render(
+                'GqAusUserBundle:Email:email-notifications.html.twig',
+                ['user' => 'aa', 'imgUrl' => $imgUrl]
+            );
+            $imgUrl = $message->embed(Swift_Image::fromPath(__DIR__. '/../../../../../web/public/ui/img/btn_take-me-there.png'));*/
         $message->setSubject($subject);
-        $message->setFrom('jeremuelraymundo@gmail.com', 'Jem');
+        $message->setFrom('jeremuelraymundo@gmail.com');
         $message->setTo($to);
-        $message->setBody($body, 'text/html');
+        $message->setBody($emailContent, 'text/html');
 
         return $message;
+    }
+
+    private function buildEmailImages(Swift_Message $message)
+    {
+        $emailImages = [];
+        $emailImages['youtube'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-template/social_media/youtube.png'));
+        $emailImages['facebook'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-template/social_media/facebook.png'));
+        $emailImages['twitter'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-template/social_media/twitter.png'));
+        $emailImages['linkedin'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-template/social_media/linkedin.png'));
+        $emailImages['google'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-template/social_media/google.png'));
+        $emailImages['instagram'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-template/social_media/instagram.png'));
+
+        return [$message, $emailImages];
     }
 }
