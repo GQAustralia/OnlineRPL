@@ -668,4 +668,15 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
             });
     	}
     }
+
+	$scope.satisfactory = function(stat, role){
+		
+		AjaxService.apiCall("setUserUnitEvidencesStatus", {status: stat, unit: $scope.selectedUnit, userId: $scope.applicantId, userRole: role, courseCode: $scope.courseCode, unitName: $scope.unitDetails[$scope.selectedUnit].title, courseName: $scope.unitDetails[$scope.selectedUnit].title }).then(function (data) {
+			$scope.selectedUnitObj.isSubmitted = 1;
+		}, function (error) {
+			console.log(error);
+		});
+
+	}
+
 });
