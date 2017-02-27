@@ -15,12 +15,13 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
     $scope.fileLinToObj = {};
     $scope.fileFormToArr = [];
     $scope.fileFormToObj = {};
-    $scope.filterLib = {};
     $scope.allEvidenceCats = [];
     $scope.allEvidences = [];
     $scope.filterEvds = [];
     $scope.evidenceView = {};
     $scope.userCCodes = {};
+    $scope.filterLib = {};
+    $scope.courseUnit = {};
     $scope.userId = $window.or_user_id || 0;
     $scope.userCourses = [];
     $scope.evidences = {};
@@ -87,7 +88,15 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
 //    }
     
     $scope.clearFilters = function(){
-//        $scope.checkVal = !$scope.checkVal;
+        angular.forEach($scope.userCCodes, function (fileAssVal, fileAssIndex) {
+               $scope.userCCodes[fileAssIndex] = false;
+        });
+        angular.forEach($scope.filterLib, function (formVal, formIndex) {
+            $scope.filterLib[formIndex] = false;
+        });
+        angular.forEach($scope.courseUnit, function (courseVal, courseIndex) {
+            $scope.courseUnit[courseIndex] = false;
+        });
     }
     
     $scope.applyFilters = function(){
