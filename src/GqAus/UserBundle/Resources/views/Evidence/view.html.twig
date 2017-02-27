@@ -229,8 +229,8 @@
                     </div>
                     <div class="form-group">
                         <legend class="small text-muted text-uppercase">Files linked to</legend>
-                        <input type="checkbox" name="coursesingleunit" value="1" id="coursesingleunit" class="custom-input"><label for="coursesingleunit"><span>Evidence linked to a single unit</span></label>
-                        <input type="checkbox" name="coursemultiunit" value="2" id="coursemultiunit" class="custom-input"><label for="coursemultiunit"><span>Evidence linked to multiple units</span></label>
+                        <input type="checkbox" id="singleunit" data-ng-model="courseUnit.singleunit" class="custom-input"><label for="singleunit"><span>Evidence linked to a single unit</span></label>
+                        <input type="checkbox" id="multiunit"  data-ng-model="courseUnit.multiunit" class="custom-input"><label for="multiunit"><span>Evidence linked to multiple units</span></label>
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
                         <legend class="small text-muted text-uppercase">Filter by file format</legend>
