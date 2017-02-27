@@ -1977,17 +1977,11 @@ class UserService {
                 ->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $userId)
                 ->addOrderBy('m.created', 'DESC');
         if (!empty($searchCourseCode)) {
-
-            $query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'" . $searchCourseCode . "'");
+        				$query->andWhere("m.courseCode = '".$searchCourseCode."'");
         }
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
-        /*  dump($pagination);//exit;
-          $query = $query->getQuery();
-          print_r(array(
-          'sql'        => $query->getSQL(),
-          'parameters' => $query->getParameters(),
-          )); exit; */
+        
         return array('messages' => $pagination, 'paginator' => $paginator, 'sentuserid' => $userId);
     }
 
@@ -2031,8 +2025,8 @@ class UserService {
         }
 
         if (!empty($searchCourseCode)) {
-
-            $query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'" . $searchCourseCode . "'");
+            
+        				$query->andWhere("m.courseCode = '".$searchCourseCode."'");
         }
         /* $query = $query->getQuery();
           print_r(array(
@@ -2084,7 +2078,13 @@ class UserService {
      * @param array $msgdata
      */
     public function saveMessageData($sentuser, $curuser, $msgdata) {
-        $msgObj = new Message();
+    			
+    				if (isset($msgdata['id'])) {
+    								$msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($msgdata['id']);
+    				}
+    				else {
+    					$msgObj = new Message();
+    				}
         $msgObj->setInbox($sentuser);
         $msgObj->setSent($curuser);
         $msgObj->setSubject($msgdata['subject']);
@@ -2151,10 +2151,16 @@ class UserService {
                 ->addOrderBy('m.created', 'DESC');
         if (!empty($searchCourseCode)) {
 
-            $query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'" . $searchCourseCode . "'");
+            $query->andWhere("m.courseCode = '".$searchCourseCode."'");
         }
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
+        /* dump($pagination);
+        $query = $query->getQuery();
+        print_r(array(
+        'sql'        => $query->getSQL(),
+        'parameters' => $query->getParameters(),
+        )); exit; */
         return array('messages' => $pagination, 'paginator' => $paginator);
     }
 
@@ -2183,7 +2189,7 @@ class UserService {
         }
         if (!empty($searchCourseCode)) {
 
-            $query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'" . $searchCourseCode . "'");
+            $query->andWhere("m.courseCode = '".$searchCourseCode."'");
         }
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));

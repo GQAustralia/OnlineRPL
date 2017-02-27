@@ -39,15 +39,22 @@ class MessageController extends Controller
      * Function viewMsgThread to retrive the message thread based on message id
      * @param unknown $mid
      */
-    public function viewMsgThreadAction($mid) {
+    public function viewMsgThreadAction($mid, Request $request) {
     			
     				
     				$userService = $this->get('UserService');
+    				
+    				$content = $this->get("request")->getContent();
+    				$params = json_decode($content, true); // 2nd param to get as array
+    				$type = strtolower($params['type']);
+    				
     				$viewMsgobj['messages'][] = $userService->em->getRepository('GqAusUserBundle:Message')->find($mid);
     				
     				$messages['messages'] = $userService->getReplyMessages($mid);
-    				$messageThread = $this->messageObjectToArray($messages);
-    				$messageThread['view_message'] = $this->messageObjectToArray($viewMsgobj);
+    				$messageThread = $this->messageObjectToArray($messages, $type);
+    				
+    				$messageThread['view_message'] = $this->messageObjectToArray($viewMsgobj, $type);
+    				
     				$loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
     				$courseDetails = $userService->getUserCourses($loggedinUserId);
     				$messageThread['userCourses'] = $this->courseObjToArray($courseDetails);
@@ -180,6 +187,7 @@ class MessageController extends Controller
 									    								if ($msgObj->getInbox()->getRoles()[0] == 'ROLE_MANAGER' ) {
 									    									$role = 'Supervisor';
 									    								}
+
 						    											$messageArr['msgFrm'] = array('name' => $msgObj->getInbox()->getFirstName().' '.$msgObj->getInbox()->getLastName(), 
 																										    																	'userImage' => $msgObj->getInbox()->getUserImage(), 
 																										    																	'id' => $msgObj->getInbox()->getId(),
@@ -412,6 +420,10 @@ class MessageController extends Controller
                         				$msgdata['new'] = 1;
                         				$msgdata['draft'] = 0;
                         }
+                        
+                        if (isset($params['id'])) {
+                        				$msgdata['id'] = $params['id'];
+                        }
                         // for sending external mail
                         $mailSubject = str_replace('#messageSubject#', $subject,
                             $this->container->getParameter('mail_notification_sub'));
@@ -423,7 +435,7 @@ class MessageController extends Controller
                         $mailBody = str_replace($search, $replace, $this->container->getParameter('mail_notification_con'));
                         // dump($sentuser->getEmail(),$mailSubject,$mailBody,$sentuser->getRole());exit;
                         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-                        if($sentuser->getRole() == '5')
+                        if($sentuser->getRole() == '5' && $msgdata['draft'] != 1)
                         {
                             $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
                             $mailBody, $curuser->getEmail(), $curuser->getUsername());

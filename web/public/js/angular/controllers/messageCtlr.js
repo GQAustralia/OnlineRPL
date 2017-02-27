@@ -86,19 +86,33 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
     
     $scope.displayMsg = function(msgId, readstatus){
     	
-    	$scope.viewMsgThread = true;
-    	$scope.hideReplyButton = false;
-    	if (readstatus == 0) {
+    	
+    	if (readstatus == 0 && $scope.msgType != 'draft' && $scope.msgType != 'sent' && $scope.msgType != 'flagged') {
+    		console.log('update read msg');
 	    	updateMsg({msgId}, 'read', '1');
 	    	//$scope.messages[msgId].read = 0;
 	    	if($scope.unreadCnt > 0) {
 	    		$scope.unreadCnt = $scope.unreadCnt - 1;
 	    	}
     	}
-    	AjaxService.apiCall("viewMsgThread/"+msgId, {}).then(function (data) {
-			 $scope.messageThread = data.messages;
-			 $scope.messageThread.viewMsg = data.view_message.messages[0];
-			 $scope.messageThread.userCourses = data.userCourses;
+    	AjaxService.apiCall("viewMsgThread/"+msgId, {'type': $scope.msgType}).then(function (data) {
+    		if ($scope.msgType != 'draft') {
+				 $scope.messageThread = data.messages;
+				 $scope.messageThread.viewMsg = data.view_message.messages[0];
+				 $scope.messageThread.userCourses = data.userCourses;
+				 $scope.viewMsgThread = true;
+			     $scope.hideReplyButton = false;
+    		}
+    		else {
+    			console.log(data.messages);
+    			$scope.newMsg = data.messages[0];
+    			$scope.newMsg.id = data.messages[0].id;
+    			$scope.newMsg.to_user = data.messages[0].msgFrm.id;
+    			$scope.newMsg.userName = data.messages[0].msgFrm.name;
+    			//$scope.newMsg.
+    			console.log($scope.newMsg);
+    			$scope.showComposeMsg =  true;
+    		}
 	     }, function (error) {
 	    	 console.log(error);
 	     });
@@ -115,7 +129,7 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
     
     $scope.saveMsg = function(type) {
     	
-    	
+    	//New messages save/draft
     	if ($scope.showComposeMsg) {
     		if ($scope.newMsg.message != undefined && $scope.newMsg.message.replace(/^\s+|\s+$/gm,'') != '') {
     			$scope.newMsg.type = type;
@@ -124,6 +138,7 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
 		    			$scope.showComposeMsg = false;
 		    			$scope.newMsg = {};
 		    			$scope.newMsgCourseObj = {};
+		    			$scope.getMessages();
 		    		}
 		    		
 			     }, function (error) {
@@ -150,6 +165,7 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
 		    	
 		    	AjaxService.apiCall("saveMessage", messageObj).then(function (data) {
 		    		if (data.status == 'sucess') {
+		    			
 		    			$scope.hideReplyButton = false;
 		    			$scope.viewMsgThread = false;
 		    			$scope.replyMsg = '';
@@ -255,7 +271,9 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
 
     	if (option.length > 0) {
     		$scope.newMsgCourseObj = {};
-    		$scope.newMsg.courseCode = '';
+    		if ($scope.msgType != 'draft') {
+    			$scope.newMsg.courseCode = '';
+    		}
     		$scope.newMsg.to_user = option.data("id");
     		var to_user_role = option.data("role");
 	    	console.log( $scope.newMsg.to_user);

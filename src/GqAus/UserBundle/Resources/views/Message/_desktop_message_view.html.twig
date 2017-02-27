@@ -54,7 +54,7 @@
                     <div ng-hide="IsLoaded"> Loading.... </div>
                     <table class="table table-inbox table-hover">
                         <tbody>
-                            <tr ng-class="{'unread': msg.read != 0}"  ng-repeat="msg in messages">
+                            <tr ng-class="{'unread': msg.read == 0}"  ng-repeat="msg in messages">
                                 <td class="inbox-small-cells" ng-click="displayMsg(msg.id, msg.read);" ng-init="amazon_link='{{amazon_link}}'; userImage = msg.msgFrm.userImage != ''?amazon_link+'user-'+msg.msgFrm.id+'/'+msg.msgFrm.userImage:'../public/images/userprofile.png'">
                                     <div class="avatar avatar-xxs"><img ng-src="{[{ userImage }]}" alt="{[{ msg.msgFrm.name }]}"></div>
                                 </td>
