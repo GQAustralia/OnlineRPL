@@ -21,11 +21,12 @@
                             <small class="text-muted text-uppercase hidden-xs">{#Upload and manage for #}core &amp; elective units</small>
                         </h3>
                     </div>
+                    
                     <button ng-if="(allEvidences| filter:{type: '!text'}).length > 0" ng-show="role === 'candidate'" type="button" class="btn btn-primary btn-upload-evidence" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload <span class="hidden-mobile">Evidence</span></button>
                 </div>
+                <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
                 <!-- Zero State -->
                 <div class="panel-body" ng-if="(allEvidences| filter:{type: '!text'}).length === 0" ng-show="role === 'candidate'">
-                    <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
                     <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
                         <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
                         <h4>No evidence for this unit yet <br><button  ng-show="role === 'candidate'" type="button" class="btn-link">Upload evidence now</button></h4>
@@ -224,7 +225,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <legend class="small text-muted text-uppercase">Files associated to</legend>
-                        <span ng-repeat="courseDetails in userCourses"><input type="checkbox"  name="course{[{courseDetails.id}]}" ng-model="userCCodes[courseDetails.courseCode]" id="file{[{courseDetails.id}]}" class="custom-input"><label for="file{[{courseDetails.id}]}"><span >{[{courseDetails.name}]}</span></label></span>
+                        <span ng-repeat="courseDetails in userCourses| unique : 'courseCode'"><input type="checkbox"  name="course{[{courseDetails.id}]}" ng-model="userCCodes[courseDetails.courseCode]" id="file{[{courseDetails.id}]}" class="custom-input"><label for="file{[{courseDetails.id}]}"><span >{[{courseDetails.name}]}</span></label></span>
                     </div>
                     <div class="form-group">
                         <legend class="small text-muted text-uppercase">Files linked to</legend>

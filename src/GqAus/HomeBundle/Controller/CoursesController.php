@@ -517,10 +517,12 @@ class CoursesController extends Controller {
                             $assignedUserId = $assignedUsers[$rcrd]->getUser()->getId();
                             $otherResults[$assignedUserId] = $this->get('CoursesService')->getEvidenceLibraryAction($assignedUserId);
                         }
-                        foreach ($otherResults as $key=>$item) { 
-                            $completResults[] = $item;
+                        foreach ($otherResults as $key => $item) {
+                            foreach ($item as $key1 => $item1) {
+                                $completResults[] = $item1;
+                            }
                         }
-                        $results = $completResults[0];
+                        $results = $completResults;
                     }
                 } else
                     $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
@@ -544,10 +546,29 @@ class CoursesController extends Controller {
      */
     public function getUserCoursesAction(Request $request) {
         $results = [];
+        $userResults = [];
+        $userCoursesResults = [];
         $user = $this->get('security.context')->getToken()->getUser();
         $userId = $user->getId();
         if ($userId != '') {
-            $userCourses = $this->get("UserService")->getUserCourses($userId);
+            if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
+                $assignedUsers = $this->get('CoursesService')->listOfApplicantsForLoggedinUser($userId);
+                if (count($assignedUsers) > 0) {
+                    for ($rcrd = 0; $rcrd < count($assignedUsers) - 1; $rcrd++) {
+                        $assUserId = $assignedUsers[$rcrd]->getUser()->getId();
+                        $userResults[$assUserId] = $this->get("UserService")->getUserCourses($assUserId);
+                    }
+                    foreach ($userResults as $keyObj => $keyItem) {
+                        foreach ($keyItem as $keyObj1 => $keyItem1) {
+                            $userCoursesResults[] = $keyItem1;
+                        }
+                    }
+
+                    $userCourses = $userCoursesResults;
+                }
+            } else
+                $userCourses = $this->get("UserService")->getUserCourses($userId);
+
             foreach ($userCourses as $userCourse) {
                 $courses = [];
                 $courses['id'] = $userCourse->getId();
@@ -556,6 +577,7 @@ class CoursesController extends Controller {
                 $results[trim($userCourse->getId())] = $courses;
             }
         }
+
         return new JsonResponse($results);
     }
 
