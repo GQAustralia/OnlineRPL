@@ -1,0 +1,147 @@
+{% extends 'revamp_base.html.twig' %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="messageCtlr"  id="messageCtlr" {% endblock%}
+{% block title %}GQ - RPL Qualification - Applicant Profile{% endblock %}
+{% block ngtitle %}pageTitle{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
+<link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" /> 
+<link href="public/ui/css/modules/mail/mail-box.css" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+
+    {% set applicantImg = applicantObj.getUserImage()%}
+    <main class="main-content-gqa">
+        <div class="container">
+
+            <div class="panel panel-default panel-qual-heading panel-avatar-tab">
+                <div class="panel-heading-img">
+                    <div class="avatar"><img src="{% if applicantImg  != '' %}{{amazon_link~'user-'~applicantId~'/'~applicantImg}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="h3 qual-title">{{ applicantObj.getUsername() }}<br>
+                    <small class="small" style="font-size: 50%;">
+                        <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages'">
+                            <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i> Send message
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-title="GQA Profile since {{ applicantObj.created()|date("m/d/Y") }}">
+                            <i class="zmdi zmdi-info zmdi-hc-lg"></i>
+                        </button>
+                    </small>
+                    </h3>
+                </div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="dropdown">
+                        <a href="#pagelink" class="dropdown-toggle" aria-controls="home" role="tab" data-toggle="dropdown">Qualifications <i class="caret"></i></a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#">
+                                <h4>Overview <br><small>Summary of enroled qualifications</small></h4>
+                                </a>
+                            </li>
+                            {% for appCourseObj in applicantCourses %}
+                                <li class="divider clearfix btn-block"></li>
+                                <li class="dropdown-static-header" onClick='location.href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}"'><h4>{{appCourseObj.getCourseName()}}</h4></li>
+                                <li><a href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}/core">Core Units</a></li>
+                                <li><a href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}/elective">Elective Units</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li role="presentation" class="active">
+                        <a href="applicant-profile-account-manager.html" aria-controls="tab" role="tab">Profile</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="applicant-enrolment-account-manager.html" aria-controls="tab" role="tab">Enrolment Info</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="panel panel-default profile">
+                <div class="panel-body panel-body-lg">
+                    <h3>Personal Details</h3>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-account-box-o base-icon"></i>
+                                <p>
+                                    USI Number
+                                    <span>{{applicantObj.getUniversalStudentIdentifier()}}</span>
+                                </p>
+                            </div>
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-calendar-note base-icon"></i>
+                                <p>
+                                    Date of birth
+                                    <span>{{applicantObj.getDateOfBirth()}}</span>
+                                </p>
+                            </div>
+
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-phone base-icon"></i>
+                                <p>
+                                    Home telepehone number
+                                    <span><img src="ui/img/flag_au.jpg">{{applicantObj.getPhone()}}</span>
+                                </p>
+                            </div>
+
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-smartphone-iphone base-icon"></i>
+                                <p>
+                                    Mobile number
+                                    <span><img src="ui/img/flag_au.jpg">{{applicantObj.getCeophone()}}</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-female base-icon"></i>
+                                <p>
+                                    Gender
+                                    <span>{{applicantObj.getGender()}}</span>
+                                </p>
+                            </div>
+
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-phone base-icon"></i>
+                                <p>
+                                    Work telephone number
+                                    <span>{{applicantObj.getContactPhone()}}</span>
+                                </p>
+                            </div>
+
+                            <div class="profile-info">
+                                <i class="zmdi zmdi-email base-icon"></i>
+                                <p>
+                                    Email Address
+                                    <a href="#"><span>{{applicantObj.getEmail()}}</span></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                    
+                    <h3>Address</h3>
+                    <div class="profile-info">
+                        <i class="zmdi zmdi-pin base-icon"></i>
+                        <p>
+                            Postal Address
+                            <span>{{applicantObj.address.address|default('')}} {{applicantObj.address.area|default('')}} {{applicantObj.address.city|default('')}} {{applicantObj.address.state|default('')}} {{applicantObj.address.pincode|default('')}} {{applicantObj.address.suburb|default('')}} {{applicantObj.address.country|default('')}} {{applicantObj.address.postal|default('')}}</span>
+                        </p>
+                    </div>
+
+                    <div class="profile-info">
+                        <i class="zmdi zmdi-nature base-icon"></i>
+                        <p>
+                            Billing Address
+                            <span>200 Broadway Ave WEST BEACH NSW 5024 AUSTRALIA</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+{% endblock %}

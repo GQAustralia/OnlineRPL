@@ -650,7 +650,7 @@ class EvidenceService
                  $evfancy = "";
                  break;            
         }
-        return $evtype."&&".$evfancy;
+        return $evtype;
     }
     /**
      * Function to get the EvidenceType By Evidence Id
@@ -955,5 +955,10 @@ class EvidenceService
                 return array('fileName' => $fileName);
             }
         }
+    }
+    
+    public function getEvidenceCats(){
+        $evidenceCats = $this->em->getRepository('GqAusUserBundle:EvidenceCategory')->findAll();   
+        return $evidenceCats;
     }
 }

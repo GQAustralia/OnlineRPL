@@ -11,8 +11,8 @@ addEvidence:
     path:     /addEvidence
     defaults:  { _controller: GqAusHomeBundle:Courses:addEvidence }
 qualificationDetails:
-    path:     /qualificationDetails/{id}/{userId}
-    defaults:  { _controller: GqAusHomeBundle:Courses:index, userId:null }
+    path:     /qualificationDetails/{id}/{userId}/{tab}
+    defaults:  { _controller: GqAusHomeBundle:Courses:index, userId:null, tab:null }
 qualificationUnits:
     path:     /qualificationDetails/{id}/{page}
     defaults:  { _controller: GqAusHomeBundle:Courses:index }
@@ -70,12 +70,27 @@ getUnitInfo:
 getEvidenceLibrary:
     path: /units/getEvidenceLibrary
     defaults: { _controller: GqAusHomeBundle:Courses:getEvidenceLibrary }
+getEvidenceLibraryForOthThanApplicant:
+    path: /units/getEvidenceLibraryForOthThanApplicant
+    defaults: { _controller: GqAusHomeBundle:Courses:getEvidenceLibraryForOthThanApplicant }
 getNotes:
     path: /units/getNotes
     defaults: { _controller: GqAusHomeBundle:Courses:getNotes }  
 saveNotes:
     path: units/saveNotes
     defaults: { _controller: GqAusHomeBundle:Courses:saveNotes }  
+editNotes:
+    path: units/editNotes
+    defaults: { _controller: GqAusHomeBundle:Courses:editNotes }  
 acknowledgeNote:
     path: units/acknowledgeNote
-    defaults: { _controller: GqAusHomeBundle:Courses:acknowledgeNote }     
+    defaults: { _controller: GqAusHomeBundle:Courses:acknowledgeNote }    
+deleteNote:
+    path: units/deleteNote
+    defaults: { _controller: GqAusHomeBundle:Courses:deleteNote }    
+getAllEvidenceCats:
+    path: /getAllEvidenceCats
+    defaults: { _controller: GqAusUserBundle:Evidence:getEvidenceCats }
+getUserCourses:
+    path: /getUserCourses
+    defaults: { _controller: GqAusHomeBundle:Courses:getUserCourses }

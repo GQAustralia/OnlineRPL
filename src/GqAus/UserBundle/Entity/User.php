@@ -101,6 +101,11 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      */
     private $applyForyourusi;
 
+    /**
+     * 
+     * @var datetime
+     */
+    private $created;
 
     /**
      * Constructor
@@ -1250,6 +1255,29 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
     {
         return $this->applyForyourusi;
     }
+    
+    /**
+     *  Set Created
+     * 
+     * @return \GqAus\UserBundle\Entity\User
+     */
+    public function setCreated($created)
+    {
+    	$this->created = $created;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get Created
+     *
+     * @return date
+     */
+    public function getCreated()
+    {
+    	return $this->created;
+    }
+    
     
 //    /**
 //     * @var \GqAus\UserBundle\Entity\LanguageDiversity

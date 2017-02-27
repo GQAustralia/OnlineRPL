@@ -30,16 +30,18 @@
                                 <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseEvidences" aria-expanded="true" aria-controls="collapseAbout">Evidence <small class="badge badge-xs" ng-if="(unitEvidences| filter:{type: '!text'}).length>0">{[{(unitEvidences| filter:{type: '!text'}).length}]} files</small><i class="zmdi zmdi-chevron-down"></i></h3>
 
                                 <div id="collapseEvidences" class="panel-collapse collapse in collapsed">
-                                    <div class="panel-collapse-inner" ng-if="!isSubmitted() && (unitEvidences| filter:{type: '!text'}).length === 0">
-                                        <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
-                                            <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
-                                            <h4>
-                                                No evidence for this unit yet <br>
-                                                <button type="button" class="btn-link">Upload evidence now</button>
-                                            </h4>
-                                            <!-- <input class="upload-control-input" type="file" id="uploadID"> -->
-                                        </section>
-                                    </div>
+									{% if ('ROLE_APPLICANT' in roles) %}
+										<div class="panel-collapse-inner" ng-if="!isSubmitted() && (unitEvidences| filter:{type: '!text'}).length === 0">
+											<section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
+												<i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
+												<h4>
+													No evidence for this unit yet <br>
+													<button type="button" class="btn-link">Upload evidence now</button>
+												</h4>
+												<!-- <input class="upload-control-input" type="file" id="uploadID"> -->
+											</section>
+										</div>
+									{% endif %}
 
                                     <div class="panel-collapse-inner" ng-if="(unitEvidences| filter:{type: '!text'}).length > 0" data-has-thumbnail="true">
                                         <div class="evidence-controls">
@@ -127,8 +129,6 @@
                             <article class="form-group">
                                 <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseManagerNotes" aria-expanded="true" aria-controls="collapseAbout">
                                     <span ng-if="role === 'candidate' ">Notes from your Account Manager</span>
-
-                                    <!-- <span ng-if="role === 'Candidate' ">Your Notes</span> -->
                                     <i class="zmdi zmdi-chevron-down"></i>
                                 </h3>
                             
@@ -147,32 +147,30 @@
                                                     <small class="message-stamp">{[{note.created|date:"dd/mm/yyyy"}]}</small>
                                                     <p class="message-text">{[{note.note}]}</p>
 
-                                                    <span class="message-post-footer-button" ng-if="role === 'candidate'">
-                                                        <button type="button" class="btn btn-link btn-sm ng-class:{'acknowledged' : note.acknowledged === 1}" ng-click="acknowledgeNote(note.id)">
+                                                    <span class="message-post-footer-button">
+                                                        <button ng-show="role === 'candidate'" type="button" class="btn btn-link btn-sm ng-class:{'acknowledged' : note.acknowledged === 1}" ng-click="acknowledgeNote(note.id)">
                                                             <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i> Got it!
                                                         </button>
-
                                                         <label class="text-success ng-class:{'acknowledged' : note.acknowledged === 1}"><i class="zmdi zmdi-check-circle"></i> Acknowledged</label>
                                                     </span>
                                                     
-                                                    <div class="messsage-text text-right" ng-if="role === 'facilitator'">
-                                                        <textarea rows="1" class="form-control" auto-expand style="margin-bottom: 15px;" placeholder="Your message here...">The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</textarea>
-                                                        <button type="button" class="btn btn-default btn-xs">Discard</button>
-                                                        <button type="button" class="btn btn-primary btn-xs">Apply changes</button>
+                                                    <div class="messsage-text text-right" ng-show="note.id === noteId">
+                                                        <textarea rows="1" class="form-control" auto-expand style="margin-bottom: 15px;" ng-model="note.note">{[{note.note}]}</textarea>
+                                                        <button type="button" ng-click="discardNote();" class="btn btn-default btn-xs">Discard</button>
+                                                        <button type="button" ng-click="applyChanges(applicantId,note.note,note.id);" class="btn btn-primary btn-xs">Apply changes</button>
                                                     </div>
-                                                    <div class="dropdown message-thread-item-dropdown" ng-if="role !== 'candidate'">
+                                                    
+                                                    <div class="dropdown message-thread-item-dropdown" ng-if="note.acknowledged !== 1 && role === 'facilitator'">
                                                         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                                                             <i class="zmdi zmdi-more zmdi-hc-lg zmdi-hc-fw"></i>
                                                         </button>
                                                         <ul class="dropdown-menu pull-right">
-                                                            <li><a href="#"><i class="zmdi zmdi-edit zmdi-hc-lg zmdi-hc-fw"></i> Edit</a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-delete zmdi-hc-lg zmdi-hc-fw"></i> Delete</a></li>
+                                                            <li><a ng-click="editNote(note.id)" ><i class="zmdi zmdi-edit zmdi-hc-lg zmdi-hc-fw"></i> Edit</a></li>
+                                                            <li><a ng-click="deleteNote(note.id);"><i class="zmdi zmdi-delete zmdi-hc-lg zmdi-hc-fw"></i> Delete</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            
                                             <div class="message-input"  ng-if="!isSubmitted() && role !== 'candidate'">
                                                 <textarea cols="30" rows="2" class="form-control" auto-expand placeholder="Type your message here..." ng-model="newNotes"></textarea>
                                                 <button type="button" class="btn btn-link btn-send" ng-click="saveNotes(newNotes); newNotes='';"><i class="zmdi zmdi-mail-send zmdi-hc-2x"></i></button>
@@ -182,13 +180,19 @@
                                 </div>
                             </article>
                             <!-- Notes from Account Manager -->
-
-                            <div class="btn-auto-group" ng-if="!isSubmitted()">
-                                <button class="btn btn-default">Save</button>
-                                <button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0">Submit this Unit for Assessment</button>
-                            </div> 
+							{% if ('ROLE_APPLICANT' in roles) %}
+								<div class="btn-auto-group" ng-if="!isSubmitted()">
+									<button class="btn btn-default">Save</button>
+									<button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0">Submit this Unit for Assessment</button>
+								</div>
+							{% endif %}
+							{% if ('ROLE_FACILITATOR' in roles) %}
+								<div class="btn-auto-group" ng-if="isSubmitted()">
+									<button class="btn btn-default" ng-click="satisfactory('1', 'ROLE_FACILITATOR')">Satisfactory</button>
+									<button class="btn btn-success" ng-click="satisfactory('0', 'ROLE_FACILITATOR')" ng-disabled="unitEvidences.length === 0">Not Yet Satisfactory</button>
+								</div>
+							{% endif %}
                         </div>
                     </div>
-                
                 </div>
             </section>

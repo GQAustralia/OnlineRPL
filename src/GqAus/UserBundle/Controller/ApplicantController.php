@@ -77,21 +77,43 @@ class ApplicantController extends Controller
      * Function to update user unit evidence status
      *  return string
      */
-    public function setUserUnitEvidencesStatusAction()
+    public function setUserUnitEvidencesStatusAction(Request $request)
     {
-        $result = array();
-        $userId = $this->getRequest()->get('userId');
-        $result['userId'] = $userId;
-        $result['unit'] = $this->getRequest()->get('unit');
-        $result['status'] = $this->getRequest()->get('status');
-        $result['userRole'] = $this->getRequest()->get('userRole');
-        $result['currentUserName'] = $this->get('security.context')->getToken()->getUser()->getUserName();
-        $result['currentUserId'] = $this->get('security.context')->getToken()->getUser()->getId();
-        $result['currentuserRole'] = $this->get('security.context')->getToken()->getUser()->getRoles();
-        $result['courseName'] = $this->getRequest()->get('courseName');
-        $result['courseCode'] = $this->getRequest()->get('courseCode');
-        $result['unitName'] = $this->getRequest()->get('unitName');
-        $result['msgBody'] = $this->getRequest()->get('msgBody');
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $type = "";
+            $content = $this->get("request")->getContent();
+            if (!empty($content))
+            {
+                $params = json_decode($content, true); // 2nd param to get as array
+				$userId = $params['userId'];
+				$result['userId'] = $userId;
+				$result['unit'] = $params['unit'];
+				$result['status'] = $params['status'];
+				$result['userRole'] = $params['userRole'];
+				$result['currentUserName'] = $this->get('security.context')->getToken()->getUser()->getUserName();
+				$result['currentUserId'] = $this->get('security.context')->getToken()->getUser()->getId();
+				$result['currentuserRole'] = $this->get('security.context')->getToken()->getUser()->getRoles();
+				$result['courseName'] = $params['courseName'];
+				$result['courseCode'] = $params['courseCode'];
+				$result['unitName'] = $params['unitName'];
+            }
+
+		} else {
+			$result = array();
+			$userId = $this->getRequest()->get('userId');
+			$result['userId'] = $userId;
+			$result['unit'] = $this->getRequest()->get('unit');
+			$result['status'] = $this->getRequest()->get('status');
+			$result['userRole'] = $this->getRequest()->get('userRole');
+			$result['currentUserName'] = $this->get('security.context')->getToken()->getUser()->getUserName();
+			$result['currentUserId'] = $this->get('security.context')->getToken()->getUser()->getId();
+			$result['currentuserRole'] = $this->get('security.context')->getToken()->getUser()->getRoles();
+			$result['courseName'] = $this->getRequest()->get('courseName');
+			$result['courseCode'] = $this->getRequest()->get('courseCode');
+			$result['unitName'] = $this->getRequest()->get('unitName');
+			$result['msgBody'] = $this->getRequest()->get('msgBody');
+		}
         $userUnitEvStatus = $this->get('UserService')->updateApplicantEvidences($result);
         echo $userUnitEvStatus.= "&&" . $this->get('UserService')
             ->updateCourseRTOStatus($userId, $result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
@@ -235,6 +257,7 @@ class ApplicantController extends Controller
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseCode'] = $applicant->getCourseCode();
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseName'] = $applicant->getCourseName();
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseStatus'] = $qualificationStatus[$applicant->getCourseStatus()]['status'];
+			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseStatusId'] = $applicant->getCourseStatus();
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['leftdays'] = $leftDaysList['0'];
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['percentage'] = $applicant->percentage;
 			$applicantsArray[$applicant->getUser()->getId()]['course'][$akey]['courseId'] = $applicant->getId();
@@ -623,11 +646,23 @@ class ApplicantController extends Controller
      * Function to update course status
      * return array
      */
-    public function updateCourseStatusAction()
+    public function updateCourseStatusAction(Request $request)
     {
-        $courseStatus = $this->getRequest()->get('courseStatus');
-        $courseCode = $this->getRequest()->get('courseCode');
-        $applicantId = $this->getRequest()->get('userId');
+			    	$courseStatus = $this->getRequest()->get('courseStatus');
+			    	$courseCode = $this->getRequest()->get('courseCode');
+			    	$applicantId = $this->getRequest()->get('userId');
+			    	
+    				if ($request->isMethod('POST')) {
+						    		$params = array();
+						    		$type = "";
+						    		$content = $this->get("request")->getContent();
+						    		
+						    			$params = json_decode($content, true); // 2nd param to get as array
+						    			$courseStatus = $params['courseStatus'];
+						    			$courseCode = $params['courseCode'];
+						    			$applicantId = $params['userId'];
+						  }
+        
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $result = $this->get('UserService')->updateCourseStatus($courseStatus, $courseCode, $applicantId, $userRole);
         echo json_encode($result);
@@ -967,5 +1002,56 @@ class ApplicantController extends Controller
         ));
         
         return $result['Body'];
+   }
+   
+   public function individualQualAction($applicantId, $ccode){
+   				$userService = $this->get('UserService');
+   				$user = $this->get('security.context')->getToken()->getUser();
+   				$loggedinUserId = $user->getId();
+   				$userRole = $user->getRoles();
+			   	$checkStatus = $userService->getHaveAccessPage($loggedinUserId, $applicantId, $ccode, $userRole);
+			   	if(!$checkStatus)
+			   						return $this->render('GqAusUserBundle:Default:error.html.twig');
+			   	
+			   	$results['courseObj'] = $this->get('CoursesService')->getCourseDetails($ccode, $applicantId);
+			   	$results['user'] = $user;
+			   	$results['courseCode'] = $ccode;
+			   	$results['applicantId'] = $applicantId;
+			   	$results['applicantCourses'] = $userService->getUserCoursesByloggedinUser($loggedinUserId, $userRole[0], $applicantId, "APPLICANT"); 
+			   	$results['applicantObj'] = $userService->getUserInfo($applicantId);
+			   	$results['evidenceCountArr'] = $userService->getUnviewedEvidenceCountByCourse($applicantId, $ccode);
+			   	
+			   	return $this->render('GqAusUserBundle:Applicant:individualQual.html.twig', $results);
+   }
+   
+   public function applicantProfileAction($applicantId) {
+   				$userService = $this->get('UserService');
+   				$results = array();
+   				
+   				$user = $this->get('security.context')->getToken()->getUser();
+   				$loggedinUserId = $user->getId();
+   				$userRole = $user->getRoles();
+   				
+   				$results['user'] = $user;
+   				$results['applicantCourses'] = $userService->getUserCoursesByloggedinUser($loggedinUserId, $userRole[0], $applicantId, "APPLICANT"); 
+   				$results['applicantId'] = $applicantId;
+   				$results['applicantObj'] = $userService->getUserInfo($applicantId);
+   				
+   				return $this->render('GqAusUserBundle:Applicant:applicantProfile.html.twig', $results);
+   }
+
+   public function enrollmentInfoAction($applicantId) {
+		dump($applicantId);
+		exit;
+		$userService = $this->get('UserService');
+		$results = array();
+		
+		$user = $this->get('security.context')->getToken()->getUser();
+		$results['user'] = $user;
+		$results['applicantCourses'] = $userService->getUserCourses($applicantId);
+		$results['applicantId'] = $applicantId;
+		$results['applicantObj'] = $userService->getUserInfo($applicantId);
+		
+		return $this->render('GqAusUserBundle:Applicant:applicantProfile.html.twig', $results);
    }
 }

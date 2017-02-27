@@ -222,4 +222,17 @@ class EvidenceController extends Controller
 
         return new JsonResponse($results);
     }
+    public function getEvidenceCatsAction(){
+        $result = array();
+        $getEvidences = $this->get('EvidenceService')->getEvidenceCats();
+        if (!empty($getEvidences)) {
+            foreach ($getEvidences as $evidences) {
+                $evidence = [];
+                $evidence['id'] = $evidences->getId();
+                $evidence['name'] = $evidences->getName();
+                $result[trim($evidences->getId())] =  $evidence;  
+            }
+        } 
+        return new JsonResponse($result);
+    }
 }

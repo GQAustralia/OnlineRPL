@@ -45,6 +45,7 @@
         <field name="universalStudentIdentifier" type="string" column="universal_student_identifier" length="100"/>
         <field name="contactName" type="string" column="contact_name" nullable="true"/>
         <field name="contactEmail" type="string" column="contact_email" nullable="true"/>
+        <field name="created" type="string" column="created" nullable="true"/>
         <field name="contactPhone" type="string" column="contact_phone" nullable="true"/>
         <field name="ceoname" type="string" column="ceo_name" nullable="true"/>
         <field name="ceoemail" type="string" column="ceo_email" nullable="true"/>

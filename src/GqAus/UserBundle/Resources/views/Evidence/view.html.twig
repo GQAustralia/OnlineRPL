@@ -1,272 +1,294 @@
-{% extends 'base.html.twig' %}
-{% block title %}GQ - RPL Evidence{% endblock %}
+{% extends 'revamp_base.html.twig' %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="userprofileCtlr"  id="userprofileCtlr" {% endblock%}
+{% block title %}  My Profile {% endblock %}
+{% block ngtitle %}myProfile{% endblock%}
 {% block stylesheets %}
-<link rel="stylesheet"href="{{ asset('public/css/jquery.dataTables.min.css') }}">
-<link rel="stylesheet"href="{{ asset('public/css/jquery.fancybox.css?v=2.1.5') }}"media="screen"/>
-<link rel="stylesheet"href="{{ asset('public/css/pages/all/evidence.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
+    <link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" /> 
 {% endblock %}
 {% block body %}
 {% set userId = app.security.getToken().getUser().getId() %}
 {% set roles = app.security.getToken().getUser().getRoles() %}
-    <div class="body_section">
-        <div class="body_section facilitator">
-                <div class="container">
-                        <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
-                                        <div class="evidence_block">
-                                                <div class="title_bar clearfix">
-                                                    <span class="title">EVIDENCE <strong>(<span id="evidence-total"class="evidence-total" style="padding: 0px;"></span> TO REVIEW)</strong></span>
-                                                    <span class="info_btn">
-                                                        <a href="{{ app.request.baseUrl }}/faq"target="_blank"><i style="color: #ffffff;"class="material-icons info_icon">info</i></a>
-                                                    </span>
-                                                </div>
-                                                <div class="tab_section clearfix">
-                                                    <div class="tab clearfix">
-                                                        <span class="search_icon"><i class="material-icons">search</i></span>
-                                                        <input type="text"class="search namesearch"placeholder="Search" userid="{{ userId }}"role="{{ roles['0']}}"/>
-                                                    </div>
-                                                    <div class="tab filter_tab">
-                                                        <span class="filter">
-                                                            <i class="material-icons">filter_list</i>Filter
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-						<div class="check_box_section hide"id="evidence-filter"style="display: block;">
-							<div class="section">
-                                                            <div class="title_bar clearfix">
-                                                                <span class="title">File Type</span>
-                                                            </div>
-                                                            <ul class="clearfix">
-                                                                <li>
-                                                                    <span>Video (<span class="video-count"></span>)</span>
-                                                                    <span class="checkbox_outer">
-                                                                        <input type="checkbox"value="video"class="children-filter"checked><span></span>
-                                                                    </span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Audio (<span class="audio-count"></span>)</span>
-                                                                    <span class="checkbox_outer">
-                                                                        <input type="checkbox"value="audio"class="children-filter"checked><span></span>
-                                                                    </span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Image (<span class="image-count"></span>)</span>
-                                                                    <span class="checkbox_outer">
-                                                                        <input type="checkbox"value="image"class="children-filter"checked><span></span>
-                                                                    </span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Document (<span class="file-count"></span>)</span>
-                                                                    <span class="checkbox_outer">
-                                                                        <input type="checkbox"value="file"class="children-filter"checked><span></span>
-                                                                    </span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Text (<span class="text-count"></span>)</span>
-                                                                    <span class="checkbox_outer">
-                                                                        <input type="checkbox"value="text"class="children-filter"checked><span></span>
-                                                                    </span>
-                                                                </li>
-                                                            </ul>
-							</div>
-							<div class="section">
-                                                            <div class="title_bar clearfix">
-                                                                <span class="title">Mapped to units</span>
-                                                            </div>
-                                                            <ul class="clearfix">
-                                                                <li>
-                                                                    <span>Un-mapped (<span class="unmapped-unit"></span>)</span>
-                                                                    <span class="checkbox_outer">
-                                                                        <input type="checkbox" value="mapped0"checked><span></span>
-                                                                    </span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Mapped to 1 unit (<span class="mapped-one"></span>)</span>
-                                                                    <span class="checkbox_outer">
-                                                                        <input type="checkbox"value="mapped1"checked><span></span>
-                                                                    </span>
-                                                                </li>
-                                                                <li>
-                                                                    <span>Mapped to multiple (<span class="mapped-two"></span>)</span>
-                                                                    <span class="checkbox_outer">
-                                                                        <input type="checkbox"value="mapped2"checked><span></span>
-                                                                    </span>
-                                                                </li>
-                                                            </ul>
-							</div>
-						</div>
-
-                                                <div class="titles_block">
-                                                    <ul class="clearfix sorting">
-                                                        <li style="width:12%;">
-                                                            <span class="sort_section ftype" data-orderby="type">
-                                                                <i class="material-icons">arrow_upward</i>File Type
-                                                            </span>
-                                                        </li>
-                                                        <li style="width:30%;">
-                                                            <span class="sort_section fname" data-orderby="name">
-                                                                <i class="material-icons">arrow_upward</i>File Name
-                                                            </span>
-                                                        </li>
-                                                        <li style="width:25%;">
-                                                            <span class="sort_section fsize" data-orderby="size"style="text-align: center;">
-                                                                <i class="material-icons">arrow_upward</i>File Size
-                                                            </span>
-                                                        </li>
-                                                        <li style="width:33%;">
-                                                            <span class="sort_section fdate bold" data-orderby="date">
-                                                                <i class="material-icons">arrow_downward</i>Date Added
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="file_info_block">
-                                                {% if evidences|length > 0%}
-                                                <table id="evidence"class="display"cellspacing="0"width="100%">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="hide">Course</th>    
-                                                            <th class="hide sortbytype">Type</th>
-                                                            <th class="hide">Mapped to Units</th>
-                                                            <th class="hide sortbyname">File Name</th>
-                                                            <th class="hide sortbysize">File Size</th>
-                                                            <th class="hide sortbydate">Date Added</th>
-                                                            <th class="hide">Details</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {% for eKey, evd in evidences %}
-                                                    {% set checkPath = (evd[0].type !='text') ? evd[0].path : evd[0].content %} 
-                                                    {% set mappedContent =  (checkPath in evdMapping.mappedToMultipleUnit) ? 'mapped2': ((checkPath in evdMapping.mappedToOneUnit) ? 'mapped1' : 'mapped0') %}
-                                                    {% set mappedCourse = (evd[0].course) ?  evd[0].course : 'nonmapped' %}
-                                                    {% set facilitatorViewStatus = (evd[0].facilitatorViewStatus == 1 ) ? 'disable' : ''  %}
-                                                    {% if evd[0].type !='text' %}
-                                                        {% set eviType = evidence_service.getEvidenceShowType(evd[0].type) %}
-                                                        {% set byteSize = 0 %}
-                                                        {% if evd[0].type !='recording' %}
-                                                            {% set byteSize = evidence_service.convertSizetoBytes(evd[0].size) %}
-                                                        {% endif %}
-                                                        {% set output = eviType|split('&&') %}
-                                                        {% set msDocStatus = evidence_service.getFileExtensionType(evd[0].name) %}
-                                                        {% if evd[0].name %}
-                                                        <tr id="{{ evd[0].id }}"class="{{ evd[0].type }} {{ mappedContent }}">
-                                                            <td class="hide">{{ mappedCourse }}</td>
-                                                            <td class="hide">{{ evd[0].type }}</td>
-                                                            <td class="hide">{{mappedContent}}</td>
-                                                            <td class="hide">{{ evd[0].name }}</td>
-                                                            <td class="hide">{{ byteSize }}</td>
-                                                            <td class="hide">{{ evd[0].created|date("Ymd") }}</td>
-                                                            <td>
-                                                                {% if evd[0].name %}
-                                                                    <div class="block {{ facilitatorViewStatus }}">
-                                                                        <p class="name"><strong>{{ evd[0].user.firstName }} {{ evd[0].user.lastName }}</strong></p>
-                                                                        <div class="file_info ">
-                                                                            <a href="{{ amazon_link }}user-{{evd[0].user.id}}/{{  evd[0].path }}"
-                                                                                {% if (not msDocStatus) %}
-                                                                                {% if output[1] is defined %}
-                                                                                {% if output[1] == 'fancybox' or output[1] == 'fancybox fancybox.iframe' %} class="{{output[1]}}"{% else %}target="_blank"{% endif %}
-                                                                                {%endif%}{%endif%}><span data-evidenceid="{% for evdId in evd %}{{ evdId.id }}{% if not loop.last %},{% endif %}{% endfor %}" class="icon fac_view_evidence"><i class="material-icons">{% if output[0] is defined %}{{output[0]}}{%endif%}</i></span>
-                                                                            </a>
-                                                                            <span class="file_name">
-                                                                                {{ evd[0].name }}
-                                                                            </span>
-                                                                            <span class="file_size">
-                                                                                {{ evd[0].size }}
-                                                                            </span>
-                                                                            <span class="clear">
-                                                                                ADDED {{ evd[0].created|date("d/m/y") }}
-                                                                            </span>
-                                                                        </div>
-                                                                        <div class="link_section">
-                                                                            {% for lKey, linkedVal in evd %}
-                                                                                {% if(linkedVal.unit) %}
-                                                                                {% set unitType = '' %}
-                                                                                {% set unitType = user_service.getUserCourseUnitType(evd[0].user.id,linkedVal.course,linkedVal.unit) %}
-                                                                                    <span class="content">
-                                                                                        <a target="_blank"href="{{ app.request.baseUrl }}/courseunitDetails/{{ linkedVal.course }}/{{ linkedVal.unit}}/{{ evd[0].user.id }}">
-                                                                                            <i class="material-icons">insert_link</i>Linked to {{ linkedVal.unit }} ({{ unitType }} unit)
-                                                                                        </a>
-                                                                                    </span>
-                                                                                {% endif %}
-                                                                            {% endfor %}
-                                                                        </div>
-                                                                    </div>
-                                                                {% endif %}
-                                                            </td>
-                                                        </tr>
-                                                        {% endif %}
-                                                    {% else %}
-                                                        <tr id="{{ evd[0].id }}"class="{{ evd[0].type }} {{ mappedContent }}">
-                                                            <td class="hide">{{ mappedCourse }}</td>
-                                                            <td class="hide">{{ evd[0].type }}</td>
-                                                            <td class="hide">{{mappedContent}}</td>
-                                                            <td class="hide">{{ evd[0].content }}</td>
-                                                            <td class="hide">0</td>
-                                                            <td class="hide sortdateby">{{ evd[0].created|date("Ymd") }}</td>
-                                                            <td>
-                                                                {% if evd[0].content %} 
-                                                                    <div class="block {{ facilitatorViewStatus }}">
-                                                                         <p class="name"><strong>{{ evd[0].user.firstName }} {{ evd[0].user.lastName }}</strong></p>
-                                                                        <div class="file_info ">
-                                                                            <span data-evidenceid="{% for evdId in evd %}{{ evdId.id }}{% if not loop.last %},{% endif %}{% endfor %}"class="icon fac_view_evidence"><a href="#text{{evd[0].id}}"class="fancybox"id="btnForm">
-                                                                                <i class="material-icons">description</i></a>
-                                                                            </span>
-                                                                            <span class="file_name">
-                                                                                {{ evd[0].content|slice(0,35) }}{% if evd[0].content|length > 35 %}...{% endif %}
-                                                                            </span>
-                                                                            <span class="file_size"></span>
-                                                                            <span class="clear">
-                                                                                ADDED {{ evd[0].created|date("d/m/y") }}
-                                                                            </span>                                                        
-                                                                        </div>
-                                                                        <div class="link_section">
-                                                                            {% for lKey, linkedVal in evd %}
-                                                                                {% if(linkedVal.unit) %}
-                                                                                {% set unitType = '' %}
-                                                                                {% set unitType = user_service.getUserCourseUnitType(evd[0].user.id,linkedVal.course,linkedVal.unit) %}
-                                                                                <span class="content">
-                                                                                    <a target="_blank"href="{{ app.request.baseUrl }}/courseunitDetails/{{ evd[0].course }}/{{ evd[0].unit}}/{{ evd[0].user.id }}">
-                                                                                        <i class="material-icons">insert_link</i>Linked to {{ evd[0].unit }} (core unit)
-                                                                                    </a>
-                                                                                </span>
-                                                                                {% endif %}
-                                                                            {% endfor %}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div id="text{{evd[0].id}}"style="display:none;width:400px;height:auto;overflow:auto;">{% if evd[0].content is defined %}{{evd[0].content}}{%endif%}</div>
-                                                                {% endif %}
-                                                            </td>
-                                                        </tr>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                    </tbody>
-                                                </table>
-                                                {% endif %}
-                                            </div>
-                                        </div>
+    <main class="main-content-gqa">
+        <div class="container">
+        <!-- Put content here -->
+            <div class="panel panel-default panel-evidence-library">
+                <div class="panel-evidence-library-heading">
+                    <div class="panel-evidence-library-htext">
+                        <h3 class="qual-title" style="margin: 0; line-height: 1;">Evidence Library <br>
+                            <small class="text-muted text-uppercase hidden-xs">Upload and manage for core &amp; elective units</small>
+                        </h3>
+                    </div>
+                    <button ng-if="(allEvidences| filter:{type: '!text'}).length > 0" type="button" class="btn btn-primary btn-upload-evidence" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload <span class="hidden-mobile">Evidence</span></button>
+                </div>
+                <!-- Zero State -->
+                <div class="panel-body" ng-if="(allEvidences| filter:{type: '!text'}).length === 0">
+                    <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
+                    <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
+                        <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
+                        <h4>No evidence for this unit yet <br><button type="button" class="btn-link">Upload evidence now</button></h4>
+                    </section>
+                </div>
+                <!-- Zero State -->
+                <!-- Has value state -->
+                <div class="panel-evidence-library-body" ng-if="(allEvidences| filter:{type: '!text'}).length > 0">
+                    <aside class="panel-evidence-library-menu">
+                        <!-- Filter evidences according to category -->
+                        <div class="btn-group" data-toggle="buttons"> 
+                            <label class="btn" ng-click="filerCat('6')" for="category6"><input type="radio" id="category0" name="evidenceCategories">All Categories</label>
+                            <div class="container" ng-hide="IsLoaded"> Loading.... </div>
+                            <label class="btn" ng-repeat="evidence in allEvidenceCats" ng-click="filerCat(evidence.id)" for="category{[{evidence.id}]}"><input type="radio" id="category{[{evidence.id}]}" name="{[{evidence.name}]}" >{[{evidence.name}]}</label>
+                        </div>
+                        <!-- Filter evidences according to category -->
+                    </aside>
+                    <section class="panel-evidence-library-content" ng-if="(allEvidences| filter:{type: '!text'}).length > 0" data-has-thumbnail="true">
+                        <div class="panel-evidence-search">
+                            <div class="input-group-search"><input type="text" class="form-control" ng-model="search" placeholder="Search..."><i class="zmdi zmdi-search zmdi-hc-2x icon"></i></div>                    
+                        </div>
+                        <div class="evidence-controls btn-group-toolbar">
+                            <div class="evidence-toggle-view">
+                                <div class="btn-group btn-group-xs" data-toggle="buttons">
+                                    <label class="btn btn-transparent active" for="gridView" ng-click="pageStats.evidenceView = 'card'">
+                                        <input type="radio" name="galleryView" id="gridView" ng-model="pageStats.evidenceView" value="card" checked><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-module"></i>
+                                    </label>
+                                    <label class="btn btn-transparent" for="listView" ng-click="pageStats.evidenceView = 'list'">
+                                        <input type="radio" name="galleryView" id="listView" ng-model="pageStats.evidenceView" value="list"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-list"></i>
+                                    </label>
                                 </div>
-                                <div class="col-sm-12 col-md-12 col-lg-6 hide">
-                                    <div class="file_upload_block">
-                                        <div class="title_bar clearfix">
-                                            <span class="title">UPLOAD EVIDENCE FILES</span>
+                            </div>
+                            <i class="divider"></i>
+                            <div class="btn-group btn-group-xs" data-toggle="buttons">
+                                <button type="button" class="btn btn-transparent"  data-toggle="modal" data-target="#evidenceFilter" data-backdrop="static" data-keyboard="false">
+                                    <i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-filter-list"></i>
+                                </button>
+                            </div>
+                            <i class="divider"></i>
+                            <div class="panel-evidence-filters">
+                                <div class="dropdown dropdown-evidence-filter">
+                                    <button type="button" class="btn btn-transparent text-left" data-toggle="dropdown">
+                                        <span class="evidence-controls-label">Sort by</span>
+                                        <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-lg zmdi-hc-fw"></i>
+                                    </button>
+                                    <div class="dropdown-menu pull-right">
+                                        <div class="btn-group btn-group-vertical progress-summary" data-toggle="buttons">
+                        <label class="progress-summary-item btn btn-default" for="sortByDate"><span ng-click="sortBy('created')" id="sortByDate">By Date Uploaded</span></label>
+                        <label class="progress-summary-item btn btn-default" for="sortByForm"><span ng-click="sortBy('type')" id="sortByFile">File format</span></label>
+                        <label class="progress-summary-item btn btn-default" for="sortByName"><span ng-click="sortBy('name')" id="sortByFileName">Filename</span></label>
                                         </div>
-                                        <div class="upload_btn">
-                                                <input type="file"id='fileBtn' class="dropzone uploadFile"multiple="multiple">
-                                                <span class="white"></span>
-                                                <div class="button add_file"id="add_file">Add a file</div>
-                                        </div>
-                                        <span class="file_size_limit">Maximum file size is {{ maximum_upload_size }} GB per upload</span>
                                     </div>
                                 </div>
+                            </div>
                         </div>
+                        <div class="clearfix">
+                            <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
+                                <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences|orderBy:propertyName:reverse|filter:search"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                    <div class="thumbnail-holder">
+                                        <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here"></div>
+                                        <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
+                                            <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+                                                <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                        </div>
+                                        <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
+                                            <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
+                                            <div class="thumbnail-body">                                
+                                                <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+                                                <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                                <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-transparent btn-xs btn-delete" ng-click="deleteEvidence(evidence)"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                                </li>
+                                <!-- Upload in progress -->
+                                <li class="thumbnail-group-item thumbnail-group-item-loading" ng-repeat="uploadEvidence in uploadInProgress.uploads">
+                                    <div class="thumbnail-holder">
+                                        <div class="thumbnail-header"></div>
+                                        <div class="thumbnail-progress-fill" data-progress-value="{[{uploadEvidence.percentageCompleted}]}%">
+                                            <i class="percentage-fill" data-progress-value="{[{uploadEvidence.percentageCompleted}]}%" style="height: {[{uploadEvidence.percentageCompleted}]}%;"></i>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- Upload in progress -->
+                            </ul>
+                        </div>
+                    </section>
                 </div>
+                 <!-- Has value state -->
+            </div>
+        <!-- Put content here -->
+        </div>
+    </main>
+    <!-- File Preview -->
+    <div class="modal fade modal-file-preview" tabindex="-1" role="dialog" id="filePreview">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                    <h4 class="modal-title">Preview</h4>
+                </div>
+                <div class="modal-body clearfix" >
+                     <gq-audio ng-if="evidenceView.type ==='audio'" datapath="{[{evidenceView.s3Path}]}"></gq-audio>
+                    <gq-video ng-if="evidenceView.type ==='video'" datapath="{[{evidenceView.s3Path}]}" datatype="{[{evidenceview.mimeType}]}" ></gq-video>
+                    <img ng-if="evidenceView.type === 'image'" src="{[{evidenceView.s3Path}]}" alt="{[{evidenceView.name}]}" class="img img-responsive">
+                </div>
+                <div class="modal-footer">
+                    <strong class="center-block text-left">{[{evidenceView.name}]}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- File Preview -->
+    
+    <!-- Upload Evidences Files Modal Popup Start -->
+    <div class="modal fade modal-upload-evidence" id="uploadEvidence" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="zmdi zmdi-close zmdi-hc-lg zmdi-hc-fw"></i></button>
+                    <h3 class="modal-title">Upload Evidence</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="progress-tag progress-tag-default">
+                                <progress role="progress" value="{[{(uploadDetails.totalUploadedSize/uploadDetails.maxUploadedSize)*100}]}" max="100"><img class="fallback" width="{[{(uploadDetails.totalUploadedSize/uploadDetails.maxUploadedSize)*100}]}"></progress>
+                                <figcaption data-value="{[{(uploadDetails.maxUploadedSize-uploadDetails.totalUploadedSize) | bytesToSize:'size'}]}" data-unit=" {[{(uploadDetails.maxUploadedSize-uploadDetails.totalUploadedSize) | bytesToSize:'measure'}]}" class="progress-details">file space left</figcaption>
+                            </div> 
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-link btn-transparent btn-help" data-toggle="collapse" data-target="#collapseEvidenceHelp" aria-expanded="false" aria-controls="collapseEvidenceHelp">
+                                <i class="zmdi zmdi-help zmdi-hc-2x center-block"></i> HELP
+                            </button>
+
+                            <div id="collapseEvidenceHelp" class="panel-collapse evidence-help collapse">
+
+                                <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapseEvidenceHelp" aria-expanded="false" aria-controls="collapseEvidenceHelp"><i class="zmdi zmdi-hc-lg zmdi-arrow-left"></i> Back</button>
+
+                                <h4 class="page-header">What types of evidences can I upload?</h4>
+                                <ul>
+                                    <li>Test 1</li>
+                                    <li>Test 1</li>
+                                    <li>Test 1</li>
+                                </ul>
+                                <hr>
+                                <h4 class="page-header">List of files types accepted</h4>
+                                <ul>
+                                    <li>Test 1</li>
+                                    <li>Test 1</li>
+                                    <li>Test 1</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <section class="upload-control">
+                        <button type="button" class="btn btn-link btn-lg"><i class="zmdi zmdi-upload zmdi-hc-2x center-block"></i><span class="center-block">Click to browse your files</span></button>
+                         <input class="upload-control-input" type="file" id="uploadID" s3-upload 
+                            multiple="multiple" 
+                            control="uploadControl" 
+                            progressbar = "progressbar(uploadingSize, uploadedSize, totalSize, fileNum)" 
+                            uploadcomplete="uploadcomplete(data,obj)" 
+                            uploadstarted="uploadstarted(file,fileNum,dataObj)"
+                            uploadfailed="uploadfailed(msg)" 
+                            validRegex ="/(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.csv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz|\.docx|\.xlsx|\.one|\.pub|\.pptx|\.doc|\.docx|\.vsdx|\.accdb|\.mdb|\.rpmsg|\.mso|\.xlsb|\.xls|\.xlsx|\.oft|\.asd|\.mpp|\.thmx|\.xlsm|\.snp|\.obi|\.pst|\.ost|\.olm|\.xsn|\.vsd|\.laccdb|\.dotx|\.docm|\.ppt|\.dot|\.accdr|\.xlam|\.mde|\.wbk|\.onepkg|\.pptm|\.xltx|\.xla|\.pip|\.accde|\.ppsm|\.ppsx|\.vss|\.slk|\.crtx|\.xlt|\.svd|\.xlb|\.xlm|\.xlw|\.grv|\.potx|\.xar|\.iaf|\.mpd|\.pa|\.pps|\.ops|\.dotm|\.pot|\.oab|\.acl|\.mdt|\.mpt|\.xltm|\.xl|\.ade|\.vst|\.ppam|\.xsf|\.accdt|\.mda|\.accdc|\.mdw|\.xll|\.mat|\.vdx|\.sldx|\.mar|\.ppa|\.accda|\.maf|\.puz|\.vsx|\.mam|\.prf|\.potm|\.wll|\.xlc|\.vtx|\.accdp|\.sldm|\.accdu|\.maq|\.xslb|\.h1q|\.cnv|\.maw)$/i"
+                            >
+                    </section>
+
+                     <div class="dropup form-group dropdown-dynamic btn-block">
+                        <ui-select ng-model="uploadInProgress.category" theme="" title="Evidence Category" style="width: 100%;">
+                            <ui-select-match placeholder="What types of evidence are you uploading?">{[{$select.selected.name}]}</ui-select-match>
+                            <ui-select-choices repeat="evidenceCategory in uploadDetails.evidenceCategories | propsFilter: {id: $select.search, name: $select.search}">
+                                <div ng-bind-html="evidenceCategory.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="closeUploadModal();">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-click="uploadIds()">Submit File</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Upload ID Evdences Modal Popup End -->
+    <!-- Evidence Gallery Filter -->
+    <div class="modal fade" id="evidenceFilter">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                    <h3 class="modal-title">Filter Library</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <legend class="small text-muted text-uppercase">Files associated to</legend>
+                        <span ng-repeat="courseDetails in userCourses"><input type="checkbox"  name="course{[{courseDetails.id}]}" ng-model="userCCodes[courseDetails.courseCode]" id="file{[{courseDetails.id}]}" class="custom-input"><label for="file{[{courseDetails.id}]}"><span >{[{courseDetails.name}]}</span></label></span>
+                    </div>
+                    <div class="form-group">
+                        <legend class="small text-muted text-uppercase">Files linked to</legend>
+                        <input type="checkbox" name="coursesingleunit" value="1" id="coursesingleunit" class="custom-input"><label for="coursesingleunit"><span>Evidence linked to a single unit</span></label>
+                        <input type="checkbox" name="coursemultiunit" value="2" id="coursemultiunit" class="custom-input"><label for="coursemultiunit"><span>Evidence linked to multiple units</span></label>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <legend class="small text-muted text-uppercase">Filter by file format</legend>
+                        <ul class="list-unstyled">
+                            <li>
+                                <input type="checkbox" data-ng-model='filterLib.video' id="video" class="custom-input">
+                                <label for="video"><span>Video <br><small class="text-muted">mp4, avi, mov, mpeg &amp; other known video formats</small></span></label>
+                            </li>
+                            <li>
+                                <input type="checkbox" data-ng-model='filterLib.audio' id="audio"  class="custom-input">
+                                <label for="audio"><span>Audio <br><small class="text-muted">mp3, wav &amp; other known audio formats</small></span></label>
+                            </li>
+                            <li>
+                                <input type="checkbox" data-ng-model='filterLib.file' id="file" class="custom-input">
+                                <label for="file"><span>Document <br><small class="text-muted">PDF, Word, Excel, Powerpoint files</small></span></label>
+                            </li>
+                            <li>
+                                <input type="checkbox" data-ng-model='filterLib.image' id="image" class="custom-input">
+                                <label for="image"><span>Image <br><small class="text-muted">JPEG, PNG, &amp; other image formats</small></span></label>
+                            </li>
+                            <li>
+                                <input type="checkbox" data-ng-model='filterLib.text' id="text" class="custom-input">
+                                <label for="text"><span>Self-assessment Note <br><small class="text-muted">What you've written for your Core &amp; Elective units</small></span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="clearFilters()">Clear</button>
+                    <button type="button" class="btn btn-primary" ng-click="applyFilters()">Apply filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Evidence Gallery Filter -->
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript"src="{{ asset('public/js/jquery.fancybox.js?v=2.1.5') }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.fancybox').fancybox();
-        });
-    </script>
+    <script src="{{ asset('public/js/qualification.js') }}"></script> 
+    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
+    
+    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/units.js') }}"></script>
+    <script src="{{ asset('public/js/xepOnline.jqPlugin.js') }}"></script>
+    
+    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
+    <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
+    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/app.js') }}"></script>
+    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/controllers/userprofileCtrl.js') }}"></script>
+    <script src="{{ asset('public/js/angular/filters/uploadElectiveFilter.js') }}"></script>
+    <script src="{{ asset('public/js/angular/directives/qualificationDirective.js') }}"></script>
+    <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
 {% endblock %}

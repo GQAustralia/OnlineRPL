@@ -40,8 +40,9 @@ class FileController extends Controller
             
             //$evidences = array();
         }
+        $evidenceCats = $evidenceService->getEvidenceCats();
         $formattedEvd = $evidenceService->formatEvidencesListToDisplay($evidences);
-        return $this->render('GqAusUserBundle:File:view.html.twig', array('evidences' => $formattedEvd['formattedEvidences'], 'evdMapping' => $formattedEvd['evdMapping'], 'courses' => $userCourses,'userName' => $userName,'courseCode' => $courseCode,'userId' => $userId));
+        return $this->render('GqAusUserBundle:File:view.html.twig', array('evidences' => $formattedEvd['formattedEvidences'], 'evdMapping' => $formattedEvd['evdMapping'], 'courses' => $userCourses,'userName' => $userName,'courseCode' => $courseCode,'userId' => $userId, 'evidenceCats' => $evidenceCats));
     }
     /**
      * Function to display all the Evidences

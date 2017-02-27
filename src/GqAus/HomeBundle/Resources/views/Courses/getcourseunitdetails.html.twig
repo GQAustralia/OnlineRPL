@@ -10,8 +10,11 @@
 <link href="{{ asset('public/css/package_rules.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
+    {% set userId = courseDetails.user.getId() %} 
+    {% set userObj = app.security.getToken().getUser() %}
+    {% set userRole = userObj.getRoles() %}
     {% set courseInfo = courses_service.getCourseInfo(courseDetails.courseCode)%}
-    
+    {% set loggedInUserRole = ('ROLE_FACILITATOR' in userRole) ? 'facilitator' : 'candidate' %}
     {% if (courseDetails.facilitator!= '' and courseDetails.facilitator.userImage != '') %}
         {% set facilitatorImg = amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage %}
     {% else %}
@@ -30,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <div class="container container-right-sidebar-main" ng-init="qualificationPage = '';courseCode = '{{ courseDetails.courseCode }}';initUnitDetailsPage('{{ unitCode }}');">
+        <div class="container container-right-sidebar-main" ng-init="qualificationPage = '';courseCode = '{{ courseDetails.courseCode }}';applicantId = '{{ userId }}';role = '{{ loggedInUserRole }}';initUnitDetailsPage('{{ unitCode }}');">
             <section class="section-sidebar section-sidebar-compressed">
                 <div class="panel panel-default" ng-if="unitStatus != ''">
                     <div class="panel-body">
@@ -151,26 +154,26 @@
                                                     <small class="message-stamp">{[{note.created|date:"dd/mm/yyyy"}]}</small>
                                                     <p class="message-text">{[{note.note}]}</p>
 
-                                                    <span class="message-post-footer-button" ng-if="role === 'candidate'">
-                                                        <button type="button" class="btn btn-link btn-sm ng-class:{'acknowledged' : note.acknowledged === 1}" ng-click="acknowledgeNote(note.id)">
+                                                    <span class="message-post-footer-button">
+                                                        <button ng-show="role === 'candidate'" type="button" class="btn btn-link btn-sm ng-class:{'acknowledged' : note.acknowledged === 1}" ng-click="acknowledgeNote(note.id)">
                                                             <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i> Got it!
                                                         </button>
-
                                                         <label class="text-success ng-class:{'acknowledged' : note.acknowledged === 1}"><i class="zmdi zmdi-check-circle"></i> Acknowledged</label>
                                                     </span>
                                                     
-                                                    <div class="messsage-text text-right" ng-if="role === 'facilitator'">
-                                                        <textarea rows="1" class="form-control" auto-expand style="margin-bottom: 15px;" placeholder="Your message here...">The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</textarea>
-                                                        <button type="button" class="btn btn-default btn-xs">Discard</button>
-                                                        <button type="button" class="btn btn-primary btn-xs">Apply changes</button>
+                                                    <div class="messsage-text text-right" ng-show="note.id === noteId">
+                                                        <textarea rows="1" class="form-control" auto-expand style="margin-bottom: 15px;" ng-model="note.note">{[{note.note}]}</textarea>
+                                                        <button type="button" ng-click="discardNote();" class="btn btn-default btn-xs">Discard</button>
+                                                        <button type="button" ng-click="applyChanges(applicantId,note.note,note.id);" class="btn btn-primary btn-xs">Apply changes</button>
                                                     </div>
-                                                    <div class="dropdown message-thread-item-dropdown" ng-if="role !== 'candidate'">
+                                                    
+                                                    <div class="dropdown message-thread-item-dropdown" ng-if="note.acknowledged !== 1 && role === 'facilitator'">
                                                         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                                                             <i class="zmdi zmdi-more zmdi-hc-lg zmdi-hc-fw"></i>
                                                         </button>
                                                         <ul class="dropdown-menu pull-right">
-                                                            <li><a href="#"><i class="zmdi zmdi-edit zmdi-hc-lg zmdi-hc-fw"></i> Edit</a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-delete zmdi-hc-lg zmdi-hc-fw"></i> Delete</a></li>
+                                                            <li><a ng-click="editNote(note.id)" ><i class="zmdi zmdi-edit zmdi-hc-lg zmdi-hc-fw"></i> Edit</a></li>
+                                                            <li><a ng-click="deleteNote(note.id);"><i class="zmdi zmdi-delete zmdi-hc-lg zmdi-hc-fw"></i> Delete</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>

@@ -66,8 +66,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     $scope.selectedUnitObj = [];
     $scope.selfAssessment = {};
     $scope.notes = {};
-    $scope.role = 'candidate';
-    
+//    $scope.role = 'candidate';
     
     $scope.addRemoveUnit = function (unit) {
 
@@ -252,7 +251,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     };
 
     $scope.getUnitEvidences = function (unitCode) {
-        AjaxService.apiCall("units/getEvidencesByUnit", {"unitCode": unitCode, "courseCode": $scope.courseCode}).then(function (data) {
+        AjaxService.apiCall("units/getEvidencesByUnit", {"unitCode": unitCode, "courseCode": $scope.courseCode, "userId":$scope.applicantId}).then(function (data) {
             if ($scope.selectedUnit === unitCode) $scope.unitEvidences = data;
             var $obj = _.where($scope.unitEvidences,{type:"text"});
             $scope.selfAssessment = $obj[0]||{};
@@ -640,5 +639,44 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
             $scope.uploadInProgress.libraryFiles = {}
         }
     });
+    $scope.deleteNote = function(noteId){
+        AjaxService.apiCall("units/deleteNote", {"userId":$scope.applicantId,"courseCode": $scope.courseCode,"noteId": noteId}).then(function (data) {
+            if (data != 'error') {
+                $scope.notes = data;
+             }
+        }, function (error) {
+            console.log(error);
+        });
+    }
+    $scope.editNote = function(noteId){
+        $scope.noteId = noteId;
+    }
+    
+    $scope.discardNote = function(){
+        $scope.noteId = '';
+    }
+    
+    $scope.applyChanges = function(userId, noteText, noteId){
+        if ((noteText != '') && (noteId != '')) {
+            AjaxService.apiCall("units/editNotes", {"userId":userId,"courseCode": $scope.courseCode,"noteId":noteId,"noteMsg":noteText}).then(function (data) {
+                if (data != 'error') {
+                    $scope.notes = data;
+                    $scope.noteId = '';
+                }
+            }, function (error) {
+                console.log(error);
+            });
+    	}
+    }
+
+	$scope.satisfactory = function(stat, role){
+		
+		AjaxService.apiCall("setUserUnitEvidencesStatus", {status: stat, unit: $scope.selectedUnit, userId: $scope.applicantId, userRole: role, courseCode: $scope.courseCode, unitName: $scope.unitDetails[$scope.selectedUnit].title, courseName: $scope.unitDetails[$scope.selectedUnit].title }).then(function (data) {
+			$scope.selectedUnitObj.isSubmitted = 1;
+		}, function (error) {
+			console.log(error);
+		});
+
+	}
 
 });
