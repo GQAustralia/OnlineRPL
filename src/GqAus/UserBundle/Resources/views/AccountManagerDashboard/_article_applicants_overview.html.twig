@@ -63,19 +63,13 @@
                     </div>
 
                     <ol class="dashboard-table-head-sort">
-                        <li>
-                            <button type="button" class="btn btn-transparent btn-xs btn-block">Applicant</button>
-                        </li>
-                        <li>
-                            <button type="button" class="btn btn-transparent btn-xs btn-block">Filename</button>
-                        </li>
-                        <li>
-                            <button type="button" class="btn btn-transparent btn-xs btn-block">Linked Unit</button>
-                        </li>
-                        <li>
-                            <button type="button" class="btn btn-transparent btn-xs btn-block">Uploaded</button>
-                        </li>
+                        <li><button type="button" class="btn btn-transparent btn-xs btn-block sort-ascend">Applicant</button></li>
+                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Days</button></li>
+                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Qualification</button></li>
+                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Status</button></li>
+                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">% Done</button></li>
                     </ol>
+
                     <ol class="dashboard-table">
 
                         {% for incomplete in applicantsOverviewApplicantList.incomplete %}

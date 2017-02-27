@@ -8,13 +8,14 @@
         <table cellpadding="0" cellspacing="0" width="600" style="line-height: 1.3;">
             <tr>
                 <td align="center">
-                    <img src="ui/img/gqa-online-rpl.svg" style="width: 205; height: auto; padding: 15px 0;">
+                    <img src="{{ imageUrl.gqaOnlineRplSvg }}"
+                         style="width: 205px; height: auto; padding: 15px 0;">
                 </td>
             </tr>
 
             <tr>
                 <td style="text-align: center;">
-                    <img src="ui/img/email-welcome-banner.jpg" style="width: 100%; height: auto;">
+                    <img src="{{ imageUrl.welcomeBanner }}" style="width: 100%; height: auto;">
                 </td>
             </tr>
 
@@ -68,7 +69,7 @@
                             <td width="20%"></td>
                             <td width="20%">
                                 <center>
-                                    <img src="ui/img/avatar-default.svg" width="96" height="96">
+                                    <img src="{{ amazon_link~'user-'~manager.getId()~'/'~imageUrl.avatarDefault }}" width="96" height="96">
                                     <br/><br/>
                                     <strong><font color="#808080"
                                                   size="4">{{ manager.getFirstname() }} {{ manager.getLastname() }}</font></strong>
@@ -97,7 +98,7 @@
                                         <font size="4">Log into Online RPL</font>
                                         <br/>
                                         <a href="#">
-                                            <img src="ui/img/btn_take-me-there.png" width="232">
+                                            <img src="{{ imageUrl.takeMeThere }}" width="232">
                                         </a>
                                     </font>
                                 </center>

@@ -38,47 +38,46 @@ class EmailService extends CustomRepositoryService
      */
     public function sendNotificationToApplicant($userId)
     {
-        $user = $this->userRepository->findOneBy(['id' => $userId]);
+        if (!$user = $this->userRepository->findOneBy(['id' => $userId])) {
+            return null;
+        }
 
-        list($message, $imageUrl) = $this->buildEmailImages(Swift_Message::newInstance());
+        list($message, $imageUrl) = $this->embedEmailImages(Swift_Message::newInstance(), 'sendNotificationToApplicant');
 
         $emailContent = $this->templating->render(
             'GqAusUserBundle:Email:email-notifications.html.twig',
             ['user' => $user, 'imageUrl' => $imageUrl]
         );
 
-         $email = $this->emailFactory(
-             $message,
-             'Notification',
-             'jeremuelraymundo@gmail.com',
-             'jeremuelraymundo@gmail.com',
-             $emailContent
-         );
+        $message = $this->buildEmailStructure(
+            $message,
+            'Notification',
+            'jeremuelraymundo@gmail.com',
+            $user->getEmail(),
+            $emailContent
+        );
 
         return $this->mailer->send($message);
     }
 
     public function sendWelcomeEmailToApplicant($userId, $courseName)
     {
-        $user = $this->userRepository->findOneBy(['id' => $userId]);
-
-        if (!$user) {
+        if (!$user = $this->userRepository->findOneBy(['id' => $userId])) {
             return null;
         }
 
-        list($message, $imageUrl) = $this->buildEmailImages(Swift_Message::newInstance());
-
+        list($message, $imageUrl) = $this->embedEmailImages(Swift_Message::newInstance(), 'sendWelcomeEmail');
 
         $emailContent = $this->templating->render(
             'GqAusUserBundle:Email:welcome.html.twig',
             ['user' => $user, 'courseName' => $courseName, 'imageUrl' => $imageUrl]
         );
 
-        $email = $this->emailFactory(
+        $email = $this->buildEmailStructure(
             $message,
             'Welcome to Online RPL',
             'jeremuelraymundo@gmail.com',
-            'jeremuelraymundo@gmail.com',
+            $user->getEmail(),
             $emailContent
         );
 
@@ -87,31 +86,36 @@ class EmailService extends CustomRepositoryService
 
     /**
      * @param $userId
+     * @param $courseCode
      *
      * @return null
      */
     public function notifyApplicantForTheAssignedAccountManager($userId, $courseCode)
     {
-        $userCourse = $this->userCourseRepository->findOneBy(['user' => $userId, 'courseCode' => $courseCode]);
-        $manager = $this->userRepository->findOneBy(['id' => $userCourse->getManager()]);
-
-        if (!$userCourse) {
+        if (!$userCourse = $this->userCourseRepository->findOneBy(['user' => $userId, 'courseCode' => $courseCode])) {
             return null;
         }
 
+        $manager = $this->userRepository->findOneBy(['id' => $userCourse->getManager()]);
+
+        list($message, $imageUrl) = $this->embedEmailImages(Swift_Message::newInstance(), 'notifyApplicantForTheAssignedManager');
+        $imageUrl['avatarDefault'] = $manager->getUserImage();
+
         $emailContent = $this->templating->render(
             'GqAusUserBundle:Email:newly-assigned-account-manager.html.twig',
-            ['userCourse' => $userCourse, 'manager' => $manager]
+            ['userCourse' => $userCourse, 'manager' => $manager, 'imageUrl' => $imageUrl]
         );
 
-        $email = $this->emailFactory(
+
+        $message = $this->buildEmailStructure(
+            $message,
             'Account Manager',
             'jeremuelraymundo@gmail.com',
-            'jeremuelraymundo@gmail.com',
+            $userCourse->getUser()->getEmail(),
             $emailContent
         );
 
-        return $this->mailer->send($email);
+        return $this->mailer->send($message);
     }
 
     /**
@@ -121,9 +125,7 @@ class EmailService extends CustomRepositoryService
      */
     public function sendNotificationEmailToSupervisors($userId)
     {
-        $user = $this->userRepository->findOneBy(['id' => $userId]);
-
-        if (!$user) {
+        if (!$user = $this->userRepository->findOneBy(['id' => $userId])) {
             return null;
         }
 
@@ -133,42 +135,47 @@ class EmailService extends CustomRepositoryService
             WHERE role_type = ' . self::SUPERVISOR_ROLE_ID . '
         ');
 
+        list($message, $imageUrl) = $this->embedEmailImages(Swift_Message::newInstance(), 'notifySupervisor');
+
+
         foreach ($supervisors as $supervisor) {
             $emailContent = $this->templating->render(
                 'GqAusUserBundle:Email:supervisor-portfolio.html.twig',
-                ['supervisor' => $supervisor, 'user' => $user]
+                ['supervisor' => $supervisor, 'user' => $user, 'imageUrl' => $imageUrl]
             );
 
-            $email = $this->emailFactory(
+            $message = $this->buildEmailStructure(
+                $message,
                 'Supervisor Portfolio',
                 'jeremuelraymundo@gmail.com',
                 $supervisor['email'],
                 $emailContent
             );
 
-            $this->mailer->send($email);
+            $this->mailer->send($message);
         }
     }
 
     /**
+     * @param Swift_Message $message
      * @param $subject
      * @param $from
      * @param $to
-     * @param $body
+     * @param $emailContent
      *
      * @return Swift_Message
      */
-    private function emailFactory($message, $subject, $from, $to, $emailContent)
+    private function buildEmailStructure(Swift_Message $message, $subject, $from, $to, $emailContent)
     {
         $message->setSubject($subject);
-        $message->setFrom('jeremuelraymundo@gmail.com');
+        $message->setFrom($from);
         $message->setTo($to);
         $message->setBody($emailContent, 'text/html');
 
         return $message;
     }
 
-    private function buildEmailImages(Swift_Message $message)
+    private function embedEmailImages(Swift_Message $message, $emailMessageTo = '')
     {
         $emailImages = [];
         $emailImages['youtube'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-template/social_media/youtube.png'));
@@ -182,10 +189,23 @@ class EmailService extends CustomRepositoryService
         $emailImages['communication'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-template/communication.png '));
         $emailImages['emailFooterBg'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-footer-bg.jpg'));
 
-        $emailImages['takeMeThere'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/btn_take-me-there.png'));
-        $emailImages['iconEnvelope'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/icon-envelope.png'));
-        $emailImages['gqaOnlineRplSvg'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/gqa-online-rpl.svg'));
+        if ($emailMessageTo == 'sendNotificationToApplicant') {
+            $emailImages['takeMeThere'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/btn_take-me-there.png'));
+            $emailImages['iconEnvelope'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/icon-envelope.png'));
+            $emailImages['gqaOnlineRplSvg'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/gqa-online-rpl.svg'));
+        }
 
+        if ($emailMessageTo == 'notifySupervisor') {
+            $emailImages['takeMeThere'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/btn_take-me-there.png'));
+            $emailImages['iconUser'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/icon-user.png'));
+            $emailImages['gqaOnlineRplSvg'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/gqa-online-rpl.svg'));
+        }
+
+        if ($emailMessageTo == 'notifyApplicantForTheAssignedManager') {
+            $emailImages['takeMeThere'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/btn_take-me-there.png'));
+            $emailImages['welcomeBanner'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/email-welcome-banner.jpg'));
+            $emailImages['gqaOnlineRplSvg'] = $message->embed(Swift_Image::fromPath(__DIR__ . '/../../../../../web/public/ui/img/gqa-online-rpl.svg'));
+        }
 
         return [$message, $emailImages];
     }
