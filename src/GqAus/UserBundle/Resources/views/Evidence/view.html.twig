@@ -18,17 +18,17 @@
                 <div class="panel-evidence-library-heading">
                     <div class="panel-evidence-library-htext">
                         <h3 class="qual-title" style="margin: 0; line-height: 1;">Evidence Library <br>
-                            <small class="text-muted text-uppercase hidden-xs">Upload and manage for core &amp; elective units</small>
+                            <small class="text-muted text-uppercase hidden-xs">{#Upload and manage for #}core &amp; elective units</small>
                         </h3>
                     </div>
-                    <button ng-if="(allEvidences| filter:{type: '!text'}).length > 0" type="button" class="btn btn-primary btn-upload-evidence" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload <span class="hidden-mobile">Evidence</span></button>
+                    <button ng-if="(allEvidences| filter:{type: '!text'}).length > 0" ng-show="role === 'candidate'" type="button" class="btn btn-primary btn-upload-evidence" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload <span class="hidden-mobile">Evidence</span></button>
                 </div>
                 <!-- Zero State -->
-                <div class="panel-body" ng-if="(allEvidences| filter:{type: '!text'}).length === 0">
+                <div class="panel-body" ng-if="(allEvidences| filter:{type: '!text'}).length === 0" ng-show="role === 'candidate'">
                     <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
                     <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
                         <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
-                        <h4>No evidence for this unit yet <br><button type="button" class="btn-link">Upload evidence now</button></h4>
+                        <h4>No evidence for this unit yet <br><button  ng-show="role === 'candidate'" type="button" class="btn-link">Upload evidence now</button></h4>
                     </section>
                 </div>
                 <!-- Zero State -->

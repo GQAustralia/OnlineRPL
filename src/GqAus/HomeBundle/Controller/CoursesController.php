@@ -501,6 +501,8 @@ class CoursesController extends Controller {
      */
     public function getEvidenceLibraryAction(Request $request) {
         $results = [];
+        $otherResults = [];
+        $completResults = [];
         $user = $this->get('security.context')->getToken()->getUser();
         $userId = $user->getId();
         if ($request->isMethod('POST') && $userId != '') {
@@ -512,9 +514,13 @@ class CoursesController extends Controller {
                     $assignedUsers = $this->get('CoursesService')->listOfApplicantsForLoggedinUser($userId);
                     if (count($assignedUsers) > 0) {
                         for ($rcrd = 0; $rcrd < count($assignedUsers) - 1; $rcrd++) {
-                            $userId = $assignedUsers[$rcrd]->getUser()->getId();
-                            $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
+                            $assignedUserId = $assignedUsers[$rcrd]->getUser()->getId();
+                            $otherResults[$assignedUserId] = $this->get('CoursesService')->getEvidenceLibraryAction($assignedUserId);
                         }
+                        foreach ($otherResults as $key=>$item) { 
+                            $completResults[] = $item;
+                        }
+                        $results = $completResults[0];
                     }
                 } else
                     $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
