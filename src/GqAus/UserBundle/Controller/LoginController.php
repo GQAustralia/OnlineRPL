@@ -12,6 +12,7 @@ class LoginController extends Controller
     const ROLE_APPLICANT = 'ROLE_APPLICANT';
     const ROLE_MANAGER = 'ROLE_MANAGER';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    const ROLE_FACILITATOR = 'ROLE_FACILITATOR';
 
     /**
      * @param Request $request
@@ -42,7 +43,7 @@ class LoginController extends Controller
                 return $this->redirect('overview');
             }
 
-            if($userRole == self::ROLE_MANAGER || $userRole == self::ROLE_SUPER_ADMIN) {
+            if($userRole == self::ROLE_FACILITATOR) {
                 return $this->redirect('account-manager-dashboard');
             }
 

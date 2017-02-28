@@ -35,9 +35,9 @@
         </script>    
 
 </head>
-
-<body  {% block ngController %}{% endblock %} class="{% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}">
-    {% set roles = app.security.getToken().getUser().getRoles() %}
+{% set roles = app.security.getToken().getUser().getRoles() %}
+<body  {% if roles[0] == 'ROLE_FACILITATOR' %} data-role="account-manager" {%endif%} {% block ngController %}{% endblock %} class="{% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}">
+    
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
     {% set page = app.request.attributes.get('_route') %}
     {% set userId = app.security.getToken().getUser().getId() %} 

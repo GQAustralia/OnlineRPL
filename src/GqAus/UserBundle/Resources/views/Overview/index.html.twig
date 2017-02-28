@@ -80,7 +80,7 @@
                              <div class="panel-qualification-gauges">
  
                                  <div class="qual-gauges">
-                                     <div class="c100 p{{ evidenceCompleteness|trim('%') }} big">
+                                     <div class="c100 p{{ evidenceCompleteness|trim('%') }} big {% if evidenceCompleteness|trim('%') == 100 %} green {% elseif evidenceCompleteness|trim('%') < 50 %} gray {% else %} orange {% endif %}">
                                          <span>
                                              <i>{{ evidenceCompleteness }}</i>
                                              <i class="progress-big-label">Total evidence completed</i>

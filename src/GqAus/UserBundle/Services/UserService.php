@@ -2155,11 +2155,12 @@ class UserService {
                 ->createQueryBuilder('m')
                 ->select('m')
                 ->where(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId)
-                // ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0')
+                ->andWhere(" m.draft != 1")
                 ->addOrderBy('m.created', 'DESC');
         if (!empty($searchCourseCode)) {
 
             $query->andWhere("m.courseCode = '".$searchCourseCode."'");
+            
         }
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
