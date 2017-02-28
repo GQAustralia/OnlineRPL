@@ -120,12 +120,16 @@ class AccountManagerDashboardService extends CustomRepositoryService
         $dueToday = $this->getReminders($userId, 'dueToday');
         $doneDueToday = $this->getReminders($userId, 'doneDueToday');
         $dueSoon = $this->getReminders($userId, 'dueSoon');
+        $completed = $this->getReminders($userId, 'completed');
+        $allTasks = $this->getReminders($userId, 'allTasks');
 
         return [
             'overdue' => $this->buildReminder($overdue),
             'dueToday' => $this->buildReminder($dueToday),
             'doneDueToday' => $this->buildReminder($doneDueToday),
-            'dueSoon' => $this->buildReminder($dueSoon)
+            'dueSoon' => $this->buildReminder($dueSoon),
+            'completed' => $this->buildReminder($completed),
+            'allTasks' => $this->buildReminder($allTasks)
         ];
     }
 
@@ -448,12 +452,24 @@ class AccountManagerDashboardService extends CustomRepositoryService
             $condition = ' AND date > "' . date('Y-m-d' . ' 23:59:59') . '"';
             return $this->getRemindersQuery($userId, $isCompleteQuery, $condition);
         }
+        
+        if ($listType == 'completed') {
+            $isCompleteQuery = ' AND completed = 1';
+            $condition = '';
+            return $this->getRemindersQuery($userId, $isCompleteQuery, $condition);
+        }
+        
+        if ($listType == 'allTasks') {
+            $isCompleteQuery = '';
+            $condition = '';
+            return $this->getRemindersQuery($userId, $isCompleteQuery, $condition);
+        }
     }
 
     private function getRemindersQuery($userId, $isCompleteQuery, $condition)
     {
         return $this->all('
-            SELECT id, date AS due_date, message FROM reminder
+            SELECT id, date AS due_date, message, completed FROM reminder
             WHERE user_id = ' . $userId . $isCompleteQuery . $condition . '
         ');
     }
@@ -465,10 +481,27 @@ class AccountManagerDashboardService extends CustomRepositoryService
                 'id' => $reminder['id'],
                 'due_date' => $reminder['due_date'],
                 'message' => $reminder['message'],
-                'days_due' => $this->computeDaysDifference($reminder['due_date'])
+                'days_due' => $this->computeDaysDifference($reminder['due_date']),
+                'status' => $this->buildReminderStatus($reminder['due_date'], $reminder['completed'])
             ];
         }, $reminders);
 
         return $result;
+    }
+    
+    private function buildReminderStatus($dueDate, $completed)
+    {
+        $startDate = new \DateTime($dueDate);
+        $endDate = new \DateTime();
+        if ($completed == 1) {
+            return 'done';
+        }
+        if($startDate->format('U') < $endDate->format('U')){
+            return 'overdue';
+        }
+        if($startDate->format('U') > $endDate->format('U')){
+            return 'pending';
+        }
+        return 'pending';
     }
 }

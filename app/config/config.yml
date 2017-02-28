@@ -41,6 +41,7 @@ twig:
         courses_service: "@CoursesService"
         rto_service: "@RtoService"
         course_file_service: "@CourseFileService"
+        account_manager_dashboard_service: "@AccountManagerDashboardService"
         tokbox_key: "%tokbox_key%"
         rto_workspan: "%rto_workspan%"
         fec_workspan: "%fec_workspan%"
