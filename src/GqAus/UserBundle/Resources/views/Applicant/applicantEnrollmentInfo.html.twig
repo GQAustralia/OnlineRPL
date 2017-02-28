@@ -1,0 +1,181 @@
+{% extends 'revamp_base.html.twig' %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="messageCtlr"  id="messageCtlr" {% endblock%}
+{% block title %}GQ - RPL Qualification - Applicant Profile{% endblock %}
+{% block ngtitle %}pageTitle{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
+<link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" /> 
+<link href="public/ui/css/modules/mail/mail-box.css" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+
+    {% set applicantImg = applicantObj.getUserImage()%}
+    <main class="main-content-gqa">
+        <div class="container">
+
+            <div class="panel panel-default panel-qual-heading panel-avatar-tab">
+                <div class="panel-heading-img">
+                    <div class="avatar"><img src="{% if applicantImg  != '' %}{{amazon_link~'user-'~applicantId~'/'~applicantImg}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="h3 qual-title">{{ applicantObj.getUsername() }}<br>
+                    <small class="small" style="font-size: 50%;">
+                        <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages'">
+                            <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i> Send message
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-title="GQA Profile since {{ applicantObj.created()|date("m/d/Y") }}">
+                            <i class="zmdi zmdi-info zmdi-hc-lg"></i>
+                        </button>
+                    </small>
+                    </h3>
+                </div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="dropdown">
+                        <a href="#pagelink" class="dropdown-toggle" aria-controls="home" role="tab" data-toggle="dropdown">Qualifications <i class="caret"></i></a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#">
+                                <h4>Overview <br><small>Summary of enroled qualifications</small></h4>
+                                </a>
+                            </li>
+                            {% for appCourseObj in applicantCourses %}
+                                <li class="divider clearfix btn-block"></li>
+                                <li class="dropdown-static-header" onClick='location.href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}"'><h4>{{appCourseObj.getCourseName()}}</h4></li>
+                                <li><a href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}/core">Core Units</a></li>
+                                <li><a href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}/elective">Elective Units</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li role="presentation">
+                        <a href="/applicantProfile/{{applicantId}}" aria-controls="tab" role="tab">Profile</a>
+                    </li>
+                    <li role="presentation" class="active">
+                        <a href="/enrollmentinfo/{{applicantId}}" aria-controls="tab" role="tab">Enrolment Info</a>
+                    </li>
+                </ul>
+            </div>
+	
+            <div class="panel panel-default panel-applicant">
+                <aside class="panel-aside" id="myScrollspy" data-spy="affix" data-offset-top="275">
+                    <div class="btn-group" data-toggle="buttons">
+						{% set addDet = enrollmentinfo.profile.address %}
+						{% set currentAddress =  addDet.street_number~' '~addDet.unitDetails~' '~addDet.locality~' '~addDet.country~' '~addDet.postal_code~' '~addDet.state~' '~addDet.propertyName~' '~addDet.route %}
+                        <a href="#yourProfile" class="btn active" for="yourProfile"><input type="radio"  name="enrolmentAnswers">Your Profile</a>
+                        <a href="#langDiversity" class="btn" for="langDiversity"><input type="radio"  name="enrolmentAnswers">Language &amp; Diversity</a>
+                        <a href="#schoolAchievements" class="btn" for="schoolAchievements"><input type="radio" name="enrolmentAnswers">School &amp; Achievements</a>
+                        <a href="#employUSI" class="btn" for="employUSI"><input type="radio" name="enrolmentAnswers">Employment &amp; USI</a>
+                        <a href="#uploadID" class="btn" for="uploadID"><input type="radio" name="enrolmentAnswers">Uploaded ID Files</a>
+                    </div>
+                </aside>
+                <section class="panel-body">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default btn-sm"><i class="zmdi zmdi-download zmdi-hc-lg zmdi-hc-fw"></i> Download as PDF</button>
+                        <button type="button" class="btn btn-default btn-sm"><i class="zmdi zmdi-print zmdi-hc-lg zmdi-hc-fw"></i> Print</button>
+                    </div>
+                    <h3 class="page-header" id="yourProfile">Your Profile</h3>
+                    <table class="table table-striped table-compressed">
+                        <tbody>
+                            <tr>
+								<td class="question"><span>First Name</span></td>
+								<td>{% if (enrollmentinfo.profile.firstName) %}{{ enrollmentinfo.profile.firstName }} {% else %} None provided {% endif %}</td>
+							</tr>
+                            <tr>
+								<td class="question"><span>Last Name</span></td>
+								<td>{% if (enrollmentinfo.profile.lastName) %}{{ enrollmentinfo.profile.lastName }} {% else %} None provided {% endif %}</td>
+							</tr>
+							<tr>
+								<td class="question"><span>Date of birth</span></td>
+								<td>{% if (enrollmentinfo.profile.birthday) %}{{ enrollmentinfo.profile.birthday }} {% else %} None provided {% endif %}</td>
+							</tr>
+                            <tr>
+								<td class="question"><span>Gender </span></td>
+								<td>{% if (enrollmentinfo.profile.gender) %}{{ enrollmentinfo.profile.gender }} {% else %} None provided {% endif %}</td>
+							</tr>
+							<tr>
+								<td class="question"><span>Home Phone Number</span></td>
+								<td>{% if (enrollmentinfo.profile.homeTelNumber) %}{{ enrollmentinfo.profile.homeTelNumber }}{% else %} None provided {% endif %}</td>
+							</tr>
+							<tr>
+								<td class="question"><span>Work Phone Number</span></td>
+								<td>{% if (enrollmentinfo.profile.workTelNumber) %}{{ enrollmentinfo.profile.workTelNumber }}{% else %} None provided {% endif %}</td>
+							</tr>
+							<tr>
+								<td class="question"><span>Mobile Phone Number</span></td>
+								<td>{% if (enrollmentinfo.profile.workTelNumber) %}{{ enrollmentinfo.profile.mobileNumber }}{% else %} None provided {% endif %}</td>
+							</tr>
+							<tr>
+								<td class="question"><span>Email</span></td>
+								<td>{% if (enrollmentinfo.profile.workTelNumber) %}{{ enrollmentinfo.profile.email }}{% else %} None provided {% endif %}</td>
+							</tr>
+							<tr>
+								<td class="question"><span>Current Address</span></td>
+								<td>{{ currentAddress }}</td>
+							</tr>
+
+                        </tbody>
+                    </table>
+                    <hr>
+                    <h3 class="page-header" id="langDiversity">Language &amp; Diversity</h3>
+                    <table class="table table-striped table-compressed">
+                        <tbody>
+                            <tr><td class="question"><span>Country of Birth</span></td><td>{{ enrollmentinfo.language.country }}</td></tr>
+                            <tr><td class="question"><span>Speaks a language other than English at home?</span></td><td>{{ enrollmentinfo.language.speakOther }}</td></tr>
+                            <tr><td class="question"><span>English speaking proficiency</span></td><td>{{ enrollmentinfo.language.speakEnglish }}</td></tr>
+                            <tr><td class="question"><span>Aboriginal or Torres Strait Islander origin?</span></td><td>{{ enrollmentinfo.language.aboriginal }}</td></tr>
+                            <tr><td class="question"><span>Has disability, impairment or long-term condition</span></td><td>{{ enrollmentinfo.language.country }}</td></tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <h3 class="page-header" id="schoolAchievements">School &amp; Achievements</h3>
+                    <table class="table table-striped table-compressed">
+                        <tbody>
+                            <tr><td class="question"><span>Highest completed school level</span></td><td>{{ enrollmentinfo.schooling.highest }}</td></tr>
+                            <tr><td class="question"><span>Previous qualifications achieved</span></td><td>{{ enrollmentinfo.schooling.selectYear }}</td></tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <h3 class="page-header" id="employUSI">Employment &amp; USI</h3>
+                    <table class="table table-striped table-compressed">
+                        <tbody>
+                             <tr><td class="question"><span>Current employment status?</span></td><td>{{ enrollmentinfo.employment.category }}</td></tr>
+                             <tr><td class="question"><span>Based in Australia?</span></td><td>{% if(enrollmentinfo.employment.basedinaustralia == 1) %} Yes {% else %} No {% endif %}</td></tr>
+                             <tr><td class="question"><span>USI Number</span></td><td>{{ enrollmentinfo.employment.usi }}</td></tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <h3 class="page-header" id="uploadID">Uploaded ID Files</h3>
+                    <table class="table table-compressed">
+                        <thead>
+                            <tr><th>ID Points</th><th>Submitted ID</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="question"><h4><strong>{{ enrollmentinfo.upload.uploadId[0].percentageCompleted }}</strong></h4></td><td><a href="#" target="_blank" class="filename">{{ enrollmentinfo.upload.uploadId[0].file.name }}</a></td></tr>
+                        </tbody>
+                    </table>
+                    <!-- If ID points are less than 100  display below -->
+					{% if(enrollmentinfo.upload.uploadId[0].percentageCompleted < 100 ) %}
+						<div class="alert alert-danger"><i class="zmdi zmdi-alert-circle zmdi-hc-lg zmdi-hc-fw"></i> <strong>Insufficient ID Points</strong></div>
+					{% endif %}
+                </section>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+{% block javascripts %}
+	<script>
+        // Not yet working as intended
+        $(document).ready(function () {
+            // bind click event to all internal page anchors
+            $('#goToSection a').on('click', function (e) {
+                e.preventDefault();
+                var target = $(this).attr('for'),
+                    pos = $('#' + target).offset(),
+                    top = pos.top;
+
+                window.scrollTo(0,top);
+            });
+        });
+    </script>
+{% endblock %}
