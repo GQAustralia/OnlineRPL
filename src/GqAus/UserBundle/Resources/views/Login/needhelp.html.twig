@@ -1,0 +1,101 @@
+<div id="myModal" class="help-modal modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2 class="modal-title">Need help</h2>
+          <span>Don't worry, we got you covered</span>
+      </div>
+      <div class="modal-body">
+          
+          <div class="forgot-password">
+              <p><a href="#" data-toggle="collapse" data-target="#forgotPassword">I forgot my password.</a></p>
+              <div id="forgotPassword" class="collapse">Easy peasy! Just type in email address you usedt to enrol, and we will send you a reset email. Make sure to check your spam/junk folder in case it got in there someshow!
+                  
+                  <div class="gq-change-profile-warning" id="change_pwd_error"></div>  
+                  <form class="form" name="frmPassword" id="frmPassword" method="post">
+                      <div class="form-group">
+                          <input type="email" name = 'email' autocomplete="off" class="form-control email" id="InputEmail1" placeholder="Email"/>
+                      </div>
+                      <div class="form-group">
+                          <input type="submit" class="btn btn-success text-uppercase btn-block" onclick="return forgotValidate();" value="Request password reset email"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+          <div class="forgot-email">
+              <p><a href="#" data-toggle="collapse" data-target="#forgotEmail">I forgot the emial I used to enrol.</a></p>
+              <div id="forgotEmail" class="collapse">
+                  <p>For security purposes, this request need verification so best if you can contact us.</p>
+                  <p class="tel-num">
+                      <strong>Our numbers</strong><br/>
+                      <a href="tel:133775">133 775</a> (Inside Australia)<br/>
+                      <a href="tel:61292611333">+61 29261 1333</a> (Outside Australia)
+                  </p>
+                  <p>
+                      <strong>Email:</strong><br/>
+                      rplonlinehelp@gqaustralia.edu.au
+                  </p>
+              </div>
+          </div>
+          <div class="dont-have-account">
+              <p><a href="#" data-toggle="collapse" data-target="#dontHaveAccount">I don't have an account yet.</a></p>
+              <div id="dontHaveAccount" class="collapse">
+                  <p>Not to fear! You can do a quick 3-minute skills review first adn then one of our RPL Specialists will contact you to discuss your eligibility for Online RPL enrolment.</p>
+                  <p>Click on the button below to start your skill review!</p>
+                  <div class="form-group">
+                      <a href="http://fsr.gqaustralia.edu.au/v3/free-skills-review-436611" target="_blank" class="btn btn-success text-uppercase btn-block" id="fsr-btn">Start my Free skills Review</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      </div>
+    </div>
+</div>
+<script>
+    function forgotValidate()
+    {
+        var useremail = $("#InputEmail1").val();
+        var startdiv = '<div class="gq-id-files-upload-error-text alert alert-danger">';
+        var enddiv = '</div>';
+        regexp=/^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/;
+        if(useremail=="") {
+            $("#change_pwd_error").show();
+            $("#change_pwd_error").html(startdiv + "Please enter Email" + enddiv);
+            $("#InputEmail1").focus();    
+            return false;
+        }
+        else {
+            if(useremail.search(regexp)==-1) {
+                $("#change_pwd_error").show();
+                $("#change_pwd_error").html(startdiv + "Please enter valid Email" + enddiv);
+                $("#InputEmail1").val('');
+                $("#InputEmail1").focus();
+                return false;
+            }
+        }
+        data = {'email': useremail };
+        $.ajax({
+          type: "POST",
+          url: 'forgotpassword',
+          data: data,
+          success: function(data){
+               console.log(data);
+               if (data.msg == '0') {      
+                        $("#change_pwd_error").show();
+                        $("#change_pwd_error").html('<div class="gq-id-files-upload-error-text alert alert-danger">There is no user with this email address. Please try again</div>');
+               }
+               else if (data.msg == '1'){
+                        $("#change_pwd_error").show();
+                        $("#change_pwd_error").html('<div class="gq-id-files-upload-success-text alert alert-success">A request for password reset is sent to this address.</div>');
+               }
+               return false;
+          },
+          dataType: 'json'
+        });
+        
+        return false;
+     }
+</script>
