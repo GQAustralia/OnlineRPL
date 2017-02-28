@@ -18,17 +18,18 @@
                 <div class="panel-evidence-library-heading">
                     <div class="panel-evidence-library-htext">
                         <h3 class="qual-title" style="margin: 0; line-height: 1;">Evidence Library <br>
-                            <small class="text-muted text-uppercase hidden-xs">Upload and manage for core &amp; elective units</small>
+                            <small class="text-muted text-uppercase hidden-xs">{#Upload and manage for #}core &amp; elective units</small>
                         </h3>
                     </div>
-                    <button ng-if="(allEvidences| filter:{type: '!text'}).length > 0" type="button" class="btn btn-primary btn-upload-evidence" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload <span class="hidden-mobile">Evidence</span></button>
+                    
+                    <button ng-if="(allEvidences| filter:{type: '!text'}).length > 0" ng-show="role === 'candidate'" type="button" class="btn btn-primary btn-upload-evidence" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload <span class="hidden-mobile">Evidence</span></button>
                 </div>
+                <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
                 <!-- Zero State -->
-                <div class="panel-body" ng-if="(allEvidences| filter:{type: '!text'}).length === 0">
-                    <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
+                <div class="panel-body" ng-if="(allEvidences| filter:{type: '!text'}).length === 0" ng-show="role === 'candidate'">
                     <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
                         <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
-                        <h4>No evidence for this unit yet <br><button type="button" class="btn-link">Upload evidence now</button></h4>
+                        <h4>No evidence for this unit yet <br><button  ng-show="role === 'candidate'" type="button" class="btn-link">Upload evidence now</button></h4>
                     </section>
                 </div>
                 <!-- Zero State -->
@@ -224,12 +225,12 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <legend class="small text-muted text-uppercase">Files associated to</legend>
-                        <span ng-repeat="courseDetails in userCourses"><input type="checkbox"  name="course{[{courseDetails.id}]}" ng-model="userCCodes[courseDetails.courseCode]" id="file{[{courseDetails.id}]}" class="custom-input"><label for="file{[{courseDetails.id}]}"><span >{[{courseDetails.name}]}</span></label></span>
+                        <span ng-repeat="courseDetails in userCourses| unique : 'courseCode'"><input type="checkbox"  name="course{[{courseDetails.id}]}" ng-model="userCCodes[courseDetails.courseCode]" id="file{[{courseDetails.id}]}" class="custom-input"><label for="file{[{courseDetails.id}]}"><span >{[{courseDetails.name}]}</span></label></span>
                     </div>
                     <div class="form-group">
                         <legend class="small text-muted text-uppercase">Files linked to</legend>
-                        <input type="checkbox" name="coursesingleunit" value="1" id="coursesingleunit" class="custom-input"><label for="coursesingleunit"><span>Evidence linked to a single unit</span></label>
-                        <input type="checkbox" name="coursemultiunit" value="2" id="coursemultiunit" class="custom-input"><label for="coursemultiunit"><span>Evidence linked to multiple units</span></label>
+                        <input type="checkbox" id="singleunit" data-ng-model="courseUnit.singleunit" class="custom-input"><label for="singleunit"><span>Evidence linked to a single unit</span></label>
+                        <input type="checkbox" id="multiunit"  data-ng-model="courseUnit.multiunit" class="custom-input"><label for="multiunit"><span>Evidence linked to multiple units</span></label>
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
                         <legend class="small text-muted text-uppercase">Filter by file format</legend>
