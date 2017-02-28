@@ -21,6 +21,7 @@ use GqAus\UserBundle\Entity\Schooling;
 use GqAus\UserBundle\Entity\UserPrevQualifications;
 use GqAus\UserBundle\Entity\Employment;
 use GqAus\UserBundle\Entity\UserIds;
+use GqAus\UserBundle\Services\Email\EmailService;
 
 class UserService {
 
@@ -69,6 +70,11 @@ class UserService {
     private $sqsService;
 
     /**
+     * @var EmailService
+     */
+    private $emailService;
+
+    /**
      * Constructor
      * @param object $em
      * @param object $container
@@ -76,8 +82,9 @@ class UserService {
      * @param object $guzzleService
      * @param object $coursesService
      * @param object $sqsService
+     * @param $emailService
      */
-    public function __construct($em, $container, $mailer, $guzzleService, $coursesService, $sqsService) {
+    public function __construct($em, $container, $mailer, $guzzleService, $coursesService, $sqsService, EmailService $emailService) {
         $this->em = $em;
         $session = $container->get('session');
         $this->userId = $session->get('user_id');
@@ -88,6 +95,7 @@ class UserService {
         $this->guzzleService = $guzzleService;
         $this->coursesService = $coursesService;
         $this->sqsService = $sqsService;
+        $this->emailService = $emailService;
     }
 
     /**
@@ -2707,8 +2715,8 @@ class UserService {
                 $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_course_con'));
             }
 
-            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-            $this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
+            $this->emailService->sendWelcomeEmailToApplicant($user->getId(), $courseData['courseName']);
+            $this->emailService->sendNotificationEmailToSupervisors($user->getId());
         }
         echo $message;
         exit;
