@@ -8,7 +8,7 @@ services:
 #        arguments: [@service_id, "plain_value", %parameter%]
     EmailService:
         class: GqAus\UserBundle\Services\Email\EmailService
-        arguments: [@doctrine.orm.entity_manager, @templating, @mailer]
+        arguments: [@doctrine.orm.entity_manager, @templating, @mailer, @service_container]
     UserCourseService:
         class: GqAus\UserBundle\Services\UserCourseService
         arguments: [@doctrine.orm.entity_manager]
@@ -36,7 +36,7 @@ services:
         - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
     UserService:
         class: GqAus\UserBundle\Services\UserService
-        arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService', '@CoursesService', '@SQSService', ]
+        arguments: [@doctrine.orm.entity_manager, @service_container, '@mailer', '@GuzzleService', '@CoursesService', '@SQSService', @EmailService]
     CourseFileService:
         class: GqAus\UserBundle\Services\UserCourse\FileService
         arguments: [@doctrine.orm.entity_manager]
