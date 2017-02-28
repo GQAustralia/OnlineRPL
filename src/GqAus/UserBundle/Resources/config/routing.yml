@@ -382,3 +382,6 @@ applicantIndividualPage:
 applicantProfile:
     path: /applicantProfile/{applicantId}
     defaults: { _controller: GqAusUserBundle:Applicant:applicantProfile }    
+enrollmentInfo:
+    path: /enrollmentinfo/{applicantId}
+    defaults: { _controller: GqAusUserBundle:Applicant:enrollmentInfo }
