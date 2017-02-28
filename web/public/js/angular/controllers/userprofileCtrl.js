@@ -44,7 +44,8 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
         title: "",
         detailsType: ""
     };
-    $scope.inner = false;
+    $scope.fileFormToFld = false;
+    $scope.fileLinkToFld = false;
     $scope.getAllEvidenceCats = function(){
         AjaxService.apiCall("getAllEvidenceCats", {}).then(function (data) {
            $scope.allEvidenceCats = data;
@@ -101,7 +102,8 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
     
     $scope.applyFilters = function(){
         if(angular.isObject($scope.userCCodes)){
-            $scope.inner = false;
+            $scope.fileFormToFld = false;
+            $scope.fileLinkToFld = false;
             $scope.selectedfileAssArr = [];
             angular.forEach($scope.userCCodes, function (fileAssVal, fileAssIndex) {
                 if(fileAssVal === true){
@@ -125,10 +127,11 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
                 
         if(angular.isObject($scope.filterLib)){          
             $scope.selectedfileFormToArr = [];
+            $scope.fileLinkToFld = false;
             angular.forEach($scope.filterLib, function (formVal, formIndex) {
                 if(formVal === true){
                     $scope.fileFormToObj[formIndex] = _.where($scope.allEvidences, {"type":formIndex});
-                    $scope.inner = true;
+                    $scope.fileFormToFld = true;
                 } else if(formVal === false){
                      delete $scope.fileFormToObj[formIndex];
                      $scope.fileFormToObj[formIndex] = [];
@@ -140,10 +143,30 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
                         $scope.selectedfileFormToArr.push(key3);
                 });
             });
-            if ($scope.inner === true)
+            if ($scope.fileFormToFld === true)
                 $scope.allEvidences = $scope.selectedfileFormToArr;
         }
-        console.log($scope.allEvidences.length);
+        if(angular.isObject($scope.courseUnit)){   
+            $scope.selectedfileLinkToArr = [];
+            angular.forEach($scope.courseUnit, function (courseUnitVal, courseUnitIndex) {
+                if(courseUnitVal === true){
+                    $scope.fileLinToObj[courseUnitIndex] = _.where($scope.allEvidences, {"linkToMulti":courseUnitIndex});
+                    $scope.fileLinkToFld = true;
+                } else if(courseUnitVal === false){
+                     delete $scope.fileLinToObj[courseUnitIndex];
+                     $scope.fileLinToObj[courseUnitIndex] = [];
+                 }
+                $scope.fileLinToArr = angular.extend({},$scope.fileLinToArr, $scope.fileLinToObj);
+            });
+            angular.forEach($scope.fileLinToArr, function(key4, obj4){
+                angular.forEach(key4, function(key5, obj5){
+                        $scope.selectedfileLinkToArr.push(key5);
+                });
+            });
+            if ($scope.fileLinkToFld === true)
+                $scope.allEvidences = $scope.selectedfileLinkToArr;
+        }
+        console.log($scope.allEvidences);
         $('#evidenceFilter').modal('hide');
     }    
     $scope.sortBy = function(propertyName) {

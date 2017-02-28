@@ -1253,7 +1253,7 @@ class CoursesService {
                 $evd['name'] = ($type == 'text') ? '' : $evidence->getName();
                 $evd['content'] = ($type == 'text') ? $evidence->getContent() : '';
                 $evd['size'] = $evidence->getSize();
-//                $evd['linkToMulti'] = $this->getLinkedToMultiOrNot($evidence->getId());
+                $evd['linkToMulti'] = $this->getLinkedToMultiUnitOrNot($evidence);
                 $evd['facilitatorViewStatus'] = $evidence->getfacilitatorViewStatus();
                 $evd['courseCode'] = ($evidence->getCourse()) ? $evidence->getCourse() : '';
 
@@ -1264,15 +1264,55 @@ class CoursesService {
     }
 
     /**
-     * 
+     * Function to retrieve the evidence is linked to single unit or multi unit.
      * @param type $evdId
+     * return the string
      */
-    public function getLinkedToMultiOrNot($evdId) {
-//        echo $evdId;
-//        exit;
+    public function getLinkedToMultiUnitOrNot($evidence) {
+        $vidObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
+        $audObj = $this->em->getRepository('GqAusUserBundle:Evidence\Audio');
+        $filObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
+        $imgObj = $this->em->getRepository('GqAusUserBundle:Evidence\Image');
+        $texObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
         $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->findOneById($evidence);
+        switch ($evdObj->getType()) {
+            case 'image':
+                $evidenceObj = $imgObj->findOneById($evidence);
+                $query = $this->em->getRepository('GqAusUserBundle:Evidence\Image')->createQueryBuilder('ei')->groupBy('ei.path')->select('count(ei.path) as totalRcrds')->where(sprintf('ei.%s = :%s', 'path', 'evdPath'))->setParameter('evdPath', $evidenceObj->getPath());
+                break;
+            case 'audio':
+                $evidenceObj = $audObj->findOneById($evidence);
+                $query = $this->em->getRepository('GqAusUserBundle:Evidence\Audio')->createQueryBuilder('ea')->groupBy('ea.path')->select('count(ea.path) as totalRcrds')->where(sprintf('ea.%s = :%s', 'path', 'evdPath'))->setParameter('evdPath', $evidenceObj->getPath());
+                break;
+            case 'video':
+                $evidenceObj = $vidObj->findOneById($evidence);
+                $query = $this->em->getRepository('GqAusUserBundle:Evidence\Video')->createQueryBuilder('ev')->groupBy('ev.path')->select('count(ev.path) as totalRcrds')->where(sprintf('ev.%s = :%s', 'path', 'evdPath'))->setParameter('evdPath', $evidenceObj->getPath());
+                break;
+            case 'file':
+                $evidenceObj = $filObj->findOneById($evidence);
+                $query = $this->em->getRepository('GqAusUserBundle:Evidence\File')->createQueryBuilder('ef')->groupBy('ef.path')->select('count(ef.path) as totalRcrds')->where(sprintf('ef.%s = :%s', 'path', 'evdPath'))->setParameter('evdPath', $evidenceObj->getPath());
+                break;
+            case 'text':
+                $evidenceObj = $texObj->findOneById($evidence);
+                $query = $this->em->getRepository('GqAusUserBundle:Evidence\Text')->createQueryBuilder('et')->groupBy('et.path')->select('count(et.path) as totalRcrds')->where(sprintf('et.%s = :%s', 'path', 'evdPath'))->setParameter('evdPath', $evidenceObj->getPath());
+                break;
+            default :
+                $evidenceObj = $filObj->findOneById($evidence);
+                $query = $this->em->getRepository('GqAusUserBundle:Evidence\File')->createQueryBuilder('ef')->groupBy('ef.path')->select('count(ef.path) as totalRcrds')->where(sprintf('ef.%s = :%s', 'path', 'evdPath'))->setParameter('evdPath', $evidenceObj->getPath());
+                break;
+        }
+        if (!empty($evidenceObj)) {
+            $courseObj = $query->getQuery()->getResult();
+            $noOfRcrds = $courseObj[0]['totalRcrds'];
+            return ($noOfRcrds>1) ? 'multi' : 'single';
+        }        
     }
-
+    
+    /**
+     * Get the status class
+     * @param type $statusText
+     * @return string
+     */
     public function getStatusClass($statusText) {
         $cls = 'label-warning';
         switch ($statusText) {
