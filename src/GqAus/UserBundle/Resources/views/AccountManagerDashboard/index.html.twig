@@ -33,6 +33,7 @@
         $(document).ready(function () {
 
             reloadDueListCircleChecker();
+            triggerPopOver();
 
             var template = '<div class="popover compressed" role="tooltip">' +
                 '<div class="arrow"/>' +
@@ -52,75 +53,77 @@
 
             var userId = {{ user.id }};
 
-            $('[data-toggle="popover"]')
-                .popover({
-                    html: true,
-                    animation: false,
-                    template: template,
-                    content: content,
-                    title: title,
-                    viewport: '.main-content-gqa'
-                })
-                .on('shown.bs.popover', function (e) {
-                    $(this).next().velocity({scaleX: [1, 0], scaleY: [1, 0]}, {easing: [250, 20], duration: 800});
-                    init_buttons();
-                    init_datepicker($(this));
+            function triggerPopOver() {
+                $('[data-toggle="popover"]')
+                    .popover({
+                        html: true,
+                        animation: false,
+                        template: template,
+                        content: content,
+                        title: title,
+                        viewport: '.main-content-gqa'
+                    })
+                    .on('shown.bs.popover', function (e) {
+                        $(this).next().velocity({scaleX: [1, 0], scaleY: [1, 0]}, {easing: [250, 20], duration: 800});
+                        init_buttons();
+                        init_datepicker($(this));
 
-                    var that = $(this);
+                        var that = $(this);
 
-                    $('.add-new-task').click(function () {
+                        $('.add-new-task').click(function () {
 
-                        if ($('#taskMessage').val() != '') {
+                            if ($('#taskMessage').val() != '') {
 
-                            var newTaskData = {
-                                'user_course_id': that.attr('data-id'),
-                                'user_id': userId,
-                                'date': that.attr('data-task-date'),
-                                'type': that.attr('data-file-type'),
-                                'created_by': userId,
-                                'message': $('#taskMessage').val()
-                            };
+                                var newTaskData = {
+                                    'user_course_id': that.attr('data-id'),
+                                    'user_id': userId,
+                                    'date': that.attr('data-task-date'),
+                                    'type': that.attr('data-file-type'),
+                                    'created_by': userId,
+                                    'message': $('#taskMessage').val()
+                                };
 
-                            $.post("/addNewTaskAndReload", newTaskData).then(
-                                (result) => {
+                                $.post("/addNewTaskAndReload", newTaskData).then(
+                                    (result) => {
 
-                                    if (result.details.message.dueType == 'dueToday') {
-                                        $('.dueTodayList').append(
-                                            buildDueTodayReminder(
-                                                newTaskData.user_course_id,
-                                                newTaskData.message,
-                                                result.details.message.dueDays
-                                            )
-                                        );
+                                        if (result.details.message.dueType == 'dueToday') {
+                                            $('.dueTodayList').append(
+                                                buildDueTodayReminder(
+                                                    newTaskData.user_course_id,
+                                                    newTaskData.message,
+                                                    result.details.message.dueDays
+                                                )
+                                            );
 
-                                        $('.modalDueTodayList').append(
-                                            buildModalDueTodayList(newTaskData.message, result.details.message.dueDays)
-                                        );
+                                            $('.modalDueTodayList').append(
+                                                buildModalDueTodayList(newTaskData.message, result.details.message.dueDays)
+                                            );
+                                        }
+
+                                        if (result.details.message.dueType == 'dueSoon') {
+                                            $('.dueSoonList').append(
+                                                buildDueSoonReminder(
+                                                    newTaskData.user_course_id,
+                                                    newTaskData.message,
+                                                    result.details.message.dueDays
+                                                )
+                                            );
+
+                                            $('.modalDueSoonList').append(
+                                                buildModalDueSoonList(newTaskData.message, result.details.message.dueDays)
+                                            );
+                                        }
+
+                                        reloadDueListCircleChecker();
                                     }
+                                );
+                            }
 
-                                    if (result.details.message.dueType == 'dueSoon') {
-                                        $('.dueSoonList').append(
-                                            buildDueSoonReminder(
-                                                newTaskData.user_course_id,
-                                                newTaskData.message,
-                                                result.details.message.dueDays
-                                            )
-                                        );
-
-                                        $('.modalDueSoonList').append(
-                                            buildModalDueSoonList(newTaskData.message, result.details.message.dueDays)
-                                        );
-                                    }
-
-                                    reloadDueListCircleChecker();
-                                }
-                            );
-                        }
-
-                        that.click();
+                            that.click();
+                        });
                     });
+            }
 
-                });
 
             function buildDueTodayReminder(userCourseId, message, days) {
                 return '<li class="list-group-item dueListCircleCheck" data-status="overdue" id="' + userCourseId + '">' +
@@ -150,6 +153,31 @@
                     '</li>';
             }
 
+            function buildModalCompletedTodayList(message) {
+                return '<li class="list-group-item" data-status="done">' +
+                    '<span>' + message + '</span>' +
+                    '<span class="overdue text-success"> 0 days before due</span>' +
+                    '</li>';
+            }
+
+            function reloadDueListCircleChecker() {
+
+                $('.dueListCircleCheck').click(function () {
+
+                    var completeTaskData = {task_id: $(this).attr('id'), user_id: userId};
+                    var that = $(this);
+                    var message = $(this).find('span:first').text();
+
+                    $.post("/completeTask", completeTaskData).then(
+                        (result) => {
+                            that.attr('data-status', 'done');
+                            $('#modalTodayDueReminder_' + completeTaskData.task_id).remove();
+                            $('.modalCompletedTodayList').append(buildModalCompletedTodayList(message));
+                        }
+                    );
+                });
+            }
+
             function init_datepicker(datePickerObject) {
                 $('[data-init="datepicker"]').datetimepicker({
                     'format': 'DD/MM/YYYY',
@@ -171,28 +199,6 @@
                 $(document).on('click', '.btn-set-date', function (event) {
                     $(this).closest('.popover').toggleClass('show-date');
                     $(this).find('i').toggleClass('zmdi-calendar').toggleClass('zmdi-arrow-left');
-                });
-            }
-
-            function reloadDueListCircleChecker() {
-
-                $('.dueListCircleCheck').click(function () {
-
-                    var completeTaskData = {task_id: $(this).attr('id'), user_id: userId};
-
-                    $.post("/completeTask", completeTaskData).then(
-                        (result) => {
-                            $('#side-task-list').html(result);
-
-                            $.post("/loadModalTask", {user_id: userId}).then(
-                                (modalResult) => {
-                                    $('#modal-task-list').html(modalResult);
-                                }
-                            );
-
-                            reloadDueListCircleChecker();
-                        }
-                    );
                 });
             }
 

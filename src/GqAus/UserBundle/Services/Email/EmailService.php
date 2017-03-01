@@ -97,7 +97,9 @@ class EmailService extends CustomRepositoryService
             $emailContent
         );
 
-        return $this->mailer->send($email);
+
+        echo $user->getFirstname();
+        print_r($this->mailer->send($email));
     }
 
     /**

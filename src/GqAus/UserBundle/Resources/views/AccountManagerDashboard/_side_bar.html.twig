@@ -55,7 +55,7 @@
                         {% for doneDueToday in reminders.doneDueToday %}
                             <li class="list-group-item dueListCircleCheck" data-status="done"
                                 id="{{ doneDueToday.id }}">
-                                <small>{{ doneDueToday.message }}</small>
+                                <span>{{ doneDueToday.message }}</span>
                                 <span class="overdue text-danger">{{ doneDueToday.days_due }} days overdue</span>
                             </li>
                         {% endfor %}

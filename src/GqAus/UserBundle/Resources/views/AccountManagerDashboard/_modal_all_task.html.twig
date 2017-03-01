@@ -31,14 +31,14 @@
                         <ul class="list-group modalDueTodayList">
 
                             {% for over in reminders.overdue %}
-                                <li class="list-group-item" data-status="done">
+                                <li class="list-group-item" data-status="done" id="modalOverdueReminder_{{ over.id }}">
                                     <span>{{ over.message }}</span>
                                     <span class="overdue text-danger">{{ over.days_due }} days overdue</span>
                                 </li>
                             {% endfor %}
 
                             {% for dueToday in reminders.dueToday %}
-                                <li class="list-group-item" data-status="done">
+                                <li class="list-group-item" data-status="done" id="modalTodayDueReminder_{{ dueToday.id }}">
                                     <span>{{ dueToday.message }}</span>
                                     <span class="overdue text-danger">{{ dueToday.days_due }} days overdue</span>
                                 </li>
@@ -59,7 +59,7 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="Completed">
-                        <ul class="list-group modalDueTodayList">
+                        <ul class="list-group modalCompletedTodayList">
                             {% for doneDueToday in reminders.doneDueToday %}
                                 <li class="list-group-item" data-status="done">
                                     <span>{{ doneDueToday.message }}</span>

@@ -2698,6 +2698,12 @@ class UserService {
                 $emailCourseFlag = $res['emailFlag'];
             }
         }
+echo $user->getId();
+
+        echo $courseData['courseName'];
+        $this->emailService->sendWelcomeEmailToApplicant($user->getId(), $courseData['courseName']);
+
+        die;
         if (!empty($emailFlag) || !empty($emailCourseFlag)) {
 
             // finding and replacing the variables from message templates
@@ -2725,8 +2731,9 @@ class UserService {
 
         }
 
+        //$this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
         $this->emailService->sendWelcomeEmailToApplicant($user->getId(), $courseData['courseName']);
-        $this->emailService->sendNotificationEmailToSupervisors($user->getId());
+       // $this->emailService->sendNotificationEmailToSupervisors($user->getId());
 
         echo $message;
         exit;
