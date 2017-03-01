@@ -2774,7 +2774,7 @@ echo $user->getId();
                     $userCoursesObj->setFacilitatorread(0);
                     $userCoursesObj->setAssessorread(0);
                     $userCoursesObj->setRtoread(0);
-                    $targetDate = date('Y-m-d H:m:s', strtotime('+' . $fecWorkSpan . ' days'));
+                    $targetDate = date('Y-m-d H:m:s', strtotime('+' . ($fecWorkSpan+1) . ' days'));
                     $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : $targetDate);
                     $this->em->persist($userCoursesObj);
                     $this->em->flush();
@@ -3302,24 +3302,24 @@ echo $user->getId();
      */
     public function getQualificationStatus() {
         $statusList = array(
-            '1' => array('status' => 'Welcome Call Completed Docs Sent', 'order' => 1, 'Factive' => 1, 'Aactive' => 0),
-            '4' => array('status' => 'Welcome Call VM Docs Sent', 'order' => 2, 'Factive' => 1, 'Aactive' => 0),
-            '5' => array('status' => 'Partial Evidence Received', 'order' => 3, 'Factive' => 1, 'Aactive' => 0),
-            '6' => array('status' => 'Evidence Being Reviewed', 'order' => 4, 'Factive' => 1, 'Aactive' => 0),
-            '7' => array('status' => 'Evidence Feedback Provided', 'order' => 5, 'Factive' => 1, 'Aactive' => 0),
-            '8' => array('status' => 'Needs Follow Up With Candidate', 'order' => 6, 'Factive' => 1, 'Aactive' => 0),
-            '9' => array('status' => 'All Evidence Received', 'order' => 7, 'Factive' => 1, 'Aactive' => 0),
-            '2' => array('status' => 'Portfoilo Sent To Remote Assessor', 'order' => 8, 'Factive' => 1, 'Aactive' => 0),
-            '10' => array('status' => 'Competency Conversation Needed', 'order' => 9, 'Factive' => 0, 'Aactive' => 1),
-            '11' => array('status' => 'Competency Conversation Booked', 'order' => 10, 'Factive' => 1, 'Aactive' => 0),
-            '12' => array('status' => 'Competency Conversation Completed', 'order' => 11, 'Factive' => 0, 'Aactive' => 1),
-            '13' => array('status' => 'Gap Training Required', 'order' => 12, 'Factive' => 0, 'Aactive' => 1),
-            '3' => array('status' => 'Assessment Results Received C', 'order' => 13, 'Factive' => 0, 'Aactive' => 1),
-            '14' => array('status' => 'Assessment Feedback Required NYC', 'order' => 14, 'Factive' => 0, 'Aactive' => 1),
-            '15' => array('status' => 'Portfolio Submitted To RTO', 'order' => 15, 'Factive' => 1, 'Aactive' => 0),
-            '16' => array('status' => 'Certificate Received By GQ', 'order' => 16, 'Factive' => 0, 'Aactive' => 0),
-            '0' => array('status' => 'RPL Completed', 'order' => 17, 'Factive' => 1, 'Aactive' => 0),
-            '17' => array('status' => 'On Hold', 'order' => 18, 'Factive' => 1, 'Aactive' => 0),
+            '1' => array('status' => 'Welcome Call Completed Docs Sent', 'order' => 1, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Not yet started', 'labelClass' => 'label-blue'),
+            '4' => array('status' => 'Welcome Call VM Docs Sent', 'order' => 2, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Not yet started', 'labelClass' => 'label-blue'),
+            '5' => array('status' => 'Partial Evidence Received', 'order' => 3, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Account Manager Review', 'labelClass' => 'label-blue'),
+            '6' => array('status' => 'Evidence Being Reviewed', 'order' => 4, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Account Manager Review', 'labelClass' => 'label-blue'),
+            '7' => array('status' => 'Evidence Feedback Provided', 'order' => 5, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Account Manager Review', 'labelClass' => 'label-blue'),
+            '8' => array('status' => 'Needs Follow Up With Candidate', 'order' => 6, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Account Manager Review', 'labelClass' => 'label-blue'),
+            '9' => array('status' => 'All Evidence Received', 'order' => 7, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Account Manager Review', 'labelClass' => 'label-blue'),
+            '2' => array('status' => 'Portfoilo Sent To Remote Assessor', 'order' => 8, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'To Assess', 'labelClass' => 'label-purple'),
+            '10' => array('status' => 'Competency Conversation Needed', 'order' => 9, 'Factive' => 0, 'Aactive' => 1, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'In Progress', 'labelClass' => 'label-purple'),
+            '11' => array('status' => 'Competency Conversation Booked', 'order' => 10, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'In Progress', 'labelClass' => 'label-purple'),
+            '12' => array('status' => 'Competency Conversation Completed', 'order' => 11, 'Factive' => 0, 'Aactive' => 1, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'In Progress', 'labelClass' => 'label-purple'),
+            '13' => array('status' => 'Gap Training Required', 'order' => 12, 'Factive' => 0, 'Aactive' => 1, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'In Progress', 'labelClass' => 'label-purple'),
+            '3' => array('status' => 'Assessment Results Received C', 'order' => 13, 'Factive' => 0, 'Aactive' => 1, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'Competent', 'labelClass' => 'label-purple'),
+            '14' => array('status' => 'Assessment Feedback Required NYC', 'order' => 14, 'Factive' => 0, 'Aactive' => 1, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'Not Yet Competent', 'labelClass' => 'label-purple'),
+            '15' => array('status' => 'Portfolio Submitted To RTO', 'order' => 15, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'RTO Review', 'RtoDisplayText' => 'To Assess', 'labelClass' => 'label-pink'),
+            '16' => array('status' => 'Certificate Received By GQ', 'order' => 16, 'Factive' => 0, 'Aactive' => 0, 'ApplicantDisplayText' => 'Qualification Granted', 'RtoDisplayText' => 'Qualification Granted', 'labelClass' => 'label-green'),
+            '0' => array('status' => 'RPL Completed', 'order' => 17, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'RPL Completed', 'labelClass' => 'label-blue'),
+            '17' => array('status' => 'On Hold', 'order' => 18, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'On Hold', 'labelClass' => 'label-gray'),
         );
         return $statusList;
     }

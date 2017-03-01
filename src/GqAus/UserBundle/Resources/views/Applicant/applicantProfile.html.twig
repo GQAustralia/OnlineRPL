@@ -128,17 +128,18 @@
                         <i class="zmdi zmdi-pin base-icon"></i>
                         <p>
                             Postal Address
-                            <span>{{applicantObj.address.address|default('')}} {{applicantObj.address.area|default('')}} {{applicantObj.address.city|default('')}} {{applicantObj.address.state|default('')}} {{applicantObj.address.pincode|default('')}} {{applicantObj.address.suburb|default('')}} {{applicantObj.address.country|default('')}} {{applicantObj.address.postal|default('')}}</span>
+                            <span>{{applicantObj.address.address|default('')}} {{applicantObj.address.area|default('')}} {{applicantObj.address.city|default('')}} {{applicantObj.address.state|default('')}} {{applicantObj.address.pincode|default('')}} {{applicantObj.address.suburb|default('')}} {{applicantObj.address.country|default('')}}</span>
                         </p>
                     </div>
-
+                    {% if applicantObj.address.postal %}
                     <div class="profile-info">
                         <i class="zmdi zmdi-nature base-icon"></i>
                         <p>
                             Billing Address
-                            <span>200 Broadway Ave WEST BEACH NSW 5024 AUSTRALIA</span>
+                            <span>{{applicantObj.address.address|default('')}} {{applicantObj.address.area|default('')}} {{applicantObj.address.city|default('')}} {{applicantObj.address.state|default('')}} {{applicantObj.address.pincode|default('')}} {{applicantObj.address.suburb|default('')}} {{applicantObj.address.country|default('')}}</span>
                         </p>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             

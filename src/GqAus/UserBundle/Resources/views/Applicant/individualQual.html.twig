@@ -58,8 +58,8 @@
                             {% for appCourseObj in applicantCourses %}
                             <li class="divider clearfix btn-block"></li>
                             <li class="dropdown-static-header" onClick='location.href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}"'><h4>{{appCourseObj.getCourseName()}}</h4></li>
-                            <li><a href="/applicantIndQual/{{applicantId}}/{{appCourseObj.getCoursecode()}}/core">Core Units</a></li>
-                            <li><a href="/applicantIndQual/{{applicantId}}/{{appCourseObj.getCoursecode()}}/elective">Elective Units</a></li>
+                            <li><a href="/qualificationDetails/{{appCourseObj.getCoursecode()}}/{{applicantId}}/core">Core Units</a></li>
+                            <li><a href="/qualificationDetails/{{appCourseObj.getCoursecode()}}/{{applicantId}}/elective">Elective Units</a></li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -103,14 +103,14 @@
                             <small>{{courseObj.courseCode()}}</small><br> {{courseObj.courseName()}}
                         </h3>
                         <div class="panel-qualification-gauges change-status" ng-init="status = '{{courseObj.courseStatus}}'; courseStatus = '{{courseObj.courseStatus}}';statusText = '{{courseStatus[courseObj.courseStatus].status}}'">
-                            <label class="label {{ courses_service.getStatusClass(courseStatus[courseObj.courseStatus]['status'])}}">{[{statusText}]}</label>
+                            <label class="label {{ courseStatus[courseObj.courseStatus]['labelClass']}}">{[{statusText}]}</label>
                             <button type="button" class="btn btn-xs btn-link" data-toggle="modal" data-target="#qualStatuses">
                                 <i class="zmdi zmdi-edit"></i> Change
                             </button>
                         </div>
                         <div class="panel-qualification-gauges">
                             <div class="qual-gauges">
-                                <div class="c100 p{{ evidenceCompleteness|trim('%') }} big {% if evidenceCompleteness|trim('%') == 100 %} green {% elseif evidenceCompleteness|trim('%') < 50 %} gray {% else %} orange {% endif %}">
+                                <div class="c100 p{{ evidenceCompleteness|trim('%') }} big {% if evidenceCompleteness|trim('%') == 100 %} green {% elseif evidenceCompleteness|trim('%') < 50 %} orange {% else %} gray {% endif %}">
                                     <span>
                                         <i>{{ evidenceCompleteness }}</i>
                                         <i class="progress-big-label">Total evidence completed</i>
@@ -127,14 +127,14 @@
                             </div>
 
                             <div class="qual-gauges">
-                                <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units">
+                                <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units {% if coreUnitsSubmittedPercent == 100 %} green {% elseif coreUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
                                     <span>{{ unitSubmitted['core']}}/{{ coreUnitsCnt|length }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>                             
                             </div>
 
                             <div class="qual-gauges">
-                                <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units">
+                                <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units {% if electiveUnitsSubmittedPercent == 100 %} green {% elseif electiveUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
                                     <span>{{ unitSubmitted['elective']}}/{{ electiveUnitsCnt }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>
