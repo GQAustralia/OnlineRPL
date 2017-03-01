@@ -50,6 +50,7 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
         AjaxService.apiCall("getAllEvidenceCats", {}).then(function (data) {
            $scope.allEvidenceCats = data;
            $scope.IsLoaded = true;
+           $scope.class = "active";
            $scope.getUserCourses();
            $scope.getEvidenceLibrary();
            $scope.getUploadDetails();
@@ -76,7 +77,7 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
         });
     }
     
-    $scope.filerCat = function(catid){
+    $scope.filterCat = function(catid){
         if(catid === '6') 
             $scope.allEvidences = $scope.evidences;
         else
