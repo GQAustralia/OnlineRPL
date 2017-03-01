@@ -19,9 +19,12 @@ class ForgotPasswordController extends Controller
         if ($this->getRequest()->getMethod() == 'POST') {
             $email = $this->getRequest()->get('email');
             $message = $this->get('UserService')->forgotPasswordRequest($email);
+            $response['msg'] = $message;
+            echo json_encode($response);
+            exit;
         }
-        return $this->render(
-                'GqAusUserBundle:Login:forgotpassword.html.twig', array('message' => $message));
+        
+        return $this->render('GqAusUserBundle:Login:forgotpassword.html.twig', array('message' => $message));
     }
 
     /**

@@ -21,8 +21,8 @@
 	}
 	[data-inbox-count="0"]:after, [data-inbox-count=""]:after  { display: none; }
 	.dropdown-menu-messages {
-		max-width: 350px;
-		min-width: 350px;
+		max-width: 350px !important;
+		min-width: 350px !important;
 		> li {
 			border-top: 1px solid $gray-lighter;
 			&:first-child {

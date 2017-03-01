@@ -36,8 +36,7 @@ parameters:
                                 We heard that you lost your password. Sorry about that! <br/>
                                 But don't worry! You can use the following link within the next 4 hours to reset your password 
                                 <a href='#applicationUrl#resetpassword/#token#'>Click Here</a>.<br/>
-                                If you dont use this link within 4 hours, it will expire. <br/>
-                                To get a new password reset link, visit #applicationUrl#forgotpassword<br/><br/>
+                                If you dont use this link within 4 hours, it will expire. <br/><br/>
                                 Regards,<br/>%default_from_username% 
     msg_add_evidence_sub: "Evidence added to - #courseCode# : #courseName#" 
     msg_add_evidence_con: >

@@ -1044,17 +1044,25 @@ class ApplicantController extends Controller
    }
 
    public function enrollmentInfoAction($applicantId) {
-		dump($applicantId);
-		exit;
+
 		$userService = $this->get('UserService');
 		$results = array();
-		
+		$enrollment = [];
+
 		$user = $this->get('security.context')->getToken()->getUser();
 		$results['user'] = $user;
 		$results['applicantCourses'] = $userService->getUserCourses($applicantId);
 		$results['applicantId'] = $applicantId;
 		$results['applicantObj'] = $userService->getUserInfo($applicantId);
-		
-		return $this->render('GqAusUserBundle:Applicant:applicantProfile.html.twig', $results);
+        
+        $enrollment['profile'] = $this->get('UserService')->getProEnroll($applicantId);
+        $enrollment['language'] = $this->get('UserService')->getLangEnroll($applicantId);
+        $enrollment['schooling'] = $this->get('UserService')->getSchEnroll($applicantId);
+        $enrollment['employment'] = $this->get('UserService')->getEmpEnroll($applicantId);
+        $enrollment['upload']['uploadId'] = $this->get('UserService')->getUploadFiles($applicantId);
+
+		$results['enrollmentinfo'] = $enrollment;
+
+		return $this->render('GqAusUserBundle:Applicant:applicantEnrollmentInfo.html.twig', $results);
    }
 }

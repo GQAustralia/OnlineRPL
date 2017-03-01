@@ -67,7 +67,7 @@
                         <a href="/applicantProfile/{{applicantId}}" aria-controls="tab" role="tab">Profile</a>
                     </li>
                     <li role="presentation">
-                        <a href="applicant-enrolment-account-manager.html" aria-controls="tab" role="tab">Enrolment Info</a>
+                        <a href="/enrollmentinfo/{{applicantId}}" aria-controls="tab" role="tab">Enrolment Info</a>
                     </li>
                 </ul>
             </div>
@@ -110,7 +110,7 @@
                         </div>
                         <div class="panel-qualification-gauges">
                             <div class="qual-gauges">
-                                <div class="c100 p{{ evidenceCompleteness|trim('%') }} big">
+                                <div class="c100 p{{ evidenceCompleteness|trim('%') }} big {% if evidenceCompleteness|trim('%') == 100 %} green {% elseif evidenceCompleteness|trim('%') < 50 %} gray {% else %} orange {% endif %}">
                                     <span>
                                         <i>{{ evidenceCompleteness }}</i>
                                         <i class="progress-big-label">Total evidence completed</i>
@@ -140,11 +140,13 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="panel-qualification-gauges action-footer">
-                            <i class="zmdi zmdi-cloud-upload zmdi-hc-lg zmdi-hc-fw text-primary"></i>
-                            {% if evidenceCountArr.coreCnt > 0 %} <strong ><a href="/qualificationDetails/{{courseObj.courseCode()}}/{{applicantId}}/core">{{evidenceCountArr.coreCnt}} new uploads</a> for Core</strong>{%endif%}
-                            {% if evidenceCountArr.electiveCnt > 0 %}<strong >{% if evidenceCountArr.coreCnt > 0 %}and {%endif%}<a href="/qualificationDetails/{{courseObj.courseCode()}}/{{applicantId}}/elective">{{evidenceCountArr.electiveCnt}} new uploads</a> for Electives</strong>{%endif%}
-                        </p>
+                        {% if evidenceCountArr.coreCnt > 0 or evidenceCountArr.coreCnt > 0%} 
+                            <p class="panel-qualification-gauges action-footer">
+                                <i class="zmdi zmdi-cloud-upload zmdi-hc-lg zmdi-hc-fw text-primary"></i>
+                                {% if evidenceCountArr.coreCnt > 0 %} <strong ><a href="/qualificationDetails/{{courseObj.courseCode()}}/{{applicantId}}/core">{{evidenceCountArr.coreCnt}} new uploads</a> for Core</strong>{%endif%}
+                                {% if evidenceCountArr.electiveCnt > 0 %}<strong >{% if evidenceCountArr.coreCnt > 0 %}and {%endif%}<a href="/qualificationDetails/{{courseObj.courseCode()}}/{{applicantId}}/elective">{{evidenceCountArr.electiveCnt}} new uploads</a> for Electives</strong>{%endif%}
+                            </p>
+                        {%endif%}
                     </div>
                 </div>
             </article>
@@ -158,7 +160,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
-                    <h4 class="modal-title">Change Qualification Status?{[{status}]}</h4>
+                    <h4 class="modal-title">Change Qualification Status?</h4>
                 </div>
                 <div class="modal-body">
                     {% for key , statusObj in courseStatus %}

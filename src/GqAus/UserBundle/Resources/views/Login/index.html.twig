@@ -35,7 +35,7 @@
                     </div>
                     <button type="button" class="btn btn-success text-uppercase btn-block" id="submitAuth">Log In
                     </button>
-                    <div class="text-center" style="margin-top: 15px;><a href="https://www.gqaustralia.edu.au/get-in-touch/" target="_blank">Need help?</a></div>
+                    <div class="text-center" style="margin-top: 15px;"><a href="#" data-toggle="modal" data-target="#myModal">Need help?</a></div>
                 </div>
                 <i class="bg-blur"></i>
             </form>
@@ -56,6 +56,7 @@
         </footer>
 
     </main>
+    {% include 'GqAusUserBundle:Login:needhelp.html.twig' %}
 {% endblock %}
 
 {% block stylesheets %}

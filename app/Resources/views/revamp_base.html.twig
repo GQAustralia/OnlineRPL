@@ -35,9 +35,10 @@
         </script>    
 
 </head>
-
-<body  {% block ngController %}{% endblock %} class="{% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}">
-    {% set roles = app.security.getToken().getUser().getRoles() %}
+{% set roles = app.security.getToken().getUser().getRoles() %}
+{% set route = app.request.attributes.get('_route') %}
+<body  {% if roles[0] == 'ROLE_FACILITATOR' %} data-role="account-manager" {%endif%} {% block ngController %}{% endblock %} class="{% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}">
+    
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
     {% set page = app.request.attributes.get('_route') %}
     {% set userId = app.security.getToken().getUser().getId() %} 
@@ -193,6 +194,108 @@
     </section>
 </footer>
 
+{% if roles[0] == 'ROLE_FACILITATOR' and  'dashboard' not in route %}
+    {% set reminders = account_manager_dashboard_service.getRemindersList(userId)%} 
+        <!-- My Tasks -->
+    <button type="button" class="btn btn-default btn-panel-float" id="showAllTasks">
+        <i class="zmdi zmdi-calendar-note zmdi-hc-lg zmdi-hc-fw"></i> My Tasks
+    </button>
+    <div class="modal-content panel-float" id="floatingMyTasks">
+        <div class="modal-header" id="floatingMyTasksHandle">
+            <button type="button" class="close" id="hideMyTasks" aria-hidden="true">
+                <i class="zmdi zmdi-close zmdi-hc-lg"></i>
+            </button>
+            <h4 class="modal-title">Your Overall Tasks</h4>
+        </div>
+
+        <div class="modal-body" role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#DueToday" aria-controls="DueToday" role="tab" data-toggle="tab">Due Today</a>
+                </li>
+                <li role="presentation">
+                    <a href="#DueSoon" aria-controls="DueSoon" role="tab" data-toggle="tab">Due Soon</a>
+                </li>
+                <li role="presentation">
+                    <a href="#Completed" aria-controls="Completed" role="tab" data-toggle="tab">Completed</a>
+                </li>
+                <li role="presentation">
+                    <a href="#AllTasks" aria-controls="AllTasks" role="tab" data-toggle="tab">All Tasks</a>
+                </li>
+            </ul>
+        
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane" id="DueToday">
+                    <div class="task-list">
+                        <ul class="nav" role="tablist">
+                            <li role="presentation" class="active">
+                                <ul class="list-group">
+
+                                    {% for dueToday in reminders.dueToday %}
+                                        <li class="list-group-item" data-status="{{ dueToday.status }}">
+                                            <span>{{ dueToday.message }}</span>
+                                            <span class="overdue text-danger">{{ dueToday.days_due }} days before due</span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="DueSoon">
+                    <div class="task-list">
+                        <ul class="nav" role="tablist">
+                            <li role="presentation" class="active">
+                                <ul class="list-group">
+                                    {% for dueSoon in reminders.dueSoon %}
+                                        <li class="list-group-item" data-status="{{ dueSoon.status }}">
+                                            <span>{{ dueSoon.message }}</span>
+                                            <span class="overdue text-danger">{{ dueSoon.days_due }} days before due</span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="Completed">
+                    <div class="task-list">
+                        <ul class="nav" role="tablist">
+                            <li role="presentation" class="active">
+                                <ul class="list-group">
+                                    {% for completed in reminders.completed %}
+                                        <li class="list-group-item" data-status="{{ completed.status }}">
+                                            <span>{{ completed.message }}</span>
+                                            {#<span class="overdue text-danger">{{ doneDueToday.days_due }} days before due</span>#}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="AllTasks">
+                    <div class="task-list">
+                        <ul class="nav" role="tablist">
+                            <li role="presentation" class="active">
+                                <ul class="list-group">
+                                    {% for task in reminders.allTasks %}
+                                        <li class="list-group-item" data-status="{{ task.status }}">
+                                            <span>{{ task.message }}</span>
+                                            {% if task.status != 'done' %} <span class="overdue text-danger">{{ task.days_due }} {% if task.status == 'pending' %} days before due {% endif %} {% if task.status == 'overdue' %} days overdue {% endif %}</span> {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                    
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- My Tasks -->
+    {%endif%} 
     <!-- Core -->
     <script src="{{ asset('public/ui/js/jquery-1.11.2.min.js') }}"></script>
     <script src="{{ asset('public/ui/js/bootstrap.min.js') }}"></script>
@@ -202,6 +305,12 @@
     <script src="{{ asset('public/ui/js/plugins/polyfills.min.js') }}"></script>
     <script src="{{ asset('public/ui/js/gqa-utilities.js') }}"></script>
 {% block javascripts %}{% endblock %}
-    
+{% if roles[0] == 'ROLE_FACILITATOR' and  'dashboard' not in route %}
+    <script type="text/javascript">
+        $(document).ready(function(e){
+            MYTASKS.build();
+        });
+    </script>
+{%endif%} 
 </body>
 </html>

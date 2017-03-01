@@ -28,15 +28,15 @@ class EmailService extends CustomRepositoryService
      * @param $mailer
      * @param $container
      */
-    public function __construct(EntityManager $em, $templating, $mailer, $container)
+    public function __construct(EntityManager $em, $mailer, $container)
     {
         parent::__construct($em);
 
         $this->em = $em;
-        $this->templating = $templating;
         $this->mailer = $mailer;
         $this->container = $container;
-
+       // $this->templating =  $this->container->get('templating');
+        
         $this->userRepository = $em->getRepository('GqAusUserBundle:User');
         $this->userCourseRepository = $em->getRepository('GqAusUserBundle:UserCourses');
     }
@@ -54,7 +54,7 @@ class EmailService extends CustomRepositoryService
 
         list($message, $imageUrl) = $this->embedImagesToSendNotificationToApplicant(Swift_Message::newInstance());
 
-        $emailContent = $this->templating->render(
+        $emailContent = $this->container->get('templating')->render(
             'GqAusUserBundle:Email:email-notifications.html.twig',
             ['user' => $user, 'imageUrl' => $imageUrl]
         );
@@ -84,7 +84,7 @@ class EmailService extends CustomRepositoryService
 
         list($message, $imageUrl) = $this->embedImagesToWelcomeEmailToApplicant(Swift_Message::newInstance());
 
-        $emailContent = $this->templating->render(
+        $emailContent = $this->container->get('templating')->render(
             'GqAusUserBundle:Email:welcome.html.twig',
             ['user' => $user, 'courseName' => $courseName, 'imageUrl' => $imageUrl]
         );
@@ -118,7 +118,7 @@ class EmailService extends CustomRepositoryService
 
         $imageUrl['avatarDefault'] = $manager->getUserImage();
 
-        $emailContent = $this->templating->render(
+        $emailContent = $this->container->get('templating')->render(
             'GqAusUserBundle:Email:newly-assigned-account-manager.html.twig',
             ['userCourse' => $userCourse, 'manager' => $manager, 'imageUrl' => $imageUrl]
         );
@@ -154,7 +154,7 @@ class EmailService extends CustomRepositoryService
         list($message, $imageUrl) = $this->embedImagesOnNotifyingSupervisor(Swift_Message::newInstance());
 
         foreach ($supervisors as $supervisor) {
-            $emailContent = $this->templating->render(
+            $emailContent = $this->container->get('templating')->render(
                 'GqAusUserBundle:Email:supervisor-portfolio.html.twig',
                 ['supervisor' => $supervisor, 'user' => $user, 'imageUrl' => $imageUrl]
             );

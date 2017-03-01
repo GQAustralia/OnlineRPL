@@ -1,6 +1,7 @@
 .list-group-units {
 	$top-spacing: 30px;
 	margin-top: 0;
+	margin-bottom: 0;
 	.list-group-units-item {
 		padding: 0;
 		margin: 0;
@@ -335,18 +336,75 @@
 					width: 15 + ($panel-body-padding*2);
 				}
 			}
+		}
+	}
+}
 
+[data-role="account-manager"] {
+	.list-group-units-item.units-selected {
 
-			// &:hover {
-			// 	.btn-group .btn {
-			// 		background-color: darken($selected-bg,10%) !important;
-			// 	}
+		$btn-width: 60px;
+		.btn-group {
 
-			// 	&:before {
-			// 		cursor: pointer;
-			// 		background-color: darken($selected-bg,10%) !important;
-			// 	}
-			// }
+			.btn:first-of-type {
+				@include calc-sub-two-values(width, 100%, $btn-width);
+				@include box-shadow(0 1px 0 $gray-lighter);
+
+				// &:hover {
+				// 	@include transition(background-color .3s $easing);
+				// }
+
+				// $unit-code-width: 90px;
+				// .unit-name {
+				// 	@include calc-sub-two-values(width, 100%, $unit-code-width);
+				// 	white-space: nowrap;
+				// 	overflow: hidden;
+				// 	text-overflow: ellipsis;
+				// 	display: block;
+				// }
+
+				// .unit-code {
+				// 	width: $unit-code-width;
+				// 	text-align: right;
+				// 	max-width: $unit-code-width;
+				// 	display: block;
+				// 	font-size: $font-size-base;
+				// 	position: absolute;
+				// 	@include calc-sub-two-values(top, 50%, 9px);
+				// 	right: 50px;
+				// }
+			}
+			.btn:first-of-type + .btn {
+				position: absolute;
+				top: -1px;
+				bottom: -1px;
+				right: -1px;
+				color: white;
+				background-color: lighten($gray-base, 70%);
+				padding: 8px 15px;
+				text-align: center;
+				width: $btn-width + 1;
+				border: none;
+				border-radius: 0;
+
+				&:active {
+					background-color: lighten($gray-base, 30%);
+				}
+				&:hover {
+					background-color: lighten($gray-base, 60%);
+				}
+
+				i:before { content: '\f331'; }
+			}
+		}
+
+		.list-group-units-subitem.active {
+			.btn:first-of-type { width: 100%; }
+			.btn-group {
+				.btn + .btn {
+					display: none;
+				}
+			}
 		}
 	}
 }
