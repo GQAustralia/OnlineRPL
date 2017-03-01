@@ -7,31 +7,28 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Evidence
  */
-abstract class Evidence
-{
+abstract class Evidence {
 
     /**
      * @var integer
      */
     private $id;
 
-     /**
+    /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
-    
-    public function setId($id)
-    {
-    					$this->id = $id;
-    					return $this;
+
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
     }
-    
-     /**
+
+    /**
      * Returns type of evidence.
      *
      * @return string
@@ -54,8 +51,7 @@ abstract class Evidence
      * @param string $unit
      * @return Evidence
      */
-    public function setUnit($unit)
-    {
+    public function setUnit($unit) {
         $this->unit = $unit;
 
         return $this;
@@ -66,8 +62,7 @@ abstract class Evidence
      *
      * @return string 
      */
-    public function getUnit()
-    {
+    public function getUnit() {
         return $this->unit;
     }
 
@@ -77,8 +72,7 @@ abstract class Evidence
      * @param \GqAus\UserBundle\Entity\User $user
      * @return Evidence
      */
-    public function setUser(\GqAus\UserBundle\Entity\User $user = null)
-    {
+    public function setUser(\GqAus\UserBundle\Entity\User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -89,8 +83,7 @@ abstract class Evidence
      *
      * @return \GqAus\UserBundle\Entity\User 
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -105,8 +98,7 @@ abstract class Evidence
      * @param string $created
      * @return Evidence
      */
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
 
         return $this;
@@ -117,8 +109,7 @@ abstract class Evidence
      *
      * @return string 
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
@@ -130,8 +121,7 @@ abstract class Evidence
      * @param string $size
      * @return Evidence
      */
-    public function setSize($size)
-    {
+    public function setSize($size) {
         $this->size = $size;
 
         return $this;
@@ -142,8 +132,7 @@ abstract class Evidence
      *
      * @return string 
      */
-    public function getSize()
-    {
+    public function getSize() {
         return $this->size;
     }
 
@@ -158,8 +147,7 @@ abstract class Evidence
      * @param string $course
      * @return Evidence
      */
-    public function setCourse($course)
-    {
+    public function setCourse($course) {
         $this->course = $course;
 
         return $this;
@@ -170,11 +158,10 @@ abstract class Evidence
      *
      * @return string 
      */
-    public function getCourse()
-    {
+    public function getCourse() {
         return $this->course;
     }
-    
+
     /**
      * @var string
      */
@@ -187,7 +174,7 @@ abstract class Evidence
      */
     public function setJobId($jobId) {
         $this->jobId = $jobId;
-		return $this;
+        return $this;
     }
 
     /**
@@ -222,21 +209,20 @@ abstract class Evidence
      */
     public function getFacilitatorViewStatus() {
         return $this->facilitatorViewStatus;
-    } 
-    
+    }
+
     /**
      * Get category
      *
      * @return string 
      */
     private $category;
-    
+
     /**
      * 
      * @return type
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->category;
     }
 
@@ -244,10 +230,8 @@ abstract class Evidence
      * 
      * @param type $category
      */
-    public function setCategory($category)
-    {
+    public function setCategory($category) {
         $this->category = $category;
     }
-
 
 }

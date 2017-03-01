@@ -1180,6 +1180,7 @@ class CoursesService {
             $evd['id'] = $evidence->getId();
             $type = $evidence->getType();
             $evd['type'] = $type;
+            $evd['created'] = $evidence->getCreated();
             $evd['path'] = $evidence->getPath();
             $evd['s3Path'] = $evd['mimeType'] = $evd['fileType'] = '';
             if ($type != 'text') {
@@ -1253,7 +1254,10 @@ class CoursesService {
                 $evd['name'] = ($type == 'text') ? '' : $evidence->getName();
                 $evd['content'] = ($type == 'text') ? $evidence->getContent() : '';
                 $evd['size'] = $evidence->getSize();
-                $evd['linkToMulti'] = $this->getLinkedToMultiUnitOrNot($evidence);
+                $evd['unitCode'] = $evidence->getUnit();
+                $noOfRcrds = $this->getLinkedToMultiUnitOrNot($evidence);
+                $evd['linkToMulti'] = ($noOfRcrds>1) ? 'multi' : 'single';
+                $evd['linkedTo'] = ($noOfRcrds>1) ? ($noOfRcrds-1) : 0;
                 $evd['facilitatorViewStatus'] = $evidence->getfacilitatorViewStatus();
                 $evd['courseCode'] = ($evidence->getCourse()) ? $evidence->getCourse() : '';
 
@@ -1304,7 +1308,7 @@ class CoursesService {
         if (!empty($evidenceObj)) {
             $courseObj = $query->getQuery()->getResult();
             $noOfRcrds = $courseObj[0]['totalRcrds'];
-            return ($noOfRcrds>1) ? 'multi' : 'single';
+            return $noOfRcrds;
         }        
     }
     

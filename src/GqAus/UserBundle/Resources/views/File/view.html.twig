@@ -76,9 +76,9 @@
                                     </button>
                                     <div class="dropdown-menu pull-right">
                                         <div class="btn-group btn-group-vertical progress-summary" data-toggle="buttons">
-                        <label class="progress-summary-item btn btn-default" for="sortByDate"><span ng-click="sortBy('created')" id="sortByDate">By Date Uploaded</span></label>
-                        <label class="progress-summary-item btn btn-default" for="sortByForm"><span ng-click="sortBy('type')" id="sortByFile">File format</span></label>
-                        <label class="progress-summary-item btn btn-default" for="sortByName"><span ng-click="sortBy('name')" id="sortByFileName">Filename</span></label>
+                                            <label class="progress-summary-item btn btn-default" for="sortByDate"><span ng-click="sortBy('created')" id="sortByDate">By Date Uploaded</span></label>
+                                            <label class="progress-summary-item btn btn-default" for="sortByForm"><span ng-click="sortBy('type')" id="sortByFile">File format</span></label>
+                                            <label class="progress-summary-item btn btn-default" for="sortByName"><span ng-click="sortBy('name')" id="sortByFileName">Filename</span></label>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +86,7 @@
                         </div>
                         <div class="clearfix">
                             <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
-                                <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences|orderBy:propertyName:reverse|filter:search"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                <li class="thumbnail-group-item" dir-paginate="evidence in allEvidences|orderBy:propertyName:reverse|filter:search|itemsPerPage:20"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
                                     <div class="thumbnail-holder">
                                         <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here"></div>
                                         <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
@@ -99,6 +99,9 @@
                                                 <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
                                                 <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
                                                 <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a>
+                                                <span data-column-name="filesize">{[{evidence.size}]}</span>
+                                                <span data-column-name="uploaded">{[{evidence.created}]}</span>
+                                                <div data-column-name="linkedto"><strong class="text-primary">{[{evidence.unitCode}]}</strong><span ng-if="evidence.linkedTo > 0"> and <strong class="text-primary">{[{evidence.linkedTo}]} other</strong> units </span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -115,6 +118,9 @@
                                 </li>
                                 <!-- Upload in progress -->
                             </ul>
+                        </div>
+                        <div class="clearfix text-center">
+                            <dir-pagination-controls max-size="20" direction-links="true" boundary-links="true" ></dir-pagination-controls>
                         </div>
                     </section>
                 </div>
@@ -278,6 +284,7 @@
     <script src="{{ asset('public/js/xepOnline.jqPlugin.js') }}"></script>
     
     <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/dirPagination.js') }}">&lt/script>
     <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
