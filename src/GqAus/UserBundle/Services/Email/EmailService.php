@@ -9,7 +9,7 @@ use Swift_Message;
 
 class EmailService extends CustomRepositoryService
 {
-    CONST SUPERVISOR_ROLE_ID = 22;
+    CONST SUPERVISOR_ROLE_ID = 5;
 
     /**
      * @var

@@ -14,7 +14,7 @@ class SampleEmailController extends Controller
         $email = $this->get('EmailService');
 
       // $result = $email->sendNotificationToApplicant(61);
-       // $email->sendWelcomeEmailToApplicant(61, 'Certificate IV in Beauty Therapy');
+      //  $email->sendWelcomeEmailToApplicant(61, 'Certificate IV in Beauty Therapy');
 
         //$email->sendNotificationEmailToSupervisors(61);
        //
