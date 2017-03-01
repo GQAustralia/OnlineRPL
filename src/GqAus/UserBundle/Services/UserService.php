@@ -3454,6 +3454,7 @@ class UserService {
         $userObj->setContactName(isset($data['contactname']) ? $data['contactname'] : '');
         $userObj->setContactEmail(isset($data['contactemail']) ? $data['contactemail'] : '');
         $userObj->setContactPhone(isset($data['contactphone']) ? $data['contactphone'] : null);
+        $userObj->setCreated(date('Y-m-d H:i:s'));
         $this->em->persist($userObj);
         $this->em->flush();
         $userId = $userObj->getId();
