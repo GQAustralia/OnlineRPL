@@ -2,11 +2,14 @@
 
 namespace GqAus\UserBundle\Controller;
 
+use GqAus\UserBundle\Resolvers\ItComputeDays;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class AccountManagerDashboardController extends Controller
 {
+    use ItComputeDays;
+
     /**
      * @param Request $request
      *
@@ -14,7 +17,6 @@ class AccountManagerDashboardController extends Controller
      */
     public function indexAction(Request $request)
     {
-        //  echo '<pre>';
         $dashboard = $this->get('AccountManagerDashboardService');
         $coursesService = $this->get('CoursesService');
         $sessionUser = $this->get('security.context')->getToken()->getUser();
@@ -44,10 +46,10 @@ class AccountManagerDashboardController extends Controller
      */
     public function addNewTaskAndReloadAction(Request $request)
     {
+        $response = $this->get('HttpResponsesService');
         $reminderService = $this->get('ReminderService');
         $userService = $this->get('UserService');
         $userCourseService = $this->get('UserCourseService');
-        $dashboard = $this->get('AccountManagerDashboardService');
 
         $userCourse = $userCourseService->findOneById($request->request->get('user_course_id'));
         $user = $userService->findUserById($request->request->get('user_id'));
@@ -63,12 +65,11 @@ class AccountManagerDashboardController extends Controller
         );
 
         $reminderService->create($reminder);
-        $remindersList = $dashboard->getRemindersList($user->getId());
 
-        return $this->render(
-            'GqAusUserBundle:AccountManagerDashboard:_taskList.html.twig',
-            ['reminders' => $remindersList]
-        );
+        $dueDays = $this->computeDaysDifference($request->request->get('date'));
+        $dueType = ($dueDays > 0) ? 'dueSoon' : 'dueToday';
+
+        return $response->fractal()->respondSuccess(['dueType' => $dueType, 'dueDays' => $dueDays]);
     }
 
     /**

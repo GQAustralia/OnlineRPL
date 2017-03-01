@@ -12,7 +12,7 @@ addNewTaskAndReload:
     defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:addNewTaskAndReload }
 dashboard:
     path:     /dashboard
-    defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:indexOld }
+    defaults: { _controller: GqAusUserBundle:Dashboard:index }
 account-manager-dashboard:
     path:     /account-manager-dashboard
     defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:index }

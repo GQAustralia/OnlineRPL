@@ -50,7 +50,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
         $result = $this->all('
             SELECT u.role_type, COUNT(*) AS total
             FROM message m 
-            LEFT JOIN USER u
+            LEFT JOIN user u
             ON m.from_user = u.id
             WHERE m.to_user = ' . $recipientUserId . '
             AND m.read_status = 0

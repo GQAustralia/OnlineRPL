@@ -34,10 +34,10 @@
         <div class="task-list">
             <ul class="nav" role="tablist" id="side-task-list">
                 <li role="presentation" class="active">
-                    <span data-target="#dueToday" aria-controls="dueToday" role="tab" data-toggle="tab">Due today <i
-                                class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
-                    <ul class="list-group">
-
+                    <span data-target="#dueToday" aria-controls="dueToday" role="tab" data-toggle="tab">
+                        Due today <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i>.
+                    </span>
+                    <ul class="list-group dueTodayList">
                         {% for over in reminders.overdue %}
                             <li class="list-group-item dueListCircleCheck" data-status="overdue" id="{{ over.id }}">
                                 <span>{{ over.message }}</span>
@@ -64,7 +64,7 @@
                 <li role="presentation">
                     <span data-target="#dueSoon" aria-controls="dueSoon" role="tab" data-toggle="tab">Due soon <i
                                 class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
-                    <ul class="list-group">
+                    <ul class="list-group dueSoonList">
                         {% for dueSoon in reminders.dueSoon %}
                             <li class="list-group-item dueListCircleCheck" data-status="pending" id="{{ dueSoon.id }}">
                                 <span>{{ dueSoon.message }}</span>
@@ -74,7 +74,7 @@
                     </ul>
                 </li>
                 <li role="presentation">
-                    <span aria-controls="allTasks" data-toggle="modal" data-target="#allTasks">View All</span>
+                    <span id="showAllTasks">View All</span>
                 </li>
             </ul>
         </div>

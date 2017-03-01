@@ -32,120 +32,175 @@
 
     <script type="text/javascript">
 
-        reloadDueListCircleChecker();
+        $(document).ready(function () {
 
-        var template = '<div class="popover compressed" role="tooltip">' +
-            '<div class="arrow"/>' +
-            '<h3 class="popover-title"/>' +
-            '<div class="popover-content"/>' +
-            '<button type="button" class="btn btn-primary btn-block btn-sm text-uppercase btn-add-task add-new-task"> + ' +
-            '<strong>Add task</strong></button>' +
-            '</div>';
+            reloadDueListCircleChecker();
 
-        var title = '<span class="taskTitle">Task for today</span> ' +
-            '<button type="button" class="btn btn-transparent btn-xs btn-set-date"><i class="zmdi zmdi-calendar zmdi-hc-lg zmdi-hc-fw"></i> EDIT</button>';
+            var template = '<div class="popover compressed" role="tooltip">' +
+                '<div class="arrow"/>' +
+                '<h3 class="popover-title"/>' +
+                '<div class="popover-content"/>' +
+                '<button type="button" class="btn btn-primary btn-block btn-sm text-uppercase btn-add-task add-new-task"> + ' +
+                '<strong>Add task</strong></button>' +
+                '</div>';
 
-        var content = '<div class="task-controls">' +
-            '<textarea name="" id="taskMessage" rows="4" class="form-control" placeholder="Enter your task"></textarea>' +
-            '<div data-init="datepicker"></div>' +
-            '</div>';
+            var title = '<span class="taskTitle">Task for today</span> ' +
+                '<button type="button" class="btn btn-transparent btn-xs btn-set-date"><i class="zmdi zmdi-calendar zmdi-hc-lg zmdi-hc-fw"></i> EDIT</button>';
 
-        var userId = {{ user.id }};
+            var content = '<div class="task-controls">' +
+                '<textarea name="" id="taskMessage" rows="4" class="form-control" placeholder="Enter your task"></textarea>' +
+                '<div data-init="datepicker"></div>' +
+                '</div>';
 
-        $('[data-toggle="popover"]')
-            .popover({
-                html: true,
-                animation: false,
-                template: template,
-                content: content,
-                title: title,
-                viewport: '.main-content-gqa'
-            })
-            .on('shown.bs.popover', function (e) {
-                $(this).next().velocity({scaleX: [1, 0], scaleY: [1, 0]}, {easing: [250, 20], duration: 800});
-                init_buttons();
-                init_datepicker($(this));
+            var userId = {{ user.id }};
 
-                var that = $(this);
+            $('[data-toggle="popover"]')
+                .popover({
+                    html: true,
+                    animation: false,
+                    template: template,
+                    content: content,
+                    title: title,
+                    viewport: '.main-content-gqa'
+                })
+                .on('shown.bs.popover', function (e) {
+                    $(this).next().velocity({scaleX: [1, 0], scaleY: [1, 0]}, {easing: [250, 20], duration: 800});
+                    init_buttons();
+                    init_datepicker($(this));
 
-                $('.add-new-task').click(function () {
+                    var that = $(this);
 
-                    if ($('#taskMessage').val() != '') {
+                    $('.add-new-task').click(function () {
 
-                        var newTaskData = {
-                            'user_course_id': that.attr('data-id'),
-                            'user_id': userId,
-                            'date': that.attr('data-task-date'),
-                            'type': that.attr('data-file-type'),
-                            'created_by': userId,
-                            'message': $('#taskMessage').val()
-                        };
+                        if ($('#taskMessage').val() != '') {
 
-                        $.post("/addNewTaskAndReload", newTaskData).then(
-                            (result) => {
-                                $('#side-task-list').html(result);
+                            var newTaskData = {
+                                'user_course_id': that.attr('data-id'),
+                                'user_id': userId,
+                                'date': that.attr('data-task-date'),
+                                'type': that.attr('data-file-type'),
+                                'created_by': userId,
+                                'message': $('#taskMessage').val()
+                            };
 
-                                $.post("/loadModalTask", {user_id: userId}).then(
-                                    (modalResult) => {
-                                        $('#modal-task-list').html(modalResult);
+                            $.post("/addNewTaskAndReload", newTaskData).then(
+                                (result) => {
+
+                                    if (result.details.message.dueType == 'dueToday') {
+                                        $('.dueTodayList').append(
+                                            buildDueTodayReminder(
+                                                newTaskData.user_course_id,
+                                                newTaskData.message,
+                                                result.details.message.dueDays
+                                            )
+                                        );
+
+                                        $('.modalDueTodayList').append(
+                                            buildModalDueTodayList(newTaskData.message, result.details.message.dueDays)
+                                        );
                                     }
-                                );
 
-                                reloadDueListCircleChecker();
-                            }
-                        );
-                    }
+                                    if (result.details.message.dueType == 'dueSoon') {
+                                        $('.dueSoonList').append(
+                                            buildDueSoonReminder(
+                                                newTaskData.user_course_id,
+                                                newTaskData.message,
+                                                result.details.message.dueDays
+                                            )
+                                        );
 
-                    that.click();
+                                        $('.modalDueSoonList').append(
+                                            buildModalDueSoonList(newTaskData.message, result.details.message.dueDays)
+                                        );
+                                    }
+
+                                    reloadDueListCircleChecker();
+                                }
+                            );
+                        }
+
+                        that.click();
+                    });
+
                 });
 
-            });
+            function buildDueTodayReminder(userCourseId, message, days) {
+                return '<li class="list-group-item dueListCircleCheck" data-status="overdue" id="' + userCourseId + '">' +
+                    '<span>' + message + '</span>' +
+                    '<span class="overdue text-danger">' + days + ' days overdue</span>' +
+                    '</li>';
+            }
 
-        function init_datepicker(datePickerObject) {
-            $('[data-init="datepicker"]').datetimepicker({
-                'format': 'DD/MM/YYYY',
-                'inline': true,
-                'useCurrent': true,
-                'showTodayButton': true,
-                'minDate': new Date()
-            }).on('dp.change', function (e) {
-                var parent = $(this).closest('.popover').find('.taskTitle');
-                var taskDateForPopUp = $(this).data("DateTimePicker").date().format('DD/MM/YYYY');
-                var taskDateForDatabase = $(this).data("DateTimePicker").date().format('YYYY-MM-DD');
+            function buildDueSoonReminder(userCourseId, message, days) {
+                return '<li class="list-group-item dueListCircleCheck" data-status="pending" id="' + userCourseId + '">' +
+                    '<span>' + message + '</span>' +
+                    '<span class="overdue text-success">' + days + ' days before due</span>' +
+                    '</li>';
+            }
 
-                parent.html('Task set on ' + taskDateForPopUp);
-                datePickerObject.attr('data-task-date', taskDateForDatabase);
-            });
-        }
+            function buildModalDueTodayList(message, days) {
+                return '<li class="list-group-item" data-status="done">' +
+                    '<span>' + message + '</span>' +
+                    '<span class="overdue text-danger">' + days + ' days overdue</span>' +
+                    '</li>';
+            }
 
-        function init_buttons() {
-            $(document).on('click', '.btn-set-date', function (event) {
-                $(this).closest('.popover').toggleClass('show-date');
-                $(this).find('i').toggleClass('zmdi-calendar').toggleClass('zmdi-arrow-left');
-            });
-        }
+            function buildModalDueSoonList(message, days) {
+                return '<li class="list-group-item" data-status="done">' +
+                    '<span>' + message + '</span>' +
+                    '<span class="overdue text-success">' + days + ' days before due</span>' +
+                    '</li>';
+            }
 
-        function reloadDueListCircleChecker() {
+            function init_datepicker(datePickerObject) {
+                $('[data-init="datepicker"]').datetimepicker({
+                    'format': 'DD/MM/YYYY',
+                    'inline': true,
+                    'useCurrent': true,
+                    'showTodayButton': true,
+                    'minDate': new Date()
+                }).on('dp.change', function (e) {
+                    var parent = $(this).closest('.popover').find('.taskTitle');
+                    var taskDateForPopUp = $(this).data("DateTimePicker").date().format('DD/MM/YYYY');
+                    var taskDateForDatabase = $(this).data("DateTimePicker").date().format('YYYY-MM-DD');
 
-            $('.dueListCircleCheck').click(function () {
+                    parent.html('Task set on ' + taskDateForPopUp);
+                    datePickerObject.attr('data-task-date', taskDateForDatabase);
+                });
+            }
 
-                var completeTaskData = {task_id: $(this).attr('id'), user_id: userId};
+            function init_buttons() {
+                $(document).on('click', '.btn-set-date', function (event) {
+                    $(this).closest('.popover').toggleClass('show-date');
+                    $(this).find('i').toggleClass('zmdi-calendar').toggleClass('zmdi-arrow-left');
+                });
+            }
 
-                $.post("/completeTask", completeTaskData).then(
-                    (result) => {
-                        $('#side-task-list').html(result);
+            function reloadDueListCircleChecker() {
 
-                        $.post("/loadModalTask", {user_id: userId}).then(
-                            (modalResult) => {
-                                $('#modal-task-list').html(modalResult);
-                            }
-                        );
+                $('.dueListCircleCheck').click(function () {
 
-                        reloadDueListCircleChecker();
-                    }
-                );
-            });
-        }
+                    var completeTaskData = {task_id: $(this).attr('id'), user_id: userId};
+
+                    $.post("/completeTask", completeTaskData).then(
+                        (result) => {
+                            $('#side-task-list').html(result);
+
+                            $.post("/loadModalTask", {user_id: userId}).then(
+                                (modalResult) => {
+                                    $('#modal-task-list').html(modalResult);
+                                }
+                            );
+
+                            reloadDueListCircleChecker();
+                        }
+                    );
+                });
+            }
+
+            MYTASKS.build();
+        });
+
 
     </script>
 {% endblock %}

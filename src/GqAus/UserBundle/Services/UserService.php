@@ -2722,9 +2722,12 @@ class UserService {
                 $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_course_con'));
             }
 
-            $this->emailService->sendWelcomeEmailToApplicant($user->getId(), $courseData['courseName']);
-            $this->emailService->sendNotificationEmailToSupervisors($user->getId());
+
         }
+
+        $this->emailService->sendWelcomeEmailToApplicant($user->getId(), $courseData['courseName']);
+        $this->emailService->sendNotificationEmailToSupervisors($user->getId());
+
         echo $message;
         exit;
     }
