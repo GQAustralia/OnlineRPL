@@ -91,7 +91,7 @@
                                         <ul class="thumbnail-group card-view" {#ng-class="'card-view': evidence.view === 'card', 'list-view': evidence.view === 'list'"#}>
                                             <li class="thumbnail-group-item" ng-repeat="evidence in unitEvidences| filter:{type: '!text'}" data-file-type="{[{data.type}]}" data-has-icon="{[{data.type == 'image'?'false':'true'}]}">
                                                 <div class="thumbnail-holder">
-                                                    <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
+                                                    <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="{[{evidence.name}]}">
                                                     </div>
                                                     <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
                                                             <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>

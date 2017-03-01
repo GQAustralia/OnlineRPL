@@ -37,11 +37,14 @@
                     <aside class="panel-evidence-library-menu">
                         <!-- Filter evidences according to category -->
                         <div class="btn-group" data-toggle="buttons"> 
-                            <label class="btn" ng-click="filerCat('6')" for="category6"><input type="radio" id="category0" name="evidenceCategories">All Categories</label>
+                            <label class="btn {[{class}]}" ng-click="filterCat('6')" for="category6"><input type="radio" id="category0" name="evidenceCategories">All Categories</label>
                             <div class="container" ng-hide="IsLoaded"> Loading.... </div>
-                            <label class="btn" ng-repeat="evidence in allEvidenceCats" ng-click="filerCat(evidence.id)" for="category{[{evidence.id}]}"><input type="radio" id="category{[{evidence.id}]}" name="{[{evidence.name}]}" >{[{evidence.name}]}</label>
+                            <label class="btn" ng-repeat="evidence in allEvidenceCats" ng-click="filterCat(evidence.id)" for="category{[{evidence.id}]}"><input type="radio" id="category{[{evidence.id}]}" name="{[{evidence.name}]}" >{[{evidence.name}]}</label>
                         </div>
                         <!-- Filter evidences according to category -->
+                        <div class="indicator-storage">
+                            <h5><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-storage"></i>50 <span class="text-uppercase">GB available</span></h5>
+                        </div>
                     </aside>
                     <section class="panel-evidence-library-content" ng-if="(allEvidences| filter:{type: '!text'}).length > 0" data-has-thumbnail="true">
                         <div class="panel-evidence-search">
