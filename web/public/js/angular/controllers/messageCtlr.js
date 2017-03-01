@@ -88,7 +88,6 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
     	
     	
     	if (readstatus == 0 && $scope.msgType != 'draft' && $scope.msgType != 'sent' && $scope.msgType != 'flagged') {
-    		console.log('update read msg');
 	    	updateMsg({msgId}, 'read', '1');
 	    	//$scope.messages[msgId].read = 0;
 	    	if($scope.unreadCnt > 0) {

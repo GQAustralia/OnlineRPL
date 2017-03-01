@@ -1227,7 +1227,7 @@ class CoursesService {
             if ($type != 'text') {
                 $evd = [];
                 $evd['id'] = $evidence->getId();
-                $evd['catId'] = $evidence->getCategory()->getId();
+                $evd['catId'] = $evidence->getCategory()?$evidence->getCategory()->getId():0;
                 $evd['created'] = $evidence->getCreated();
                 $evd['type'] = $type;
                 $evd['path'] = $evidence->getPath();

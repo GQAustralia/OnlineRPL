@@ -23,10 +23,15 @@ class CoursesController extends Controller {
         $pageUrl = $this->container->getParameter('applicationUrl') . '' . $request->attributes->get('_route') . '/';
         $paramPart = str_replace($pageUrl, '', $currentUrl);
         $urlParams = explode('/', $paramPart);
-        $page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
-
+        
         $user = $this->get('security.context')->getToken()->getUser();
-
+        if (in_array('ROLE_APPLICANT', $user->getRoles())) {
+        				$page = (isset($urlParams['1']) && !empty($urlParams['1'])) ? $urlParams['1'] : $page;
+        }
+        else {
+        				$page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
+        }
+        
         $userService = $this->get('UserService');
         if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
             $user = $userService->findUserById($userId);

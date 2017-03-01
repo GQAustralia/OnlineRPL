@@ -37,7 +37,7 @@
 </head>
 {% set roles = app.security.getToken().getUser().getRoles() %}
 {% set route = app.request.attributes.get('_route') %}
-<body  {% if roles[0] == 'ROLE_FACILITATOR' %} data-role="account-manager" {%endif%} {% block ngController %}{% endblock %} class="{% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}">
+<body  {% if roles[0] == 'ROLE_FACILITATOR' %} data-role="account-manager" {% elseif roles[0] == 'ROLE_ASSESSOR' %} data-role="assessor" {% elseif roles[0] == 'ROLE_RTO' %} data-role="rto" {%endif%} {% block ngController %}{% endblock %} class="{% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}">
     
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
     {% set page = app.request.attributes.get('_route') %}
@@ -50,22 +50,42 @@
                 <span class="tcon-menu__lines" aria-hidden="true"></span>
                 <span class="tcon-visuallyhidden">toggle menu</span>
             </button>
+            
              {% if ('ROLE_APPLICANT' not in roles)  %}
-                <a href="{{ app.request.baseUrl }}/dashboard">
+                {% if ('ROLE_FACILITATOR' in roles) %}
+                    <a href="{{ app.request.baseUrl }}/account-manager-dashboard">
+                {% else %}
+                    <a href="{{ app.request.baseUrl }}/dashboard">
+                {% endif %}
+                <div class="header-gqa-logo">
+                
              {% else %}
                     <a href="{{ app.request.baseUrl }}/overview">
+                    <div class="header-gqa-logo">
              {% endif %}
-                <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
-                </a>
+                <img src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
+                </div></a>
+                
             <nav class="header-gqa-nav">
                 {% if app.request.attributes.get('_route') != 'enrollment' %}  
                     <ul class="nav-links" id="navLinks">
                         {% if ('ROLE_APPLICANT' not in roles)  %}
                         <li>
-                            <a href="{{ app.request.baseUrl }}/dashboard"><span class="t-item-2"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard</span></a>
+                            {% if ('ROLE_FACILITATOR' in roles) %}
+                                <a href="{{ app.request.baseUrl }}/account-manager-dashboard"><span class="t-item-2"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard</span></a>
+                            {% else %}
+                                <a href="{{ app.request.baseUrl }}/dashboard"><span class="t-item-2"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard</span></a>
+                            {% endif %}
+                            
                         </li>
+                        
                         <li>
-                            <a href='#'><span class="t-item-2"><i class="zmdi zmdi-accounts zmdi-hc-lg zmdi-hc-fw"></i> Applicants</span></a>
+                            {% if ('ROLE_FACILITATOR' in roles or 'ROLE_ASSESSOR' in roles or 'ROLE_RTO' in roles) %}
+                                <a href='{{ app.request.baseUrl }}/amapplicants'><span class="t-item-2"><i class="zmdi zmdi-accounts zmdi-hc-lg zmdi-hc-fw"></i> Applicants</span></a>
+                            {% else %}
+                                <a href='{{ app.request.baseUrl }}/applicants'><span class="t-item-2"><i class="zmdi zmdi-accounts zmdi-hc-lg zmdi-hc-fw"></i> Applicants</span></a>
+                            {% endif %}
+                            
                         </li>
                         {% endif %}
                         {% if ('ROLE_APPLICANT' in roles)  %}
@@ -141,7 +161,11 @@
                                         <li><button type="button" class="btn btn-link text-uppercase btn-block"><a href="{{ app.request.baseUrl }}/messages">Go to Inbox</a></button></li>
                                     </ul>
                                 </li>
-                                <!--<li class="{% if app.request.attributes.get('_route') == 'messages' %}active{% endif %}"><a href='{{ app.request.baseUrl }}/messages'><span class="t-item-3"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span></a></li>-->
+                            {% endif %}
+                            {% if ('ROLE_MANAGER' in roles or 'ROLE_SUPERADMIN' in roles) %}
+                                {% if not is_mobile() %}   
+                                    <li><a class="{% if app.request.attributes.get('_route') == 'manageusers' %} active {% endif %}" href="{{ app.request.baseUrl }}/manageusers"><!--i class="material-icons">group</i--><span>Manage Users</span></a></li>
+                                {% endif %}
                             {% endif %}
                     </ul>
                 {% endif %}
