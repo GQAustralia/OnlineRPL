@@ -170,9 +170,10 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
         console.log($scope.allEvidences);
         $('#evidenceFilter').modal('hide');
     }    
-    $scope.sortBy = function(propertyName) {
+    $scope.sortBy = function(propertyName, highlightText) {
         $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
         $scope.propertyName = propertyName;
+        document.getElementById('evidence-controls-label').innerHTML = highlightText;
     };
 
     $scope.showEvidenceModal = function (evidence) {

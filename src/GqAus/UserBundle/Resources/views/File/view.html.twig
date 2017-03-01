@@ -71,14 +71,14 @@
                             <div class="panel-evidence-filters">
                                 <div class="dropdown dropdown-evidence-filter">
                                     <button type="button" class="btn btn-transparent text-left" data-toggle="dropdown">
-                                        <span class="evidence-controls-label">Sort by</span>
+                                        <span class="evidence-controls-label" id="evidence-controls-label">Sort by</span>
                                         <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-lg zmdi-hc-fw"></i>
                                     </button>
                                     <div class="dropdown-menu pull-right">
                                         <div class="btn-group btn-group-vertical progress-summary" data-toggle="buttons">
-                                            <label class="progress-summary-item btn btn-default" for="sortByDate"><span ng-click="sortBy('created')" id="sortByDate">By Date Uploaded</span></label>
-                                            <label class="progress-summary-item btn btn-default" for="sortByForm"><span ng-click="sortBy('type')" id="sortByFile">File format</span></label>
-                                            <label class="progress-summary-item btn btn-default" for="sortByName"><span ng-click="sortBy('name')" id="sortByFileName">Filename</span></label>
+                                            <label class="progress-summary-item btn btn-default" for="sortByDate"><span ng-click="sortBy('created','By Date Uploaded')" id="sortByDate">By Date Uploaded</span></label>
+                                            <label class="progress-summary-item btn btn-default" for="sortByForm"><span ng-click="sortBy('type','File format')" id="sortByFile">File format</span></label>
+                                            <label class="progress-summary-item btn btn-default" for="sortByName"><span ng-click="sortBy('name','Filename')" id="sortByFileName">Filename</span></label>
                                         </div>
                                     </div>
                                 </div>
@@ -284,7 +284,7 @@
     <script src="{{ asset('public/js/xepOnline.jqPlugin.js') }}"></script>
     
     <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
-    <script src="{{ asset('public/js/angular/dirPagination.js') }}">&lt/script>
+    <script src="{{ asset('public/js/angular/dirPagination.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
