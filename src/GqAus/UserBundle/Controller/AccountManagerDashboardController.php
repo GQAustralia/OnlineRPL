@@ -44,7 +44,7 @@ class AccountManagerDashboardController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function addNewTaskAndReloadAction(Request $request)
+    public function addNewTaskAction(Request $request)
     {
         $response = $this->get('HttpResponsesService');
         $reminderService = $this->get('ReminderService');
@@ -64,12 +64,16 @@ class AccountManagerDashboardController extends Controller
             $request->request->get('message')
         );
 
-        $reminderService->create($reminder);
+        $reminder = $reminderService->create($reminder);
 
         $dueDays = $this->computeDaysDifference($request->request->get('date'));
         $dueType = ($dueDays > 0) ? 'dueSoon' : 'dueToday';
 
-        return $response->fractal()->respondSuccess(['dueType' => $dueType, 'dueDays' => $dueDays]);
+        return $response->fractal()->respondSuccess([
+            'dueType' => $dueType,
+            'dueDays' => $dueDays,
+            'reminderId' => $reminder->getId()
+        ]);
     }
 
     /**
@@ -79,16 +83,12 @@ class AccountManagerDashboardController extends Controller
      */
     public function completeTaskAction(Request $request)
     {
-        $dashboard = $this->get('AccountManagerDashboardService');
+        $response = $this->get('HttpResponsesService');
+        $accountDashboard = $this->get('AccountManagerDashboardService');
 
-        $dashboard->completeTask($request->request->get('task_id'));
+        $task = $accountDashboard->completeTask($request->request->get('task_id'));
 
-        $remindersList = $dashboard->getRemindersList($request->request->get('user_id'));
-
-        return $this->render(
-            'GqAusUserBundle:AccountManagerDashboard:_taskList.html.twig',
-            ['reminders' => $remindersList]
-        );
+        return $response->fractal()->respondSuccess(['task' => $task]);
     }
 
     /**

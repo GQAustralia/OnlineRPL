@@ -33,7 +33,7 @@
         $(document).ready(function () {
 
             reloadDueListCircleChecker();
-            triggerPopOver();
+            // triggerPopOver();
 
             var template = '<div class="popover compressed" role="tooltip">' +
                 '<div class="arrow"/>' +
@@ -53,107 +53,112 @@
 
             var userId = {{ user.id }};
 
-            function triggerPopOver() {
-                $('[data-toggle="popover"]')
-                    .popover({
-                        html: true,
-                        animation: false,
-                        template: template,
-                        content: content,
-                        title: title,
-                        viewport: '.main-content-gqa'
-                    })
-                    .on('shown.bs.popover', function (e) {
-                        $(this).next().velocity({scaleX: [1, 0], scaleY: [1, 0]}, {easing: [250, 20], duration: 800});
-                        init_buttons();
-                        init_datepicker($(this));
+            $('[data-toggle="popover"]')
+                .popover({
+                    html: true,
+                    animation: false,
+                    template: template,
+                    content: content,
+                    title: title,
+                    viewport: '.main-content-gqa'
+                })
+                .on('shown.bs.popover', function (e) {
+                    $(this).next().velocity({scaleX: [1, 0], scaleY: [1, 0]}, {easing: [250, 20], duration: 800});
+                    init_buttons();
+                    init_datepicker($(this));
 
-                        var that = $(this);
+                    var that = $(this);
 
-                        $('.add-new-task').click(function () {
+                    $('.add-new-task').click(function () {
 
-                            if ($('#taskMessage').val() != '') {
+                        if ($('#taskMessage').val() != '') {
 
-                                var newTaskData = {
-                                    'user_course_id': that.attr('data-id'),
-                                    'user_id': userId,
-                                    'date': that.attr('data-task-date'),
-                                    'type': that.attr('data-file-type'),
-                                    'created_by': userId,
-                                    'message': $('#taskMessage').val()
-                                };
+                            var newTaskData = {
+                                'user_course_id': that.attr('data-id'),
+                                'user_id': userId,
+                                'date': that.attr('data-task-date'),
+                                'type': that.attr('data-file-type'),
+                                'created_by': userId,
+                                'message': $('#taskMessage').val()
+                            };
 
-                                $.post("/addNewTaskAndReload", newTaskData).then(
-                                    (result) => {
+                            $.post("/addNewTask", newTaskData).then(
+                                (result) => {
 
-                                        if (result.details.message.dueType == 'dueToday') {
-                                            $('.dueTodayList').append(
-                                                buildDueTodayReminder(
-                                                    newTaskData.user_course_id,
-                                                    newTaskData.message,
-                                                    result.details.message.dueDays
-                                                )
-                                            );
+                                    if (result.details.message.dueType == 'dueToday') {
+                                        $('.dueTodayList').append(
+                                            buildDueTodayReminder(
+                                                result.details.message.reminderId,
+                                                newTaskData.message,
+                                                result.details.message.dueDays
+                                            )
+                                        );
 
-                                            $('.modalDueTodayList').append(
-                                                buildModalDueTodayList(newTaskData.message, result.details.message.dueDays)
-                                            );
-                                        }
-
-                                        if (result.details.message.dueType == 'dueSoon') {
-                                            $('.dueSoonList').append(
-                                                buildDueSoonReminder(
-                                                    newTaskData.user_course_id,
-                                                    newTaskData.message,
-                                                    result.details.message.dueDays
-                                                )
-                                            );
-
-                                            $('.modalDueSoonList').append(
-                                                buildModalDueSoonList(newTaskData.message, result.details.message.dueDays)
-                                            );
-                                        }
-
-                                        reloadDueListCircleChecker();
+                                        $('.modalDueTodayList').append(
+                                            buildModalDueTodayList(
+                                                result.details.message.reminderId,
+                                                newTaskData.message,
+                                                result.details.message.dueDays
+                                            )
+                                        );
                                     }
-                                );
-                            }
 
-                            that.click();
-                        });
+                                    if (result.details.message.dueType == 'dueSoon') {
+                                        $('.dueSoonList').append(
+                                            buildDueSoonReminder(
+                                                result.details.message.reminderId,
+                                                newTaskData.message,
+                                                result.details.message.dueDays
+                                            )
+                                        );
+
+                                        $('.modalDueSoonList').append(
+                                            buildModalDueSoonList(
+                                                result.details.message.reminderId,
+                                                newTaskData.message,
+                                                result.details.message.dueDays
+                                            )
+                                        );
+                                    }
+
+                                    reloadDueListCircleChecker();
+                                }
+                            );
+                        }
+
+                        that.click();
                     });
-            }
+                });
 
-
-            function buildDueTodayReminder(userCourseId, message, days) {
-                return '<li class="list-group-item dueListCircleCheck" data-status="overdue" id="' + userCourseId + '">' +
+            function buildDueTodayReminder(reminderId, message, days) {
+                return '<li class="list-group-item dueListCircleCheck" data-status="overdue" id="' + reminderId + '">' +
                     '<span>' + message + '</span>' +
                     '<span class="overdue text-danger">' + days + ' days overdue</span>' +
                     '</li>';
             }
 
-            function buildDueSoonReminder(userCourseId, message, days) {
-                return '<li class="list-group-item dueListCircleCheck" data-status="pending" id="' + userCourseId + '">' +
+            function buildDueSoonReminder(reminderId, message, days) {
+                return '<li class="list-group-item dueListCircleCheck" data-status="pending" id="' + reminderId + '">' +
                     '<span>' + message + '</span>' +
                     '<span class="overdue text-success">' + days + ' days before due</span>' +
                     '</li>';
             }
 
-            function buildModalDueTodayList(message, days) {
-                return '<li class="list-group-item" data-status="done">' +
+            function buildModalDueTodayList(reminderId, message, days) {
+                return '<li class="list-group-item" data-status="done" id="modalTodayDueReminder_' + reminderId + '">' +
                     '<span>' + message + '</span>' +
                     '<span class="overdue text-danger">' + days + ' days overdue</span>' +
                     '</li>';
             }
 
-            function buildModalDueSoonList(message, days) {
+            function buildModalDueSoonList(reminderId, message, days) {
                 return '<li class="list-group-item" data-status="done">' +
                     '<span>' + message + '</span>' +
                     '<span class="overdue text-success">' + days + ' days before due</span>' +
                     '</li>';
             }
 
-            function buildModalCompletedTodayList(message) {
+            function buildModalCompletedTodayList(reminderId, message) {
                 return '<li class="list-group-item" data-status="done">' +
                     '<span>' + message + '</span>' +
                     '<span class="overdue text-success"> 0 days before due</span>' +
@@ -170,9 +175,16 @@
 
                     $.post("/completeTask", completeTaskData).then(
                         (result) => {
+
+                            if ((that).hasClass('overdue')) {
+                                $('#modalOverdueReminder_' + completeTaskData.task_id).remove();
+                            } else {
+                                $('#modalTodayDueReminder_' + completeTaskData.task_id).remove();
+                                $('.modalCompletedTodayList').append(
+                                    buildModalCompletedTodayList(completeTaskData.task_id, message)
+                                );
+                            }
                             that.attr('data-status', 'done');
-                            $('#modalTodayDueReminder_' + completeTaskData.task_id).remove();
-                            $('.modalCompletedTodayList').append(buildModalCompletedTodayList(message));
                         }
                     );
                 });

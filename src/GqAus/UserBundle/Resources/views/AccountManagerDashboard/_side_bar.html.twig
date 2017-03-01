@@ -39,7 +39,7 @@
                     </span>
                     <ul class="list-group dueTodayList">
                         {% for over in reminders.overdue %}
-                            <li class="list-group-item dueListCircleCheck" data-status="overdue" id="{{ over.id }}">
+                            <li class="list-group-item dueListCircleCheck overdue" data-status="overdue" id="{{ over.id }}">
                                 <span>{{ over.message }}</span>
                                 <span class="overdue text-danger">{{ over.days_due }} days overdue</span>
                             </li>

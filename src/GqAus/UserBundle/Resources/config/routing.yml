@@ -8,8 +8,8 @@ completeTask:
     path:     /completeTask
     defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:completeTask }
 addNewTaskAndReload:
-    path:     /addNewTaskAndReload
-    defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:addNewTaskAndReload }
+    path:     /addNewTask
+    defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:addNewTask }
 dashboard:
     path:     /dashboard
     defaults: { _controller: GqAusUserBundle:Dashboard:index }
