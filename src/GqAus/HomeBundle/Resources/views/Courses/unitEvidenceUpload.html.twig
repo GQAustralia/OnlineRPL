@@ -147,8 +147,8 @@
                                                     <small class="message-stamp">{[{note.created|date:"dd/mm/yyyy"}]}</small>
                                                     <p class="message-text">{[{note.note}]}</p>
 
-                                                    <span class="message-post-footer-button">
-                                                        <button ng-show="role === 'candidate'" type="button" class="btn btn-link btn-sm ng-class:{'acknowledged' : note.acknowledged === 1}" ng-click="acknowledgeNote(note.id)">
+                                                    <span class="message-post-footer-button" ng-if="(role === 'candidate') || (role === 'facilitator' && note.acknowledged === 1)">
+                                                        <button type="button" class="btn btn-link btn-sm ng-class:{'acknowledged' : note.acknowledged === 1}" ng-click="acknowledgeNote(note.id)">
                                                             <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i> Got it!
                                                         </button>
                                                         <label class="text-success ng-class:{'acknowledged' : note.acknowledged === 1}"><i class="zmdi zmdi-check-circle"></i> Acknowledged</label>
