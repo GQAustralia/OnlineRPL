@@ -35,10 +35,24 @@
         </div>
         <div class="container container-right-sidebar-main" ng-init="qualificationPage = '';courseCode = '{{ courseDetails.courseCode }}';applicantId = '{{ userId }}';role = '{{ loggedInUserRole }}';initUnitDetailsPage('{{ unitCode }}');">
             <section class="section-sidebar section-sidebar-compressed">
-                <div class="panel panel-default" ng-if="unitStatus != ''">
+                <div class="panel panel-default" ng-if="unitStatus != '' && role ==='candidate'">
                     <div class="panel-body">
-                        <h4>Unit Status <br><small>More description about this section</small></h4>
+                        <h4>Unit Status<br><small>More description about this section</small></h4>
                         <span class="label {[{ getStatusClass(unitStatus)}]}">{[{unitStatus}]}</span>
+                    </div>
+                </div>
+                <div class="panel panel-default" ng-if="role === 'facilitator'">
+                    <div class="panel-body">
+                        <h4 class="panel-heading-text">Unit Check Result</h4>
+                        <div class="dropdown" style="width: 100%;">
+                            <button data-toggle="dropdown" type="button" class="btn btn-default"><span>Choose result</span></button>
+                            <ul class="dropdown-menu pull-left">
+                                <li><a href="#">Unit status put here</a></li>
+                                <li><a href="#">Unit status put here</a></li>
+                                <li><a href="#">Unit status put here</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-link text-uppercase" style="margin-top: 15px; padding: 0;"><i class="zmdi zmdi-calendar-note zmdi-hc-lg zmdi-hc-fw"></i> Add task</button>
                     </div>
                 </div>
                 <div class="panel panel-default">
@@ -85,7 +99,7 @@
                                         <div>
                                             <label style="margin-top: 10px;"><span>{[{(unitEvidences| filter:{type: '!text'}).length}]}</span> evidences</label>
                                             <div class="btn-auto-group"  ng-if="!isSubmitted() && (unitEvidences| filter:{type: '!text'}).length > 0">
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</button>
+                                                <button type="button" ng-if="role === 'candidate'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</button>
                                             </div>
                                         </div>
                                         <ul class="thumbnail-group card-view" {#ng-class="'card-view': evidence.view === 'card', 'list-view': evidence.view === 'list'"#}>
