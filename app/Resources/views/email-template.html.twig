@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="Online RPL">
+    <meta name="author" content="GQA App Dev">
+    <meta name="copyright" content="Get Qualified Australia">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- core -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet"
+          href="{{ asset('public/ui/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('public/ui/css/bootstrap/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('public/ui/css/main-styles.min.css') }}"/>
+
+    {% block stylesheets %}
+    {% endblock %}
+
+    <script src="{{ asset('public/ui/js/plugins/isMobile.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/modernizr-3.3.1.gqa-build.121516.min.js') }}"></script>
+</head>
+
+<body class="bg-login {% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}" >
+
+{% block content %}{% endblock %}
+
+<!-- Core -->
+<script src="{{ asset('public/ui/js/jquery-1.11.2.min.js') }}"></script>
+<script src="{{ asset('public/ui/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('public/ui/js/velocity.min.js') }}"></script>
+<script src="{{ asset('public/ui/js/velocity.ui.min.js') }}"></script>
+<script src="{{ asset('public/ui/js/plugins/polyfills.min.js') }}"></script>
+<script src="{{ asset('public/ui/js/gqa-utilities.js') }}"></script>
+
+{% block javascripts %}
+{% endblock %}
+</body>
+</html>

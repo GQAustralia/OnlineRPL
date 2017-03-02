@@ -1,0 +1,105 @@
+<!-- All tasks -->
+
+    <div class="modal-content panel-float" id="floatingMyTasks">
+        <div class="modal-header" id="floatingMyTasksHandle">
+            <button type="button" class="close" id="hideMyTasks" aria-hidden="true">
+                <i class="zmdi zmdi-close zmdi-hc-lg"></i>
+            </button>
+            <h4 class="modal-title">Your Overall Tasks</h4>
+        </div>
+
+            <div class="modal-body" role="tabpanel">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#DueToday" aria-controls="DueToday" role="tab" data-toggle="tab">Due Today</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#DueSoon" aria-controls="DueSoon" role="tab" data-toggle="tab">Due Soon</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#Completed" aria-controls="Completed" role="tab" data-toggle="tab">Completed</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#AllTask" aria-controls="DueSoon" role="tab" data-toggle="tab">All Tasks</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="DueToday">
+                        <ul class="list-group modalDueTodayList">
+
+                            {% for over in reminders.overdue %}
+                                <li class="list-group-item" data-status="done" id="modalOverdueReminder_{{ over.id }}">
+                                    <span>{{ over.message }}</span>
+                                    <span class="overdue text-danger">{{ over.days_due }} days overdue</span>
+                                </li>
+                            {% endfor %}
+
+                            {% for dueToday in reminders.dueToday %}
+                                <li class="list-group-item" data-status="done" id="modalTodayDueReminder_{{ dueToday.id }}">
+                                    <span>{{ dueToday.message }}</span>
+                                    <span class="overdue text-danger">{{ dueToday.days_due }} days overdue</span>
+                                </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="DueSoon">
+                        <ul class="list-group modalDueSoonList">
+                            {% for dueSoon in reminders.dueSoon %}
+                                <li class="list-group-item" data-status="done">
+                                    <span>{{ dueSoon.message }}</span>
+                                    <span class="overdue text-success">{{ dueSoon.days_due }} days before due</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="Completed">
+                        <ul class="list-group modalCompletedTodayList">
+                            {% for doneDueToday in reminders.doneDueToday %}
+                                <li class="list-group-item" data-status="done">
+                                    <span>{{ doneDueToday.message }}</span>
+                                    <span class="overdue text-success">{{ doneDueToday.days_due }} days before due</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="AllTask">
+                        <ul class="list-group modalDueAllList">
+                            {% for over in reminders.overdue %}
+                                <li class="list-group-item" data-status="done">
+                                    <span>{{ over.message }}</span>
+                                    <span class="overdue text-danger">{{ over.days_due }} days overdue</span>
+                                </li>
+                            {% endfor %}
+
+                            {% for dueToday in reminders.dueToday %}
+                                <li class="list-group-item" data-status="done">
+                                    <span>{{ dueToday.message }}</span>
+                                    <span class="overdue text-danger">{{ dueToday.days_due }} days overdue</span>
+                                </li>
+                            {% endfor %}
+
+                            {% for dueSoon in reminders.dueSoon %}
+                                <li class="list-group-item" data-status="done">
+                                    <span>{{ dueSoon.message }}</span>
+                                    <span class="overdue text-success">{{ dueSoon.days_due }} days before due</span>
+                                </li>
+                            {% endfor %}
+
+                            {% for doneDueToday in reminders.doneDueToday %}
+                                <li class="list-group-item" data-status="done">
+                                    <span>{{ doneDueToday.message }}</span>
+                                    <span class="overdue text-success">{{ doneDueToday.days_due }} days before due</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>

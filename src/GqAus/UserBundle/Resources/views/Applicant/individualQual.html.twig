@@ -1,18 +1,17 @@
 {% extends 'revamp_base.html.twig' %}
 {% block ngApp %} ng-app="gqAus" {% endblock%}
 {% block ngController %} ng-controller="messageCtlr"  id="messageCtlr" {% endblock%}
-{% block title %}GQ - RPL Qualification{% endblock %}
+{% block title %}GQ - RPL Qualification  - Applicant Qualification{% endblock %}
 {% block ngtitle %}pageTitle{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
 <link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" /> 
-<link href="public/ui/css/modules/mail/mail-box.css" rel="stylesheet" />
 {% endblock %}
 
 {% block body %}
 
-    {% set userImg = user.getUserImage()%}
+    {% set applicantImg = applicantObj.getUserImage()%}
     {% set userId = user.getId()%}
     {% set userRole = user.getRoles()%}
     {% set courseInfo = courses_service.getCourseInfo(courseCode)%} 
@@ -33,17 +32,17 @@
     <main class="main-content-gqa">
         <div class="container">
 
-            <div class="panel panel-default panel-qual-heading panel-avatar-tab">
+            <div class="panel panel-default panel-qual-heading panel-avatar-tab" ng-init="applicantId='{{applicantId}}'; courseCode='{{courseObj.courseCode()}}'">
                 <div class="panel-heading-img">
-                    <div class="avatar"><img src="{% if userImg  != '' %}{{amazon_link~'user-'~userId~'/'~userImg}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
+                    <div class="avatar"><img src="{% if applicantImg  != '' %}{{amazon_link~'user-'~applicantId~'/'~applicantImg}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
                 </div>
                 <div class="panel-heading">
-                    <h3 class="h3 qual-title">{{ user.getUsername() }}<br>
+                    <h3 class="h3 qual-title">{{ applicantObj.getUsername() }}<br>
                     <small class="small" style="font-size: 50%;">
-                        <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-title="{{ user.getUsername() }}" data-placement="bottom" style="margin-top: -3px;" onClick="location.href='{{ app.request.baseUrl }}/messages'">
+                        <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-title="{{ applicantObj.getUsername() }}" data-placement="bottom" style="margin-top: -3px;" onClick="location.href='{{ app.request.baseUrl }}/messages'">
                             <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i>
                         </button>&nbsp; |&nbsp;
-                        GQA Profile since  {{ user.created()|date("m/d/Y") }}
+                        GQA Profile since  {{ applicantObj.created()|date("m/d/Y") }}
                     </small>
                     </h3>
                 </div>
@@ -59,8 +58,8 @@
                             {% for appCourseObj in applicantCourses %}
                             <li class="divider clearfix btn-block"></li>
                             <li class="dropdown-static-header" onClick='location.href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}"'><h4>{{appCourseObj.getCourseName()}}</h4></li>
-                            <li><a href="applicant-core-account-manager.html">Core Units</a></li>
-                            <li><a href="applicant-elective-account-manager.html">Elective Units</a></li>
+                            <li><a href="/qualificationDetails/{{appCourseObj.getCoursecode()}}/{{applicantId}}/core">Core Units</a></li>
+                            <li><a href="/qualificationDetails/{{appCourseObj.getCoursecode()}}/{{applicantId}}/elective">Elective Units</a></li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -68,7 +67,7 @@
                         <a href="/applicantProfile/{{applicantId}}" aria-controls="tab" role="tab">Profile</a>
                     </li>
                     <li role="presentation">
-                        <a href="applicant-enrolment-account-manager.html" aria-controls="tab" role="tab">Enrolment Info</a>
+                        <a href="/enrollmentinfo/{{applicantId}}" aria-controls="tab" role="tab">Enrolment Info</a>
                     </li>
                 </ul>
             </div>
@@ -103,15 +102,15 @@
                         <h3 class="h3 qual-title">
                             <small>{{courseObj.courseCode()}}</small><br> {{courseObj.courseName()}}
                         </h3>
-                        <div class="panel-qualification-gauges change-status">
-                            <label class="label {{ courses_service.getStatusClass(courseStatus[courseObj.courseStatus]['status'])}}">{{ courseStatus[courseObj.courseStatus]['status'] }}</label>
+                        <div class="panel-qualification-gauges change-status" ng-init="status = '{{courseObj.courseStatus}}'; courseStatus = '{{courseObj.courseStatus}}';statusText = '{{courseStatus[courseObj.courseStatus].status}}'">
+                            <label class="label {{ courseStatus[courseObj.courseStatus]['labelClass']}}">{[{statusText}]}</label>
                             <button type="button" class="btn btn-xs btn-link" data-toggle="modal" data-target="#qualStatuses">
                                 <i class="zmdi zmdi-edit"></i> Change
                             </button>
                         </div>
                         <div class="panel-qualification-gauges">
                             <div class="qual-gauges">
-                                <div class="c100 p{{ evidenceCompleteness|trim('%') }} big">
+                                <div class="c100 p{{ evidenceCompleteness|trim('%') }} big {% if evidenceCompleteness|trim('%') == 100 %} green {% elseif evidenceCompleteness|trim('%') < 50 %} orange {% else %} gray {% endif %}">
                                     <span>
                                         <i>{{ evidenceCompleteness }}</i>
                                         <i class="progress-big-label">Total evidence completed</i>
@@ -128,31 +127,33 @@
                             </div>
 
                             <div class="qual-gauges">
-                                <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units">
+                                <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units {% if coreUnitsSubmittedPercent == 100 %} green {% elseif coreUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
                                     <span>{{ unitSubmitted['core']}}/{{ coreUnitsCnt|length }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>                             
                             </div>
 
                             <div class="qual-gauges">
-                                <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units">
+                                <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units {% if electiveUnitsSubmittedPercent == 100 %} green {% elseif electiveUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
                                     <span>{{ unitSubmitted['elective']}}/{{ electiveUnitsCnt }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>
                             </div>
                         </div>
-                        <p class="panel-qualification-gauges action-footer">
-                            <i class="zmdi zmdi-cloud-upload zmdi-hc-lg zmdi-hc-fw text-primary"></i>
-                            <strong ng-if="hasNewCoreUploads()"><a href="#">2 new uploads</a> for Core</strong>
-                            <strong ng-if="hasNewElectiveUploads()">and <a href="#">3 new uploads</a> for Electives</strong>
-                        </p>
+                        {% if evidenceCountArr.coreCnt > 0 or evidenceCountArr.coreCnt > 0%} 
+                            <p class="panel-qualification-gauges action-footer">
+                                <i class="zmdi zmdi-cloud-upload zmdi-hc-lg zmdi-hc-fw text-primary"></i>
+                                {% if evidenceCountArr.coreCnt > 0 %} <strong ><a href="/qualificationDetails/{{courseObj.courseCode()}}/{{applicantId}}/core">{{evidenceCountArr.coreCnt}} new uploads</a> for Core</strong>{%endif%}
+                                {% if evidenceCountArr.electiveCnt > 0 %}<strong >{% if evidenceCountArr.coreCnt > 0 %}and {%endif%}<a href="/qualificationDetails/{{courseObj.courseCode()}}/{{applicantId}}/elective">{{evidenceCountArr.electiveCnt}} new uploads</a> for Electives</strong>{%endif%}
+                            </p>
+                        {%endif%}
                     </div>
                 </div>
             </article>
             
         </div>
     </main>
-    
+
     <!-- Change status -->
     <div class="modal fade" id="qualStatuses">
         <div class="modal-dialog modal-md">
@@ -162,15 +163,16 @@
                     <h4 class="modal-title">Change Qualification Status?</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="radio" class="custom-input" name="qual_statuses" id="statusABC" value=""><label for="statusABC">Status label here</label>
-                    <input type="radio" class="custom-input" name="qual_statuses" id="statusCDE" value=""><label for="statusCDE">Status label here</label>
-                    <input type="radio" class="custom-input" name="qual_statuses" id="statusEFG" value=""><label for="statusEFG">Status label here</label>
-                    <input type="radio" class="custom-input" name="qual_statuses" id="statusGHI" value=""><label for="statusGHI">Status label here</label>
+                    {% for key , statusObj in courseStatus %}
+                        <input type="radio" ng-model="courseStatus" {% if statusObj.Factive == 0 %} disabled {% endif %} class="custom-input" {% if key == courseObj.courseStatus %} checked {% endif %} name="qual_statuses" id="status_{{key}}" value="{{key}}"><label for="status_{{key}}"  {% if statusObj.Factive == 0 %} disabled {% endif %} >{{statusObj.status }}</label>
+                    {% endfor %}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-transparent" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Confirm</button>
+                    <span class="alert-danger">{[{statusErrorText}]}</span>
+                    <button type="button" class="btn btn-transparent" ng-click="courseStatus = status; statusErrorText='';" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="updateStatus()">Confirm</button>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -341,4 +343,22 @@
         </div>
     </div>
     <!-- RTO Profile -->
+{% endblock %}
+
+{% block javascripts %}
+    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
+    
+    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
+    <script src="{{ asset('public/js/angular/dirPagination.js') }}"></script>
+    <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
+    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/app.js') }}"></script>
+    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/controllers/applicantQualCtlr.js') }}"></script>
 {% endblock %}

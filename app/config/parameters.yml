@@ -3,19 +3,19 @@ parameters:
     database_driver: pdo_mysql
     database_host: 127.0.0.1
     database_port: null
-    database_name: gqrevamp
+    database_name: onlinerpl_db
     database_user: root
     database_password: null
-    mailer_transport: null
-    mailer_host: null
-    mailer_user: null
-    mailer_password: null
-    mailer_encryption: null
-    mailer_port: null
-    mailer_auth_mode: null
+    mailer_transport: smtp
+    mailer_host: smtp.office365.com
+    mailer_user: rpl@gqaustralia.edu.au
+    mailer_password: Sienna17@
+    mailer_encryption: tls
+    mailer_port: 587
+    mailer_auth_mode: login
     locale: en
     secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
-    applicationUrl: 'http://gqrevamp.local/'
+    applicationUrl: 'http://onlinerpl.local/'
     amazon_aws_key: AKIAJXKS7MGMDP6Y3MAA
     amazon_aws_secret_key: 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
     amazon_s3_base_url: 'https://s3-ap-southeast-2.amazonaws.com/onlinerplevidences/'

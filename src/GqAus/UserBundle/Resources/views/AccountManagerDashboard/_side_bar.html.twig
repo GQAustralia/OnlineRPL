@@ -1,0 +1,82 @@
+<section class="section-sidebar">
+    <div class="panel panel-default">
+        <div class="panel-qualification-heading">
+            <div class="avatar avatar-xs">
+                <img src="{% if user.avatar  != '' %}
+                                        {{ amazon_link~'user-'~user.id~'/'~user.avatar }}
+                                        {% else %}
+                                            {{ asset('public/ui/img/avatar-default.png') }}
+                                        {% endif %}" alt="You">
+            </div>
+            <div class="heading">
+                <span>Welcome back</span>
+                <span>{{ user.firstName }} {{ user.lastName }}</span>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <label class="control-label">
+                <i class="zmdi zmdi-hc-lg zmdi-time-countdown pull-left"></i>
+                <strong>MyTasks</strong></label>
+            <button type="button"
+                    class="btn btn-link text-uppercase btn-float-right btn-add-task"
+                    data-placement="bottom"
+                    data-toggle="popover"
+                    data-id=null
+                    data-file-type="evidence"
+                    data-task-date="{{ "now"|date("Y-m-d") }}"
+            >
+                <i class="zmdi zmdi-hc-lg zmdi-plus"></i> Add new
+            </button>
+        </div>
+
+        <hr style="margin: 0;">
+        <div class="task-list">
+            <ul class="nav" role="tablist" id="side-task-list">
+                <li role="presentation" class="active">
+                    <span data-target="#dueToday" aria-controls="dueToday" role="tab" data-toggle="tab">
+                        Due today <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i>.
+                    </span>
+                    <ul class="list-group dueTodayList">
+                        {% for over in reminders.overdue %}
+                            <li class="list-group-item dueListCircleCheck overdue" data-status="overdue" id="{{ over.id }}">
+                                <span>{{ over.message }}</span>
+                                <span class="overdue text-danger">{{ over.days_due }} days overdue</span>
+                            </li>
+                        {% endfor %}
+
+                        {% for dueToday in reminders.dueToday %}
+                            <li class="list-group-item dueListCircleCheck" data-status="overdue" id="{{ dueToday.id }}">
+                                <span>{{ dueToday.message }}</span>
+                                <span class="overdue text-success">{{ dueToday.days_due }} days overdue</span>
+                            </li>
+                        {% endfor %}
+
+                        {% for doneDueToday in reminders.doneDueToday %}
+                            <li class="list-group-item dueListCircleCheck" data-status="done"
+                                id="{{ doneDueToday.id }}">
+                                <span>{{ doneDueToday.message }}</span>
+                                <span class="overdue text-danger">{{ doneDueToday.days_due }} days overdue</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li role="presentation">
+                    <span data-target="#dueSoon" aria-controls="dueSoon" role="tab" data-toggle="tab">Due soon <i
+                                class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw"></i></span>
+                    <ul class="list-group dueSoonList">
+                        {% for dueSoon in reminders.dueSoon %}
+                            <li class="list-group-item dueListCircleCheck" data-status="pending" id="{{ dueSoon.id }}">
+                                <span>{{ dueSoon.message }}</span>
+                                <span class="overdue text-info">{{ dueSoon.days_due }} days before due</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li role="presentation">
+                    <span id="showAllTasks">View All</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>

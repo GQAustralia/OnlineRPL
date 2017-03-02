@@ -1,0 +1,40 @@
+.btn-panel-float {
+	position: fixed;
+	z-index: 1;
+	text-transform: uppercase;
+	left: -51px;	
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	background-color: $gray-dark;
+	border: none;
+	color: white;
+
+	@include calc-sub-two-values(top,50%,30px);
+	@include transform(rotateZ(90deg) translateY(15px));
+	@include box-shadow(0 -2px 3px 0 rgba(0,0,0,0.3));
+
+	&:hover, &:active, &:focus {
+		background-color: $gray-darker;
+		color: white;
+	}
+	&:hover {
+		@include transform(rotateZ(90deg) translateY(3px));
+	}
+}
+
+.panel-float {
+	position: fixed;
+	z-index: $zindex-modal;
+	display: none;
+	top: 28%;
+	left: 10%;
+	width: 480px;
+
+	.modal-header {
+		position: relative;
+		&:hover {
+			background-color: darken($gray-lighter,5%);
+			cursor: move;
+		}
+	}
+}

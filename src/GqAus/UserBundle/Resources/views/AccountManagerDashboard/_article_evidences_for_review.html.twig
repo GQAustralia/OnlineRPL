@@ -1,0 +1,143 @@
+<article class="panel panel-default panel-dashboard">
+    <div class="panel-heading panel-tab-bg">
+        <h3 class="qual-title"><i class="zmdi zmdi-search-in-page"></i> Evidences for Review</h3>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#newUploads" aria-controls="incomplete" role="tab" data-toggle="tab">
+                    New uploads <sup class="label label-primary">{{ evidences.lessThan8DaysTotal }}</sup>
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#greaterThan7Days" aria-controls="complete" role="tab" data-toggle="tab">
+                    > 7 days <sup class="label label-primary">{{ evidences.greaterThan7DaysTotal }}</sup>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body override-padding">
+        <div role="tabpanel">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="newUploads">
+
+                    <ol class="dashboard-table-head-sort">
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Applicant</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Filename</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Linked Unit</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Uploaded</button>
+                        </li>
+                    </ol>
+
+                    <ol class="dashboard-table">
+
+                        {% for evidence in evidences.lessThan8Days %}
+                            <li class="dashboard-table-item">
+                                <section class="dashboard-table-item-avatar">
+                                    <div class="avatar avatar-xxs t-item-4"><img
+                                                src="
+                                        {% if user.avatar  != '' %}
+                                            {{ amazon_link~'user-'~user.id~'/'~user.avatar }}
+                                        {% else %}
+                                            {{ asset('public/ui/img/avatar-default.png') }}
+                                        {% endif %}" alt="You">
+                                    </div>
+                                    <span class="avatar-name">{{ evidence.name }}</span>
+                                </section>
+                                <section class="dashboard-table-item-metadata">
+                                    <div class="qual-item" data-unit-status="warning">
+                                        <span class="qual-item-status">{{ evidence.file_name }}</span>
+                                        <span class="qual-item-name">{{ evidence.unit_code }}</span>
+                                        <span class="qual-item-status">{{ evidence.created }}</span>
+                                        <span class="qual-item-action">
+                                            <button type="button"
+                                                    class="btn btn-xs btn-transparent"
+                                                    data-placement="left"
+                                                    data-toggle="popover"
+                                                    data-id=null
+                                                    data-file-type="evidence"
+                                                    data-task-date="{{ "now"|date("Y-m-d") }}"
+                                            >
+
+                                                    <i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </section>
+                            </li>
+                        {% endfor %}
+
+                    </ol>
+
+                    <div class="text-right">
+                        <a href="#" class="btn btn-link">View All</a>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="greaterThan7Days">
+
+                    <ol class="dashboard-table-head-sort">
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Applicant</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Filename</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Linked Unit</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Uploaded</button>
+                        </li>
+                    </ol>
+
+                    <ol class="dashboard-table">
+
+                        {% for evidence in evidences.greaterThan7Days %}
+                            <li class="dashboard-table-item">
+                                <section class="dashboard-table-item-avatar">
+                                    <div class="avatar avatar-xxs t-item-4"><img
+                                                src="
+                                        {% if user.avatar  != '' %}
+                                            {{ amazon_link~'user-'~user.id~'/'~user.avatar }}
+                                        {% else %}
+                                            {{ asset('public/ui/img/avatar-default.png') }}
+                                        {% endif %}" alt="You">
+                                    </div>
+                                    <span class="avatar-name">{{ evidence.name }}</span>
+                                </section>
+                                <section class="dashboard-table-item-metadata">
+
+                                    <div class="qual-item" data-unit-status="warning">
+                                        <span class="qual-item-status">{{ evidence.file_name }}</span>
+                                        <span class="qual-item-name">{{ evidence.unit_code }}</span>
+                                        <span class="qual-item-status">{{ evidence.created }}</span>
+                                        <span class="qual-item-action">
+                                            <button type="button"
+                                                    class="btn btn-xs btn-transparent"
+                                                    data-placement="left"
+                                                    data-toggle="popover"
+                                                    data-id=null
+                                                    data-file-type="evidence"
+                                                    data-task-date="{{ "now"|date("Y-m-d") }}"
+                                            >
+                                                    <i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </section>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

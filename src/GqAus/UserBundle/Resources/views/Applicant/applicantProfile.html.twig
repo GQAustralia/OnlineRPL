@@ -1,7 +1,7 @@
 {% extends 'revamp_base.html.twig' %}
 {% block ngApp %} ng-app="gqAus" {% endblock%}
 {% block ngController %} ng-controller="messageCtlr"  id="messageCtlr" {% endblock%}
-{% block title %}GQ - RPL Qualification{% endblock %}
+{% block title %}GQ - RPL Qualification - Applicant Profile{% endblock %}
 {% block ngtitle %}pageTitle{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
@@ -11,22 +11,22 @@
 {% endblock %}
 
 {% block body %}
-{#{dump(applicantObj)}#}
-    {% set userImg = user.getUserImage()%}
+
+    {% set applicantImg = applicantObj.getUserImage()%}
     <main class="main-content-gqa">
         <div class="container">
 
             <div class="panel panel-default panel-qual-heading panel-avatar-tab">
                 <div class="panel-heading-img">
-                    <div class="avatar"><img src="{% if userImg  != '' %}{{amazon_link~'user-'~userId~'/'~userImg}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
+                    <div class="avatar"><img src="{% if applicantImg  != '' %}{{amazon_link~'user-'~applicantId~'/'~applicantImg}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
                 </div>
                 <div class="panel-heading">
-                    <h3 class="h3 qual-title">{{ user.getUsername() }}<br>
+                    <h3 class="h3 qual-title">{{ applicantObj.getUsername() }}<br>
                     <small class="small" style="font-size: 50%;">
                         <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages'">
                             <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i> Send message
                         </button>
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-title="GQA Profile since {{ user.created()|date("m/d/Y") }}">
+                        <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-title="GQA Profile since {{ applicantObj.created()|date("m/d/Y") }}">
                             <i class="zmdi zmdi-info zmdi-hc-lg"></i>
                         </button>
                     </small>
@@ -36,15 +36,15 @@
                     <li role="presentation" class="dropdown">
                         <a href="#pagelink" class="dropdown-toggle" aria-controls="home" role="tab" data-toggle="dropdown">Qualifications <i class="caret"></i></a>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="applicant-qual-account-manager.html">
+                            <li><a href="#">
                                 <h4>Overview <br><small>Summary of enroled qualifications</small></h4>
                                 </a>
                             </li>
                             {% for appCourseObj in applicantCourses %}
                                 <li class="divider clearfix btn-block"></li>
                                 <li class="dropdown-static-header" onClick='location.href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}"'><h4>{{appCourseObj.getCourseName()}}</h4></li>
-                                <li><a href="applicant-core-account-manager.html">Core Units</a></li>
-                                <li><a href="applicant-elective-account-manager.html">Elective Units</a></li>
+                                <li><a href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}/core">Core Units</a></li>
+                                <li><a href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}/elective">Elective Units</a></li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -52,7 +52,7 @@
                         <a href="applicant-profile-account-manager.html" aria-controls="tab" role="tab">Profile</a>
                     </li>
                     <li role="presentation">
-                        <a href="applicant-enrolment-account-manager.html" aria-controls="tab" role="tab">Enrolment Info</a>
+                        <a href="/enrollmentinfo/{{applicantId}}" aria-controls="tab" role="tab">Enrolment Info</a>
                     </li>
                 </ul>
             </div>
@@ -66,14 +66,14 @@
                                 <i class="zmdi zmdi-account-box-o base-icon"></i>
                                 <p>
                                     USI Number
-                                    <span>2345345234523</span>
+                                    <span>{{applicantObj.getUniversalStudentIdentifier()}}</span>
                                 </p>
                             </div>
                             <div class="profile-info">
                                 <i class="zmdi zmdi-calendar-note base-icon"></i>
                                 <p>
                                     Date of birth
-                                    <span>23/12/1985</span>
+                                    <span>{{applicantObj.getDateOfBirth()}}</span>
                                 </p>
                             </div>
 
@@ -81,7 +81,7 @@
                                 <i class="zmdi zmdi-phone base-icon"></i>
                                 <p>
                                     Home telepehone number
-                                    <span><img src="ui/img/flag_au.jpg">+ 61 441134888</span>
+                                    <span><img src="ui/img/flag_au.jpg">{{applicantObj.getPhone()}}</span>
                                 </p>
                             </div>
 
@@ -89,7 +89,7 @@
                                 <i class="zmdi zmdi-smartphone-iphone base-icon"></i>
                                 <p>
                                     Mobile number
-                                    <span><img src="ui/img/flag_au.jpg">+ 61 441134888</span>
+                                    <span><img src="ui/img/flag_au.jpg">{{applicantObj.getCeophone()}}</span>
                                 </p>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                                 <i class="zmdi zmdi-female base-icon"></i>
                                 <p>
                                     Gender
-                                    <span>Female</span>
+                                    <span>{{applicantObj.getGender()}}</span>
                                 </p>
                             </div>
 
@@ -107,7 +107,7 @@
                                 <i class="zmdi zmdi-phone base-icon"></i>
                                 <p>
                                     Work telephone number
-                                    <span>+ 61 441134888</span>
+                                    <span>{{applicantObj.getContactPhone()}}</span>
                                 </p>
                             </div>
 
@@ -115,7 +115,7 @@
                                 <i class="zmdi zmdi-email base-icon"></i>
                                 <p>
                                     Email Address
-                                    <a href="#"><span>mayamimouri001@gmail.com</span></a>
+                                    <a href="#"><span>{{applicantObj.getEmail()}}</span></a>
                                 </p>
                             </div>
                         </div>
@@ -128,17 +128,18 @@
                         <i class="zmdi zmdi-pin base-icon"></i>
                         <p>
                             Postal Address
-                            <span>200 Broadway Ave WEST BEACH NSW 5024 AUSTRALIA</span>
+                            <span>{{applicantObj.address.address|default('')}} {{applicantObj.address.area|default('')}} {{applicantObj.address.city|default('')}} {{applicantObj.address.state|default('')}} {{applicantObj.address.pincode|default('')}} {{applicantObj.address.suburb|default('')}} {{applicantObj.address.country|default('')}}</span>
                         </p>
                     </div>
-
+                    {% if applicantObj.address.postal %}
                     <div class="profile-info">
                         <i class="zmdi zmdi-nature base-icon"></i>
                         <p>
                             Billing Address
-                            <span>200 Broadway Ave WEST BEACH NSW 5024 AUSTRALIA</span>
+                            <span>{{applicantObj.address.address|default('')}} {{applicantObj.address.area|default('')}} {{applicantObj.address.city|default('')}} {{applicantObj.address.state|default('')}} {{applicantObj.address.pincode|default('')}} {{applicantObj.address.suburb|default('')}} {{applicantObj.address.country|default('')}}</span>
                         </p>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             

@@ -1,3 +1,21 @@
+sendEmail:
+    path:     /sendEmail
+    defaults: { _controller: GqAusUserBundle:SampleEmail:sendEmail }
+loadModalTask:
+    path:     /loadModalTask
+    defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:loadModalTask }
+completeTask:
+    path:     /completeTask
+    defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:completeTask }
+addNewTaskAndReload:
+    path:     /addNewTask
+    defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:addNewTask }
+dashboard:
+    path:     /dashboard
+    defaults: { _controller: GqAusUserBundle:Dashboard:index }
+account-manager-dashboard:
+    path:     /account-manager-dashboard
+    defaults: { _controller: GqAusUserBundle:AccountManagerDashboard:index }
 overview:
     path:     /overview
     defaults: { _controller: GqAusUserBundle:Overview:index }
@@ -57,7 +75,7 @@ amapplicants:
     defaults: { _controller: GqAusUserBundle:Applicant:amApplicantsList }	
 getapplicants:
     path:     /getapplicants
-    defaults: { _controller: GqAusUserBundle:Applicant:getApplicantsList }	
+    defaults: { _controller: GqAusUserBundle:Applicant:getApplicantsList }
 applicantDetails:
     path:     /applicantDetails/{qcode}/{uid}
     defaults: { _controller: GqAusUserBundle:Applicant:details }
@@ -382,3 +400,6 @@ applicantIndividualPage:
 applicantProfile:
     path: /applicantProfile/{applicantId}
     defaults: { _controller: GqAusUserBundle:Applicant:applicantProfile }    
+enrollmentInfo:
+    path: /enrollmentinfo/{applicantId}
+    defaults: { _controller: GqAusUserBundle:Applicant:enrollmentInfo }

@@ -5,18 +5,17 @@ $thumbnail-group-item-border-right-color: #e6e6e6;
 
 $thumbnail-group-item-card-width: 200px;
 
+// =============== Main ==============
 .thumbnail-group {
 	display: block;
 	position: relative;
 	padding-left: 0;
-	margin: 30px -7.5px 30px -7.5px;
 	@include clearfix();
 
 	.thumbnail-group-item {
 		list-style: none;
 		display: block;
 		position: relative;
-		border-radius: 2px;
 	}
 
 	&.card-view {
@@ -32,6 +31,8 @@ $thumbnail-group-item-card-width: 200px;
 			}
 			.thumbnail-holder{
 				position: relative;
+				border-radius: $border-radius-base;
+				overflow: hidden;
 				@include box-shadow(0 1px 2px 0px rgba(0,0,0,0));
 				@include transition(box-shadow .3s $easing);
 
@@ -67,14 +68,13 @@ $thumbnail-group-item-card-width: 200px;
 					background: rgba(0, 0, 0, 0.5);
 					height: 100%;
 
-					a{
-						@include opacity(1);
-					}
+					a { @include opacity(1); }
 				}
 				[data-column-name="filename"]{
 					white-space: normal;
 					text-overflow: none;
 					overflow: visible;
+					@include transition(all .3s $easing);
 				}
 			}
 		}
@@ -141,6 +141,7 @@ $thumbnail-group-item-card-width: 200px;
 			line-height: 1;
 			position: relative;
 			color: #fff;
+			@include transition(all .3s $easing);
 
 		    &[href$='.zip']:after {  }
 		    &[href$='.jpg']:after {  }
@@ -158,28 +159,218 @@ $thumbnail-group-item-card-width: 200px;
 		    &[href$='.xlsx']:after {  }
 		}
 
-		[data-trigger="preview-file"]{
-			position: absolute;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-			@include border-radius(0);
-			padding: 5px;
-			font-size: 12px;
-			@include opacity(0);
-			color: white;
-			background-color: rgba(0,0,0,0.6);
-		}
+		[data-column-name="linkedto"],
+		[data-column-name="filesize"],
+		[data-column-name="uploaded"],
+		[data-column-name="filetype"] { display: none; }
 	}
 
 	&.list-view {
+		margin-top: 60px;
 		.thumbnail-group-item {
 			width: 100%;
-			float: none;
+			display: table;
 		}
+
+		.thumbnail-group-selection, .thumbnail-holder, .dropdown-thumbnail {
+			display: table-cell;
+			vertical-align: middle;
+		}
+
+		.thumbnail-body {
+			display: table;
+
+			[data-column-name] { display: table-cell; vertical-align: middle; position: relative;}
+		}
+
+		[data-trigger="preview-file"] { display: none; }
 	}	
 }
 
+// =============== View ==============
+.thumbnail-group.card-view {
+	margin: 30px -7.5px 30px -7.5px;
+	.thumbnail-group-selection {
+	    clear: both;
+	    position: absolute;
+	    top: 15px;
+	    display: none;
+	}
+	.thumbnail-group-item {
+		@include transition(padding .3s $easing);
+		border-radius: 2px;
+
+		.dropdown-thumbnail {
+			position: absolute;
+			z-index: 100;
+			top: 0;
+			right: 0;
+
+			&:not(.open) {
+				display: none;
+			}
+
+			.dropdown-menu .zmdi {
+				
+			}
+		}
+
+		.btn-context-menu {
+
+			background-color: $gray-dark;
+			color: white;
+			border: 1px solid white;
+			@include box-shadow(0 0px 0 2px white);
+
+			&:hover {
+				background-color: darken($gray-dark,10%);
+			}
+		}
+
+		&:hover .dropdown-thumbnail {
+			display: block;
+		}
+	}
+	&.edit-mode {
+		.thumbnail-group-selection {
+			display: block;
+		}
+		.thumbnail-group-item {
+			padding-top: 30px;
+			@include transition(padding .3s $easing);
+		}
+
+		.dropdown-thumbnail {
+			top: 25px;
+			right: 0;
+			display: block;		
+		}
+	}
+}
+
+.thumbnail-group.list-view {
+	$thumb-dim: 50px;
+	$check-dim: $thumb-dim;
+	$action-dim: $thumb-dim;
+
+	padding-top: 30px;
+
+	.thumbnail-group-selection {
+		width: $check-dim;
+		padding-left: 10px;
+		display: none !important;
+
+		label { margin: 0; }
+	}
+	.thumbnail-group-item:not(.thumbnail-group-item-loading) {
+		@include transition(padding .3s $easing);
+		border-bottom: 1px solid $gray-lighter;
+		padding: 5px;
+
+		&:hover {
+			border-radius: $border-radius-base;
+			background-color: $table-bg-hover;
+		}
+
+		.thumbnail-header {
+			width: $thumb-dim;
+			height: $thumb-dim;
+			border-radius: $border-radius-base;
+			background-size: cover;
+			float: left;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		.thumbnail-body {
+			@include calc-sub-two-values(width, 100%, $thumb-dim);
+			[data-column-name] { padding: 8px 15px; height: $thumb-dim; }
+
+			$file-dim: 100px;
+			$date-dim: 160px;
+
+			[data-column-name="filename"] { 
+				@include calc-sub-two-values(width, 50%, $date-dim + $file-dim);
+				font-weight: 400;
+				&:hover {
+					text-decoration: underline;
+					cursor: pointer;
+				}
+			}
+			[data-column-name="linkedto"] { 
+				@include calc-sub-two-values(width, 50%, $date-dim + $file-dim);
+			}
+			[data-column-name="uploaded"] { 
+				width: $date-dim; 
+				text-align: center;
+			}
+			[data-column-name="filesize"] { 
+				width: $file-dim;
+				text-align: center;
+				text-transform: uppercase;
+			}
+		}
+
+		.dropdown-thumbnail {
+			width: $action-dim;
+			text-align: center;
+		}
+
+		.btn-context-menu {
+			padding: 8px 12px;
+			i { font-size: 2em; }
+			&:hover {
+				background-color: darken($table-bg-hover,15%);
+			}
+		}
+
+		// Table headers
+		&:first-child {
+			[data-column-name] {
+				&:before {
+					display: block;
+					position: absolute;
+					left: 0;
+					right: 0;
+					padding: 15px;
+					font-weight: 500;
+					font-size: 12px;
+					background-color: #f3f3f3;
+					text-transform: uppercase;
+					border-right: 3px solid white;
+					@include calc-add-two-values(bottom,100%,15px);
+				}
+			}
+
+			[data-column-name="filesize"]:before { content: 'File Size'; }
+			[data-column-name="uploaded"]:before { content: 'Date Uploaded'; }
+			[data-column-name="filename"]:before { left: -($thumb-dim + 5); content: 'Filename' }
+			[data-column-name="linkedto"]:before { right: -($action-dim  + 5); content: 'Linked to'; }
+		}
+	}
+	&.edit-mode {
+		.thumbnail-group-selection {
+			display: table-cell !important;
+		}
+		.thumbnail-group-item {
+			&:first-child {
+				[data-column-name="filename"]:before { left: -($thumb-dim + $check-dim + 5); content: 'Filename' }
+			}
+
+			.thumbnail-body {
+				// @include calc-sub-two-values(width, 100%, $thumb-dim*2);
+			}
+		}
+	}
+}
+
+
+// =============== Loading ==============
+
+// Card view
+.thumbnail-group.card-view 
 .thumbnail-group-item-loading {
 	&:hover { cursor: progress; }
 	.thumbnail-holder {
@@ -240,123 +431,99 @@ $thumbnail-group-item-card-width: 200px;
 	}
 }
 
+// List view
+.thumbnail-group.list-view 
+.thumbnail-group-item-loading {
+	border: 2px dashed $gray-lighter;
+	margin-top: 1px;
 
-.thumbnail-group.card-view {
-	.thumbnail-group-selection {
-	    clear: both;
-	    position: absolute;
-	    top: 15px;
-	    display: none;
-	}
-	.thumbnail-group-item {
-		@include transition(padding .3s $easing);
+	&:hover { cursor: progress; }
 
-		.dropdown-thumbnail {
+	.thumbnail-holder {
+		width: 60px;
+		height: 50px;
+		display: block;
+		overflow: hidden;
+		@include box-shadow(none);
+		position: relative;
+
+		&:hover {
+			@include box-shadow(none !important);
+			cursor: progress;
+		}
+
+		$color-fill: $gray;
+		.thumbnail-progress-fill {
 			position: absolute;
-			z-index: 100;
-			top: 0;
+			top: 5px;
+			bottom: 5px;
+			left: 5px;
+			right: 5px;
+			overflow: hidden;
+
+			&:hover { cursor: progress; }
+
+			&:after, & > .percentage-fill:before {
+				display: block;
+				content: attr(data-progress-value);
+				font-size: 1.6em;
+				position: absolute;
+				bottom: 5px;
+				left: 5px;
+				font-weight: 400;
+			}
+
+			&:after {
+				z-index: 5;
+				color: $color-fill;
+			}
+		}
+
+		.percentage-fill {
+			background-color: $color-fill;
+			height: 0;
+			bottom: 0;
+			left: 0;
 			right: 0;
-
-			&:not(.open) {
-				display: none;
-			}
-
-			.dropdown-menu .zmdi {
-				
-			}
-		}
-
-		.btn-context-menu {
-
-			background-color: $gray-dark;
-			color: white;
-			border: 1px solid white;
-			@include box-shadow(0 0px 0 2px white);
-
-			&:hover {
-				background-color: darken($gray-dark,10%);
-			}
-		}
-
-		&:hover .dropdown-thumbnail {
+			z-index: 10;
+			position: absolute;
 			display: block;
+			overflow: hidden;
+			font-style: normal;
+			font-weight: 400;
+			@include transition(height .3s $easing);
+
+			&:before {
+				z-index: 10;
+				color: white;
+			}
 		}
 	}
-	&.edit-mode {
-		.thumbnail-group-selection {
-			display: block;
-		}
-		.thumbnail-group-item {
-			padding-top: 30px;
-			@include transition(padding .3s $easing);
-		}
 
-		.dropdown-thumbnail {
-			top: 25px;
-			right: 0;
-			display: block;		
-		}
+	&:before, &:after {
+		display: block;
+		content: '';
+		position: absolute;
+		height: 10px;
+		background-color: $gray-lighter;
+		border-radius: 30px;
+	}
+
+	&:before {
+	    top: 12px;
+	    left: 65px;
+	    right: 30%;
+	}
+
+	&:after {
+		top: 30px;
+		left: 65px;
+		right: 50%;
 	}
 }
 
-.thumbnail-group.list-view {
-	.thumbnail-group-selection {
-	    clear: both;
-	    position: absolute;
-	    top: 15px;
-	    display: none;
-	}
-	.thumbnail-group-item {
-		@include transition(padding .3s $easing);
 
-		.dropdown-thumbnail {
-			position: absolute;
-			z-index: 100;
-			top: 0;
-			right: 0;
-
-			&:not(.open) {
-				display: none;
-			}
-
-			.dropdown-menu .zmdi {
-				
-			}
-		}
-
-		.btn-context-menu {
-
-			background-color: $gray-dark;
-			color: white;
-			border: 1px solid white;
-			@include box-shadow(0 0px 0 2px white);
-
-			&:hover {
-				background-color: darken($gray-dark,10%);
-			}
-		}
-
-		&:hover .dropdown-thumbnail {
-			display: block;
-		}
-	}
-	&.edit-mode {
-		.thumbnail-group-selection {
-			display: block;
-		}
-		.thumbnail-group-item {
-			padding-top: 30px;
-			@include transition(padding .3s $easing);
-		}
-
-		.dropdown-thumbnail {
-			top: 25px;
-			right: 0;
-			display: block;		
-		}
-	}
-}
-
+// Misc
 .is-mobile, .is-tablet {
 	.thumbnail-group-item .edit-mode .btn-context-menu {
 		display: block;

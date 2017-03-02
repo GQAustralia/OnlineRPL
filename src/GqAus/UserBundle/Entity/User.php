@@ -100,13 +100,12 @@ abstract class User implements UserInterface, \Serializable, AdvancedUserInterfa
      * @var integer
      */
     private $applyForyourusi;
-    
+
     /**
      * 
      * @var datetime
      */
     private $created;
-    
 
     /**
      * Constructor

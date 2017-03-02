@@ -48,6 +48,18 @@
 	overflow: visible;
 	.progress-bar {
 		position: relative;
+		&:before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: block;
+			content: '';
+		}
+
+		&:hover { cursor: pointer; }
+
 		&.progress-bar-danger > .progress-inline-legend {
 			color: $brand-red;
 		}

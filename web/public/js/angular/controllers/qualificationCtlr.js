@@ -251,7 +251,7 @@ gqAus.controller('qualificationCtlr', function ($rootScope, $scope, $window, _, 
     };
 
     $scope.getUnitEvidences = function (unitCode) {
-        AjaxService.apiCall("units/getEvidencesByUnit", {"unitCode": unitCode, "courseCode": $scope.courseCode}).then(function (data) {
+        AjaxService.apiCall("units/getEvidencesByUnit", {"unitCode": unitCode, "courseCode": $scope.courseCode, "userId":$scope.applicantId}).then(function (data) {
             if ($scope.selectedUnit === unitCode) $scope.unitEvidences = data;
             var $obj = _.where($scope.unitEvidences,{type:"text"});
             $scope.selfAssessment = $obj[0]||{};

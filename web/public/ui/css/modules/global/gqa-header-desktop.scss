@@ -1,3 +1,93 @@
+@mixin messaging-menu() {
+	[data-inbox-count] {
+		&:after {
+			$dim: 20px;
+			display: block;
+			content: attr(data-inbox-count);
+			background-color: $brand-primary;
+			color: white;
+			padding: 2px 4px;
+			border-radius: 4px;
+			position: absolute;
+			z-index: 5;
+			font-size: 12px;
+			text-align: center;
+			line-height: 1;
+			border-top: 1px solid darken($brand-primary,5%);
+			border-bottom: 2px solid darken($brand-primary,10%);
+			@include calc-sub-two-values(left, 50%, 29px);
+			@include calc-sub-two-values(top,50%,$dim+5);
+		}
+	}
+	[data-inbox-count="0"]:after, [data-inbox-count=""]:after  { display: none; }
+	.dropdown-menu-messages {
+		max-width: 350px !important;
+		min-width: 350px !important;
+		> li {
+			border-top: 1px solid $gray-lighter;
+			&:first-child {
+				border-top: none;
+			}
+		}
+		> li > a {
+			display: table;
+			width: 100%;
+			padding: 10px 15px;
+
+			> *[class^='dropdown-'], 
+			*[class*='dropdown-'] { 
+				display: table-cell;
+				vertical-align: middle;
+			}
+		}
+
+		$width: $avatar-xxs;
+		.dropdown-avatar {
+			width: $width;
+			text-align: center;
+		}
+		.dropdown-messaging {
+			@include calc-sub-two-values(width,100%,$width);
+			max-height: 2.2em;
+			padding-left: 15px;
+
+			* { display: block; }
+
+			label { margin-top: 5px; margin-bottom: 0; }
+			.label {
+				letter-spacing: 1px;
+				font-size: 10px;
+				background-color: $gray-lighter;
+				color: $gray-dark;
+			}
+			.label + span { color: $text-muted; }
+
+			p {
+				margin-bottom: 0;
+				overflow: hidden;
+				height: 2.2em;
+				line-height: 1.1;
+				position: relative;
+
+				&:after {
+					display: block;
+					position: absolute;
+					content: '';
+					bottom: 0;
+					right: 0;
+					width: 140px;
+					height: 0.8em;
+					@include gradient-horizontal(transparent,white,0,100%);
+				}
+			}
+		}
+
+		> li:hover > a > .dropdown-messaging p:after {
+			@include gradient-horizontal(transparent,$dropdown-link-hover-bg,0,100%);
+		}
+	}
+}
+
 @media (min-width: $screen-sm-min) {
 	.header-gqa {
 		min-width: $screen-sm-max;
@@ -55,7 +145,7 @@
 
 				&:after {
 					@include opacity(0);
-					@include transition(opacity, .2s, $easing);
+					@include transition(opacity, .3s, $easing);
 					content: '';
 					top: 20%;
 					bottom: 20%;
@@ -69,7 +159,7 @@
 
 				&:hover:after {
 					@include opacity(1);
-					@include transition(opacity, .2s, $easing);
+					@include transition(opacity, .3s, $easing);
 				}
 
 				> a {
@@ -219,7 +309,7 @@
 					position: absolute;
 					z-index: 0;
 					border-radius: $border-radius-base;
-					background-color: transparentize(#12596b,0.7);
+					background-color: rgba(0, 0, 0, 0.13);
 				}
 
 				&:hover:after {
@@ -279,6 +369,8 @@
 			margin-top: -20px;
 			min-width: 100%;
 		}
+
+		@include messaging-menu();
 	}
 
 	.navbar-bg-img {

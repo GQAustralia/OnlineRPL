@@ -646,11 +646,23 @@ class ApplicantController extends Controller
      * Function to update course status
      * return array
      */
-    public function updateCourseStatusAction()
+    public function updateCourseStatusAction(Request $request)
     {
-        $courseStatus = $this->getRequest()->get('courseStatus');
-        $courseCode = $this->getRequest()->get('courseCode');
-        $applicantId = $this->getRequest()->get('userId');
+			    	$courseStatus = $this->getRequest()->get('courseStatus');
+			    	$courseCode = $this->getRequest()->get('courseCode');
+			    	$applicantId = $this->getRequest()->get('userId');
+			    	
+    				if ($request->isMethod('POST')) {
+						    		$params = array();
+						    		$type = "";
+						    		$content = $this->get("request")->getContent();
+						    		
+						    			$params = json_decode($content, true); // 2nd param to get as array
+						    			$courseStatus = $params['courseStatus'];
+						    			$courseCode = $params['courseCode'];
+						    			$applicantId = $params['userId'];
+						  }
+        
         $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
         $result = $this->get('UserService')->updateCourseStatus($courseStatus, $courseCode, $applicantId, $userRole);
         echo json_encode($result);
@@ -820,6 +832,7 @@ class ApplicantController extends Controller
         $facilitator = $this->getRequest()->get('facilitator'); 
         
          $userService = $this->get('UserService');
+        $emailService = $this->get('EmailService');
          $userId = $this->getRequest()->get('userId');
         $userInfo = $userService->getUserInfo($userId);
          $courseCode = $this->getRequest()->get('courseCode'); 
@@ -869,7 +882,7 @@ class ApplicantController extends Controller
                 //$user->setPassword($password);
                 $user->setLoginToken($token);             
                 $image = '';
-               
+
 
                 //Saving to profile
                 $userService->savePersonalProfile($user, $image);
@@ -882,8 +895,8 @@ class ApplicantController extends Controller
                 $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
 
                 //$userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
-                $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
-                                $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
+             /*   $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
+                                $userMessage, $fromUser->getEmail(), $fromUser->getUsername());*/
 
             }
                 else{
@@ -910,8 +923,10 @@ class ApplicantController extends Controller
                $facMsgdata = array('subject' => $facSubject, 'message' => $facMessage, 'unitId' => '0', 'replymid' => '0');
 
                //$facMessageSend = $userService->saveMessageData($facUser,$fromUser,$facMsgdata);
-               $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
-                                $facMessage, $fromUser->getEmail(), $fromUser->getUsername());
+/*               $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
+                                $facMessage, $fromUser->getEmail(), $fromUser->getUsername());*/
+
+            $emailService->notifyApplicantForTheAssignedAccountManager($userId, $courseCode);
 
           }
         else
@@ -1005,7 +1020,9 @@ class ApplicantController extends Controller
 			   	$results['user'] = $user;
 			   	$results['courseCode'] = $ccode;
 			   	$results['applicantId'] = $applicantId;
-			   	$results['applicantCourses'] = $userService->getUserCourses($applicantId);
+			   	$results['applicantCourses'] = $userService->getUserCoursesByloggedinUser($loggedinUserId, $userRole[0], $applicantId, "APPLICANT"); 
+			   	$results['applicantObj'] = $userService->getUserInfo($applicantId);
+			   	$results['evidenceCountArr'] = $userService->getUnviewedEvidenceCountByCourse($applicantId, $ccode);
 			   	
 			   	return $this->render('GqAusUserBundle:Applicant:individualQual.html.twig', $results);
    }
@@ -1015,8 +1032,11 @@ class ApplicantController extends Controller
    				$results = array();
    				
    				$user = $this->get('security.context')->getToken()->getUser();
+   				$loggedinUserId = $user->getId();
+   				$userRole = $user->getRoles();
+   				
    				$results['user'] = $user;
-   				$results['applicantCourses'] = $userService->getUserCourses($applicantId);
+   				$results['applicantCourses'] = $userService->getUserCoursesByloggedinUser($loggedinUserId, $userRole[0], $applicantId, "APPLICANT"); 
    				$results['applicantId'] = $applicantId;
    				$results['applicantObj'] = $userService->getUserInfo($applicantId);
    				
@@ -1024,17 +1044,25 @@ class ApplicantController extends Controller
    }
 
    public function enrollmentInfoAction($applicantId) {
-		dump($applicantId);
-		exit;
+
 		$userService = $this->get('UserService');
 		$results = array();
-		
+		$enrollment = [];
+
 		$user = $this->get('security.context')->getToken()->getUser();
 		$results['user'] = $user;
 		$results['applicantCourses'] = $userService->getUserCourses($applicantId);
 		$results['applicantId'] = $applicantId;
 		$results['applicantObj'] = $userService->getUserInfo($applicantId);
-		
-		return $this->render('GqAusUserBundle:Applicant:applicantProfile.html.twig', $results);
+        
+        $enrollment['profile'] = $this->get('UserService')->getProEnroll($applicantId);
+        $enrollment['language'] = $this->get('UserService')->getLangEnroll($applicantId);
+        $enrollment['schooling'] = $this->get('UserService')->getSchEnroll($applicantId);
+        $enrollment['employment'] = $this->get('UserService')->getEmpEnroll($applicantId);
+        $enrollment['upload']['uploadId'] = $this->get('UserService')->getUploadFiles($applicantId);
+
+		$results['enrollmentinfo'] = $enrollment;
+
+		return $this->render('GqAusUserBundle:Applicant:applicantEnrollmentInfo.html.twig', $results);
    }
 }

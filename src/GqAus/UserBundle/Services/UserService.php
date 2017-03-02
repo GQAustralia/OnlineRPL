@@ -21,6 +21,7 @@ use GqAus\UserBundle\Entity\Schooling;
 use GqAus\UserBundle\Entity\UserPrevQualifications;
 use GqAus\UserBundle\Entity\Employment;
 use GqAus\UserBundle\Entity\UserIds;
+use GqAus\UserBundle\Services\Email\EmailService;
 
 class UserService {
 
@@ -69,6 +70,11 @@ class UserService {
     private $sqsService;
 
     /**
+     * @var EmailService
+     */
+    private $emailService;
+
+    /**
      * Constructor
      * @param object $em
      * @param object $container
@@ -76,8 +82,9 @@ class UserService {
      * @param object $guzzleService
      * @param object $coursesService
      * @param object $sqsService
+     * @param $emailService
      */
-    public function __construct($em, $container, $mailer, $guzzleService, $coursesService, $sqsService) {
+    public function __construct($em, $container, $mailer, $guzzleService, $coursesService, $sqsService, EmailService $emailService) {
         $this->em = $em;
         $session = $container->get('session');
         $this->userId = $session->get('user_id');
@@ -88,6 +95,7 @@ class UserService {
         $this->guzzleService = $guzzleService;
         $this->coursesService = $coursesService;
         $this->sqsService = $sqsService;
+        $this->emailService = $emailService;
     }
 
     /**
@@ -194,7 +202,7 @@ class UserService {
      */
     public function forgotPasswordRequest($email) {
         $message = '';
-        $user = $this->repository->findOneBy(array('email' => $email, 'applicantStatus' => 0, 'status' => 1));
+        $user = $this->repository->findOneBy(array('email' => $email, 'applicantStatus' => array('0', '2', '3', '4', '5'), 'status' => 1));
 
         if (!empty($user)) {
             $token = uniqid();
@@ -546,7 +554,8 @@ class UserService {
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
+
+            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId(), 1);
             if ($result['userRole'] == 'ROLE_RTO') {
                 $userId = $result['userId'];
                 $courseCode = $result['courseCode'];
@@ -582,7 +591,7 @@ class UserService {
                     /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                     $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
                     /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-                    $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $canMessageBody);
+                    $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $canMessageBody, '', 1);
                 }
             }
 
@@ -674,7 +683,7 @@ class UserService {
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $asrMailSubject, $asrMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $asrMessageSubject, $asrMessageBody, $courseUnitObj->getId());
+                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $asrMessageSubject, $asrMessageBody, $courseUnitObj->getId(), 1);
             }
             if ($result['userRole'] == 'ROLE_RTO') {
                 $rtoMessageSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('msg_disappove_evdience_rto_sub'));
@@ -686,12 +695,12 @@ class UserService {
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $rtoMailSubject, $rtoMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $rtoMessageSubject, $rtoMessageBody, $courseUnitObj->getId());
+                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $rtoMessageSubject, $rtoMessageBody, $courseUnitObj->getId(), 1);
             }
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId());
+            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $facMessageBody, $courseUnitObj->getId(), 1);
 
             $logType = $this->getlogType('11');
             $this->createUserLog('11', $logType['message']);
@@ -1936,7 +1945,7 @@ class UserService {
      */
     public function getUnreadMessages($userId) {
         $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
-            'read' => '0', 'toStatus' => '0'));
+            'read' => '0', 'toStatus' => '0'), array('created' => 'DESC'));
         return $getMessages;
     }
 
@@ -1976,17 +1985,11 @@ class UserService {
                 ->where(sprintf('m.%s = :%s', 'inbox', 'inbox'))->setParameter('inbox', $userId)
                 ->addOrderBy('m.created', 'DESC');
         if (!empty($searchCourseCode)) {
-
-            $query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'" . $searchCourseCode . "'");
+        				$query->andWhere("m.courseCode = '".$searchCourseCode."'");
         }
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
-        /*  dump($pagination);//exit;
-          $query = $query->getQuery();
-          print_r(array(
-          'sql'        => $query->getSQL(),
-          'parameters' => $query->getParameters(),
-          )); exit; */
+        
         return array('messages' => $pagination, 'paginator' => $paginator, 'sentuserid' => $userId);
     }
 
@@ -2030,8 +2033,8 @@ class UserService {
         }
 
         if (!empty($searchCourseCode)) {
-
-            $query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'" . $searchCourseCode . "'");
+            
+        				$query->andWhere("m.courseCode = '".$searchCourseCode."'");
         }
         /* $query = $query->getQuery();
           print_r(array(
@@ -2083,7 +2086,13 @@ class UserService {
      * @param array $msgdata
      */
     public function saveMessageData($sentuser, $curuser, $msgdata) {
-        $msgObj = new Message();
+    			
+    				if (isset($msgdata['id'])) {
+    								$msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($msgdata['id']);
+    				}
+    				else {
+    					$msgObj = new Message();
+    				}
         $msgObj->setInbox($sentuser);
         $msgObj->setSent($curuser);
         $msgObj->setSubject($msgdata['subject']);
@@ -2094,11 +2103,35 @@ class UserService {
         $msgObj->setReply(0);
         $msgObj->setunitID($msgdata['unitId']);
         $msgObj->setreplymid($msgdata['replymid']);
-        $msgObj->setFlagged($msgdata['flagged']);
-        $msgObj->setCourseCode($msgdata['courseCode']);
-        $msgObj->setNew($msgdata['new']);
-        $msgObj->setSystemGenerated(0);
-        $msgObj->setDraft($msgdata['draft']);
+        if (isset($msgdata['flagged'])) {
+            $msgObj->setFlagged($msgdata['flagged']);
+        } else {
+            $msgObj->setFlagged(0);
+        }
+
+        if (isset($msgdata['courseCode'])) {
+            $msgObj->setCourseCode($msgdata['courseCode']);
+        } else {
+            $msgObj->setCourseCode('');
+        }
+        if (isset($msgdata['new'])) {
+            $msgObj->setNew($msgdata['new']);
+        } else {
+            $msgObj->setNew(0);
+        }
+
+        if (isset($msgdata['systemGenerated'])) {
+            $msgObj->setSystemGenerated($msgdata['systemGenerated']);
+        } else {
+            $msgObj->setSystemGenerated(0);
+        }
+
+        if (isset($msgdata['draft'])) {
+            $msgObj->setDraft($msgdata['draft']);
+        } else {
+            $msgObj->setDraft(0);
+        }
+
         $this->em->persist($msgObj);
         /* Create Log for message */
         $logType = $this->getlogType('1');
@@ -2122,14 +2155,21 @@ class UserService {
                 ->createQueryBuilder('m')
                 ->select('m')
                 ->where(sprintf('m.%s = :%s', 'sent', 'sent'))->setParameter('sent', $userId)
-                // ->andWhere(sprintf('m.%s = :%s', 'fromStatus', 'fromStatus'))->setParameter('fromStatus', '0')
+                ->andWhere(" m.draft != 1")
                 ->addOrderBy('m.created', 'DESC');
         if (!empty($searchCourseCode)) {
 
-            $query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'" . $searchCourseCode . "'");
+            $query->andWhere("m.courseCode = '".$searchCourseCode."'");
+            
         }
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
+        /* dump($pagination);
+        $query = $query->getQuery();
+        print_r(array(
+        'sql'        => $query->getSQL(),
+        'parameters' => $query->getParameters(),
+        )); exit; */
         return array('messages' => $pagination, 'paginator' => $paginator);
     }
 
@@ -2158,7 +2198,7 @@ class UserService {
         }
         if (!empty($searchCourseCode)) {
 
-            $query->andWhere(sprintf('m.%s = :%s', 'courseCode', 'courseCode'))->setParameter('courseCode', "'" . $searchCourseCode . "'");
+            $query->andWhere("m.courseCode = '".$searchCourseCode."'");
         }
         $paginator = new \GqAus\UserBundle\Lib\Paginator();
         $pagination = $paginator->paginate($query, $page, $this->container->getParameter('pagination_limit_page'));
@@ -2407,10 +2447,11 @@ class UserService {
      * @param string $message
      * @param string $unitId
      */
-    public function sendMessagesInbox($toUserId, $fromUserId, $subject, $message, $unitId = '') {
+    public function sendMessagesInbox($toUserId, $fromUserId, $subject, $message, $unitId = '', $systemGen = 0) {
+
         $inbox = $this->getUserInfo($toUserId);
         $sent = $this->getUserInfo($fromUserId);
-        $msgInfo = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId, 'replymid' => '');
+        $msgInfo = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId, 'replymid' => '', 'systemGenerated' => $systemGen);
         $this->saveMessageData($inbox, $sent, $msgInfo);
 
         //@todo send message to queue
@@ -2512,7 +2553,7 @@ class UserService {
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-            $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $messageSubject, $facMessageBody, '');
+            $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $messageSubject, $facMessageBody, '', 1);
 
             // send the external mail and internal message to applicant
             // re creating message data by replacing applicant values
@@ -2523,7 +2564,7 @@ class UserService {
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '');
+            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '', 1);
         }
     }
 
@@ -2573,12 +2614,12 @@ class UserService {
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $facMessageBody);
+                $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $facMessageBody, '', 1);
 
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-                $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $canMessageBody);
+                $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $facMessageSubject, $canMessageBody, '', 1);
             }
             $response['type'] = 'Success';
             $response['code'] = 1;
@@ -2657,6 +2698,7 @@ class UserService {
                 $emailCourseFlag = $res['emailFlag'];
             }
         }
+
         if (!empty($emailFlag) || !empty($emailCourseFlag)) {
 
             // finding and replacing the variables from message templates
@@ -2681,9 +2723,13 @@ class UserService {
                 $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_course_con'));
             }
 
-            /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-            $this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
+
         }
+
+        //$this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
+        $this->emailService->sendWelcomeEmailToApplicant($user->getId(), $courseData['courseName']);
+       // $this->emailService->sendNotificationEmailToSupervisors($user->getId());
+
         echo $message;
         exit;
     }
@@ -2723,7 +2769,7 @@ class UserService {
                     $userCoursesObj->setFacilitatorread(0);
                     $userCoursesObj->setAssessorread(0);
                     $userCoursesObj->setRtoread(0);
-                    $targetDate = date('Y-m-d H:m:s', strtotime('+' . $fecWorkSpan . ' days'));
+                    $targetDate = date('Y-m-d H:m:s', strtotime('+' . ($fecWorkSpan+1) . ' days'));
                     $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : $targetDate);
                     $this->em->persist($userCoursesObj);
                     $this->em->flush();
@@ -2829,7 +2875,7 @@ class UserService {
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
         $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $assessor->getEmail(), $assessor->getUsername());
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $assessor->getId(), $messageSubject, $facMessageBody, '');
+        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $assessor->getId(), $messageSubject, $facMessageBody, '', 1);
 
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
@@ -2840,7 +2886,7 @@ class UserService {
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
         $this->sendExternalEmail($applicant->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-        $this->sendMessagesInbox($applicant->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '');
+        $this->sendMessagesInbox($applicant->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '', 1);
     }
 
     /**
@@ -3251,24 +3297,24 @@ class UserService {
      */
     public function getQualificationStatus() {
         $statusList = array(
-            '1' => array('status' => 'Welcome Call Completed Docs Sent', 'order' => 1, 'Factive' => 1, 'Aactive' => 0),
-            '4' => array('status' => 'Welcome Call VM Docs Sent', 'order' => 2, 'Factive' => 1, 'Aactive' => 0),
-            '5' => array('status' => 'Partial Evidence Received', 'order' => 3, 'Factive' => 1, 'Aactive' => 0),
-            '6' => array('status' => 'Evidence Being Reviewed', 'order' => 4, 'Factive' => 1, 'Aactive' => 0),
-            '7' => array('status' => 'Evidence Feedback Provided', 'order' => 5, 'Factive' => 1, 'Aactive' => 0),
-            '8' => array('status' => 'Needs Follow Up With Candidate', 'order' => 6, 'Factive' => 1, 'Aactive' => 0),
-            '9' => array('status' => 'All Evidence Received', 'order' => 7, 'Factive' => 1, 'Aactive' => 0),
-            '2' => array('status' => 'Portfoilo Sent To Remote Assessor', 'order' => 8, 'Factive' => 1, 'Aactive' => 0),
-            '10' => array('status' => 'Competency Conversation Needed', 'order' => 9, 'Factive' => 0, 'Aactive' => 1),
-            '11' => array('status' => 'Competency Conversation Booked', 'order' => 10, 'Factive' => 1, 'Aactive' => 0),
-            '12' => array('status' => 'Competency Conversation Completed', 'order' => 11, 'Factive' => 0, 'Aactive' => 1),
-            '13' => array('status' => 'Gap Training Required', 'order' => 12, 'Factive' => 0, 'Aactive' => 1),
-            '3' => array('status' => 'Assessment Results Received C', 'order' => 13, 'Factive' => 0, 'Aactive' => 1),
-            '14' => array('status' => 'Assessment Feedback Required NYC', 'order' => 14, 'Factive' => 0, 'Aactive' => 1),
-            '15' => array('status' => 'Portfolio Submitted To RTO', 'order' => 15, 'Factive' => 1, 'Aactive' => 0),
-            '16' => array('status' => 'Certificate Received By GQ', 'order' => 16, 'Factive' => 0, 'Aactive' => 0),
-            '0' => array('status' => 'RPL Completed', 'order' => 17, 'Factive' => 1, 'Aactive' => 0),
-            '17' => array('status' => 'On Hold', 'order' => 18, 'Factive' => 1, 'Aactive' => 0),
+            '1' => array('status' => 'Welcome Call Completed Docs Sent', 'order' => 1, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Not yet started', 'labelClass' => 'label-blue'),
+            '4' => array('status' => 'Welcome Call VM Docs Sent', 'order' => 2, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Not yet started', 'labelClass' => 'label-blue'),
+            '5' => array('status' => 'Partial Evidence Received', 'order' => 3, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Account Manager Review', 'labelClass' => 'label-blue'),
+            '6' => array('status' => 'Evidence Being Reviewed', 'order' => 4, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Account Manager Review', 'labelClass' => 'label-blue'),
+            '7' => array('status' => 'Evidence Feedback Provided', 'order' => 5, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Account Manager Review', 'labelClass' => 'label-blue'),
+            '8' => array('status' => 'Needs Follow Up With Candidate', 'order' => 6, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Account Manager Review', 'labelClass' => 'label-blue'),
+            '9' => array('status' => 'All Evidence Received', 'order' => 7, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Account Manager Review', 'labelClass' => 'label-blue'),
+            '2' => array('status' => 'Portfoilo Sent To Remote Assessor', 'order' => 8, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'To Assess', 'labelClass' => 'label-purple'),
+            '10' => array('status' => 'Competency Conversation Needed', 'order' => 9, 'Factive' => 0, 'Aactive' => 1, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'In Progress', 'labelClass' => 'label-purple'),
+            '11' => array('status' => 'Competency Conversation Booked', 'order' => 10, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'In Progress', 'labelClass' => 'label-purple'),
+            '12' => array('status' => 'Competency Conversation Completed', 'order' => 11, 'Factive' => 0, 'Aactive' => 1, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'In Progress', 'labelClass' => 'label-purple'),
+            '13' => array('status' => 'Gap Training Required', 'order' => 12, 'Factive' => 0, 'Aactive' => 1, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'In Progress', 'labelClass' => 'label-purple'),
+            '3' => array('status' => 'Assessment Results Received C', 'order' => 13, 'Factive' => 0, 'Aactive' => 1, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'Competent', 'labelClass' => 'label-purple'),
+            '14' => array('status' => 'Assessment Feedback Required NYC', 'order' => 14, 'Factive' => 0, 'Aactive' => 1, 'ApplicantDisplayText' => 'Assessor Review', 'AssessorDisplayText' => 'Not Yet Competent', 'labelClass' => 'label-purple'),
+            '15' => array('status' => 'Portfolio Submitted To RTO', 'order' => 15, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'RTO Review', 'RtoDisplayText' => 'To Assess', 'labelClass' => 'label-pink'),
+            '16' => array('status' => 'Certificate Received By GQ', 'order' => 16, 'Factive' => 0, 'Aactive' => 0, 'ApplicantDisplayText' => 'Qualification Granted', 'RtoDisplayText' => 'Qualification Granted', 'labelClass' => 'label-green'),
+            '0' => array('status' => 'RPL Completed', 'order' => 17, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'RPL Completed', 'labelClass' => 'label-blue'),
+            '17' => array('status' => 'On Hold', 'order' => 18, 'Factive' => 1, 'Aactive' => 0, 'ApplicantDisplayText' => 'On Hold', 'labelClass' => 'label-gray'),
         );
         return $statusList;
     }
@@ -3410,6 +3456,7 @@ class UserService {
         $userObj->setContactName(isset($data['contactname']) ? $data['contactname'] : '');
         $userObj->setContactEmail(isset($data['contactemail']) ? $data['contactemail'] : '');
         $userObj->setContactPhone(isset($data['contactphone']) ? $data['contactphone'] : null);
+        $userObj->setCreated(date('Y-m-d H:i:s'));
         $this->em->persist($userObj);
         $this->em->flush();
         $userId = $userObj->getId();
@@ -3610,7 +3657,7 @@ class UserService {
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
         $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getAssessor()->getId(), $messageSubject, $facMessageBody, '');
+        $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getAssessor()->getId(), $messageSubject, $facMessageBody, '', 1);
 
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
@@ -3619,7 +3666,7 @@ class UserService {
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '');
+            $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '', 1);
         }
         // update the zoho api status
         //$zohoId = '696292000010172044';
@@ -3778,14 +3825,14 @@ class UserService {
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-            $this->sendMessagesInbox($toId, $courseObj->getFacilitator()->getId(), $messageSubject, $roleMessageBody, '');
+            $this->sendMessagesInbox($toId, $courseObj->getFacilitator()->getId(), $messageSubject, $roleMessageBody, '', 1);
         }
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
         $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-        $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '');
+        $this->sendMessagesInbox($courseObj->getUser()->getId(), $courseObj->getFacilitator()->getId(), $messageSubject, $aplMessageBody, '', 1);
 
         // update the zoho api status
         //$zohoId = '696292000010172044';
@@ -3800,6 +3847,7 @@ class UserService {
         $response['type'] = 'Success';
         $response['code'] = 1;
         $response['msg'] = 'Status updated successfully.';
+        $response['courseStatusText'] = $courseChangeStatus;
         /* Create Log for message */
         $logType = $this->getlogType('9');
         $message = $courseName . ' ' . $logType['message'] . ' "' . $courseCurrentStatus . '" to "' . $courseChangeStatus . '"';
@@ -5281,6 +5329,45 @@ class UserService {
     }
 
     /**
+     * Function to get the user courses based on to user and role for message compose.
+     * @param userID $loggedinUserId
+     * @param userID $toUser
+     * @param string $toUserRole
+     */
+    public function getUserCoursesByloggedinUser($loggedinUserId, $loggedinUserRole, $toUser = null, $toUserRole = null) {
+
+        $query = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                ->createQueryBuilder('uc')
+                ->groupBy('uc.courseCode')
+                //->where(sprintf('uc.%s = :%s', 'userId', 'userId'))->setParameter('userId', $toUser)
+                ->select('uc');
+
+
+        if ($toUserRole == 'APPLICANT') {
+            $query->where(sprintf('uc.%s = :%s', 'user', 'user'))->setParameter('user', $toUser);
+        } elseif ($toUserRole == 'FACILITATOR') {
+            $query->where(sprintf('uc.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $toUser);
+        } elseif ($toUserRole == 'ASSESSOR') {
+            $query->where(sprintf('uc.%s = :%s', 'assessor', 'assessor'))->setParameter('assessor', $toUser);
+        } elseif ($toUserRole == 'RTO') {
+            $query->where(sprintf('uc.%s = :%s', 'rto', 'rto'))->setParameter('rto', $toUser);
+        }
+
+        if ($loggedinUserRole == 'ROLE_APPLICANT') {
+            $query->andWhere(sprintf('uc.%s = :%s', 'user', 'user'))->setParameter('user', $loggedinUserId);
+        } elseif ($loggedinUserRole == 'ROLE_FACILITATOR') {
+            $query->andWhere(sprintf('uc.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $loggedinUserId);
+        } elseif ($loggedinUserRole == 'ROLE_ASSESSOR') {
+            $query->andWhere(sprintf('uc.%s = :%s', 'assessor', 'assessor'))->setParameter('assessor', $loggedinUserId);
+        } elseif ($loggedinUserRole == 'ROLE_RTO') {
+            $query->andWhere(sprintf('uc.%s = :%s', 'rto', 'rto'))->setParameter('rto', $loggedinUserId);
+        }
+        $courseObj = $query->getQuery()->getResult();
+
+        return $courseObj;
+    }
+
+    /**
      * Function to enrolment completed
      * @param type $userId
      * return array
@@ -5294,38 +5381,124 @@ class UserService {
 
         return $user->getApplicantStatus();
     }
+
+    /**
+     * A function to get Unviewed EvidenceCount By Course
+     * @param unknown $applicantId
+     * @param unknown $ccode
+     * @return multitype:number
+     */
+    public function getUnviewedEvidenceCountByCourse($applicantId, $ccode) {
+
+        $query = $this->em->getRepository('GqAusUserBundle:Evidence')
+                ->createQueryBuilder('e')
+                ->select('e')
+                ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $applicantId)
+                ->andWhere(sprintf('e.%s = :%s', 'course', 'course'))->setParameter('course', $ccode)
+                ->andWhere("e.facilitatorViewStatus='1'");
+        $unviewedEvidence = $query->getQuery()->getResult();
+        $courseUnitsObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findBy(array('user' => $applicantId, 'courseCode' => $ccode));
+
+        $coreArr = array();
+        $electiveArr = array();
+        foreach ($courseUnitsObj as $unitObj) {
+            if ($unitObj->getType() == 'core') {
+                array_push($coreArr, $unitObj->getUnitId());
+            } elseif ($unitObj->getType() == 'elective') {
+                array_push($electiveArr, $unitObj->getUnitId());
+            }
+        }
+        $coreCnt = 0;
+        $electiveCnt = 0;
+
+        foreach ($unviewedEvidence as $evidence) {
+            if (in_array($evidence->getUnit(), $coreArr)) {
+                $coreCnt++;
+            } elseif (in_array($evidence->getUnit(), $electiveArr)) {
+                $electiveCnt++;
+            }
+        }
+
+        return array('coreCnt' => $coreCnt, 'electiveCnt' => $electiveCnt);
+    }
+
+    /**
+     * Function to get unread messages
+     * @param int $userId
+     * return array
+     */
+    public function getFiveUnreadMessages($userId) {
+        $getMessages = $this->em->getRepository('GqAusUserBundle:Message')->findBy(array('inbox' => $userId,
+            'read' => '0', 'toStatus' => '0'), array('created' => 'DESC'), 5);
+        return $getMessages;
+    }
+
+    /**
+     * A function to get Five unread Messages And total Unread messages count
+     * @param int $userId
+     * @return array
+     */
+    public function getFiveMessagesAndUnreadCnt($userId) {
+        $unreadMsgCnt = $this->getUnreadMessagesCount($userId);
+        $newMessages = $this->getFiveUnreadMessages($userId);
+        return array('unreadMsgCnt' => $unreadMsgCnt, 'messages' => $newMessages);
+    }
+
+    public function formatMsgTime($msgTime) {
+        $currentDate = date('Y-m-d H:i:s');
+        $diff = abs(strtotime($currentDate) - strtotime($msgTime));
+        $days = floor(($diff) / (60 * 60 * 24));
+        if ($days >= 1) {
+            return date('d/m/Y', strtotime($msgTime));
+        } else {
+            if ($diff <= 60) {
+                return $diff . ' seconds ago';
+            } elseif ($diff <= (60 * 60)) {
+                $time = floor($diff / 60);
+                if ($time == 1) {
+                    return $time . ' minute ago';
+                }
+                return $time . ' minutes ago';
+            } else {
+                $time = floor($diff / (60 * 60));
+                if ($time == 1) {
+                    return $time . ' hour ago';
+                }
+                return $time . ' hours ago';
+            }
+        }
+    }
+
     /**
      * Function to retrieve the handled applicants 
      * @param type $userId
      */
     public function getApplicantsHandled($userId) {
-//       $applicantsList = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $qcode));
-//       $applicantsList = $this->em->getRepository('GqAusUserBundle:UserCourses');
-//       return $totalCountAppList =  $applicantsList->findBy(array('facilitator' => $userId));
-       
         $query = $this->em->getRepository('GqAusUserBundle:UserCourses')
-            ->createQueryBuilder('uc')
-            ->groupBy('uc.user')
-            ->where(sprintf('uc.%s = :%s', 'facilitator', 'facilitatorId'))->setParameter('facilitatorId', $userId);
-				
+                        ->createQueryBuilder('uc')
+                        ->groupBy('uc.user')
+                        ->where(sprintf('uc.%s = :%s', 'facilitator', 'facilitatorId'))->setParameter('facilitatorId', $userId);
+
         $courseObj = $query->getQuery()->getResult();
-        return $courseObj;    
+        return $courseObj;
     }
+
     /**
      * Function to get qualifications handled still 
      * @param type $userId
      */
-    public function getQualificationsHandled($userId){
-         $applicantsList = $this->em->getRepository('GqAusUserBundle:UserCourses');
-       return $totalCountAppList =  $applicantsList->findBy(array('facilitator' => $userId));
+    public function getQualificationsHandled($userId) {
+        $applicantsList = $this->em->getRepository('GqAusUserBundle:UserCourses');
+        return $totalCountAppList = $applicantsList->findBy(array('facilitator' => $userId));
     }
+
     /**
      * Function to retrieve the list of completed quals.
      * @param type $userId
      */
     public function getCompletedQuals($userId) {
         $completedQuals = $this->em->getRepository('GqAusUserBundle:UserCourses');
-       return $completedQuals =  $completedQuals->findBy(array('facilitator' => $userId, 'courseStatus' => '0'));
+        return $completedQuals = $completedQuals->findBy(array('facilitator' => $userId, 'courseStatus' => '0'));
     }
 
 }

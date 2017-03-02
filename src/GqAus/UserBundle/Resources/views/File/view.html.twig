@@ -37,11 +37,14 @@
                     <aside class="panel-evidence-library-menu">
                         <!-- Filter evidences according to category -->
                         <div class="btn-group" data-toggle="buttons"> 
-                            <label class="btn" ng-click="filerCat('6')" for="category6"><input type="radio" id="category0" name="evidenceCategories">All Categories</label>
+                            <label class="btn {[{class}]}" ng-click="filterCat('6')" for="category6"><input type="radio" id="category0" name="evidenceCategories">All Categories</label>
                             <div class="container" ng-hide="IsLoaded"> Loading.... </div>
-                            <label class="btn" ng-repeat="evidence in allEvidenceCats" ng-click="filerCat(evidence.id)" for="category{[{evidence.id}]}"><input type="radio" id="category{[{evidence.id}]}" name="{[{evidence.name}]}" >{[{evidence.name}]}</label>
+                            <label class="btn" ng-repeat="evidence in allEvidenceCats" ng-click="filterCat(evidence.id)" for="category{[{evidence.id}]}"><input type="radio" id="category{[{evidence.id}]}" name="{[{evidence.name}]}" >{[{evidence.name}]}</label>
                         </div>
                         <!-- Filter evidences according to category -->
+                        <div class="indicator-storage">
+                            <h5><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-storage"></i>50 <span class="text-uppercase">GB available</span></h5>
+                        </div>
                     </aside>
                     <section class="panel-evidence-library-content" ng-if="(allEvidences| filter:{type: '!text'}).length > 0" data-has-thumbnail="true">
                         <div class="panel-evidence-search">
@@ -68,14 +71,14 @@
                             <div class="panel-evidence-filters">
                                 <div class="dropdown dropdown-evidence-filter">
                                     <button type="button" class="btn btn-transparent text-left" data-toggle="dropdown">
-                                        <span class="evidence-controls-label">Sort by</span>
+                                        <span class="evidence-controls-label" id="evidence-controls-label">Sort by</span>
                                         <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-lg zmdi-hc-fw"></i>
                                     </button>
                                     <div class="dropdown-menu pull-right">
                                         <div class="btn-group btn-group-vertical progress-summary" data-toggle="buttons">
-                        <label class="progress-summary-item btn btn-default" for="sortByDate"><span ng-click="sortBy('created')" id="sortByDate">By Date Uploaded</span></label>
-                        <label class="progress-summary-item btn btn-default" for="sortByForm"><span ng-click="sortBy('type')" id="sortByFile">File format</span></label>
-                        <label class="progress-summary-item btn btn-default" for="sortByName"><span ng-click="sortBy('name')" id="sortByFileName">Filename</span></label>
+                                            <label class="progress-summary-item btn btn-default" for="sortByForm"><span ng-click="sortBy('type','File format')" id="sortByFile">File format</span></label>
+                                            <label class="progress-summary-item btn btn-default" for="sortByDate"><span ng-click="sortBy('created','By Date Uploaded')" id="sortByDate">Date Uploaded</span></label>
+                                            <label class="progress-summary-item btn btn-default" for="sortByName"><span ng-click="sortBy('name','Filename')" id="sortByFileName">Filename</span></label>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +86,7 @@
                         </div>
                         <div class="clearfix">
                             <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
-                                <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences|orderBy:propertyName:reverse|filter:search"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                <li class="thumbnail-group-item" dir-paginate="evidence in allEvidences|orderBy:propertyName:reverse|filter:search|itemsPerPage:20"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
                                     <div class="thumbnail-holder">
                                         <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here"></div>
                                         <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
@@ -96,6 +99,9 @@
                                                 <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
                                                 <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
                                                 <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a>
+                                                <span data-column-name="filesize">{[{evidence.size}]}</span>
+                                                <span data-column-name="uploaded">{[{evidence.created}]}</span>
+                                                <div data-column-name="linkedto"><strong class="text-primary">{[{evidence.unitCode}]}</strong><span ng-if="evidence.linkedTo > 0"> and <strong class="text-primary">{[{evidence.linkedTo}]} other</strong> units </span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -112,6 +118,9 @@
                                 </li>
                                 <!-- Upload in progress -->
                             </ul>
+                        </div>
+                        <div class="clearfix text-center">
+                            <dir-pagination-controls max-size="20" direction-links="true" boundary-links="true" ></dir-pagination-controls>
                         </div>
                     </section>
                 </div>
@@ -162,9 +171,7 @@
                             <button type="button" class="btn btn-link btn-transparent btn-help" data-toggle="collapse" data-target="#collapseEvidenceHelp" aria-expanded="false" aria-controls="collapseEvidenceHelp">
                                 <i class="zmdi zmdi-help zmdi-hc-2x center-block"></i> HELP
                             </button>
-
                             <div id="collapseEvidenceHelp" class="panel-collapse evidence-help collapse">
-
                                 <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapseEvidenceHelp" aria-expanded="false" aria-controls="collapseEvidenceHelp"><i class="zmdi zmdi-hc-lg zmdi-arrow-left"></i> Back</button>
 
                                 <h4 class="page-header">What types of evidences can I upload?</h4>
@@ -228,8 +235,8 @@
                     </div>
                     <div class="form-group">
                         <legend class="small text-muted text-uppercase">Files linked to</legend>
-                        <input type="checkbox" name="coursesingleunit" value="1" id="coursesingleunit" class="custom-input"><label for="coursesingleunit"><span>Evidence linked to a single unit</span></label>
-                        <input type="checkbox" name="coursemultiunit" value="2" id="coursemultiunit" class="custom-input"><label for="coursemultiunit"><span>Evidence linked to multiple units</span></label>
+                        <input type="checkbox" id="single" data-ng-model="courseUnit.single" class="custom-input"><label for="single"><span>Evidence linked to a single unit</span></label>
+                        <input type="checkbox" id="multi"  data-ng-model="courseUnit.multi" class="custom-input"><label for="multi"><span>Evidence linked to multiple units</span></label>
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
                         <legend class="small text-muted text-uppercase">Filter by file format</legend>
@@ -280,6 +287,7 @@
     <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
+    <script src="{{ asset('public/js/angular/dirPagination.js') }}"></script>
     <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
     <script src="{{ asset('public/js/angular/select.min.js') }}"></script>

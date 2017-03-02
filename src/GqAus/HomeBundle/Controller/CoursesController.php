@@ -19,14 +19,19 @@ class CoursesController extends Controller {
      */
     public function indexAction($id, $userId = '', $page = 'qualification', Request $request) {
 
-		$currentUrl = $request->getUri();
-		$pageUrl = $this->container->getParameter('applicationUrl').''.$request->attributes->get('_route').'/';
-		$paramPart = str_replace($pageUrl, '', $currentUrl);
-		$urlParams = explode('/',$paramPart);
-		$page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
-
+        $currentUrl = $request->getUri();
+        $pageUrl = $this->container->getParameter('applicationUrl') . '' . $request->attributes->get('_route') . '/';
+        $paramPart = str_replace($pageUrl, '', $currentUrl);
+        $urlParams = explode('/', $paramPart);
+        
         $user = $this->get('security.context')->getToken()->getUser();
-
+        if (in_array('ROLE_APPLICANT', $user->getRoles())) {
+        				$page = (isset($urlParams['1']) && !empty($urlParams['1'])) ? $urlParams['1'] : $page;
+        }
+        else {
+        				$page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
+        }
+        
         $userService = $this->get('UserService');
         if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
             $user = $userService->findUserById($userId);
@@ -399,7 +404,9 @@ class CoursesController extends Controller {
                 $params = json_decode($content, true); // 2nd param to get as array
                 $unitCode = $params['unitCode'];
                 $courseCode = $params['courseCode'];
-
+                if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
+                    $userId = $params['userId'];
+                }
                 $courseService = $this->get('CoursesService');
                 $results = $courseService->getEvidencesByUnit($userId, $unitCode, $courseCode);
             }
@@ -438,6 +445,7 @@ class CoursesController extends Controller {
      * return string
      */
     public function getCourseUnitDetailsAction($unitCode, $courseCode, $userId = '') {
+
         $user = $this->get('security.context')->getToken()->getUser();
         $userService = $this->get('UserService');
         if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
@@ -498,6 +506,8 @@ class CoursesController extends Controller {
      */
     public function getEvidenceLibraryAction(Request $request) {
         $results = [];
+        $otherResults = [];
+        $completResults = [];
         $user = $this->get('security.context')->getToken()->getUser();
         $userId = $user->getId();
         if ($request->isMethod('POST') && $userId != '') {
@@ -505,31 +515,74 @@ class CoursesController extends Controller {
             $content = $this->get("request")->getContent();
             if (!empty($content)) {
                 $params = json_decode($content, true); // 2nd param to get as array
-                $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
+                if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
+                    $assignedUsers = $this->get('CoursesService')->listOfApplicantsForLoggedinUser($userId);
+                    if (count($assignedUsers) > 0) {
+                        for ($rcrd = 0; $rcrd < count($assignedUsers) - 1; $rcrd++) {
+                            $assignedUserId = $assignedUsers[$rcrd]->getUser()->getId();
+                            $otherResults[$assignedUserId] = $this->get('CoursesService')->getEvidenceLibraryAction($assignedUserId);
+                        }
+                        foreach ($otherResults as $key => $item) {
+                            foreach ($item as $key1 => $item1) {
+                                $completResults[] = $item1;
+                            }
+                        }
+                        $results = $completResults;
+                    }
+                } else
+                    $results = $this->get('CoursesService')->getEvidenceLibraryAction($userId);
             }
         }
-        
+
         return new JsonResponse($results);
     }
+
+    /**
+     * Function to retrieve
+     * @param Request $request
+     */
+    public function getEvidenceLibraryForOthThanApplicantAction(Request $request) {
+        
+    }
+
     /**
      * Function to get all courses assigned to user
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
-    public function getUserCoursesAction(Request $request)
-    {
+    public function getUserCoursesAction(Request $request) {
         $results = [];
+        $userResults = [];
+        $userCoursesResults = [];
         $user = $this->get('security.context')->getToken()->getUser();
         $userId = $user->getId();
         if ($userId != '') {
-            $userCourses = $this->get("UserService")->getUserCourses($userId);
+            if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
+                $assignedUsers = $this->get('CoursesService')->listOfApplicantsForLoggedinUser($userId);
+                if (count($assignedUsers) > 0) {
+                    for ($rcrd = 0; $rcrd < count($assignedUsers) - 1; $rcrd++) {
+                        $assUserId = $assignedUsers[$rcrd]->getUser()->getId();
+                        $userResults[$assUserId] = $this->get("UserService")->getUserCourses($assUserId);
+                    }
+                    foreach ($userResults as $keyObj => $keyItem) {
+                        foreach ($keyItem as $keyObj1 => $keyItem1) {
+                            $userCoursesResults[] = $keyItem1;
+                        }
+                    }
+
+                    $userCourses = $userCoursesResults;
+                }
+            } else
+                $userCourses = $this->get("UserService")->getUserCourses($userId);
+
             foreach ($userCourses as $userCourse) {
                 $courses = [];
                 $courses['id'] = $userCourse->getId();
                 $courses['name'] = $userCourse->getCourseName();
                 $courses['courseCode'] = $userCourse->getCourseCode();
-                $results[trim($userCourse->getId())] =  $courses;  
+                $results[trim($userCourse->getId())] = $courses;
             }
         }
+
         return new JsonResponse($results);
     }
 
@@ -582,12 +635,13 @@ class CoursesController extends Controller {
 
         return new JsonResponse($results);
     }
+
     /**
      * Function to edit the note text & save
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
     public function editNotesAction(Request $request) {
-         $results = [];
+        $results = [];
         $user = $this->get('security.context')->getToken()->getUser();
         $userId = $user->getId();
         if ($request->isMethod('POST') && $userId != '') {
@@ -605,6 +659,7 @@ class CoursesController extends Controller {
 
         return new JsonResponse($results);
     }
+
     /**
      * Function to acknowledge Note by note id
      * @param object $request
@@ -628,6 +683,7 @@ class CoursesController extends Controller {
 
         return new JsonResponse($results);
     }
+
     /**
      * Function to delete the note from the unit.
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -642,7 +698,7 @@ class CoursesController extends Controller {
                 $noteId = $params['noteId'];
                 $userId = $params['userId'];
                 $courseCode = $params['courseCode'];
-                $results = $this->get('NotesService')->deleteNote($userId, $courseCode,$noteId);
+                $results = $this->get('NotesService')->deleteNote($userId, $courseCode, $noteId);
             }
         }
 

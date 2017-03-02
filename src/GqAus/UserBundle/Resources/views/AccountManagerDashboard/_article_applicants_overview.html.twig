@@ -1,0 +1,185 @@
+<article class="panel panel-default panel-dashboard">
+    <div class="panel-heading panel-tab-bg">
+
+        <h3 class="qual-title"><i class="zmdi zmdi-accounts"></i> Applicants Overview</h3>
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#incomplete" aria-controls="incomplete" role="tab" data-toggle="tab">Incomplete</a>
+            </li>
+            <li role="presentation">
+                <a href="#complete" aria-controls="complete" role="tab" data-toggle="tab">Complete</a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body override-padding">
+        <div role="tabpanel">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="incomplete">
+                    <div class="clearfix form-group">
+                        <div class="lead-stat-container">
+                            <span class="lead-stat-heading">{{ appOverviewCount.incomplete }}</span>
+                            <strong class="text-uppercase text-muted">Total Incomplete<br>Qualifications</strong>
+                        </div>
+                        <hr class="visible-xs">
+                        <div class="progress-container">
+                            <div class="progress progress-legend">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" data-days="0-30"
+                                     style="width:16.66666%">
+                                    <strong class="progress-inline-legend">
+                                        <i>{{ appOverviewCount.daysRange._0_30_.total }}</i> <br> 0-30
+                                    </strong>
+                                </div>
+                                <div class="progress-bar progress-bar-warning" role="progressbar"
+                                     data-days="31-60" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>{{ appOverviewCount.daysRange._31_60_.total }}</i>
+                                        <br> 31-60</strong>
+                                </div>
+                                <div class="progress-bar progress-bar-warning" role="progressbar"
+                                     data-days="61-90" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>{{ appOverviewCount.daysRange._61_90_.total }}</i>
+                                        <br> 61-90</strong>
+                                </div>
+                                <div class="progress-bar progress-bar-warning" role="progressbar"
+                                     data-days="91-120" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>{{ appOverviewCount.daysRange._91_120_.total }}</i>
+                                        <br> 91-120</strong>
+                                </div>
+                                <div class="progress-bar progress-bar-success" role="progressbar"
+                                     data-days="121-150" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>{{ appOverviewCount.daysRange._121_150_.total }}</i>
+                                        <br>
+                                        121-150</strong>
+                                </div>
+                                <div class="progress-bar progress-bar-success" role="progressbar"
+                                     data-days="151-180" style="width:16.66666%">
+                                    <strong class="progress-inline-legend"><i>{{ appOverviewCount.daysRange._151_180_.total }}</i>
+                                        <br>
+                                        151-180</strong>
+                                </div>
+                            </div>
+                            <strong class="text-muted text-uppercase">Incomplete qualifications<br>by
+                                number of days left</strong>
+                        </div>
+                    </div>
+
+                    <ol class="dashboard-table-head-sort">
+                        <li><button type="button" class="btn btn-transparent btn-xs btn-block sort-ascend">Applicant</button></li>
+                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Days</button></li>
+                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Qualification</button></li>
+                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">Status</button></li>
+                        <li><button type="button" class="btn btn-transparent btn-xs btn-block">% Done</button></li>
+                    </ol>
+
+                    <ol class="dashboard-table">
+
+                        {% for incomplete in applicantsOverviewApplicantList.incomplete %}
+                            <li class="dashboard-table-item">
+
+                                <section class="dashboard-table-item-avatar">
+                                    <div class="avatar avatar-xxs t-item-4">
+                                        <img src="
+                                        {% if user.avatar  != '' %}
+                                            {{ amazon_link~'user-'~user.id~'/'~user.avatar }}
+                                        {% else %}
+                                            {{ asset('public/ui/img/avatar-default.png') }}
+                                        {% endif %}"
+                                             alt="You"></div>
+                                    <span class="avatar-name">{{ incomplete.name }}</span>
+                                </section>
+
+                                <section class="dashboard-table-item-metadata">
+                                    <div class="qual-item" data-unit-status="{{ incomplete.color_status }}">
+                                        <span class="qual-item-days">{{ incomplete.days }}</span>
+                                        <span class="qual-item-name">{{ incomplete.course_name }}</span>
+                                        <span class="qual-item-status">{{ incomplete.status }}</span>
+                                        <span class="qual-item-progress">{{ incomplete.percentage }}</span>
+                                        <span class="qual-item-action">
+                                                <button type="button"
+                                                        class="btn btn-xs btn-transparent"
+                                                        data-placement="left"
+                                                        data-toggle="popover"
+                                                        data-id="{{ incomplete.id }}"
+                                                        data-file-type="portfolio"
+                                                        data-task-date="{{ "now"|date("Y-m-d") }}"
+                                                >
+                                                    <i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i>
+                                                </button>
+                                        </span>
+                                    </div>
+                                </section>
+                            </li>
+                        {% endfor %}
+                    </ol>
+
+                    <div class="text-right">
+                        <a href="/amapplicants#incomplete" class="btn btn-link">View All</a>
+                    </div>
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="complete">
+                    <ol class="dashboard-table-head-sort">
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Applicant</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Days</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Qualification</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">Status</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-transparent btn-xs btn-block">% Done</button>
+                        </li>
+                    </ol>
+                    <ol class="dashboard-table">
+
+                        {% for complete in applicantsOverviewApplicantList.complete %}
+                            <li class="dashboard-table-item">
+
+                                <section class="dashboard-table-item-avatar">
+                                    <div class="avatar avatar-xxs t-item-4">
+                                        <img src="
+                                        {% if user.avatar  != '' %}
+                                            {{ amazon_link~'user-'~user.id~'/'~user.avatar }}
+                                        {% else %}
+                                            {{ asset('public/ui/img/avatar-default.png') }}
+                                        {% endif %}"
+                                             alt="You"></div>
+                                    <span class="avatar-name">{{ complete.name }}</span>
+                                </section>
+
+                                <section class="dashboard-table-item-metadata">
+                                    <div class="qual-item" data-unit-status="{{ complete.color_status }}">
+                                        <span class="qual-item-days">{{ complete.days }}</span>
+                                        <span class="qual-item-name">{{ complete.course_name }}</span>
+                                        <span class="qual-item-status">{{ complete.status }}</span>
+                                        <span class="qual-item-progress">{{ complete.percentage }}</span>
+                                        <span class="qual-item-action">
+                                                <button type="button"
+                                                        class="btn btn-xs btn-transparent"
+                                                        data-placement="left"
+                                                        data-toggle="popover"
+                                                        data-id="{{ complete.id }}"
+                                                        data-file-type="portfolio"
+                                                        data-task-date="{{ "now"|date("Y-m-d") }}"
+                                                >
+                                                    <i class="zmdi zmdi-calendar-alt zmdi-hc-2x"></i>
+                                                </button>
+                                        </span>
+                                    </div>
+                                </section>
+                            </li>
+                        {% endfor %}
+                    </ol>
+
+                    <div class="text-right">
+                        <a href="/amapplicants#complete" class="btn btn-link">View All</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

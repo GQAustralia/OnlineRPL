@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 class LoginController extends Controller
 {
     const ROLE_APPLICANT = 'ROLE_APPLICANT';
+    const ROLE_MANAGER = 'ROLE_MANAGER';
+    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    const ROLE_FACILITATOR = 'ROLE_FACILITATOR';
 
     /**
      * @param Request $request
@@ -24,19 +27,25 @@ class LoginController extends Controller
         if (is_object($user) && count($user) > 0) {
 
             $request->getSession()->set('user_id', $user->getId());
-												if ($user->getRoles()[0] == self::ROLE_APPLICANT) {
-				            if ($user->getApplicantStatus() < $userService::COMPLETE_ENROLMENT && $user->getRoles()[0] == self::ROLE_APPLICANT) {
-				                return $this->redirect('enrolment');
-				                //return $this->render('GqAusUserBundle:Login:index.html.twig', ['error' => 'Invalid Credentials']);
-				            }
-				
-				            if ($user->getApplicantStatus() == $userService::COMPLETE_ENROLMENT) {
-				                $userService->completeOverview($user->getId());
-				                return $this->redirect('overview');
-				            }
-				            
-				            return $this->redirect('overview');
-												}
+            $userRole = $user->getRoles()[0];
+
+            if ($userRole == self::ROLE_APPLICANT) {
+
+                if ($user->getApplicantStatus() < $userService::COMPLETE_ENROLMENT) {
+                    return $this->redirect('enrolment');
+                }
+
+                if ($user->getApplicantStatus() == $userService::COMPLETE_ENROLMENT) {
+                    $userService->completeOverview($user->getId());
+                    return $this->redirect('overview');
+                }
+
+                return $this->redirect('overview');
+            }
+
+            if($userRole == self::ROLE_FACILITATOR) {
+                return $this->redirect('account-manager-dashboard');
+            }
 
             return $this->redirect('dashboard');
         }

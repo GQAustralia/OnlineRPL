@@ -57,7 +57,7 @@ nav.header-gqa-nav {
 			}
 		}
 	}
-
+	
 	// Avatar on the header
 	.avatar-menu {
 		&:hover { cursor: pointer; }
@@ -173,6 +173,7 @@ nav.header-gqa-nav {
 			    font-size: 0.6em;
 		}
 		&.compressed .navbar-bg-gradient {
+			background-color: #285f95;
 			border-bottom: 1px solid #2773c5;		
 		}
 	}
@@ -183,6 +184,6 @@ nav.header-gqa-nav {
 		background-image: url(../img/bg-gradient2.jpg);
 	}
 }
+
 @import 'gqa-header-mobile.scss';
 @import 'gqa-header-desktop.scss';
-

@@ -1,3 +1,5 @@
+.visible-mobile { display: none !important; }
+
 .is-mobile {
 	.main-content-gqa {
 		.container {
@@ -5,11 +7,32 @@
 			padding-right: 5px;
 		}
 	}
+
+	.visible-mobile {
+		display: block !important;
+	}
+	.hidden-mobile {
+		display: none !important;
+	}
 }
 
 .is-desktop {
 	min-width: $screen-sm-max;
 	overflow-x: auto;
+}
+
+.page-header { position: relative; }
+
+.dropdown-static-header {
+    padding: 5px 30px;
+    font-size: 18px;
+
+    & + li, & + li + li {
+    	position: relative;
+    	display: block;
+    	float: left;
+    	width: 50%;
+    }
 }
 
 .dropdown-dynamic {
@@ -30,6 +53,8 @@
 		}
 	}
 }
+
+.btn-link-compressed { padding: 0; }
 
 .list-group-no-border {
 	display: block;
@@ -158,6 +183,27 @@
 			}
 		}
 	}	
+}
+
+.modal-profile {
+	.modal-content {
+		background-color: $body-bg;
+	}
+	.modal-body {
+		padding: 10px;
+	}
+	.panel.profile {
+		margin-bottom: 0;
+	}
+
+	.close {
+		position: absolute;
+		top: 30px;
+		right: 30px;
+		color: $gray-dark;
+		z-index: 1;
+		@include opacity(0.8);
+	}
 }
 
 // Mixins here : To be sorted if needed

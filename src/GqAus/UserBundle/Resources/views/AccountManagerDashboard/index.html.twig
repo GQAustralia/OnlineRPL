@@ -1,0 +1,222 @@
+{% extends 'revamp_base.html.twig' %}
+{% block title %}  Get Qualified Australia: Online RPL {% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+
+
+{% block body %}
+    <main class="main-content-gqa">
+        <div class="container container-left-sidebar-main">
+            {% include 'GqAusUserBundle:AccountManagerDashboard:_side_bar.html.twig' %}
+            <section class="section-main">
+                {% include 'GqAusUserBundle:AccountManagerDashboard:_article_message.html.twig' %}
+                {% include 'GqAusUserBundle:AccountManagerDashboard:_article_applicants_overview.html.twig' %}
+                {% include 'GqAusUserBundle:AccountManagerDashboard:_article_evidences_for_review.html.twig' %}
+            </section>
+        </div>
+    </main>
+
+    <div id="modal-task-list">
+        {% include 'GqAusUserBundle:AccountManagerDashboard:_modal_all_task.html.twig' %}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/bootstrap-datetimepicker.js') }}"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            reloadDueListCircleChecker();
+            // triggerPopOver();
+
+            var template = '<div class="popover compressed" role="tooltip">' +
+                '<div class="arrow"/>' +
+                '<h3 class="popover-title"/>' +
+                '<div class="popover-content"/>' +
+                '<button type="button" class="btn btn-primary btn-block btn-sm text-uppercase btn-add-task add-new-task"> + ' +
+                '<strong>Add task</strong></button>' +
+                '</div>';
+
+            var title = '<span class="taskTitle">Task for today</span> ' +
+                '<button type="button" class="btn btn-transparent btn-xs btn-set-date"><i class="zmdi zmdi-calendar zmdi-hc-lg zmdi-hc-fw"></i> EDIT</button>';
+
+            var content = '<div class="task-controls">' +
+                '<textarea name="" id="taskMessage" rows="4" class="form-control" placeholder="Enter your task"></textarea>' +
+                '<div data-init="datepicker"></div>' +
+                '</div>';
+
+            var userId = {{ user.id }};
+
+            $('[data-toggle="popover"]')
+                .popover({
+                    html: true,
+                    animation: false,
+                    template: template,
+                    content: content,
+                    title: title,
+                    viewport: '.main-content-gqa'
+                })
+                .on('shown.bs.popover', function (e) {
+                    $(this).next().velocity({scaleX: [1, 0], scaleY: [1, 0]}, {easing: [250, 20], duration: 800});
+                    init_buttons();
+                    init_datepicker($(this));
+
+                    var that = $(this);
+
+                    $('.add-new-task').click(function () {
+
+                        if ($('#taskMessage').val() != '') {
+
+                            var newTaskData = {
+                                'user_course_id': that.attr('data-id'),
+                                'user_id': userId,
+                                'date': that.attr('data-task-date'),
+                                'type': that.attr('data-file-type'),
+                                'created_by': userId,
+                                'message': $('#taskMessage').val()
+                            };
+
+                            $.post("/addNewTask", newTaskData).then(
+                                (result) => {
+
+                                    if (result.details.message.dueType == 'dueToday') {
+                                        $('.dueTodayList').append(
+                                            buildDueTodayReminder(
+                                                result.details.message.reminderId,
+                                                newTaskData.message,
+                                                result.details.message.dueDays
+                                            )
+                                        );
+
+                                        $('.modalDueTodayList').append(
+                                            buildModalDueTodayList(
+                                                result.details.message.reminderId,
+                                                newTaskData.message,
+                                                result.details.message.dueDays
+                                            )
+                                        );
+                                    }
+
+                                    if (result.details.message.dueType == 'dueSoon') {
+                                        $('.dueSoonList').append(
+                                            buildDueSoonReminder(
+                                                result.details.message.reminderId,
+                                                newTaskData.message,
+                                                result.details.message.dueDays
+                                            )
+                                        );
+
+                                        $('.modalDueSoonList').append(
+                                            buildModalDueSoonList(
+                                                result.details.message.reminderId,
+                                                newTaskData.message,
+                                                result.details.message.dueDays
+                                            )
+                                        );
+                                    }
+
+                                    reloadDueListCircleChecker();
+                                }
+                            );
+                        }
+
+                        that.click();
+                    });
+                });
+
+            function buildDueTodayReminder(reminderId, message, days) {
+                return '<li class="list-group-item dueListCircleCheck" data-status="overdue" id="' + reminderId + '">' +
+                    '<span>' + message + '</span>' +
+                    '<span class="overdue text-danger">' + days + ' days overdue</span>' +
+                    '</li>';
+            }
+
+            function buildDueSoonReminder(reminderId, message, days) {
+                return '<li class="list-group-item dueListCircleCheck" data-status="pending" id="' + reminderId + '">' +
+                    '<span>' + message + '</span>' +
+                    '<span class="overdue text-success">' + days + ' days before due</span>' +
+                    '</li>';
+            }
+
+            function buildModalDueTodayList(reminderId, message, days) {
+                return '<li class="list-group-item" data-status="done" id="modalTodayDueReminder_' + reminderId + '">' +
+                    '<span>' + message + '</span>' +
+                    '<span class="overdue text-danger">' + days + ' days overdue</span>' +
+                    '</li>';
+            }
+
+            function buildModalDueSoonList(reminderId, message, days) {
+                return '<li class="list-group-item" data-status="done">' +
+                    '<span>' + message + '</span>' +
+                    '<span class="overdue text-success">' + days + ' days before due</span>' +
+                    '</li>';
+            }
+
+            function buildModalCompletedTodayList(reminderId, message) {
+                return '<li class="list-group-item" data-status="done">' +
+                    '<span>' + message + '</span>' +
+                    '<span class="overdue text-success"> 0 days before due</span>' +
+                    '</li>';
+            }
+
+            function reloadDueListCircleChecker() {
+
+                $('.dueListCircleCheck').click(function () {
+
+                    var completeTaskData = {task_id: $(this).attr('id'), user_id: userId};
+                    var that = $(this);
+                    var message = $(this).find('span:first').text();
+
+                    $.post("/completeTask", completeTaskData).then(
+                        (result) => {
+
+                            if ((that).hasClass('overdue')) {
+                                $('#modalOverdueReminder_' + completeTaskData.task_id).remove();
+                            } else {
+                                $('#modalTodayDueReminder_' + completeTaskData.task_id).remove();
+                                $('.modalCompletedTodayList').append(
+                                    buildModalCompletedTodayList(completeTaskData.task_id, message)
+                                );
+                            }
+                            that.attr('data-status', 'done');
+                        }
+                    );
+                });
+            }
+
+            function init_datepicker(datePickerObject) {
+                $('[data-init="datepicker"]').datetimepicker({
+                    'format': 'DD/MM/YYYY',
+                    'inline': true,
+                    'useCurrent': true,
+                    'showTodayButton': true,
+                    'minDate': new Date()
+                }).on('dp.change', function (e) {
+                    var parent = $(this).closest('.popover').find('.taskTitle');
+                    var taskDateForPopUp = $(this).data("DateTimePicker").date().format('DD/MM/YYYY');
+                    var taskDateForDatabase = $(this).data("DateTimePicker").date().format('YYYY-MM-DD');
+
+                    parent.html('Task set on ' + taskDateForPopUp);
+                    datePickerObject.attr('data-task-date', taskDateForDatabase);
+                });
+            }
+
+            function init_buttons() {
+                $(document).on('click', '.btn-set-date', function (event) {
+                    $(this).closest('.popover').toggleClass('show-date');
+                    $(this).find('i').toggleClass('zmdi-calendar').toggleClass('zmdi-arrow-left');
+                });
+            }
+
+            MYTASKS.build();
+        });
+
+
+    </script>
+{% endblock %}

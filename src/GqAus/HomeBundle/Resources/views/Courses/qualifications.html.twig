@@ -57,18 +57,18 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h4>Qualification Status</h4>
-                        <span class="label label-primary">{{ courseStatus[courseDetails.courseStatus]['status'] }}</span>
+                        <span class="label {{ courseStatus[courseDetails.courseStatus]['labelClass'] }}">{{ courseStatus[courseDetails.courseStatus]['ApplicantDisplayText'] }}</span>
                         <hr>
                         <div class="qual-gauges-group">
                             <div class="qual-gauges qual-spacing">
-                                <div class="c100 p{{ coreUnitsSubmittedPercent }} small core-units">
+                                <div class="c100 p{{ coreUnitsSubmittedPercent }} small core-units {% if coreUnitsSubmittedPercent == 100 %} green {% elseif coreUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
                                     <span>{{ unitSubmitted['core']}}/{{ coreUnitsCnt|length }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>                                    
                             </div>
 
                             <div class="qual-gauges qual-spacing">
-                                <div class="c100 p{{ electiveUnitsSubmittedPercent }} small elective-units">
+                                <div class="c100 p{{ electiveUnitsSubmittedPercent }} small elective-units {% if electiveUnitsSubmittedPercent == 100 %} green {% elseif electiveUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
                                     <span>{{ unitSubmitted['elective']}}/{{ electiveUnitsCnt }}</span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>
@@ -458,6 +458,7 @@
     <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
+    <script src="{{ asset('public/js/angular/dirPagination.js') }}"></script>
     <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
     <script src="{{ asset('public/js/angular/select.min.js') }}"></script>

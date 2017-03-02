@@ -18,11 +18,12 @@
 }
 
 $gray-bg: lighten($gray-lighter, 4%);
-$table-item-avatar-width: 160px;
+$table-item-avatar-width: 200px;
 .dashboard-table-item {
 	border: 1px solid $gray-lighter;
 	background-color: $gray-bg;
 	border-radius: $border-radius-base;
+	margin-bottom: 5px;
 	// overflow: hidden;
 
 	.dashboard-table-item-avatar {
@@ -42,7 +43,7 @@ $table-item-avatar-width: 160px;
 		}
 		margin: 0;
 		vertical-align: middle;
-		padding: 15px 10px;
+		padding: 0 10px;
 		background-color: white;
 		border-top-left-radius: $border-radius-base;
 		border-bottom-left-radius: $border-radius-base;
@@ -56,6 +57,7 @@ $table-item-avatar-width: 160px;
 			@media (min-width: $screen-sm-min) {
 				float: left;
 				display: block;
+				width: $avatar-xxs;
 			}
 		}
 
@@ -69,6 +71,7 @@ $table-item-avatar-width: 160px;
 			@media (min-width: $screen-sm-min) {
 				float: left;
 				padding: 10px 0 0 10px;
+				@include calc-sub-two-values(width, 100%, $avatar-xxs);
 			}
 			display: block;
 			font-weight: 500;
@@ -88,12 +91,12 @@ $table-item-avatar-width: 160px;
 	}
 }
 
-$days: 70px;
-$status: 80px;
+$days: 90px;
+$status: 180px;
 $progress: 90px;
 $action: 35px;
-$qual-padding: 15px;
-$t-item-width-comp: $days + $status + $progress + $action + ($qual-padding * 2);
+$qual-padding: 8px 10px;
+$t-item-width-comp: $days + $status + $progress + $action + (10 * 2);
 
 .dashboard-table-head-sort {
 	list-style: none;
@@ -105,20 +108,56 @@ $t-item-width-comp: $days + $status + $progress + $action + ($qual-padding * 2);
 
 	li {
 		display: table-cell;
+		position: relative;
+		&:before {
+			display: block;
+			position: absolute;
+			content: '';
+			right: 0;
+			top: 0;
+			bottom: 0;
+			font-weight: 500;
+			font-size: 12px;
+			background-color: white;
+			text-transform: uppercase;
+			width: 3px;
+		}
+
+		&:last-child:before {
+			display: none;
+		}
+
 		.btn {
 			font-size: $font-size-base;
 			border-radius: 0;
-			text-align: left;
+			padding: 15px;
 			font-weight: 500;
-			text-transform: uppercase;
 			font-size: 12px;
+			background-color: #f3f3f3;
+			text-transform: uppercase;
+
+			&:active, &:focus {
+				outline: none !important;
+				@include box-shadow(none);
+				background-color: darken(#f3f3f3,10%);
+			}
+
+			&.sort-ascend {
+				.caret {
+					border-top-width: 0;
+					border-bottom: 4px solid #000000;			
+				}
+			}
+			&.sort-descend {
+				
+			}
 		}
 
-		&:first-child { width: 160px; }
-		&:nth-child(2) { width: $days + 10; }
+		&:first-child { width: $table-item-avatar-width; }
+		&:nth-child(2) { width: $days; }
 		&:nth-child(3) { @include calc-sub-two-values(width, 100%, $t-item-width-comp); }
-		&:nth-child(4) { width: $status + 10; }
-		&:nth-child(5) { width: $progress + $action + 5; }
+		&:nth-child(4) { width: $status; }
+		&:nth-child(5) { width: $progress + $action; }
 	}
 }
 
@@ -126,7 +165,7 @@ $t-item-width-comp: $days + $status + $progress + $action + ($qual-padding * 2);
 	.qual-item {
 		display: table;
 		width: 100%;
-		padding: $qual-padding;
+		// padding: $qual-padding;
 		position: relative;
 		> * {
 			@media (max-width: $screen-xs-max) {
@@ -139,7 +178,7 @@ $t-item-width-comp: $days + $status + $progress + $action + ($qual-padding * 2);
 			
 			position: relative;
 			vertical-align: middle;
-			padding: 0 5px;
+			padding: 5px;
 
 			span {
 				&:first-child { margin-left: -5px }
@@ -194,7 +233,7 @@ $t-item-width-comp: $days + $status + $progress + $action + ($qual-padding * 2);
 				font-size: 1.6em;
 			}
 			.qual-item-name {
-				font-size: 1.1em;
+				font-size: 1em;
 				@include calc-sub-two-values(width, 100%, $t-item-width-comp);
 			}
 			.qual-item-status {

@@ -19,8 +19,8 @@
                     <div class="panel-qualification-heading">
                         <div class="avatar avatar-xs"><img src="{% if userImg  != '' %}{{amazon_link~'user-'~userId~'/'~userImg}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
                         <div class="heading">
-                            <span>Welcome back</span>
-                            <span>{{ userObj.getUsername() }}</span>
+                            <span>Welcome back,</span>
+                            <span>{{ userObj.getUsername() }}!</span>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -30,12 +30,6 @@
                          <p>
                             To start uploading evidence, you can follow the links at the bottom of each of your qualifications. 
                         </p>
-                        <!--<h6 class="text-uppercase control-label"><strong>Things you need to do</strong></h6>
-                        <ul class="list-group list-group-no-border">
-                            <li class="list-group-item">Item 1</li>
-                            <li class="list-group-item">Item 2</li>
-                            <li class="list-group-item">Item 3</li>
-                        </ul>-->
                     </div>
                 </div>
             </section>
@@ -61,18 +55,19 @@
                     {% set electiveUnitsSubmittedPercent = 0 %}
                 {% endif %}
                  <!-- ng-repeat-->
-                 <article class="panel panel-default panel-qualification" data-courseCode="{{ courseCode }}">
+                 <article class="panel panel-default panel-qualification panel-overview" data-courseCode="{{ courseCode }}">
                      <div class="panel-qualification-meta">
                          <div class="panel-qualification-img" style="background-image: url({{ courseInfo.bannerImg|default('') }});">
                              <h3 class="h3 qual-title"><small>{{ courseCode }}</small><br> {{ courses.getCourseName() }}</h3>
                              <span class="hidden" aria-label="hidden" aria-value="Qualification-name">{{ courses.getCourseName() }}</span>
                          </div>
+                         
                          <dl class="panel-qualification-desc">
-                             <dd class="control-label"><small>STATUS</small> <br><span>{{ courseStatus[courses.courseStatus]['status'] }}</span></dd>
-                         </dl>
-                         <dl class="panel-qualification-desc">
-                             <dd class="control-label"><small>Account Manager</small> <br><span>{{ courses.facilitator.firstName|default('') }} {{ courses.facilitator.lastName|default('') }}</span></dd>
-                         </dl>
+                            <dd><label class="text-muted text-uppercase small">Status</label> <br>
+                            <label class="label {{ courseStatus[courses.courseStatus]['labelClass'] }}">{{ courseStatus[courses.courseStatus]['ApplicantDisplayText'] }}</label></dd>
+
+                            <dd><label class="text-muted text-uppercase small">Account Manager</label> <br><span>{{ courses.facilitator.firstName|default('') }} {{ courses.facilitator.lastName|default('') }}</span></dd>
+                        </dl>
                      </div>
                      <div class="panel-qualification-body">
                          <div class="panel-body-group">
@@ -80,7 +75,7 @@
                              <div class="panel-qualification-gauges">
  
                                  <div class="qual-gauges">
-                                     <div class="c100 p{{ evidenceCompleteness|trim('%') }} big">
+                                     <div class="c100 p{{ evidenceCompleteness|trim('%') }} big {% if evidenceCompleteness|trim('%') == 100 %} green {% elseif evidenceCompleteness|trim('%') < 50 %} orange {% else %} gray {% endif %}">
                                          <span>
                                              <i>{{ evidenceCompleteness }}</i>
                                              <i class="progress-big-label">Total evidence completed</i>
@@ -97,14 +92,14 @@
                                  </div>
  
                                  <div class="qual-gauges">
-                                     <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units">
+                                     <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units {% if coreUnitsSubmittedPercent == 100 %} green {% elseif coreUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
                                          <span>{{ unitSubmitted['core']}}/{{ coreUnitsCnt|length }}</span>
                                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                      </div>                                    
                                  </div>
  
                                  <div class="qual-gauges">
-                                     <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units">
+                                     <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units {% if electiveUnitsSubmittedPercent == 100 %} green {% elseif electiveUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
                                          <span>{{ unitSubmitted['elective']}}/{{ electiveUnitsCnt }}</span>
                                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                      </div>
@@ -113,7 +108,7 @@
                              </div>
                          </div>
                          <div class="panel-qualification-footer">
-                             <a href="{{ app.request.baseUrl }}{% if(evidenceCompleteness|trim('%') == 0)%}/qualificationDetails/{{ courseCode }}/core{%else%}/qualificationDetails/{{ courseCode }}{%endif%}" class="btn btn-link btn-block"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> {% if(evidenceCompleteness|trim('%') == 0)%} Get Started{%else%}Upload Evidence{%endif%}</a>
+                             <a href="{{ app.request.baseUrl }}{% if(evidenceCompleteness|trim('%') == 0)%}/qualificationDetails/{{ courseCode }}/core{%else%}/qualificationDetails/{{ courseCode }}{%endif%}" class="btn btn-link btn-block"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> {% if(evidenceCompleteness|trim('%') == 0)%} Get Started{% elseif(evidenceCompleteness|trim('%') == 100) %} View this Qualification {%else%}Upload Evidence{%endif%}</a>
                          </div>
 
                      </div>
