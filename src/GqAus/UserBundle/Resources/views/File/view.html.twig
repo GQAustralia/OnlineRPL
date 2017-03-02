@@ -77,7 +77,7 @@
                                     <div class="dropdown-menu pull-right">
                                         <div class="btn-group btn-group-vertical progress-summary" data-toggle="buttons">
                                             <label class="progress-summary-item btn btn-default" for="sortByForm"><span ng-click="sortBy('type','File format')" id="sortByFile">File format</span></label>
-                                            <label class="progress-summary-item btn btn-default" for="sortByDate"><span ng-click="sortBy('created','By Date Uploaded')" id="sortByDate">Date Uploaded</span></label>
+                                            <label class="progress-summary-item btn btn-default" for="sortByDate"><span ng-click="sortBy('created','Date Uploaded')" id="sortByDate">Date Uploaded</span></label>
                                             <label class="progress-summary-item btn btn-default" for="sortByName"><span ng-click="sortBy('name','Filename')" id="sortByFileName">Filename</span></label>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
                         </div>
                         <div class="clearfix">
                             <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
-                                <li class="thumbnail-group-item" dir-paginate="evidence in allEvidences|orderBy:propertyName:reverse|filter:search|itemsPerPage:20"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                <li class="thumbnail-group-item" dir-paginate="evidence in allEvidences|orderBy:propertyName:reverse|filter:search|itemsPerPage:28"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
                                     <div class="thumbnail-holder">
                                         <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here"></div>
                                         <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
@@ -199,8 +199,7 @@
                             uploadcomplete="uploadcomplete(data,obj)" 
                             uploadstarted="uploadstarted(file,fileNum,dataObj)"
                             uploadfailed="uploadfailed(msg)" 
-                            validRegex ="/(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.csv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz|\.docx|\.xlsx|\.one|\.pub|\.pptx|\.doc|\.docx|\.vsdx|\.accdb|\.mdb|\.rpmsg|\.mso|\.xlsb|\.xls|\.xlsx|\.oft|\.asd|\.mpp|\.thmx|\.xlsm|\.snp|\.obi|\.pst|\.ost|\.olm|\.xsn|\.vsd|\.laccdb|\.dotx|\.docm|\.ppt|\.dot|\.accdr|\.xlam|\.mde|\.wbk|\.onepkg|\.pptm|\.xltx|\.xla|\.pip|\.accde|\.ppsm|\.ppsx|\.vss|\.slk|\.crtx|\.xlt|\.svd|\.xlb|\.xlm|\.xlw|\.grv|\.potx|\.xar|\.iaf|\.mpd|\.pa|\.pps|\.ops|\.dotm|\.pot|\.oab|\.acl|\.mdt|\.mpt|\.xltm|\.xl|\.ade|\.vst|\.ppam|\.xsf|\.accdt|\.mda|\.accdc|\.mdw|\.xll|\.mat|\.vdx|\.sldx|\.mar|\.ppa|\.accda|\.maf|\.puz|\.vsx|\.mam|\.prf|\.potm|\.wll|\.xlc|\.vtx|\.accdp|\.sldm|\.accdu|\.maq|\.xslb|\.h1q|\.cnv|\.maw)$/i"
-                            >
+                            validRegex ="/(\.jpg|\.jpeg|\.gif|\.png|\.rtf|\.pdf|\.csv|\.txt|\.zip|\.docx|\.xlsx|\.doc|\.xls|\.html|\.mp3|\.wma|\.mpg|\.flv|\.avi)$/i">
                     </section>
 
                      <div class="dropup form-group dropdown-dynamic btn-block">
