@@ -72,7 +72,7 @@ class EmailService extends CustomRepositoryService
     	list($message, $imageUrl) = $this->embedImagesToSendNotificationToApplicant(Swift_Message::newInstance());
     
     	$emailContent = $this->container->get('templating')->render(
-    			'GqAusUserBundle:Email:email-notifications.html.twig',
+    			'GqAusUserBundle:Email:acc-manager-portfolio.html.twig',
     			['username' => $username, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl'), 'courseName' => $courseName, 'facname' => $facname]
     	);
     
