@@ -58,8 +58,8 @@
                             {% for appCourseObj in applicantCourses %}
                             <li class="divider clearfix btn-block"></li>
                             <li class="dropdown-static-header" onClick='location.href="/applicantIndQual/view/{{applicantId}}/{{appCourseObj.getCoursecode()}}"'><h4>{{appCourseObj.getCourseName()}}</h4></li>
-                            <li><a href="/qualificationDetails/{{appCourseObj.getCoursecode()}}/{{applicantId}}/core">Core Units</a></li>
-                            <li><a href="/qualificationDetails/{{appCourseObj.getCoursecode()}}/{{applicantId}}/elective">Elective Units</a></li>
+                            <li><a href="/applicantunitlist/{{appCourseObj.getCoursecode()}}/{{applicantId}}/core">Core Units</a></li>
+                            <li><a href="/applicantunitlist/{{appCourseObj.getCoursecode()}}/{{applicantId}}/elective">Elective Units</a></li>
                             {% endfor %}
                         </ul>
                     </li>

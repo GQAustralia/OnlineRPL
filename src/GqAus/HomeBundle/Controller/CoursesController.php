@@ -705,8 +705,8 @@ class CoursesController extends Controller {
 
         return new JsonResponse($results);
     }
-    
-        /**
+  
+     /**
      * Function to update the unit status for account manager & assessor & rto
      * @param type $courseCode
      * @param type $unitCode
@@ -728,5 +728,35 @@ class CoursesController extends Controller {
             }
         } 
         return new JsonResponse($results);
+    }
+
+
+     /**
+     * Function to get unit list of applicant for account manager view
+     * @param type $id - course id
+     * @param type $userId - applicant id
+     * @param type $page - core/elective
+     * return $results
+     */
+    public function applicantUnitListAction($id, $userId = '', $page = 'qualification', Request $request) {
+
+        $currentUrl = $request->getUri();
+        $pageUrl = $this->container->getParameter('applicationUrl').''.$request->attributes->get('_route').'/';
+        $paramPart = str_replace($pageUrl, '', $currentUrl);
+        $urlParams = explode('/',$paramPart);
+        $page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
+
+        $userService = $this->get('UserService');
+        $courseService = $this->get('CoursesService');
+        $results = $courseService->getCoursesInfo($id);
+        $courseService->updateQualificationUnits($userId, $id, $results);
+        $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
+        $results['courseDetails'] = $courseService->getCourseDetails($id, $userId);
+        $results['statusList'] = $this->get('UserService')->getQualificationStatus();
+        $results['qualificationPage'] = $page;
+        $results['selectUnit'] = 1;
+        $results['applicantCourses'] = $userService->getUserCourses($userId);
+
+        return $this->render('GqAusHomeBundle:Courses:amQualifications.html.twig', $results);
     }
 }

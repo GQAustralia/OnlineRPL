@@ -97,3 +97,6 @@ getUserCourses:
 setUnitUpdateStatus:
     path:     /unit/setUnitUpdateStatus
     defaults:  { _controller: GqAusHomeBundle:Courses:setUnitUpdateStatus }
+applicantunitlist:
+    path: /applicantunitlist/{id}/{userId}/{page}
+    defaults: { _controller: GqAusHomeBundle:Courses:applicantUnitList, id: null, userId: null, page: null  }
