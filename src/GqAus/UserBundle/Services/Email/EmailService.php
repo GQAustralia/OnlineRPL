@@ -89,17 +89,22 @@ class EmailService extends CustomRepositoryService
             ['user' => $user, 'courseName' => $courseName, 'imageUrl' => $imageUrl]
         );
 
-        $email = $this->buildEmailStructure(
+       /*  $email = $this->buildEmailStructure(
             $message,
             'Welcome to Online RPL',
             $this->container->getParameter('mailer_user'),
             $user->getEmail(),
             $emailContent
-        );
-
+        ); */
+        $emailContent = \Swift_Message::newInstance()
+        ->setSubject('Welcome to Online RPL')
+        ->setFrom(array($this->container->getParameter('mailer_user') => 'OnlineRPL'))
+        ->setTo($user->getEmail())
+        ->setBody($emailContent)
+        ->setContentType('text/html');
 
         echo $user->getFirstname();
-        print_r($this->mailer->send($email));
+        print_r($this->mailer->send($emailContent));
     }
 
     /**
