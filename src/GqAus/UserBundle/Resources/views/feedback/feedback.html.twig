@@ -1,0 +1,46 @@
+{% set userId = 0%}
+{% set userVal = app.security.getToken().getUser() %} 
+{% set userId = (userVal is defined and userVal.id is defined)? app.security.getToken().getUser().getId(): 0 %}
+{% extends userId == 0 ? 'anonymous_base.html.twig' : 'revamp_base.html.twig' %}
+
+{% block title %}GQ - RPL FAQ{% endblock %}
+{% block stylesheets %}
+    
+{% endblock %}
+{% block body %}
+<main class="main-content-gqa">
+        <div class="container">
+        <!-- Put content here -->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>We appreciate the feedback</h2>
+                    <p class="h4 text-muted" style="margin-bottom: 30px;">Online RPL is still in its beta stages, so any feedback that you can provide would help us improve this platform, Be assured that we are aiming to give you the bese experience possible!</p>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4">
+                            <div class="form-group">
+                                <label for="sel1">Feebback type</label>
+                                <select class="form-control">
+                                    <option> Feature of page not working </option>
+                                    <option> Missing or wrong content (text or images) </option>
+                                    <option> Broken links </option>
+                                    <option> Suggestion to make the platform better </option>
+                                    <option> About my general website experience </option>
+                                    <option> About the service I received from my Account Manager </option>
+                                </select>
+                            </div>                        
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 col-md-12">
+                                <label for="sel1">Your detailed feedback</label>
+                                <textarea class="form-control" style="overflow: hidden; word-wrap: break-word; height: 72px;">Type here the specific page or URL, possible missing content, or a detailed account of your experience or feedback</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- Put content here -->
+        </div>
+    </main>
+{% endblock %}
+
+

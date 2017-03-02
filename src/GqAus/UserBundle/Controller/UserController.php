@@ -610,10 +610,20 @@ class UserController extends Controller
      * Function to display FAQ
      * return array
      */
+    function feedbackAction()
+    {
+             return $this->render('GqAusUserBundle:feedback:feedback.html.twig');
+    }
+    
+       /**
+     * Function to display FAQ
+     * return array
+     */
     function faqAction()
     {
          $faq = $this->get('UserService')->getFaq();        
          return $this->render('GqAusUserBundle:Faq:faq.html.twig',array('faq' => $faq));
+
     }
     
     /**

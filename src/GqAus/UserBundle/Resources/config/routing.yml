@@ -277,6 +277,9 @@ updateCourseStatus:
 faq:
     path:     /faq
     defaults: { _controller: GqAusUserBundle:User:faq }
+feebback:
+    path:     /feedback
+    defaults: { _controller: GqAusUserBundle:User:feedback }
 pendingApplicantCount:
     path:    /pendingApplicantCount
     defaults: { _controller: GqAusUserBundle:Applicant:pendingApplicantCount }
