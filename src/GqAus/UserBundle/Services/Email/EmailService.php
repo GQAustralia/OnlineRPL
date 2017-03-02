@@ -62,7 +62,7 @@ class EmailService extends CustomRepositoryService
         $message = $this->buildEmailStructure(
             $message,
             'Notification',
-            $this->container->getParameter('mailer_user'),
+            $this->container->getParameter('fromEmailAddress'),
             $user->getEmail(),
             $emailContent
         );
@@ -92,13 +92,13 @@ class EmailService extends CustomRepositoryService
        /*  $email = $this->buildEmailStructure(
             $message,
             'Welcome to Online RPL',
-            $this->container->getParameter('mailer_user'),
+            $this->container->getParameter('fromEmailAddress'),
             $user->getEmail(),
             $emailContent
         ); */
         $emailContent = \Swift_Message::newInstance()
         ->setSubject('Welcome to Online RPL')
-        ->setFrom(array($this->container->getParameter('mailer_user') => 'OnlineRPL'))
+        ->setFrom(array($this->container->getParameter('fromEmailAddress') => 'OnlineRPL'))
         ->setTo($user->getEmail())
         ->setBody($emailContent)
         ->setContentType('text/html');
@@ -133,7 +133,7 @@ class EmailService extends CustomRepositoryService
         $message = $this->buildEmailStructure(
             $message,
             'Account Manager',
-            $this->container->getParameter('mailer_user'),
+            $this->container->getParameter('fromEmailAddress'),
             $userCourse->getUser()->getEmail(),
             $emailContent
         );
@@ -169,7 +169,7 @@ class EmailService extends CustomRepositoryService
             $message = $this->buildEmailStructure(
                 $message,
                 'Supervisor Portfolio',
-                $this->container->getParameter('mailer_user'),
+                $this->container->getParameter('fromEmailAddress'),
                 $supervisor['email'],
                 $emailContent
             );

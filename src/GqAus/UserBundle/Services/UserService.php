@@ -2698,12 +2698,7 @@ class UserService {
                 $emailCourseFlag = $res['emailFlag'];
             }
         }
-echo $user->getId();
 
-        echo $courseData['courseName'];
-        $this->emailService->sendWelcomeEmailToApplicant($user->getId(), $courseData['courseName']);
-
-        die;
         if (!empty($emailFlag) || !empty($emailCourseFlag)) {
 
             // finding and replacing the variables from message templates
