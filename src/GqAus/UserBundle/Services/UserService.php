@@ -2725,9 +2725,9 @@ class UserService {
 
 
         }
-
-        //$this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
-        $this->emailService->sendWelcomeEmailToApplicant($user->getId(), $courseData['courseName']);
+									
+        $mailBody = $this->emailService->sendWelcomeEmailToApplicant($user->getId(), $courseData['courseName']);
+        $this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
        // $this->emailService->sendNotificationEmailToSupervisors($user->getId());
 
         echo $message;

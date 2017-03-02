@@ -59,15 +59,15 @@ class EmailService extends CustomRepositoryService
             ['user' => $user, 'imageUrl' => $imageUrl]
         );
 
-        $message = $this->buildEmailStructure(
+       /*  $message = $this->buildEmailStructure(
             $message,
             'Notification',
             $this->container->getParameter('fromEmailAddress'),
             $user->getEmail(),
             $emailContent
-        );
+        ); */
 
-        return $this->mailer->send($message);
+        return $emailContent;
     }
 
     /**
@@ -89,22 +89,15 @@ class EmailService extends CustomRepositoryService
             ['user' => $user, 'courseName' => $courseName, 'imageUrl' => $imageUrl]
         );
 
-       /*  $email = $this->buildEmailStructure(
+       /* $email = $this->buildEmailStructure(
             $message,
             'Welcome to Online RPL',
             $this->container->getParameter('fromEmailAddress'),
             $user->getEmail(),
             $emailContent
-        ); */
-        $emailContent = \Swift_Message::newInstance()
-        ->setSubject('Welcome to Online RPL')
-        ->setFrom(array($this->container->getParameter('fromEmailAddress') => 'OnlineRPL'))
-        ->setTo($user->getEmail())
-        ->setBody($emailContent)
-        ->setContentType('text/html');
+        );  */
 
-        echo $user->getFirstname();
-        print_r($this->mailer->send($emailContent));
+        return $emailContent;
     }
 
     /**
@@ -130,15 +123,15 @@ class EmailService extends CustomRepositoryService
             ['userCourse' => $userCourse, 'manager' => $manager, 'imageUrl' => $imageUrl]
         );
 
-        $message = $this->buildEmailStructure(
+       /*  $message = $this->buildEmailStructure(
             $message,
             'Account Manager',
             $this->container->getParameter('fromEmailAddress'),
             $userCourse->getUser()->getEmail(),
             $emailContent
-        );
+        ); */
 
-        return $this->mailer->send($message);
+        return $emailContent;
     }
 
     /**
