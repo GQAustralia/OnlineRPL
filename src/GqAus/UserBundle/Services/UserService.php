@@ -2761,7 +2761,7 @@ class UserService {
                     $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
                     $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : 1);
                     $userCoursesObj->setZohoId('');
-                    $userCoursesObj->setCreatedOn(date('Y-m-d H:m:s'));
+                    $userCoursesObj->setCreatedOn(date('Y-m-d H:i:s'));
                     $userCoursesObj->setManager($courseData['managerId']);
                     $userCoursesObj->setFacilitatorstatus(0);
                     $userCoursesObj->setAssessorstatus(0);
@@ -2769,7 +2769,7 @@ class UserService {
                     $userCoursesObj->setFacilitatorread(0);
                     $userCoursesObj->setAssessorread(0);
                     $userCoursesObj->setRtoread(0);
-                    $targetDate = date('Y-m-d H:m:s', strtotime('+' . ($fecWorkSpan+1) . ' days'));
+                    $targetDate = date('Y-m-d H:i:s', strtotime('+' . $fecWorkSpan . ' days'));
                     $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : $targetDate);
                     $this->em->persist($userCoursesObj);
                     $this->em->flush();

@@ -113,7 +113,7 @@ class EmailService extends CustomRepositoryService
             return null;
         }
 
-        $manager = $this->userRepository->findOneBy(['id' => $userCourse->getManager()]);
+        $manager = $this->userRepository->findOneBy(['id' => $userCourse->getFacilitator()]);
 
         list($message, $imageUrl) = $this->embedImagesOnNotificationOfAssignedAccountManager(Swift_Message::newInstance());
 
