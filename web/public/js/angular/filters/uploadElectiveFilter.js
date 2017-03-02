@@ -55,4 +55,11 @@ gqAus.filter('unique', function() {
       return output;
    };
 });
+// Count Word
+gqAus.filter('countWord', function () {
+    return function (text) {
+        var s = text ? text.split(/\s+/) : 0; // it splits the text on space/tab/enter
+        return s ? s.length : '';
+    };
+});
 
