@@ -2724,12 +2724,12 @@ class UserService {
             }
 
 
-        }
+       
 									
-        $mailBody = $this->emailService->getWelcomeEmailToApplicantEmailMsg($user->getId(), $courseData['courseName']);
-        $this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
-       // $this->emailService->sendNotificationEmailToSupervisors($user->getId());
-
+        				$mailBody = $this->emailService->getWelcomeEmailToApplicantEmailMsg($user->getId(), $courseData['courseName']);
+        				$this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
+       					// $this->emailService->sendNotificationEmailToSupervisors($user->getId());
+         }
         echo $message;
         exit;
     }
