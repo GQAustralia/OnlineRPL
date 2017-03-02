@@ -182,10 +182,11 @@ class CoursesController extends Controller {
                 $params = json_decode($content, true); // 2nd param to get as array
                 $id = $params['courseCode'];
                 if ($id != '') {
+                    $results = [];
                     $user = $this->get('security.context')->getToken()->getUser();
                     $statusList = $this->get('UserService')->getQualificationStatus();
                     $courseService = $this->get('CoursesService');
-                    $results = $courseService->fetchCourseRequest($id);
+                    $results = $courseService->fetchCourseRequest(trim($id));
 //                    foreach($results['Units']['Elective']['groups'] as $key=>$group){
 //                        foreach($group['unit'] as $index=>$elective){
 //                            $results['Units']['Elective']['groups'][$key]['unit'][$index]['details'] = $courseService->fetchUnitRequest($elective['id']);
@@ -704,5 +705,28 @@ class CoursesController extends Controller {
 
         return new JsonResponse($results);
     }
-
+    
+        /**
+     * Function to update the unit status for account manager & assessor & rto
+     * @param type $courseCode
+     * @param type $unitCode
+     * @param type $statusId
+     * return string
+     */
+    public function setUnitUpdateStatusAction(Request $request) {
+        $results = [];
+        if ($request->isMethod('POST')) {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $userId = $params['userId'];
+                $courseCode = $params['courseCode'];
+                $unitCode = $params['unitCode'];
+                $unitStatus = $params['unitStatus'];
+                $results = $this->get('UserService')->updateUnitUpdateStatus($userId, $courseCode, $unitCode, $unitStatus);
+            }
+        } 
+        return new JsonResponse($results);
+    }
 }

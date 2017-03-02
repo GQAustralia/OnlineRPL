@@ -94,3 +94,6 @@ getAllEvidenceCats:
 getUserCourses:
     path: /getUserCourses
     defaults: { _controller: GqAusHomeBundle:Courses:getUserCourses }
+setUnitUpdateStatus:
+    path:     /unit/setUnitUpdateStatus
+    defaults:  { _controller: GqAusHomeBundle:Courses:setUnitUpdateStatus }

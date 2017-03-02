@@ -2761,7 +2761,7 @@ class UserService {
                     $userCoursesObj->setCourseName(isset($courseData['courseName']) ? $courseData['courseName'] : '');
                     $userCoursesObj->setCourseStatus(isset($courseData['courseStatus']) ? $courseData['courseStatus'] : 1);
                     $userCoursesObj->setZohoId('');
-                    $userCoursesObj->setCreatedOn(date('Y-m-d H:m:s'));
+                    $userCoursesObj->setCreatedOn(date('Y-m-d H:i:s'));
                     $userCoursesObj->setManager($courseData['managerId']);
                     $userCoursesObj->setFacilitatorstatus(0);
                     $userCoursesObj->setAssessorstatus(0);
@@ -2769,7 +2769,7 @@ class UserService {
                     $userCoursesObj->setFacilitatorread(0);
                     $userCoursesObj->setAssessorread(0);
                     $userCoursesObj->setRtoread(0);
-                    $targetDate = date('Y-m-d H:m:s', strtotime('+' . ($fecWorkSpan+1) . ' days'));
+                    $targetDate = date('Y-m-d H:i:s', strtotime('+' . $fecWorkSpan . ' days'));
                     $userCoursesObj->setTargetDate(isset($courseData['setTargetDate']) ? $courseData['setTargetDate'] : $targetDate);
                     $this->em->persist($userCoursesObj);
                     $this->em->flush();
@@ -3337,6 +3337,16 @@ class UserService {
         );
         return $unitStatusList;
     }
+    /**
+     * Function to get the list of statuses by user 
+     * @param type $userRole
+     */
+    public function getUnitStatusListByRole($userRole) {
+         if (in_array('ROLE_FACILITATOR', $userRole)) {
+            $statuses = $this->getUnitStatus();
+        }
+        return $statuses;
+    }
 
     /*
      * function to filtering an array
@@ -3417,6 +3427,21 @@ class UserService {
         $userObj->setStatus(0);
         $this->em->persist($userObj);
         $this->em->flush();
+    }
+    /**
+     * Update the unit status based on the course code & unit code
+     * @param type $courseCode
+     * @param type $unitCode
+     * @param type $unitStatus
+     */
+    public function updateUnitUpdateStatus($userId, $courseCode, $unitCode, $unitStatus) {
+         $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $userId, 'courseCode' => $courseCode, 'unitId' => $unitCode));
+         if (!empty($courseUnitObj) && (count($courseUnitObj) > 0)) {
+            $courseUnitObj->setUnitStatus($unitStatus);
+            $this->em->persist($courseUnitObj);
+            $this->em->flush();
+        }
+        return $courseUnitObj;
     }
 
     /**
