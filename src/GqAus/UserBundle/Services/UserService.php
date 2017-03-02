@@ -3318,6 +3318,25 @@ class UserService {
         );
         return $statusList;
     }
+    
+    /**
+    * Function to get course unit status
+    * return array
+    */
+    public function getUnitStatus() {
+        $unitStatusList = array(
+            '1' => array('status' => 'Not Yet Started', 'order' => 1, 'Cactive' => 1, 'Factive' => 0, 'Aactive' => 0, 'Ractive' => 0),
+            '2' => array('status' => 'Submitted', 'order' => 2, 'Cactive' => 1, 'Factive' => 0, 'Aactive' => 0, 'Ractive' => 0),
+            '3' => array('status' => 'Satisfactory', 'order' => 3, 'Cactive' => 0, 'Factive' => 1, 'Aactive' => 0, 'Ractive' => 0),
+            '4' => array('status' => 'Not Yet Satisfactory', 'order' => 4, 'Cactive' => 0, 'Factive' => 1, 'Aactive' => 0, 'Ractive' => 0),
+            '5' => array('status' => 'Competent (Assessor)', 'order' => 5, 'Cactive' => 0, 'Factive' => 0, 'Aactive' => 1, 'Ractive' => 0),
+            '6' => array('status' => 'Competent (RTO)', 'order' => 6, 'Cactive' => 0, 'Factive' => 0, 'Aactive' => 0, 'Ractive' => 1),
+            '7' => array('status' => 'Competency Conversation Needed', 'order' => 7,'Cactive' => 0, 'Factive' => 0, 'Aactive' => 1, 'Ractive' => 0),
+            '8' => array('status' => 'Gap Training Required', 'order' => 8, 'Cactive' => 0, 'Factive' => 0, 'Aactive' => 1, 'Ractive' => 0),
+            '9' => array('status' => 'Not Yet Competent', 'order' => 9, 'Cactive' => 0, 'Factive' => 0, 'Aactive' => 1, 'Ractive' => 1),
+        );
+        return $unitStatusList;
+    }
 
     /*
      * function to filtering an array
