@@ -893,10 +893,11 @@ class ApplicantController extends Controller
                 $userMessage = str_replace($conSearch, $conReplace,
                     $this->container->getParameter('mail_portfolio_assign_applicant_con'));           
                 $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
-
+																	
+                $userMessage = $emailService->getnotifyApplicantForTheAssignedAccountManagerEmailMsg($userId, $courseCode, $token);
                 //$userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
-             /*   $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
-                                $userMessage, $fromUser->getEmail(), $fromUser->getUsername());*/
+             			$userMessage = $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
+                                $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
 
             }
                 else{
@@ -910,6 +911,7 @@ class ApplicantController extends Controller
                     $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
 
                    // $userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
+                    $userMessage = $emailService->getnotifyApplicantForTheAssignedAccountManagerEmailMsg($userId, $courseCode);
                     $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
                                     $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
 
@@ -923,10 +925,9 @@ class ApplicantController extends Controller
                $facMsgdata = array('subject' => $facSubject, 'message' => $facMessage, 'unitId' => '0', 'replymid' => '0');
 
                //$facMessageSend = $userService->saveMessageData($facUser,$fromUser,$facMsgdata);
-/*               $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
-                                $facMessage, $fromUser->getEmail(), $fromUser->getUsername());*/
-
-            $emailService->notifyApplicantForTheAssignedAccountManager($userId, $courseCode);
+              $facMessage = $emailService->getApplicantAssignedtoAccountManagerEmailMsg($username, $courseName, $facname);
+              $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
+                                $facMessage, $fromUser->getEmail(), $fromUser->getUsername());
 
           }
         else

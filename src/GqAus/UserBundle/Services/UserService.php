@@ -2700,7 +2700,7 @@ class UserService {
         }
 
         if (!empty($emailFlag) || !empty($emailCourseFlag)) {
-
+        				$mailSubject = '';
             // finding and replacing the variables from message templates
             $subSearch = array('#courseCode#', '#courseName#');
             $subReplace = array($courseData['courseCode'], $courseData['courseName']);
@@ -2726,7 +2726,7 @@ class UserService {
 
         }
 									
-        $mailBody = $this->emailService->sendWelcomeEmailToApplicant($user->getId(), $courseData['courseName']);
+        $mailBody = $this->emailService->getWelcomeEmailToApplicantEmailMsg($user->getId(), $courseData['courseName']);
         $this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
        // $this->emailService->sendNotificationEmailToSupervisors($user->getId());
 

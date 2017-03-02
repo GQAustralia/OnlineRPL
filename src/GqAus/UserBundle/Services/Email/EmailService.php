@@ -46,7 +46,7 @@ class EmailService extends CustomRepositoryService
      *
      * @return mixed
      */
-    public function sendNotificationToApplicant($userId)
+    public function getNotificationToApplicantEmailMsg($userId)
     {
         if (!$user = $this->userRepository->findOneBy(['id' => $userId])) {
             return null;
@@ -59,15 +59,24 @@ class EmailService extends CustomRepositoryService
             ['user' => $user, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl')]
         );
 
-       /*  $message = $this->buildEmailStructure(
-            $message,
-            'Notification',
-            $this->container->getParameter('fromEmailAddress'),
-            $user->getEmail(),
-            $emailContent
-        ); */
-
         return $emailContent;
+    }
+    
+    
+    public function getApplicantAssignedtoAccountManagerEmailMsg($username, $courseName, $facname)
+    {
+    	if (!$username) {
+    		return null;
+    	}
+    
+    	list($message, $imageUrl) = $this->embedImagesToSendNotificationToApplicant(Swift_Message::newInstance());
+    
+    	$emailContent = $this->container->get('templating')->render(
+    			'GqAusUserBundle:Email:email-notifications.html.twig',
+    			['username' => $username, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl'), 'courseName' => $courseName, 'facname' => $facname]
+    	);
+    
+    	return $emailContent;
     }
 
     /**
@@ -76,7 +85,7 @@ class EmailService extends CustomRepositoryService
      *
      * @return null
      */
-    public function sendWelcomeEmailToApplicant($userId, $courseName)
+    public function getWelcomeEmailToApplicantEmailMsg($userId, $courseName)
     {
         if (!$user = $this->userRepository->findOneBy(['id' => $userId])) {
             return null;
@@ -88,13 +97,6 @@ class EmailService extends CustomRepositoryService
             'GqAusUserBundle:Email:welcome.html.twig',
             ['user' => $user, 'courseName' => $courseName, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl')]
         );
-       /* $email = $this->buildEmailStructure(
-            $message,
-            'Welcome to Online RPL',
-            $this->container->getParameter('fromEmailAddress'),
-            $user->getEmail(),
-            $emailContent
-        );  */
 
         return $emailContent;
     }
@@ -105,7 +107,7 @@ class EmailService extends CustomRepositoryService
      *
      * @return null
      */
-    public function notifyApplicantForTheAssignedAccountManager($userId, $courseCode)
+    public function getnotifyApplicantForTheAssignedAccountManagerEmailMsg($userId, $courseCode, $token = null)
     {
         if (!$userCourse = $this->userCourseRepository->findOneBy(['user' => $userId, 'courseCode' => $courseCode])) {
             return null;
@@ -119,16 +121,8 @@ class EmailService extends CustomRepositoryService
 
         $emailContent = $this->container->get('templating')->render(
             'GqAusUserBundle:Email:newly-assigned-account-manager.html.twig',
-            ['userCourse' => $userCourse, 'manager' => $manager, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl')]
+            ['userCourse' => $userCourse, 'manager' => $manager, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl'), 'token' => $token]
         );
-
-       /*  $message = $this->buildEmailStructure(
-            $message,
-            'Account Manager',
-            $this->container->getParameter('fromEmailAddress'),
-            $userCourse->getUser()->getEmail(),
-            $emailContent
-        ); */
 
         return $emailContent;
     }
