@@ -543,6 +543,7 @@ class EvidenceService
                 $this->em->persist($courseObj);
                 $this->em->flush();
              }
+            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
             $userInfo = $this->userService->getUserInfo($userId);
 
             // finding and replacing the variables from message templates
