@@ -1,0 +1,190 @@
+    {% if (courseDetails.facilitator!= '' and courseDetails.facilitator.userImage != '') %}
+        {% set facilitatorImg = amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage %}
+    {% else %}
+        {% set facilitatorImg = '../../../public/ui/img/avatar-default.png' %}
+    {% endif %}
+    <section class="section-main col-section-0" ng-class="{'col-section-5': is_open === true, 'col-section-0': is_open === false}" data-panel="right">
+                <div class="panel panel-default panel-upload-evidence" ng-class="{'in': is_open === true}">
+                   <div class="panel-upload-buttons">
+                        <button type="button" class="btn btn-sm" ng-click="openUnitDetails()"><i class="zmdi zmdi-open-in-new zmdi-hc-lg zmdi-hc-fw"></i></button>
+                        <button type="button" class="btn btn-sm btn-panel-close" ng-click="closeSelected()"><i class="zmdi zmdi-hc-lg zmdi-hc-fw"></i> <span>Back</span></button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel-accordion" role="tablist" aria-multiselectable="false">
+                            
+                            <!-- About this Unit -->
+                            <article class="form-group">
+                                <h3 class="panel-heading-text">About this unit</h3>
+                                <div class="panel-collapse-inner">
+                                    <ol class="list-bullet list-unstyled">
+                                        <li><a class="btn-link" href="#" ng-click="show_details('elements','Elements and performance criteria')" >Elements and performance criteria</a></li>
+                                        <li><a class="btn-link" href="#" ng-click="show_details('skills_and_knowledge','Required skills and knowledge')" >Required skills and knowledge</a></li>
+                                        <li><a class="btn-link" href="#" ng-click="show_details('evidence_guide','Evidence Guide and Range Statement')" >Evidence Guide and Range Statement</a></li>
+                                    </ol>
+                                </div>                             
+                            </article>
+                            <!-- About this Unit -->
+
+                            <!-- Upload Evidences -->
+                            <article class="form-group">
+                                <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseEvidences" aria-expanded="true" aria-controls="collapseAbout">Evidence <small class="badge badge-xs" ng-if="(unitEvidences| filter:{type: '!text'}).length>0">{[{(unitEvidences| filter:{type: '!text'}).length}]} files</small><i class="zmdi zmdi-chevron-down"></i></h3>
+
+                                <div id="collapseEvidences" class="panel-collapse collapse in collapsed">
+									{% if ('ROLE_APPLICANT' in roles) %}
+										<div class="panel-collapse-inner" ng-if="!isSubmitted() && (unitEvidences| filter:{type: '!text'}).length === 0">
+											<section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
+												<i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
+												<h4>
+													No evidence for this unit yet <br>
+													<button type="button" class="btn-link">Upload evidence now</button>
+												</h4>
+												<!-- <input class="upload-control-input" type="file" id="uploadID"> -->
+											</section>
+										</div>
+									{% endif %}
+
+                                    <div class="panel-collapse-inner" ng-if="(unitEvidences| filter:{type: '!text'}).length > 0" data-has-thumbnail="true">
+                                        <div class="evidence-controls">
+                                            <div class="checkbox-control" ng-if="!isSubmitted()">
+                                                <input type="checkbox" name="test" value="1"  ng-model="pageStats.evidenceEdit" id="selectControl" class="custom-input"><label for="selectControl"><span class="hidden-mobile">Edit</span></label>
+                                            </div>
+
+                                            <div class="btn-group btn-group-xs" data-toggle="buttons">
+                                                <label class="btn btn-transparent active" for="gridView" ng-click="pageStats.evidenceView = 'card'">
+                                                    <input type="radio" name="galleryView" id="gridView" ng-model="pageStats.evidenceView" value="card" checked><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-module"></i>
+                                                </label>
+                                                <label class="btn btn-transparent" for="listView" ng-click="pageStats.evidenceView = 'list'">
+                                                    <input type="radio" name="galleryView" id="listView" ng-model="pageStats.evidenceView" value="list"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-list"></i>
+                                                </label>
+                                            </div>
+
+                                            <div class="btn-group btn-group-xs" ng-if="!isSubmitted() && pageStats.evidenceEdit">
+                                                <button type="button" class="btn btn-transparent" ng-click="deleteEvidence()" ><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-delete"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
+                                            
+                                            <li class="thumbnail-group-item" ng-repeat="evidence in unitEvidences| filter:{type: '!text'}" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                                <div class="thumbnail-group-selection"><input type="checkbox" id="evidenceFiles-{[{evidence.id}]}" name="evidenceFiles" ng-model="pageStats.evidenceFiles[evidence.id]" class="custom-input"><label for="evidenceFiles-{[{evidence.id}]}"></label></div>
+                                                <div class="thumbnail-holder">
+                                                    <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
+                                                    </div>
+                                                    <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
+                                                            <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+                                                            <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                                        </div>
+                                                    <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
+                                                        <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
+                                                        <div class="thumbnail-body">                                
+                                                            <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+                                                            <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                                            <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                           <!-- Upload in progress -->
+                                            <li class="thumbnail-group-item thumbnail-group-item-loading" ng-repeat="uploadEvidence in uploadInProgress.uploads">
+                                                <div class="thumbnail-holder">
+                                                    <div class="thumbnail-header"></div>
+                                                    <div class="thumbnail-progress-fill" data-progress-value="{[{uploadEvidence.percentageCompleted}]}%">
+                                                        <i class="percentage-fill" data-progress-value="{[{uploadEvidence.percentageCompleted}]}%" style="height:{[{uploadEvidence.percentageCompleted}]}%;"></i>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!-- Upload in progress -->
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Upload Evidences -->
+
+                            <!-- Self Assess Notes -->
+                            <article class="form-group">
+                                <h3 class="panel-heading-text" data-toggle="collapse" href="#collapseNotes" aria-expanded="true" aria-controls="collapseAbout">Self Assessment Notes <i class="zmdi zmdi-chevron-down"></i></h3>
+
+                                <div id="collapseNotes" class="panel-collapse collapse in collapsed">
+                                    <div class="panel-collapse-inner">
+                                        <div class="click-to-edit">
+                                        
+                                            <textarea class="form-control" id="selfAssessmentNotes"  ng-readonly="isSubmitted()" ng-model="selfAssessment.modified" auto-expand ></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Self Assess Notes -->
+
+                            <!-- Notes from Account Manager -->
+                            <article class="form-group">
+                                <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseManagerNotes" aria-expanded="true" aria-controls="collapseAbout">
+                                    <span ng-if="role === 'candidate' ">Notes from your Account Manager</span>
+                                    <i class="zmdi zmdi-chevron-down"></i>
+                                </h3>
+                            
+                                <div id="collapseManagerNotes" class="panel-collapse collapse in collapsed">
+                                    <div class="panel-collapse-inner">
+       
+                                        <div class="clearfix modal-body text-center" ng-if="notes.length === null">
+                                            <i class="zmdi zmdi-hc-2x zmdi-book"></i>
+                                            <h4>No notes found.</h4>
+                                        </div>
+                                        <section class="message-thread">
+                                            <div class="message-thread-item" ng-repeat="note in notes">
+                                                <div class="message-avatar avatar avatar-xxs"><img src="{{facilitatorImg}}" alt="You"></div>
+                                                <div class="message-post">
+                                                    <strong class="message-avatar-name">{{ courseDetails.facilitator.firstName|default('') }} {{ courseDetails.facilitator.lastName|default('') }} <small class="text-muted">Account Manager</small></strong>
+                                                    <small class="message-stamp">{[{note.created|date:"dd/mm/yyyy"}]}</small>
+                                                    <p class="message-text">{[{note.note}]}</p>
+
+                                                    <span class="message-post-footer-button" ng-if="(role === 'candidate') || (role === 'facilitator' && note.acknowledged === 1)">
+                                                        <button type="button" class="btn btn-link btn-sm ng-class:{'acknowledged' : note.acknowledged === 1}" ng-click="acknowledgeNote(note.id)">
+                                                            <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i> Got it!
+                                                        </button>
+                                                        <label class="text-success ng-class:{'acknowledged' : note.acknowledged === 1}"><i class="zmdi zmdi-check-circle"></i> Acknowledged</label>
+                                                    </span>
+                                                    
+                                                    <div class="messsage-text text-right" ng-show="note.id === noteId">
+                                                        <textarea rows="1" class="form-control" auto-expand style="margin-bottom: 15px;" ng-model="note.note">{[{note.note}]}</textarea>
+                                                        <button type="button" ng-click="discardNote();" class="btn btn-default btn-xs">Discard</button>
+                                                        <button type="button" ng-click="applyChanges(applicantId,note.note,note.id);" class="btn btn-primary btn-xs">Apply changes</button>
+                                                    </div>
+                                                    
+                                                    <div class="dropdown message-thread-item-dropdown" ng-if="note.acknowledged !== 1 && role === 'facilitator'">
+                                                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="zmdi zmdi-more zmdi-hc-lg zmdi-hc-fw"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu pull-right">
+                                                            <li><a ng-click="editNote(note.id)" ><i class="zmdi zmdi-edit zmdi-hc-lg zmdi-hc-fw"></i> Edit</a></li>
+                                                            <li><a ng-click="deleteNote(note.id);"><i class="zmdi zmdi-delete zmdi-hc-lg zmdi-hc-fw"></i> Delete</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="message-input"  ng-if="!isSubmitted() && role !== 'candidate'">
+                                                <textarea cols="30" rows="2" class="form-control" auto-expand placeholder="Type your message here..." ng-model="newNotes"></textarea>
+                                                <button type="button" class="btn btn-link btn-send" ng-click="saveNotes(newNotes); newNotes='';"><i class="zmdi zmdi-mail-send zmdi-hc-2x"></i></button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Notes from Account Manager -->
+							{% if ('ROLE_APPLICANT' in roles) %}
+								<div class="btn-auto-group" ng-if="!isSubmitted()">
+									<button class="btn btn-default">Save</button>
+									<button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0">Submit this Unit for Assessment</button>
+								</div>
+							{% endif %}
+							{% if ('ROLE_FACILITATOR' in roles) %}
+								<div class="btn-auto-group" ng-if="!isSubmitted()">
+									<button class="btn btn-default" ng-click="satisfactory('1', 'ROLE_FACILITATOR')">Satisfactory</button>
+									<button class="btn btn-success" ng-click="satisfactory('0', 'ROLE_FACILITATOR')" ng-disabled="unitEvidences.length === 0">Not Yet Satisfactory</button>
+								</div>
+							{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </section>

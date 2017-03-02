@@ -1,0 +1,67 @@
+ <div class="container container-two-column-split" data-panel-parent="two-column-split" ng-show="qualificationPage == 'elective' && IsLoaded && electiveUploadSelected">
+            <section class="section-main col-section-10" ng-class="{'col-section-5': is_open === true, 'col-section-10': is_open === false}" data-panel="left">
+                <div class="panel panel-default panel-units">
+                    <div class="panel-body">
+                        <div class="clearfix">
+                            <div class="progress-tag progress-tag-default">
+                               <h3><small>{{courseDetails.courseCode}}</small><br>{{ courseDetails.courseName }} </h3>
+                                <progress style="width: 100%" role="progress" value="{[{percentElectiveSubmitted()}]}" max="100"><img class="fallback" width="30"></progress>
+                                <figcaption class="progress-details" data-value="{[{electiveSubmmited}]}" data-unit="/{[{selectedElectiveUnitsCount}]}"> </figcaption>
+                            </div>
+                            <div class="dropdown dropdown-unit-filter">
+                                <button type="button" class="btn btn-default text-left btn-sm" data-toggle="dropdown" ng-init="unitStatusArr['elective'].selectedFilter = 'all'">
+                                    <i class="zmdi zmdi-filter-list zmdi-hc-lg zmdi-hc-fw"></i> <span class="filter-text">{[{unitStatusArr['elective'].selectedFilter == 'all'?'Filter by Unit Status':'Filtered by '+unitStatusArr['elective'].selectedFilter}]}</span>
+                                    <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-lg zmdi-hc-fw"></i>
+                                </button>
+                                <div class="dropdown-menu pull-right">
+                                    <div class="btn-group btn-group-vertical progress-summary" data-toggle="buttons">
+                                        <label class="progress-summary-item btn btn-default" data-status="notyetstarted" for="unitFilter" ng-click="setElectiveFilter('Not yet started')">
+                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Not yet started'].length}]}</strong><small>Not yet started</small>
+                                        </label> <!-- white -->
+                                        <label class="progress-summary-item btn btn-default" data-status="submitted" for="unitFilter" ng-click="setElectiveFilter('Submitted')">
+                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Submitted'].length}]}</strong><small>Submitted</small>
+                                        </label> <!-- orange -->
+                                        <label class="progress-summary-item btn btn-default" data-status="satisfactory" for="unitFilter" ng-click="setElectiveFilter('Satisfactory')">
+                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Satisfactory'].length}]}</strong><small>Satisfactory</small>
+                                        </label> <!-- black -->
+                                        <label class="progress-summary-item btn btn-default" data-status="notyetsatisfactory" for="unitFilter" ng-click="setElectiveFilter('Not yet satisfactory')">
+                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Not yet satisfactory'].length}]}</strong><small>Not yet satisfactory</small>
+                                        </label> <!-- red -->
+                                        <label class="progress-summary-item btn btn-default" data-status="competent" for="unitFilter" ng-click="setElectiveFilter('Competent')">
+                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Competent'].length}]}</strong><small>Competent</small>
+                                        </label> <!-- green -->
+                                        <label class="progress-summary-item btn btn-default" data-status="notyetcompetent" for="unitFilter" ng-click="setElectiveFilter('Not yet competent')">
+                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Not yet competent'].length}]}</strong><small>Not yet competent</small>
+                                        </label> <!-- red -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert well-sm alert-info clearfix filter-status" ng-if="unitStatusArr['elective'].selectedFilter != 'all'">
+                            <strong class="pull-left">Showing all <span ng-bind="unitStatusArr['elective'][unitStatusArr['elective'].selectedFilter].length">6</span> <span>Competent</span> units </strong>
+                            <button type="button" class="btn btn-info btn-xs pull-right" ng-click="setElectiveFilter('all')">Remove Filter <i class="zmdi zmdi-close zmdi-hc-lg"></i></small></button>
+                        </div>
+                        <div class="list-group list-group-units panel-accordion">
+                            <ul class="list-group-units-item units-selected" ng-repeat="electiveGroup in electiveUnits.groups" data-unit-group="{[{electiveGroup.name || ''}]}"> 
+                                <li class="list-group-units-subitem" ng-class="{'active': is_open === true && elective.id === selectedUnit }"  ng-click="showUnitUpload(elective)" ng-repeat="elective in electiveGroup.unit | inArrayFilter:selectedElectiveUnits:'id' | inArrayFilter:unitStatusArr['elective'][unitStatusArr['elective'].selectedFilter]:'id'">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn">
+                                            <span class="unit-name">{[{elective.id}]} - {[{elective.name}]}</span>
+                                           <span class="unit-status"><label for="{[{elective.name}]}" ng-if="getStatusText(elective.id)" class="label" ng-class="getStatusClass(getStatusText(elective.id))">{[{ getStatusText(elective.id) || 'Evidence Needed'}]}</label></span>
+                                        </button>
+                                    </div>
+                                </li>
+                      
+
+                            </ul>
+
+                        </div>
+                         <hr>
+                        <h6>Want to change your selected elective units?</h6>
+                        <a ng-click="reSelectEvidenceUnit()" class="btn btn-default btn-xs"><i class="zmdi zmdi-swap zmdi-hc-lg zmdi-hc-fw"></i> Reselect Units</a>
+                    </div>
+                </div>
+            </section>
+            {% include 'GqAusHomeBundle:Courses:unitEvidenceUpload.html.twig' %} 
+        </div>
+   
