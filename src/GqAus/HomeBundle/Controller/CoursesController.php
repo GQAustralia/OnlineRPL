@@ -180,8 +180,9 @@ class CoursesController extends Controller {
             $content = $this->get("request")->getContent();
             if (!empty($content)) {
                 $params = json_decode($content, true); // 2nd param to get as array
-                $id = $params['courseCode'];
+                $id = trim($params['courseCode']);
                 if ($id != '') {
+                    $results = [];
                     $user = $this->get('security.context')->getToken()->getUser();
                     $statusList = $this->get('UserService')->getQualificationStatus();
                     $courseService = $this->get('CoursesService');
