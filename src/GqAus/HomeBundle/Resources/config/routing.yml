@@ -94,3 +94,6 @@ getAllEvidenceCats:
 getUserCourses:
     path: /getUserCourses
     defaults: { _controller: GqAusHomeBundle:Courses:getUserCourses }
+applicantUnitList:
+    path: /applicantunitlist/{id}/{userId}/{page}
+    defaults: { _controller: GqAusHomeBundle:Courses:applicantUnitList, id: null, userId: null, page: null  }

@@ -649,4 +649,47 @@ class CoursesController extends Controller {
         return new JsonResponse($results);
     }
 
+    
+    public function applicantUnitListAction($id, $userId = '', $page = 'qualification', Request $request) {
+
+		$currentUrl = $request->getUri();
+		$pageUrl = $this->container->getParameter('applicationUrl').''.$request->attributes->get('_route').'/';
+		$paramPart = str_replace($pageUrl, '', $currentUrl);
+		$urlParams = explode('/',$paramPart);
+		$page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $userService = $this->get('UserService');
+        if (in_array('ROLE_FACILITATOR', $user->getRoles())) {
+            $user = $userService->findUserById($userId);
+        }
+
+        $checkStatus = $userService->getHaveAccessPage($user->getId(), $user->getId(), $id, $user->getRoles());
+        if (!$checkStatus)
+            return $this->render('GqAusUserBundle:Default:error.html.twig');
+
+        $courseService = $this->get('CoursesService');
+        $results = $courseService->getCoursesInfo($id);
+        $courseService->updateQualificationUnits($user->getId(), $id, $results);
+        // $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
+        $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
+        //$results['electiveUnits'] = $getUnits['courseUnits'];
+        // $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
+        //$results['evidences'] = $user->getEvidences();
+
+
+        $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
+        /* $form = $this->createForm(new EvidenceForm(), array());
+          $results['form'] = $form->createView();
+          $assessmentForm = $this->createForm(new AssessmentForm(), array());
+          $results['assessmentForm'] = $assessmentForm->createView(); */
+        $results['statusList'] = $this->get('UserService')->getQualificationStatus();
+        $results['qualificationPage'] = $page;
+        $results['selectUnit'] = 1;
+//        echo '<pre>';
+//        dump($results);
+//        exit;
+        return $this->render('GqAusHomeBundle:Courses:qualifications.html.twig', $results);
+    }    
 }
