@@ -20,6 +20,7 @@
     {% else %}
         {% set facilitatorImg = '../../../public/ui/img/avatar-default.png' %}
     {% endif %}
+    {% set getUnitStatusList = user_service.getUnitStatusListByRole(userRole) %}
     <main class="main-content-gqa">
         
         <div class="container">
@@ -33,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="container container-right-sidebar-main" ng-init="qualificationPage = '';courseCode = '{{ courseDetails.courseCode }}';applicantId = '{{ userId }}';role = '{{ loggedInUserRole }}';initUnitDetailsPage('{{ unitCode }}');">
+        <div class="container container-right-sidebar-main" ng-init="qualificationPage = '';courseCode = '{{ courseDetails.courseCode }}';applicantId = '{{ userId }}';role = '{{ loggedInUserRole }}';initUnitDetailsPage('{{ unitCode }}');unitCode = '{{unitCode}}'">
             <section class="section-sidebar section-sidebar-compressed">
                 <div class="panel panel-default" ng-if="unitStatus != '' && role ==='candidate'">
                     <div class="panel-body">
@@ -41,15 +42,25 @@
                         <span class="label {[{ getStatusClass(unitStatus)}]}">{[{unitStatus}]}</span>
                     </div>
                 </div>
-                <div class="panel panel-default" ng-if="role === 'facilitator'">
+                <div class="panel panel-default" ng-if="role !== 'candidate'">
                     <div class="panel-body">
                         <h4 class="panel-heading-text">Unit Check Result</h4>
                         <div class="dropdown" style="width: 100%;">
                             <button data-toggle="dropdown" type="button" class="btn btn-default"><span>Choose result</span></button>
                             <ul class="dropdown-menu pull-left">
-                                <li><a href="#">Unit status put here</a></li>
-                                <li><a href="#">Unit status put here</a></li>
-                                <li><a href="#">Unit status put here</a></li>
+                                 {% if ('ROLE_FACILITATOR' in userRole) %}
+                                     {% if (getUnitStatusList is defined) %}
+                                        {% set roleAcess = 'Factive' %}
+                                        {% if ('ROLE_ASSESSOR' in userRole) %}
+                                            {% set roleAcess = 'Aactive' %}
+                                        {% endif %}
+                                        {% for statusId, statusData in getUnitStatusList %}
+                                           {% if ('ROLE_FACILITATOR' in userRole and statusData[roleAcess] == 1) %}
+                                                <li><a ng-click="saveTheUnitStatus({{statusId}});">{{statusData['status']}}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
                             </ul>
                         </div>
                         <button type="button" class="btn btn-link text-uppercase" style="margin-top: 15px; padding: 0;"><i class="zmdi zmdi-calendar-note zmdi-hc-lg zmdi-hc-fw"></i> Add task</button>

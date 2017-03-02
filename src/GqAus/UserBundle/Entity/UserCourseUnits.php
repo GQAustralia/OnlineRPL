@@ -48,6 +48,10 @@ class UserCourseUnits
      * @var integer
      */
     private $issubmitted;
+      /**
+     * @var integer
+     */
+    private $unitStatus;
     /**
      * Set unitId
      *
@@ -329,5 +333,28 @@ class UserCourseUnits
     {
         return $this->issubmitted;
     }
+    /**
+     * Set unitstatus
+     *
+     * @param integer $unitstatus
+     * @return integer
+     */
+    public function setUnitStatus($unitstatus)
+    {
+        $this->unitStatus = $unitstatus;
 
+        return $this;
+    }
+
+    /**
+     * Get unitstatus
+     *
+     * @return integer 
+     */
+    public function getUnitStatus()
+    {
+        return $this->unitstatus;
+    }
+    
+    
 }
