@@ -56,7 +56,7 @@ class EmailService extends CustomRepositoryService
 
         $emailContent = $this->container->get('templating')->render(
             'GqAusUserBundle:Email:email-notifications.html.twig',
-            ['user' => $user, 'imageUrl' => $imageUrl]
+            ['user' => $user, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl')]
         );
 
        /*  $message = $this->buildEmailStructure(
@@ -86,9 +86,8 @@ class EmailService extends CustomRepositoryService
 
         $emailContent = $this->container->get('templating')->render(
             'GqAusUserBundle:Email:welcome.html.twig',
-            ['user' => $user, 'courseName' => $courseName, 'imageUrl' => $imageUrl]
+            ['user' => $user, 'courseName' => $courseName, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl')]
         );
-
        /* $email = $this->buildEmailStructure(
             $message,
             'Welcome to Online RPL',
@@ -120,7 +119,7 @@ class EmailService extends CustomRepositoryService
 
         $emailContent = $this->container->get('templating')->render(
             'GqAusUserBundle:Email:newly-assigned-account-manager.html.twig',
-            ['userCourse' => $userCourse, 'manager' => $manager, 'imageUrl' => $imageUrl]
+            ['userCourse' => $userCourse, 'manager' => $manager, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl')]
         );
 
        /*  $message = $this->buildEmailStructure(
@@ -156,7 +155,7 @@ class EmailService extends CustomRepositoryService
         foreach ($supervisors as $supervisor) {
             $emailContent = $this->container->get('templating')->render(
                 'GqAusUserBundle:Email:supervisor-portfolio.html.twig',
-                ['supervisor' => $supervisor, 'user' => $user, 'imageUrl' => $imageUrl]
+                ['supervisor' => $supervisor, 'user' => $user, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl')]
             );
 
             $message = $this->buildEmailStructure(
