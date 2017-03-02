@@ -8,14 +8,14 @@
         <table cellpadding="0" cellspacing="0" width="600" style="line-height: 1.3;">
             <tr>
                 <td align="center">
-                    <img src="{{ imageUrl.gqaOnlineRplSvg }}"
+                    <img src="{{ appUrl }}public/ui/img/gqa-online-rpl.svg"
                          style="width: 205px; height: auto; padding: 15px 0;">
                 </td>
             </tr>
 
             <tr>
                 <td style="text-align: center;">
-                    <img src="{{ imageUrl.welcomeBanner }}" style="width: 100%; height: auto;">
+                    <img src="{{ appUrl }}public/ui/img/email-welcome-banner.jpg" style="width: 100%; height: auto;">
                 </td>
             </tr>
 
@@ -97,8 +97,12 @@
 
                                         <font size="4">Log into Online RPL</font>
                                         <br/>
-                                        <a href="#">
-                                            <img src="{{ imageUrl.takeMeThere }}" width="232">
+                                        {% if token != null %}
+                                            <a href="{{ appUrl }}validateUser/{{token}}">
+                                        {% else %}
+                                            <a href="{{ appUrl }}login">
+                                        {% endif %}
+                                            <img src="{{ appUrl }}public/ui/img/btn_take-me-there.png" width="232">
                                         </a>
                                     </font>
                                 </center>

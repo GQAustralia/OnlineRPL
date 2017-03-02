@@ -182,10 +182,11 @@ class CoursesController extends Controller {
                 $params = json_decode($content, true); // 2nd param to get as array
                 $id = $params['courseCode'];
                 if ($id != '') {
+                    $results = [];
                     $user = $this->get('security.context')->getToken()->getUser();
                     $statusList = $this->get('UserService')->getQualificationStatus();
                     $courseService = $this->get('CoursesService');
-                    $results = $courseService->fetchCourseRequest($id);
+                    $results = $courseService->fetchCourseRequest(trim($id));
 //                    foreach($results['Units']['Elective']['groups'] as $key=>$group){
 //                        foreach($group['unit'] as $index=>$elective){
 //                            $results['Units']['Elective']['groups'][$key]['unit'][$index]['details'] = $courseService->fetchUnitRequest($elective['id']);

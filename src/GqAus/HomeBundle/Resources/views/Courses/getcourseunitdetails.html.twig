@@ -217,7 +217,7 @@
 
                             <div class="btn-auto-group" ng-if="!isSubmitted()">
                                 <button class="btn btn-default">Save</button>
-                                <button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0">Submit this Unit for Assessment</button>
+                                <button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0 || ((unitEvidences| filter:{type: '!text'}).length === 0 && (selfAssessment.content|countWord) < 50)">Submit this Unit for Assessment</button>
                             </div> 
                         </div>
                     </div>
