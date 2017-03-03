@@ -1,7 +1,7 @@
  <div class="container container-two-column-split" data-panel-parent="two-column-split" ng-show="qualificationPage == 'core' && IsLoaded">
             <section class="section-main col-section-10" ng-class="{'col-section-5': is_open === true, 'col-section-10': is_open === false}" data-panel="left">
                 <div class="panel panel-default panel-units">
-                    <div class="panel-body">
+                    <div class="panel-body" ng-hide="unitStatusArr['core']['all'].length === 0">
                         <div class="clearfix">
                             <div class="progress-tag progress-tag-default">
                                 <h3>Your Core Units</h3>
@@ -58,6 +58,14 @@
 
                         </div>
                          
+                    </div>
+                    <div class="panel-body" ng-show="unitStatusArr['core']['all'].length === 0">
+                        <div class="clearfix">
+                            <div class="progress-tag progress-tag-default">
+                                <h3>Your Core Units</h3>
+                                No Core Units Found
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
