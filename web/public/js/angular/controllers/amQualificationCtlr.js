@@ -102,21 +102,12 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
 
     $scope.getUnits = function () {
         AjaxService.apiCall("units/getUnits", {"courseCode": $scope.courseCode, "applicantId": $scope.applicantId}).then(function (data) {
-            console.log(data);
-            $scope.electiveUnits = data.Units.Elective;
-            $scope.coreUnits = data.Units.Core.unit;
-            $scope.requiredElective = data.Units.Elective.validation.requirement;
             $scope.IsLoaded = true;
             $scope.unitsFetched = true;
-            angular.forEach($scope.electiveUnits.groups, function (value, key) {
-                angular.forEach(value.unit, function (val, index) {
-                    $scope.allElectiveUnits.push(val);
-                });
-            });
-            angular.forEach($scope.coreUnits, function (val, index) {
-                $scope.allCoreUnits.push(val);
-            });
+            $scope.allElectiveUnits = data.core;
+            $scope.allCoreUnits = data.elec;
             $scope.userSelectedSync();
+
         }, function (error) {
             console.log(error);
         });

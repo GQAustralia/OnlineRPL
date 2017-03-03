@@ -192,17 +192,43 @@ class CoursesController extends Controller {
                     else{
                         $applicantId= $params['applicantId'];
                         $userCourseCoreUnits = $courseService->getUserCourseUnits($applicantId, $id, $type = 'core');
-//                        data.Units.Core.unit
+                        $userCourseElecUnits = $courseService->getUserCourseUnits($applicantId, $id, $type = 'elective');
                         foreach ($userCourseCoreUnits as $coreUnits) {
-                             
+                            $coreunit = [];
+                            $coreunit['id'] = $coreUnits->getId();
+                            $coreunit['unitId'] = $coreUnits->getUnitId();
+                            $coreunit['userId'] = $coreUnits->getUser()->getId();
+                            $coreunit['courseCode'] = $coreUnits->getCourseCode();
+                            $coreunit['type'] = $coreUnits->getType();
+                            $coreunit['facilitatorStatus'] = $coreUnits->getFacilitatorstatus();
+                            $coreunit['assessorStatus'] = $coreUnits->getAssessorstatus();
+                            $coreunit['rtoStatus'] = $coreUnits->getRtostatus();
+                            $coreunit['status'] = $coreUnits->getStatus();
+                            $coreunit['electiveStatus'] =  $coreUnits->getElectiveStatus();
+                            $coreunit['isSubmitted'] = $coreUnits->getIssubmitted();
+                            $results['core'][] = $coreunit;
                         }
-//                        $results['electiveUnits'] = $courseService->getUserCourseUnits($applicantId, $id, $type = 'elective');
-                        
+                        foreach ($userCourseElecUnits as $elecUnits) {
+                            $eleunit = [];
+                            $eleunit['id'] = $elecUnits->getId();
+                            $eleunit['unitId'] = $elecUnits->getUnitId();
+                            $eleunit['userId'] = $elecUnits->getUser()->getId();
+                            $eleunit['courseCode'] = $elecUnits->getCourseCode();
+                            $eleunit['type'] = $elecUnits->getType();
+                            $eleunit['facilitatorStatus'] = $elecUnits->getFacilitatorstatus();
+                            $eleunit['assessorStatus'] = $elecUnits->getAssessorstatus();
+                            $eleunit['rtoStatus'] = $elecUnits->getRtostatus();
+                            $eleunit['status'] = $elecUnits->getStatus();
+                            $eleunit['electiveStatus'] =  $elecUnits->getElectiveStatus();
+                            $eleunit['isSubmitted'] = $elecUnits->getIssubmitted();
+                            $results['elec'][] = $eleunit;
+                        }
                     }
                     $results['statusList'] = $statusList;
                 }
             }
         }
+       
         return new JsonResponse($results);
     }
 
