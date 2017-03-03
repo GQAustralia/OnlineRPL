@@ -5,6 +5,9 @@ namespace GqAus\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+
 
 class AuthenticateController extends Controller
 {
@@ -36,7 +39,16 @@ class AuthenticateController extends Controller
         if ($user->getApplicantStatus() >= self::COMPLETE_ON_BOARDING_APP_STAT) {
             return $this->redirect('/login');
         }
-
+        if (!$user) {
+            throw new UsernameNotFoundException("User not found");
+        } else {
+            $token = new UsernamePasswordToken($user, null, "secured_area", $user->getRoles());
+            $this->get("security.context")->setToken($token); //now the user is logged in
+            //now dispatch the login event
+            $request = $this->get("request");
+            $event = new InteractiveLoginEvent($request, $token);
+            $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
+        }
         return $this->render('GqAusUserBundle:Auth:first_time_set_password/index.html.twig', ['user' => $user]);
     }
 
@@ -59,7 +71,7 @@ class AuthenticateController extends Controller
         if (!$service->validateUserTokenAndUpdatePassword($tokenId, $password)) {
             return $response->error()->respondBadRequest('Invalid Token.');
         }
-
+        
         return $response->fractal()->respondSuccess();
     }
 
