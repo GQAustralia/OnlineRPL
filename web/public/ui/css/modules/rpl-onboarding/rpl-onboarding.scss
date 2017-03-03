@@ -17,9 +17,9 @@
 				margin-bottom: 0;
 			}
 
-			span{
-				display: none;
-			}
+			// span{
+			// 	display: none;
+			// }
 			
 		}
 
@@ -44,9 +44,9 @@
 				display: none;
 			}
 
-			.owl-carousel{
-	   			margin: 20px auto 40px;
-			}
+			// .owl-carousel{
+	  //  			margin: 20px auto 40px;
+			// }
 
 			.owl-dots{
 				margin: 10px 0;
@@ -95,7 +95,11 @@
 		margin: 0;
 		font-weight: lighter;
 		text-align: center;
-		color: $brand-gray;
+		color: $gray;
+
+		p{
+			margin: 15px 0;
+		}
 		
 	}
 
@@ -118,13 +122,13 @@
 				color: $brand-gray;
 			}
 
-			p{
-				margin: 0;
-			}
+			p{ margin: 0; }
 
 			img{
+				width: 100%;
+				height: auto;
 				margin-bottom: 20px;
-				max-width: 100%;
+				min-width: 205px;
 			}
 		}
 
@@ -139,7 +143,50 @@
 	}
 }
 
-@media screen and (min-width: 320px) {
+.accordion-general-info {
+	.content-group {
+		margin-bottom: 30px;
+		margin-top: 15px;
+	}
+
+	.table {
+		tr {
+			td:first-child {
+				strong { font-size: 16px; }
+				width: 200px;
+				text-align: right;
+			}
+		}
+	}
+}
+
+.table-rpl-steps {
+	list-style: none;
+	padding-left: 0;
+	display: block;
+
+	li {
+	    margin-bottom: 15px;
+	    display: block;
+		padding: 15px;
+		position: relative;
+		padding-left: 215px;
+
+		strong { 
+			font-size: 16px;
+			display: block;
+			margin-bottom: 8px;
+		}
+
+		.icon {
+			position: absolute;
+			font-size: 5em;
+			left: 100px;
+		}
+	}
+}
+
+@media screen and (min-width: 0) {
     .modal-onboarding{
 		.modal-dialog{
 			margin: 0 auto;
@@ -166,6 +213,10 @@
 			.col-sm-7{
 				margin-bottom: $grid-gutter-width / 2;
 			}
+
+			.btn span{
+				display: block;
+			}
 		}
 	}
 }
@@ -179,6 +230,12 @@
 
 		h2{
 			font-size: 30px;
+		}
+
+		.modal-body{
+			.btn span{
+				display: inline-block;
+			}
 		}
 	}
 }
@@ -212,7 +269,16 @@
 			}
 		}
 	}
+
+	.accordion-general-info {
+		h5 {
+			font-weight: 500;
+		}
+	}
 }
 
 @media screen and (min-width: 1200px) {
+	.accordion-general-info {
+		p { width: 80%; }
+	}
 }
