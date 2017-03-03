@@ -412,7 +412,8 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             if (val.isSubmitted === 1)
                 totalSubmmited++;
         });
-        return Math.round((totalSubmmited / $scope.selectedElectiveUnits.length) * 100) || 0;
+        var percent = Math.round((totalSubmmited / $scope.selectedElectiveUnits.length) * 100);
+        return  percent(percent)? '0' : percent;
     };
 
     $scope.percentCoreSubmitted = function() {
