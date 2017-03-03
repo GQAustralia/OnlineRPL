@@ -3346,7 +3346,8 @@ class UserService {
      * @param type $userRole
      */
     public function getUnitStatusListByRole($userRole) {
-         if (in_array('ROLE_FACILITATOR', $userRole)) {
+        $statuses = [];
+        if (in_array('ROLE_FACILITATOR', $userRole)) {
             $statuses = $this->getUnitStatus();
         }
         return $statuses;
