@@ -186,28 +186,23 @@ class CoursesController extends Controller {
                     $user = $this->get('security.context')->getToken()->getUser();
                     $statusList = $this->get('UserService')->getQualificationStatus();
                     $courseService = $this->get('CoursesService');
-                    $results = $courseService->fetchCourseRequest(trim($id));
-//                    foreach($results['Units']['Elective']['groups'] as $key=>$group){
-//                        foreach($group['unit'] as $index=>$elective){
-//                            $results['Units']['Elective']['groups'][$key]['unit'][$index]['details'] = $courseService->fetchUnitRequest($elective['id']);
-//                        }
-//                    }
+                    if (in_array('ROLE_APPLICANT', $user->getRoles())) {
+                        $results = $courseService->fetchCourseRequest(trim($id));
+                    }
+                    else{
+                        $applicantId= $params['applicantId'];
+                        $userCourseCoreUnits = $courseService->getUserCourseUnits($applicantId, $id, $type = 'core');
+//                        data.Units.Core.unit
+                        foreach ($userCourseCoreUnits as $coreUnits) {
+                             
+                        }
+//                        $results['electiveUnits'] = $courseService->getUserCourseUnits($applicantId, $id, $type = 'elective');
+                        
+                    }
                     $results['statusList'] = $statusList;
-//                    $courseService->updateQualificationUnits($user->getId(), $id, $results);
-//                    $getUnits = $courseService->getQualificationElectiveUnits($user->getId(), $id);
-//                    $results['packagerulesInfo'] = $courseService->getPackagerulesInfo($id);
-//                    $results['electiveUnits'] = $getUnits['courseUnits'];
-//                    $results['electiveApprovedUnits'] = $getUnits['courseApprovedUnits'];
-//                    $results['evidences'] = $user->getEvidences();
-//                    $results['courseDetails'] = $courseService->getCourseDetails($id, $user->getId());
-//                    $results['statusList'] = $this->get('UserService')->getQualificationStatus();
                 }
             }
         }
-
-
-        //var_dump($results);
-        //exit();
         return new JsonResponse($results);
     }
 

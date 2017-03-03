@@ -101,7 +101,7 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
     };
 
     $scope.getUnits = function () {
-        AjaxService.apiCall("units/getUnits", {"courseCode": $scope.courseCode}).then(function (data) {
+        AjaxService.apiCall("units/getUnits", {"courseCode": $scope.courseCode, "applicantId": $scope.applicantId}).then(function (data) {
             console.log(data);
             $scope.electiveUnits = data.Units.Elective;
             $scope.coreUnits = data.Units.Core.unit;
