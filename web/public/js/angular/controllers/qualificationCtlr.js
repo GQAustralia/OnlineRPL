@@ -100,7 +100,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         AjaxService.apiCall("units/getUnits", {"courseCode": $scope.courseCode}).then(function(data) {
             if(data.Units){
                 $scope.electiveUnits = data.Units.Elective || [];
-                $scope.coreUnits = data.Units.Core.unit || [];
+                $scope.coreUnits = data.Units.Core && data.Units.Core.unit || [];
                 $scope.requiredElective = data.Units.Elective && data.Units.Elective.validation && data.Units.Elective.validation.requirement || 0;
                 angular.forEach($scope.electiveUnits.groups, function (value, key) {
                     angular.forEach(value.unit, function (val, index) {
@@ -412,7 +412,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             if (val.isSubmitted === 1)
                 totalSubmmited++;
         });
-        return Math.round((totalSubmmited / $scope.selectedElectiveUnits.length) * 100)
+        return Math.round((totalSubmmited / $scope.selectedElectiveUnits.length) * 100) || 0;
     };
 
     $scope.percentCoreSubmitted = function() {
