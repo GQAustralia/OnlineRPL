@@ -159,4 +159,23 @@ class EnrollmentController extends Controller
         }
         return new JsonResponse(array( 'data' => $op ));
     }
+    
+    public function usiDownloadAction()
+    {
+        header("Content-Type: application/octet-stream");
+        $file = $this->get('kernel')->getRootDir().'/../web/public/files/USI_Form.pdf';
+        header("Content-Disposition: attachment; filename=" . urlencode('USI_Form.pdf'));   
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header("Content-Description: File Transfer");            
+        header("Content-Length: " . filesize($file));
+        flush(); // this doesn't really matter.
+        $fp = fopen($file, "r");
+        while (!feof($fp))
+        {
+            echo fread($fp, 65536);
+            flush(); // this is essential for large downloads
+        } 
+        fclose($fp); 
+    }
 }
