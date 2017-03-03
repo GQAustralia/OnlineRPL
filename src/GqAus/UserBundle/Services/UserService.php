@@ -896,29 +896,30 @@ class UserService {
      * return facilitator portfolio counts
      */
     public function getFacilitatorPortfolioCounts($userId, $userRole) {
-
-        $query =$this->em->createQuery('SELECT DATE_DIFF(uc.targetDate, CURRENT_DATE()) from GqAusUserBundle:UserCourses uc WHERE uc.facilitator = '.$userId.' AND uc.courseStatus <> 0');
-        $result = $query->execute();
-        $daysLeftList = array();
-        $thirtyDayRecordsCount = $sixtyDayRecordsCount = $ninetyDayRecordsCount = $oneTwentyDayRecordsCount = $oneFiftyDayRecordsCount = $oneEightyDayRecordsCount = 0;
-          
-        foreach($result as $key=>$value){
-          if($value['1'] <= 30) {
+      
+       $pendingApplicants = $this->getPendingApplicants($userId, $userRole, '0');
+       $userRole = 'ROLE_FACILITATOR';
+       $thirtyDayRecordsCount = $sixtyDayRecordsCount = $ninetyDayRecordsCount = $oneTwentyDayRecordsCount = $oneFiftyDayRecordsCount = $oneEightyDayRecordsCount = 0;
+       foreach($pendingApplicants as $key => $applicant){
+         $result = $this->getDaysRemainingFromRole($applicant->getUser()->getId(), $applicant->getCourseCode(), $userRole);
+         $dayResult = explode('&&', $result); 
+         $dayCount = $dayResult[0];
+          if($dayCount <= 30) {
               $thirtyDayRecordsCount = $thirtyDayRecordsCount + 1;
-          } else if($value['1'] > 30 && $value['1'] <= 60){
+          } else if($dayCount > 30 && $dayCount <= 60){
             $sixtyDayRecordsCount = $sixtyDayRecordsCount + 1;
-          } else if($value['1'] > 60 && $value['1'] <= 90) {
+          } else if($dayCount > 60 && $dayCount <= 90) {
              $ninetyDayRecordsCount = $ninetyDayRecordsCount + 1;
-          } else if($value['1'] > 90 && $value['1'] <= 120) {
+          } else if($dayCount > 90 && $dayCount <= 120) {
              $oneTwentyDayRecordsCount = $oneTwentyDayRecordsCount + 1;
-          } else if($value['1'] > 120 && $value['1'] <= 150) {
+          } else if($dayCount > 120 && $dayCount <= 150) {
              $oneFiftyDayRecordsCount = $oneFiftyDayRecordsCount + 1;
-          } else if($value['1'] > 150 && $value['1'] <= 180) {
+          } else if($dayCount > 150 && $dayCount <= 180) {
              $oneEightyDayRecordsCount = $oneEightyDayRecordsCount + 1;
           }
-        }
+       }
 
-        return array(
+        $retResult = array(
             'thirtyDaysApplicantsCount' => $thirtyDayRecordsCount,
             'sixtyDaysApplicantsCount' => $sixtyDayRecordsCount,
             'ninetyDaysApplicantsCount' => $ninetyDayRecordsCount,
@@ -926,6 +927,8 @@ class UserService {
             'oneFiftyDayRecordsCount' => $oneFiftyDayRecordsCount,
             'oneEightyDayRecordsCount' => $oneEightyDayRecordsCount
         );
+
+        return $retResult;
     }
 
     /**
