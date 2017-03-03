@@ -170,8 +170,12 @@
                 .form-group{
                     margin: 0;
                     
-                    input[type="text"]{
+                    input[type="text"],
+                    input[type="email"]{
                         margin-bottom: 10px;
+                    }
+                    input[type="submit"]{
+                        width: auto;
                     }
                 }
             }
