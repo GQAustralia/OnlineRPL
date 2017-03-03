@@ -44,21 +44,21 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     $scope.unitStatusArr = {
         'elective': {
             'all': [],
-            'Not yet started': [],
+            'Not Yet Started': [],
             'Submitted': [],
             'Satisfactory': [],
-            'Not yet satisfactory': [],
+            'Not Yet Satisfactory': [],
             'Competent': [],
-            'Not yet competent': []
+            'Not Yet Competent': []
         },
         'core': {
             'all': [],
-            'Not yet started': [],
+            'Not Yet Started': [],
             'Submitted': [],
             'Satisfactory': [],
-            'Not yet satisfactory': [],
+            'Not Yet Satisfactory': [],
             'Competent': [],
-            'Not yet competent': []
+            'Not Yet Competent': []
         }
     };
 
@@ -172,7 +172,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
                     $scope.selectedElectiveUnits.push($evedenceObject);
                     $scope.unitStatusArr['elective']['all'].push({'id': $evedenceObject.id});
                     if ($evedenceObject.statusText === '' || $evedenceObject.statusText === '0')
-                        $scope.unitStatusArr['elective']['Not yet started'].push({'id': $evedenceObject.id});
+                        $scope.unitStatusArr['elective']['Not Yet Started'].push({'id': $evedenceObject.id});
                     else
                         $scope.unitStatusArr['elective'][$evedenceObject.statusText].push({'id': $evedenceObject.id});
                 }
@@ -194,7 +194,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
                 $scope.selectedCoreUnits.push($coreObject)
                 $scope.unitStatusArr['core']['all'].push({'id': $coreObject.id});
                 if ($coreObject.statusText === '' || $coreObject.statusText === '0')
-                    $scope.unitStatusArr['core']['Not yet started'].push({'id': $coreObject.id});
+                    $scope.unitStatusArr['core']['Not Yet Started'].push({'id': $coreObject.id});
                 else
                     $scope.unitStatusArr['core'][$coreObject.statusText].push({'id': $coreObject.id});
             }
@@ -447,8 +447,8 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             case 'Satisfactory':
                 cls = 'label-default'
                 break;
-            case 'Not yet satisfactory':
-            case 'Not yet competent':
+            case 'Not Yet Satisfactory':
+            case 'Not Yet Competent':
                 cls = 'label-danger';
                 break;
             case 'Competent':
