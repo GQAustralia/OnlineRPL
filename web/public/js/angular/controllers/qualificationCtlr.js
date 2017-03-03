@@ -98,20 +98,21 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
 
     $scope.getUnits = function() {
         AjaxService.apiCall("units/getUnits", {"courseCode": $scope.courseCode}).then(function(data) {
-            console.log(data);
-            $scope.electiveUnits = data.Units.Elective;
-            $scope.coreUnits = data.Units.Core.unit;
-            $scope.requiredElective = data.Units.Elective.validation.requirement;
+            if(data.Units){
+                $scope.electiveUnits = data.Units.Elective || [];
+                $scope.coreUnits = data.Units.Core.unit || [];
+                $scope.requiredElective = data.Units.Elective && data.Units.Elective.validation && data.Units.Elective.validation.requirement || 0;
+                angular.forEach($scope.electiveUnits.groups, function (value, key) {
+                    angular.forEach(value.unit, function (val, index) {
+                        $scope.allElectiveUnits.push(val);
+                    });
+                });
+                angular.forEach($scope.coreUnits, function (val, index) {
+                    $scope.allCoreUnits.push(val);
+                }); 
+            }
             $scope.IsLoaded = true;
             $scope.unitsFetched = true;
-            angular.forEach($scope.electiveUnits.groups, function(value, key) {
-                angular.forEach(value.unit, function(val, index) {
-                    $scope.allElectiveUnits.push(val);
-                });
-            });
-            angular.forEach($scope.coreUnits, function(val, index) {
-                $scope.allCoreUnits.push(val);
-            });
             $scope.userSelectedSync();
         }, function(error) {
             console.log(error);
