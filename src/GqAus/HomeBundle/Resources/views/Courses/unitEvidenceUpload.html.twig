@@ -67,9 +67,18 @@
 
                                         <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
                                             
-                                            <li class="thumbnail-group-item" ng-repeat="evidence in unitEvidences| filter:{type: '!text'}" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
-                                                <div class="thumbnail-group-selection"><input type="checkbox" id="evidenceFiles-{[{evidence.id}]}" name="evidenceFiles" ng-model="pageStats.evidenceFiles[evidence.id]" class="custom-input"><label for="evidenceFiles-{[{evidence.id}]}"></label></div>
-                                                <div class="thumbnail-holder">
+                                            <li class="thumbnail-group-item" ng-repeat="evidence in unitEvidences| filter:{type: '!text'}" ng-class="{'thumbnail-group-item-loading':evidence.jobId != ''}" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                                <div class="thumbnail-holder" style="min-height: 60px;" ng-if="evidence.jobId != ''">
+                                                    <div class="thumbnail-header"></div>
+                                                    <div class="thumbnail-progress-fill text-center" data-progress-value="">
+                                                        <i class="zmdi zmdi-settings zmdi-hc-2x zmdi-hc-spin btn-block"></i>
+                                                        <small class="text-uppercase btn-block" style="font-size: 9px; width: 100%;line-height: 1;">please wait</small>
+                                                        <!-- <i class="percentage-fill" data-progress-value="0%" style="height: 0%;"></i> -->
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="thumbnail-group-selection" ng-if="evidence.jobId == ''"><input type="checkbox" id="evidenceFiles-{[{evidence.id}]}" name="evidenceFiles" ng-model="pageStats.evidenceFiles[evidence.id]" class="custom-input"><label for="evidenceFiles-{[{evidence.id}]}"></label></div>
+                                                <div class="thumbnail-holder" ng-if="evidence.jobId == ''">
                                                     <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
                                                     </div>
                                                     <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
@@ -86,7 +95,7 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <button type="button" class="btn btn-transparent btn-xs btn-delete" ng-if="!isSubmitted()" ng-click="deleteEvidence(evidence)"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                                                <button type="button" class="btn btn-transparent btn-xs btn-delete" ng-if="!isSubmitted() && evidence.jobId == ''" ng-click="deleteEvidence(evidence)"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
                                             </li>
                                            <!-- Upload in progress -->
                                             <li class="thumbnail-group-item thumbnail-group-item-loading" ng-repeat="uploadEvidence in uploadInProgress.uploads">
