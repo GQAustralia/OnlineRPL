@@ -1,0 +1,399 @@
+/* line 2, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .isTablet,
+.is-mobile .isDesktop {
+  display: none; }
+
+/* line 7, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .main-content-gqa .container {
+  padding-left: 0;
+  padding-right: 0; }
+
+/* line 13, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .isMobile .composer {
+  background: #fd0303;
+  height: 40px;
+  width: 40px;
+  position: fixed;
+  bottom: 100px;
+  right: 15px;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%; }
+  /* line 23, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .isMobile .composer i {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+    font-size: 20px; }
+
+/* line 32, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .inbox-body {
+  padding: 0;
+  margin-top: 45px; }
+  /* line 35, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .inbox-body .table {
+    margin-bottom: 0;
+    border: 1px solid #d3d3d3; }
+  /* line 39, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .inbox-body div.table-inbox {
+    display: flex;
+    flex-flow: row wrap;
+    -webkit-overflow-scrolling: touch;
+    overflow: auto; }
+    /* line 44, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+    .is-mobile .inbox-body div.table-inbox .table-row {
+      width: 100%;
+      border-bottom: 1px solid #d3d3d3; }
+      /* line 47, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+      .is-mobile .inbox-body div.table-inbox .table-row.unread {
+        background-color: #fff; }
+      /* line 51, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+      .is-mobile .inbox-body div.table-inbox .table-row .mail-avatar .avatar-xxs {
+        max-width: 40px;
+        width: 40px;
+        height: 40px;
+        display: block;
+        vertical-align: middle;
+        float: left;
+        margin-top: 15px; }
+        /* line 59, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+        .is-mobile .inbox-body div.table-inbox .table-row .mail-avatar .avatar-xxs img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          margin: auto; }
+      /* line 66, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+      .is-mobile .inbox-body div.table-inbox .table-row .mail-avatar .select-item {
+        float: left;
+        padding: 27px 15px; }
+      /* line 70, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+      .is-mobile .inbox-body div.table-inbox .table-row .mail-avatar .avatar-details {
+        width: calc(100% - 85px);
+        display: block;
+        float: left;
+        padding-left: 10px; }
+        /* line 76, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+        .is-mobile .inbox-body div.table-inbox .table-row .mail-avatar .avatar-details span {
+          display: block; }
+          /* line 78, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+          .is-mobile .inbox-body div.table-inbox .table-row .mail-avatar .avatar-details span.avatar-name {
+            font-weight: 600;
+            float: left;
+            width: calc(100% - 70px); }
+            /* line 82, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+            .is-mobile .inbox-body div.table-inbox .table-row .mail-avatar .avatar-details span.avatar-name .avatar-designation {
+              font-weight: 100; }
+          /* line 86, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+          .is-mobile .inbox-body div.table-inbox .table-row .mail-avatar .avatar-details span.date-time {
+            font-size: 10px;
+            float: right;
+            text-align: right;
+            width: 70px; }
+            /* line 91, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+            .is-mobile .inbox-body div.table-inbox .table-row .mail-avatar .avatar-details span.date-time span {
+              display: block; }
+      /* line 98, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+      .is-mobile .inbox-body div.table-inbox .table-row .view-message {
+        width: 100%;
+        white-space: nowrap;
+        float: left; }
+        /* line 102, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+        .is-mobile .inbox-body div.table-inbox .table-row .view-message p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          position: relative;
+          margin-bottom: 0;
+          width: calc(100% - 20px); }
+        /* line 110, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+        .is-mobile .inbox-body div.table-inbox .table-row .view-message .zmdi {
+          float: right;
+          font-size: 1.35em;
+          width: 20px; }
+          /* line 114, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+          .is-mobile .inbox-body div.table-inbox .table-row .view-message .zmdi.flagged {
+            color: #f78a09; }
+      /* line 119, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+      .is-mobile .inbox-body div.table-inbox .table-row .aside {
+        padding: 5px;
+        float: left;
+        width: 100%; }
+    /* line 125, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+    .is-mobile .inbox-body div.table-inbox .fa-star {
+      color: #d5d5d5; }
+      /* line 127, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+      .is-mobile .inbox-body div.table-inbox .fa-star:hover, .is-mobile .inbox-body div.table-inbox .fa-star.flagged {
+        color: #f78a09; }
+
+/* line 134, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .message-thread {
+  margin-top: 45px; }
+  /* line 139, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .message-thread .inbox-head span.mobi-back i.zmdi-chevron-left {
+    font-size: 30px;
+    vertical-align: middle;
+    padding-right: 5px; }
+  /* line 146, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .message-thread .message-thread-header {
+    background-color: #00a6b2;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px; }
+    /* line 151, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+    .is-mobile .message-thread .message-thread-header i {
+      float: right;
+      padding: 0 5px; }
+  /* line 156, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .message-thread .message-thread-container {
+    padding: 10px; }
+  /* line 160, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .message-thread .message-compose .form-group {
+    margin: 15px 0; }
+    /* line 163, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+    .is-mobile .message-thread .message-compose .form-group textarea.form-control {
+      padding: 10px 20px; }
+    /* line 168, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+    .is-mobile .message-thread .message-compose .form-group label,
+    .is-mobile .message-thread .message-compose .form-group input {
+      padding: 0 20px;
+      margin-bottom: 0; }
+      /* line 172, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+      .is-mobile .message-thread .message-compose .form-group label.form-control,
+      .is-mobile .message-thread .message-compose .form-group input.form-control {
+        height: 36px; }
+  /* line 178, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .message-thread .message-compose .btn-auto-group .btn {
+    width: 32.5%;
+    display: inline; }
+
+/* line 185, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .mail-box {
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  background: none repeat scroll 0 0 #fff; }
+  /* line 192, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .mail-box aside {
+    display: table-cell;
+    float: none;
+    height: 100%;
+    padding: 0;
+    vertical-align: top; }
+  /* line 199, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .mail-box .sm-side {
+    background: none repeat scroll 0 0 #e5e8ef;
+    border-radius: 4px 0 0 4px;
+    width: 250px; }
+  /* line 204, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .mail-box .sm-side .user-head {
+    background: none repeat scroll 0 0 #00a8b3;
+    border-radius: 4px 0 0;
+    color: #fff;
+    min-height: 80px;
+    padding: 10px; }
+
+/* line 212, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile a.mail-dropdown {
+  background: none repeat scroll 0 0 #80d3d9;
+  border-radius: 2px;
+  color: #01a7b3;
+  font-size: 10px;
+  margin-top: 20px;
+  padding: 3px 5px; }
+
+/* line 221, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile ul.inbox-nav li {
+  display: inline-block;
+  line-height: 45px;
+  width: 100%; }
+  /* line 225, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile ul.inbox-nav li a {
+    color: #6a6a6a;
+    display: inline-block;
+    line-height: 45px;
+    padding: 0 20px;
+    width: 100%; }
+    /* line 231, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+    .is-mobile ul.inbox-nav li a:hover {
+      background: none repeat scroll 0 0 #d5d7de;
+      color: #6a6a6a; }
+  /* line 236, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile ul.inbox-nav li.active a {
+    background: none repeat scroll 0 0 #d5d7de;
+    color: #6a6a6a; }
+  /* line 241, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile ul.inbox-nav li a:focus {
+    background: none repeat scroll 0 0 #d5d7de;
+    color: #6a6a6a; }
+  /* line 245, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile ul.inbox-nav li a i {
+    color: #6a6a6a;
+    font-size: 16px;
+    padding-right: 10px; }
+  /* line 250, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile ul.inbox-nav li a span.label {
+    margin-top: 13px; }
+  /* line 254, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile ul.inbox-nav li ul li a {
+    padding-left: 45px; }
+
+/* line 258, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile ul.labels-info li {
+  margin: 0; }
+  /* line 259, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile ul.labels-info li h4 {
+    color: #5c5c5e;
+    font-size: 13px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    text-transform: uppercase; }
+  /* line 268, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile ul.labels-info li a {
+    border-radius: 0;
+    color: #6a6a6a; }
+    /* line 271, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+    .is-mobile ul.labels-info li a:hover, .is-mobile ul.labels-info li a:focus {
+      background: none repeat scroll 0 0 #d5d7de;
+      color: #6a6a6a; }
+    /* line 276, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+    .is-mobile ul.labels-info li a i {
+      padding-right: 10px; }
+
+/* line 282, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .inbox-head {
+  background: none repeat scroll 0 0 #41cac0;
+  color: #fff;
+  padding: 9px 6px 10px 6px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  margin-top: 60px;
+  z-index: 1; }
+  /* line 294, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .inbox-head .dropdown-menu {
+    top: 100%;
+    left: 0;
+    width: 100%; }
+  /* line 299, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .inbox-head h3 {
+    display: inline-block;
+    font-weight: 300;
+    font-size: 1.25em;
+    margin: 0;
+    padding: 6px 0 0 0; }
+  /* line 307, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .inbox-head .sr-input {
+    border: medium none;
+    border-radius: 4px 0 0 4px;
+    box-shadow: none;
+    color: #8a8a8a;
+    float: left;
+    height: 40px;
+    padding: 0 10px; }
+  /* line 316, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .inbox-head .sr-btn {
+    background: none repeat scroll 0 0 #00a6b2;
+    border: medium none;
+    border-radius: 0 4px 4px 0;
+    color: #fff;
+    height: 40px;
+    padding: 0 20px; }
+  /* line 324, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .inbox-head select {
+    border-radius: 5px;
+    border: none;
+    color: #000;
+    float: right;
+    padding: 6px 0; }
+
+/* line 333, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .mail-option {
+  display: inline-block;
+  padding: 10px;
+  width: 100%; }
+  /* line 337, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .mail-option .chk-all,
+  .is-mobile .mail-option .btn-group {
+    margin-right: 5px; }
+  /* line 341, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .mail-option .chk-all,
+  .is-mobile .mail-option .btn-group a.btn {
+    background: none repeat scroll 0 0 #fcfcfc;
+    border: 1px solid #e7e7e7;
+    border-radius: 3px !important;
+    color: #afafaf;
+    display: inline-block;
+    padding: 5px 10px; }
+  /* line 350, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .mail-option .btn-group {
+    display: inline; }
+  /* line 353, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .mail-option ul.inbox-pagination {
+    float: right; }
+    /* line 355, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+    .is-mobile .mail-option ul.inbox-pagination li {
+      display: inline-block; }
+
+/* line 360, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .inbox-pagination a.np-btn {
+  background: none repeat scroll 0 0 #fcfcfc;
+  border: 1px solid #e7e7e7;
+  border-radius: 3px !important;
+  color: #afafaf;
+  display: inline-block;
+  padding: 5px 15px; }
+
+/* line 369, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .inbox-pagination a.np-btn {
+  margin-left: 5px; }
+
+/* line 372, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .inbox-pagination li span {
+  display: inline-block;
+  margin-right: 5px;
+  margin-top: 7px; }
+
+/* line 379, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile * html .fileinput-button {
+  line-height: 24px;
+  margin: 1px -3px 0 0; }
+
+/* line 383, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile * + html .fileinput-button {
+  margin: 1px 0 0;
+  padding: 2px 15px; }
+
+/* line 388, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile ul {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px; }
+
+/* line 393, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .footer-gqa {
+  color: white;
+  background-color: #4d4d4d;
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  width: 100%; }
+
+/* line 401, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.is-mobile .message-post {
+  padding: 0 15px;
+  padding-top: 10px; }
+  /* line 404, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+  .is-mobile .message-post:after {
+    z-index: 0; }
+
+/* line 410, D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/mail-box/_isMobile.scss */
+.hider {
+  opacity: 0;
+  -webkit-transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+
+/*# sourceMappingURL=_isMobile.css.map */
