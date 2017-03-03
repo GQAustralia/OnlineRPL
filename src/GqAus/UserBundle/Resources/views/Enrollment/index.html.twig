@@ -180,7 +180,7 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group" ng-class="{ 'has-error' : profileForm.state.$invalid}">
                                                         <label for="state" class="control-label">State / territory</label>
-
+                                                        <input type="hidden" class="form-control" id ="administrative_area_level_1">
                                                         <select class="form-control" id ="state" name ="state" ng-model="enrollment.profile.address.state" ng-required="true" ng-options="i as i for i in selectState(enrollment.profile.address.country)">
                                                             <option value="">Select State</option>
                                                         </select>
@@ -267,10 +267,10 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group" ng-class="{ 'has-error' : profileForm.state_postal.$invalid}">
                                                         <label for="state" class="control-label">State / territory</label>
-                                                        <input type="hidden" class="form-control" id ="administrative_area_level_1_postal"></select>
-                                                        <select class="form-control" id ="state_postal"  name="state_postal" ng-model="enrollment.profile.postal.state" ng-required="!enrollment.profile.postalAddress" ng-options="i as i for i in selectState(enrollment.profile.address.country)">
+                                                        <input type="hidden" class="form-control" id ="administrative_area_level_1_postal">
+                                                        <select class="form-control" id ="state_postal"  name="state_postal" ng-model="enrollment.profile.postal.state" ng-required="!enrollment.profile.postalAddress" ng-options="i as i for i in selectState(enrollment.profile.postal.country)">
                                                             <option value="">Select State</option>
-                                                        </select>
+                                                        </select> 
                                                         <i class="zmdi zmdi-alert-triangle" ng-show="profileForm.state_postal.$invalid " data-toggle="tooltip" data-placement="top" title="State / territory is required"></i>
                                                     </div>
                                                 </div>
@@ -702,7 +702,7 @@
                                                     <div class="row">  
                                                         <div class="col-xs-9">
                                                             <p>Please download this PDF, answer the questions, sign it, and save it. </p>
-                                                            <a href="{{ asset('public/ui/img/download-pdf.png') }}" target="_blank"><img src="{{ asset('public/ui/img/download-pdf.png') }}" alt="downloadPDF" title="downloadPDF" width="120px"></a>
+                                                            <a href="{{ url('usiDownload') }}" target="_blank"><img src="{{ asset('public/ui/img/download-pdf.png') }}" alt="downloadPDF" title="downloadPDF" width="120px"></a>
                                                         </div>
                                                     </div>
                                                 </div>
