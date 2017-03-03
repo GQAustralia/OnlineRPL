@@ -2698,9 +2698,9 @@ class UserService {
             $courseData['managerId'] = $request->get('managerId');
             $courseData['zohoId'] = $request->get('zohoId');
             if (!empty($courseData['courseCode']) || !empty($courseData['courseName'])) {
-               // $res = $this->addUserCourse($courseData, $user);
-               // $message = $res['message'];
-                //$emailCourseFlag = $res['emailFlag'];
+               $res = $this->addUserCourse($courseData, $user);
+               $message = $res['message'];
+               $emailCourseFlag = $res['emailFlag'];
             }
         }
 
