@@ -857,7 +857,10 @@ class ApplicantController extends Controller {
                 $userSubject = $this->container->getParameter('mail_portfolio_assign_applicant_sub');
                 $userMessage = str_replace($conSearch, $conReplace, $this->container->getParameter('mail_portfolio_assign_applicant_con'));
                 $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
-
+                $userMessage = $emailService->getnotifyApplicantForTheAssignedAccountManagerEmailMsg($userId, $courseCode, $token);
+                $userMessageSend = $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
+                		$userMessage, $fromUser->getEmail(), $fromUser->getUsername());
+                
                 //$userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
                 /*   $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
                   $userMessage, $fromUser->getEmail(), $fromUser->getUsername()); */
@@ -869,7 +872,8 @@ class ApplicantController extends Controller {
                 $userSubject = $this->container->getParameter('mail_portfolio_assign_applicantqua_sub');
                 $userMessage = str_replace($conSearch, $conReplace, $this->container->getParameter('mail_portfolio_assign_applicantqua_con'));
                 $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
-
+                $userMessage = $emailService->getnotifyApplicantForTheAssignedAccountManagerEmailMsg($userId, $courseCode);
+                
                 // $userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
                 $userService->sendExternalEmail($userInfo->getEmail(), $userSubject, $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
             }
@@ -879,12 +883,13 @@ class ApplicantController extends Controller {
             $facMessage = str_replace($facSearch, $facReplace, $this->container->getParameter('mail_portfolio_assign_facilitator_con'));
 
             $facMsgdata = array('subject' => $facSubject, 'message' => $facMessage, 'unitId' => '0', 'replymid' => '0');
-
+            $facMessage = $emailService->getApplicantAssignedtoAccountManagerEmailMsg($username, $courseName, $facname);
+            $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
+            		$facMessage, $fromUser->getEmail(), $fromUser->getUsername());
+            
             //$facMessageSend = $userService->saveMessageData($facUser,$fromUser,$facMsgdata);
             /*               $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
               $facMessage, $fromUser->getEmail(), $fromUser->getUsername()); */
-
-            $emailService->notifyApplicantForTheAssignedAccountManager($userId, $courseCode);
         } else {
             $status = 'false';
             $message = 'Error while updating..';

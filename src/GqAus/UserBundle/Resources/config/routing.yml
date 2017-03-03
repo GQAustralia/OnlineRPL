@@ -406,3 +406,6 @@ applicantProfile:
 enrollmentInfo:
     path: /enrollmentinfo/{applicantId}
     defaults: { _controller: GqAusUserBundle:Applicant:enrollmentInfo }
+usiDownload:
+    path: /enrolment/usiDownload
+    defaults: { _controller: GqAusUserBundle:Enrollment:usiDownload }

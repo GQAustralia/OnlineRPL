@@ -11,7 +11,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
 {
     use ItComputeDays, ItReturnsQualificationStatusMessage;
 
-    CONST QUALIFICATION_COMPLETE_STATUS = 16;
+    CONST QUALIFICATION_COMPLETE_STATUS = 0;
 
     protected $courseRepository;
     protected $reminderRepository;
@@ -69,7 +69,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
      */
     public function getApplicantsOverviewQualificationStatusTotals($userId)
     {
-        $userCourses = $this->courseRepository->findBy(['manager' => $userId]);
+        $userCourses = $this->courseRepository->findBy(['facilitator' => $userId]);
 
         return $this->buildApplicantsOverviewQualificationTotals($userCourses);
     }
@@ -182,17 +182,20 @@ class AccountManagerDashboardService extends CustomRepositoryService
 
         foreach ($userCourses as $userCourse) {
 
-            ($userCourse->getCourseStatus() == self::QUALIFICATION_COMPLETE_STATUS)
-                ? $completeQualificationCount++
-                : $incompleteQualificationCount++;
+            if ($userCourse->getCourseStatus() == self::QUALIFICATION_COMPLETE_STATUS) {
+            				$completeQualificationCount++;
+            }
+            else {
+            				$incompleteQualificationCount++;
 
-            foreach ($qualificationsDaysRangeCount as $key => $value) {
-                $totalDays = $this->computeDaysLeft($userCourse->getCreatedOn());
-
-                if ($this->getDaysCountRange($totalDays, $value['min'], $value['max'])) {
-                    $qualificationsDaysRangeCount[$key]['total']++;
-                    break;
-                }
+				            foreach ($qualificationsDaysRangeCount as $key => $value) {
+				                $totalDays = $this->computeDaysLeft($userCourse->getTargetDate());
+				
+				                if ($this->getDaysCountRange($totalDays, $value['min'], $value['max'])) {
+				                    $qualificationsDaysRangeCount[$key]['total']++;
+				                    break;
+				                }
+				            }
             }
         }
 
@@ -213,7 +216,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
      */
     private function getDaysCountRange($totalDays, $min, $max)
     {
-        return filter_var(
+        return filter_var($totalDays, FILTER_VALIDATE_INT) === 0 || filter_var(
             $totalDays,
             FILTER_VALIDATE_INT,
             [
@@ -249,7 +252,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
      */
     private function queryApplicantsOverview($filterType, $userId)
     {
-        $filterTypeMap = ['complete' => '>=16', 'incomplete' => '<=15'];
+        $filterTypeMap = ['complete' => '= 0', 'incomplete' => '!= 0'];
 
         return $this->all('
                   SELECT 
@@ -261,11 +264,12 @@ class AccountManagerDashboardService extends CustomRepositoryService
                       uc.course_code,
                       uc.course_name,
                       uc.created_on,
-                      uc.course_status
+                      uc.course_status,
+        														uc.target_date
                   FROM user_courses uc
                   LEFT JOIN user u ON uc.user_id=u.id
                   WHERE uc.course_status ' . $filterTypeMap[$filterType] . '
-                  AND manager=' . $userId . '
+                  AND facilitator=' . $userId . '
                   ORDER BY uc.created_on ASC
                   LIMIT 10
         ');
@@ -282,7 +286,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
 
         foreach ($userCourses as $userCourse) {
 
-            $days = $this->computeDaysLeft($userCourse['created_on']);
+            $days = $this->computeDaysLeft($userCourse['target_date']);
 
             $result[] = [
                 'id' => $userCourse['id'],

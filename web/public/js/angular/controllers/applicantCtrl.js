@@ -8,7 +8,7 @@ gqAus.controller('applicantCtrl', function($rootScope, $scope, AjaxService){
 	$scope.minlength = 2;
 	$scope.tabstat = 1;
 	
-	$scope.itemsPerPage = 4;
+	$scope.itemsPerPage = 10;
 	$scope.currentPage = 1;
 	$scope.paginationLinksArr = [];
 	$scope.applicantListTmp = [];
@@ -110,7 +110,7 @@ gqAus.controller('applicantCtrl', function($rootScope, $scope, AjaxService){
 		}
 		return _.range(linkStartNum, linkEndNum+1);	
 	}
-	
+
 	
 	$scope.addreminder = function(courseId){
 		var remindDate = '';
@@ -122,9 +122,6 @@ gqAus.controller('applicantCtrl', function($rootScope, $scope, AjaxService){
 		if($('#datetodb')){
 			remindDate = $('#datetodb').val();
 		}
-
-		console.log('remContent :: '+remContent);
-		console.log('datetodb :: '+remindDate);
 
 		AjaxService.apiCall("addReminder", {message: remContent, userCourseId: courseId, remindDate: remindDate}).then(function (data) {
 			$scope.showSuccessMessage();

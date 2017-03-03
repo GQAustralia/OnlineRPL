@@ -65,7 +65,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     $scope.unitStatus = '';
     $scope.selectedUnitObj = [];
     $scope.selfAssessment = {};
-    $scope.notes = {};
+    $scope.notes = [];
 //    $scope.role = 'candidate';
 
     $scope.addRemoveUnit = function(unit) {
@@ -370,7 +370,8 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             percentageCompleted: 0,
             status: 'inprogress',
             courseCode: dataObj.courseCode,
-            unitCode: dataObj.unitCode
+            unitCode: dataObj.unitCode,
+            jobId:''
         };
         $scope.uploadInProgress.uploads.push(uploadObj);
         $scope.$applyAsync();

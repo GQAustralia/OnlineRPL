@@ -59,6 +59,7 @@ progress[role] {
         text-transform: uppercase;
         font-weight: 400;
         margin-top: 10px;
+        position: relative;
 
         &:before {
             content: attr(data-value) + attr(data-unit);

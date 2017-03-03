@@ -1205,6 +1205,7 @@ class CoursesService {
             $evd['content'] = ($type == 'text') ? $evidence->getContent() : '';
             $evd['size'] = $evidence->getSize();
             $evd['facilitatorViewStatus'] = $evidence->getfacilitatorViewStatus();
+            $evd['jobId'] = ($evidence->getJobId()) ? $evidence->getJobId() : '';
 
             $userEvidence[] = $evd;
         }
@@ -1260,7 +1261,7 @@ class CoursesService {
                 $evd['linkedTo'] = ($noOfRcrds>1) ? ($noOfRcrds-1) : 0;
                 $evd['facilitatorViewStatus'] = $evidence->getfacilitatorViewStatus();
                 $evd['courseCode'] = ($evidence->getCourse()) ? $evidence->getCourse() : '';
-
+                $evd['jobId'] = ($evidence->getJobId()) ? $evidence->getJobId() : '';
                 $userEvidence[] = $evd;
             }
         }

@@ -24,7 +24,7 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
     $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Messages";
     $scope.searchCourseCode = '';
     $scope.newMsgCourseObj = {};
-    
+    $scope.displayNoMsgTxt = true;
     
     
     $scope.getMessages = function () {
@@ -40,6 +40,10 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
         		$scope.messages['msg_'+msgObj.id] = msgObj;
         		
         	});
+        	$scope.displayNoMsgTxt = true;
+        	if(data.paginator.count == 0) {
+        		$scope.displayNoMsgTxt = false;
+        	}
         	$scope.paginator = data.paginator;
         	if ($scope.msgType == 'all') {
         		$scope.unreadCnt = data.unreadcount;
