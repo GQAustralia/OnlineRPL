@@ -13,12 +13,19 @@
     {% block head %} 
         {% set roles = app.security.getToken().getUser().getRoles() %}    
         <!-- Core -->
+
+        <link rel="apple-touch-icon-precomposed" href="ui/img/favicon-32x32.png">
+        <link rel="icon" href="{{ asset('public/ui/img/favicon-32x32.png') }}" type="image/png">
+        <!--[if IE]><link rel="shortcut icon" href="{{ asset('public/ui/img/favicon-32x32.png') }}"><![endif]-->
+        <meta name="msapplication-TileColor" content="#eee">
+        <meta name="msapplication-TileImage" content="{{ asset('public/ui/img/favicon-32x32.png') }}">
+
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
         <link href="{{ asset('public/ui/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}" rel="stylesheet" />
         <link href="{{ asset('public/ui/css/bootstrap/bootstrap.min.css') }}" rel="stylesheet" />
         <link href="{{ asset('public/ui/css/main-styles.min.css') }}" rel="stylesheet" />
-          <!-- App -->
         
+        <!-- App -->
         <link href="{{ asset('public/ui/css/vendor/custom-scrollbar.min.css') }}" rel="stylesheet" />
         <!-- Login only -->
          
