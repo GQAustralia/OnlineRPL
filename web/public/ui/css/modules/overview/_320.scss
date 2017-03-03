@@ -144,7 +144,17 @@
 			}
 			&:nth-child(2) {
 				width: 100%;
-				// @include calc-sub-two-values(width, 100%, $big-circle-width);
+
+				.progress-tag-danger .progress-details:after {
+					display: block;
+					content: '\f1f1';
+					font-family: 'Material-Design-Iconic-Font';
+					color: $brand-danger;
+					font-size: 1.6em;
+					position: absolute;
+				    top: -15px;
+				    left: 30px;
+				}
 			}
 			&:nth-child(3) {
 

@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$gray-dark".
-        on line 16 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/qualifications/list-group-units.scss
+        on line 17 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/qualifications/list-group-units.scss
 
-11: 			display: block;
-12: 			clear: both;
-13: 			content: attr(data-unit-group);
-14: 			text-transform: uppercase;
-15: 			font-weight: 500;
-16: 			color: $gray-dark;
-17: 			margin-bottom: 7px;
-18: 			position: absolute;
-19: 			top: -$top-spacing;
-20: 		}
-21: 
+12: 			display: block;
+13: 			clear: both;
+14: 			content: attr(data-unit-group);
+15: 			text-transform: uppercase;
+16: 			font-weight: 500;
+17: 			color: $gray-dark;
+18: 			margin-bottom: 7px;
+19: 			position: absolute;
+20: 			top: -$top-spacing;
+21: 		}
+22: 
 
 Backtrace:
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/qualifications/list-group-units.scss:16
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/qualifications/list-group-units.scss:17
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
@@ -87,4 +87,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$gray-dark\".\A         on line 16 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/qualifications/list-group-units.scss\A \A 11: 			display: block;\A 12: 			clear: both;\A 13: 			content: attr(data-unit-group);\A 14: 			text-transform: uppercase;\A 15: 			font-weight: 500;\A 16: 			color: $gray-dark;\A 17: 			margin-bottom: 7px;\A 18: 			position: absolute;\A 19: 			top: -$top-spacing;\A 20: 		}\A 21: "; }
+  content: "Error: Undefined variable: \"$gray-dark\".\A         on line 17 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/qualifications/list-group-units.scss\A \A 12: 			display: block;\A 13: 			clear: both;\A 14: 			content: attr(data-unit-group);\A 15: 			text-transform: uppercase;\A 16: 			font-weight: 500;\A 17: 			color: $gray-dark;\A 18: 			margin-bottom: 7px;\A 19: 			position: absolute;\A 20: 			top: -$top-spacing;\A 21: 		}\A 22: "; }

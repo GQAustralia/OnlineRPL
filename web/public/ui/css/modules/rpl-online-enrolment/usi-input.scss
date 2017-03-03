@@ -3,10 +3,8 @@
 	width: 100%;
 	position: relative;
 
-	input[type="text"] {
+	input {
 		text-transform: uppercase;
-		// @include opacity(1);
-		// position: absolute;
 	}
 }
 
@@ -43,7 +41,7 @@
 			@include box-shadow(0 2px 0 darken($gray-light, 35%));
 			z-index: 1;
 
-			input[type="text"] { font-weight: 600; }
+			input { font-weight: 600; }
 
 			&:before, &:after {
 				display: block;
@@ -74,7 +72,7 @@
 			margin-right: 0;
 		}
 
-		input[type="text"] {
+		input {
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -90,5 +88,13 @@
 			background-color: transparent;
 			padding: 0;
 		}
+	}
+}
+
+.is-mobile {
+	.usi-input-body > .pseudo-input {
+		min-width: 1% !important;
+		height: 38px !important;
+		input { font-size: 20px !important; }
 	}
 }
