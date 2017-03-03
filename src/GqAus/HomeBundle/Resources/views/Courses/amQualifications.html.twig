@@ -31,7 +31,7 @@
     {% endif %} 
     {% set totalElectiveUnitsCnt = courseApiInfo.courseInfo.Units.Elective.groups.group.unit|default(0) %}
     {% set loggedInUserRole = ('ROLE_FACILITATOR' in userRole) ? 'facilitator' : 'candidate' %}
-    <main class="main-content-gqa" ng-init="qualificationPage = '{{qualificationPage}}'">
+    <main class="main-content-gqa" ng-init="qualificationPage = '{{qualificationPage}}';courseCode = '{{ courseCode }}';applicantId = '{{ userId }}';role = '{{ loggedInUserRole }}';">
         <div class="container">
             <div class="panel panel-default panel-qual-heading panel-avatar-tab">
                 <div class="panel-heading-img">
