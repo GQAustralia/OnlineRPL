@@ -65,7 +65,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     $scope.unitStatus = '';
     $scope.selectedUnitObj = [];
     $scope.selfAssessment = {};
-    $scope.notes = {};
+    $scope.notes = [];
 //    $scope.role = 'candidate';
 
     $scope.addRemoveUnit = function(unit) {

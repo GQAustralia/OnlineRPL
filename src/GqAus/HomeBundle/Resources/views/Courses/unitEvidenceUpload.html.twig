@@ -133,12 +133,7 @@
                                 </h3>
                             
                                 <div id="collapseManagerNotes" class="panel-collapse collapse in collapsed">
-                                    <div class="panel-collapse-inner">
-       
-                                        <div class="clearfix modal-body text-center" ng-if="notes.length === null">
-                                            <i class="zmdi zmdi-hc-2x zmdi-book"></i>
-                                            <h4>No notes found.</h4>
-                                        </div>
+                                    <div class="panel-collapse-inner">                                        
                                         <section class="message-thread">
                                             <div class="message-thread-item" ng-repeat="note in notes">
                                                 <div class="message-avatar avatar avatar-xxs"><img src="{{facilitatorImg}}" alt="You"></div>
@@ -176,6 +171,12 @@
                                                 <button type="button" class="btn btn-link btn-send" ng-click="saveNotes(newNotes); newNotes='';"><i class="zmdi zmdi-mail-send zmdi-hc-2x"></i></button>
                                             </div>
                                         </section>
+
+                                        <div class="clearfix modal-body text-center" ng-if="notes.length == 0">
+                                            <i class="zmdi zmdi-hc-2x zmdi-file-text"></i>
+                                            <h4>No notes found.</h4>
+                                        </div>
+
                                     </div>
                                 </div>
                             </article>

@@ -3,12 +3,12 @@
     .isDesktop {
         display: none;
     }
-    .main-content-gqa {
-        .container {
-            padding-left: 0;
-            padding-right: 0;
-        }
-    }
+    // .main-content-gqa {
+    //     .container {
+    //         padding-left: 0;
+    //         padding-right: 0;
+    //     }
+    // }
     .isMobile {
         .composer {
             background: #fd0303;
@@ -390,14 +390,14 @@
         padding: 0px;
         margin: 0px;
     }
-    .footer-gqa {
-        color: white;
-        background-color: #4d4d4d;
-        position: fixed;
-        bottom: 0;
-        z-index: 2;
-        width: 100%;
-    }
+    // .footer-gqa {
+    //     color: white;
+    //     background-color: #4d4d4d;
+    //     position: fixed;
+    //     bottom: 0;
+    //     z-index: 2;
+    //     width: 100%;
+    // }
     .message-post {
         padding: 0 15px;
         padding-top:10px;
