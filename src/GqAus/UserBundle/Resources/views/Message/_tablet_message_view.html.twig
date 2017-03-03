@@ -13,8 +13,8 @@
                                     </ul>
                                 </li>
                                 <li> <a href="#" ng-click="msgType = 'sent';msgText='Sent';paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-mail-send"></i> Sent </a> </li>
-                                <li> <a href="#" ng-click="msgType = 'draft';msgText='Drafts';paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-star"></i> Drafts </a> </li>
-                                <li> <a href="#" ng-click="msgType = 'flagged';msgText='Flagged';paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-bookmark"></i> Flagged </a> </li>
+                                <li> <a href="#" ng-click="msgType = 'draft';msgText='Drafts';paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-bookmark"></i> Drafts </a> </li>
+                                <li> <a href="#" ng-click="msgType = 'flagged';msgText='Flagged';paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-flag"></i> Flagged </a> </li>
                             </ul>
                         </div>
                         
@@ -26,7 +26,7 @@
                         </select>
                     </div>
                     <div class="inbox-body">
-                        <div class="mail-option">
+                        <div class="mail-option" ng-hide="!displayNoMsgTxt">
                             <div class="btn-group">
                                 <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="#" class="btn mini tooltips" ng-click="paginator.currentPage=1;getMessages()"> <i class="zmdi zmdi-refresh"></i> </a>
                             </div>
@@ -36,7 +36,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#" ng-click="unreadMsgs()"><i class="zmdi zmdi-edit"></i> Mark as Unread</a></li>
-                                    <li><a href="#" ng-click="flaggMultipleMsgs()"><i class="zmdi zmdi-star"></i> Flag</a></li>
+                                    <li><a href="#" ng-click="flaggMultipleMsgs()"><i class="zmdi zmdi-flag"></i> Flag</a></li>
                                 </ul>
                             </div>
                             <ul class="unstyled inbox-pagination">
@@ -49,7 +49,12 @@
                         <div class="table table-inbox table-hover">
                             <div class="table-row" ng-class="{'unread': msg.read != 0}" ng-repeat="msg in messages" ng-click="viewMsgThread=true">
                                 <div class="aside mail-avatar" ng-init="amazon_link='{{amazon_link}}'; userImage = msg.msgFrm.userImage != ''?amazon_link+'user-'+msg.msgFrm.id+'/'+msg.msgFrm.userImage:'../public/images/userprofile.png'">
-                                    <div class="avatar-xxs" ng-click="displayMsg(msg.id, msg.read);"> <img ng-src="{[{ userImage }]}" alt="You"> </div>
+                                    <div class="avatar-xxs" ng-click="displayMsg(msg.id, msg.read);" ng-if="msg.systemGenerated != 1"> 
+                                        <img ng-src="{[{ userImage }]}" alt="You"> 
+                                    </div>
+                                    <div class="avatar-xxs" ng-click="displayMsg(msg.id, msg.read);"  ng-if="msg.systemGenerated == 1"> 
+                                        <img ng-src="{[{ userImage }]}" alt="You"> 
+                                    </div>
                                     <div class="select-item"><input type="checkbox" name="inboxList" ng-click="selectMsg(msg.id);"></div>
                                     <div class="avatar-details">
                                         <span class="avatar-name" ng-click="displayMsg(msg.id, msg.read);"> {[{ msg.msgFrm.name }]}
@@ -57,7 +62,7 @@
                                         <span class="date-stamp">{[{msg.created.date}]}</span> <span class="time-stamp">{[{msg.created.time}]}</span> </span>
                                         <div class="view-message">
                                            <p class="mail-subject" ng-click="displayMsg(msg.id, msg.read);">{[{msg.subject}]}</p>
-                                           <i class="zmdi zmdi-star" ng-class="{'flagged': msg.flagged == 1}" ng-click="flaggMsg(msg.id, msg.flagged);"></i>
+                                           <i class="zmdi zmdi-flag" ng-class="{'flagged': msg.flagged == 1}" ng-click="flaggMsg(msg.id, msg.flagged);"></i>
                                            <p class="message-copy" ng-click="displayMsg(msg.id, msg.read);"> {[{msg.stippedMessage}]}</p>
                                        </div>
                                     </div>
@@ -71,7 +76,7 @@
                     <article class="message-thread-header">
                         {[{messageThread.viewMsg.subject}]}
                         <i class="zmdi zmdi-mail-reply" ng-hide="hideReplyButton" ng-click="hideReplyButton = true"></i>
-                        <i class="zmdi zmdi-star" ng-class="{'flagged': messageThread.viewMsg.flagged == 1}"></i>
+                        <i class="zmdi zmdi-flag" ng-class="{'flagged': messageThread.viewMsg.flagged == 1}"></i>
                     </article>
                     <section class="message-compose" id="msgReply" ng-hide="!hideReplyButton">
                         <div class="form-group">
@@ -148,6 +153,12 @@
                     </div>
                 </section>
             </section>
+            <section class="inbox-welcome" ng-hide="displayNoMsgTxt">
+               <div class="welcome-msg" style="text-align:center; display: table-cell; vertical-align: middle; text-align: center; width: 1070px; margin: 0 auto; padding: 135px 0;">
+                   <img src="ui/img/mail.svg" alt="welcome mail">
+                   <p>Currently don't have messages to read, look back after some time</p>                            
+               </div>
+           </section>
         </aside>
     </div>
 </div>

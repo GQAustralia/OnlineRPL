@@ -144,7 +144,7 @@
                                                         {% if unreadwMsg.getSystemGenerated()  != 1 %}
                                                             <img src="{% if unreadwMsg.sent.getUserImage()  != '' %}{{amazon_link~'user-'~unreadwMsg.sent.getId()~'/'~unreadwMsg.sent.getUserImage()}}{%else%}public/images/userprofile.png{%endif%}" alt="{{unreadwMsg.sent.getUserName()}}">
                                                         {% else %}
-                                                            <img src="ui/img/avatar-default.png">
+                                                            <img src="public/ui/img/computer.svg">
                                                         {% endif %}
                                                     </div>
                                                 </div>
