@@ -907,19 +907,19 @@ class UserService {
           if($value['1'] <= 30)
               $thirtyDayRecordsCount = $thirtyDayRecordsCount + 1;
                   
-          if($value['1'] >= 31 && $value['1'] <= 60)
+          if($value['1'] > 30 && $value['1'] <= 60)
             $sixtyDayRecordsCount = $sixtyDayRecordsCount + 1;
                   
-           if($value['1'] >= 61 && $value['1'] <= 90)
+           if($value['1'] > 60 && $value['1'] <= 90)
              $ninetyDayRecordsCount = $ninetyDayRecordsCount + 1;
                    
-           if($value['1'] >= 91 && $value['1'] <= 120)
+           if($value['1'] > 90 && $value['1'] <= 120)
              $oneTwentyDayRecordsCount = $oneTwentyDayRecordsCount + 1;
                    
-           if($value['1'] >= 121 && $value['1'] <= 150)
+           if($value['1'] > 120 && $value['1'] <= 150)
              $oneFiftyDayRecordsCount = $oneFiftyDayRecordsCount + 1;                       
 
-           if($value['1'] >= 151 && $value['1'] <= 180)
+           if($value['1'] > 150 && $value['1'] <= 180)
              $oneEightyDayRecordsCount = $oneEightyDayRecordsCount + 1;   
         }
 
