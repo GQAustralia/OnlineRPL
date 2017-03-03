@@ -255,6 +255,7 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
     };
 
     $scope.getUnitEvidences = function (unitCode) {
+		
         AjaxService.apiCall("units/getEvidencesByUnit", {"unitCode": unitCode, "courseCode": $scope.courseCode, "userId":$scope.applicantId}).then(function (data) {
             if ($scope.selectedUnit === unitCode) $scope.unitEvidences = data;
             var $obj = _.where($scope.unitEvidences,{type:"text"});
@@ -584,8 +585,10 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
     }
     
     var getNotes = function(selectedUnit, courseCode, applicantId) {
-    	
-    	AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "userId": $scope.applicantId}).then(function (data) {
+    	console.log('selectedUnit :: '+selectedUnit);
+    	console.log('courseCode :: '+courseCode);
+    	console.log('applicantId :: '+applicantId);
+    	AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "userId": applicantId}).then(function (data) {
     		$scope.notes = data;
     		$scope.IsLoaded = true;
         }, function (error) {
@@ -619,8 +622,7 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
 
     // Watchers
     $scope.$watch('qualificationPage', function (newValues) {
-		console.log('newValues');
-		console.log(newValues);
+
         if (newValues !== '') {
             $scope.IsLoaded = false;
             if (newValues === "qualification") {
@@ -689,9 +691,4 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
 		});
 
 	}
-	console.log('qualificationPage');
-	console.log($scope.qualificationPage);
-	console.log('IsLoaded');
-	console.log($scope.IsLoaded);
-	$scope.IsLoaded = true;
 });

@@ -1,4 +1,4 @@
- <div class="container container-two-column-split" data-panel-parent="two-column-split" ng-show="qualificationPage == 'elective' && IsLoaded && electiveUploadSelected">
+ <div class="container container-two-column-split" data-panel-parent="two-column-split" ng-show="qualificationPage == 'elective' && IsLoaded">
             <section class="section-main col-section-10" ng-class="{'col-section-5': is_open === true, 'col-section-10': is_open === false}" data-panel="left">
                 <div class="panel panel-default panel-units">
                     <div class="panel-body">
@@ -56,12 +56,10 @@
                             </ul>
 
                         </div>
-                         <hr>
-                        <h6>Want to change your selected elective units?</h6>
-                        <a ng-click="reSelectEvidenceUnit()" class="btn btn-default btn-xs"><i class="zmdi zmdi-swap zmdi-hc-lg zmdi-hc-fw"></i> Reselect Units</a>
+
                     </div>
                 </div>
             </section>
-            {% include 'GqAusHomeBundle:Courses:unitEvidenceUpload.html.twig' %} 
+            {% include 'GqAusHomeBundle:Courses:amUnitEvidenceUpload.html.twig' %} 
         </div>
    
