@@ -1,39 +1,24 @@
 /*
-Error: Undefined mixin 'box-shadow'.
-        on line 28 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/dashboard-account-manager/new-task-popover.scss, in `box-shadow'
-        from line 28 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/dashboard-account-manager/new-task-popover.scss
+Error: Undefined mixin 'clearfix'.
+        on line 2 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/applicants-account-manager/applicant-profile.scss, in `clearfix'
+        from line 2 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/applicants-account-manager/applicant-profile.scss
 
-23: 	    border-right: 1px solid #cecece;
-24: 	    padding-left: 12px;
-25: 	    padding-right: 12px;
-26: 	    color: #616161;
-27: 	    font-weight: 500;
-28: 		@include box-shadow(none);
-29: 		@include transition(none);
-30: 	}
-31: 
-32: 	.popover-title {
-33: 		font-size: 12px !important;
+1: .panel-applicant {
+2: 	@include clearfix();
+3: 	.panel-aside {
+4: 		width: $qual-img-width;
+5: 		position: relative;
+6: 		float: left;
+7: 		min-height: 300px;
 
 Backtrace:
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/dashboard-account-manager/new-task-popover.scss:28:in `box-shadow'
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/dashboard-account-manager/new-task-popover.scss:28
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/applicants-account-manager/applicant-profile.scss:2:in `clearfix'
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/applicants-account-manager/applicant-profile.scss:2
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:351:in `block in visit_mixin'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:98:in `block in with_mixin'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:98:in `with_mixin'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:349:in `visit_mixin'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
@@ -80,4 +65,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'box-shadow'.\A         on line 28 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/dashboard-account-manager/new-task-popover.scss, in `box-shadow'\A         from line 28 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/dashboard-account-manager/new-task-popover.scss\A \A 23: 	    border-right: 1px solid #cecece;\A 24: 	    padding-left: 12px;\A 25: 	    padding-right: 12px;\A 26: 	    color: #616161;\A 27: 	    font-weight: 500;\A 28: 		@include box-shadow(none);\A 29: 		@include transition(none);\A 30: 	}\A 31: \A 32: 	.popover-title {\A 33: 		font-size: 12px !important;"; }
+  content: "Error: Undefined mixin 'clearfix'.\A         on line 2 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/applicants-account-manager/applicant-profile.scss, in `clearfix'\A         from line 2 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/applicants-account-manager/applicant-profile.scss\A \A 1: .panel-applicant {\A 2: 	@include clearfix();\A 3: 	.panel-aside {\A 4: 		width: $qual-img-width;\A 5: 		position: relative;\A 6: 		float: left;\A 7: 		min-height: 300px;"; }

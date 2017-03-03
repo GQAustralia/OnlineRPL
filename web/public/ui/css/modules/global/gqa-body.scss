@@ -71,6 +71,29 @@
 	}
 }
 
+.list-custom-bullet {
+	li {
+		padding-left: 25px;
+		margin-bottom: 10px;
+		position: relative;
+		&:before {
+			display: block;
+			margin-right: 17px;
+			font-family: 'Material-Design-Iconic-Font';
+			content: '\f26d';
+			font-size: 0.65em;
+			color: $gray-dark;
+			left: 0;
+			top: 0.3em;
+			position: absolute;
+
+		}
+	}
+	padding-left: 10px;
+	margin-bottom: 0;
+	list-style: none;
+}
+
 .table-subheader td{
 	padding-top: 25px !important;
 }

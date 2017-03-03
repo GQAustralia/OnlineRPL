@@ -4,6 +4,18 @@ Error: Undefined mixin 'pointing-left-heading'.
         from line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss
         from line 18 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/overview.scss
 
+72: 				progress { width: 340px; }
+73: 			}
+74: 		}
+75: 	}
+76: }
+77: @media (min-width: $screen-xlg) {
+78: 	.panel-overview {
+79: 		.panel-qualification-body .panel-body-group {
+80: 			.qual-title {
+81: 				padding-left: 60px;
+82: 				padding-right: 60px;
+
 Backtrace:
 D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss:77:in `pointing-left-heading'
 D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss:77
@@ -108,4 +120,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'pointing-left-heading'.\A         on line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss, in `pointing-left-heading'\A         from line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss\A         from line 18 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/overview.scss"; }
+  content: "Error: Undefined mixin 'pointing-left-heading'.\A         on line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss, in `pointing-left-heading'\A         from line 77 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/_1024.scss\A         from line 18 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/overview/overview.scss\A \A 72: 				progress { width: 340px; }\A 73: 			}\A 74: 		}\A 75: 	}\A 76: }\A 77: @media (min-width: $screen-xlg) {\A 78: 	.panel-overview {\A 79: 		.panel-qualification-body .panel-body-group {\A 80: 			.qual-title {\A 81: 				padding-left: 60px;\A 82: 				padding-right: 60px;"; }

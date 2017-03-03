@@ -1,0 +1,434 @@
+.is-tablet {
+    
+    .isMobile,
+    .isDesktop{
+        display: none;
+    }
+    
+    .isTablet {
+        .inbox-list,
+        .message-thread {
+            width: 49%;
+            margin: 0 .5%;
+            float: left;
+            background-color: #fff;
+            
+            &.mail-compose{
+                width: 100%;
+            }
+        }
+        .message-thread {
+            .message-thread-header {
+                background-color: #00a6b2;
+                color: #fff;
+                font-size: 20px;
+                padding: 20px;
+                .zmdi {
+                    float: right;
+                    font-size: 1.35em;
+                    margin: 0 5px;
+                    &.flagged {
+                        color: #f78a09;
+                    }
+                }
+            }
+            .message-compose {
+                //padding: 20px 20px 0 20px;
+                .form-group {
+                    margin: 15px 0;
+                    textarea {
+                        &.form-control {
+                            //height: auto;
+                            padding: 10px 20px;
+                        }
+                    }
+                    label,
+                    input {
+                        padding: 0 20px;
+                        margin-bottom: 0;
+                        &.form-control {
+                            height: 36px;
+                        }
+                    }
+                }
+                input::-webkit-calendar-picker-indicator {
+                    display: none;
+                }
+                .popover-content {
+                    li {
+                        border-bottom: 1px solid lightgray;
+                        padding: 5px 0;
+                        font-weight: 100;
+                        font-size: 1.16em;
+                        span.recipient {
+                            font-size: 20px;
+                            display: list-item;
+                        }
+                    }
+                }
+            }
+            .message-thread-container {
+                float: left;
+                min-height: 250px;
+                overflow-y: scroll;
+                height: 320px;
+            }
+            .message-thread-item {
+                padding: 15px 15px 0 15px;
+                margin-bottom: 0;
+                &:last-child {
+                    margin-bottom: 15px;
+                }
+            }
+            .btn-auto-group {
+                padding: 20px 25px;
+                //margin: 0;
+                .btn {
+                    margin: 0;
+                }
+                .zmdi {
+                    float: none;
+                    vertical-align: middle;
+                }
+            }
+        }
+        
+        .composer {
+            background: #fd0303;
+            height: 40px;
+            width: 40px;
+            position: fixed;
+            bottom: 100px;
+            right: 15px;
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+            
+            i {
+                display: block;
+                text-align: center;
+                padding: 10px;
+                color: #fff;
+                font-size: 20px;
+            }
+        }
+        
+    }
+    .inbox-body {
+        padding: 0;
+        .zmdi {
+            font-size: 1.35em;
+            width: 20px;
+            &.flagged {
+                color: #f78a09;
+            }
+        }
+        .table {
+            margin-bottom: 0;
+            border: 1px solid #d3d3d3;
+        }
+        div.table-inbox {
+            display: flex;
+            flex-flow: row wrap;
+            .table-row {
+                width: 100%;
+                border-bottom: 1px solid #d3d3d3;
+                &.unread {
+                    background-color: #fff;
+                }
+                .mail-avatar {
+                    .avatar-xxs {
+                        max-width: 40px;
+                        width: 40px;
+                        height: 40px;
+                        display: block;
+                        vertical-align: middle;
+                        float: left;
+                        margin-top: 15px;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 50%;
+                            margin: auto;
+                        }
+                    }
+                    .select-item {
+                        float: left;
+                        padding: 27px 15px;
+                    }
+                    .avatar-details {
+                        width: calc(100% - 85px);
+                        display: block;
+                        float: left;
+                        padding-left: 10px;
+                        span {
+                            display: block;
+                            &.avatar-name {
+                                font-weight: 600;
+                                float: left;
+                                width: calc(100% - 70px);
+                                .avatar-designation {
+                                    font-weight: 100;
+                                }
+                            }
+                            &.date-time {
+                                font-size: 10px;
+                                float: right;
+                                text-align: right;
+                                width: 70px;
+                                span {
+                                    display: block;
+                                }
+                            }
+                        }
+                        .zmdi {
+                            float: right;
+                        }
+                    }
+                }
+                .view-message {
+                    width: 100%;
+                    white-space: nowrap;
+                    float: left;
+                    p.mail-subject,
+                    p.message-copy {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        //padding: 0 10px 0 50px;
+                        position: relative;
+                        margin-bottom: 0;
+                        width: calc(100% - 20px);
+                    }
+                    p.message-copy {
+                        &:after {
+                            content: " ";
+                        }
+                    }
+                }
+                .aside {
+                    padding: 5px;
+                    float: left;
+                    width: 100%;
+                }
+            }
+            .fa-star {
+                color: #d5d5d5;
+                &:hover,
+                &.flagged {
+                    color: #f78a09;
+                }
+            }
+        }
+    }
+    .mail-box,
+    .message-thread {
+        border-collapse: collapse;
+        border-spacing: 0;
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+
+        aside {
+            display: table-cell;
+            float: none;
+            height: 100%;
+            padding: 0;
+            vertical-align: top;
+        }
+        .sm-side {
+            background: none repeat scroll 0 0 #e5e8ef;
+            border-radius: 4px 0 0 4px;
+            width: 250px;
+        }
+        /*.lg-side {
+            border-radius: 0 4px 4px 0;
+            width: calc(250px - 100%);
+        }*/
+        .sm-side .user-head {
+            background: none repeat scroll 0 0 #00a8b3;
+            border-radius: 4px 0 0;
+            color: #fff;
+            min-height: 80px;
+            padding: 10px;
+        }
+        .inbox-head select {
+            border-radius: 5px;
+            border: none;
+            color: #000;
+            float: right;
+            padding: 6px 0;
+            margin: 4px 0;
+        }
+    }
+    a.mail-dropdown {
+        background: none repeat scroll 0 0 #80d3d9;
+        border-radius: 2px;
+        color: #01a7b3;
+        font-size: 10px;
+        margin-top: 20px;
+        padding: 3px 5px;
+    }
+    ul {
+        &.inbox-nav li {
+            display: inline-block;
+            line-height: 45px;
+            width: 100%;
+            a {
+                color: #6a6a6a;
+                display: inline-block;
+                line-height: 45px;
+                padding: 0 20px;
+                width: 100%;
+                &:hover {
+                    background: none repeat scroll 0 0 #d5d7de;
+                    color: #6a6a6a;
+                }
+            }
+            &.active a {
+                background: none repeat scroll 0 0 #d5d7de;
+                color: #6a6a6a;
+            }
+            a {
+                &:focus {
+                    background: none repeat scroll 0 0 #d5d7de;
+                    color: #6a6a6a;
+                }
+                i {
+                    color: #6a6a6a;
+                    font-size: 16px;
+                    padding-right: 10px;
+                }
+                span.label {
+                    margin-top: 13px;
+                }
+            }
+            ul li a {
+                padding-left: 45px;
+            }
+        }
+        &.labels-info li {
+            h4 {
+                color: #5c5c5e;
+                font-size: 13px;
+                padding-left: 15px;
+                padding-right: 15px;
+                padding-top: 5px;
+                text-transform: uppercase;
+            }
+            margin: 0;
+            a {
+                border-radius: 0;
+                color: #6a6a6a;
+                &:hover,
+                &:focus {
+                    background: none repeat scroll 0 0 #d5d7de;
+                    color: #6a6a6a;
+                }
+                i {
+                    padding-right: 10px;
+                }
+            }
+        }
+    }
+    .inbox-head {
+        background: none repeat scroll 0 0 #41cac0;
+        border-radius: 0 4px 0 0;
+        color: #fff;
+        min-height: 80px;
+        padding: 20px;
+        position: relative;
+        .dropdown-menu {
+            top: 100%;
+            left: 0;
+            width: 100%;
+        }
+        h3 {
+            display: inline-block;
+            font-weight: 300;
+            margin: 0;
+            padding-top: 6px;
+            span {
+                .zmdi-caret-down {
+                    vertical-align: -15%;
+                }
+            }
+        }
+        .sr-input {
+            border: medium none;
+            border-radius: 4px 0 0 4px;
+            box-shadow: none;
+            color: #8a8a8a;
+            float: left;
+            height: 40px;
+            padding: 0 10px;
+        }
+        .sr-btn {
+            background: none repeat scroll 0 0 #00a6b2;
+            border: medium none;
+            border-radius: 0 4px 4px 0;
+            color: #fff;
+            height: 40px;
+            padding: 0 20px;
+        }
+    }
+    .mail-option {
+        display: inline-block;
+        padding: 10px;
+        width: 100%;
+        .chk-all,
+        .btn-group {
+            margin-right: 5px;
+        }
+        .chk-all,
+        .btn-group a.btn {
+            background: none repeat scroll 0 0 #fcfcfc;
+            border: 1px solid #e7e7e7;
+            border-radius: 3px !important;
+            color: #afafaf;
+            display: inline-block;
+            padding: 5px 10px;
+        }
+        ul.inbox-pagination {
+            float: right;
+            li {
+                display: inline;
+                a {
+                    text-align: center;
+                }
+            }
+        }
+    }
+    .inbox-pagination a.np-btn {
+        background: none repeat scroll 0 0 #fcfcfc;
+        border: 1px solid #e7e7e7;
+        border-radius: 3px !important;
+        color: #afafaf;
+        display: inline-block;
+        padding: 5px 15px;
+    }
+    .inbox-pagination {
+        a.np-btn {
+            margin-left: 5px;
+        }
+        li span {
+            display: inline-block;
+            margin-right: 5px;
+            margin-top: 7px;
+        }
+    }
+    * {
+        html .fileinput-button {
+            line-height: 24px;
+            margin: 1px -3px 0 0;
+        }
+        + html .fileinput-button {
+            margin: 1px 0 0;
+            padding: 2px 15px;
+        }
+    }
+    ul {
+        list-style-type: none;
+        padding: 0px;
+        margin: 0px;
+    }
+}

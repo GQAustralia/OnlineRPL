@@ -1,16 +1,21 @@
 /*
 Error: Undefined variable: "$screen-sm-min".
-        on line 1 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-desktop.scss
+        on line 91 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-desktop.scss
 
-1: @media (min-width: $screen-sm-min) {
-2: 	.header-gqa {
-3: 		min-width: $screen-sm-max;
-4: 		.header-gqa-logo {
-5: 			height: 50px;
-6: 			margin-top: 30px;
+86: 			@include gradient-horizontal(transparent,$dropdown-link-hover-bg,0,100%);
+87: 		}
+88: 	}
+89: }
+90: 
+91: @media (min-width: $screen-sm-min) {
+92: 	.header-gqa {
+93: 		min-width: $screen-sm-max;
+94: 		.header-gqa-logo {
+95: 			height: 50px;
+96: 			margin-top: 30px;
 
 Backtrace:
-D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-desktop.scss:1
+D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-desktop.scss:91
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:542:in `block in run_interp_no_strip'
@@ -53,4 +58,4 @@ C:/Ruby23/lib/ruby/gems/2.3.0/gems/sass-3.4.22/vendor/listen/lib/listen/adapter.
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$screen-sm-min\".\A         on line 1 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-desktop.scss\A \A 1: @media (min-width: $screen-sm-min) {\A 2: 	.header-gqa {\A 3: 		min-width: $screen-sm-max;\A 4: 		.header-gqa-logo {\A 5: 			height: 50px;\A 6: 			margin-top: 30px;"; }
+  content: "Error: Undefined variable: \"$screen-sm-min\".\A         on line 91 of D:/Xampp/htdocs/online-rpl-ui/ui/css/modules/global/gqa-header-desktop.scss\A \A 86: 			@include gradient-horizontal(transparent,$dropdown-link-hover-bg,0,100%);\A 87: 		}\A 88: 	}\A 89: }\A 90: \A 91: @media (min-width: $screen-sm-min) {\A 92: 	.header-gqa {\A 93: 		min-width: $screen-sm-max;\A 94: 		.header-gqa-logo {\A 95: 			height: 50px;\A 96: 			margin-top: 30px;"; }
