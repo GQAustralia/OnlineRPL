@@ -140,7 +140,7 @@ class EvidenceService
      public function saveS3ToEvidence($data)
     {
 
-        if (empty($data['self_assessment'])) {
+        if (!isset($data['self_assessment'])) {
             $i = 0;
             $seterror = 'no';
             $filName = $data['path'];
@@ -206,9 +206,17 @@ class EvidenceService
             $textObj->setCourse($data['courseCode']);
             $textObj->setUser($this->currentUser);
             $textObj->setFacilitatorViewStatus('0');
-            $this->em->persist($textObj);
-            $this->em->flush();
-            $evidenceId = $textObj->getId();
+            if (empty($data['self_assessment'])) {
+            	
+            				$this->em->remove($textObj);
+            				$this->em->flush();
+            }
+            else {
+            				$this->em->persist($textObj);
+            				$this->em->flush();
+            				$evidenceId = $textObj->getId();
+            }
+            
             $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'],'', false);
         }
        
