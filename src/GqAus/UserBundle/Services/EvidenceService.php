@@ -210,6 +210,7 @@ class EvidenceService
             	
             				$this->em->remove($textObj);
             				$this->em->flush();
+            				$evidenceId = '';
             }
             else {
             				$this->em->persist($textObj);
@@ -573,7 +574,7 @@ class EvidenceService
                 $mailBody, $userInfo->getEmail(), $userInfo->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->userService->sendMessagesInbox($courseObj->getFacilitator()->getId(), $userId, 
-                $messageSubject, $messageBody, $courseUnitObj->getId());
+                $messageSubject, $messageBody, $courseUnitObj->getId(), 1);
 
             // checking whether the assessor is assigned or not
             $cAssessor = $courseObj->getAssessor();
@@ -590,7 +591,7 @@ class EvidenceService
                     $courseObj->getFacilitator()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
                 $this->userService->sendMessagesInbox($courseObj->getAssessor()->getId(), 
-                    $courseObj->getFacilitator()->getId(), $messageSubject, $messageBody, $courseUnitObj->getId());
+                    $courseObj->getFacilitator()->getId(), $messageSubject, $messageBody, $courseUnitObj->getId(), 1);
             }
         }
     }

@@ -896,30 +896,34 @@ class UserService {
      * return facilitator portfolio counts
      */
     public function getFacilitatorPortfolioCounts($userId, $userRole) {
-      
-       $pendingApplicants = $this->getPendingApplicants($userId, $userRole, '0');
-       $userRole = 'ROLE_FACILITATOR';
-       $thirtyDayRecordsCount = $sixtyDayRecordsCount = $ninetyDayRecordsCount = $oneTwentyDayRecordsCount = $oneFiftyDayRecordsCount = $oneEightyDayRecordsCount = 0;
-       foreach($pendingApplicants as $key => $applicant){
-         $result = $this->getDaysRemainingFromRole($applicant->getUser()->getId(), $applicant->getCourseCode(), $userRole);
-         $dayResult = explode('&&', $result); 
-         $dayCount = $dayResult[0];
-          if($dayCount <= 30) {
-              $thirtyDayRecordsCount = $thirtyDayRecordsCount + 1;
-          } else if($dayCount > 30 && $dayCount <= 60){
-            $sixtyDayRecordsCount = $sixtyDayRecordsCount + 1;
-          } else if($dayCount > 60 && $dayCount <= 90) {
-             $ninetyDayRecordsCount = $ninetyDayRecordsCount + 1;
-          } else if($dayCount > 90 && $dayCount <= 120) {
-             $oneTwentyDayRecordsCount = $oneTwentyDayRecordsCount + 1;
-          } else if($dayCount > 120 && $dayCount <= 150) {
-             $oneFiftyDayRecordsCount = $oneFiftyDayRecordsCount + 1;
-          } else if($dayCount > 150 && $dayCount <= 180) {
-             $oneEightyDayRecordsCount = $oneEightyDayRecordsCount + 1;
-          }
-       }
 
-        $retResult = array(
+        $query =$this->em->createQuery('SELECT DATE_DIFF(uc.targetDate, CURRENT_DATE()) from GqAusUserBundle:UserCourses uc WHERE uc.facilitator = '.$userId.' AND uc.courseStatus <> 0');
+        $result = $query->execute();
+        $daysLeftList = array();
+        $thirtyDayRecordsCount = $sixtyDayRecordsCount = $ninetyDayRecordsCount = $oneTwentyDayRecordsCount = $oneFiftyDayRecordsCount = $oneEightyDayRecordsCount = 0;
+
+        foreach($result as $key=>$value){
+
+          if($value['1'] <= 30)
+              $thirtyDayRecordsCount = $thirtyDayRecordsCount + 1;
+                  
+          if($value['1'] > 30 && $value['1'] <= 60)
+            $sixtyDayRecordsCount = $sixtyDayRecordsCount + 1;
+                  
+           if($value['1'] > 60 && $value['1'] <= 90)
+             $ninetyDayRecordsCount = $ninetyDayRecordsCount + 1;
+                   
+           if($value['1'] > 90 && $value['1'] <= 120)
+             $oneTwentyDayRecordsCount = $oneTwentyDayRecordsCount + 1;
+                   
+           if($value['1'] > 120 && $value['1'] <= 150)
+             $oneFiftyDayRecordsCount = $oneFiftyDayRecordsCount + 1;                       
+
+           if($value['1'] > 150 && $value['1'] <= 180)
+             $oneEightyDayRecordsCount = $oneEightyDayRecordsCount + 1;   
+        }
+
+        return array(
             'thirtyDaysApplicantsCount' => $thirtyDayRecordsCount,
             'sixtyDaysApplicantsCount' => $sixtyDayRecordsCount,
             'ninetyDaysApplicantsCount' => $ninetyDayRecordsCount,
@@ -927,8 +931,6 @@ class UserService {
             'oneFiftyDayRecordsCount' => $oneFiftyDayRecordsCount,
             'oneEightyDayRecordsCount' => $oneEightyDayRecordsCount
         );
-
-        return $retResult;
     }
 
     /**
@@ -2682,6 +2684,7 @@ class UserService {
             if (!empty($data['email']) && count($user) <= 0) {
                 $data['applicantStatus'] = '1';
                 $user = $this->addPersonalProfile('ROLE_APPLICANT', $data);
+                
                 $message = 'User added successfully!';
                 $emailFlag = 'U';
             } else {
@@ -2695,9 +2698,9 @@ class UserService {
             $courseData['managerId'] = $request->get('managerId');
             $courseData['zohoId'] = $request->get('zohoId');
             if (!empty($courseData['courseCode']) || !empty($courseData['courseName'])) {
-                $res = $this->addUserCourse($courseData, $user);
-                $message = $res['message'];
-                $emailCourseFlag = $res['emailFlag'];
+               // $res = $this->addUserCourse($courseData, $user);
+               // $message = $res['message'];
+                //$emailCourseFlag = $res['emailFlag'];
             }
         }
 
@@ -2731,7 +2734,18 @@ class UserService {
         				$mailBody = $this->emailService->getWelcomeEmailToApplicantEmailMsg($user->getId(), $courseData['courseName']);
         				$this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
        					// $this->emailService->sendNotificationEmailToSupervisors($user->getId());
+       					
+        				$mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_course_sub'));
+        				$supervisorObj = $this->getUserInfo($request->get('managerId'));
+        				$mailBody = $this->emailService->getNotificationEmailToSupervisorsEmailMsg($request->get('managerId'), $user->getUserName(), $courseData['courseName']);
+        				$this->sendExternalEmail($supervisorObj->getEmail(), $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
          }
+         $subSearch = array('#courseCode#', '#courseName#');
+         $subReplace = array($courseData['courseCode'], $courseData['courseName']);
+         $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_course_sub'));
+         $supervisorObj = $this->getUserInfo($request->get('managerId'));
+         $mailBody = $this->emailService->getNotificationEmailToSupervisorsEmailMsg($request->get('managerId'), $user->getUserName(), $courseData['courseName']);
+         $this->sendExternalEmail($supervisorObj->getEmail(), $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
         echo $message;
         exit;
     }
