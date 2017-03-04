@@ -76,9 +76,12 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
                 slideFlag = false;
         }
         if(slideFlag === true){ 
-        $scope.activeForm = index;
-        $rootScope.pageTitle = 'Enrolment - '+$scope.titles[index];
-        $("#formWizardCarousel").carousel(i);
+            $scope.activeForm = index;
+            $rootScope.pageTitle = 'Enrolment - '+$scope.titles[index];
+            $("#formWizardCarousel").carousel(i);
+            
+            // Quick fix to handle footer
+            GQA_FOOTER.handle_footer();
         }
     };
     $scope.formSlideTo(0);
@@ -146,10 +149,11 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
                 $scope.formSlideTo(invalidKey);
             });
             
-            if(!$scope.enrollment.profile.homeTelNumber) $scope.enrollment.profile.homeTelNumber = '+61 ';
-            if(!$scope.enrollment.profile.workTelNumber) $scope.enrollment.profile.workTelNumber = '+61 ';
-            if(!$scope.enrollment.profile.mobileNumber) $scope.enrollment.profile.mobileNumber = '+61 ';
+            if(!$scope.enrollment.profile.homeTelNumber) $scope.enrollment.profile.homeTelNumber = '+61';
+            if(!$scope.enrollment.profile.workTelNumber) $scope.enrollment.profile.workTelNumber = '+61';
+            if(!$scope.enrollment.profile.mobileNumber) $scope.enrollment.profile.mobileNumber = '+61';
             $scope.IsLoaded = true;
+
         }, function (error) {
             console.log(error);
         });
