@@ -953,7 +953,40 @@ class UserService {
             'oneEightyDayRecordsCount' => $oneEightyDayRecordsCount
         );
     }
-
+				
+    /**
+     * Function to get facilitator portfolio
+     * @param int $userId
+     * return facilitator portfolio counts
+     */
+    public function getFacilitatorPortfolioCountsOld($userId, $userRole){
+    
+    	$allRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole);
+    	$thirtyDayRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '0', '30');
+    	$sixtyDayRecordsCount  = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '31', '60');
+    	$ninetyDayRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '61', '90');
+    	$ninetyDayPlusRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '2', '91', '');
+    	$thirtyDayRecordsPercent = $sixtyDayRecordsPercent = $ninetyDayRecordsPercent = $ninetyDayPlusRecordsPercent = 0;
+    	if($allRecordsCount > 0) {
+    
+    		$thirtyDayRecordsPercent = ($thirtyDayRecordsCount/$allRecordsCount)*100;
+    		$sixtyDayRecordsPercent = ($sixtyDayRecordsCount/$allRecordsCount)*100;
+    		$ninetyDayRecordsPercent = ($ninetyDayRecordsCount/$allRecordsCount)*100;
+    		$ninetyDayPlusRecordsPercent = ($ninetyDayPlusRecordsCount/$allRecordsCount)*100;
+    	}
+    	return array(
+    			'allApplicantsCount' => $allRecordsCount,
+    			'thirtyDaysApplicantsCount' => $thirtyDayRecordsCount,
+    			'sixtyDaysApplicantsCount' => $sixtyDayRecordsCount,
+    			'ninetyDaysApplicantsCount' => $ninetyDayRecordsCount,
+    			'ninetyDaysPlusRecordsCount' => $ninetyDayPlusRecordsCount,
+    			'thirtyDayApplicantsPercent' => $thirtyDayRecordsPercent,
+    			'sixtyDaysApplicantsPercent' => $sixtyDayRecordsPercent,
+    			'ninetyDaysApplicantsPercent' => $ninetyDayRecordsPercent,
+    			'ninetyDaysPlusRecordsPercent' => $ninetyDayPlusRecordsPercent,
+    	);
+    }
+    
     /**
      * Function to get pending applicants for facilitator by date range
      * @param int $userId
@@ -1647,7 +1680,7 @@ class UserService {
                 $usersDashboardInfo['applicantsWithAssesor'] = $assesorApplicants;
             }
             if (in_array('ROLE_FACILITATOR', $userRole) || in_array('ROLE_MANAGER', $userRole)) {
-                $dateRangeRecordsCount = $this->getFacilitatorPortfolioCounts($userId, $userRole);
+                $dateRangeRecordsCount = $this->getFacilitatorPortfolioCountsOld($userId, $userRole);
                 $usersDashboardInfo['dateRangeRecords'] = $dateRangeRecordsCount;
             }
 
