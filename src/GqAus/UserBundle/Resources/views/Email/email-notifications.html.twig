@@ -69,33 +69,25 @@
                                     <font size="2"><i>{{ "now"|date("d M Y") }} at {{ "now"|date("H:i A") }}</i></font>
                                     <br/>
                                     <br/>
-                                    <strong>Lorem ipsum sit dolor amet</strong> wisi enim ad minim veniam, quis nostrud
-                                    exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-                                    Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse.
+                                    <strong>{{ msgBody }}</strong>
                                     <br/>
                                     <br/>
-                                    Molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et
-                                    accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue
-                                    duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend
-                                    option congue nihil imperdiet doming id
-                                    <br/>
-                                    <br/>
+                                    {% if courseObj is not empty %}
                                     <table>
                                         <tr>
                                             <td><font color="#808080"><strong>Qualification:</strong></font></td>
                                         </tr>
-                                        {% for qualification in user.getCourses() %}
-                                            <tr>
-                                                <td>
-                                                    <font color="#808080">
-                                                        {{ qualification.getCourseCode() }} {{ qualification.getCourseName() }}
-                                                    </font>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
+                                        <tr>
+                                            <td>
+                                                <font color="#808080">
+                                                    {{ courseObj.getCourseCode() }} {{ courseObj.getCourseName() }}
+                                                </font>
+                                            </td>
+                                        </tr>
                                     </table>
                                     <br/>
                                     <br/>
+                                    {% endif %}
                                     <center>
                                         <font size="4">Log into Online RPL</font>
                                         <br/>
