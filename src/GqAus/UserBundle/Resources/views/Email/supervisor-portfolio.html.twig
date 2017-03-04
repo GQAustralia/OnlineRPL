@@ -31,7 +31,7 @@
                                     <tr>
                                         <td><br/>
                                             <center><font color="#e7302a"><h1 style="font-weight: normal;margin: 0;">Hey
-                                                        Hey {{ supervisor.first_name }} {{ supervisor.last_name }}!</h1>
+                                                        Hey {{ supervisor.getFirstName() }} {{ supervisor.getLastName() }}!</h1>
                                                 </font></center>
                                         </td>
                                     </tr>
@@ -79,26 +79,19 @@
                                             <td><font color="#808080"><strong>Applicant Name:</strong></font></td>
                                             <td width="20"></td>
                                             <td>
-                                                <font color="#808080">{{ user.getFirstname() }} {{ user.getLastname() }}</font>
+                                                <font color="#808080">{{ userName }}</font>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><font color="#808080"><strong>Qualification:</strong></font></td>
                                         </tr>
-
-                                        {% for qualification in user.getCourses() %}
-
-                                            <tr>
-                                                <td>
-                                                    <font color="#808080">
-                                                        {{ qualification.getCourseCode() }}
-                                                        -{{ qualification.getCourseCode() }}
-                                                    </font>
-                                                </td>
-                                            </tr>
-
-                                        {% endfor %}
-
+                                         <tr>
+                                             <td>
+                                                 <font color="#808080">
+                                                     {{ courseName }}
+                                                 </font>
+                                             </td>
+                                         </tr>
                                     </table>
                                     <br/>
                                     <br/>

@@ -16,10 +16,10 @@ trait ItComputeDays
     {
         $daysDifference = $this->computeDaysDifference($dateFrom, $dateTo = null);
 
-        $days = $daysDifference - 180;
+        $days = $daysDifference;
 
         if ($days < 0) {
-            return $days * -1;
+            return 0;
         }
 
         return $days;
@@ -34,14 +34,16 @@ trait ItComputeDays
     public function computeDaysDifference($dateFrom, $dateTo = null)
     {
         if (is_null($dateTo)) {
-            $dateTo = date('Y-m-d');
+            $dateTo = date('Y-m-d H:i:s');
+        }
+        
+        $diff = strtotime($dateFrom) - strtotime($dateTo);
+        $days = floor(($diff) / (60 * 60 * 24));
+								
+        if ($days < 0) {
+        				$days = 0;
         }
 
-        $startDate = new DateTime($dateFrom);
-        $endDate = new DateTime($dateTo);
-
-        $interval = $startDate->diff($endDate);
-
-        return $interval->format('%a');
+        return $days;
     }
 }

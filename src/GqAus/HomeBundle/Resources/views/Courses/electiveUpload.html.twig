@@ -1,7 +1,7 @@
  <div class="container container-two-column-split" data-panel-parent="two-column-split" ng-show="qualificationPage == 'elective' && IsLoaded && electiveUploadSelected">
             <section class="section-main col-section-10" ng-class="{'col-section-5': is_open === true, 'col-section-10': is_open === false}" data-panel="left">
                 <div class="panel panel-default panel-units">
-                    <div class="panel-body">
+                    <div class="panel-body" ng-hide="unitStatusArr['elective']['all'].length === 0">
                         <div class="clearfix">
                             <div class="progress-tag progress-tag-default">
                                 <h3>Your Elective Units</h3>
@@ -15,8 +15,8 @@
                                 </button>
                                 <div class="dropdown-menu pull-right">
                                     <div class="btn-group btn-group-vertical progress-summary" data-toggle="buttons">
-                                        <label class="progress-summary-item btn btn-default" data-status="notyetstarted" for="unitFilter" ng-click="setElectiveFilter('Not yet started')">
-                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Not yet started'].length}]}</strong><small>Not yet started</small>
+                                        <label class="progress-summary-item btn btn-default" data-status="notyetstarted" for="unitFilter" ng-click="setElectiveFilter('Not Yet Started')">
+                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Not Yet Started'].length}]}</strong><small>Not Yet Started</small>
                                         </label> <!-- white -->
                                         <label class="progress-summary-item btn btn-default" data-status="submitted" for="unitFilter" ng-click="setElectiveFilter('Submitted')">
                                             <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Submitted'].length}]}</strong><small>Submitted</small>
@@ -24,14 +24,14 @@
                                         <label class="progress-summary-item btn btn-default" data-status="satisfactory" for="unitFilter" ng-click="setElectiveFilter('Satisfactory')">
                                             <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Satisfactory'].length}]}</strong><small>Satisfactory</small>
                                         </label> <!-- black -->
-                                        <label class="progress-summary-item btn btn-default" data-status="notyetsatisfactory" for="unitFilter" ng-click="setElectiveFilter('Not yet satisfactory')">
-                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Not yet satisfactory'].length}]}</strong><small>Not yet satisfactory</small>
+                                        <label class="progress-summary-item btn btn-default" data-status="notyetsatisfactory" for="unitFilter" ng-click="setElectiveFilter('Not Yet Satisfactory')">
+                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Not Yet Satisfactory'].length}]}</strong><small>Not Yet Satisfactory</small>
                                         </label> <!-- red -->
                                         <label class="progress-summary-item btn btn-default" data-status="competent" for="unitFilter" ng-click="setElectiveFilter('Competent')">
                                             <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Competent'].length}]}</strong><small>Competent</small>
                                         </label> <!-- green -->
-                                        <label class="progress-summary-item btn btn-default" data-status="notyetcompetent" for="unitFilter" ng-click="setElectiveFilter('Not yet competent')">
-                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Not yet competent'].length}]}</strong><small>Not yet competent</small>
+                                        <label class="progress-summary-item btn btn-default" data-status="notyetcompetent" for="unitFilter" ng-click="setElectiveFilter('Not Yet Competent')">
+                                            <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['elective']['Not Yet Competent'].length}]}</strong><small>Not Yet Competent</small>
                                         </label> <!-- red -->
                                     </div>
                                 </div>
@@ -59,6 +59,14 @@
                          <hr>
                         <h6>Want to change your selected elective units?</h6>
                         <a ng-click="reSelectEvidenceUnit()" class="btn btn-default btn-xs"><i class="zmdi zmdi-swap zmdi-hc-lg zmdi-hc-fw"></i> Reselect Units</a>
+                    </div>
+                    <div class="panel-body" ng-show="unitStatusArr['elective']['all'].length === 0">
+                        <div class="clearfix">
+                            <div class="progress-tag progress-tag-default">
+                                <h3>Your Elective Units</h3>
+                                No Elective Units Found
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

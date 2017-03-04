@@ -140,7 +140,7 @@ class EvidenceService
      public function saveS3ToEvidence($data)
     {
 
-        if (empty($data['self_assessment'])) {
+        if (!isset($data['self_assessment'])) {
             $i = 0;
             $seterror = 'no';
             $filName = $data['path'];
@@ -206,9 +206,18 @@ class EvidenceService
             $textObj->setCourse($data['courseCode']);
             $textObj->setUser($this->currentUser);
             $textObj->setFacilitatorViewStatus('0');
-            $this->em->persist($textObj);
-            $this->em->flush();
-            $evidenceId = $textObj->getId();
+            if (empty($data['self_assessment'])) {
+            	
+            				$this->em->remove($textObj);
+            				$this->em->flush();
+            				$evidenceId = '';
+            }
+            else {
+            				$this->em->persist($textObj);
+            				$this->em->flush();
+            				$evidenceId = $textObj->getId();
+            }
+            
             $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'],'', false);
         }
        
@@ -565,7 +574,7 @@ class EvidenceService
                 $mailBody, $userInfo->getEmail(), $userInfo->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->userService->sendMessagesInbox($courseObj->getFacilitator()->getId(), $userId, 
-                $messageSubject, $messageBody, $courseUnitObj->getId());
+                $messageSubject, $messageBody, $courseUnitObj->getId(), 1);
 
             // checking whether the assessor is assigned or not
             $cAssessor = $courseObj->getAssessor();
@@ -582,7 +591,7 @@ class EvidenceService
                     $courseObj->getFacilitator()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
                 $this->userService->sendMessagesInbox($courseObj->getAssessor()->getId(), 
-                    $courseObj->getFacilitator()->getId(), $messageSubject, $messageBody, $courseUnitObj->getId());
+                    $courseObj->getFacilitator()->getId(), $messageSubject, $messageBody, $courseUnitObj->getId(), 1);
             }
         }
     }

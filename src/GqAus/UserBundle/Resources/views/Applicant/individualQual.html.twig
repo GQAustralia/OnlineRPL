@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block body %}
-
+    {% set baseUrl = app.request.server.get('REQUEST_SCHEME')~'://'~app.request.server.get('HTTP_HOST') %}
     {% set applicantImg = applicantObj.getUserImage()%}
     {% set userId = user.getId()%}
     {% set userRole = user.getRoles()%}
@@ -34,7 +34,7 @@
 
             <div class="panel panel-default panel-qual-heading panel-avatar-tab" ng-init="applicantId='{{applicantId}}'; courseCode='{{courseObj.courseCode()}}'">
                 <div class="panel-heading-img">
-                    <div class="avatar"><img src="{% if applicantImg  != '' %}{{amazon_link~'user-'~applicantId~'/'~applicantImg}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
+                    <div class="avatar"><img src="{% if applicantImg  != '' %}{{amazon_link~'user-'~applicantId~'/'~applicantImg}}{%else%}{{baseUrl}}/public/images/userprofile.png{%endif%}" alt="You"></div>
                 </div>
                 <div class="panel-heading">
                     <h3 class="h3 qual-title">{{ applicantObj.getUsername() }}<br>
@@ -179,10 +179,10 @@
     <!-- Change status -->
 
 
-     {% if (courseObj.assessor.userImage != '') %}
+     {% if (courseObj.assessor and courseObj.assessor.userImage != '') %}
          {% set assessorImg = amazon_link~'user-'~courseObj.assessor.id~'/'~courseObj.assessor.userImage %}
      {% else %}
-         {% set assessorImg = '../public/images/userprofile.png' %}
+         {% set assessorImg = '{{baseUrl}}/public/images/userprofile.png' %}
      {% endif %}
     <!-- Assessor profile -->
     <div class="modal fade modal-profile" id="assessorProfile">
@@ -253,10 +253,10 @@
     </div>
     <!-- Assessor profile -->
     
-     {% if (courseObj.rto.userImage != '') %}
+     {% if (courseObj.rto and courseObj.rto.userImage != '') %}
          {% set rtoImg = amazon_link~'user-'~courseObj.rto.id~'/'~courseObj.rto.userImage %}
      {% else %}
-         {% set rtoImg = '../public/images/userprofile.png' %}
+         {% set rtoImg = '{{baseUrl}}/public/images/userprofile.png' %}
      {% endif %}
     <!-- RTO Profile -->
     <div class="modal fade modal-profile" id="rtoProfile">
