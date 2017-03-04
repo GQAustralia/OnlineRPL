@@ -6,30 +6,34 @@
 {% block body %}
     <main class="main-content-gqa">
         <div class="container">
-            <!-- Put content here -->
             <div class="panel panel-default">
-                <div class="panel-body">
-                    <!-- widget div-->
-                    <span ng-if="IsLoaded === false"> Loading .. </span>
-                    <form id="formWizard" novalidate="novalidate" ng-show="IsLoaded">
+                <div class="panel-body" data-loader="true" ng-if="IsLoaded === false">
+                    <section class="loader loading">
+                        <i class="msk1"></i>
+                        <i class="msk2"></i>
+                        <i class="msk3"></i>
+                    </section>
+                </div>
+                <div class="panel-body" ng-show="IsLoaded">
+                    <form id="formWizard" novalidate="novalidate">
                         <div id="formWizardCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
                             <div class="wizard-steps clearfix" id="wizardSteps">
                                 <div class="form-bootstrap-wizard">
                                     <ul class="bootstrapWizard form-wizard carousel-indicators">
                                         <li ng-click="formSlideTo(0)" ng-class="{ 'active': (activeForm == '0'), 'done' : completedForms[0]}">
-                                            <a href="javascript:void(0)"> <span class="step">1</span> <span class="title">Your Profile</span> </a>
+                                            <a href="javascript:void(0)"><span class="title">Your Profile</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(1)" ng-class="{ 'active': (activeForm == 1), 'done' : completedForms[1]}">
-                                            <a href="javascript:void(0)"> <span class="step">2</span> <span class="title">Language and <br>Diversity</span> </a>
+                                            <a href="javascript:void(0)"><span class="title">Language and <br>Diversity</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(2)" ng-class="{ 'active': (activeForm == 2), 'done' : completedForms[2]}">
-                                            <a href="javascript:void(0)"> <span class="step">3</span> <span class="title">Schooling and <br>Achievements</span> </a>
+                                            <a href="javascript:void(0)"><span class="title">Schooling and <br>Achievements</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(3)" ng-class="{ 'active': (activeForm == 3), 'done' : completedForms[3]}">
-                                            <a href="javascript:void(0)"> <span class="step">4</span> <span class="title">Employment <br> and USI</span> </a>
+                                            <a href="javascript:void(0)"><span class="title">Employment <br> and USI</span> </a>
                                         </li>
                                         <li ng-click="formSlideTo(4)" ng-class="{ 'active': (activeForm == 4), 'done' : completedForms[4]}">
-                                            <a href="javascript:void(0)"> <span class="step">5</span> <span class="title">Upload ID files</span> </a>
+                                            <a href="javascript:void(0)"><span class="title">Upload ID files</span> </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -50,10 +54,7 @@
                                     #}
                                     <!-- Personal Details Section STARTS here-->
                                     <fieldset>
-                                        <h2 class="page-header">
-                                            Your Personal Details
-                                            <p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem.</p>
-                                        </h2>
+                                        <h2 class="page-header">Your Personal Details</h2>
 
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -132,15 +133,12 @@
                                             <div class="row">
                                                 <div class="col-xs-12">
                                                     <div class="form-group">
-                                                        <p class="text-center">Type and search for your address and we'll automatically fill the details below.</p>
+                                                        <p class="text-left">Type and search for your address and we'll automatically fill the details below.</p>
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
                                                             <input id="autocomplete" placeholder="Search city, state, suburb or postcode" class="form-control input-md" type="text">
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="divider col-md-12 col-xs-12">
-                                                    <p>OR</p>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group" ng-class="{ 'has-error' : profileForm.propertyName.$invalid}">
@@ -219,15 +217,12 @@
                                             <div class="row">
                                                 <div class="col-xs-12">
                                                     <div class="form-group">
-                                                        <p class="text-center">Type and search for your address and we'll automatically fill the details below.</p>
+                                                        <p class="text-left">Type and search for your address and we'll automatically fill the details below.</p>
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
                                                             <input id="autocomplete_postal" placeholder="Search city, state, suburb or postcode" class="form-control input-md" type="text">
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="divider col-md-12 col-xs-12">
-                                                    <p>OR</p>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                     <div class="form-group" ng-class="{ 'has-error' : profileForm.propertyName_postal.$invalid}">
@@ -306,10 +301,7 @@
                                 <div class="item" ng-form name="languageForm">
                                     <!-- Language and cultural diversity Section STARTS here-->
                                     <fieldset>
-                                        <h2 class="page-header">
-                                            Language and cultural diversity
-                                            <p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem.</p>
-                                        </h2>
+                                        <h2 class="page-header">Language and cultural diversity</h2>
                                         {#      <div ng-bind="languageForm.$error"></div>
                                               <ul>
                                                   <li ng-repeat="(key, errors) in languageForm.$error track by $index"> <strong>{[{ key }]}</strong> errors
@@ -465,10 +457,7 @@
                                         </li>
                                     </ul>#}
                                     <!-- Schooling Section STARTS here-->
-                                    <h2 class="page-header">
-                                        Schooling
-                                        <p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem.</p>
-                                    </h2>
+                                    <h2 class="page-header">Schooling</h2>
                                     <div class="row">
                                         <!--<div class="col-xs-12"><span>What is your highest COMPLETED school level. Choose only one:</span></div>-->
                                         <div class="col-xs-12 col-md-7">
@@ -516,19 +505,14 @@
 
                                     <!-- Previous qualifications achieved Section STARTS here-->
                                     <fieldset>
-                                        <h2 class="page-header">
-                                            Previous qualifications achieved
-                                            <p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem.</p>
-                                        </h2>
-
-
+                                        <h2 class="page-header">Previous qualifications achieved</h2>
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="form-group">
                                                     <p><label for="bachelor">Have you SUCCESSFULLY completed any of the following qualifications? If yes, select as many as applicable.</label></p>
-                                                    <span  ng-repeat="(key, value) in previousQualification">
-                                                                    <input type="checkbox" class="custom-input" name="achievement_{[{value.id}]}" id="achievement_{[{key}]}" ng-model="enrollment.schooling.qualifications[value.id]" ng-true-value="true" ng-false-value="false" ng-change="qualificationChanged(value)" >
-                                                                    <label for="achievement_{[{key}]}"> {[{value.name}]}</label>
+                                                    <span ng-repeat="(key, value) in previousQualification">
+                                                        <input type="checkbox" class="custom-input" name="achievement_{[{value.id}]}" id="achievement_{[{key}]}" ng-model="enrollment.schooling.qualifications[value.id]" ng-true-value="true" ng-false-value="false" ng-change="qualificationChanged(value)" >
+                                                        <label for="achievement_{[{key}]}"> {[{'value.name'}]}</label>
                                                     </span>
                                                     
                                                 </div>
@@ -829,11 +813,8 @@
                             </div>
                         </div>
                     </form>
-                    <!-- end widget div -->
                 </div>
             </div>
-            <!-- Put content here -->
-
         </div>
                
     </main>
@@ -850,7 +831,7 @@
                     <h3 class="modal-title">Add an Identification File</h3>
                 </div>
                 <div class="modal-body">
-                    <div class="dropdown form-group dropdown-dynamic btn-block" style="width: 100%;">
+                    {# <div class="dropdown form-group dropdown-dynamic btn-block" style="width: 100%;">
                         <button type="button" class="btn btn-default btn-lg btn-block text-left" data-toggle="dropdown">
                             <span class="dropdown-picker-selected" id="dropdownSelected">What type of ID are you uploading?</span>
                             <i class="zmdi zmdi-chevron-down zmdi-hc-lg"></i>
@@ -884,7 +865,7 @@
                             <li><a href>Reference from Indigenous Organisation</a></li>
                             <li><a href>Documents issued outside Australia (equivalent to Australian documents). <br><small>Must have official translation attached</small></a></li>
                         </ul>
-                    </div>
+                    </div> #}
                     <span></span>
                     <div class="dropdown form-group dropdown-dynamic btn-block" style="width: 100%;">
                        <ui-select ng-model="enrollment.upload.type" theme="" title="What ID are you uploading?" style="width: 100%;">
@@ -933,6 +914,7 @@
     <!-- Online Enrolment only -->
     <script src="{{ asset('public/ui/js/plugins/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('public/ui/js/rpl-online-enrolment.js') }}"></script>
+    <script src="{{ asset('public/ui/js/gqa-utilities.js') }}"></script>
     <!--Phone Number Flag Plugin-->
 
     <!--Country select with States Plugin-->
