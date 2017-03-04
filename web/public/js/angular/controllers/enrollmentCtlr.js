@@ -10,7 +10,7 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
     $scope.states = [];
     $scope.disabilityAreasNumber = 0;
     $scope.forms = ['profile', 'language', 'schooling', 'employment', 'upload'];
-    $scope.titles = ['Your Profile', 'Language and Diversity', 'Schooling and Achievements', 'Employment  and USI', 'Upload ID files'];
+    $scope.titles = ['Personal Details', 'Language and Diversity', 'Schooling and Achievements', 'Employment and USI', 'Upload ID files'];
     $scope.activeForm = 0;
     $scope.completedForms = [false, false, false, false, false];
     $scope.evidenceFirst = true;
@@ -79,7 +79,7 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
             $scope.activeForm = index;
             $rootScope.pageTitle = 'Enrolment - '+$scope.titles[index];
             $("#formWizardCarousel").carousel(i);
-            
+
             // Quick fix to handle footer
             GQA_FOOTER.handle_footer();
         }

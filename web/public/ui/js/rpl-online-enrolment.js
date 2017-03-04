@@ -10,6 +10,8 @@ $(function(){
 
     // custom collapsible fields
     CONTROL_COLLAPSE.build();
+
+    INIT_CAROUSEL.build();
     
     /* Popover for Upload files Modal */
     $('[data-toggle="popover"]').popover();
@@ -91,6 +93,18 @@ var CONTROL_COLLAPSE = {
     },
     build: function(){
         CONTROL_COLLAPSE.show_hide();
+    }
+}
+
+var INIT_CAROUSEL = {
+    elem: $('#formWizardCarousel'),
+    init: function(){
+        this.elem.carousel().on('slide.bs.carousel', function(){
+            $("body").scrollTop(0);
+        })
+    },
+    build: function(){
+        INIT_CAROUSEL.init();
     }
 }
 
