@@ -72,7 +72,7 @@ th {
 // Baseline styles
 
 .table {
-  @extend %table;
+  @extend %table; 
 }
 
 .table-from-api{
@@ -85,6 +85,7 @@ th {
 
   .content-table{
     overflow: auto;
+    width: 100%;
   }
 }
 

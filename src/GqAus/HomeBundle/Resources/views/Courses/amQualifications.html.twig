@@ -123,7 +123,7 @@
                         <button type="button" class="btn btn-default" ng-click="printElective(details)"><i class="zmdi zmdi-print zmdi-hc-lg zmdi-hc-fw"></i> Print</button>
                         <button type="button" class="btn btn-default" ng-click="downloadElective(details)"><i class="zmdi zmdi-download zmdi-hc-lg zmdi-hc-fw"></i> Download PDF</button>
                     </div>
-                    <div id="detailsElective" class="table table-compressed table-bordered clearfix" ng-bind-html="unitDetails[selectedUnit][details.detailsType]"></div>
+                    <div id="detailsElective" class="table-from-api table-striped content-from-api clearfix" ng-bind-html="unitDetails[selectedUnit][details.detailsType]"></div>
                 </div>
             </div>
         </div>

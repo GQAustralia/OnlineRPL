@@ -46,7 +46,7 @@ class EmailService extends CustomRepositoryService
      *
      * @return mixed
      */
-    public function getNotificationToApplicantEmailMsg($userId)
+    public function getNotificationToApplicantEmailMsg($userId, $msgBody, $courseObj = '')
     {
         if (!$user = $this->userRepository->findOneBy(['id' => $userId])) {
             return null;
@@ -56,7 +56,7 @@ class EmailService extends CustomRepositoryService
 
         $emailContent = $this->container->get('templating')->render(
             'GqAusUserBundle:Email:email-notifications.html.twig',
-            ['user' => $user, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl')]
+            ['user' => $user, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl'), 'msgBody' => $msgBody, 'courseObj' => $courseObj]
         );
 
         return $emailContent;

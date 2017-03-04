@@ -213,10 +213,11 @@
                                     </div>
                                 </div>
                             </article>
+
                             <!-- Notes from Account Manager -->
 
                             <div class="btn-auto-group" ng-if="!isSubmitted()">
-                                <button class="btn btn-default" ng-click="saveSelfAssessmentNotes();>Save</button>
+                                <button class="btn btn-default" ng-click="saveSelfAssessmentNotes();">Save</button>
                                 <button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0 || ((unitEvidences| filter:{type: '!text'}).length === 0 && (selfAssessment.content|countWord) < 50)">Submit this Unit for Assessment</button>
                             </div> 
                         </div>
@@ -269,7 +270,7 @@
                         <button type="button" class="btn btn-default" ng-click="printElective(details)"><i class="zmdi zmdi-print zmdi-hc-lg zmdi-hc-fw"></i> Print</button>
                         <button type="button" class="btn btn-default" ng-click="downloadElective(details)"><i class="zmdi zmdi-download zmdi-hc-lg zmdi-hc-fw"></i> Download PDF</button>
                     </div>
-                    <div id="detailsElective" class="table table-compressed table-bordered clearfix" ng-bind-html="unitDetails[selectedUnit][details.detailsType]"></div>
+                    <div id="detailsElective" class="table-from-api table-striped content-from-api clearfix" ng-bind-html="unitDetails[selectedUnit][details.detailsType]"></div>
                 </div>
             </div>
         </div>
