@@ -9,6 +9,12 @@
         //display: table;
         //table-layout: fixed;
         //width: 100%;
+
+        ul {
+            list-style-type: none;
+            padding: 0px;
+            margin: 0px;
+        }
         
         aside {
             //display: table-cell;
@@ -535,10 +541,5 @@
                 width: 60px;
             }
         }
-    }
-    ul {
-        list-style-type: none;
-        padding: 0px;
-        margin: 0px;
     }
 }

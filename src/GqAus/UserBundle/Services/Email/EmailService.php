@@ -46,7 +46,7 @@ class EmailService extends CustomRepositoryService
      *
      * @return mixed
      */
-    public function getNotificationToApplicantEmailMsg($userId)
+    public function getNotificationToApplicantEmailMsg($userId, $msgBody, $courseObj = '')
     {
         if (!$user = $this->userRepository->findOneBy(['id' => $userId])) {
             return null;
@@ -56,7 +56,7 @@ class EmailService extends CustomRepositoryService
 
         $emailContent = $this->container->get('templating')->render(
             'GqAusUserBundle:Email:email-notifications.html.twig',
-            ['user' => $user, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl')]
+            ['user' => $user, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl'), 'msgBody' => $msgBody, 'courseObj' => $courseObj]
         );
 
         return $emailContent;
@@ -132,36 +132,18 @@ class EmailService extends CustomRepositoryService
      *
      * @return null
      */
-    public function sendNotificationEmailToSupervisors($userId)
+    public function getNotificationEmailToSupervisorsEmailMsg($supervisorId, $userName, $courseName)
     {
-        if (!$user = $this->userRepository->findOneBy(['id' => $userId])) {
+        if (!$supervisor = $this->userRepository->findOneBy(['id' => $supervisorId])) {
             return null;
         }
-
-        $supervisors = $this->all('
-            SELECT first_name, last_name, email
-            FROM user
-            WHERE role_type = ' . self::SUPERVISOR_ROLE_ID . '
-        ');
-
-        list($message, $imageUrl) = $this->embedImagesOnNotifyingSupervisor(Swift_Message::newInstance());
-
-        foreach ($supervisors as $supervisor) {
-            $emailContent = $this->container->get('templating')->render(
-                'GqAusUserBundle:Email:supervisor-portfolio.html.twig',
-                ['supervisor' => $supervisor, 'user' => $user, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl')]
-            );
-
-            $message = $this->buildEmailStructure(
-                $message,
-                'Supervisor Portfolio',
-                $this->container->getParameter('fromEmailAddress'),
-                $supervisor['email'],
-                $emailContent
-            );
-
-            $this->mailer->send($message);
-        }
+								
+        $emailContent = $this->container->get('templating')->render(
+        		'GqAusUserBundle:Email:supervisor-portfolio.html.twig',
+        		['supervisor' => $supervisor, 'userName' => $userName, 'appUrl' => $this->container->getParameter('applicationUrl'), 'courseName' => $courseName]
+        );
+        
+        return $emailContent;
     }
 
     /**

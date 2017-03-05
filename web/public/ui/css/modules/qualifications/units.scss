@@ -67,29 +67,33 @@ $qual-img-height: 200px;
 		right: $grid-gutter-width / 2;
 		top: $grid-gutter-width / 2;
 	}
+	@media screen and (min-width: 568px){
+		.avatar{
+			float: left;
+		}
+	}
 	.avatar{
-		float: left;
 		.btn{
 			margin-top: $grid-gutter-width / 4;
 		}
 	}
 
-	.avatar-name{
-		float: left;
-		width: calc(100% - 120px);
-		padding-left: $grid-gutter-width / 2;
+	@media screen and (min-width: 568px){
+		.avatar-name{
+			float: left;
+			width: calc(100% - 120px);
+			padding-left: $grid-gutter-width / 2;
+		}
 	}
 
 	.avatar-info{
 		clear: both;
 		
 		ul{
-			margin-top: 5px;
+			margin-top: 15px;
 		}
 
 		li{
-			padding: 12px 15px;
-			border: 1px solid $gray-lighter;
 
 			i{
 				width: 30px;

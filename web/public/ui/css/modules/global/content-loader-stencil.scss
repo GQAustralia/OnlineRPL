@@ -9,6 +9,10 @@
 	&:hover {
 		cursor: progress;
 	}
+
+	+ .panel-body {
+		display: none;
+	}
 }
 
 .loader {

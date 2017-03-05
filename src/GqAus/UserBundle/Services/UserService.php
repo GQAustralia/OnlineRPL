@@ -550,7 +550,9 @@ class UserService {
             $facMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_appove_evdience_fac_con'));
             $facMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_appove_evdience_fac_con'));
 
-
+            $emailService = $this->get('EmailService');
+            $facMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj);
+            
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
@@ -588,6 +590,10 @@ class UserService {
                     /* Send mails to applicant */
                     $canMessageBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('msg_appove_evdience_rto_candidate_con'));
                     $canMailBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('mail_appove_evdience_rto_candidate_con'));
+                    
+                    $emailService = $this->get('EmailService');
+                    $canMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $canMailBody, $courseObj);
+                    
                     /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                     $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
                     /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
@@ -626,7 +632,10 @@ class UserService {
 
                     $canMessageBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('msg_appove_evdience_ass_candidate_con'));
                     $canMailBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('mail_appove_evdience_ass_candidate_con'));
-
+																				
+                    $emailService = $this->get('EmailService');
+                    $canMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $canMailBody, $courseObj);
+                    
                     /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                     $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
                     /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
@@ -680,6 +689,10 @@ class UserService {
                 $msgReplace = array($facilitatorName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $userName, $result['currentUserName'], $this->container->getParameter('applicationUrl'));
                 $asrMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_asr_con'));
                 $asrMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_asr_con'));
+                
+                $emailService = $this->get('EmailService');
+                $asrMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $asrMailBody, $courseObj);
+                
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $asrMailSubject, $asrMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
@@ -692,11 +705,19 @@ class UserService {
                 $msgReplace = array($facilitatorName, $result['courseCode'], $result['courseName'], $result['unit'], $result['unitName'], $userName, $result['currentUserName'], $this->container->getParameter('applicationUrl'));
                 $rtoMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_rto_con'));
                 $rtoMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_rto_con'));
+                
+                $emailService = $this->get('EmailService');
+                $rtoMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $rtoMailBody, $courseObj);
+                
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $rtoMailSubject, $rtoMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
                 $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $rtoMessageSubject, $rtoMessageBody, $courseUnitObj->getId(), 1);
             }
+            
+            $emailService = $this->get('EmailService');
+            $facMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $facMailBody, $courseObj);
+            
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
@@ -896,30 +917,34 @@ class UserService {
      * return facilitator portfolio counts
      */
     public function getFacilitatorPortfolioCounts($userId, $userRole) {
-      
-       $pendingApplicants = $this->getPendingApplicants($userId, $userRole, '0');
-       $userRole = 'ROLE_FACILITATOR';
-       $thirtyDayRecordsCount = $sixtyDayRecordsCount = $ninetyDayRecordsCount = $oneTwentyDayRecordsCount = $oneFiftyDayRecordsCount = $oneEightyDayRecordsCount = 0;
-       foreach($pendingApplicants as $key => $applicant){
-         $result = $this->getDaysRemainingFromRole($applicant->getUser()->getId(), $applicant->getCourseCode(), $userRole);
-         $dayResult = explode('&&', $result); 
-         $dayCount = $dayResult[0];
-          if($dayCount <= 30) {
-              $thirtyDayRecordsCount = $thirtyDayRecordsCount + 1;
-          } else if($dayCount > 30 && $dayCount <= 60){
-            $sixtyDayRecordsCount = $sixtyDayRecordsCount + 1;
-          } else if($dayCount > 60 && $dayCount <= 90) {
-             $ninetyDayRecordsCount = $ninetyDayRecordsCount + 1;
-          } else if($dayCount > 90 && $dayCount <= 120) {
-             $oneTwentyDayRecordsCount = $oneTwentyDayRecordsCount + 1;
-          } else if($dayCount > 120 && $dayCount <= 150) {
-             $oneFiftyDayRecordsCount = $oneFiftyDayRecordsCount + 1;
-          } else if($dayCount > 150 && $dayCount <= 180) {
-             $oneEightyDayRecordsCount = $oneEightyDayRecordsCount + 1;
-          }
-       }
 
-        $retResult = array(
+        $query =$this->em->createQuery('SELECT DATE_DIFF(uc.targetDate, CURRENT_DATE()) from GqAusUserBundle:UserCourses uc WHERE uc.facilitator = '.$userId.' AND uc.courseStatus <> 0');
+        $result = $query->execute();
+        $daysLeftList = array();
+        $thirtyDayRecordsCount = $sixtyDayRecordsCount = $ninetyDayRecordsCount = $oneTwentyDayRecordsCount = $oneFiftyDayRecordsCount = $oneEightyDayRecordsCount = 0;
+
+        foreach($result as $key=>$value){
+
+          if($value['1'] <= 30)
+              $thirtyDayRecordsCount = $thirtyDayRecordsCount + 1;
+                  
+          if($value['1'] > 30 && $value['1'] <= 60)
+            $sixtyDayRecordsCount = $sixtyDayRecordsCount + 1;
+                  
+           if($value['1'] > 60 && $value['1'] <= 90)
+             $ninetyDayRecordsCount = $ninetyDayRecordsCount + 1;
+                   
+           if($value['1'] > 90 && $value['1'] <= 120)
+             $oneTwentyDayRecordsCount = $oneTwentyDayRecordsCount + 1;
+                   
+           if($value['1'] > 120 && $value['1'] <= 150)
+             $oneFiftyDayRecordsCount = $oneFiftyDayRecordsCount + 1;                       
+
+           if($value['1'] > 150 && $value['1'] <= 180)
+             $oneEightyDayRecordsCount = $oneEightyDayRecordsCount + 1;   
+        }
+
+        return array(
             'thirtyDaysApplicantsCount' => $thirtyDayRecordsCount,
             'sixtyDaysApplicantsCount' => $sixtyDayRecordsCount,
             'ninetyDaysApplicantsCount' => $ninetyDayRecordsCount,
@@ -927,10 +952,41 @@ class UserService {
             'oneFiftyDayRecordsCount' => $oneFiftyDayRecordsCount,
             'oneEightyDayRecordsCount' => $oneEightyDayRecordsCount
         );
-
-        return $retResult;
     }
-
+				
+    /**
+     * Function to get facilitator portfolio
+     * @param int $userId
+     * return facilitator portfolio counts
+     */
+    public function getFacilitatorPortfolioCountsOld($userId, $userRole){
+    
+    	$allRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole);
+    	$thirtyDayRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '0', '30');
+    	$sixtyDayRecordsCount  = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '31', '60');
+    	$ninetyDayRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '1', '61', '90');
+    	$ninetyDayPlusRecordsCount = $this->getUserApplicantsByRoleDateRangeCount($userId, $userRole, '2', '91', '');
+    	$thirtyDayRecordsPercent = $sixtyDayRecordsPercent = $ninetyDayRecordsPercent = $ninetyDayPlusRecordsPercent = 0;
+    	if($allRecordsCount > 0) {
+    
+    		$thirtyDayRecordsPercent = ($thirtyDayRecordsCount/$allRecordsCount)*100;
+    		$sixtyDayRecordsPercent = ($sixtyDayRecordsCount/$allRecordsCount)*100;
+    		$ninetyDayRecordsPercent = ($ninetyDayRecordsCount/$allRecordsCount)*100;
+    		$ninetyDayPlusRecordsPercent = ($ninetyDayPlusRecordsCount/$allRecordsCount)*100;
+    	}
+    	return array(
+    			'allApplicantsCount' => $allRecordsCount,
+    			'thirtyDaysApplicantsCount' => $thirtyDayRecordsCount,
+    			'sixtyDaysApplicantsCount' => $sixtyDayRecordsCount,
+    			'ninetyDaysApplicantsCount' => $ninetyDayRecordsCount,
+    			'ninetyDaysPlusRecordsCount' => $ninetyDayPlusRecordsCount,
+    			'thirtyDayApplicantsPercent' => $thirtyDayRecordsPercent,
+    			'sixtyDaysApplicantsPercent' => $sixtyDayRecordsPercent,
+    			'ninetyDaysApplicantsPercent' => $ninetyDayRecordsPercent,
+    			'ninetyDaysPlusRecordsPercent' => $ninetyDayPlusRecordsPercent,
+    	);
+    }
+    
     /**
      * Function to get pending applicants for facilitator by date range
      * @param int $userId
@@ -1624,7 +1680,7 @@ class UserService {
                 $usersDashboardInfo['applicantsWithAssesor'] = $assesorApplicants;
             }
             if (in_array('ROLE_FACILITATOR', $userRole) || in_array('ROLE_MANAGER', $userRole)) {
-                $dateRangeRecordsCount = $this->getFacilitatorPortfolioCounts($userId, $userRole);
+                $dateRangeRecordsCount = $this->getFacilitatorPortfolioCountsOld($userId, $userRole);
                 $usersDashboardInfo['dateRangeRecords'] = $dateRangeRecordsCount;
             }
 
@@ -2550,7 +2606,10 @@ class UserService {
                 $courseObj->getCourseName(), $courseObj->getRto()->getUsername());
             $facMessageBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('msg_rto_issue_certificate_con'));
             $facMailBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('mail_rto_issue_certificate_con'));
-
+												
+            $emailService = $this->get('EmailService');
+            $facMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj);
+            
             // send the external mail and internal message to facilitator
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
@@ -2563,6 +2622,9 @@ class UserService {
                 $courseObj->getCourseName(), $courseObj->getFacilitator()->getUsername());
             $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_rto_issue_certificate_con'));
             $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_rto_issue_certificate_con'));
+            
+            $aplMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $aplMailBody, $courseObj);
+            
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
@@ -2612,12 +2674,16 @@ class UserService {
                 /* Send mails to applicant */
                 $canMessageBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('msg_appove_evdience_rto_candidate_con'));
                 $canMailBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('mail_appove_evdience_rto_candidate_con'));
-
+																
+                $emailService = $this->get('EmailService');
+                $facMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj);
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
                 $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $facMessageBody, '', 1);
-
+																
+                $canMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $canMailBody, $courseObj);
+                
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
@@ -2682,6 +2748,7 @@ class UserService {
             if (!empty($data['email']) && count($user) <= 0) {
                 $data['applicantStatus'] = '1';
                 $user = $this->addPersonalProfile('ROLE_APPLICANT', $data);
+                
                 $message = 'User added successfully!';
                 $emailFlag = 'U';
             } else {
@@ -2695,9 +2762,9 @@ class UserService {
             $courseData['managerId'] = $request->get('managerId');
             $courseData['zohoId'] = $request->get('zohoId');
             if (!empty($courseData['courseCode']) || !empty($courseData['courseName'])) {
-                $res = $this->addUserCourse($courseData, $user);
-                $message = $res['message'];
-                $emailCourseFlag = $res['emailFlag'];
+               $res = $this->addUserCourse($courseData, $user);
+               $message = $res['message'];
+               $emailCourseFlag = $res['emailFlag'];
             }
         }
 
@@ -2731,7 +2798,18 @@ class UserService {
         				$mailBody = $this->emailService->getWelcomeEmailToApplicantEmailMsg($user->getId(), $courseData['courseName']);
         				$this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
        					// $this->emailService->sendNotificationEmailToSupervisors($user->getId());
+       					
+        				$mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_course_sub'));
+        				$supervisorObj = $this->getUserInfo($request->get('managerId'));
+        				$mailBody = $this->emailService->getNotificationEmailToSupervisorsEmailMsg($request->get('managerId'), $user->getUserName(), $courseData['courseName']);
+        				$this->sendExternalEmail($supervisorObj->getEmail(), $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
          }
+         $subSearch = array('#courseCode#', '#courseName#');
+         $subReplace = array($courseData['courseCode'], $courseData['courseName']);
+         $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_course_sub'));
+         $supervisorObj = $this->getUserInfo($request->get('managerId'));
+         $mailBody = $this->emailService->getNotificationEmailToSupervisorsEmailMsg($request->get('managerId'), $user->getUserName(), $courseData['courseName']);
+         $this->sendExternalEmail($supervisorObj->getEmail(), $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
         echo $message;
         exit;
     }
@@ -2872,7 +2950,10 @@ class UserService {
             $assessor->getUsername());
         $facMessageBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('msg_conversation_invitation_con'));
         $facMailBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('mail_conversation_invitation_con'));
-
+								
+        $emailService = $this->get('EmailService');
+        $facMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj);
+        
         // send the external mail and internal message to facilitator
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
         $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $assessor->getEmail(), $assessor->getUsername());
@@ -2885,6 +2966,9 @@ class UserService {
             $this->container->getParameter('applicationUrl'), $roomId, $courseObj->getFacilitator()->getUsername());
         $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_conversation_invitation_con'));
         $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_conversation_invitation_con'));
+        
+        $aplMailBody = $emailService->getNotificationToApplicantEmailMsg($applicant->getId(), $aplMailBody, $courseObj);
+        
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
         $this->sendExternalEmail($applicant->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
         /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
@@ -3699,7 +3783,10 @@ class UserService {
             $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_portfolio_update_con'));
             $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
         }
-
+								
+        $emailService = $this->get('EmailService');
+        $facMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj);
+        
         // send the external mail and internal message to facilitator
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
         $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, $facMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
@@ -3710,6 +3797,10 @@ class UserService {
         // re creating message data by replacing facilitator values
         /* For ASSESSOR and RTO, Changing Candidate's Portfolio status - Messaging should only be sent to Facilitator and not to Candidate */
         if ($courseStatus != '3' && $courseStatus != '10' && $courseStatus != '12' && $courseStatus != '13' && $courseStatus != '14') {
+        				
+			        	$emailService = $this->get('EmailService');
+			        	$aplMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $aplMailBody, $courseObj);
+        	
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
@@ -3867,13 +3958,19 @@ class UserService {
         $this->em->persist($courseObj);
         $this->em->flush();
         if ($toEmail != '' && $toId != '' && $roleMessageBody != '' && $roleMailBody != '') {
-
+												
+			        	$emailService = $this->get('EmailService');
+			        	$roleMailBody = $emailService->getNotificationToApplicantEmailMsg($toId, $roleMailBody, $courseObj);
             // send the external mail and internal message to facilitator
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->sendMessagesInbox($toId, $courseObj->getFacilitator()->getId(), $messageSubject, $roleMessageBody, '', 1);
         }
+        
+        $emailService = $this->get('EmailService');
+        $aplMailBody = $emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $aplMailBody, $courseObj);
+        
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */

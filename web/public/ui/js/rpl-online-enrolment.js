@@ -10,8 +10,6 @@ $(function(){
 
     // custom collapsible fields
     CONTROL_COLLAPSE.build();
-
-    INIT_CAROUSEL.build();
     
     /* Popover for Upload files Modal */
     $('[data-toggle="popover"]').popover();
@@ -93,18 +91,6 @@ var CONTROL_COLLAPSE = {
     },
     build: function(){
         CONTROL_COLLAPSE.show_hide();
-    }
-}
-
-var INIT_CAROUSEL = {
-    elem: $('#formWizardCarousel'),
-    init: function(){
-        this.elem.carousel().on('slide.bs.carousel', function(){
-            $("body").scrollTop(200);
-        })
-    },
-    build: function(){
-        INIT_CAROUSEL.init();
     }
 }
 
@@ -199,10 +185,6 @@ var USI_INPUT_UI = {
         USI_INPUT_UI.init();
     }
 }
-
-$(document).ready(function() {
-    //USI_INPUT_UI.build();
-});
 
 // Autocomplete address form 
 // Reference: https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
