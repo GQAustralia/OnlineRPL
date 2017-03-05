@@ -186,44 +186,44 @@ class CoursesController extends Controller {
                     $user = $this->get('security.context')->getToken()->getUser();
                     $statusList = $this->get('UserService')->getQualificationStatus();
                     $courseService = $this->get('CoursesService');
-                    if (in_array('ROLE_APPLICANT', $user->getRoles())) {
+                   // if (in_array('ROLE_APPLICANT', $user->getRoles())) {
                         $results = $courseService->fetchCourseRequest(trim($id));
-                    }
-                    else{
-                        $applicantId= $params['applicantId'];
-                        $userCourseCoreUnits = $courseService->getUserCourseUnits($applicantId, $id, $type = 'core');
-                        $userCourseElecUnits = $courseService->getUserCourseUnits($applicantId, $id, $type = 'elective');
-                        foreach ($userCourseCoreUnits as $coreUnits) {
-                            $coreunit = [];
-                            $coreunit['id'] = $coreUnits->getId();
-                            $coreunit['unitId'] = $coreUnits->getUnitId();
-                            $coreunit['userId'] = $coreUnits->getUser()->getId();
-                            $coreunit['courseCode'] = $coreUnits->getCourseCode();
-                            $coreunit['type'] = $coreUnits->getType();
-                            $coreunit['facilitatorStatus'] = $coreUnits->getFacilitatorstatus();
-                            $coreunit['assessorStatus'] = $coreUnits->getAssessorstatus();
-                            $coreunit['rtoStatus'] = $coreUnits->getRtostatus();
-                            $coreunit['status'] = $coreUnits->getStatus();
-                            $coreunit['electiveStatus'] =  $coreUnits->getElectiveStatus();
-                            $coreunit['isSubmitted'] = $coreUnits->getIssubmitted();
-                            $results['core'][] = $coreunit;
-                        }
-                        foreach ($userCourseElecUnits as $elecUnits) {
-                            $eleunit = [];
-                            $eleunit['id'] = $elecUnits->getId();
-                            $eleunit['unitId'] = $elecUnits->getUnitId();
-                            $eleunit['userId'] = $elecUnits->getUser()->getId();
-                            $eleunit['courseCode'] = $elecUnits->getCourseCode();
-                            $eleunit['type'] = $elecUnits->getType();
-                            $eleunit['facilitatorStatus'] = $elecUnits->getFacilitatorstatus();
-                            $eleunit['assessorStatus'] = $elecUnits->getAssessorstatus();
-                            $eleunit['rtoStatus'] = $elecUnits->getRtostatus();
-                            $eleunit['status'] = $elecUnits->getStatus();
-                            $eleunit['electiveStatus'] =  $elecUnits->getElectiveStatus();
-                            $eleunit['isSubmitted'] = $elecUnits->getIssubmitted();
-                            $results['elec'][] = $eleunit;
-                        }
-                    }
+                  //  }
+//                    else{
+//                        $applicantId= $params['applicantId'];
+//                        $userCourseCoreUnits = $courseService->getUserCourseUnits($applicantId, $id, $type = 'core');
+//                        $userCourseElecUnits = $courseService->getUserCourseUnits($applicantId, $id, $type = 'elective');
+//                        foreach ($userCourseCoreUnits as $coreUnits) {
+//                            $coreunit = [];
+//                            $coreunit['id'] = $coreUnits->getId();
+//                            $coreunit['unitId'] = $coreUnits->getUnitId();
+//                            $coreunit['userId'] = $coreUnits->getUser()->getId();
+//                            $coreunit['courseCode'] = $coreUnits->getCourseCode();
+//                            $coreunit['type'] = $coreUnits->getType();
+//                            $coreunit['facilitatorStatus'] = $coreUnits->getFacilitatorstatus();
+//                            $coreunit['assessorStatus'] = $coreUnits->getAssessorstatus();
+//                            $coreunit['rtoStatus'] = $coreUnits->getRtostatus();
+//                            $coreunit['status'] = $coreUnits->getStatus();
+//                            $coreunit['electiveStatus'] =  $coreUnits->getElectiveStatus();
+//                            $coreunit['isSubmitted'] = $coreUnits->getIssubmitted();
+//                            $results['core'][] = $coreunit;
+//                        }
+//                        foreach ($userCourseElecUnits as $elecUnits) {
+//                            $eleunit = [];
+//                            $eleunit['id'] = $elecUnits->getId();
+//                            $eleunit['unitId'] = $elecUnits->getUnitId();
+//                            $eleunit['userId'] = $elecUnits->getUser()->getId();
+//                            $eleunit['courseCode'] = $elecUnits->getCourseCode();
+//                            $eleunit['type'] = $elecUnits->getType();
+//                            $eleunit['facilitatorStatus'] = $elecUnits->getFacilitatorstatus();
+//                            $eleunit['assessorStatus'] = $elecUnits->getAssessorstatus();
+//                            $eleunit['rtoStatus'] = $elecUnits->getRtostatus();
+//                            $eleunit['status'] = $elecUnits->getStatus();
+//                            $eleunit['electiveStatus'] =  $elecUnits->getElectiveStatus();
+//                            $eleunit['isSubmitted'] = $elecUnits->getIssubmitted();
+//                            $results['elec'][] = $eleunit;
+//                        }
+//                    }
                     $results['statusList'] = $statusList;
                 }
             }
@@ -274,7 +274,8 @@ class CoursesController extends Controller {
             if (!empty($content)) {
                 $params = json_decode($content, true); // 2nd param to get as array
                 $courseCode = $params['courseCode'];
-                $userId = $user->getId();
+                
+                $userId = empty($params['applicantId'])?$user->getId():$params['applicantId'];
                 if ($userId != '' && $courseCode != '') {
                     $courseService = $this->get('CoursesService');
                     $results['elective'] = $this->unitObjectToArray($courseService->getUserCourseUnits($userId, $courseCode, 'elective'));
