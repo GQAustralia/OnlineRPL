@@ -933,6 +933,7 @@ class EvidenceService
         $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
         $fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
         $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+        $fileName = '';
         foreach ($evidences as $evidence) {
             $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->findOneById($evidence);
 
@@ -965,9 +966,10 @@ class EvidenceService
                 $logType = $this->userService->getlogType('8');
                 $this->userService->createUserLog('8', $logType['message']);
 
-                return array('fileName' => $fileName);
+                
             }
         }
+        return array('fileName' => $fileName);
     }
     
     public function getEvidenceCats(){
