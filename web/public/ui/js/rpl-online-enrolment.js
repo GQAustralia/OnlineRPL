@@ -100,7 +100,7 @@ var INIT_CAROUSEL = {
     elem: $('#formWizardCarousel'),
     init: function(){
         this.elem.carousel().on('slide.bs.carousel', function(){
-            $("body").scrollTop(200);
+            $("body").scrollTop(0);
         })
     },
     build: function(){
@@ -199,10 +199,6 @@ var USI_INPUT_UI = {
         USI_INPUT_UI.init();
     }
 }
-
-$(document).ready(function() {
-    //USI_INPUT_UI.build();
-});
 
 // Autocomplete address form 
 // Reference: https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform

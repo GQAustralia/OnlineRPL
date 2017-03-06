@@ -189,6 +189,13 @@
         table-layout: fixed;
         width: 100%;
         background: none repeat scroll 0 0 #fff;
+
+        ul {
+            list-style-type: none;
+            padding: 0px;
+            margin: 0px;
+        }
+        
         aside {
             display: table-cell;
             float: none;
@@ -384,11 +391,6 @@
             margin: 1px 0 0;
             padding: 2px 15px;
         }
-    }
-    ul {
-        list-style-type: none;
-        padding: 0px;
-        margin: 0px;
     }
     // .footer-gqa {
     //     color: white;

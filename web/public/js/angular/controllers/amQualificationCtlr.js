@@ -45,24 +45,24 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
         title: "",
         detailsType: ""
     };
-    $scope.unitStatusArr = {
+       $scope.unitStatusArr = {
         'elective': {
             'all': [],
-            'Not yet started': [],
+            'Not Yet Started': [],
             'Submitted': [],
             'Satisfactory': [],
-            'Not yet satisfactory': [],
+            'Not Yet Satisfactory': [],
             'Competent': [],
-            'Not yet competent': []
+            'Not Yet Competent': []
         },
         'core': {
             'all': [],
-            'Not yet started': [],
+            'Not Yet Started': [],
             'Submitted': [],
             'Satisfactory': [],
-            'Not yet satisfactory': [],
+            'Not Yet Satisfactory': [],
             'Competent': [],
-            'Not yet competent': []
+            'Not Yet Competent': []
         }
     };
 
@@ -101,22 +101,24 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
     };
 
     $scope.getUnits = function () {
-        AjaxService.apiCall("units/getUnits", {"courseCode": $scope.courseCode}).then(function (data) {
-            console.log(data);
-            $scope.electiveUnits = data.Units.Elective;
-            $scope.coreUnits = data.Units.Core.unit;
-            $scope.requiredElective = data.Units.Elective.validation.requirement;
+        AjaxService.apiCall("units/getUnits", {"courseCode": $scope.courseCode, "applicantId": $scope.applicantId}).then(function (data) {
+            if(data.Units){
+                $scope.electiveUnits = data.Units.Elective || [];
+                $scope.coreUnits = data.Units.Core && data.Units.Core.unit || [];
+                $scope.requiredElective = data.Units.Elective && data.Units.Elective.validation && data.Units.Elective.validation.requirement || 0;
+                angular.forEach($scope.electiveUnits.groups, function (value, key) {
+                    angular.forEach(value.unit, function (val, index) {
+                        $scope.allElectiveUnits.push(val);
+                    });
+                });
+                angular.forEach($scope.coreUnits, function (val, index) {
+                    $scope.allCoreUnits.push(val);
+                }); 
+            }
             $scope.IsLoaded = true;
             $scope.unitsFetched = true;
-            angular.forEach($scope.electiveUnits.groups, function (value, key) {
-                angular.forEach(value.unit, function (val, index) {
-                    $scope.allElectiveUnits.push(val);
-                });
-            });
-            angular.forEach($scope.coreUnits, function (val, index) {
-                $scope.allCoreUnits.push(val);
-            });
             $scope.userSelectedSync();
+
         }, function (error) {
             console.log(error);
         });
@@ -125,10 +127,10 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
 
     $scope.getUserUnits = function () {
 
-        AjaxService.apiCall("units/getUserUnits", {"courseCode": $scope.courseCode}).then(function (data) {
+        AjaxService.apiCall("units/getUserUnits", {"courseCode": $scope.courseCode, "applicantId": $scope.applicantId}).then(function (data) {
             $scope.userElectiveUnits = data.elective;
             $scope.userCoreUnits = data.core;
-
+            $scope.userSelectedSync();
         }, function (error) {
             console.log(error);
         });
@@ -160,6 +162,13 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
 
     $scope.userSelectedSync = function () {
         $scope.selectedElectiveUnits = [];
+        $scope.unitStatusArr['elective']['all'] = [];
+$scope.unitStatusArr['elective']['Not Yet Started'] = [];
+$scope.unitStatusArr['elective']['Submitted'] = [];
+$scope.unitStatusArr['elective']['Satisfactory'] = [];
+$scope.unitStatusArr['elective']['Not Yet Satisfactory'] = [];
+$scope.unitStatusArr['elective']['Competent'] = [];
+$scope.unitStatusArr['elective']['Not Yet Competent'] = [];
         angular.forEach($scope.userElectiveUnits, function (val, index) {
             if (val.electiveStatus == 1) {
                 var $obj = _.where($scope.allElectiveUnits, {"id": val.unitId});
@@ -175,14 +184,21 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
                     $scope.selectedElectiveUnits.push($evedenceObject);
                     $scope.unitStatusArr['elective']['all'].push({'id': $evedenceObject.id});
                     if ($evedenceObject.statusText === '' || $evedenceObject.statusText === '0')
-                        $scope.unitStatusArr['elective']['Not yet started'].push({'id': $evedenceObject.id});
+                        $scope.unitStatusArr['elective']['Not Yet Started'].push({'id': $evedenceObject.id});
                     else
                         $scope.unitStatusArr['elective'][$evedenceObject.statusText].push({'id': $evedenceObject.id});
                 }
 
             }
         });
-
+$scope.selectedCoreUnits = [];
+$scope.unitStatusArr['core']['all'] = [];
+$scope.unitStatusArr['core']['Not Yet Started'] = [];
+$scope.unitStatusArr['core']['Submitted'] = [];
+$scope.unitStatusArr['core']['Satisfactory'] = [];
+$scope.unitStatusArr['core']['Not Yet Satisfactory'] = [];
+$scope.unitStatusArr['core']['Competent'] = [];
+$scope.unitStatusArr['core']['Not Yet Competent'] = [];
         angular.forEach($scope.userCoreUnits, function (val, index) {
                 var $obj = _.where($scope.allCoreUnits, {"id": val.unitId});
                 if (!_.isEmpty($obj)) {
@@ -197,7 +213,7 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
                     $scope.selectedCoreUnits.push($coreObject)
                     $scope.unitStatusArr['core']['all'].push({'id': $coreObject.id});
                     if ($coreObject.statusText === '' || $coreObject.statusText === '0')
-                        $scope.unitStatusArr['core']['Not yet started'].push({'id': $coreObject.id});
+                        $scope.unitStatusArr['core']['Not Yet Started'].push({'id': $coreObject.id});
                     else
                         $scope.unitStatusArr['core'][$coreObject.statusText].push({'id': $coreObject.id});
                 }
@@ -251,7 +267,7 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
         }, function (error) {
             console.log(error);
         });
-        $scope.getEvidenceLibrary();
+        //$scope.getEvidenceLibrary();
     };
 
     $scope.getUnitEvidences = function (unitCode) {
@@ -588,6 +604,7 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
     	console.log('selectedUnit :: '+selectedUnit);
     	console.log('courseCode :: '+courseCode);
     	console.log('applicantId :: '+applicantId);
+        var applicantId = applicantId || $scope.applicantId || 0;
     	AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "userId": applicantId}).then(function (data) {
     		$scope.notes = data;
     		$scope.IsLoaded = true;

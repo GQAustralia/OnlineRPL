@@ -32,7 +32,7 @@
     {% set totalElectiveUnitsCnt = courseApiInfo.courseInfo.Units.Elective.groups.group.unit|default(0) %}
     {% set loggedInUserRole = ('ROLE_FACILITATOR' in userRole) ? 'facilitator' : 'candidate' %}
 
-    <main class="main-content-gqa" ng-init="qualificationPage = '{{qualificationPage}}';courseCode = '{{ courseCode }}';applicantId = '{{ userId }}';role = '{{ loggedInUserRole }}';">
+    <main class="main-content-gqa" ng-init="qualificationPage = '{{qualificationPage}}';courseCode = '{{ courseCode }}';applicantId = '{{ applicantId }}';role = '{{ loggedInUserRole }}';">
         <div class="container">
             <div class="panel panel-default panel-qual-heading panel-avatar-tab">
                 <div class="panel-heading-img">
@@ -123,7 +123,7 @@
                         <button type="button" class="btn btn-default" ng-click="printElective(details)"><i class="zmdi zmdi-print zmdi-hc-lg zmdi-hc-fw"></i> Print</button>
                         <button type="button" class="btn btn-default" ng-click="downloadElective(details)"><i class="zmdi zmdi-download zmdi-hc-lg zmdi-hc-fw"></i> Download PDF</button>
                     </div>
-                    <div id="detailsElective" class="table table-compressed table-bordered clearfix" ng-bind-html="unitDetails[selectedUnit][details.detailsType]"></div>
+                    <div id="detailsElective" class="table-from-api table-striped content-from-api clearfix" ng-bind-html="unitDetails[selectedUnit][details.detailsType]"></div>
                 </div>
             </div>
         </div>
@@ -288,7 +288,7 @@
     <!-- Upload ID Evdences Modal Popup End -->
     
       <!-- Unit Submission Approval -->
-    <div class="modal fade" id="submitUnitConfirmation">
+    <div class="modal modal-confirmation fade" id="submitUnitConfirmation">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">

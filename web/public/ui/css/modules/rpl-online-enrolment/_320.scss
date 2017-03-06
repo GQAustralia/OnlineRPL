@@ -22,14 +22,18 @@ ul.bootstrapWizard{
         .progress { width: 150px; }
     }
     .id-files-body{
-        tr> {
-            td {
+        tr {
+            td, th {
                 &:first-child {
-                    min-width: 100px;
-                    width: 130px;
-                    max-width: 130px;
+                    min-width: 30px;
+                    width: 30px;
+                    max-width: 30px;
                     text-align: center;
-                }
+                }          
+            }
+        }
+        tr {
+            td {
 
                 label, small {
                     display: block;
@@ -40,8 +44,9 @@ ul.bootstrapWizard{
                     font-size: 1.8em;
                     font-weight: 500;
                 }
-                &:last-child {
-                    width: 50px;
+
+                .table-controls {
+                    margin-top: 10px;
                 }
             }
         }

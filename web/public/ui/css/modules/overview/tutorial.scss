@@ -3,37 +3,80 @@
 		&.popover {
 			margin-left: 10px;
 		}
-		.popover-title {
-			background-color: transparent;
-			font-size: 1.4em;
-			padding: 15px;
-			line-height: 1.2;
-			text-align: center;
-			color: $brand-primary;	
-		}
 	}
 	.tour-backdrop {
 		background-color: transparent !important;
 	}
 	.tour-step-background {
 		border-radius: 0;
-		width: 250px !important;
+		width: 300px !important;
 	    background-color: transparent !important;
-	    @include box-shadow(0 0 15px rgba(134, 27, 24, 1) inset);
+	    @include transition(none);
+	    @include box-shadow(0 0 0 100em rgba(0, 0, 0, 0.28));
 	}
 	.tour.popover {
-		left: -10px;
-		right: 0;
-		width: 100%;
+		left: 15px !important;
+		right: 15px;
+		width: 280px;
 		max-width: 100%;
-		border-radius: 0;
 		margin-top: 25px;
+	}
+
+	&.tour-enabled {
+		overflow: hidden;
+
+		.header-gqa-nav {
+			z-index: 2000;
+			overflow: hidden;
+		}
+
+		&.mobile-modify-header {
+			.header-gqa {
+				z-index: 2000 !important;
+				overflow: hidden;
+			}
+			.btn-navicon-gqa {
+				@include opacity(0.3);
+				pointer-events: none;
+			}
+			.avatar-menu {
+				@include transition(none);
+				@include box-shadow(-3em 0 0 100em rgba(0,0,0,0.5));
+			}
+
+			.tour-tour-3 { left: auto !important; }
+		}
 	}
 }
 
 .is-desktop,.is-tablet {
 	.tour-backdrop {
 		background-color: transparent !important;
+	}
+
+	&.tour-enabled {
+		.header-gqa { z-index: 2000; @include transition(none); }
+		.header-gqa-logo { @include opacity(0.2); @include transition(none); }
+		.nav-links li {
+			&:hover:after {
+				display: none;
+			}
+			a {
+				cursor: default !important;
+			}
+		}
+		.avatar-menu:hover {
+			cursor: default !important;
+		}
+
+		*[class^='t-item-'], *[class*='t-item-']{
+			&:not(.tour-step-backdrop), 
+			& + .zmdi-caret-down, & ~ .avatar-name, 
+			& ~ .avatar-name + .zmdi-caret-down {
+				@include transition(none);
+				@include opacity(0.3);
+			}
+		}
 	}
 
 	.tour-step-background {
@@ -45,4 +88,24 @@
 	.popover.tour {
 		margin-top: 30px;
 	}
+}
+
+.tour {
+	.popover-title {
+		background-color: transparent;
+		font-size: 1.2em;
+		padding: 15px;
+		line-height: 1.2;
+		text-align: left;
+		text-transform: initial;
+		color: $brand-primary;
+	}
+	&:not(.tour-tour-3) {
+		.btn-last-tour { display: none; }
+	}
+
+	&.tour-tour-3 {
+		.btn-end-tour, [data-role="next"] { display: none !important; }
+		.btn-last-tour { display: block !important; }
+	}	
 }

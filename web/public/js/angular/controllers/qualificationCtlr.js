@@ -44,21 +44,21 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     $scope.unitStatusArr = {
         'elective': {
             'all': [],
-            'Not yet started': [],
+            'Not Yet Started': [],
             'Submitted': [],
             'Satisfactory': [],
-            'Not yet satisfactory': [],
+            'Not Yet Satisfactory': [],
             'Competent': [],
-            'Not yet competent': []
+            'Not Yet Competent': []
         },
         'core': {
             'all': [],
-            'Not yet started': [],
+            'Not Yet Started': [],
             'Submitted': [],
             'Satisfactory': [],
-            'Not yet satisfactory': [],
+            'Not Yet Satisfactory': [],
             'Competent': [],
-            'Not yet competent': []
+            'Not Yet Competent': []
         }
     };
 
@@ -98,20 +98,21 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
 
     $scope.getUnits = function() {
         AjaxService.apiCall("units/getUnits", {"courseCode": $scope.courseCode}).then(function(data) {
-            console.log(data);
-            $scope.electiveUnits = data.Units.Elective;
-            $scope.coreUnits = data.Units.Core.unit;
-            $scope.requiredElective = data.Units.Elective.validation.requirement;
+            if(data.Units){
+                $scope.electiveUnits = data.Units.Elective || [];
+                $scope.coreUnits = data.Units.Core && data.Units.Core.unit || [];
+                $scope.requiredElective = data.Units.Elective && data.Units.Elective.validation && data.Units.Elective.validation.requirement || 0;
+                angular.forEach($scope.electiveUnits.groups, function (value, key) {
+                    angular.forEach(value.unit, function (val, index) {
+                        $scope.allElectiveUnits.push(val);
+                    });
+                });
+                angular.forEach($scope.coreUnits, function (val, index) {
+                    $scope.allCoreUnits.push(val);
+                }); 
+            }
             $scope.IsLoaded = true;
             $scope.unitsFetched = true;
-            angular.forEach($scope.electiveUnits.groups, function(value, key) {
-                angular.forEach(value.unit, function(val, index) {
-                    $scope.allElectiveUnits.push(val);
-                });
-            });
-            angular.forEach($scope.coreUnits, function(val, index) {
-                $scope.allCoreUnits.push(val);
-            });
             $scope.userSelectedSync();
         }, function(error) {
             console.log(error);
@@ -171,7 +172,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
                     $scope.selectedElectiveUnits.push($evedenceObject);
                     $scope.unitStatusArr['elective']['all'].push({'id': $evedenceObject.id});
                     if ($evedenceObject.statusText === '' || $evedenceObject.statusText === '0')
-                        $scope.unitStatusArr['elective']['Not yet started'].push({'id': $evedenceObject.id});
+                        $scope.unitStatusArr['elective']['Not Yet Started'].push({'id': $evedenceObject.id});
                     else
                         $scope.unitStatusArr['elective'][$evedenceObject.statusText].push({'id': $evedenceObject.id});
                 }
@@ -193,7 +194,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
                 $scope.selectedCoreUnits.push($coreObject)
                 $scope.unitStatusArr['core']['all'].push({'id': $coreObject.id});
                 if ($coreObject.statusText === '' || $coreObject.statusText === '0')
-                    $scope.unitStatusArr['core']['Not yet started'].push({'id': $coreObject.id});
+                    $scope.unitStatusArr['core']['Not Yet Started'].push({'id': $coreObject.id});
                 else
                     $scope.unitStatusArr['core'][$coreObject.statusText].push({'id': $coreObject.id});
             }
@@ -411,7 +412,8 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             if (val.isSubmitted === 1)
                 totalSubmmited++;
         });
-        return Math.round((totalSubmmited / $scope.selectedElectiveUnits.length) * 100)
+        var percent = Math.round((totalSubmmited / $scope.selectedElectiveUnits.length) * 100);
+        return  isNaN(percent)? '0' : percent;
     };
 
     $scope.percentCoreSubmitted = function() {
@@ -445,8 +447,8 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             case 'Satisfactory':
                 cls = 'label-default'
                 break;
-            case 'Not yet satisfactory':
-            case 'Not yet competent':
+            case 'Not Yet Satisfactory':
+            case 'Not Yet Competent':
                 cls = 'label-danger';
                 break;
             case 'Competent':
