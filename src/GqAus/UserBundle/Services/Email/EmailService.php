@@ -56,7 +56,7 @@ class EmailService extends CustomRepositoryService
 
         $emailContent = $this->container->get('templating')->render(
             'GqAusUserBundle:Email:email-notifications.html.twig',
-            ['user' => $user, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl'), 'msgBody' => $msgBody, 'courseObj' => $courseObj, 'fromUserName' => $fromUser.getUserName()]
+            ['user' => $user, 'imageUrl' => $imageUrl, 'appUrl' => $this->container->getParameter('applicationUrl'), 'msgBody' => $msgBody, 'courseObj' => $courseObj, 'fromUser' => $fromUser]
         );
 
         return $emailContent;
