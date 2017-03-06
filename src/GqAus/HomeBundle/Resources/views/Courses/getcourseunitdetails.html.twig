@@ -107,12 +107,6 @@
                                     </div>
 
                                     <div class="panel-collapse-inner" ng-if="(unitEvidences| filter:{type: '!text'}).length > 0 || uploadInProgress.uploads.length > 0" data-has-thumbnail="true">
-                                        <div>
-{#                                            <label style="margin-top: 10px;"><span>{[{(unitEvidences| filter:{type: '!text'}).length}]}</span> evidences</label>#}
-                                            <div class="btn-auto-group"  ng-if="!isSubmitted() && (unitEvidences| filter:{type: '!text'}).length > 0">
-                                                <button type="button" ng-if="role === 'candidate'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</button>
-                                            </div>
-                                        </div>
                                         <div class="evidence-controls">
                                             <div class="checkbox-control" ng-if="!isSubmitted()">
                                                 <input type="checkbox" name="test" value="1"  ng-model="pageStats.evidenceEdit" id="selectControl" class="custom-input"><label for="selectControl"><span class="hidden-mobile">Edit</span></label>
