@@ -372,7 +372,7 @@
                                     </div>
                                 </div>
                                 <ul class="thumbnail-group card-view thumbnail-group-scroll edit-mode" ng-class="{'card-view': pageStats.libraryView === 'card', 'list-view': pageStats.libraryView === 'list'}">
-                                    <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                    <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences|filter:{size:'!0'}" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
                                         <div class="thumbnail-group-selection"><input type="checkbox" name="libraryFiles" value="{[{evidence.id}]}" id="libraryFiles-{[{evidence.id}]}" ng-model="uploadInProgress.libraryFiles[evidence.id]" class="custom-input"><label for="libraryFiles-{[{evidence.id}]}"></label></div>
                                         <div class="thumbnail-holder">
                                                     <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
