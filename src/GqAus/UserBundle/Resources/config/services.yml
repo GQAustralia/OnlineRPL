@@ -48,7 +48,7 @@ services:
         arguments: ['@file_storage_filesystem', @doctrine.orm.entity_manager, @service_container, @UserService]
     EvidenceService:
         class: GqAus\UserBundle\Services\EvidenceService
-        arguments: [@doctrine.orm.entity_manager, @service_container, @UserService]
+        arguments: [@doctrine.orm.entity_manager, @service_container, @UserService, @EmailService]
     messageHelperService:
         class: GqAus\UserBundle\Services\MailService
         arguments: [@doctrine.orm.entity_manager, @service_container]
@@ -62,7 +62,7 @@ services:
         arguments: [@doctrine.orm.entity_manager]
     NotesService:
         class: GqAus\UserBundle\Services\NotesService
-        arguments: [@doctrine.orm.entity_manager, @service_container, @UserService]
+        arguments: [@doctrine.orm.entity_manager, @service_container, @UserService, @EmailService]
     templating.engine.twig:
         class: GqAus\UserBundle\Twig\TwigEngine
         arguments: [@twig, @templating.name_parser, @templating.locator, @mobile_detect.mobile_detector]

@@ -550,7 +550,7 @@ class UserService {
             $facMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_appove_evdience_fac_con'));
             $facMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_appove_evdience_fac_con'));
 
-            $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj);
+            $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $facMailBody, $courseObj->getFacilitator()->getId(), $courseObj);
             
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
@@ -590,7 +590,7 @@ class UserService {
                     $canMessageBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('msg_appove_evdience_rto_candidate_con'));
                     $canMailBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('mail_appove_evdience_rto_candidate_con'));
                     
-                    $canMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $canMailBody, $courseObj);
+                    $canMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $canMailBody, $courseObj->getFacilitator()->getId(), $courseObj);
                     
                     /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                     $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
@@ -631,7 +631,7 @@ class UserService {
                     $canMessageBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('msg_appove_evdience_ass_candidate_con'));
                     $canMailBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('mail_appove_evdience_ass_candidate_con'));
 																				
-                    $canMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $canMailBody, $courseObj);
+                    $canMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $canMailBody, $courseObj->getFacilitator()->getId(), $courseObj);
                     
                     /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                     $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
@@ -687,7 +687,7 @@ class UserService {
                 $asrMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_asr_con'));
                 $asrMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_asr_con'));
                 
-                $asrMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $asrMailBody, $courseObj);
+                $asrMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $asrMailBody, $result['currentUserId'], $courseObj);
                 
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $asrMailSubject, $asrMailBody, $courseObj->getAssessor()->getEmail(), $courseObj->getAssessor()->getUsername());
@@ -702,7 +702,7 @@ class UserService {
                 $rtoMessageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_disappove_evdience_rto_con'));
                 $rtoMailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_disappove_evdience_rto_con'));
                 
-                $rtoMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $rtoMailBody, $courseObj);
+                $rtoMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $rtoMailBody, $result['currentUserId'], $courseObj);
                 
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $rtoMailSubject, $rtoMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
@@ -710,7 +710,7 @@ class UserService {
                 $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $result['currentUserId'], $rtoMessageSubject, $rtoMessageBody, $courseUnitObj->getId(), 1);
             }
             
-            $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $facMailBody, $courseObj);
+            $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $facMailBody, $courseObj->getFacilitator()->getId(), $courseObj);
             
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
@@ -2601,7 +2601,7 @@ class UserService {
             $facMessageBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('msg_rto_issue_certificate_con'));
             $facMailBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('mail_rto_issue_certificate_con'));
 												
-            $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj);
+            $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj->getRto()->getId(), $courseObj);
             
             // send the external mail and internal message to facilitator
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
@@ -2616,7 +2616,7 @@ class UserService {
             $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_rto_issue_certificate_con'));
             $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_rto_issue_certificate_con'));
             
-            $aplMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $aplMailBody, $courseObj);
+            $aplMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $aplMailBody, $courseObj->getFacilitator()->getId(), $courseObj);
             
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
@@ -2668,13 +2668,13 @@ class UserService {
                 $canMessageBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('msg_appove_evdience_rto_candidate_con'));
                 $canMailBody = str_replace($msgSearch, $canMsgReplace, $this->container->getParameter('mail_appove_evdience_rto_candidate_con'));
 																
-                $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj);
+                $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj->getRto()->getId(), $courseObj);
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $facMailSubject, $facMailBody, $courseObj->getRto()->getEmail(), $courseObj->getRto()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
                 $this->sendMessagesInbox($courseObj->getFacilitator()->getId(), $courseObj->getRto()->getId(), $facMessageSubject, $facMessageBody, '', 1);
 																
-                $canMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $canMailBody, $courseObj);
+                $canMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $canMailBody, $courseObj->getFacilitator()->getId(), $courseObj);
                 
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->sendExternalEmail($courseObj->getUser()->getEmail(), $facMailSubject, $canMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
@@ -2943,7 +2943,7 @@ class UserService {
         $facMessageBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('msg_conversation_invitation_con'));
         $facMailBody = str_replace($msgSearch, $facMsgReplace, $this->container->getParameter('mail_conversation_invitation_con'));
 								
-        $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj);
+        $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $assessor->getId(), $courseObj);
         
         // send the external mail and internal message to facilitator
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
@@ -2958,7 +2958,7 @@ class UserService {
         $aplMessageBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('msg_conversation_invitation_con'));
         $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_conversation_invitation_con'));
         
-        $aplMailBody = $this->emailService->getNotificationToApplicantEmailMsg($applicant->getId(), $aplMailBody, $courseObj);
+        $aplMailBody = $this->emailService->getNotificationToApplicantEmailMsg($applicant->getId(), $aplMailBody, $courseObj->getFacilitator()->getId(), $courseObj);
         
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
         $this->sendExternalEmail($applicant->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
@@ -3515,6 +3515,10 @@ class UserService {
     public function updateUnitUpdateStatus($userId, $courseCode, $unitCode, $unitStatus) {
          $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $userId, 'courseCode' => $courseCode, 'unitId' => $unitCode));
          if (!empty($courseUnitObj) && (count($courseUnitObj) > 0)) {
+            $facStatus = ($unitStatus == 3) ? 1 : 2;
+            $courseUnitObj->setFacilitatorstatus($facStatus);
+            $isSubmitted = ($unitStatus == 4) ? 0 : $courseUnitObj->getIssubmitted();
+            $courseUnitObj->setIssubmitted($isSubmitted);
             $courseUnitObj->setUnitStatus($unitStatus);
             $this->em->persist($courseUnitObj);
             $this->em->flush();
@@ -3775,7 +3779,7 @@ class UserService {
             $aplMailBody = str_replace($msgSearch, $aplMsgReplace, $this->container->getParameter('mail_portfolio_update_con'));
         }
 								
-        $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj);
+        $facMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getFacilitator()->getId(), $facMailBody, $courseObj->getAssessor()->getId(), $courseObj);
         
         // send the external mail and internal message to facilitator
         /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
@@ -3788,7 +3792,7 @@ class UserService {
         /* For ASSESSOR and RTO, Changing Candidate's Portfolio status - Messaging should only be sent to Facilitator and not to Candidate */
         if ($courseStatus != '3' && $courseStatus != '10' && $courseStatus != '12' && $courseStatus != '13' && $courseStatus != '14') {
         				
-            $aplMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $aplMailBody, $courseObj);
+            $aplMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $aplMailBody, $courseObj->getFacilitator()->getId(), $courseObj);
         	
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($courseObj->getUser()->getEmail(), $mailSubject, $aplMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
@@ -3948,7 +3952,7 @@ class UserService {
         $this->em->flush();
         if ($toEmail != '' && $toId != '' && $roleMessageBody != '' && $roleMailBody != '') {
 												
-            $roleMailBody = $this->emailService->getNotificationToApplicantEmailMsg($toId, $roleMailBody, $courseObj);
+            $roleMailBody = $this->emailService->getNotificationToApplicantEmailMsg($toId, $roleMailBody, $courseObj->getFacilitator()->getId(), $courseObj);
             // send the external mail and internal message to facilitator
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->sendExternalEmail($toEmail, $mailSubject, $roleMailBody, $courseObj->getFacilitator()->getEmail(), $courseObj->getFacilitator()->getUsername());
@@ -3956,7 +3960,8 @@ class UserService {
             $this->sendMessagesInbox($toId, $courseObj->getFacilitator()->getId(), $messageSubject, $roleMessageBody, '', 1);
         }
         
-        $aplMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $aplMailBody, $courseObj);
+        $aplMailBody = $this->emailService->getNotificationToApplicantEmailMsg($courseObj->getUser()->getId(), $aplMailBody, $courseObj->getFacilitator()->getId(), $courseObj);
+
         
         // send the external mail and internal message to applicant
         // re creating message data by replacing facilitator values

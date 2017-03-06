@@ -605,7 +605,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
 
     $scope.saveNotes = function(newNotes) {
         if (newNotes != '') {
-            AjaxService.apiCall("units/saveNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "note": newNotes}).then(function(data) {
+            AjaxService.apiCall("units/saveNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "note": newNotes, 'applicantId': $scope.applicantId}).then(function(data) {
                 if (data != 'error') {
                     $scope.notes = data;
                 }

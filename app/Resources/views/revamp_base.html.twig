@@ -11,7 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    
       <!-- Bootstrap -->
     {% block head %} 
-        {% set roles = app.security.getToken().getUser().getRoles() %}    
+        {% set roles = app.security.getToken().getUser().getRoles() %}
+
         <!-- Core -->
 
         <link rel="apple-touch-icon-precomposed" href="ui/img/favicon-32x32.png">
@@ -44,6 +45,7 @@
 </head>
 {% set roles = app.security.getToken().getUser().getRoles() %}
 {% set route = app.request.attributes.get('_route') %}
+{% set baseUrl = app.request.server.get('REQUEST_SCHEME')~'://'~app.request.server.get('HTTP_HOST') %}
 <body  {% if roles[0] == 'ROLE_FACILITATOR' %} data-role="account-manager" {% elseif roles[0] == 'ROLE_ASSESSOR' %} data-role="assessor" {% elseif roles[0] == 'ROLE_RTO' %} data-role="rto" {%endif%} {% block ngController %}{% endblock %} class="{% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}">
     
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
@@ -60,17 +62,17 @@
             
              {% if ('ROLE_APPLICANT' not in roles)  %}
                 {% if ('ROLE_FACILITATOR' in roles) %}
-                    <a href="{{ app.request.baseUrl }}/account-manager-dashboard">
+                    <a href="{{ baseUrl }}/account-manager-dashboard">
                 {% else %}
-                    <a href="{{ app.request.baseUrl }}/dashboard">
+                    <a href="{{ baseUrl }}/dashboard">
                 {% endif %}
                 <div class="header-gqa-logo">
                 
              {% else %}
-                    <a href="{{ app.request.baseUrl }}/overview">
+                    <a href="{{ baseUrl }}/overview">
                     <div class="header-gqa-logo">
              {% endif %}
-                <img src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
+                <img src="{{ asset(baseUrl~'/public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
                 </div></a>
                 
             <nav class="header-gqa-nav">
@@ -79,18 +81,18 @@
                         {% if ('ROLE_APPLICANT' not in roles)  %}
                         <li>
                             {% if ('ROLE_FACILITATOR' in roles) %}
-                                <a href="{{ app.request.baseUrl }}/account-manager-dashboard"><span class="t-item-2"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard</span></a>
+                                <a href="{{ baseUrl }}/account-manager-dashboard"><span class="t-item-2"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard</span></a>
                             {% else %}
-                                <a href="{{ app.request.baseUrl }}/dashboard"><span class="t-item-2"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard</span></a>
+                                <a href="{{ baseUrl }}/dashboard"><span class="t-item-2"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard</span></a>
                             {% endif %}
                             
                         </li>
                         
                         <li>
                             {% if ('ROLE_FACILITATOR' in roles or 'ROLE_ASSESSOR' in roles or 'ROLE_RTO' in roles) %}
-                                <a href='{{ app.request.baseUrl }}/amapplicants'><span class="t-item-2"><i class="zmdi zmdi-accounts zmdi-hc-lg zmdi-hc-fw"></i> Applicants</span></a>
+                                <a href='{{ baseUrl }}/amapplicants'><span class="t-item-2"><i class="zmdi zmdi-accounts zmdi-hc-lg zmdi-hc-fw"></i> Applicants</span></a>
                             {% else %}
-                                <a href='{{ app.request.baseUrl }}/applicants'><span class="t-item-2"><i class="zmdi zmdi-accounts zmdi-hc-lg zmdi-hc-fw"></i> Applicants</span></a>
+                                <a href='{{ baseUrl }}/applicants'><span class="t-item-2"><i class="zmdi zmdi-accounts zmdi-hc-lg zmdi-hc-fw"></i> Applicants</span></a>
                             {% endif %}
                             
                         </li>
@@ -102,7 +104,7 @@
                                 <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{ app.request.baseUrl }}/overview"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
+                                <li><a href="{{ baseUrl }}/overview"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
                                 <li class="divider"></li>
                                 <li class="sub-menu">
                                     <h4 class="h4 sub-menu-title">Your Qualifications</h4>
@@ -111,7 +113,11 @@
                                         {% for course in userCourses %} 
                                             {%set courseName = course.getCourseName() %}
                                             {% if courseName is defined and courseName != null %}       
+
                                                 <a href="{{ app.request.baseUrl }}/qualificationDetails/{{course.getCourseCode()}}">{{course.getCourseName()}}</a>
+
+                                                {# <a href="{{ baseUrl }}/qualificationDetails/{{course.getCourseCode()}}" class="list-group-item">{{course.getCourseName()}}</a> #}
+
                                             {%endif%}
                                         {%endfor%}
                                     {%endif%}
@@ -121,9 +127,9 @@
                         </li>
                         {% endif %}
                         {% if ('ROLE_FACILITATOR' in roles)  %}
-                                <li class="{% if app.request.attributes.get('_route') == 'evidences' %}active{% endif %}"><a href='{{ app.request.baseUrl }}/evidences'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidence</span></a></li>
+                                <li class="{% if app.request.attributes.get('_route') == 'evidences' %}active{% endif %}"><a href='{{ baseUrl }}/evidences'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidence</span></a></li>
                         {% elseif ('ROLE_APPLICANT' in roles) %}
-                                <li class="{% if app.request.attributes.get('_route') == 'files' %}active{% endif %}"><a href='{{ app.request.baseUrl }}/files'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidence</span></a></li>
+                                <li class="{% if app.request.attributes.get('_route') == 'files' %}active{% endif %}"><a href='{{ baseUrl }}/files'><span class="t-item-2"><i class="zmdi zmdi-collection-folder-image zmdi-hc-lg zmdi-hc-fw"></i> Evidence</span></a></li>
                         {% endif %}
                             {% if ('ROLE_SUPERADMIN' not in roles) %} 
                                 <li>
@@ -144,7 +150,7 @@
                                                         {% if unreadwMsg.getSystemGenerated()  != 1 %}
                                                             <img src="{% if unreadwMsg.sent.getUserImage()  != '' %}{{amazon_link~'user-'~unreadwMsg.sent.getId()~'/'~unreadwMsg.sent.getUserImage()}}{%else%}public/images/userprofile.png{%endif%}" alt="{{unreadwMsg.sent.getUserName()}}">
                                                         {% else %}
-                                                            <img src="public/ui/img/computer.svg">
+                                                            <img src="{{baseUrl}}/public/ui/img/computer.svg">
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -165,13 +171,13 @@
                                           
                                             <!-- If nothing to display -->
                                     {% endif %}
-                                        <li><button type="button" class="btn btn-link text-uppercase btn-block"><a href="{{ app.request.baseUrl }}/messages">Go to Inbox</a></button></li>
+                                        <li><button type="button" class="btn btn-link text-uppercase btn-block"><a href="{{ baseUrl }}/messages">Go to Inbox</a></button></li>
                                     </ul>
                                 </li>
                             {% endif %}
                             {% if ('ROLE_MANAGER' in roles or 'ROLE_SUPERADMIN' in roles) %}
                                 {% if not is_mobile() %}   
-                                    <li><a class="{% if app.request.attributes.get('_route') == 'manageusers' %} active {% endif %}" href="{{ app.request.baseUrl }}/manageusers"><!--i class="material-icons">group</i--><span>Manage Users</span></a></li>
+                                    <li><a class="{% if app.request.attributes.get('_route') == 'manageusers' %} active {% endif %}" href="{{ baseUrl }}/manageusers"><!--i class="material-icons">group</i--><span>Manage Users</span></a></li>
                                 {% endif %}
                             {% endif %}
 
@@ -182,14 +188,14 @@
                             </a>
                             <ul class="dropdown-menu pull-right">
                                 <li>
-                                    <a href='{{ app.request.baseUrl }}/faq' target="_blank">
+                                    <a href='{{ baseUrl }}/faq' target="_blank">
                                         <i class="zmdi zmdi-book zmdi-hc-lg"></i>
                                         <span class="h4">Help and FAQs <br><small>Go to your how-to guide and FAQs for the Online RPL.</small></span>
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a href='{{ app.request.baseUrl }}/feedback' target="_blank">
+                                    <a href='{{ baseUrl }}/feedback' target="_blank">
                                         <i class="zmdi zmdi-comments zmdi-hc-lg"></i>
                                         <span class="h4">Tell us your feedback <br><small>Do you have comments about the site? <br>Tell us, we're listening.</small></span>
                                     </a>
@@ -213,9 +219,9 @@
                         </div>
 
                         <ul class="dropdown-menu pull-right">
-                            {% if app.request.attributes.get('_route') != 'enrollment' %}<li><a href="{{ app.request.baseUrl }}/userprofile"><i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My Profile</a></li>
+                            {% if app.request.attributes.get('_route') != 'enrollment' %}<li><a href="{{ baseUrl }}/userprofile"><i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My Profile</a></li>
                             <li class="divider"></li> {% endif %}
-                            <li><a href="{{ app.request.baseUrl }}/logout"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
+                            <li><a href="{{ baseUrl }}/logout"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -230,10 +236,10 @@
 
 <footer class="footer-gqa" data-toggle="auto-fixed-footer">
     <section class="container">
-        <img class="footer-gqa-logo img-responsive" src="{{ asset('public/ui/img/gqa-logo-full-white-type.svg') }}" alt="Get Qualified Australia">
+        <img class="footer-gqa-logo img-responsive" src="{{ asset(baseUrl~'/public/ui/img/gqa-logo-full-white-type.svg') }}" alt="Get Qualified Australia">
         <ul class="footer-gqa-nav list-inline small text-right" style="margin-top: 10px;">
             <li><a href="https://www.gqaustralia.edu.au/" target="_blank">GQA Website</a></li>
-            <li><a href="tel:">Contact Us</a></li>
+            <li><a href="\faq" target="_blank">Contact Us</a></li>
             <li style="display: block; margin-top: 5px;">Copyright &copy; <span id="currentYear">----</span> GQA. All Rights Reserved</li>
         </ul>
     </section>

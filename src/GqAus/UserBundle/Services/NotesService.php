@@ -23,6 +23,11 @@ class NotesService {
      * @var Object
      */
     private $userService;
+    
+    /**
+     * @var Object
+     */
+    public $emailService;
 
     /**
      * Constructor
@@ -30,11 +35,12 @@ class NotesService {
      * @param object $container
      * @param object $userService
      */
-    public function __construct($em, $container, $userService) {
+    public function __construct($em, $container, $userService, $emailService) {
         $this->em = $em;
         $session = $container->get('session');
         $this->container = $container;
         $this->userService = $userService;
+        $this->emailService = $emailService;
     }
 
     /**
@@ -245,8 +251,8 @@ class NotesService {
             $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_notes_con'));
             $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_notes_con'));
 												
-            $emailService = $this->get('EmailService');
-            $mailBody = $emailService->getNotificationToApplicantEmailMsg($facilitatorInfo['facilitatorId'], $mailBody);
+            $emailService = $this->emailService;
+            $mailBody = $emailService->getNotificationToApplicantEmailMsg($facilitatorInfo['facilitatorId'], $mailBody, $data['session_user_id']);
             
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->userService->sendExternalEmail($facilitatorInfo['facilitatorEmail'], $mailSubject, $mailBody, $data['session_user_email'], $data['session_user_name']);
