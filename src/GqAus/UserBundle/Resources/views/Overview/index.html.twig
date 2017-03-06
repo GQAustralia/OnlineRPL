@@ -128,96 +128,114 @@
    
     <script type="text/javascript">
         var FIRST_TIME_TOUR = {
-            template: '<div class="popover tour"><div class="arrow"></div><h4 class="popover-title"></h4><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group btn-group-sm"><button class="btn btn-default" data-role="prev"><i class="zmdi zmdi-chevron-left zmdi-hc-lg zmdi-hc-fw"></i></button><button class="btn btn-default" data-role="next"><i class="zmdi zmdi-chevron-right zmdi-hc-lg zmdi-hc-fw"></i></button></div><button class="btn btn-link btn-sm" data-role="end">END TOUR</button></div></div>',
+            template: '<div class="popover tour"><div class="arrow"></div><h4 class="popover-title"></h4><div class="popover-content"></div><div class="popover-navigation"><button class="btn btn-success pull-right" data-role="next"><span id="buttonText"></span></button><button class="btn btn-transparent pull-right btn-end-tour" data-role="end">End Tour</button><button class="btn btn-success pull-right btn-last-tour" data-role="end">Alright</button></div></div>',
+            header: $('#headerGQA'),
+            counter: 0,
+            getButtonText: function() {
+                var btn_text = ['Got it!','Cool!','Noted!','Alright!'];
+                return  $('#buttonText').html(btn_text[FIRST_TIME_TOUR.counter++]);
+            },
+            init: function() {
 
-            init: function () {
-                var popup = $('#congratulatoryPopup'), header = $('#headerGQA');
+                var popup =     $('#congratulatoryPopup'), 
+                    header =    $('#headerGQA'),
+                    body =      $('body');
+
                 var tour = new Tour({
                     name: 'tour',
                     smartPlacement: true,
+                    animation: false,
                     backdrop: true,
                     storage: false,
                     backdropPadding: 15,
                     template: FIRST_TIME_TOUR.template,
-                    onEnd: FIRST_TIME_TOUR.hide_backdrop,
-                    onHidden: function (tour) {
-                        if (tour.getCurrentStep() === 2 && isMobile.phone === true) {
+                    onStart: function() {
+                        FIRST_TIME_TOUR.header.find('[data-toggle="dropdown"]').on('click', function(event) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        });
+                    },
+                    onEnd: function(tour) {
+                        FIRST_TIME_TOUR.header.find('[data-toggle="dropdown"]').unbind('click');
+
+                        FIRST_TIME_TOUR.hide_backdrop();
+                        body.removeClass('tour-enabled').removeClass('mobile-modify-header');
+                    },
+                    onShown: function(tour) {
+                        FIRST_TIME_TOUR.getButtonText();
+                    },
+                    onHidden: function(tour) {
+                        if (tour.getCurrentStep() === 2 && isMobile.phone == true) {
                             $('#btnNavicon').click();
-                            header.css('zIndex', 1100);
+                            body.addClass('mobile-modify-header');
                             FIRST_TIME_TOUR.show_backdrop();
-                        }
-                        else {
-                            header.css('zIndex', '');
                         }
                     },
                     steps: [
                         {
                             placement: 'bottom',
                             element: ".t-item-1",
-                            title: "Jump quickly to your Qualification",
-                            content: "This is always on your header, making it easy for you to go to any of your enrolled qualifications and home."
+                            title: "Jump to your qualification/s",
+                            content: "Wherever you are on the platform, you can click here to view and manage your enrolled qualifications."
                         },
                         {
                             placement: 'bottom',
                             element: ".t-item-2",
-                            title: "View your Evidence Gallery",
-                            content: "All your previously uploaded evidence files will be stored here for future use."
+                            title: "The evidence (library), your honor",
+                            content: "Here’s where all your evidence files are stored so you can keep track of what you have and what more you need."
                         },
                         {
                             placement: 'bottom',
                             element: ".t-item-3",
-                            title: "Your very own RPL Mailbox",
-                            content: "You can send messages to your Account Manager and see other notifications in this mailbox."
+                            title: "What’s this mail thing for, you ask?",
+                            content: "Check here often for notes from your Account Manager and system-generated messages."
                         },
                         {
                             placement: 'bottom',
                             element: ".t-item-4",
-                            title: "Your name, your picture and profile dropdown",
-                            content: "Hey, it's your name and picture!  You can use the dropdown to get to your profile and change your details!"
+                            title: "So, this is you",
+                            content: "Or, at least your name and photo, plus a way to easily access your profile and change your details."
                         }
                     ]
                 });
 
-                tour.init();
+                // tour.init();
 
                 popup.on('show.bs.modal', FIRST_TIME_TOUR.show_backdrop);
 
-                popup.modal({backdrop: false, show: true,});
+                popup.modal({ backdrop: false, show: true, });
 
-                popup.on('hidden.bs.modal', function (event) {
+                popup.on('hidden.bs.modal', function(event) {
+                    body.addClass('tour-enabled');
+
                     if (isMobile.phone === true) {
                         $('#btnNavicon').click();
                         FIRST_TIME_TOUR.hide_backdrop();
                         var tmr;
-                        tmr = setInterval(function () {
+                        tmr = setInterval(function(){
                             if (GQA_HEADER.is_menu_open === true) {
-
+                                
                                 tour.start();
                                 clearInterval(tmr);
                             }
-                        }, 50);
+                        },50);
                     }
                     else {
-                        header.css('zIndex', 2000);
                         tour.start();
                     }
                 });
             },
-            show_backdrop: function () {
+            show_backdrop: function() {
                 $('<div class="modal-backdrop in congratulatoryPopupBackdrop"/>').appendTo('body');
             },
-            hide_backdrop: function () {
+            hide_backdrop: function() {
                 $('.congratulatoryPopupBackdrop').velocity(
-                    {opacity: 0},
-                    {
-                        display: 'none', duration: 300,
-                        complete: function () {
-                            $('#headerGQA').css('zIndex', '');
-                            $(this).remove();
-                        }
+                    { opacity: 0 },
+                    { display: 'none', duration: 300, 
+                        complete: function() { $(this).remove(); }
                     });
             },
-            build: function () {
+            build: function() {
                 this.init();
             }
         }
