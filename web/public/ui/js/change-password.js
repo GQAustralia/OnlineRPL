@@ -104,7 +104,7 @@ var SET_PASSWORD = {
         .success(function(data) {
                 SET_PASSWORD.error_action('Password successfully updated.');
                 $('#errorMessage').removeClass('alert-danger').addClass('alert-success');
-//                SET_PASSWORD.button.attr('disabled', false).html('Set Password');
+                SET_PASSWORD.button.attr('disabled', false).html('Set Password');
                 SET_PASSWORD.oldPassword.val('');
                 SET_PASSWORD.password.val('');
                 SET_PASSWORD.confirm_password.val('');
