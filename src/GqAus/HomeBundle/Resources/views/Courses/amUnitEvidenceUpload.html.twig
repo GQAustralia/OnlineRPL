@@ -120,7 +120,7 @@
                             <!-- Notes from Account Manager -->
                             <article class="form-group">
                                 <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseManagerNotes" aria-expanded="true" aria-controls="collapseAbout">
-                                    <span ng-if="role === 'facilitator' ">Notes from your Account Manager</span>
+                                    <span ng-if="role === 'facilitator' ">Your Notes</span>
                                     <i class="zmdi zmdi-chevron-down"></i>
                                 </h3>
                             
@@ -135,7 +135,7 @@
                                             <div class="message-thread-item" ng-repeat="note in notes">
                                                 <div class="message-avatar avatar avatar-xxs"><img src="{{facilitatorImg}}" alt="You"></div>
                                                 <div class="message-post">
-                                                    <strong class="message-avatar-name">{{ courseDetails.facilitator.firstName|default('') }} {{ courseDetails.facilitator.lastName|default('') }} <small class="text-muted">Account Manager</small></strong>
+                                                    <strong class="message-avatar-name">{{ courseDetails.user.firstName|default('') }} {{ courseDetails.user.lastName|default('') }} <small class="text-muted">Applicant</small></strong>
                                                     <small class="message-stamp">{[{note.created|date:"dd/mm/yyyy"}]}</small>
                                                     <p class="message-text">{[{note.note}]}</p>
 
@@ -163,7 +163,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="message-input"  ng-if="!isSubmitted() && role !== 'candidate'">
+                                            <div class="message-input"  ng-if="isSubmitted() && role !== 'candidate'">
                                                 <textarea cols="30" rows="2" class="form-control" auto-expand placeholder="Type your message here..." ng-model="newNotes"></textarea>
                                                 <button type="button" class="btn btn-link btn-send" ng-click="saveNotes(newNotes); newNotes='';"><i class="zmdi zmdi-mail-send zmdi-hc-2x"></i></button>
                                             </div>

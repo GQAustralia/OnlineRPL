@@ -652,7 +652,8 @@ class CoursesController extends Controller {
                 $courseCode = $params['courseCode'];
                 $unitCode = $params['unitCode'];
                 $note = $params['note'];
-                $results = $this->get('NotesService')->saveCandidateNotes($userId, $courseCode, $unitCode, $note);
+                $applicantId = $params['applicantId'];
+                $results = $this->get('NotesService')->saveCandidateNotes($applicantId, $courseCode, $unitCode, $note);
             }
         }
 
@@ -777,6 +778,7 @@ class CoursesController extends Controller {
         $results['statusList'] = $this->get('UserService')->getQualificationStatus();
         $results['qualificationPage'] = $page;
         $results['selectUnit'] = 1;
+        $results['applicantId'] = $userId;
         $results['applicantCourses'] = $userService->getUserCourses($userId);
 
         return $this->render('GqAusHomeBundle:Courses:amQualifications.html.twig', $results);

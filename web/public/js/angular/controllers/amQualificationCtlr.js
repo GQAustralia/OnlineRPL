@@ -231,7 +231,7 @@ $scope.unitStatusArr['core']['Not Yet Competent'] = [];
         $scope.getUnitDetails(unit.id);
         $scope.unitEvidences = [];
         $scope.getUnitEvidences(unit.id);
-        getNotes($scope.selectedUnit, $scope.courseCode);
+        getNotes($scope.selectedUnit, $scope.courseCode, $scope.applicantId);
     };
 
     $scope.show_details = function (detailsType, title) {
@@ -615,7 +615,7 @@ $scope.unitStatusArr['core']['Not Yet Competent'] = [];
     
     $scope.saveNotes = function (newNotes) {
     	if (newNotes != '') {
-	    	 AjaxService.apiCall("units/saveNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "note":newNotes}).then(function (data) {
+	    	 AjaxService.apiCall("units/saveNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "note":newNotes, "applicantId": $scope.applicantId}).then(function (data) {
 	    		 if (data != 'error') {
 	    			 $scope.notes = data;
 	    		 }
