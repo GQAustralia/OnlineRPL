@@ -51,7 +51,7 @@ class EmailService extends CustomRepositoryService
         if (!$user = $this->userRepository->findOneBy(['id' => $userId])) {
             return null;
         }
-        $fromUser = $this->userRepository->findOneBy(['id' => $fromUserId])
+        $fromUser = $this->userRepository->findOneBy(['id' => $fromUserId]);
         list($message, $imageUrl) = $this->embedImagesToSendNotificationToApplicant(Swift_Message::newInstance());
 
         $emailContent = $this->container->get('templating')->render(
