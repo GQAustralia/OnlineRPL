@@ -5,6 +5,7 @@ var SET_PASSWORD = {
     button: $('#submitPassword'),
     error: $('#errorMessage'),
     errormsg: $('#errorMessage span'),
+    modal: $('#editPassword'),
     bind: function(){
         this.button.on('click', function(){SET_PASSWORD.validate_fields()});
         $('#oldPassword, #password, #confirmPassword').on('change', function(){SET_PASSWORD.validate_empty_fields();})
@@ -105,9 +106,7 @@ var SET_PASSWORD = {
                 SET_PASSWORD.error_action('Password successfully updated.');
                 $('#errorMessage').removeClass('alert-danger').addClass('alert-success');
                 SET_PASSWORD.button.attr('disabled', false).html('Set Password');
-                SET_PASSWORD.oldPassword.val('');
-                SET_PASSWORD.password.val('');
-                SET_PASSWORD.confirm_password.val('');
+                SET_PASSWORD.modal.find('form')[0].reset();
         })
         .fail(function() { 
                 SET_PASSWORD.error_action('Could not connect to server.');
@@ -126,7 +125,7 @@ var SET_PASSWORD = {
                 return pswd_validation['status'];
             }
     },
-    error_action: function (error_msg) {
+    error_action: function (error_msg, btn_animation) {
         var errormsg = SET_PASSWORD.errormsg,
             error = SET_PASSWORD.error;
 
@@ -135,9 +134,8 @@ var SET_PASSWORD = {
         SET_PASSWORD.button.velocity('callout.shake');
     },
     reset_fields: function(){
-        modal = $('#editPassword');
-        modal.on('hidden.bs.modal', function(){
-            modal.find('form')[0].reset();
+        SET_PASSWORD.modal.on('hidden.bs.modal', function(){
+            SET_PASSWORD.modal.find('form')[0].reset();
             SET_PASSWORD.error.addClass('hidden').find('span').html(' ')
         })
     },
