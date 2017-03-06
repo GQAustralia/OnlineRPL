@@ -168,10 +168,10 @@ var SET_PASSWORD = {
             if (isPasswordMatch() === 'valid') {
                     SET_PASSWORD.submit_password();
             } else {
-                SET_PASSWORD.error_action('Password do not match.')
+                SET_PASSWORD.error_action('Passwords do not match.')
             }
         } else {
-            SET_PASSWORD.error_action('Password must be minimum of 8 characterski.')
+            SET_PASSWORD.error_action('Your password must be at least 8 characters')
         }
 
         // check for spaces and password length
@@ -184,7 +184,7 @@ var SET_PASSWORD = {
                 if (field_has_space === false) {
                     validity = 'valid';
                 } else {
-                    SET_PASSWORD.error_action('Password must not contain spaces')
+                    SET_PASSWORD.error_action('Your password must not contain spaces')
                     validity = 'invalid'
                 }
             } else {
@@ -218,12 +218,12 @@ var SET_PASSWORD = {
         oldPwdValidation = SET_PASSWORD.check_currPwd(oldPassword);
         if(oldPwdValidation === 'fail')
         {
-            SET_PASSWORD.error_action('Current password does not match.');
+            SET_PASSWORD.error_action('Passwords do not match');
             SET_PASSWORD.button.attr('disabled', false).html('Set Password');
             return false;
         }
         if (oldPassword === password) {
-            SET_PASSWORD.error_action('Current Password and New Password must be different.');
+            SET_PASSWORD.error_action('Your new password must not be the same with your old password');
             SET_PASSWORD.button.attr('disabled', false).html('Set Password');
             return false;
         }
@@ -234,7 +234,7 @@ var SET_PASSWORD = {
                 data: { 'password_newpassword' : password }
         })
         .success(function(data) {
-                SET_PASSWORD.error_action('Password updated successfully.');
+                SET_PASSWORD.error_action('Password successfully updated.');
                 $('#errorMessage').removeClass('alert-danger').addClass('alert-success');
 //                SET_PASSWORD.button.attr('disabled', false).html('Set Password');
                 SET_PASSWORD.oldPassword.val('');
