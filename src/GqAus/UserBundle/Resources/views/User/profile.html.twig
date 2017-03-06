@@ -225,7 +225,7 @@
                                 <h4 class="modal-title">{{item.name}}</h4>
                             </div>
                             <div class="modal-body modal-body-lg"> 
-                                <img src="{{ amazon_link~item.path }}" style="width: 100%;" alt="{{item.name}}" title="{{item.name}}">
+                                <img src="{{ amazon_link~item.path }}" onerror="this.onerror=null;this.src='{{ asset('public/ui/img/broken-file.svg') }}';" style="width: 100%;" alt="{{item.name}}" title="{{item.name}}">
                             </div>
                         </div>
                     </div>
