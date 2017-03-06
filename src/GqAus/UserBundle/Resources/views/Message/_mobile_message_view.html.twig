@@ -44,7 +44,7 @@
                 </div>
                 <div class="table table-inbox">
                     <div ng-hide="IsLoaded"> Loading.... </div>
-                    <div class="table-row" ng-class="{'unread': msg.read != 0}"  ng-repeat="msg in messages">
+                    <div class="table-row" ng-class="{'unread': msg.read != 0 && msgType != 'sent'}"  ng-repeat="msg in messages">
                         <div class="aside mail-avatar" ng-init="amazon_link='{{amazon_link}}'; userImage = msg.msgFrm.userImage != ''?amazon_link+'user-'+msg.msgFrm.id+'/'+msg.msgFrm.userImage:'../public/images/userprofile.png'">
                             <div class="avatar-xxs" ng-click="displayMsg(msg.id, msg.read);"  ng-if="msg.systemGenerated != 1"> 
                                 <img ng-src="{[{ userImage }]}" alt="{[{ msg.msgFrm.name }]}"> 
@@ -65,7 +65,7 @@
                                 </span>
                                 <div class="view-message">
                                     <p class="mail-subject" ng-click="displayMsg(msg.id, msg.read);">{[{msg.subject}]}</p>
-                                    <i class="zmdi zmdi-flag" ng-class="{'flagged': msg.flagged == 1}" ng-click="flaggMsg(msg.id, msg.flagged);"></i>
+                                    <i class="zmdi zmdi-flag" ng-hide="msgType == 'draft' || msgType == 'sent'" ng-class="{'flagged': msg.flagged == 1}" ng-click="flaggMsg(msg.id, msg.flagged);"></i>
                                     <p class="message-copy" ng-click="displayMsg(msg.id, msg.read);">{[{msg.stippedMessage}]}</p>
                                 </div>
                             </div>
