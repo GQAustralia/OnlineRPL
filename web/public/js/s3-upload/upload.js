@@ -284,3 +284,6 @@ function S3MultiUpload(file, otheInfo) {
     S3MultiUpload.prototype.onUploadCompleted = function(serverData) {
 
     };
+    S3MultiUpload.prototype.onUploadStarted = function(serverData) {
+
+    };
