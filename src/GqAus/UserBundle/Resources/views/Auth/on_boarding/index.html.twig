@@ -13,6 +13,29 @@
                  alt="Get Qualified Australia">
 
             <nav class="header-gqa-nav">
+                <ul class="nav-links" id="navLinks">
+                    <li class="dropdown dropdown-help">
+                        <a href='#' class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="zmdi zmdi-help zmdi-hc-lg zmdi-hc-fw t-item-4"></i> <span class="hidden-desktop">Help</span>
+                            <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href='{{ app.request.baseUrl }}/faq' target="_blank">
+                                    <i class="zmdi zmdi-book zmdi-hc-lg"></i>
+                                    <span class="h4">Help and FAQs <br><small>Go to your how-to guide and FAQs for the Online RPL.</small></span>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href='{{ app.request.baseUrl }}/feedback' target="_blank">
+                                    <i class="zmdi zmdi-comments zmdi-hc-lg"></i>
+                                    <span class="h4">Tell us your feedback <br><small>Do you have comments about the site? <br>Tell us, we're listening.</small></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
                 <div class="avatar-menu">
                     <div class="dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">

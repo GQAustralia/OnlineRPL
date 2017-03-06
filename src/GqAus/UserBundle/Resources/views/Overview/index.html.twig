@@ -132,7 +132,7 @@
             header: $('#headerGQA'),
             counter: 0,
             getButtonText: function() {
-                var btn_text = ['Got it!','Cool!','Noted!','Alright!'];
+                var btn_text = ['Got it!','Cool!','Noted!','Okay','Alright!'];
                 return  $('#buttonText').html(btn_text[FIRST_TIME_TOUR.counter++]);
             },
             init: function() {
@@ -160,15 +160,19 @@
 
                         FIRST_TIME_TOUR.hide_backdrop();
                         body.removeClass('tour-enabled').removeClass('mobile-modify-header');
+
+                        if (GQA_HEADER.is_menu_open === true) {
+                            $('#btnNavicon').click();
+                        }
                     },
                     onShown: function(tour) {
                         FIRST_TIME_TOUR.getButtonText();
                     },
                     onHidden: function(tour) {
-                        if (tour.getCurrentStep() === 2 && isMobile.phone == true) {
+                        if (tour.getCurrentStep() === 3 && isMobile.phone == true) {
                             $('#btnNavicon').click();
                             body.addClass('mobile-modify-header');
-                            FIRST_TIME_TOUR.show_backdrop();
+                            // FIRST_TIME_TOUR.show_backdrop();
                         }
                     },
                     steps: [
@@ -193,6 +197,12 @@
                         {
                             placement: 'bottom',
                             element: ".t-item-4",
+                            title: "Need help with anything?",
+                            content: "You can find frequently asked questions and things you need to know about RPL."
+                        },
+                        {
+                            placement: 'bottom',
+                            element: ".t-item-5",
                             title: "So, this is you",
                             content: "Or, at least your name and photo, plus a way to easily access your profile and change your details."
                         }

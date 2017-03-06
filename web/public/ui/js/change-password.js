@@ -8,7 +8,7 @@ var SET_PASSWORD = {
     modal: $('#editPassword'),
     bind: function(){
         this.button.on('click', function(){SET_PASSWORD.validate_fields()});
-        $('#oldPassword, #password, #confirmPassword').on('change', function(){SET_PASSWORD.validate_empty_fields();})
+        $('#oldPassword, #password, #confirmPassword').on('keyup', function(){SET_PASSWORD.validate_empty_fields();})
     },
     submit_enter: function () {
         $(document).on('keyup', '#oldPassword, #password, #confirmPassword', function (event) {

@@ -569,7 +569,7 @@ class EvidenceService
             $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_evidence_con'));
             $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
             $emailService = $this->get('EmailService');
-            $mailBody = $emailService->getNotificationToApplicantEmailMsg($userId, $mailBody, $courseObj);
+            $mailBody = $emailService->getNotificationToApplicantEmailMsg($userId, $mailBody, $userId, $courseObj);
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->userService->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, 
                 $mailBody, $userInfo->getEmail(), $userInfo->getUsername());
@@ -587,7 +587,7 @@ class EvidenceService
                 $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
 																
                 $emailService = $this->get('EmailService');
-                $mailBody = $emailService->getNotificationToApplicantEmailMsg($userId, $mailBody, $courseObj);
+                $mailBody = $emailService->getNotificationToApplicantEmailMsg($userId, $mailBody, $courseObj->getFacilitator()->getId(), $courseObj);
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->userService->sendExternalEmail($courseObj->getAssessor()->getEmail(), 
                     $mailSubject, $mailBody, $courseObj->getFacilitator()->getEmail(),
@@ -933,6 +933,7 @@ class EvidenceService
         $videoObj = $this->em->getRepository('GqAusUserBundle:Evidence\Video');
         $fileObj = $this->em->getRepository('GqAusUserBundle:Evidence\File');
         $textObj = $this->em->getRepository('GqAusUserBundle:Evidence\Text');
+        $fileName = '';
         foreach ($evidences as $evidence) {
             $evdObj = $this->em->getRepository('GqAusUserBundle:Evidence')->findOneById($evidence);
 
@@ -965,9 +966,10 @@ class EvidenceService
                 $logType = $this->userService->getlogType('8');
                 $this->userService->createUserLog('8', $logType['message']);
 
-                return array('fileName' => $fileName);
+                
             }
         }
+        return array('fileName' => $fileName);
     }
     
     public function getEvidenceCats(){
