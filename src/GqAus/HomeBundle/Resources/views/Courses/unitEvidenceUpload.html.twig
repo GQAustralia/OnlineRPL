@@ -62,7 +62,7 @@
                                                 <button type="button" class="btn btn-transparent" ng-click="deleteEvidence()" ><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-delete"></i></button>
                                             </div>
 
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</button>
+                                            <button type="button" class="btn btn-primary btn-sm" ng-if="!isSubmitted()" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</button>
                                         </div>
 
                                         <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
