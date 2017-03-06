@@ -512,7 +512,7 @@
                                                     <p><label for="bachelor">Have you SUCCESSFULLY completed any of the following qualifications? If yes, select as many as applicable.</label></p>
                                                     <span ng-repeat="(key, value) in previousQualification">
                                                         <input type="checkbox" class="custom-input" name="achievement_{[{value.id}]}" id="achievement_{[{key}]}" ng-model="enrollment.schooling.qualifications[value.id]" ng-true-value="true" ng-false-value="false" ng-change="qualificationChanged(value)" >
-                                                        <label for="achievement_{[{key}]}"> {[{'value.name'}]}</label>
+                                                        <label for="achievement_{[{key}]}"> {[{value.name}]}</label>
                                                     </span>
                                                     
                                                 </div>
