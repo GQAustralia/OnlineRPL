@@ -85,8 +85,16 @@
                 </div>
             </section>
             <section class="section-main">
-                <div class="container" ng-hide="IsLoaded"> Loading.... </div>
                 <div class="panel panel-default panel-upload-evidence">
+
+                    <div class="panel-body" data-loader="true" ng-hide="IsLoaded">
+                        <section class="loader loading">
+                            <i class="msk1"></i>
+                            <i class="msk2"></i>
+                            <i class="msk3"></i>
+                        </section>
+                    </div>
+
                     <div class="panel-body">
                         <div class="panel-accordion" role="tablist" aria-multiselectable="false">
                             

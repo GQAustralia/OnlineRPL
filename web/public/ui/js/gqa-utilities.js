@@ -66,6 +66,17 @@ var CONTROL_COLLAPSE = {
 			}
 		})
 	},
+	init: function() {
+        $('[data-toggle="collapse"]').on("click", function(e){
+              var $_target =  $(e.currentTarget);
+              var $_panelBody = $_target.next(".panel-collapse");
+              if($_panelBody){
+                $_panelBody.collapse('toggle')
+              }
+        })
+
+        TEXTAREA_AUTOHEIGHT.build();
+	},
 	build: function(){
 		CONTROL_COLLAPSE.collapse();
 	}
@@ -271,6 +282,26 @@ var FILE_THUMBNAIL = {
 }
 var GQA_FOOTER =  {
 	doc: $(document),
+	watch: function() {
+		function onElementHeightChange(elm, callback){
+			var lastHeight = elm.clientHeight, newHeight;
+			(function run(){
+				newHeight = elm.clientHeight;
+				if( lastHeight != newHeight )
+					callback();
+				lastHeight = newHeight;
+
+		        if( elm.onElementHeightChangeTimer )
+		          clearTimeout(elm.onElementHeightChangeTimer);
+
+				elm.onElementHeightChangeTimer = setTimeout(run, 100);
+			})();
+		}
+
+		onElementHeightChange(document.body, function(){
+			GQA_FOOTER.handle_footer();
+		});
+	},
 	handle_footer: function() {
 		var wh = $(window).height(),
 			body = $('body'),
@@ -452,7 +483,7 @@ var GLOBAL_UI = {
 			body.addClass('is-desktop');
 		}
 
-		$(document).on('click', '[data-toggle="tab"]', function() {
+		$('[data-toggle="tab"]').on('click', function() {
 			GQA_FOOTER.handle_footer();
 		});
 	},
@@ -481,7 +512,7 @@ var GLOBAL_UI = {
 
 		HAS_ERROR.build();
 		GQA_HEADER.build();
-		GQA_FOOTER.build();
+		GQA_FOOTER.watch();
 	}
 }
 

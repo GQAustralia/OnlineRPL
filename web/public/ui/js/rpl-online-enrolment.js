@@ -18,6 +18,9 @@ $(function(){
     $('#dataPopOver').attr('data-content','<ul><li><a href="javascript:void(0)"><i class="zmdi zmdi-folder-outline"></i>My Evidence Files</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-laptop"></i>My Computer</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-google-drive"></i>Google Drive</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-dropbox"></i>Drop Box</a></li><li><a href="javascript:void(0)"><i class="zmdi zmdi-cloud-outline"></i>One Drive</a></li></ul>');
 
     $('[data-toggle="popover"]').popover();
+
+    // Quick fix to handle footer
+    GQA_FOOTER.handle_footer();
 })
 
 

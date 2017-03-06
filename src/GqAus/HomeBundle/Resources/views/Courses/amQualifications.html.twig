@@ -75,42 +75,54 @@
             </div>            
         </div>
 
-{% include 'GqAusHomeBundle:Courses:amElectiveUpload.html.twig' %}
-{% include 'GqAusHomeBundle:Courses:amCoreUpload.html.twig' %}
-<div class="container" ng-hide="IsLoaded"> Loading.... </div>
+        {% include 'GqAusHomeBundle:Courses:amElectiveUpload.html.twig' %}
+        {% include 'GqAusHomeBundle:Courses:amCoreUpload.html.twig' %}
   
+        <div class="container" ng-hide="IsLoaded">
+            <div class="panel panel-default">
+                <div class="panel-body" data-loader="true">
+                    <section class="loader loading">
+                        <i class="msk1"></i>
+                        <i class="msk2"></i>
+                        <i class="msk3"></i>
+                    </section>
+                </div>
+            </div>
+        </div>
+
     </main>
 
-<div class="modal fade modal-contact" id="contactProfile">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
-                <h4 class="modal-title">Malou Wang</h4>
-            </div> -->
-             
-            <div class="modal-body clearfix">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
-                <div class="avatar avatar-sm">
-                    <img class="profile-img" src="#">
-                </div>
-                <div class="avatar-name">
-                    <label class="h3"><span class="profile-name">Malou Wang</span></label>
-                    <p class="profile-type">Account Manager</p>
-                    <div class="avatar-info">
-                        <ul class="list-unstyled">
-                            <li><i class="zmdi zmdi-email"></i> <span class="profile-email"></span></li>
-                            <li><i class="zmdi zmdi-smartphone-iphone"></i> <a href="tel:"><span class="profile-phone"></span></a></li>
-                        </ul>
+    <div class="modal fade modal-contact" id="contactProfile">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                    <h4 class="modal-title">Malou Wang</h4>
+                </div> -->
+                 
+                <div class="modal-body clearfix">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                    <div class="avatar avatar-sm">
+                        <img class="profile-img" src="#">
                     </div>
+                    <div class="avatar-name">
+                        <label class="h3"><span class="profile-name">Malou Wang</span></label>
+                        <p class="profile-type">Account Manager</p>
+                        <div class="avatar-info">
+                            <ul class="list-unstyled">
+                                <li><i class="zmdi zmdi-email"></i> <span class="profile-email"></span></li>
+                                <li><i class="zmdi zmdi-smartphone-iphone"></i> <a href="tel:"><span class="profile-phone"></span></a></li>
+                            </ul>
+                        </div>
 
-                    <span class="profile-message"><a href="{{ app.request.baseUrl }}/messages/compose" class="btn btn-success">Send Message&nbsp;&nbsp;<i class="zmdi zmdi-mail-send"></i></a></span>
+                        <span class="profile-message"><a href="{{ app.request.baseUrl }}/messages/compose" class="btn btn-success">Send Message&nbsp;&nbsp;<i class="zmdi zmdi-mail-send"></i></a></span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-  <!-- Elements and performance criteria -->
+
+    <!-- Elements and performance criteria -->
     <div class="modal fade" id="elementsPerformanceCriteria">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -286,7 +298,7 @@
         </div>
     </div>
     <!-- Upload ID Evdences Modal Popup End -->
-    
+
       <!-- Unit Submission Approval -->
     <div class="modal modal-confirmation fade" id="submitUnitConfirmation">
         <div class="modal-dialog">
@@ -307,6 +319,7 @@
         </div>
     </div>
     <!-- Unit Submission Approval -->
+
 {% endblock %}
 
 {% block javascripts %}

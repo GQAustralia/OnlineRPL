@@ -273,6 +273,10 @@ $scope.unitStatusArr['core']['Not Yet Competent'] = [];
     $scope.getUnitEvidences = function (unitCode) {
 		
         AjaxService.apiCall("units/getEvidencesByUnit", {"unitCode": unitCode, "courseCode": $scope.courseCode, "userId":$scope.applicantId}).then(function (data) {
+            
+            // Re-init collapse UI
+            CONTROL_COLLAPSE.init();
+
             if ($scope.selectedUnit === unitCode) $scope.unitEvidences = data;
             var $obj = _.where($scope.unitEvidences,{type:"text"});
             $scope.selfAssessment = $obj[0]||{};
@@ -606,6 +610,10 @@ $scope.unitStatusArr['core']['Not Yet Competent'] = [];
     	console.log('applicantId :: '+applicantId);
         var applicantId = applicantId || $scope.applicantId || 0;
     	AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "userId": applicantId}).then(function (data) {
+
+            // Re-init collapse UI
+            CONTROL_COLLAPSE.init();
+            
     		$scope.notes = data;
     		$scope.IsLoaded = true;
         }, function (error) {

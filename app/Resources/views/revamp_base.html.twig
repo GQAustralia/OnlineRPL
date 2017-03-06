@@ -111,7 +111,7 @@
                                         {% for course in userCourses %} 
                                             {%set courseName = course.getCourseName() %}
                                             {% if courseName is defined and courseName != null %}       
-                                                <a href="{{ app.request.baseUrl }}/qualificationDetails/{{course.getCourseCode()}}" class="list-group-item">{{course.getCourseName()}}</a>
+                                                <a href="{{ app.request.baseUrl }}/qualificationDetails/{{course.getCourseCode()}}">{{course.getCourseName()}}</a>
                                             {%endif%}
                                         {%endfor%}
                                     {%endif%}

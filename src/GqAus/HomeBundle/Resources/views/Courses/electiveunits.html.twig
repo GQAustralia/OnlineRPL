@@ -1,94 +1,94 @@
 <div class="container container-two-column-split" ng-show="qualificationPage == 'elective' && IsLoaded && (electiveUploadSelected === false)">
     
-            <section class="section-main col-section-5" ng-init="courseCode='{{courseCode}}'">
-                <div class="panel panel-default panel-units">
-                    <div class="panel-body">
-                        <div class="form-group unit-search">
-                            <input type="text" class="form-control input-lg" ng-model="elective_search" onfocus="UNITS.display_search(this)" onblur="UNITS.hide_search(this)"placeholder="Type keywords here...">
-                            <i class="zmdi zmdi-search zmdi-hc-2x icon"></i>
-                        </div>
-
-                        <h3>Select your Elective Units</h3>
-                        <div class="list-group list-group-units panel-accordion" ng-class="{'disable-not-selected': selectedElectiveUnits.length == requiredElective}">
-                            <ul class="list-group-units-item" ng-repeat="electiveGroup in electiveUnits.groups" data-unit-group="{[{electiveGroup.name || ''}]}"> 
-                                <li class="list-group-units-subitem" ng-class="{'selected' : isSelected(elective)}" ng-repeat="elective in electiveGroup.unit | filter: elective_search">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" aria-expanded="{[{showDetails}]}" ng-class="{'collapsed': ! showDetails }" ng-click="getUnitDetails(elective.id); showDetails = ! showDetails" data-toggle="collapse">
-                                            <span class="unit-name" ng-bind="(elective.id) +' - '+ (elective.name)"></span>
-                                            <span class="unit-code" ng-bind="elective.id" ng-if="isSelected(elective)"></span>
-                                            <i class="zmdi zmdi-chevron-down"></i>
-                                        </button>
-                                        <button type="button" class="btn" ng-click="(isSubmitted(elective) !== true) && addRemoveUnit(elective)"><i class="zmdi"></i></button>
-                                    </div>
-                                    <div class="panel-collapse collapse" ng-class="{'in': showDetails }"  ng-show="showDetails">
-                                        <div class="panel-body table-from-api content-from-api table-striped">
-                                            <p ng-bind-html="unitDetails[elective.id].elements"></p> 
-                                            <p ng-bind-html="unitDetails[elective.id].evidence_guide"></p> 
-                                            <p ng-bind-html="unitDetails[elective.id].skills_and_knowledge"></p> 
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-units-subitem" ng-if="electiveGroup.unit.length===0">
-                                    No Evidence Unit Found
-                                </li>
-                                {#<li class="list-group-units-subitem">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapse2">
-                                            <span>Basic Salt Sprinkling</span>
-                                            <i class="zmdi zmdi-chevron-down"></i>
-                                        </button>
-                                        <button type="button" class="btn"><i class="zmdi"></i></button>
-                                    </div>
-                                    <div id="collapse2" class="panel-collapse collapse">
-                                        <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
-                                    </div>
-                                </li>#}
-                            </ul>
-                        </div>
-                    </div>
+    <section class="section-main col-section-5" ng-init="courseCode='{{courseCode}}'">
+        <div class="panel panel-default panel-units">
+            <div class="panel-body">
+                <div class="form-group unit-search">
+                    <input type="text" class="form-control input-lg" ng-model="elective_search" onfocus="UNITS.display_search(this)" onblur="UNITS.hide_search(this)"placeholder="Type keywords here...">
+                    <i class="zmdi zmdi-search zmdi-hc-2x icon"></i>
                 </div>
-            </section>
-            <section class="section-main col-section-5">
-                <div class="panel panel-default panel-selected-units">
-                    <div class="panel-selected-units-body">
 
-                        <div class="no-selected-units text-center" ng-if="selectedElectiveUnits.length == 0">
-                            <div class="animated-checklist" id="animatedChecklist">
-                                <i class="list zmdi"></i><i class="list zmdi"></i><i class="list zmdi"></i>
-                                <i class="cursor"></i>
+                <h3>Select your Elective Units</h3>
+                <div class="list-group list-group-units panel-accordion" ng-class="{'disable-not-selected': selectedElectiveUnits.length == requiredElective}">
+                    <ul class="list-group-units-item" ng-repeat="electiveGroup in electiveUnits.groups" data-unit-group="{[{electiveGroup.name || ''}]}"> 
+                        <li class="list-group-units-subitem" ng-class="{'selected' : isSelected(elective)}" ng-repeat="elective in electiveGroup.unit | filter: elective_search">
+                            <div class="btn-group">
+                                <button type="button" class="btn" aria-expanded="{[{showDetails}]}" ng-class="{'collapsed': ! showDetails }" ng-click="getUnitDetails(elective.id); showDetails = ! showDetails" data-toggle="collapse">
+                                    <span class="unit-name" ng-bind="(elective.id) +' - '+ (elective.name)"></span>
+                                    <span class="unit-code" ng-bind="elective.id" ng-if="isSelected(elective)"></span>
+                                    <i class="zmdi zmdi-chevron-down"></i>
+                                </button>
+                                <button type="button" class="btn" ng-click="(isSubmitted(elective) !== true) && addRemoveUnit(elective)"><i class="zmdi"></i></button>
                             </div>
-                            <h3>You need to select your Elective units <br>
-                                <small>Select by clicking your preferred elective units on the left</small>
-                            </h3>
-                        </div>
-
-                        <div class="list-group list-group-units panel-accordion" ng-if="selectedElectiveUnits.length > 0">
-                            <h4 style="margin-bottom: 72px;">Selected units <br> <small class="text-uppercase">Pick from list on left</small></h4>
-
-                            <div class="unit-count text-muted">
-                                <span ng-bind="selectedElectiveUnits.length">1</span><small>/<span ng-bind="requiredElective">4</span></small>
+                            <div class="panel-collapse collapse" ng-class="{'in': showDetails }"  ng-show="showDetails">
+                                <div class="panel-body table-from-api content-from-api table-striped">
+                                    <p ng-bind-html="unitDetails[elective.id].elements"></p> 
+                                    <p ng-bind-html="unitDetails[elective.id].evidence_guide"></p> 
+                                    <p ng-bind-html="unitDetails[elective.id].skills_and_knowledge"></p> 
+                                </div>
                             </div>
-
-                            <ul class="list-group-units-item" data-unit-group=""> 
-                                <li class="list-group-units-subitem selected chosen" ng-class="{'locked': electiveUnit.isSubmitted === 1}" ng-repeat="electiveUnit in selectedElectiveUnits">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
-                                            <span class="unit-name" ng-bind="electiveUnit.name"></span>
-                                            <span class="unit-code" ng-bind="electiveUnit.id"></span>
-                                        </button>
-                                        <button type="button" class="btn" ng-click="electiveUnit.isSubmitted !== 1 && addRemoveUnit(electiveUnit)"><i class="zmdi"></i></button>
-                                    </div>
-                                </li>
-                                
-                            </ul>
-                            
-                        </div>
-                        <div class="btn-auto-group clearfix">
-                            <button type="button" class="btn btn-default" ng-click="deSelectEvidences()"><i class="zmdi zmdi-format-clear-all"></i> Deselect all</button>
-                            <button type="button" class="btn btn-success" ng-if="selectedElectiveUnits.length == requiredElective" ng-click="doneSelecting()">I&apos;m done selecting units</button>
-                        </div>
-                    </div>
+                        </li>
+                        <li class="list-group-units-subitem" ng-if="electiveGroup.unit.length===0">
+                            No Evidence Unit Found
+                        </li>
+                        {#<li class="list-group-units-subitem">
+                            <div class="btn-group">
+                                <button type="button" class="btn" data-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                    <span>Basic Salt Sprinkling</span>
+                                    <i class="zmdi zmdi-chevron-down"></i>
+                                </button>
+                                <button type="button" class="btn"><i class="zmdi"></i></button>
+                            </div>
+                            <div id="collapse2" class="panel-collapse collapse">
+                                <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+                            </div>
+                        </li>#}
+                    </ul>
                 </div>
-            </section>
+            </div>
         </div>
+    </section>
+    <section class="section-main col-section-5">
+        <div class="panel panel-default panel-selected-units">
+            <div class="panel-selected-units-body">
+
+                <div class="no-selected-units text-center" ng-if="selectedElectiveUnits.length == 0">
+                    <div class="animated-checklist" id="animatedChecklist">
+                        <i class="list zmdi"></i><i class="list zmdi"></i><i class="list zmdi"></i>
+                        <i class="cursor"></i>
+                    </div>
+                    <h3>You need to select your Elective units <br>
+                        <small>Select by clicking your preferred elective units on the left</small>
+                    </h3>
+                </div>
+
+                <div class="list-group list-group-units panel-accordion" ng-if="selectedElectiveUnits.length > 0">
+                    <h4 style="margin-bottom: 72px;">Selected units <br> <small class="text-uppercase">Pick from list on left</small></h4>
+
+                    <div class="unit-count text-muted">
+                        <span ng-bind="selectedElectiveUnits.length">1</span><small>/<span ng-bind="requiredElective">4</span></small>
+                    </div>
+
+                    <ul class="list-group-units-item" data-unit-group=""> 
+                        <li class="list-group-units-subitem selected chosen" ng-class="{'locked': electiveUnit.isSubmitted === 1}" ng-repeat="electiveUnit in selectedElectiveUnits">
+                            <div class="btn-group">
+                                <button type="button" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                                    <span class="unit-name" ng-bind="electiveUnit.name"></span>
+                                    <span class="unit-code" ng-bind="electiveUnit.id"></span>
+                                </button>
+                                <button type="button" class="btn" ng-click="electiveUnit.isSubmitted !== 1 && addRemoveUnit(electiveUnit)"><i class="zmdi"></i></button>
+                            </div>
+                        </li>
+                        
+                    </ul>
+                    
+                </div>
+                <div class="btn-auto-group clearfix">
+                    <button type="button" class="btn btn-default" ng-click="deSelectEvidences()"><i class="zmdi zmdi-format-clear-all"></i> Deselect all</button>
+                    <button type="button" class="btn btn-success" ng-if="selectedElectiveUnits.length == requiredElective" ng-click="doneSelecting()">I&apos;m done selecting units</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
   

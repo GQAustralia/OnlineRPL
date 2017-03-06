@@ -114,6 +114,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             $scope.IsLoaded = true;
             $scope.unitsFetched = true;
             $scope.userSelectedSync();
+
         }, function(error) {
             console.log(error);
         });
@@ -139,6 +140,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         };
         AjaxService.apiCall("units/getUnitDetails", {"unitCode": unitCode}).then(function(data) {
             $scope.unitDetails[unitCode] = data;
+
         }, function(error) {
             console.log(error);
         });
@@ -244,7 +246,6 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             $scope.uploadDetails.maxUploadedSize = data.maxUploadSize;
             $scope.uploadDetails.totalUploadedSize = data.totalUploadSize;
             $scope.uploadDetails.evidenceCategories = data.evidenceCategory;
-
         }, function(error) {
             console.log(error);
         });
@@ -253,12 +254,18 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
 
     $scope.getUnitEvidences = function(unitCode) {
         AjaxService.apiCall("units/getEvidencesByUnit", {"unitCode": unitCode, "courseCode": $scope.courseCode, "userId": $scope.applicantId}).then(function(data) {
+
+            // Re-init collapse UI
+            CONTROL_COLLAPSE.init();
+
             if ($scope.selectedUnit === unitCode)
                 $scope.unitEvidences = data;
             var $obj = _.where($scope.unitEvidences, {type: "text"});
             $scope.selfAssessment = $obj[0] || {};
             $scope.selfAssessment.modified = angular.copy($scope.selfAssessment.content);
-        }, function(error) {
+
+        }
+        , function(error) {
             console.log(error);
         });
     };
@@ -313,6 +320,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     $scope.getEvidenceLibrary = function() {
         AjaxService.apiCall("units/getEvidenceLibrary", {}).then(function(data) {
             $scope.allEvidences = data;
+            
         }, function(error) {
             console.log(error);
         });
@@ -584,6 +592,10 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     var getNotes = function(selectedUnit, courseCode, applicantId) {
 
         AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "userId": $scope.applicantId}).then(function(data) {
+            
+            // Re-init collapse UI
+            CONTROL_COLLAPSE.init();
+
             $scope.notes = data;
             $scope.IsLoaded = true;
         }, function(error) {
@@ -616,23 +628,30 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     }
     // Watchers
     $scope.$watch('qualificationPage', function(newValues) {
+
         if (newValues !== '') {
             $scope.IsLoaded = false;
             if (newValues === "qualification") {
                 $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Qualification";
                 $scope.IsLoaded = true;
+
             } else {
-                if (newValues === "core")
+                if (newValues === "core") {
                     $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Core unit";
-                if (newValues === "elective")
+                }
+
+                if (newValues === "elective") {
                     $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Elective unit";
-                if (newValues === '')
+                }
+
+                if (newValues === '') {
                     $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Unit Details";
+                }
+
                 $scope.getUploadDetails();
                 $scope.closeSelected();
                 ($scope.unitsFetched == false) ? $scope.getUnits() : $scope.IsLoaded = true;
             }
-
         }
     });
 
