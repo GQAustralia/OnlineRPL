@@ -66,7 +66,7 @@
                                 {{ form_widget(form.firstname,{ 'attr': {'maxlength': '30'} }) }}
                                 <input type="hidden" value="{{userId}}" id='hdn-userId' name='hdn-userId'/>
                                 <input type='hidden' id='hdn-type' name='hdn-type' value="1"><!-- 0: edit profile, 1: edit user, 2: add user -->
-                                <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% else %}applicant{% endif %}">
+                                <input type='hidden' id='hdn-userrole' name='hdn-role' value="{% if ('ROLE_RTO' in userRole) %}rtouser{% elseif ('ROLE_FACILITATOR' in userRole) %}facilitatoruser{% elseif ('ROLE_ASSESSOR' in userRole) %}assessortoruser{% elseif ('ROLE_MANAGER' in userRole) %}manager{% else %}applicant{% endif %}">
                             </div>
                             <div class="form-group">
                                 <label>{% if ('ROLE_RTO' in userRole) %} Provider Code {% else %} Last Name {% endif %}</label>
