@@ -246,7 +246,7 @@ class NotesService {
             $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_notes_con'));
 												
             $emailService = $this->get('EmailService');
-            $mailBody = $emailService->getNotificationToApplicantEmailMsg($facilitatorInfo['facilitatorId'], $mailBody);
+            $mailBody = $emailService->getNotificationToApplicantEmailMsg($facilitatorInfo['facilitatorId'], $mailBody, $data['session_user_id']);
             
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->userService->sendExternalEmail($facilitatorInfo['facilitatorEmail'], $mailSubject, $mailBody, $data['session_user_email'], $data['session_user_name']);
