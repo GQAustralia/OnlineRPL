@@ -35,6 +35,29 @@
             <a href="{{ app.request.baseUrl }}">
                 <img class="header-gqa-logo" src="{{ asset('public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
             </a>
+            <ul class="nav-links" id="navLinks">
+                <li class="dropdown dropdown-help">
+                    <a href='#' class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="zmdi zmdi-help zmdi-hc-lg zmdi-hc-fw t-item-4"></i> <span class="hidden-desktop">Help</span>
+                        <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href='{{ app.request.baseUrl }}/faq' target="_blank">
+                                <i class="zmdi zmdi-book zmdi-hc-lg"></i>
+                                <span class="h4">Help and FAQs <br><small>Go to your how-to guide and FAQs for the Online RPL.</small></span>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href='{{ app.request.baseUrl }}/feedback' target="_blank">
+                                <i class="zmdi zmdi-comments zmdi-hc-lg"></i>
+                                <span class="h4">Tell us your feedback <br><small>Do you have comments about the site? <br>Tell us, we're listening.</small></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
         <div class="navbar-bg-gradient" id="navGradient"></div>
     </header>
@@ -42,16 +65,7 @@
     <div class="navbar-bg-img" data-bg="skyscraper-blur" id="navImg"></div>
     
     {% block body %}{% endblock %}
-    <div class="popover-help">
-         <div class="dropdown dropup">
-             <a class="dropdown-toggle" data-toggle="dropdown">?</a>
-             <ul class="dropdown-menu pull-right">
-                 <li data-role="title">How can we help you?</li>
-                 <li><a href='{{ app.request.baseUrl }}/faq' target="_blank"><i class='zmdi zmdi-help'></i>Help &amp; FAQ</a></li>
-                 <li><a href='{{ app.request.baseUrl }}/feedback' target="_blank"><i class='zmdi zmdi-comment-text'></i>Website Feedback</a>  </li>
-             </ul>
-         </div>
-     </div>    
+ 
     <footer class="footer-gqa" data-toggle="auto-fixed-footer">
         <section class="container">
             <img class="footer-gqa-logo img-responsive" src="{{ asset('public/ui/img/gqa-logo-full-white-type.svg') }}" alt="Get Qualified Australia">
