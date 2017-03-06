@@ -54,7 +54,7 @@
                     <div ng-hide="IsLoaded"> Loading.... </div>
                     <table class="table table-inbox table-hover">
                         <tbody>
-                            <tr ng-class="{'unread': msg.read == 0}"  ng-repeat="msg in messages">
+                            <tr ng-class="{'unread': msg.read == 0 && msgType != 'sent'}"  ng-repeat="msg in messages">
                                 <td class="inbox-small-cells" ng-click="displayMsg(msg.id, msg.read);" ng-init="amazon_link='{{amazon_link}}'; userImage = msg.msgFrm.userImage != ''?amazon_link+'user-'+msg.msgFrm.id+'/'+msg.msgFrm.userImage:'../public/images/userprofile.png'">
                                     <div class="avatar avatar-xxs" ng-if="msg.systemGenerated != 1">
                                         <img ng-src="{[{ userImage }]}" alt="{[{ msg.msgFrm.name }]}">
@@ -73,7 +73,7 @@
                                     </p>
                                     <p class="message-copy">{[{msg.stippedMessage}]}</p>
                                 </td>
-                                <td class="view-message  inbox-small-cells" ng-hide="msgType == 'draft'"><i class="zmdi zmdi-flag" ng-class="{'flagged': msg.flagged == 1}" ng-click="flaggMsg(msg.id, msg.flagged);"></i></td>
+                                <td class="view-message  inbox-small-cells" ng-hide="msgType == 'draft' || msgType == 'sent'"><i class="zmdi zmdi-flag" ng-class="{'flagged': msg.flagged == 1}" ng-click="flaggMsg(msg.id, msg.flagged);"></i></td>
                                 <td class="view-message  text-right" ng-click="showReplyMsg(msg.id, msg.read);"> 
                                     <span class="date-stamp">{[{msg.created.date}]}</span> <span class="time-stamp">{[{msg.created.time}]}</span> 
                                     <span class="quick-reply"><i class="zmdi zmdi-comment-alt-text"></i></span>
@@ -169,7 +169,7 @@
             </section>
             <section class="inbox-welcome" ng-hide="displayNoMsgTxt">
                 <div class="welcome-msg" style="text-align:center; display: table-cell; vertical-align: middle; text-align: center; width: 1070px; margin: 0 auto; padding: 135px 0;">
-                    <img src="ui/img/mail.svg" alt="welcome mail">
+                    <img src="public/ui/img/mail.svg" alt="welcome mail">
                     <p>Currently don't have messages to read, look back after some time</p>                            
                 </div>
             </section>
