@@ -38,6 +38,11 @@ class EvidenceService
      * @var Object
      */
     public $userService;
+    
+    /**
+     * @var Object
+     */
+    public $emailService;
 
     /**
      * Constructor
@@ -45,7 +50,7 @@ class EvidenceService
      * @param object $container
      * @param object $userService
      */
-    public function __construct($em, $container, $userService)
+    public function __construct($em, $container, $userService, $emailService)
     {
         $this->em = $em;
         $session = $container->get('session');
@@ -54,6 +59,7 @@ class EvidenceService
         $this->currentUser = $userService->getCurrentUser();
         $this->container = $container;
         $this->userService = $userService;
+        $this->emailService = $emailService;
     }
 
     /**
@@ -569,7 +575,7 @@ class EvidenceService
                 $courseUnitObj->getUnitId(), $userInfo->getUsername(), $this->container->getParameter('applicationUrl'));
             $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_evidence_con'));
             $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
-            $emailService = $this->get('EmailService');
+            $emailService = $this->emailService;
             $mailBody = $emailService->getNotificationToApplicantEmailMsg($userId, $mailBody, $userId, $courseObj);
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->userService->sendExternalEmail($courseObj->getFacilitator()->getEmail(), $mailSubject, 
@@ -587,7 +593,7 @@ class EvidenceService
                 $messageBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('msg_add_evidence_con'));
                 $mailBody = str_replace($msgSearch, $msgReplace, $this->container->getParameter('mail_add_evidence_con'));
 																
-                $emailService = $this->get('EmailService');
+                $emailService = $this->emailService;
                 $mailBody = $emailService->getNotificationToApplicantEmailMsg($userId, $mailBody, $courseObj->getFacilitator()->getId(), $courseObj);
                 /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
                 $this->userService->sendExternalEmail($courseObj->getAssessor()->getEmail(), 
