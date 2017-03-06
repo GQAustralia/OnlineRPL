@@ -3515,6 +3515,10 @@ class UserService {
     public function updateUnitUpdateStatus($userId, $courseCode, $unitCode, $unitStatus) {
          $courseUnitObj = $this->em->getRepository('GqAusUserBundle:UserCourseUnits')->findOneBy(array('user' => $userId, 'courseCode' => $courseCode, 'unitId' => $unitCode));
          if (!empty($courseUnitObj) && (count($courseUnitObj) > 0)) {
+            $facStatus = ($unitStatus == 3) ? 1 : 2;
+            $courseUnitObj->setFacilitatorstatus($facStatus);
+            $isSubmitted = ($unitStatus == 4) ? 0 : $courseUnitObj->getIssubmitted();
+            $courseUnitObj->setIssubmitted($isSubmitted);
             $courseUnitObj->setUnitStatus($unitStatus);
             $this->em->persist($courseUnitObj);
             $this->em->flush();
