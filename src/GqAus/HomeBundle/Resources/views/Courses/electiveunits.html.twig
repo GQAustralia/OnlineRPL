@@ -57,7 +57,7 @@
         <div class="panel panel-default panel-selected-units">
             <div class="panel-selected-units-body">
 
-                <div class="no-selected-units text-center" ng-if="selectedElectiveUnits.length == 0">
+                <div class="no-selected-units text-center" ng-show="selectedElectiveUnits.length == 0" ng-init="UNITS.animate_zerostate()">
                     <div class="animated-checklist" id="animatedChecklist">
                         <i class="list zmdi"></i><i class="list zmdi"></i><i class="list zmdi"></i>
                         <i class="cursor"></i>
@@ -89,7 +89,7 @@
                     
                 </div>
                 <div class="btn-auto-group clearfix" style="margin-bottom: 0; margin-top: 15px;">
-                    <button type="button" class="btn btn-default" ng-click="deSelectEvidences()"><i class="zmdi zmdi-format-clear-all"></i> Deselect all</button>
+                    <button type="button" class="btn btn-default" ng-click="deSelectEvidences()" ng-hide="selectedElectiveUnits.length == 0"><i class="zmdi zmdi-format-clear-all"></i> Deselect all</button>
                     <button type="button" class="btn btn-success" ng-if="selectedElectiveUnits.length == requiredElective" ng-click="doneSelecting()">I&apos;m done selecting units</button>
                 </div>
             </div>

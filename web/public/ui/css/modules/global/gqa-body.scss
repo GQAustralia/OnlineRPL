@@ -23,6 +23,10 @@
 	.visible-mobile {
 		display: none;
 	}
+
+	.hidden-desktop {
+		display: none;
+	}
 }
 
 .is-mobile {
@@ -50,6 +54,10 @@
 }
 
 .page-header { position: relative; }
+
+.full-width {
+	width: 100% !important;
+}
 
 .dropdown-static-header {
     padding: 5px 30px;

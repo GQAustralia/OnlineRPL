@@ -190,13 +190,13 @@
 
                                 <div id="collapseNotes" class="panel-collapse collapse in collapsed">
                                     <div class="panel-collapse-inner">
-                                        <div class="click-to-edit">
+                                        <div class="click-to-edit" ng-class="{view: (isSubmitted() || (selfAssessment.toggle === undefined) || (selfAssessment.toggle === false)) , 'locked': isSubmitted() }" ng-click="selfAssessment.toggle = true">
                                         
-                                            <textarea class="form-control" id="selfAssessmentNotes"  ng-readonly="isSubmitted()" ng-model="selfAssessment.modified" auto-expand ></textarea>
+                                            <textarea class="form-control auto-textarea" ng-readonly="isSubmitted() || (selfAssessment.toggle === undefined) || (selfAssessment.toggle === false) " ng-model="selfAssessment.modified" auto-expand placeholder="Tell us something about your experience for this unit."></textarea>
 
                                             <div class="center-block text-right click-to-edit-actions"  ng-if="!isSubmitted()">
                                                 <button type="button" class="btn btn-default btn-xs" ng-click="selfAssessment.modified = selfAssessment.content">Discard</button>
-                                                <button type="button" class="btn btn-primary btn-xs" ng-click="saveSelfAssessmentNotes()">Save Note</button>
+                                                <button type="button" class="btn btn-primary btn-xs" ng-click="saveSelfAssessmentNotes();selfAssessment.toggle = false">Save Note</button>
                                             </div>
                                         </div>
                                     </div>
@@ -254,6 +254,11 @@
                                                 <button type="button" class="btn btn-link btn-send" ng-click="saveNotes(newNotes); newNotes='';"><i class="zmdi zmdi-mail-send zmdi-hc-2x"></i></button>
                                             </div>
                                         </section>
+
+                                        <div class="clearfix modal-body text-center" ng-if="notes.length == 0">
+                                            <i class="zmdi zmdi-hc-2x zmdi-file-text"></i>
+                                            <h4>No notes found.</h4>
+                                        </div>
                                     </div>
                                 </div>
                             </article>

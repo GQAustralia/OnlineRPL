@@ -122,13 +122,22 @@
 
                         <div id="collapseNotes" class="panel-collapse collapse in collapsed">
                             <div class="panel-collapse-inner">
-                                <div class="click-to-edit">
-                                
-                                    <textarea class="form-control" id="selfAssessmentNotes"  ng-readonly="isSubmitted()" ng-model="selfAssessment.modified" auto-expand ></textarea>
+                                <div class="click-to-edit" ng-class="{view: (isSubmitted() || (selfAssessment.toggle === undefined) || (selfAssessment.toggle === false)) , 'locked': isSubmitted() }" ng-click="selfAssessment.toggle = true">
+                                    
+                                    <textarea class="form-control auto-textarea" ng-readonly="isSubmitted() || (selfAssessment.toggle === undefined) || (selfAssessment.toggle === false) " ng-model="selfAssessment.modified" auto-expand placeholder="Tell us something about your experience for this unit."></textarea>
 
-                                    <div class="center-block text-right click-to-edit-actions"  ng-if="!isSubmitted()">
-                                        <button type="button" class="btn btn-default btn-xs" ng-click="selfAssessment.modified = selfAssessment.content">Discard</button>
-                                        <button type="button" class="btn btn-primary btn-xs" ng-click="saveSelfAssessmentNotes()">Save Note</button>
+                                    <div class="center-block text-right click-to-edit-actions" ng-if="!isSubmitted() && selfAssessment.toggle">
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-default btn-xs" 
+                                            ng-click="selfAssessment.modified = selfAssessment.content">Discard
+                                        </button>
+
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-primary btn-xs" 
+                                            ng-click="saveSelfAssessmentNotes();selfAssessment.toggle = false">Save Note
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -195,7 +204,7 @@
                     {% if ('ROLE_APPLICANT' in roles) %}
                             <div class="btn-auto-group" ng-if="!isSubmitted()">
                                     <button class="btn btn-default" ng-click="saveSelfAssessmentNotes();">Save</button>
-                                    <button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0 || ((unitEvidences| filter:{type: '!text'}).length === 0 && (selfAssessment.content|countWord) < 50)">Submit this Unit for Assessment</button>
+                                    <button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0 || ((unitEvidences| filter:{type: '!text'}).length === 0 && (selfAssessment.content|countWord) < 50)">Submit this for Assessment</button>
                             </div>
                     {% endif %}
                     {% if ('ROLE_FACILITATOR' in roles) %}

@@ -78,6 +78,10 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         } else {
             $scope.selectedElectiveUnits = _.without($scope.selectedElectiveUnits, unit);
         }
+
+        if ($scope.selectedElectiveUnits.length == 0) {
+            UNITS.animate_zerostate();
+        }
     };
 
     $scope.isSelected = function(unit) {
@@ -206,7 +210,10 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
 
         if ($scope.selectedElectiveUnits.length == $scope.requiredElective && ($scope.unitsFetched)) {
             $scope.electiveUploadSelected = true;
+        }
 
+        if ($scope.selectedElectiveUnits.length === 0) {
+            UNITS.animate_zerostate();
         }
     };
     $scope.showUnitUpload = function(unit) {
@@ -264,7 +271,6 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             var $obj = _.where($scope.unitEvidences, {type: "text"});
             $scope.selfAssessment = $obj[0] || {};
             $scope.selfAssessment.modified = angular.copy($scope.selfAssessment.content);
-
         }
         , function(error) {
             console.log(error);
@@ -413,6 +419,8 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
                 deSelectArr.push(val)
         });
         $scope.selectedElectiveUnits = _.difference($scope.selectedElectiveUnits, deSelectArr);
+
+        UNITS.animate_zerostate();
     };
 
     $scope.percentElectiveSubmitted = function() {
@@ -592,15 +600,20 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
 
     var getNotes = function(selectedUnit, courseCode, applicantId) {
 
-        AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "userId": $scope.applicantId}).then(function(data) {
+        AjaxService.apiCall("units/getNotes", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode, "userId": $scope.applicantId})
+        .then(function(data) {
             
             // Re-init collapse UI
             CONTROL_COLLAPSE.init();
 
             $scope.notes = data;
             $scope.IsLoaded = true;
+
         }, function(error) {
             console.log(error);
+        })
+        .finally(function(){
+            TEXTAREA_AUTOHEIGHT.update();
         });
     }
 

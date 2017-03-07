@@ -148,7 +148,7 @@
                                                 <div class="dropdown-avatar">
                                                     <div class="avatar avtar-inline-block avatar-xxs">
                                                         {% if unreadwMsg.getSystemGenerated()  != 1 %}
-                                                            <img src="{% if unreadwMsg.sent.getUserImage()  != '' %}{{amazon_link~'user-'~unreadwMsg.sent.getId()~'/'~unreadwMsg.sent.getUserImage()}}{%else%}public/images/userprofile.png{%endif%}" alt="{{unreadwMsg.sent.getUserName()}}">
+                                                            <img src="{% if unreadwMsg.sent.getUserImage()  != '' %}{{amazon_link~'user-'~unreadwMsg.sent.getId()~'/'~unreadwMsg.sent.getUserImage()}}{%else%}public/images/userprofile.png{%endif%}" alt="{{unreadwMsg.sent.getUserName()}}" >
                                                         {% else %}
                                                             <img src="{{baseUrl}}/public/ui/img/computer.svg">
                                                         {% endif %}
@@ -213,7 +213,7 @@
                 <div class="avatar-menu">
                     <div class="dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
-                            <div class="avatar avatar-xxs t-item-4"><img src="{% if userImage  != '' %}{{amazon_link~'user-'~userId~'/'~userImage}}{%else%}public/ui/img/avatar-default.png{%endif%}" alt="You"></div>
+                            <div class="avatar avatar-xxs t-item-5"><img src="{% if userImage  != '' %}{{amazon_link~'user-'~userId~'/'~userImage}}{%else%}{{ baseUrl }}/public/ui/img/avatar-default.png{%endif%}" alt="You" onerror="this.src='{{ baseUrl }}/public/ui/img/avatar-default.png'"></div>
                             <span class="avatar-name" id="avatarFirstName">{{ userFName }}</span>&nbsp;
                             <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                         </div>

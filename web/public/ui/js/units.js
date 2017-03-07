@@ -26,7 +26,6 @@ var UNITS = {
         });
 
         function highlight() {
-            console.log('test')
             t = setTimeout(function() {
                 cursor.velocity({top: top + 'px', right: '-10px' }, { duration: duration, delay: 300, easing: easing,
                     complete: function() {
@@ -64,7 +63,5 @@ var UNITS = {
 }
 
 $(document).ready(function() {
-    TEXTAREA_AUTOHEIGHT.build();
     FILE_THUMBNAIL.build();
-    UNITS.animate_zerostate();
 });

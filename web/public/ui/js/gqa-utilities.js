@@ -383,9 +383,34 @@ var DROPDOWN_PICKER = {
 }
 
 // auto height if textarea as user types
+var update = function () {
+	
+	console.log('test');
+}
+
 var TEXTAREA_AUTOHEIGHT = {
+	temp: '',
+	tmr: undefined,
+	update: function() {
+		var elem = $(document).find('.auto-textarea:visible');
+
+		this.temp = elem.val();
+
+		TEXTAREA_AUTOHEIGHT.tmr = setInterval(function(){
+
+			if (TEXTAREA_AUTOHEIGHT.temp !== elem.val()) {
+				autosize.update(elem);
+				clearInterval(TEXTAREA_AUTOHEIGHT.tmr);
+			}
+			else {
+				autosize.update(elem);
+				clearInterval(TEXTAREA_AUTOHEIGHT.tmr);
+			}
+		},200);
+	},
 	build: function(){
-		autosize($('textarea'));
+		var elem = $('.auto-textarea');
+		autosize(elem);
 	}
 }
 

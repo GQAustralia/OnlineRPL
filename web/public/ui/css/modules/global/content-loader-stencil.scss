@@ -38,9 +38,9 @@
 		left: 0;
 		width: $leftWidth;
 		background-repeat: no-repeat;
+		background-size: contain;
 		background-position: left center;
 		background-image: url(#{$urlBase}left.svg);
-		background-size: contain;
 		z-index: 1;
 	}
 
@@ -52,9 +52,9 @@
 		z-index: 2;
 
 		background-repeat: repeat-x;
+		background-size: contain;
 		background-position: center center;
 		background-image: url(#{$urlBase}repeat.svg);
-		background-size: contain;
 
 		&:before, &:after {
 			position: absolute;
@@ -87,9 +87,9 @@
 		right: 0;
 		width: $rightWidth;
 		background-repeat: no-repeat;
+		background-size: contain;
 		background-position: right center;
 		background-image: url(#{$urlBase}right.svg);
-		background-size: contain;
 		z-index: 3;
 	}
 
