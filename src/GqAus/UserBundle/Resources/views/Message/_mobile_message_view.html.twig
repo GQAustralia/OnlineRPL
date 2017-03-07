@@ -118,7 +118,7 @@
                     </div>                  
                 </div>
             </section>
-            <section class="message-thread compose-message" ng-hide="!showComposeMsg">
+            <section class="message-thread compose-message" ng-hide="!showComposeMsg" ng-init="msgIdForView = '{{msgId}}'; toUserId = '{{touser.toUserId|default("")}}'; toUserName='{{touser.userName|default("")}}';initView()">
                 <div class="inbox-head">
                     <h3>New Message</h3></div>
                 <section class="message-compose" id="MobimsgReply">
