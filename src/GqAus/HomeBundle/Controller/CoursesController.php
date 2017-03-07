@@ -26,10 +26,10 @@ class CoursesController extends Controller {
         
         $user = $this->get('security.context')->getToken()->getUser();
         if (in_array('ROLE_APPLICANT', $user->getRoles())) {
-        				$page = (isset($urlParams['1']) && !empty($urlParams['1'])) ? $urlParams['1'] : $page;
+            $page = (isset($urlParams['1']) && !empty($urlParams['1'])) ? $urlParams['1'] : $page;
         }
         else {
-        				$page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
+        	$page = (isset($urlParams['2']) && !empty($urlParams['2'])) ? $urlParams['2'] : $page;
         }
         
         $userService = $this->get('UserService');

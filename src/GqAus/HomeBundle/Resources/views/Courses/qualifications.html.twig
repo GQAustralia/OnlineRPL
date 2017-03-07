@@ -10,6 +10,7 @@
 <link href="{{ asset('public/css/package_rules.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
+
     {% set userId = courseDetails.user.getId() %} 
     {% set userObj = app.security.getToken().getUser() %}
     {% set userRole = userObj.getRoles() %}
@@ -117,13 +118,13 @@
                                 {% endif %}
                             
                                 <span class="list-group-item">
-                                    <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.facilitator.firstName|default('') }} {{ courseDetails.facilitator.lastName|default('') }}" data-email="{{ courseDetails.facilitator.email|default('') }}" data-imgsrc="{{ facilitatorImg }}" data-phone="{{ courseDetails.facilitator.phone|default('') }}" data-acctype="Account Manager">
+                                    <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.facilitator.firstName|default('') }} {{ courseDetails.facilitator.lastName|default('') }}" data-email="{{ courseDetails.facilitator.email|default('') }}" data-imgsrc="{{ facilitatorImg }}" data-phone="{{ courseDetails.facilitator.phone|default('') }}" data-acctype="Account Manager" data-msgLink="{{ baseUrl }}/messages/compose/{{courseDetails.facilitator.id}}">
                                         <img src="{{ facilitatorImg }}" alt="You">
                                     </div>
-                                    <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.facilitator.firstName|default('') }} {{ courseDetails.facilitator.lastName|default('') }}" data-email="{{ courseDetails.facilitator.email|default('') }}" data-imgsrc="{{ facilitatorImg }}" data-phone="{{ courseDetails.facilitator.phone|default('') }}" data-acctype="Account Manager">
+                                    <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.facilitator.firstName|default('') }} {{ courseDetails.facilitator.lastName|default('') }}" data-email="{{ courseDetails.facilitator.email|default('') }}" data-imgsrc="{{ facilitatorImg }}" data-phone="{{ courseDetails.facilitator.phone|default('') }}" data-acctype="Account Manager" data-msgLink="{{ baseUrl }}/messages/compose/{{courseDetails.facilitator.id}}">
                                         <label class="h5"><strong>{{ courseDetails.facilitator.firstName|default('') }} {{ courseDetails.facilitator.lastName|default('') }}</strong> <br><small>Account Manager</small></label>
                                     </div>
-                                    <a href="{{ app.request.baseUrl }}/messages/compose"><button type="button" class="btn btn-sm btn-default list-group-button"><i class="zmdi zmdi-email zmdi-hc-lg"></i></button></a>
+                                    <a href="{{ baseUrl }}/messages/compose/{{courseDetails.facilitator.id}}"><button type="button" class="btn btn-sm btn-default list-group-button"><i class="zmdi zmdi-email zmdi-hc-lg"></i></button></a>
                                 </span>
                             {% endif %}
                             {% if (courseDetails.assessor|length > 0) %}
@@ -135,10 +136,10 @@
                                 {% endif %}
                                 
                                 <span class="list-group-item">
-                                    <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName|default('') }} {{ courseDetails.assessor.lastName|default('') }}" data-email="{{ courseDetails.assessor.email|default('') }}" data-imgsrc="{{ assessorImg }}" data-phone="{{ courseDetails.assessor.phone|default('') }}" data-acctype="Assessor">
+                                    <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName|default('') }} {{ courseDetails.assessor.lastName|default('') }}" data-email="{{ courseDetails.assessor.email|default('') }}" data-imgsrc="{{ assessorImg }}" data-phone="{{ courseDetails.assessor.phone|default('') }}" data-acctype="Assessor" data-msgLink="">
                                         <img src="{{ assessorImg }}" alt="You">
                                     </div>
-                                    <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName|default('') }} {{ courseDetails.assessor.lastName|default('') }}" data-email="{{ courseDetails.assessor.email|default('') }}" data-imgsrc="{{ assessorImg }}" data-phone="{{ courseDetails.assessor.phone|default('') }}" data-acctype="Assessor">
+                                    <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.assessor.firstName|default('') }} {{ courseDetails.assessor.lastName|default('') }}" data-email="{{ courseDetails.assessor.email|default('') }}" data-imgsrc="{{ assessorImg }}" data-phone="{{ courseDetails.assessor.phone|default('') }}" data-acctype="Assessor" data-msgLink="">
                                         <label class="h5"><strong>{{ courseDetails.assessor.firstName|default('') }} {{ courseDetails.assessor.lastName|default('') }}</strong> <br><small>Assessor</small></label>
                                     </div>
                                 </span>
@@ -152,10 +153,10 @@
                                 {% endif %}
                                 
                                 <span class="list-group-item">
-                                    <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName|default('') }} {{ courseDetails.rto.lastName|default('') }}" data-email="{{ courseDetails.rto.email|default('') }}" data-imgsrc="{{ rtoImg }}" data-phone="{{ courseDetails.rto.phone|default('') }}" data-acctype="RTO">
+                                    <div class="avatar avatar-xxs profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName|default('') }} {{ courseDetails.rto.lastName|default('') }}" data-email="{{ courseDetails.rto.email|default('') }}" data-imgsrc="{{ rtoImg }}" data-phone="{{ courseDetails.rto.phone|default('') }}" data-acctype="RTO" data-msgLink="">
                                         <img src="{{ rtoImg }}" alt="You">
                                     </div>
-                                    <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName|default('') }} {{ courseDetails.rto.lastName|default('') }}" data-email="{{ courseDetails.rto.email|default('') }}" data-imgsrc="{{ rtoImg }}" data-phone="{{ courseDetails.rto.phone|default('') }}" data-acctype="RTO">
+                                    <div class="avatar-name profile-popup" data-toggle="modal" data-target="#contactProfile" data-name="{{ courseDetails.rto.firstName|default('') }} {{ courseDetails.rto.lastName|default('') }}" data-email="{{ courseDetails.rto.email|default('') }}" data-imgsrc="{{ rtoImg }}" data-phone="{{ courseDetails.rto.phone|default('') }}" data-acctype="RTO" data-msgLink="">
                                         <label class="h5"><strong>{{ courseDetails.rto.firstName|default('') }} {{ courseDetails.rto.lastName|default('') }}</strong> <br><small>RTO</small></label>
                                     </div>
                                 </span>
@@ -202,12 +203,6 @@
                                             {% for unitInfo in coreUnitsCnt %}
                                                 <tr><td>{{ unitInfo.id|default('') }}</td><td>{{ unitInfo.name|default('') }}</td></tr>
                                             {% endfor %}
-                                            <!--<tr class="table-subheader"><td colspan="2"><strong class="text-uppercase">Accounting</strong></td></tr>
-                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
-                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
-                                            <tr class="table-subheader"><td colspan="2"><strong class="text-uppercase">Banking 101</strong></td></tr>
-                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>
-                                            <tr><td>BSBFIM601A</td><td>Manage finances</td></tr>-->
                                         </tbody>
                                     </table>
                                 </div>
@@ -259,7 +254,7 @@
                         </ul>
                     </div>
 
-                    <span class="profile-message"><a href="{{ app.request.baseUrl }}/messages/compose" class="btn btn-success">Send Message&nbsp;&nbsp;<i class="zmdi zmdi-mail-send"></i></a></span>
+                    <span class="profile-message"><a href="#" class="btn btn-success message-link">Send Message&nbsp;&nbsp;<i class="zmdi zmdi-mail-send"></i></a></span>
                 </div>
             </div>
         </div>

@@ -23,7 +23,7 @@
                 <div class="panel-heading">
                     <h3 class="h3 qual-title">{{ applicantObj.getUsername() }}<br>
                     <small class="small" style="font-size: 50%;">
-                        <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages'">
+                        <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages/compose/{{applicantId}}'">
                             <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i> Send message
                         </button>
                         <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-title="GQA Profile since {{ applicantObj.created()|date("m/d/Y") }}">
