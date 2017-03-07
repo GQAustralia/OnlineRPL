@@ -133,7 +133,7 @@
                         {% endif %}
                             {% if ('ROLE_SUPERADMIN' not in roles) %} 
                                 <li>
-                                    <a href='#' class="visible-mobile">
+                                    <a href='{{ baseUrl }}/messages' class="visible-mobile">
                                         <span class="t-item-3"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span>
                                     </a>
                                     <a href class="dropdown-toggle hidden-mobile" data-toggle="dropdown" data-inbox-count="{{unreadMsgs.unreadMsgCnt}}">
