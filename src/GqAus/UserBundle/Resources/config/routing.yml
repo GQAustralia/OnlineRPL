@@ -152,8 +152,8 @@ getMessages:
     path:     /getMessages/{type}
     defaults: { _controller: GqAusUserBundle:Message:getMessages, type: null }
 compose:
-    path:     /compose
-    defaults: { _controller: GqAusUserBundle:Message:compose }
+    path:     /messages/compose/{toUserId}
+    defaults: { _controller: GqAusUserBundle:Message:view, mid:null, toUserId:null }
 usernamesbyRoles:
     path:     /usernamesbyRoles
     defaults: { _controller: GqAusUserBundle:Message:usernamesbyRoles }

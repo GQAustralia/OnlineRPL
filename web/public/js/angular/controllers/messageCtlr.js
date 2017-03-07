@@ -25,7 +25,9 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
     $scope.searchCourseCode = '';
     $scope.newMsgCourseObj = {};
     $scope.displayNoMsgTxt = true;
-    
+    $scope.msgIdForView = '';
+    $scope.toUserId = '';
+    $scope.toUserName = '';
     
     $scope.getMessages = function () {
     	$scope.newMsg = {};
@@ -115,6 +117,20 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
 	     });
     }
     
+    $scope.initView = function() {
+        if ($scope.msgIdForView != '') {
+            var msgId = $scope.msgIdForView;
+            $scope.displayMsg($scope.msgIdForView, 1);
+        }
+
+        if ($scope.toUserId != '') {
+            $scope.showComposeMsg = true;
+            $scope.newMsg.to_user= $scope.toUserId;
+            $scope.newMsg.userName = $scope.toUserName;
+             console.log($scope.newMsg);
+        }
+    }
+
     var updateMsg = function(MsgIds, field, value) {
     	
     	AjaxService.apiCall("updateMsg", {"msgIds": MsgIds, "field": field, 'value': value}).then(function (data) {

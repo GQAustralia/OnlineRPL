@@ -1,3 +1,4 @@
+{% set baseUrl = app.request.server.get('REQUEST_SCHEME')~'://'~app.request.server.get('HTTP_HOST') %}
 <div class="isMobile">
     <div class="mail-box">
         <aside class="lg-side">
@@ -50,7 +51,7 @@
                                 <img ng-src="{[{ userImage }]}" alt="{[{ msg.msgFrm.name }]}"> 
                             </div>
                             <div class="avatar-xxs" ng-click="displayMsg(msg.id, msg.read);" ng-if="msg.systemGenerated == 1">
-                               <img ng-src="public/ui/img/computer.svg">
+                               <img ng-src="{{baseUrl}}/public/ui/img/computer.svg">
                             </div>
                             <div class="select-item">
                                 <input type="checkbox" name="inboxList" value="selectListItem" ng-click="selectMsg(msg.id);">
@@ -117,7 +118,7 @@
                     </div>                  
                 </div>
             </section>
-            <section class="message-thread compose-message" ng-hide="!showComposeMsg">
+            <section class="message-thread compose-message" ng-hide="!showComposeMsg" ng-init="msgIdForView = '{{msgId}}'; toUserId = '{{touser.toUserId|default("")}}'; toUserName='{{touser.userName|default("")}}';initView()">
                 <div class="inbox-head">
                     <h3>New Message</h3></div>
                 <section class="message-compose" id="MobimsgReply">
@@ -150,7 +151,7 @@
             </section>
             <section class="inbox-welcome" ng-hide="displayNoMsgTxt">
                <div class="welcome-msg" style="text-align:center; display: table-cell; vertical-align: middle; text-align: center; width: 1070px; margin: 0 auto; padding: 135px 0;">
-                   <img src="ui/img/mail.svg" alt="welcome mail">
+                   <img src="{{baseUrl}}/public/ui/img/mail.svg" alt="welcome mail">
                    <p>Currently don't have messages to read, look back after some time</p>                            
                </div>
            </section>

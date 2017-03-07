@@ -582,7 +582,7 @@ class EvidenceService
                 $mailBody, $userInfo->getEmail(), $userInfo->getUsername());
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
             $this->userService->sendMessagesInbox($courseObj->getFacilitator()->getId(), $userId, 
-                $messageSubject, $messageBody, $courseUnitObj->getId(), 1);
+                $messageSubject, $messageBody, $courseUnitObj->getId(), 1, $courseObj->getCourseCode());
 
             // checking whether the assessor is assigned or not
             $cAssessor = $courseObj->getAssessor();
@@ -601,7 +601,7 @@ class EvidenceService
                     $courseObj->getFacilitator()->getUsername());
                 /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
                 $this->userService->sendMessagesInbox($courseObj->getAssessor()->getId(), 
-                    $courseObj->getFacilitator()->getId(), $messageSubject, $messageBody, $courseUnitObj->getId(), 1);
+                    $courseObj->getFacilitator()->getId(), $messageSubject, $messageBody, $courseUnitObj->getId(), 1, $courseObj->getCourseCode());
             }
         }
     }

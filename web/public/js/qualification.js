@@ -2,11 +2,14 @@ $(document).ready(function(){
 	//to show the profile popup
 	$(".profile-popup").on("click", function(){
 		var profileData = $(this).data();
+         console.log(profileData);
 		if (profileData.acctype != 'Account Manager') {
 			$('.profile-message').hide();
 		}
 		else{
 			$('.profile-message').show();
+            $('.message-link').attr('href', profileData.msglink);
+
 		}
 		$('.profile-img').attr('src', profileData.imgsrc);
 		$('.profile-name').html(profileData.name);
