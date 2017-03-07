@@ -39,7 +39,7 @@
                 <div class="panel-heading">
                     <h3 class="h3 qual-title">{{ applicantObj.getUsername() }}<br>
                     <small class="small" style="font-size: 50%;">
-                        <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-title="{{ applicantObj.getUsername() }}" data-placement="bottom" style="margin-top: -3px;" onClick="location.href='{{ app.request.baseUrl }}/messages'">
+                        <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-title="{{ applicantObj.getUsername() }}" data-placement="bottom" style="margin-top: -3px;" onClick="location.href='{{ app.request.baseUrl }}/messages/compose/{{applicantObj.getId()}}'">
                             <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i>
                         </button>&nbsp; |&nbsp;
                         GQA Profile since  {{ applicantObj.created()|date("m/d/Y") }}
@@ -197,7 +197,7 @@
                         <div class="panel-heading" style="border-bottom: 1px solid #c5c5c5;">
                             <h3 class="h3 qual-title">{{courseObj.assessor.getUserName()|default('')}}<br>
                             <small class="small" style="font-size: 50%;">
-                                <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages'">
+                                <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages/compose/{{courseObj.assessor.id|default("")}}'">
                                     <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i> Send message
                                 </button>
                             </small>
@@ -271,7 +271,7 @@
                         <div class="panel-heading" style="border-bottom: 1px solid #c5c5c5;">
                             <h3 class="h3 qual-title">{{courseObj.rto.getUserName()|default('')}}<br>
                             <small class="small" style="font-size: 50%;">
-                                <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages'">
+                                <button type="button" class="btn btn-default btn-sm" onClick="location.href='{{ app.request.baseUrl }}/messages/compose/{{courseObj.rto.id|default("")}}'">
                                     <i class="zmdi zmdi-email zmdi-hc-lg zmdi-hc-fw"></i> Send message
                                 </button>
                             </small>

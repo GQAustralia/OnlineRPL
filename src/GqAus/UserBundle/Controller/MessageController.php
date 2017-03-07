@@ -17,24 +17,58 @@ class MessageController extends Controller
      * @param object $request
      * return string
      */
-    public function viewAction(Request $request, $mid=null)
+    public function viewAction(Request $request, $mid = null, $toUserId = null)
     {
         
-    				$result = array();
-    				$user = $this->get('security.context')->getToken()->getUser();
-    				$userRole = $user->getRoles();
-    				$result['role'] = $userRole[0];
-    				
-    				$userService = $this->get('UserService');
-    				$result['to_users'] = $userService->getUsernamesbyRoles(array(), $userRole[0], $user->getId());
-    				$loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
-    				$loggedinUserRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-    				$result['coursesList'] = $userService->getUserCoursesByIDAndRole($loggedinUserId, $loggedinUserRole[0]);
-    				
+        $result = array();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userRole = $user->getRoles();
+        $result['role'] = $userRole[0];
+
+        $userService = $this->get('UserService');
+        $result['to_users'] = $userService->getUsernamesbyRoles(array(), $userRole[0], $user->getId());
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $loggedinUserRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $result['coursesList'] = $userService->getUserCoursesByIDAndRole($loggedinUserId, $loggedinUserRole[0]);
+        $result['msgId'] = $mid;
+        if (!empty($result['msgId'])) {
+            $userService->updateMsg([$mid], 'read', 1);
+        }
+        $result['touser'] = $this->_getMsgToUser($toUserId);
+
         /*View Message */
         return $this->render('GqAusUserBundle:Message:view.html.twig', $result);
     }
 
+    /**
+    * getMsgToUser to get the to user details for the message compose
+    * @param int $toUserId
+    * return object/null user
+    */
+    private function _getMsgToUser($toUserId) {
+        if (empty($toUserId)) {
+            return null;
+        }
+
+        $userService = $this->get('UserService');
+        $touserObj = $userService->getUserInfo($toUserId);
+        if (empty($touserObj)) {
+            return null;
+        }
+
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $loggedinUserRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+
+
+        $courseObj = $userService->getUserCoursesByIDAndRole($loggedinUserId, $loggedinUserRole[0], $toUserId, $touserObj->getRoles());
+
+        if (empty($courseObj)) {
+            return null;
+        }
+
+        return array('toUserId' => $toUserId, 'userName' => $touserObj->getUsername());
+
+    }
     /**
      * Function viewMsgThread to retrive the message thread based on message id
      * @param unknown $mid
@@ -42,37 +76,37 @@ class MessageController extends Controller
     public function viewMsgThreadAction($mid, Request $request) {
     			
     				
-    				$userService = $this->get('UserService');
-    				
-    				$content = $this->get("request")->getContent();
-    				$params = json_decode($content, true); // 2nd param to get as array
-    				$type = strtolower($params['type']);
-    				
-    				$viewMsgobj['messages'][] = $userService->em->getRepository('GqAusUserBundle:Message')->find($mid);
-    				
-    				$messages['messages'] = $userService->getReplyMessages($mid);
-    				$messageThread = $this->messageObjectToArray($messages, $type);
-    				
-    				$messageThread['view_message'] = $this->messageObjectToArray($viewMsgobj, $type);
-    				
-    				$loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
-    				$courseDetails = $userService->getUserCourses($loggedinUserId);
-    				$messageThread['userCourses'] = $this->courseObjToArray($courseDetails);
-    				return new JsonResponse($messageThread);
+        $userService = $this->get('UserService');
+
+        $content = $this->get("request")->getContent();
+        $params = json_decode($content, true); // 2nd param to get as array
+        $type = strtolower($params['type']);
+
+        $viewMsgobj['messages'][] = $userService->em->getRepository('GqAusUserBundle:Message')->find($mid);
+
+        $messages['messages'] = $userService->getReplyMessages($mid);
+        $messageThread = $this->messageObjectToArray($messages, $type);
+
+        $messageThread['view_message'] = $this->messageObjectToArray($viewMsgobj, $type);
+
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $courseDetails = $userService->getUserCourses($loggedinUserId);
+        $messageThread['userCourses'] = $this->courseObjToArray($courseDetails);
+        return new JsonResponse($messageThread);
     }
     
     public function getCoursesByUserAction() {
     	
-    				$userService = $this->get('UserService');
-			    	$content = $this->get("request")->getContent();
-			    	$params = json_decode($content, true); // 2nd param to get as array
-			    	$toUser = $params['userId'];
-			    	$toUserRole = $params['toUserRole'];
-			    	$loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
-			    	$loggedinUserRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-			    	$courseDetails['courses'] = $userService->getUserCoursesByIDAndRole($loggedinUserId, $loggedinUserRole[0], $toUser, $toUserRole);
+        $userService = $this->get('UserService');
+        $content = $this->get("request")->getContent();
+        $params = json_decode($content, true); // 2nd param to get as array
+        $toUser = $params['userId'];
+        $toUserRole = $params['toUserRole'];
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $loggedinUserRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $courseDetails['courses'] = $userService->getUserCoursesByIDAndRole($loggedinUserId, $loggedinUserRole[0], $toUser, $toUserRole);
 
-			    	return new JsonResponse($courseDetails);
+        return new JsonResponse($courseDetails);
     }
     
     /**
@@ -81,14 +115,14 @@ class MessageController extends Controller
      * @return Array:couses
      */
     private function courseObjToArray($courseDetails) {
-    				$coursesArr = [];
-    				foreach ($courseDetails as $course) {
-    								$courseArr = [];
-    								$courseArr['courseCode'] = $course->getCourseCode();
-    								$courseArr['courseName'] = $course->getCourseName();
-    								array_push($coursesArr,$courseArr);
-    				}
-    				return $coursesArr;
+        $coursesArr = [];
+        foreach ($courseDetails as $course) {
+            $courseArr = [];
+            $courseArr['courseCode'] = $course->getCourseCode();
+            $courseArr['courseName'] = $course->getCourseName();
+            array_push($coursesArr,$courseArr);
+        }
+        return $coursesArr;
     }
     
     /**
@@ -98,44 +132,44 @@ class MessageController extends Controller
      */
     public function getMessagesAction(Request $request)
     {
-    				$result = [];
-			    	$userService = $this->get('UserService');
-			    	$loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
-			    	$userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
-			    	$userid = $userService->getCurrentUser()->getId();
-			    	
-			    	$content = $this->get("request")->getContent();
-			    	$params = json_decode($content, true); // 2nd param to get as array
-			    	$type = strtolower($params['type']);
-			    	$page = $params['page'];
-			    	$searchCourseCode = $params['searchCourseCode'];
-			    	$unreadcount = 0;
-			    	
-			    	switch (strtolower($type)){
-							    	case 'all':
-										    		$results = $userService->getMyInboxMessages($userid, $page, $searchCourseCode);
-										    		$unreadcount = $userService->getUnreadMessagesCount($userid);
-																break;
-							    	case 'sent':
-							    					$results = $userService->getMySentMessages($userid, $page, $searchCourseCode);
-							    					break;
-							    	case 'applicant':
-							    	case 'assessor':
-							    	case 'rto' :
-							    					$results = $userService->getMessagesByRole($userid, $page, $type, $searchCourseCode);
-							    					break;
-							    	case 'draft':
-							    	case 'flagged':
-							    	case 'messages':
-							    	case 'system':
-							    	default:
-							    					$results = $userService->getMessages($userid, $page, $type, $searchCourseCode);
-			    	}
-    				
-    				$result = $this->messageObjectToArray($results, $type);
-    				$result['unreadcount'] = $unreadcount;
-    				//dump($result);exit;
-    				return new JsonResponse($result);
+        $result = [];
+        $userService = $this->get('UserService');
+        $loggedinUserId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userRole = $this->get('security.context')->getToken()->getUser()->getRoles();
+        $userid = $userService->getCurrentUser()->getId();
+
+        $content = $this->get("request")->getContent();
+        $params = json_decode($content, true); // 2nd param to get as array
+        $type = strtolower($params['type']);
+        $page = $params['page'];
+        $searchCourseCode = $params['searchCourseCode'];
+        $unreadcount = 0;
+
+        switch (strtolower($type)){
+            case 'all':
+                $results = $userService->getMyInboxMessages($userid, $page, $searchCourseCode);
+                $unreadcount = $userService->getUnreadMessagesCount($userid);
+                break;
+            case 'sent':
+                $results = $userService->getMySentMessages($userid, $page, $searchCourseCode);
+                break;
+            case 'applicant':
+            case 'assessor':
+            case 'rto' :
+                $results = $userService->getMessagesByRole($userid, $page, $type, $searchCourseCode);
+                break;
+            case 'draft':
+            case 'flagged':
+            case 'messages':
+            case 'system':
+            default:
+                $results = $userService->getMessages($userid, $page, $type, $searchCourseCode);
+        }
+
+        $result = $this->messageObjectToArray($results, $type);
+        $result['unreadcount'] = $unreadcount;
+        //dump($result);exit;
+        return new JsonResponse($result);
     }
     
     
@@ -148,77 +182,59 @@ class MessageController extends Controller
     private function messageObjectToArray($messagesObj, $type='') {
     	$messagesArr = [];
     	$messagesArr['messages'] = array();
-    	//dump($messagesObj['messages']);exit;
-    	if (!empty($messagesObj['messages'])) {
-			    		foreach ($messagesObj['messages'] as $msgObj) {
-						    			$messageArr = [];
-						    			$messageArr['subject'] = $msgObj->getSubject();
-						    			$messageArr['message'] = $msgObj->getMessage();
-						    			$messageArr['stippedMessage'] = strip_tags($msgObj->getMessage());
-						    			$messageArr['created'] = array('date' => date('d/m/Y', strtotime($msgObj->getCreated())), 'time' => date('g:i A', strtotime($msgObj->getCreated())));
-						    			$messageArr['read'] = $msgObj->getRead();
-						    			$messageArr['toStatus'] = $msgObj->getToStatus();
-						    			$messageArr['fromStatus'] = $msgObj->getFromStatus();
-						    			$messageArr['reply'] = $msgObj->getReply();
-						    			$messageArr['id'] = $msgObj->getId();
-						    			$messageArr['unitID'] = $msgObj->getunitID();
-						    			$messageArr['replymid'] = $msgObj->getreplymid();
-						    			
-						    			$messageArr['flagged'] = $msgObj->getFlagged();
-						    			$messageArr['is_new'] = $msgObj->getNew();
-						    			$messageArr['systemGenerated'] = $msgObj->getSystemGenerated();
-						    			$messageArr['courseCode'] = $msgObj->getCourseCode();
-						    			
-						    			if (!empty($msgObj->getSent())) {
-						    							$role = '';
-						    							if ($msgObj->getSent()->getRoles()[0] == 'ROLE_FACILITATOR' ) {
-						    											$role = 'Account Manager';
-						    							}
-						    							
-						    							if ($msgObj->getSent()->getRoles()[0] == 'ROLE_MANAGER' ) {
-						    								$role = 'Supervisor';
-						    							}
-						    							if ($type == 'sent' || $type == 'draft') {
-						    											
-									    								if ($msgObj->getInbox()->getRoles()[0] == 'ROLE_FACILITATOR' ) {
-									    									$role = 'Account Manager';
-									    								}
-									    								 
-									    								if ($msgObj->getInbox()->getRoles()[0] == 'ROLE_MANAGER' ) {
-									    									$role = 'Supervisor';
-									    								}
 
-						    											$messageArr['msgFrm'] = array('name' => $msgObj->getInbox()->getFirstName().' '.$msgObj->getInbox()->getLastName(), 
-																										    																	'userImage' => $msgObj->getInbox()->getUserImage(), 
-																										    																	'id' => $msgObj->getInbox()->getId(),
-						    																																					'role' => $role
-						    							);
-						    							}
-						    							else {
-									    								
-										    								if ($msgObj->getSent()->getRoles()[0] == 'ROLE_FACILITATOR' ) {
-										    									$role = 'Account Manager';
-										    								}
-										    								 
-										    								if ($msgObj->getSent()->getRoles()[0] == 'ROLE_MANAGER' ) {
-										    									$role = 'Supervisor';
-										    								}
-						    								
-						    												$messageArr['msgFrm'] = array('name' => $msgObj->getSent()->getFirstName().' '.$msgObj->getSent()->getLastName(),
-									    										'userImage' => $msgObj->getSent()->getUserImage(),
-									    										'id' => $msgObj->getSent()->getId(),
-									    										'role' => $role);
-									    										 
-						    							}
-						    			}
-						    			array_push($messagesArr['messages'],$messageArr);
-						    			//$messagesArr['messages']['message_'.trim($msgObj->getId())] =  $messageArr;
-			    		}
+    	if (!empty($messagesObj['messages'])) {
+            foreach ($messagesObj['messages'] as $msgObj) {
+                $messageArr = [];
+                $messageArr['subject'] = $msgObj->getSubject();
+                $messageArr['message'] = $msgObj->getMessage();
+                $messageArr['stippedMessage'] = strip_tags($msgObj->getMessage());
+                $messageArr['created'] = array('date' => date('d/m/Y', strtotime($msgObj->getCreated())), 'time' => date('g:i A', strtotime($msgObj->getCreated())));
+                $messageArr['read'] = $msgObj->getRead();
+                $messageArr['toStatus'] = $msgObj->getToStatus();
+                $messageArr['fromStatus'] = $msgObj->getFromStatus();
+                $messageArr['reply'] = $msgObj->getReply();
+                $messageArr['id'] = $msgObj->getId();
+                $messageArr['unitID'] = $msgObj->getunitID();
+                $messageArr['replymid'] = $msgObj->getreplymid();
+
+                $messageArr['flagged'] = $msgObj->getFlagged();
+                $messageArr['is_new'] = $msgObj->getNew();
+                $messageArr['systemGenerated'] = $msgObj->getSystemGenerated();
+                $messageArr['courseCode'] = $msgObj->getCourseCode();
+
+                $roleNamesArr = ['ROLE_FACILITATOR' => 'Account Manager',
+                                'ROLE_MANAGER' => 'Supervisor',
+                                'ROLE_ASSESSOR' => 'Assessor',
+                                'ROLE_RTO' => 'RTO',
+                                'ROLE_APPLICANT' => 'Applicant'];
+
+                if (!empty($msgObj->getSent())) {
+
+
+
+                        if ($type == 'sent' || $type == 'draft') {
+                            $role = $roleNamesArr[$msgObj->getInbox()->getRoles()[0]];
+                            $messageArr['msgFrm'] = array('name' => $msgObj->getInbox()->getFirstName().' '.$msgObj->getInbox()->getLastName(),
+                                                        'userImage' => $msgObj->getInbox()->getUserImage(),
+                                                        'id' => $msgObj->getInbox()->getId(),
+                                                        'role' => $role);
+                        }
+                        else {
+                            $role = $roleNamesArr[$msgObj->getSent()->getRoles()[0]];
+                            $messageArr['msgFrm'] = array('name' => $msgObj->getSent()->getFirstName().' '.$msgObj->getSent()->getLastName(),
+                                                        'userImage' => $msgObj->getSent()->getUserImage(),
+                                                        'id' => $msgObj->getSent()->getId(),
+                                                        'role' => $role);
+
+                        }
+                }
+                array_push($messagesArr['messages'],$messageArr);
+			 }
     	}
     	if (isset($messagesObj['sentuserid'])) {
-    					$messagesArr['sentuserid'] = $messagesObj['sentuserid'];
+            $messagesArr['sentuserid'] = $messagesObj['sentuserid'];
     	}
-    	//dump($messagesObj);exit;
     	if (isset($messagesObj['paginator'])) {
     		$messagesArr['paginator'] = array('count' => $messagesObj['paginator']->getCount(),
     				'currentPage' => $messagesObj['paginator']->getCurrentPage(),
@@ -260,16 +276,16 @@ class MessageController extends Controller
      */
     public function updateMsgAction(Request $request)
     {
-			    	$content = $this->get("request")->getContent();
-			    	$params = json_decode($content, true); // 2nd param to get as array
-			    	$msgIds = $params['msgIds'];
-			    	$field = $params['field'];
-			    	$value = $params['value'];
-			    	
-			    	$userService = $this->get('UserService');
+        $content = $this->get("request")->getContent();
+        $params = json_decode($content, true); // 2nd param to get as array
+        $msgIds = $params['msgIds'];
+        $field = $params['field'];
+        $value = $params['value'];
 
-			    	$userService->updateMsg($msgIds, $field, $value);
-			    	return new JsonResponse();
+        $userService = $this->get('UserService');
+
+        $userService->updateMsg($msgIds, $field, $value);
+        return new JsonResponse();
     }
     /**
      * Function to save the message
@@ -355,9 +371,9 @@ class MessageController extends Controller
     {         
         if ($request->isMethod('POST')) {  
 												
-        				$replymid = 0;
-        				$content = $this->get("request")->getContent();
-        				$params = json_decode($content, true);
+            $replymid = 0;
+        	$content = $this->get("request")->getContent();
+        	$params = json_decode($content, true);
             $userService = $this->get('UserService');
             $curuser = $userService->getCurrentUser();
             if (isset($params['replymid'])) {
@@ -367,16 +383,16 @@ class MessageController extends Controller
             $subject = $params['subject']; 
             
             if (isset($params['replyMsg'])) {
-            				$message = $params['replyMsg'];
+                $message = $params['replyMsg'];
             }
             
             if (isset($params['message'])) {
-            	$message = $params['message'];
+                $message = $params['message'];
             }
             
             $unitId = '';
             if (isset($params['unitId'])) {
-                    $unitId = $params['unitId'];
+                $unitId = $params['unitId'];
             }
             
             $courseCode = '';
@@ -385,78 +401,78 @@ class MessageController extends Controller
             }
             
 
-                $user = $this->getDoctrine()
-                ->getRepository('GqAusUserBundle:User')
-                ->findOneBy(array('id' => $to));
-                if ($user)
-                	$touser = $user->getId();
-               // echo "<pre>"; dump($user); exit;
-                if ($user) {
-                    $msgRespose = $userService->checkMessage($touser,$curuser->getId());
-                    if($msgRespose == 1)
+            $user = $this->getDoctrine()
+            ->getRepository('GqAusUserBundle:User')
+            ->findOneBy(array('id' => $to));
+            if ($user)
+                $touser = $user->getId();
+           // echo "<pre>"; dump($user); exit;
+            if ($user) {
+                $msgRespose = $userService->checkMessage($touser,$curuser->getId());
+                if($msgRespose == 1)
+                {
+                    $sentuser = $userService->getUserInfo($touser);
+                    if(isset($replymid) && $replymid != "" && $replymid != 0)
                     {
-                        $sentuser = $userService->getUserInfo($touser);
-                        if(isset($replymid) && $replymid != "" && $replymid != 0)
-                        {
-                            $getReplyId = $this->getDoctrine()
-                                        ->getRepository('GqAusUserBundle:Message')
-                                        ->findOneBy(array('id' => $replymid));
-                            $newreplymid = $getReplyId->getreplymid();
-                            if($newreplymid == 0)
-                                $replymid = $replymid;
-                            else
-                                $replymid = $newreplymid;
-                        }
-
-                        $msgdata = array('subject' => $subject,
-                            'message' => $message, 'unitId' => $unitId, 'replymid' => $replymid, 'courseCode' => $courseCode, 'flagged' => 0);
-																								
-                        $type = $params['type'];
-                        if ($type == 'draft') {
-                        				$msgdata['draft'] = 1;
-                        				$msgdata['new'] = 0;
-                        }
-                        else {
-                        				$msgdata['new'] = 1;
-                        				$msgdata['draft'] = 0;
-                        }
-                        
-                        if (isset($params['id'])) {
-                        				$msgdata['id'] = $params['id'];
-                        }
-                        // for sending external mail
-                        $mailSubject = str_replace('#messageSubject#', $subject,
-                            $this->container->getParameter('mail_notification_sub'));
-
-                        // finding and replacing the variables from message templates
-                        $search = array('#toUserName#', '#applicationUrl#', '#fromUserName#');
-                        $replace = array($sentuser->getUsername(),
-                            $this->container->getParameter('applicationUrl'), $curuser->getUsername());
-                        $mailBody = str_replace($search, $replace, $this->container->getParameter('mail_notification_con'));
-                        // dump($sentuser->getEmail(),$mailSubject,$mailBody,$sentuser->getRole());exit;
-                        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
-                        if($sentuser->getRole() == '5' && $msgdata['draft'] != 1)
-                        {
-                            $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
-                            $mailBody, $curuser->getEmail(), $curuser->getUsername());
-                        }
-
-                        $userService->saveMessageData($sentuser, $curuser, $msgdata);
-
-                        
-                            $msg_status = $this->container->getParameter('message_succ');
-                            $status = 'sucess';
-                        
+                        $getReplyId = $this->getDoctrine()
+                                    ->getRepository('GqAusUserBundle:Message')
+                                    ->findOneBy(array('id' => $replymid));
+                        $newreplymid = $getReplyId->getreplymid();
+                        if($newreplymid == 0)
+                            $replymid = $replymid;
+                        else
+                            $replymid = $newreplymid;
                     }
-                    else
+
+                    $msgdata = array('subject' => $subject,
+                        'message' => $message, 'unitId' => $unitId, 'replymid' => $replymid, 'courseCode' => $courseCode, 'flagged' => 0);
+
+                    $type = $params['type'];
+                    if ($type == 'draft') {
+                                    $msgdata['draft'] = 1;
+                                    $msgdata['new'] = 0;
+                    }
+                    else {
+                                    $msgdata['new'] = 1;
+                                    $msgdata['draft'] = 0;
+                    }
+
+                    if (isset($params['id'])) {
+                                    $msgdata['id'] = $params['id'];
+                    }
+                    // for sending external mail
+                    $mailSubject = str_replace('#messageSubject#', $subject,
+                        $this->container->getParameter('mail_notification_sub'));
+
+                    // finding and replacing the variables from message templates
+                    $search = array('#toUserName#', '#applicationUrl#', '#fromUserName#');
+                    $replace = array($sentuser->getUsername(),
+                        $this->container->getParameter('applicationUrl'), $curuser->getUsername());
+                    $mailBody = str_replace($search, $replace, $this->container->getParameter('mail_notification_con'));
+                    // dump($sentuser->getEmail(),$mailSubject,$mailBody,$sentuser->getRole());exit;
+                    /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+                    if($sentuser->getRole() == '5' && $msgdata['draft'] != 1)
                     {
-                    				$msg_status = $this->container->getParameter('user_authorize');
-                    				$status = 'error';
+                        $userService->sendExternalEmail($sentuser->getEmail(), $mailSubject,
+                        $mailBody, $curuser->getEmail(), $curuser->getUsername());
+                    }
+
+                    $userService->saveMessageData($sentuser, $curuser, $msgdata);
+
+
+                    $msg_status = $this->container->getParameter('message_succ');
+                    $status = 'sucess';
+                        
+                }
+                else
+                    {
+                        $msg_status = $this->container->getParameter('user_authorize');
+                    	$status = 'error';
                     }
                 }
                 else {
-                					$msg_status = $this->container->getParameter('no_user_found');
-                					$status = 'error';
+                	$msg_status = $this->container->getParameter('no_user_found');
+                    $status = 'error';
                         
                 }
             //return $this->redirect('messages');

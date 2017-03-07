@@ -46,6 +46,7 @@ class AuthenticateController extends Controller
             $this->get("security.context")->setToken($token); //now the user is logged in
             //now dispatch the login event
             $request = $this->get("request");
+            $request->getSession()->set('user_id', $user->getId());
             $event = new InteractiveLoginEvent($request, $token);
             $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
         }

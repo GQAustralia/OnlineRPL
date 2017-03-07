@@ -858,6 +858,7 @@ class ApplicantController extends Controller {
                 $userMessage = str_replace($conSearch, $conReplace, $this->container->getParameter('mail_portfolio_assign_applicant_con'));
                 $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
                 $userMessage = $emailService->getnotifyApplicantForTheAssignedAccountManagerEmailMsg($userId, $courseCode, $token);
+                $userSubject = "An Account Manager has been assigned to you from RPL GQ (".$this->container->getParameter('fromEmailAddress').")";
                 $userMessageSend = $userService->sendExternalEmail($userInfo->getEmail(), $userSubject,
                 		$userMessage, $fromUser->getEmail(), $fromUser->getUsername());
                 
@@ -873,7 +874,7 @@ class ApplicantController extends Controller {
                 $userMessage = str_replace($conSearch, $conReplace, $this->container->getParameter('mail_portfolio_assign_applicantqua_con'));
                 $userMsgdata = array('subject' => $userSubject, 'message' => $userMessage, 'unitId' => '0', 'replymid' => '0');
                 $userMessage = $emailService->getnotifyApplicantForTheAssignedAccountManagerEmailMsg($userId, $courseCode);
-                
+                $userSubject = "An Account Manager has been assigned to you from RPL GQ (".$this->container->getParameter('fromEmailAddress').")";
                 // $userMessageSend = $userService->saveMessageData($userInfo,$facUser,$userMsgdata);
                 $userService->sendExternalEmail($userInfo->getEmail(), $userSubject, $userMessage, $fromUser->getEmail(), $fromUser->getUsername());
             }
@@ -883,6 +884,7 @@ class ApplicantController extends Controller {
             $facMessage = str_replace($facSearch, $facReplace, $this->container->getParameter('mail_portfolio_assign_facilitator_con'));
 
             $facMsgdata = array('subject' => $facSubject, 'message' => $facMessage, 'unitId' => '0', 'replymid' => '0');
+            $facSubject = "Online RPL - A new Qualification Portfolio has been assigned to you (".$this->container->getParameter('fromEmailAddress').")";
             $facMessage = $emailService->getApplicantAssignedtoAccountManagerEmailMsg($username, $courseName, $facname);
             $userService->sendExternalEmail($facUser->getEmail(), $facSubject,
             		$facMessage, $fromUser->getEmail(), $fromUser->getUsername());

@@ -886,4 +886,27 @@ class UserController extends Controller
         echo json_encode($json_array);
         exit;
     }
+    /**
+     * Function to sent mail to the site admin 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function sentFeedBackMailAction(Request $request) {
+        
+        $results = [];
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+        if ($request->isMethod('POST') && $userId != '') {
+            $params = array();
+            $content = $this->get("request")->getContent();
+            if (!empty($content)) {
+                $params = json_decode($content, true); // 2nd param to get as array
+                $feedBackType = $params['feedBackType'];
+                $detFeedBack  = $params['detFeedBack'];
+                $applicantId  = $params["userId"];   
+                $results = $this->get('UserService')->sentEmailForFeedBack($feedBackType, $detFeedBack, $applicantId);
+            }
+        }
+
+        return new JsonResponse($results);
+    }
 }

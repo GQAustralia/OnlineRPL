@@ -257,7 +257,7 @@ class NotesService {
             /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
             $this->userService->sendExternalEmail($facilitatorInfo['facilitatorEmail'], $mailSubject, $mailBody, $data['session_user_email'], $data['session_user_name']);
             /* send message inbox parameters $toUserId, $fromUserId, $subject, $message, $unitId */
-            $this->userService->sendMessagesInbox($facilitatorInfo['facilitatorId'], $data['session_user_id'], $messageSubject, $messageBody, $data['note_unit_id'], 1);
+            $this->userService->sendMessagesInbox($facilitatorInfo['facilitatorId'], $data['session_user_id'], $messageSubject, $messageBody, $data['note_unit_id'], 1, $facilitatorInfo['courseCode']);
         }
     }
 
