@@ -120,7 +120,7 @@
                     <!-- Notes from Account Manager -->
                     <article class="form-group">
                         <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseManagerNotes" aria-expanded="true" aria-controls="collapseAbout">
-                            <span ng-if="role === 'facilitator' ">Notes from your Account Manager</span>
+                            <span ng-if="role === 'facilitator' ">Your Notes</span>
                             <i class="zmdi zmdi-chevron-down"></i>
                         </h3>
                     
@@ -190,7 +190,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="message-input"  ng-if="!isSubmitted() && role !== 'candidate'">
+                                    <div class="message-input"  ng-if="isSubmitted() && role !== 'candidate'">
                                         <textarea cols="30" rows="2" class="form-control" auto-expand placeholder="Type your message here..." ng-model="newNotes"></textarea>
                                         <button type="button" class="btn btn-link btn-send" ng-click="saveNotes(newNotes); newNotes='';"><i class="zmdi zmdi-mail-send zmdi-hc-2x"></i></button>
                                     </div>
