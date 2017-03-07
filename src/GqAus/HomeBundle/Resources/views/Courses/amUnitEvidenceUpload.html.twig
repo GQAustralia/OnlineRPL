@@ -206,7 +206,7 @@
 						</div>
 					{% endif %}
 					{% if ('ROLE_FACILITATOR' in roles) %}
-						<div class="btn-auto-group" ng-if="!isSubmitted()">
+						<div class="btn-auto-group" ng-if="isSubmitted()">
 							<button class="btn btn-default" ng-click="satisfactory('1', 'ROLE_FACILITATOR')">Satisfactory</button>
 							<button class="btn btn-success" ng-click="satisfactory('0', 'ROLE_FACILITATOR')" ng-disabled="unitEvidences.length === 0">Not Yet Satisfactory</button>
 						</div>
