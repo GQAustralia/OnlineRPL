@@ -26,6 +26,8 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
     $scope.userCourses = [];
     $scope.evidences = {};
     $scope.propertyName = 'name';
+//    $scope.feedBackType = '';
+//    $scope.detailedFeedBack = '';
     $scope.reverse = true;
     $scope.uploadAdditional = {};
     $scope.selectedListArr = [];
@@ -313,6 +315,13 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
         $scope.getEvidenceLibrary();
     };
     
+    $scope.sendFeedback = function(userId) {
+         AjaxService.apiCall("help/sentFeedBack", {feedBackType: $scope.feedBackType, detFeedBack: $scope.detailedFeedBack, userId: userId}).then(function (data) {
+            
+        }, function (error) {
+            console.log(error);
+        });
+    };
     
     $scope.getAllEvidenceCats();
 });

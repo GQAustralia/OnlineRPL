@@ -409,3 +409,6 @@ enrollmentInfo:
 usiDownload:
     path: /enrolment/usiDownload
     defaults: { _controller: GqAusUserBundle:Enrollment:usiDownload }
+sentFeedBackMail:
+    path: /help/sentFeedBack
+    defaults: { _controller: GqAusUserBundle:User:sentFeedBackMail }    
