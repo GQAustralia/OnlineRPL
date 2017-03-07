@@ -2,12 +2,11 @@
 {% set userVal = app.security.getToken().getUser() %} 
 {% set userId = (userVal is defined and userVal.id is defined)? app.security.getToken().getUser().getId(): 0 %}
 {% extends userId == 0 ? 'anonymous_base.html.twig' : 'revamp_base.html.twig' %}
-
-{% block title %}GQ - RPL FAQ{% endblock %}
-{% block stylesheets %}
-    
-{% endblock %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="userprofileCtlr"  id="userprofileCtlr" {% endblock%}
+{% block title %}GQ - RPL Feedback{% endblock %}
 {% block body %}
+    {% set userId = app.security.getToken().getUser().getId() %}
 <main class="main-content-gqa">
         <div class="container">
         <!-- Put content here -->
@@ -18,26 +17,27 @@
                     <div class="row">
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
-                                <label for="sel1">Feebback type</label>
-                                <select class="form-control">
-                                    <option> Feature of page not working </option>
-                                    <option> Missing or wrong content (text or images) </option>
-                                    <option> Broken links </option>
-                                    <option> Suggestion to make the platform better </option>
-                                    <option> About my general website experience </option>
-                                    <option> About the service I received from my Account Manager </option>
+                                <label for="sel1">Feedback type</label>
+                                <select class="form-control" ng-model="feedBackType">
+                                    <option value="" disabled selected style="display: none;">Please Choose your Feedback type</option>
+                                    <option value="Feature of page not working"> Feature of page not working </option>
+                                    <option value="Missing or wrong content (text or images)"> Missing or wrong content (text or images) </option>
+                                    <option value="Broken links"> Broken links </option>
+                                    <option value="Suggestion to make the platform better"> Suggestion to make the platform better </option>
+                                    <option value="About my general website experience"> About my general website experience </option>
+                                    <option value="About the service I received from my Account Manager"> About the service I received from my Account Manager </option>
                                 </select>
                             </div>                        
                         </div>
                         <div class="col-xs-12 col-md-12">
                             <div class="form-group">
                                 <label for="sel1">Your detailed feedback</label>
-                                <textarea class="form-control" style="overflow: hidden; word-wrap: break-word; height: 72px;">Type here the specific page or URL, possible missing content, or a detailed account of your experience or feedback</textarea>
+                                <textarea class="form-control" ng-model="detailedFeedBack" style="overflow: hidden; word-wrap: break-word; height: 72px;" placeholder="Type here the specific page or URL, possible missing content, or a detailed account of your experience or feedback"></textarea>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-3">
                             <div class="form-group">
-                                <button type="button" class="btn btn-success text-uppercase btn-block">Send my feedback</button>
+                                <button type="button" class="btn btn-success text-uppercase btn-block" ng-click="sendFeedback(userId);">Send my feedback</button>
                             </div>
                         </div>
                     </div>
@@ -46,6 +46,29 @@
         <!-- Put content here -->
         </div>
     </main>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('public/js/qualification.js') }}"></script> 
+    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
+    
+    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/units.js') }}"></script>
+    <script src="{{ asset('public/js/xepOnline.jqPlugin.js') }}"></script>
+    
+    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
+    <script src="{{ asset('public/js/angular/dirPagination.js') }}"></script>
+    <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
+    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/app.js') }}"></script>
+    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/controllers/userprofileCtrl.js') }}"></script>
 {% endblock %}
 
 

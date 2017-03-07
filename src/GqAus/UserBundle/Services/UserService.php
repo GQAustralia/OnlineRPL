@@ -5640,5 +5640,23 @@ class UserService {
         $completedQuals = $this->em->getRepository('GqAusUserBundle:UserCourses');
         return $completedQuals = $completedQuals->findBy(array('facilitator' => $userId, 'courseStatus' => '0'));
     }
+    
+    /**
+     * Function to send an mail to the site admin
+     * @param type $feedBackType
+     * @param type $detailedFeedBack
+     * @param type $userId\
+     * return boolean
+     */
+    public function sentEmailForFeedBack($feedBackType, $detailedFeedBack, $userId){
 
+        $toEmail = $this->container->getParameter('rpl_support_mail');
+        $subject = "FeedBack Form";
+        $mailBody = "FeedBack Type: ".$feedBackType."\n Detailed FeedBack: ".$detailedFeedBack."\n";
+        $fromEmail = $this->currentUser->getEmail();
+        $fromUserName = $this->currentUser->getFirstName()." ".$this->currentUser->getLastName();
+        /* send external mail parameters toEmail, subject, body, fromEmail, fromUserName */
+        $this->sendExternalEmail($toEmail, $subject, $mailBody, $fromEmail, $fromUserName);
+        
+    }
 }
