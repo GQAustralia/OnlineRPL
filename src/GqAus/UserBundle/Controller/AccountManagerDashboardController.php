@@ -25,7 +25,8 @@ class AccountManagerDashboardController extends Controller
         $totalUserMessages = $dashboard->countUserReceivedMessages($userId);
         $qualificationRangeCounter = $dashboard->getApplicantsOverviewQualificationStatusTotals($userId);
         $applicantsOverviewApplicantList = $dashboard->getApplicantsOverviewApplicantList($userId, $coursesService);
-        $evidencesForReview = $dashboard->getEvidencesForReviewList();
+        $userIds = $dashboard->getActiveAssignedUsersIds($userId, $coursesService);
+        $evidencesForReview = $dashboard->getEvidencesForReviewList($userIds);
         $remindersList = $dashboard->getRemindersList($userId);
 
         //print_r($remindersList); die;
