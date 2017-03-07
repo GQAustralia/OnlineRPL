@@ -335,7 +335,7 @@ class AccountManagerDashboardService extends CustomRepositoryService
      */
     private function queryEvidenceForReview($userIds, $from, $to)
     {
-        return $this->all('
+        $sql = '
                     SELECT 
                         e.id,
                         e.user_id, 
@@ -362,10 +362,13 @@ class AccountManagerDashboardService extends CustomRepositoryService
                     LEFT JOIN evidence_video video ON e.id=video.id
                     LEFT JOIN user usr ON usr.id=e.user_id
                     WHERE e.facilitator_view_status="0"
-                    AND e.created BETWEEN NOW() - INTERVAL ' . $from . ' DAY AND NOW() - INTERVAL ' . $to . ' DAY
-                    AND e.user_id IN ('.$userIds.')
-                    ORDER BY e.created ASC
-        ');
+                    AND e.created BETWEEN NOW() - INTERVAL ' . $from . ' DAY AND NOW() - INTERVAL ' . $to . ' DAY';
+        if (!empty($userIds)) {
+            $sql .=' AND e.user_id IN ('.$userIds.') ';
+        }
+
+         $sql.= ' ORDER BY e.created ASC';
+        return $this->all($sql);
     }
 
     /**
