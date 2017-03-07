@@ -335,6 +335,9 @@ class AccountManagerDashboardService extends CustomRepositoryService
      */
     private function queryEvidenceForReview($userIds, $from, $to)
     {
+        if (empty($userIds))
+            return null;
+
         $sql = '
                     SELECT 
                         e.id,
