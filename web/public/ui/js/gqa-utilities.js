@@ -486,6 +486,15 @@ var GLOBAL_UI = {
 		$('[data-toggle="tab"]').on('click', function() {
 			GQA_FOOTER.handle_footer();
 		});
+
+		$('[data-toggle="toggle"]').on('click', function() {
+			var target = $(this).data('target');
+
+			if (isMobile.phone === true) {
+				$(target).toggle();
+				$(this).toggleClass('open');
+			}
+		});
 	},
     display_search: function(elem) {
         $(elem).parent().addClass('focused');

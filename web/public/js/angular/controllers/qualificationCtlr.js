@@ -134,13 +134,14 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
 
     $scope.getUnitDetails = function(unitCode) {
         $scope.unitDetails[unitCode] = {
-            "elements": "Loading elements .....",
-            "evidence_guide": "Loading evidence guide .....",
-            "skills_and_knowledge": "Loading skilss and knowledge ....."
+            "elements": "",
+            "evidence_guide": "",
+            "skills_and_knowledge": "",
+            'content_loaded' : false
         };
+
         AjaxService.apiCall("units/getUnitDetails", {"unitCode": unitCode}).then(function(data) {
             $scope.unitDetails[unitCode] = data;
-
         }, function(error) {
             console.log(error);
         });

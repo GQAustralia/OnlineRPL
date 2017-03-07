@@ -19,6 +19,34 @@
 .is-desktop {
 	min-width: $screen-sm-max;
 	overflow-x: auto;
+
+	.visible-mobile {
+		display: none;
+	}
+}
+
+.is-mobile {
+	.list-group-contacts, .qual-description {
+		display: none;
+	}
+}
+
+[data-toggle="toggle"] {
+	&:active, &:active * {
+		color: $brand-primary;
+	}
+
+	.zmdi {
+		@include transition(all .3s $easing);
+		@include transform(rotateZ(0deg));
+	}
+
+	&.open {
+		.zmdi {
+			@include transition(all .3s $easing);
+			@include transform(rotateZ(180deg));
+		}	
+	}
 }
 
 .page-header { position: relative; }
@@ -96,6 +124,12 @@
 
 .table-subheader td{
 	padding-top: 25px !important;
+}
+
+.content-from-api {
+	p:empty {
+
+	}
 }
 
 // .popover-help {

@@ -60,8 +60,8 @@
   // border: 1px solid $modal-content-border-color;
   border-bottom-left-radius: $border-radius-large;
   border-bottom-right-radius: $border-radius-large;
-  border-top-left-radius: $border-radius-large + 3;
-  border-top-right-radius: $border-radius-large + 3;
+  border-top-left-radius: $border-radius-large;
+  border-top-right-radius: $border-radius-large;
   @include box-shadow(0 20px 50px rgba(95, 95, 95, 0.6));
   background-clip: padding-box;
   // Remove focus outline from opened modal

@@ -14,17 +14,22 @@
                         <li class="list-group-units-subitem" ng-class="{'selected' : isSelected(elective)}" ng-repeat="elective in electiveGroup.unit | filter: elective_search">
                             <div class="btn-group">
                                 <button type="button" class="btn" aria-expanded="{[{showDetails}]}" ng-class="{'collapsed': ! showDetails }" ng-click="getUnitDetails(elective.id); showDetails = ! showDetails" data-toggle="collapse">
-                                    <span class="unit-name" ng-bind="(elective.id) +' - '+ (elective.name)"></span>
-                                    <span class="unit-code" ng-bind="elective.id" ng-if="isSelected(elective)"></span>
+                                    <span class="unit-name" ng-bind="elective.name"></span>
+                                    <span class="unit-code" ng-bind="elective.id"></span>
                                     <i class="zmdi zmdi-chevron-down"></i>
                                 </button>
                                 <button type="button" class="btn" ng-click="(isSubmitted(elective) !== true) && addRemoveUnit(elective)"><i class="zmdi"></i></button>
                             </div>
-                            <div class="panel-collapse collapse" ng-class="{'in': showDetails }"  ng-show="showDetails">
-                                <div class="panel-body table-from-api content-from-api table-striped">
+                            <div class="panel-collapse collapse" ng-class="{'in': showDetails }" ng-show="showDetails">
+                                <div class="panel-body table-from-api content-from-api table-striped" ng-if="unitDetails[elective.id].elements || unitDetails[elective.id].evidence_guide || unitDetails[elective.id].skills_and_knowledge">
                                     <p ng-bind-html="unitDetails[elective.id].elements"></p> 
                                     <p ng-bind-html="unitDetails[elective.id].evidence_guide"></p> 
-                                    <p ng-bind-html="unitDetails[elective.id].skills_and_knowledge"></p> 
+                                    <p ng-bind-html="unitDetails[elective.id].skills_and_knowledge"></p>
+
+                                    <p class="h5 text-center text-muted panel-body" ng-show="unitDetails[elective.id].elements.length === 0 || unitDetails[elective.id].evidence_guide.length === 0 || unitDetails[elective.id].skills_and_knowledge.length === 0">Information not available</p>
+                                </div>
+                                <div class="text-center panel-body" ng-if="unitDetails[elective.id].content_loaded === false">
+                                    <i class="zmdi zmdi-settings zmdi-hc-lg zmdi-hc-spin"></i>
                                 </div>
                             </div>
                         </li>
@@ -83,7 +88,7 @@
                     </ul>
                     
                 </div>
-                <div class="btn-auto-group clearfix">
+                <div class="btn-auto-group clearfix" style="margin-bottom: 0; margin-top: 15px;">
                     <button type="button" class="btn btn-default" ng-click="deSelectEvidences()"><i class="zmdi zmdi-format-clear-all"></i> Deselect all</button>
                     <button type="button" class="btn btn-success" ng-if="selectedElectiveUnits.length == requiredElective" ng-click="doneSelecting()">I&apos;m done selecting units</button>
                 </div>

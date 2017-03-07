@@ -87,7 +87,7 @@
             <section class="section-main">
                 <div class="panel panel-default panel-upload-evidence">
 
-                    <div class="panel-body" data-loader="true" ng-hide="IsLoaded">
+                    <div class="panel-body" data-loader="true" ng-if="!IsLoaded">
                         <section class="loader loading">
                             <i class="msk1"></i>
                             <i class="msk2"></i>
@@ -95,7 +95,7 @@
                         </section>
                     </div>
 
-                    <div class="panel-body">
+                    <div class="panel-body" ng-show="IsLoaded">
                         <div class="panel-accordion" role="tablist" aria-multiselectable="false">
                             
                             <!-- Upload Evidences -->

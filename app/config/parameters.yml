@@ -16,6 +16,7 @@ parameters:
     locale: en
     secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
     applicationUrl: 'http://onlinerpl.local/'
+    # applicationUrl: 'http://local.onlinerpl/'
     amazon_aws_key: AKIAJXKS7MGMDP6Y3MAA
     amazon_aws_secret_key: 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
     amazon_s3_base_url: 'https://s3-ap-southeast-2.amazonaws.com/onlinerplevidences/'

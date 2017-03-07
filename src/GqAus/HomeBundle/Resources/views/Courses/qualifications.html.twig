@@ -104,7 +104,9 @@
                 {% if(courseDetails.facilitator|length > 0 or courseDetails.assessor|length > 0 or courseDetails.rto|length > 0) %}
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <h4>Qualification Contacts <!--<br><small>More description about this section</small>--></h4>
+                        <h4 data-toggle="toggle" data-target=".list-group-contacts">Qualification Contacts 
+                            <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw pull-right visible-mobile"></i>
+                        </h4>
                         <div class="list-group list-group-contacts">
                             {% if(courseDetails.facilitator|length > 0) %}
                             
@@ -166,8 +168,12 @@
             <section class="section-main">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <h4>Qualification Description</h4>
-                        <p>{{ courseApiInfo.courseInfo.details|default('')|raw }}</p>
+                        <h4 data-toggle="toggle" data-target=".qual-description">Qualification Description 
+                            <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw pull-right visible-mobile"></i>
+                        </h4>
+                        <div class="qual-description">
+                            <p>{{ courseApiInfo.courseInfo.details|default('')|raw }}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
