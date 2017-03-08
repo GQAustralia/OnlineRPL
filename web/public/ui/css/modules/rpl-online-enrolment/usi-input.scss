@@ -19,17 +19,17 @@
 	width: 100%;
 
 	> .pseudo-input {
-		display: table-cell;
+		display: block;
 		position: relative;
-		min-width: 30px;
-		width: 1%;
+		float: left;
+		@include calc-div-two-values(width, 100%, 10);
 		border: 1px solid $gray-light;
 		border-right: none;
 		outline: none;
 		height: $input-height-base - 3;
 		text-align: center;
 		vertical-align: middle;
-		@include transition(all .3s $easing);
+		@include transition(none);
 		@include box-shadow(0 1px 0 $gray-light);
 		z-index: 0;
 
@@ -64,7 +64,7 @@
 		&:hover {
 			cursor: text;
 			background-color: lighten($gray-lighter,5%);
-			@include transition(all .3s $easing);
+			@include transition(none);
 		}
 
 		&:last-child {
@@ -93,7 +93,7 @@
 
 .is-mobile {
 	.usi-input-body > .pseudo-input {
-		min-width: 1% !important;
+		@include calc-div-two-values(width, 100%, 10);
 		height: 38px !important;
 		input { font-size: 20px !important; }
 	}
