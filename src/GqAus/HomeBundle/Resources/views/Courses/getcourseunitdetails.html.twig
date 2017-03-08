@@ -63,7 +63,7 @@
                                 {% endif %}
                             </ul>
                         </div>
-                        <button type="button" class="btn btn-link text-uppercase" style="margin-top: 15px; padding: 0;"><i class="zmdi zmdi-calendar-note zmdi-hc-lg zmdi-hc-fw"></i> Add task</button>
+                        <button type="button" class="btn btn-link text-uppercase" id="{[{courseDetails.id}]}" style="margin-top: 15px; padding: 0;" data-placement="left" datepicker ng-model="datepicker" data-toggle="popover"><i class="zmdi zmdi-calendar-note zmdi-hc-lg zmdi-hc-fw"></i> Add task</button>
                     </div>
                 </div>
                 <div class="panel panel-default">
@@ -534,6 +534,10 @@
     <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
     <script src="{{ asset('public/ui/js/units.js') }}"></script>
     <script src="{{ asset('public/js/xepOnline.jqPlugin.js') }}"></script>
+     <!-- Bootstrap Datepicker -->
+    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/bootstrap-datetimepicker.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
     
     <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
@@ -550,5 +554,6 @@
     <script src="{{ asset('public/js/angular/controllers/qualificationCtlr.js') }}"></script>
     <script src="{{ asset('public/js/angular/filters/uploadElectiveFilter.js') }}"></script>
     <script src="{{ asset('public/js/angular/directives/qualificationDirective.js') }}"></script>
+    <script src="{{ asset('public/js/angular/directives/applicantDirective.js') }}"></script>
     <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
 {% endblock %}
