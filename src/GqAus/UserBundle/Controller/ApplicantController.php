@@ -79,6 +79,8 @@ class ApplicantController extends Controller {
             $params = array();
             $type = "";
             $content = $this->get("request")->getContent();
+            $result = array();
+            $resultArray = array();
             if (!empty($content)) {
                 $params = json_decode($content, true); // 2nd param to get as array
                 $userId = $params['userId'];
@@ -93,6 +95,9 @@ class ApplicantController extends Controller {
                 $result['courseCode'] = $params['courseCode'];
                 $result['unitName'] = $params['unitName'];
             }
+            $resultArray['status'] = $this->get('UserService')->updateApplicantEvidences($result);
+            $resultArray['rtoStatus'] = $this->get('UserService')->updateCourseRTOStatus($userId, $result['currentUserId'], $result['currentuserRole'], $result['courseCode']);
+            return new JsonResponse($resultArray);
         } else {
             $result = array();
             $userId = $this->getRequest()->get('userId');

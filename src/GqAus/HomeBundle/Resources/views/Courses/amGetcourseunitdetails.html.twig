@@ -1,0 +1,482 @@
+{% extends 'revamp_base.html.twig' %}
+{% block ngApp %} ng-app="gqAus" {% endblock%}
+{% block ngController %} ng-controller="amQualificationCtlr"  id="amQualificationCtlr" {% endblock%}
+{% block title %}GQ - RPL Qualification{% endblock %}
+{% block ngtitle %}pageTitle{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
+<link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" /> 
+<link href="{{ asset('public/css/package_rules.css')}}" rel="stylesheet" />
+{% endblock %}
+{% block body %}
+    {% set userId = courseDetails.user.getId() %} 
+    {% set userObj = app.security.getToken().getUser() %}
+    {% set userRole = userObj.getRoles() %}
+    {% set courseInfo = courses_service.getCourseInfo(courseDetails.courseCode)%}
+    {% set loggedInUserRole = ('ROLE_FACILITATOR' in userRole) ? 'facilitator' : 'candidate' %}
+    {% if (courseDetails.facilitator!= '' and courseDetails.facilitator.userImage != '') %}
+        {% set facilitatorImg = amazon_link~'user-'~courseDetails.facilitator.id~'/'~courseDetails.facilitator.userImage %}
+    {% else %}
+        {% set facilitatorImg = '../../../public/ui/img/avatar-default.png' %}
+    {% endif %}
+    {% set getUnitStatusList = user_service.getUnitStatusListByRole(userRole) %}
+    <main class="main-content-gqa">
+        
+        <div class="container">
+            <div class="panel panel-default panel-qual-heading">
+                <div class="panel-heading-img" style="background-image: url({{ courseInfo.bannerImg|default('') }})">
+                    <span class="hidden" aria-readonly>{{ courseDetails.courseName }}</span>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="h3 qual-title"><small>{{ courseDetails.courseCode }}</small><br>{{ courseDetails.courseName }}</h3>
+                    <h4 class="text-uppercase unit-label">{{ unitCode }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="container container-right-sidebar-main" ng-init="qualificationPage = '';courseCode = '{{ courseDetails.courseCode }}';applicantId = '{{ userId }}';role = '{{ loggedInUserRole }}';initUnitDetailsPage('{{ unitCode }}');unitCode = '{{unitCode}}'">
+            <section class="section-sidebar section-sidebar-compressed">
+                <div class="panel panel-default" ng-if="unitStatus != '' && role ==='candidate'">
+                    <div class="panel-body">
+                        <h4>Unit Status<br><small>More description about this section</small></h4>
+                        <span class="label {[{ getStatusClass(unitStatus)}]}">{[{unitStatus}]}</span>
+                    </div>
+                </div>
+                <div class="panel panel-default" ng-if="role !== 'candidate'">
+                    <div class="panel-body">
+                        <h4 class="panel-heading-text">Unit Check Result</h4>
+                        <div class="dropdown" style="width: 100%;" ng-if="isSubmitted() && (selectedUnitObj.facilitatorStatus === 0 || selectedUnitObj.facilitatorStatus === 2) ">
+                            <button data-toggle="dropdown" type="button" class="btn btn-default"><span>Choose result</span></button>
+                            <ul class="dropdown-menu pull-left">
+                                 {% if ('ROLE_FACILITATOR' in userRole) %}
+                                     {% if (getUnitStatusList is defined) %}
+                                        {% set roleAcess = 'Factive' %}
+                                        {% if ('ROLE_ASSESSOR' in userRole) %}
+                                            {% set roleAcess = 'Aactive' %}
+                                        {% endif %}
+                                        {% for statusId, statusData in getUnitStatusList %}
+                                           {% if ('ROLE_FACILITATOR' in userRole and statusData[roleAcess] == 1) %}
+                                                <li><a ng-click="saveTheUnitStatus({{statusId}});">{{statusData['status']}}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+                            </ul>
+                            
+                        </div>
+                            <div class="btn-auto-group" ng-if="selectedUnitObj.facilitatorStatus === 1 || (selectedUnitObj.facilitatorStatus === 2 && !isSubmitted()) ">
+                                <div class="label-default" ng-if="selectedUnitObj.facilitatorStatus === 1">Satisfactory</div>
+                                <div class="label-warning" ng-if="selectedUnitObj.facilitatorStatus === 2">Not Yet Satisfactory</div>
+                            </div>
+                        <button type="button" class="btn btn-link text-uppercase" style="margin-top: 15px; padding: 0;"><i class="zmdi zmdi-calendar-note zmdi-hc-lg zmdi-hc-fw"></i> Add task</button>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>About this Unit <br><small>More description about this section</small></h4>
+                        <div class="list-about-units">
+                            <a class="btn-link btn-block" href="#" data-target="#" ng-click="show_details('elements','Elements and performance criteria')">
+                                Elements &amp; Performance Criteria
+                            </a>
+                            <a class="btn-link btn-block" href="#" data-target="#" ng-click="show_details('skills_and_knowledge','Required skills and knowledge')">
+                                Required Skills &amp; Knowledge 
+                            </a>
+                            <a class="btn-link btn-block" href="#" data-target="#" ng-click="show_details('evidence_guide','Evidence Guide and Range Statement')">
+                                Evidence Guide &amp; Range Statement
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section-main">
+                <div class="panel panel-default panel-upload-evidence">
+
+                    <div class="panel-body" data-loader="true" ng-if="!IsLoaded">
+                        <section class="loader loading">
+                            <i class="msk1"></i>
+                            <i class="msk2"></i>
+                            <i class="msk3"></i>
+                        </section>
+                    </div>
+
+                    <div class="panel-body" ng-show="IsLoaded">
+                        <div class="panel-accordion" role="tablist" aria-multiselectable="false">
+                            
+                            <!-- Upload Evidences -->
+                            <article class="form-group">
+                                <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseEvidences" aria-expanded="true" aria-controls="collapseAbout">Evidence <small class="badge badge-xs" ng-if="(unitEvidences| filter:{type: '!text'}).length>0">{[{(unitEvidences| filter:{type: '!text'}).length}]} files</small><i class="zmdi zmdi-chevron-down"></i></h3>
+
+                                <div id="collapseEvidences" class="panel-collapse collapse in collapsed">
+                                    <div class="panel-collapse-inner" ng-if="!isSubmitted() && (unitEvidences| filter:{type: '!text'}).length === 0 && uploadInProgress.uploads.length === 0">
+                                        <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
+                                            <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
+                                            <h4>
+                                                No evidence for this unit yet <br>
+                                                <button type="button" class="btn-link">Upload evidence now</button>
+                                            </h4>
+                                            <!-- <input class="upload-control-input" type="file" id="uploadID"> -->
+                                        </section>
+                                    </div>
+
+                                    <div class="panel-collapse-inner" ng-if="(unitEvidences| filter:{type: '!text'}).length > 0 || uploadInProgress.uploads.length > 0" data-has-thumbnail="true">
+                                        <div class="evidence-controls">
+                                            <div class="btn-group btn-group-xs" data-toggle="buttons">
+                                                <label class="btn btn-transparent active" for="gridView" ng-click="pageStats.evidenceView = 'card'">
+                                                    <input type="radio" name="galleryView" id="gridView" ng-model="pageStats.evidenceView" value="card" checked><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-module"></i>
+                                                </label>
+                                                <label class="btn btn-transparent" for="listView" ng-click="pageStats.evidenceView = 'list'">
+                                                    <input type="radio" name="galleryView" id="listView" ng-model="pageStats.evidenceView" value="list"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-list"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                       <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
+                                            <li class="thumbnail-group-item" ng-repeat="evidence in unitEvidences| filter:{type: '!text'}" ng-class="{'thumbnail-group-item-loading':evidence.jobId != ''}" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                                <div class="thumbnail-holder" style="min-height: 60px;" ng-if="evidence.jobId != ''">
+                                                    <div class="thumbnail-header"></div>
+                                                    <div class="thumbnail-progress-fill text-center" data-progress-value="">
+                                                        <i class="zmdi zmdi-settings zmdi-hc-2x zmdi-hc-spin btn-block"></i>
+                                                        <small class="text-uppercase btn-block" style="font-size: 9px; width: 100%;line-height: 1;">please wait</small>
+                                                        <!-- <i class="percentage-fill" data-progress-value="0%" style="height: 0%;"></i> -->
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="thumbnail-group-selection" ng-if="evidence.jobId == ''"><input type="checkbox" id="evidenceFiles-{[{evidence.id}]}" name="evidenceFiles" ng-model="pageStats.evidenceFiles[evidence.id]" class="custom-input"><label for="evidenceFiles-{[{evidence.id}]}"></label></div>
+                                                <div class="thumbnail-holder" ng-if="evidence.jobId == ''">
+                                                    <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
+                                                    </div>
+                                                    <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
+                                                            <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+                                                            <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                                        </div>
+                                                    <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
+                                                        <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
+                                                        <div class="thumbnail-body">                                
+                                                            <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+                                                            <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                                            <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                               
+                                            </li>
+                                           <!-- Upload in progress -->
+                                            <li class="thumbnail-group-item thumbnail-group-item-loading" ng-repeat="uploadEvidence in uploadInProgress.uploads">
+                                                <div class="thumbnail-holder">
+                                                    <div class="thumbnail-header"></div>
+                                                    <div class="thumbnail-progress-fill" data-progress-value="{[{uploadEvidence.percentageCompleted}]}%">
+                                                        <i class="percentage-fill" data-progress-value="{[{uploadEvidence.percentageCompleted}]}%" style="height: {[{uploadEvidence.percentageCompleted}]}%;"></i>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!-- Upload in progress -->
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Upload Evidences -->
+
+                            <!-- Self Assess Notes -->
+                            <article class="form-group">
+                                <h3 class="panel-heading-text" data-toggle="collapse" href="#collapseNotes" aria-expanded="true" aria-controls="collapseAbout">Self Assessment Notes <i class="zmdi zmdi-chevron-down"></i></h3>
+
+                                <div id="collapseNotes" class="panel-collapse collapse in collapsed">
+                                    <div class="panel-collapse-inner">
+                                        <div class="click-to-edit view locked">
+                                        
+                                            <textarea class="form-control auto-textarea" ng-readonly="true" ng-model="selfAssessment.modified" auto-expand placeholder="Tell us something about your experience for this unit."></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Self Assess Notes -->
+
+                            <!-- Notes from Account Manager -->
+                            <article class="form-group">
+                                <h3 class="panel-heading-text" data-toggle="collapse" data-target="#collapseManagerNotes" aria-expanded="true" aria-controls="collapseAbout">
+                                    <span ng-if="role === 'candidate' ">Notes from your Account Manager</span>
+
+                                    <!-- <span ng-if="role === 'Candidate' ">Your Notes</span> -->
+                                    <i class="zmdi zmdi-chevron-down"></i>
+                                </h3>
+                            
+                                <div id="collapseManagerNotes" class="panel-collapse collapse in collapsed">
+                                    <div class="panel-collapse-inner">
+                                        <section class="message-thread">
+                                            <div class="message-thread-item" ng-repeat="note in notes">
+                                                <div class="message-avatar avatar avatar-xxs"><img src="{{facilitatorImg}}" alt="You"></div>
+                                                <div class="message-post">
+                                                    <strong class="message-avatar-name">{{ courseDetails.facilitator.firstName|default('') }} {{ courseDetails.facilitator.lastName|default('') }} <small class="text-muted">Account Manager</small></strong>
+                                                    <small class="message-stamp">{[{note.created|date:"dd/mm/yyyy"}]}</small>
+                                                    <p class="message-text">{[{note.note}]}</p>
+
+                                                    <span class="message-post-footer-button" ng-if="(role === 'candidate') || (role === 'facilitator' && note.acknowledged === 1)">
+                                                        <button type="button" class="btn btn-link btn-sm ng-class:{'acknowledged' : note.acknowledged === 1}" ng-click="acknowledgeNote(note.id)">
+                                                            <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i> Got it!
+                                                        </button>
+                                                        <label class="text-success ng-class:{'acknowledged' : note.acknowledged === 1}"><i class="zmdi zmdi-check-circle"></i> Acknowledged</label>
+                                                    </span>
+                                                    
+                                                    <div class="messsage-text text-right" ng-show="note.id === noteId">
+                                                        <textarea rows="1" class="form-control" auto-expand style="margin-bottom: 15px;" ng-model="note.note">{[{note.note}]}</textarea>
+                                                        <button type="button" ng-click="discardNote();" class="btn btn-default btn-xs">Discard</button>
+                                                        <button type="button" ng-click="applyChanges(applicantId,note.note,note.id);" class="btn btn-primary btn-xs">Apply changes</button>
+                                                    </div>
+                                                    
+                                                    <div class="dropdown message-thread-item-dropdown" ng-if="note.acknowledged !== 1 && role === 'facilitator'">
+                                                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                                                            <i class="zmdi zmdi-more zmdi-hc-lg zmdi-hc-fw"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu pull-right">
+                                                            <li><a ng-click="editNote(note.id)" ><i class="zmdi zmdi-edit zmdi-hc-lg zmdi-hc-fw"></i> Edit</a></li>
+                                                            <li><a ng-click="deleteNote(note.id);"><i class="zmdi zmdi-delete zmdi-hc-lg zmdi-hc-fw"></i> Delete</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            
+                                            <div class="message-input" ng-if="!isSubmitted() && role !== 'candidate'">
+                                                <textarea cols="30" rows="2" class="form-control" auto-expand placeholder="Type your message here..." ng-model="newNotes"></textarea>
+                                                <button type="button" class="btn btn-link btn-send" ng-click="saveNotes(newNotes); newNotes='';"><i class="zmdi zmdi-mail-send zmdi-hc-2x"></i></button>
+                                            </div>
+                                        </section>
+
+                                        <div class="clearfix modal-body text-center" ng-if="notes.length == 0">
+                                            <i class="zmdi zmdi-hc-2x zmdi-file-text"></i>
+                                            <h4>No notes found.</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Notes from Account Manager -->
+
+                            <div class="btn-auto-group" ng-if="!isSubmitted() && role !== 'facilitator'">
+                                <button class="btn btn-default" ng-click="saveSelfAssessmentNotes();">Save</button>
+                                <button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0 || ((unitEvidences| filter:{type: '!text'}).length === 0 && (selfAssessment.content|countWord) < 50)">Submit this Unit for Assessment</button>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+
+<div class="modal fade modal-contact" id="contactProfile">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                <h4 class="modal-title">Malou Wang</h4>
+            </div> -->
+             
+            <div class="modal-body clearfix">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                <div class="avatar avatar-sm">
+                    <img class="profile-img" src="#">
+                </div>
+                <div class="avatar-name">
+                    <label class="h3"><span class="profile-name">Malou Wang</span></label>
+                    <p class="profile-type">Account Manager</p>
+                    <div class="avatar-info">
+                        <ul class="list-unstyled">
+                            <li><i class="zmdi zmdi-email"></i> <span class="profile-email" title=""></span></li>
+                            <li><i class="zmdi zmdi-smartphone-iphone"></i> <a href="tel:"><span class="profile-phone"></span></a></li>
+                        </ul>
+                    </div>
+
+                    <span class="profile-message"><a href="{{ app.request.baseUrl }}/messages/compose" class="btn btn-success">Send Message&nbsp;&nbsp;<i class="zmdi zmdi-mail-send"></i></a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <!-- Elements and performance criteria -->
+    <div class="modal fade" id="elementsPerformanceCriteria">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                    <h4 class="modal-title">{[{details.title}]}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="btn-auto-group btn-group">
+                        <button type="button" class="btn btn-default" ng-click="printElective(details)"><i class="zmdi zmdi-print zmdi-hc-lg zmdi-hc-fw"></i> Print</button>
+                        <button type="button" class="btn btn-default" ng-click="downloadElective(details)"><i class="zmdi zmdi-download zmdi-hc-lg zmdi-hc-fw"></i> Download PDF</button>
+                    </div>
+                    <div id="detailsElective" class="table-from-api table-striped content-from-api clearfix" ng-bind-html="unitDetails[selectedUnit][details.detailsType]"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Elements and performance criteria -->
+
+
+    <!-- File Preview -->
+    <div class="modal fade modal-file-preview" tabindex="-1" role="dialog" id="filePreview">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-hc-lg zmdi-close"></i></button>
+                    <h4 class="modal-title">Preview</h4>
+                </div>
+                <div class="modal-body clearfix" >
+                     <gq-audio ng-if="evidenceView.type ==='audio'" datapath="{[{evidenceView.s3Path}]}"></gq-audio>
+                    <gq-video ng-if="evidenceView.type ==='video'" datapath="{[{evidenceView.s3Path}]}" datatype="{[{evidenceview.mimeType}]}" ></gq-video>
+                    <img ng-if="evidenceView.type === 'image'" src="{[{evidenceView.s3Path}]}" alt="{[{evidenceView.name}]}" class="img img-responsive">
+                </div>
+                <div class="modal-footer">
+                    <strong class="center-block text-left">{[{evidenceView.name}]}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- File Preview -->
+
+    <!-- Upload Evidences Files Modal Popup Start -->
+    <div class="modal fade modal-upload-evidence" id="uploadEvidence" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="zmdi zmdi-close zmdi-hc-lg zmdi-hc-fw"></i></button>
+                    <h3 class="modal-title">Upload Evidence</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="progress-tag progress-tag-default">
+                                <progress role="progress" value="{[{(uploadDetails.totalUploadedSize/uploadDetails.maxUploadedSize)*100}]}" max="100"><img class="fallback" width="{[{(uploadDetails.totalUploadedSize/uploadDetails.maxUploadedSize)*100}]}"></progress>
+                                <figcaption data-value="{[{(uploadDetails.maxUploadedSize-uploadDetails.totalUploadedSize) | bytesToSize:'size'}]}" data-unit=" {[{(uploadDetails.maxUploadedSize-uploadDetails.totalUploadedSize) | bytesToSize:'measure'}]}" class="progress-details">file space left</figcaption>
+                            </div> 
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-link btn-transparent btn-help" data-toggle="collapse" data-target="#collapseEvidenceHelp" aria-expanded="false" aria-controls="collapseEvidenceHelp">
+                                <i class="zmdi zmdi-help zmdi-hc-2x center-block"></i> HELP
+                            </button>
+
+                            <div id="collapseEvidenceHelp" class="panel-collapse evidence-help collapse">
+
+                                <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapseEvidenceHelp" aria-expanded="false" aria-controls="collapseEvidenceHelp"><i class="zmdi zmdi-hc-lg zmdi-arrow-left"></i> Back</button>
+
+                                <h4 class="page-header">What types of evidences can I upload?</h4>
+                                <ul>
+                                    <li>Resume, references &amp; job descriptions</li>
+                                    <li>Word samples, memos, letters, reports</li>
+                                    <li>Photographic and video evidence</li>
+                                    <li>Education, training and qualifications</li>
+                                </ul>
+                                <hr>
+                                <h4 class="page-header">List of files types accepted</h4>
+                                <p>
+                                    You are allowed to upload specific file types with an allotted 30GB per Applicant.
+                                </p>
+                                <ul>
+                                    <li>pdf, html</li>
+                                    <li>doc, docx, xls, xlsx, csv</li>
+                                    <li>txt, rtf, zip</li>
+                                    <li>mp3, wma, mpg, flv, avi</li>
+                                    <li>jpg, jpeg, png, gif</li>                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <section class="upload-control">
+                        <button type="button" class="btn btn-link btn-lg">
+                            <i class="zmdi zmdi-upload zmdi-hc-2x center-block"></i>
+                            <span class="center-block">Click to browse your files</span>
+                        </button>
+                        <input class="upload-control-input" type="file" id="uploadID" s3-upload 
+                               multiple="multiple" 
+                               control="uploadControl" 
+                               progressbar = "progressbar(uploadingSize, uploadedSize, totalSize, fileNum)" 
+                               uploadcomplete="uploadcomplete(data,obj)" 
+                               uploadstarted="uploadstarted(file,fileNum,dataObj)"
+                               uploadfailed="uploadfailed(msg)" 
+                               validRegex ="/(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.csv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz|\.docx|\.xlsx|\.one|\.pub|\.pptx|\.doc|\.docx|\.vsdx|\.accdb|\.mdb|\.rpmsg|\.mso|\.xlsb|\.xls|\.xlsx|\.oft|\.asd|\.mpp|\.thmx|\.xlsm|\.snp|\.obi|\.pst|\.ost|\.olm|\.xsn|\.vsd|\.laccdb|\.dotx|\.docm|\.ppt|\.dot|\.accdr|\.xlam|\.mde|\.wbk|\.onepkg|\.pptm|\.xltx|\.xla|\.pip|\.accde|\.ppsm|\.ppsx|\.vss|\.slk|\.crtx|\.xlt|\.svd|\.xlb|\.xlm|\.xlw|\.grv|\.potx|\.xar|\.iaf|\.mpd|\.pa|\.pps|\.ops|\.dotm|\.pot|\.oab|\.acl|\.mdt|\.mpt|\.xltm|\.xl|\.ade|\.vst|\.ppam|\.xsf|\.accdt|\.mda|\.accdc|\.mdw|\.xll|\.mat|\.vdx|\.sldx|\.mar|\.ppa|\.accda|\.maf|\.puz|\.vsx|\.mam|\.prf|\.potm|\.wll|\.xlc|\.vtx|\.accdp|\.sldm|\.accdu|\.maq|\.xslb|\.h1q|\.cnv|\.maw)$/i"
+                               >
+                    </section>
+
+                    <div class="dropup form-group dropdown-dynamic btn-block">
+                        <ui-select ng-model="uploadInProgress.category.selected" theme="" title="Evidence Category" style="width: 100%;">
+                            <ui-select-match placeholder="What types of evidence are you uploading?">{[{$select.selected.name}]}</ui-select-match>
+                            <ui-select-choices repeat="evidenceCategory in uploadDetails.evidenceCategories | propsFilter: {id: $select.search, name: $select.search}">
+                                <div ng-bind-html="evidenceCategory.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        {#<button type="button" class="btn btn-default btn-block text-left" data-toggle="dropdown">
+                            <span class="dropdown-picker-selected" id="dropdownSelected">Evidence Category</span>
+                            <i class="zmdi zmdi-chevron-down zmdi-hc-lg"></i>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown-picker" style="width: 100%">
+                            <li><a href="#">Resume, references &amp; job descriptions</a></li>
+                            <li><a href="#">Word samples, memos, letters, reports</a></li>
+                            <li><a href="#">Photographic and video evidence</a></li>
+                            <li><a href="#">Education, training and qualifications</a></li>
+                            <li><a href="#">Other evidences</a></li>                            
+                        </ul>#}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="closeUploadModal();">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-click="uploadIds()">Submit File</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Upload ID Evdences Modal Popup End -->
+    
+     <!-- Unit Submission Approval -->
+    <div class="modal modal-confirmationfade" id="submitUnitConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div>
+                        <i class="zmdi zmdi-hc-4x zmdi-hc-fw zmdi-info-outline"></i>
+                        <h3>Are you sure?</h3>
+                        <p class="h4">Once submitted, you won't be able to upload or modify your evidence files.</p>
+                    </div>
+                    <hr>
+                    <div class="btn-auto-group">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Wait, I'll review again</button>
+                        <button type="button" class="btn btn-primary" ng-click="submitUnit()">Yes, I'm sure</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Unit Submission Approval -->
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('public/js/qualification.js') }}"></script> 
+    <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
+    
+    <script src="{{ asset('public/js/s3-upload/upload.js') }}"></script>
+    <script src="{{ asset('public/ui/js/plugins/moment.min.js') }}"></script>
+    <script src="{{ asset('public/ui/js/units.js') }}"></script>
+    <script src="{{ asset('public/js/xepOnline.jqPlugin.js') }}"></script>
+    
+    <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/angular-underscore.js') }}"></script>
+    <script src="{{ asset('public/js/angular/dirPagination.js') }}"></script>
+    <script src="{{ asset('public/ui/js/ui-bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/angular/s3Upload.js') }}"></script>
+    <script src="{{ asset('public/js/angular/select.min.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/app.js') }}"></script>
+    <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
+
+    <script src="{{ asset('public/js/angular/controllers/amQualificationCtlr.js') }}"></script>
+    <script src="{{ asset('public/js/angular/filters/uploadElectiveFilter.js') }}"></script>
+    <script src="{{ asset('public/js/angular/directives/qualificationDirective.js') }}"></script>
+    <script src="{{ asset('public/js/angular/filters/enrollFilters.js') }}"></script>
+{% endblock %}

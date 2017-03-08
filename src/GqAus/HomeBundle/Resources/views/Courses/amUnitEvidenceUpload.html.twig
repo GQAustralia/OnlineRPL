@@ -206,9 +206,13 @@
 						</div>
 					{% endif %}
 					{% if ('ROLE_FACILITATOR' in roles) %}
-						<div class="btn-auto-group" ng-if="isSubmitted()">
-							<button class="btn btn-default" ng-click="satisfactory('1', 'ROLE_FACILITATOR')">Satisfactory</button>
-							<button class="btn btn-success" ng-click="satisfactory('0', 'ROLE_FACILITATOR')" ng-disabled="unitEvidences.length === 0">Not Yet Satisfactory</button>
+						<div class="btn-auto-group" ng-if="isSubmitted() && (selectedUnitObj.facilitatorStatus === 0 || selectedUnitObj.facilitatorStatus === 2) ">
+							<button class="btn btn-default" ng-click="satisfactory(1, 'ROLE_FACILITATOR')">Satisfactory</button>
+							<button class="btn btn-success" ng-click="satisfactory(2, 'ROLE_FACILITATOR')">Not Yet Satisfactory</button>
+						</div>
+                                                <div class="btn-auto-group" ng-if="selectedUnitObj.facilitatorStatus === 1 || (selectedUnitObj.facilitatorStatus === 2 && !isSubmitted()) ">
+							<div class="label-default" ng-if="selectedUnitObj.facilitatorStatus === 1">Satisfactory</div>
+							<div class="label-warning" ng-if="selectedUnitObj.facilitatorStatus === 2">Not Yet Satisfactory</div>
 						</div>
 					{% endif %}
                 </div>

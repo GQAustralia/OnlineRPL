@@ -483,7 +483,9 @@ class CoursesController extends Controller {
             return $this->render('GqAusUserBundle:Default:error.html.twig');
 
 
-
+        if (in_array('ROLE_FACILITATOR', $this->get('security.context')->getToken()->getUser()->getRoles())) {
+            return $this->render('GqAusHomeBundle:Courses:amGetcourseunitdetails.html.twig', $results);
+        }
         return $this->render('GqAusHomeBundle:Courses:getcourseunitdetails.html.twig', $results);
     }
 
@@ -501,8 +503,9 @@ class CoursesController extends Controller {
                 $params = json_decode($content, true); // 2nd param to get as array
                 $unitCode = $params['unitCode'];
                 $courseCode = $params['courseCode'];
+                $userId = !empty($params['applicantId'])?$params['applicantId']:$userId;
                 $userService = $this->get('UserService');
-
+                
                 $courseService = $this->get('CoursesService');
                 $unitInfo = $courseService->getUnitStatus($userId, $unitCode, $courseCode);
                 $unit['id'] = $unitInfo->getId();

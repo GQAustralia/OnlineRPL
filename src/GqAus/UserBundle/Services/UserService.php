@@ -666,7 +666,7 @@ class UserService {
             $this->em->flush();
             $userName = $courseObj->getUser()->getUsername();
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
-            $faccomments = $result['msgBody'];
+            $faccomments = !empty($result['msgBody']) ? $result['msgBody']: '';
 
             // finding and replacing the variables from message templates
             $subSearch = array('#courseName#');
