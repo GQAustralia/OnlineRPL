@@ -256,13 +256,15 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             $scope.uploadDetails.evidenceCategories = data.evidenceCategory;
         }, function(error) {
             console.log(error);
+        }).finally(function(){
+            FILE_THUMBNAIL.computation_interval();
         });
         $scope.getEvidenceLibrary();
+        console.log('263')
     };
 
     $scope.getUnitEvidences = function(unitCode) {
         AjaxService.apiCall("units/getEvidencesByUnit", {"unitCode": unitCode, "courseCode": $scope.courseCode, "userId": $scope.applicantId}).then(function(data) {
-
             // Re-init collapse UI
             CONTROL_COLLAPSE.init();
 
@@ -274,7 +276,10 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         }
         , function(error) {
             console.log(error);
-        });
+        }).finally(function(){
+            FILE_THUMBNAIL.computation_interval();
+        })
+        console.log('282')
     };
 
     // Upload Evidence Functions 
@@ -327,10 +332,12 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     $scope.getEvidenceLibrary = function() {
         AjaxService.apiCall("units/getEvidenceLibrary", {}).then(function(data) {
             $scope.allEvidences = data;
-            
         }, function(error) {
             console.log(error);
+        }).finally(function(){
+            FILE_THUMBNAIL.computation_interval();
         });
+        console.log('338')
     };
 
     $scope.removeUpload = function(index) {

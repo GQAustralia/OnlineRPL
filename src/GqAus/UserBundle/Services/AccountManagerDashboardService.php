@@ -96,10 +96,10 @@ class AccountManagerDashboardService extends CustomRepositoryService
      * Evidences for Review
      * @return array
      */
-    public function getEvidencesForReviewList()
+    public function getEvidencesForReviewList($userIds)
     {
-        $evidencesLessThan8Days = $this->queryEvidenceForReview(7, 0);
-        $evidencesGreaterThan7Days = $this->queryEvidenceForReview(180, 8);
+        $evidencesLessThan8Days = $this->queryEvidenceForReview($userIds, 7, 0);
+        $evidencesGreaterThan7Days = $this->queryEvidenceForReview($userIds, 180, 8);
 
         return [
             'lessThan8DaysTotal' => count($evidencesLessThan8Days),
@@ -333,9 +333,12 @@ class AccountManagerDashboardService extends CustomRepositoryService
      *
      * @return array
      */
-    private function queryEvidenceForReview($from, $to)
+    private function queryEvidenceForReview($userIds, $from, $to)
     {
-        return $this->all('
+        if (empty($userIds))
+            return null;
+
+        $sql = '
                     SELECT 
                         e.id,
                         e.user_id, 
@@ -362,9 +365,13 @@ class AccountManagerDashboardService extends CustomRepositoryService
                     LEFT JOIN evidence_video video ON e.id=video.id
                     LEFT JOIN user usr ON usr.id=e.user_id
                     WHERE e.facilitator_view_status="0"
-                    AND e.created BETWEEN NOW() - INTERVAL ' . $from . ' DAY AND NOW() - INTERVAL ' . $to . ' DAY
-                    ORDER BY e.created ASC
-        ');
+                    AND e.created BETWEEN NOW() - INTERVAL ' . $from . ' DAY AND NOW() - INTERVAL ' . $to . ' DAY';
+        if (!empty($userIds)) {
+            $sql .=' AND e.user_id IN ('.$userIds.') ';
+        }
+
+         $sql.= ' ORDER BY e.created ASC';
+        return $this->all($sql);
     }
 
     /**
@@ -507,5 +514,19 @@ class AccountManagerDashboardService extends CustomRepositoryService
             return 'pending';
         }
         return 'pending';
+    }
+
+    public function getActiveAssignedUsersIds($userId, $coursesService){
+        $qb = $coursesService->em->getRepository('GqAusUserBundle:UserCourses')->createQueryBuilder('u');
+            $qb->where(sprintf('u.%s = :%s', 'facilitator', 'facilitator'))->setParameter('facilitator', $userId);
+            $qb->andWhere('u.courseStatus != 0');
+         $CourseObj = $qb->getQuery()->getResult();
+        $userIds = [];
+        if (count($CourseObj) > 0) {
+            foreach($CourseObj as $course) {
+                $userIds[$course->getUser()->getId()] = $course->getUser()->getId();
+            }
+        }
+        return implode($userIds, ',');
     }
 }
