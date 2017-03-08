@@ -3,9 +3,9 @@ parameters:
     database_driver: pdo_mysql
     database_host: 127.0.0.1
     database_port: null
-    database_name: gqrevamp
+    database_name: onlinerpl_db
     database_user: root
-    database_password: null
+    database_password: mysql@dm1n23
     mailer_transport: smtp
     mailer_host: smtp.office365.com
     mailer_user: rpl@gqaustralia.edu.au
@@ -15,9 +15,10 @@ parameters:
     mailer_auth_mode: login
     locale: en
     secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
-    applicationUrl: 'http://gqrevamp.local/'
-    amazon_aws_key: AKIAJXKS7MGMDP6Y3MAA
-    amazon_aws_secret_key: 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
+    applicationUrl: 'http://rpl.gqaustralia.com.au/'
+    S3UploadUrl: 'http://stg.gqaustralia.com.au/onlinerplupload/server.php'
+    amazon_aws_key: AKIAIHDA2MG5TIKGGTTQ
+    amazon_aws_secret_key: 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
     amazon_s3_base_url: 'https://s3-ap-southeast-2.amazonaws.com/onlinerplevidences/'
     amazon_s3_bucket_name: onlinerplevidences
     apiUrl: 'http://api.gqaus.com.au/web/app_dev.php/api/v1/'
@@ -28,8 +29,7 @@ parameters:
     pagination_limit_page: 10
     filefield.load_form_template: false
     tokbox_key: 45691252
-    tokbox_secret_key: 5d5ece689dab101a1b3ddb3359f57f6273eb224c
+    tokbox_secret_key: 86b96b1afee4dc9fb9bb999ee7b965b4ca8c600e
     aws_queue_name: CRMInboundMessage
     rto_workspan: 14
-    S3UploadUrl: 'http://localhost/s3/server.php'
-    rpl_support_mail: rplsupport@gqaustralia.edu.au
+	rpl_support_mail: rplsupport@gqaustralia.edu.au
