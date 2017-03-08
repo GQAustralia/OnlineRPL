@@ -285,7 +285,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     // Upload Evidence Functions 
     $scope.uploadIds = function() {
 
-        if (_.isEmpty($scope.uploadInProgress.category.selected)) {
+        if (_.isEmpty($scope.uploadInProgress.category)) {
             $window.alert('Select evidence category');
             return;
         }
