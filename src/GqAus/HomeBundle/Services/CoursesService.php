@@ -1258,9 +1258,12 @@ class CoursesService {
                 $evd['unitCode'] = $evidence->getUnit();
                 $noOfRcrds = $this->getLinkedToMultiUnitOrNot($evidence);
                 $evd['linkToMulti'] = ($noOfRcrds>1) ? 'multi' : 'single';
+                $evd['courseCode'] = ($evidence->getCourse()) ? $evidence->getCourse() : '';
+                $unitEvdDetails = $this->getUnitStatus($userId, $evidence->getUnit(), $evd['courseCode']);
+                $evd['submitted'] = !empty($unitEvdDetails) ? $unitEvdDetails->getIsSubmitted(): 0;
                 $evd['linkedTo'] = ($noOfRcrds>1) ? ($noOfRcrds-1) : 0;
                 $evd['facilitatorViewStatus'] = $evidence->getfacilitatorViewStatus();
-                $evd['courseCode'] = ($evidence->getCourse()) ? $evidence->getCourse() : '';
+                
                 $evd['jobId'] = ($evidence->getJobId()) ? $evidence->getJobId() : '';
                 $userEvidence[] = $evd;
             }
