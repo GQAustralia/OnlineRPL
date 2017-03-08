@@ -396,8 +396,70 @@
                             </div>
                         </div>
                     </div>
+                    <div role="tabpanel">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#browseDirectory" aria-controls="browseDirectory" role="tab" data-toggle="tab" ng-click="pageStats.isLibrary = false; ">Browse your files</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#browseEvidenceLibrary" aria-controls="tab" role="tab" data-toggle="tab" ng-click="pageStats.isLibrary = true;">Browse your Evidence Library</a>
+                            </li>
+                        </ul>
                     
-                    <section class="upload-control">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="browseDirectory">
+                                <section class="upload-control">
+                                    <button type="button" class="btn btn-link btn-lg">
+                                        <i class="zmdi zmdi-upload zmdi-hc-2x center-block"></i>
+                                        <span class="center-block">Click to browse your files</span>
+                                    </button>
+                                    <input class="upload-control-input" type="file" id="uploadID" s3-upload 
+                                           multiple="multiple" 
+                                           control="uploadControl" 
+                                           progressbar = "progressbar(uploadingSize, uploadedSize, totalSize, fileNum)" 
+                                           uploadcomplete="uploadcomplete(data,obj)" 
+                                           uploadstarted="uploadstarted(file,fileNum,dataObj)"
+                                           uploadfailed="uploadfailed(msg)" 
+                                           validRegex ="/(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.csv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz|\.docx|\.xlsx|\.one|\.pub|\.pptx|\.doc|\.docx|\.vsdx|\.accdb|\.mdb|\.rpmsg|\.mso|\.xlsb|\.xls|\.xlsx|\.oft|\.asd|\.mpp|\.thmx|\.xlsm|\.snp|\.obi|\.pst|\.ost|\.olm|\.xsn|\.vsd|\.laccdb|\.dotx|\.docm|\.ppt|\.dot|\.accdr|\.xlam|\.mde|\.wbk|\.onepkg|\.pptm|\.xltx|\.xla|\.pip|\.accde|\.ppsm|\.ppsx|\.vss|\.slk|\.crtx|\.xlt|\.svd|\.xlb|\.xlm|\.xlw|\.grv|\.potx|\.xar|\.iaf|\.mpd|\.pa|\.pps|\.ops|\.dotm|\.pot|\.oab|\.acl|\.mdt|\.mpt|\.xltm|\.xl|\.ade|\.vst|\.ppam|\.xsf|\.accdt|\.mda|\.accdc|\.mdw|\.xll|\.mat|\.vdx|\.sldx|\.mar|\.ppa|\.accda|\.maf|\.puz|\.vsx|\.mam|\.prf|\.potm|\.wll|\.xlc|\.vtx|\.accdp|\.sldm|\.accdu|\.maq|\.xslb|\.h1q|\.cnv|\.maw)$/i"
+                                           >
+                                </section>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="browseEvidenceLibrary">
+                                <div class="evidence-controls">
+                                    <div class="btn-group btn-group-xs" data-toggle="buttons">
+                                        <label class="btn btn-transparent active" for="gridView" ng-click="pageStats.libraryView = 'card'">
+                                            <input type="radio" name="galleryView" id="gridView" value="grid-view" checked><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-module"></i>
+                                        </label>
+                                        <label class="btn btn-transparent" for="listView" ng-click="pageStats.libraryView = 'card'">
+                                            <input type="radio" name="galleryView" id="listView" value="list-view"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-list"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <ul class="thumbnail-group card-view thumbnail-group-scroll edit-mode" ng-class="{'card-view': pageStats.libraryView === 'card', 'list-view': pageStats.libraryView === 'list'}">
+                                    <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                        <div class="thumbnail-group-selection"><input type="checkbox" name="libraryFiles" value="{[{evidence.id}]}" id="libraryFiles-{[{evidence.id}]}" ng-model="uploadInProgress.libraryFiles[evidence.id]" class="custom-input"><label for="libraryFiles-{[{evidence.id}]}"></label></div>
+                                        <div class="thumbnail-holder">
+                                            <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
+                                            </div>
+                                            <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
+                                                    <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+                                                </div>
+                                            <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
+                                                <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
+                                                <div class="thumbnail-body">                                
+                                                    <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--section class="upload-control">
                         <button type="button" class="btn btn-link btn-lg">
                             <i class="zmdi zmdi-upload zmdi-hc-2x center-block"></i>
                             <span class="center-block">Click to browse your files</span>
@@ -411,7 +473,7 @@
                                uploadfailed="uploadfailed(msg)" 
                                validRegex ="/(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.rtf|\.pdf|\.csv|\.txt|\.zip|\.rar|\.arj|\.tar.gz|\.tgz|\.docx|\.xlsx|\.one|\.pub|\.pptx|\.doc|\.docx|\.vsdx|\.accdb|\.mdb|\.rpmsg|\.mso|\.xlsb|\.xls|\.xlsx|\.oft|\.asd|\.mpp|\.thmx|\.xlsm|\.snp|\.obi|\.pst|\.ost|\.olm|\.xsn|\.vsd|\.laccdb|\.dotx|\.docm|\.ppt|\.dot|\.accdr|\.xlam|\.mde|\.wbk|\.onepkg|\.pptm|\.xltx|\.xla|\.pip|\.accde|\.ppsm|\.ppsx|\.vss|\.slk|\.crtx|\.xlt|\.svd|\.xlb|\.xlm|\.xlw|\.grv|\.potx|\.xar|\.iaf|\.mpd|\.pa|\.pps|\.ops|\.dotm|\.pot|\.oab|\.acl|\.mdt|\.mpt|\.xltm|\.xl|\.ade|\.vst|\.ppam|\.xsf|\.accdt|\.mda|\.accdc|\.mdw|\.xll|\.mat|\.vdx|\.sldx|\.mar|\.ppa|\.accda|\.maf|\.puz|\.vsx|\.mam|\.prf|\.potm|\.wll|\.xlc|\.vtx|\.accdp|\.sldm|\.accdu|\.maq|\.xslb|\.h1q|\.cnv|\.maw)$/i"
                                >
-                    </section>
+                    </section-->
 
                     <div class="dropup form-group dropdown-dynamic btn-block">
                         <ui-select ng-model="uploadInProgress.category.selected" theme="" title="Evidence Category" style="width: 100%;">
