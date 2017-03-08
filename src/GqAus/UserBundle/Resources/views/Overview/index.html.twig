@@ -17,7 +17,7 @@
             <section class="section-sidebar">
                 <div class="panel panel-default">
                     <div class="panel-qualification-heading">
-                        <div class="avatar avatar-xs"><img src="{% if userImg  != '' %}{{amazon_link~'user-'~userId~'/'~userImg}}{%else%}public/images/userprofile.png{%endif%}" alt="You"></div>
+                        <div class="avatar avatar-xs"><img src="{% if userImg  != '' %}{{amazon_link~'user-'~userId~'/'~userImg}}{%else%}public/ui/img/avatar-default.png{%endif%}" alt="You"></div>
                         <div class="heading">
                             <span>Welcome back,</span>
                             <span>{{ userObj.getUsername() }}!</span>
@@ -25,10 +25,10 @@
                     </div>
                     <div class="panel-body">
                         <p>
-                            This is your Online RPL homepage. You can see here the qualifications you are currently enrolled in.
+                            This is your Online RPL homepage. You can see here the qualifications you are currently enroled in.
                          </p>
                          <p>
-                            To start uploading evidence, you can follow the links at the bottom of each of your qualifications. 
+                            To start uploading evidence, follow the links at the bottom of each qualification. 
                         </p>
                     </div>
                 </div>
@@ -108,7 +108,13 @@
                              </div>
                          </div>
                          <div class="panel-qualification-footer">
-                             <a href="{{ app.request.baseUrl }}{% if(evidenceCompleteness|trim('%') == 0 or evidenceCompleteness|trim('%') != 100)%}/qualificationDetails/{{ courseCode }}/core{%else%}/qualificationDetails/{{ courseCode }}{%endif%}" class="btn btn-link btn-block"><i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> {% if(evidenceCompleteness|trim('%') == 0)%} Get Started{% elseif(evidenceCompleteness|trim('%') == 100) %} View this Qualification {%else%}Upload Evidence{%endif%}</a>
+                            <a href="{{ app.request.baseUrl }}{% if(evidenceCompleteness|trim('%') == 0 or evidenceCompleteness|trim('%') != 100)%}/qualificationDetails/{{ courseCode }}/core{%else%}/qualificationDetails/{{ courseCode }}{%endif%}" class="btn btn-link btn-block">
+                                {% if(evidenceCompleteness|trim('%') == 0)%} 
+                                    <i class="zmdi zmdi-flag zmdi-hc-lg zmdi-hc-fw"></i> Get Started
+                                    {% elseif(evidenceCompleteness|trim('%') == 100) %} <i class="zmdi zmdi-open-in-browser zmdi-hc-lg zmdi-hc-fw"></i> View this Qualification 
+                                    {%else%} <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence 
+                                {%endif%}
+                            </a>
                          </div>
 
                      </div>

@@ -408,7 +408,7 @@
                     </section>
 
                     <div class="dropup form-group dropdown-dynamic btn-block">
-                        <ui-select ng-model="uploadInProgress.category" theme="" title="Evidence Category" style="width: 100%;">
+                        <ui-select ng-model="uploadInProgress.category.selected" theme="" title="Evidence Category" style="width: 100%;">
                             <ui-select-match placeholder="What types of evidence are you uploading?">{[{$select.selected.name}]}</ui-select-match>
                             <ui-select-choices repeat="evidenceCategory in uploadDetails.evidenceCategories | propsFilter: {id: $select.search, name: $select.search}">
                                 <div ng-bind-html="evidenceCategory.name | highlight: $select.search"></div>

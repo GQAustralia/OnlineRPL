@@ -125,6 +125,8 @@ var USI_INPUT_UI = {
             var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
             var len = $(this).val().length;
 
+            console.log(key);
+
             if (len > 1) {
                 is_valid = false;
                 event.preventDefault();

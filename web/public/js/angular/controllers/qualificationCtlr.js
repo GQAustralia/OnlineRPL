@@ -285,7 +285,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     // Upload Evidence Functions 
     $scope.uploadIds = function() {
 
-        if (_.isEmpty($scope.uploadInProgress.category)) {
+        if (_.isEmpty($scope.uploadInProgress.category.selected)) {
             $window.alert('Select evidence category');
             return;
         }
@@ -303,7 +303,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         }
         if (keys.length > 0) {
             $scope.uploadInProgress.libraryFiles = [];
-            AjaxService.apiCall("units/copyEvidences", {evidenceIds: keys, courseCode: $scope.courseCode, unitCode: $scope.selectedUnit, category: $scope.uploadInProgress.category.id}).then(function(data) {
+            AjaxService.apiCall("units/copyEvidences", {evidenceIds: keys, courseCode: $scope.courseCode, unitCode: $scope.selectedUnit, category: $scope.uploadInProgress.category.selected.id}).then(function(data) {
                 $scope.getUnitEvidences($scope.selectedUnit);
                 $scope.getUploadDetails();
 
@@ -313,7 +313,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             $scope.closeUploadModal();
         } else {
             var additionalObj = {
-                category: $scope.uploadInProgress.category.id,
+                category: $scope.uploadInProgress.category.selected.id,
                 userId: $scope.userId,
                 unitCode: $scope.selectedUnit,
                 courseCode: $scope.courseCode
