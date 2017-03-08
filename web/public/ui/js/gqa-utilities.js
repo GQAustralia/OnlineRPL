@@ -223,46 +223,77 @@ var GQA_HEADER = {
 // custom thumbnails division
 var FILE_THUMBNAIL = {
 	doc: $(document),
+	evidence_controls: '.evidence-controls [for]',
+	bind: function(){
+		this.doc.on('click', this.evidence_controls, function(){
+			FILE_THUMBNAIL.compute();
+		})
+	},
+	detect_list_view: function(){
+		var group = $('.thumbnail-group');
+		if (group.hasClass('list-view')) { return true ; }
+		else { return false; }
+	},
+	stack_list_view: function(){
+		var lv = $('.list-view');
+		if (FILE_THUMBNAIL.detect_list_view() == true) {
+			if($('[data-has-thumbnail="true"]').width() <= 710){lv.addClass('stacked')}
+			else{lv.removeClass('stacked')}
+		}
+	},
 	compute: function(){
-
 		var p = $('[data-has-thumbnail="true"]'),
 			w = p.width(),
 			group = $('.thumbnail-group'),
 			thumbnail = $('.thumbnail-group-item'),
 			header = $('.thumbnail-header'),
+			
 			xs = 480,
 			sm = 600,
 			md = 768,
 			lg = 1024,
 			xlg = 1140;
 
-		function listView() {
-			if (group.hasClass('list-view')) { return true ; }
-			else { return false; }
-		}
 
-		if (listView() == true) {
+		if (FILE_THUMBNAIL.detect_list_view() == true) {
 			header.css('height','');
 			thumbnail.css('width','');
 			return false;
 		}
 		else {
-			if(w <= xs){ division(2); }
-			else if(w <= sm){ division(4); }
-			else if(w <= md){ division(5); }
-			else if(w <= lg){ division(6); }
-			else if(w <= xlg){ division(7); }
-			else { division(8); }	
+			if(isMobile.phone){
+				division(2)
+			}else if(isMobile.tablet){
+				division(3)
+			}else{
+				if(w <= xs){ division(4); }
+				else if(w <= md){ division(4); }
+				else if(w <= lg){ division(6); }
+				else if(w <= xlg){ division(7); }
+				else { division(8); }
+			}				
 		}
 
 		function division(value){
-			thumbnail.css({
-				'width': 100 / value + '%'
-			});
+			var tw = 100 / value + '%';
+			thumbnail.css('width', tw);
 			header.css('height', thumbnail.width());
 		}
 
-		console.log();
+		FILE_THUMBNAIL.stack_list_view();
+	},
+	computation_interval: function(){
+		thumbnail_interval = setInterval(function(){
+			setTimeout(function(){
+				if($('.thumbnail-group').size()){
+					FILE_THUMBNAIL.compute();
+					clearInterval(thumbnail_interval)
+				}else{
+					clearInterval(thumbnail_interval)
+				}
+			}, 1000)
+			
+		}, 100)
 	},
 	resize: function() {
 		var t;
@@ -278,6 +309,7 @@ var FILE_THUMBNAIL = {
 		// FILE_THUMBNAIL.file_name_width();
 		FILE_THUMBNAIL.resize();
 		FILE_THUMBNAIL.compute();
+		FILE_THUMBNAIL.bind();
 	}
 }
 var GQA_FOOTER =  {
@@ -407,6 +439,7 @@ var TEXTAREA_AUTOHEIGHT = {
 				clearInterval(TEXTAREA_AUTOHEIGHT.tmr);
 			}
 		},200);
+
 	},
 	build: function(){
 		var elem = $('.auto-textarea');
@@ -550,15 +583,20 @@ var GLOBAL_UI = {
 	}
 }
 
-
 $(document).ready(function() {
 	GLOBAL_UI.init();
+	FILE_THUMBNAIL.build();
 });
+
 
 $(window).load(function(){
 	WRAP_API_TABLE.build();
 })
 
+
+$(window).resize(function(){
+	FILE_THUMBNAIL.build();
+})
 // // CSS Pointer-events: none Polyfill
 // function PointerEventsPolyfill(t){if(this.options={selector:"*",mouseEvents:["click","dblclick","mousedown","mouseup"],usePolyfillIf:function(){if("Microsoft Internet Explorer"==navigator.appName){var t=navigator.userAgent;if(null!=t.match(/MSIE ([0-9]{1,}[\.0-9]{0,})/)){var e=parseFloat(RegExp.$1);if(11>e)return!0}}return!1}},t){var e=this;$.each(t,function(t,n){e.options[t]=n})}this.options.usePolyfillIf()&&this.register_mouse_events()}PointerEventsPolyfill.initialize=function(t){return null==PointerEventsPolyfill.singleton&&(PointerEventsPolyfill.singleton=new PointerEventsPolyfill(t)),PointerEventsPolyfill.singleton},PointerEventsPolyfill.prototype.register_mouse_events=function(){$(document).on(this.options.mouseEvents.join(" "),this.options.selector,function(t){if("none"==$(this).css("pointer-events")){var e=$(this).css("display");$(this).css("display","none");var n=document.elementFromPoint(t.clientX,t.clientY);return e?$(this).css("display",e):$(this).css("display",""),t.target=n,$(n).trigger(t),!1}return!0})};
 // $(document).ready(function() { PointerEventsPolyfill.initialize({}); });
