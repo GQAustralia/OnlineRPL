@@ -27,7 +27,7 @@
 
 {% block javascripts %}
     <script src = "{{ asset('public/js/underscore-min.js') }}"></script>
-    
+    <script src = "{{ asset('public/js/data-list/modernizr.custom.95508.js')}}"></script>
     <script src="{{ asset('public/js/angular/angular.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-animate.min.js') }}"></script>
     <script src="{{ asset('public/js/angular/angular-sanitize.min.js') }}"></script>
@@ -41,4 +41,14 @@
     <script src="{{ asset('public/js/angular/services/AjaxService.js') }}"></script>
 
     <script src="{{ asset('public/js/angular/controllers/messageCtlr.js') }}"></script>
+    <script>
+		// Safari reports success of list attribute, so doing ghetto detection instead
+		yepnope({
+		  test : (!Modernizr.input.list || (parseInt($.browser.version) > 400)),
+		  yep : [
+		      'public/js/data-list/jquery.relevant-dropdown.js',
+					'public/js/data-list/load-fallbacks.js'
+		  ]
+		});
+	</script>
 {% endblock %}
