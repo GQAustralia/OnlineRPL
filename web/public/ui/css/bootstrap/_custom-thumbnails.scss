@@ -41,14 +41,14 @@ $thumbnail-group-item-card-width: 200px;
 					cursor: pointer;
 					@include box-shadow(0 1px 15px 0px rgba(0,0,0,0.3));
 					@include transition(box-shadow .3s $easing);
-				}
-			}
+				} 
+			} 
 
 			.thumbnail-header {
-				position: relative;
+				position: relative; 
 				background-size: cover; // ie
 				width: 100%; // ie
-				
+				min-height: 160px;
 			}
 
 			.thumbnail-body {
@@ -59,7 +59,7 @@ $thumbnail-group-item-card-width: 200px;
 				width: 100%;
 				height: 40px;
 				
-				@include transition(all .5s $easing);
+				@include transition(all .5s $easing); 
 			}
 
 			&:hover{
@@ -82,9 +82,10 @@ $thumbnail-group-item-card-width: 200px;
 		[data-has-icon="true"] {
 			.thumbnail-body {
 				@include gradient-vertical(transparent, transparent, -15%, 100%);
+				background-color: rgba(0, 0, 0, 0.3);
 
 				[data-column-name] {
-					color: $brand-gray;
+					color: #ffffff;
 				}
 			}
 
@@ -142,6 +143,8 @@ $thumbnail-group-item-card-width: 200px;
 			position: relative;
 			color: #fff;
 			@include transition(all .3s $easing);
+			overflow-wrap: break-word;
+        	word-wrap: break-word;
 
 		    &[href$='.zip']:after {  }
 		    &[href$='.jpg']:after {  }
@@ -165,25 +168,76 @@ $thumbnail-group-item-card-width: 200px;
 		[data-column-name="filetype"] { display: none; }
 	}
 
+
 	&.list-view {
 		margin-top: 60px;
+		
+		&.stacked{
+			.thumbnail-group-item {
+				display: block;
+			}
+		}
 		.thumbnail-group-item {
 			width: 100%;
 			display: table;
 		}
+		@media screen and (min-width: 568px){
+			.thumbnail-group-item {
+				display: inline-block;
+			}
+		}
+		
+
+		.thumbnail-icon{
+			position: absolute;
+			top: 0;
+			right: 0;
+			left: 0;
+			bottom: 0;
+			width: 20px;
+			height: 32px;
+			margin: auto;
+			font-size: 30px;
+		}
 
 		.thumbnail-group-selection, .thumbnail-holder, .dropdown-thumbnail {
-			display: table-cell;
+			display: block;
 			vertical-align: middle;
 		}
 
-		.thumbnail-body {
-			display: table;
+		&.stacked{
+			.thumbnail-group-item:not(.thumbnail-group-item-loading){
+				.thumbnail-body{
+					display: inline-block;
+					padding-left: $grid-gutter-width / 4;
+					@include calc-sub-two-values(width, 100%, 80px);
+				}
+			}
+			
+		}
 
-			[data-column-name] { display: table-cell; vertical-align: middle; position: relative;}
+		.thumbnail-body {
+			
+			@media screen and (min-width: 568px){
+				padding-left: 0;
+				display: table;
+				[data-column-name] { display: block; position: relative;}
+
+				@media screen and (min-width: 568px){
+					[data-column-name] { display: inline-block; vertical-align: middle; position: relative;}
+				}
+			}
 		}
 
 		[data-trigger="preview-file"] { display: none; }
+
+		[data-filename]{
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width: 100%;
+			display: block;
+			white-space: nowrap;
+		}
 	}	
 }
 
@@ -252,20 +306,87 @@ $thumbnail-group-item-card-width: 200px;
 	$thumb-dim: 50px;
 	$check-dim: $thumb-dim;
 	$action-dim: $thumb-dim;
+	@media screen and (min-width: 568px){
+		padding-top: 50px;
+	}
 
-	padding-top: 30px;
+	.dropdown-thumbnail{
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	&.stacked.edit-mode .thumbnail-group-selection{
+        z-index: 9;
+        position: absolute;
+        left: -10px;
+        top: -7px;
+	}
 
 	.thumbnail-group-selection {
-		width: $check-dim;
+		// width: $check-dim;
+		width: 30px;
 		padding-left: 10px;
 		display: none !important;
 
 		label { margin: 0; }
 	}
+
+	.thumbnail-header{
+		display: none;
+	}
+
+	&.stacked{
+		padding-top: 0;
+		.thumbnail-header{
+			display: block;
+		}
+		.thumbnail-group-item:not(.thumbnail-group-item-loading){
+			padding: 15px 5px;
+			.thumbnail-body{
+				[data-column-name]{ 
+					padding: 0 15px 10px;  
+					height: auto; 
+					margin-right: -5px; 
+
+					&:before{
+						color: lighten($brand-gray, 25%);
+						position: relative;
+						padding: 0;
+						background: none;
+						border: none;
+						bottom: 0;
+						left: 0;
+					}
+				}
+				[data-column-name="filename"],
+				[data-column-name="linkedto"],
+				[data-column-name="uploaded"],
+				[data-column-name="filesize"]{
+					width: 100%;
+					text-align: left;
+				}
+
+				[data-column-name="filesize"]:before { content: 'File Size'; }
+				[data-column-name="uploaded"]:before { content: 'Date Uploaded'; }
+				[data-column-name="filename"]:before { content: 'Filename'; }
+				[data-column-name="linkedto"]:before { content: 'Linked to'; }
+			}
+		}
+	}
 	.thumbnail-group-item:not(.thumbnail-group-item-loading) {
 		@include transition(padding .3s $easing);
 		border-bottom: 1px solid $gray-lighter;
-		padding: 5px;
+
+		@media screen and (min-width: 568px){
+			padding: 5px;
+		}
+
+		.thumbnail-holder{
+			@include calc-sub-two-values(width, 100%, 50px);
+			display: inline-block;
+			vertical-align: middle;
+			margin-right: -5px;
+		}
 
 		&:hover {
 			border-radius: $border-radius-base;
@@ -278,6 +399,8 @@ $thumbnail-group-item-card-width: 200px;
 			border-radius: $border-radius-base;
 			background-size: cover;
 			float: left;
+			position: relative;
+			background: lighten($brand-gray, 45%);
 
 			&:hover {
 				cursor: pointer;
@@ -286,30 +409,72 @@ $thumbnail-group-item-card-width: 200px;
 
 		.thumbnail-body {
 			@include calc-sub-two-values(width, 100%, $thumb-dim);
-			[data-column-name] { padding: 8px 15px; height: $thumb-dim; }
-
+			[data-column-name] {vertical-align: top;}
+			@media screen and (min-width: 568px){
+				[data-column-name] { padding: 8px 15px; margin: 0; height: $thumb-dim; }
+			}
 			$file-dim: 100px;
 			$date-dim: 160px;
 
 			[data-column-name="filename"] { 
-				@include calc-sub-two-values(width, 50%, $date-dim + $file-dim);
+				display: inline-block;
+				width: 50%;
+				// @media screen and (min-width: $screen-phone){
+				// 	width: 50%;
+				// }
+				
+				// //@include calc-sub-two-values(width, 50%, $date-dim + $file-dim);
+				// @media screen and (min-width: $screen-desktop){
+				// 	@include calc-sub-two-values(width, 50%, $date-dim);
+				// }
+				
 				font-weight: 400;
+				
+				color: $brand-gray;
 				&:hover {
 					text-decoration: underline;
 					cursor: pointer;
 				}
 			}
 			[data-column-name="linkedto"] { 
-				@include calc-sub-two-values(width, 50%, $date-dim + $file-dim);
+				display: inline-block;
+
+				@media screen and (min-width: $screen-phone){
+					width: 50%;
+				}
+				
+				@media screen and (min-width: 568px){
+					@include calc-sub-two-values(width, 50%, $file-dim);
+				}
+
+				&:before{
+				}
 			}
 			[data-column-name="uploaded"] { 
-				width: $date-dim; 
-				text-align: center;
+				display: inline-block;
+
+				@media screen and (min-width: 568px){
+					width: 50%;
+				}
+				
+				@media screen and (min-width: 568px){
+					width: $date-dim; 
+					text-align: center;
+				}
 			}
 			[data-column-name="filesize"] { 
-				width: $file-dim;
-				text-align: center;
-				text-transform: uppercase;
+				display: inline-block;
+				text-align: left;
+
+				@media screen and (min-width: 568px){
+					width: 50%;
+				}
+				
+				@media screen and (min-width: 568px){
+					width: $file-dim;
+					text-align: center;
+					text-transform: uppercase;
+				}
 			}
 		}
 
@@ -327,36 +492,77 @@ $thumbnail-group-item-card-width: 200px;
 		}
 
 		// Table headers
-		&:first-child {
-			[data-column-name] {
+		[data-column-name] {
+			&:before{
+				display: block;
+				font-size: 12px;
+				
+			}
+			@media screen and (min-width: 568px){
 				&:before {
-					display: block;
+					color: $brand-gray;
 					position: absolute;
+					width: 100%;
 					left: 0;
 					right: 0;
 					padding: 15px;
 					font-weight: 500;
-					font-size: 12px;
 					background-color: #f3f3f3;
 					text-transform: uppercase;
 					border-right: 3px solid white;
 					@include calc-add-two-values(bottom,100%,15px);
 				}
 			}
-
+		}
+		&:first-child{
 			[data-column-name="filesize"]:before { content: 'File Size'; }
 			[data-column-name="uploaded"]:before { content: 'Date Uploaded'; }
-			[data-column-name="filename"]:before { left: -($thumb-dim + 5); content: 'Filename' }
-			[data-column-name="linkedto"]:before { right: -($action-dim  + 5); content: 'Linked to'; }
+			[data-column-name="filename"]:before { left: -($thumb-dim + 5); content: 'Filename'; @include calc-add-two-values(width, 100%, 55px)}
+			[data-column-name="linkedto"]:before { right: -($action-dim  + 5); content: 'Linked to'; @include calc-add-two-values(width, 100%, 50px)}
+		}
+
+		@media screen and(max-width: 991px){
+			
 		}
 	}
+	.thumbnail-group-item:not(.thumbnail-group-item-loading){
+		&:first-child{
+			[data-column-name="filename"]:before{
+				left: 0;
+				width: 100%;
+			}
+		}
+
+		.thumbnail-body{
+			width: 100%;
+		}
+	}
+	// List view edit-mode
 	&.edit-mode {
 		.thumbnail-group-selection {
-			display: table-cell !important;
+			display: inline-block !important;
+			padding-top: 25px;
+			margin-right: -5px;
 		}
+		@media screen and (min-width: 568px){
+			.thumbnail-group-selection {
+				padding: 0;
+			}
+		}
+
+		.thumbnail-group-item:not(.thumbnail-group-item-loading){
+				.thumbnail-holder{
+				@include calc-sub-two-values(width, 100%, 80px);
+			}
+		}
+			
 		.thumbnail-group-item {
 			&:first-child {
-				[data-column-name="filename"]:before { left: -($thumb-dim + $check-dim + 5); content: 'Filename' }
+				[data-column-name="filename"]:before { 
+					left: -30px; 
+					content: 'Filename';
+					@include calc-add-two-values(width, 100%, 30px)
+				}
 			}
 
 			.thumbnail-body {
