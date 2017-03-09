@@ -238,7 +238,7 @@ var FILE_THUMBNAIL = {
 	stack_list_view: function(){
 		var lv = $('.list-view');
 		if (FILE_THUMBNAIL.detect_list_view()) {
-			if($('[data-has-thumbnail="true"]').width() <= 568){lv.addClass('stacked'); console.log('less than 710')}
+			if($('[data-has-thumbnail="true"]').width() <= 568){lv.addClass('stacked');}
 			else{lv.removeClass('stacked')}
 		}
 	},
@@ -254,7 +254,6 @@ var FILE_THUMBNAIL = {
 			md = 768,
 			lg = 1024,
 			xlg = 1140;
-
 
 		if (FILE_THUMBNAIL.detect_list_view() == true) {
 			header.css('height','');
@@ -281,8 +280,6 @@ var FILE_THUMBNAIL = {
 			thumbnail.css('width', tw);
 			header.css('height', thumbnail.width());
 		}
-
-		console.log('hello')
 	},
 	computation_interval: function(){
 		thumbnail_interval = setInterval(function(){
