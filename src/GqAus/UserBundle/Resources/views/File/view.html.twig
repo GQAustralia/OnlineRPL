@@ -96,18 +96,18 @@
                                                 <a data-column-name="filename" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">
                                                     <span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}
                                                     </span>
-                                                    <span>{[{evidence.created}]}</span>
+                                                    <span class="data-uploaded">{[{evidence.created}]}</span>
 
                                                 </a>    
                                                 <!-- <span data-column-name="uploaded"></span> -->
                                                 <span data-column-name="filesize">{[{evidence.size}]}</span>  
                                                 <div data-column-name="linkedto">
-                                                    <strong class="text-primary">{[{evidence.unitCode}]}</strong> and <span ng-if="evidence.linkedTo > 0"><strong class="text-primary">{[{evidence.linkedTo}]} other</strong> units</span> 
+                                                    <strong class="text-primary">{[{evidence.unitCode}]}</strong>&nbsp;<span ng-if="evidence.linkedTo > 0">and <strong class="text-primary">{[{evidence.linkedTo}]} other</strong> units</span> 
                                                 </div>  
                                                 <!-- <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a> -->
                                             </div>
                                         <!-- END IF IMAGE -->
-
+ 
                                         <!-- IF NOT IMAGE -->
                                             <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
                                                 <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>

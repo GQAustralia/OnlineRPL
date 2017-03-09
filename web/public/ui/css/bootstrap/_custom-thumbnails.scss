@@ -237,6 +237,10 @@ $thumbnail-group-item-card-width: 200px;
 			width: 100%;
 			display: block;
 			white-space: nowrap;
+
+			.date-uploaded{
+				font-size: 11px;
+			}
 		}
 	}	
 }
