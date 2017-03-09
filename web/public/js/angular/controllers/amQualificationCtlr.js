@@ -6,7 +6,8 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
        evidenceView:'card',
        libraryView:'card',
        evidenceFiles:{},
-       isLibrary:false
+       isLibrary:false,
+       isSatisfactory:null
     };
     $scope.electiveUnits = [];
     $scope.allElectiveUnits = [];
@@ -70,7 +71,7 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
     $scope.selectedUnitObj = [];
     $scope.selfAssessment = {};
     $scope.notes = {};
-//    $scope.role = 'candidate';
+    $scope.operatingSys = '';
     
     $scope.addRemoveUnit = function (unit) {
 
@@ -99,7 +100,7 @@ gqAus.controller('amQualificationCtlr', function ($rootScope, $scope, $window, _
             $obj = unit && _.where($scope.selectedCoreUnits, unit) || _.where($scope.selectedCoreUnits, {id: $scope.selectedUnit});
         return !_.isEmpty($obj) && ($obj[0].isSubmitted === 1);
     };
-
+    
     $scope.getUnits = function () {
         AjaxService.apiCall("units/getUnits", {"courseCode": $scope.courseCode, "applicantId": $scope.applicantId}).then(function (data) {
             if(data.Units){
@@ -231,6 +232,7 @@ $scope.unitStatusArr['core']['Not Yet Competent'] = [];
         $scope.getUnitDetails(unit.id);
         $scope.unitEvidences = [];
         $scope.getUnitEvidences(unit.id);
+        $scope.getUnitInfo();
         getNotes($scope.selectedUnit, $scope.courseCode, $scope.applicantId);
     };
 
@@ -339,6 +341,7 @@ $scope.unitStatusArr['core']['Not Yet Competent'] = [];
         }, function (error) {
             console.log(error);
         });
+        $scope.operatingSys = getMobileOperatingSystem();
     };
     
     $scope.removeUpload = function (index) {
@@ -543,7 +546,7 @@ $scope.unitStatusArr['core']['Not Yet Competent'] = [];
     
     
     $scope.getUnitInfo = function() {
-    	 AjaxService.apiCall("qualification/getUnitInfo", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode}).then(function (data) {
+    	 AjaxService.apiCall("qualification/getUnitInfo", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode,"applicantId":$scope.applicantId}).then(function (data) {
     		 $scope.unitStatus = data.statusText;
     		 $scope.selectedUnitObj = data;
          }, function (error) {
@@ -710,10 +713,36 @@ $scope.unitStatusArr['core']['Not Yet Competent'] = [];
 	$scope.satisfactory = function(stat, role){
 		
 		AjaxService.apiCall("setUserUnitEvidencesStatus", {status: stat, unit: $scope.selectedUnit, userId: $scope.applicantId, userRole: role, courseCode: $scope.courseCode, unitName: $scope.unitDetails[$scope.selectedUnit].title, courseName: $scope.unitDetails[$scope.selectedUnit].title }).then(function (data) {
-			$scope.selectedUnitObj.isSubmitted = 1;
+                    $scope.getUnitInfo();   
+                    $scope.getUserUnits();
+                    $scope.selectedUnitObj.isSubmitted = 1;
 		}, function (error) {
 			console.log(error);
 		});
 
 	}
+        
+        $scope.saveTheUnitStatus = function(unitStatus) {
+        
+        AjaxService.apiCall("unit/setUnitUpdateStatus", {unitStatus: unitStatus, unitCode: $scope.unitCode, courseCode: $scope.courseCode, userId: $scope.applicantId}).then(function(data) {
+            $scope.getUnitInfo();
+        }, function(error) {
+            console.log(error);
+        });
+    }
+    var getMobileOperatingSystem = function() {
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        // Windows Phone must come first because its UA also contains "Android"
+        if (/windows phone/i.test(userAgent)) {
+            return "Windows Phone";
+        }
+        if (/android/i.test(userAgent)) {
+            return "Android";
+        }
+        // iOS detection from: http://stackoverflow.com/a/9039885/177710
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            return "iOS";
+        }
+        return "";
+    }
 });

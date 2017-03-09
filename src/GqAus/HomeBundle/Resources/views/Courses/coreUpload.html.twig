@@ -25,7 +25,7 @@
                 
                  <div class="dropdown dropdown-unit-filter">
                         <button type="button" class="btn btn-default text-left btn-sm" data-toggle="dropdown" ng-init="unitStatusArr['core'].selectedFilter = 'all'">
-                            <i class="zmdi zmdi-filter-list zmdi-hc-lg zmdi-hc-fw"></i> <span class="filter-text">{[{unitStatusArr['core'].selectedFilter == 'all'?'Filter by Unit Status':'Filtered by '+unitStatusArr['elective'].selectedFilter}]}</span>
+                            <i class="zmdi zmdi-filter-list zmdi-hc-lg zmdi-hc-fw"></i> <span class="filter-text">{[{unitStatusArr['core'].selectedFilter == 'all'?'Filter by Unit Status':'Filtered by ' + unitStatusArr['core'].selectedFilter}]}</span>
                             <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-lg zmdi-hc-fw"></i>
                         </button>
                         <div class="dropdown-menu pull-right">
@@ -40,7 +40,7 @@
                                     <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['core']['Satisfactory'].length}]}</strong><small>Satisfactory</small>
                                 </label> <!-- black -->
                                 <label class="progress-summary-item btn btn-default" data-status="notyetsatisfactory" for="unitFilter" ng-click="setCoreFilter('Not Yet Satisfactory')">
-                                    <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['core']['Not Yet satisfactory'].length}]}</strong><small>Not Yet Satisfactory</small>
+                                    <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['core']['Not Yet Satisfactory'].length}]}</strong><small>Not Yet Satisfactory</small>
                                 </label> <!-- red -->
                                 <label class="progress-summary-item btn btn-default" data-status="competent" for="unitFilter" ng-click="setCoreFilter('Competent')">
                                     <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['core']['Competent'].length}]}</strong><small>Competent</small>

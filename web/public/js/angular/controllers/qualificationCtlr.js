@@ -67,7 +67,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     $scope.selectedUnitObj = [];
     $scope.selfAssessment = {};
     $scope.notes = [];
-//    $scope.role = 'candidate';
+    $scope.operatingSys = '';
 
     $scope.addRemoveUnit = function(unit) {
 
@@ -286,7 +286,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     // Upload Evidence Functions 
     $scope.uploadIds = function() {
 
-        if (_.isEmpty($scope.uploadInProgress.category)) {
+        if (_.isEmpty($scope.uploadInProgress.category.selected)) {
             $window.alert('Select evidence category');
             return;
         }
@@ -304,7 +304,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         }
         if (keys.length > 0) {
             $scope.uploadInProgress.libraryFiles = [];
-            AjaxService.apiCall("units/copyEvidences", {evidenceIds: keys, courseCode: $scope.courseCode, unitCode: $scope.selectedUnit, category: $scope.uploadInProgress.category.id}).then(function(data) {
+            AjaxService.apiCall("units/copyEvidences", {evidenceIds: keys, courseCode: $scope.courseCode, unitCode: $scope.selectedUnit, category: $scope.uploadInProgress.category.selected.id}).then(function(data) {
                 $scope.getUnitEvidences($scope.selectedUnit);
                 $scope.getUploadDetails();
 
@@ -314,7 +314,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             $scope.closeUploadModal();
         } else {
             var additionalObj = {
-                category: $scope.uploadInProgress.category.id,
+                category: $scope.uploadInProgress.category.selected.id,
                 userId: $scope.userId,
                 unitCode: $scope.selectedUnit,
                 courseCode: $scope.courseCode
@@ -338,7 +338,8 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         }).finally(function(){
             FILE_THUMBNAIL.computation_interval();
         });
-        console.log('338')
+        console.log('338');
+        $scope.operatingSys = getMobileOperatingSystem();
     };
 
     $scope.removeUpload = function(index) {
@@ -736,6 +737,22 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         }, function(error) {
             console.log(error);
         });
+    }
+    
+    var getMobileOperatingSystem = function() {
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        // Windows Phone must come first because its UA also contains "Android"
+        if (/windows phone/i.test(userAgent)) {
+            return "Windows Phone";
+        }
+        if (/android/i.test(userAgent)) {
+            return "Android";
+        }
+        // iOS detection from: http://stackoverflow.com/a/9039885/177710
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            return "iOS";
+        }
+        return "";
     }
 
 });

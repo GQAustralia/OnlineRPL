@@ -666,7 +666,7 @@ class UserService {
             $this->em->flush();
             $userName = $courseObj->getUser()->getUsername();
             $facilitatorName = $courseObj->getFacilitator()->getUsername();
-            $faccomments = $result['msgBody'];
+            $faccomments = !empty($result['msgBody']) ? $result['msgBody']: '';
 
             // finding and replacing the variables from message templates
             $subSearch = array('#courseName#');
@@ -2786,7 +2786,7 @@ class UserService {
 
 
        
-				        $mailSubject = "Welcome - Online RPL from RPL GQ (".$this->container->getParameter('fromEmailAddress').")";
+				        $mailSubject = "Welcome - Online RPL";
         				$mailBody = $this->emailService->getWelcomeEmailToApplicantEmailMsg($user->getId(), $courseData['courseName']);
         				$this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
        					// $this->emailService->sendNotificationEmailToSupervisors($user->getId());
@@ -2794,7 +2794,7 @@ class UserService {
         				$mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_course_sub'));
         				$supervisorObj = $this->getUserInfo($request->get('managerId'));
         				$mailBody = $this->emailService->getNotificationEmailToSupervisorsEmailMsg($request->get('managerId'), $user->getUserName(), $courseData['courseName']);
-                        $mailSubject = "Online RPL - A new Qualification Portfolio has been created (".$this->container->getParameter('fromEmailAddress').")";
+                        $mailSubject = "Online RPL - A new Qualification Portfolio has been created";
         				$this->sendExternalEmail($supervisorObj->getEmail(), $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
          }
          /*$subSearch = array('#courseCode#', '#courseName#');
@@ -2802,7 +2802,7 @@ class UserService {
          $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_course_sub'));
          $supervisorObj = $this->getUserInfo($request->get('managerId'));
          $mailBody = $this->emailService->getNotificationEmailToSupervisorsEmailMsg($request->get('managerId'), $user->getUserName(), $courseData['courseName']);
-         $mailSubject = "Online RPL - A new Qualification Portfolio has been created (".$this->container->getParameter('fromEmailAddress').")";
+         $mailSubject = "Online RPL - A new Qualification Portfolio has been created";
          $this->sendExternalEmail($supervisorObj->getEmail(), $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));*/
         echo $message;
         exit;

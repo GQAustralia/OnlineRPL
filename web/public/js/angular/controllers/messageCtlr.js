@@ -1,5 +1,5 @@
 gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxService, $filter,  $timeout) {
-    $scope.IsLoaded = false; 
+    $scope.IsLoaded = false;
     $scope.role = '';
     $scope.messages = {};
     $scope.paginator = [];
@@ -19,6 +19,7 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
              'ROLE_FACILITATOR' : ['Applicant', 'Assessor', 'RTO'],
              'ROLE_ASSESSOR' : ['Account Manager'],
              'ROLE_RTO' : ['Account Manager'],
+             'ROLE_MANAGER' : ['Applicant', 'Account Manager']
     };
     
     $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Messages";
@@ -30,37 +31,35 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
     $scope.toUserName = '';
     
     $scope.getMessages = function () {
-    	$scope.newMsg = {};
-    	$scope.messages = {};
-    	$scope.viewMsgThread = false;
-    	$scope.IsLoaded = false; 
+        $scope.newMsg = {};
+        $scope.messages = {};
+        $scope.viewMsgThread = false;
+        $scope.IsLoaded = false;
         AjaxService.apiCall("getMessages", {"type": $scope.msgType, "page": $scope.paginator.currentPage, 'searchCourseCode': $scope.searchCourseCode}).then(function (data) {
-        	
-        	//$scope.messages = data.messages;
         	angular.forEach(data.messages, function(msgObj, key) {
             	
         		$scope.messages['msg_'+msgObj.id] = msgObj;
         		
         	});
         	$scope.displayNoMsgTxt = true;
-        	if(data.paginator.count == 0) {
+        	if (data.paginator.count == 0) {
         		$scope.displayNoMsgTxt = false;
         	}
         	$scope.paginator = data.paginator;
         	if ($scope.msgType == 'all') {
         		$scope.unreadCnt = data.unreadcount;
         	}
-        	var recordsto = (($scope.paginator.currentPage)*$scope.paginator.pageLimit);
+        	var recordsto = (($scope.paginator.currentPage) * $scope.paginator.pageLimit);
         	
         	if ((($scope.paginator.currentPage)*$scope.paginator.pageLimit) > $scope.paginator.count) {
         		recordsto = $scope.paginator.count;
         	}
         	$scope.paginator.display = (($scope.paginator.currentPage-1)*$scope.paginator.pageLimit)+1+' -'+recordsto+'  of '+$scope.paginator.count;
-            $scope.IsLoaded = true; 
+            $scope.IsLoaded = true;
             if ($scope.msgType != 'sent') {
 	            newMsgsArr = [];
 	            
-	            angular.forEach($scope.messages, function(msgObj, key) {
+	            angular.forEach($scope.messages, function (msgObj, key) {
 	            	
 	            	if (msgObj.is_new == 1) {
 	            		newMsgsArr.push(msgObj.id);
@@ -141,9 +140,24 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
     }
     
     $scope.saveMsg = function(type) {
-    	
+    	console.log($scope.newMsg);
     	//New messages save/draft
     	if ($scope.showComposeMsg) {
+            if ($scope.newMsg.userName == undefined || $scope.newMsg.userName.replace(/^\s+|\s+$/gm,'') == '') {
+                console.log($scope.newMsg.userName);
+                alert('Please enter Recipient');
+                return false;
+            }
+
+            if ($scope.newMsg.subject == undefined || $scope.newMsg.subject.replace(/^\s+|\s+$/gm,'') == '') {
+                alert('Please enter Subject');
+                return false;
+            }
+
+            if ($scope.newMsg.message == undefined || $scope.newMsg.message.replace(/^\s+|\s+$/gm,'') == '') {
+                alert('Please enter Message');
+                return false;
+            }
     		if ($scope.newMsg.message != undefined && $scope.newMsg.message.replace(/^\s+|\s+$/gm,'') != '') {
     			$scope.newMsg.type = type;
 	    		AjaxService.apiCall("saveMessage", $scope.newMsg).then(function (data) {
