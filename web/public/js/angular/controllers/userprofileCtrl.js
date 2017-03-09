@@ -170,12 +170,15 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
                 $scope.allEvidences = $scope.selectedfileLinkToArr;
         }
         console.log($scope.allEvidences);
+        FILE_THUMBNAIL.computation_interval();
+
         $('#evidenceFilter').modal('hide');
     }    
     $scope.sortBy = function(propertyName, highlightText) {
         $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
         $scope.propertyName = propertyName;
         document.getElementById('evidence-controls-label').innerHTML = highlightText;
+        FILE_THUMBNAIL.computation_interval();
     };
 
     $scope.showEvidenceModal = function (evidence) {
@@ -317,7 +320,7 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
     
     $scope.sendFeedback = function(userId) {
          AjaxService.apiCall("help/sentFeedBack", {feedBackType: $scope.feedBackType, detFeedBack: $scope.detailedFeedBack, userId: userId}).then(function (data) {
-            
+            console.log(data);
         }, function (error) {
             console.log(error);
         });

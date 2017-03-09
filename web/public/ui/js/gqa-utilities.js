@@ -223,10 +223,11 @@ var GQA_HEADER = {
 // custom thumbnails division
 var FILE_THUMBNAIL = {
 	doc: $(document),
-	evidence_controls: '.evidence-controls [for]',
+	evidence_controls: '.evidence-controls [for], .panel-evidence-filters',
 	bind: function(){
 		this.doc.on('click', this.evidence_controls, function(){
 			FILE_THUMBNAIL.compute();
+			FILE_THUMBNAIL.stack_list_view();
 		})
 	},
 	detect_list_view: function(){
@@ -236,10 +237,12 @@ var FILE_THUMBNAIL = {
 	},
 	stack_list_view: function(){
 		var lv = $('.list-view');
-		if (FILE_THUMBNAIL.detect_list_view() == true) {
-			if($('[data-has-thumbnail="true"]').width() <= 710){lv.addClass('stacked')}
+		if (FILE_THUMBNAIL.detect_list_view()) {
+			if($('[data-has-thumbnail="true"]').width() <= 568){lv.addClass('stacked'); console.log('less than 710')}
 			else{lv.removeClass('stacked')}
 		}
+		console.log($('[data-has-thumbnail="true"]').width())
+
 	},
 	compute: function(){
 		var p = $('[data-has-thumbnail="true"]'),
@@ -258,6 +261,8 @@ var FILE_THUMBNAIL = {
 		if (FILE_THUMBNAIL.detect_list_view() == true) {
 			header.css('height','');
 			thumbnail.css('width','');
+
+			
 			return false;
 		}
 		else {
@@ -280,7 +285,7 @@ var FILE_THUMBNAIL = {
 			header.css('height', thumbnail.width());
 		}
 
-		FILE_THUMBNAIL.stack_list_view();
+		console.log('hello')
 	},
 	computation_interval: function(){
 		thumbnail_interval = setInterval(function(){
@@ -293,7 +298,7 @@ var FILE_THUMBNAIL = {
 				}
 			}, 1000)
 			
-		}, 100)
+		}, 20)
 	},
 	resize: function() {
 		var t;
@@ -309,6 +314,7 @@ var FILE_THUMBNAIL = {
 		// FILE_THUMBNAIL.file_name_width();
 		FILE_THUMBNAIL.resize();
 		FILE_THUMBNAIL.compute();
+		FILE_THUMBNAIL.stack_list_view();
 		FILE_THUMBNAIL.bind();
 	}
 }
