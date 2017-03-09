@@ -320,7 +320,7 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
     
     $scope.sendFeedback = function(userId) {
          AjaxService.apiCall("help/sentFeedBack", {feedBackType: $scope.feedBackType, detFeedBack: $scope.detailedFeedBack, userId: userId}).then(function (data) {
-            
+            console.log(data);
         }, function (error) {
             console.log(error);
         });
