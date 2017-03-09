@@ -140,24 +140,24 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
     }
     
     $scope.saveMsg = function(type) {
-    	
+    	console.log($scope.newMsg);
     	//New messages save/draft
     	if ($scope.showComposeMsg) {
-            if ($scope.newMsg.userName == undefined || $scope.newMsg.userName.replace(/^\s+|\s+$/gm,'') != '') {
+            if ($scope.newMsg.userName == undefined || $scope.newMsg.userName.replace(/^\s+|\s+$/gm,'') == '') {
+                console.log($scope.newMsg.userName);
                 alert('Please enter Recipient');
                 return false;
             }
 
-            if ($scope.newMsg.message == undefined || $scope.newMsg.message.replace(/^\s+|\s+$/gm,'') != '') {
-                alert('Please enter Message');
-                return false;
-            }
-
-            if ($scope.newMsg.subject == undefined || $scope.newMsg.subject.replace(/^\s+|\s+$/gm,'') != '') {
+            if ($scope.newMsg.subject == undefined || $scope.newMsg.subject.replace(/^\s+|\s+$/gm,'') == '') {
                 alert('Please enter Subject');
                 return false;
             }
 
+            if ($scope.newMsg.message == undefined || $scope.newMsg.message.replace(/^\s+|\s+$/gm,'') == '') {
+                alert('Please enter Message');
+                return false;
+            }
     		if ($scope.newMsg.message != undefined && $scope.newMsg.message.replace(/^\s+|\s+$/gm,'') != '') {
     			$scope.newMsg.type = type;
 	    		AjaxService.apiCall("saveMessage", $scope.newMsg).then(function (data) {
